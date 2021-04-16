@@ -385,23 +385,24 @@ export const MapsWithModalManual = (props) => {
             }}
             component={BrixelSelect}
           />
-          <ReduxField
-            form={formName}
-            design={{
-              className: 'mb-2 zIndex1',
-            }}
-            input={{
-              name: 'location.name',
-              placeholder: 'Street name',
-            }}
-            labels={{
-              label: 'Street name',
-            }}
-            component={BrixelInputText}
-          />
-          <div className="dis-f a-t jc-b">
+          <div className="dis-f">
             <ReduxField
-              ReduxFieldClass="w-perc-100 pr-1"
+              ReduxFieldClass="pr-1 w-perc-75"
+              form={formName}
+              design={{
+                className: 'mb-2 zIndex1',
+              }}
+              input={{
+                name: 'location.name',
+                placeholder: 'Street name',
+              }}
+              labels={{
+                label: 'Street name',
+              }}
+              component={BrixelInputText}
+            />
+            <ReduxField
+              ReduxFieldClass="pl-1 w-perc-25"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
@@ -415,8 +416,11 @@ export const MapsWithModalManual = (props) => {
               }}
               component={BrixelInputText}
             />
+          </div>
+
+          <div className="dis-f a-t jc-b">
             <ReduxField
-              ReduxFieldClass="w-perc-100 pl-1"
+              ReduxFieldClass="w-perc-100 pr-1"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
@@ -436,6 +440,21 @@ export const MapsWithModalManual = (props) => {
               }}
               labels={{
                 label: 'Zip code',
+              }}
+              component={BrixelInputText}
+            />
+            <ReduxField
+              ReduxFieldClass="pl-1 w-perc-100"
+              form={formName}
+              design={{
+                className: 'mb-2 zIndex1',
+              }}
+              input={{
+                name: 'location.state',
+                placeholder: 'City',
+              }}
+              labels={{
+                label: 'City',
               }}
               component={BrixelInputText}
             />

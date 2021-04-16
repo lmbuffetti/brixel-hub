@@ -193,7 +193,7 @@ export const ComponentMap = (props) => {
         setSelectedAddress(true);
         // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
-        // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
+        changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
         setLoclist([]);
         // setZiplist([]);
       });
