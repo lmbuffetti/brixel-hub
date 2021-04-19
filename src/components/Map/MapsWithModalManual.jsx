@@ -69,8 +69,8 @@ export const MapsWithModalManual = (props) => {
   const [stateToken, setStateToken] = useState(null);
   const [startSearch, setStartSearch] = useState(false);
   const [showManualInput, setShowManualInput] = useState(false);
-  const [showAllInput, setShowAllInput] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
+  const [errorResult, setErrorResult] = useState(null);
 
   // REF
   // const inputZipSearch = useRef(null);
@@ -138,21 +138,22 @@ export const MapsWithModalManual = (props) => {
     const defAdr = adr.split(',');
     Geocode.setApiKey('AIzaSyDHqV6i45MbGQVKOr2Md-8IzWeO7J1zGmg');
     if (selCountry.toLowerCase() !== 'ch') Geocode.setLanguage(selCountry.toLowerCase());
+    console.log(adr);
     Geocode.fromAddress(adr)
       .then((result) => {
-        const formattedPlace = get(formValue, 'location', {});
-        formattedPlace.country = get(formValue, 'location.country', null);
-        formattedPlace.countryCode = get(formValue, 'location.countryCode', null);
-        formattedPlace.name = get(formValue, 'location.name', null);
-        formattedPlace.vicinity = get(formValue, 'location.vicinity', null);
-        formattedPlace.address = get(formValue, 'location.address', null);
-        formattedPlace.geometry = get(formValue, 'location.geometry', null);
-        formattedPlace.latitude = get(formValue, 'location.latitude', null);
-        formattedPlace.longitude = get(formValue, 'location.longitude', null);
-        formattedPlace.state = get(formValue, 'location.state', null);
-        formattedPlace.stateCode = get(formValue, 'location.stateCode', null);
-        formattedPlace.zip = get(formValue, 'location.zip', null);
-        formattedPlace.city = get(formValue, 'location.city', null);
+        const formattedPlace = cloneDeep(get(formValue, 'location', {}));
+        formattedPlace.country = get(formattedPlace, 'country', null);
+        formattedPlace.countryCode = get(formattedPlace, 'countryCode', null);
+        formattedPlace.name = get(formattedPlace, 'name', null);
+        formattedPlace.vicinity = get(formattedPlace, 'vicinity', null);
+        formattedPlace.address = get(formattedPlace, 'address', null);
+        formattedPlace.geometry = get(formattedPlace, 'geometry', null);
+        formattedPlace.latitude = get(formattedPlace, 'latitude', null);
+        formattedPlace.longitude = get(formattedPlace, 'longitude', null);
+        formattedPlace.state = get(formattedPlace, 'state', null);
+        formattedPlace.stateCode = get(formattedPlace, 'stateCode', null);
+        formattedPlace.zip = get(formattedPlace, 'zip', null);
+        formattedPlace.city = get(formattedPlace, 'city', null);
 
         const location = result.results[0];
         if (location.geometry) {
@@ -214,22 +215,32 @@ export const MapsWithModalManual = (props) => {
           ...currentLocation,
           ...formattedPlace,
         };
-        changeFieldValue(formName, 'location', currentLocation);
-        const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
-        if (typeof existCountry === 'undefined') {
-          const newListcountry = country;
-          newListcountry.push({
-            value: formattedPlace.countryCode,
-            label: formattedPlace.country,
-          });
-          handleUpdateCountry(newListcountry);
+        console.log(currentLocation, get(formValue, 'location.city', null));
+        if (
+          currentLocation.city !== get(formValue, 'location.city', null) ||
+          currentLocation.zip !== get(formValue, 'location.zip', null)
+        ) {
+          setErrorResult('The zip code is wrong!');
+          setLoclist([]);
+          setLoadingAddress(false);
+        } else {
+          changeFieldValue(formName, 'location', currentLocation);
+          const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
+          if (typeof existCountry === 'undefined') {
+            const newListcountry = country;
+            newListcountry.push({
+              value: formattedPlace.countryCode,
+              label: formattedPlace.country,
+            });
+            handleUpdateCountry(newListcountry);
+          }
+          // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
+          // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
+          // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
+          setLoclist([]);
+          setLoadingAddress(false);
+          setShowManualInput(false);
         }
-        // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
-        // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
-        // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
-        setLoclist([]);
-        setShowAllInput(true);
-        setLoadingAddress(false);
         // setZiplist([]);
       })
       .catch((error) => {
@@ -240,15 +251,13 @@ export const MapsWithModalManual = (props) => {
 
   const saveCurrentLocation = () => {
     const address = get(formValue, 'location.name', '');
-    const zipCode = get(formValue, 'location.cip', '');
+    const zipCode = get(formValue, 'location.zip', '');
     const city = get(formValue, 'location.city', '');
     const streetNumber = get(formValue, 'location.streetNumber', '');
     const getRealCountry = country.find(((item) => item.value === get(formValue, 'location.countryCode', 'all')));
     const searchAddr = `${address} ${streetNumber}, ${zipCode} ${city} ${getRealCountry.full}`;
-    if (!showAllInput) {
-      geoCode(searchAddr);
-      setLoadingAddress(true);
-    } else setShowManualInput(false);
+    geoCode(searchAddr);
+    setLoadingAddress(true);
   };
 
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE searchAddress
@@ -354,9 +363,9 @@ export const MapsWithModalManual = (props) => {
   const enableButtonManualInsert = () => {
     const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
     delete manualSyncError.latitude;
-    let invalidField = false;
+    const invalidField = false;
     Object.keys(manualSyncError).forEach((key) => {
-      if (manualSyncError[key] !== true && manualSyncError[key] !== null) invalidField = true;
+      // if (manualSyncError[key] !== true && manualSyncError[key] !== null) invalidField = true;
     });
     return invalidField;
   };
@@ -460,43 +469,8 @@ export const MapsWithModalManual = (props) => {
             />
           </div>
           {
-            showAllInput && (
-              <>
-                <div className="dis-f a-t jc-b">
-                  <ReduxField
-                    ReduxFieldClass="w-perc-100 pr-1"
-                    form={formName}
-                    design={{
-                      className: 'mb-2 zIndex1',
-                    }}
-                    input={{
-                      name: 'location.state',
-                    }}
-                    labels={{
-                      label: 'Property location state',
-                    }}
-                    component={BrixelInputText}
-                  />
-                  <ReduxField
-                    ReduxFieldClass="w-perc-100 pl-1"
-                    form={formName}
-                    design={{
-                      className: 'mb-2 zIndex1',
-                    }}
-                    input={{
-                      name: 'location.stateCode',
-                    }}
-                    meta={{
-                      invalid: true,
-                      dirty: true,
-                    }}
-                    labels={{
-                      label: 'Property state code',
-                    }}
-                    component={BrixelInputText}
-                  />
-                </div>
-              </>
+            errorResult && (
+              <p>{errorResult}</p>
             )
           }
         </div>
@@ -506,7 +480,7 @@ export const MapsWithModalManual = (props) => {
           <div className="pos-r p-1 p-lg-2">
             <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-fe">
               <BrixelButtonPrimary
-                label={showAllInput ? 'Save' : 'Validate'}
+                label="Next"
                 onClick={() => saveCurrentLocation()}
                 disabled={enableButtonManualInsert()}
                 isLoading={loadingAddress}

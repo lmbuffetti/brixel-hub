@@ -109,6 +109,7 @@ export const ComponentMap = (props) => {
     const defAdr = adr.split(',');
     Geocode.setApiKey('AIzaSyDHqV6i45MbGQVKOr2Md-8IzWeO7J1zGmg');
     if (selCountry.toLowerCase() !== 'ch') Geocode.setLanguage(selCountry.toLowerCase());
+    changeFieldValue('searchAddress', adr);
     Geocode.fromAddress(adr)
       .then((result) => {
         const formattedPlace = get(formValue, 'location', {});
@@ -193,7 +194,7 @@ export const ComponentMap = (props) => {
         setSelectedAddress(true);
         // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
-        changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
+        // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
         setLoclist([]);
         // setZiplist([]);
       });
@@ -299,6 +300,13 @@ export const ComponentMap = (props) => {
     if (dropdownEl) dropdownEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [locList.length]);
 
+  const changeFielsSaerchAddress = (val) => {
+    if (!disabled) {
+      changeFieldValue(formName, 'location.searchAddress', val);
+      changeFieldValue(formName, 'location.name', val);
+    }
+  };
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -323,7 +331,7 @@ export const ComponentMap = (props) => {
                   disabled={disabled}
                   placeholder="Write street name"
                   input={{
-                    onChange: (e) => (disabled ? '' : changeFieldValue(formName, 'location.searchAddress', e)),
+                    onChange: (val) => changeFielsSaerchAddress(val),
                     onBlur: () => '',
                     onFocus: () => (disabled ? '' : setSelectedAddress(false)),
                     value: get(formValue, 'location.searchAddress', '') || '',
