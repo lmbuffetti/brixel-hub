@@ -26,6 +26,7 @@ import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { setCookie } from '../../utils/helpers';
@@ -440,7 +441,7 @@ const GetStartedBuyer = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
+    <div id="bodyModalWrapper" className="withHeader getStarted">
       {
         get(quest, 'inputs', null) && (
           <BrixelProgressBar
@@ -474,7 +475,7 @@ const GetStartedBuyer = (props) => {
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
@@ -566,7 +567,7 @@ const GetStartedBuyer = (props) => {
             className={`footerAction shadow-1dp-top ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r p-1 p-lg-2">
-              <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
+              <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                 {
                   (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
                     <BrixelButtonIcon
@@ -578,28 +579,22 @@ const GetStartedBuyer = (props) => {
                     />
                   )
                 }
-                {
-                  checkValidateField() && get(quest, 'successMessage', null) && (
-                    <div className="txtWhite icnWhite pr-1 textSuccess ml-a mr-0">
-                      {/* {quest.successMessage}  */} Ok! <BrixelIcon icon="check" className="ml-1" />
-                    </div>
-                  )
-                }
 
                 {
                   buttonLabel().toLowerCase() === 'skip' ? (
-                    <BrixelButtonText
-                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
+                    <BrixelButtonSecondary
+                      className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? '' : ''}`}
                       disabled={!checkValidateField()}
                       saturation={400}
-                      color="light"
+                      theme="green"
+                      rounded
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                     />
                   ) : (
                     <BrixelButtonPrimary
-                      className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-lg-0'}` : ''} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                      className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                       disabled={!checkValidateField()}
                       rounded
                       theme="green"

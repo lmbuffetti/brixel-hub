@@ -1,6 +1,7 @@
 
 #bodyModalWrapper {
   &.getStarted {
+    background-color: transparent;
     z-index: 1;
     .bodyModal {
      // transition: all $default-loader-time $default-easing;
@@ -10,9 +11,9 @@
       &.locationInput {
         background-size: 450px;
       } */
-      @media (max-width: $responsive-small) {
+      /* @media (max-width: $responsive-small) {
         background-image: none !important;
-      }
+      } */
 
       .slideBg {
         position: absolute;
@@ -41,18 +42,22 @@
       }
 
       #multiStepForm {
+        &::before {
+          content: none !important;
+        }
+
         &.interactive {
-          height: auto;
-          max-height: 100%;
+          //height: auto;
+          //max-height: 100%;
           position: relative;
           margin-bottom: auto;
           margin-top: auto;
 
           @media (min-width: $responsive-small) {
-            max-height: calc(100% - 16px);
+            //max-height: calc(100% - 16px);
           }
           @media (max-width: $responsive-small) {
-            height: 100%;
+            //height: 100%;
           }
 
           &:before,
@@ -67,13 +72,13 @@
           }
         }
         .multiStepSlides {
-          height: calc(100% - 72px);
+         /*  height: calc(100% - 72px);
           max-height: inherit;
 
           @media (max-width: $responsive-medium) {
             height: 100%;
             max-height: calc(100% - 53px);
-          }
+          } */
           .singleStep {
             padding-top: 64px;
             padding-bottom: 64px;
@@ -89,13 +94,13 @@
       &.resume {
         #multiStepForm {
           .multiStepSlides {
-            height: 100%;
+            /* height: 100%;
             max-height: 100%;
 
             @media (max-width: $responsive-medium) {
               height: 100%;
               max-height: inherit;
-            }
+            } */
             .singleStep {
               padding-top: 42px;
               padding-bottom: 42px;
@@ -146,7 +151,7 @@
             padding-bottom: 12px;
           }
         } */
-        > div {
+        /* > div {
           position: relative;
           overflow: hidden;
           border-bottom-left-radius: $brd-radius-small;
@@ -165,13 +170,13 @@
             background-color: map_get($primaryColor, 700);
             transition: background-color, opacity, transform $default-time-long $default-easing;
           }
-        }
+        } */
 
         &.successNext {
-          > div::before {
+          /* > div::before {
             opacity: 1;
             transform: translateX(0);
-          }
+          } */
           .textSuccess {
             z-index: 1;
             animation: popsUp2 $default-loader-time $default-easing;

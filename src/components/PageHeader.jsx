@@ -139,8 +139,8 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className="flowHeader">
-        <div className={`dis-f a-c dis-f a-c p-2 py-small-lg-21 px-small-lg-29 jc-b pos-r jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+      <header className="flowHeader container">
+        <div className={`dis-f a-c dis-f a-c  jc-b pos-r jc-b pos-r py-5 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
           <div className="dis-f jc-c a-c">
             <img
               className={`logo dis-b ${widthScreen <= 600 ? 'w-fix-32 mr-2' : 'w-fix-88'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
@@ -148,7 +148,7 @@ function PageHeader(props) {
               alt="Brixel Logo"
               id="header-logo"
             />
-            {
+            {/* {
               supportPhone && (
                 <div className="support dis-f a-c ml-2 ml-sm-4 notranslate">
                   <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${Helpers.telephoneFormat(supportPhone)}`}>
@@ -157,7 +157,7 @@ function PageHeader(props) {
                   </a>
                 </div>
               )
-            }
+            } */}
           </div>
           <div className="dis-f a-c">
             {

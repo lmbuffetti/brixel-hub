@@ -497,27 +497,27 @@ const GetStartedSeller = (props) => {
       }
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${get(quest, 'history', '')}`}
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
         // style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         {/* preload all background images */}
-        {
-          questions.map((questStep, i) => (
-            <Fragment key={i.toString()}>
-              <div className="slideBg" key={i.toString()}>
-                <div
-                  // eslint-disable-next-line no-nested-ternary
-                  className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
-                  style={{ backgroundImage: `url(${questStep.bgImg})` }}
-                />
-              </div>
-            </Fragment>
-          ))
-        }
+        {/*  {
+            questions.map((questStep, i) => (
+              <Fragment key={i.toString()}>
+                <div className="slideBg" key={i.toString()}>
+                  <div
+                    // eslint-disable-next-line no-nested-ternary
+                    className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
+                    style={{ backgroundImage: `url(${questStep.bgImg})` }}
+                  />
+                </div>
+              </Fragment>
+            ))
+          } */}
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : 'ov-h'}`}
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
@@ -609,7 +609,7 @@ const GetStartedSeller = (props) => {
             className={`footerAction shadow-1dp-top ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r p-1 p-lg-2">
-              <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
+              <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                 {
                   (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
                     <BrixelButtonIcon
@@ -619,13 +619,6 @@ const GetStartedSeller = (props) => {
                       theme="green"
                       ghost
                     />
-                  )
-                }
-                {
-                  checkValidateField() && get(quest, 'successMessage', null) && (
-                    <div className="txtWhite icnWhite pr-1 textSuccess ml-a mr-0">
-                      {/* {quest.successMessage}  */} Ok! <BrixelIcon icon="check" className="ml-1" />
-                    </div>
                   )
                 }
 

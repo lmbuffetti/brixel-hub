@@ -1,17 +1,17 @@
 .flowContainer {
-  background-color: map-get($lightColor, 100);
+  background-color: lightblue;
 
   .onBoardingWrapper  {
     #progressBar {
-      position: fixed;
-      top: 0;
-      left: 0;
+      //position: fixed;
+      //top: 0;
+      //left: 0;
     }
     #onBoarding,
     #getStarted {
       height: 100%;
       width: 100%;
-      position: fixed;
+      //position: fixed;
       overflow-x: hidden;
 
       &:before {
@@ -51,10 +51,10 @@
         }
       }
       .multiStepForm {
-        height: 100%;
+        //height: 100%;
       }
       .multiStepSlides {
-        height: 100%;
+        //height: 100%;
         display: flex;
         position: relative;
         //transition: transform $default-loader-time ease-in-out;

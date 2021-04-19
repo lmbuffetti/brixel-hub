@@ -392,7 +392,7 @@ const App = (props) => {
         contentHeight = `calc(100vh - ${calcHeaderHeight()}px)`;
       }
     } else {
-      contentHeight = windowDimensions.height - calcFlowHeaderHeight();
+      contentHeight = 'auto';
     }
     return contentHeight;
   }, [isFlow, calcHeaderHeight, calcFlowHeaderHeight, windowDimensions]);
@@ -457,7 +457,7 @@ const App = (props) => {
 
   return (
     <main
-      className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
+      className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper h-perc-100'} dis-fl-row jc-b`}
       ref={dashWrapperRef}
     >
 

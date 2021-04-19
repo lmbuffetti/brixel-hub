@@ -390,7 +390,7 @@ const GetStarted = (props) => {
 
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
-      {
+      {/* {
         get(quest, 'inputs', null) && (
           <BrixelProgressBar
             large
@@ -400,14 +400,14 @@ const GetStarted = (props) => {
             progressValue={progressBar}
           />
         )
-      }
+      } */}
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${get(quest, 'history', '')}`}
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
         // style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         {/* preload all background images */}
-        {
+        {/* {
           questions.map((questStep, i) => (
             <Fragment key={i.toString()}>
               <div className="slideBg" key={i.toString()}>
@@ -419,7 +419,7 @@ const GetStarted = (props) => {
               </div>
             </Fragment>
           ))
-        }
+        } */}
         <form
           id="multiStepForm"
           autoComplete="off"
@@ -432,16 +432,19 @@ const GetStarted = (props) => {
                 {
                   get(quest, 'inputs', null) && (
                     <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
-                      {
-                        quest.titleGreen && (
-                          <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
-                        )
-                      }
-                      {
-                        quest.title && (
-                          <h4 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100 max-w-fix-456`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                        )
-                      }
+                      <div className="ta-c max-w-fix-456 m-a">
+
+                        {
+                          quest.titleGreen && (
+                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                          )
+                        }
+                        {
+                          quest.title && (
+                            <h4 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          )
+                        }
+                      </div>
                       {
                         quest.subtitle && (
                           <p className="mb-5 txtDark700 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
@@ -512,10 +515,10 @@ const GetStarted = (props) => {
             </div>
           </div>
           <div
-            className={`footerAction shadow-1dp-top ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+            className={`footerAction ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
-            <div className="pos-r p-1 p-lg-2">
-              <div className={`w-perc-100 a-c dis-fl-row m-a flex-wrap ${currentIndex === lastID ? 'jc-c' : 'jc-fe'}`}>
+            <div className="pos-r pt-">
+              <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                 {
                   get(questions, `[${currentIndex - 1}].inputs`, null) && (
                     <BrixelButtonIcon
@@ -525,13 +528,6 @@ const GetStarted = (props) => {
                       theme="green"
                       ghost
                     />
-                  )
-                }
-                {
-                  checkValidateField() && get(quest, 'successMessage', null) && (
-                    <div className="txtWhite icnWhite pr-1 textSuccess ml-a mr-0">
-                      {/* {quest.successMessage}  */} Ok! <BrixelIcon icon="check" className="ml-1" />
-                    </div>
                   )
                 }
 
