@@ -262,7 +262,6 @@ export const MapsWithModalManual = (props) => {
   };
 
   const saveCurrentLocation = () => {
-    console.log(syncErrors);
     const address = get(formValue, 'location.name', '');
     const zipCode = get(formValue, 'location.zip', '');
     const city = get(formValue, 'location.city', '');
@@ -354,7 +353,6 @@ export const MapsWithModalManual = (props) => {
       e.preventDefault();
       setSelLocAuto(newId);
     }
-    console.log(e.key === 'Enter', newId, get(locList, `[${newId}].description`, null));
     if (e.key === 'Enter' && get(locList, `[${newId}].description`, null)) {
       geoCode(locList[newId].description, 'submit');
     }
