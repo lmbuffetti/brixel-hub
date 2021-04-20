@@ -181,17 +181,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: locationSvg,
       inputs: [
         {
-          className: 'pos-r zIndex6 compact',
-          classNameBox: 'max-w-perc-100 pos-r',
-          classBoxWrapper: 'mt-0 searchMapCountry',
-          component: BrixelSelect,
-          label: 'Country',
-          labelType: 'onlyFlag',
-          name: 'location.countryCode',
-          options: countryList,
-          validation: [Validation.required],
-        },
-        {
           component: MapsWithModalManual,
           showMap: false,
           name: 'location.searchAddress',
