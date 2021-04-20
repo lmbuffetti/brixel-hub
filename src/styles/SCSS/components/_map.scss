@@ -157,3 +157,25 @@
   border-radius: 50%;
   background-color: rgba(map_get($redColor, 400), 0.7);
 }
+
+.wrapManualAddress {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 640px;
+  transform: translate(-50%, 0);
+  background-color: white;
+  z-index: 10;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 0px;
+  transition: max-height 0.8s;
+  &.active {
+    max-height: 800px;
+    overflow-y: auto;
+  }
+}

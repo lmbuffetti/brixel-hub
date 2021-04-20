@@ -44,6 +44,7 @@
       #multiStepForm {
         height: auto;
         padding-bottom: 40px;
+        transform: translate(0);
         &::before {
           content: none !important;
         }
