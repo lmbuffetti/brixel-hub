@@ -192,7 +192,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           validation: [Validation.required],
         },
         {
-          component: Maps,
+          component: MapsWithModalManual,
           showMap: false,
           name: 'location.searchAddress',
           type: 'Map',
@@ -211,7 +211,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       successMessage: translateTo(lang, 'That is an interesting location.'),
     },
     {
-      title: translateTo(lang, 'What is the location?'),
+      title: translateTo(lang, 'Is this your correct location?'),
       history: 'locationInputResume',
       cardType: 'locationInputResume',
       bgImg: locationSvg,

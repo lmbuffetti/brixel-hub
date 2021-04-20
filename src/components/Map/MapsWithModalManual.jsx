@@ -496,7 +496,7 @@ export const MapsWithModalManual = (props) => {
               options: country,
             }}
             labels={{
-              label: 'Name',
+              label: 'Country',
             }}
             component={BrixelSelect}
           />
