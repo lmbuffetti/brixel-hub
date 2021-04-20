@@ -324,6 +324,10 @@ img {
       .multiStepSlides {
         //overflow-y: auto !important;
       }
+      .makeCenter > div {
+          display: flex;
+          justify-content: center;
+      }
       .brixel-checkbox-icon.radioBtnImg,
       .brixel-radio-button-icon.radioBtnImg {
         /*todo styleguide*/
@@ -477,6 +481,7 @@ img {
           margin-top: $step;
         }
       }
+
     }
   }
 }

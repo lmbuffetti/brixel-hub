@@ -427,7 +427,7 @@ const GetStarted = (props) => {
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+            <div ref={singleStepRef} className={`singleStep pt-6 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && (
@@ -436,31 +436,34 @@ const GetStarted = (props) => {
 
                         {
                           quest.titleGreen && (
-                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                            <h3 className="txtDark700 fweight-600">{quest.titleGreen}</h3>
                           )
                         }
                         {
                           quest.title && (
-                            <h4 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} w-perc-100`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            <h4 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fweight-400 txtDark700`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                           )
                         }
                       </div>
                       {
                         quest.subtitle && (
-                          <p className="mb-5 txtDark700 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                          <p className="mb-5 txtDark700" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
-                      <MultiFileldsReduxForm
-                        form="GetStarted"
-                        disableNextBtn={false}
-                        formValue={formValue}
-                        inputs={quest.inputs}
-                        onClick={() => changeStep()}
-                        onCloseGoBack={() => changeStep('back')}
-                        onClickDisabled={!checkValidateField()}
-                        onSubmit={() => changeStep()}
-                        showSendButton
-                        disableDelay
-                      />
+                      <div className="w-perc-100 a-c dis-f jc-c">
+                        <MultiFileldsReduxForm
+                          form="GetStarted"
+                          className="w-perc-100"
+                          disableNextBtn={false}
+                          formValue={formValue}
+                          inputs={quest.inputs}
+                          onClick={() => changeStep()}
+                          onCloseGoBack={() => changeStep('back')}
+                          onClickDisabled={!checkValidateField()}
+                          onSubmit={() => changeStep()}
+                          showSendButton
+                          disableDelay
+                        />
+                      </div>
 
                     </div>
                   )

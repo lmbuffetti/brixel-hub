@@ -15,7 +15,7 @@ export const QuestionsList = (lang) => [
     bgImg: homesSvg,
     inputs: [{
       component: BrixelRadioButton,
-      className: 'radioBtnImg max-w-fix-lg-464',
+      className: 'radioBtnImg max-w-fix-400 m-a',
       pdClass: 'py-2 py-lg-3 px-1',
       label: '',
       name: 'userType',
