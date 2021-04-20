@@ -42,6 +42,8 @@
       }
 
       #multiStepForm {
+        height: auto;
+        padding-bottom: 40px;
         &::before {
           content: none !important;
         }
@@ -72,6 +74,8 @@
           }
         }
         .multiStepSlides {
+          max-height: inherit;
+          height: inherit;
          /*  height: calc(100% - 72px);
           max-height: inherit;
 
@@ -125,13 +129,7 @@
       .footerAction {
         border-bottom-left-radius: $brd-radius-small;
         border-bottom-right-radius: $brd-radius-small;
-
-        .primaryBtn.resume {
-          /* padding-top: 12px;
-          padding-bottom: 12px;
-          min-width: 182px;
-          text-transform: uppercase; */
-        }
+        background: transparent;
 
         .primaryBtn {
           transition: background-color $default-loader-time ease;

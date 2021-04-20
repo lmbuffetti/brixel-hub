@@ -457,7 +457,7 @@ const App = (props) => {
 
   return (
     <main
-      className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper h-perc-100'} dis-fl-row jc-b`}
+      className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
       ref={dashWrapperRef}
     >
 

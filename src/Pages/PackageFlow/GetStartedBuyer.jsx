@@ -455,11 +455,11 @@ const GetStartedBuyer = (props) => {
       }
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : 'ov-h'} ${get(quest, 'history', '')}`}
+        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
         // style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
         {/* preload all background images */}
-        {
+        {/* {
           questions.map((questStep, i) => (
             <Fragment key={i.toString()}>
               <div className="slideBg" key={i.toString()}>
@@ -471,7 +471,7 @@ const GetStartedBuyer = (props) => {
               </div>
             </Fragment>
           ))
-        }
+        } */}
         <form
           id="multiStepForm"
           autoComplete="off"
@@ -564,9 +564,9 @@ const GetStartedBuyer = (props) => {
             </div>
           </div>
           <div
-            className={`footerAction shadow-1dp-top ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+            className={`footerAction ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
-            <div className="pos-r p-1 p-lg-2">
+            <div className="pos-r">
               <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                 {
                   (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
@@ -583,7 +583,7 @@ const GetStartedBuyer = (props) => {
                 {
                   buttonLabel().toLowerCase() === 'skip' ? (
                     <BrixelButtonSecondary
-                      className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? '' : ''}`}
+                      className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                       disabled={!checkValidateField()}
                       saturation={400}
                       theme="green"
@@ -631,7 +631,6 @@ const GetStartedBuyer = (props) => {
                       <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
                   }
                   <MultiFileldsReduxForm
-                    className="h-perc-100"
                     form="GetStarted"
                     disableNextBtn={false}
                     formValue={formValue}
