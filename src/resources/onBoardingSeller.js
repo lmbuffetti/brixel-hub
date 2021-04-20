@@ -181,17 +181,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: locationSvg,
       inputs: [
         {
-          className: 'pos-r zIndex6 compact',
-          classNameBox: 'max-w-perc-100 pos-r',
-          classBoxWrapper: 'mt-0 searchMapCountry',
-          component: BrixelSelect,
-          label: 'Country',
-          labelType: 'onlyFlag',
-          name: 'location.countryCode',
-          options: countryList,
-          validation: [Validation.required],
-        },
-        {
           component: MapsWithModalManual,
           showMap: false,
           name: 'location.searchAddress',
@@ -206,32 +195,6 @@ export const QuestionsList = (lang, country = 'CH') => {
             multipleFieldSearch: true,
             draggable: true,
           },
-        },
-      ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
-    },
-    {
-      title: translateTo(lang, 'Is this your correct location?'),
-      history: 'locationInputResume',
-      cardType: 'locationInputResume',
-      bgImg: locationSvg,
-      inputs: [
-        {
-          component: MapsWithModalManual,
-          showMap: true,
-          name: 'location.latitude',
-          type: 'Map',
-          classNameBox: 'max-w-perc-100',
-          classBoxWrapper: 'mt-0 min-h-fix-312 box-al-top',
-          widthBox: '100',
-          mapOptions: {
-            showMap: true,
-            hideSearch: true,
-            showSelectCountry: false,
-            multipleFieldSearch: false,
-            draggable: false,
-          },
-          validation: [Validation.required],
         },
       ],
       successMessage: translateTo(lang, 'That is an interesting location.'),
@@ -280,7 +243,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: congratsSvg,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
-      effect: 'slideUp',
       cardType: 'createProfile',
       inputs: [{
         component: LoginSignup,
