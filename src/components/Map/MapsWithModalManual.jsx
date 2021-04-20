@@ -38,14 +38,12 @@ export const MapsWithModalManual = (props) => {
     country,
     curCountry,
     disabled,
-    draggable,
     formName,
     formValue,
     google,
     handleUpdateCountry,
     history,
     init,
-    input,
     latitude,
     longitude,
     minHeight,
@@ -58,7 +56,6 @@ export const MapsWithModalManual = (props) => {
     similarProperties,
     subMinHeight,
     syncErrors,
-    zoom,
   } = props;
   // STATE
   const [selectedAddress, setSelectedAddress] = useState(false);
@@ -90,63 +87,6 @@ export const MapsWithModalManual = (props) => {
     });
     setCountryOption(countryList);
   }, [country]);
-
-  useEffect(() => {
-    if (!get(formValue, 'location.latitude', 0) && get(history, 'location.pathname', '').includes('locationInputResume')) {
-      if (get(formValue, 'locationsList', []).length > 0) {
-        geoCode(formValue.locationsList[0].description);
-      } else {
-        setShowManualInput(true);
-      }
-    }
-  }, [get(history, 'location.pathname', null)]);
-
-  // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
-  const changeLocation = (val, hideSearch, type) => {
-    if ((showSearchLocation && inputSearch.current) || hideSearch) {
-      // setNewLocation(val);
-      const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
-      const autocompleteService = new google.maps.places.AutocompleteService();
-      if (!stateToken) setStateToken(sessionToken);
-      let typeSearch = [get(props, 'searchType', 'address')];
-      if (type === 'cities') typeSearch = ['(regions)'];
-      if (type === 'zip') typeSearch = ['(regions)'];
-      if (val.length >= 3) {
-        const searcCountry = selCountry === 'all' ? '' : selCountry;
-        autocompleteService.getPlacePredictions(
-          {
-            input: val,
-            sessionToken,
-            componentRestrictions: { country: searcCountry },
-            types: typeSearch,
-          },
-          (predictions) => {
-            if (predictions) {
-              const defPredition = predictions;
-              if (type === 'zip') {
-                // setZiplist(predictions);
-                setLoclist([]);
-                if (defPredition) {
-                  changeFieldValue(formName, 'locationsList', defPredition);
-                  geoCode(defPredition[0].description);
-                }
-              } else {
-                // setZiplist([]);
-                setLoclist(defPredition);
-                changeFieldValue(formName, 'locationsList', defPredition);
-              }
-            } else {
-              setLoclist([]);
-              changeFieldValue(formName, 'locationsList', []);
-              // setZiplist([]);
-            }
-          },
-        );
-      } else {
-        setLoclist([]);
-      }
-    }
-  };
 
   // FUNCTION TO EXTRACT DATA FROM SELECTED ADDRESS
   const geoCode = (adr, action) => {
@@ -255,10 +195,57 @@ export const MapsWithModalManual = (props) => {
         }
         // setZiplist([]);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        // eslint-disable-next-line no-use-before-define
         changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
       });
+  };
+
+  // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
+  const changeLocation = (val, hideSearch, type) => {
+    if ((showSearchLocation && inputSearch.current) || hideSearch) {
+      // setNewLocation(val);
+      const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
+      const autocompleteService = new google.maps.places.AutocompleteService();
+      if (!stateToken) setStateToken(sessionToken);
+      let typeSearch = [get(props, 'searchType', 'address')];
+      if (type === 'cities') typeSearch = ['(regions)'];
+      if (type === 'zip') typeSearch = ['(regions)'];
+      if (val.length >= 3) {
+        const searcCountry = selCountry === 'all' ? '' : selCountry;
+        autocompleteService.getPlacePredictions(
+          {
+            input: val,
+            sessionToken,
+            componentRestrictions: { country: searcCountry },
+            types: typeSearch,
+          },
+          (predictions) => {
+            if (predictions) {
+              const defPredition = predictions;
+              if (type === 'zip') {
+                // setZiplist(predictions);
+                setLoclist([]);
+                if (defPredition) {
+                  changeFieldValue(formName, 'locationsList', defPredition);
+                  geoCode(defPredition[0].description);
+                }
+              } else {
+                // setZiplist([]);
+                setLoclist(defPredition);
+                changeFieldValue(formName, 'locationsList', defPredition);
+              }
+            } else {
+              setLoclist([]);
+              changeFieldValue(formName, 'locationsList', []);
+              // setZiplist([]);
+            }
+          },
+        );
+      } else {
+        setLoclist([]);
+      }
+    }
   };
 
   const saveCurrentLocation = () => {
@@ -358,6 +345,16 @@ export const MapsWithModalManual = (props) => {
     }
   };
 
+  useEffect(() => {
+    if (!get(formValue, 'location.latitude', 0) && get(history, 'location.pathname', '').includes('locationInputResume')) {
+      if (get(formValue, 'locationsList', []).length > 0) {
+        geoCode(formValue.locationsList[0].description);
+      } else {
+        setShowManualInput(true);
+      }
+    }
+  }, [get(history, 'location.pathname', null)]);
+
   // ADD MESSAGE THAT THE ADDRESS IS NOT EDITABLE
   useEffect(() => {
     const messageEl = document.getElementsByClassName('message')[0];
@@ -374,16 +371,6 @@ export const MapsWithModalManual = (props) => {
     const dropdownEl = addressRef.current;
     if (dropdownEl) dropdownEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [locList.length]);
-
-  const enableButtonManualInsert = () => {
-    const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
-    delete manualSyncError.latitude;
-    const invalidField = false;
-    Object.keys(manualSyncError).forEach((key) => {
-      // if (manualSyncError[key] !== true && manualSyncError[key] !== null) invalidField = true;
-    });
-    return invalidField;
-  };
 
   return (
     // Important! Always set the container height explicitly
@@ -548,9 +535,7 @@ export const MapsWithModalManual = (props) => {
                     placeholder="Write street name"
                     optionSelect={countryOption}
                     input={{
-                      onChange: (e, name) => {
-                        (disabled ? '' : changeFieldValue(formName, name || 'location.searchAddress', e));
-                      },
+                      onChange: (e, name) => (disabled ? '' : changeFieldValue(formName, name || 'location.searchAddress', e)),
                       onBlur: () => '',
                       onFocus: () => (disabled ? '' : setSelectedAddress(false)),
                       value: get(formValue, 'location.searchAddress', '') || '',

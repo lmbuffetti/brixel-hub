@@ -2,11 +2,9 @@ import {
   BrixelRadioButton,
   BrixelInputStepNumber,
   BrixelInputText,
-  BrixelSelect,
   Validation,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import Maps from '../components/Map/Maps';
 import MapsWithModalManual from '../components/Map/MapsWithModalManual';
 import LoginSignup from '../components/LoginSignup';
 import ResumeCard from '../components/ResumeCard';
@@ -48,10 +46,8 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 // QUESTION LISTS
 export const QuestionsList = (lang, country = 'CH') => {
-  let countryList = [];
   let propertyType = '';
   if (configureStore) {
-    countryList = get(configureStore.getState(), 'common.country', []);
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
   let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
