@@ -50,6 +50,7 @@ import {
   REDIRECT_TO,
   SET_SAVED_SCREEN,
   SET_SPLASH_TYPE,
+  SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
 import { properties } from '../resources/localData/properties';
@@ -138,32 +139,54 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.property.updateProperty(id, obj)
         .then((res) => {
-          if (splashType === 'bestimateTeaser') {
-            store.dispatch({ type: SET_SPLASH_TYPE, payload: 'bestimateTeaser' });
-          }
-          if (splashType === 'bestimateResult') {
-            store.dispatch({ type: SET_SPLASH_TYPE, payload: 'bestimateResult' });
-            const estimationPayload = {
-              owner: store.getState().user.loggedInUser.user.id,
-              page: id,
-              generate: true,
-            };
-            store.dispatch({ type: CREATE_ESTIMATION, payload: estimationPayload });
-          }
-          store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
-          if (setSuccessNotification) {
-            store.dispatch({ type: SET_SAVED_SCREEN });
-          }
-          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-          else store.dispatch({ type: SPINNER_OFF });
-          if (getEstimation) {
-            store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
-          }
-          if (redirectTo) {
-            store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
-          }
-          if (redirectToHome) {
-            window.location.href = `/${res.data.id}/home`;
+          // Page integrity is violated
+          if (res.meta.status === 401 && res.data.errorMessage === 'ERROR_PAGE_INTEGRITY') {
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                state: true,
+                label: 'Some information was updated by another user, please fill it again',
+                type: 'alert',
+              },
+            });
+            setTimeout(() => {
+              store.dispatch({
+                type: SET_ACTIVE_SINGLE_PROPERTY,
+                payload: {},
+              });
+              store.dispatch({
+                type: GET_ACTIVE_SINGLE_PROPERTY,
+                payload: id,
+              });
+            }, 1000);
+          } else {
+            if (splashType === 'bestimateTeaser') {
+              store.dispatch({ type: SET_SPLASH_TYPE, payload: 'bestimateTeaser' });
+            }
+            if (splashType === 'bestimateResult') {
+              store.dispatch({ type: SET_SPLASH_TYPE, payload: 'bestimateResult' });
+              const estimationPayload = {
+                owner: store.getState().user.loggedInUser.user.id,
+                page: id,
+                generate: true,
+              };
+              store.dispatch({ type: CREATE_ESTIMATION, payload: estimationPayload });
+            }
+            store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
+            if (setSuccessNotification) {
+              store.dispatch({ type: SET_SAVED_SCREEN });
+            }
+            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+            else store.dispatch({ type: SPINNER_OFF });
+            if (getEstimation) {
+              store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
+            }
+            if (redirectTo) {
+              store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+            }
+            if (redirectToHome) {
+              window.location.href = `/${res.data.id}/home`;
+            }
           }
         });
       break;

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "2.2.72",
+    "@brixel/brixel-components": "2.2.84",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^1.2.2",
     "css-split-webpack-plugin": "^0.2.6",
-    "d3": "^6.6.2",
+    "d3": "^6.7.0",
     "date-fns": "^2.21.1",
     "deep-object-diff": "^1.1.0",
     "eslint": "^7.24.0",
@@ -24,7 +24,7 @@
     "query-string": "^7.0.0",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
-    "react-datepicker": "^3.7.0",
+    "react-datepicker": "^3.8.0",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.3.2",
     "react-faux-dom": "^4.5.0",
@@ -58,8 +58,8 @@
     "build-prod": "webpack --config webpack_prod.config.js --env PROD --mode production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "ncu": "ncu -x 'autoprefixer postcss-loader node-sass webpack webpack-cli copy-webpack-plugin html-webpack-plugin sass-loader'",
-    "ncu-u": "ncu -x 'autoprefixer postcss-loader node-sass webpack webpack-cli copy-webpack-plugin html-webpack-plugin sass-loader' -u"
+    "ncu": "ncu -x 'autoprefixer postcss-loader node-sass webpack webpack-cli copy-webpack-plugin html-webpack-plugin sass-loader cssnano'",
+    "ncu-u": "ncu -x 'autoprefixer postcss-loader node-sass webpack webpack-cli copy-webpack-plugin html-webpack-plugin sass-loader cssnano' -u"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -83,12 +83,12 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "clean-webpack-plugin": "^3.0.0",
     "compression": "^1.7.4",
-    "concurrently": "^6.0.1",
+    "concurrently": "^6.0.2",
     "copy-webpack-plugin": "^6.4.1",
-    "css-loader": "^5.2.1",
+    "css-loader": "^5.2.4",
     "cssnano": "^4.1.11",
     "eslint-loader": "^4.0.2",
-    "eslint-plugin-flowtype": "^5.6.0",
+    "eslint-plugin-flowtype": "^5.7.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "extract-css-chunks-webpack-plugin": "^4.9.0",
     "history": "^5.0.0",
@@ -96,9 +96,9 @@
     "html-webpack-plugin": "^4.5.2",
     "ignore-loader": "^0.1.2",
     "json-loader": "^0.5.7",
-    "mini-css-extract-plugin": "^1.4.1",
+    "mini-css-extract-plugin": "^1.5.0",
     "node-sass": "4.14.1",
-    "open": "^8.0.5",
+    "open": "^8.0.6",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "postcss-cli": "^8.3.1",
     "postcss-loader": "^4.2.0",
@@ -114,6 +114,6 @@
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "^3.11.2",
     "webpack-merge": "^5.7.3",
-    "webpack-node-externals": "^2.5.2"
+    "webpack-node-externals": "^3.0.0"
   }
 }
