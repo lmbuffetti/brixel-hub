@@ -61,7 +61,8 @@ export const QuestionsList = (lang) => {
       inputs: [
         {
           component: BrixelCheckbox,
-          className: 'radioBtnImg max-w-fix-lg-464',
+          className: 'radioBtnImg',
+          ReduxFieldClass: 'max-w-fix-lg-464 m-a',
           pdClass: 'py-2 py-lg-3 px-1',
           label: '',
           name: 'characteristics.propertyType',
@@ -93,6 +94,7 @@ export const QuestionsList = (lang) => {
       history: 'tipology',
       vCentered: true,
       bgImg: roomsSvg,
+      className: 'bgWhite brdRadius max-w-fix-600 m-a px-5 py-6',
       inputs: [
         {
           component: BrixelInputMultiRange,
@@ -126,7 +128,7 @@ export const QuestionsList = (lang) => {
       history: 'extraFeature',
       vCentered: true,
       bgImg: roomsSvg,
-      className: 'extraFeature',
+      className: 'bgWhite brdRadius max-w-fix-800 m-a px-5 py-6',
       inputs: [
         {
           className: 'extraFeature',

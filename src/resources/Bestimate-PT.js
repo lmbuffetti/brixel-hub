@@ -21,6 +21,7 @@ export const BestimatePT = (type = null) => {
       history: 'step1',
       cardType: 'step1',
       bgImg: homesSvg,
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius py-5 px-6' : '',
       inputs: [
         {
           component: BrixelRadioButton,
@@ -65,6 +66,7 @@ export const BestimatePT = (type = null) => {
       title: type === 'getStarted' ? 'Any secondary room?' : 'Step 2',
       bgImg: homesSvg,
       vCentered: true,
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius py-5 px-6' : '',
       history: 'step2',
       cardType: 'step2',
       inputs: [
@@ -122,6 +124,7 @@ export const BestimatePT = (type = null) => {
       title: type === 'getStarted' ? 'Only a few inputs left.' : 'Step 3',
       bgImg: homesSvg,
       vCentered: true,
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius py-5 px-6' : '',
       history: 'step3',
       cardType: 'step3',
       inputs: [
@@ -171,6 +174,7 @@ export const BestimatePT = (type = null) => {
       bgImg: homesSvg,
       vCentered: true,
       history: 'step4',
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius py-5 px-6' : '',
       cardType: 'step4',
       inputs: [
         {

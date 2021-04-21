@@ -64,8 +64,8 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: homesSvg,
       inputs: [{
         component: BrixelRadioButton,
-        className: 'radioBtnImg max-w-fix-464 w-perc-100',
-        classNameBox: 'makeCenter',
+        className: 'radioBtnImg',
+        ReduxFieldClass: 'max-w-fix-lg-464 m-a',
         label: '',
         name: 'properties.propertyType',
         validation: [Validation.required],
