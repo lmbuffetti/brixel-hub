@@ -618,8 +618,9 @@ const GetStartedSeller = (props) => {
                       className="backBtn ml-0 mr-a"
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
-                      theme="green"
-                      ghost
+                      theme="dark"
+                      themeSat="400"
+                      secondary
                     />
                   )
                 }
