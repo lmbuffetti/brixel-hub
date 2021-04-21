@@ -432,7 +432,7 @@ export const MapsWithModalManual = (props) => {
 
           <div className="dis-f a-t jc-b">
             <ReduxField
-              forceToShowError={showError && get(syncErrors, 'location.zip', true) !== true}
+              forceToShowError={(showError && get(syncErrors, 'location.zip', true) !== true) || errorResult}
               ReduxFieldClass="w-perc-40 pr-1"
               form={formName}
               design={{
@@ -450,6 +450,9 @@ export const MapsWithModalManual = (props) => {
               meta={{
                 invalid: true,
                 dirty: true,
+                message: {
+                  error: 'Please insert a valid zip code',
+                },
               }}
               labels={{
                 label: 'Zip code',
@@ -486,11 +489,6 @@ export const MapsWithModalManual = (props) => {
             }}
             component={BrixelSelect}
           />
-          {
-            errorResult && (
-              <p>{errorResult}</p>
-            )
-          }
         </div>
         <div
           className="footerAction shadow-1dp-top normStep"
