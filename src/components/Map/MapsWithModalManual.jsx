@@ -282,9 +282,10 @@ export const MapsWithModalManual = (props) => {
       if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
       changeLocation(fullAddress, true, 'address');
     }
-    if (isEmpty(addressSearch) && !selectedAddress) {
+    if (isEmpty(addressSearch)) {
       changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude });
     }
+    changeFieldValue(formName, 'location.name', get(formValue, 'location.searchAddress', null));
   }, [get(formValue, 'location.searchAddress', null)]);
 
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE startSearch
