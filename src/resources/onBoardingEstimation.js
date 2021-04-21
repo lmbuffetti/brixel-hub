@@ -2,12 +2,10 @@ import {
   BrixelRadioButton,
   BrixelInputStepNumber,
   BrixelInputText,
-  BrixelSelect,
   Validation,
   FactsOptions,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import Maps from '../components/Map/Maps';
 import LoginSignup from '../components/LoginSignup';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
@@ -25,6 +23,7 @@ import congratsSvg from '../images/getstarted/svgs/congrats.svg';
 import yearSvg from '../images/getstarted/svgs/year.svg';
 import userType from '../images/getstarted/svgs/userType.svg';
 import { BestimateQuestions } from './Bestimate';
+import MapsWithModalManual from '../components/Map/MapsWithModalManual';
 
 const { factsOptions } = FactsOptions;
 
@@ -52,10 +51,8 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 // QUESTION LISTS
 export const QuestionsList = (lang, country = 'CH') => {
-  let countryList = [];
   let propertyType = '';
   if (configureStore) {
-    countryList = get(configureStore.getState(), 'common.country', []);
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
   let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
@@ -204,23 +201,13 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: locationSvg,
       inputs: [
         {
-          className: 'pos-r zIndex6 compact',
-          classNameBox: 'max-w-perc-100 pos-r',
-          classBoxWrapper: 'mt-0 searchMapCountry',
-          component: BrixelSelect,
-          label: 'Country',
-          labelType: 'onlyFlag',
-          name: 'location.countryCode',
-          options: countryList,
-          validation: [Validation.required],
-        },
-        {
-          component: Maps,
+          component: MapsWithModalManual,
           showMap: false,
-          name: 'location.latitude',
+          name: 'location.searchAddress',
           type: 'Map',
           classNameBox: 'max-w-perc-100 pl-2',
-          classBoxWrapper: 'mt-0 searchMapFields',
+          classBoxWrapper: 'mt-0 searchMapFields box-al-top',
+          validation: [Validation.required],
           mapOptions: {
             showMap: false,
             hideSearch: false,
@@ -229,13 +216,22 @@ export const QuestionsList = (lang, country = 'CH') => {
             draggable: true,
           },
         },
+      ],
+      successMessage: translateTo(lang, 'That is an interesting location.'),
+    },
+    {
+      title: translateTo(lang, 'Is this your correct location?'),
+      history: 'locationInputResume',
+      cardType: 'locationInputResume',
+      bgImg: locationSvg,
+      inputs: [
         {
-          component: Maps,
+          component: MapsWithModalManual,
           showMap: true,
           name: 'location.latitude',
           type: 'Map',
           classNameBox: 'max-w-perc-100',
-          classBoxWrapper: 'mt-0',
+          classBoxWrapper: 'mt-0 min-h-fix-312 box-al-top',
           widthBox: '100',
           mapOptions: {
             showMap: true,

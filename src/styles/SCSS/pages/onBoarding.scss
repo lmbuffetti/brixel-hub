@@ -221,5 +221,8 @@
   }
 }
 
-
-
+.box-al-top {
+  > .a-c {
+    align-items: flex-start;
+  }
+}
