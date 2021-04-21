@@ -182,7 +182,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           name: 'location.searchAddress',
           type: 'Map',
           classNameBox: 'max-w-perc-100 pl-2',
-          classBoxWrapper: 'mt-0 searchMapFields',
+          classBoxWrapper: 'mt-0 searchMapFields min-h-fix-312 box-al-top',
           validation: [Validation.required],
           mapOptions: {
             showMap: false,
@@ -208,32 +208,6 @@ export const QuestionsList = (lang, country = 'CH') => {
           type: 'Map',
           classNameBox: 'max-w-perc-100',
           classBoxWrapper: 'mt-0 min-h-fix-312 box-al-top',
-          widthBox: '100',
-          mapOptions: {
-            showMap: true,
-            hideSearch: true,
-            showSelectCountry: false,
-            multipleFieldSearch: false,
-            draggable: false,
-          },
-          validation: [Validation.required],
-        },
-      ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
-    },
-    {
-      title: translateTo(lang, 'What is the location?'),
-      history: 'locationInputResume',
-      cardType: 'locationInputResume',
-      bgImg: locationSvg,
-      inputs: [
-        {
-          component: MapsWithModalManual,
-          showMap: true,
-          name: 'location.latitude',
-          type: 'Map',
-          classNameBox: 'max-w-perc-100',
-          classBoxWrapper: 'mt-0',
           widthBox: '100',
           mapOptions: {
             showMap: true,

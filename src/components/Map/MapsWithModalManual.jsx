@@ -81,7 +81,8 @@ export const MapsWithModalManual = (props) => {
     const countryList = [];
     country.forEach((item) => {
       countryList.push({
-        label: item.onlyFlag,
+        label: item.label,
+        onlyFlag: item.onlyFlag,
         value: item.value,
       });
     });
