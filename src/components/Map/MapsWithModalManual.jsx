@@ -15,7 +15,6 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelInputText,
-  BrixelInputTextWithSelect,
   BrixelSelect,
   ReduxField,
   Validation,
@@ -56,6 +55,7 @@ export const MapsWithModalManual = (props) => {
     similarProperties,
     subMinHeight,
     syncErrors,
+    windowDimensions,
   } = props;
   // STATE
   const [selectedAddress, setSelectedAddress] = useState(false);
@@ -71,23 +71,17 @@ export const MapsWithModalManual = (props) => {
   const [showManualInput, setShowManualInput] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [errorResult, setErrorResult] = useState(null);
-  const [countryOption, setCountryOption] = useState(null);
-
   // REF
   // const inputZipSearch = useRef(null);
   const addressRef = useRef(null);
 
   useEffect(() => {
-    const countryList = [];
-    country.forEach((item) => {
-      countryList.push({
-        label: item.label,
-        onlyFlag: item.onlyFlag,
-        value: item.value,
-      });
-    });
-    setCountryOption(countryList);
-  }, [country]);
+    const multiStepForm = document.getElementById('multiStepForm');
+    if (multiStepForm) {
+      if (showManualInput) multiStepForm.classList.add('overlayOpen');
+      else multiStepForm.classList.remove('overlayOpen');
+    }
+  }, [showManualInput]);
 
   // FUNCTION TO EXTRACT DATA FROM SELECTED ADDRESS
   const geoCode = (adr, action) => {
@@ -282,10 +276,12 @@ export const MapsWithModalManual = (props) => {
       if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
       changeLocation(fullAddress, true, 'address');
     }
+    if (!selectedAddress) {
+      changeFieldValue(formName, 'location.name', addressSearch);
+    }
     if (isEmpty(addressSearch)) {
       changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude });
     }
-    changeFieldValue(formName, 'location.name', get(formValue, 'location.searchAddress', null));
   }, [get(formValue, 'location.searchAddress', null)]);
 
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE startSearch
@@ -327,7 +323,8 @@ export const MapsWithModalManual = (props) => {
   useOutsideAlerter(addressRef, { action: 'function', func: () => setLoclist([]) });
 
   const classNameDef = !className && showMap ? 'w-perc-100 dis-fl-col' : className;
-  const mapSize = !className && showMap ? 'h-fix-320' : 'h-perc-100';
+  const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-320' : 'h-fix-240';
+  const mapSize = !className && showMap ? mapWindowSize : 'h-perc-100';
 
   // FUNCTION TO MANAGE KEY-CHANGE
   const keyUpInput = (e) => {
@@ -401,7 +398,6 @@ export const MapsWithModalManual = (props) => {
               }}
               input={{
                 name: 'location.name',
-                placeholder: 'Street',
                 validate: [Validation.required],
               }}
               labels={{
@@ -422,7 +418,6 @@ export const MapsWithModalManual = (props) => {
               }}
               input={{
                 name: 'location.streetNumber',
-                placeholder: 'number',
               }}
               labels={{
                 label: 'Number',
@@ -441,7 +436,6 @@ export const MapsWithModalManual = (props) => {
               }}
               input={{
                 name: 'location.zip',
-                placeholder: 'Zip code',
                 validate: [Validation.zipCode, Validation.required],
               }}
               inputFormat={{
@@ -468,7 +462,6 @@ export const MapsWithModalManual = (props) => {
               }}
               input={{
                 name: 'location.state',
-                placeholder: 'City',
               }}
               labels={{
                 label: 'City',
@@ -514,7 +507,7 @@ export const MapsWithModalManual = (props) => {
       </div>
       <div
         style={showMap ? {
-          minHeight: minHeight > 0 ? `${minHeight}px` : '300px', position: 'relative',
+          minHeight: minHeight > 0 ? `${minHeight}px` : '', position: 'relative',
         } : {
           minHeight: '100%', position: 'relative',
         }}
@@ -526,21 +519,18 @@ export const MapsWithModalManual = (props) => {
             <div className="fieldMapSearch mb-1">
               <div className="dis-f jc-b flex-wrap">
                 <div className="w-perc-100 pos-r">
-                  <BrixelInputTextWithSelect
+                  <BrixelInputText
                     className="search-box"
                     type="text"
                     ref={inputSearch}
                     label="Address"
                     disabled={disabled}
                     placeholder="Write street name"
-                    optionSelect={countryOption}
                     input={{
                       onChange: (e, name) => (disabled ? '' : changeFieldValue(formName, name || 'location.searchAddress', e)),
                       onBlur: () => '',
                       onFocus: () => (disabled ? '' : setSelectedAddress(false)),
                       value: get(formValue, 'location.searchAddress', '') || '',
-                      valueSelect: get(formValue, 'location.countryCode', '') || '',
-                      optionName: 'location.countryCode',
                       name: 'location.searchAddress',
                     }}
                     onKeyDown={(e) => (disabled ? '' : keyUpInput(e))}
@@ -644,6 +634,7 @@ MapsWithModalManual.propTypes = {
   similarProperties: PropTypes.arrayOf(PropTypes.object),
   subMinHeight: PropTypes.string,
   syncErrors: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
   zoom: PropTypes.number,
 };
 
@@ -683,6 +674,7 @@ const mapStateToProps = (state, props) => {
     longitude: get(state, `brixelForm.[${formName}].values.location.longitude`, lng),
     property: get(state, `brixelForm[${formName}].values`, {}),
     syncErrors: get(state, `brixelForm[${formName}].syncErrors`, {}),
+    windowDimensions: get(state, 'common.windowDimensions', {}),
   });
 };
 
