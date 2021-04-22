@@ -89,7 +89,6 @@ export const MapsWithModalManual = (props) => {
     Geocode.setApiKey('AIzaSyDHqV6i45MbGQVKOr2Md-8IzWeO7J1zGmg');
     if (selCountry.toLowerCase() !== 'ch') Geocode.setLanguage(selCountry.toLowerCase());
     setSelectedAddress(true);
-    console.log(adr);
     Geocode.fromAddress(adr)
       .then((result) => {
         const formattedPlace = cloneDeep(get(formValue, 'location', {}));
@@ -170,14 +169,12 @@ export const MapsWithModalManual = (props) => {
         if (
           get(formValue, 'location.zip', null) && currentLocation.zip !== get(formValue, 'location.zip', null)
         ) {
-          console.log('no result');
           setLoclist([]);
           setLoadingAddress(false);
           // eslint-disable-next-line no-use-before-define
           changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
           setErrorResult(false);
         } else {
-          console.log('whit result');
           changeFieldValue(formName, 'location', currentLocation);
           const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
           if (typeof existCountry === 'undefined') {
@@ -264,7 +261,6 @@ export const MapsWithModalManual = (props) => {
     if (Validation.zipCode(zipCode) !== true && Validation.required(zipCode) !== true && Validation.required(address) !== true) {
       invalidField = true;
     }
-    console.log(Validation.required(address), invalidField);
     if (errorResult) invalidField = true;
     if (invalidField) {
       setShowError(true);
