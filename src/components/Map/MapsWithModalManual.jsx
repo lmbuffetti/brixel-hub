@@ -15,7 +15,6 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelInputText,
-  BrixelInputTextWithSelect,
   BrixelSelect,
   ReduxField,
   Validation,
@@ -72,23 +71,9 @@ export const MapsWithModalManual = (props) => {
   const [showManualInput, setShowManualInput] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [errorResult, setErrorResult] = useState(null);
-  const [countryOption, setCountryOption] = useState(null);
-
   // REF
   // const inputZipSearch = useRef(null);
   const addressRef = useRef(null);
-
-  useEffect(() => {
-    const countryList = [];
-    country.forEach((item) => {
-      countryList.push({
-        label: item.label,
-        onlyFlag: item.onlyFlag,
-        value: item.value,
-      });
-    });
-    setCountryOption(countryList);
-  }, [country]);
 
   useEffect(() => {
     const multiStepForm = document.getElementById('multiStepForm');
