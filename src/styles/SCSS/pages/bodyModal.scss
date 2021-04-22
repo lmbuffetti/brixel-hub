@@ -165,7 +165,9 @@
       width: 100%;
     }
     .footerAction {
-      max-width: 760px;
+      &:not(.flowFooter) {
+        max-width: 760px;
+      }
       background: $brx-white;
       position: relative;
       width: 100%;

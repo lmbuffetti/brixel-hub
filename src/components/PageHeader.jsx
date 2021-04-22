@@ -99,6 +99,7 @@ function PageHeader(props) {
       setWidthScreen(window.innerWidth);
       window.addEventListener('resize', () => screenResize());
     }
+    document.body.style.background = '#F7F6F5';
   }, []);
 
   // FUNCTION TO MANAGE THE ZINDEX IF slideUp CLASS EXISTS

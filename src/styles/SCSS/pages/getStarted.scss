@@ -3,6 +3,10 @@
   &.getStarted {
     background-color: transparent;
     z-index: 1;
+
+    #progressBar {
+      position: relative;
+    }
     .bodyModal {
      // transition: all $default-loader-time $default-easing;
       //will-change: background-image, opacity;
@@ -65,7 +69,7 @@
 
           &:before,
           .footerAction {
-            max-width: 640px;
+            //max-width: 640px;
           }
         }
         &.signUp {
@@ -313,101 +317,6 @@
 }
 
 
-/* .getStartedWrapper {
-  #progressBar {
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
-  #getStarted {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    overflow: hidden;
-    max-width: 760px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    box-shadow: $shadow-1dp;
-    border-top-left-radius: $brd-radius-small;
-    border-top-right-radius: $brd-radius-small;
-
-    .subcontainer {
-      width: 100%;
-      max-width: 480px;
-      margin: auto;
-    }
-
-    .multiStepForm {
-      height: 100%;
-    }
-    .multiStepSlides {
-      height: 100%;
-      display: flex;
-      transition: transform $default-loader-time ease-in-out;
-    }
-    .bodyModalFlow {
-      height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-    .singleStep {
-      height: 100%;
-      flex: 0 0 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: $step * 3;
-
-      @media (min-width: $responsive-small) {
-        display: flex;
-        align-items: center;
-      }
-      &[class*="bg"],
-      &.vertCentered {
-        align-items: center;
-        justify-content: center;
-        display: flex;
-      }
-    }
-    .footerAction {
-      background: $brx-white;
-      position: relative;
-      width: 100%;
-      left: 0;
-      bottom: 0;
-
-      &.successNext {
-        background: map_get($greenColor, 200);
-
-        .textSuccess {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          transform: translateY(-100%);
-        }
-
-        .backBtn {
-          opacity: .5;
-        }
-      }
-    }
-
-    .brixel-radio-button-icon {
-      margin-bottom: 16px;
-      label .textLabel {
-        margin-left: 16px;
-        @media (min-width: $responsive-medium) {
-          font-size: 1.2rem;
-        }
-      }
-    }
-    .message:empty {
-      display: none;
-    }
-  }
-} */
-
 .getStartedWrapper {
   // only for package flow
   .curAdr {
@@ -502,5 +411,24 @@
   }
   .pac-placeholder {
     color: gray
+  }
+}
+
+
+// overwrite inner scroll
+#bodyModalWrapper {
+  &.getStarted {
+    .bodyModal {
+      overflow: inherit;
+      #multiStepForm {
+        overflow: initial;
+        .multiStepSlides {
+          overflow-y: initial;
+          .singleStep {
+            overflow-x: initial;
+          }
+        }
+      }
+    }
   }
 }

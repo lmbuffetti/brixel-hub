@@ -67,12 +67,13 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'estimationType',
       vCentered: true,
       bgImg: userType,
+      footerWidth: 'max-w-fix-464',
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
         pdClass: 'py-2 py-lg-3 px-1',
         label: '',
-        ReduxFieldClass: 'max-w-fix-lg-464 m-a',
+        ReduxFieldClass: 'max-w-fix-464 m-a',
         name: 'estimationType',
         validation: [Validation.required],
         icons: true,
@@ -84,11 +85,12 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'What type of property do you want to estimate?'),
       history: 'propertyType',
       vCentered: true,
+      footerWidth: 'max-w-fix-464',
       bgImg: homesSvg,
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
-        ReduxFieldClass: 'max-w-fix-lg-464 m-a',
+        ReduxFieldClass: 'max-w-fix-464 m-a',
         pdClass: 'py-2 py-lg-3 px-1',
         label: '',
         name: 'properties.propertyType',
@@ -119,10 +121,11 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'allRooms',
       cardType: 'allRooms',
       bgImg: roomsSvg,
+      footerWidth: 'max-w-fix-384',
       inputs: [
         {
           component: BrixelInputStepNumber,
-          classNameBox: 'max-w-fix-384 w-perc-100 bgWhite brdRadius py-6 px-5 m-a',
+          classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius py-6 px-5 m-a',
           label: '',
           name: 'properties.typology.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
@@ -142,6 +145,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'livingSpace',
       cardType: 'livingSpace',
       bgImg: spaceSvg,
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           condition: [{
@@ -149,7 +153,7 @@ export const QuestionsList = (lang, country = 'CH') => {
             noValue: 'Commercial',
           }],
           component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-600 py-5 px-6 m-a bgWhite',
+          classNameBox: 'brdRadius max-w-fix-600 py-5 px-6 m-a fieldHolder bgWhite',
           label: country === 'PT' ? 'Gross area' : 'Net living space',
           name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
           type: 'number',
@@ -164,7 +168,7 @@ export const QuestionsList = (lang, country = 'CH') => {
             value: 'Commercial',
           }],
           component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-600 py-5 px-6 m-a bgWhite',
+          classNameBox: 'brdRadius max-w-fix-600 py-5 px-6 m-a fieldHolder bgWhite',
           label: 'Floor space',
           name: 'properties.typology.floorSpace.value',
           type: 'number',
@@ -180,6 +184,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'What is the construction year?'),
       history: 'constructionYear',
       cardType: 'constructionYear',
+      footerWidth: 'max-w-fix-600',
       bgImg: yearSvg,
       inputs: [
         {
@@ -187,7 +192,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           label: 'Construction year',
           name: 'properties.building.built',
           type: 'number',
-          classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-5 py-5 brdRadius bgWhite m-a',
+          classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-5 py-5 brdRadius fieldHolder bgWhite m-a',
           placeholder: translateTo(lang, 'e.g. 1990'),
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLenghtNum: 9999,
@@ -201,6 +206,8 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'locationInput',
       cardType: 'locationInput',
       bgImg: locationSvg,
+      footerWidth: 'max-w-fix-600',
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a px-5 py-6',
       inputs: [
         {
           className: 'pos-r zIndex6 compact',

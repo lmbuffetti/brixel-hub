@@ -483,14 +483,16 @@ const GetStartedSeller = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted">
+    <div id="bodyModalWrapper" className="withHeader getStarted container">
       {
         get(quest, 'inputs', null) && (
           <BrixelProgressBar
             large
-            saturation={400}
-            barBackground="Light"
-            backgroundSaturation={300}
+            className="brdRadius"
+            saturation={500}
+            color="green"
+            barBackground="light"
+            backgroundSaturation={200}
             progressValue={progressBar}
           />
         )
@@ -608,7 +610,7 @@ const GetStartedSeller = (props) => {
             </div>
           </div>
           <div
-            className={`footerAction ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+            className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r">
               <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
@@ -618,8 +620,7 @@ const GetStartedSeller = (props) => {
                       className="backBtn ml-0 mr-a"
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
-                      theme="dark"
-                      themeSat="400"
+                      theme="light"
                       secondary
                     />
                   )
