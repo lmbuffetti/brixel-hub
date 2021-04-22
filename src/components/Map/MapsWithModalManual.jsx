@@ -106,6 +106,7 @@ export const MapsWithModalManual = (props) => {
         formattedPlace.city = get(formattedPlace, 'city', null);
 
         const location = result.results[0];
+
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
           formattedPlace.latitude = location.geometry.location.lat;
@@ -164,6 +165,7 @@ export const MapsWithModalManual = (props) => {
           ...formattedPlace,
           searchAddress: formattedPlace.address,
         };
+
         if (
           get(formValue, 'location.zip', null) && currentLocation.zip !== get(formValue, 'location.zip', null)
         ) {
@@ -256,12 +258,13 @@ export const MapsWithModalManual = (props) => {
     const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
     delete manualSyncError.latitude;
     let invalidField = false;
-    Object.keys(manualSyncError).forEach((key) => {
-      if (manualSyncError[key] !== true && manualSyncError[key] !== null) invalidField = true;
-    });
+    if (Validation.zipCode(zipCode) !== true && Validation.required(zipCode) !== true && Validation.required(address) !== true) {
+      invalidField = true;
+    }
     if (errorResult) invalidField = true;
-    if (invalidField) setShowError(true);
-    else {
+    if (invalidField) {
+      setShowError(true);
+    } else {
       setShowError(false);
       geoCode(searchAddr);
       setLoadingAddress(true);
@@ -373,6 +376,10 @@ export const MapsWithModalManual = (props) => {
     if (dropdownEl) dropdownEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [locList.length]);
 
+  const closeModal = () => {
+    setShowManualInput(false);
+  };
+
   return (
     // Important! Always set the container height explicitly
     <>
@@ -384,7 +391,7 @@ export const MapsWithModalManual = (props) => {
           ghost
           icon="close-small"
           theme="dark"
-          onClick={() => setShowManualInput(false)}
+          onClick={() => closeModal()}
         />
         <div className="p-5">
           <h3 className="mt-3 mb-5 w-perc-100">
@@ -392,7 +399,7 @@ export const MapsWithModalManual = (props) => {
           </h3>
           <div className="dis-f">
             <ReduxField
-              forceToShowError={showError && get(syncErrors, 'location.name', true) !== true}
+              forceToShowError={showError && Validation.required(get(formValue, 'location.name')) !== true}
               ReduxFieldClass="pr-1 w-perc-75"
               form={formName}
               design={{
@@ -408,7 +415,9 @@ export const MapsWithModalManual = (props) => {
               meta={{
                 invalid: true,
                 dirty: true,
-                message: 'Invalid',
+                message: {
+                  error: 'Please insert a valid address',
+                },
               }}
               component={BrixelInputText}
             />
@@ -430,7 +439,7 @@ export const MapsWithModalManual = (props) => {
 
           <div className="dis-f a-t jc-b">
             <ReduxField
-              forceToShowError={(showError && get(syncErrors, 'location.zip', true) !== true) || errorResult}
+              forceToShowError={showError && (Validation.zipCode(get(formValue, 'location.zip', null)) !== true || Validation.required(get(formValue, 'location.zip', null)) !== true)}
               ReduxFieldClass="w-perc-50 w-perc-sm-40 pr-1"
               form={formName}
               design={{
@@ -495,7 +504,7 @@ export const MapsWithModalManual = (props) => {
                 rounded
                 className="mr-3"
                 label="Cancel"
-                onClick={() => setShowManualInput(false)}
+                onClick={() => closeModal()}
               />
               <BrixelButtonPrimary
                 rounded
