@@ -167,9 +167,11 @@ export const MapsWithModalManual = (props) => {
         if (
           get(formValue, 'location.zip', null) && currentLocation.zip !== get(formValue, 'location.zip', null)
         ) {
-          setErrorResult('The zip code is wrong!');
           setLoclist([]);
           setLoadingAddress(false);
+          // eslint-disable-next-line no-use-before-define
+          changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
+          setErrorResult(false);
         } else {
           changeFieldValue(formName, 'location', currentLocation);
           const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
@@ -257,7 +259,7 @@ export const MapsWithModalManual = (props) => {
     Object.keys(manualSyncError).forEach((key) => {
       if (manualSyncError[key] !== true && manualSyncError[key] !== null) invalidField = true;
     });
-
+    if (errorResult) invalidField = true;
     if (invalidField) setShowError(true);
     else {
       setShowError(false);
@@ -420,7 +422,7 @@ export const MapsWithModalManual = (props) => {
                 name: 'location.streetNumber',
               }}
               labels={{
-                label: 'Number',
+                label: windowDimensions.width < 590 ? 'Nr.' : 'Number',
               }}
               component={BrixelInputText}
             />
@@ -429,7 +431,7 @@ export const MapsWithModalManual = (props) => {
           <div className="dis-f a-t jc-b">
             <ReduxField
               forceToShowError={(showError && get(syncErrors, 'location.zip', true) !== true) || errorResult}
-              ReduxFieldClass="w-perc-40 pr-1"
+              ReduxFieldClass="w-perc-50 w-perc-sm-40 pr-1"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
@@ -455,7 +457,7 @@ export const MapsWithModalManual = (props) => {
               component={BrixelInputText}
             />
             <ReduxField
-              ReduxFieldClass="pl-1 w-perc-60"
+              ReduxFieldClass="pl-1 w-perc-50 w-perc-sm-60"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
