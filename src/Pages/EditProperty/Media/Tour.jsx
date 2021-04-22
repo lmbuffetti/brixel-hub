@@ -106,7 +106,7 @@ const Tour = (props) => {
                 description="A 3D tour helps you to avoid unnecessary showings and increases the attention of your property in the market. Request a free scan by one of our experts to get your own tour."
                 btnLabel="Request scan"
                 redirectUrl={`/${formValue.id}/trialRequest`}
-                virtualTour
+                virtualTour="https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0"
                 trialRequest
               />
             </div>
