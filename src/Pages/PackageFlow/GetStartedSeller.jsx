@@ -593,9 +593,9 @@ const GetStartedSeller = (props) => {
                 }
                 {
                   get(quest, 'history', null) === 'resume' && (
-                    <div className="max-w-fix-344 m-a">
+                    <div className="">
                       <BrixelButtonPrimary
-                        className={`mt-3 mb-2 m-a noWrap ${quest.history}`}
+                        className={`noWrap ${quest.history}`}
                         rounded
                         theme="green"
                         label={buttonLabel()}

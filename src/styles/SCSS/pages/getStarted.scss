@@ -1,3 +1,12 @@
+.flowBody {
+  background-color: #F7F6F5;
+  &.flowResume {
+    background-color: map-get($greenColor, 500);
+  }
+  .flowHeader {
+    background-color: #F7F6F5;
+  }
+}
 
 #bodyModalWrapper {
   &.getStarted {
@@ -7,6 +16,7 @@
     #progressBar {
       position: relative;
     }
+
     .bodyModal {
      // transition: all $default-loader-time $default-easing;
       //will-change: background-image, opacity;
@@ -97,7 +107,7 @@
              padding-bottom: 40px;
             }
             .subcontainer {
-              max-width: 780px;
+              max-width: inherit;
             }
           }
         }
