@@ -181,7 +181,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           showMap: false,
           name: 'location.searchAddress',
           type: 'Map',
-          classNameBox: 'max-w-perc-100 pl-2',
+          classNameBox: 'max-w-perc-100',
           classBoxWrapper: 'mt-0 searchMapFields box-al-top',
           validation: [Validation.required],
           mapOptions: {
