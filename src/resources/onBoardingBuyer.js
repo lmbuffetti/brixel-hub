@@ -160,7 +160,7 @@ export const QuestionsList = (lang) => {
           classBoxWrapper: 'mt-0 searchMapFields',
           showMap: false,
           name: 'locations[0].latitude',
-          classNameBox: 'max-w-perc-100 pl-2',
+          classNameBox: 'max-w-perc-100',
           type: 'Map',
           mapOptions: {
             showMap: false,

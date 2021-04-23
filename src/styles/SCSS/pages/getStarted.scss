@@ -498,3 +498,17 @@
     color: gray
   }
 }
+
+
+.locationInputResume {
+  @media (max-width: $responsive-small) {
+    .singleStep {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    .subcontainer h3 {
+      padding-left: $step * 2;
+      padding-right: $step * 2;
+    }
+  }
+}
