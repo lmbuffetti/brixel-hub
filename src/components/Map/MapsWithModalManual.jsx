@@ -403,7 +403,7 @@ export const MapsWithModalManual = (props) => {
             Please edit your address manually.
           </h3>
           <div className="px-2 px-sm-0">
-            <div className="dis-f">
+            <div className="dis-f editLocation">
               <ReduxField
                 multiple={false}
                 forceToShowError={showError && Validation.required(get(formValue, 'location.name')) !== true}
@@ -521,7 +521,7 @@ export const MapsWithModalManual = (props) => {
           className="footerAction shadow-1dp-top normStep"
         >
           <div className="pos-r p-1 p-lg-2">
-            <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-fe">
+            <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-b jc-fe-sm">
               <BrixelButtonSecondary
                 rounded
                 className="mr-3"
@@ -620,7 +620,7 @@ export const MapsWithModalManual = (props) => {
       {
         get(history, 'location.pathname', '').includes('locationInputResume') && (
           <div className="dis-f jc-b a-c mt-2 px-2 px-sm-0">
-            <div className="fweight-500 txtDark700">
+            <div className="fweight-500 txtDark700 pr-1 pr-sm-0">
               <span>{get(formValue, 'location.name', '')}</span>
               {
                 get(formValue, 'location.streetNumber', null) && (

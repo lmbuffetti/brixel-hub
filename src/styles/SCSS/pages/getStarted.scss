@@ -511,4 +511,9 @@
       padding-right: $step * 2;
     }
   }
+  .editLocation {
+    .brixel-text-input.dirty-icon {
+      padding-right: 12px !important;
+    }
+  }
 }
