@@ -42,39 +42,42 @@ const ResumeCard = (props) => {
       </div>
       <div className="flex-1">
         {/* Property Card */}
-        <div className="scaleAnim bgWhite max-w-fix-344 m-a brdRadius shadow-4dp ov-h">
+        <div className="scaleAnim bgWhite max-w-fix-352 m-a brdRadius shadow-3dp ov-h">
           <img
             src={defImg}
-            className="dis-b"
+            className="dis-b w-perc-100"
             alt={formValue.propertyType || 'House'}
           />
-          <div className="pt-1 pb-2 px-2">
+          <div className="pt-2 pb-2 px-2">
             {
               formValue.location && (
-                <p className="body2 cutRow txtPrimary400">
+                <p className="cutRow txtDark200">
                   {formValue.location.address}
                 </p>
               )
             }
-            <h6 className="mt-1 mb-5">{formValue.pageTitle || 'Title'}</h6>
+            <h6 className="mt-1 mb-4 fweight-600 fsize-600"> {formValue.pageTitle || 'Title'}</h6>
             <div className="dis-f jc-b a-c">
-              <p className="dis-f a-c">
-                <BrixelIcon icon="bed" className="mr-1" />
-                <span className="ff-mono body2">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', ''))}</span>
+              <p className="dis-fl-col">
+
+                <span className="txtDark200 fsize-300">
+                  {get(formValue, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(formValue, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                </span>
+                <span className="ff-mono txtDark700">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', ''))}</span>
               </p>
-              <p className="dis-f a-c">
-                <BrixelIcon icon="plans" className="mr-1" />
+              <p className="dis-fl-col">
+                <span className="txtDark200 fsize-300"> Living area </span>
                 {
                   get(formValue, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
-                    <span className="ff-mono body2">{get(formValue, 'properties.typology.grossArea.value', 0)} m2</span>
+                    <span className="ff-mono txtDark700">{get(formValue, 'properties.typology.grossArea.value', 0)} m2</span>
                   ) : (
-                    <span className="ff-mono body2">{get(formValue, 'properties.typology.livingArea.value', 0)} m2</span>
+                    <span className="ff-mono txtDark700">{get(formValue, 'properties.typology.livingArea.value', 0)} m2</span>
                   )
                 }
               </p>
-              <p className="dis-f a-c">
-                <BrixelIcon icon="house-built" className="mr-1" />
-                <span className="ff-mono body2">
+              <p className="dis-fl-col">
+                <span className="txtDark200 fsize-300"> Year built </span>
+                <span className="ff-mono txtDark700">
                   {get(formValue, 'properties.building.built', '0000')}
                 </span>
               </p>
