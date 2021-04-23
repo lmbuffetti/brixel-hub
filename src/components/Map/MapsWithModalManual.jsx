@@ -15,7 +15,6 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelInputText,
-  BrixelInputTextWithSelect,
   BrixelSelect,
   ReduxField,
   Validation,
@@ -33,6 +32,7 @@ import { setCountryList } from '../../actions/CommonActions';
 export const MapsWithModalManual = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     changeFieldValue,
     className,
     country,
@@ -56,6 +56,7 @@ export const MapsWithModalManual = (props) => {
     similarProperties,
     subMinHeight,
     syncErrors,
+    windowDimensions,
   } = props;
   // STATE
   const [selectedAddress, setSelectedAddress] = useState(false);
@@ -71,23 +72,17 @@ export const MapsWithModalManual = (props) => {
   const [showManualInput, setShowManualInput] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [errorResult, setErrorResult] = useState(null);
-  const [countryOption, setCountryOption] = useState(null);
-
   // REF
   // const inputZipSearch = useRef(null);
   const addressRef = useRef(null);
 
   useEffect(() => {
-    const countryList = [];
-    country.forEach((item) => {
-      countryList.push({
-        label: item.label,
-        onlyFlag: item.onlyFlag,
-        value: item.value,
-      });
-    });
-    setCountryOption(countryList);
-  }, [country]);
+    const multiStepForm = document.getElementById('multiStepForm');
+    if (multiStepForm) {
+      if (showManualInput) multiStepForm.classList.add('overlayOpen');
+      else multiStepForm.classList.remove('overlayOpen');
+    }
+  }, [showManualInput]);
 
   // FUNCTION TO EXTRACT DATA FROM SELECTED ADDRESS
   const geoCode = (adr, action) => {
@@ -112,6 +107,7 @@ export const MapsWithModalManual = (props) => {
         formattedPlace.city = get(formattedPlace, 'city', null);
 
         const location = result.results[0];
+
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
           formattedPlace.latitude = location.geometry.location.lat;
@@ -170,12 +166,15 @@ export const MapsWithModalManual = (props) => {
           ...formattedPlace,
           searchAddress: formattedPlace.address,
         };
+
         if (
           get(formValue, 'location.zip', null) && currentLocation.zip !== get(formValue, 'location.zip', null)
         ) {
-          setErrorResult('The zip code is wrong!');
           setLoclist([]);
           setLoadingAddress(false);
+          // eslint-disable-next-line no-use-before-define
+          // changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
+          setErrorResult(false);
         } else {
           changeFieldValue(formName, 'location', currentLocation);
           const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
@@ -198,12 +197,12 @@ export const MapsWithModalManual = (props) => {
       })
       .catch(() => {
         // eslint-disable-next-line no-use-before-define
-        changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
+        changeLocation(get(formValue, 'location.zip', ''), true, 'zip', true);
       });
   };
 
   // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
-  const changeLocation = (val, hideSearch, type) => {
+  const changeLocation = (val, hideSearch, type, showError = false) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
       // setNewLocation(val);
       const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
@@ -239,6 +238,10 @@ export const MapsWithModalManual = (props) => {
             } else {
               setLoclist([]);
               changeFieldValue(formName, 'locationsList', []);
+              if (showError) {
+                setErrorResult(`We can't find that location please try again or contact our <a href="mailto:${get(activeSingleCompany, 'contact.email', 'support@brixel.io')}">support team</a>`);
+              }
+              setLoadingAddress(false);
               // setZiplist([]);
             }
           },
@@ -260,12 +263,13 @@ export const MapsWithModalManual = (props) => {
     const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
     delete manualSyncError.latitude;
     let invalidField = false;
-    Object.keys(manualSyncError).forEach((key) => {
-      if (manualSyncError[key] !== true && manualSyncError[key] !== null) invalidField = true;
-    });
-
-    if (invalidField) setShowError(true);
-    else {
+    if (Validation.zipCode(zipCode) !== true || Validation.required(zipCode) !== true || Validation.required(address) !== true) {
+      invalidField = true;
+    }
+    if (errorResult) invalidField = true;
+    if (invalidField) {
+      setShowError(true);
+    } else {
       setShowError(false);
       geoCode(searchAddr);
       setLoadingAddress(true);
@@ -282,10 +286,12 @@ export const MapsWithModalManual = (props) => {
       if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
       changeLocation(fullAddress, true, 'address');
     }
+    if (!selectedAddress) {
+      changeFieldValue(formName, 'location.name', addressSearch);
+    }
     if (isEmpty(addressSearch)) {
       changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude });
     }
-    changeFieldValue(formName, 'location.name', get(formValue, 'location.searchAddress', null));
   }, [get(formValue, 'location.searchAddress', null)]);
 
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE startSearch
@@ -327,7 +333,8 @@ export const MapsWithModalManual = (props) => {
   useOutsideAlerter(addressRef, { action: 'function', func: () => setLoclist([]) });
 
   const classNameDef = !className && showMap ? 'w-perc-100 dis-fl-col' : className;
-  const mapSize = !className && showMap ? 'h-fix-320' : 'h-perc-100';
+  const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-320' : 'h-fix-240';
+  const mapSize = !className && showMap ? mapWindowSize : 'h-perc-100';
 
   // FUNCTION TO MANAGE KEY-CHANGE
   const keyUpInput = (e) => {
@@ -374,6 +381,10 @@ export const MapsWithModalManual = (props) => {
     if (dropdownEl) dropdownEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [locList.length]);
 
+  const closeModal = () => {
+    setShowManualInput(false);
+  };
+
   return (
     // Important! Always set the container height explicitly
     <>
@@ -385,7 +396,7 @@ export const MapsWithModalManual = (props) => {
           ghost
           icon="close-small"
           theme="dark"
-          onClick={() => setShowManualInput(false)}
+          onClick={() => closeModal()}
         />
         <div className="p-5">
           <h3 className="mt-3 mb-5 w-perc-100">
@@ -393,15 +404,16 @@ export const MapsWithModalManual = (props) => {
           </h3>
           <div className="dis-f">
             <ReduxField
-              forceToShowError={showError && get(syncErrors, 'location.name', true) !== true}
+              multiple={false}
+              forceToShowError={showError && Validation.required(get(formValue, 'location.name')) !== true}
               ReduxFieldClass="pr-1 w-perc-75"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
+                showIconValidation: false,
               }}
               input={{
                 name: 'location.name',
-                placeholder: 'Street',
                 validate: [Validation.required],
               }}
               labels={{
@@ -410,7 +422,9 @@ export const MapsWithModalManual = (props) => {
               meta={{
                 invalid: true,
                 dirty: true,
-                message: 'Invalid',
+                message: {
+                  error: 'Please insert a valid address',
+                },
               }}
               component={BrixelInputText}
             />
@@ -419,13 +433,13 @@ export const MapsWithModalManual = (props) => {
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
+                showIconValidation: false,
               }}
               input={{
                 name: 'location.streetNumber',
-                placeholder: 'number',
               }}
               labels={{
-                label: 'Number',
+                label: windowDimensions.width < 590 ? 'Nr.' : 'Number',
               }}
               component={BrixelInputText}
             />
@@ -433,15 +447,17 @@ export const MapsWithModalManual = (props) => {
 
           <div className="dis-f a-t jc-b">
             <ReduxField
-              forceToShowError={(showError && get(syncErrors, 'location.zip', true) !== true) || errorResult}
-              ReduxFieldClass="w-perc-40 pr-1"
+              multiple={false}
+              showIconValidation={false}
+              forceToShowError={showError && (Validation.zipCode(get(formValue, 'location.zip', null)) !== true || Validation.required(get(formValue, 'location.zip', null)) !== true)}
+              ReduxFieldClass="w-perc-50 w-perc-sm-40 pr-1"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
+                showIconValidation: false,
               }}
               input={{
                 name: 'location.zip',
-                placeholder: 'Zip code',
                 validate: [Validation.zipCode, Validation.required],
               }}
               inputFormat={{
@@ -461,14 +477,15 @@ export const MapsWithModalManual = (props) => {
               component={BrixelInputText}
             />
             <ReduxField
-              ReduxFieldClass="pl-1 w-perc-60"
+              showIconValidation={false}
+              ReduxFieldClass="pl-1 w-perc-50 w-perc-sm-60"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
+                showIconValidation: false,
               }}
               input={{
                 name: 'location.state',
-                placeholder: 'City',
               }}
               labels={{
                 label: 'City',
@@ -477,9 +494,11 @@ export const MapsWithModalManual = (props) => {
             />
           </div>
           <ReduxField
+            showIconValidation={false}
             form={formName}
             design={{
               className: 'mb-2 zIndex1',
+              showIconValidation: false,
             }}
             input={{
               name: 'location.countryCode',
@@ -491,6 +510,11 @@ export const MapsWithModalManual = (props) => {
             component={BrixelSelect}
           />
         </div>
+        {
+          errorResult && (
+            <p className="px-5 txtRed400" dangerouslySetInnerHTML={{ __html: errorResult }} />
+          )
+        }
         <div
           className="footerAction shadow-1dp-top normStep"
         >
@@ -500,7 +524,7 @@ export const MapsWithModalManual = (props) => {
                 rounded
                 className="mr-3"
                 label="Cancel"
-                onClick={() => setShowManualInput(false)}
+                onClick={() => closeModal()}
               />
               <BrixelButtonPrimary
                 rounded
@@ -514,7 +538,7 @@ export const MapsWithModalManual = (props) => {
       </div>
       <div
         style={showMap ? {
-          minHeight: minHeight > 0 ? `${minHeight}px` : '300px', position: 'relative',
+          minHeight: minHeight > 0 ? `${minHeight}px` : '', position: 'relative',
         } : {
           minHeight: '100%', position: 'relative',
         }}
@@ -526,21 +550,18 @@ export const MapsWithModalManual = (props) => {
             <div className="fieldMapSearch mb-1">
               <div className="dis-f jc-b flex-wrap">
                 <div className="w-perc-100 pos-r">
-                  <BrixelInputTextWithSelect
+                  <BrixelInputText
                     className="search-box"
                     type="text"
                     ref={inputSearch}
                     label="Address"
                     disabled={disabled}
                     placeholder="Write street name"
-                    optionSelect={countryOption}
                     input={{
                       onChange: (e, name) => (disabled ? '' : changeFieldValue(formName, name || 'location.searchAddress', e)),
                       onBlur: () => '',
                       onFocus: () => (disabled ? '' : setSelectedAddress(false)),
                       value: get(formValue, 'location.searchAddress', '') || '',
-                      valueSelect: get(formValue, 'location.countryCode', '') || '',
-                      optionName: 'location.countryCode',
                       name: 'location.searchAddress',
                     }}
                     onKeyDown={(e) => (disabled ? '' : keyUpInput(e))}
@@ -619,6 +640,7 @@ export const MapsWithModalManual = (props) => {
 };
 
 MapsWithModalManual.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   className: PropTypes.string,
   country: PropTypes.arrayOf(PropTypes.object),
@@ -644,6 +666,7 @@ MapsWithModalManual.propTypes = {
   similarProperties: PropTypes.arrayOf(PropTypes.object),
   subMinHeight: PropTypes.string,
   syncErrors: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
   zoom: PropTypes.number,
 };
 
@@ -674,6 +697,7 @@ const mapStateToProps = (state, props) => {
   const lat = get(state, 'property.activeSingleProperty.location.latitude', propsLat);
   const lng = get(state, 'property.activeSingleProperty.location.longitude', propsLng);
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     country: get(state, 'common.country', []),
     formName,
     formValue: get(state, `brixelForm[${formName}].values`, {}),
@@ -683,6 +707,7 @@ const mapStateToProps = (state, props) => {
     longitude: get(state, `brixelForm.[${formName}].values.location.longitude`, lng),
     property: get(state, `brixelForm[${formName}].values`, {}),
     syncErrors: get(state, `brixelForm[${formName}].syncErrors`, {}),
+    windowDimensions: get(state, 'common.windowDimensions', {}),
   });
 };
 

@@ -226,3 +226,18 @@
     align-items: flex-start;
   }
 }
+
+#bodyModalWrapper {
+  &.getStarted {
+    .bodyModal {
+      #multiStepForm {
+        &.overlayOpen {
+          transform: none;
+          @media (min-width: $responsive-small) {
+            transform: translate(0);
+          }
+        }
+      }
+    }
+  }
+}

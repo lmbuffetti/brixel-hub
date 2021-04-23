@@ -219,7 +219,6 @@ export const QuestionsList = (lang, country = 'CH') => {
           validation: [Validation.required],
         },
       ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
     },
     {
       title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
