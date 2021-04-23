@@ -263,10 +263,9 @@ export const MapsWithModalManual = (props) => {
     const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
     delete manualSyncError.latitude;
     let invalidField = false;
-    if (Validation.zipCode(zipCode) !== true || Validation.required(zipCode) !== true || Validation.required(address) !== true) {
+    if (Validation.required(zipCode) !== true || Validation.required(address) !== true) {
       invalidField = true;
     }
-    if (errorResult) invalidField = true;
     if (invalidField) {
       setShowError(true);
     } else {
@@ -450,7 +449,7 @@ export const MapsWithModalManual = (props) => {
               <ReduxField
                 multiple={false}
                 showIconValidation={false}
-                forceToShowError={showError && (Validation.zipCode(get(formValue, 'location.zip', null)) !== true || Validation.required(get(formValue, 'location.zip', null)) !== true)}
+                forceToShowError={showError && (Validation.required(get(formValue, 'location.zip', null)) !== true)}
                 ReduxFieldClass="w-perc-50 w-perc-sm-40 pr-1"
                 form={formName}
                 design={{
