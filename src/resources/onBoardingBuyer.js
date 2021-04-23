@@ -143,11 +143,12 @@ export const QuestionsList = (lang) => {
       history: 'locationInput',
       cardType: 'locationInput',
       bgImg: locationSvg,
+      className: 'dis-f',
       inputs: [
         {
           className: 'pos-r zIndex6 compact',
           classNameBox: 'max-w-perc-100 pos-r',
-          classBoxWrapper: 'mt-0 searchMapCountry',
+          classBoxWrapper: 'mt-0 searchMapCountry mr-2',
           component: BrixelSelect,
           label: 'Country',
           labelType: 'onlyFlag',

@@ -20,11 +20,16 @@
 }
 
 .locationsListMap {
-  margin-left: -110px;
+  margin-left: -97px;
+  margin-top: $step * 2;
 }
 
 .searchMapCountry {
   width: 85px;
+  @media (max-width: $responsive-small) {
+    width: 115px;
+  }
+
   .dropdown .selElement .title {
     text-overflow: clip;
   }
