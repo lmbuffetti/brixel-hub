@@ -99,13 +99,23 @@ function PageHeader(props) {
       setWidthScreen(window.innerWidth);
       window.addEventListener('resize', () => screenResize());
     }
-    if (history.location.pathname.includes('resume')) {
+    if (history.location.pathname.includes('/resume')) {
       document.body.classList.add('flowBody');
       document.body.classList.add('flowResume');
     } else {
       document.body.classList.add('flowBody');
     }
   }, []);
+
+  // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
+  useEffect(() => {
+    if (history.location.pathname.includes('/resume')) {
+      document.body.classList.add('flowBody');
+      document.body.classList.add('flowResume');
+    } else {
+      document.body.classList.add('flowBody');
+    }
+  }, [history.location.pathname]);
 
   // FUNCTION TO MANAGE THE ZINDEX IF slideUp CLASS EXISTS
   /* useEffect(() => {
