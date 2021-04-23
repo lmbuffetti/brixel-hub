@@ -497,18 +497,21 @@ const GetStartedBuyer = (props) => {
                         quest.subtitle && (
                           <p className="mb-5 txtDark700 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
-                      <MultiFileldsReduxForm
-                        form="GetStarted"
-                        disableNextBtn={false}
-                        formValue={formValue}
-                        inputs={quest.inputs}
-                        onClick={() => changeStep()}
-                        onCloseGoBack={() => changeStep('back')}
-                        onClickDisabled={!checkValidateField()}
-                        onSubmit={() => changeStep()}
-                        showSendButton
-                        disableDelay
-                      />
+
+                      <div className={`w-perc-100 ${quest.className}`}>
+                        <MultiFileldsReduxForm
+                          form="GetStarted"
+                          disableNextBtn={false}
+                          formValue={formValue}
+                          inputs={quest.inputs}
+                          onClick={() => changeStep()}
+                          onCloseGoBack={() => changeStep('back')}
+                          onClickDisabled={!checkValidateField()}
+                          onSubmit={() => changeStep()}
+                          showSendButton
+                          disableDelay
+                        />
+                      </div>
 
                     </div>
                   )
