@@ -32,6 +32,7 @@ import { setCountryList } from '../../actions/CommonActions';
 export const MapsWithModalManual = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     changeFieldValue,
     className,
     country,
@@ -172,7 +173,7 @@ export const MapsWithModalManual = (props) => {
           setLoclist([]);
           setLoadingAddress(false);
           // eslint-disable-next-line no-use-before-define
-          changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
+          // changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
           setErrorResult(false);
         } else {
           changeFieldValue(formName, 'location', currentLocation);
@@ -196,12 +197,12 @@ export const MapsWithModalManual = (props) => {
       })
       .catch(() => {
         // eslint-disable-next-line no-use-before-define
-        changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
+        changeLocation(get(formValue, 'location.zip', ''), true, 'zip', true);
       });
   };
 
   // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
-  const changeLocation = (val, hideSearch, type) => {
+  const changeLocation = (val, hideSearch, type, showError = false) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
       // setNewLocation(val);
       const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
@@ -237,6 +238,10 @@ export const MapsWithModalManual = (props) => {
             } else {
               setLoclist([]);
               changeFieldValue(formName, 'locationsList', []);
+              if (showError) {
+                setErrorResult(`We can't find that location please try again or contact our <a href="mailto:${get(activeSingleCompany, 'contact.email', 'support@brixel.io')}">support team</a>`);
+              }
+              setLoadingAddress(false);
               // setZiplist([]);
             }
           },
@@ -258,7 +263,7 @@ export const MapsWithModalManual = (props) => {
     const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
     delete manualSyncError.latitude;
     let invalidField = false;
-    if (Validation.zipCode(zipCode) !== true && Validation.required(zipCode) !== true && Validation.required(address) !== true) {
+    if (Validation.zipCode(zipCode) !== true || Validation.required(zipCode) !== true || Validation.required(address) !== true) {
       invalidField = true;
     }
     if (errorResult) invalidField = true;
@@ -399,11 +404,13 @@ export const MapsWithModalManual = (props) => {
           </h3>
           <div className="dis-f">
             <ReduxField
+              multiple={false}
               forceToShowError={showError && Validation.required(get(formValue, 'location.name')) !== true}
               ReduxFieldClass="pr-1 w-perc-75"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
+                showIconValidation: false,
               }}
               input={{
                 name: 'location.name',
@@ -426,6 +433,7 @@ export const MapsWithModalManual = (props) => {
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
+                showIconValidation: false,
               }}
               input={{
                 name: 'location.streetNumber',
@@ -439,11 +447,14 @@ export const MapsWithModalManual = (props) => {
 
           <div className="dis-f a-t jc-b">
             <ReduxField
+              multiple={false}
+              showIconValidation={false}
               forceToShowError={showError && (Validation.zipCode(get(formValue, 'location.zip', null)) !== true || Validation.required(get(formValue, 'location.zip', null)) !== true)}
               ReduxFieldClass="w-perc-50 w-perc-sm-40 pr-1"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
+                showIconValidation: false,
               }}
               input={{
                 name: 'location.zip',
@@ -466,10 +477,12 @@ export const MapsWithModalManual = (props) => {
               component={BrixelInputText}
             />
             <ReduxField
+              showIconValidation={false}
               ReduxFieldClass="pl-1 w-perc-50 w-perc-sm-60"
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
+                showIconValidation: false,
               }}
               input={{
                 name: 'location.state',
@@ -481,9 +494,11 @@ export const MapsWithModalManual = (props) => {
             />
           </div>
           <ReduxField
+            showIconValidation={false}
             form={formName}
             design={{
               className: 'mb-2 zIndex1',
+              showIconValidation: false,
             }}
             input={{
               name: 'location.countryCode',
@@ -495,6 +510,11 @@ export const MapsWithModalManual = (props) => {
             component={BrixelSelect}
           />
         </div>
+        {
+          errorResult && (
+            <p className="px-5 txtRed400" dangerouslySetInnerHTML={{ __html: errorResult }} />
+          )
+        }
         <div
           className="footerAction shadow-1dp-top normStep"
         >
@@ -620,6 +640,7 @@ export const MapsWithModalManual = (props) => {
 };
 
 MapsWithModalManual.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   className: PropTypes.string,
   country: PropTypes.arrayOf(PropTypes.object),
@@ -676,6 +697,7 @@ const mapStateToProps = (state, props) => {
   const lat = get(state, 'property.activeSingleProperty.location.latitude', propsLat);
   const lng = get(state, 'property.activeSingleProperty.location.longitude', propsLng);
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     country: get(state, 'common.country', []),
     formName,
     formValue: get(state, `brixelForm[${formName}].values`, {}),
