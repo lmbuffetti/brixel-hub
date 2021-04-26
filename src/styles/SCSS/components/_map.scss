@@ -1,6 +1,8 @@
 .resultAutoComplete {
   box-shadow: $shadow-3dp;
   width: 100%;
+  position: absolute;
+  left: 0;
   padding: $step;
   border-radius: 0 0 $brd-radius-small $brd-radius-small;
   z-index: 5;
@@ -20,7 +22,8 @@
 }
 
 .locationsListMap {
-  margin-left: -118px;
+  margin-left: -100px;
+  margin-top: 16px;
 }
 
 .searchMapCountry {

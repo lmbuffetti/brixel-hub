@@ -59,9 +59,8 @@ const ResumeCard = (props) => {
             <h6 className="mt-1 mb-4 fweight-600 fsize-600"> {formValue.pageTitle || 'Title'}</h6>
             <div className="dis-f jc-b a-c">
               <p className="dis-fl-col">
-
                 <span className="txtDark200 fsize-300">
-                  {get(formValue, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(formValue, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                  {get(formValue, 'location.countryCode', 'CH') === 'PT' ? 'Typology' : 'Rooms'}
                 </span>
                 <span className="ff-mono txtDark700">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', ''))}</span>
               </p>

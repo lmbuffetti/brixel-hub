@@ -207,7 +207,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       inputs: [
         {
-          component: Maps,
+          component: MapsWithModalManual,
           showMap: false,
           name: 'location.latitude',
           type: 'Map',
@@ -228,9 +228,25 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'locationInputResume',
       cardType: 'locationInputResume',
       bgImg: locationSvg,
+      footerWidth: 'max-w-fix-600',
       inputs: [
+        {
+          component: MapsWithModalManual,
+          showMap: true,
+          name: 'location.latitude',
+          type: 'Map',
+          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+          widthBox: '100',
+          mapOptions: {
+            showMap: true,
+            hideSearch: true,
+            showSelectCountry: false,
+            multipleFieldSearch: false,
+            draggable: false,
+          },
+          validation: [Validation.required],
+        },
       ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
     },
     {
       title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,

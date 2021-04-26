@@ -54,28 +54,6 @@ export const QuestionsList = (lang, country = 'CH') => {
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   return [
     {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
-      history: 'createProfile',
-      component: LoginSignup,
-      bgImg: congratsSvg,
-      signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
-      loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
-      cardType: 'createProfile',
-      inputs: [{
-        component: LoginSignup,
-        name: 'profile',
-        validation: [Validation.required],
-      }],
-    },
-    {
-      history: 'savingData',
-      cardType: 'createProfile',
-      toSave: true,
-    },
-    {
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-464',
@@ -221,10 +199,9 @@ export const QuestionsList = (lang, country = 'CH') => {
           },
         },
       ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
     },
     {
-      title: translateTo(lang, 'What is the location?'),
+      title: translateTo(lang, 'Is this your correct location?'),
       history: 'locationInputResume',
       cardType: 'locationInputResume',
       bgImg: locationSvg,
@@ -235,35 +212,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           showMap: true,
           name: 'location.latitude',
           type: 'Map',
-          classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-          classBoxWrapper: 'mt-0',
-          widthBox: '100',
-          mapOptions: {
-            showMap: true,
-            hideSearch: true,
-            showSelectCountry: false,
-            multipleFieldSearch: false,
-            draggable: false,
-          },
-          validation: [Validation.required],
-        },
-      ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
-      successMessage: translateTo(lang, 'That is an interesting location.'),
-    },
-    {
-      title: translateTo(lang, 'Is this your correct location?'),
-      history: 'locationInputResume',
-      cardType: 'locationInputResume',
-      bgImg: locationSvg,
-      inputs: [
-        {
-          component: MapsWithModalManual,
-          showMap: true,
-          name: 'location.latitude',
-          type: 'Map',
-          classNameBox: 'max-w-perc-100',
-          classBoxWrapper: 'mt-0 min-h-fix-312 box-al-top',
+          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
           widthBox: '100',
           mapOptions: {
             showMap: true,
@@ -284,6 +233,27 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'loadComponent',
       component: ResumeCard,
     },
-
+    {
+      conditions: [{
+        name: 'owner',
+        value: null,
+      }],
+      history: 'createProfile',
+      component: LoginSignup,
+      bgImg: congratsSvg,
+      signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
+      loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
+      cardType: 'createProfile',
+      inputs: [{
+        component: LoginSignup,
+        name: 'profile',
+        validation: [Validation.required],
+      }],
+    },
+    {
+      history: 'savingData',
+      cardType: 'createProfile',
+      toSave: true,
+    },
   ];
 };
