@@ -62,7 +62,6 @@ export const QuestionsList = (lang, country = 'CH') => {
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   const countryCode = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', '');
   return [
-    ...BestimateQuestions('getStarted', countryCode),
     {
       title: translateTo(lang, 'What is the estimation for?'),
       history: 'estimationType',
@@ -261,6 +260,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'loadComponent',
       component: ResumeCard,
     },
+    ...BestimateQuestions('getStarted', countryCode),
     {
       conditions: [{
         name: 'owner',

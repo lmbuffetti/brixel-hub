@@ -609,35 +609,39 @@ const GetStartedSeller = (props) => {
               </div>
             </div>
           </div>
-          <div
-            className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
-          >
-            <div className="pos-r">
-              <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
-                {
-                  (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
-                    <BrixelButtonIcon
-                      className="backBtn ml-0 mr-a"
-                      icon="arrow-simple-left"
-                      onClick={() => changeStep('back')}
-                      theme="light"
-                      secondary
-                    />
-                  )
-                }
+          {
+            get(quest, 'history', null) !== 'createProfile' && (
+              <div
+                className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+              >
+                <div className="pos-r">
+                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                    {
+                      (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                        <BrixelButtonIcon
+                          className="backBtn ml-0 mr-a"
+                          icon="arrow-simple-left"
+                          onClick={() => changeStep('back')}
+                          theme="light"
+                          secondary
+                        />
+                      )
+                    }
 
-                <BrixelButtonPrimary
-                  className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
-                  disabled={!checkValidateField()}
-                  rounded
-                  theme="green"
-                  label={buttonLabel()}
-                  rightIcon="arrow-right-small"
-                  onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                />
+                    <BrixelButtonPrimary
+                      className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                      disabled={!checkValidateField()}
+                      rounded
+                      theme="green"
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            )
+          }
         </form>
       </div>
       {/* signup flow */}
