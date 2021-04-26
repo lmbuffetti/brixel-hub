@@ -19,7 +19,7 @@ const ResumeCard = (props) => {
   const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse;
 
   return (
-    <div className="dis-f w-perc-100 pt-10">
+    <div className="dis-f flex-wrap w-perc-100 pt-10">
       <div className="flex-1 max-w-fix-400">
         <h2
           className="fadeAnim mb-5 fweight-600 txtWhite"
