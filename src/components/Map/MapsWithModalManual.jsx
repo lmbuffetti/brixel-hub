@@ -15,7 +15,6 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelInputText,
-  BrixelInputTextWithSelect,
   BrixelSelect,
   ReduxField,
   Validation,
@@ -33,19 +32,18 @@ import { setCountryList } from '../../actions/CommonActions';
 export const MapsWithModalManual = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     changeFieldValue,
     className,
     country,
     curCountry,
     disabled,
-    draggable,
     formName,
     formValue,
     google,
     handleUpdateCountry,
     history,
     init,
-    input,
     latitude,
     longitude,
     minHeight,
@@ -58,7 +56,7 @@ export const MapsWithModalManual = (props) => {
     similarProperties,
     subMinHeight,
     syncErrors,
-    zoom,
+    windowDimensions,
   } = props;
   // STATE
   const [selectedAddress, setSelectedAddress] = useState(false);
@@ -74,79 +72,17 @@ export const MapsWithModalManual = (props) => {
   const [showManualInput, setShowManualInput] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [errorResult, setErrorResult] = useState(null);
-  const [countryOption, setCountryOption] = useState(null);
-
   // REF
   // const inputZipSearch = useRef(null);
   const addressRef = useRef(null);
 
   useEffect(() => {
-    const countryList = [];
-    country.forEach((item) => {
-      countryList.push({
-        label: item.onlyFlag,
-        value: item.value,
-      });
-    });
-    setCountryOption(countryList);
-  }, [country]);
-
-  useEffect(() => {
-    if (!get(formValue, 'location.latitude', 0) && get(history, 'location.pathname', '').includes('locationInputResume')) {
-      if (get(formValue, 'locationsList', []).length > 0) {
-        geoCode(formValue.locationsList[0].description);
-      } else {
-        setShowManualInput(true);
-      }
+    const multiStepForm = document.getElementById('multiStepForm');
+    if (multiStepForm) {
+      if (showManualInput) multiStepForm.classList.add('overlayOpen');
+      else multiStepForm.classList.remove('overlayOpen');
     }
-  }, [get(history, 'location.pathname', null)]);
-
-  // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
-  const changeLocation = (val, hideSearch, type) => {
-    if ((showSearchLocation && inputSearch.current) || hideSearch) {
-      // setNewLocation(val);
-      const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
-      const autocompleteService = new google.maps.places.AutocompleteService();
-      if (!stateToken) setStateToken(sessionToken);
-      let typeSearch = [get(props, 'searchType', 'address')];
-      if (type === 'cities') typeSearch = ['(regions)'];
-      if (type === 'zip') typeSearch = ['(regions)'];
-      if (val.length >= 3) {
-        const searcCountry = selCountry === 'all' ? '' : selCountry;
-        autocompleteService.getPlacePredictions(
-          {
-            input: val,
-            sessionToken,
-            componentRestrictions: { country: searcCountry },
-            types: typeSearch,
-          },
-          (predictions) => {
-            if (predictions) {
-              const defPredition = predictions;
-              if (type === 'zip') {
-                // setZiplist(predictions);
-                setLoclist([]);
-                if (defPredition) {
-                  changeFieldValue(formName, 'locationsList', defPredition);
-                  geoCode(defPredition[0].description);
-                }
-              } else {
-                // setZiplist([]);
-                setLoclist(defPredition);
-                changeFieldValue(formName, 'locationsList', defPredition);
-              }
-            } else {
-              setLoclist([]);
-              changeFieldValue(formName, 'locationsList', []);
-              // setZiplist([]);
-            }
-          },
-        );
-      } else {
-        setLoclist([]);
-      }
-    }
-  };
+  }, [showManualInput]);
 
   // FUNCTION TO EXTRACT DATA FROM SELECTED ADDRESS
   const geoCode = (adr, action) => {
@@ -171,6 +107,7 @@ export const MapsWithModalManual = (props) => {
         formattedPlace.city = get(formattedPlace, 'city', null);
 
         const location = result.results[0];
+
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
           formattedPlace.latitude = location.geometry.location.lat;
@@ -229,12 +166,15 @@ export const MapsWithModalManual = (props) => {
           ...formattedPlace,
           searchAddress: formattedPlace.address,
         };
+
         if (
           get(formValue, 'location.zip', null) && currentLocation.zip !== get(formValue, 'location.zip', null)
         ) {
-          setErrorResult('The zip code is wrong!');
           setLoclist([]);
           setLoadingAddress(false);
+          // eslint-disable-next-line no-use-before-define
+          // changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
+          setErrorResult(false);
         } else {
           changeFieldValue(formName, 'location', currentLocation);
           const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
@@ -255,14 +195,64 @@ export const MapsWithModalManual = (props) => {
         }
         // setZiplist([]);
       })
-      .catch((error) => {
-        console.log(error);
-        changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
+      .catch(() => {
+        // eslint-disable-next-line no-use-before-define
+        changeLocation(get(formValue, 'location.zip', ''), true, 'zip', true);
       });
   };
 
+  // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
+  const changeLocation = (val, hideSearch, type, showError = false) => {
+    if ((showSearchLocation && inputSearch.current) || hideSearch) {
+      // setNewLocation(val);
+      const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
+      const autocompleteService = new google.maps.places.AutocompleteService();
+      if (!stateToken) setStateToken(sessionToken);
+      let typeSearch = [get(props, 'searchType', 'address')];
+      if (type === 'cities') typeSearch = ['(regions)'];
+      if (type === 'zip') typeSearch = ['(regions)'];
+      if (val.length >= 3) {
+        const searcCountry = selCountry === 'all' ? '' : selCountry;
+        autocompleteService.getPlacePredictions(
+          {
+            input: val,
+            sessionToken,
+            componentRestrictions: { country: searcCountry },
+            types: typeSearch,
+          },
+          (predictions) => {
+            if (predictions) {
+              const defPredition = predictions;
+              if (type === 'zip') {
+                // setZiplist(predictions);
+                setLoclist([]);
+                if (defPredition) {
+                  changeFieldValue(formName, 'locationsList', defPredition);
+                  geoCode(defPredition[0].description);
+                }
+              } else {
+                // setZiplist([]);
+                setLoclist(defPredition);
+                changeFieldValue(formName, 'locationsList', defPredition);
+              }
+            } else {
+              setLoclist([]);
+              changeFieldValue(formName, 'locationsList', []);
+              if (showError) {
+                setErrorResult(`We can't find that location please try again or contact our <a href="mailto:${get(activeSingleCompany, 'contact.email', 'support@brixel.io')}">support team</a>`);
+              }
+              setLoadingAddress(false);
+              // setZiplist([]);
+            }
+          },
+        );
+      } else {
+        setLoclist([]);
+      }
+    }
+  };
+
   const saveCurrentLocation = () => {
-    console.log(syncErrors);
     const address = get(formValue, 'location.name', '');
     const zipCode = get(formValue, 'location.zip', '');
     const city = get(formValue, 'location.city', '');
@@ -273,12 +263,12 @@ export const MapsWithModalManual = (props) => {
     const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
     delete manualSyncError.latitude;
     let invalidField = false;
-    Object.keys(manualSyncError).forEach((key) => {
-      if (manualSyncError[key] !== true && manualSyncError[key] !== null) invalidField = true;
-    });
-
-    if (invalidField) setShowError(true);
-    else {
+    if (Validation.required(zipCode) !== true || Validation.required(address) !== true) {
+      invalidField = true;
+    }
+    if (invalidField) {
+      setShowError(true);
+    } else {
       setShowError(false);
       geoCode(searchAddr);
       setLoadingAddress(true);
@@ -295,7 +285,10 @@ export const MapsWithModalManual = (props) => {
       if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
       changeLocation(fullAddress, true, 'address');
     }
-    if (isEmpty(addressSearch) && !selectedAddress) {
+    if (!selectedAddress) {
+      changeFieldValue(formName, 'location.name', addressSearch);
+    }
+    if (isEmpty(addressSearch)) {
       changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude });
     }
   }, [get(formValue, 'location.searchAddress', null)]);
@@ -327,9 +320,10 @@ export const MapsWithModalManual = (props) => {
     const content = container.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     let start = -1;
     let end = 0;
+    const stringToSplit = get(formValue, 'location.searchAddress', '');
     content.split('').forEach((val, i) => {
-      if (val === newLocation.charAt(i)) end = i;
-      if (start === -1 && val === newLocation.charAt(i).toLowerCase()) start = i;
+      if (val === stringToSplit.charAt(i)) end = i;
+      if (start === -1 && val === stringToSplit.charAt(i).toLowerCase()) start = i;
     });
     return `<span>${container.substring(0, start)}</span><span class='highlight'>${container.substring(start, end + 1)}</span><span>${container.substring(end + 1, content.length)}</span>`;
   };
@@ -339,7 +333,8 @@ export const MapsWithModalManual = (props) => {
   useOutsideAlerter(addressRef, { action: 'function', func: () => setLoclist([]) });
 
   const classNameDef = !className && showMap ? 'w-perc-100 dis-fl-col' : className;
-  const mapSize = !className && showMap ? 'h-fix-320' : 'h-perc-100';
+  const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-320' : 'h-fix-240';
+  const mapSize = !className && showMap ? mapWindowSize : 'h-perc-100';
 
   // FUNCTION TO MANAGE KEY-CHANGE
   const keyUpInput = (e) => {
@@ -354,11 +349,20 @@ export const MapsWithModalManual = (props) => {
       e.preventDefault();
       setSelLocAuto(newId);
     }
-    console.log(e.key === 'Enter', newId, get(locList, `[${newId}].description`, null));
     if (e.key === 'Enter' && get(locList, `[${newId}].description`, null)) {
       geoCode(locList[newId].description, 'submit');
     }
   };
+
+  useEffect(() => {
+    if (!get(formValue, 'location.latitude', 0) && get(history, 'location.pathname', '').includes('locationInputResume')) {
+      if (get(formValue, 'locationsList', []).length > 0) {
+        geoCode(formValue.locationsList[0].description);
+      } else {
+        setShowManualInput(true);
+      }
+    }
+  }, [get(history, 'location.pathname', null)]);
 
   // ADD MESSAGE THAT THE ADDRESS IS NOT EDITABLE
   useEffect(() => {
@@ -377,14 +381,8 @@ export const MapsWithModalManual = (props) => {
     if (dropdownEl) dropdownEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [locList.length]);
 
-  const enableButtonManualInsert = () => {
-    const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
-    delete manualSyncError.latitude;
-    const invalidField = false;
-    Object.keys(manualSyncError).forEach((key) => {
-      // if (manualSyncError[key] !== true && manualSyncError[key] !== null) invalidField = true;
-    });
-    return invalidField;
+  const closeModal = () => {
+    setShowManualInput(false);
   };
 
   return (
@@ -398,124 +396,137 @@ export const MapsWithModalManual = (props) => {
           ghost
           icon="close-small"
           theme="dark"
-          onClick={() => setShowManualInput(false)}
+          onClick={() => closeModal()}
         />
-        <div className="p-5">
+        <div className="max-w-fix-480 m-a">
           <h3 className="mt-3 mb-5 w-perc-100">
             Please edit your address manually.
           </h3>
-          <div className="dis-f">
-            <ReduxField
-              forceToShowError={showError && get(syncErrors, 'location.name', true) !== true}
-              ReduxFieldClass="pr-1 w-perc-75"
-              form={formName}
-              design={{
-                className: 'mb-2 zIndex1',
-              }}
-              input={{
-                name: 'location.name',
-                placeholder: 'Street',
-                validate: [Validation.required],
-              }}
-              labels={{
-                label: 'Street name',
-              }}
-              meta={{
-                invalid: true,
-                dirty: true,
-                message: 'Invalid',
-              }}
-              component={BrixelInputText}
-            />
-            <ReduxField
-              ReduxFieldClass="pl-1 w-perc-25"
-              form={formName}
-              design={{
-                className: 'mb-2 zIndex1',
-              }}
-              input={{
-                name: 'location.streetNumber',
-                placeholder: 'number',
-              }}
-              labels={{
-                label: 'Number',
-              }}
-              component={BrixelInputText}
-            />
-          </div>
+          <div className="px-2 px-sm-0">
+            <div className="dis-f editLocation">
+              <ReduxField
+                multiple={false}
+                forceToShowError={showError && Validation.required(get(formValue, 'location.name')) !== true}
+                ReduxFieldClass="pr-1 w-perc-75"
+                form={formName}
+                design={{
+                  className: 'mb-2 zIndex1',
+                  showIconValidation: false,
+                }}
+                input={{
+                  name: 'location.name',
+                  validate: [Validation.required],
+                }}
+                labels={{
+                  label: 'Street name',
+                }}
+                meta={{
+                  invalid: true,
+                  dirty: true,
+                  message: {
+                    error: 'Please insert a valid address',
+                  },
+                }}
+                component={BrixelInputText}
+              />
+              <ReduxField
+                ReduxFieldClass="pl-1 w-perc-25"
+                form={formName}
+                design={{
+                  className: 'mb-2 zIndex1',
+                  showIconValidation: false,
+                }}
+                input={{
+                  name: 'location.streetNumber',
+                }}
+                labels={{
+                  label: windowDimensions.width < 590 ? 'Nr.' : 'Number',
+                }}
+                component={BrixelInputText}
+              />
+            </div>
 
-          <div className="dis-f a-t jc-b">
+            <div className="dis-f a-t jc-b">
+              <ReduxField
+                multiple={false}
+                showIconValidation={false}
+                forceToShowError={showError && (Validation.required(get(formValue, 'location.zip', null)) !== true)}
+                ReduxFieldClass="w-perc-50 w-perc-sm-40 pr-1"
+                form={formName}
+                design={{
+                  className: 'mb-2 zIndex1',
+                  showIconValidation: false,
+                }}
+                input={{
+                  name: 'location.zip',
+                  validate: [Validation.zipCode, Validation.required],
+                }}
+                inputFormat={{
+                  formatType: `zipCode-${get(formValue, 'location.countryCode', null)}`,
+                  country: get(formValue, 'location.countryCode', null),
+                }}
+                meta={{
+                  invalid: true,
+                  dirty: true,
+                  message: {
+                    error: 'Please insert a valid zip code',
+                  },
+                }}
+                labels={{
+                  label: 'Zip code',
+                }}
+                component={BrixelInputText}
+              />
+              <ReduxField
+                showIconValidation={false}
+                ReduxFieldClass="pl-1 w-perc-50 w-perc-sm-60"
+                form={formName}
+                design={{
+                  className: 'mb-2 zIndex1',
+                  showIconValidation: false,
+                }}
+                input={{
+                  name: 'location.state',
+                }}
+                labels={{
+                  label: 'City',
+                }}
+                component={BrixelInputText}
+              />
+            </div>
             <ReduxField
-              forceToShowError={showError && get(syncErrors, 'location.zip', true) !== true}
-              ReduxFieldClass="w-perc-40 pr-1"
+              showIconValidation={false}
               form={formName}
               design={{
                 className: 'mb-2 zIndex1',
+                showIconValidation: false,
               }}
               input={{
-                name: 'location.zip',
-                placeholder: 'Zip code',
-                validate: [Validation.zipCode, Validation.required],
-              }}
-              inputFormat={{
-                formatType: `zipCode-${get(formValue, 'location.countryCode', null)}`,
-                country: get(formValue, 'location.countryCode', null),
-              }}
-              meta={{
-                invalid: true,
-                dirty: true,
+                name: 'location.countryCode',
+                options: country,
               }}
               labels={{
-                label: 'Zip code',
+                label: 'Country',
               }}
-              component={BrixelInputText}
-            />
-            <ReduxField
-              ReduxFieldClass="pl-1 w-perc-60"
-              form={formName}
-              design={{
-                className: 'mb-2 zIndex1',
-              }}
-              input={{
-                name: 'location.state',
-                placeholder: 'City',
-              }}
-              labels={{
-                label: 'City',
-              }}
-              component={BrixelInputText}
+              component={BrixelSelect}
             />
           </div>
-          <ReduxField
-            form={formName}
-            design={{
-              className: 'mb-2 zIndex1',
-            }}
-            input={{
-              name: 'location.countryCode',
-              options: country,
-            }}
-            labels={{
-              label: 'Country',
-            }}
-            component={BrixelSelect}
-          />
-          {
-            errorResult && (
-              <p>{errorResult}</p>
-            )
-          }
         </div>
+        {
+          errorResult && (
+            <p className="px-5 txtRed400" dangerouslySetInnerHTML={{ __html: errorResult }} />
+          )
+        }
         <div
           className="footerAction shadow-1dp-top normStep"
         >
           <div className="pos-r p-1 p-lg-2">
-            <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-fe">
+            <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-b jc-fe-sm">
               <BrixelButtonSecondary
                 rounded
                 className="mr-3"
                 label="Cancel"
-                onClick={() => setShowManualInput(false)}
+                onClick={() => closeModal()}
               />
               <BrixelButtonPrimary
                 rounded
@@ -529,7 +540,7 @@ export const MapsWithModalManual = (props) => {
       </div>
       <div
         style={showMap ? {
-          minHeight: minHeight > 0 ? `${minHeight}px` : '300px', position: 'relative',
+          minHeight: minHeight > 0 ? `${minHeight}px` : '', position: 'relative',
         } : {
           minHeight: '100%', position: 'relative',
         }}
@@ -541,23 +552,18 @@ export const MapsWithModalManual = (props) => {
             <div className="fieldMapSearch mb-1">
               <div className="dis-f jc-b flex-wrap">
                 <div className="w-perc-100 pos-r">
-                  <BrixelInputTextWithSelect
+                  <BrixelInputText
                     className="search-box"
                     type="text"
                     ref={inputSearch}
                     label="Address"
                     disabled={disabled}
                     placeholder="Write street name"
-                    optionSelect={countryOption}
                     input={{
-                      onChange: (e, name) => {
-                        (disabled ? '' : changeFieldValue(formName, name || 'location.searchAddress', e));
-                      },
+                      onChange: (e, name) => (disabled ? '' : changeFieldValue(formName, name || 'location.searchAddress', e)),
                       onBlur: () => '',
                       onFocus: () => (disabled ? '' : setSelectedAddress(false)),
                       value: get(formValue, 'location.searchAddress', '') || '',
-                      valueSelect: get(formValue, 'location.countryCode', '') || '',
-                      optionName: 'location.countryCode',
                       name: 'location.searchAddress',
                     }}
                     onKeyDown={(e) => (disabled ? '' : keyUpInput(e))}
@@ -573,7 +579,7 @@ export const MapsWithModalManual = (props) => {
                               className={i === selLocAuto ? 'active' : ''}
                               tabIndex={i}
                               key={i.toString()}
-                              onClick={() => geoCode(loc.description)}
+                              onClick={() => geoCode(loc.description, 'submit')}
                               dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
                             />
                           ))
@@ -613,19 +619,20 @@ export const MapsWithModalManual = (props) => {
       </div>
       {
         get(history, 'location.pathname', '').includes('locationInputResume') && (
-          <div className="dis-f jc-b a-c mt-2">
-            <div>
+          <div className="dis-f jc-b a-c mt-2 px-2 px-sm-0">
+            <div className="fweight-500 txtDark700 pr-1 pr-sm-0">
               <span>{get(formValue, 'location.name', '')}</span>
               {
                 get(formValue, 'location.streetNumber', null) && (
-                  <span className="ml-1">{get(formValue, 'location.streetNumber', '')}</span>
+                  <span className="ml-1 dis-ib">{get(formValue, 'location.streetNumber', '')}</span>
                 )
               }
-              <span>, {get(formValue, 'location.cityZip', '')}</span>
+              <span className="fweight-400 txtDark200 fsize-200 dis-b">{get(formValue, 'location.cityZip', '')}</span>
             </div>
             <BrixelButtonSecondary
               label="Edit"
               rounded
+              small={windowDimensions.width < 590}
               onClick={() => setShowManualInput(true)}
             />
           </div>
@@ -636,6 +643,7 @@ export const MapsWithModalManual = (props) => {
 };
 
 MapsWithModalManual.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   className: PropTypes.string,
   country: PropTypes.arrayOf(PropTypes.object),
@@ -661,6 +669,7 @@ MapsWithModalManual.propTypes = {
   similarProperties: PropTypes.arrayOf(PropTypes.object),
   subMinHeight: PropTypes.string,
   syncErrors: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
   zoom: PropTypes.number,
 };
 
@@ -691,6 +700,7 @@ const mapStateToProps = (state, props) => {
   const lat = get(state, 'property.activeSingleProperty.location.latitude', propsLat);
   const lng = get(state, 'property.activeSingleProperty.location.longitude', propsLng);
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     country: get(state, 'common.country', []),
     formName,
     formValue: get(state, `brixelForm[${formName}].values`, {}),
@@ -700,6 +710,7 @@ const mapStateToProps = (state, props) => {
     longitude: get(state, `brixelForm.[${formName}].values.location.longitude`, lng),
     property: get(state, `brixelForm[${formName}].values`, {}),
     syncErrors: get(state, `brixelForm[${formName}].syncErrors`, {}),
+    windowDimensions: get(state, 'common.windowDimensions', {}),
   });
 };
 

@@ -2,11 +2,9 @@ import {
   BrixelRadioButton,
   BrixelInputStepNumber,
   BrixelInputText,
-  BrixelSelect,
   Validation,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import Maps from '../components/Map/Maps';
 import MapsWithModalManual from '../components/Map/MapsWithModalManual';
 import LoginSignup from '../components/LoginSignup';
 import ResumeCard from '../components/ResumeCard';
@@ -48,10 +46,8 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 // QUESTION LISTS
 export const QuestionsList = (lang, country = 'CH') => {
-  let countryList = [];
   let propertyType = '';
   if (configureStore) {
-    countryList = get(configureStore.getState(), 'common.country', []);
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
   let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
@@ -230,6 +226,32 @@ export const QuestionsList = (lang, country = 'CH') => {
         },
       ],
       successMessage: translateTo(lang, 'That is an interesting location.'),
+      successMessage: translateTo(lang, 'That is an interesting location.'),
+    },
+    {
+      title: translateTo(lang, 'Is this your correct location?'),
+      history: 'locationInputResume',
+      cardType: 'locationInputResume',
+      bgImg: locationSvg,
+      inputs: [
+        {
+          component: MapsWithModalManual,
+          showMap: true,
+          name: 'location.latitude',
+          type: 'Map',
+          classNameBox: 'max-w-perc-100',
+          classBoxWrapper: 'mt-0 min-h-fix-312 box-al-top',
+          widthBox: '100',
+          mapOptions: {
+            showMap: true,
+            hideSearch: true,
+            showSelectCountry: false,
+            multipleFieldSearch: false,
+            draggable: false,
+          },
+          validation: [Validation.required],
+        },
+      ],
     },
     {
       title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,

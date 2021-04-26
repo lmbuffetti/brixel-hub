@@ -2,12 +2,10 @@ import {
   BrixelRadioButton,
   BrixelInputStepNumber,
   BrixelInputText,
-  BrixelSelect,
   Validation,
   FactsOptions,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import Maps from '../components/Map/Maps';
 import LoginSignup from '../components/LoginSignup';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
@@ -25,6 +23,7 @@ import congratsSvg from '../images/getstarted/svgs/congrats.svg';
 import yearSvg from '../images/getstarted/svgs/year.svg';
 import userType from '../images/getstarted/svgs/userType.svg';
 import { BestimateQuestions } from './Bestimate';
+import MapsWithModalManual from '../components/Map/MapsWithModalManual';
 
 const { factsOptions } = FactsOptions;
 
@@ -52,17 +51,14 @@ const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 // QUESTION LISTS
 export const QuestionsList = (lang, country = 'CH') => {
-  let countryList = [];
   let propertyType = '';
   if (configureStore) {
-    countryList = get(configureStore.getState(), 'common.country', []);
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
   let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   const countryCode = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', '');
   return [
-    ...BestimateQuestions('getStarted', countryCode),
     {
       title: translateTo(lang, 'What is the estimation for?'),
       history: 'estimationType',
@@ -211,16 +207,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       inputs: [
         {
-          className: 'pos-r zIndex6 compact',
-          classBoxWrapper: 'w-fix-80 searchMapCountry',
-          component: BrixelSelect,
-          label: 'Country',
-          labelType: 'onlyFlag',
-          name: 'location.countryCode',
-          options: countryList,
-          validation: [Validation.required],
-        },
-        {
           component: Maps,
           showMap: false,
           name: 'location.latitude',
@@ -234,23 +220,15 @@ export const QuestionsList = (lang, country = 'CH') => {
             draggable: true,
           },
         },
-        {
-          component: Maps,
-          showMap: true,
-          name: 'location.latitude',
-          type: 'Map',
-          classNameBox: 'classNameBox w-perc-100',
-          classBoxWrapper: 'classBoxWrapper mt-0',
-          widthBox: '100',
-          mapOptions: {
-            showMap: true,
-            hideSearch: true,
-            showSelectCountry: false,
-            multipleFieldSearch: false,
-            draggable: false,
-          },
-          validation: [Validation.required],
-        },
+      ],
+      successMessage: translateTo(lang, 'That is an interesting location.'),
+    },
+    {
+      title: translateTo(lang, 'Is this your correct location?'),
+      history: 'locationInputResume',
+      cardType: 'locationInputResume',
+      bgImg: locationSvg,
+      inputs: [
       ],
       successMessage: translateTo(lang, 'That is an interesting location.'),
     },
@@ -261,6 +239,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'loadComponent',
       component: ResumeCard,
     },
+    ...BestimateQuestions('getStarted', countryCode),
     {
       conditions: [{
         name: 'owner',
