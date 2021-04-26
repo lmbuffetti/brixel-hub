@@ -14,7 +14,6 @@ import { bindActionCreators, compose } from 'redux';
 import { BrixelInputText, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import isEmpty from 'lodash/isEmpty';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';

@@ -350,16 +350,6 @@ const GetStartedSeller = (props) => {
     }
   }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
 
-  // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
-  /* useEffect(() => {
-    let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
-    let bgSize = 500
-    bgSize = bgSize / roomValue;
-
-    setRoomValue(bgSize+ 'vw');
-
-  }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
-
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
@@ -432,7 +422,10 @@ const GetStartedSeller = (props) => {
         if (noEmpty !== 'ayc') isNotEmpty = true;
         if (input.condition) {
           input.condition.forEach((item) => {
-            if (get(formValue, item.name, null) === item.value) {
+            if (item.value && get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
               if (err !== true && err !== false && isValid) isValid = false;
             }
           });

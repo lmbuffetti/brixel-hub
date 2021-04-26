@@ -1,7 +1,5 @@
 .resultAutoComplete {
   box-shadow: $shadow-3dp;
-  position: absolute;
-  left: 0;
   width: 100%;
   padding: $step;
   border-radius: 0 0 $brd-radius-small $brd-radius-small;
@@ -21,19 +19,16 @@
   }
 }
 
-.multiField {
-  .fieldMapSearch {
-    flex: 0 0 106px;
-    height: 106px;
-  }
-}
-
 .locationsListMap {
   margin-left: -118px;
 }
 
 .searchMapCountry {
   width: 85px;
+  @media (max-width: $responsive-small) {
+    width: 115px;
+  }
+
   .dropdown .selElement .title {
     text-overflow: clip;
   }
