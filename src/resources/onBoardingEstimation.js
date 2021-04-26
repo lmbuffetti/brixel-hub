@@ -62,6 +62,7 @@ export const QuestionsList = (lang, country = 'CH') => {
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   const countryCode = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', '');
   return [
+    ...BestimateQuestions('getStarted', countryCode),
     {
       title: translateTo(lang, 'What is the estimation for?'),
       history: 'estimationType',
@@ -125,7 +126,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [
         {
           component: BrixelInputStepNumber,
-          classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius py-6 px-5 m-a',
+          classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius px-2 px-sm-5 py-5 m-a',
           label: '',
           name: 'properties.typology.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
@@ -153,7 +154,7 @@ export const QuestionsList = (lang, country = 'CH') => {
             noValue: 'Commercial',
           }],
           component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-600 py-5 px-6 m-a fieldHolder bgWhite',
+          classNameBox: 'brdRadius max-w-fix-600 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
           label: country === 'PT' ? 'Gross area' : 'Net living space',
           name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
           type: 'number',
@@ -168,7 +169,7 @@ export const QuestionsList = (lang, country = 'CH') => {
             value: 'Commercial',
           }],
           component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-600 py-5 px-6 m-a fieldHolder bgWhite',
+          classNameBox: 'brdRadius max-w-fix-600 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
           label: 'Floor space',
           name: 'properties.typology.floorSpace.value',
           type: 'number',
@@ -207,12 +208,11 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'locationInput',
       bgImg: locationSvg,
       footerWidth: 'max-w-fix-600',
-      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a px-5 py-6',
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       inputs: [
         {
           className: 'pos-r zIndex6 compact',
-          classNameBox: 'max-w-perc-100 pos-r',
-          classBoxWrapper: 'mt-0 searchMapCountry',
+          classBoxWrapper: 'w-fix-80 searchMapCountry',
           component: BrixelSelect,
           label: 'Country',
           labelType: 'onlyFlag',
@@ -225,8 +225,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           showMap: false,
           name: 'location.latitude',
           type: 'Map',
-          classNameBox: 'max-w-perc-100 pl-2',
-          classBoxWrapper: 'mt-0 searchMapFields',
+          classBoxWrapper: 'w-perc-100 flex-1 pl-2 searchMapFields',
           mapOptions: {
             showMap: false,
             hideSearch: false,
@@ -240,8 +239,8 @@ export const QuestionsList = (lang, country = 'CH') => {
           showMap: true,
           name: 'location.latitude',
           type: 'Map',
-          classNameBox: 'max-w-perc-100',
-          classBoxWrapper: 'mt-0',
+          classNameBox: 'classNameBox w-perc-100',
+          classBoxWrapper: 'classBoxWrapper mt-0',
           widthBox: '100',
           mapOptions: {
             showMap: true,
@@ -262,7 +261,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'loadComponent',
       component: ResumeCard,
     },
-    ...BestimateQuestions('getStarted', countryCode),
     {
       conditions: [{
         name: 'owner',

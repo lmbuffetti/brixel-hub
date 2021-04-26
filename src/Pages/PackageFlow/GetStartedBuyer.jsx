@@ -485,7 +485,7 @@ const GetStartedBuyer = (props) => {
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && (
-                    <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
+                    <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
@@ -568,7 +568,7 @@ const GetStartedBuyer = (props) => {
             </div>
           </div>
           <div
-            className={`footerAction ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+            className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="pos-r">
               <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">

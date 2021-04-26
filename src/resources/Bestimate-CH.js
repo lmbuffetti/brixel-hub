@@ -18,7 +18,8 @@ export const BestimateCH = (type = null) => {
       extraInfo: 'We need some extra information about your property.',
       history: 'step1',
       cardType: 'step1',
-      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius py-5 px-6' : '',
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
+      footerWidth: 'max-w-fix-600',
       bgImg: homesSvg,
       inputs: [
         {
@@ -58,7 +59,8 @@ export const BestimateCH = (type = null) => {
       history: 'step3',
       cardType: 'step3',
       bgImg: homesSvg,
-      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius py-5 px-6' : '',
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelExtraFeature,

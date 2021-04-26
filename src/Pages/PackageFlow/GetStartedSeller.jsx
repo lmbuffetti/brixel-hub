@@ -553,7 +553,7 @@ const GetStartedSeller = (props) => {
                         onCloseGoBack={() => changeStep('back')}
                         onClickDisabled={!checkValidateField()}
                         onSubmit={() => changeStep()}
-                        showSendButton
+                        showSendButton={quest.showSendButton}
                         disableDelay
                       />
                     </div>

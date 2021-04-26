@@ -349,6 +349,7 @@ export const MapsCities = (props) => {
                     <BrixelIcon
                       className="fSizePx12 ml-2"
                       icon="close-small"
+                      color="white"
                       onClick={() => deleteLocation(loc)}
                     />
                   </div>

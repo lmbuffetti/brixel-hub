@@ -58,6 +58,7 @@ export const QuestionsList = (lang) => {
       history: 'propertyType',
       vCentered: true,
       bgImg: homesSvg,
+      footerWidth: 'max-w-fix-464',
       inputs: [
         {
           component: BrixelCheckbox,
@@ -95,6 +96,7 @@ export const QuestionsList = (lang) => {
       vCentered: true,
       bgImg: roomsSvg,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a px-5 py-6',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelInputMultiRange,
@@ -129,6 +131,7 @@ export const QuestionsList = (lang) => {
       vCentered: true,
       bgImg: roomsSvg,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-800 m-a px-5 py-6',
+      footerWidth: 'max-w-fix-800',
       inputs: [
         {
           className: 'extraFeature',
@@ -145,13 +148,12 @@ export const QuestionsList = (lang) => {
       history: 'locationInput',
       cardType: 'locationInput',
       bgImg: locationSvg,
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
-      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a',
       inputs: [
         {
           className: 'pos-r zIndex6 compact',
-          classNameBox: 'max-w-perc-100 pos-r',
-          classBoxWrapper: 'mt-0 searchMapCountry',
+          classBoxWrapper: 'w-fix-80 searchMapCountry',
           component: BrixelSelect,
           label: 'Country',
           labelType: 'onlyFlag',
@@ -161,7 +163,7 @@ export const QuestionsList = (lang) => {
         },
         {
           component: MapsCities,
-          classBoxWrapper: 'mt-0 searchMapFields',
+          classBoxWrapper: 'w-perc-100 flex-1 pl-2 searchMapFields',
           showMap: false,
           name: 'locations[0].latitude',
           classNameBox: 'max-w-perc-100 pl-2',
@@ -183,9 +185,12 @@ export const QuestionsList = (lang) => {
       history: 'price',
       cardType: 'Price',
       bgImg: congratsSvg,
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelInputText,
+          classNameBox: 'brdRadius max-w-fix-600 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
           className: '',
           label: `Max. selling price in ${get(formValue, 'finance.currency', 'CHF')}`,
           placeholder: get(formValue, 'finance.currency', 'CHF') === 'CHF' ? '800’000' : '800.000',
@@ -201,7 +206,8 @@ export const QuestionsList = (lang) => {
       history: 'familySituation',
       cardType: 'FamilySituation',
       bgImg: congratsSvg,
-      className: 'mb-2',
+      className: 'fieldHolder max-w-fix-480 m-a',
+      footerWidth: 'max-w-fix-480',
       inputs: [
         {
           component: BrixelRadioButton,
@@ -220,6 +226,8 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'How is your knowledge about buying a property?'),
       history: 'knowledge',
       cardType: 'Knowledge',
+      className: 'fieldHolder max-w-fix-480 m-a',
+      footerWidth: 'max-w-fix-480',
       bgImg: congratsSvg,
       inputs: [
         {
@@ -238,6 +246,8 @@ export const QuestionsList = (lang) => {
       history: 'livingSituation',
       cardType: 'LivingSituation',
       bgImg: congratsSvg,
+      className: 'fieldHolder max-w-fix-480 m-a',
+      footerWidth: 'max-w-fix-480',
       inputs: [
         {
           component: BrixelRadioButton,

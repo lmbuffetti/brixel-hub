@@ -579,7 +579,7 @@ const GetStartedEstimation = (props) => {
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && (
-                    <div id={`step-${currentIndex}`} className={`dis-f flex-wrap test ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
+                    <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>

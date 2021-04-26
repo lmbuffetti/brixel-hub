@@ -110,9 +110,9 @@ function PageHeader(props) {
   // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
   useEffect(() => {
     if (history.location.pathname.includes('/resume')) {
-      document.body.classList.add('flowBody');
       document.body.classList.add('flowResume');
     } else {
+      document.body.classList.remove('flowResume');
       document.body.classList.add('flowBody');
     }
   }, [history.location.pathname]);

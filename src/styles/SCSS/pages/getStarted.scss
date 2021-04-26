@@ -105,6 +105,8 @@
             @media (max-width: $responsive-medium) {
              padding-top: 40px;
              padding-bottom: 40px;
+             padding-left: 0;
+             padding-right: 0;
             }
             .subcontainer {
               max-width: inherit;
