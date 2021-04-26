@@ -320,9 +320,10 @@ export const MapsWithModalManual = (props) => {
     const content = container.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     let start = -1;
     let end = 0;
+    const stringToSplit = get(formValue, 'location.searchAddress', '');
     content.split('').forEach((val, i) => {
-      if (val === newLocation.charAt(i)) end = i;
-      if (start === -1 && val === newLocation.charAt(i).toLowerCase()) start = i;
+      if (val === stringToSplit.charAt(i)) end = i;
+      if (start === -1 && val === stringToSplit.charAt(i).toLowerCase()) start = i;
     });
     return `<span>${container.substring(0, start)}</span><span class='highlight'>${container.substring(start, end + 1)}</span><span>${container.substring(end + 1, content.length)}</span>`;
   };
@@ -578,7 +579,7 @@ export const MapsWithModalManual = (props) => {
                               className={i === selLocAuto ? 'active' : ''}
                               tabIndex={i}
                               key={i.toString()}
-                              onClick={() => geoCode(loc.description)}
+                              onClick={() => geoCode(loc.description, 'submit')}
                               dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
                             />
                           ))
