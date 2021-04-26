@@ -142,8 +142,49 @@
         }
       }
 
-      .footerAction {
+      .signUpScreen {
 
+        .onBoardingSignUp {
+
+          .topBar {
+            border-top-left-radius: $step;
+            border-top-right-radius: $step;
+          }
+          .innerBox {
+            border-bottom-left-radius: $step;
+            border-bottom-right-radius: $step;
+
+          }
+
+          label.brixel-label {
+
+            margin-bottom: $step;
+          }
+          .brixel-checkbox {
+            padding: $step;
+            margin-bottom: 8px;
+          }
+          .policyText {
+            a {
+              text-decoration: underline;
+            }
+          }
+          .link {
+            @include fontStyle(300);
+            &:visited,
+            &:active,
+            &:hover {
+              color: $brx-white;
+            }
+          }
+          .stengthPassword {
+            .passContent > p {
+              color: $brx-white;
+            }
+          }
+        }
+        .footerActionLogin {
+        }
       }
 
       .footerAction {
@@ -156,39 +197,6 @@
         }
 
         position: relative;
-        //overflow: hidden;
-
-        /* @media screen and (-webkit-min-device-pixel-ratio:0)
-          and (min-resolution:.001dpcm) {
-          }
-        padding-bottom: 6px;
-
-        @media (min-width: $responsive-small) {
-          @media screen and (-webkit-min-device-pixel-ratio:0)
-            and (min-resolution:.001dpcm) {
-            padding-bottom: 12px;
-          }
-        } */
-        /* > div {
-          position: relative;
-          overflow: hidden;
-          border-bottom-left-radius: $brd-radius-small;
-          border-bottom-right-radius: $brd-radius-small;
-          z-index: 1;
-
-          &::before {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            content: '';
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transform: translateX(-100%);
-            background-color: map_get($primaryColor, 700);
-            transition: background-color, opacity, transform $default-time-long $default-easing;
-          }
-        } */
 
         &.successNext {
           /* > div::before {
@@ -253,68 +261,6 @@
     &.slide-enter-down {
       bottom: 0;
       opacity: 1;
-    }
-
-    .bodyScrollUp {
-      padding-top: $step * 8;
-      height: 100%;
-      min-height: 440px;
-
-      @media (max-width: $responsive-medium) {
-        padding-top: $step * 4;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .onBoardingSignUp {
-        margin-bottom: $step * 5;
-
-        @media (max-width: $responsive-medium) {
-          padding-left: $step;
-          padding-right: $step;
-          margin-bottom: $step * 2;
-        }
-
-        label.brixel-label {
-          color: $brx-white;
-          margin-bottom: $step;
-        }
-        .brixel-checkbox {
-          padding: $step;
-          background: rgba(map_get($darkColor, 700), 0.5);
-          border-radius: $brd-radius-small;
-          margin-bottom: 8px;
-        }
-        .policyText {
-          color: $brx-white;
-          a {
-            color: $brx-white;
-            text-decoration: underline;
-          }
-        }
-        .link {
-          @include fontStyle(300);
-          &:visited,
-          &:active,
-          &:hover {
-            color: $brx-white;
-          }
-        }
-        .stengthPassword {
-          .passContent > p {
-            color: $brx-white;
-          }
-        }
-      }
-      .footerActionLogin {
-        background: map_get($primaryColor, 700);
-        border-top: 1px solid rgba($brx-white, 0.2);
-
-        @media (max-width: $responsive-medium) {
-          margin-top: auto;
-          margin-bottom: 0;
-        }
-      }
     }
   }
 }

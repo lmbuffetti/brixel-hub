@@ -156,113 +156,115 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className="flowHeader container">
-        <div className={`dis-f a-c dis-f a-c  jc-b pos-r jc-b pos-r py-5 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
-          <div className="dis-f jc-c a-c">
-            <img
-              className={`logo dis-b ${widthScreen <= 600 ? 'w-fix-32 mr-2' : 'w-fix-88'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
-              src={`${widthScreen <= 600 ? logoColorIcon : logoColor}`}
-              alt="Brixel Logo"
-              id="header-logo"
-            />
-            {/* {
-              supportPhone && (
-                <div className="support dis-f a-c ml-2 ml-sm-4 notranslate">
-                  <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${Helpers.telephoneFormat(supportPhone)}`}>
-                    <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
-                    <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>
-                  </a>
-                </div>
-              )
-            } */}
-          </div>
-          <div className="dis-f a-c">
-            {
-              !history.location.pathname.includes('packageFlow') &&
-              !history.location.pathname.includes('onBoarding') && (
-                <>
-                  {
-                    userAwards >= 0 && (
-                      <div className={`cur-poi ${userAwards >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('awards')}>
-                        <img src={awards} alt="icon awards" className="mr-1" />
-                        <span className="ff-mono txtGreen600">{userAwards}</span>
-                      </div>
-                    )
-                  }
+      <header className="flowHeader">
+        <div className="container">
+          <div className={`dis-f a-c dis-f a-c  jc-b pos-r jc-b pos-r py-5 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+            <div className="dis-f jc-c a-c">
+              <img
+                className={`logo dis-b ${widthScreen <= 600 ? 'w-fix-32 mr-2' : 'w-fix-88'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+                src={`${widthScreen <= 600 ? logoColorIcon : logoColor}`}
+                alt="Brixel Logo"
+                id="header-logo"
+              />
+              {/* {
+                supportPhone && (
+                  <div className="support dis-f a-c ml-2 ml-sm-4 notranslate">
+                    <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${Helpers.telephoneFormat(supportPhone)}`}>
+                      <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
+                      <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>
+                    </a>
+                  </div>
+                )
+              } */}
+            </div>
+            <div className="dis-f a-c">
+              {
+                !history.location.pathname.includes('packageFlow') &&
+                !history.location.pathname.includes('onBoarding') && (
+                  <>
+                    {
+                      userAwards >= 0 && (
+                        <div className={`cur-poi ${userAwards >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('awards')}>
+                          <img src={awards} alt="icon awards" className="mr-1" />
+                          <span className="ff-mono txtGreen600">{userAwards}</span>
+                        </div>
+                      )
+                    }
 
-                  {
-                    brixelPoints >= 0 && (
-                      <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
-                        <img src={brixels} alt="icon awards" className="mr-1" />
-                        <span className="ff-mono txtRed600">{brixelPoints}</span>
-                      </div>
-                    )
-                  }
+                    {
+                      brixelPoints >= 0 && (
+                        <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
+                          <img src={brixels} alt="icon awards" className="mr-1" />
+                          <span className="ff-mono txtRed600">{brixelPoints}</span>
+                        </div>
+                      )
+                    }
 
-                  {
-                    Object.keys(userAwards).length > 0 && (
-                      <div className="cur-poi" onClick={() => setModal('awards')}>
-                        <img src={awards} alt="icon awards" className="mr-1" />
-                        <span className="ff-mono txtGreen600">{Object.keys(userAwards).length}</span>
-                      </div>
-                    )
-                  }
+                    {
+                      Object.keys(userAwards).length > 0 && (
+                        <div className="cur-poi" onClick={() => setModal('awards')}>
+                          <img src={awards} alt="icon awards" className="mr-1" />
+                          <span className="ff-mono txtGreen600">{Object.keys(userAwards).length}</span>
+                        </div>
+                      )
+                    }
 
-                  {
-                    Object.keys(brixelPoints).length > 0 && (
-                      <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
-                        <img src={brixels} alt="icon awards" className="mr-1" />
-                        <span className="ff-mono txtRed600">{brixelPoints.reduce((prev, next) => prev + next.point, 0)}</span>
-                      </div>
-                    )
-                  }
-                </>
-              )
-            }
-            {
-              !loggedInUser.token ? (
-                <div className="">
-                  <BrixelDropdown
-                    compact
-                    bgTransparent
-                    noBorder
-                    className="langMenu compact"
-                    color="dark"
-                    saturationTxt={700}
-                    lang={lang}
-                    keyType="label"
-                    selected={currentLang}
-                    options={dropLang}
-                    onSelect={(e, keys) => newLang(e, keys)}
-                    liClass="tt-low"
-                  />
-                </div>
-              ) : (
-                <div className="ml-2">
-                  {
-                    !history.location.pathname.includes('packageFlow') && (
-                      <AvatarImage
-                        avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
-                        name={loggedInUser.user.name}
-                        size={40}
-                        onClick={() => avatarAction()}
-                      />
-                    )
-                  }
-                  {
-                    history.location.pathname.includes('packageFlow') &&
-                    !(get(history, 'location.state.hideClose', null)) && (
-                      <BrixelButtonIcon
-                        ghost
-                        theme="dark"
-                        icon="close-small"
-                        onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/home') : history.push('/'))}
-                      />
-                    )
-                  }
-                </div>
-              )
-            }
+                    {
+                      Object.keys(brixelPoints).length > 0 && (
+                        <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
+                          <img src={brixels} alt="icon awards" className="mr-1" />
+                          <span className="ff-mono txtRed600">{brixelPoints.reduce((prev, next) => prev + next.point, 0)}</span>
+                        </div>
+                      )
+                    }
+                  </>
+                )
+              }
+              {
+                !loggedInUser.token ? (
+                  <div className="">
+                    <BrixelDropdown
+                      compact
+                      bgTransparent
+                      noBorder
+                      className="langMenu compact"
+                      color="dark"
+                      saturationTxt={700}
+                      lang={lang}
+                      keyType="label"
+                      selected={currentLang}
+                      options={dropLang}
+                      onSelect={(e, keys) => newLang(e, keys)}
+                      liClass="tt-low"
+                    />
+                  </div>
+                ) : (
+                  <div className="ml-2">
+                    {
+                      !history.location.pathname.includes('packageFlow') && (
+                        <AvatarImage
+                          avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                          name={loggedInUser.user.name}
+                          size={40}
+                          onClick={() => avatarAction()}
+                        />
+                      )
+                    }
+                    {
+                      history.location.pathname.includes('packageFlow') &&
+                      !(get(history, 'location.state.hideClose', null)) && (
+                        <BrixelButtonIcon
+                          ghost
+                          theme="dark"
+                          icon="close-small"
+                          onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/home') : history.push('/'))}
+                        />
+                      )
+                    }
+                  </div>
+                )
+              }
+            </div>
           </div>
         </div>
       </header>
