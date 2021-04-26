@@ -41,6 +41,7 @@
       }
 
       #multiStepForm {
+        transform: translate(0);
         &.interactive {
           height: auto;
           max-height: 100%;
@@ -495,5 +496,24 @@
   }
   .pac-placeholder {
     color: gray
+  }
+}
+
+
+.locationInputResume {
+  @media (max-width: $responsive-small) {
+    .singleStep {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    .subcontainer h3 {
+      padding-left: $step * 2;
+      padding-right: $step * 2;
+    }
+  }
+  .editLocation {
+    .brixel-text-input.dirty-icon {
+      padding-right: 12px !important;
+    }
   }
 }

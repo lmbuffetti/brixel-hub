@@ -38,7 +38,6 @@ export const ComponentMap = (props) => {
     latitude,
     longitude,
     multipleFieldSearch,
-    onSubmit,
     showMessageToChangeAddress,
     selCountry,
     showMap,
@@ -62,19 +61,6 @@ export const ComponentMap = (props) => {
   // REF
   // const inputZipSearch = useRef(null);
   const addressRef = useRef(null);
-  // TIMER TYPING
-  let typingTimer; // timer identifier
-  const doneTypingInterval = 1500;
-
-  // FUNCTION FOR THE AUTOCOMPLETE OF STREET NUMBER
-  const changeStreetNumber = (e) => {
-    changeFieldValue(formName, 'location.streetNumber', e);
-    setLoclist([]);
-    clearTimeout(typingTimer);
-    typingTimer = setTimeout(() => {
-      setStartSearch(true);
-    }, doneTypingInterval);
-  };
 
   // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
   const changeLocation = (val, hideSearch, type) => {
@@ -122,6 +108,7 @@ export const ComponentMap = (props) => {
     const defAdr = adr.split(',');
     Geocode.setApiKey('AIzaSyDHqV6i45MbGQVKOr2Md-8IzWeO7J1zGmg');
     if (selCountry.toLowerCase() !== 'ch') Geocode.setLanguage(selCountry.toLowerCase());
+    changeFieldValue('searchAddress', adr);
     Geocode.fromAddress(adr)
       .then((result) => {
         const formattedPlace = get(formValue, 'location', {});
@@ -204,8 +191,6 @@ export const ComponentMap = (props) => {
           handleUpdateCountry(newListcountry);
         }
         setSelectedAddress(true);
-        const getWrapStreetNumber = document.getElementsByClassName('streetNumber')[0];
-        getWrapStreetNumber.querySelector('input').focus();
         // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
         // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
@@ -294,6 +279,7 @@ export const ComponentMap = (props) => {
       e.preventDefault();
       geoCode(locList[newId].description);
     }
+    if (e.key === 'Enter') e.preventDefault();
   };
 
   // ADD MESSAGE THAT THE ADDRESS IS NOT EDITABLE
@@ -313,6 +299,13 @@ export const ComponentMap = (props) => {
     if (dropdownEl) dropdownEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [locList.length]);
 
+  const changeFielsSaerchAddress = (val) => {
+    if (!disabled) {
+      changeFieldValue(formName, 'location.searchAddress', val);
+      changeFieldValue(formName, 'location.name', val);
+    }
+  };
+
   return (
     // Important! Always set the container height explicitly
     <div
@@ -328,7 +321,7 @@ export const ComponentMap = (props) => {
         multipleFieldSearch && (
           <div className="fieldMapSearch mb-1">
             <div className="dis-f jc-b flex-wrap">
-              <div className="w-perc-75 pos-r">
+              <div className="w-perc-100 pos-r">
                 <BrixelInputText
                   className="search-box"
                   type="text"
@@ -337,7 +330,7 @@ export const ComponentMap = (props) => {
                   disabled={disabled}
                   placeholder="Write street name"
                   input={{
-                    onChange: (e) => (disabled ? '' : changeFieldValue(formName, 'location.searchAddress', e)),
+                    onChange: (val) => changeFielsSaerchAddress(val),
                     onBlur: () => '',
                     onFocus: () => (disabled ? '' : setSelectedAddress(false)),
                     value: get(formValue, 'location.searchAddress', '') || '',
@@ -364,23 +357,6 @@ export const ComponentMap = (props) => {
                     </ul>
                   )
                 }
-              </div>
-              <div className="w-perc-25 pl-2">
-                <BrixelInputText
-                  className="search-box streetNumber"
-                  type="text"
-                  disabled={disabled}
-                  ref={inputSearch}
-                  label="Number"
-                  placeholder=""
-                  onKeyDown={(e) => (e.keyCode === 13 && get(formValue, 'location.latitude', '') ? onSubmit() : '')}
-                  input={{
-                    onChange: (e) => (disabled ? '' : changeStreetNumber(e)),
-                    onBlur: () => '',
-                    value: get(formValue, 'location.streetNumber', ''),
-                    name: 'location.streetNumber',
-                  }}
-                />
               </div>
             </div>
           </div>
@@ -468,7 +444,7 @@ const mapStateToProps = (state, props) => {
   const lat = get(state, 'property.activeSingleProperty.location.latitude', propsLat);
   const lng = get(state, 'property.activeSingleProperty.location.longitude', propsLng);
   return ({
-    country: get(state, 'common.country', {}),
+    country: get(state, 'common.country', []),
     formValue: get(state, `brixelForm[${formName}].values`, {}),
     formName,
     init: get(state, `brixelForm[${formName}].initial`, {}),
