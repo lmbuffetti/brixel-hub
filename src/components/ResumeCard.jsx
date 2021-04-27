@@ -41,7 +41,11 @@ const ResumeCard = (props) => {
           </div>
         </div>
         <BrixelButtonPrimary
-          label="TEST BTN"
+          className="mt-4"
+          rounded
+          rightIcon="arrow-right-small"
+          theme="red"
+          label="Save"
           onClick={() => onClick()}
         />
       </div>
