@@ -63,7 +63,6 @@ export const MapsWithModalManual = (props) => {
   const [showError, setShowError] = useState(false);
   // const [optMap, setOptMap] = useState({});
   const inputSearch = createRef(null);
-  const [newLocation, setNewLocation] = useState(formValue && formValue.location && formValue.location.address ? formValue.location.address : '');
   const [locList, setLoclist] = useState([]);
   // const [zipList, setZiplist] = useState([]);
   const [selLocAuto, setSelLocAuto] = useState(0);
@@ -123,7 +122,6 @@ export const MapsWithModalManual = (props) => {
         }
 
         if (location.formatted_address) {
-          setNewLocation(location.formatted_address);
           if (location.formatted_address.split(',').length === 2) {
             formattedPlace.address = `${location.formatted_address.split(',')[0]}, ${defAdr[1]}, ${location.formatted_address.split(',')[1]}`;
           } else {
@@ -202,9 +200,8 @@ export const MapsWithModalManual = (props) => {
   };
 
   // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
-  const changeLocation = (val, hideSearch, type, showError = false) => {
+  const changeLocation = (val, hideSearch, type, showErrorLoc = false) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
-      // setNewLocation(val);
       const sessionToken = stateToken || new google.maps.places.AutocompleteSessionToken();
       const autocompleteService = new google.maps.places.AutocompleteService();
       if (!stateToken) setStateToken(sessionToken);
@@ -238,7 +235,7 @@ export const MapsWithModalManual = (props) => {
             } else {
               setLoclist([]);
               changeFieldValue(formName, 'locationsList', []);
-              if (showError) {
+              if (showErrorLoc) {
                 setErrorResult(`We can't find that location please try again or contact our <a href="mailto:${get(activeSingleCompany, 'contact.email', 'support@brixel.io')}">support team</a>`);
               }
               setLoadingAddress(false);
