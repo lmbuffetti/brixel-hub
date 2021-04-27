@@ -561,6 +561,7 @@ const GetStartedSeller = (props) => {
                         formName: 'GetStarted',
                         initialValue: formValue,
                         ...quest,
+                        onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
                       },
                     )
                   )
@@ -581,21 +582,6 @@ const GetStartedSeller = (props) => {
                           />
                         )
                       }
-                    </div>
-                  )
-                }
-                {
-                  get(quest, 'history', null) === 'resume' && (
-                    <div className="">
-                      <BrixelButtonPrimary
-                        className={`noWrap ${quest.history}`}
-                        rounded
-                        theme="green"
-                        label={buttonLabel()}
-                        disabled={!checkValidateField()}
-                        rightIcon="arrow-right-small"
-                        onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      />
                     </div>
                   )
                 }
@@ -620,16 +606,19 @@ const GetStartedSeller = (props) => {
                         />
                       )
                     }
-
-                    <BrixelButtonPrimary
-                      className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
-                      disabled={!checkValidateField()}
-                      rounded
-                      theme="green"
-                      label={buttonLabel()}
-                      rightIcon="arrow-right-small"
-                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                    />
+                    {
+                      get(quest, 'history', null) !== 'resume' && (
+                        <BrixelButtonPrimary
+                          className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                          disabled={!checkValidateField()}
+                          rounded
+                          theme="green"
+                          label={buttonLabel()}
+                          rightIcon="arrow-right-small"
+                          onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                        />
+                      )
+                    }
                   </div>
                 </div>
               </div>

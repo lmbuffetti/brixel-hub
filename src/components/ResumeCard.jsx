@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrixelIcon, FormatValue } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, BrixelIcon, FormatValue } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -13,6 +13,7 @@ const ResumeCard = (props) => {
   // PROPS
   const {
     formValue,
+    onClick,
     title,
   } = props;
 
@@ -39,6 +40,10 @@ const ResumeCard = (props) => {
             <p className="dis-b fweight-600 fsize-500 txtWhite">Simulate your sale for free</p>
           </div>
         </div>
+        <BrixelButtonPrimary
+          label="TEST BTN"
+          onClick={() => onClick()}
+        />
       </div>
       <div className="flex-1">
         {/* Property Card */}
@@ -90,7 +95,12 @@ const ResumeCard = (props) => {
 
 ResumeCard.propTypes = {
   formValue: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
   title: PropTypes.string.isRequired,
+};
+
+ResumeCard.defaultProps = {
+  onClick: () => '',
 };
 
 const mapStateToProps = (state) => ({
