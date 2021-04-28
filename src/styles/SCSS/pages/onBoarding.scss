@@ -15,9 +15,9 @@
     .bodyModal {
       #multiStepForm {
         &.overlayOpen {
-          transform: none;
+          //transform: none;
           @media (min-width: $responsive-small) {
-            transform: translate(0);
+           // transform: translate(0);
           }
         }
       }

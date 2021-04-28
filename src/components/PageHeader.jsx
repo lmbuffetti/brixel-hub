@@ -224,10 +224,8 @@ function PageHeader(props) {
                 !loggedInUser.token ? (
                   <div className="">
                     <BrixelDropdown
-                      compact
-                      bgTransparent
                       noBorder
-                      className="langMenu compact"
+                      className="langMenu"
                       color="dark"
                       saturationTxt={700}
                       lang={lang}

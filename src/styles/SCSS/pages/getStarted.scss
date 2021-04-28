@@ -17,6 +17,10 @@
       position: relative;
     }
 
+    .fieldHolder {
+      box-shadow: $shadow-1dp;
+    }
+
     .bodyModal {
      // transition: all $default-loader-time $default-easing;
       //will-change: background-image, opacity;

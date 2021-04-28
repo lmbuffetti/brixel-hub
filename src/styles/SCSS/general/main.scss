@@ -197,8 +197,23 @@ header {
 }
 
 .langMenu {
+  background-color: map_get($lightColor, 200) !important;
+  border-radius: 50px !important;
+  padding-left: $step;
+  padding-right: $step;
+  transition: background-color 0.4s ease;
+  &:hover {
+    background-color: map_get($lightColor, 300) !important;
+  }
+  .title {
+    min-width: 90px !important;
+    font-weight: 400;
+  }
   &.dropdown.open ul {
     max-height: none;
+    li {
+      font-weight: 400;
+    }
   }
 }
 
@@ -346,7 +361,7 @@ img {
       }
       .brixel-select .mobile-version,
       .brixel-text-input {
-        @include fontStyle(400);
+        @include fontStyle(500);
         height: 48px;
       }
       .brixel-select .dropdown {
