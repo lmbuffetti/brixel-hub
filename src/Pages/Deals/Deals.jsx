@@ -14,7 +14,7 @@ import orderBy from 'lodash/orderBy';
 import forEach from 'lodash/forEach';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers,
 } from '@brixel/brixel-components';
@@ -70,6 +70,7 @@ const Deals = (props) => {
     setActiveSinglePropertyDeals,
     setNotification,
     setPreventExit,
+    userLang,
     windowDimensions,
   } = props;
   // URL PARAMS
@@ -500,7 +501,7 @@ const Deals = (props) => {
                                                             profileId={get(item, 'user.id', '')}
                                                             name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
                                                             hasMessage={item.actionStub}
-                                                            date={moment(item.updatedAt).format('D MMM YY, H:mm')}
+                                                            date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
                                                             parentOnClick={() => openDeal(item.id)}
                                                             archOnClick={() => archiveDeal(item.id, item.stage, key)}
                                                             archived={!item.active}
@@ -539,7 +540,7 @@ const Deals = (props) => {
                                                       profileId={get(item, 'user.id', '')}
                                                       name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
                                                       hasMessage={item.actionStub}
-                                                      date={moment(item.createdAt).format('D MMM YY, H:mm')}
+                                                      date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
                                                       parentOnClick={() => openDeal(item.id)}
                                                       archOnClick={() => archiveDeal(item.id, item.stage, key)}
                                                       archived={!item.active}
@@ -587,6 +588,7 @@ Deals.propTypes = {
   setNotification: PropTypes.func.isRequired,
   saveMultipleDeals: PropTypes.func.isRequired,
   setActiveSinglePropertyDeals: PropTypes.func.isRequired,
+  userLang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -600,6 +602,7 @@ const mapStateToProps = (state) => ({
   notification: get(state, 'common.notification', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', null),
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

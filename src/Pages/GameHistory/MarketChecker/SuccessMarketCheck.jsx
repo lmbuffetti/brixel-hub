@@ -9,7 +9,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newMarketCheck from '../../../images/MarketCheck/newMarketCheck.svg';
 import startMarketCheck from '../../../images/MarketCheck/startMarketCheck.svg';
@@ -25,6 +25,7 @@ function SuccessMarketCheck(props) {
     groupdAchievement,
     match,
     marketData,
+    userLang,
   } = props;
   // STATE
   const [achievement, setAchievement] = useState(null);
@@ -75,7 +76,7 @@ function SuccessMarketCheck(props) {
                                 </h5>
                                 <p className="body2 txtDark200 m-a ta-c max-w-fix-376">
                                   <span>Last updated</span>
-                                  <span>:&nbsp;{moment(marketData.market_check_date).format('D MMM YYYY, H:mm')}</span>
+                                  <span>:&nbsp;{DateTime.fromISO(marketData.market_check_date, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}</span>
                                 </p>
                                 <div className="ta-c my-5">
                                   <img className="w-fix-352" src={simillarMarketCheck} alt="Done Market Check" />
@@ -159,6 +160,7 @@ SuccessMarketCheck.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
+  userLang: PropTypes.string.isRequired,
 };
 
 SuccessMarketCheck.defaultProps = {
@@ -170,6 +172,7 @@ SuccessMarketCheck.defaultProps = {
 const mapStateToProps = (state) => ({
   gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.activeSingleProperty.packageFlowProcess.rewardScreenData', {}),
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({
