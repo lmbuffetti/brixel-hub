@@ -379,14 +379,10 @@ const GetStarted = (props) => {
     return label;
   };
 
-  const tansitionBg = (i, act = 'next') => {
-    if (act === 'next') {
-      if (i === currentIndex) return 'active';
-      if (i === currentIndex + 1 && get(questions, `[${currentIndex + 1}].effect`, null) === 'slideUp') return 'active';
-    }
-    if (i < currentIndex) return 'prev';
-    return '';
-  };
+  useEffect(() => {
+    console.log(get(formValue, 'userType', null));
+    if (get(formValue, 'userType', null)) changeStep();
+  }, [get(formValue, 'userType', null)]);
 
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
@@ -511,49 +507,6 @@ const GetStarted = (props) => {
                         onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                       />
                     </div>
-                  )
-                }
-              </div>
-            </div>
-          </div>
-          <div
-            className={`footerAction ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
-          >
-            <div className="pos-r pt-">
-              <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
-                {
-                  get(questions, `[${currentIndex - 1}].inputs`, null) && (
-                    <BrixelButtonIcon
-                      className={`backBtn ml-0 mr-a ${currentIndex === 0 ? 'hide' : ''}`}
-                      icon="arrow-simple-left"
-                      onClick={() => changeStep('back')}
-                      theme="green"
-                      ghost
-                    />
-                  )
-                }
-
-                {
-                  buttonLabel().toLowerCase() === 'skip' ? (
-                    <BrixelButtonText
-                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
-                      disabled={!checkValidateField()}
-                      saturation={400}
-                      color="light"
-                      label={buttonLabel()}
-                      rightIcon="arrow-right-small"
-                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                    />
-                  ) : (
-                    <BrixelButtonPrimary
-                      className={`mr-0 ml-0 noWrap ${get(quest, 'history', null)} ${currentIndex === 0 && !checkValidateField() ? 'ml-a' : ''} ${currentIndex === 0 ? `${!checkValidateField() ? '' : 'ml-lg-0'}` : ''} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                      disabled={!checkValidateField()}
-                      rounded
-                      theme="green"
-                      label={buttonLabel()}
-                      rightIcon="arrow-right-small"
-                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                    />
                   )
                 }
               </div>
