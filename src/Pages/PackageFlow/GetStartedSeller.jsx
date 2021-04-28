@@ -466,14 +466,9 @@ const GetStartedSeller = (props) => {
     return label;
   };
 
-  const tansitionBg = (i, act = 'next') => {
-    if (act === 'next') {
-      if (i === currentIndex) return 'active';
-      if (i === currentIndex + 1 && get(questions, `[${currentIndex + 1}].effect`, null) === 'slideUp') return 'active';
-    }
-    if (i < currentIndex) return 'prev';
-    return '';
-  };
+  useEffect(() => {
+    if (get(formValue, 'properties.propertyType', null)) changeStep();
+  }, [get(formValue, 'properties.propertyType', null)]);
 
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted container">
