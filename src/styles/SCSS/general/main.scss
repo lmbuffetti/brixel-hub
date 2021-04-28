@@ -348,7 +348,7 @@ img {
         /*todo styleguide*/
         label {
           @media (max-width: $responsive-small) {
-            padding: $step + 2;
+            //padding: $step + 2;
           }
         }
         label .textLabel {
