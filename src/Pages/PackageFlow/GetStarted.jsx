@@ -380,7 +380,6 @@ const GetStarted = (props) => {
   };
 
   useEffect(() => {
-    console.log(get(formValue, 'userType', null));
     if (get(formValue, 'userType', null)) changeStep();
   }, [get(formValue, 'userType', null)]);
 
