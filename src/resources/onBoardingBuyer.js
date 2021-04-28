@@ -18,6 +18,10 @@ import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import buildingLand from '../images/BrxielComingTown/building-land.svg';
 
+import aptIcon from '../images/getstarted/aptIcon.svg';
+import houIcon from '../images/getstarted/houIcon.svg';
+import lanIcon from '../images/getstarted/lanIcon.svg';
+
 import homesSvg from '../images/getstarted/svgs/homes.svg';
 import locationSvg from '../images/getstarted/svgs/location.svg';
 import roomsSvg from '../images/getstarted/svgs/room.svg';
@@ -58,32 +62,38 @@ export const QuestionsList = (lang) => {
       history: 'propertyType',
       vCentered: true,
       bgImg: homesSvg,
-      footerWidth: 'max-w-fix-464',
+      footerWidth: 'max-w-fix-880',
       inputs: [
         {
           component: BrixelCheckbox,
           className: 'radioBtnImg',
-          ReduxFieldClass: 'max-w-fix-464 m-a',
-          pdClass: 'py-2 py-lg-3 px-1',
+          ReduxFieldClass: '',
           label: '',
           name: 'characteristics.propertyType',
           validation: [Validation.required],
           icons: true,
+          cardLayout: true,
+          cardSmall: true,
+          isHorizontal: true,
+          pdClass: 'pt-3 pb-5',
           options: [
             {
               label: translateTo(lang, 'Apartment'),
               value: 'Apartment',
-              img: apartment,
+              img: aptIcon,
+              color: 'blue',
             },
             {
               label: translateTo(lang, 'House'),
               value: 'House',
-              img: house,
+              img: houIcon,
+              color: 'blue',
             },
             {
               label: 'Building land',
               value: 'Building land',
-              img: buildingLand,
+              img: lanIcon,
+              color: 'blue',
             },
           ],
         },

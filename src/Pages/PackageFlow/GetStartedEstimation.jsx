@@ -643,7 +643,7 @@ const GetStartedEstimation = (props) => {
                     </div>
                   )
                 }
-                {
+                {/* {
                   get(quest, 'history', null) === 'resume' && (
                     <div className="max-w-fix-344 m-a">
                       <BrixelButtonPrimary
@@ -657,7 +657,7 @@ const GetStartedEstimation = (props) => {
                       />
                     </div>
                   )
-                }
+                } */}
               </div>
             </div>
           </div>

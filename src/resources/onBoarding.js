@@ -2,9 +2,13 @@ import {
   BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components';
+import { thresholdSturges } from 'd3-array';
 import { translateTo } from '../utils/translation';
 
 import homesSvg from '../images/getstarted/svgs/homes.svg';
+import selIcon from '../images/getstarted/sellIcon.svg';
+import estIcon from '../images/getstarted/estIcon.svg';
+import buyIcon from '../images/getstarted/buyIcon.svg';
 // QUESTION LISTS
 export const QuestionsList = (lang) => [
   {
@@ -16,24 +20,32 @@ export const QuestionsList = (lang) => [
     inputs: [{
       component: BrixelRadioButton,
       className: 'radioBtnImg',
-      ReduxFieldClass: 'max-w-fix-lg-464 m-a',
-      pdClass: 'py-2 py-lg-3 px-1',
+      ReduxFieldClass: '',
       label: '',
       name: 'userType',
       validation: [Validation.required],
       icons: true,
+      cardLayout: true,
+      pdClass: 'pt-3 pb-5',
+      isHorizontal: true,
       options: [
         {
           label: 'I want to start selling',
           value: 'seller',
+          img: selIcon,
+          color: 'blue',
         },
         {
           label: 'I want to estimate a property',
           value: 'estimation',
+          img: estIcon,
+          color: 'green',
         },
         {
-          label: "I'm looking to buy",
+          label: 'I want to buy a property',
           value: 'buyer',
+          img: buyIcon,
+          color: 'red',
         },
       ],
     }],

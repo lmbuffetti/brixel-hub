@@ -15,6 +15,10 @@ import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import commercial from '../images/BrxielComingTown/commercial.svg';
 
+import aptIcon from '../images/getstarted/aptIcon.svg';
+import houIcon from '../images/getstarted/houIcon.svg';
+import lanIcon from '../images/getstarted/lanIcon.svg';
+
 import homesSvg from '../images/getstarted/svgs/homes.svg';
 import spaceSvg from '../images/getstarted/svgs/space.svg';
 import locationSvg from '../images/getstarted/svgs/location.svg';
@@ -56,31 +60,38 @@ export const QuestionsList = (lang, country = 'CH') => {
     {
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
-      footerWidth: 'max-w-fix-464',
+      footerWidth: 'max-w-fix-880',
       bgImg: homesSvg,
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
-        ReduxFieldClass: 'max-w-fix-464 m-a',
+        ReduxFieldClass: '',
         label: '',
         name: 'properties.propertyType',
         validation: [Validation.required],
         icons: true,
+        cardLayout: true,
+        cardSmall: true,
+        pdClass: 'py-3',
+        isHorizontal: true,
         options: [
           {
             label: translateTo(lang, 'Apartment'),
             value: 'Apartment',
-            img: apartment,
+            img: aptIcon,
+            color: 'blue',
           },
           {
             label: translateTo(lang, 'House'),
             value: 'House',
-            img: house,
+            img: houIcon,
+            color: 'blue',
           },
           {
             label: translateTo(lang, 'Commercial'),
             value: 'Commercial',
-            img: commercial,
+            img: houIcon,
+            color: 'blue',
           },
         ],
       }],
