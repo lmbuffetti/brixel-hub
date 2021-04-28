@@ -379,14 +379,9 @@ const GetStarted = (props) => {
     return label;
   };
 
-  const tansitionBg = (i, act = 'next') => {
-    if (act === 'next') {
-      if (i === currentIndex) return 'active';
-      if (i === currentIndex + 1 && get(questions, `[${currentIndex + 1}].effect`, null) === 'slideUp') return 'active';
-    }
-    if (i < currentIndex) return 'prev';
-    return '';
-  };
+  useEffect(() => {
+    if (get(formValue, 'userType', null)) changeStep();
+  }, [get(formValue, 'userType', null)]);
 
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
@@ -516,23 +511,10 @@ const GetStarted = (props) => {
               </div>
             </div>
           </div>
-          <div
-            className="footerAction flowFooter"
-          >
-            <BrixelButtonPrimary
-              className="ml-a mr-a"
-              disabled={!checkValidateField()}
-              rounded
-              theme="green"
-              label={buttonLabel()}
-              rightIcon="arrow-right-small"
-              onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-            />
-          </div>
         </form>
       </div>
       {/* signup flow */}
-      {
+      {/* {
         questions[currentIndex].effect === 'slideUp' && (
           <div className="signUpContainer">
             {
@@ -569,7 +551,7 @@ const GetStarted = (props) => {
             }
           </div>
         )
-      }
+      } */}
     </div>
   );
 };
