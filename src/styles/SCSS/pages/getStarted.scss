@@ -7,7 +7,12 @@
     background-color: #F7F6F5;
   }
 }
-
+.cardLayout:not(.cardSmall) {
+  .textLabel {
+    min-height: 130px;
+    height: 100%;
+  }
+}
 #bodyModalWrapper {
   &.getStarted {
     background-color: transparent;
