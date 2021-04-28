@@ -24,17 +24,9 @@ import orderBy from 'lodash/orderBy';
 import forEach from 'lodash/forEach';
 import last from 'lodash/last';
 import flatten from 'lodash/flatten';
-import moment from 'moment';
-import 'moment/locale/de-ch';
-import 'moment/locale/pt';
-import 'moment/locale/nl';
-import 'moment/locale/se';
-import 'moment/locale/da';
-import 'moment/locale/de';
-import 'moment/locale/de-at';
-import 'moment/locale/en-gb';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import { DateTime } from 'luxon';
 import {
   createNote, saveActiveSingleNote,
 } from '../actions/NoteActions';
@@ -105,7 +97,6 @@ const Timeline = (props) => {
 
   useEffect(() => {
     let array = [];
-
     if (isDeal === true && has(activeDeal, 'user.id')) {
       if (activeDealOwnerHistoryList.total > 0 && activeDealOwnerHistoryList.data.length > 0) {
         forEach(activeDealOwnerHistoryList.data, (item) => {
@@ -130,7 +121,7 @@ const Timeline = (props) => {
 
       forEach(activeDealNotes, (note) => {
         if (get(note, 'private', true) === false) {
-          set(note, 'timestamp', moment(note.createdAt).valueOf());
+          set(note, 'timestamp', note.createdAt);
           if (note.type === 'page') set(note, 'parent', note.page);
           if (note.type === 'user') set(note, 'parent', note.user);
           if (note.type === 'deal') set(note, 'parent', note.deal);
@@ -176,7 +167,7 @@ const Timeline = (props) => {
       });
 
       forEach(activePropertyNotes, (note) => {
-        set(note, 'timestamp', moment(note.createdAt).valueOf());
+        set(note, 'timestamp', note.createdAt);
         if (note.type === 'page') set(note, 'parent', note.page);
         if (note.type === 'user') set(note, 'parent', note.user);
         if (note.type === 'deal') set(note, 'parent', note.deal);
@@ -414,7 +405,7 @@ const Timeline = (props) => {
                               { get(find(event.history, (el) => (el.type === 'create')), 'author.name', 'BOT') }
                             </span>
                             <span className="fsize-100 txtDark200">
-                              {moment(event.createdAt).format('D MMM YYYY, H:mm')}
+                              {DateTime.fromMillis(event.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                             </span>
                           </div>
                         )

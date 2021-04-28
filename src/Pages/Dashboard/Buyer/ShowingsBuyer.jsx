@@ -121,7 +121,6 @@ const ShowingsBuyer = (props) => {
                   <div key={g.toString()} className="w-perc-100 max-w-fix-360">
                     <BrixelInfoSlot
                       title={DateTime.fromISO(extractDate(day.slot.slot), { locale: userLang }).toFormat('cccc - dd LLL yyyy')}
-
                       subtitle={extractDate(day.slot.slot, true)}
                     />
                   </div>

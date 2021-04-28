@@ -1,6 +1,5 @@
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 
-import moment from 'moment';
 import { DateTime } from 'luxon';
 import {
   has, get, tail,
@@ -151,16 +150,15 @@ export const createTimelineEntry = (item, userLang) => {
       {
         description: `<div><div><a class='txtDark700' rel='noreferrer noopener' target='_blank' href='/${item.parent.id}/user'>${item.parent.email}</a> <span>just signed up</span></div><div><span class="fweight-500">Signup Channel: </span><span>${item.parent.signupChannel}</span></div></div>`,
         icon: 'account',
-        // formattedDate: moment(item.parent.createdAt).format('D MMM YYYY, H:mm'),
         formattedDate: DateTime.fromMillis(item.parent.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'),
-        timestamp: moment(item.parent.createdAt).valueOf(),
+        timestamp: item.parent.createdAt,
         pinned: false,
       },
       {
         description: getHTMLDescription(),
         icon: getIcon(),
-        formattedDate: moment(item.createdAt).format('D MMM YYYY, H:mm'),
-        timestamp: moment(item.createdAt).valueOf(),
+        formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'),
+        timestamp: item.createdAt,
         pinned: false,
       },
     ];
@@ -172,8 +170,8 @@ export const createTimelineEntry = (item, userLang) => {
       description: getHTMLDescription(), // Content of the event
       icon: getIcon(), // Defines the type of icon on the event
       user: get(item, 'child.name', 'No Name'),
-      formattedDate: moment(item.createdAt).format('D MMM YYYY, H:mm'), // Formatted date to be shown on the event
-      timestamp: moment(item.createdAt).valueOf(), // Unix timestamp for sorting purposes
+      formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
+      timestamp: item.createdAt, // Unix timestamp for sorting purposes
       pinned: false, // Flag for sorting purposes
     };
   }
@@ -181,8 +179,8 @@ export const createTimelineEntry = (item, userLang) => {
   return {
     description: getHTMLDescription(), // Content of the event
     icon: getIcon(), // Defines the type of icon on the event
-    formattedDate: moment(item.createdAt).format('D MMM YYYY, H:mm'), // Formatted date to be shown on the event
-    timestamp: moment(item.createdAt).valueOf(), // Unix timestamp for sorting purposes
+    formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
+    timestamp: item.createdAt, // Unix timestamp for sorting purposes
     pinned: false, // Flag for sorting purposes
   };
 };

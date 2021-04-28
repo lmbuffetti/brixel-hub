@@ -8,7 +8,6 @@ import {
 import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
-import * as moment from 'moment';
 import { DateTime } from 'luxon';
 import { BrixelIcon } from '@brixel/brixel-components';
 import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
