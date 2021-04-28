@@ -33,6 +33,7 @@ const ShowingsBuyer = (props) => {
     isSmallLoading,
     loggedInUser,
     match,
+    userLang,
   } = props;
   // STATE
   const [bookingSlot, setBookingSlot] = useState([]);
@@ -158,6 +159,7 @@ ShowingsBuyer.propTypes = {
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  userLang: PropTypes.string.isRequired,
 };
 
 ShowingsBuyer.defaultProps = {
@@ -170,6 +172,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   lang: get(state, 'user.loggedInUser.language', 'en'),
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({
