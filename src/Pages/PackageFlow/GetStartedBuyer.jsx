@@ -526,6 +526,7 @@ const GetStartedBuyer = (props) => {
                         formName: 'GetStarted',
                         initialValue: formValue,
                         ...quest,
+                        onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
                       },
                     )
                   )
