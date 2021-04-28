@@ -78,6 +78,7 @@ const Timeline = (props) => {
     history,
     isDeal,
     match,
+    userLang,
   } = props;
 
   const noteRef = useRef(null);
@@ -110,7 +111,7 @@ const Timeline = (props) => {
         forEach(activeDealOwnerHistoryList.data, (item) => {
           // For deal timeline we only want user register
           if (item.actionStub === 'user-register' || item.actionStub === 'user-portal-create-message') {
-            array.push(createTimelineEntry(item));
+            array.push(createTimelineEntry(item, userLang));
           }
         });
       }
@@ -122,7 +123,7 @@ const Timeline = (props) => {
             if (item.actionStub === 'update-deal' && Object.keys(item.meta).length === 0) return null;
             if (item.actionStub === 'update-deal' && item.meta.name === 'new') return null;
             if (item.actionStub === 'portal-create-deal') return null;
-            array.push(createTimelineEntry(item));
+            array.push(createTimelineEntry(item, userLang));
           }
         });
       }
@@ -151,7 +152,7 @@ const Timeline = (props) => {
               item.actionStub !== 'page-remove-package' &&
               item.actionStub !== 'page-get-document' &&
               item.actionStub !== 'page-receive-message') {
-            array.push(createTimelineEntry(item));
+            array.push(createTimelineEntry(item, userLang));
           }
         });
       }
@@ -161,7 +162,7 @@ const Timeline = (props) => {
           // We want to get the user recovery and welcome to Brixel messages
           if (item.actionStub === 'user-recover-password' ||
               item.actionStub === 'user-register') {
-            array.push(createTimelineEntry(item));
+            array.push(createTimelineEntry(item, userLang));
           }
         });
       }
@@ -170,7 +171,7 @@ const Timeline = (props) => {
         // We don't consider the Homebase and Brixel Page published rewards for creating a property
         if (reward.title !== 'Homebase' &&
             reward.title !== 'Brixel Page') {
-          array.push(createTimelineEntry(reward));
+          array.push(createTimelineEntry(reward, userLang));
         }
       });
 
@@ -598,6 +599,7 @@ Timeline.propTypes = {
   isDeal: PropTypes.bool,
   // loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  userLang: PropTypes.string.isRequired,
 };
 
 Timeline.defaultProps = {
@@ -616,6 +618,7 @@ const mapStateToProps = (state) => ({
   activePropertyNotes: get(state, 'property.activeSinglePropertyNotes', []),
   activeDealNotes: get(state, 'deal.activeSingleDealNotes', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

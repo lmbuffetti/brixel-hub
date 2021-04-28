@@ -1,6 +1,7 @@
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 
 import moment from 'moment';
+import { DateTime } from 'luxon';
 import {
   has, get, tail,
 } from 'lodash';
@@ -9,7 +10,7 @@ import {
   formatPrice,
 } from '../utils/helpers';
 
-export const createTimelineEntry = (item) => {
+export const createTimelineEntry = (item, userLang) => {
   const getHTMLDescription = () => {
     // ITEM IS REWARD
     if (has(item, 'title')) {
@@ -150,7 +151,8 @@ export const createTimelineEntry = (item) => {
       {
         description: `<div><div><a class='txtDark700' rel='noreferrer noopener' target='_blank' href='/${item.parent.id}/user'>${item.parent.email}</a> <span>just signed up</span></div><div><span class="fweight-500">Signup Channel: </span><span>${item.parent.signupChannel}</span></div></div>`,
         icon: 'account',
-        formattedDate: moment(item.parent.createdAt).format('D MMM YYYY, H:mm'),
+        // formattedDate: moment(item.parent.createdAt).format('D MMM YYYY, H:mm'),
+        formattedDate: DateTime.fromMillis(item.parent.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'),
         timestamp: moment(item.parent.createdAt).valueOf(),
         pinned: false,
       },

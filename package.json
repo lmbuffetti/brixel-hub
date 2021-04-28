@@ -19,6 +19,7 @@
     "eslint-plugin-react": "^7.23.2",
     "google-maps-react": "^2.0.6",
     "lodash": "^4.17.21",
+    "luxon": "^1.26.0",
     "moment": "2.29.1",
     "prop-types": "^15.7.2",
     "query-string": "^7.0.0",
