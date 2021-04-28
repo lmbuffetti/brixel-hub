@@ -514,7 +514,7 @@ const GetStarted = (props) => {
         </form>
       </div>
       {/* signup flow */}
-      {
+      {/* {
         questions[currentIndex].effect === 'slideUp' && (
           <div className="signUpContainer">
             {
@@ -551,7 +551,7 @@ const GetStarted = (props) => {
             }
           </div>
         )
-      }
+      } */}
     </div>
   );
 };

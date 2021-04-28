@@ -159,21 +159,23 @@
 .wrapManualAddress {
   position: fixed;
   left: 50%;
-  bottom: 0;
+  top: 0;
   height: 100%;
   width: 100%;
-  max-width: 640px;
-  transform: translate(-50%, 0);
+  max-width: 600px;
+  transform: translate(-50%, 0) scale(0);
   background-color: white;
+  border-radius: $step;
+  box-shadow: $shadow-1dp;
   z-index: 10;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-height: 0px;
-  transition: max-height 0.8s;
+  transition: all 0.4s ease;
+  opacity: 0;
   &.active {
-    max-height: 800px;
-    overflow-y: auto;
+    transform: translate(-50%, 0) scale(1);
+    opacity: 1;
   }
 }

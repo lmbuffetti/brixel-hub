@@ -15,6 +15,7 @@ const ResumeCard = (props) => {
     formValue,
     onClick,
     title,
+    btnLabel,
   } = props;
 
   const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse;
@@ -45,7 +46,7 @@ const ResumeCard = (props) => {
           rounded
           rightIcon="arrow-right-small"
           theme="red"
-          label="Save"
+          label={btnLabel || 'save'}
           onClick={() => onClick()}
         />
       </div>
@@ -101,6 +102,7 @@ ResumeCard.propTypes = {
   formValue: PropTypes.object.isRequired,
   onClick: PropTypes.func,
   title: PropTypes.string.isRequired,
+  btnLabel: PropTypes.string.isRequired,
 };
 
 ResumeCard.defaultProps = {
