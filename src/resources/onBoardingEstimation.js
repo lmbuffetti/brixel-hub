@@ -266,7 +266,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: congratsSvg,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
-      effect: 'slideUp',
       cardType: 'createProfile',
       inputs: [{
         component: LoginSignup,
