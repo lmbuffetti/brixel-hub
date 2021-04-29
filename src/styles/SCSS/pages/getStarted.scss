@@ -38,6 +38,9 @@
             width: auto;
             padding: 0;
             display: flex;
+            span {
+              font-family: $font-family-secondary;
+            }
           }
         }
       }
