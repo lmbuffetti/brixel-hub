@@ -129,7 +129,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: spaceSvg,
       showSendButton: false,
       inputs: [
-
         {
           condition: [{
             name: 'properties.propertyType',

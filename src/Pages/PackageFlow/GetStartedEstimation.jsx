@@ -599,7 +599,7 @@ const GetStartedEstimation = (props) => {
                           onCloseGoBack={() => changeStep('back')}
                           onClickDisabled={!checkValidateField()}
                           onSubmit={() => changeStep()}
-                          showSendButton={get(quest, 'inputs', []).length === 1}
+                          showSendButton={quest.showSendButton}
                           disableDelay
                         />
                       </div>

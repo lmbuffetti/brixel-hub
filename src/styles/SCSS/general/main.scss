@@ -391,7 +391,9 @@ img {
 
         > .brixel-checkbox-icon {
           flex: 50%;
-          padding-bottom: $step * 2;
+          @media (min-width: $responsive-small) {
+            padding-bottom: $step * 2;
+          }
 
           @media (max-width: $responsive-small) {
             flex: 100%;
@@ -402,17 +404,16 @@ img {
           }
 
           &:nth-child(odd) {
-            padding-right: 12px;
 
-            @media (max-width: $responsive-small) {
-              padding-right: 6px;
+            @media (min-width: $responsive-small) {
+              padding-right: 12px;
             }
           }
           &:nth-child(even) {
-            padding-left: 12px;
 
-            @media (max-width: $responsive-small) {
-              padding-left: 6px;
+            @media (min-width: $responsive-small) {
+              padding-left: 12px;
+              //padding-left: 6px;
             }
           }
           .textLabel {
@@ -497,7 +498,6 @@ img {
         }
 
       }
-
       .brixel-select .mobile-version select {
         @media (max-width: $responsive-small) {
           color: white;

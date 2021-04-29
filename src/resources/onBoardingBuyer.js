@@ -105,7 +105,7 @@ export const QuestionsList = (lang) => {
       history: 'tipology',
       vCentered: true,
       bgImg: roomsSvg,
-      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a px-5 py-6',
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a pl-2 pr-0 px-sm-5 py-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -140,7 +140,7 @@ export const QuestionsList = (lang) => {
       history: 'extraFeature',
       vCentered: true,
       bgImg: roomsSvg,
-      className: 'fieldHolder bgWhite brdRadius max-w-fix-800 m-a px-5 py-6',
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-800 m-a px-2 px-sm-5 py-5',
       footerWidth: 'max-w-fix-800',
       inputs: [
         {
@@ -216,7 +216,7 @@ export const QuestionsList = (lang) => {
       history: 'familySituation',
       cardType: 'FamilySituation',
       bgImg: congratsSvg,
-      className: 'fieldHolder max-w-fix-480 m-a',
+      className: 'max-w-fix-480 m-a',
       footerWidth: 'max-w-fix-480',
       inputs: [
         {
@@ -236,7 +236,7 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'How is your knowledge about buying a property?'),
       history: 'knowledge',
       cardType: 'Knowledge',
-      className: 'fieldHolder max-w-fix-480 m-a',
+      className: 'max-w-fix-480 m-a',
       footerWidth: 'max-w-fix-480',
       bgImg: congratsSvg,
       inputs: [
@@ -256,7 +256,7 @@ export const QuestionsList = (lang) => {
       history: 'livingSituation',
       cardType: 'LivingSituation',
       bgImg: congratsSvg,
-      className: 'fieldHolder max-w-fix-480 m-a',
+      className: 'max-w-fix-480 m-a',
       footerWidth: 'max-w-fix-480',
       inputs: [
         {
