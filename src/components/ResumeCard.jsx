@@ -22,40 +22,43 @@ const ResumeCard = (props) => {
   /* const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse; */
 
   return (
-    <div className="dis-f flex-wrap w-perc-100 pt-2 pt-sm-10">
-      <div className="flex-1 pr-md-3">
-        <div className="max-w-fix-400 ml-a">
+    <div className="dis-f flex-wrap w-perc-100 pt-4 pt-sm-10">
+      <div className="w-perc-100 w-perc-sm-50 pr-sm-3">
+        <div className="max-w-fix-400 ml-a mr-a mr-sm-0 pb-4">
           <h2
-            className="fadeAnim mb-5 fweight-600 txtWhite"
+            className="fadeAnim px-2 px-sm-0 mb-0 mb-sm-5 fweight-600 txtWhite ta-c ta-l-sm"
             dangerouslySetInnerHTML={{ __html: title }}
           />
-          <div className="mt-5">
-            <div className="dis-f mb-1 pos-r">
-              <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
-              <p className="dis-b fweight-600 fsize-500 txtWhite">Compare to your local market</p>
+          <div className="hide dis-b-sm">
+
+            <div className="mt-5">
+              <div className="dis-f mb-2 pos-r">
+                <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
+                <p className="dis-b fweight-600 fsize-500 txtWhite">Compare to your local market</p>
+              </div>
+              <div className="dis-f mb-2 pos-r">
+                <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
+                <p className="dis-b fweight-600 fsize-500 txtWhite">Get free price indication</p>
+              </div>
+              <div className="dis-f mb-2 pos-r">
+                <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
+                <p className="dis-b fweight-600 fsize-500 txtWhite">Simulate your sale for free</p>
+              </div>
             </div>
-            <div className="dis-f mb-1 pos-r">
-              <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
-              <p className="dis-b fweight-600 fsize-500 txtWhite">Get free price indication</p>
-            </div>
-            <div className="dis-f mb-1 pos-r">
-              <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
-              <p className="dis-b fweight-600 fsize-500 txtWhite">Simulate your sale for free</p>
-            </div>
+            <BrixelButtonPrimary
+              className="mt-4"
+              rounded
+              rightIcon="arrow-right-small"
+              theme="red"
+              label={btnLabel || 'save'}
+              onClick={() => onClick()}
+            />
           </div>
-          <BrixelButtonPrimary
-            className="mt-4"
-            rounded
-            rightIcon="arrow-right-small"
-            theme="red"
-            label={btnLabel || 'save'}
-            onClick={() => onClick()}
-          />
         </div>
       </div>
-      <div className="flex-1 pl-md-3">
+      <div className="w-perc-100 w-perc-sm-50 pl-sm-3 px-2 px-sm-0">
         {/* Property Card */}
-        <div className="scaleAnim bgWhite max-w-fix-352 mr-a brdRadius shadow-3dp ov-h">
+        <div className="scaleAnim bgWhite max-w-fix-344 mr-a ml-a ml-sm-0 brdRadius shadow-2dp ov-h">
           <img
             src={defImg}
             className="dis-b w-perc-100"
@@ -95,6 +98,34 @@ const ResumeCard = (props) => {
               </p>
             </div>
           </div>
+        </div>
+
+      </div>
+      <div className="hide-sm w-perc-100 dis-fl-col a-c">
+        <div className="mt-5 pl-3 pr-2 mb-3">
+          <div className="dis-f mb-2 pos-r a-t">
+            <BrixelIcon className="tickIcon pt-small-6" icon="check" saturationTxt={300} color="green" />
+            <p className="dis-b fweight-600 fsize-500 txtWhite">Compare to your local market</p>
+          </div>
+          <div className="dis-f mb-2 pos-r a-t">
+            <BrixelIcon className="tickIcon pt-small-6" icon="check" saturationTxt={300} color="green" />
+            <p className="dis-b fweight-600 fsize-500 txtWhite">Get free price indication</p>
+          </div>
+          <div className="dis-f mb-2 pos-r a-t">
+            <BrixelIcon className="tickIcon pt-small-6" icon="check" saturationTxt={300} color="green" />
+            <p className="dis-b fweight-600 fsize-500 txtWhite">Simulate your sale for free</p>
+          </div>
+        </div>
+        <div className="w-perc-100 bgWhite py-5">
+
+          <BrixelButtonPrimary
+            className="ml-a mr-a"
+            rounded
+            rightIcon="arrow-right-small"
+            theme="red"
+            label={btnLabel || 'save'}
+            onClick={() => onClick()}
+          />
         </div>
       </div>
     </div>
