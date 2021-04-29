@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
+import resumeHouse from '../images/getstarted/property-thumb.svg';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 
 // COMPONENT USED ON ONBOARDING TO SHOW THE PREVIEW OF CREATED PROPERTY
@@ -18,41 +18,44 @@ const ResumeCard = (props) => {
     btnLabel,
   } = props;
 
-  const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse;
+  const defImg = resumeHouse;
+  /* const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse; */
 
   return (
-    <div className="dis-f flex-wrap w-perc-100 pt-10">
-      <div className="flex-1 max-w-fix-400">
-        <h2
-          className="fadeAnim mb-5 fweight-600 txtWhite"
-          dangerouslySetInnerHTML={{ __html: title }}
-        />
-        <div className="mt-5">
-          <div className="dis-f mb-1 pos-r">
-            <BrixelIcon className="tickIcon" icon="check" saturationTxt="300" color="green" />
-            <p className="dis-b fweight-600 fsize-500 txtWhite">Compare to your local market</p>
+    <div className="dis-f flex-wrap w-perc-100 pt-2 pt-sm-10">
+      <div className="flex-1 pr-md-3">
+        <div className="max-w-fix-400 ml-a">
+          <h2
+            className="fadeAnim mb-5 fweight-600 txtWhite"
+            dangerouslySetInnerHTML={{ __html: title }}
+          />
+          <div className="mt-5">
+            <div className="dis-f mb-1 pos-r">
+              <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
+              <p className="dis-b fweight-600 fsize-500 txtWhite">Compare to your local market</p>
+            </div>
+            <div className="dis-f mb-1 pos-r">
+              <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
+              <p className="dis-b fweight-600 fsize-500 txtWhite">Get free price indication</p>
+            </div>
+            <div className="dis-f mb-1 pos-r">
+              <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
+              <p className="dis-b fweight-600 fsize-500 txtWhite">Simulate your sale for free</p>
+            </div>
           </div>
-          <div className="dis-f mb-1 pos-r">
-            <BrixelIcon className="tickIcon" icon="check" saturationTxt="300" color="green" />
-            <p className="dis-b fweight-600 fsize-500 txtWhite">Get free price indication</p>
-          </div>
-          <div className="dis-f mb-1 pos-r">
-            <BrixelIcon className="tickIcon" icon="check" saturationTxt="300" color="green" />
-            <p className="dis-b fweight-600 fsize-500 txtWhite">Simulate your sale for free</p>
-          </div>
+          <BrixelButtonPrimary
+            className="mt-4"
+            rounded
+            rightIcon="arrow-right-small"
+            theme="red"
+            label={btnLabel || 'save'}
+            onClick={() => onClick()}
+          />
         </div>
-        <BrixelButtonPrimary
-          className="mt-4"
-          rounded
-          rightIcon="arrow-right-small"
-          theme="red"
-          label={btnLabel || 'save'}
-          onClick={() => onClick()}
-        />
       </div>
-      <div className="flex-1">
+      <div className="flex-1 pl-md-3">
         {/* Property Card */}
-        <div className="scaleAnim bgWhite max-w-fix-352 m-a brdRadius shadow-3dp ov-h">
+        <div className="scaleAnim bgWhite max-w-fix-352 mr-a brdRadius shadow-3dp ov-h">
           <img
             src={defImg}
             className="dis-b w-perc-100"

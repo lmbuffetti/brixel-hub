@@ -161,7 +161,7 @@ function PageHeader(props) {
           <div className={`dis-f a-c dis-f a-c  jc-b pos-r jc-b pos-r py-5 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
             <div className="dis-f jc-c a-c">
               <img
-                className={`logo dis-b ${widthScreen <= 600 ? 'w-fix-32 mr-2' : 'w-fix-88'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+                className={`logo dis-b ${widthScreen <= 600 ? 'w-fix-32 mr-2' : 'w-fix-96'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
                 src={`${widthScreen <= 600 ? logoColorIcon : logoColor}`}
                 alt="Brixel Logo"
                 id="header-logo"

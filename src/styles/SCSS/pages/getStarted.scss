@@ -11,6 +11,7 @@
   .textLabel {
     min-height: 130px;
     height: 100%;
+    padding-bottom: 0;
   }
 }
 #bodyModalWrapper {
@@ -27,16 +28,22 @@
     }
 
     .bodyModal {
-     // transition: all $default-loader-time $default-easing;
-      //will-change: background-image, opacity;
-
-      /* &.resume,
-      &.locationInput {
-        background-size: 450px;
-      } */
-      /* @media (max-width: $responsive-small) {
-        background-image: none !important;
-      } */
+      &.allRooms {
+        .wrap-brixel-input-step {
+          background: white;
+          position: relative;
+          .inputStepDisplay {
+            font-size: 40px;
+            font-family: $font-family-secondary;
+            width: auto;
+            padding: 0;
+            display: flex;
+          }
+        }
+      }
+      .inputStepDisplay {
+        font-family: $font-family-secondary;
+      }
 
       .slideBg {
         position: absolute;
@@ -100,16 +107,10 @@
         .multiStepSlides {
           max-height: inherit;
           height: inherit;
-         /*  height: calc(100% - 72px);
-          max-height: inherit;
 
-          @media (max-width: $responsive-medium) {
-            height: 100%;
-            max-height: calc(100% - 53px);
-          } */
           .singleStep {
             padding-top: 64px;
-            padding-bottom: 64px;
+            padding-bottom: 24px;
 
             @media (max-width: $responsive-medium) {
              padding-top: 40px;

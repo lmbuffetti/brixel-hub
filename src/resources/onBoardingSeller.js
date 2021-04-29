@@ -58,6 +58,14 @@ export const QuestionsList = (lang, country = 'CH') => {
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   return [
     {
+      title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
+      history: 'resume',
+      className: 'willAnimate',
+      bgImg: congratsSvg,
+      cardType: 'loadComponent',
+      component: ResumeCard,
+    },
+    {
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
@@ -125,7 +133,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: livingAreaTitle,
       history: 'livingSpace',
       cardType: 'livingSpace',
-      footerWidth: 'max-w-fix-600',
+      footerWidth: 'max-w-fix-384',
       bgImg: spaceSvg,
       showSendButton: false,
       inputs: [
@@ -135,7 +143,7 @@ export const QuestionsList = (lang, country = 'CH') => {
             noValue: 'Commercial',
           }],
           component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-600 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+          classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
           className: '',
           label: country === 'PT' ? 'Gross area' : 'Net living space',
           name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
@@ -151,8 +159,8 @@ export const QuestionsList = (lang, country = 'CH') => {
             value: 'Commercial',
           }],
           component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-600 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
-          className: 'max-w-fix-lg-232',
+          classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+          className: '',
           label: 'Floor space',
           name: 'properties.typology.floorSpace.value',
           type: 'number',
@@ -169,14 +177,14 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'constructionYear',
       cardType: 'constructionYear',
       bgImg: yearSvg,
-      footerWidth: 'max-w-fix-600',
+      footerWidth: 'max-w-fix-384',
       inputs: [
         {
           component: BrixelInputText,
           label: 'Construction year',
           name: 'properties.building.built',
           type: 'number',
-          classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+          classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
           placeholder: translateTo(lang, 'e.g. 1990'),
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLenghtNum: 9999,
@@ -235,14 +243,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         },
       ],
     },
-    {
-      title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
-      history: 'resume',
-      className: 'willAnimate',
-      bgImg: congratsSvg,
-      cardType: 'loadComponent',
-      component: ResumeCard,
-    },
+
     {
       conditions: [{
         name: 'owner',

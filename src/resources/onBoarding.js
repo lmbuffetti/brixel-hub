@@ -26,7 +26,7 @@ export const QuestionsList = (lang) => [
       validation: [Validation.required],
       icons: true,
       cardLayout: true,
-      pdClass: 'pt-3 pb-sm-5 pb-3',
+      pdClass: '',
       isHorizontal: true,
       options: [
         {

@@ -671,7 +671,7 @@ const GetStartedEstimation = (props) => {
                             (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
                               <BrixelButtonIcon
                                 className="backBtn pos-a-fix x-l-0"
-                                icon="arrow-simple-left"
+                                icon="arrow-left-small"
                                 onClick={() => changeStep('back')}
                                 theme="light"
                                 secondary

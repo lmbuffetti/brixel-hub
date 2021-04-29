@@ -594,7 +594,7 @@ const GetStartedSeller = (props) => {
                       (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
                         <BrixelButtonIcon
                           className="backBtn ml-0 mr-a"
-                          icon="arrow-simple-left"
+                          icon="arrow-left-small"
                           onClick={() => changeStep('back')}
                           theme="light"
                           secondary

@@ -206,7 +206,7 @@ header {
     background-color: map_get($lightColor, 300) !important;
   }
   .title {
-    min-width: 90px !important;
+    min-width: 45px !important;
     font-weight: 400;
   }
   &.dropdown.open ul {
@@ -327,7 +327,7 @@ img {
   }
 }
 
-.lh-in{
+.lh-in {
   line-height: initial;
 }
 
@@ -352,13 +352,15 @@ img {
           }
         }
         label .textLabel {
-          margin-left: $step * 2;
+          //margin-left: $step * 2;
           @include fontStyle(500);
         }
       }
+
       .brixel-input-step input {
         @include fontStyle(600);
       }
+
       .brixel-select .mobile-version,
       .brixel-text-input {
         @include fontStyle(500);
