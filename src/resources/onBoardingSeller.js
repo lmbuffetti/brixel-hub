@@ -58,14 +58,6 @@ export const QuestionsList = (lang, country = 'CH') => {
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   return [
     {
-      title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
-      history: 'resume',
-      className: 'willAnimate',
-      bgImg: congratsSvg,
-      cardType: 'loadComponent',
-      component: ResumeCard,
-    },
-    {
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
@@ -243,7 +235,14 @@ export const QuestionsList = (lang, country = 'CH') => {
         },
       ],
     },
-
+    {
+      title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
+      history: 'resume',
+      className: 'willAnimate',
+      bgImg: congratsSvg,
+      cardType: 'loadComponent',
+      component: ResumeCard,
+    },
     {
       conditions: [{
         name: 'owner',
