@@ -58,56 +58,6 @@ export const QuestionsList = (lang, country = 'CH') => {
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   return [
     {
-      title: translateTo(lang, 'What is the location?'),
-      history: 'locationInput',
-      cardType: 'locationInput',
-      footerWidth: 'max-w-fix-600',
-      bgImg: locationSvg,
-      inputs: [
-        {
-          component: MapsWithModalManual,
-          showMap: false,
-          name: 'location.searchAddress',
-          type: 'Map',
-          classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-          classBoxWrapper: 'mt-0 searchMapFields',
-          validation: [Validation.required],
-          mapOptions: {
-            showMap: false,
-            hideSearch: false,
-            showSelectCountry: true,
-            multipleFieldSearch: true,
-            draggable: true,
-          },
-        },
-      ],
-    },
-    {
-      title: translateTo(lang, 'Is this your correct location?'),
-      history: 'locationInputResume',
-      cardType: 'locationInputResume',
-      bgImg: locationSvg,
-      footerWidth: 'max-w-fix-600',
-      inputs: [
-        {
-          component: MapsWithModalManual,
-          showMap: true,
-          name: 'location.latitude',
-          type: 'Map',
-          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 px-0 px-sm-5 pt-0 pt-sm-5 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
-          widthBox: '100',
-          mapOptions: {
-            showMap: true,
-            hideSearch: true,
-            showSelectCountry: false,
-            multipleFieldSearch: false,
-            draggable: false,
-          },
-          validation: [Validation.required],
-        },
-      ],
-    },
-    {
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
@@ -235,7 +185,56 @@ export const QuestionsList = (lang, country = 'CH') => {
       ],
       successMessage: translateTo(lang, 'A good year for real estate.'),
     },
-
+    {
+      title: translateTo(lang, 'What is the location?'),
+      history: 'locationInput',
+      cardType: 'locationInput',
+      footerWidth: 'max-w-fix-600',
+      bgImg: locationSvg,
+      inputs: [
+        {
+          component: MapsWithModalManual,
+          showMap: false,
+          name: 'location.searchAddress',
+          type: 'Map',
+          classNameBox: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+          classBoxWrapper: 'mt-0 searchMapFields',
+          validation: [Validation.required],
+          mapOptions: {
+            showMap: false,
+            hideSearch: false,
+            showSelectCountry: true,
+            multipleFieldSearch: true,
+            draggable: true,
+          },
+        },
+      ],
+    },
+    {
+      title: translateTo(lang, 'Is this your correct location?'),
+      history: 'locationInputResume',
+      cardType: 'locationInputResume',
+      bgImg: locationSvg,
+      footerWidth: 'max-w-fix-600',
+      inputs: [
+        {
+          component: MapsWithModalManual,
+          showMap: true,
+          name: 'location.latitude',
+          type: 'Map',
+          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 px-0 px-sm-5 pt-0 pt-sm-5 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
+          widthBox: '100',
+          mapOptions: {
+            showMap: true,
+            hideSearch: true,
+            showSelectCountry: false,
+            multipleFieldSearch: false,
+            draggable: false,
+          },
+          validation: [Validation.required],
+        },
+      ],
+    },
     {
       title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
       history: 'resume',
