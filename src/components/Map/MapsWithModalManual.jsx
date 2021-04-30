@@ -584,7 +584,7 @@ export const MapsWithModalManual = (props) => {
                               key={i.toString()}
                               onClick={() => geoCode(loc.description, 'submit')}
                             >
-                              {highlight(get(loc, 'description', ''))}
+                              <div dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }} />
                               <BrixelIcon
                                 icon="location-pin-simple"
                               />
