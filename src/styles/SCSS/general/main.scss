@@ -361,11 +361,13 @@ img {
         @include fontStyle(600);
       }
 
+
       .brixel-select .mobile-version,
       .brixel-text-input {
         @include fontStyle(500);
         height: 48px;
       }
+
       .brixel-text-input-container .validation-icon {
         top: 14px;
       }

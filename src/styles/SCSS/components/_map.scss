@@ -1,39 +1,57 @@
 .resultAutoComplete {
-  box-shadow: $shadow-3dp;
   width: 100%;
   position: absolute;
   left: 0;
-  padding: $step;
-  border-radius: 0 0 $brd-radius-small $brd-radius-small;
+  padding: 0;
   z-index: 5;
   background: $brx-white;
   li {
     list-style: none;
-    padding: $step;
-    color: map_get($primaryColor, 700);
+
+    display: flex;
+    padding-left: 8px;
+    align-items: center;
+    justify-content: center;
+
+    color: map_get($darkColor, 700);
     cursor: pointer;
+
+    .singleLoc {
+      border-bottom: 1px solid map_get($lightColor, 300);
+      margin-left: 8px;
+      padding-bottom: 12px;
+      width: 100%;
+      padding-top: 12px;
+    }
+
     &:hover, &.active {
-      background: map_get($lightColor, 200);
+      background: map_get($lightColor, 100);
     }
     .highlight {
       font-weight: 600;
     }
+
   }
 }
 
+
 .locationsListMap {
-  margin-left: -100px;
   margin-top: 16px;
+  margin-left: -90px;
+  @media (max-width: $responsive-small) {
+    margin-left: -102px;
+  }
 }
 
 .searchMapCountry {
-  width: 85px;
+  width: 75px;
   @media (max-width: $responsive-small) {
-    width: 115px;
+    width: 84px;
   }
 
   .dropdown .selElement .title {
     text-overflow: clip;
+    font-size: 1.25rem;
   }
 }
 

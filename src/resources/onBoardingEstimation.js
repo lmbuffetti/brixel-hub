@@ -199,7 +199,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           label: 'Construction year',
           name: 'properties.building.built',
           type: 'number',
-          classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-5 py-5 brdRadius fieldHolder bgWhite m-a',
+          classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
           placeholder: translateTo(lang, 'e.g. 1990'),
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLenghtNum: 9999,
@@ -221,7 +221,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           showMap: false,
           name: 'location.latitude',
           type: 'Map',
-          classBoxWrapper: 'w-perc-100 flex-1 pl-2 searchMapFields',
+          classBoxWrapper: 'w-perc-100 flex- searchMapFields',
           mapOptions: {
             showMap: false,
             hideSearch: false,
@@ -245,7 +245,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           showMap: true,
           name: 'location.latitude',
           type: 'Map',
-          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 px-0 px-sm-5 pt-0 pt-sm-5 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
           widthBox: '100',
           mapOptions: {
             showMap: true,

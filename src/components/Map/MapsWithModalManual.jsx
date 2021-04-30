@@ -584,10 +584,12 @@ export const MapsWithModalManual = (props) => {
                               key={i.toString()}
                               onClick={() => geoCode(loc.description, 'submit')}
                             >
-                              <div dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }} />
                               <BrixelIcon
+                                color={i === selLocAuto ? 'dark' : 'light'}
+                                saturationTxt={700}
                                 icon="location-pin-simple"
                               />
+                              <div className="singleLoc" dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }} />
                             </li>
                           ))
                         }
@@ -626,7 +628,7 @@ export const MapsWithModalManual = (props) => {
       </div>
       {
         get(history, 'location.pathname', '').includes('locationInputResume') && (
-          <div className="dis-f jc-b a-c mt-2 px-2 px-sm-0">
+          <div className="dis-f jc-b a-c mt-3 mt-sm-4 px-2 px-sm-0">
             <div className="fweight-500 txtDark700 pr-1 pr-sm-0">
               <span>{get(formValue, 'location.name', '')}</span>
               {
