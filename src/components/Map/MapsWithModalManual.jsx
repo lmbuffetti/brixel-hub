@@ -18,6 +18,7 @@ import {
   BrixelSelect,
   ReduxField,
   Validation,
+  BrixelIcon,
   change, BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
@@ -570,6 +571,7 @@ export const MapsWithModalManual = (props) => {
                     onKeyDown={(e) => (disabled ? '' : keyUpInput(e))}
                     onClear={() => (disabled ? '' : changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude }))}
                     message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
+                    iconLeft="location-pin-simple"
                   />
                   {
                     !selectedAddress && locList.length > 0 && !disabled && (
@@ -581,8 +583,12 @@ export const MapsWithModalManual = (props) => {
                               tabIndex={i}
                               key={i.toString()}
                               onClick={() => geoCode(loc.description, 'submit')}
-                              dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
-                            />
+                            >
+                              {highlight(get(loc, 'description', ''))}
+                              <BrixelIcon
+                                icon="location-pin-simple"
+                              />
+                            </li>
                           ))
                         }
                       </ul>

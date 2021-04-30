@@ -366,6 +366,9 @@ img {
         @include fontStyle(500);
         height: 48px;
       }
+      .brixel-text-input-container .validation-icon {
+        top: 14px;
+      }
       .brixel-select .dropdown {
         height: 46px;
 
@@ -447,12 +450,7 @@ img {
     // locationInput dropdown overlfow
     .buyerHub .locationInput {
       #multiStepForm:not(.signUp) {
-        /* &.dropdownOpen {
-          overflow: visible !important;
-          .multiStepSlides {
-            overflow-y: visible !important;
-          }
-        } */
+
         .dropdown.compact.open ul {
           max-height: 250px;
         }
