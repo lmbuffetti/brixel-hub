@@ -13,6 +13,9 @@
       }
     }
   }
+  &.overlayOpen {
+    overflow: hidden;
+  }
   .flowHeader {
     background-color: #F7F6F5;
   }
@@ -87,7 +90,7 @@
       #multiStepForm {
         height: auto;
         padding-bottom: 40px;
-        transform: translate(0);
+        //transform: translate(0);
         &::before {
           content: none !important;
         }
@@ -415,7 +418,7 @@
   }
 }
 
-.locationInputResume {
+body:not(.overlayOpen).locationInputResume {
   @media (max-width: $responsive-small) {
     .singleStep {
       padding-left: 0 !important;
