@@ -523,7 +523,7 @@ const GetStartedSeller = (props) => {
                       }
                       {
                         quest.title && (
-                          <h3 className={`fweight-600 max-w-fix-400 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h3 className={`fweight-600 max-w-fix-408 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
                       {

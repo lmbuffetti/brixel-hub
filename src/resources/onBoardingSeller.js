@@ -222,7 +222,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           showMap: true,
           name: 'location.latitude',
           type: 'Map',
-          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 px-0 px-sm-5 pt-0 pt-sm-5 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
+          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
           widthBox: '100',
           mapOptions: {
             showMap: true,

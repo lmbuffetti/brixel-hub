@@ -331,7 +331,7 @@ export const MapsWithModalManual = (props) => {
   useOutsideAlerter(addressRef, { action: 'function', func: () => setLoclist([]) });
 
   const classNameDef = !className && showMap ? 'w-perc-100 dis-fl-col' : className;
-  const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-320' : 'h-fix-240';
+  const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-232' : 'h-fix-240';
   const mapSize = !className && showMap ? mapWindowSize : 'h-perc-100';
 
   // FUNCTION TO MANAGE KEY-CHANGE
@@ -397,7 +397,7 @@ export const MapsWithModalManual = (props) => {
             theme="dark"
             onClick={() => closeModal()}
           />
-          <div className="w-perc-100 px-2 px-sm-5 m-a py-5 h-perc-100 ov-y-a">
+          <div className="w-perc-100 px-2 px-sm-5 m-a pt-5 h-perc-100 ov-y-a">
             <h3 className="mt-3 mb-5 w-perc-100 pr-4">
               Please edit your address manually.
             </h3>
@@ -513,11 +513,11 @@ export const MapsWithModalManual = (props) => {
           </div>
           {
             errorResult && (
-              <p className="px-5 txtRed400" dangerouslySetInnerHTML={{ __html: errorResult }} />
+              <p className="px-5 pt-3 txtRed400" dangerouslySetInnerHTML={{ __html: errorResult }} />
             )
           }
           <div
-            className="footerAction shadow-1dp-top normStep"
+            className={`footerAction shadow-1dp-top normStep ${errorResult ? 'mt-2' : 'mt-5'}`}
           >
             <div className="pos-r p-2">
               <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-b jc-fe-sm">
@@ -628,7 +628,7 @@ export const MapsWithModalManual = (props) => {
       </div>
       {
         get(history, 'location.pathname', '').includes('locationInputResume') && (
-          <div className="dis-f jc-b a-c mt-3 mt-sm-4 px-2 px-sm-0">
+          <div className="dis-f jc-b a-c mt-3 mt-sm-4 px-2">
             <div className="fweight-500 txtDark700 pr-1 pr-sm-0">
               <span>{get(formValue, 'location.name', '')}</span>
               {
