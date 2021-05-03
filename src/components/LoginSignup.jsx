@@ -289,7 +289,7 @@ const LoginSignup = (props) => {
       <div className="w-perc-100 w-perc-md-50 dis-f">
         <div className="max-w-fix-600 pt-2 px-3 pb-3 px-md-5 pb-md-5 txtWhite">
           <h2 className="txtWhite fsize-700 fweight-600 mb-3">
-            Our premium standard every property deserves
+            Your benefits when you sell with Brixel.
           </h2>
 
           <Accordion
