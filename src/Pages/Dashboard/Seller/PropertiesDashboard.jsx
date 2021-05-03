@@ -19,7 +19,6 @@ import { spinnerOff } from '../../../actions/CommonActions';
 const HomeDashboard = (props) => {
   // PROPS
   const {
-    activeSingleCompany,
     form,
     handleGetUserProperties,
     history,
@@ -200,7 +199,6 @@ const HomeDashboard = (props) => {
 };
 
 HomeDashboard.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
