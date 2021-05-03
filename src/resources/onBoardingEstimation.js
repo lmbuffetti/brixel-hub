@@ -15,16 +15,6 @@ import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import commercial from '../images/BrxielComingTown/commercial.svg';
 
-import aptIcon from '../images/getstarted/aptIcon.svg';
-import houIcon from '../images/getstarted/houIcon.svg';
-import lanIcon from '../images/getstarted/lanIcon.svg';
-
-import homesSvg from '../images/getstarted/svgs/homes.svg';
-import spaceSvg from '../images/getstarted/svgs/space.svg';
-import locationSvg from '../images/getstarted/svgs/location.svg';
-import roomsSvg from '../images/getstarted/svgs/room.svg';
-import congratsSvg from '../images/getstarted/svgs/congrats.svg';
-import yearSvg from '../images/getstarted/svgs/year.svg';
 import userType from '../images/getstarted/svgs/userType.svg';
 import { BestimateQuestions } from './Bestimate';
 import MapsWithModalManual from '../components/Map/MapsWithModalManual';
@@ -67,7 +57,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'What is the estimation for?'),
       history: 'estimationType',
       vCentered: true,
-      bgImg: userType,
       footerWidth: 'max-w-fix-464',
       inputs: [{
         component: BrixelRadioButton,
@@ -87,7 +76,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'propertyType',
       vCentered: true,
       footerWidth: 'max-w-fix-880',
-      bgImg: homesSvg,
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
@@ -104,19 +92,19 @@ export const QuestionsList = (lang, country = 'CH') => {
           {
             label: translateTo(lang, 'Apartment'),
             value: 'Apartment',
-            img: aptIcon,
+            img: apartment,
             color: 'blue',
           },
           {
             label: translateTo(lang, 'House'),
             value: 'House',
-            img: houIcon,
+            img: house,
             color: 'blue',
           },
           {
             label: translateTo(lang, 'Commercial'),
             value: 'Commercial',
-            img: houIcon,
+            img: commercial,
             color: 'blue',
           },
         ],
@@ -127,7 +115,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'How many rooms?'),
       history: 'allRooms',
       cardType: 'allRooms',
-      bgImg: roomsSvg,
       footerWidth: 'max-w-fix-384',
       inputs: [
         {
@@ -151,7 +138,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: livingAreaTitle,
       history: 'livingSpace',
       cardType: 'livingSpace',
-      bgImg: spaceSvg,
       footerWidth: 'max-w-fix-384',
       inputs: [
         {
@@ -192,7 +178,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'constructionYear',
       cardType: 'constructionYear',
       footerWidth: 'max-w-fix-384',
-      bgImg: yearSvg,
       inputs: [
         {
           component: BrixelInputText,
@@ -212,7 +197,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'What is the location?'),
       history: 'locationInput',
       cardType: 'locationInput',
-      bgImg: locationSvg,
       footerWidth: 'max-w-fix-600',
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       inputs: [
@@ -237,7 +221,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'Is this your correct location?'),
       history: 'locationInputResume',
       cardType: 'locationInputResume',
-      bgImg: locationSvg,
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -261,7 +244,6 @@ export const QuestionsList = (lang, country = 'CH') => {
     {
       title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
       history: 'resume',
-      bgImg: congratsSvg,
       cardType: 'loadComponent',
       component: ResumeCard,
       btnLabel: 'Continue',
@@ -274,7 +256,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       }],
       history: 'createProfile',
       component: LoginSignup,
-      bgImg: congratsSvg,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
       cardType: 'createProfile',

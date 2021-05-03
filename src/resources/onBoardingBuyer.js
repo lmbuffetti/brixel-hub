@@ -16,16 +16,7 @@ import { configureStore } from '../store';
 
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
-import buildingLand from '../images/BrxielComingTown/building-land.svg';
-
-import aptIcon from '../images/getstarted/aptIcon.svg';
-import houIcon from '../images/getstarted/houIcon.svg';
-import lanIcon from '../images/getstarted/lanIcon.svg';
-
-import homesSvg from '../images/getstarted/svgs/homes.svg';
-import locationSvg from '../images/getstarted/svgs/location.svg';
-import roomsSvg from '../images/getstarted/svgs/room.svg';
-import congratsSvg from '../images/getstarted/svgs/congrats.svg';
+import land from '../images/BrxielComingTown/land.svg';
 
 const { factsOptions } = FactsOptions;
 
@@ -61,7 +52,6 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'What kind of property would you like to buy?'),
       history: 'propertyType',
       vCentered: true,
-      bgImg: homesSvg,
       footerWidth: 'max-w-fix-880',
       inputs: [
         {
@@ -80,19 +70,19 @@ export const QuestionsList = (lang) => {
             {
               label: translateTo(lang, 'Apartment'),
               value: 'Apartment',
-              img: aptIcon,
+              img: apartment,
               color: 'blue',
             },
             {
               label: translateTo(lang, 'House'),
               value: 'House',
-              img: houIcon,
+              img: house,
               color: 'blue',
             },
             {
               label: 'Building land',
               value: 'Building land',
-              img: lanIcon,
+              img: land,
               color: 'blue',
             },
           ],
@@ -104,7 +94,6 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'How big should it be?'),
       history: 'tipology',
       vCentered: true,
-      bgImg: roomsSvg,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a pl-2 pr-0 px-sm-5 py-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
@@ -139,7 +128,6 @@ export const QuestionsList = (lang) => {
       subtitle: 'You can choose more than one.',
       history: 'extraFeature',
       vCentered: true,
-      bgImg: roomsSvg,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-800 m-a px-2 px-sm-5 py-5',
       footerWidth: 'max-w-fix-800',
       inputs: [
@@ -157,7 +145,6 @@ export const QuestionsList = (lang) => {
       subtitle: translateTo(lang, 'You can add multiple addresses.'),
       history: 'locationInput',
       cardType: 'locationInput',
-      bgImg: locationSvg,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
@@ -194,7 +181,6 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'What is your budget?'),
       history: 'price',
       cardType: 'Price',
-      bgImg: congratsSvg,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a',
       footerWidth: 'max-w-fix-600',
       inputs: [
@@ -215,7 +201,6 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'What is your family situation?'),
       history: 'familySituation',
       cardType: 'FamilySituation',
-      bgImg: congratsSvg,
       className: 'max-w-fix-480 m-a',
       footerWidth: 'max-w-fix-480',
       inputs: [
@@ -238,7 +223,6 @@ export const QuestionsList = (lang) => {
       cardType: 'Knowledge',
       className: 'max-w-fix-480 m-a',
       footerWidth: 'max-w-fix-480',
-      bgImg: congratsSvg,
       inputs: [
         {
           component: BrixelRadioButton,
@@ -255,7 +239,6 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'What is your current living situation?'),
       history: 'livingSituation',
       cardType: 'LivingSituation',
-      bgImg: congratsSvg,
       className: 'max-w-fix-480 m-a',
       footerWidth: 'max-w-fix-480',
       inputs: [
@@ -277,7 +260,6 @@ export const QuestionsList = (lang) => {
       }],
       history: 'createProfile',
       component: LoginSignup,
-      bgImg: congratsSvg,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
       cardType: 'createProfile',

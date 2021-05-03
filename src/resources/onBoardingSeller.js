@@ -14,17 +14,7 @@ import { configureStore } from '../store';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import commercial from '../images/BrxielComingTown/commercial.svg';
-
-import aptIcon from '../images/getstarted/aptIcon.svg';
-import houIcon from '../images/getstarted/houIcon.svg';
-import lanIcon from '../images/getstarted/lanIcon.svg';
-
-import homesSvg from '../images/getstarted/svgs/homes.svg';
-import spaceSvg from '../images/getstarted/svgs/space.svg';
-import locationSvg from '../images/getstarted/svgs/location.svg';
-import roomsSvg from '../images/getstarted/svgs/room.svg';
-import congratsSvg from '../images/getstarted/svgs/congrats.svg';
-import yearSvg from '../images/getstarted/svgs/year.svg';
+// import land from '../images/BrxielComingTown/land.svg';
 
 // VALIDATION OF FIELDS
 export const maxLengthNum = (val, name) => (value) => {
@@ -61,7 +51,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
-      bgImg: homesSvg,
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
@@ -78,19 +67,19 @@ export const QuestionsList = (lang, country = 'CH') => {
           {
             label: translateTo(lang, 'Apartment'),
             value: 'Apartment',
-            img: aptIcon,
+            img: apartment,
             color: 'blue',
           },
           {
             label: translateTo(lang, 'House'),
             value: 'House',
-            img: houIcon,
+            img: house,
             color: 'blue',
           },
           {
             label: translateTo(lang, 'Commercial'),
             value: 'Commercial',
-            img: houIcon,
+            img: commercial,
             color: 'blue',
           },
         ],
@@ -101,7 +90,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'How many rooms?'),
       history: 'allRooms',
       cardType: 'allRooms',
-      bgImg: roomsSvg,
       footerWidth: 'max-w-fix-384',
       inputs: [
         {
@@ -126,7 +114,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'livingSpace',
       cardType: 'livingSpace',
       footerWidth: 'max-w-fix-384',
-      bgImg: spaceSvg,
       showSendButton: false,
       inputs: [
         {
@@ -168,7 +155,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'What is the construction year?'),
       history: 'constructionYear',
       cardType: 'constructionYear',
-      bgImg: yearSvg,
       footerWidth: 'max-w-fix-384',
       inputs: [
         {
@@ -190,7 +176,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'locationInput',
       cardType: 'locationInput',
       footerWidth: 'max-w-fix-600',
-      bgImg: locationSvg,
       inputs: [
         {
           component: MapsWithModalManual,
@@ -214,7 +199,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'Is this your correct location?'),
       history: 'locationInputResume',
       cardType: 'locationInputResume',
-      bgImg: locationSvg,
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -239,7 +223,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
       history: 'resume',
       className: 'willAnimate',
-      bgImg: congratsSvg,
       cardType: 'loadComponent',
       component: ResumeCard,
       btnLabel: 'Continue',
@@ -251,7 +234,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       }],
       history: 'createProfile',
       component: LoginSignup,
-      bgImg: congratsSvg,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
       cardType: 'createProfile',
