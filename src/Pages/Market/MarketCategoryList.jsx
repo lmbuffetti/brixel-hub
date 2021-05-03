@@ -243,7 +243,7 @@ const MarketCategoryList = (props) => {
                   <p className="max-w-fix-440 txtDark700 pl-2"> Are you looking for a property to buy? Define your
                     <a
                       className="link"
-                      href="/packageFlow/getStartedBuyer"
+                      href={`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`}
                     >
                       &nbsp;search profile
                     </a> and get exclusive access to hundreds of properties that are not yet on market.

@@ -19,7 +19,6 @@ import { spinnerOff } from '../../../actions/CommonActions';
 const HomeDashboard = (props) => {
   // PROPS
   const {
-    activeSingleCompany,
     form,
     handleGetUserProperties,
     history,
@@ -104,7 +103,7 @@ const HomeDashboard = (props) => {
               label="Create new"
               rightIcon="plus"
               rounded
-              onClick={() => history.push(`/packageFlow/getStarted?company=${get(activeSingleCompany, 'stub', '')}`)}
+              onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
             />
           </div>
           <div className="properties listings-wrapper w-perc-100 px-1">
@@ -200,7 +199,6 @@ const HomeDashboard = (props) => {
 };
 
 HomeDashboard.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
