@@ -51,7 +51,7 @@ const ResumeCard = (props) => {
               rounded
               rightIcon="arrow-right-small"
               theme="red"
-              label={btnLabel || 'Continue'}
+              label={btnLabel || 'Save'}
               onClick={() => onClick()}
             />
           </div>

@@ -264,7 +264,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       bgImg: congratsSvg,
       cardType: 'loadComponent',
       component: ResumeCard,
-      btnLabel: 'Next',
+      btnLabel: 'Continue',
     },
     ...BestimateQuestions('getStarted', countryCode),
     {
