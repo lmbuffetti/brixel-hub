@@ -88,8 +88,8 @@ const Market = (props) => {
     <div className="market-container container" id="market">
       {/* premarket overlay */}
       <Switch>
-        <Route exact path="/home" component={MarketCategoryList} />
-        <Route exact path="/home/:cat/:id?" component={MarketList} />
+        <Route exact path="/sell" component={MarketCategoryList} />
+        <Route exact path="/sell/:cat/:id?" component={MarketList} />
       </Switch>
     </div>
   );

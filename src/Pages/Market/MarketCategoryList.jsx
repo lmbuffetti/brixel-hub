@@ -114,7 +114,7 @@ const MarketCategoryList = (props) => {
     history.push(`/${activeMarketOverlayProperty.id}/rewards/achievement/bestimate/step1`);
     setMarketOverlayProperty({});
     setSplashScreen('');
-    handleSetHistory({ source: '/home' });
+    handleSetHistory({ source: '/sell' });
   };
 
   const openSupport = (e) => {

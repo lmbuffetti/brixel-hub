@@ -329,14 +329,11 @@ function PageHeaderDashboard(props) {
 
   useEffect(() => {
     switch (section) {
-      case 'Market':
-        setLinkSection('/home');
-        break;
       case 'Buy':
-        setLinkSection('/buyer/propertyLists');
+        setLinkSection('/buy');
         break;
       default:
-        setLinkSection('/seller/pageLists');
+        setLinkSection('/sell');
         break;
     }
   }, [section]);
@@ -397,28 +394,22 @@ function PageHeaderDashboard(props) {
                   ) : (
                     <>
                       <span
-                        className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
-                        onClick={() => history.push('/home')}
-                      >
-                        Market
-                      </span>
-                      <span
-                        className={`pr-3 cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
+                        className={`pr-3 cur-poi ${history.location.pathname.includes('/sell') ? 'fweight-600 txtDark600' : ''}`}
                         onClick={() => {
                           handleSetUserTypes('seller');
                           handleSetActiveSingleProperty({});
-                          history.push('/seller/pageLists');
+                          history.push('/sell');
                         }}
                       >
                         Sell
                       </span>
                       <span
-                        className={`cur-poi ${history.location.pathname.includes('/buyer') ? 'fweight-600 txtDark600' : ''}`}
+                        className={`cur-poi ${history.location.pathname.includes('/buy') ? 'fweight-600 txtDark600' : ''}`}
                         onClick={() => {
                           destroyForm();
                           handleSetUserTypes('buyer');
                           handleSetActiveSingleProperty({});
-                          history.push('/buyer/propertyLists');
+                          history.push('/buy');
                         }}
                       >
                         Buy
