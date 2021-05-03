@@ -34,15 +34,16 @@ const ResumeCard = (props) => {
             <div className="mt-5">
               <div className="dis-f mb-2 pos-r">
                 <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
-                <p className="dis-b fweight-600 fsize-500 txtWhite">Compare to your local market</p>
+
+                <p className="dis-b fweight-600 fsize-500 txtWhite">Get a free price indication</p>
               </div>
               <div className="dis-f mb-2 pos-r">
                 <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
-                <p className="dis-b fweight-600 fsize-500 txtWhite">Get free price indication</p>
+                <p className="dis-b fweight-600 fsize-500 txtWhite">Prepare your property for sale</p>
               </div>
               <div className="dis-f mb-2 pos-r">
                 <BrixelIcon className="tickIcon" icon="check" saturationTxt={300} color="green" />
-                <p className="dis-b fweight-600 fsize-500 txtWhite">Simulate your sale for free</p>
+                <p className="dis-b fweight-600 fsize-500 txtWhite"> Test drive our services</p>
               </div>
             </div>
             <BrixelButtonPrimary
@@ -50,7 +51,7 @@ const ResumeCard = (props) => {
               rounded
               rightIcon="arrow-right-small"
               theme="red"
-              label={btnLabel || 'save'}
+              label={btnLabel || 'Continue'}
               onClick={() => onClick()}
             />
           </div>

@@ -266,9 +266,9 @@ const LoginSignup = (props) => {
           }
         </div>
         <div className="footerActionLogin">
-          <div className="dis-f jc-c my-3 pos-r">
+          <div className="dis-fl-col col-reverse dis-fl-row-sm a-c jc-c my-3 pos-r">
             <BrixelButtonSecondary
-              className="pos-a-fix x-l-0"
+              className="pos-a-fix-sm x-l-0 mt-2 mt-sm-0"
               bgTransparent
               rounded
               theme="white"
@@ -279,7 +279,7 @@ const LoginSignup = (props) => {
               rounded
               rightIcon="arrow-right-small"
               theme="red"
-              className="ml-a mr-a"
+              className="mr-sm-a ml-sm-a"
               label={PrimaryButton().label}
               onClick={PrimaryButton().action}
             />

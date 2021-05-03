@@ -99,34 +99,24 @@ function PageHeader(props) {
       setWidthScreen(window.innerWidth);
       window.addEventListener('resize', () => screenResize());
     }
-    if (history.location.pathname.includes('/resume')) {
-      document.body.classList.add('flowBody');
-      document.body.classList.add('flowResume');
-    } else {
-      document.body.classList.add('flowBody');
-    }
   }, []);
 
   // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
   useEffect(() => {
-    if (history.location.pathname.includes('/resume') ||
-      history.location.pathname.includes('/createProfile')) {
+    document.body.classList.add('flowBody');
+
+    if (history.location.pathname.includes('/resume')) {
       document.body.classList.add('flowResume');
     } else {
       document.body.classList.remove('flowResume');
-      document.body.classList.add('flowBody');
+    }
+
+    if (history.location.pathname.includes('/createProfile')) {
+      document.body.classList.add('flowProfile');
+    } else {
+      document.body.classList.remove('flowProfile');
     }
   }, [history.location.pathname]);
-
-  // FUNCTION TO MANAGE THE ZINDEX IF slideUp CLASS EXISTS
-  /* useEffect(() => {
-    const getElementByClass = document.getElementsByClassName('slideUp');
-    if (getElementByClass.length > 0) {
-      setZIndexHeader(0);
-    } else if (!history.location.pathname.includes('packageFlow')) {
-      setZIndexHeader(11);
-    }
-  }, [get(history, 'location.pathname', null)]); */
 
   // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
   const newLang = useCallback((e, langCode) => {

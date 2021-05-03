@@ -1,7 +1,10 @@
 .flowBody {
   background-color: #F7F6F5;
+  &.flowProfile,
   &.flowResume {
     background-color: map-get($greenColor, 500);
+  }
+  &.flowResume {
     .content .container {
       @media (max-width: $responsive-small) {
         padding-left: 0;
@@ -159,6 +162,9 @@
           }
         }
         .footerActionLogin {
+          .col-reverse {
+            flex-direction: column-reverse;
+          }
         }
       }
 
