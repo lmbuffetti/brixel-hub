@@ -14,7 +14,6 @@ import { configureStore } from '../store';
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import commercial from '../images/BrxielComingTown/commercial.svg';
-// import land from '../images/BrxielComingTown/land.svg';
 
 // VALIDATION OF FIELDS
 export const maxLengthNum = (val, name) => (value) => {
