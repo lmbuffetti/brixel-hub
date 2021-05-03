@@ -12,6 +12,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setFormError } from '../actions/CommonActions';
 import { translateTo } from '../utils/translation';
 import Support from './Support';
+import Accordion from './Accordion';
 
 // COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {
@@ -133,7 +134,7 @@ const LoginSignup = (props) => {
     <div className="signUpScreen pos-r dis-f flex-wrap">
       <div className="w-perc-100 max-w-fix-600 m-a w-perc-md-50">
         <div className="mr-a onBoardingSignUp">
-          {
+          {/* {
             (loginPage === 'register' || loginPage === 'login') && (
               <h3 className="txtWhite fweight-600 ta-c mb-5">
                 {
@@ -148,7 +149,7 @@ const LoginSignup = (props) => {
                 }
               </h3>
             )
-          }
+          } */}
 
           {
             (loginPage === 'register' || loginPage === 'login') && (
@@ -285,18 +286,36 @@ const LoginSignup = (props) => {
           </div>
         </div>
       </div>
-      <div className="w-perc-100 w-perc-md-50 dis-f a-c">
-        <div className="max-w-fix-600 p-3 p-md-5 txtWhite">
+      <div className="w-perc-100 w-perc-md-50 dis-f">
+        <div className="max-w-fix-600 pt-2 px-3 pb-3 px-md-5 pb-md-5 txtWhite">
           <h2 className="txtWhite fsize-700 fweight-600 mb-3">
             Our premium standard every property deserves
           </h2>
 
-          <h4 className="txtWhite fweight-600">
-            Empowering tools & guidance
-          </h4>
-          <p className="txtWhite py-2">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem veritatis deserunt fuga perspiciatis tempore eaque. Consectetur delectus, aperiam atque quo ea, neque inventore cupiditate facere labore pariatur, quis soluta veniam.
-          </p>
+          <Accordion
+            title="Sell without an agent"
+            titleClass="fsize-600 txtWhite fweight-600"
+            contentClass="txtWhite py-2"
+            className="mb-2"
+            isExpanded
+          >
+            All our service packages have fixed prices. Without any exclusive brokerage contract or commission. Just pay what you need.
+          </Accordion>
+          <Accordion
+            title="The best presentation"
+            titleClass="fsize-600 txtWhite fweight-600"
+            contentClass="txtWhite py-2"
+            className="mb-2"
+          >
+            All our properties are presented on a dedicated website with a 3D tour, high-quality photos, and much more. Buyers confirm that the presentation is outstanding.
+          </Accordion>
+          <Accordion
+            title="Start with a free test drive"
+            titleClass="fsize-600 txtWhite fweight-600"
+            contentClass="txtWhite py-2"
+          >
+            Convince yourself of our quality before you commit to any package. We offer a 7 days trial for all our packages. No strings attached.
+          </Accordion>
         </div>
       </div>
     </div>
