@@ -10,12 +10,11 @@ import {
   destroy,
 } from '@brixel/brixel-components';
 import {
-  getOwnedProperties, getFavoritesProperties, getNewProperties,
-  getPremiumProperties, getPremarketProperties, getLastViewedProperties,
+  getOwnedProperties,
+  getPremiumProperties,
 } from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
-import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import { updateFavorite } from '../../actions/UserActions';
 
 const MarketCategoryListSeller = Loadable({
@@ -32,17 +31,11 @@ const MarketSeller = (props) => {
   // PROPS
   const {
     destroyForm,
-    handleGetFavoritesProperties,
-    handleGetLastViewedProperties,
-    handleGetNewProperties,
-    handleGetPreMarketProperties,
     handleGetPremiumProperties,
     handleGetSellerProperties,
-    handleGetUserSearchProfiles,
     handleSpinnerOff,
     history,
     loggedInUser,
-    userSearchProfiles,
   } = props;
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
@@ -76,21 +69,11 @@ const MarketSeller = (props) => {
 
 MarketSeller.propTypes = {
   destroyForm: PropTypes.func.isRequired,
-  handleGetFavoritesProperties: PropTypes.func.isRequired,
-  handleGetLastViewedProperties: PropTypes.func.isRequired,
-  handleGetNewProperties: PropTypes.func.isRequired,
-  handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
-  handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-};
-
-MarketSeller.defaultProps = {
-  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({
@@ -98,7 +81,6 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   splashScreenType: get(state, 'common.splashScreenType', ''),
-  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
@@ -106,13 +88,8 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('Property'));
   },
-  handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
-  handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
-  handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
-  handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
-  handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

@@ -5,12 +5,9 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
-  BrixelIcon,
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
-  BrixelDropdown,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -23,7 +20,6 @@ import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 import CardImageText from '../../components/Skeleton/CardImageText';
 import Loading from '../../components/Loading';
-import NoPropertiesImg from '../../images/searchProfile/no-found-properties.svg';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -34,25 +30,18 @@ const MarketCategoryListSeller = (props) => {
   // PROPS
   const {
     activeMarketOverlayProperty,
-    // activeSingleCompany,
     activeSingleProperty,
     bestimate,
-    favoritesProperties,
     handleGetEstimation,
     handleSetHistory,
     history,
     loggedInUser,
-    match,
-    newProperties,
     ownerProperties,
-    preMarketProperties,
     premiumProperties,
     setPropertyEstimation,
     setSplashScreen,
     setMarketOverlayProperty,
     splashScreenType,
-    userSearchProfiles,
-    windowDimensions,
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
@@ -82,9 +71,6 @@ const MarketCategoryListSeller = (props) => {
         setCookie('brixelSplashHome', null);
         setSplashScreen('bestimateTeaser');
       }
-    }
-    if (getCookie('brixelSplashHome') === 'buyerWelcome') {
-      setSplashScreen('buyerWelcome');
     }
     if (getCookie('brixelSplashHome') === 'sellerWelcome' && get(ownerProperties, 'data', []).length === 1) {
       setSplashScreen('sellerWelcome');
@@ -122,16 +108,6 @@ const MarketCategoryListSeller = (props) => {
     history.push({ state: { showSupport: true } });
     setSplashScreen('');
     setCookie('brixelSplashHome', null);
-  };
-
-  const scrollToTopEdit = () => {
-    const scrollEl = document.getElementsByClassName('hubDasContent')[0];
-    if (scrollEl) scrollEl.scrollTop = 0;
-  };
-
-  const selectMobileFilter = (e, value) => {
-    if (e) e.preventDefault();
-    history.push(`${match.url}/${value}`);
   };
 
   useEffect(() => {
@@ -437,26 +413,16 @@ MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
-  favoritesProperties: PropTypes.object.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  newProperties: PropTypes.object.isRequired,
   ownerProperties: PropTypes.object.isRequired,
-  preMarketProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   setMarketOverlayProperty: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-  windowDimensions: PropTypes.object.isRequired,
-};
-
-MarketCategoryListSeller.defaultProps = {
-  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({

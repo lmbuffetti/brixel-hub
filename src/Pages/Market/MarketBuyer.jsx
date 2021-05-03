@@ -33,11 +33,9 @@ const MarketBuyer = (props) => {
   const {
     destroyForm,
     handleGetFavoritesProperties,
-    handleGetLastViewedProperties,
     handleGetNewProperties,
     handleGetPreMarketProperties,
     handleGetPremiumProperties,
-    handleGetSellerProperties,
     handleGetUserSearchProfiles,
     handleSpinnerOff,
     history,
@@ -58,7 +56,6 @@ const MarketBuyer = (props) => {
         multiLoader: true,
       };
       handleGetFavoritesProperties(data);
-      handleGetLastViewedProperties();
       handleGetUserSearchProfiles(loggedInUser.id);
       handleSpinnerOff();
     }
@@ -75,6 +72,7 @@ const MarketBuyer = (props) => {
         multiLoader: true,
         searchProfileId: get(userSearchProfiles[0], 'id', null),
       };
+      handleGetNewProperties(data);
       handleGetPreMarketProperties(data);
       handleGetPremiumProperties(data);
       handleSpinnerOff();
@@ -95,11 +93,9 @@ const MarketBuyer = (props) => {
 MarketBuyer.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
-  handleGetLastViewedProperties: PropTypes.func.isRequired,
   handleGetNewProperties: PropTypes.func.isRequired,
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
-  handleGetSellerProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,

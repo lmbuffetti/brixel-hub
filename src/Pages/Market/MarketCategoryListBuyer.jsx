@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -9,7 +9,6 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonIcon,
-  Helpers,
   BrixelDropdown,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
@@ -17,12 +16,8 @@ import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
-import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
-import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import CardImageText from '../../components/Skeleton/CardImageText';
-import Loading from '../../components/Loading';
 import NoPropertiesImg from '../../images/searchProfile/no-found-properties.svg';
 
 const CarouselWrapper = Loadable({
@@ -33,13 +28,7 @@ const CarouselWrapper = Loadable({
 const MarketCategoryListBuyer = (props) => {
   // PROPS
   const {
-    activeMarketOverlayProperty,
-    // activeSingleCompany,
-    activeSingleProperty,
-    bestimate,
     favoritesProperties,
-    handleGetEstimation,
-    handleSetHistory,
     history,
     loggedInUser,
     match,
@@ -47,47 +36,16 @@ const MarketCategoryListBuyer = (props) => {
     ownerProperties,
     preMarketProperties,
     premiumProperties,
-    setPropertyEstimation,
     setSplashScreen,
-    setMarketOverlayProperty,
     splashScreenType,
     userSearchProfiles,
     windowDimensions,
   } = props;
 
-  const marketCookie = getCookie('brixelMarketBestimate');
-  const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
-
-  useEffect(() => {
-    setBestimateMessage(marketCookie === 'true');
-  }, [marketCookie]);
-
   // Update market card when bestimate changes
   useEffect(() => {
-    if (getCookie('brixelSplashHome') === 'bestimateResult' && get(ownerProperties, 'data', []).length > 0) {
-      if (ownerProperties.data[0].location.countryCode === 'CH' || ownerProperties.data[0].location.countryCode === 'PT') {
-        if (!has(ownerProperties.data[0], 'estimation.result')) {
-          const payload = {
-            type: 'market',
-            id: ownerProperties.data[0].id,
-          };
-          handleGetEstimation(payload);
-        }
-        setCookie('brixelMarketBestimate', false);
-        setCookie('brixelSplashHome', null);
-        setSplashScreen('bestimateResult');
-        setPropertyEstimation(get(ownerProperties.data[0], 'estimation', {}));
-      } else {
-        setCookie('brixelMarketBestimate', false);
-        setCookie('brixelSplashHome', null);
-        setSplashScreen('bestimateTeaser');
-      }
-    }
     if (getCookie('brixelSplashHome') === 'buyerWelcome') {
       setSplashScreen('buyerWelcome');
-    }
-    if (getCookie('brixelSplashHome') === 'sellerWelcome' && get(ownerProperties, 'data', []).length === 1) {
-      setSplashScreen('sellerWelcome');
     }
   }, [getCookie('brixelSplashHome'), ownerProperties]);
 
@@ -466,12 +424,7 @@ const MarketCategoryListBuyer = (props) => {
 };
 
 MarketCategoryListBuyer.propTypes = {
-  activeMarketOverlayProperty: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
-  bestimate: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,
-  handleGetEstimation: PropTypes.func.isRequired,
-  handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -479,9 +432,7 @@ MarketCategoryListBuyer.propTypes = {
   ownerProperties: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
-  setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
-  setMarketOverlayProperty: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
@@ -492,16 +443,10 @@ MarketCategoryListBuyer.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
-  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  bestimate: get(state, 'property.estimation.result', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
-  lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
   ownerEstimations: get(state, 'market.ownerEstimations', {}),
-  ownerProperties: get(state, 'market.ownerProperties', {}),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
