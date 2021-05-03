@@ -104,7 +104,7 @@ const HomeDashboard = (props) => {
               label="Create new"
               rightIcon="plus"
               rounded
-              onClick={() => history.push(`/packageFlow/getStarted?company=${get(activeSingleCompany, 'stub', '')}`)}
+              onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
             />
           </div>
           <div className="properties listings-wrapper w-perc-100 px-1">
