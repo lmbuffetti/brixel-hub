@@ -564,7 +564,7 @@ export const MapsWithModalManual = (props) => {
                     input={{
                       onChange: (e, name) => (disabled ? '' : changeFieldValue(formName, name || 'location.searchAddress', e)),
                       onBlur: () => '',
-                      onFocus: () => (disabled ? '' : setSelectedAddress(false)),
+                      // onFocus: () => (disabled ? '' : setSelectedAddress(false)),
                       value: get(formValue, 'location.searchAddress', '') || '',
                       name: 'location.searchAddress',
                     }}
