@@ -33,7 +33,7 @@ const IntroScanFlow = () => (
         <div className="brdRadius ov-h">
           <img src={scanTrialImg3} alt="text-1" />
           <h5 className="mt-2 mb-1">Know what your property is worth.</h5>
-          <p>You will get to know what's the fair market value of your property thanks to a full estimation by our experts.</p>
+          <p>You will get to know what&apos;s the fair market value of your property thanks to a full estimation by our experts.</p>
         </div>
       </div>
     </div>

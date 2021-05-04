@@ -321,10 +321,8 @@ function PageHeaderDashboard(props) {
   };
 
   useEffect(() => {
-    if (get(history, 'location.state.section', null)) {
-      setSection(get(history, 'location.state.section', null));
-    } else if (userType === 'seller' && section !== 'Market') setSection('Sell');
-    else if (section !== 'Market') setSection('Buy');
+    if (userType === 'seller') setSection('Sell');
+    else setSection('Buy');
   }, [get(history, 'location.state', null), userType]);
 
   useEffect(() => {
@@ -380,7 +378,7 @@ function PageHeaderDashboard(props) {
               </div>
               <div className="quickNav dis-f ml-3 pl-3 fsize-300">
                 {
-                  activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' ? (
+                  activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' && propID !== 'buy' && propID !== 'sell' ? (
                     <>
                       <span
                         className="cur-poi"

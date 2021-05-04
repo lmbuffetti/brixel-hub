@@ -64,8 +64,6 @@ const Upgrade = (props) => {
     }
   }, [packagesProperty]);
 
-  console.log();
-
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     reset('GamingFlow');

@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -7,7 +7,7 @@ import {
   BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import { setCookie, getCookie, isEligible } from '../utils/helpers';
+import { setCookie, isEligible } from '../utils/helpers';
 import TeaserImg from '../images/scanTrial/TeaserBanner.png';
 import TeaserImg2x from '../images/scanTrial/TeaserBanner@2x.png';
 

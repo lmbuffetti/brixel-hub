@@ -388,7 +388,7 @@ const App = (props) => {
     let contentHeight;
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
-        if (history.location.pathname.includes('buy') || history.location.pathname.includes('sell')) {
+        if ((history.location.pathname.includes('buy') && !history.location.pathname.includes('buyer')) || history.location.pathname.includes('sell')) {
           contentHeight = windowDimensions.height;
         } else {
           contentHeight = windowDimensions.height;
@@ -503,7 +503,7 @@ const App = (props) => {
               {
                 !history.location.pathname.includes('packageFlow') &&
                 (!history.location.pathname.includes('sell') || history.location.pathname.includes('homebase')) &&
-                !history.location.pathname.includes('buy') &&
+                (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
                 !history.location.pathname.includes('onBoarding') &&
                 !history.location.pathname.includes('upgrade') &&
                 !history.location.pathname.includes('trialRequest') &&
