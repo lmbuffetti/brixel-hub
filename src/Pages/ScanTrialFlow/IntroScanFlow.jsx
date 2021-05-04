@@ -12,7 +12,7 @@ import scanTrialImg3 from '../../images/scanTrial/scanTrialImg3.png';
 const IntroScanFlow = () => (
   <main id="rewards" className="introScanFlow pb-4 h-perc-100 txtDark700">
     {/* TODO change value with dynamic data from the company */}
-    <h3 className="mb-2 max-w-fix-544">Test drive our service and get the full experience worth CHF 9'900.</h3>
+    <h3 className="mb-2 max-w-fix-544">Test drive our service and get the full experience worth CHF 9&apos;900.</h3>
     <h5 className="mb-5 txtDark200">Here are your main benefits:</h5>
     <div className="row">
       <div className="col-12 col-sm-4 mb-2 mb-sm-0">
@@ -47,7 +47,7 @@ const IntroScanFlow = () => (
       </li>
       <li>
         <h5>Prepare your property.</h5>
-        <p>Once you've sent us the relevant documents for the estimation, make sure your property is clean and styled for the scan.</p>
+        <p>Once you&apos;ve sent us the relevant documents for the estimation, make sure your property is clean and styled for the scan.</p>
       </li>
       <li>
         <h5>Open the door.</h5>
