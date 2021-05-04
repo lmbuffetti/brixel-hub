@@ -83,6 +83,9 @@ const GetStartedSeller = (props) => {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
     }
+    if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+      changeStep();
+    }
   }, [formValue]);
 
   const getCurrency = () => {

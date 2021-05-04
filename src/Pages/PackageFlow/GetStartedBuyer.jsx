@@ -358,6 +358,9 @@ const GetStartedBuyer = (props) => {
       setLastID(newQuest.length - 1);
       setQuestions(newQuest);
     }
+    if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+      changeStep();
+    }
   }, [formValue]);
 
   // SET DATA BY COMPANY
