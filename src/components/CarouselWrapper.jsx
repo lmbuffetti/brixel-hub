@@ -21,6 +21,7 @@ const CarouselWrapper = (props) => {
     history,
     items,
     layout,
+    loggedInUser,
     match,
     onSetActiveProperty,
     title,
@@ -131,7 +132,7 @@ const CarouselWrapper = (props) => {
             <BrixelButtonText
               className="fsize-300 show-all pos-r"
               label="+ Add new"
-              onClick={() => showAll()}
+              onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'user.company.stub', '')}`)}
             />
           </div>
         </div>
@@ -270,6 +271,7 @@ CarouselWrapper.propTypes = {
   history: PropTypes.object.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   layout: PropTypes.string,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   onSetActiveProperty: PropTypes.func,
   title: PropTypes.string,
@@ -289,6 +291,7 @@ CarouselWrapper.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
