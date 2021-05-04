@@ -12,8 +12,7 @@ import buyIcon from '../images/getstarted/buyIcon.svg';
 // QUESTION LISTS
 export const QuestionsList = (lang) => [
   {
-    titleGreen: translateTo(lang, 'Hello, let\'s get started.'),
-    title: translateTo(lang, 'What can we do for you?'),
+    title: translateTo(lang, 'Hello, what can we do for you?'),
     history: '',
     vCentered: true,
     bgImg: homesSvg,

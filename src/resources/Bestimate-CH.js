@@ -20,7 +20,6 @@ export const BestimateCH = (type = null) => {
       cardType: 'step1',
       className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
       footerWidth: 'max-w-fix-600',
-      bgImg: homesSvg,
       inputs: [
         {
           component: BrixelInputText,

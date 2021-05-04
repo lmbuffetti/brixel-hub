@@ -428,12 +428,6 @@ const GetStarted = (props) => {
                   get(quest, 'inputs', null) && (
                     <div id={`step-${currentIndex}`} className={`dis-f flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       <div className="ta-c max-w-fix-456 m-a">
-
-                        {
-                          quest.titleGreen && (
-                            <h3 className="txtDark700 fweight-600">{quest.titleGreen}</h3>
-                          )
-                        }
                         {
                           quest.title && (
                             <h4 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fweight-400 txtDark700`} dangerouslySetInnerHTML={{ __html: quest.title }} />
