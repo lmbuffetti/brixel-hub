@@ -112,7 +112,7 @@ const MarketList = (props) => {
           break;
         }
         default:
-          history.push('/home');
+          history.push('./');
       }
     }
   }, [itemsPerPage, currentPage, sortOrderType, sortDirection, loggedInUser, userSearchProfiles]);
@@ -172,10 +172,10 @@ const MarketList = (props) => {
       if (openMap) {
         setOpenMap(false);
       } else {
-        history.push('/home');
+        history.push('./');
       }
     } else {
-      history.push('/home');
+      history.push('./');
     }
   };
 

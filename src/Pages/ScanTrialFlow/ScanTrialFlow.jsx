@@ -326,7 +326,7 @@ const ScanTrialFlow = (props) => {
                       <BrixelButtonPrimary
                         className="noWrap ml-2"
                         rounded
-                        label="Request appointment"
+                        label="Request test drive"
                         onClick={() => changeStep('next', true)}
                       />
                     </>

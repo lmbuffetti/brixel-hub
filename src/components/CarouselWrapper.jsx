@@ -5,7 +5,9 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import Slider from 'react-slick';
 import {
-  BrixelButtonIcon, BrixelButtonText,
+  BrixelButtonIcon,
+  BrixelButtonText,
+  BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -18,6 +20,7 @@ const CarouselWrapper = (props) => {
     className,
     history,
     items,
+    layout,
     match,
     onSetActiveProperty,
     title,
@@ -26,24 +29,26 @@ const CarouselWrapper = (props) => {
     windowDimensions,
   } = props;
 
+  const [activeSlide, setActiveSlide] = useState(0);
   const [preventClick, setPreventClick] = useState(false);
 
   const sliderInstance = useRef(null);
   let slideToShow = type === 'own' ? 1 : 2;
-  if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 2 : 4;
+  if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 1 : 4;
   const numCard = [...Array(slideToShow)];
 
   const settingSlider = useCallback(() => ({
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: type === 'own' ? 2 : 4,
-    slidesToScroll: type === 'own' ? 2 : 4,
+    slidesToShow: slideToShow,
+    arrows: false,
+    slidesToScroll: type === 'own' ? 1 : 4,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: type === 'own' ? 1 : 2,
+          slidesToShow: slideToShow,
           slidesToScroll: 1,
           swipeToSlide: true,
           draggable: true,
@@ -52,7 +57,7 @@ const CarouselWrapper = (props) => {
       {
         breakpoint: 590,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: slideToShow,
           slidesToScroll: 1,
           swipeToSlide: true,
           centerMode: type !== 'own',
@@ -66,9 +71,23 @@ const CarouselWrapper = (props) => {
     className,
     onSwipe: () => setPreventClick(true),
     afterChange: () => setPreventClick(false),
-    nextArrow: <BrixelButtonIcon icon="arrow-simple-right" className="pos-a" small secondary theme="light" themeSat={500} />,
-    prevArrow: <BrixelButtonIcon icon="arrow-simple-left" className="pos-a" small secondary theme="light" themeSat={500} />,
+    beforeChange: (prev, next) => {
+      setActiveSlide(next);
+    },
   }), [type]);
+
+  const moveSlide = (action) => {
+    const slider = sliderInstance.current;
+    if (slider) {
+      if (action === 'next') slider.slickNext();
+      else slider.slickPrev();
+    }
+  };
+
+  const bookNow = () => {
+    localStorage.setItem('backUrl', '/sell');
+    history.push(`/${items[activeSlide].id}/trialRequest`);
+  };
 
   // eslint-disable-next-line consistent-return
   const showAll = useCallback(() => {
@@ -98,16 +117,123 @@ const CarouselWrapper = (props) => {
     }
   }, [type]);
 
+  if (layout === 'singleOwnCard') {
+    return (
+      <div className={`${className} carousel-wrapper pos-r`}>
+        <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
+          <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
+          <div className="mt-1 mt-sm-0 dis-f a-c">
+            <BrixelButtonText
+              className="fsize-300 show-all pos-r"
+              label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
+              onClick={() => showAll()}
+            />
+            <BrixelButtonText
+              className="fsize-300 show-all pos-r"
+              label="+ Add new"
+              onClick={() => showAll()}
+            />
+          </div>
+        </div>
+
+        <div className="marketSellBanner ta-c pb-10 pt-7">
+          <h4 className="fweight-700 mb-2">Test drive our service. No strings attached.</h4>
+          <h5 className="fSizePx18 mb-2">Get the full Brixel experience worth CHF 9’900.</h5>
+          <BrixelButtonPrimary
+            rounded
+            label="Book now"
+            onClick={() => bookNow()}
+            className="ml-a mr-a mb-2"
+          />
+          <p className="fsize-100 mb-5">No commission. No hidden terms.</p>
+
+          <div className="max-w-fix-768 ml-a mr-a">
+            <div className="p-3 brdRadius bgWhite shadow-2dp">
+              <Slider ref={sliderInstance} {...settingSlider()}>
+                {
+                  !items && numCard.map((card, i) => (
+                    <MarketCard
+                      layout={layout}
+                      type={type}
+                      key={i.toString()}
+                      item={card}
+                      preventClick={preventClick}
+                      onSetActiveProperty={(id) => onSetActiveProperty(id)}
+                    />
+                  ))
+                }
+                {
+                  items && items.length > 0 && items.map((item, i) => (
+                    <MarketCard
+                      layout={layout}
+                      type={type}
+                      key={i.toString()}
+                      item={item}
+                      preventClick={preventClick}
+                      onSetActiveProperty={(id) => onSetActiveProperty(id)}
+                    />
+                  ))
+                }
+              </Slider>
+            </div>
+            <div className="dis-f a-c jc-c mt-4">
+              <BrixelButtonIcon
+                onClick={() => moveSlide('prev')}
+                className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                icon="arrow-simple-left"
+                theme="light"
+                saturation={500}
+                secondary="light"
+              />
+              <div className="fsize-300 txtPrimary400 ml-3 mr-3">
+                {activeSlide + 1} of {total}
+              </div>
+              <BrixelButtonIcon
+                onClick={() => moveSlide('next')}
+                className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                icon="arrow-simple-right"
+                theme="light"
+                saturation={500}
+                secondary="light"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
       <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
         <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
-        <div className="mt-1 mt-sm-0">
+        <div className="mt-1 mt-sm-0 dis-f a-c">
           <BrixelButtonText
             className="fsize-300 show-all pos-r"
             label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
             onClick={() => showAll()}
           />
+          {
+            items && items.length > slideToShow && (
+              <>
+                <BrixelButtonIcon
+                  onClick={() => moveSlide('prev')}
+                  className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                  icon="arrow-simple-left"
+                  theme="light"
+                  saturation={500}
+                  secondary="light"
+                />
+                <BrixelButtonIcon
+                  onClick={() => moveSlide('next')}
+                  className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                  icon="arrow-simple-right"
+                  theme="light"
+                  saturation={500}
+                  secondary="light"
+                />
+              </>
+            )
+          }
         </div>
 
       </div>
@@ -143,6 +269,7 @@ CarouselWrapper.propTypes = {
   className: PropTypes.string,
   history: PropTypes.object.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
+  layout: PropTypes.string,
   match: PropTypes.object.isRequired,
   onSetActiveProperty: PropTypes.func,
   title: PropTypes.string,
@@ -154,6 +281,7 @@ CarouselWrapper.propTypes = {
 CarouselWrapper.defaultProps = {
   className: '',
   items: null,
+  layout: null,
   onSetActiveProperty: () => '',
   title: '',
   total: 0,

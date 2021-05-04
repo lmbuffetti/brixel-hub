@@ -31,11 +31,6 @@
       }
 
       .carousel-wrapper  {
-        .show-all {
-          @media (min-width: $responsive-small) {
-            right: 98px;
-          }
-        }
 
         .slick-list {
           margin-left: -8px;
@@ -327,5 +322,26 @@
     &.pre-market:not(.premium) {
       filter: grayscale(100%);
     }
+  }
+}
+
+.marketSellBanner {
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    background-image: url(../../../images/Market/bgSellBanner.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top center;
+    border-radius: $brd-radius-small;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    height: 0;
+    padding-top: 32.25%;
+    z-index: -1;
   }
 }

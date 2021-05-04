@@ -20,35 +20,16 @@ const TeaserBanner = (props) => {
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
 
-  const [isCollapsed, setIsCollapsed] = useState(getCookie('brixelBannerClosed') === 'true');
-  // const [animClass, setAnimClass] = useState(false);
+  const [isCollapsed] = useState(true);
 
   const smallBannerRef = useRef(null);
   const teaserRef = useRef(null);
-  // const smallBannerEl = smallBannerRef.current;
-  // const teaserEl = teaserRef.current;
-
-  useEffect(() => {
-    setCookie('brixelBannerClosed', isCollapsed);
-  }, [isCollapsed]);
 
   const openTrialRequestFlow = () => {
-    setIsCollapsed(!isCollapsed);
     setCookie('brixelBannerClosed', true);
     localStorage.setItem('backUrl', history.location.pathname);
     history.push(`/${propID}/trialRequest`);
   };
-
-  /*  const bannerHeight = () => {
-    let height;
-    if (teaserEl) height = teaserEl.offsetHeight;
-    return height;
-  };
-  const bannerHeightSmall = () => {
-    let height;
-    if (smallBannerEl) height = smallBannerEl.offsetHeight;
-    return height;
-  }; */
 
   if (
     !history.location.pathname.includes('rewards') &&
@@ -72,9 +53,9 @@ const TeaserBanner = (props) => {
             >
               <span className="teaserTag as-c">Free</span>
               <p className="pl-2 body2 txtDark700">
-                <span>Request your free scan and estimation now.</span>
+                <span>Test drive our service. No strings attached.</span>
                 <span
-                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  onClick={() => openTrialRequestFlow()}
                   className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
                 >
                   Read more
@@ -114,7 +95,7 @@ const TeaserBanner = (props) => {
                   ghost
                   className="as-c"
                   icon="close-small"
-                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  onClick={() => ''}
                 />
               </div>
             </div>

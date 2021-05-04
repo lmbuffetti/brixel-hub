@@ -369,8 +369,9 @@ const MarketCategoryListSeller = (props) => {
             {
               ownerProperties.total > 0 && (
                 <CarouselWrapper
+                  layout="singleOwnCard"
                   title="Your properties"
-                  className="market-category-carousel type-own mb-8"
+                  className="market-category-carousel type-own"
                   type="own"
                   items={ownerProperties.data}
                   total={ownerProperties.total}

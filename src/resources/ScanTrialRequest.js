@@ -76,7 +76,7 @@ export const ScanTrialQuestions = () => {
             value: true,
           }],
           component: BrixelCheckbox,
-          label: 'What do you want to us to do?',
+          label: 'What do you want us to do?',
           name: 'answers',
           placeholder: '',
           options: factsOptions.scanTrialInterest,
