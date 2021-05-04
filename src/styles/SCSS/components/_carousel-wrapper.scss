@@ -35,6 +35,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
    &.open {
      position: static;
+     height: calc(100% - 88px);
 
      [class^="slick"] {
        position: static !important;
