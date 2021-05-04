@@ -568,6 +568,7 @@ export const MapsWithModalManual = (props) => {
                       value: get(formValue, 'location.searchAddress', '') || '',
                       name: 'location.searchAddress',
                     }}
+                    autofocus
                     onKeyDown={(e) => (disabled ? '' : keyUpInput(e))}
                     onClear={() => (disabled ? '' : changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude }))}
                     message={showMessageToChangeAddress ? { help: 'placeholder' } : null}

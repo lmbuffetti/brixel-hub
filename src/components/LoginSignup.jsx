@@ -132,7 +132,7 @@ const LoginSignup = (props) => {
 
   return (
     <div className="signUpScreen pos-r dis-f flex-wrap">
-      <div className="w-perc-100 max-w-fix-600 m-a w-perc-md-50">
+      <div className="w-perc-100 max-w-fix-600 m-a mt-0 w-perc-md-50">
         <div className="mr-a onBoardingSignUp">
           {/* {
             (loginPage === 'register' || loginPage === 'login') && (
@@ -157,18 +157,18 @@ const LoginSignup = (props) => {
                 <div className="topBar fsize-400 bgLight200 p-2 ta-c">
                   {
                     loginPage === 'register' && (
-                      <p className="txtDark700"> Already have an account? Login
+                      <p className="txtDark700"> Already have an account? Login &nbsp;
                         <span className="cur-poi td-u" onClick={() => changeScreen('login')}>
-                          {translateTo(lang, ' here')}
+                          {translateTo(lang, 'here')}
                         </span>
                       </p>
                     )
                   }
                   {
                     loginPage === 'login' && (
-                      <p className="txtDark700"> or create profile
+                      <p className="txtDark700"> Login or create profile &nbsp;
                         <span className="cur-poi td-u" onClick={() => changeScreen('register')}>
-                          {translateTo(lang, ' here')}
+                          {translateTo(lang, 'here')}
                         </span>
                       </p>
                     )
@@ -306,6 +306,7 @@ const LoginSignup = (props) => {
             titleClass="fsize-600 txtWhite fweight-600"
             contentClass="txtWhite py-2"
             className="mb-2"
+            isExpanded
           >
             All our properties are presented on a dedicated website with a 3D tour, high-quality photos, and much more. Buyers confirm that the presentation is outstanding.
           </Accordion>
@@ -313,6 +314,7 @@ const LoginSignup = (props) => {
             title="Start with a free test drive"
             titleClass="fsize-600 txtWhite fweight-600"
             contentClass="txtWhite py-2"
+            isExpanded
           >
             Convince yourself of our quality before you commit to any package. We offer a 7 days trial for all our packages. No strings attached.
           </Accordion>
