@@ -183,6 +183,7 @@ export const BestimatePT = (type = null) => {
       inputs: [
         {
           classNameParent: 'extraCols',
+          className: 'extraFeature',
           component: BrixelCheckbox,
           label: type === 'getStarted' ? null : '',
           name: 'properties.extraFeaturesBestimatePT',

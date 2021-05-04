@@ -67,6 +67,7 @@ export const BestimateCH = (type = null) => {
           label: 'Extra features',
           name: 'properties.extraFeatures',
           pdClass: 'p-1',
+          className: 'extraFeature',
           iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
           options: factsOptions.BrixelExtraFeature,
         },
