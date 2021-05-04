@@ -11,14 +11,14 @@ import homesSvg from '../images/getstarted/svgs/homes.svg';
 
 const { factsOptions } = FactsOptions;
 
-export const BestimateCH = (type = null) => {
+export const BestimateCH = (type = null, countryCode, propertyType) => {
   const bestimate = [
     {
       title: type === 'getStarted' ? 'Please tell us some more details' : 'Step 1',
       extraInfo: 'We need some extra information about your property.',
       history: 'step1',
       cardType: 'step1',
-      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
+      className: type === 'getStarted' ? `bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5 ${propertyType !== 'Apartment' ? 'your_class' : ''}` : '',
       footerWidth: 'max-w-fix-600',
       bgImg: homesSvg,
       inputs: [
