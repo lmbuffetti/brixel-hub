@@ -132,7 +132,7 @@ const CarouselWrapper = (props) => {
             <BrixelButtonText
               className="fsize-300 show-all pos-r"
               label="+ Add new"
-              onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'user.company.stub', '')}`)}
+              onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
             />
           </div>
         </div>
