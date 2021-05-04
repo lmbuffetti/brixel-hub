@@ -52,7 +52,7 @@ export const QuestionsList = (lang, country = 'CH') => {
   let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   const countryCode = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', '');
-  console.log(propertyType);
+
   return [
     {
       title: translateTo(lang, 'What is the estimation for?'),
@@ -194,6 +194,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       ],
       successMessage: translateTo(lang, 'A good year for real estate.'),
     },
+
     {
       title: translateTo(lang, 'What is the location?'),
       history: 'locationInput',
