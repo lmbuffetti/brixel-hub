@@ -11,7 +11,7 @@ import homesSvg from '../images/getstarted/svgs/homes.svg';
 
 const { factsOptions } = FactsOptions;
 
-export const BestimateCH = (type = null, countryCode, propertyType) => {
+export const BestimateCH = (type = null, propertyType) => {
   const bestimate = [
     {
       title: type === 'getStarted' ? 'Please tell us some more details' : 'Step 1',
