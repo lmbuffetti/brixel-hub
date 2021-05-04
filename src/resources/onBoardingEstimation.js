@@ -248,7 +248,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       component: ResumeCard,
       btnLabel: 'Continue',
     },
-    ...BestimateQuestions('getStarted', countryCode),
+    ...BestimateQuestions('getStarted', countryCode, propertyType),
     {
       conditions: [{
         name: 'owner',
