@@ -1,122 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 24.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 25.2.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 454 256" style="enable-background:new 0 0 454 256;" xml:space="preserve">
+	 viewBox="0 0 300 153.997" style="enable-background:new 0 0 300 153.997;" xml:space="preserve">
 <style type="text/css">
-	.st0{filter:url(#Adobe_OpacityMaskFilter);}
+	.st0{fill:#D8EDF0;}
 	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
-	.st2{mask:url(#mask-2_1_);}
-	.st3{fill:#5669AF;}
-	.st4{fill:#EE3C50;}
-	.st5{fill:#F19BA5;}
-	.st6{fill:#2D2D2D;}
-	.st7{fill:none;stroke:#F19BA5;stroke-width:1.3012;}
-	.st8{fill:none;stroke:#EE3C50;stroke-width:1.3012;}
+	.st2{fill:#84DADE;}
+	.st3{fill:#1ECAD3;}
+	.st4{fill-rule:evenodd;clip-rule:evenodd;fill:#004A98;}
+	.st5{fill-rule:evenodd;clip-rule:evenodd;fill:#84DADE;}
+	.st6{fill:none;stroke:#323E48;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st7{fill:none;stroke:#323E48;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st8{fill:#004A98;}
 	.st9{fill:#FFFFFF;}
-	.st10{fill:#50B482;}
-	.st11{fill:#F0EFED;}
-	.st12{fill:#221384;}
-	.st13{fill:none;stroke:#221384;stroke-width:1.3012;}
-	.st14{fill:none;}
+	.st10{fill-rule:evenodd;clip-rule:evenodd;fill:#1ECAD3;}
+	.st11{fill:#9FE1E5;}
+	.st12{fill-rule:evenodd;clip-rule:evenodd;fill:#D8EDF0;}
 </style>
-<desc>Created with Sketch.</desc>
-<g id="Page-1">
-	<g id="Haus-Wohnung_16-9-01">
-		<g id="Clipped">
-			<g id="SVGID_1_">
-			</g>
-			<defs>
-				<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="-185.2" y="-64.2" width="820.4" height="458.1">
-					<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
-				</filter>
-			</defs>
-			<mask maskUnits="userSpaceOnUse" x="-185.2" y="-64.2" width="820.4" height="458.1" id="mask-2_1_">
-				<g class="st0">
-					<rect id="path-1_1_" x="0" y="0.3" class="st1" width="455.9" height="256.4"/>
-				</g>
-			</mask>
-			<g id="Group_3_" class="st2">
-				<g transform="translate(-185.000000, -65.000000)">
-					<rect id="Rectangle" x="-0.2" y="13.2" class="st3" width="203.8" height="445.6"/>
-					<polygon id="Path" class="st4" points="718.3,29.2 820.2,29.2 785.4,454.7 488.6,458.2 485.9,160.8 636.1,25.9 					"/>
-					<polygon id="Path_1_" class="st5" points="76.6,176 485.9,160.8 488.6,454 76.6,457.6 					"/>
-					<polygon id="Path_2_" class="st6" points="250.9,290.5 250.9,341.2 288.5,340.4 287.5,289.9 					"/>
-					<polygon id="Path_3_" class="st6" points="292.7,289.1 292.7,340.3 334.7,339.8 334.7,288.6 					"/>
-					<polygon id="Path_4_" class="st6" points="247.8,169 247.8,223.2 291,222.6 291.6,167.4 					"/>
-					<polygon id="Path_5_" class="st6" points="295,167.3 295,222.6 334.8,221.9 334.8,165.8 					"/>
-					<line id="Path_6_" class="st7" x1="243.8" y1="177.3" x2="334.8" y2="177.3"/>
-					<line id="Path_7_" class="st7" x1="243.8" y1="186.9" x2="334.8" y2="186.9"/>
-					<line id="Path_8_" class="st7" x1="243.8" y1="197" x2="334.8" y2="197"/>
-					<line id="Path_9_" class="st7" x1="243.8" y1="205.9" x2="334.8" y2="205.9"/>
-					<line id="Path_10_" class="st7" x1="243.8" y1="215.5" x2="338.4" y2="214.2"/>
-					<line id="Path_11_" class="st7" x1="96" y1="179.7" x2="187.5" y2="179.7"/>
-					<line id="Path_12_" class="st7" x1="96.5" y1="188.6" x2="187.5" y2="188.6"/>
-					<line id="Path_13_" class="st7" x1="96.5" y1="198.7" x2="187.5" y2="198.7"/>
-					<line id="Path_14_" class="st7" x1="96.5" y1="207.7" x2="187.5" y2="207.7"/>
-					<line id="Path_15_" class="st7" x1="96.5" y1="217.2" x2="187.5" y2="217.2"/>
-					<line id="Path_16_" class="st7" x1="96.5" y1="300.9" x2="187.5" y2="300.9"/>
-					<line id="Path_17_" class="st7" x1="96.5" y1="310.5" x2="187.5" y2="310.5"/>
-					<line id="Path_18_" class="st7" x1="96.5" y1="320.6" x2="187.5" y2="320.6"/>
-					<polygon id="Path_19_" class="st6" points="505.7,286.6 505.7,337.5 543.2,337.5 542.4,285.7 					"/>
-					<polygon id="Path_20_" class="st6" points="548.1,285.7 548.1,337.5 590.1,337.5 590.1,286.2 					"/>
-					<line id="Path_21_" class="st8" x1="503.8" y1="294.3" x2="594.9" y2="294.3"/>
-					<line id="Path_22_" class="st8" x1="503.8" y1="303.8" x2="594.9" y2="303.8"/>
-					<line id="Path_23_" class="st8" x1="503.8" y1="314" x2="594.9" y2="314"/>
-					<polygon id="Path_24_" class="st6" points="386.2,285.7 387.5,339.9 425.1,339.9 424.6,285.1 					"/>
-					<polygon id="Path_25_" class="st6" points="430,285.1 430,339.9 472.6,340.6 472,285.7 					"/>
-					<line id="Path_26_" class="st7" x1="385.7" y1="293.7" x2="474.3" y2="291.5"/>
-					<line id="Path_27_" class="st7" x1="385.7" y1="303.2" x2="474.3" y2="300.3"/>
-					<line id="Path_28_" class="st7" x1="385.7" y1="313.4" x2="476.7" y2="313.4"/>
-					<line id="Path_29_" class="st7" x1="385.7" y1="322.3" x2="476.7" y2="322.3"/>
-					<line id="Path_30_" class="st7" x1="247.2" y1="296.2" x2="338.2" y2="295"/>
-					<line id="Path_31_" class="st7" x1="247.2" y1="305.7" x2="338.2" y2="304.5"/>
-					<line id="Path_32_" class="st7" x1="247.2" y1="315.9" x2="338.2" y2="315.9"/>
-					<g id="XMLID_3_" transform="translate(386.000000, 160.000000)">
-						<g id="Group">
-							<path id="Path_33_" class="st4" d="M86.6,1.3l0.9,56.8l-16.5,0.3c-0.1-1-0.3-1.9-0.4-2.9c-1-8,0.9-17.6,2.7-25.4
-								c1.5-6.4-1.5-7.4-2.8-13.6c-0.9-4.6,0.7-9.9,0.4-14.7L86.6,1.3z"/>
-							<path id="Path_34_" class="st9" d="M70.4,16.6c1.3,6.1,4.3,7.1,2.8,13.6c-1.8,7.8-3.7,17.3-2.7,25.4c0.1,1,0.3,1.9,0.4,2.9
-								l-52,1c-3.1-10.3-7.8-25.7-6.1-34.6c0.6-3.5,4.7-6.4,6.4-9.4C21,12.3,21.8,8,22,3.7l48.8-1.8C71.2,6.6,69.5,12,70.4,16.6z"/>
-							<path id="Path_35_" class="st4" d="M1.8,4.5L22,3.7c-0.2,4.3-1,8.6-2.8,11.7c-1.8,3.1-5.8,6-6.4,9.4
-								c-1.6,8.9,3,24.3,6.1,34.6L1.8,59.8V4.5L1.8,4.5z"/>
-						</g>
-					</g>
-					<polygon id="Path_36_" class="st5" points="431.2,227.9 431.2,162.7 436.7,162.6 437.3,227.9 					"/>
-					<path id="Path_37_" class="st10" d="M409.2,214.9c2-4.4-2-15.4-6.3-17.8c1.7-0.8,5.7,0.1,9,4.2c0.3-4.4,0.3-11.6,0-16.1
-						c0.8,0.5,4.8,5.3,6,11.8c1.6-1.8,2.6-5.4,5.3-5.6c0.8,11.4-2.9,15.3-1.7,18.1c1.1-5.3,5.6-9.8,9.2-9.4c-5.5,3-2.7,10.7-6,14.4"
-						/>
-					<g id="XMLID_1_" transform="translate(501.000000, 159.000000)">
-						<g id="Group_1_">
-							<path id="Path_38_" class="st11" d="M3.2,58.9l-0.9-58l53.9,1.2c-0.3,6.1-1,12.2-0.9,18.2c0.1,5.6,1.3,6.6,3.4,10.9
-								c4,8.1,1.8,18.4,0.7,28L3.2,58.9z"/>
-							<path id="Path_39_" class="st12" d="M58.6,31.2c-2.1-4.3-3.3-5.3-3.4-10.9c-0.1-6,0.6-12.1,0.9-18.2l31.5,0.7l-0.5,56.5
-								l-27.9-0.1C60.5,49.6,62.6,39.3,58.6,31.2z"/>
-						</g>
-					</g>
-					<polygon id="Path_40_" class="st4" points="541.5,222.5 541.5,157.4 546.4,156.3 547.6,222.5 					"/>
-					<path id="Path_41_" class="st10" d="M532.7,198.2c-0.1,4.8,0.5,15.6-2.7,19.9l-15.1-0.1c-1.2-2-1.4-4.7-2.1-7
-						c-0.8-3.1-2.7-16.9-2.7-16.9c2.2,5.1,4.4,11.1,6.6,16.5c1.4,3.4,2.7,7.3,2.7,7.3s-0.4-5.7,0.1-10.2c1-8.9-1.2-16.9-1.1-25.7
-						c9,11,3.2,22.8,7.1,35.9c1.3-2.9,1.2-3.9,1.4-7.9c0.7-9.6,0.4-23.8,6.4-31.6C532.3,186,532.9,191.6,532.7,198.2z"/>
-					<path id="Path_42_" class="st13" d="M448,152.5c2,5.2,0,14.4,0,20.6"/>
-					<path id="Path_43_" class="st5" d="M448.6,179.3c-1.9,0-3.4,0.7-2.7,3.1c0.4,1.5,2.7,1.7,3.6,0.5c0.9-1.1,0.1-2.5-0.7-3.6"/>
-					<polyline id="Path_44_" class="st12" points="440.8,180.4 448.4,167 455.6,180.4 440.8,180.4 					"/>
-					<polyline id="Path_45_" class="st12" points="408,219.5 407.3,214 426.7,214 426,219.1 408.2,219.5 					"/>
-					<polygon id="Path_46_" class="st12" points="76.6,176 485.9,160.8 636.1,25.9 210.6,0.8 					"/>
-					<polygon id="Path_47_" class="st5" points="261.6,60.4 262.8,139.4 398.3,137 398.3,57.7 					"/>
-					<polygon id="Path_48_" class="st4" points="494,50 398.3,137 398.3,58 					"/>
-					<g id="Group_2_" transform="translate(276.000000, 68.000000)">
-						<polygon id="Path_49_" class="st6" points="5.7,1.7 5.7,58.6 48.4,57.9 47.4,1 						"/>
-						<polygon id="Path_50_" class="st6" points="53.2,0.9 53.2,57.2 101,56.6 101,0.7 						"/>
-						<line id="Path_51_" class="st7" x1="3.4" y1="9.4" x2="106.9" y2="9.4"/>
-						<line id="Path_52_" class="st7" x1="3.4" y1="20.3" x2="106.9" y2="20.3"/>
-						<line id="Path_53_" class="st7" x1="1.4" y1="31.8" x2="105" y2="31.8"/>
-						<line id="Path_54_" class="st7" x1="1.4" y1="42" x2="105" y2="42"/>
-						<line id="Path_55_" class="st7" x1="1.4" y1="50.9" x2="105" y2="49.5"/>
-					</g>
-					<rect id="Rectangle_1_" x="265.9" y="29.6" class="st14" width="393.6" height="222.4"/>
-				</g>
-			</g>
-		</g>
+<rect class="st0" width="300" height="153.997"/>
+<g>
+	<path class="st1" d="M134.073,87.33c0.012-0.239,0.019-0.479,0.019-0.721c0-7.586-6.149-13.735-13.735-13.735
+		c-0.491,0-0.976,0.026-1.454,0.076c-3.521,0.372-6.921-1.187-9.092-3.983c-3.559-4.584-9.122-7.535-15.375-7.535
+		c-6.342,0-11.974,3.035-15.525,7.731c-2.043,2.702-5.335,4.232-8.696,3.815c-0.557-0.069-1.124-0.104-1.699-0.104
+		c-7.586,0-13.735,6.149-13.735,13.735c0,0.242,0.007,0.482,0.019,0.721H134.073z"/>
+	<path class="st1" d="M239.87,50.631c-3.29-4.692-8.73-7.767-14.896-7.767c-1.312,0-2.59,0.14-3.821,0.406
+		c-4.615,0.996-9.392,0.361-13.516-1.937c-5.096-2.84-10.966-4.458-17.214-4.458c-11.402,0-21.54,5.391-28.023,13.756H239.87z"/>
+	<g>
+		<path class="st3" d="M213.364,70.601c0.218-1.227,0.255-2.517,0.083-3.841c-0.728-5.602-5.288-10.063-10.904-10.681
+			c-7.49-0.824-13.828,5.019-13.828,12.343c0,0.818,0.079,1.617,0.23,2.391c0.713,3.647-0.345,7.408-2.762,10.231
+			c-3.144,3.672-4.958,8.516-4.698,13.787c0.487,9.857,8.388,17.937,18.233,18.626c11.507,0.806,21.091-8.29,21.091-19.625
+			c0-4.862-1.763-9.311-4.685-12.744C213.654,78.186,212.699,74.354,213.364,70.601z"/>
 	</g>
+	<polygon class="st3" points="186.422,57.941 107.437,57.941 121.358,35.666 171.805,35.666 	"/>
+	<polygon class="st2" points="159.111,28.491 140.764,57.941 140.764,125.507 177.457,125.507 177.457,57.941 	"/>
+	<rect x="131.799" y="57.941" class="st2" width="54.623" height="67.566"/>
+	<rect x="109.524" y="57.941" class="st8" width="22.276" height="67.566"/>
+	<rect x="154.294" y="76.521" class="st9" width="9.865" height="15.621"/>
+	<rect x="154.294" y="53.607" class="st8" width="9.865" height="15.621"/>
+	<rect x="138.671" y="76.521" class="st9" width="9.865" height="15.621"/>
+	<rect x="169.917" y="76.521" class="st8" width="9.865" height="15.621"/>
+	<rect x="154.294" y="101.749" class="st9" width="9.865" height="15.621"/>
+	<rect x="138.671" y="101.749" class="st8" width="9.865" height="15.621"/>
+	<rect x="169.917" y="101.749" class="st9" width="9.865" height="15.621"/>
+	<g>
+		<line class="st6" x1="201.135" y1="82.126" x2="201.135" y2="125.507"/>
+	</g>
+	<g>
+		<line class="st6" x1="193.436" y1="87.906" x2="201.135" y2="95.604"/>
+	</g>
+	<g>
+		<line class="st6" x1="200.978" y1="105.211" x2="212.722" y2="93.468"/>
+	</g>
+	<line class="st7" x1="48.859" y1="125.507" x2="251.141" y2="125.507"/>
 </g>
 </svg>

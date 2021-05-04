@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import resumeHouse from '../images/getstarted/property-thumb.svg';
+import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 
 // COMPONENT USED ON ONBOARDING TO SHOW THE PREVIEW OF CREATED PROPERTY
@@ -18,8 +18,7 @@ const ResumeCard = (props) => {
     btnLabel,
   } = props;
 
-  const defImg = resumeHouse;
-  /* const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse; */
+  const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse;
 
   return (
     <div className="dis-f flex-wrap w-perc-100 pt-4 pt-sm-10">
