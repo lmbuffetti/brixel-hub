@@ -29,7 +29,7 @@ const Accordion = (props) => {
           className="mt-small-4 mr-small-8"
           icon={!open ? 'arrow-right' : 'arrow-down'}
         />
-        {title}
+        <span>{title}</span>
       </div>
 
       <div className={`content pl-4 ${!open ? 'collapsed' : ''}`}>

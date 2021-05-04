@@ -131,7 +131,7 @@ const LoginSignup = (props) => {
   }
 
   return (
-    <div className="signUpScreen pos-r dis-f flex-wrap notranslate">
+    <div className="signUpScreen pos-r dis-f flex-wrap">
       <div className="w-perc-100 max-w-fix-600 m-a mt-0 w-perc-md-50">
         <div className="mr-a onBoardingSignUp">
           {/* {
@@ -159,7 +159,7 @@ const LoginSignup = (props) => {
                     loginPage === 'register' && (
                       <p className="txtDark700"> Already have an account? Login&nbsp;
                         <span className="cur-poi td-u" onClick={() => changeScreen('login')}>
-                          {translateTo(lang, 'here')}
+                          <span>{translateTo(lang, 'here')}</span>
                         </span>
                       </p>
                     )
@@ -168,7 +168,7 @@ const LoginSignup = (props) => {
                     loginPage === 'login' && (
                       <p className="txtDark700"> Login or create profile&nbsp;
                         <span className="cur-poi td-u" onClick={() => changeScreen('register')}>
-                          {translateTo(lang, 'here')}
+                          <span>{translateTo(lang, 'here')}</span>
                         </span>
                       </p>
                     )

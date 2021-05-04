@@ -239,6 +239,7 @@ const GetStartedBuyer = (props) => {
         if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
+    window.scrollTo({ top: 0 });
   };
 
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
@@ -357,6 +358,9 @@ const GetStartedBuyer = (props) => {
       });
       setLastID(newQuest.length - 1);
       setQuestions(newQuest);
+    }
+    if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+      changeStep();
     }
   }, [formValue]);
 

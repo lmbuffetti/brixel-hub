@@ -2,11 +2,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
 import React, {
-  useState, useEffect, useRef, Fragment,
+  useState, useEffect, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy, DataByCountry,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy, DataByCountry,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -82,6 +82,9 @@ const GetStartedSeller = (props) => {
     if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
+    }
+    if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+      changeStep();
     }
   }, [formValue]);
 
@@ -249,7 +252,7 @@ const GetStartedSeller = (props) => {
           } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
             getCurStep.querySelector('input[type="text"]').focus();
           }
-        }, 100);
+        }, 400);
         if (questions[defId].history) {
           history.push({
             pathname: `/packageFlow/getStarted/${questions[defId].history}`,
@@ -262,6 +265,7 @@ const GetStartedSeller = (props) => {
         if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
+    window.scrollTo({ top: 0 });
   };
 
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
