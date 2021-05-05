@@ -116,6 +116,12 @@ function PageHeader(props) {
     } else {
       document.body.classList.remove('flowProfile');
     }
+    return () => {
+      //  clean up
+      document.body.classList.remove('flowProfile');
+      document.body.classList.remove('flowBody');
+      document.body.classList.remove('flowResume');
+    };
   }, [history.location.pathname]);
 
   // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
