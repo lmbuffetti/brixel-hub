@@ -682,17 +682,20 @@ const GetStartedEstimation = (props) => {
                               />
                             )
                           }
-
-                          <BrixelButtonPrimary
-                            className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
-                            disabled={!checkValidateField()}
-                            rounded
-                            theme="green"
-                            themeSat="500"
-                            label={buttonLabel()}
-                            rightIcon="arrow-right-small"
-                            onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                          />
+                          {
+                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                              <BrixelButtonPrimary
+                                className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
+                                disabled={!checkValidateField()}
+                                rounded
+                                theme="green"
+                                themeSat="500"
+                                label={buttonLabel()}
+                                rightIcon="arrow-right-small"
+                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                              />
+                            )
+                          }
                         </div>
                       </div>
                     </div>

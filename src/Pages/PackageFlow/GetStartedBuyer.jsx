@@ -590,29 +590,34 @@ const GetStartedBuyer = (props) => {
                         />
                       )
                     }
-
                     {
-                      buttonLabel().toLowerCase() === 'skip' ? (
-                        <BrixelButtonSecondary
-                          className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                          disabled={!checkValidateField()}
-                          saturation={400}
-                          theme="green"
-                          rounded
-                          label={buttonLabel()}
-                          rightIcon="arrow-right-small"
-                          onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                        />
-                      ) : (
-                        <BrixelButtonPrimary
-                          className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                          disabled={!checkValidateField()}
-                          rounded
-                          theme="green"
-                          label={buttonLabel()}
-                          rightIcon="arrow-right-small"
-                          onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                        />
+                      (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                        <>
+                          {
+                            buttonLabel().toLowerCase() === 'skip' ? (
+                              <BrixelButtonSecondary
+                                className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                disabled={!checkValidateField()}
+                                saturation={400}
+                                theme="green"
+                                rounded
+                                label={buttonLabel()}
+                                rightIcon="arrow-right-small"
+                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                              />
+                            ) : (
+                              <BrixelButtonPrimary
+                                className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                disabled={!checkValidateField()}
+                                rounded
+                                theme="green"
+                                label={buttonLabel()}
+                                rightIcon="arrow-right-small"
+                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                              />
+                            )
+                          }
+                        </>
                       )
                     }
                   </div>

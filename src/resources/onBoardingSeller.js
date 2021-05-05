@@ -50,6 +50,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'What type of property do you have?'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
+      hideNextButton: true,
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
