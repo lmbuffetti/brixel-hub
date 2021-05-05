@@ -127,7 +127,7 @@ const GetStartedEstimation = (props) => {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
     }
-    if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+    if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
       changeStep();
     }
   }, [formValue]);
@@ -683,7 +683,7 @@ const GetStartedEstimation = (props) => {
                             )
                           }
                           {
-                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
                               <BrixelButtonPrimary
                                 className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                 disabled={!checkValidateField()}
