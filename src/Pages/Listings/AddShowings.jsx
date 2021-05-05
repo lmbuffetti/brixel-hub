@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
@@ -17,6 +16,7 @@ import {
   change,
   reset,
 } from '@brixel/brixel-components';
+import { DateTime } from 'luxon';
 import {
   createPropertyVisitBooking,
 } from '../../actions/PropertyActions';
@@ -32,6 +32,7 @@ const Showings = (props) => {
     lang,
     match,
     schedule,
+    userLang,
   } = props;
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
@@ -43,9 +44,9 @@ const Showings = (props) => {
       smallLoader: 'addBooking',
       slots: [
         {
-          start: moment(schedule.slots[idShowing]).format('HH:mm'),
-          end: moment(schedule.slots[idShowing]).add(1, 'hour').format('HH:mm'),
-          date: moment(schedule.slots[idShowing]).format('YYYY-MM-DD'),
+          start: DateTime.fromSQL(schedule.slots[idShowing], { locale: userLang }).toFormat('HH:mm'),
+          end: DateTime.fromSQL(schedule.slots[idShowing], { locale: userLang }).plus({ hours: 1 }).toFormat('HH:mm'),
+          date: DateTime.fromSQL(schedule.slots[idShowing], { locale: userLang }).toFormat('yyyy-LL-dd'),
           status: 'accepted',
         },
       ],
@@ -79,7 +80,9 @@ const Showings = (props) => {
             {
               schedule.slots && (
                 <p className="txtDark200 fsize-300">
-                  {moment(schedule.slots[idShowing]).format('DD MMMM YYYY HH:mm')}
+                  {
+                    DateTime.fromSQL(schedule.slots[idShowing], { locale: userLang }).toFormat('dd LLLL yyyy HH:mm')
+                  }
                 </p>
               )
             }
@@ -204,6 +207,7 @@ Showings.propTypes = {
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
   schedule: PropTypes.object.isRequired,
+  userLang: PropTypes.string.isRequired,
 };
 
 Showings.defaultProps = {
@@ -216,8 +220,9 @@ const mapStateToProps = (state) => ({
   errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
   formValue: get(state, 'brixelForm.Showings.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
-  schedule: get(state, 'brixelForm.Property.values.schedule', {}),
   lang: get(state, 'coomon.currentLanguage', 'en'),
+  schedule: get(state, 'brixelForm.Property.values.schedule', {}),
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

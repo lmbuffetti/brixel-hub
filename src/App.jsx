@@ -13,17 +13,6 @@ import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
-import moment from 'moment';
-import 'moment/locale/de-ch';
-import 'moment/locale/pt';
-import 'moment/locale/nl';
-import 'moment/locale/se';
-import 'moment/locale/da';
-import 'moment/locale/de';
-import 'moment/locale/it';
-import 'moment/locale/fr';
-import 'moment/locale/de-at';
-import 'moment/locale/en-gb';
 // COMPONENTS
 import {
   BrixelIcon,
@@ -201,13 +190,6 @@ const App = (props) => {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
       handleSetLanguage(lang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
-      if (lang === 'ch' || lang === 'de') {
-        moment.locale('de-ch');
-      } else if (lang === 'en' || lang === 'en_US') {
-        moment.locale('en-gb');
-      } else {
-        moment.locale(lang);
-      }
     }
     if (typeof Transifex !== 'undefined') {
       Transifex.live.onReady(() => {
@@ -392,7 +374,7 @@ const App = (props) => {
         contentHeight = `calc(100vh - ${calcHeaderHeight()}px)`;
       }
     } else {
-      contentHeight = windowDimensions.height - calcFlowHeaderHeight();
+      contentHeight = 'auto';
     }
     return contentHeight;
   }, [isFlow, calcHeaderHeight, calcFlowHeaderHeight, windowDimensions]);

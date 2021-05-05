@@ -197,8 +197,23 @@ header {
 }
 
 .langMenu {
+  background-color: map_get($lightColor, 200) !important;
+  border-radius: 50px !important;
+  padding-left: $step;
+  padding-right: $step;
+  transition: background-color 0.4s ease;
+  &:hover {
+    background-color: map_get($lightColor, 300) !important;
+  }
+  .title {
+    min-width: 45px !important;
+    font-weight: 400;
+  }
   &.dropdown.open ul {
     max-height: none;
+    li {
+      font-weight: 400;
+    }
   }
 }
 
@@ -312,168 +327,191 @@ img {
   }
 }
 
-.lh-in{
+.lh-in {
   line-height: initial;
 }
 
 //on boarding custom styles
-.packageFlow {
-  #multiStepForm:not(.signUp) {
-    .multiStepSlides {
-      overflow-y: auto !important;
-    }
-    .brixel-checkbox-icon.radioBtnImg,
-    .brixel-radio-button-icon.radioBtnImg {
-      /*todo styleguide*/
-      label {
-        @media (max-width: $responsive-small) {
-          padding: $step + 2;
+.flowWrapper {
+  min-height: 100%;
+  .packageFlow {
+    #multiStepForm:not(.signUp) {
+      .multiStepSlides {
+        //overflow-y: auto !important;
+      }
+      .makeCenter > div {
+          display: flex;
+          justify-content: center;
+      }
+      .brixel-checkbox-icon.radioBtnImg,
+      .brixel-radio-button-icon.radioBtnImg {
+        /*todo styleguide*/
+        label {
+          @media (max-width: $responsive-small) {
+            //padding: $step + 2;
+          }
         }
-      }
-      label .textLabel {
-        margin-left: $step * 2;
-        @include fontStyle(500);
-      }
-    }
-    .brixel-input-step input {
-      @include fontStyle(600);
-    }
-    .brixel-select .mobile-version,
-    .brixel-select .dropdown,
-    .brixel-text-input {
-      @include fontStyle(500);
-      height: 48px;
-    }
-    .brixel-select {
-      .mobile-version {
-        select {
+        label .textLabel {
+          //margin-left: $step * 2;
           @include fontStyle(500);
         }
-        &::after {
-         // top: 12px;
+      }
+
+      .brixel-input-step input {
+        @include fontStyle(600);
+      }
+
+
+      .brixel-select .mobile-version,
+      .brixel-text-input {
+        @include fontStyle(500);
+        height: 48px;
+      }
+
+      .brixel-text-input-container .password-trigger,
+      .brixel-text-input-container .validation-icon {
+        top: 14px;
+      }
+      .brixel-select .dropdown {
+        height: 46px;
+
+        .selElement {
+          span {
+            font-weight: 500;
+            color: map-get($darkColor, 200);
+          }
         }
       }
-    }
-  }
 
-  // locationInput dropdown overlfow
-  .buyerHub .locationInput {
-    #multiStepForm:not(.signUp) {
-      /* &.dropdownOpen {
-        overflow: visible !important;
-        .multiStepSlides {
-          overflow-y: visible !important;
-        }
-      } */
-      .dropdown.compact.open ul {
-        max-height: 250px;
-      }
-
-      .resultAutoComplete {
-        max-height: 250px;
-        position: relative !important;
-        overflow: auto;
-        margin-bottom: 20px;
-
-
-        @media (max-width: 320px) {
-          max-height: 170px;
+      .brixel-select {
+        .mobile-version {
+          select {
+            @include fontStyle(500);
+          }
+          &::after {
+           // top: 12px;
+          }
         }
       }
-    }
-  }
-  .buyerHub #multiStepForm:not(.signUp) {
+      .extraFeature {
+        flex-wrap: wrap;
+        display: flex;
 
-    .brixel-multirange-container {
-      margin-top: $step * 2;
-    }
-    label.brixel-label {
-      color: map-get($darkColor, 700);
-    }
+        > .brixel-checkbox-icon {
+          flex: 50%;
+          @media (min-width: $responsive-small) {
+            padding-bottom: $step * 2;
+          }
 
-
-    // Rangeslider
-    .brixel-multirange {
-      overflow-x: hidden;
-    }
-    @media (max-width: $responsive-small) {
-      .rangeslider {
-        width: calc(100% - 30px);
-        left: 15px;
-      }
-      .input-range__track {
-        transition: left 0.1s ease-out, width 0.1s ease-out
-      }
-      .input-range__slider {
-        transition: left 0.1s ease-out, box-shadow 0.1s ease-out
-      }
-      .input-range__slider-container {
-        transition: left 0.1s ease-out
-      }
-
-    }
-
-    .extraFeature {
-      flex-wrap: wrap;
-      display: flex;
-
-      > .brixel-checkbox-icon {
-        width: 50%;
-        padding-bottom: $step * 3;
-
-        > label  {
           @media (max-width: $responsive-small) {
+            flex: 100%;
+          }
+
+          > label  {
             padding: $step;
           }
-        }
 
-        &:nth-child(odd) {
-          padding-right: 12px;
+          &:nth-child(odd) {
 
-          @media (max-width: $responsive-small) {
-            padding-right: 6px;
+            @media (min-width: $responsive-small) {
+              padding-right: 12px;
+            }
           }
-        }
-        &:nth-child(even) {
-          padding-left: 12px;
+          &:nth-child(even) {
 
-          @media (max-width: $responsive-small) {
-            padding-left: 6px;
+            @media (min-width: $responsive-small) {
+              padding-left: 12px;
+              //padding-left: 6px;
+            }
           }
-        }
-        .textLabel {
-          font-size: 14px;
-          line-height: 18px;
-          padding-right: 8px;
-          font-weight: 500;
+          .textLabel {
 
-          @media (max-width: $responsive-small) {
-            overflow-wrap: anywhere;
-            font-size: 12px;
+            @media (max-width: $responsive-small) {
+              font-size: 14px;
+              line-height: 18px;
+              padding-right: 8px;
+              font-weight: 500;
+              overflow-wrap: anywhere;
+              //font-size: 12px;
+            }
           }
-        }
-        .leftExtraIcon {
-          .brixelIcon {
-            background: white;
-            padding: 8px;
-            border-radius: 8px;
+          .leftExtraIcon {
+            .brixelIcon {
+              background: white;
+              padding: 8px;
+              border-radius: 8px;
 
-            path, use {
-              fill: map-get($greenColor, 700);
+              path, use {
+                fill: map-get($greenColor, 700);
+              }
             }
           }
         }
       }
     }
-    .brixel-select .mobile-version select {
-      @media (max-width: $responsive-small) {
-        color: white;
+
+    // locationInput dropdown overlfow
+    .buyerHub .locationInput {
+      #multiStepForm:not(.signUp) {
+
+        .dropdown.compact.open ul {
+          max-height: 250px;
+        }
+
+        .resultAutoComplete {
+          max-height: 250px;
+          position: relative !important;
+          overflow: auto;
+          margin-bottom: 20px;
+
+
+          @media (max-width: 320px) {
+            max-height: 170px;
+          }
+        }
       }
     }
-    .familySituation {
-      > div:last-child {
-        margin-top: $step;
+    .buyerHub #multiStepForm:not(.signUp) {
+
+      .brixel-multirange-container {
+        margin-top: $step * 2;
       }
+      label.brixel-label {
+        color: map-get($darkColor, 700);
+      }
+
+
+      // Rangeslider
+      .brixel-multirange {
+        overflow-x: hidden;
+      }
+      @media (max-width: $responsive-small) {
+        .rangeslider {
+          width: calc(100% - 30px);
+          left: 15px;
+        }
+        .input-range__track {
+          transition: left 0.1s ease-out, width 0.1s ease-out
+        }
+        .input-range__slider {
+          transition: left 0.1s ease-out, box-shadow 0.1s ease-out
+        }
+        .input-range__slider-container {
+          transition: left 0.1s ease-out
+        }
+
+      }
+      .brixel-select .mobile-version select {
+        @media (max-width: $responsive-small) {
+          color: white;
+        }
+      }
+      .familySituation {
+        > div:last-child {
+          margin-top: $step;
+        }
+      }
+
     }
   }
 }
@@ -634,3 +672,4 @@ sub {
     display: none;
   }
 }
+

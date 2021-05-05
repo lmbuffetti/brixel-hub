@@ -1,87 +1,105 @@
-
+.flowBody {
+  background-color: #F7F6F5;
+  &.flowProfile,
+  &.flowResume {
+    background-color: map-get($greenColor, 500);
+  }
+  &.flowResume {
+    .content .container {
+      @media (max-width: $responsive-small) {
+        padding-left: 0;
+        padding-right: 0;
+        .singleStep,
+        #multiStepForm {
+          padding-bottom: 0 !important;
+        }
+      }
+    }
+  }
+  &.overlayOpen {
+    overflow: hidden;
+  }
+  .flowHeader {
+    background-color: #F7F6F5;
+  }
+}
+.cardLayout:not(.cardSmall) {
+  .textLabel {
+    min-height: 130px;
+    height: 100%;
+    padding-bottom: 0;
+  }
+}
 #bodyModalWrapper {
   &.getStarted {
+    background-color: transparent;
     z-index: 1;
+
+    #progressBar {
+      position: relative;
+    }
+
+    .fieldHolder {
+      box-shadow: $shadow-1dp;
+    }
+
     .bodyModal {
-     // transition: all $default-loader-time $default-easing;
-      //will-change: background-image, opacity;
-
-      /* &.resume,
-      &.locationInput {
-        background-size: 450px;
-      } */
-      @media (max-width: $responsive-small) {
-        background-image: none !important;
-      }
-
-      .slideBg {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-
-        @media (max-width: $responsive-small) {
-          display: none;
-        }
-
-        > div {
-          height: 100%;
-          width: 100%;
-          left: 100%;
-          transition: left $default-loader-time ease-in-out;
+      &.bathrooms,
+      &.allRooms {
+        .wrap-brixel-input-step {
+          background: white;
           position: relative;
-
-          &.prev {
-            left: -100%;
-          }
-          &.active {
-            left: 0;
+          .inputStepDisplay {
+            font-size: 40px;
+            font-family: $font-family-secondary;
+            width: auto;
+            padding: 0;
+            display: flex;
+            span {
+              font-family: $font-family-secondary;
+            }
           }
         }
+      }
+      .inputStepDisplay {
+        font-family: $font-family-secondary;
       }
 
       #multiStepForm {
-        transform: translate(0);
+        height: auto;
+        padding-bottom: 30px;
+
+        &::before {
+          content: none !important;
+        }
+
         &.interactive {
-          height: auto;
-          max-height: 100%;
           position: relative;
           margin-bottom: auto;
           margin-top: auto;
-
-          @media (min-width: $responsive-small) {
-            max-height: calc(100% - 16px);
-          }
-          @media (max-width: $responsive-small) {
-            height: 100%;
-          }
-
-          &:before,
-          .footerAction {
-            max-width: 640px;
-          }
         }
-        &.signUp {
-          .multiStepSlides,
-          .singleStep {
-            overflow: hidden;
-          }
-        }
+
         .multiStepSlides {
-          height: calc(100% - 72px);
           max-height: inherit;
+          height: inherit;
 
-          @media (max-width: $responsive-medium) {
-            height: 100%;
-            max-height: calc(100% - 53px);
-          }
           .singleStep {
             padding-top: 64px;
-            padding-bottom: 64px;
+            padding-bottom: 24px;
 
             @media (max-width: $responsive-medium) {
              padding-top: 40px;
              padding-bottom: 40px;
+             padding-left: 0;
+             padding-right: 0;
+
+             .cardLayout .slick-slider .slick-slide {
+              padding-top: 0;
+              padding-bottom: $step * 3;
+             }
+            }
+            .subcontainer {
+              max-width: inherit;
             }
           }
         }
@@ -90,13 +108,7 @@
       &.resume {
         #multiStepForm {
           .multiStepSlides {
-            height: 100%;
-            max-height: 100%;
 
-            @media (max-width: $responsive-medium) {
-              height: 100%;
-              max-height: inherit;
-            }
             .singleStep {
               padding-top: 42px;
               padding-bottom: 42px;
@@ -114,65 +126,66 @@
         }
       }
 
-      .footerAction {
+      .signUpScreen {
 
+        .onBoardingSignUp {
+
+          .topBar {
+            border-top-left-radius: $step;
+            border-top-right-radius: $step;
+          }
+          .innerBox {
+            border-bottom-left-radius: $step;
+            border-bottom-right-radius: $step;
+
+          }
+
+          label.brixel-label {
+
+            margin-bottom: $step;
+          }
+          .brixel-checkbox {
+            padding: $step;
+            margin-bottom: 8px;
+          }
+          .policyText {
+            a {
+              text-decoration: underline;
+            }
+          }
+          .link {
+            @include fontStyle(300);
+            &:visited,
+            &:active,
+            &:hover {
+              color: $brx-white;
+            }
+          }
+          .stengthPassword {
+            .passContent > p {
+              color: $brx-white;
+            }
+          }
+        }
+        .footerActionLogin {
+          .col-reverse {
+            flex-direction: column-reverse;
+          }
+        }
       }
 
       .footerAction {
         border-bottom-left-radius: $brd-radius-small;
         border-bottom-right-radius: $brd-radius-small;
-
-        .primaryBtn.resume {
-          /* padding-top: 12px;
-          padding-bottom: 12px;
-          min-width: 182px;
-          text-transform: uppercase; */
-        }
+        background: transparent;
 
         .primaryBtn {
           transition: background-color $default-loader-time ease;
         }
 
         position: relative;
-        //overflow: hidden;
-
-        /* @media screen and (-webkit-min-device-pixel-ratio:0)
-          and (min-resolution:.001dpcm) {
-          }
-        padding-bottom: 6px;
-
-        @media (min-width: $responsive-small) {
-          @media screen and (-webkit-min-device-pixel-ratio:0)
-            and (min-resolution:.001dpcm) {
-            padding-bottom: 12px;
-          }
-        } */
-        > div {
-          position: relative;
-          overflow: hidden;
-          border-bottom-left-radius: $brd-radius-small;
-          border-bottom-right-radius: $brd-radius-small;
-          z-index: 1;
-
-          &::before {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            content: '';
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transform: translateX(-100%);
-            background-color: map_get($primaryColor, 700);
-            transition: background-color, opacity, transform $default-time-long $default-easing;
-          }
-        }
 
         &.successNext {
-          > div::before {
-            opacity: 1;
-            transform: translateX(0);
-          }
           .textSuccess {
             z-index: 1;
             animation: popsUp2 $default-loader-time $default-easing;
@@ -232,68 +245,6 @@
       bottom: 0;
       opacity: 1;
     }
-
-    .bodyScrollUp {
-      padding-top: $step * 8;
-      height: 100%;
-      min-height: 440px;
-
-      @media (max-width: $responsive-medium) {
-        padding-top: $step * 4;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .onBoardingSignUp {
-        margin-bottom: $step * 5;
-
-        @media (max-width: $responsive-medium) {
-          padding-left: $step;
-          padding-right: $step;
-          margin-bottom: $step * 2;
-        }
-
-        label.brixel-label {
-          color: $brx-white;
-          margin-bottom: $step;
-        }
-        .brixel-checkbox {
-          padding: $step;
-          background: rgba(map_get($darkColor, 700), 0.5);
-          border-radius: $brd-radius-small;
-          margin-bottom: 8px;
-        }
-        .policyText {
-          color: $brx-white;
-          a {
-            color: $brx-white;
-            text-decoration: underline;
-          }
-        }
-        .link {
-          @include fontStyle(300);
-          &:visited,
-          &:active,
-          &:hover {
-            color: $brx-white;
-          }
-        }
-        .stengthPassword {
-          .passContent > p {
-            color: $brx-white;
-          }
-        }
-      }
-      .footerActionLogin {
-        background: map_get($primaryColor, 700);
-        border-top: 1px solid rgba($brx-white, 0.2);
-
-        @media (max-width: $responsive-medium) {
-          margin-top: auto;
-          margin-bottom: 0;
-        }
-      }
-    }
   }
 }
 
@@ -306,101 +257,6 @@
   }
 }
 
-
-/* .getStartedWrapper {
-  #progressBar {
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
-  #getStarted {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    overflow: hidden;
-    max-width: 760px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    box-shadow: $shadow-1dp;
-    border-top-left-radius: $brd-radius-small;
-    border-top-right-radius: $brd-radius-small;
-
-    .subcontainer {
-      width: 100%;
-      max-width: 480px;
-      margin: auto;
-    }
-
-    .multiStepForm {
-      height: 100%;
-    }
-    .multiStepSlides {
-      height: 100%;
-      display: flex;
-      transition: transform $default-loader-time ease-in-out;
-    }
-    .bodyModalFlow {
-      height: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-    .singleStep {
-      height: 100%;
-      flex: 0 0 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: $step * 3;
-
-      @media (min-width: $responsive-small) {
-        display: flex;
-        align-items: center;
-      }
-      &[class*="bg"],
-      &.vertCentered {
-        align-items: center;
-        justify-content: center;
-        display: flex;
-      }
-    }
-    .footerAction {
-      background: $brx-white;
-      position: relative;
-      width: 100%;
-      left: 0;
-      bottom: 0;
-
-      &.successNext {
-        background: map_get($greenColor, 200);
-
-        .textSuccess {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          transform: translateY(-100%);
-        }
-
-        .backBtn {
-          opacity: .5;
-        }
-      }
-    }
-
-    .brixel-radio-button-icon {
-      margin-bottom: 16px;
-      label .textLabel {
-        margin-left: 16px;
-        @media (min-width: $responsive-medium) {
-          font-size: 1.2rem;
-        }
-      }
-    }
-    .message:empty {
-      display: none;
-    }
-  }
-} */
 
 .getStartedWrapper {
   // only for package flow
@@ -500,7 +356,26 @@
 }
 
 
-.locationInputResume {
+// overwrite inner scroll
+#bodyModalWrapper {
+  &.getStarted {
+    .bodyModal {
+      overflow: inherit;
+      #multiStepForm {
+        overflow: initial;
+        .multiStepSlides {
+          overflow-y: initial;
+          .singleStep {
+            overflow-x: initial;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+body:not(.overlayOpen).locationInputResume {
   @media (max-width: $responsive-small) {
     .singleStep {
       padding-left: 0 !important;
@@ -515,5 +390,18 @@
     .brixel-text-input.dirty-icon {
       padding-right: 12px !important;
     }
+  }
+}
+
+.fadeIn {
+  opacity: 0;
+  animation: fadeIn $default-time-long $default-easing forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  } 100% {
+    opacity: 1;
   }
 }

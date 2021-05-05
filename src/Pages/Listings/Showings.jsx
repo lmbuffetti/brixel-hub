@@ -9,7 +9,6 @@ import last from 'lodash/last';
 import groupBy from 'lodash/groupBy';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
@@ -20,6 +19,7 @@ import {
   reset,
 } from '@brixel/brixel-components';
 import Loadable from 'react-loadable';
+import { DateTime } from 'luxon';
 import {
   getActiveSinglePropertyBookings,
   savePropertyVisitSchedule,
@@ -80,10 +80,10 @@ const Showings = (props) => {
           if (book.status !== 'canceled') allUnavailableSlots.push(book.slot);
         });
       });
-      allSlots.sort((a, b) => moment(a.slot.slot).format('YYYYMMDDHHmm') - moment(b.slot.slot).format('YYYYMMDDHHmm'));
+      allSlots.sort((a, b) => a.slot.slot - b.slot.slot);
       formValue.schedule.slots.map((item, i) => {
-        const checkExist = allSlots.find((day) => moment(day.slot.slot).format('YYYYMMDDHHmm') === moment(item).format('YYYYMMDDHHmm') && day.slot.status !== 'canceled');
-        if (typeof checkExist === 'undefined' && moment(item).isAfter(moment(), 'hour')) {
+        const checkExist = allSlots.find((day) => day.slot.slot === item && day.slot.status !== 'canceled');
+        if (typeof checkExist === 'undefined' && item > DateTime.now().toMillis()) {
           allSlots.push({
             id: i,
             slot: {
@@ -108,7 +108,7 @@ const Showings = (props) => {
   const manageBooking = (book, action) => {
     const allBook = get(formValue, 'booking', []);
     const selectSlots = allBook.find((item) => item.id === book.id);
-    const idSlot = selectSlots.slots.findIndex((item) => moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot).format('YYYY.MM.DD HH:mm') || moment(item.slot).format('YYYY.MM.DD HH:mm') === moment(book.slot.slot).format('YYYY.MM.DD HH:mm'));
+    const idSlot = selectSlots.slots.findIndex((item) => DateTime.fromSQL(item.slot).toFormat('yyyy.LL.dd HH:mm') === DateTime.fromSQL(book.slot).toFormat('yyyy.LL.dd HH:mm') || DateTime.fromSQL(item.slot).toFormat('yyyy.LL.dd HH:mm') === DateTime.fromSQL(book.slot.slot).toFormat('yyyy.LL.dd HH:mm'));
     selectSlots.slots[idSlot].status = action;
     const data = {
       scheduleId: book.id,
@@ -124,7 +124,13 @@ const Showings = (props) => {
 
   // FUNCTION TO GROUP DATE BY MONTH
   const gorupByMonth = () => {
-    const grouped = groupBy(bookingSlot, (d) => moment(d.slot.slot).format('MM.YYYY'));
+    const grouped = groupBy(bookingSlot, (d) => {
+      const getOnlyDate = d.slot.slot ? d.slot.slot.split(' ')[0] : null;
+      if (getOnlyDate) {
+        return DateTime.fromSQL(getOnlyDate).toFormat('LL.yyyy');
+      }
+      return null;
+    });
     return grouped || {};
   };
 
@@ -193,9 +199,9 @@ const Showings = (props) => {
                   Object.keys(gorupByMonth()).map((key, e) => (
                     <React.Fragment key={e.toString()}>
                       <h6 className="txtLight400 mt-3 mb-1">
-                        <span>{moment(key, 'MM.YYYY').format('MMMM')}</span>
+                        <span>{DateTime.fromFormat(key, 'LL.yyyy').toFormat('LLLL')}</span>
                         &nbsp;-&nbsp;
-                        <span>{moment(key, 'MM.YYYY').format('YYYY')}</span>
+                        <span>{DateTime.fromFormat(key, 'LL.yyyy').toFormat('yyyy')}</span>
                       </h6>
                       {
                         gorupByMonth()[key].map((day, g) => (
@@ -212,7 +218,7 @@ const Showings = (props) => {
                                   onCancel={() => manageBooking(day, 'canceled')}
                                   onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${day.id}`)}
                                   insertBooking={day.slot.status === 'free'}
-                                  showActions={moment(day.slot.slot).isAfter(moment(), 'hour')}
+                                  showActions={DateTime.fromSQL(day.slot.slot).toMillis() > DateTime.now().toMillis()}
                                 />
                               )
                             }

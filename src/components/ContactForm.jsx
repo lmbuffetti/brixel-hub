@@ -5,6 +5,7 @@ import { compose, bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelTextArea, BrixelInputText, Validation, BrixelIcon, ReduxField, initializeForm, change, destroy,
 } from '@brixel/brixel-components';
@@ -51,8 +52,10 @@ function ContactForm(props) {
 
   const checkField = () => {
     let isValid = true;
-    Object.keys(errorValue).forEach((item) => {
-      if (isValid) isValid = errorValue[item] === true;
+    const currentError = cloneDeep(errorValue);
+    delete currentError.location;
+    Object.keys(currentError).forEach((item) => {
+      if (isValid) isValid = currentError[item] === true;
     });
     return isValid;
   };
