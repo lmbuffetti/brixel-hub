@@ -157,9 +157,11 @@ const LoginSignup = (props) => {
                 <div className="topBar fsize-400 bgLight200 p-2 ta-c">
                   {
                     loginPage === 'register' && (
-                      <p className="txtDark700"> Already have an account? Login&nbsp;
+                      <p className="txtDark700">
+                        <span>Already have an account?</span>
+                        <span>&nbsp;</span>
                         <span className="cur-poi td-u" onClick={() => changeScreen('login')}>
-                          <span>{translateTo(lang, 'here')}</span>
+                          <span>Login here</span>
                         </span>
                       </p>
                     )
@@ -168,7 +170,7 @@ const LoginSignup = (props) => {
                     loginPage === 'login' && (
                       <p className="txtDark700"> Login or create profile&nbsp;
                         <span className="cur-poi td-u" onClick={() => changeScreen('register')}>
-                          <span>{translateTo(lang, 'here')}</span>
+                          <span>here</span>
                         </span>
                       </p>
                     )
