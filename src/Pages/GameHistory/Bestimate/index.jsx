@@ -271,7 +271,7 @@ const Bestimate = (props) => {
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
-              <div className="subcontainer mt-0 m-a">
+              <div className="subcontainer mt-0 m-a h-perc-100">
                 {
                   quest.inputs && (
                     <>
