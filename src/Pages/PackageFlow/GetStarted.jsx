@@ -430,7 +430,7 @@ const GetStarted = (props) => {
                       <div className="ta-c max-w-fix-456 m-a">
                         {
                           quest.title && (
-                            <h4 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fweight-600 txtDark700 px-1 px-sm-0`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fweight-600 txtDark700 px-1 px-sm-0`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                           )
                         }
                       </div>
