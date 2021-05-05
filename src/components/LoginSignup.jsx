@@ -232,14 +232,14 @@ const LoginSignup = (props) => {
                 {
                   loginPage === 'not_sure' && (
                     <div className="p-3 p-sm-5">
-                      <h4 className="ta-c-md  pr-5 pr-lg-0">Here are 3 reasons to sign up.</h4>
+                      <h4 className="ta-c-md  pr-lg-0">Here are 3 reasons to sign up.</h4>
                       <ol className="mt-3 px-2 px-lg-0">
                         <li className="pl-1">You receive a free price indication and a local market check.</li>
                         <li className="pl-1 mt-1">You get free access to the full Brixel Hub. Your all-in-one tool to sell your home.</li>
                         <li className="pl-1 mt-1">All services are free of charge. You decide if you want to upgrade or not.</li>
                       </ol>
 
-                      <h4 className="ta-c-md  mt-5 pr-5 pr-lg-0">Don’t worry about spam.</h4>
+                      <h4 className="ta-c-md  mt-5 pr-lg-0">Don’t worry about spam.</h4>
                       <ol className="mt-3 px-2 px-lg-0">
                         <li className="pl-1">All your personal data is save with us. We are not using them for commercial purpose.</li>
                         <li className="pl-1 mt-1">We will contact you only for support and consultation</li>

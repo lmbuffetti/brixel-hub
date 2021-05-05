@@ -76,18 +76,6 @@ const GetStartedSeller = (props) => {
     return () => destroyForm();
   }, []);
 
-  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
-  useEffect(() => {
-    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-    if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
-      inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
-      changeFieldValue('inputSheet', inputSheet);
-    }
-    if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
-      changeStep();
-    }
-  }, [formValue]);
-
   const getCurrency = () => {
     const result = {};
     if (get(formValue, 'location.countryCode', '')) {
@@ -267,6 +255,18 @@ const GetStartedSeller = (props) => {
     }
     window.scrollTo({ top: 0 });
   };
+
+  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
+  useEffect(() => {
+    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+    if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
+      inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
+      changeFieldValue('inputSheet', inputSheet);
+    }
+    if (quest.inputs && quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+      changeStep();
+    }
+  }, [formValue]);
 
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
