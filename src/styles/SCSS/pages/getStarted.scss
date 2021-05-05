@@ -92,6 +92,11 @@
              padding-bottom: 40px;
              padding-left: 0;
              padding-right: 0;
+
+             .cardLayout .slick-slider .slick-slide {
+              padding-top: 0;
+              padding-bottom: $step * 3;
+             }
             }
             .subcontainer {
               max-width: inherit;
