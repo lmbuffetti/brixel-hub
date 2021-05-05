@@ -24,7 +24,7 @@ const Accordion = (props) => {
       >
         <BrixelIcon
           color="green"
-          saturationTxt="200"
+          saturationTxt={200}
           iconWidth="w-fix-24"
           className="mt-small-4 mr-small-8"
           icon={!open ? 'arrow-right' : 'arrow-down'}
