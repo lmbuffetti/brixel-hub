@@ -11,14 +11,15 @@ import homesSvg from '../images/getstarted/svgs/homes.svg';
 
 const { factsOptions } = FactsOptions;
 
-export const BestimateCH = (type = null) => {
+export const BestimateCH = (type = null, propertyType) => {
   const bestimate = [
     {
-      title: type === 'getStarted' ? 'Please tell us some more details' : 'Step 1',
+      title: type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'Please tell us some more details' : 'How many bathrooms does the property have?'}` : 'Step 1',
       extraInfo: 'We need some extra information about your property.',
-      history: 'step1',
+      history: type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'step1' : 'bathrooms'}` : '',
       cardType: 'step1',
-      bgImg: homesSvg,
+      className: type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : ''}` : '',
+      footerWidth: `${propertyType !== 'Apartment' ? 'max-w-fix-600' : 'max-w-fix-384'}`,
       inputs: [
         {
           component: BrixelInputText,
@@ -39,13 +40,15 @@ export const BestimateCH = (type = null) => {
         },
         {
           component: BrixelInputStepNumber,
-          className: '',
+          className: 'className',
           label: type === 'getStarted' ? null : 'How many bathrooms does the property have?',
           name: 'properties.typology.bathrooms',
-          labelLeft: 'Bathrooms',
+          labelLeft: `${type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'Bathrooms' : ''}` : 'Bathrooms'}`,
           step: 1,
+          classNameBox: `${type === 'getStarted' ? `${propertyType !== 'Apartment' ? '' : 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius px-2 px-sm-5 py-5 m-a'}` : ''}`,
           min: 0,
           max: 15,
+          fluid: type === 'getStarted' ? propertyType === 'Apartment' : null,
           placeholder: '0',
           validation: [Validation.maxLengthNumRooms, Validation.markRequired],
         },
@@ -57,12 +60,15 @@ export const BestimateCH = (type = null) => {
       history: 'step3',
       cardType: 'step3',
       bgImg: homesSvg,
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelExtraFeature,
           label: 'Extra features',
           name: 'properties.extraFeatures',
           pdClass: 'p-1',
+          className: 'extraFeature',
           iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
           options: factsOptions.BrixelExtraFeature,
         },

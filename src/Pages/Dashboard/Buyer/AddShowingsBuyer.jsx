@@ -10,7 +10,6 @@ import InputRange from 'react-input-range';
 import subDays from 'date-fns/subDays';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
@@ -23,6 +22,7 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import { DateTime } from 'luxon';
 import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
 import ContactForm from '../../../components/ContactForm';
@@ -39,6 +39,7 @@ const AddShowingsBuyer = (props) => {
     history,
     lang,
     smallLoading,
+    userLang,
   } = props;
   const [currentStep, setCurrentStep] = useState('schedule');
   const [action, setAction] = useState(null);
@@ -157,7 +158,7 @@ const AddShowingsBuyer = (props) => {
                             icon="calendar"
                             className="mr-1"
                           />
-                          {moment(val.date).format('dddd, DD MMMM YYYY')}
+                          {DateTime.fromJSDate(val.date, { locale: userLang }).toFormat('cccc, dd LLLL yyyy')}
                         </div>
                         <div className="time">
                           <BrixelIcon
@@ -357,6 +358,7 @@ AddShowingsBuyer.propTypes = {
   history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   smallLoading: PropTypes.string,
+  userLang: PropTypes.string.isRequired,
 };
 
 AddShowingsBuyer.defaultProps = {
@@ -375,6 +377,7 @@ const mapStateToProps = (state) => {
     lang: get(state, 'user.loggedInUser.user.language', ''),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     smallLoading: get(state, 'common.isSmallLoading', null),
+    userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };
 

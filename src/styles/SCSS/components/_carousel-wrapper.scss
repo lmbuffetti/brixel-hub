@@ -35,6 +35,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
    &.open {
      position: static;
+     height: calc(100% - 88px);
 
      [class^="slick"] {
        position: static !important;
@@ -97,9 +98,10 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
    &.open {
      .market-card {
-        height: 100%;
-        padding-bottom: 87px;
+        height: calc(100% - 88px);
+        padding-bottom: $step * 3;
         overflow-y: auto;
+        top: calc(50% - 44px);
      }
      .slick-slide {
        display: none !important;

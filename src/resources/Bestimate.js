@@ -4,9 +4,9 @@ import { BestimateCH } from './Bestimate-CH';
 import { BestimatePT } from './Bestimate-PT';
 import { configureStore } from '../store';
 
-export const BestimateQuestions = (type, country = '') => {
+export const BestimateQuestions = (type, country = '', propertyType) => {
   const countryCode = get(configureStore.getState(), 'property.activeSingleProperty.location.countryCode', country);
-  let bestimate = BestimatePT(type);
-  if (countryCode === 'CH') bestimate = BestimateCH(type);
+  let bestimate = BestimatePT(type, propertyType);
+  if (countryCode === 'CH') bestimate = BestimateCH(type, propertyType);
   return bestimate;
 };

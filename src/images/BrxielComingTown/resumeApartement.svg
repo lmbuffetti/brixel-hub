@@ -1,91 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="454px" height="256px" viewBox="0 0 454 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
-    <title>Clipped</title>
-    <desc>Created with Sketch.</desc>
-    <defs>
-        <rect id="path-1" x="0" y="0" width="453.54" height="255.12"></rect>
-    </defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Haus-Wohnung_16-9-01">
-            <g id="Clipped">
-                <mask id="mask-2" fill="white">
-                    <use xlink:href="#path-1"></use>
-                </mask>
-                <g id="SVGID_1_"></g>
-                <g id="Group" mask="url(#mask-2)">
-                    <g transform="translate(-185.000000, -65.000000)">
-                        <rect id="Rectangle" stroke="none" fill="#5669AF" fill-rule="nonzero" x="0.842" y="13.172" width="202.743" height="443.345"></rect>
-                        <polygon id="Path" stroke="none" fill="#EE3C50" fill-rule="nonzero" points="715.629 29.039 817 29.039 782.319 452.311 487.096 455.869 484.429 159.993 633.819 25.721"></polygon>
-                        <polygon id="Path" stroke="none" fill="#F19BA5" fill-rule="nonzero" points="77.163 175.111 484.429 159.993 487.064 451.668 77.163 455.218"></polygon>
-                        <polygon id="Path" stroke="none" fill="#2D2D2D" fill-rule="nonzero" points="250.627 289.048 250.627 339.444 287.976 338.671 287.046 288.455"></polygon>
-                        <polygon id="Path" stroke="none" fill="#2D2D2D" fill-rule="nonzero" points="292.188 287.567 292.188 338.562 333.998 338.008 333.998 287.124"></polygon>
-                        <polygon id="Path" stroke="none" fill="#2D2D2D" fill-rule="nonzero" points="247.515 168.136 247.515 222.043 290.449 221.483 291.087 166.519"></polygon>
-                        <polygon id="Path" stroke="none" fill="#2D2D2D" fill-rule="nonzero" points="294.452 166.395 294.453 221.476 334.12 220.742 334.118 164.922"></polygon>
-                        <line x1="243.539" y1="176.412" x2="334.12" y2="176.412" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="243.539" y1="185.899" x2="334.12" y2="185.899" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="243.539" y1="195.977" x2="334.12" y2="195.977" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="243.539" y1="204.869" x2="334.12" y2="204.869" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="243.539" y1="214.354" x2="337.622" y2="213.098" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="96.537" y1="178.744" x2="187.569" y2="178.744" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="96.99" y1="187.646" x2="187.569" y2="187.646" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="96.99" y1="197.723" x2="187.569" y2="197.723" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="96.99" y1="206.615" x2="187.569" y2="206.615" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="96.99" y1="216.102" x2="187.569" y2="216.102" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="96.99" y1="299.388" x2="187.569" y2="299.388" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="96.99" y1="308.874" x2="187.569" y2="308.874" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="96.99" y1="318.952" x2="187.569" y2="318.952" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <polygon id="Path" stroke="none" fill="#2D2D2D" fill-rule="nonzero" points="504.059 285.127 504.059 335.765 541.407 335.765 540.594 284.188"></polygon>
-                        <polygon id="Path" stroke="none" fill="#2D2D2D" fill-rule="nonzero" points="546.298 284.188 546.298 335.765 588.091 335.765 588.091 284.693"></polygon>
-                        <line x1="502.214" y1="292.784" x2="592.793" y2="292.784" id="Path" stroke="#EE3C50" stroke-width="1.3012" fill="none"></line>
-                        <line x1="502.214" y1="302.27" x2="592.793" y2="302.27" id="Path" stroke="#EE3C50" stroke-width="1.3012" fill="none"></line>
-                        <line x1="502.214" y1="312.347" x2="592.793" y2="312.347" id="Path" stroke="#EE3C50" stroke-width="1.3012" fill="none"></line>
-                        <polygon id="Path" stroke="none" fill="#2D2D2D" fill-rule="nonzero" points="385.217 284.188 386.523 338.144 423.869 338.144 423.435 283.597"></polygon>
-                        <polygon id="Path" stroke="none" fill="#2D2D2D" fill-rule="nonzero" points="428.761 283.597 428.761 338.144 471.127 338.802 470.557 284.188"></polygon>
-                        <line x1="384.68" y1="292.192" x2="472.812" y2="289.97" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="384.68" y1="301.675" x2="472.812" y2="298.74" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="384.68" y1="311.755" x2="475.258" y2="311.755" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="384.68" y1="320.647" x2="475.258" y2="320.647" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="246.899" y1="294.678" x2="337.479" y2="293.493" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="246.899" y1="304.164" x2="337.479" y2="302.978" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <line x1="246.899" y1="314.242" x2="337.479" y2="314.242" id="Path" stroke="#F19BA5" stroke-width="1.3012" fill="none"></line>
-                        <g id="XMLID_3_" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(386.000000, 160.000000)">
-                            <g id="Group" fill-rule="nonzero">
-                                <path d="M85.127,0.487 L85.975,56.973 L69.547,57.305 C69.423,56.351 69.298,55.39 69.174,54.418 C68.166,46.42 70.116,36.952 71.877,29.174 C73.329,22.765 70.342,21.776 69.091,15.669 C68.16,11.122 69.79,5.786 69.446,1.067 L85.127,0.487 Z" id="Path" fill="#EE3C50"></path>
-                                <path d="M69.091,15.67 C70.342,21.776 73.329,22.766 71.877,29.175 C70.116,36.953 68.166,46.421 69.174,54.419 C69.298,55.391 69.423,56.352 69.547,57.306 L17.839,58.35 C14.709,48.123 10.096,32.768 11.733,23.912 C12.374,20.461 16.363,17.568 18.13,14.521 C19.944,11.385 20.667,7.123 20.91,2.866 L69.447,1.07 C69.79,5.788 68.16,11.123 69.091,15.67 Z" id="Path" fill="#FFFFFF"></path>
-                                <path d="M0.806,3.612 L20.91,2.865 C20.667,7.122 19.944,11.385 18.13,14.52 C16.363,17.567 12.374,20.46 11.733,23.911 C10.097,32.768 14.709,48.123 17.839,58.349 L0.806,58.693 L0.806,3.612 L0.806,3.612 Z" id="Path" fill="#EE3C50"></path>
-                            </g>
-                        </g>
-                        <polygon id="Path" stroke="none" fill="#F19BA5" fill-rule="nonzero" points="429.967 226.69 429.967 161.904 435.493 161.721 436.062 226.69"></polygon>
-                        <path d="M408.045,213.761 C410.016,209.342 406.095,198.412 401.772,196.045 C403.415,195.289 407.44,196.143 410.743,200.273 C411.013,195.91 411.019,188.741 410.792,184.259 C411.629,184.798 415.609,189.497 416.742,196.021 C418.302,194.222 419.373,190.695 421.998,190.451 C422.808,201.785 419.152,205.659 420.297,208.504 C421.428,203.26 425.9,198.797 429.443,199.14 C423.966,202.14 426.773,209.833 423.43,213.464" id="Path" stroke="none" fill="#50B482" fill-rule="nonzero"></path>
-                        <g id="XMLID_1_" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(501.000000, 159.000000)">
-                            <g id="Group" fill-rule="nonzero">
-                                <path d="M1.623,57.778 L0.695,0.044 L54.318,1.229 C54.011,7.274 53.32,13.381 53.39,19.356 C53.454,24.902 54.639,25.887 56.736,30.194 C60.67,38.274 58.566,48.517 57.392,58.031 L1.623,57.778 Z" id="Path" fill="#F0EFED"></path>
-                                <path d="M56.736,30.194 C54.639,25.887 53.455,24.902 53.39,19.356 C53.32,13.381 54.011,7.273 54.318,1.229 L85.614,1.92 L85.135,58.16 L57.393,58.031 C58.566,48.518 60.67,38.274 56.736,30.194 Z" id="Path" fill="#221384"></path>
-                            </g>
-                        </g>
-                        <polygon id="Path" stroke="none" fill="#EE3C50" fill-rule="nonzero" points="539.66 221.354 539.66 156.566 544.551 155.545 545.756 221.354"></polygon>
-                        <path d="M530.907,197.146 C530.762,201.927 531.385,212.666 528.26,216.897 L513.229,216.828 C512.059,214.838 511.802,212.178 511.188,209.871 C510.37,206.796 508.476,193.102 508.476,193.102 C510.706,198.174 512.844,204.185 515.071,209.557 C516.469,212.934 517.747,216.848 517.747,216.848 C517.747,216.848 517.363,211.182 517.857,206.734 C518.842,197.922 516.656,189.965 516.811,181.18 C525.79,192.131 520.032,203.89 523.877,216.876 C525.22,213.964 525.032,212.991 525.31,209.044 C525.98,199.47 525.714,185.383 531.697,177.595 C530.502,185.056 531.104,190.638 530.907,197.146 Z" id="Path" stroke="none" fill="#50B482" fill-rule="nonzero"></path>
-                        <path d="M446.667,151.696 C448.66,156.918 446.667,165.999 446.667,172.149" id="Path" stroke="#221384" stroke-width="1.3012" fill="none"></path>
-                        <path d="M447.271,178.392 C445.342,178.398 443.904,179.086 444.556,181.466 C444.96,182.937 447.233,183.111 448.132,182.007 C449.032,180.906 448.257,179.504 447.45,178.392" id="Path" stroke="none" fill="#F19BA5" fill-rule="nonzero"></path>
-                        <polyline id="Path" stroke="none" fill="#221384" fill-rule="nonzero" points="439.502 179.437 447.11 166.123 454.229 179.437 439.502 179.437"></polyline>
-                        <polyline id="Path" stroke="none" fill="#221384" fill-rule="nonzero" points="406.924 218.343 406.215 212.904 425.51 212.904 424.799 217.979 407.117 218.343"></polyline>
-                        <polygon id="Path" stroke="none" fill="#221384" fill-rule="nonzero" points="77.163 175.111 484.429 159.993 633.819 25.721 210.547 0.822"></polygon>
-                        <polygon id="Path" stroke="none" fill="#F19BA5" fill-rule="nonzero" points="261.217 60.065 262.479 138.651 397.283 136.259 397.283 57.438"></polygon>
-                        <polygon id="Path" stroke="none" fill="#EE3C50" fill-rule="nonzero" points="492.432 49.73 397.283 136.259 397.283 57.733"></polygon>
-                        <g id="Group" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(276.000000, 68.000000)">
-                            <polygon id="Path" fill="#2D2D2D" fill-rule="nonzero" points="5.222 1.347 5.222 57.92 47.704 57.27 46.694 0.695"></polygon>
-                            <polygon id="Path" fill="#2D2D2D" fill-rule="nonzero" points="52.516 0.554 52.516 56.588 100.057 55.968 100.057 0.335"></polygon>
-                            <line x1="2.933" y1="9.052" x2="105.969" y2="9.052" id="Path" stroke="#F19BA5" stroke-width="1.3012"></line>
-                            <line x1="2.933" y1="19.842" x2="105.969" y2="19.842" id="Path" stroke="#F19BA5" stroke-width="1.3012"></line>
-                            <line x1="0.979" y1="31.306" x2="104.018" y2="31.306" id="Path" stroke="#F19BA5" stroke-width="1.3012"></line>
-                            <line x1="0.979" y1="41.423" x2="104.018" y2="41.423" id="Path" stroke="#F19BA5" stroke-width="1.3012"></line>
-                            <line x1="0.979" y1="50.261" x2="104.018" y2="48.888" id="Path" stroke="#F19BA5" stroke-width="1.3012"></line>
-                        </g>
-                        <rect id="Rectangle" stroke="none" fill="none" x="265.497" y="29.422" width="391.579" height="221.288"></rect>
-                    </g>
-                </g>
-            </g>
-        </g>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 300 153.997" style="enable-background:new 0 0 300 153.997;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#D8EDF0;}
+	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
+	.st2{fill:#84DADE;}
+	.st3{fill:#1ECAD3;}
+	.st4{fill-rule:evenodd;clip-rule:evenodd;fill:#004A98;}
+	.st5{fill-rule:evenodd;clip-rule:evenodd;fill:#84DADE;}
+	.st6{fill:none;stroke:#323E48;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st7{fill:none;stroke:#323E48;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st8{fill:#004A98;}
+	.st9{fill:#FFFFFF;}
+	.st10{fill-rule:evenodd;clip-rule:evenodd;fill:#1ECAD3;}
+	.st11{fill:#9FE1E5;}
+	.st12{fill-rule:evenodd;clip-rule:evenodd;fill:#D8EDF0;}
+</style>
+<rect class="st0" width="300" height="153.997"/>
+<g>
+	<path class="st1" d="M134.073,87.33c0.012-0.239,0.019-0.479,0.019-0.721c0-7.586-6.149-13.735-13.735-13.735
+		c-0.491,0-0.976,0.026-1.454,0.076c-3.521,0.372-6.921-1.187-9.092-3.983c-3.559-4.584-9.122-7.535-15.375-7.535
+		c-6.342,0-11.974,3.035-15.525,7.731c-2.043,2.702-5.335,4.232-8.696,3.815c-0.557-0.069-1.124-0.104-1.699-0.104
+		c-7.586,0-13.735,6.149-13.735,13.735c0,0.242,0.007,0.482,0.019,0.721H134.073z"/>
+	<path class="st1" d="M239.87,50.631c-3.29-4.692-8.73-7.767-14.896-7.767c-1.312,0-2.59,0.14-3.821,0.406
+		c-4.615,0.996-9.392,0.361-13.516-1.937c-5.096-2.84-10.966-4.458-17.214-4.458c-11.402,0-21.54,5.391-28.023,13.756H239.87z"/>
+	<g>
+		<path class="st3" d="M213.364,70.601c0.218-1.227,0.255-2.517,0.083-3.841c-0.728-5.602-5.288-10.063-10.904-10.681
+			c-7.49-0.824-13.828,5.019-13.828,12.343c0,0.818,0.079,1.617,0.23,2.391c0.713,3.647-0.345,7.408-2.762,10.231
+			c-3.144,3.672-4.958,8.516-4.698,13.787c0.487,9.857,8.388,17.937,18.233,18.626c11.507,0.806,21.091-8.29,21.091-19.625
+			c0-4.862-1.763-9.311-4.685-12.744C213.654,78.186,212.699,74.354,213.364,70.601z"/>
+	</g>
+	<polygon class="st3" points="186.422,57.941 107.437,57.941 121.358,35.666 171.805,35.666 	"/>
+	<polygon class="st2" points="159.111,28.491 140.764,57.941 140.764,125.507 177.457,125.507 177.457,57.941 	"/>
+	<rect x="131.799" y="57.941" class="st2" width="54.623" height="67.566"/>
+	<rect x="109.524" y="57.941" class="st8" width="22.276" height="67.566"/>
+	<rect x="154.294" y="76.521" class="st9" width="9.865" height="15.621"/>
+	<rect x="154.294" y="53.607" class="st8" width="9.865" height="15.621"/>
+	<rect x="138.671" y="76.521" class="st9" width="9.865" height="15.621"/>
+	<rect x="169.917" y="76.521" class="st8" width="9.865" height="15.621"/>
+	<rect x="154.294" y="101.749" class="st9" width="9.865" height="15.621"/>
+	<rect x="138.671" y="101.749" class="st8" width="9.865" height="15.621"/>
+	<rect x="169.917" y="101.749" class="st9" width="9.865" height="15.621"/>
+	<g>
+		<line class="st6" x1="201.135" y1="82.126" x2="201.135" y2="125.507"/>
+	</g>
+	<g>
+		<line class="st6" x1="193.436" y1="87.906" x2="201.135" y2="95.604"/>
+	</g>
+	<g>
+		<line class="st6" x1="200.978" y1="105.211" x2="212.722" y2="93.468"/>
+	</g>
+	<line class="st7" x1="48.859" y1="125.507" x2="251.141" y2="125.507"/>
+</g>
 </svg>

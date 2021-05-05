@@ -1,0 +1,13 @@
+.accordion {
+
+  .content {
+    transition: all 0.35s ease-in;
+    overflow: hidden;
+    height: auto;
+    max-height: 500px;
+    &.collapsed {
+      max-height: 0;
+      transition: all 0.35s ease-out;
+    }
+  }
+}

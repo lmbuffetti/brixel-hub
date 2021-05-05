@@ -13,6 +13,7 @@ import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../.
 import { createEstimation } from '../../../actions/EstimationActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
+import Loading from '../../../components/Loading';
 
 function ResumeBestimate(props) {
   // PROPS
@@ -155,13 +156,17 @@ function ResumeBestimate(props) {
         ) : (
           <>
             {
-              get(marketData, 'priceDistribution', null) && (
+              get(marketData, 'priceDistribution', null) ? (
                 <div className="dis-fl-col a-c jc-c">
                   <img src={emptyHouseImg} alt="Empty Market Data" />
                   <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
                   <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to
                     calculate your result
                   </p>
+                </div>
+              ) : (
+                <div className="wrapLoader w-perc-100 h-perc-100">
+                  <Loading isLoading isSmall />
                 </div>
               )
             }

@@ -15,6 +15,7 @@ import startBestimate from '../../../images/Bestimate/startBestimate.svg';
 import generatingBestimate from '../../../images/Bestimate/generatingBestimate.svg';
 import { getMarketCheck } from '../../../actions/PropertyActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
+import Loading from '../../../components/Loading';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
 function SuccessBestimate(props) {
@@ -177,13 +178,17 @@ function SuccessBestimate(props) {
                           ) : (
                             <>
                               {
-                                get(marketData, 'priceDistribution', null) && (
+                                get(marketData, 'priceDistribution', null) ? (
                                   <div className="dis-fl-col a-c jc-c">
                                     <img src={emptyHouseImg} alt="Empty Market Data" />
                                     <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
                                     <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to
                                       calculate your result
                                     </p>
+                                  </div>
+                                ) : (
+                                  <div className="wrapLoader w-perc-100 h-fix-280">
+                                    <Loading isLoading isSmall />
                                   </div>
                                 )
                               }

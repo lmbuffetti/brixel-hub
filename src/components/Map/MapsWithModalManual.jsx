@@ -18,6 +18,7 @@ import {
   BrixelSelect,
   ReduxField,
   Validation,
+  BrixelIcon,
   change, BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
@@ -76,10 +77,10 @@ export const MapsWithModalManual = (props) => {
   const addressRef = useRef(null);
 
   useEffect(() => {
-    const multiStepForm = document.getElementById('multiStepForm');
-    if (multiStepForm) {
-      if (showManualInput) multiStepForm.classList.add('overlayOpen');
-      else multiStepForm.classList.remove('overlayOpen');
+    const { body } = document;
+    if (body) {
+      if (showManualInput) body.classList.add('overlayOpen');
+      else body.classList.remove('overlayOpen');
     }
   }, [showManualInput]);
 
@@ -330,7 +331,7 @@ export const MapsWithModalManual = (props) => {
   useOutsideAlerter(addressRef, { action: 'function', func: () => setLoclist([]) });
 
   const classNameDef = !className && showMap ? 'w-perc-100 dis-fl-col' : className;
-  const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-320' : 'h-fix-240';
+  const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-232' : 'h-fix-240';
   const mapSize = !className && showMap ? mapWindowSize : 'h-perc-100';
 
   // FUNCTION TO MANAGE KEY-CHANGE
@@ -385,156 +386,164 @@ export const MapsWithModalManual = (props) => {
   return (
     // Important! Always set the container height explicitly
     <>
-      <div
-        className={`wrapManualAddress ${showManualInput ? 'active' : ''}`}
-      >
-        <BrixelButtonIcon
-          className="pos-a-fix x-r-1 x-t-1"
-          ghost
-          icon="close-small"
-          theme="dark"
-          onClick={() => closeModal()}
-        />
-        <div className="max-w-fix-480 m-a">
-          <h3 className="mt-3 mb-5 w-perc-100">
-            Please edit your address manually.
-          </h3>
-          <div className="px-2 px-sm-0">
-            <div className="dis-f editLocation">
-              <ReduxField
-                multiple={false}
-                forceToShowError={showError && Validation.required(get(formValue, 'location.name')) !== true}
-                ReduxFieldClass="pr-1 w-perc-75"
-                form={formName}
-                design={{
-                  className: 'mb-2 zIndex1',
-                  showIconValidation: false,
-                }}
-                input={{
-                  name: 'location.name',
-                  validate: [Validation.required],
-                }}
-                labels={{
-                  label: 'Street name',
-                }}
-                meta={{
-                  invalid: true,
-                  dirty: true,
-                  message: {
-                    error: 'Please insert a valid address',
-                  },
-                }}
-                component={BrixelInputText}
-              />
-              <ReduxField
-                ReduxFieldClass="pl-1 w-perc-25"
-                form={formName}
-                design={{
-                  className: 'mb-2 zIndex1',
-                  showIconValidation: false,
-                }}
-                input={{
-                  name: 'location.streetNumber',
-                }}
-                labels={{
-                  label: windowDimensions.width < 590 ? 'Nr.' : 'Number',
-                }}
-                component={BrixelInputText}
-              />
-            </div>
-
-            <div className="dis-f a-t jc-b">
-              <ReduxField
-                multiple={false}
-                showIconValidation={false}
-                forceToShowError={showError && (Validation.required(get(formValue, 'location.zip', null)) !== true)}
-                ReduxFieldClass="w-perc-50 w-perc-sm-40 pr-1"
-                form={formName}
-                design={{
-                  className: 'mb-2 zIndex1',
-                  showIconValidation: false,
-                }}
-                input={{
-                  name: 'location.zip',
-                  validate: [Validation.zipCode, Validation.required],
-                }}
-                inputFormat={{
-                  formatType: `zipCode-${get(formValue, 'location.countryCode', null)}`,
-                  country: get(formValue, 'location.countryCode', null),
-                }}
-                meta={{
-                  invalid: true,
-                  dirty: true,
-                  message: {
-                    error: 'Please insert a valid zip code',
-                  },
-                }}
-                labels={{
-                  label: 'Zip code',
-                }}
-                component={BrixelInputText}
-              />
-              <ReduxField
-                showIconValidation={false}
-                ReduxFieldClass="pl-1 w-perc-50 w-perc-sm-60"
-                form={formName}
-                design={{
-                  className: 'mb-2 zIndex1',
-                  showIconValidation: false,
-                }}
-                input={{
-                  name: 'location.state',
-                }}
-                labels={{
-                  label: 'City',
-                }}
-                component={BrixelInputText}
-              />
-            </div>
-            <ReduxField
-              showIconValidation={false}
-              form={formName}
-              design={{
-                className: 'mb-2 zIndex1',
-                showIconValidation: false,
-              }}
-              input={{
-                name: 'location.countryCode',
-                options: country,
-              }}
-              labels={{
-                label: 'Country',
-              }}
-              component={BrixelSelect}
-            />
-          </div>
-        </div>
-        {
-          errorResult && (
-            <p className="px-5 txtRed400" dangerouslySetInnerHTML={{ __html: errorResult }} />
-          )
-        }
-        <div
-          className="footerAction shadow-1dp-top normStep"
-        >
-          <div className="pos-r p-1 p-lg-2">
-            <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-b jc-fe-sm">
-              <BrixelButtonSecondary
-                rounded
-                className="mr-3"
-                label="Cancel"
+      {
+        !multipleFieldSearch && (
+          <div
+            className={`wrapManualAddress ${showManualInput ? 'active' : ''}`}
+          >
+            <div className="addressInner pos-r">
+              <BrixelButtonIcon
+                className="pos-a-fix x-r-1 x-t-1 zIndex2"
+                ghost
+                icon="close"
+                theme="dark"
                 onClick={() => closeModal()}
               />
-              <BrixelButtonPrimary
-                rounded
-                label="Save Address"
-                onClick={() => saveCurrentLocation()}
-                isLoading={loadingAddress}
-              />
+              <div className="w-perc-100 px-2 px-sm-5 m-a pt-5 h-perc-100 ov-y-a">
+                <h3 className="mt-3 mb-5 w-perc-100 pr-4">
+                  Please edit your address manually.
+                </h3>
+                <div className="">
+                  <div className="dis-f editLocation">
+                    <ReduxField
+                      multiple={false}
+                      forceToShowError={showError && Validation.required(get(formValue, 'location.name')) !== true}
+                      ReduxFieldClass="pr-1 w-perc-75"
+                      form={formName}
+                      design={{
+                        className: 'mb-2 zIndex1',
+                        showIconValidation: false,
+                      }}
+                      input={{
+                        name: 'location.name',
+                        validate: [Validation.required],
+                      }}
+                      labels={{
+                        label: 'Street name',
+                      }}
+                      meta={{
+                        invalid: true,
+                        dirty: true,
+                        message: {
+                          error: 'Please insert a valid address',
+                        },
+                      }}
+                      component={BrixelInputText}
+                    />
+                    <ReduxField
+                      ReduxFieldClass="pl-1 w-perc-25"
+                      form={formName}
+                      design={{
+                        className: 'mb-2 zIndex1',
+                        showIconValidation: false,
+                      }}
+                      input={{
+                        name: 'location.streetNumber',
+                      }}
+                      labels={{
+                        label: windowDimensions.width < 590 ? 'Nr.' : 'Number',
+                      }}
+                      component={BrixelInputText}
+                    />
+                  </div>
+
+                  <div className="dis-f a-t jc-b">
+                    <ReduxField
+                      multiple={false}
+                      showIconValidation={false}
+                      forceToShowError={showError && (Validation.required(get(formValue, 'location.zip', null)) !== true)}
+                      ReduxFieldClass="w-perc-50 w-perc-sm-40 pr-1"
+                      form={formName}
+                      design={{
+                        className: 'mb-2 zIndex1',
+                        showIconValidation: false,
+                      }}
+                      input={{
+                        name: 'location.zip',
+                        validate: [Validation.zipCode, Validation.required],
+                      }}
+                      inputFormat={{
+                        formatType: `zipCode-${get(formValue, 'location.countryCode', null)}`,
+                        country: get(formValue, 'location.countryCode', null),
+                      }}
+                      meta={{
+                        invalid: true,
+                        dirty: true,
+                        message: {
+                          error: 'Please insert a valid zip code',
+                        },
+                      }}
+                      labels={{
+                        label: 'Zip code',
+                      }}
+                      component={BrixelInputText}
+                    />
+                    <ReduxField
+                      showIconValidation={false}
+                      ReduxFieldClass="pl-1 w-perc-50 w-perc-sm-60"
+                      form={formName}
+                      design={{
+                        className: 'mb-2 zIndex1',
+                        showIconValidation: false,
+                      }}
+                      input={{
+                        name: 'location.state',
+                      }}
+                      labels={{
+                        label: 'City',
+                      }}
+                      component={BrixelInputText}
+                    />
+                  </div>
+                  <ReduxField
+                    showIconValidation={false}
+                    form={formName}
+                    design={{
+                      className: 'mb-2 zIndex1',
+                      showIconValidation: false,
+                    }}
+                    input={{
+                      name: 'location.countryCode',
+                      options: country,
+                    }}
+                    labels={{
+                      label: 'Country',
+                    }}
+                    component={BrixelSelect}
+                  />
+                </div>
+              </div>
+              {
+                errorResult && (
+                  <p className="px-5 pt-3 txtRed400" dangerouslySetInnerHTML={{ __html: errorResult }} />
+                )
+              }
+              <div
+                className={`footerAction shadow-1dp-top normStep ${errorResult ? 'mt-2' : 'mt-5'}`}
+              >
+                <div className="pos-r p-2">
+                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-b jc-fe-sm">
+                    <BrixelButtonSecondary
+                      rounded
+                      className="mr-3"
+                      label="Cancel"
+                      onClick={() => closeModal()}
+                    />
+                    <BrixelButtonPrimary
+                      rounded
+                      theme="green"
+                      themeSat={500}
+                      label="Save Address"
+                      onClick={() => saveCurrentLocation()}
+                      isLoading={loadingAddress}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        )
+      }
       <div
         style={showMap ? {
           minHeight: minHeight > 0 ? `${minHeight}px` : '', position: 'relative',
@@ -559,13 +568,14 @@ export const MapsWithModalManual = (props) => {
                     input={{
                       onChange: (e, name) => (disabled ? '' : changeFieldValue(formName, name || 'location.searchAddress', e)),
                       onBlur: () => '',
-                      onFocus: () => (disabled ? '' : setSelectedAddress(false)),
+                      // onFocus: () => (disabled ? '' : setSelectedAddress(false)),
                       value: get(formValue, 'location.searchAddress', '') || '',
                       name: 'location.searchAddress',
                     }}
                     onKeyDown={(e) => (disabled ? '' : keyUpInput(e))}
                     onClear={() => (disabled ? '' : changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude }))}
                     message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
+                    iconLeft="location-pin-simple"
                   />
                   {
                     !selectedAddress && locList.length > 0 && !disabled && (
@@ -577,8 +587,14 @@ export const MapsWithModalManual = (props) => {
                               tabIndex={i}
                               key={i.toString()}
                               onClick={() => geoCode(loc.description, 'submit')}
-                              dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
-                            />
+                            >
+                              <BrixelIcon
+                                color={i === selLocAuto ? 'dark' : 'light'}
+                                saturationTxt={700}
+                                icon="location-pin-simple"
+                              />
+                              <div className="singleLoc" dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }} />
+                            </li>
                           ))
                         }
                       </ul>
@@ -616,7 +632,7 @@ export const MapsWithModalManual = (props) => {
       </div>
       {
         get(history, 'location.pathname', '').includes('locationInputResume') && (
-          <div className="dis-f jc-b a-c mt-2 px-2 px-sm-0">
+          <div className="dis-f jc-b a-c mt-3 mt-sm-4 px-2">
             <div className="fweight-500 txtDark700 pr-1 pr-sm-0">
               <span>{get(formValue, 'location.name', '')}</span>
               {
