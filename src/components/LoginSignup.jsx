@@ -175,8 +175,12 @@ const LoginSignup = (props) => {
                   }
                   {
                     loginPage === 'login' && (
-                      <p className="txtDark700"> Login or create profile&nbsp;
-                        <span className="cur-poi td-u" onClick={() => changeScreen('register')}>
+                      <p className="txtDark700">
+                        <span>Login or create profile&nbsp;</span>
+                        <span
+                          className="cur-poi td-u"
+                          onClick={() => changeScreen('register')}
+                        >
                           <span>here</span>
                         </span>
                       </p>
