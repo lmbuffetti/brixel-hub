@@ -491,34 +491,20 @@ const GetStartedSeller = (props) => {
 
       <div
         className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
-        // style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
-        {/* preload all background images */}
-        {/*  {
-            questions.map((questStep, i) => (
-              <Fragment key={i.toString()}>
-                <div className="slideBg" key={i.toString()}>
-                  <div
-                    // eslint-disable-next-line no-nested-ternary
-                    className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
-                    style={{ backgroundImage: `url(${questStep.bgImg})` }}
-                  />
-                </div>
-              </Fragment>
-            ))
-          } */}
+
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+          className="interactive dis-fl-col jc-b"
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+            <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && (
-                    <div id={`step-${currentIndex}`} className={`dis-fl-col a-c flex-wrap  ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
+                    <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
@@ -624,45 +610,6 @@ const GetStartedSeller = (props) => {
           }
         </form>
       </div>
-      {/* signup flow */}
-      {
-        questions[currentIndex].effect === 'slideUp' && (
-          <div className="signUpContainer">
-            {
-              questions[currentIndex] && questions[currentIndex].inputs && (
-                <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
-                  {
-                    questions[currentIndex].titleGreen && (
-                      <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
-                    )
-                  }
-                  {
-                    questions[currentIndex].title && (
-                      <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
-                    )
-                  }
-                  {
-                    questions[currentIndex].subtitle && (
-                      <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
-                  }
-                  <MultiFileldsReduxForm
-                    className="h-perc-100"
-                    form="GetStarted"
-                    disableNextBtn={false}
-                    formValue={formValue}
-                    inputs={questions[currentIndex].inputs}
-                    onSubmit={() => changeStep()}
-                    onCloseGoBack={() => changeStep('back')}
-                    onClickDisabled={!checkValidateField()}
-                    showSendButton
-                    showErrors
-                  />
-                </div>
-              )
-            }
-          </div>
-        )
-      }
     </div>
   );
 };

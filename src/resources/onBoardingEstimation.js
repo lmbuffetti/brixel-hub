@@ -57,7 +57,6 @@ export const QuestionsList = (lang, country = 'CH') => {
     {
       title: translateTo(lang, 'What is the estimation for?'),
       history: 'estimationType',
-      vCentered: true,
       footerWidth: 'max-w-fix-464',
       inputs: [{
         component: BrixelRadioButton,
@@ -75,7 +74,6 @@ export const QuestionsList = (lang, country = 'CH') => {
     {
       title: translateTo(lang, 'What type of property do you want to estimate?'),
       history: 'propertyType',
-      vCentered: true,
       footerWidth: 'max-w-fix-880',
       inputs: [{
         component: BrixelRadioButton,
