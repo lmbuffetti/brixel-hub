@@ -253,7 +253,6 @@ const GetStartedSeller = (props) => {
         if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
-    window.scrollTo({ top: 0 });
   };
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
