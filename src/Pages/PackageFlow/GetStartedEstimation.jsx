@@ -332,7 +332,6 @@ const GetStartedEstimation = (props) => {
         if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
-    window.scrollTo({ top: 0 });
   };
 
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
