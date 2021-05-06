@@ -17,7 +17,7 @@ $grid-breakpoints: (
   sm: 590px,
   md: 1025px,
   lg: 1025px,
-  xl: 1440px,
+  xl: 1425px,
   xxl: 1920px,
 );
 $responsive-medium: map_get($grid-breakpoints, md);
@@ -401,6 +401,7 @@ img {
           flex: 50%;
           @media (min-width: $responsive-small) {
             padding-bottom: $step * 2;
+            max-width: 50%;
           }
 
           @media (max-width: $responsive-small) {
