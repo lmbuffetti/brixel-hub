@@ -8,7 +8,7 @@ import get from 'lodash/get';
 import {
   connect,
 } from 'react-redux';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import {
   BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon, Helpers,
 } from '@brixel/brixel-components';
@@ -27,6 +27,7 @@ const BrixelClosingTree = (props) => {
     className,
     isBuyer,
     setSplashScreen,
+    userLang,
   } = props;
 
   const [showTooltip, setShowTooltip] = useState({ type: '', side: '', active: false });
@@ -96,7 +97,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1 as-b"
                       />
                       <span className="fsize-200 txtGreen400">Sent</span>
-                      <span className="fsize-100 txtDark200">{moment(get(activeSingleOffer, 'createdAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleOffer, 'createdAt', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleOffer.createdAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   ) : (
                     <div
@@ -211,7 +220,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Accepted</span>
-                      <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleOffer, 'updatedAt', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleOffer.updatedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   )
                 }
@@ -224,7 +241,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtRed400">Rejected</span>
-                      <span className="fsize-100">{moment(get(activeSingleOffer, 'updatedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleOffer, 'updatedAt', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleOffer.updatedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   )
                 }
@@ -241,7 +266,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Verified</span>
-                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageIdentification.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleClosing, 'stageIdentification.completedByBuyer.completedAt', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleClosing.stageIdentification.completedByBuyer.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   ) : (
                     <div
@@ -283,7 +316,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Verified</span>
-                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageIdentification.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleClosing, 'stageIdentification.completedBySeller.completedAt', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleClosing.stageIdentification.completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   ) : (
                     <div
@@ -323,7 +364,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Locked</span>
-                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageLock.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleClosing, 'stageLock.completedByBuyer.completedAt', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleClosing.stageLock.completedByBuyer.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   ) : (
                     <div
@@ -365,7 +414,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Locked</span>
-                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageLock.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleClosing, 'stageLock.completedBySeller.completedAt', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleClosing.stageLock.completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   ) : (
                     <div
@@ -405,7 +462,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Approved</span>
-                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageContract.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleClosing, 'stageContract.completedByBuyer.completedAt', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleClosing.stageContract.completedByBuyer.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   ) : (
                     <div
@@ -447,7 +512,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Approved</span>
-                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageContract.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleClosing, 'stageContract.completedBySeller.completedAt', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleClosing.stageContract.completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   ) : (
                     <div
@@ -487,7 +560,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Signed</span>
-                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageNotary.completedByBuyer.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleClosing, 'stageNotary.completedByBuyer', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleClosing.stageNotary.completedByBuyer.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   ) : (
                     <div
@@ -529,7 +610,15 @@ const BrixelClosingTree = (props) => {
                         className="mb-1"
                       />
                       <span className="fsize-200 txtGreen400">Signed</span>
-                      <span className="fsize-100 txtDark200">{moment(get(activeSingleClosing, 'stageNotary.completedBySeller.completedAt', null)).format('D MMM YY, H:mm')}</span>
+                      {
+                        get(activeSingleClosing, 'stageNotary.completedBySeller', null) ? (
+                          <span className="fsize-100 txtDark200">
+                            {DateTime.fromMillis(activeSingleClosing.stageNotary.completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                          </span>
+                        ) : (
+                          <span className="fsize-100 txtDark200">-</span>
+                        )
+                      }
                     </>
                   ) : (
                     <div
@@ -572,6 +661,7 @@ BrixelClosingTree.propTypes = {
   className: PropTypes.string,
   isBuyer: PropTypes.bool,
   setSplashScreen: PropTypes.func.isRequired,
+  userLang: PropTypes.string.isRequired,
 };
 
 BrixelClosingTree.defaultProps = {
@@ -583,6 +673,7 @@ const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleOffer: get(state, 'deal.activeSingleDeal.closing.stageOffer', {}),
   activeSingleClosing: get(state, 'deal.activeSingleDeal.closing', {}),
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

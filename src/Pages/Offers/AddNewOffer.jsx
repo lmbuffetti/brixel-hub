@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import moment from 'moment';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
@@ -20,6 +19,7 @@ import {
   ReduxField,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { DateTime } from 'luxon';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType } from '../../actions/CommonActions';
 import { saveMakeOffer } from '../../actions/DealActions';
@@ -41,6 +41,7 @@ const AddNewOffer = (props) => {
     isSmallLoading,
     loggedInUser,
     setSplashScreen,
+    userLang,
   } = props;
   // STATE
   const [success, setSuccess] = useState(false);
@@ -110,7 +111,9 @@ const AddNewOffer = (props) => {
             <>
               <h3 className="ta-c">Offer sent ⏳</h3>
 
-              <h5 className="ta-c fsize-400 fweight-400 txtDark100">{moment(new Date()).format('DD MMM YYYY HH:mm')}</h5>
+              <h5 className="ta-c fsize-400 fweight-400 txtDark100">
+                {DateTime.now({ locale: userLang }).toFormat('dd LLL yyyy HH:mm')}
+              </h5>
 
               <p className="mt-5 txtDark700">Your offer was transmitted to the owner. You will get feedback via e-mail.</p>
 
@@ -303,6 +306,7 @@ AddNewOffer.propTypes = {
   isSmallLoading: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
+  userLang: PropTypes.string.isRequired,
 };
 
 AddNewOffer.defaultProps = {
@@ -325,6 +329,7 @@ const mapStateToProps = (state) => ({
     amount: '',
     note: '',
   },
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

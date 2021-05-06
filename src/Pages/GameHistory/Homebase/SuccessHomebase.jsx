@@ -15,6 +15,7 @@ function SuccessHomebase(props) {
   const {
     formValue,
     history,
+    loggedInUser,
     match,
   } = props;
   // PARAMS URL
@@ -77,7 +78,7 @@ function SuccessHomebase(props) {
         />
         <BrixelButtonText
           label="Add new propety"
-          onClick={() => history.push('/packageFlow/getStarted')}
+          onClick={() => history.push(`/packageFlow?company=${get(loggedInUser, 'company.stub', '')}`)}
         />
       </div>
     </main>
@@ -87,12 +88,14 @@ function SuccessHomebase(props) {
 SuccessHomebase.propTypes = {
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 
 export default compose(

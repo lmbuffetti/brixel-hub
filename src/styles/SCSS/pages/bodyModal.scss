@@ -165,13 +165,20 @@
       width: 100%;
     }
     .footerAction {
-      max-width: 760px;
-      background: $brx-white;
-      position: relative;
-      width: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 0;
+      &:not(.flowFooter) {
+        max-width: 760px;
+        background: $brx-white;
+        position: relative;
+        width: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 0;
+      }
+      &.flowFooter {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
       //transition: background $default-time $default-easing;
 
       &.staticFooter {

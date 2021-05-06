@@ -16,12 +16,7 @@ import { configureStore } from '../store';
 
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
-import buildingLand from '../images/BrxielComingTown/building-land.svg';
-
-import homesSvg from '../images/getstarted/svgs/homes.svg';
-import locationSvg from '../images/getstarted/svgs/location.svg';
-import roomsSvg from '../images/getstarted/svgs/room.svg';
-import congratsSvg from '../images/getstarted/svgs/congrats.svg';
+import land from '../images/BrxielComingTown/land.svg';
 
 const { factsOptions } = FactsOptions;
 
@@ -57,31 +52,38 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'What kind of property would you like to buy?'),
       history: 'propertyType',
       vCentered: true,
-      bgImg: homesSvg,
+      footerWidth: 'max-w-fix-880',
       inputs: [
         {
           component: BrixelCheckbox,
-          className: 'radioBtnImg max-w-fix-lg-464',
-          pdClass: 'py-2 py-lg-3 px-1',
+          className: 'radioBtnImg',
+          ReduxFieldClass: '',
           label: '',
           name: 'characteristics.propertyType',
           validation: [Validation.required],
           icons: true,
+          cardLayout: true,
+          cardSmall: true,
+          isHorizontal: true,
+          pdClass: 'pt-3 pb-5',
           options: [
             {
               label: translateTo(lang, 'Apartment'),
               value: 'Apartment',
               img: apartment,
+              color: 'blue',
             },
             {
               label: translateTo(lang, 'House'),
               value: 'House',
               img: house,
+              color: 'blue',
             },
             {
               label: 'Building land',
               value: 'Building land',
-              img: buildingLand,
+              img: land,
+              color: 'blue',
             },
           ],
         },
@@ -92,7 +94,8 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'How big should it be?'),
       history: 'tipology',
       vCentered: true,
-      bgImg: roomsSvg,
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a pl-2 pr-0 px-sm-5 py-5',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelInputMultiRange,
@@ -107,7 +110,7 @@ export const QuestionsList = (lang) => {
         },
         {
           component: BrixelInputMultiRange,
-          className: 'mt-3',
+          className: 'mt-2',
           classNameInput: 'pl-5',
           label: 'Living Space in m2',
           name: 'characteristics.livingArea',
@@ -125,8 +128,8 @@ export const QuestionsList = (lang) => {
       subtitle: 'You can choose more than one.',
       history: 'extraFeature',
       vCentered: true,
-      bgImg: roomsSvg,
-      className: 'extraFeature',
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-800 m-a px-2 px-sm-5 py-5',
+      footerWidth: 'max-w-fix-800',
       inputs: [
         {
           className: 'extraFeature',
@@ -142,13 +145,12 @@ export const QuestionsList = (lang) => {
       subtitle: translateTo(lang, 'You can add multiple addresses.'),
       history: 'locationInput',
       cardType: 'locationInput',
-      bgImg: locationSvg,
-      className: 'dis-f',
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           className: 'pos-r zIndex6 compact',
-          classNameBox: 'max-w-perc-100 pos-r',
-          classBoxWrapper: 'mt-0 searchMapCountry mr-2',
+          classBoxWrapper: 'searchMapCountry mr-2',
           component: BrixelSelect,
           label: 'Country',
           labelType: 'onlyFlag',
@@ -158,7 +160,7 @@ export const QuestionsList = (lang) => {
         },
         {
           component: MapsCities,
-          classBoxWrapper: 'mt-0 searchMapFields',
+          classBoxWrapper: 'w-perc-100 flex-1 searchMapFields',
           showMap: false,
           name: 'locations[0].latitude',
           classNameBox: 'max-w-perc-100',
@@ -179,10 +181,12 @@ export const QuestionsList = (lang) => {
       title: translateTo(lang, 'What is your budget?'),
       history: 'price',
       cardType: 'Price',
-      bgImg: congratsSvg,
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelInputText,
+          classNameBox: 'brdRadius max-w-fix-600 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
           className: '',
           label: `Max. selling price in ${get(formValue, 'finance.currency', 'CHF')}`,
           placeholder: get(formValue, 'finance.currency', 'CHF') === 'CHF' ? '800’000' : '800.000',
@@ -194,47 +198,11 @@ export const QuestionsList = (lang) => {
       successMessage: translateTo(lang, 'This is a nice number.'),
     },
     {
-      title: translateTo(lang, 'What is your family situation?'),
-      history: 'familySituation',
-      cardType: 'FamilySituation',
-      bgImg: congratsSvg,
-      className: 'mb-2',
-      inputs: [
-        {
-          component: BrixelRadioButton,
-          classNameBox: 'familySituation',
-          pdClass: 'py-2 py-lg-3 px-1',
-          icons: true,
-          label: '',
-          className: 'test3',
-          name: 'profile.familySituation',
-          options: factsOptions.buyerFamilySituation,
-        },
-      ],
-      successMessage: translateTo(lang, 'This is a nice number.'),
-    },
-    {
-      title: translateTo(lang, 'How is your knowledge about buying a property?'),
-      history: 'knowledge',
-      cardType: 'Knowledge',
-      bgImg: congratsSvg,
-      inputs: [
-        {
-          component: BrixelRadioButton,
-          pdClass: 'py-2 py-lg-3 px-1',
-          icons: true,
-          label: '',
-          name: 'profile.knowledge',
-          options: factsOptions.buyerKnowledge,
-        },
-      ],
-      successMessage: translateTo(lang, 'This is a nice number.'),
-    },
-    {
       title: translateTo(lang, 'What is your current living situation?'),
       history: 'livingSituation',
       cardType: 'LivingSituation',
-      bgImg: congratsSvg,
+      className: 'max-w-fix-480 m-a',
+      footerWidth: 'max-w-fix-480',
       inputs: [
         {
           component: BrixelRadioButton,
@@ -254,10 +222,8 @@ export const QuestionsList = (lang) => {
       }],
       history: 'createProfile',
       component: LoginSignup,
-      bgImg: congratsSvg,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
-      effect: 'slideUp',
       cardType: 'createProfile',
       inputs: [{
         component: LoginSignup,

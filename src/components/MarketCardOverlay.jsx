@@ -218,7 +218,7 @@ const MarketCard = (props) => {
             */}
           </div>
 
-          <div className="mid dis-fl-col fsize-300 pt-1 pb-5 txtDark400">
+          <div className="mid dis-fl-col fsize-300 pt-1 pb-3 txtDark400">
             <div>
               <div className={fullScreenCard ? 'dis-f flex-wrap' : ''}>
                 <div className={fullScreenCard ? 'flex-50 pr-0 pr-sm-3' : 'w-perc-100'}>

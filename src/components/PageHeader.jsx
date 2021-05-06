@@ -101,15 +101,35 @@ function PageHeader(props) {
     }
   }, []);
 
-  // FUNCTION TO MANAGE THE ZINDEX IF slideUp CLASS EXISTS
-  /* useEffect(() => {
-    const getElementByClass = document.getElementsByClassName('slideUp');
-    if (getElementByClass.length > 0) {
-      setZIndexHeader(0);
-    } else if (!history.location.pathname.includes('packageFlow')) {
-      setZIndexHeader(11);
+  // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
+  useEffect(() => {
+    document.body.classList.add('flowBody');
+
+    if (history.location.pathname.includes('/resume')) {
+      document.body.classList.add('flowResume');
+    } else {
+      document.body.classList.remove('flowResume');
     }
-  }, [get(history, 'location.pathname', null)]); */
+
+    if (history.location.pathname.includes('/createProfile')) {
+      document.body.classList.add('flowProfile');
+    } else {
+      document.body.classList.remove('flowProfile');
+    }
+    return () => {
+      //  clean up
+      document.body.classList.remove('flowProfile');
+      document.body.classList.remove('flowBody');
+      document.body.classList.remove('flowResume');
+    };
+  }, [history.location.pathname]);
+
+  useEffect(() => {
+    // this changes the scrolling behavior to "smooth"
+    if (window.innerWidth < 590) {
+      window.scrollTo({ top: 0 });
+    }
+  }, []);
 
   // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
   const newLang = useCallback((e, langCode) => {
@@ -140,112 +160,112 @@ function PageHeader(props) {
   return (
     <>
       <header className="flowHeader">
-        <div className={`dis-f a-c dis-f a-c p-2 py-small-lg-21 px-small-lg-29 jc-b pos-r jc-b pos-r ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
-          <div className="dis-f jc-c a-c">
-            <img
-              className={`logo dis-b ${widthScreen <= 600 ? 'w-fix-32 mr-2' : 'w-fix-88'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
-              src={`${widthScreen <= 600 ? logoColorIcon : logoColor}`}
-              alt="Brixel Logo"
-              id="header-logo"
-            />
-            {
-              supportPhone && (
-                <div className="support dis-f a-c ml-2 ml-sm-4 notranslate">
-                  <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${Helpers.telephoneFormat(supportPhone)}`}>
-                    <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
-                    <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>
-                  </a>
-                </div>
-              )
-            }
-          </div>
-          <div className="dis-f a-c">
-            {
-              !history.location.pathname.includes('packageFlow') &&
-              !history.location.pathname.includes('onBoarding') && (
-                <>
-                  {
-                    userAwards >= 0 && (
-                      <div className={`cur-poi ${userAwards >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('awards')}>
-                        <img src={awards} alt="icon awards" className="mr-1" />
-                        <span className="ff-mono txtGreen600">{userAwards}</span>
-                      </div>
-                    )
-                  }
+        <div className="container">
+          <div className={`dis-f a-c dis-f a-c  jc-b pos-r jc-b pos-r pt-2 pb-3 py-sm-5 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+            <div className="dis-f jc-c a-c min-h-fix-40 h-perc-100">
+              <img
+                className={`logo w-perc-100 ${widthScreen <= 600 ? 'w-fix-32 mr-2' : 'max-w-fix-84 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+                src={`${widthScreen <= 600 ? logoColorIcon : logoColor}`}
+                alt="Brixel Logo"
+                id="header-logo"
+              />
+              {/* {
+                supportPhone && (
+                  <div className="support dis-f a-c ml-2 ml-sm-4 notranslate">
+                    <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${Helpers.telephoneFormat(supportPhone)}`}>
+                      <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
+                      <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>
+                    </a>
+                  </div>
+                )
+              } */}
+            </div>
+            <div className="dis-f a-c">
+              {
+                !history.location.pathname.includes('packageFlow') &&
+                !history.location.pathname.includes('onBoarding') && (
+                  <>
+                    {
+                      userAwards >= 0 && (
+                        <div className={`cur-poi ${userAwards >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('awards')}>
+                          <img src={awards} alt="icon awards" className="mr-1" />
+                          <span className="ff-mono txtGreen600">{userAwards}</span>
+                        </div>
+                      )
+                    }
 
-                  {
-                    brixelPoints >= 0 && (
-                      <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
-                        <img src={brixels} alt="icon awards" className="mr-1" />
-                        <span className="ff-mono txtRed600">{brixelPoints}</span>
-                      </div>
-                    )
-                  }
+                    {
+                      brixelPoints >= 0 && (
+                        <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
+                          <img src={brixels} alt="icon awards" className="mr-1" />
+                          <span className="ff-mono txtRed600">{brixelPoints}</span>
+                        </div>
+                      )
+                    }
 
-                  {
-                    Object.keys(userAwards).length > 0 && (
-                      <div className="cur-poi" onClick={() => setModal('awards')}>
-                        <img src={awards} alt="icon awards" className="mr-1" />
-                        <span className="ff-mono txtGreen600">{Object.keys(userAwards).length}</span>
-                      </div>
-                    )
-                  }
+                    {
+                      Object.keys(userAwards).length > 0 && (
+                        <div className="cur-poi" onClick={() => setModal('awards')}>
+                          <img src={awards} alt="icon awards" className="mr-1" />
+                          <span className="ff-mono txtGreen600">{Object.keys(userAwards).length}</span>
+                        </div>
+                      )
+                    }
 
-                  {
-                    Object.keys(brixelPoints).length > 0 && (
-                      <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
-                        <img src={brixels} alt="icon awards" className="mr-1" />
-                        <span className="ff-mono txtRed600">{brixelPoints.reduce((prev, next) => prev + next.point, 0)}</span>
-                      </div>
-                    )
-                  }
-                </>
-              )
-            }
-            {
-              !loggedInUser.token ? (
-                <div className="">
-                  <BrixelDropdown
-                    compact
-                    bgTransparent
-                    noBorder
-                    className="langMenu compact"
-                    color="dark"
-                    saturationTxt={700}
-                    lang={lang}
-                    keyType="label"
-                    selected={currentLang}
-                    options={dropLang}
-                    onSelect={(e, keys) => newLang(e, keys)}
-                    liClass="tt-low"
-                  />
-                </div>
-              ) : (
-                <div className="ml-2">
-                  {
-                    !history.location.pathname.includes('packageFlow') && (
-                      <AvatarImage
-                        avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
-                        name={loggedInUser.user.name}
-                        size={40}
-                        onClick={() => avatarAction()}
-                      />
-                    )
-                  }
-                  {
-                    history.location.pathname.includes('packageFlow') &&
-                    !(get(history, 'location.state.hideClose', null)) && (
-                      <BrixelButtonIcon
-                        ghost
-                        theme="dark"
-                        icon="close-small"
-                        onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/home') : history.push('/'))}
-                      />
-                    )
-                  }
-                </div>
-              )
-            }
+                    {
+                      Object.keys(brixelPoints).length > 0 && (
+                        <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
+                          <img src={brixels} alt="icon awards" className="mr-1" />
+                          <span className="ff-mono txtRed600">{brixelPoints.reduce((prev, next) => prev + next.point, 0)}</span>
+                        </div>
+                      )
+                    }
+                  </>
+                )
+              }
+              {
+                !loggedInUser.token ? (
+                  <div className="">
+                    <BrixelDropdown
+                      noBorder
+                      className="langMenu"
+                      color="dark"
+                      saturationTxt={700}
+                      lang={lang}
+                      keyType="label"
+                      selected={currentLang}
+                      options={dropLang}
+                      onSelect={(e, keys) => newLang(e, keys)}
+                      liClass="tt-low"
+                    />
+                  </div>
+                ) : (
+                  <div className="ml-2">
+                    {
+                      !history.location.pathname.includes('packageFlow') && (
+                        <AvatarImage
+                          avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                          name={loggedInUser.user.name}
+                          size={40}
+                          onClick={() => avatarAction()}
+                        />
+                      )
+                    }
+                    {
+                      history.location.pathname.includes('packageFlow') &&
+                      !(get(history, 'location.state.hideClose', null)) && (
+                        <BrixelButtonIcon
+                          ghost
+                          theme="dark"
+                          icon="close-small"
+                          onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/home') : history.push('/'))}
+                        />
+                      )
+                    }
+                  </div>
+                )
+              }
+            </div>
           </div>
         </div>
       </header>

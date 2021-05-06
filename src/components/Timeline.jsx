@@ -24,17 +24,9 @@ import orderBy from 'lodash/orderBy';
 import forEach from 'lodash/forEach';
 import last from 'lodash/last';
 import flatten from 'lodash/flatten';
-import moment from 'moment';
-import 'moment/locale/de-ch';
-import 'moment/locale/pt';
-import 'moment/locale/nl';
-import 'moment/locale/se';
-import 'moment/locale/da';
-import 'moment/locale/de';
-import 'moment/locale/de-at';
-import 'moment/locale/en-gb';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import { DateTime } from 'luxon';
 import {
   createNote, saveActiveSingleNote,
 } from '../actions/NoteActions';
@@ -78,6 +70,7 @@ const Timeline = (props) => {
     history,
     isDeal,
     match,
+    userLang,
   } = props;
 
   const noteRef = useRef(null);
@@ -104,13 +97,12 @@ const Timeline = (props) => {
 
   useEffect(() => {
     let array = [];
-
     if (isDeal === true && has(activeDeal, 'user.id')) {
       if (activeDealOwnerHistoryList.total > 0 && activeDealOwnerHistoryList.data.length > 0) {
         forEach(activeDealOwnerHistoryList.data, (item) => {
           // For deal timeline we only want user register
           if (item.actionStub === 'user-register' || item.actionStub === 'user-portal-create-message') {
-            array.push(createTimelineEntry(item));
+            array.push(createTimelineEntry(item, userLang));
           }
         });
       }
@@ -122,14 +114,14 @@ const Timeline = (props) => {
             if (item.actionStub === 'update-deal' && Object.keys(item.meta).length === 0) return null;
             if (item.actionStub === 'update-deal' && item.meta.name === 'new') return null;
             if (item.actionStub === 'portal-create-deal') return null;
-            array.push(createTimelineEntry(item));
+            array.push(createTimelineEntry(item, userLang));
           }
         });
       }
 
       forEach(activeDealNotes, (note) => {
         if (get(note, 'private', true) === false) {
-          set(note, 'timestamp', moment(note.createdAt).valueOf());
+          set(note, 'timestamp', note.createdAt);
           if (note.type === 'page') set(note, 'parent', note.page);
           if (note.type === 'user') set(note, 'parent', note.user);
           if (note.type === 'deal') set(note, 'parent', note.deal);
@@ -151,7 +143,7 @@ const Timeline = (props) => {
               item.actionStub !== 'page-remove-package' &&
               item.actionStub !== 'page-get-document' &&
               item.actionStub !== 'page-receive-message') {
-            array.push(createTimelineEntry(item));
+            array.push(createTimelineEntry(item, userLang));
           }
         });
       }
@@ -161,7 +153,7 @@ const Timeline = (props) => {
           // We want to get the user recovery and welcome to Brixel messages
           if (item.actionStub === 'user-recover-password' ||
               item.actionStub === 'user-register') {
-            array.push(createTimelineEntry(item));
+            array.push(createTimelineEntry(item, userLang));
           }
         });
       }
@@ -170,12 +162,12 @@ const Timeline = (props) => {
         // We don't consider the Homebase and Brixel Page published rewards for creating a property
         if (reward.title !== 'Homebase' &&
             reward.title !== 'Brixel Page') {
-          array.push(createTimelineEntry(reward));
+          array.push(createTimelineEntry(reward, userLang));
         }
       });
 
       forEach(activePropertyNotes, (note) => {
-        set(note, 'timestamp', moment(note.createdAt).valueOf());
+        set(note, 'timestamp', note.createdAt);
         if (note.type === 'page') set(note, 'parent', note.page);
         if (note.type === 'user') set(note, 'parent', note.user);
         if (note.type === 'deal') set(note, 'parent', note.deal);
@@ -413,7 +405,7 @@ const Timeline = (props) => {
                               { get(find(event.history, (el) => (el.type === 'create')), 'author.name', 'BOT') }
                             </span>
                             <span className="fsize-100 txtDark200">
-                              {moment(event.createdAt).format('D MMM YYYY, H:mm')}
+                              {DateTime.fromMillis(event.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                             </span>
                           </div>
                         )
@@ -598,6 +590,7 @@ Timeline.propTypes = {
   isDeal: PropTypes.bool,
   // loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  userLang: PropTypes.string.isRequired,
 };
 
 Timeline.defaultProps = {
@@ -616,6 +609,7 @@ const mapStateToProps = (state) => ({
   activePropertyNotes: get(state, 'property.activeSinglePropertyNotes', []),
   activeDealNotes: get(state, 'deal.activeSingleDealNotes', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

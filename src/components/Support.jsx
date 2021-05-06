@@ -26,7 +26,7 @@ const Support = (props) => {
   const companyLegalName = get(activeSingleCompany, 'legalName', get(activeSingleCompany, 'name', null));
   // COLOR
   const colorLinkTextTitle = layout === 'onboarding' ? 'txtPrimary200' : 'txtDark200';
-  const colorLinkTextInfo = layout === 'onboarding' ? 'txtWhite' : 'txtDark700';
+  const colorLinkTextInfo = layout === 'onboarding' ? 'txtDark700' : 'txtDark700';
 
   const [openDetail, setOpenDetail] = useState(expanded);
 
