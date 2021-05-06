@@ -503,7 +503,10 @@ const GetStartedEstimation = (props) => {
         if (noEmpty !== 'ayc') isNotEmpty = true;
         if (input.condition) {
           input.condition.forEach((item) => {
-            if (get(formValue, item.name, null) === item.value) {
+            if (item.value && get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
               if (err !== true && err !== false && isValid) isValid = false;
             }
           });
