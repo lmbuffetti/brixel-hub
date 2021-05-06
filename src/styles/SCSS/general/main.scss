@@ -401,6 +401,7 @@ img {
           flex: 50%;
           @media (min-width: $responsive-small) {
             padding-bottom: $step * 2;
+            max-width: 50%;
           }
 
           @media (max-width: $responsive-small) {
