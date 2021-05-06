@@ -72,4 +72,4 @@ deploy_master:
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.95.1:/srv/production/brixel-hub2
+    - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.95.1:/srv/production/brixel-hub
