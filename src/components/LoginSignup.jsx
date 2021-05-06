@@ -55,6 +55,13 @@ const LoginSignup = (props) => {
     }
   }, [formError]);
 
+  useEffect(() => {
+    // this changes the scrolling behavior to "smooth"
+    if (window.innerWidth < 590) {
+      window.scrollTo({ top: 0 });
+    }
+  }, []);
+
   // FUNCTION TO SAVE THE DATA, IF NOT VALID SHOW THE ERROR
   const onSubmitForm = () => {
     let isValid = true;

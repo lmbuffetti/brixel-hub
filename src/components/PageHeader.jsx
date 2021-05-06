@@ -124,6 +124,13 @@ function PageHeader(props) {
     };
   }, [history.location.pathname]);
 
+  useEffect(() => {
+    // this changes the scrolling behavior to "smooth"
+    if (window.innerWidth < 590) {
+      window.scrollTo({ top: 0 });
+    }
+  }, []);
+
   // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
   const newLang = useCallback((e, langCode) => {
     e.stopPropagation();
