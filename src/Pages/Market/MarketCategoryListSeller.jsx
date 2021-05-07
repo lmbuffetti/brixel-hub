@@ -365,7 +365,7 @@ const MarketCategoryListSeller = (props) => {
 
       {
         ownerProperties.total !== 0 && (
-          <div className={` ${ownerProperties.total === 0 ? '' : 'min-h-fix-552 min-h-fix-sm-344'}`}>
+          <div className={` ${ownerProperties.total === 0 ? '' : ''}`}>
             {
               ownerProperties.total > 0 && (
                 <CarouselWrapper

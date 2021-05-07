@@ -17,12 +17,16 @@ const CardImageText = (props) => {
 
   return (
     <>
-      <img
-        alt="Sckeleton Card Loading"
-        id="cartello"
-        src={type === 'own' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonOwnCard : type === 'map-view' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonMapCard : SkeletonCard}
-        className={`notranslate ${type === 'map-view' ? '' : 'ml-1'} ${type === 'own' || type === 'map-view' ? windowDimensions.width < 590 ? 'w-perc-100 pr-2' : 'h-fix-208' : 'w-perc-100 pr-2'} ${className}`}
-      />
+      {
+        type !== 'own' && (
+          <img
+            alt="Sckeleton Card Loading"
+            id="cartello"
+            src={type === 'own' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonOwnCard : type === 'map-view' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonMapCard : SkeletonCard}
+            className={`notranslate ${type === 'map-view' ? '' : 'ml-1'} ${type === 'own' || type === 'map-view' ? windowDimensions.width < 590 ? 'w-perc-100 pr-2' : 'h-fix-208' : 'w-perc-100 pr-2'} ${className}`}
+          />
+        )
+      }
       {
         type === 'map-view' && (
           <hr className="lighter my-3" />

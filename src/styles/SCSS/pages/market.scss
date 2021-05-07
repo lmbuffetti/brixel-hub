@@ -327,14 +327,18 @@
 
 .marketSellBanner {
   position: relative;
-  &:after {
+  background-image: url(../../../images/Market/bgSellBanner.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top -1px right -1px;
+  border-radius: $brd-radius-small;
+  padding-bottom: 125px;
+  @media (max-width: $responsive-medium) {
+    background-position: top left;
+  }
+  /* &:after {
     content: '';
     display: block;
-    background-image: url(../../../images/Market/bgSellBanner.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: top center;
-    border-radius: $brd-radius-small;
     position: absolute;
     left: 0;
     top: 0;
@@ -343,5 +347,8 @@
     height: 0;
     padding-top: 32.25%;
     z-index: -1;
-  }
+  } */
+}
+.carouselContainer {
+  margin-top: -125px;
 }
