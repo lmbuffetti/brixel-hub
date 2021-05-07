@@ -39,7 +39,8 @@ const CarouselWrapper = (props) => {
   const [teaserPrice, setTeaserPrice] = useState({});
 
   const sliderInstance = useRef(null);
-  let slideToShow = type === 'own' ? 1 : 2;
+  let slideToShow = 1;
+  if (windowDimensions.width > 767) slideToShow = type === 'own' ? 1 : 2;
   if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 1 : 4;
   const numCard = [...Array(slideToShow)];
 
@@ -80,7 +81,7 @@ const CarouselWrapper = (props) => {
     beforeChange: (prev, next) => {
       setActiveSlide(next);
     },
-  }), [type]);
+  }), [type, windowDimensions.width]);
 
   const moveSlide = (action) => {
     const slider = sliderInstance.current;
