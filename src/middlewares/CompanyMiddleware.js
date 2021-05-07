@@ -1,6 +1,8 @@
 import {
   GET_ACTIVE_SINGLE_COMPANY,
   SET_ACTIVE_SINGLE_COMPANY,
+  GET_COMPANY_LISTING,
+  SET_COMPANY_LISTING,
 } from '../actions/types/CompanyTypes';
 
 import api from '../controllers/api/config';
@@ -37,6 +39,15 @@ const checkCommon = (store) => (next) => (action) => {
             }
           });
       }
+      break;
+    }
+    // GET COMPANY LISTING
+    case GET_COMPANY_LISTING: {
+      const searchData = '20/0?search=&order=createdAt&direction=ASC';
+      api.company.getCompanyListing(searchData)
+        .then((res) => {
+          store.dispatch({ type: SET_COMPANY_LISTING, payload: res.data });
+        });
       break;
     }
     default:

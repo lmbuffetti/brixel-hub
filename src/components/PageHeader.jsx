@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { BrixelDropdown, BrixelModal, Helpers } from '@brixel/brixel-components';
+import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 // import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_color.svg';
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_color_icon.svg';
@@ -20,7 +20,6 @@ import { getGameHistory } from '../actions/GamificationActions';
 import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
-import CallUsImg from '../images/Support/call_us.svg';
 
 const AvatarImage = Loadable({
   loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
@@ -30,7 +29,6 @@ const AvatarImage = Loadable({
 function PageHeader(props) {
   // PROPS
   const {
-    activeSingleCompany,
     brixelPoints,
     handleSetLanguage,
     history,
@@ -47,7 +45,6 @@ function PageHeader(props) {
   const [modal, setModal] = useState(false);
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [supportPhone, setSupportPhone] = useState('');
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
@@ -59,11 +56,6 @@ function PageHeader(props) {
       // if (!gameHistory.data && !history.location.pathname.includes('getStarted')) handleGetGame();
     }
   }, [loggedInUser, lang]);
-
-  // GET COMPANY INFO
-  useEffect(() => {
-    setSupportPhone(get(activeSingleCompany, 'contact.phone', ''));
-  }, [activeSingleCompany]);
 
   // FUNCTION TO POPULATE THE DROPDOWN LANGUAGE MENU
   useEffect(() => {
@@ -373,7 +365,6 @@ function PageHeader(props) {
 }
 
 PageHeader.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string,
