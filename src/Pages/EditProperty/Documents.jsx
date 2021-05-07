@@ -20,7 +20,7 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import { useDropzone } from 'react-dropzone';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actions/UploadActions';
 import { setScreenNotification } from '../../actions/CommonActions';
 // IMAGES
@@ -40,6 +40,7 @@ const Documents = (props) => {
     history,
     isSmallLoading,
     match,
+    userLang,
     userType,
   } = props;
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
@@ -266,7 +267,15 @@ const Documents = (props) => {
                                     </div>
                                     <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                       <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700">{doc.name}</span>
-                                      <span className="date body2 txtDark200">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
+                                      {
+                                        get(doc, 'createdAt', null) ? (
+                                          <span className="date body2 txtDark200">
+                                            {DateTime.fromMillis(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}
+                                          </span>
+                                        ) : (
+                                          <span className="date body2 txtDark200">-</span>
+                                        )
+                                      }
                                     </div>
                                   </div>
 
@@ -354,7 +363,15 @@ const Documents = (props) => {
                                 </div>
                                 <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                   <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700">{doc.name}</span>
-                                  <span className="date body2 txtDark200">{moment(doc.createdAt).format('D MMM YYYY, H:mm')}</span>
+                                  {
+                                    get(doc, 'createdAt', null) ? (
+                                      <span className="date body2 txtDark200">
+                                        {DateTime.fromMillis(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}
+                                      </span>
+                                    ) : (
+                                      <span className="date body2 txtDark200">-</span>
+                                    )
+                                  }
                                 </div>
                               </div>
 
@@ -475,6 +492,7 @@ Documents.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
+  userLang: PropTypes.string.isRequired,
   userType: PropTypes.string.isRequired,
 };
 
@@ -486,6 +504,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
   userType: get(state, 'user.userTypes', ''),
 });
 

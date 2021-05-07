@@ -78,7 +78,7 @@ function SuccessHomebase(props) {
         />
         <BrixelButtonText
           label="Add new propety"
-          onClick={() => history.push(`/packageFlow/getStarted&company=${get(loggedInUser, 'company.stub', '')}`)}
+          onClick={() => history.push(`/packageFlow?company=${get(loggedInUser, 'company.stub', '')}`)}
         />
       </div>
     </main>

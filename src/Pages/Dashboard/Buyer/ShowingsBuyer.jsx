@@ -14,7 +14,7 @@ import {
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
 // import groupBy from 'lodash/groupBy';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import BrixelInfoSlot from '../../../components/BrixelInfoSlot';
 import { getActiveSinglePropertyBookings, setActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
 import showingsIMG from '../../../images/Listings/showings.svg';
@@ -33,6 +33,7 @@ const ShowingsBuyer = (props) => {
     isSmallLoading,
     loggedInUser,
     match,
+    userLang,
   } = props;
   // STATE
   const [bookingSlot, setBookingSlot] = useState([]);
@@ -71,24 +72,15 @@ const ShowingsBuyer = (props) => {
       });
       allSlots.sort((a, b) => {
         if (a.slot.start) {
-          return moment.unix(a.slot.start).format('YYYYMMDDHHmm') - moment.unix(b.slot.start).format('YYYYMMDDHHmm');
+          return a.slot.start - b.slot.start;
         }
-        return moment(a.slot.slot).format('YYYYMMDDHHmm') - moment(b.slot.slot).format('YYYYMMDDHHmm');
+        return a.slot.slot - b.slot.slot;
       });
       setBookingSlot([...allSlots]);
     } else {
       setBookingSlot([]);
     }
   }, [activeSinglePropertyBooking]);
-
-  // FUNCTION TO GROUP DATE BY MONTH
-  /* const groupByMonth = () => {
-    const grouped = groupBy(bookingSlot, (d) => {
-      if (d.slot.start) return moment.unix(d.slot.start).format('MM.YYYY');
-      return moment(d.slot.slot).format('MM.YYYY');
-    });
-    return grouped || {};
-  }; */
 
   const extractDate = (date, getHours = false) => {
     if (date) {
@@ -128,7 +120,7 @@ const ShowingsBuyer = (props) => {
                 bookingSlot.map((day, g) => (
                   <div key={g.toString()} className="w-perc-100 max-w-fix-360">
                     <BrixelInfoSlot
-                      title={moment(extractDate(day.slot.slot)).format('dddd - Do MMM YYYY')}
+                      title={DateTime.fromISO(extractDate(day.slot.slot), { locale: userLang }).toFormat('cccc - dd LLL yyyy')}
                       subtitle={extractDate(day.slot.slot, true)}
                     />
                   </div>
@@ -166,6 +158,7 @@ ShowingsBuyer.propTypes = {
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  userLang: PropTypes.string.isRequired,
 };
 
 ShowingsBuyer.defaultProps = {
@@ -178,6 +171,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', null),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   lang: get(state, 'user.loggedInUser.language', 'en'),
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

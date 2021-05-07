@@ -8,7 +8,7 @@ import {
 import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
-import * as moment from 'moment';
+import { DateTime } from 'luxon';
 import { BrixelIcon } from '@brixel/brixel-components';
 import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { sendGenericMail } from '../../../actions/CommonActions';
@@ -87,11 +87,13 @@ function ResumeMarketCheck(props) {
       };
       data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
       data.packageFlowProcess = {
+        ...get(formValue, 'packageFlowProcess', { }),
         ownerType: get(formValue, 'ownerType', getOwnerType),
         typeOfBuyer: get(formValue, 'typeOfBuyer', getTypeOfBuyer),
         whenToSell: get(formValue, 'whenToSell', getWhenToSell),
         rewardScreenData: {
-          market_check_date: moment().format(),
+          // market_check_date: moment().format(),
+          market_check_date: DateTime.now().toISODate(),
           similar_properties: marketData.priceDistribution.numberOfProperties,
           median_market_price: marketData.priceDistribution.medianRounded,
           median_market_price_per_m2: marketData.pricePerSpace.medianRounded,

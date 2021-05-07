@@ -274,12 +274,16 @@ const SplashScreen = (props) => {
 
   return (
     <>
-      <div className="dis-f jc-b p-2 a-c">
-        <div className="pl-2">
-          <span className="fSizePx14 notranslate txtDark700 ff-mono">{activeSlide + 1}</span>
-          <span className="fSizePx14 mx-small-4 txtDark100">of</span>
-          <span className="fSizePx14 notranslate txtDark700 ff-mono">{totalSlide}</span>
-        </div>
+      <div className={`dis-f p-2 a-c ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard ? 'jc-b' : 'jc-fe'}`}>
+        {
+          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
+            <div className="pl-2">
+              <span className="fSizePx14 notranslate txtDark700 ff-mono">{activeSlide + 1}</span>
+              <span className="fSizePx14 mx-small-4 txtDark100">of</span>
+              <span className="fSizePx14 notranslate txtDark700 ff-mono">{totalSlide}</span>
+            </div>
+          )
+        }
         <BrixelButtonIcon
           className="pos-r zIndex10"
           ghost

@@ -12,8 +12,9 @@ import {
   ListingsHeaderFilter,
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
-import moment from 'moment';
 import { compose } from 'redux';
+import { DateTime } from 'luxon';
+import { connect } from 'react-redux';
 import emptyOffer from '../images/empty-offer.svg';
 import femaleAvatar from '../images/female-avatar.png';
 
@@ -25,6 +26,7 @@ const OfferListings = (props) => {
     history,
     match,
     onChangeLocation,
+    userLang,
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
@@ -126,7 +128,13 @@ const OfferListings = (props) => {
                               </div>
 
                               <div className="row-section pl-1 dis-f a-c date">
-                                <span className="date txtDark200">{moment(get(offer, 'offer.createdAt', '')).format('D MMM YYYY, H:mm')}</span>
+                                {
+                                  get(offer, 'offer.createdAt', null) ? (
+                                    <span className="date txtDark200">{DateTime.fromMillis(offer.offer.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}</span>
+                                  ) : (
+                                    <span className="date txtDark200">-</span>
+                                  )
+                                }
                               </div>
 
                               <div className="row-section pl-1 dis-f a-c status">
@@ -172,10 +180,16 @@ OfferListings.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   onChangeLocation: PropTypes.func.isRequired,
+  userLang: PropTypes.string.isRequired,
 };
 
 OfferListings.defaultProps = {};
 
+const mapStateToProps = (state) => ({
+  userLang: get(state, 'user.loggedInUser.language', 'en'),
+});
+
 export default compose(
   withRouter,
+  connect(mapStateToProps, null),
 )(OfferListings);

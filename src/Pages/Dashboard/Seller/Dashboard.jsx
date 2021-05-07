@@ -525,6 +525,7 @@ const mapStateToProps = (state) => {
         ...get(state, 'property.activeSingleProperty.location', {}),
         searchAddress: get(state, 'property.activeSingleProperty.location.address', {}),
       },
+      packageFlowProcess: get(state, 'property.activeSingleProperty.packageFlowProcess', {}),
       price: get(state, 'property.activeSingleProperty.price', {}),
       status: get(state, 'property.activeSingleProperty.status', null),
       // language: get(state, 'property.activeSingleProperty.language', null),

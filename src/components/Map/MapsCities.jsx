@@ -311,6 +311,7 @@ export const MapsCities = (props) => {
                   onKeyDown={(e) => (disabled ? '' : keyUpInput(e))}
                   onClear={() => (disabled ? '' : changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude }))}
                   message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
+                  iconLeft="location-pin-simple"
                 />
                 {
                   !selectedAddress && locList.length > 0 && !disabled && (
@@ -326,8 +327,14 @@ export const MapsCities = (props) => {
                             tabIndex={i}
                             key={i.toString()}
                             onClick={() => geoCode(loc.description)}
-                            dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
-                          />
+                          >
+                            <BrixelIcon
+                              color={i === selLocAuto ? 'dark' : 'light'}
+                              saturationTxt={700}
+                              icon="location-pin-simple"
+                            />
+                            <div className="singleLoc" dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }} />
+                          </li>
                         ))
                       }
                     </ul>

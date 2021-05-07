@@ -146,7 +146,7 @@ const MarketCategoryListSeller = (props) => {
                       className="link"
                       onClick={(e) => openSupport(e)}
                     >
-                      &nbsp;support
+                      <span>&nbsp;support</span>
                     </a> and get a free consultation by our experts.
                   </p>
                 </div>
@@ -156,7 +156,7 @@ const MarketCategoryListSeller = (props) => {
                       className="link"
                       href={`/${activeSingleProperty.id}/rewards/bestimate`}
                     >
-                      &nbsp;Bestimate®
+                      <span>&nbsp;Bestimate®</span>
                     </a>
                   </p>
                 </div>
@@ -166,7 +166,7 @@ const MarketCategoryListSeller = (props) => {
                       className="link"
                       href={`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`}
                     >
-                      &nbsp;search profile
+                      <span>&nbsp;search profile</span>
                     </a> and get exclusive access to hundreds of properties that are not yet on market.
                   </p>
                 </div>
@@ -273,7 +273,7 @@ const MarketCategoryListSeller = (props) => {
                           openSupport(e);
                         }}
                       >
-                  &nbsp;support
+                        <span>&nbsp;support</span>
                       </span>
                     </div>
                   </div>
@@ -302,7 +302,7 @@ const MarketCategoryListSeller = (props) => {
                           setBestimateMessage(true);
                         }}
                       >
-                        Thanks, not now
+                        <span>Thanks, not now</span>
                       </span>
                       <BrixelButtonPrimary
                         rounded
@@ -348,7 +348,7 @@ const MarketCategoryListSeller = (props) => {
                     onCloseBestimateResult();
                   }}
                 >
-                  Thanks, not now
+                  <span>Thanks, not now</span>
                 </span>
                 <BrixelButtonPrimary
                   rounded

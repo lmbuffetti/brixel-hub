@@ -15,12 +15,6 @@ import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
 import commercial from '../images/BrxielComingTown/commercial.svg';
 
-import homesSvg from '../images/getstarted/svgs/homes.svg';
-import spaceSvg from '../images/getstarted/svgs/space.svg';
-import locationSvg from '../images/getstarted/svgs/location.svg';
-import roomsSvg from '../images/getstarted/svgs/room.svg';
-import congratsSvg from '../images/getstarted/svgs/congrats.svg';
-import yearSvg from '../images/getstarted/svgs/year.svg';
 import userType from '../images/getstarted/svgs/userType.svg';
 import { BestimateQuestions } from './Bestimate';
 import MapsWithModalManual from '../components/Map/MapsWithModalManual';
@@ -58,18 +52,18 @@ export const QuestionsList = (lang, country = 'CH') => {
   let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
   const countryCode = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', '');
+
   return [
     {
       title: translateTo(lang, 'What is the estimation for?'),
       history: 'estimationType',
-      vCentered: true,
-      bgImg: userType,
+      footerWidth: 'max-w-fix-464',
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
-        pdClass: 'py-2 py-lg-3 px-1',
+        pdClass: 'py-2 py-lg-3 px-2',
         label: '',
-        ReduxFieldClass: 'max-w-fix-lg-464',
+        ReduxFieldClass: 'max-w-fix-464 m-a',
         name: 'estimationType',
         validation: [Validation.required],
         icons: true,
@@ -80,31 +74,37 @@ export const QuestionsList = (lang, country = 'CH') => {
     {
       title: translateTo(lang, 'What type of property do you want to estimate?'),
       history: 'propertyType',
-      vCentered: true,
-      bgImg: homesSvg,
+      footerWidth: 'max-w-fix-880',
       inputs: [{
         component: BrixelRadioButton,
-        className: 'radioBtnImg max-w-fix-lg-464',
-        pdClass: 'py-2 py-lg-3 px-1',
+        className: 'radioBtnImg',
+        ReduxFieldClass: '',
         label: '',
         name: 'properties.propertyType',
         validation: [Validation.required],
         icons: true,
+        cardLayout: true,
+        cardSmall: true,
+        pdClass: '',
+        isHorizontal: true,
         options: [
           {
             label: translateTo(lang, 'Apartment'),
             value: 'Apartment',
             img: apartment,
+            color: 'blue',
           },
           {
             label: translateTo(lang, 'House'),
             value: 'House',
             img: house,
+            color: 'blue',
           },
           {
             label: translateTo(lang, 'Commercial'),
             value: 'Commercial',
             img: commercial,
+            color: 'blue',
           },
         ],
       }],
@@ -114,11 +114,11 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'How many rooms?'),
       history: 'allRooms',
       cardType: 'allRooms',
-      bgImg: roomsSvg,
+      footerWidth: 'max-w-fix-384',
       inputs: [
         {
           component: BrixelInputStepNumber,
-          classNameBox: 'max-w-fix-lg-232',
+          classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius px-2 px-sm-5 py-5 m-a',
           label: '',
           name: 'properties.typology.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
@@ -137,7 +137,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: livingAreaTitle,
       history: 'livingSpace',
       cardType: 'livingSpace',
-      bgImg: spaceSvg,
+      footerWidth: 'max-w-fix-384',
       inputs: [
         {
           condition: [{
@@ -145,13 +145,12 @@ export const QuestionsList = (lang, country = 'CH') => {
             noValue: 'Commercial',
           }],
           component: BrixelInputText,
-          className: 'max-w-fix-lg-232',
+          classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
           label: country === 'PT' ? 'Gross area' : 'Net living space',
           name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
-          classNameBox: 'brdRadius max-w-fix-lg-288',
           placeholder: translateTo(lang, 'e.g. 120'),
           maxLenghtNum: 9999,
         },
@@ -161,13 +160,12 @@ export const QuestionsList = (lang, country = 'CH') => {
             value: 'Commercial',
           }],
           component: BrixelInputText,
-          className: 'max-w-fix-lg-232',
+          classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
           label: 'Floor space',
           name: 'properties.typology.floorSpace.value',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
-          classNameBox: 'brdRadius max-w-fix-lg-288',
           placeholder: translateTo(lang, 'e.g. 120'),
           maxLenghtNum: 9999,
         },
@@ -178,14 +176,14 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'What is the construction year?'),
       history: 'constructionYear',
       cardType: 'constructionYear',
-      bgImg: yearSvg,
+      footerWidth: 'max-w-fix-384',
       inputs: [
         {
           component: BrixelInputText,
           label: 'Construction year',
           name: 'properties.building.built',
           type: 'number',
-          classNameBox: 'brdRadius max-w-fix-lg-232',
+          classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
           placeholder: translateTo(lang, 'e.g. 1990'),
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLenghtNum: 9999,
@@ -194,20 +192,20 @@ export const QuestionsList = (lang, country = 'CH') => {
       ],
       successMessage: translateTo(lang, 'A good year for real estate.'),
     },
+
     {
       title: translateTo(lang, 'What is the location?'),
       history: 'locationInput',
       cardType: 'locationInput',
-      bgImg: locationSvg,
+      footerWidth: 'max-w-fix-600',
+      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       inputs: [
         {
           component: MapsWithModalManual,
           showMap: false,
-          name: 'location.searchAddress',
+          name: 'location.latitude',
           type: 'Map',
-          classNameBox: 'max-w-perc-100',
-          classBoxWrapper: 'mt-0 searchMapFields box-al-top',
-          validation: [Validation.required],
+          classBoxWrapper: 'w-perc-100 flex- searchMapFields',
           mapOptions: {
             showMap: false,
             hideSearch: false,
@@ -223,15 +221,14 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(lang, 'Is this your correct location?'),
       history: 'locationInputResume',
       cardType: 'locationInputResume',
-      bgImg: locationSvg,
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: MapsWithModalManual,
           showMap: true,
           name: 'location.latitude',
           type: 'Map',
-          classNameBox: 'max-w-perc-100',
-          classBoxWrapper: 'mt-0 min-h-fix-312 box-al-top',
+          classBoxWrapper: 'brdRadius max-w-fix-600 w-perc-100 pb-3 pb-sm-5 brdRadius fieldHolder bgWhite m-a',
           widthBox: '100',
           mapOptions: {
             showMap: true,
@@ -247,12 +244,11 @@ export const QuestionsList = (lang, country = 'CH') => {
     {
       title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
       history: 'resume',
-      className: 'willAnimate',
-      bgImg: congratsSvg,
       cardType: 'loadComponent',
       component: ResumeCard,
+      btnLabel: 'Continue',
     },
-    ...BestimateQuestions('getStarted', countryCode),
+    ...BestimateQuestions('getStarted', countryCode, propertyType),
     {
       conditions: [{
         name: 'owner',
@@ -260,10 +256,8 @@ export const QuestionsList = (lang, country = 'CH') => {
       }],
       history: 'createProfile',
       component: LoginSignup,
-      bgImg: congratsSvg,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
-      effect: 'slideUp',
       cardType: 'createProfile',
       inputs: [{
         component: LoginSignup,
