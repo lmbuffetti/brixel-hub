@@ -17,6 +17,7 @@ import SplashScreen from '../../components/SplashScreen';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
+import { getCompanyListing } from '../../actions/CompanyActions';
 import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 import CardImageText from '../../components/Skeleton/CardImageText';
 import Loading from '../../components/Loading';
@@ -34,6 +35,7 @@ const MarketCategoryListSeller = (props) => {
     bestimate,
     handleGetEstimation,
     handleSetHistory,
+    handleGetCompanyListing,
     history,
     loggedInUser,
     ownerProperties,
@@ -50,6 +52,10 @@ const MarketCategoryListSeller = (props) => {
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
   }, [marketCookie]);
+
+  useEffect(() => {
+    handleGetCompanyListing();
+  }, []);
 
   // Update market card when bestimate changes
   useEffect(() => {
@@ -415,6 +421,7 @@ MarketCategoryListSeller.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleGetCompanyListing: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -447,6 +454,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
+  handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

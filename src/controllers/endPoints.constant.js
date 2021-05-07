@@ -16,6 +16,7 @@ export default {
     sendScheduleVisit: () => '/email/sendScheduleVisitEmail',
   },
   company: {
+    companyList: (data) => `company/${data}`,
     getCompanyById: (id) => `/company/${id}`,
     getCompanyByStub: (stub) => `/company/company-by-stub/${stub}`,
     getDefaultCompany: () => '/company/default',

@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef, useCallback } from 'react';
+import React, {
+  useState, useRef, useCallback, useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -8,6 +10,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonText,
   BrixelButtonPrimary,
+  Helpers,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -18,6 +21,7 @@ const CarouselWrapper = (props) => {
   // PROPS
   const {
     className,
+    companyListings,
     history,
     items,
     layout,
@@ -32,6 +36,7 @@ const CarouselWrapper = (props) => {
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [preventClick, setPreventClick] = useState(false);
+  const [teaserPrice, setTeaserPrice] = useState({});
 
   const sliderInstance = useRef(null);
   let slideToShow = type === 'own' ? 1 : 2;
@@ -118,6 +123,19 @@ const CarouselWrapper = (props) => {
     }
   }, [type]);
 
+  useEffect(() => {
+    if (layout === 'singleOwnCard') {
+      const activeCompanyId = items[activeSlide].company;
+      const activeCompanyDetail = companyListings.find((item) => item.id === activeCompanyId);
+      if (activeCompanyDetail) {
+        setTeaserPrice({
+          price: get(activeCompanyDetail, 'meta.teaserPackage.price', ''),
+          currency: get(activeCompanyDetail, 'meta.teaserPackage.currency', ''),
+        });
+      }
+    }
+  }, [activeSlide, companyListings]);
+
   if (layout === 'singleOwnCard') {
     return (
       <div className={`${className} carousel-wrapper pos-r`}>
@@ -139,7 +157,7 @@ const CarouselWrapper = (props) => {
 
         <div className="marketSellBanner ta-c pb-10 pt-7">
           <h4 className="fweight-700 mb-2">Test drive our service. No strings attached.</h4>
-          <h5 className="fSizePx18 mb-2">Get the full Brixel experience worth CHF 9’900.</h5>
+          <h5 className="fSizePx18 mb-2">Get the full Brixel experience worth {get(teaserPrice, 'currency', '')} {Helpers.formatNumberValue(get(teaserPrice, 'price', ''), get(teaserPrice, 'currency', ''))}.</h5>
           <BrixelButtonPrimary
             rounded
             label="Book now"
@@ -184,7 +202,7 @@ const CarouselWrapper = (props) => {
                 icon="arrow-simple-left"
                 theme="light"
                 saturation={500}
-                secondary="light"
+                secondary
               />
               <div className="fsize-300 txtPrimary400 ml-3 mr-3">
                 {activeSlide + 1} of {total}
@@ -195,7 +213,7 @@ const CarouselWrapper = (props) => {
                 icon="arrow-simple-right"
                 theme="light"
                 saturation={500}
-                secondary="light"
+                secondary
               />
             </div>
           </div>
@@ -222,7 +240,7 @@ const CarouselWrapper = (props) => {
                   icon="arrow-simple-left"
                   theme="light"
                   saturation={500}
-                  secondary="light"
+                  secondary
                 />
                 <BrixelButtonIcon
                   onClick={() => moveSlide('next')}
@@ -230,7 +248,7 @@ const CarouselWrapper = (props) => {
                   icon="arrow-simple-right"
                   theme="light"
                   saturation={500}
-                  secondary="light"
+                  secondary
                 />
               </>
             )
@@ -268,6 +286,7 @@ const CarouselWrapper = (props) => {
 
 CarouselWrapper.propTypes = {
   className: PropTypes.string,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.object.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   layout: PropTypes.string,
@@ -291,6 +310,7 @@ CarouselWrapper.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  companyListings: get(state, 'companies.companyListings.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
