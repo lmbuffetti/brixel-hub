@@ -224,7 +224,6 @@ const checkCommon = (store) => (next) => (action) => {
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       const fullVersion = get(action, 'payload.fullVersion', true);
-      console.log(action.payload.id);
       const apiEndPoint = (data) => (fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data));
       apiEndPoint(action.payload.id)
         .then((res) => {
