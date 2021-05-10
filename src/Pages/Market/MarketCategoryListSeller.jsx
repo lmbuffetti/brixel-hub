@@ -89,6 +89,13 @@ const MarketCategoryListSeller = (props) => {
     setSplashScreen('');
   };
 
+  const openBestimate = () => {
+    setCookie('brixelMarketWelcome', false);
+    setCookie('brixelMarketBestimate', true);
+    setCookie('brixelSplashHome', 'bestimateResult');
+    setSplashScreen('');
+  };
+
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
@@ -146,30 +153,34 @@ const MarketCategoryListSeller = (props) => {
               <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
               <div className="mb-5">
                 <div className="dis-f mb-2">
-                  <p className="max-w-fix-440 txtDark700 pl-2"> Are you thinking about selling? Get in touch with
+                  <p className="max-w-fix-440 txtDark700 pl-2">
+                    <span>Are you thinking about selling? Get in touch with</span>
                     <a
                       href="#"
-                      className="link"
+                      className="link ml-small-4"
                       onClick={(e) => openSupport(e)}
                     >
-                      <span>&nbsp;support</span>
-                    </a> and get a free consultation by our experts.
+                      <span>support</span>
+                    </a>
+                    <span className="ml-small-4">and get a free consultation by our experts.</span>
                   </p>
                 </div>
                 <div className="dis-f mb-2">
-                  <p className="max-w-fix-440 txtDark700 pl-2"> Do you want to know how much your home is worth? Get a free price indication with our
+                  <p className="max-w-fix-440 txtDark700 pl-2">
+                    <span>Do you want to know how much your home is worth? Get a free price indication with our</span>
                     <a
-                      className="link"
-                      href={`/${activeSingleProperty.id}/rewards/bestimate`}
+                      href="#"
+                      className="link ml-small-4"
+                      onClick={(e) => openBestimate(e)}
                     >
-                      <span>&nbsp;Bestimate®</span>
+                      <span>Bestimate®</span>
                     </a>
                   </p>
                 </div>
                 <div className="dis-f">
-                  <p className="max-w-fix-440 txtDark700 pl-2"> Are you looking for a property to buy? Define your
+                  <p className="max-w-fix-440 txtDark700 pl-2">Are you looking for a property to buy? Define your
                     <a
-                      className="link"
+                      className="link ml-small-4"
                       href={`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`}
                     >
                       <span>&nbsp;search profile</span>
