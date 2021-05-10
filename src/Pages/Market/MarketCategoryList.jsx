@@ -251,15 +251,13 @@ const MarketCategoryList = (props) => {
                   </p>
                 </div>
                 <div className="dis-f">
-                  <p className="max-w-fix-440 txtDark700 pl-2">
-                    <span>Are you looking for a property to buy? Define your</span>
+                  <p className="max-w-fix-440 txtDark700 pl-2">Are you looking for a property to buy? Define your
                     <a
                       className="link ml-small-4"
                       href={`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`}
                     >
-                      <span>search profile</span>
-                    </a>
-                    <span className="ml-small-4">and get exclusive access to hundreds of properties that are not yet on market.</span>
+                      <span>&nbsp;search profile</span>
+                    </a> and get exclusive access to hundreds of properties that are not yet on market.
                   </p>
                 </div>
               </div>
