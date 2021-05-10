@@ -224,9 +224,13 @@ const checkCommon = (store) => (next) => (action) => {
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       const fullVersion = get(action, 'payload.fullVersion', true);
+      console.log(action.payload.id);
       const apiEndPoint = (data) => (fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data));
       apiEndPoint(action.payload.id)
         .then((res) => {
+          if (get(res, 'data.statusCode', null)) {
+            window.location.href = '/sell';
+          }
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
@@ -238,11 +242,7 @@ const checkCommon = (store) => (next) => (action) => {
         .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
-          if (window.location.href.includes('localhost')) {
-            // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: pageContent });
-          }
-          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
-          // window.location.href = `/`;
+          window.location.href = '/sell';
         });
       break;
     }
