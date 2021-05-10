@@ -226,25 +226,28 @@ const MarketCategoryList = (props) => {
               <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
               <div className="mb-5">
                 <div className="dis-f mb-2">
-                  <p className="max-w-fix-440 txtDark700 pl-2"> Are you thinking about selling? Get in touch with
-                    <button
+                  <p className="max-w-fix-440 txtDark700 pl-2">
+                    <span>Are you thinking about selling? Get in touch with</span>
+                    <a
                       href="#"
                       className="link"
                       onClick={(e) => openSupport(e)}
                     >
                       <span>&nbsp;support</span>
-                    </button> and get a free consultation by our experts.
+                    </a>
+                    <span>and get a free consultation by our experts.</span>
                   </p>
                 </div>
                 <div className="dis-f mb-2">
-                  <p className="max-w-fix-440 txtDark700 pl-2"> Do you want to know how much your home is worth? Get a free price indication with our
-                    <button
+                  <p className="max-w-fix-440 txtDark700 pl-2">
+                    <span>Do you want to know how much your home is worth? Get a free price indication with our</span>
+                    <a
                       href="#"
                       className="link"
                       onClick={(e) => openBestimate(e)}
                     >
                       <span>&nbsp;Bestimate®</span>
-                    </button>
+                    </a>
                   </p>
                 </div>
                 <div className="dis-f">
