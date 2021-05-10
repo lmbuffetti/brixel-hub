@@ -31,7 +31,6 @@ const MarketCategoryListSeller = (props) => {
   // PROPS
   const {
     activeMarketOverlayProperty,
-    activeSingleProperty,
     bestimate,
     handleGetEstimation,
     handleSetHistory,
@@ -429,7 +428,6 @@ const MarketCategoryListSeller = (props) => {
 
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
@@ -447,7 +445,6 @@ MarketCategoryListSeller.propTypes = {
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   bestimate: get(state, 'property.estimation.result', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
