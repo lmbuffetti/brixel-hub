@@ -230,12 +230,12 @@ const MarketCategoryList = (props) => {
                     <span>Are you thinking about selling? Get in touch with</span>
                     <a
                       href="#"
-                      className="link"
+                      className="link ml-small-4"
                       onClick={(e) => openSupport(e)}
                     >
                       <span>&nbsp;support</span>
                     </a>
-                    <span>and get a free consultation by our experts.</span>
+                    <span className="ml-small-4">and get a free consultation by our experts.</span>
                   </p>
                 </div>
                 <div className="dis-f mb-2">
@@ -243,7 +243,7 @@ const MarketCategoryList = (props) => {
                     <span>Do you want to know how much your home is worth? Get a free price indication with our</span>
                     <a
                       href="#"
-                      className="link"
+                      className="link ml-small-4"
                       onClick={(e) => openBestimate(e)}
                     >
                       <span>&nbsp;Bestimate®</span>
@@ -253,7 +253,7 @@ const MarketCategoryList = (props) => {
                 <div className="dis-f">
                   <p className="max-w-fix-440 txtDark700 pl-2"> Are you looking for a property to buy? Define your
                     <a
-                      className="link"
+                      className="link ml-small-4"
                       href={`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`}
                     >
                       <span>&nbsp;search profile</span>
