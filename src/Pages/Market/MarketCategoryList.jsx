@@ -97,6 +97,13 @@ const MarketCategoryList = (props) => {
     setSplashScreen('');
   };
 
+  const openBestimate = () => {
+    setCookie('brixelMarketWelcome', false);
+    setCookie('brixelMarketBestimate', true);
+    setCookie('brixelSplashHome', 'bestimateResult');
+    setSplashScreen('');
+  };
+
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
@@ -220,23 +227,24 @@ const MarketCategoryList = (props) => {
               <div className="mb-5">
                 <div className="dis-f mb-2">
                   <p className="max-w-fix-440 txtDark700 pl-2"> Are you thinking about selling? Get in touch with
-                    <a
+                    <button
                       href="#"
                       className="link"
                       onClick={(e) => openSupport(e)}
                     >
                       <span>&nbsp;support</span>
-                    </a> and get a free consultation by our experts.
+                    </button> and get a free consultation by our experts.
                   </p>
                 </div>
                 <div className="dis-f mb-2">
                   <p className="max-w-fix-440 txtDark700 pl-2"> Do you want to know how much your home is worth? Get a free price indication with our
-                    <a
+                    <button
+                      href="#"
                       className="link"
-                      href={`/${activeSingleProperty.id}/rewards/bestimate`}
+                      onClick={(e) => openBestimate(e)}
                     >
                       <span>&nbsp;Bestimate®</span>
-                    </a>
+                    </button>
                   </p>
                 </div>
                 <div className="dis-f">
