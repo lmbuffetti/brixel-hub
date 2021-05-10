@@ -210,8 +210,10 @@ const Dashboard = (props) => {
     if (!history.location.pathname.includes('pageLists') && loadedProp) {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
-          // history.push(`/${activeSingleProperty.id}/rewards`);
-          history.push('/home');
+          const isSellerUser = get(loggedInUser, 'user.seller', false);
+          const isBuyerUser = get(loggedInUser, 'user.buyer', false);
+          if (!isSellerUser && isBuyerUser) history.push('/buy');
+          else history.push('/sell');
         }
         if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
           // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
@@ -220,7 +222,7 @@ const Dashboard = (props) => {
         if (imageType.length === 0) handleGetImageType();
       } else {
         setUserType('emptyState');
-        history.push('/home');
+        history.push('/sell');
       }
     }
     localStorage.removeItem('gameGroup');

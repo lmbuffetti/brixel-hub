@@ -138,9 +138,9 @@
   }
 }
 .marketHome .hubDasHeader {
+  z-index: 3;
   @media (max-width: $responsive-medium) {
     position: sticky;
-    z-index: 1;
     top: 0;
   }
 }

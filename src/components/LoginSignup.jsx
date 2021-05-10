@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon, BrixelButtonSecondary, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change,
+  BrixelButtonSecondary, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -26,7 +26,6 @@ const LoginSignup = (props) => {
     formValue,
     handleSetFormError,
     onChangeLogin,
-    onCloseGoBack,
     onDisableValidation,
     lang,
     loggedInUser,
@@ -347,7 +346,6 @@ LoginSignup.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   onDisableValidation: PropTypes.func,
   onChangeLogin: PropTypes.func,
-  onCloseGoBack: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
 };
 

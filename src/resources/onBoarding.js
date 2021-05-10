@@ -2,7 +2,6 @@ import {
   BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components';
-import { thresholdSturges } from 'd3-array';
 import { translateTo } from '../utils/translation';
 
 import homesSvg from '../images/getstarted/svgs/homes.svg';

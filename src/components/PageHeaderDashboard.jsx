@@ -311,22 +311,17 @@ function PageHeaderDashboard(props) {
   };
 
   useEffect(() => {
-    if (get(history, 'location.state.section', null)) {
-      setSection(get(history, 'location.state.section', null));
-    } else if (userType === 'seller' && section !== 'Market') setSection('Sell');
-    else if (section !== 'Market') setSection('Buy');
+    if (userType === 'seller') setSection('Sell');
+    else setSection('Buy');
   }, [get(history, 'location.state', null), userType]);
 
   useEffect(() => {
     switch (section) {
-      case 'Market':
-        setLinkSection('/home');
-        break;
       case 'Buy':
-        setLinkSection('/buyer/propertyLists');
+        setLinkSection('/buy');
         break;
       default:
-        setLinkSection('/seller/pageLists');
+        setLinkSection('/sell');
         break;
     }
   }, [section]);
@@ -373,7 +368,7 @@ function PageHeaderDashboard(props) {
               </div>
               <div className="quickNav dis-f ml-3 pl-3 fsize-300">
                 {
-                  activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' ? (
+                  activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' && propID !== 'buy' && propID !== 'sell' ? (
                     <>
                       <span
                         className="cur-poi"
@@ -387,28 +382,22 @@ function PageHeaderDashboard(props) {
                   ) : (
                     <>
                       <span
-                        className={`pr-3 cur-poi ${history.location.pathname.includes('/home') ? 'fweight-600 txtDark600' : ''}`}
-                        onClick={() => history.push('/home')}
-                      >
-                        Market
-                      </span>
-                      <span
-                        className={`pr-3 cur-poi ${history.location.pathname.includes('/seller') ? 'fweight-600 txtDark600' : ''}`}
+                        className={`pr-3 cur-poi ${history.location.pathname.includes('/sell') ? 'fweight-600 txtDark600' : ''}`}
                         onClick={() => {
                           handleSetUserTypes('seller');
                           handleSetActiveSingleProperty({});
-                          history.push('/seller/pageLists');
+                          history.push('/sell');
                         }}
                       >
                         Sell
                       </span>
                       <span
-                        className={`cur-poi ${history.location.pathname.includes('/buyer') ? 'fweight-600 txtDark600' : ''}`}
+                        className={`cur-poi ${history.location.pathname.includes('/buy') ? 'fweight-600 txtDark600' : ''}`}
                         onClick={() => {
                           destroyForm();
                           handleSetUserTypes('buyer');
                           handleSetActiveSingleProperty({});
-                          history.push('/buyer/propertyLists');
+                          history.push('/buy');
                         }}
                       >
                         Buy

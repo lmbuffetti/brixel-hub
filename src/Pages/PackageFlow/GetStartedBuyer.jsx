@@ -8,14 +8,12 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  BrixelIcon,
   BrixelProgressBar,
   MultiFileldsReduxForm,
   initializeForm,
   change,
   reset,
   destroy,
-  BrixelButtonText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -69,7 +67,6 @@ const GetStartedBuyer = (props) => {
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
-  const [lastID, setLastID] = useState(0);
   // const [roomValue, setRoomValue] = useState('');
 
   const singleStepRef = useRef(null);
@@ -355,7 +352,6 @@ const GetStartedBuyer = (props) => {
         }
         return null;
       });
-      setLastID(newQuest.length - 1);
       setQuestions(newQuest);
     }
     if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
@@ -432,15 +428,6 @@ const GetStartedBuyer = (props) => {
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
-  };
-
-  const tansitionBg = (i, act = 'next') => {
-    if (act === 'next') {
-      if (i === currentIndex) return 'active';
-      if (i === currentIndex + 1 && get(questions, `[${currentIndex + 1}].effect`, null) === 'slideUp') return 'active';
-    }
-    if (i < currentIndex) return 'prev';
-    return '';
   };
 
   return (
