@@ -213,7 +213,7 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
+        className={`market-card ov-h cur-poi h-perc-100 ${layout === 'singleOwnCard' ? 'px-0' : 'px-1'} ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
         onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         {

@@ -333,22 +333,29 @@
   background-position: top -1px right -1px;
   border-radius: $brd-radius-small;
   padding-bottom: 125px;
+  z-index: 1;
   @media (max-width: $responsive-medium) {
     background-position: top left;
   }
-  /* &:after {
+  &:after {
     content: '';
-    display: block;
     position: absolute;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(#ffffff, #ffffff00);
     left: 0;
     top: 0;
-    width: 100%;
+    border-radius: 8px;
     overflow: hidden;
-    height: 0;
-    padding-top: 32.25%;
     z-index: -1;
-  } */
+    opacity: 0.1;
+
+    @media (max-width: $responsive-small) {
+      opacity: 0.7;
+    }
+  }
 }
 .carouselContainer {
   margin-top: -125px;
+  z-index: 2;
 }

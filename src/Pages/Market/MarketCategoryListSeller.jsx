@@ -19,8 +19,10 @@ import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { getCompanyListing } from '../../actions/CompanyActions';
 import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import CardImageText from '../../components/Skeleton/CardImageText';
+// import CardImageText from '../../components/Skeleton/CardImageText';
 import Loading from '../../components/Loading';
+import marketSkelton from '../../images/market-skelton.svg';
+import marketSkeltonMobile from '../../images/market-skelton-mobile.svg';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -371,7 +373,7 @@ const MarketCategoryListSeller = (props) => {
 
       {
         ownerProperties.total !== 0 && (
-          <div className={` ${ownerProperties.total === 0 ? '' : ''}`}>
+          <div className={`mb-5 mb-sm-3 ${ownerProperties.total === 0 ? '' : ''}`}>
             {
               ownerProperties.total > 0 && (
                 <CarouselWrapper
@@ -384,12 +386,18 @@ const MarketCategoryListSeller = (props) => {
                 />
               )
             }
+
             {
               (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
                 <div className="mb-8">
-                  <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
+                  <h4 className="fweight-700 fsize-600 mb-4">Your properties</h4>
                   <div className="ml-1-neg">
-                    <CardImageText type="own" />
+                    <div className="marketSellBanner h-fix-392 mt-8 mt-sm-0">
+                      <div className="m-a pt-8 max-w-fix-784">
+                        <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
+                        <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               )

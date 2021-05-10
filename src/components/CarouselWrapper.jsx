@@ -144,7 +144,7 @@ const CarouselWrapper = (props) => {
           <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
           <div className="mt-1 mt-sm-0 dis-f a-c">
             <BrixelButtonText
-              className="fsize-300 show-all pos-r"
+              className="fsize-300 show-all pos-r mr-1"
               label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
               onClick={() => showAll()}
             />
