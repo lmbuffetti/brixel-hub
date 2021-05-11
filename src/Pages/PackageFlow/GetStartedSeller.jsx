@@ -123,7 +123,7 @@ const GetStartedSeller = (props) => {
       price: getCurrency(),
       published: false,
       addProperty: true,
-      redirectToUrl: '/home',
+      redirectToUrl: '/sell',
       company,
       extraLoading: true,
     };

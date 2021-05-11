@@ -169,7 +169,7 @@ const GetStartedEstimation = (props) => {
       redirectToUserFlow: false,
       createEstimation: true,
       company,
-      redirectToUrl: '/home',
+      redirectToUrl: '/sell',
       extraLoading: true,
     };
     data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');

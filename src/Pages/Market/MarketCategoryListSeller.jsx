@@ -39,6 +39,7 @@ const MarketCategoryListSeller = (props) => {
     handleGetCompanyListing,
     history,
     loggedInUser,
+    notification,
     ownerProperties,
     premiumProperties,
     setPropertyEstimation,
@@ -79,10 +80,15 @@ const MarketCategoryListSeller = (props) => {
         setSplashScreen('bestimateTeaser');
       }
     }
+    if (getCookie('brixelSplashHome') === 'bestimateTeaser') {
+      setCookie('brixelMarketBestimate', false);
+      setCookie('brixelSplashHome', null);
+      setSplashScreen('bestimateTeaser');
+    }
     if (getCookie('brixelSplashHome') === 'sellerWelcome' && get(ownerProperties, 'data', []).length === 1) {
       setSplashScreen('sellerWelcome');
     }
-  }, [getCookie('brixelSplashHome'), ownerProperties]);
+  }, [getCookie('brixelSplashHome'), ownerProperties, notification]);
 
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
@@ -201,7 +207,7 @@ const MarketCategoryListSeller = (props) => {
 
       {/* SECTION: bestimate result */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && (
+        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(bestimate, 'status', 'active') !== 'pending' && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
@@ -217,7 +223,10 @@ const MarketCategoryListSeller = (props) => {
             <div className="dis-fl-col jc-c a-c pb-2 pos-r">
               {
                 !has(bestimate, 'higherValue') && (
-                  <Loading isLoading />
+                  <>
+                    eh
+                    <Loading isLoading />
+                  </>
                 )
               }
               <h3>This is your Bestimate<sup>&reg;</sup>  </h3>
@@ -340,7 +349,7 @@ const MarketCategoryListSeller = (props) => {
 
       {/* SECTION: bestimate missing */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue === 0 && (
+        !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(bestimate, 'status', 'active') !== 'pending') && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
@@ -442,6 +451,7 @@ MarketCategoryListSeller.propTypes = {
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  notification: PropTypes.object.isRequired,
   ownerProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
@@ -458,6 +468,7 @@ const mapStateToProps = (state) => ({
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
+  notification: get(state, 'common.notification', {}),
   ownerEstimations: get(state, 'market.ownerEstimations', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),

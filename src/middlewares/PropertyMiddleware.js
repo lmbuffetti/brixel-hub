@@ -52,8 +52,11 @@ import {
   SET_SPLASH_TYPE,
   SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
-import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
+import {
+  cutValue, roundFifty, roundFiveThousand,
+} from '../utils/helpers';
 import { properties } from '../resources/localData/properties';
+
 // import { pageContent } from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {

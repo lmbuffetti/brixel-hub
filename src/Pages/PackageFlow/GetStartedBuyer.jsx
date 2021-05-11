@@ -105,7 +105,7 @@ const GetStartedBuyer = (props) => {
       dataSearchProfile,
       addSearchProfile: true,
       redirectToUserFlow: false,
-      redirectToUrl: '/home',
+      redirectToUrl: '/buy',
       extraLoading: true,
       company,
     };
@@ -329,7 +329,7 @@ const GetStartedBuyer = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    // history.push('/home');
+    // history.push('/buy');
     history.push('/buyer/propertyLists');
   };
 
