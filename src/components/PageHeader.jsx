@@ -250,7 +250,7 @@ function PageHeader(props) {
                           ghost
                           theme="dark"
                           icon="close-small"
-                          onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/home') : history.push('/'))}
+                          onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/buy') : history.push('/sell'))}
                         />
                       )
                     }

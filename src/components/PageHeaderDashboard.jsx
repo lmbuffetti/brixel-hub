@@ -335,7 +335,7 @@ function PageHeaderDashboard(props) {
       />
       <header className="hubDasHeader">
         <div className="dasHeaderContainer">
-          <div className={`wrapperHeader dis-f a-c ${history.location.pathname.includes('/home') ? '' : ''} h-fix-64 px-2 px-lg-3 jc-b pos-r bgWhite`}>
+          <div className={`wrapperHeader dis-f a-c h-fix-64 px-2 px-lg-3 jc-b pos-r bgWhite`}>
             <div className="header-section py-1 dis-fl-row a-c jc-b">
               <div className="dis-f a-c logoWrapper">
                 {
@@ -344,7 +344,7 @@ function PageHeaderDashboard(props) {
                       onClick={() => {
                         handleSetUserTypes('seller');
                         handleSetActiveSingleProperty({});
-                        history.push('/home');
+                        history.push('/sell');
                       }}
                       className="pos-r cur-poi"
                       src={logoMobile}
@@ -356,7 +356,7 @@ function PageHeaderDashboard(props) {
                       onClick={() => {
                         handleSetUserTypes('seller');
                         handleSetActiveSingleProperty({});
-                        history.push('/home');
+                        history.push('/sell');
                       }}
                       className="pos-r cur-poi"
                       src={logo}

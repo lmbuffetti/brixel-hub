@@ -100,7 +100,7 @@ const checkCommon = (store) => (next) => (action) => {
           } else if (redirectToUrl) {
             window.location.href = redirectToUrl;
           } else if (redirectToHome) {
-            window.location.href = `/${res.data.id}/home`;
+            window.location.href = `/${res.data.id}/sell`;
           } else if (redirectToRewards) {
             window.location.href = `/${res.data.id}/rewards`;
           } else if (redirectToUserFlow) {
@@ -188,7 +188,7 @@ const checkCommon = (store) => (next) => (action) => {
               store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             }
             if (redirectToHome) {
-              window.location.href = `/${res.data.id}/home`;
+              window.location.href = `/${res.data.id}/sell`;
             }
           }
         });
@@ -261,7 +261,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (res.data[0].id) {
               store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
             } else {
-              window.location.href = '/home';
+              window.location.href = '/sell';
             }
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data || {} });
@@ -279,7 +279,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (setAsSingle) {
             store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: { } });
-            window.location.href = '/home';
+            window.location.href = '/sell';
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
           }
