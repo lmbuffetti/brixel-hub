@@ -349,7 +349,7 @@ const MarketCategoryListSeller = (props) => {
 
       {/* SECTION: bestimate missing */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(bestimate, 'status', 'active') !== 'pending') && (
+        !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(bestimate, 'status', 'active') === 'pending') && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
