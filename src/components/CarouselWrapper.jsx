@@ -169,7 +169,7 @@ const CarouselWrapper = (props) => {
 
         </div>
         <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-sm-0">
-          <div className="p-2 px-sm-3 brdRadius bgWhite shadow-2dp">
+          <div className="p-2 px-sm-3 brdRadius bgWhite shadow-2dp min-h-fix-240">
             <Slider ref={sliderInstance} {...settingSlider()}>
               {
                 !items && numCard.map((card, i) => (

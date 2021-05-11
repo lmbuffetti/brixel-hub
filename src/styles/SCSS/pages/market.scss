@@ -358,4 +358,8 @@
 .carouselContainer {
   margin-top: -125px;
   z-index: 2;
+
+  .market-card .cover.pre-market:not(.premium) {
+    filter: initial;
+  }
 }
