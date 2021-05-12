@@ -161,7 +161,7 @@ const CarouselWrapper = (props) => {
           <h5 className="fSizePx18 mb-2">
             <span>Get the full Brixel experience worth</span>
             <span className="ml-small-4">{get(teaserPrice, 'currency', '')} {Helpers.formatNumberValue(get(teaserPrice, 'price', ''), get(teaserPrice, 'currency', ''))}.</span>
-            </h5>
+          </h5>
           <BrixelButtonPrimary
             rounded
             label="Request now"
