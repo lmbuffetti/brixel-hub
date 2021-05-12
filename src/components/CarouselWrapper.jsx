@@ -207,7 +207,9 @@ const CarouselWrapper = (props) => {
               secondary
             />
             <div className="fsize-300 txtPrimary400 ml-3 mr-3">
-              {activeSlide + 1} of {total}
+              <span>{activeSlide + 1}</span>
+              <span className="ml-small-4 mr-small-4">of</span>
+              <span>{total}</span>
             </div>
             <BrixelButtonIcon
               onClick={() => moveSlide('next')}
