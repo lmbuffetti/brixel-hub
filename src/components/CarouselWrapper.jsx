@@ -164,7 +164,7 @@ const CarouselWrapper = (props) => {
             </h5>
           <BrixelButtonPrimary
             rounded
-            label="Book now"
+            label="Request now"
             onClick={() => bookNow()}
             className="ml-a mr-a mb-2"
           />
@@ -200,29 +200,33 @@ const CarouselWrapper = (props) => {
               }
             </Slider>
           </div>
-          <div className="dis-f a-c jc-c mt-4">
-            <BrixelButtonIcon
-              onClick={() => moveSlide('prev')}
-              className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
-              icon="arrow-simple-left"
-              theme="light"
-              saturation={500}
-              secondary
-            />
-            <div className="fsize-300 txtPrimary400 ml-3 mr-3">
-              <span>{activeSlide + 1}</span>
-              <span className="ml-small-4 mr-small-4">of</span>
-              <span>{total}</span>
-            </div>
-            <BrixelButtonIcon
-              onClick={() => moveSlide('next')}
-              className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
-              icon="arrow-simple-right"
-              theme="light"
-              saturation={500}
-              secondary
-            />
-          </div>
+          {
+            items.length > 1 && (
+              <div className="dis-f a-c jc-c mt-4">
+                <BrixelButtonIcon
+                  onClick={() => moveSlide('prev')}
+                  className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                  icon="arrow-simple-left"
+                  theme="light"
+                  saturation={500}
+                  secondary
+                />
+                <div className="fsize-300 txtPrimary400 ml-3 mr-3">
+                  <span>{activeSlide + 1}</span>
+                  <span className="ml-small-4 mr-small-4">of</span>
+                  <span>{total}</span>
+                </div>
+                <BrixelButtonIcon
+                  onClick={() => moveSlide('next')}
+                  className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                  icon="arrow-simple-right"
+                  theme="light"
+                  saturation={500}
+                  secondary
+                />
+              </div>
+            )
+          }
         </div>
       </div>
     );

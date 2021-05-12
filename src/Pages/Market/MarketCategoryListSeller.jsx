@@ -430,7 +430,7 @@ const MarketCategoryListSeller = (props) => {
         {
           premiumProperties.total > 0 && (
             <CarouselWrapper
-              title="Premium properties"
+              title="Others selling with Brixel"
               className="market-category-carousel"
               type="premium"
               items={premiumProperties.data}
