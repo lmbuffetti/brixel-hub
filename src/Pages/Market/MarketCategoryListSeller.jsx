@@ -34,6 +34,7 @@ const MarketCategoryListSeller = (props) => {
   const {
     activeMarketOverlayProperty,
     bestimate,
+    estimation,
     handleGetEstimation,
     handleSetHistory,
     handleGetCompanyListing,
@@ -207,7 +208,7 @@ const MarketCategoryListSeller = (props) => {
 
       {/* SECTION: bestimate result */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(bestimate, 'status', 'active') !== 'pending' && (
+        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(estimation, 'status', 'active') !== 'pending' && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
@@ -349,7 +350,7 @@ const MarketCategoryListSeller = (props) => {
 
       {/* SECTION: bestimate missing */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(bestimate, 'status', 'active') === 'pending') && (
+        !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending') && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
@@ -446,17 +447,18 @@ const MarketCategoryListSeller = (props) => {
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
-  handleGetEstimation: PropTypes.func.isRequired,
+  estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
+  handleGetEstimation: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.object.isRequired,
   ownerProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
+  setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
-  setMarketOverlayProperty: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
 };
 
@@ -464,6 +466,7 @@ const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   bestimate: get(state, 'property.estimation.result', {}),
+  estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
