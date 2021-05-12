@@ -22,7 +22,7 @@ const IntroScanFlow = (props) => {
       {/* TODO change value with dynamic data from the company */}
       <h3 className="mb-2 max-w-fix-544">
         <span>Test drive our service and get the full experience worth</span>
-        <span className="ml-small-4">{get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', 0), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
+        <span className="ml-small-4">{get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', 0), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.</span>
         </h3>
       <h5 className="mb-5 txtDark200">Here are your main benefits:</h5>
       <div className="row">
