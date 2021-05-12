@@ -5,12 +5,9 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
-  BrixelIcon,
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
-  BrixelDropdown,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -20,39 +17,35 @@ import SplashScreen from '../../components/SplashScreen';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
+import { getCompanyListing } from '../../actions/CompanyActions';
 import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import CardImageText from '../../components/Skeleton/CardImageText';
+// import CardImageText from '../../components/Skeleton/CardImageText';
 import Loading from '../../components/Loading';
-import NoPropertiesImg from '../../images/searchProfile/no-found-properties.svg';
+import marketSkelton from '../../images/market-skelton.svg';
+import marketSkeltonMobile from '../../images/market-skelton-mobile.svg';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
   loading: () => null,
 });
 
-const MarketCategoryList = (props) => {
+const MarketCategoryListSeller = (props) => {
   // PROPS
   const {
     activeMarketOverlayProperty,
-    // activeSingleCompany,
-    activeSingleProperty,
     bestimate,
-    favoritesProperties,
     handleGetEstimation,
     handleSetHistory,
+    handleGetCompanyListing,
     history,
     loggedInUser,
-    match,
-    newProperties,
+    notification,
     ownerProperties,
-    preMarketProperties,
     premiumProperties,
     setPropertyEstimation,
     setSplashScreen,
     setMarketOverlayProperty,
     splashScreenType,
-    userSearchProfiles,
-    windowDimensions,
   } = props;
 
   const marketCookie = getCookie('brixelMarketBestimate');
@@ -61,6 +54,10 @@ const MarketCategoryList = (props) => {
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
   }, [marketCookie]);
+
+  useEffect(() => {
+    handleGetCompanyListing();
+  }, []);
 
   // Update market card when bestimate changes
   useEffect(() => {
@@ -83,17 +80,26 @@ const MarketCategoryList = (props) => {
         setSplashScreen('bestimateTeaser');
       }
     }
-    if (getCookie('brixelSplashHome') === 'buyerWelcome') {
-      setSplashScreen('buyerWelcome');
+    if (getCookie('brixelSplashHome') === 'bestimateTeaser') {
+      setCookie('brixelMarketBestimate', false);
+      setCookie('brixelSplashHome', null);
+      setSplashScreen('bestimateTeaser');
     }
     if (getCookie('brixelSplashHome') === 'sellerWelcome' && get(ownerProperties, 'data', []).length === 1) {
       setSplashScreen('sellerWelcome');
     }
-  }, [getCookie('brixelSplashHome'), ownerProperties]);
+  }, [getCookie('brixelSplashHome'), ownerProperties, notification]);
 
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
     setCookie('brixelSplashHome', null);
+    setSplashScreen('');
+  };
+
+  const openBestimate = () => {
+    setCookie('brixelMarketWelcome', false);
+    setCookie('brixelMarketBestimate', true);
+    setCookie('brixelSplashHome', 'bestimateResult');
     setSplashScreen('');
   };
 
@@ -114,7 +120,7 @@ const MarketCategoryList = (props) => {
     history.push(`/${activeMarketOverlayProperty.id}/rewards/achievement/bestimate/step1`);
     setMarketOverlayProperty({});
     setSplashScreen('');
-    handleSetHistory({ source: '/home' });
+    handleSetHistory({ source: '/sell' });
   };
 
   const openSupport = (e) => {
@@ -122,16 +128,6 @@ const MarketCategoryList = (props) => {
     history.push({ state: { showSupport: true } });
     setSplashScreen('');
     setCookie('brixelSplashHome', null);
-  };
-
-  const scrollToTopEdit = () => {
-    const scrollEl = document.getElementsByClassName('hubDasContent')[0];
-    if (scrollEl) scrollEl.scrollTop = 0;
-  };
-
-  const selectMobileFilter = (e, value) => {
-    if (e) e.preventDefault();
-    history.push(`${match.url}/${value}`);
   };
 
   useEffect(() => {
@@ -144,61 +140,6 @@ const MarketCategoryList = (props) => {
 
   return (
     <>
-      {/* SECTION: buyer welcome message  */}
-      {
-        splashScreenType === 'buyerWelcome' && (
-          <SplashScreen
-            className="result-popup"
-            closeOutside={false}
-          >
-            <div className="dis-f jc-fe mb-2">
-              <BrixelButtonIcon
-                ghost
-                theme="dark"
-                icon="close-small"
-                onClick={() => onCloseWelcome()}
-              />
-            </div>
-            <div className="dis-fl-col jc-c a-c pb-2">
-              <h3>Welcome 🖐 </h3>
-              <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
-              <div className="mb-5">
-                <div className="dis-f mb-2">
-                  <div className="dis-f a-c min-w-fix-64 jc-fe">
-                    <BrixelIcon
-                      icon="favorite-fill"
-                      color="red"
-                    />
-                  </div>
-                  <span className="max-w-fix-424 txtDark700 pl-2"> Manage your favorites and buy your new home directly on Brixel.</span>
-                </div>
-                <div className="dis-f mb-2">
-                  <div className="dis-f a-c min-w-fix-64 jc-fe">
-                    <span className="category-tag bgPrimary300">
-                      Pre
-                    </span>
-                  </div>
-                  <span className="max-w-fix-424 txtDark700 pl-2"> Discover exclusive properties which are not on the market yet, but waiting for your first move.</span>
-                </div>
-                <div className="dis-f">
-                  <div className="dis-f a-c min-w-fix-64 jc-fe">
-                    <span className="category-tag bgRed400">
-                      Premium
-                    </span>
-                  </div>
-                  <span className="max-w-fix-424 txtDark700 pl-2"> Explore our Premium properties with 3D tour, detailed documentation and verified informations.</span>
-                </div>
-              </div>
-              <BrixelButtonPrimary
-                label="ok, got it!"
-                rounded
-                onClick={() => onCloseWelcome()}
-              />
-            </div>
-          </SplashScreen>
-        )
-      }
-
       {/* SECTION: seller welcome message  */}
       {
         splashScreenType === 'sellerWelcome' && (
@@ -219,30 +160,34 @@ const MarketCategoryList = (props) => {
               <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
               <div className="mb-5">
                 <div className="dis-f mb-2">
-                  <p className="max-w-fix-440 txtDark700 pl-2"> Are you thinking about selling? Get in touch with
+                  <p className="max-w-fix-440 txtDark700 pl-2">
+                    <span>Are you thinking about selling? Get in touch with</span>
                     <a
                       href="#"
-                      className="link"
+                      className="link ml-small-4"
                       onClick={(e) => openSupport(e)}
                     >
-                      <span>&nbsp;support</span>
-                    </a> and get a free consultation by our experts.
+                      <span>support</span>
+                    </a>
+                    <span className="ml-small-4">and get a free consultation by our experts.</span>
                   </p>
                 </div>
                 <div className="dis-f mb-2">
-                  <p className="max-w-fix-440 txtDark700 pl-2"> Do you want to know how much your home is worth? Get a free price indication with our
+                  <p className="max-w-fix-440 txtDark700 pl-2">
+                    <span>Do you want to know how much your home is worth? Get a free price indication with our</span>
                     <a
-                      className="link"
-                      href={`/${activeSingleProperty.id}/rewards/bestimate`}
+                      href="#"
+                      className="link ml-small-4"
+                      onClick={(e) => openBestimate(e)}
                     >
-                      <span>&nbsp;Bestimate®</span>
+                      <span>Bestimate®</span>
                     </a>
                   </p>
                 </div>
                 <div className="dis-f">
-                  <p className="max-w-fix-440 txtDark700 pl-2"> Are you looking for a property to buy? Define your
+                  <p className="max-w-fix-440 txtDark700 pl-2">Are you looking for a property to buy? Define your
                     <a
-                      className="link"
+                      className="link ml-small-4"
                       href={`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`}
                     >
                       <span>&nbsp;search profile</span>
@@ -262,7 +207,7 @@ const MarketCategoryList = (props) => {
 
       {/* SECTION: bestimate result */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && (
+        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(bestimate, 'status', 'active') !== 'pending' && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
@@ -278,7 +223,10 @@ const MarketCategoryList = (props) => {
             <div className="dis-fl-col jc-c a-c pb-2 pos-r">
               {
                 !has(bestimate, 'higherValue') && (
-                  <Loading isLoading />
+                  <>
+                    eh
+                    <Loading isLoading />
+                  </>
                 )
               }
               <h3>This is your Bestimate<sup>&reg;</sup>  </h3>
@@ -401,7 +349,7 @@ const MarketCategoryList = (props) => {
 
       {/* SECTION: bestimate missing */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue === 0 && (
+        !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(bestimate, 'status', 'active') === 'pending') && (
           <SplashScreen
             className="result-popup"
             closeOutside={false}
@@ -444,24 +392,31 @@ const MarketCategoryList = (props) => {
 
       {
         ownerProperties.total !== 0 && (
-          <div className={` ${ownerProperties.total === 0 ? '' : 'min-h-fix-552 min-h-fix-sm-344'}`}>
+          <div className={`mb-5 mb-sm-3 ${ownerProperties.total === 0 ? '' : ''}`}>
             {
               ownerProperties.total > 0 && (
                 <CarouselWrapper
+                  layout="singleOwnCard"
                   title="Your properties"
-                  className="market-category-carousel type-own mb-8"
+                  className="market-category-carousel type-own"
                   type="own"
                   items={ownerProperties.data}
                   total={ownerProperties.total}
                 />
               )
             }
+
             {
               (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
                 <div className="mb-8">
-                  <h4 className="fweight-700 fsize-600 mb-3">Your properties</h4>
+                  <h4 className="fweight-700 fsize-600 mb-4">Your properties</h4>
                   <div className="ml-1-neg">
-                    <CardImageText type="own" />
+                    <div className="marketSellBanner h-fix-392 mt-8 mt-sm-0">
+                      <div className="m-a pt-8 max-w-fix-784">
+                        <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
+                        <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               )
@@ -470,304 +425,6 @@ const MarketCategoryList = (props) => {
           </div>
         )
       }
-
-      {
-        favoritesProperties.total > 0 && (
-          <div className={`min-h-fix-448 ${favoritesProperties.total === 0 ? '' : 'mb-8'}`}>
-            <CarouselWrapper
-              title="Your favorites"
-              className="market-category-carousel"
-              type="favorite"
-              items={favoritesProperties.data}
-              total={favoritesProperties.total}
-            />
-          </div>
-        )
-      }
-      {
-        (favoritesProperties.total !== 0 && favoritesProperties.total === undefined) && (
-          <div className="min-h-fix-448">
-            <h4 className="fweight-700 fsize-600 mb-3">Your favorite</h4>
-            <div className="ml-1-neg max-w-fix-304">
-              <CardImageText type="favorite" />
-            </div>
-          </div>
-        )
-      }
-
-      <div className="dis-fl-col mb-8">
-        <div className="dis-fl-row jc-b flex-wrap">
-          <div className="dis-fl-col mb-3">
-            <h4 className="fweight-700">Discover our market</h4>
-            {
-              has(userSearchProfiles, '[0].id') && (
-                <span className="fsize-300"><span>There are </span> <span className="fweight-600">{get(newProperties, 'total', '')}</span><span className="fweight-600"> properties</span> <span>that match your criteria.</span></span>
-              )
-            }
-          </div>
-          {
-            has(userSearchProfiles, '[0].id') ? (
-              <div
-                className="searchProfileArea brdRadius py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3 cur-poi"
-                onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
-              >
-                <div className="dis-f">
-                  {
-                    get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
-                      <React.Fragment key={i.toString()}>
-                        <span className="" key={i.toString()}>{item}</span>
-                        <span className="px-1"> &middot; </span>
-                      </React.Fragment>
-                    ))
-                  }
-                  {
-                    get(userSearchProfiles[0], 'location', []).length > 0 &&
-                get(userSearchProfiles[0], 'location', []).map((item, i) => (
-                  <React.Fragment key={i.toString()}>
-                    <span className="">{item.name}</span>
-                    {
-                      i !== userSearchProfiles[0].location.length - 1 && (
-                        <span>,&nbsp;</span>
-                      )
-                    }
-                  </React.Fragment>
-                ))
-                  }
-                  <span className="px-1"> &middot; </span>
-                </div>
-                <div className="dis-f">
-                  <div className="dis-fl-row a-c ">
-                    <span>
-                      {get(userSearchProfiles[0], 'characteristics.bedrooms.min', 0)} - {get(userSearchProfiles[0], 'characteristics.bedrooms.max', 0)}
-                    </span>
-                    <span>&nbsp;Rooms</span>
-                  </div>
-                  <span className="px-1"> &middot; </span>
-                  <div className="dis-fl-row a-c mr-2 ">
-                    <span>
-                      {get(userSearchProfiles[0], 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles[0], 'characteristics.livingArea.max', 0)}
-                    </span>
-                    <span>&nbsp;m2</span>
-                  </div>
-                </div>
-                <BrixelButtonIcon
-                  icon="edit"
-                  rounded
-                  theme="light"
-                  small
-                  className="editSearchProfile"
-                />
-              </div>
-            ) : (
-              <div className="pb-2">
-                <BrixelButtonPrimary
-                  rounded
-                  leftIcon="edit"
-                  className="fsize-300"
-                  label="Add search profile"
-                  onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
-                />
-              </div>
-            )
-          }
-        </div>
-        <div className="dis-fl-row a-c flex-wrap property-category">
-          <div className="dis-fl-row flex-wrap a-c jc-b w-perc-100">
-
-            {
-              windowDimensions.width <= 590 ? (
-                <BrixelDropdown
-                  compact
-                  className="mobile-market-filter"
-                  bgTransparent
-                  borderColor="light"
-                  bodyScrollclass="content"
-                  selected="All"
-                  options={[{
-                    label: 'All',
-                    value: 'all',
-                  },
-                  favoritesProperties.total > 0 && {
-                    label: 'Your favorites',
-                    value: 'favorites',
-                  },
-                  newProperties.total > 0 && {
-                    label: 'New in your radar',
-                    value: 'radar',
-                  },
-                  preMarketProperties.total > 0 && {
-                    label: 'Pre-market properties',
-                    value: 'preMarket',
-                  },
-                  premiumProperties.total > 0 && {
-                    label: 'Premium properties',
-                    value: 'premium',
-                  }]}
-                  onSelect={(e, value) => {
-                    scrollToTopEdit();
-                    selectMobileFilter(e, value.value);
-                  }}
-                />
-              ) : (
-                <>
-                  <div className="dis-fl-row flex-wrap">
-                    <BrixelButtonSecondary
-                      onClick={() => {
-                        history.push(`${match.url}/all`);
-                        scrollToTopEdit();
-                      }}
-                      label="All"
-                      rounded
-                      theme="light"
-                      themeSat={300}
-                      className="fsize-300 mb-1 txtDark400 mr-1"
-                    />
-                    {/* <BrixelButtonSecondary
-                      onClick={() => history.push(`${match.url}/own`)}
-                      label="Your properties"
-                      rounded
-                      theme="light"
-                      themeSat={300}
-                      className="fsize-300 mb-1 txtDark400 mr-1"
-                    /> */}
-                    {/* <BrixelButtonSecondary
-                      onClick={() => history.push(`${match.url}/lastViewed`)}
-                      label="Last viewed"
-                      rounded
-                      theme="light"
-                      themeSat={300}
-                      className="fsize-300 mb-1 txtDark400 mr-1"
-                    /> */}
-                    {
-                      get(favoritesProperties, 'total', 0) > 0 && (
-                        <BrixelButtonSecondary
-                          onClick={() => {
-                            history.push(`${match.url}/favorites`);
-                            scrollToTopEdit();
-                          }}
-                          label="Your favorites"
-                          rounded
-                          theme="light"
-                          themeSat={300}
-                          className="fsize-300 mb-1 txtDark400 mr-1"
-                        />
-                      )
-                    }
-                    {
-                      get(newProperties, 'total', 0) > 0 && (
-                        <BrixelButtonSecondary
-                          onClick={() => {
-                            history.push(`${match.url}/radar`);
-                            scrollToTopEdit();
-                          }}
-                          label="New in your radar"
-                          rounded
-                          theme="light"
-                          themeSat={300}
-                          className="fsize-300 mb-1 txtDark400 mr-1"
-                        />
-                      )
-                    }
-                    {
-                      get(preMarketProperties, 'total', 0) > 0 && (
-                        <BrixelButtonSecondary
-                          onClick={() => {
-                            history.push(`${match.url}/preMarket`);
-                            scrollToTopEdit();
-                          }}
-                          label="Pre-market properties"
-                          rounded
-                          theme="light"
-                          themeSat={500}
-                          className="fsize-300 mb-1 txtDark400 mr-1"
-                        />
-                      )
-                    }
-                    {
-                      get(premiumProperties, 'total', 0) > 0 && (
-                        <BrixelButtonSecondary
-                          onClick={() => {
-                            history.push(`${match.url}/premium`);
-                            scrollToTopEdit();
-                          }}
-                          label="Premium properties"
-                          rounded
-                          theme="light"
-                          themeSat={300}
-                          className="fsize-300 mb-1 txtDark400 mr-1"
-                        />
-                      )
-                    }
-                  </div>
-                </>
-              )
-            }
-            {
-              get(preMarketProperties, 'total', 0) > 0 && (
-                <BrixelButtonSecondary
-                  onClick={() => {
-                    history.push({ pathname: `${match.url}/all`, state: 'showMap' });
-                    scrollToTopEdit();
-                  }}
-                  label="Show map"
-                  rounded
-                  theme="light"
-                  leftIcon="roadmap"
-                  themeSat={300}
-                  className="fsize-300 mb-1 txtDark400"
-                />
-              )
-            }
-          </div>
-        </div>
-      </div>
-
-      {/* <div className="mb-4">
-        {
-          lastViewedProperties.length > 0 && (
-            <CarouselWrapper
-              title="Last viewed"
-              className="market-category-carousel"
-              type="lastViewed"
-              items={lastViewedProperties}
-            />
-          )
-        }
-      </div> */}
-
-      <div className="mb-8">
-        {
-          newProperties.total !== 0 ? (
-            <CarouselWrapper
-              title="New in your radar"
-              className="market-category-carousel"
-              type="new"
-              items={newProperties.data}
-              total={newProperties.total}
-            />
-          ) : (
-            <div className="h-fix-320 bgLight100 brdRadius dis-fl-col jc-c a-c">
-              <img src={NoPropertiesImg} alt="No Properties on your New Radar" />
-              <p className="fweight-700 mb-1 mt-3">No matching properties right now.</p>
-              <p>Check again later for new properties.</p>
-            </div>
-          )
-        }
-      </div>
-
-      <div className="mb-8">
-        {
-          preMarketProperties.total > 0 && (
-            <CarouselWrapper
-              title="Pre-market properties"
-              className="market-category-carousel"
-              type="preMarket"
-              items={preMarketProperties.data}
-              total={preMarketProperties.total}
-            />
-          )
-        }
-      </div>
 
       <div className="mb-8">
         {
@@ -786,41 +443,32 @@ const MarketCategoryList = (props) => {
   );
 };
 
-MarketCategoryList.propTypes = {
+MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
-  favoritesProperties: PropTypes.object.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleGetCompanyListing: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  newProperties: PropTypes.object.isRequired,
+  notification: PropTypes.object.isRequired,
   ownerProperties: PropTypes.object.isRequired,
-  preMarketProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   setMarketOverlayProperty: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
-  userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-  windowDimensions: PropTypes.object.isRequired,
-};
-
-MarketCategoryList.defaultProps = {
-  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   bestimate: get(state, 'property.estimation.result', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
+  notification: get(state, 'common.notification', {}),
   ownerEstimations: get(state, 'market.ownerEstimations', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
@@ -833,6 +481,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
+  handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
@@ -841,4 +490,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(MarketCategoryList);
+)(MarketCategoryListSeller);

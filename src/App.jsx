@@ -140,8 +140,13 @@ const SingleDeal = Loadable({
   loading: Loading,
 });
 
-const Market = Loadable({
-  loader: () => import('./Pages/Market/Market' /* webpackChunkName: "Market" */),
+const MarketSeller = Loadable({
+  loader: () => import('./Pages/Market/MarketSeller' /* webpackChunkName: "MarketSeller" */),
+  loading: Loading,
+});
+
+const MarketBuyer = Loadable({
+  loader: () => import('./Pages/Market/MarketBuyer' /* webpackChunkName: "MarketBuyer" */),
   loading: Loading,
 });
 
@@ -277,7 +282,7 @@ const App = (props) => {
         setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('deals')) {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('/home')) {
+      } else if (history.location.pathname.includes('/sell') || history.location.pathname.includes('/buy')) {
         setClassMain('w-perc-100 pos-r ov-h marketHome');
       } else if (history.location.pathname.includes('offers')) {
         setClassMain('w-perc-100 pos-r hubContainer offersTop withTopBar sellerHub');
@@ -365,7 +370,7 @@ const App = (props) => {
     let contentHeight;
     if (!isFlow) {
       if (windowDimensions.width <= 1024) {
-        if (history.location.pathname.includes('home')) {
+        if ((history.location.pathname.includes('buy') && !history.location.pathname.includes('buyer')) || history.location.pathname.includes('sell')) {
           contentHeight = windowDimensions.height;
         } else {
           contentHeight = windowDimensions.height;
@@ -479,7 +484,8 @@ const App = (props) => {
               }
               {
                 !history.location.pathname.includes('packageFlow') &&
-                (!history.location.pathname.includes('home') || history.location.pathname.includes('homebase')) &&
+                (!history.location.pathname.includes('sell') || history.location.pathname.includes('homebase')) &&
+                (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
                 !history.location.pathname.includes('onBoarding') &&
                 !history.location.pathname.includes('upgrade') &&
                 !history.location.pathname.includes('trialRequest') &&
@@ -515,7 +521,8 @@ const App = (props) => {
                     !history.location.pathname.includes('onBoarding') &&
                     !history.location.pathname.includes('buyer') && (
                       <>
-                        <ProtectedRoute path="/home" component={Market} />
+                        <ProtectedRoute path="/sell" component={MarketSeller} />
+                        <ProtectedRoute path="/buy" component={MarketBuyer} />
                         <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
                         <ProtectedRoute path="/" exact component={DashboardSeller} />
                         <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />

@@ -31,11 +31,6 @@
       }
 
       .carousel-wrapper  {
-        .show-all {
-          @media (min-width: $responsive-small) {
-            right: 98px;
-          }
-        }
 
         .slick-list {
           margin-left: -8px;
@@ -327,5 +322,44 @@
     &.pre-market:not(.premium) {
       filter: grayscale(100%);
     }
+  }
+}
+
+.marketSellBanner {
+  position: relative;
+  background-image: url(../../../images/Market/bgSellBanner.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top -1px right -1px;
+  border-radius: $brd-radius-small;
+  padding-bottom: 125px;
+  z-index: 1;
+  @media (max-width: $responsive-medium) {
+    background-position: top left;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(#ffffff, #ffffff00);
+    left: 0;
+    top: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: -1;
+    opacity: 0.1;
+
+    @media (max-width: $responsive-small) {
+      opacity: 0.7;
+    }
+  }
+}
+.carouselContainer {
+  margin-top: -125px;
+  z-index: 2;
+
+  .market-card .cover.pre-market:not(.premium) {
+    filter: initial;
   }
 }

@@ -70,8 +70,6 @@ const GetStartedEstimation = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
-  const [isEnter, setIsEnter] = useState(true);
-  const [lastID, setLastID] = useState(0);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -171,7 +169,7 @@ const GetStartedEstimation = (props) => {
       redirectToUserFlow: false,
       createEstimation: true,
       company,
-      redirectToUrl: '/home',
+      redirectToUrl: '/sell',
       extraLoading: true,
     };
     data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');
@@ -283,7 +281,6 @@ const GetStartedEstimation = (props) => {
       // setPosition(newIndex);
       if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
       else {
-        setIsEnter(false);
         let newQuest = {
           ...questions[defId],
         };
@@ -394,7 +391,6 @@ const GetStartedEstimation = (props) => {
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
-    setIsEnter(true);
     if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
       const countryCodeLocation = get(formValue, 'location.countryCode', '');
       const countryCodeCompany = get(company, 'country.code', '');
@@ -448,7 +444,6 @@ const GetStartedEstimation = (props) => {
         }
         return null;
       });
-      setLastID(newQuest.length - 1);
       setQuestions(newQuest);
     }
   }, [formValue]);
@@ -680,7 +675,7 @@ const GetStartedEstimation = (props) => {
                                 disabled={!checkValidateField()}
                                 rounded
                                 theme="green"
-                                themeSat="500"
+                                themeSat={500}
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

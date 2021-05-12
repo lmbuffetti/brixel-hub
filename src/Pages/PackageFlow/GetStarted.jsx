@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
 import React, {
-  useState, useEffect, useRef, Fragment,
+  useState, useEffect, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -62,7 +62,6 @@ const GetStarted = (props) => {
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
-  const [lastID, setLastID] = useState(0);
   // const [roomValue, setRoomValue] = useState('');
 
   const singleStepRef = useRef(null);
@@ -286,7 +285,6 @@ const GetStarted = (props) => {
         }
         return null;
       });
-      setLastID(newQuest.length - 1);
       setQuestions(newQuest);
     }
   }, [formValue]);
