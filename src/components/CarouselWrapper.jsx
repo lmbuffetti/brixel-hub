@@ -158,7 +158,10 @@ const CarouselWrapper = (props) => {
 
         <div className="marketSellBanner pt-8 ta-c">
           <h4 className="fweight-700 mb-2">Test drive our service. No strings attached.</h4>
-          <h5 className="fSizePx18 mb-2">Get the full Brixel experience worth {get(teaserPrice, 'currency', '')} {Helpers.formatNumberValue(get(teaserPrice, 'price', ''), get(teaserPrice, 'currency', ''))}.</h5>
+          <h5 className="fSizePx18 mb-2">
+            <span>Get the full Brixel experience worth</span>
+            <span className="ml-small-4">{get(teaserPrice, 'currency', '')} {Helpers.formatNumberValue(get(teaserPrice, 'price', ''), get(teaserPrice, 'currency', ''))}.</span>
+            </h5>
           <BrixelButtonPrimary
             rounded
             label="Book now"
