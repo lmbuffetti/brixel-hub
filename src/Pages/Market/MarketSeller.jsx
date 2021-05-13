@@ -10,6 +10,7 @@ import {
   destroy,
 } from '@brixel/brixel-components';
 import {
+  getFavoritesProperties,
   getOwnedProperties,
   getPremiumProperties,
 } from '../../actions/MarketActions';
@@ -31,6 +32,7 @@ const MarketSeller = (props) => {
   // PROPS
   const {
     destroyForm,
+    handleGetFavoritesProperties,
     handleGetPremiumProperties,
     handleGetSellerProperties,
     handleSpinnerOff,
@@ -50,6 +52,7 @@ const MarketSeller = (props) => {
         setAsSingle: true,
         multiLoader: true,
       };
+      handleGetFavoritesProperties(data);
       handleGetSellerProperties(data);
       handleGetPremiumProperties(data);
       handleSpinnerOff();
@@ -69,6 +72,7 @@ const MarketSeller = (props) => {
 
 MarketSeller.propTypes = {
   destroyForm: PropTypes.func.isRequired,
+  handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
@@ -88,6 +92,7 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('Property'));
   },
+  handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
