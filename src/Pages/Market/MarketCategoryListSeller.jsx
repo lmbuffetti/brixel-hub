@@ -7,7 +7,7 @@ import has from 'lodash/has';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  Helpers,
+  Helpers, BrixelButtonText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -23,6 +23,7 @@ import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '..
 import Loading from '../../components/Loading';
 import marketSkelton from '../../images/market-skelton.svg';
 import marketSkeltonMobile from '../../images/market-skelton-mobile.svg';
+import EmptyHubImg from '../../images/emptyHub.svg';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -391,41 +392,61 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      {
-        ownerProperties.total !== 0 && (
-          <div className={`mb-5 mb-sm-3 ${ownerProperties.total === 0 ? '' : ''}`}>
-            {
-              ownerProperties.total > 0 && (
-                <CarouselWrapper
-                  layout="singleOwnCard"
-                  title="Your properties"
-                  className="market-category-carousel type-own"
-                  type="own"
-                  items={ownerProperties.data}
-                  total={ownerProperties.total}
-                />
-              )
-            }
+      <div className="mb-5 mb-sm-3">
+        {
+          ownerProperties.total > 0 && (
+            <CarouselWrapper
+              layout="singleOwnCard"
+              title="Your properties"
+              className="market-category-carousel type-own"
+              type="own"
+              items={ownerProperties.data}
+              total={ownerProperties.total}
+            />
+          )
+        }
 
-            {
-              (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
-                <div className="mb-8">
-                  <h4 className="fweight-700 fsize-600 mb-4">Your properties</h4>
-                  <div className="ml-1-neg">
-                    <div className="marketSellBanner h-fix-392 mt-8 mt-sm-0">
-                      <div className="m-a pt-8 max-w-fix-784">
-                        <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
-                        <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
-                      </div>
-                    </div>
+        {
+          (ownerProperties.total !== 0 && ownerProperties.total === undefined) ? (
+            <div className="mb-8">
+              <h4 className="fweight-700 fsize-600 mb-4">Your properties</h4>
+              <div className="ml-1-neg">
+                <div className="marketSellBanner hideBg h-fix-392 mt-8 mt-sm-0">
+                  <div className="m-a pt-8 max-w-fix-784">
+                    <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
+                    <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                   </div>
                 </div>
-              )
-            }
+              </div>
+            </div>
+          ) : (
+            <div className="mb-8">
+              <div className="dis-f jc-b a-c">
+                <h4 className="fweight-700 fsize-600 mb-4">Your properties</h4>
+                <BrixelButtonText
+                  className="fsize-300 show-all pos-r"
+                  label="+ Add new"
+                  onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+                />
+              </div>
+              <div className="ml-1-neg">
+                <div className="bgWhite ta-c p-3 p-lg-5 max-w-fix-800 ml-a mr-a">
+                  <img src={EmptyHubImg} alt="Emtpy Hub" />
+                  <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">Anybody home?</h4>
+                  <h5 className="ta-c fSizePx18 mb-2 m-a">For using the Brixel Hub you need at least one property.</h5>
+                  <BrixelButtonPrimary
+                    rounded
+                    className="m-a mt-3"
+                    label="+ Add new"
+                    onClick={() => history.push(`/packageFlow/getStarted?company==${get(loggedInUser, 'user.company.stub', '')}`)}
+                  />
+                </div>
+              </div>
+            </div>
+          )
+        }
 
-          </div>
-        )
-      }
+      </div>
 
       <div className="mb-8">
         {

@@ -248,6 +248,7 @@ function PageHeader(props) {
                       !(get(history, 'location.state.hideClose', null)) && (
                         <BrixelButtonIcon
                           ghost
+                          className="zIndex11"
                           theme="dark"
                           icon="close-small"
                           onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/buy') : history.push('/sell'))}
