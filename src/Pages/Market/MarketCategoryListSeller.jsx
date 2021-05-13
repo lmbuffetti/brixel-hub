@@ -413,8 +413,8 @@ const MarketCategoryListSeller = (props) => {
               <div className="ml-1-neg">
                 <div className="marketSellBanner hideBg h-fix-392 mt-8 mt-sm-0">
                   <div className="m-a pt-8 max-w-fix-784">
-                    <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton"/>
-                    <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton"/>
+                    <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
+                    <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                   </div>
                 </div>
               </div>

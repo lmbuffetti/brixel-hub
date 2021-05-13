@@ -172,7 +172,7 @@ export const MapsWithModalManual = (props) => {
           setLoclist([]);
           setLoadingAddress(false);
           // eslint-disable-next-line no-use-before-define
-          // changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
+          changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
           setErrorResult(false);
         } else {
           changeFieldValue(formName, 'location', currentLocation);
