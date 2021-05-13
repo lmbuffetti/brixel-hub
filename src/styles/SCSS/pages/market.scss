@@ -337,6 +337,9 @@
   @media (max-width: $responsive-medium) {
     background-position: top left;
   }
+  &.hideBg {
+    background-image: none;
+  }
   &:after {
     content: '';
     position: absolute;

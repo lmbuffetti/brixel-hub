@@ -22,7 +22,7 @@ const EmptyProperty = (props) => {
   }, []);
 
   return (
-    <div className="bgWhite brdRadius ta-c p-3 p-lg-5 shadow-1dp">
+    <div className="bgWhite brdRadius ta-c p-3 p-lg-5 shadow-2dp">
       <img src={EmptyHubImg} alt="Emtpy Hub" />
       <h5 className="ta-c mt-3 mb-2">Anybody home?</h5>
       <p className="ta-c txtDark200 max-w-fix-320 m-a">For using the Brixel Hub you need at least one property.</p>
