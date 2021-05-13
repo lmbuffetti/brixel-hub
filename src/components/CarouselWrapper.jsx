@@ -98,25 +98,26 @@ const CarouselWrapper = (props) => {
 
   // eslint-disable-next-line consistent-return
   const showAll = useCallback(() => {
+    const baseUrl = match.url.includes('sell') ? 'sell' : 'buy';
     switch (type) {
       case 'own': {
-        history.push(`${match.url}/own`);
+        history.push(`/${baseUrl}/own`);
         break;
       }
       case 'favorite': {
-        history.push(`${match.url}/favorites`);
+        history.push(`/${baseUrl}/favorites`);
         break;
       }
       case 'new': {
-        history.push(`${match.url}/radar`);
+        history.push(`/${baseUrl}/radar`);
         break;
       }
       case 'premium': {
-        history.push(`${match.url}/premium`);
+        history.push(`/${baseUrl}/premium`);
         break;
       }
       case 'preMarket': {
-        history.push(`${match.url}/preMarket`);
+        history.push(`/${baseUrl}/preMarket`);
         break;
       }
       default:
