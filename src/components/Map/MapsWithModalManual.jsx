@@ -499,6 +499,7 @@ export const MapsWithModalManual = (props) => {
                     showIconValidation={false}
                     form={formName}
                     design={{
+                      wrapClass: 'w-perc-60',
                       className: 'mb-2 zIndex1',
                       showIconValidation: false,
                     }}
