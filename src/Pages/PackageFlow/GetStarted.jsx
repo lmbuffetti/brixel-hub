@@ -2,20 +2,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
 import React, {
-  useState, useEffect, useRef, Fragment,
+  useState, useEffect, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
-  BrixelButtonIcon,
-  BrixelIcon,
-  BrixelProgressBar,
   MultiFileldsReduxForm,
   initializeForm,
   change,
   reset,
   destroy,
-  BrixelButtonText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
@@ -62,12 +58,10 @@ const GetStarted = (props) => {
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-  const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
-  const [lastID, setLastID] = useState(0);
   // const [roomValue, setRoomValue] = useState('');
 
   const singleStepRef = useRef(null);
@@ -190,9 +184,7 @@ const GetStarted = (props) => {
           state: get(history, 'location.state', {}),
         });
       }
-      const getOnlyQuest = reloadQuestions.filter((item) => item.inputs);
       setQuestions(reloadQuestions);
-      setProgressBar((defId * 100) / getOnlyQuest.length);
       if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
       if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -267,16 +259,6 @@ const GetStarted = (props) => {
     }
   }, [currentIndex]);
 
-  // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
-  /* useEffect(() => {
-    let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
-    let bgSize = 500
-    bgSize = bgSize / roomValue;
-
-    setRoomValue(bgSize+ 'vw');
-
-  }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
-
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
@@ -303,7 +285,6 @@ const GetStarted = (props) => {
         }
         return null;
       });
-      setLastID(newQuest.length - 1);
       setQuestions(newQuest);
     }
   }, [formValue]);
@@ -385,36 +366,9 @@ const GetStarted = (props) => {
 
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
-      {/* {
-        get(quest, 'inputs', null) && (
-          <BrixelProgressBar
-            large
-            saturation={400}
-            barBackground="Light"
-            backgroundSaturation={300}
-            progressValue={progressBar}
-          />
-        )
-      } */}
-
       <div
         className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
-        // style={{ backgroundImage: `url(${quest.bgImg})` }}
       >
-        {/* preload all background images */}
-        {/* {
-          questions.map((questStep, i) => (
-            <Fragment key={i.toString()}>
-              <div className="slideBg" key={i.toString()}>
-                <div
-                  // eslint-disable-next-line no-nested-ternary
-                  className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
-                  style={{ backgroundImage: `url(${questStep.bgImg})` }}
-                />
-              </div>
-            </Fragment>
-          ))
-        } */}
         <form
           id="multiStepForm"
           autoComplete="off"

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import Loadable from 'react-loadable';
-import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -112,7 +112,7 @@ const MarketList = (props) => {
           break;
         }
         default:
-          history.push('/home');
+          history.push('./');
       }
     }
   }, [itemsPerPage, currentPage, sortOrderType, sortDirection, loggedInUser, userSearchProfiles]);
@@ -172,10 +172,10 @@ const MarketList = (props) => {
       if (openMap) {
         setOpenMap(false);
       } else {
-        history.push('/home');
+        history.push('./');
       }
     } else {
-      history.push('/home');
+      history.push('./');
     }
   };
 
@@ -290,9 +290,18 @@ const MarketList = (props) => {
                 icon="arrow-simple-left"
                 className="pos-r"
               />
-              <div className="mt-2">
-                <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
-                <span className="fsize-300"><span>There are </span> <span className="fweight-600 notranslate"> {getTotal() ? getTotal() : '-'}</span> <span className="fweight-600">properties</span> <span>available</span></span>
+              <div className="mt-2 pr-0 pr-lg-3">
+                <div className="dis-f jc-b a-b">
+                  <div>
+                    <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
+                    <span className="fsize-300"><span>There are </span> <span className="fweight-600 notranslate"> {getTotal() ? getTotal() : '-'}</span> <span className="fweight-600">properties</span> <span>available</span></span>
+                  </div>
+                  <BrixelButtonText
+                    className="fsize-300 show-all pos-r"
+                    label="+ Add new"
+                    onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+                  />
+                </div>
               </div>
             </div>
             {

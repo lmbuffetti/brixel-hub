@@ -18,8 +18,8 @@ import { setSplashType, spinnerOff } from '../../actions/CommonActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import { updateFavorite } from '../../actions/UserActions';
 
-const MarketCategoryList = Loadable({
-  loader: () => import('./MarketCategoryList' /* webpackChunkName: "MarketCategoryList" */),
+const MarketCategoryListBuyer = Loadable({
+  loader: () => import('./MarketCategoryListBuyer' /* webpackChunkName: "MarketCategoryListBuyer" */),
   loading: () => null,
 });
 
@@ -28,16 +28,14 @@ const MarketList = Loadable({
   loading: () => null,
 });
 
-const Market = (props) => {
+const MarketBuyer = (props) => {
   // PROPS
   const {
     destroyForm,
     handleGetFavoritesProperties,
-    handleGetLastViewedProperties,
     handleGetNewProperties,
     handleGetPreMarketProperties,
     handleGetPremiumProperties,
-    handleGetSellerProperties,
     handleGetUserSearchProfiles,
     handleSpinnerOff,
     history,
@@ -57,9 +55,7 @@ const Market = (props) => {
         setAsSingle: true,
         multiLoader: true,
       };
-      handleGetSellerProperties(data);
       handleGetFavoritesProperties(data);
-      handleGetLastViewedProperties();
       handleGetUserSearchProfiles(loggedInUser.id);
       handleSpinnerOff();
     }
@@ -76,7 +72,6 @@ const Market = (props) => {
         multiLoader: true,
         searchProfileId: get(userSearchProfiles[0], 'id', null),
       };
-
       handleGetNewProperties(data);
       handleGetPreMarketProperties(data);
       handleGetPremiumProperties(data);
@@ -88,21 +83,19 @@ const Market = (props) => {
     <div className="market-container container" id="market">
       {/* premarket overlay */}
       <Switch>
-        <Route exact path="/home" component={MarketCategoryList} />
-        <Route exact path="/home/:cat/:id?" component={MarketList} />
+        <Route exact path="/buy" component={MarketCategoryListBuyer} />
+        <Route exact path="/buy/:cat/:id?" component={() => <MarketList isBuyer />} />
       </Switch>
     </div>
   );
 };
 
-Market.propTypes = {
+MarketBuyer.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
-  handleGetLastViewedProperties: PropTypes.func.isRequired,
   handleGetNewProperties: PropTypes.func.isRequired,
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
-  handleGetSellerProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
@@ -110,7 +103,7 @@ Market.propTypes = {
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
-Market.defaultProps = {
+MarketBuyer.defaultProps = {
   userSearchProfiles: null,
 };
 
@@ -142,4 +135,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(Market);
+)(MarketBuyer);

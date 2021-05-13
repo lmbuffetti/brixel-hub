@@ -5,8 +5,11 @@ import get from 'lodash/get';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+// property thumb
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
+import resumeLand from '../images/BrxielComingTown/resumeLand.svg';
+import resumeCommercial from '../images/BrxielComingTown/resumeCommercial.svg';
 
 // COMPONENT USED ON ONBOARDING TO SHOW THE PREVIEW OF CREATED PROPERTY
 const ResumeCard = (props) => {
@@ -18,7 +21,20 @@ const ResumeCard = (props) => {
     btnLabel,
   } = props;
 
-  const defImg = get(formValue, 'properties.propertyType', null) === 'Apartment' ? resumeApartment : resumeHouse;
+  const defImg = () => {
+    switch (get(formValue, 'properties.propertyType', null)) {
+      case 'Apartment':
+        return resumeApartment;
+      case 'House':
+        return resumeHouse;
+      case 'Land':
+        return resumeLand;
+      case 'Commercial':
+        return resumeCommercial;
+      default:
+        return resumeHouse;
+    }
+  };
 
   return (
     <div className="dis-f flex-wrap w-perc-100 pt-4 pt-sm-10">
@@ -60,7 +76,7 @@ const ResumeCard = (props) => {
         {/* Property Card */}
         <div className="scaleAnim bgWhite max-w-fix-344 mr-a ml-a ml-sm-0 brdRadius shadow-2dp ov-h">
           <img
-            src={defImg}
+            src={defImg()}
             className="dis-b w-perc-100"
             alt={formValue.propertyType || 'House'}
           />

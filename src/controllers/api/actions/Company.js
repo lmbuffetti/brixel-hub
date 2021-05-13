@@ -17,6 +17,11 @@ class Company extends Base {
     const url = ep.company.getDefaultCompany();
     return this.apiClient.get(url, { });
   }
+
+  getCompanyListing(data) {
+    const url = ep.company.companyList(data);
+    return this.apiClient.get(url, { });
+  }
 }
 
 export default Company;

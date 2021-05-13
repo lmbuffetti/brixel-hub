@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  BrixelIcon,
   BrixelProgressBar,
   MultiFileldsReduxForm,
   initializeForm,
@@ -71,8 +70,6 @@ const GetStartedEstimation = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
-  const [isEnter, setIsEnter] = useState(true);
-  const [lastID, setLastID] = useState(0);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -119,18 +116,6 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
     }
   }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
-
-  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
-  useEffect(() => {
-    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-    if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
-      inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
-      changeFieldValue('inputSheet', inputSheet);
-    }
-    if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
-      changeStep();
-    }
-  }, [formValue]);
 
   const getCurrency = () => {
     const result = {};
@@ -184,7 +169,7 @@ const GetStartedEstimation = (props) => {
       redirectToUserFlow: false,
       createEstimation: true,
       company,
-      redirectToUrl: '/home',
+      redirectToUrl: '/sell',
       extraLoading: true,
     };
     data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');
@@ -296,7 +281,6 @@ const GetStartedEstimation = (props) => {
       // setPosition(newIndex);
       if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
       else {
-        setIsEnter(false);
         let newQuest = {
           ...questions[defId],
         };
@@ -333,6 +317,18 @@ const GetStartedEstimation = (props) => {
       }
     }
   };
+
+  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
+  useEffect(() => {
+    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+    if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
+      inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
+      changeFieldValue('inputSheet', inputSheet);
+    }
+    if (quest.inputs && quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
+      changeStep();
+    }
+  }, [formValue]);
 
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
@@ -395,7 +391,6 @@ const GetStartedEstimation = (props) => {
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
-    setIsEnter(true);
     if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
       const countryCodeLocation = get(formValue, 'location.countryCode', '');
       const countryCodeCompany = get(company, 'country.code', '');
@@ -419,16 +414,6 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
     }
   }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
-
-  // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
-  /* useEffect(() => {
-    let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
-    let bgSize = 500
-    bgSize = bgSize / roomValue;
-
-    setRoomValue(bgSize+ 'vw');
-
-  }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -459,7 +444,6 @@ const GetStartedEstimation = (props) => {
         }
         return null;
       });
-      setLastID(newQuest.length - 1);
       setQuestions(newQuest);
     }
   }, [formValue]);
@@ -576,11 +560,11 @@ const GetStartedEstimation = (props) => {
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+            <div ref={singleStepRef} className="singleStep pt-5 jc-c">
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && (
-                    <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
+                    <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap">
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
@@ -691,7 +675,7 @@ const GetStartedEstimation = (props) => {
                                 disabled={!checkValidateField()}
                                 rounded
                                 theme="green"
-                                themeSat="500"
+                                themeSat={500}
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
@@ -708,44 +692,7 @@ const GetStartedEstimation = (props) => {
           }
         </form>
       </div>
-      {/* signup flow */}
-      {/* {
-        questions[currentIndex].effect === 'slideUp' && (
-          <div className="signUpContainer">
-            {
-              questions[currentIndex] && questions[currentIndex].inputs && (
-                <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
-                  {
-                    questions[currentIndex].titleGreen && (
-                      <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
-                    )
-                  }
-                  {
-                    questions[currentIndex].title && (
-                      <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
-                    )
-                  }
-                  {
-                    questions[currentIndex].subtitle && (
-                      <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
-                  }
-                  <MultiFileldsReduxForm
-                    form="GetStarted"
-                    disableNextBtn={false}
-                    formValue={formValue}
-                    inputs={questions[currentIndex].inputs}
-                    onSubmit={() => changeStep()}
-                    onCloseGoBack={() => changeStep('back')}
-                    onClickDisabled={!checkValidateField()}
-                    showSendButton
-                    showErrors
-                  />
-                </div>
-              )
-            }
-          </div>
-        )
-      } */}
+
     </div>
   );
 };

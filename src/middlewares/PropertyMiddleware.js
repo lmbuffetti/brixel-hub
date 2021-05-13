@@ -52,8 +52,11 @@ import {
   SET_SPLASH_TYPE,
   SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
-import { cutValue, roundFifty, roundFiveThousand } from '../utils/helpers';
+import {
+  cutValue, roundFifty, roundFiveThousand,
+} from '../utils/helpers';
 import { properties } from '../resources/localData/properties';
+
 // import { pageContent } from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {
@@ -97,7 +100,7 @@ const checkCommon = (store) => (next) => (action) => {
           } else if (redirectToUrl) {
             window.location.href = redirectToUrl;
           } else if (redirectToHome) {
-            window.location.href = `/${res.data.id}/home`;
+            window.location.href = `/${res.data.id}/sell`;
           } else if (redirectToRewards) {
             window.location.href = `/${res.data.id}/rewards`;
           } else if (redirectToUserFlow) {
@@ -185,7 +188,7 @@ const checkCommon = (store) => (next) => (action) => {
               store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             }
             if (redirectToHome) {
-              window.location.href = `/${res.data.id}/home`;
+              window.location.href = `/${res.data.id}/sell`;
             }
           }
         });
@@ -227,6 +230,9 @@ const checkCommon = (store) => (next) => (action) => {
       const apiEndPoint = (data) => (fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data));
       apiEndPoint(action.payload.id)
         .then((res) => {
+          if (get(res, 'data.statusCode', null)) {
+            window.location.href = '/sell';
+          }
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
@@ -238,11 +244,7 @@ const checkCommon = (store) => (next) => (action) => {
         .catch(() => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
           else store.dispatch({ type: SPINNER_OFF });
-          if (window.location.href.includes('localhost')) {
-            // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: pageContent });
-          }
-          if (multiLoader) store.dispatch({ type: SPINNER_OFF });
-          // window.location.href = `/`;
+          window.location.href = '/sell';
         });
       break;
     }
@@ -259,7 +261,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (res.data[0].id) {
               store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
             } else {
-              window.location.href = '/home';
+              window.location.href = '/sell';
             }
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data || {} });
@@ -277,7 +279,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (setAsSingle) {
             store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: { } });
-            window.location.href = '/home';
+            window.location.href = '/sell';
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
           }

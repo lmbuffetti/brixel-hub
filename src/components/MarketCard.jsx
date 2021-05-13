@@ -37,6 +37,7 @@ const MarketCard = (props) => {
     handleSetActiveMarketOverlayPropertyLists,
     history,
     item,
+    layout,
     newProperties,
     onSetActiveProperty,
     preventClick,
@@ -214,7 +215,7 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius px-1 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
+        className={`market-card ov-h cur-poi h-perc-100 ${layout === 'singleOwnCard' ? 'px-0' : 'px-1'} ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
         onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         {
@@ -223,7 +224,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius mb-1 h-fix-208 w-perc-100 w-fix-sm-208`}
+                  className={`${isPreMarket ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius h-fix-208 w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-304 mb-1 mb-sm-0' : 'w-fix-sm-208 mb-1'}`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={(e) => openCard(e)}
@@ -247,8 +248,8 @@ const MarketCard = (props) => {
               </>
               <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
                 <div className="top dis-fl-col notranslate" onClick={(e) => openCard(e)}>
-                  <h6 className="fweight-700 fsize-400 mb-small-4 txtDark700 ellipsis one w-perc-100 max-w-fix-496">{get(item, 'title', '')}</h6>
-                  <span className="fsize-300 txtDark700 mb-1">
+                  <h6 className="fweight-700 fsize-400 mb-small-4 txtDark700 ellipsis one w-perc-100 max-w-fix-496 ta-l">{get(item, 'title', '')}</h6>
+                  <span className="fsize-300 txtDark700 mb-1 ta-l">
                     {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                     {
                       get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -264,9 +265,11 @@ const MarketCard = (props) => {
                   onClick={(e) => openCard(e)}
                 >
                   <div className="dis-f a-c flex-wrap">
-                    <span>
-                      {get(item, 'properties.propertyType', '')}
-                    </span>
+                    <div className="div pt-small-2">
+                      <span>
+                        {get(item, 'properties.propertyType', '')}
+                      </span>
+                    </div>
                     <div>
                       <span className="px-1 notranslate"> &middot; </span>
                       <span>
@@ -439,9 +442,11 @@ const MarketCard = (props) => {
                 </div>
                 <div className="mid dis-fl-row a-c fsize-300 pt-1 txtDark400">
                   <div className="dis-f a-c flex-wrap">
-                    <span>
-                      {get(item, 'properties.propertyType', '')}
-                    </span>
+                    <div className="div pt-small-2">
+                      <span>
+                        {get(item, 'properties.propertyType', '')}
+                      </span>
+                    </div>
                     <div className="notranslate">
                       <span className="px-1 notranslate"> &middot; </span>
                       <span>
@@ -500,6 +505,7 @@ MarketCard.propTypes = {
   handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   item: PropTypes.object,
+  layout: PropTypes.string,
   newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,
@@ -515,6 +521,7 @@ MarketCard.propTypes = {
 MarketCard.defaultProps = {
   item: null,
   onSetActiveProperty: () => '',
+  layout: null,
   preventClick: false,
   type: '',
 };
