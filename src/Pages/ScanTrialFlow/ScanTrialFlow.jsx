@@ -106,7 +106,7 @@ const ScanTrialFlow = (props) => {
 
   // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act, condition) => {
-    const el = document.getElementById('scrollEl');
+    const el = document.getElementsByClassName('singleStep')[0];
     el.scrollTo({
       top: 0,
       left: 0,
