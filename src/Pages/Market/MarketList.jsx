@@ -296,6 +296,7 @@ const MarketList = (props) => {
                     <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
                     <span className="fsize-300"><span>There are </span> <span className="fweight-600 notranslate"> {getTotal() ? getTotal() : '-'}</span> <span className="fweight-600">properties</span> <span>available</span></span>
                   </div>
+                  {get(loggedInUser, 'company.stub', '')}
                   <BrixelButtonText
                     className="fsize-300 show-all pos-r"
                     label="+ Add new"

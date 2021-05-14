@@ -70,4 +70,5 @@ export const {
   [VALIDATE_USER]: (payload) => payload,
   [ADD_NOT_INTERESTED]: (payload) => payload,
   [REMOVE_NOT_INTERESTED]: (payload) => payload,
+  [RECOVER_PASSWORD]: (payload) => payload,
 });
