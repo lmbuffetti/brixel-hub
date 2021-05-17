@@ -336,6 +336,7 @@ const MarketList = (props) => {
                */
             }
           </div>
+
           {
             propertyListings.map((page, i) => (
               <MarketCardMap
