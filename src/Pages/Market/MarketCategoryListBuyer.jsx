@@ -33,7 +33,6 @@ const MarketCategoryListBuyer = (props) => {
     loggedInUser,
     match,
     newProperties,
-    ownerProperties,
     preMarketProperties,
     premiumProperties,
     setSplashScreen,
@@ -47,7 +46,7 @@ const MarketCategoryListBuyer = (props) => {
     if (getCookie('brixelSplashHome') === 'buyerWelcome') {
       setSplashScreen('buyerWelcome');
     }
-  }, [getCookie('brixelSplashHome'), ownerProperties]);
+  }, [getCookie('brixelSplashHome')]);
 
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);

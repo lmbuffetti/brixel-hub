@@ -104,6 +104,7 @@ MarketBuyer.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 

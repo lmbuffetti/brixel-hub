@@ -89,7 +89,6 @@ const MarketList = (props) => {
           break;
         }
         case 'favorites': {
-          console.log(itemsPerPage, currentPage, sortOrderType, sortDirection, loggedInUser, userSearchProfiles);
           handleGetFavoritesProperties(data);
           break;
         }
