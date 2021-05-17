@@ -233,6 +233,14 @@ const checkLead = (store) => (next) => (action) => {
     }
     case GET_PREMIUM_PROPERTIES: {
       next(action);
+      const {
+        allCountry,
+        direction,
+        offset,
+        order,
+        resultsPerPage,
+        searchProfileId,
+      } = action.payload;
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.favorite = 'CardImageTextVertical';
       store.dispatch({
@@ -241,9 +249,10 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
-      if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
-      api.market.getPremiumProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
+      let queryParams = `?order=${order}&direction=${direction}`;
+      if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
+      if (allCountry) queryParams += 'allCountry=true';
+      api.market.getPremiumProperties(resultsPerPage, offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMIUM_PROPERTIES, payload: res.data });
