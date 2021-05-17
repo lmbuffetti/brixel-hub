@@ -50,7 +50,6 @@ const MarketCard = (props) => {
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
-  const [isPreMarket, setIsPreMarket] = useState(false);
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
@@ -59,15 +58,7 @@ const MarketCard = (props) => {
     }
   }, [skeleton, coverImgLoaded]);
 
-  useEffect(() => {
-    if (get(item, 'tags', []).length > 0) {
-      item.tags.forEach((tag) => {
-        if (tag.toLowerCase() === 'pre-market') {
-          setIsPreMarket(true);
-        }
-      });
-    }
-  }, [get(item, 'tags', [])]);
+  const isPreMarket = () => get(item, 'tags', []).includes('pre-market');
 
   // Process tags
   useEffect(() => {
@@ -222,7 +213,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius h-fix-208 w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-304 mb-1 mb-sm-0' : 'w-fix-sm-208 mb-1'}`}
+                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius h-fix-208 w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-304 mb-1 mb-sm-0' : 'w-fix-sm-208 mb-1'}`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={(e) => openCard(e)}
@@ -392,7 +383,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />
