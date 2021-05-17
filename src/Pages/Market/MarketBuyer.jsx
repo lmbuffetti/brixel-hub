@@ -81,7 +81,7 @@ const MarketBuyer = (props) => {
       handleGetPremiumProperties(data);
       handleSpinnerOff();
     }
-  }, [userSearchProfiles]);
+  }, [get(userSearchProfiles, '[0].id', null)]);
 
   return (
     <div className="market-container container" id="market">
@@ -138,9 +138,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export const MarketBuyerMemo = React.memo(MarketBuyer, (prevProps, nextProps) => {
-  const favProp = diff(prevProps, nextProps);
+  const diffProps = diff(prevProps, nextProps);
   return (
-    Object.keys(favProp).length > 0
+    Object.keys(diffProps).length === 0
   );
 });
 

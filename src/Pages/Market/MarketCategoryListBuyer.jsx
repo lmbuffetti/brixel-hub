@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -59,17 +59,46 @@ const MarketCategoryListBuyer = (props) => {
     if (scrollEl) scrollEl.scrollTop = 0;
   };
 
-  const selectMobileFilter = (e, value) => {
-    if (e) e.preventDefault();
-    history.push(`${match.url}/${value}`);
-  };
-
   useEffect(() => {
     const catList = document.getElementsByClassName('market-container')[0];
     if (catList) catList.classList.add('market-listings');
     return () => {
       if (catList) catList.classList.remove('market-listings');
     };
+  }, []);
+
+  const showAll = useCallback((e, type) => {
+    const baseUrl = match.url.includes('sell') ? 'sell' : 'buy';
+    if (e) e.preventDefault();
+    switch (type) {
+      case 'own': {
+        history.push(`/${baseUrl}/own`);
+        break;
+      }
+      case 'favorite': {
+        history.push(`/${baseUrl}/favorites`);
+        break;
+      }
+      case 'new': {
+        history.push(`/${baseUrl}/radar`);
+        break;
+      }
+      case 'premium': {
+        history.push(`/${baseUrl}/premium`);
+        break;
+      }
+      case 'preMarket': {
+        history.push(`/${baseUrl}/preMarket`);
+        break;
+      }
+      case 'allMap': {
+        history.push({ pathname: `/${baseUrl}/all`, state: 'showMap' });
+        break;
+      }
+      default:
+        history.push(`/${baseUrl}/all`);
+    }
+    scrollToTopEdit();
   }, []);
 
   return (
@@ -237,19 +266,13 @@ const MarketCategoryListBuyer = (props) => {
                     label: 'Premium properties',
                     value: 'premium',
                   }]}
-                  onSelect={(e, value) => {
-                    scrollToTopEdit();
-                    selectMobileFilter(e, value.value);
-                  }}
+                  onSelect={(e, value) => showAll(e, value.value)}
                 />
               ) : (
                 <>
                   <div className="dis-fl-row flex-wrap">
                     <BrixelButtonSecondary
-                      onClick={() => {
-                        history.push(`${match.url}/all`);
-                        scrollToTopEdit();
-                      }}
+                      onClick={() => showAll('all')}
                       label="All"
                       rounded
                       theme="light"
@@ -275,10 +298,7 @@ const MarketCategoryListBuyer = (props) => {
                     {
                       get(favoritesProperties, 'total', 0) > 0 && (
                         <BrixelButtonSecondary
-                          onClick={() => {
-                            history.push(`${match.url}/favorites`);
-                            scrollToTopEdit();
-                          }}
+                          onClick={(e, value) => showAll(e, 'favorites')}
                           label="Your favorites"
                           rounded
                           theme="light"
@@ -290,10 +310,7 @@ const MarketCategoryListBuyer = (props) => {
                     {
                       get(newProperties, 'total', 0) > 0 && (
                         <BrixelButtonSecondary
-                          onClick={() => {
-                            history.push(`${match.url}/radar`);
-                            scrollToTopEdit();
-                          }}
+                          onClick={(e, value) => showAll(e, 'radar')}
                           label="New in your radar"
                           rounded
                           theme="light"
@@ -305,10 +322,7 @@ const MarketCategoryListBuyer = (props) => {
                     {
                       get(preMarketProperties, 'total', 0) > 0 && (
                         <BrixelButtonSecondary
-                          onClick={() => {
-                            history.push(`${match.url}/preMarket`);
-                            scrollToTopEdit();
-                          }}
+                          onClick={(e, value) => showAll(e, 'preMarket')}
                           label="Pre-market properties"
                           rounded
                           theme="light"
@@ -320,10 +334,7 @@ const MarketCategoryListBuyer = (props) => {
                     {
                       get(premiumProperties, 'total', 0) > 0 && (
                         <BrixelButtonSecondary
-                          onClick={() => {
-                            history.push(`${match.url}/premium`);
-                            scrollToTopEdit();
-                          }}
+                          onClick={(e, value) => showAll(e, 'premium')}
                           label="Premium properties"
                           rounded
                           theme="light"
@@ -340,10 +351,7 @@ const MarketCategoryListBuyer = (props) => {
             {
               get(preMarketProperties, 'total', 0) > 0 && (
                 <BrixelButtonSecondary
-                  onClick={() => {
-                    history.push({ pathname: `${match.url}/all`, state: 'showMap' });
-                    scrollToTopEdit();
-                  }}
+                  onClick={() => showAll('allMap')}
                   label="Show map"
                   rounded
                   theme="light"
