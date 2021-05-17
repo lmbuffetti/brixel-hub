@@ -179,7 +179,7 @@ const LoginSignup = (props) => {
                       <p className="txtDark700">
                         <span>Already have an account?</span>
                         <span>&nbsp;</span>
-                        <span className="cur-poi td-u" onClick={() => changeScreen('login')}>
+                        <span className="cur-poi td-u txtPrimary400" onClick={() => changeScreen('login')}>
                           <span>Login here</span>
                         </span>
                       </p>
@@ -190,7 +190,7 @@ const LoginSignup = (props) => {
                       <p className="txtDark700">
                         <span>Login or create profile&nbsp;</span>
                         <span
-                          className="cur-poi td-u"
+                          className="cur-poi td-u txtPrimary400"
                           onClick={() => changeScreen('register')}
                         >
                           <span>here</span>
