@@ -298,7 +298,7 @@ const MarketCategoryListBuyer = (props) => {
                     {
                       get(favoritesProperties, 'total', 0) > 0 && (
                         <BrixelButtonSecondary
-                          onClick={(e, value) => showAll(e, 'favorites')}
+                          onClick={(e) => showAll(e, 'favorites')}
                           label="Your favorites"
                           rounded
                           theme="light"
@@ -310,7 +310,7 @@ const MarketCategoryListBuyer = (props) => {
                     {
                       get(newProperties, 'total', 0) > 0 && (
                         <BrixelButtonSecondary
-                          onClick={(e, value) => showAll(e, 'radar')}
+                          onClick={(e) => showAll(e, 'radar')}
                           label="New in your radar"
                           rounded
                           theme="light"
@@ -322,7 +322,7 @@ const MarketCategoryListBuyer = (props) => {
                     {
                       get(preMarketProperties, 'total', 0) > 0 && (
                         <BrixelButtonSecondary
-                          onClick={(e, value) => showAll(e, 'preMarket')}
+                          onClick={(e) => showAll(e, 'preMarket')}
                           label="Pre-market properties"
                           rounded
                           theme="light"
@@ -334,7 +334,7 @@ const MarketCategoryListBuyer = (props) => {
                     {
                       get(premiumProperties, 'total', 0) > 0 && (
                         <BrixelButtonSecondary
-                          onClick={(e, value) => showAll(e, 'premium')}
+                          onClick={(e) => showAll(e, 'premium')}
                           label="Premium properties"
                           rounded
                           theme="light"
@@ -351,7 +351,7 @@ const MarketCategoryListBuyer = (props) => {
             {
               get(preMarketProperties, 'total', 0) > 0 && (
                 <BrixelButtonSecondary
-                  onClick={() => showAll('allMap')}
+                  onClick={(e) => showAll(e, 'allMap')}
                   label="Show map"
                   rounded
                   theme="light"
