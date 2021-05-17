@@ -251,7 +251,7 @@ const checkLead = (store) => (next) => (action) => {
       });
       let queryParams = `?order=${order}&direction=${direction}`;
       if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
-      if (allCountry) queryParams += 'allCountry=true';
+      if (allCountry) queryParams += '&allCountry=true';
       api.market.getPremiumProperties(resultsPerPage, offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
