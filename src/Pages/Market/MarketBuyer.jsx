@@ -9,6 +9,7 @@ import Loadable from 'react-loadable';
 import {
   destroy,
 } from '@brixel/brixel-components';
+import { diff } from 'deep-object-diff';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,
   getPremiumProperties, getPremarketProperties, getLastViewedProperties,
@@ -40,8 +41,11 @@ const MarketBuyer = (props) => {
     handleSpinnerOff,
     history,
     loggedInUser,
+    match,
     userSearchProfiles,
   } = props;
+  // URL PARAMS
+  const catName = get(match, 'params.cat', null);
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
@@ -55,11 +59,11 @@ const MarketBuyer = (props) => {
         setAsSingle: true,
         multiLoader: true,
       };
-      handleGetFavoritesProperties(data);
+      if (!catName) handleGetFavoritesProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
       handleSpinnerOff();
     }
-  }, [loggedInUser]);
+  }, [loggedInUser.id]);
 
   useEffect(() => {
     if (userSearchProfiles) {
@@ -132,7 +136,14 @@ const mapDispatchToProps = (dispatch) => ({
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
+export const MarketBuyerMemo = React.memo(MarketBuyer, (prevProps, nextProps) => {
+  const favProp = diff(prevProps, nextProps);
+  return (
+    Object.keys(favProp).length > 0
+  );
+});
+
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(MarketBuyer);
+)(MarketBuyerMemo);

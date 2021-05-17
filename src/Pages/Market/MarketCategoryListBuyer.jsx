@@ -429,7 +429,6 @@ MarketCategoryListBuyer.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   newProperties: PropTypes.object.isRequired,
-  ownerProperties: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
