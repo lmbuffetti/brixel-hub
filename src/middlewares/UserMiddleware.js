@@ -180,7 +180,7 @@ const checkUser = (store) => (next) => (action) => {
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
       else store.dispatch({ type: SPINNER_ON });
       api.user.recoverPassword(email)
-        .then((res) => {
+        .then(() => {
           const feedbackMessage = 'If you have an account with us, check your mailbox for the new password!';
           const alertProps = {
             label: feedbackMessage,

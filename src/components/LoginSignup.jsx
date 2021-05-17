@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonSecondary, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, ReduxField, Validation, BrixelInputText, BrixelReset,
+  BrixelButtonSecondary, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -29,7 +29,6 @@ const LoginSignup = (props) => {
     isSmallLoading,
     onChangeLogin,
     onDisableValidation,
-    lang,
     loggedInUser,
     notification,
     onSubmit,
@@ -37,7 +36,6 @@ const LoginSignup = (props) => {
   // STATE
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
-  const [resetEmailError, setResetEmailError] = useState(false);
 
   useEffect(() => {
     onDisableValidation(true);
@@ -75,11 +73,7 @@ const LoginSignup = (props) => {
     });
     if (loginPage === 'reset') {
       const email = get(formValue, 'login.email', null);
-      if (Validation.isEmail(email) !== true || Validation.required(email) !== true) {
-        setResetEmailError(true);
-      } else {
-        console.log('form');
-        setResetEmailError(false);
+      if (Validation.isEmail(email) === true && Validation.required(email) === true) {
         handleRecoverPassword({
           email,
           smallLoader: 'recoverPassword',
@@ -374,23 +368,23 @@ const LoginSignup = (props) => {
 };
 
 LoginSignup.propTypes = {
-  company: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formError: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
   formName: PropTypes.string.isRequired,
-  handleSetFormError: PropTypes.func.isRequired,
+  formValue: PropTypes.object.isRequired,
   handleRecoverPassword: PropTypes.func.isRequired,
-  lang: PropTypes.string,
+  handleSetFormError: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  onDisableValidation: PropTypes.func,
+  notification: PropTypes.object.isRequired,
   onChangeLogin: PropTypes.func,
+  onDisableValidation: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
 LoginSignup.defaultProps = {
-  lang: 'en',
   onChangeLogin: () => '',
   onDisableValidation: () => '',
   onSubmit: () => '',

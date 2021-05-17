@@ -226,7 +226,6 @@ const MarketCategoryListSeller = (props) => {
               {
                 !has(bestimate, 'higherValue') && (
                   <>
-                    eh
                     <Loading isLoading />
                   </>
                 )
