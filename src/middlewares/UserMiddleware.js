@@ -19,6 +19,7 @@ import {
   UPDATE_FAVORITE,
   ADD_NOT_INTERESTED,
   REMOVE_NOT_INTERESTED,
+  RECOVER_PASSWORD,
 } from '../actions/types/UserTypes';
 
 import {
@@ -28,6 +29,7 @@ import {
   SPINNER_SMALL_OFF,
   REDIRECT_TO,
   SET_FORM_ERROR,
+  SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 
 import { UPDATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
@@ -165,6 +167,28 @@ const checkUser = (store) => (next) => (action) => {
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
           if (extraLoading) store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
+    // RESET PASSWORD
+    case RECOVER_PASSWORD: {
+      next(action);
+      const {
+        email,
+        smallLoader,
+      } = action.payload;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
+      else store.dispatch({ type: SPINNER_ON });
+      api.user.recoverPassword(email)
+        .then(() => {
+          const feedbackMessage = 'If you have an account with us, check your mailbox for the new password!';
+          const alertProps = {
+            label: feedbackMessage,
+            type: 'success',
+          };
+          store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }

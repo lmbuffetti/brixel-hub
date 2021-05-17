@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonSecondary, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change,
+  BrixelButtonSecondary, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setFormError } from '../actions/CommonActions';
-import { translateTo } from '../utils/translation';
+import { recoverPassword } from '../actions/UserActions';
 import Support from './Support';
 import Accordion from './Accordion';
 
@@ -24,11 +24,13 @@ const LoginSignup = (props) => {
     formError,
     formName,
     formValue,
+    handleRecoverPassword,
     handleSetFormError,
+    isSmallLoading,
     onChangeLogin,
     onDisableValidation,
-    lang,
     loggedInUser,
+    notification,
     onSubmit,
   } = props;
   // STATE
@@ -69,7 +71,15 @@ const LoginSignup = (props) => {
         isValid = false;
       }
     });
-    if (isValid) {
+    if (loginPage === 'reset') {
+      const email = get(formValue, 'login.email', null);
+      if (Validation.isEmail(email) === true && Validation.required(email) === true) {
+        handleRecoverPassword({
+          email,
+          smallLoader: 'recoverPassword',
+        });
+      }
+    } else if (isValid) {
       setShowErrors(false);
       onSubmit();
     }
@@ -120,6 +130,11 @@ const LoginSignup = (props) => {
           action: () => onSubmitForm(),
           label: 'Login',
         };
+      case 'reset':
+        return {
+          action: () => onSubmitForm(),
+          label: 'Reset Password',
+        };
       default:
         return {
           action: () => onSubmitForm(),
@@ -156,11 +171,11 @@ const LoginSignup = (props) => {
           } */}
 
           {
-            (loginPage === 'register' || loginPage === 'login') && (
+            (loginPage === 'register' || loginPage === 'login' || loginPage === 'reset') && (
               <>
                 <div className="topBar fsize-400 bgLight200 p-2 ta-c">
                   {
-                    loginPage === 'register' && (
+                    (loginPage === 'register' || loginPage === 'reset') && (
                       <p className="txtDark700">
                         <span>Already have an account?</span>
                         <span>&nbsp;</span>
@@ -197,14 +212,10 @@ const LoginSignup = (props) => {
                         }
                         <BrixelLogin company={company} formName="GetStarted" showErrors={showErrors} />
                         <p className="mt-1">
-                          <a
-                            className="txtWhite td-u cur-poi link"
-                            href={`${baseByData.loginBasePath}/recover`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {translateTo(lang, 'Forgot password?')}
-                          </a>
+                          <BrixelButtonText
+                            label="Forgot password?"
+                            onClick={() => changeScreen('reset')}
+                          />
                         </p>
                       </>
                     )
@@ -227,6 +238,27 @@ const LoginSignup = (props) => {
                           showErrors={showErrors}
                           // validateEmail
                         />
+                      </>
+                    )
+                  }
+                  {
+                    loginPage === 'reset' && (
+                      <>
+                        {
+                          get(formError, 'state', false) && (
+                            <p className="txtRed400">
+                              {get(formError, 'message', '')}
+                            </p>
+                          )
+                        }
+                        <BrixelReset company={company} formName="GetStarted" showErrors={showErrors} />
+                        {
+                          notification.label && (
+                            <p className="fsize-300 mt-1">
+                              {notification.label}
+                            </p>
+                          )
+                        }
                       </>
                     )
                   }
@@ -292,6 +324,7 @@ const LoginSignup = (props) => {
               className="mr-sm-a ml-sm-a"
               label={PrimaryButton().label}
               onClick={PrimaryButton().action}
+              isLoading={isSmallLoading === 'recoverPassword'}
             />
           </div>
         </div>
@@ -335,22 +368,23 @@ const LoginSignup = (props) => {
 };
 
 LoginSignup.propTypes = {
-  company: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formError: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
   formName: PropTypes.string.isRequired,
+  formValue: PropTypes.object.isRequired,
+  handleRecoverPassword: PropTypes.func.isRequired,
   handleSetFormError: PropTypes.func.isRequired,
-  lang: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  onDisableValidation: PropTypes.func,
+  notification: PropTypes.object.isRequired,
   onChangeLogin: PropTypes.func,
+  onDisableValidation: PropTypes.func,
   onSubmit: PropTypes.func,
 };
 
 LoginSignup.defaultProps = {
-  lang: 'en',
   onChangeLogin: () => '',
   onDisableValidation: () => '',
   onSubmit: () => '',
@@ -361,8 +395,10 @@ const mapStateToProps = (state, props) => ({
   formError: get(state, 'common.formError', {}),
   errorValue: get(state, `brixelForm.${props.formName}.syncErrors`, {}),
   formValue: get(state, `brixelForm.${props.formName}.values`, {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', ''),
   lang: get(state, 'common.language', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  notification: get(state, 'common.notification', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -370,6 +406,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change(formName, field, value));
   },
   handleSetFormError: bindActionCreators(setFormError, dispatch),
+  handleRecoverPassword: bindActionCreators(recoverPassword, dispatch),
 });
 
 export default compose(
