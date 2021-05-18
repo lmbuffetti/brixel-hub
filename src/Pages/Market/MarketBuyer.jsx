@@ -9,6 +9,7 @@ import Loadable from 'react-loadable';
 import {
   destroy,
 } from '@brixel/brixel-components';
+import { diff } from 'deep-object-diff';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,
   getPremiumProperties, getPremarketProperties, getLastViewedProperties,
@@ -40,8 +41,11 @@ const MarketBuyer = (props) => {
     handleSpinnerOff,
     history,
     loggedInUser,
+    match,
     userSearchProfiles,
   } = props;
+  // URL PARAMS
+  const catName = get(match, 'params.cat', null);
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
@@ -55,14 +59,14 @@ const MarketBuyer = (props) => {
         setAsSingle: true,
         multiLoader: true,
       };
-      handleGetFavoritesProperties(data);
+      if (!catName) handleGetFavoritesProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
       handleSpinnerOff();
     }
-  }, [loggedInUser]);
+  }, [loggedInUser.id]);
 
   useEffect(() => {
-    if (userSearchProfiles) {
+    if (userSearchProfiles !== null) {
       const data = {
         resultsPerPage: 10,
         offset: 0,
@@ -70,7 +74,7 @@ const MarketBuyer = (props) => {
         direction: 'DESC',
         setAsSingle: true,
         multiLoader: true,
-        searchProfileId: get(userSearchProfiles[0], 'id', null),
+        searchProfileId: get(userSearchProfiles, '[0].id', null),
       };
       handleGetNewProperties(data);
       handleGetPreMarketProperties(data);
@@ -100,6 +104,7 @@ MarketBuyer.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -132,7 +137,14 @@ const mapDispatchToProps = (dispatch) => ({
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
+export const MarketBuyerMemo = React.memo(MarketBuyer, (prevProps, nextProps) => {
+  const diffProps = diff(prevProps, nextProps);
+  return (
+    Object.keys(diffProps).length === 0
+  );
+});
+
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(MarketBuyer);
+)(MarketBuyerMemo);

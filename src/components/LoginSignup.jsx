@@ -179,7 +179,7 @@ const LoginSignup = (props) => {
                       <p className="txtDark700">
                         <span>Already have an account?</span>
                         <span>&nbsp;</span>
-                        <span className="cur-poi td-u" onClick={() => changeScreen('login')}>
+                        <span className="cur-poi td-u txtPrimary400" onClick={() => changeScreen('login')}>
                           <span>Login here</span>
                         </span>
                       </p>
@@ -188,12 +188,12 @@ const LoginSignup = (props) => {
                   {
                     loginPage === 'login' && (
                       <p className="txtDark700">
-                        <span>Login or create profile&nbsp;</span>
+                        <span>Login or&nbsp;</span>
                         <span
-                          className="cur-poi td-u"
+                          className="cur-poi td-u txtPrimary400"
                           onClick={() => changeScreen('register')}
                         >
-                          <span>here</span>
+                          <span>create profile here</span>
                         </span>
                       </p>
                     )
@@ -243,7 +243,7 @@ const LoginSignup = (props) => {
                   }
                   {
                     loginPage === 'reset' && (
-                      <>
+                      <div className="mb-3">
                         {
                           get(formError, 'state', false) && (
                             <p className="txtRed400">
@@ -251,7 +251,11 @@ const LoginSignup = (props) => {
                             </p>
                           )
                         }
-                        <BrixelReset company={company} formName="GetStarted" showErrors={showErrors} />
+                        <BrixelReset
+                          company={company}
+                          formName="GetStarted"
+                          showErrors={showErrors}
+                        />
                         {
                           notification.label && (
                             <p className="fsize-300 mt-1">
@@ -259,7 +263,7 @@ const LoginSignup = (props) => {
                             </p>
                           )
                         }
-                      </>
+                      </div>
                     )
                   }
                 </div>
@@ -308,20 +312,24 @@ const LoginSignup = (props) => {
           }
         </div>
         <div className="footerActionLogin">
-          <div className="dis-fl-col col-reverse dis-fl-row-sm a-c jc-c my-3 pos-r">
-            <BrixelButtonSecondary
-              className="pos-a-fix-sm x-l-0 mt-2 mt-sm-0"
-              bgTransparent
-              rounded
-              theme="white"
-              label={TertiaryButton().label}
-              onClick={TertiaryButton().action}
-            />
+          <div className={`dis-fl-col col-reverse dis-fl-row-sm a-c ${loginPage === 'register' ? 'jc-c' : 'jc-fs'} my-3 pos-r`}>
+            {
+              loginPage === 'register' && (
+                <BrixelButtonSecondary
+                  className="pos-a-fix-sm x-l-0 mt-2 mt-sm-0"
+                  bgTransparent
+                  rounded
+                  theme="white"
+                  label={TertiaryButton().label}
+                  onClick={TertiaryButton().action}
+                />
+              )
+            }
             <BrixelButtonPrimary
               rounded
               rightIcon="arrow-right-small"
               theme="red"
-              className="mr-sm-a ml-sm-a"
+              className={loginPage === 'register' ? 'mr-sm-a ml-sm-a' : 'ml-sm-a'}
               label={PrimaryButton().label}
               onClick={PrimaryButton().action}
               isLoading={isSmallLoading === 'recoverPassword'}

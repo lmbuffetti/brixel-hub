@@ -46,7 +46,6 @@ const MarketCard = (props) => {
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
-  const [isPreMarket, setIsPreMarket] = useState(false);
   const [fullScreenCard, setFullScreenCard] = useState(fullCard);
   const [mapFormatStyle, setMapFormatStyle] = useState({ });
 
@@ -58,13 +57,6 @@ const MarketCard = (props) => {
   }, [skeleton, coverImgLoaded]);
 
   useEffect(() => {
-    if (get(item, 'tags', []).length > 0) {
-      item.tags.forEach((tag) => {
-        if (tag === 'pre-market') {
-          setIsPreMarket(true);
-        }
-      });
-    }
     let style = '';
     mapStyles.map((mapitem) => {
       Object.keys(mapitem).map((subitem) => {
@@ -93,6 +85,8 @@ const MarketCard = (props) => {
       // merged: res.data,
     });
   }, []);
+
+  const isPreMarket = () => get(item, 'tags', []).includes('pre-market');
 
   // Process tags
   useEffect(() => {
@@ -168,7 +162,7 @@ const MarketCard = (props) => {
           <div className="pos-r">
             <CoverPropertyImage
               loadedImg={(val) => setCoverImgLoaded(val)}
-              className={`${isPreMarket ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 pos-r ${fullScreenCard ? 'h-fix-224 h-fix-sm-344 h-fix-md-488' : 'h-fix-224'} ${!fullScreenCard && item.id === get(propertyList, `[${activeIndex}].id`, null) ? 'cur-poi' : ''}`}
+              className={`${isPreMarket() ? 'pre-market' : ''} cover brdRadius mb-2 w-perc-100 pos-r ${fullScreenCard ? 'h-fix-224 h-fix-sm-344 h-fix-md-488' : 'h-fix-224'} ${!fullScreenCard && item.id === get(propertyList, `[${activeIndex}].id`, null) ? 'cur-poi' : ''}`}
               coverPhoto={get(item, 'coverPhoto.bigPath', undefined)}
               propertyType={get(item, 'properties.propertyType', undefined)}
               onClick={() => (!fullScreenCard ? openDetailCard() : '')}

@@ -115,7 +115,7 @@ const MarketList = (props) => {
           history.push('./');
       }
     }
-  }, [itemsPerPage, currentPage, sortOrderType, sortDirection, loggedInUser, userSearchProfiles]);
+  }, [itemsPerPage, currentPage, sortOrderType, sortDirection, get(loggedInUser, 'id', null), get(userSearchProfiles, '[0].id', null)]);
 
   // eslint-disable-next-line max-params
   const updatePagination = (resultsPerPage, pageNumber, type, direction) => {
@@ -296,7 +296,6 @@ const MarketList = (props) => {
                     <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
                     <span className="fsize-300"><span>There are </span> <span className="fweight-600 notranslate"> {getTotal() ? getTotal() : '-'}</span> <span className="fweight-600">properties</span> <span>available</span></span>
                   </div>
-                  {get(loggedInUser, 'company.stub', '')}
                   <BrixelButtonText
                     className="fsize-300 show-all pos-r"
                     label="+ Add new"
@@ -337,6 +336,7 @@ const MarketList = (props) => {
                */
             }
           </div>
+
           {
             propertyListings.map((page, i) => (
               <MarketCardMap

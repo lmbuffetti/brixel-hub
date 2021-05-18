@@ -129,21 +129,25 @@ const MarkerComponent = (props) => {
           if (price > 0) price = cutValue(get(item, 'price.total', 0));
           else price = 'On request';
           const paras = document.getElementsByClassName('labelMarker');
-          while (paras[0]) {
-            paras[0].parentNode.removeChild(paras[0]);
+          if (paras) {
+            [...paras].forEach((el) => {
+              if (el) {
+                el.parentNode.removeChild(el);
+              }
+            });
           }
           markers[item.id] = new MarkerWithLabel({
             page: item,
             id: item.id,
             map: optMap,
             icon: {
-              url: '',
+              url: 'empty',
             },
             labelContent: `<p>${price.toString()}</p>`,
             // the CSS class for the label
             labelClass: `${activeProperty === item.id || selMarker === item.id ? 'labelMarker active' : 'labelMarker'} ${item.id}`,
             labelInBackground: true,
-            labelAnchor: new google.maps.Point(-75, -45),
+            // labelAnchor: new google.maps.Point(-75, -45),
             position: {
               lat: get(item, 'location.latitude', 200),
               lng: get(item, 'location.longitude', 200),
