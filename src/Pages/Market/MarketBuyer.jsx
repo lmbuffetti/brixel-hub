@@ -66,7 +66,7 @@ const MarketBuyer = (props) => {
   }, [loggedInUser.id]);
 
   useEffect(() => {
-    if (userSearchProfiles) {
+    if (userSearchProfiles !== null) {
       const data = {
         resultsPerPage: 10,
         offset: 0,
@@ -74,14 +74,14 @@ const MarketBuyer = (props) => {
         direction: 'DESC',
         setAsSingle: true,
         multiLoader: true,
-        searchProfileId: get(userSearchProfiles[0], 'id', null),
+        searchProfileId: get(userSearchProfiles, '[0].id', null),
       };
       handleGetNewProperties(data);
       handleGetPreMarketProperties(data);
       handleGetPremiumProperties(data);
       handleSpinnerOff();
     }
-  }, [get(userSearchProfiles, '[0].id', null)]);
+  }, [userSearchProfiles]);
 
   return (
     <div className="market-container container" id="market">

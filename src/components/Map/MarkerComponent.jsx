@@ -130,10 +130,9 @@ const MarkerComponent = (props) => {
           else price = 'On request';
           const paras = document.getElementsByClassName('labelMarker');
           if (paras) {
-            console.log(paras);
-            [...paras].forEach((item) => {
-              if (item) {
-                item.parentNode.removeChild(item);
+            [...paras].forEach((el) => {
+              if (el) {
+                el.parentNode.removeChild(el);
               }
             });
           }
