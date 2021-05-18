@@ -131,6 +131,12 @@ const LoginSignup = (props) => {
           label: 'Login',
         };
       case 'reset':
+        if (notification.type === 'success') {
+          return {
+            action: () => changeScreen('login'),
+            label: 'Go to login',
+          };
+        }
         return {
           action: () => onSubmitForm(),
           label: 'Reset Password',
@@ -258,9 +264,16 @@ const LoginSignup = (props) => {
                         />
                         {
                           notification.label && (
-                            <p className="fsize-300 mt-1">
-                              {notification.label}
-                            </p>
+                            <>
+                              <p className="fsize-300 mt-1 txtGreen400">
+                                {notification.label}
+                              </p>
+                              <BrixelButtonText
+                                className="mt-2"
+                                label="Resend password"
+                                onClick={() => onSubmitForm()}
+                              />
+                            </>
                           )
                         }
                       </div>
