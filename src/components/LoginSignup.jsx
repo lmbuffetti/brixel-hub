@@ -188,12 +188,12 @@ const LoginSignup = (props) => {
                   {
                     loginPage === 'login' && (
                       <p className="txtDark700">
-                        <span>Login or create profile&nbsp;</span>
+                        <span>Login or&nbsp;</span>
                         <span
                           className="cur-poi td-u txtPrimary400"
                           onClick={() => changeScreen('register')}
                         >
-                          <span>here</span>
+                          <span>create profile here</span>
                         </span>
                       </p>
                     )
@@ -243,7 +243,7 @@ const LoginSignup = (props) => {
                   }
                   {
                     loginPage === 'reset' && (
-                      <>
+                      <div className="mb-3">
                         {
                           get(formError, 'state', false) && (
                             <p className="txtRed400">
@@ -251,7 +251,11 @@ const LoginSignup = (props) => {
                             </p>
                           )
                         }
-                        <BrixelReset company={company} formName="GetStarted" showErrors={showErrors} />
+                        <BrixelReset
+                          company={company}
+                          formName="GetStarted"
+                          showErrors={showErrors}
+                        />
                         {
                           notification.label && (
                             <p className="fsize-300 mt-1">
@@ -259,7 +263,7 @@ const LoginSignup = (props) => {
                             </p>
                           )
                         }
-                      </>
+                      </div>
                     )
                   }
                 </div>
