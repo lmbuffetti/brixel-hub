@@ -81,7 +81,7 @@ const MarketBuyer = (props) => {
       handleGetPremiumProperties(data);
       handleSpinnerOff();
     }
-  }, [userSearchProfiles]);
+  }, [userSearchProfiles, get(history, 'location.pathname', null)]);
 
   return (
     <div className="market-container container" id="market">
