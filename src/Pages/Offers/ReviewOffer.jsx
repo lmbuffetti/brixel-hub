@@ -19,7 +19,7 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import SplashScreen from '../../components/SplashScreen';
-import { setSplashType, spinnerSmallOff } from '../../actions/CommonActions';
+import { setSplashType, spinnerSmallOn } from '../../actions/CommonActions';
 import { saveReviewOffer, setActiveSingleDeal } from '../../actions/DealActions';
 
 const ReviewOffer = (props) => {
@@ -29,7 +29,7 @@ const ReviewOffer = (props) => {
     activeSingleProperty,
     destroyForm,
     handleReviewOffer,
-    handleSmallSpinnerOff,
+    handleSmallSpinner,
     handleSetActiveSingleDeal,
     isSmallLoading,
     formValue,
@@ -40,16 +40,16 @@ const ReviewOffer = (props) => {
 
   const closeOverlay = () => {
     setSplashScreen('');
-    handleSmallSpinnerOff();
+    handleSmallSpinner({ saveOffer: false });
   };
 
   useEffect(() => () => destroyForm(), []);
 
   useEffect(() => {
-    if (isSmallLoading === 'done') {
+    if (isSmallLoading.saveOffer === 'done') {
       setSuccess(true);
     }
-    if (isSmallLoading === 'close') {
+    if (isSmallLoading.saveOffer === 'close') {
       setSuccess(false);
     }
   }, [isSmallLoading]);
@@ -60,8 +60,9 @@ const ReviewOffer = (props) => {
       dataForm.status = action;
       dataForm.id = activeSingleDeal.id;
       const newDealData = cloneDeep(activeSingleDeal);
+      data.action = action;
       if (action === 'saveNote') {
-        dataForm.smallLoader = 'saveNoteOffer';
+        dataForm.smallLoader = 'saveOffer';
         dataForm.status = success;
         newDealData.closing.stageOffer.offer.noteBySeller = dataForm.note;
         newDealData.closing.stageOffer.offer.status = success;
@@ -71,8 +72,8 @@ const ReviewOffer = (props) => {
           return false;
         }
         handleReviewOffer(dataForm);
-      } else if (action === 'accepted') dataForm.smallLoader = 'saveAcceptedOffer';
-      else dataForm.smallLoader = 'saveRejectedOffer';
+      } else if (action === 'accepted') dataForm.smallLoader = 'saveOffer';
+      else dataForm.smallLoader = 'saveOffer';
       if (action !== 'saveNote') setSuccess(action);
     } else {
       closeOverlay();
@@ -277,7 +278,7 @@ const ReviewOffer = (props) => {
                         theme="red"
                         label="Decline 👎"
                         onClick={() => saveData('rejected')}
-                        isLoading={isSmallLoading === 'saveRejectedOffer'}
+                        isLoading={isSmallLoading === 'saveOffer'}
                       />
                       <BrixelButtonSecondary
                         ghost
@@ -285,7 +286,7 @@ const ReviewOffer = (props) => {
                         rounded
                         label="Accept 👍"
                         onClick={() => saveData('accepted')}
-                        isLoading={isSmallLoading === 'saveAcceptedOffer'}
+                        isLoading={isSmallLoading === 'saveOffer'}
                       />
                     </div>
 
@@ -387,7 +388,7 @@ ReviewOffer.propTypes = {
   handleReviewOffer: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleSmallSpinnerOff: PropTypes.func.isRequired,
+  handleSmallSpinner: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.string,
   setSplashScreen: PropTypes.func.isRequired,
 };
@@ -416,7 +417,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(initializeForm('Offer', value));
   },
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
-  handleSmallSpinnerOff: bindActionCreators(spinnerSmallOff, dispatch),
+  handleSmallSpinner: bindActionCreators(spinnerSmallOn, dispatch),
   handleReviewOffer: bindActionCreators(saveReviewOffer, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
