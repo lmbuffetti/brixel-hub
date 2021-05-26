@@ -14,7 +14,6 @@ const OfferDetail = (props) => {
     activeSingleDeal,
     activeSingleProperty,
     handleGetActiveSingleDeal,
-    handleSetActiveSingleDeal,
     history,
     isBuyer,
     match,
@@ -22,7 +21,7 @@ const OfferDetail = (props) => {
   // PARAMS
   const dealID = get(match, 'params.dealID', null);
 
-  useEffect(() => () => handleSetActiveSingleDeal({}), []);
+  // useEffect(() => () => handleSetActiveSingleDeal({}), []);
 
   useEffect(() => {
     if (activeSingleProperty.id && activeSingleDeal.id !== dealID && !isBuyer) {
@@ -92,7 +91,6 @@ OfferDetail.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   handleGetActiveSingleDeal: PropTypes.func.isRequired,
-  handleSetActiveSingleDeal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isBuyer: PropTypes.bool,
   match: PropTypes.object.isRequired,
