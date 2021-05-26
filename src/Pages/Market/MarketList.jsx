@@ -115,7 +115,7 @@ const MarketList = (props) => {
           history.push('./');
       }
     }
-  }, [itemsPerPage, currentPage, sortOrderType, sortDirection, loggedInUser, userSearchProfiles]);
+  }, [itemsPerPage, currentPage, sortOrderType, sortDirection, get(loggedInUser, 'id', null), get(userSearchProfiles, '[0].id', null)]);
 
   // eslint-disable-next-line max-params
   const updatePagination = (resultsPerPage, pageNumber, type, direction) => {
@@ -336,6 +336,7 @@ const MarketList = (props) => {
                */
             }
           </div>
+
           {
             propertyListings.map((page, i) => (
               <MarketCardMap

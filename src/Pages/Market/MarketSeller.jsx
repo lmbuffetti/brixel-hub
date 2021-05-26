@@ -54,6 +54,7 @@ const MarketSeller = (props) => {
       };
       handleGetFavoritesProperties(data);
       handleGetSellerProperties(data);
+      data.allCountry = true;
       handleGetPremiumProperties(data);
       handleSpinnerOff();
     }

@@ -106,6 +106,10 @@ const checkEstimation = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_OFF,
             });
+            store.dispatch({
+              type: SET_ESTIMATION,
+              payload: { status: 'pending' },
+            });
             if (redirectTo) {
               window.location.href = redirectTo;
             }

@@ -522,7 +522,7 @@ const App = (props) => {
                     !history.location.pathname.includes('buyer') && (
                       <>
                         <ProtectedRoute path="/sell" component={MarketSeller} />
-                        <ProtectedRoute path="/buy" component={MarketBuyer} />
+                        <ProtectedRoute path="/buy/:cat?/:id?" component={MarketBuyer} />
                         <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
                         <ProtectedRoute path="/" exact component={DashboardSeller} />
                         <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />

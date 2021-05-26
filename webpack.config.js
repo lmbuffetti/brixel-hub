@@ -125,8 +125,8 @@ const clientConfig = {
           {
             loader: 'eslint-loader',
             options: {
-              failOnError: false,
-              failOnWarning: false,
+              failOnError: !devMode,
+              failOnWarning: !devMode,
               emitWarning: true,
               fix: true,
             },
