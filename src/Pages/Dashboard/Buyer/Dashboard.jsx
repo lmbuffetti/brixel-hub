@@ -40,8 +40,8 @@ const PropertyBuyerDashboard = Loadable({
   loading: () => null,
 });
 
-const OfferDetail = Loadable({
-  loader: () => import('../../Offers/OfferDetail' /* webpackChunkName: "OfferDetail" */),
+const DealsDashboardBuyer = Loadable({
+  loader: () => import('./DealsDashboardBuyer' /* webpackChunkName: "DealsDashboardBuyer" */),
   loading: () => null,
 });
 
@@ -115,7 +115,7 @@ const Dashboard = (props) => {
       <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
       <ProtectedRoute path="/buyer/:propID/rewards" component={RewardsBuyerDashboard} />
       <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
-      <ProtectedRoute path="/buyer/:propID/deal/:dealID" render={<OfferDetail isBuyer />} />
+      <ProtectedRoute path="/buyer/:propID/deal" component={DealsDashboardBuyer} />
     </div>
   );
 };

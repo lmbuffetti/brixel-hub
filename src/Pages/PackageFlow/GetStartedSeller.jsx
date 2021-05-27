@@ -471,7 +471,7 @@ const GetStartedSeller = (props) => {
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted container">
       {
-        get(quest, 'inputs', null) && (
+        get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
           <BrixelProgressBar
             large
             className="brdRadius"

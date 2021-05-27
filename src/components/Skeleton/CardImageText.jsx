@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SkeletonCard from '../../images/skeletonCard.svg';
-import SkeletonOwnCard from '../../images/skeletonOwnCard.svg';
+import SkeletonOwnCard from '../../images/skeletonOwn.svg';
 import SkeletonMapCard from '../../images/skeletonMapCard.svg';
 
 const CardImageText = (props) => {
