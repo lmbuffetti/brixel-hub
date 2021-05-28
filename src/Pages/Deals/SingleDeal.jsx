@@ -79,7 +79,6 @@ const SingleDeal = (props) => {
 
   useEffect(() => {
     const dealID = get(match, 'params.dealID', null);
-    console.log(match);
     if (dealID) {
       const payloadNote = {
         object: dealID,
