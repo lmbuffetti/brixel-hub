@@ -17,9 +17,9 @@ import { GameGroupConfig } from '../../../constants/global';
 import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
 import { /* setCookie, getCookie,  */sortObject } from '../../../utils/helpers';
 import SuccessMarketCheck from '../../GameHistory/MarketChecker/SuccessMarketCheck';
+import SuccessHomebase from '../../GameHistory/Homebase/SuccessHomebase';
 import SuccessBestimate from '../../GameHistory/Bestimate/SuccessBestimate';
 import SuccessAssessor from '../../GameHistory/Assessor/SuccessAssessor';
-import SuccessHomebase from '../../GameHistory/Homebase/SuccessHomebase';
 import FactsRewards from '../../GameHistory/Facts/SuccessFacts';
 import MediaExplanation from '../../GameHistory/SecondLevel/MediaRewards';
 import PageReviewRewards from '../../GameHistory/SecondLevel/PageReviewRewards';
@@ -234,7 +234,7 @@ const RewardsDashboard = (props) => {
   };
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
-  if ((!activeSingleProperty.id && !userTypes) || isSmallLoading) {
+  if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
     return <Loading />;
   }
   const classToHide = get(history, 'location.state.hideBackPage', false);
@@ -347,27 +347,6 @@ const RewardsDashboard = (props) => {
                             )
                           }
                         </div>
-                        {/* {
-                          activeAchievement.points && (
-                            <div
-                              className="cur-poi ml-2"
-                              onClick={() => handleSetModal({
-                                showAwardsInfo: true,
-                              })}
-                            >
-                              {
-                                activeAchievement.achievementType === 'award' && (
-                                  <BrixelIcon
-                                    icon="cup-awards"
-                                    color="green"
-                                    className="mr-1"
-                                  />
-                                )
-                              }
-                              <span className="ff-mono txtDark700">{activeAchievement.points}</span>
-                            </div>
-                          )
-                        } */}
                       </div>
                     )
                   }
@@ -403,7 +382,7 @@ RewardsDashboard.propTypes = {
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
@@ -413,7 +392,6 @@ RewardsDashboard.propTypes = {
 RewardsDashboard.defaultProps = {
   gameGroup: [],
   gameHistory: {},
-  isSmallLoading: null,
   userTypes: 'user',
 };
 
@@ -424,7 +402,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   language: get(state, 'user.loggedInUser.user.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),

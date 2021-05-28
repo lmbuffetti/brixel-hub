@@ -7,7 +7,6 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   REDIRECT_TO,
-  SPINNER_SMALL_OFF,
   SET_SCREEN_NOTIFICATION, SPINNER_SMALL_ON,
 } from '../actions/types/CommonTypes';
 
@@ -180,7 +179,7 @@ const checkCommon = (store) => (next) => (action) => {
                           payload: {
                             state: true,
                             label: 'Deal created',
-                            type: 'success',
+                            type: 'done',
                           },
                         });
                         store.dispatch({
@@ -238,7 +237,7 @@ const checkCommon = (store) => (next) => (action) => {
                     payload: {
                       state: true,
                       label: 'Deal created',
-                      type: 'success',
+                      type: 'done',
                     },
                   });
                   store.dispatch({
@@ -279,7 +278,6 @@ const checkCommon = (store) => (next) => (action) => {
     case DELETE_ACTIVE_SINGLE_DEAL: {
       next(action);
       const {
-        data,
         id,
         smallLoader,
       } = action.payload;
@@ -542,7 +540,7 @@ const checkCommon = (store) => (next) => (action) => {
               payload: {
                 state: true,
                 label: 'Your changes were saved',
-                type: 'success',
+                type: 'done',
               },
             });
 
@@ -600,7 +598,7 @@ const checkCommon = (store) => (next) => (action) => {
               payload: {
                 state: true,
                 label: 'Deals updated',
-                type: 'success',
+                type: 'done',
               },
             });
           } else {
@@ -623,9 +621,6 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case UPDATE_MULTIPLE_DEALS: {
       next(action);
-      store.dispatch({
-        type: SPINNER_ON,
-      });
       const {
         deals,
         smallLoader,
@@ -676,7 +671,7 @@ const checkCommon = (store) => (next) => (action) => {
           payload: {
             state: true,
             label: 'Your changes were saved',
-            type: 'success',
+            type: 'done',
           },
         });
         if (smallLoader) {
@@ -745,13 +740,13 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const objData = cloneDeep(action.payload);
       const {
-        action,
+        act,
         smallLoader,
         id,
       } = objData;
       delete objData.smallLoader;
       delete objData.id;
-      delete objData.action;
+      delete objData.act;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL_ON,
@@ -767,7 +762,7 @@ const checkCommon = (store) => (next) => (action) => {
       api.deal.reviewOffer(id, objData)
         .then((res) => {
           if (!get(res.data, 'statusCode', null)) {
-            if (action === 'saveNote') {
+            if (act === 'saveNote') {
               store.dispatch({
                 type: SPINNER_SMALL_ON,
                 payload: {

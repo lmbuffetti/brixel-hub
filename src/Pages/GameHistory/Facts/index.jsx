@@ -111,7 +111,7 @@ const MarketCheck = (props) => {
     // handleAddGameHistory({stub: getAchievement()});
     const data = {
       id: propID,
-      smallLoader: 'property',
+      smallLoader: 'saveData',
       redirectTo: `/${propID}/rewards/${getAchievement()}`,
       ...formValue,
     };

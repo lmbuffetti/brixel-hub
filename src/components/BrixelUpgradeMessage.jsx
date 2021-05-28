@@ -158,7 +158,7 @@ BrixelUpgradeMessage.propTypes = {
   description: PropTypes.string,
   descriptionConfirm: PropTypes.string,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   onClose: PropTypes.func,
   onClick: PropTypes.func,
   redirectUrl: PropTypes.string,
@@ -175,7 +175,6 @@ BrixelUpgradeMessage.defaultProps = {
   className: '',
   description: null,
   descriptionConfirm: null,
-  isSmallLoading: null,
   onClose: () => '',
   onClick: () => '',
   redirectUrl: null,
@@ -189,6 +188,7 @@ BrixelUpgradeMessage.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 
 export default compose(

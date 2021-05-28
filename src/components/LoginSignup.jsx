@@ -131,7 +131,7 @@ const LoginSignup = (props) => {
           label: 'Login',
         };
       case 'reset':
-        if (notification.type === 'success') {
+        if (notification.type === 'done') {
           return {
             action: () => changeScreen('login'),
             label: 'Go to login',

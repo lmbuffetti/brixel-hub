@@ -184,7 +184,7 @@ const checkUser = (store) => (next) => (action) => {
           const feedbackMessage = 'If you have an account with us, check your mailbox for the new password!';
           const alertProps = {
             label: feedbackMessage,
-            type: 'success',
+            type: 'done',
           };
           store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });

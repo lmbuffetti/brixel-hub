@@ -168,7 +168,7 @@ ShowingsBuyer.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   lang: get(state, 'user.loggedInUser.language', 'en'),
   userLang: get(state, 'user.loggedInUser.language', 'en'),

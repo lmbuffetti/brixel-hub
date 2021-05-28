@@ -60,7 +60,7 @@ const ReviewOffer = (props) => {
       dataForm.status = action;
       dataForm.id = activeSingleDeal.id;
       const newDealData = cloneDeep(activeSingleDeal);
-      data.action = action;
+      dataForm.action = action;
       if (action === 'saveNote') {
         dataForm.smallLoader = 'saveOffer';
         dataForm.status = success;
@@ -204,7 +204,7 @@ const ReviewOffer = (props) => {
                       <BrixelButtonPrimary
                         rounded
                         label="Send"
-                        isLoading={isSmallLoading === 'saveNoteOffer'}
+                        isLoading={isSmallLoading.saveNoteOffer}
                         onClick={() => saveData('saveNote')}
                       />
                     </div>
@@ -278,7 +278,7 @@ const ReviewOffer = (props) => {
                         theme="red"
                         label="Decline 👎"
                         onClick={() => saveData('rejected')}
-                        isLoading={isSmallLoading === 'saveOffer'}
+                        isLoading={isSmallLoading.saveOffer === true}
                       />
                       <BrixelButtonSecondary
                         ghost
@@ -286,7 +286,7 @@ const ReviewOffer = (props) => {
                         rounded
                         label="Accept 👍"
                         onClick={() => saveData('accepted')}
-                        isLoading={isSmallLoading === 'saveOffer'}
+                        isLoading={isSmallLoading.saveOffer === true}
                       />
                     </div>
 
@@ -389,12 +389,8 @@ ReviewOffer.propTypes = {
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSmallSpinner: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
-};
-
-ReviewOffer.defaultProps = {
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
@@ -403,7 +399,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   errors: get(state, 'brixelForm.Offer.syncErrors', {}),
   formValue: get(state, 'brixelForm.Offer.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

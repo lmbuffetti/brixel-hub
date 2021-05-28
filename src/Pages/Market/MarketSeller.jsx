@@ -83,7 +83,7 @@ MarketSeller.propTypes = {
 
 const mapStateToProps = (state) => ({
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),

@@ -389,14 +389,10 @@ ScanTrialFlow.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
-};
-
-ScanTrialFlow.defaultProps = {
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => {
@@ -406,7 +402,7 @@ const mapStateToProps = (state) => {
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.scanFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.scanFlow.values', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', null),
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     initialValues: {
       id: get(state, 'property.activeSingleProperty.id', null),

@@ -350,7 +350,7 @@ PropertiesBuyerDashboard.propTypes = {
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleUpdateFavorites: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
@@ -359,14 +359,13 @@ PropertiesBuyerDashboard.propTypes = {
 };
 
 PropertiesBuyerDashboard.defaultProps = {
-  isSmallLoading: null,
   userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => ({
   favoritesProperties: get(state, 'market.favoritesProperties', []),
   formValue: get(state, 'brixelForm.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   property: get(state, 'property.activeSingleProperty', {}),

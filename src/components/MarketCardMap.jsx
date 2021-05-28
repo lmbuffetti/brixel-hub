@@ -280,7 +280,7 @@ const MarketCardMap = (props) => {
 MarketCardMap.propTypes = {
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleUpdateFavorites: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
@@ -290,13 +290,12 @@ MarketCardMap.propTypes = {
 };
 
 MarketCardMap.defaultProps = {
-  isSmallLoading: null,
   type: '',
 };
 
 const mapStateToProps = (state) => ({
   favoritesProperties: get(state, 'market.favoritesProperties.data', []),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   skeleton: get(state, 'common.skeleton', {}),
 });

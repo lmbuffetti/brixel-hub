@@ -154,7 +154,7 @@ const Deals = (props) => {
 
   useEffect(() => {
     // Special notification close for alert status
-    if (notification.type === 'success') {
+    if (notification.type === 'done') {
       setPreventExit(false);
       setTimeout(() => closeNotificationBar(), 2000);
     }

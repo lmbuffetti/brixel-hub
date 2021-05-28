@@ -37,7 +37,7 @@ export const defaultState = {
   },
   formError: {},
   isLoading: 1,
-  isSmallLoading: null,
+  isSmallLoading: {},
   requestDone: false,
   redirectTo: null,
   configUrl: getConfigEnv,
@@ -88,11 +88,14 @@ export default handleActions(
     }),
     [SPINNER_SMALL_ON]: (state, action) => ({
       ...state,
-      isSmallLoading: action.payload,
+      isSmallLoading: {
+        ...state.isSmallLoading,
+        ...action.payload,
+      },
     }),
     [SPINNER_SMALL_OFF]: (state) => ({
       ...state,
-      isSmallLoading: null,
+      isSmallLoading: { },
     }),
     [REQUEST_DONE]: (state) => ({
       ...state,

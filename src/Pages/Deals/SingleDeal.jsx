@@ -79,6 +79,7 @@ const SingleDeal = (props) => {
 
   useEffect(() => {
     const dealID = get(match, 'params.dealID', null);
+    console.log(match);
     if (dealID) {
       const payloadNote = {
         object: dealID,
@@ -89,6 +90,7 @@ const SingleDeal = (props) => {
         order: '',
         direction: 'DESC',
         company: '',
+        smallLoader: 'getDealHistory',
       };
       const payloadDealHistory = {
         parent: dealID,
@@ -97,8 +99,9 @@ const SingleDeal = (props) => {
         offset: 0,
         order: '',
         direction: 'DESC',
+        smallLoader: 'getDealHistory',
       };
-      getActiveDeal(dealID);
+      getActiveDeal({ id: dealID, smallLoader: 'getDeal' });
       getDealNotes(payloadNote);
       getHistoryList(payloadDealHistory);
     }
@@ -115,6 +118,7 @@ const SingleDeal = (props) => {
     const data = {
       id: deal.id,
       data: deal,
+      smallLoader: 'saveData',
     };
     // For now we still dont use the diff object (TODO: API ticket)
     // diff(initialValues, formValue)
@@ -147,6 +151,7 @@ const SingleDeal = (props) => {
         data.push({
           id: activeSinglePropertyDeals[idExistWinner].id,
           data: activeSinglePropertyDeals[idExistWinner],
+          smallLoader: 'saveData',
         });
         // For now we still dont use the diff object (TODO: API ticket)
         // diff(initialValues, formValue)
@@ -154,6 +159,7 @@ const SingleDeal = (props) => {
     }
     handleSaveMultipleDeal({
       deals: data,
+      smallLoader: 'saveData',
     });
   };
 

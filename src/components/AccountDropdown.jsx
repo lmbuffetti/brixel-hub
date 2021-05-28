@@ -63,7 +63,7 @@ const AccountDropdown = (props) => {
         id: get(loggedInUser, 'user.id', null),
         language: defLangCode,
         setLoggedInUser: true,
-        smallLoader: true,
+        smallLoader: 'saveData',
       };
       handleSaveActiveSingleUser(userData);
     }

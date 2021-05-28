@@ -65,7 +65,7 @@ MenuNavigationSubmenu.propTypes = {
   activeMenu: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   rightMenu: PropTypes.string,
-  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  isSmallLoading: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object,
 };
 
@@ -73,11 +73,10 @@ MenuNavigationSubmenu.defaultProps = {
   activeMenu: null,
   rightMenu: null,
   windowDimensions: {},
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 
 export default compose(
