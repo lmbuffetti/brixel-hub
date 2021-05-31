@@ -463,8 +463,3 @@ sub {
     color: map_get($primaryColor, 400);
   }
 }
-
-
-.transY-100 {
-  transform: translateY(-100%) !important;
-}
