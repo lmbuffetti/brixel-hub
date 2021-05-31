@@ -5,7 +5,6 @@ import React, {
   useState, useRef, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import DatePicker from 'react-datepicker';
 import InputRange from 'react-input-range';
 import subDays from 'date-fns/subDays';
 import { withRouter } from 'react-router-dom';
@@ -16,6 +15,7 @@ import {
   BrixelModal,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelDatePicker,
   BrixelSwitchButton,
   BrixelButtonIcon,
   BrixelIcon,
@@ -220,29 +220,20 @@ const AddShowingsBuyer = (props) => {
                         <div id="wrapDatePicker">
                           {
                             showDate && (
-                              <div className="overlay">
-                                <div id="fixedDatePicker" ref={datePicker}>
-                                  <DatePicker
-                                    inline
-                                    selected={date}
-                                    onChange={(day) => handleChangeDate(day)}
-                                    ref={calendarRef}
-                                    minDate={subDays(new Date(), 0)}
-                                    locale={lang.value || lang}
-                                  />
-                                  <div className="bgWhite dis-f a-c jc-c my-1 mt-lg-2 mb-lg-3">
-                                    <BrixelButtonPrimary
-                                      disabled={!date}
-                                      label="Choose time"
-                                      rounded
-                                      onClick={() => {
-                                        setShowDate(false);
-                                        setShowResizer(true);
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
+                              <BrixelDatePicker
+                                ref1={datePicker}
+                                ref2={calendarRef}
+                                inline
+                                selected={date}
+                                onChange={(day) => handleChangeDate(day)}
+                                minDate={subDays(new Date(), 0)}
+                                lang={lang.value || lang}
+                                hasButtonChoice
+                                onClick={() => {
+                                  setShowDate(false);
+                                  setShowResizer(true);
+                                }}
+                              />
                             )
                           }
                         </div>
