@@ -594,17 +594,6 @@ const App = (props) => {
           </div>
         )
       }
-      {
-        notification && history.location.pathname.includes('packageFlow') && notification.type === ('alert') && (
-          <BrixelNotification
-            label={notification.label}
-            type={notification.type}
-            icon={notification.icon}
-            actions={notification.actions}
-            className={`zIndex6 jc-fe pr-2 pr-lg-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
-          />
-        )
-      }
 
       {
         notification && (notification.small || notification.state) && (
