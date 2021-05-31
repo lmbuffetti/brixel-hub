@@ -5,12 +5,16 @@
     padding-top: 0;
 
     #market {
-      padding-bottom: $step * 4;
+      //padding-bottom: $step * 4;
       padding-top: $step * 8;
       @media (max-width: $responsive-small) {
         padding-top: $step * 4;
       }
       &.market-listings {
+        .container {
+          padding-top: 0;
+          margin-top: 0;
+        }
       }
       .searchProfileArea {
         &:hover {

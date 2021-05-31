@@ -391,8 +391,8 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="mb-5 mb-sm-3">
-        <div className="cotainer">
+      <div className="mb-5 mb-sm-3 mt-4-neg mt-sm-10-neg">
+        <div className="">
           {
             ownerProperties.total > 0 && (
               <CarouselWrapper
