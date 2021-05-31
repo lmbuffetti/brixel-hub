@@ -60,7 +60,7 @@ const AddNewOffer = (props) => {
   }, [activeSingleProperty, activeSingleCompany]);
 
   useEffect(() => {
-    if (isSmallLoading === 'done') {
+    if (isSmallLoading.makeOffer === 'done') {
       setSuccess(true);
     }
   }, [isSmallLoading]);

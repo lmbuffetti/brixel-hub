@@ -153,7 +153,7 @@ const Upgrade = (props) => {
     return label;
   };
 
-  if (isSmallLoading) {
+  if (isSmallLoading.getData) {
     return <div />;
   }
 
