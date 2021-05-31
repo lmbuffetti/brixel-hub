@@ -24,6 +24,7 @@ const CarouselWrapper = (props) => {
   // PROPS
   const {
     className,
+    titleClass,
     companyListings,
     history,
     items,
@@ -147,10 +148,10 @@ const CarouselWrapper = (props) => {
         {/* <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
           <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
         </div> */}
-        <div className="py-1 bgLight400 dis-f hide-sm a-c jc-b">
+        <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
           <BrixelButtonText
             className="fsize-300 show-all pos-r mr-1"
-            label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
+            label={`<span>View all properties</span> <span class="ml-1">(${total})</span>`}
             onClick={() => showAll()}
           />
           <BrixelButtonText
@@ -159,8 +160,8 @@ const CarouselWrapper = (props) => {
             onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
           />
         </div>
-        <div className="marketSellBanner dis-fl-col dis-fl-row-sm a-c jc-c pb-2">
-          <div className="max-w-fix-144 max-w-fix-sm-264 w-perc-100">
+        <div className="marketSellBanner dis-fl-col dis-fl-row-sm a-c jc-c pb-2 mt-2-neg mt-sm-0">
+          <div className="max-w-fix-144 min-h-fix-200 min-h-fix-sm-360 max-w-fix-sm-264 w-perc-100">
             <img src={testdrive} alt="testdrive" />
           </div>
           <div className="max-w-fix-360 ml-sm-5 pt-sm-8 ta-c ta-l-sm">
@@ -248,15 +249,16 @@ const CarouselWrapper = (props) => {
             }
           </div>
           <div className="mt-1 dis-fl-row-sm hide a-c jc-c">
-            <BrixelButtonText
-              className="fsize-300 show-all pos-r mr-1"
-              label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
-              onClick={() => showAll()}
-            />
+
             <BrixelButtonText
               className="fsize-300 show-all pos-r"
               label="+ Add new"
               onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
+            />
+            <BrixelButtonText
+              className="fsize-300 show-all pos-r mr-1"
+              label={`<span>View all</span> <span class="ml-1">(${total})</span>`}
+              onClick={() => showAll()}
             />
           </div>
         </div>
@@ -266,10 +268,10 @@ const CarouselWrapper = (props) => {
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
       <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
-        <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
+        <h4 className={`title fweight-600 ${titleClass || (type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400')}`}>{title}</h4>
         <div className="mt-1 mt-sm-0 dis-f a-c">
           <BrixelButtonText
-            className="fsize-300 show-all pos-r"
+            className="fsize-300 show-all pos-r mr-1"
             label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
             onClick={() => showAll()}
           />
@@ -338,6 +340,7 @@ CarouselWrapper.propTypes = {
   title: PropTypes.string,
   total: PropTypes.number,
   type: PropTypes.string,
+  titleClass: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -349,6 +352,7 @@ CarouselWrapper.defaultProps = {
   title: '',
   total: 0,
   type: '',
+  titleClass: '',
 };
 
 const mapStateToProps = (state) => ({

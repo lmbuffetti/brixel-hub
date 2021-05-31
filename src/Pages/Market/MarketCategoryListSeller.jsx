@@ -391,7 +391,7 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="mb-5 mb-sm-3 mt-4-neg mt-sm-10-neg">
+      <div className={`mb-5 mb-sm-3 ${ownerProperties.total !== 0 && ownerProperties.total === undefined ? '' : ''} mt-4-neg mt-sm-10-neg`}>
         <div className="">
           {
             ownerProperties.total > 0 && (
@@ -406,10 +406,10 @@ const MarketCategoryListSeller = (props) => {
           }
           {
             (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
-              <div className="mb-8">
-                <div className="ml-1-neg">
-                  <div className="marketSellBanner hideBg h-fix-392 mt-8 mt-sm-0">
-                    <div className="m-a pt-8 max-w-fix-784">
+              <div className="">
+                <div className="">
+                  <div className="marketSellBanner">
+                    <div className="m-a max-w-fix-768 pt-2">
                       <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
                       <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                     </div>
@@ -449,12 +449,13 @@ const MarketCategoryListSeller = (props) => {
 
       </div>
 
-      <div className="pb-8 bgLight200">
+      <div className={`${ownerProperties.total !== 0 && ownerProperties.total === undefined ? '' : 'paddingOffset bgLight300'}  `}>
         <div className="container">
           {
             premiumProperties.total > 0 && (
               <CarouselWrapper
                 title="Others selling with Brixel"
+                titleClass="fweight-600 fsize-600"
                 className="market-category-carousel"
                 type="premium"
                 items={premiumProperties.data}

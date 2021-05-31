@@ -61,7 +61,7 @@ const MarketSeller = (props) => {
   }, [loggedInUser]);
 
   return (
-    <div className="market-container" id="market">
+    <div className="market-container sellerPage" id="market">
       {/* premarket overlay */}
       <Switch>
         <Route exact path="/sell" component={MarketCategoryListSeller} />
