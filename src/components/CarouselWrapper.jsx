@@ -143,7 +143,20 @@ const CarouselWrapper = (props) => {
       <div className={`${className} carousel-wrapper pos-r`}>
         <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
           <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
+          <div className="mt-1 mt-sm-0 dis-f a-c">
+            <BrixelButtonText
+              className="fsize-300 show-all pos-r mr-1"
+              label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
+              onClick={() => showAll()}
+            />
+            <BrixelButtonText
+              className="fsize-300 show-all pos-r"
+              label="+ Add new"
+              onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
+            />
+          </div>
         </div>
+
         <div className="marketSellBanner pt-8 ta-c">
           <h4 className="fweight-700 mb-2">Test drive our service. No strings attached.</h4>
           <h5 className="fSizePx18 mb-2">
@@ -195,47 +208,34 @@ const CarouselWrapper = (props) => {
                 ))
               }
             </Slider>
-
-            {
-              items.length > 1 && (
-                <>
-                  <BrixelButtonIcon
-                    onClick={() => moveSlide('prev')}
-                    className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c ml-6-neg transY-100 ${activeSlide < 1 ? 'slick-disabled' : ''}`}
-                    icon="arrow-simple-left"
-                    theme="light"
-                    saturation={500}
-                    secondary
-                  />
-                  {/* <div className="fsize-300 txtPrimary400 ml-3 mr-3">
-                    <span>{activeSlide + 1}</span>
-                    <span className="ml-small-4 mr-small-4">of</span>
-                    <span>{total}</span>
-                  </div> */}
-                  <BrixelButtonIcon
-                    onClick={() => moveSlide('next')}
-                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c mr-6-neg x-r transY-100 ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
-                    icon="arrow-simple-right"
-                    theme="light"
-                    saturation={500}
-                    secondary
-                  />
-                </>
-              )
-            }
           </div>
-          <div className="mt-1 dis-f a-c jc-c">
-            <BrixelButtonText
-              className="fsize-300 show-all pos-r mr-1"
-              label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
-              onClick={() => showAll()}
-            />
-            <BrixelButtonText
-              className="fsize-300 show-all pos-r"
-              label="+ Add new"
-              onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
-            />
-          </div>
+          {
+            items.length > 1 && (
+              <div className="dis-f a-c jc-c mt-4">
+                <BrixelButtonIcon
+                  onClick={() => moveSlide('prev')}
+                  className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                  icon="arrow-simple-left"
+                  theme="light"
+                  saturation={500}
+                  secondary
+                />
+                <div className="fsize-300 txtPrimary400 ml-3 mr-3">
+                  <span>{activeSlide + 1}</span>
+                  <span className="ml-small-4 mr-small-4">of</span>
+                  <span>{total}</span>
+                </div>
+                <BrixelButtonIcon
+                  onClick={() => moveSlide('next')}
+                  className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                  icon="arrow-simple-right"
+                  theme="light"
+                  saturation={500}
+                  secondary
+                />
+              </div>
+            )
+          }
         </div>
       </div>
     );
