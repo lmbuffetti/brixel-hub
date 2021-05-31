@@ -13,8 +13,8 @@ import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
-// import groupBy from 'lodash/groupBy';
 import { DateTime } from 'luxon';
+import Loading from '../../../components/Loading';
 import BrixelInfoSlot from '../../../components/BrixelInfoSlot';
 import { getActiveSinglePropertyBookings, setActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
 import showingsIMG from '../../../images/Listings/showings.svg';
@@ -49,6 +49,7 @@ const ShowingsBuyer = (props) => {
         data: {
           user: loggedInUser.id,
         },
+        smallLoader: 'getBooking',
       };
       handleGetActiveSinglePropertyBookings(data);
     }
@@ -90,8 +91,12 @@ const ShowingsBuyer = (props) => {
     return '';
   };
 
-  if (isSmallLoading) {
-    return <div />;
+  if (isSmallLoading.getBooking) {
+    return (
+      <div className="wrapLoader secondLevel h-perc-lg-100 min-h-fix-320">
+        <Loading isLoading isSmall />
+      </div>
+    );
   }
 
   return (
@@ -154,7 +159,7 @@ ShowingsBuyer.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyBookings: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
