@@ -282,7 +282,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'brixelForm.Property.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  notification: get(state, 'common.notification', {}),
+  notification: get(state, 'common.notification', []),
   lang: get(state, 'user.loggedInUser.user.language', {}),
 });
 

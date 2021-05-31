@@ -1,7 +1,7 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, useState, useRef, useCallback,
+  useEffect, useState, useRef, useCallback, Fragment,
 } from 'react';
 import {
   Switch, Route, withRouter,
@@ -569,21 +569,29 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification.state &&
+        notification.length > 0 &&
         !history.location.pathname.includes('rewards') &&
         !history.location.pathname.includes('packageFlow') &&
         !history.location.pathname.includes('upgrade') &&
         !history.location.pathname.includes('trialRequest') && (
-          <BrixelNotification
-            className={`zIndex6 jc-fe pr-2 pr-lg-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
-            handleSetNotification={(data) => handleSetNotification(data)}
-            icon={notification.icon}
-            isSmallLoading={isSmallLoading || {}}
-            label={notification.label}
-            notification={notification}
-            resetForm={(form, data) => handleReset(form, data)}
-            type={notification.type}
-          />
+          <div className="brixel-notifications">
+            {
+              notification.map((not, i) => (
+                <Fragment key={i.toString()}>
+                  <BrixelNotification
+                    className={`zIndex6 jc-fe pr-2 pr-lg-4 ${not.className ? not.className : ''} ${not.state ? 'open' : 'close'}`}
+                    handleSetNotification={(data) => handleSetNotification(data)}
+                    icon={not.icon}
+                    isSmallLoading={isSmallLoading || {}}
+                    label={not.label}
+                    notification={not}
+                    resetForm={(form, data) => handleReset(form, data)}
+                    type={not.type}
+                  />
+                </Fragment>
+              ))
+            }
+          </div>
         )
       }
       {
@@ -641,7 +649,7 @@ App.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
-  notification: PropTypes.object,
+  notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   redirectTo: PropTypes.object,
   splashScreenType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   userTypes: PropTypes.string,
@@ -650,7 +658,6 @@ App.propTypes = {
 
 App.defaultProps = {
   isLoading: false,
-  notification: null,
   redirectTo: null,
   userTypes: null,
 };
@@ -662,7 +669,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
-  notification: get(state, 'common.notification', null),
+  notification: get(state, 'common.notification', []),
   redirectTo: get(state, 'common.redirectTo', null),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userTypes: get(state, 'user.userTypes', null),

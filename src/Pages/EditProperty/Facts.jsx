@@ -234,7 +234,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   activeSingleUser: get(state, 'user.activeSingleUser', {}),
   singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
-  notification: get(state, 'common.notification', {}),
+  notification: get(state, 'common.notification', []),
   initial: get(state, 'brixelForm.Property.initial', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });

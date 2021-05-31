@@ -302,7 +302,8 @@ const Dashboard = (props) => {
 
   // LOAD SAVE FUNCTION FORM REDUX
   useEffect(() => {
-    if (notification.action === 'saveData') {
+    const checkSaveNotidification = notification.filter((item) => item.action === 'saveData');
+    if (checkSaveNotidification.length > 0) {
       saveData();
     }
   }, [notification]);
@@ -412,7 +413,7 @@ Dashboard.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  notification: PropTypes.object,
+  notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetForm: PropTypes.func.isRequired,
   userTypes: PropTypes.string,
   handleSpinnerOn: PropTypes.func.isRequired,
@@ -423,7 +424,6 @@ Dashboard.defaultProps = {
   activeSingleCompany: {},
   activeSingleProperty: {},
   errorValue: null,
-  notification: null,
   userTypes: null,
 };
 
@@ -495,7 +495,7 @@ const mapStateToProps = (state) => {
     isLoading: get(state, 'common.isLoading', 0) > 0,
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     loggedInUser: get(state, 'user.loggedInUser', {}),
-    notification: get(state, 'common.notification', {}),
+    notification: get(state, 'common.notification', []),
     regFields: get(state, 'brixelForm.Property.registeredFields', null),
     savePageData: get(state, 'common.setPageData', null),
     userTypes: get(state, 'user.userTypes', null),

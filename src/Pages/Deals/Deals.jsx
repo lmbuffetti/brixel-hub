@@ -34,7 +34,7 @@ import {
   setActiveSingleDeal, saveActiveSingleDeal, updateDealsOrder,
 } from '../../actions/DealActions';
 import {
-  preventExitFromScreen, setScreenNotification,
+  preventExitFromScreen,
 } from '../../actions/CommonActions';
 import DealsCard from '../../components/DealsCard';
 import DealsTitle from '../../components/DealsTitle';
@@ -68,7 +68,6 @@ const Deals = (props) => {
     resetSingleDeal,
     saveMultipleDeals,
     setActiveSinglePropertyDeals,
-    setNotification,
     setPreventExit,
     userLang,
     windowDimensions,
@@ -146,17 +145,11 @@ const Deals = (props) => {
     processDeals(activeSinglePropertyDeals);
   }, [activeSinglePropertyDeals]);
 
-  const closeNotificationBar = () => {
-    setNotification({
-      state: false,
-    });
-  };
-
   useEffect(() => {
     // Special notification close for alert status
-    if (notification.type === 'done') {
+    const checkDoneStatus = notification.filter((item) => item.type === 'done');
+    if (checkDoneStatus.length > 0) {
       setPreventExit(false);
-      setTimeout(() => closeNotificationBar(), 2000);
     }
   }, [notification]);
 
@@ -577,17 +570,16 @@ const Deals = (props) => {
 
 Deals.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
+  activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object),
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSaveDeal: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetSingleDeal: PropTypes.func.isRequired,
-  activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object),
-  setPreventExit: PropTypes.func.isRequired,
-  notification: PropTypes.object.isRequired,
-  setNotification: PropTypes.func.isRequired,
   saveMultipleDeals: PropTypes.func.isRequired,
   setActiveSinglePropertyDeals: PropTypes.func.isRequired,
+  setPreventExit: PropTypes.func.isRequired,
   userLang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -597,23 +589,22 @@ Deals.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'brixelForm.Property.values', {}),
-  initialValues: get(state, 'property.activeSingleProperty', {}),
-  notification: get(state, 'common.notification', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', null),
+  formValue: get(state, 'brixelForm.Property.values', {}),
+  initialValues: get(state, 'property.activeSingleProperty', {}),
+  notification: get(state, 'common.notification', []),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetPageDeals: bindActionCreators(getPageDeals, dispatch),
-  resetSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSaveDeal: bindActionCreators(saveActiveSingleDeal, dispatch),
-  setNotification: bindActionCreators(setScreenNotification, dispatch),
+  resetSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
+  saveMultipleDeals: bindActionCreators(updateDealsOrder, dispatch),
   setActiveSinglePropertyDeals: bindActionCreators(setPageDeals, dispatch),
   setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
-  saveMultipleDeals: bindActionCreators(updateDealsOrder, dispatch),
 });
 
 export default compose(
