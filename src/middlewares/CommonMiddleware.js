@@ -58,12 +58,13 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH NOTIFICATION
     case SET_SCREEN_NOTIFICATION: {
       next(action);
-      const notification = cloneDeep(get(store.getState(), 'common.notification', []));
+      let notification = cloneDeep(get(store.getState(), 'common.notification', []));
       const errorExist = notification.filter((item) => item.type === action.payload.type && item.label === action.payload.label);
       if (action.payload.type === 'resetAll') {
         store.dispatch({ type: SET_NOTIFICATION, payload: [] });
       } else if (errorExist.length === 0 && action.payload.state) {
-        notification.push(action.payload);
+        if (action.payload.type === 'save') notification = [action.payload];
+        else notification.push(action.payload);
         store.dispatch({ type: SET_NOTIFICATION, payload: notification });
       } else if (action.payload.type === 'save') {
         const getIndex = notification.findIndex((item) => item.type === action.payload.type);
