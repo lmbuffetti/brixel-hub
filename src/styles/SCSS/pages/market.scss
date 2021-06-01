@@ -1,16 +1,31 @@
 @import '~@brixel/brixel-components/dist/styles/SCSS/general/variables';
+$lightColorNew: #F7F6F5;
+$lightColorNew2: #F0F0F2;
 
 .marketHome {
   .hubDasContent {
     padding-top: 0;
 
     #market {
-      padding-bottom: $step * 4;
+      //padding-bottom: $step * 4;
       padding-top: $step * 8;
       @media (max-width: $responsive-small) {
         padding-top: $step * 4;
       }
-      &.market-listings {
+      &.sellerPage {
+        .actionTop {
+          border-bottom: 1px solid $lightColorNew2;
+        }
+        .container {
+          padding-top: 0;
+          margin-top: 0;
+        }
+        .paddingOffset {
+          padding-top: 130px;
+          margin-top: -130px;
+          padding-bottom: 80px;
+          background-color: $lightColorNew;
+        }
       }
       .searchProfileArea {
         &:hover {

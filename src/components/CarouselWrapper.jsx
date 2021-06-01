@@ -17,10 +17,14 @@ import { connect } from 'react-redux';
 import { setWindowDimensions } from '../actions/CommonActions';
 import MarketCard from './MarketCard';
 
+// images
+import testdrive from '../images/Market/testdrive.svg';
+
 const CarouselWrapper = (props) => {
   // PROPS
   const {
     className,
+    titleClass,
     companyListings,
     history,
     items,
@@ -141,47 +145,54 @@ const CarouselWrapper = (props) => {
   if (layout === 'singleOwnCard') {
     return (
       <div className={`${className} carousel-wrapper pos-r`}>
-        <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
+        {/* <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
           <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
-          <div className="mt-1 mt-sm-0 dis-f a-c">
-            <BrixelButtonText
-              className="fsize-300 show-all pos-r mr-1"
-              label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
-              onClick={() => showAll()}
-            />
-            <BrixelButtonText
-              className="fsize-300 show-all pos-r"
-              label="+ Add new"
-              onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
-            />
-          </div>
-        </div>
-
-        <div className="marketSellBanner pt-8 ta-c">
-          <h4 className="fweight-700 mb-2">Test drive our service. No strings attached.</h4>
-          <h5 className="fSizePx18 mb-2">
-            {
-              get(teaserPrice, 'price', 0) > 0 ? (
-                <>
-                  <span>Get the full Brixel experience worth</span>
-                  <span className="ml-small-4">{get(teaserPrice, 'currency', '')} {Helpers.formatNumberValue(get(teaserPrice, 'price', ''), get(teaserPrice, 'currency', ''))}.</span>
-                </>
-              ) : (
-                <span>Get the full Brixel experience</span>
-              )
-            }
-          </h5>
-          <BrixelButtonPrimary
-            rounded
-            label="Request now"
-            onClick={() => bookNow()}
-            className="ml-a mr-a mb-2"
+        </div> */}
+        <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
+          <BrixelButtonText
+            className="fsize-300 show-all pos-r mr-1"
+            label={`<span>View all properties</span> <span class="ml-1">(${total})</span>`}
+            onClick={() => showAll()}
           />
-          <p className="fsize-100 mb-5">No commission. No hidden terms.</p>
+          <BrixelButtonText
+            className="fsize-300 show-all pos-r"
+            label="+ Add new"
+            onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
+          />
+        </div>
+        <div className="marketSellBanner dis-fl-col dis-fl-row-sm a-c jc-c pb-2 mt-2-neg mt-sm-0">
+          <div className="max-w-fix-144 min-h-fix-200 min-h-fix-sm-360 max-w-fix-sm-264 w-perc-100">
+            <img src={testdrive} alt="testdrive" />
+          </div>
+          <div className="max-w-fix-360 ml-sm-5 pt-sm-8 ta-c ta-l-sm">
+            <h3 className="fweight-600 fsize-600 fsize-sm-800 mb-1 pt-2 pt-sm-5">Test drive our service. <br /> No strings attached.</h3>
+            <h5 className="fSizePx18 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0">
+              {
+                get(teaserPrice, 'price', 0) > 0 ? (
+                  <>
+                    <span>Get the full Brixel experience worth</span>
+                    <span className="ml-small-4">{get(teaserPrice, 'currency', '')} {Helpers.formatNumberValue(get(teaserPrice, 'price', ''), get(teaserPrice, 'currency', ''))}.</span>
+                  </>
+                ) : (
+                  <span>Get the full Brixel experience</span>
+                )
+              }
+            </h5>
+            <BrixelButtonPrimary
+              rounded
+              theme="green"
+              themeSat="600"
+              label="Request now"
+              onClick={() => bookNow()}
+              className="mb-2 ml-a ml-sm-0 mr-sm-0 mr-a"
+            />
+            {/* <p className="fsize-100 mb-5">No commission. No hidden terms.</p> */}
+
+          </div>
 
         </div>
-        <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-sm-0">
-          <div className="p-2 px-sm-3 brdRadius bgWhite shadow-2dp min-h-fix-240">
+        <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
+          <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
             <Slider ref={sliderInstance} {...settingSlider()}>
               {
                 !items && numCard.map((card, i) => (
@@ -208,10 +219,51 @@ const CarouselWrapper = (props) => {
                 ))
               }
             </Slider>
+
+            {
+              items.length > 1 && (
+                <>
+                  <BrixelButtonIcon
+                    onClick={() => moveSlide('prev')}
+                    className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c ml-7-neg transY-100 ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                    icon="arrow-simple-left"
+                    theme="light"
+                    saturation={500}
+                    secondary
+                  />
+                  {/* <div className="fsize-300 txtPrimary400 ml-3 mr-3">
+                    <span>{activeSlide + 1}</span>
+                    <span className="ml-small-4 mr-small-4">of</span>
+                    <span>{total}</span>
+                  </div> */}
+                  <BrixelButtonIcon
+                    onClick={() => moveSlide('next')}
+                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c mr-7-neg x-r transY-100 ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                    icon="arrow-simple-right"
+                    theme="light"
+                    saturation={500}
+                    secondary
+                  />
+                </>
+              )
+            }
+          </div>
+          <div className="mt-1 dis-fl-row-sm hide a-c jc-c">
+
+            <BrixelButtonText
+              className="fsize-300 show-all pos-r"
+              label="+ Add new"
+              onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
+            />
+            <BrixelButtonText
+              className="fsize-300 show-all pos-r mr-1"
+              label={`<span>View all</span> <span class="ml-1">(${total})</span>`}
+              onClick={() => showAll()}
+            />
           </div>
           {
             items.length > 1 && (
-              <div className="dis-f a-c jc-c mt-4">
+              <div className="dis-f a-c jc-c mt-2 hide-sm">
                 <BrixelButtonIcon
                   onClick={() => moveSlide('prev')}
                   className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
@@ -243,10 +295,10 @@ const CarouselWrapper = (props) => {
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
       <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
-        <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
+        <h4 className={`title fweight-600 ${titleClass || (type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400')}`}>{title}</h4>
         <div className="mt-1 mt-sm-0 dis-f a-c">
           <BrixelButtonText
-            className="fsize-300 show-all pos-r"
+            className="fsize-300 show-all pos-r mr-1"
             label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
             onClick={() => showAll()}
           />
@@ -315,6 +367,7 @@ CarouselWrapper.propTypes = {
   title: PropTypes.string,
   total: PropTypes.number,
   type: PropTypes.string,
+  titleClass: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -326,6 +379,7 @@ CarouselWrapper.defaultProps = {
   title: '',
   total: 0,
   type: '',
+  titleClass: '',
 };
 
 const mapStateToProps = (state) => ({

@@ -391,12 +391,11 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="mb-5 mb-sm-3">
+      <div className={`mb-5 mb-sm-3 ${ownerProperties.total !== 0 && ownerProperties.total === undefined ? '' : ''} mt-4-neg mt-sm-10-neg`}>
         {
           ownerProperties.total > 0 && (
             <CarouselWrapper
               layout="singleOwnCard"
-              title="Your properties"
               className="market-category-carousel type-own"
               type="own"
               items={ownerProperties.data}
@@ -404,18 +403,12 @@ const MarketCategoryListSeller = (props) => {
             />
           )
         }
-
         {
           (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
-            <div className="mb-8">
-              <h4 className="fweight-700 fsize-600 mb-4">Your properties</h4>
-              <div className="ml-1-neg">
-                <div className="marketSellBanner hideBg h-fix-392 mt-8 mt-sm-0">
-                  <div className="m-a pt-8 max-w-fix-784">
-                    <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
-                    <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
-                  </div>
-                </div>
+            <div className="marketSellBanner">
+              <div className="m-a max-w-fix-376 max-w-fix-sm-768 pt-2">
+                <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
+                <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
               </div>
             </div>
           )
@@ -450,18 +443,21 @@ const MarketCategoryListSeller = (props) => {
 
       </div>
 
-      <div className="mb-8">
-        {
-          premiumProperties.total > 0 && (
-            <CarouselWrapper
-              title="Others selling with Brixel"
-              className="market-category-carousel"
-              type="premium"
-              items={premiumProperties.data}
-              total={premiumProperties.total}
-            />
-          )
-        }
+      <div className={`${ownerProperties.total !== 0 && ownerProperties.total === undefined ? '' : 'paddingOffset bgLight300'}  `}>
+        <div className="container">
+          {
+            premiumProperties.total > 0 && (
+              <CarouselWrapper
+                title="Others selling with Brixel"
+                titleClass="fweight-600 fsize-600"
+                className="market-category-carousel"
+                type="premium"
+                items={premiumProperties.data}
+                total={premiumProperties.total}
+              />
+            )
+          }
+        </div>
       </div>
     </>
   );
