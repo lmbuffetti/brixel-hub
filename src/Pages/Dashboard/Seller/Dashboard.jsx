@@ -218,9 +218,9 @@ const Dashboard = (props) => {
       }
     }
     localStorage.removeItem('gameGroup');
-    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null);
-    if (activeLeads && activeLeads.company !== activeSingleCompany.id) {
-      handleGetActiveSingleCompany({ id: activeLeads.company });
+    const activeLeads = get(activeSingleProperty, 'company', null);
+    if (activeLeads && activeLeads !== activeSingleCompany.id) {
+      handleGetActiveSingleCompany({ id: activeLeads });
     }
   }, [activeSingleProperty]);
 
