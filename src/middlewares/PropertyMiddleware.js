@@ -189,6 +189,7 @@ const checkCommon = (store) => (next) => (action) => {
                 state: true,
                 label: 'Some information was updated by another user, please fill it again',
                 type: 'alert',
+                action: 'reloadButton',
               },
             });
             setTimeout(() => {
