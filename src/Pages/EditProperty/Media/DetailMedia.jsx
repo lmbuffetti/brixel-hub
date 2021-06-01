@@ -86,7 +86,7 @@ const DetailMedia = (props) => {
       id: mediaID,
       pageID: propID,
       type: mediaType,
-      smallLoader: 'delete',
+      smallLoader: 'deleteMedia',
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
@@ -240,18 +240,14 @@ DetailMedia.propTypes = {
   handleRotateImg: PropTypes.func.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-};
-
-DetailMedia.defaultProps = {
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'brixelForm.Property.initialValues', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', null),
 });
 

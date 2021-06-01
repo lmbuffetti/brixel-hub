@@ -77,7 +77,7 @@ const checkNote = (store) => (next) => (action) => {
               payload: {
                 state: true,
                 label: 'Note created',
-                type: 'success',
+                type: 'done',
               },
             });
             store.dispatch({
@@ -127,7 +127,7 @@ const checkNote = (store) => (next) => (action) => {
             // });
             // store.dispatch({
             //   type: SET_SCREEN_NOTIFICATION,
-            //   payload: { state: true, label: 'Note successfully deleted', type: 'success' },
+            //   payload: { state: true, label: 'Note successfully deleted', type: 'done' },
             // });
             store.dispatch({
               type: SPINNER_OFF,
@@ -191,7 +191,7 @@ const checkNote = (store) => (next) => (action) => {
               payload: {
                 state: true,
                 label: 'Your changes were saved',
-                type: 'success',
+                type: 'done',
               },
             });
             store.dispatch({

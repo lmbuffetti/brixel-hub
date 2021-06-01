@@ -202,7 +202,7 @@ Showings.propTypes = {
   errorValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
@@ -212,14 +212,13 @@ Showings.propTypes = {
 
 Showings.defaultProps = {
   lang: 'en',
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
   formValue: get(state, 'brixelForm.Showings.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'coomon.currentLanguage', 'en'),
   schedule: get(state, 'brixelForm.Property.values.schedule', {}),
   userLang: get(state, 'user.loggedInUser.language', 'en'),

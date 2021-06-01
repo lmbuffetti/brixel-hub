@@ -1,7 +1,7 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, useState, useRef, useCallback,
+  useEffect, useState, useRef, useCallback, Fragment,
 } from 'react';
 import {
   Switch, Route, withRouter,
@@ -17,11 +17,12 @@ import Cookies from 'universal-cookie';
 import {
   BrixelIcon,
   BrixelNotification,
+  reset,
 } from '@brixel/brixel-components';
 import Loading from './components/Loading';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
-  setLanguage, setModal, setWindowDimensions,
+  setLanguage, setModal, setWindowDimensions, setScreenNotification,
 } from './actions/CommonActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
@@ -155,21 +156,24 @@ const cookies = new Cookies();
 const App = (props) => {
   // PROPS
   const {
-    userTypes,
-    handleSetUserTypes,
-    history,
+    activeSingleProperty,
     handleCheckToken,
+    handleGetImageType,
+    handleReset,
     handleSetLanguage,
     handleSetModal,
+    handleSetNotification,
+    handleSetUserTypes,
     handleSetWindowsDimension,
-    handleGetImageType,
+    history,
     isLoading,
+    isSmallLoading,
     loggedInUser,
     modal,
     notification,
-    activeSingleProperty,
     redirectTo,
     splashScreenType,
+    userTypes,
     windowDimensions,
   } = props;
   // STATE
@@ -326,46 +330,6 @@ const App = (props) => {
     return flowHead[0] ? flowHead[0].offsetHeight : 0;
   }, []);
 
-  // const headerHeight = document.getElementsByClassName('hubDasHeader')[0];
-
-  /* useEffect(() => {
-    if (dashContentEl && headerHeight) {
-      if (history.location.pathname.includes('deals')) {
-        setExtraHeight(124);
-      } else if (history.location.pathname.includes('propertyLists') ||
-      history.location.pathname.includes('pageList')) {
-        setExtraHeight(100);
-      }
-    }
-    // console.log(extraHeight);
-  }, []); */
-
-  /* useEffect(() => {
-    if (dashContentEl) {
-      dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 1) {
-          if (history.location.pathname.includes('propertyLists') ||
-          history.location.pathname.includes('pageList')) {
-            setExtraHeight(40);
-          } else if (history.location.pathname.includes('deals')) {
-            setExtraHeight(100);
-          } else {
-            setExtraHeight(100);
-          }
-        } else if (history.location.pathname.includes('deals')) {
-          setExtraHeight(124);
-        } else if (history.location.pathname.includes('propertyLists') ||
-        history.location.pathname.includes('pageList')) {
-          setExtraHeight(100);
-        } else if (history.location.pathname.includes('buyer')) {
-          setExtraHeight(100);
-        } else {
-          setExtraHeight(164);
-        }
-      });
-    }
-  }, [dashContentEl]); */
-
   const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
@@ -400,7 +364,7 @@ const App = (props) => {
       calcHeaderHeight();
       calcFlowHeaderHeight();
     });
-    handleGetImageType();
+    handleGetImageType({ smallLoader: 'imgType' });
   }, []);
 
   const contentLayout = useCallback(() => {
@@ -474,8 +438,8 @@ const App = (props) => {
                 (
                   !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding')) &&
-                  !history.location.pathname.includes('upgrade') &&
-                  !history.location.pathname.includes('trialRequest') &&
+                !history.location.pathname.includes('upgrade') &&
+                !history.location.pathname.includes('trialRequest') &&
                 (
                   <>
                     <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
@@ -605,31 +569,29 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification &&
+        notification.length > 0 &&
         !history.location.pathname.includes('rewards') &&
         !history.location.pathname.includes('packageFlow') &&
         !history.location.pathname.includes('upgrade') &&
-        !history.location.pathname.includes('trialRequest') &&
-        notification.type === ('infoHub') && (
-          <BrixelNotification
-            saveBar
-            label={notification.label}
-            type={notification.type}
-            icon={notification.icon}
-            actions={notification.actions}
-            className={`zIndex6 jc-fe pr-2 pr-lg-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
-          />
-        )
-      }
-      {
-        notification && history.location.pathname.includes('packageFlow') && notification.type === ('alert') && (
-          <BrixelNotification
-            label={notification.label}
-            type={notification.type}
-            icon={notification.icon}
-            actions={notification.actions}
-            className={`zIndex6 jc-fe pr-2 pr-lg-4 ${notification.className ? notification.className : ''} ${notification.state ? 'open' : 'close'}`}
-          />
+        !history.location.pathname.includes('trialRequest') && (
+          <div className="brixel-notifications">
+            {
+              notification.map((not, i) => (
+                <Fragment key={i.toString()}>
+                  <BrixelNotification
+                    className={`zIndex6 jc-fe pr-2 pr-lg-4 ${not.className ? not.className : ''} ${not.state ? 'open' : 'close'}`}
+                    handleSetNotification={(data) => handleSetNotification(data)}
+                    icon={not.icon}
+                    isSmallLoading={isSmallLoading || {}}
+                    label={not.label}
+                    notification={not}
+                    resetForm={(form, data) => handleReset(form, data)}
+                    type={not.type}
+                  />
+                </Fragment>
+              ))
+            }
+          </div>
         )
       }
 
@@ -665,15 +627,18 @@ App.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  handleSetNotification: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   handleSetWindowsDimension: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
-  notification: PropTypes.object,
+  notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   redirectTo: PropTypes.object,
   splashScreenType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   userTypes: PropTypes.string,
@@ -682,7 +647,6 @@ App.propTypes = {
 
 App.defaultProps = {
   isLoading: false,
-  notification: null,
   redirectTo: null,
   userTypes: null,
 };
@@ -691,10 +655,10 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', { }),
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
-  notification: get(state, 'common.notification', null),
+  notification: get(state, 'common.notification', []),
   redirectTo: get(state, 'common.redirectTo', null),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userTypes: get(state, 'user.userTypes', null),
@@ -702,11 +666,15 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleReset(form, value) {
+    dispatch(reset(form, value));
+  },
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 

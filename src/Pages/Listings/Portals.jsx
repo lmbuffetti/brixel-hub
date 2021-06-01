@@ -54,7 +54,7 @@ const Portals = (props) => {
   const changeReviewStatus = (status) => {
     const data = {
       page: propID,
-      smallLoader: true,
+      smallLoader: 'portalsReview',
       status,
     };
     handleUpdatePortalsReview(data);
@@ -224,7 +224,7 @@ const Portals = (props) => {
                               theme="dark"
                               rounded
                               onClick={() => changeReviewStatus('offline')}
-                              isLoading={isSmallLoading}
+                              isLoading={isSmallLoading.portalsReview}
                             />
                           </div>
                         ) : (
@@ -290,13 +290,9 @@ Portals.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
-};
-
-Portals.defaultProps = {
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => {
@@ -305,7 +301,7 @@ const mapStateToProps = (state) => {
     company: get(state, 'companies.activeSingleCompany', {}),
     customPortals: get(formValue, 'customPortals', {}),
     formValue: get(state, 'brixelForm.Property.values', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', null),
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     portals: get(formValue, 'portals', {}),
   });
 };

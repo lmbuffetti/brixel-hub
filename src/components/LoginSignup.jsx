@@ -131,7 +131,9 @@ const LoginSignup = (props) => {
           label: 'Login',
         };
       case 'reset':
-        if (notification.type === 'success') {
+        // eslint-disable-next-line no-case-declarations
+        const checkDoneStatus = notification.filter((item) => item.type === 'done');
+        if (checkDoneStatus.length > 0) {
           return {
             action: () => changeScreen('login'),
             label: 'Go to login',
@@ -399,7 +401,7 @@ LoginSignup.propTypes = {
   handleSetFormError: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  notification: PropTypes.object.isRequired,
+  notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChangeLogin: PropTypes.func,
   onDisableValidation: PropTypes.func,
   onSubmit: PropTypes.func,
@@ -419,7 +421,7 @@ const mapStateToProps = (state, props) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', ''),
   lang: get(state, 'common.language', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  notification: get(state, 'common.notification', {}),
+  notification: get(state, 'common.notification', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -17,7 +17,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import {
-  setModal, setScreenNotification, setPageData,
+  setModal, setPageData,
 } from '../../actions/CommonActions';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
@@ -231,10 +231,10 @@ const mapStateToProps = (state) => ({
   errorValue: get(state, 'brixelForm.Property.syncErrors', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   activeSingleUser: get(state, 'user.activeSingleUser', {}),
   singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
-  notification: get(state, 'common.notification', {}),
+  notification: get(state, 'common.notification', []),
   initial: get(state, 'brixelForm.Property.initial', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });
@@ -250,7 +250,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
-  setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
 });
 

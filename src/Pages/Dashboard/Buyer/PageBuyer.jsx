@@ -137,7 +137,7 @@ PageBuyer.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'property.activeSingleProperty', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

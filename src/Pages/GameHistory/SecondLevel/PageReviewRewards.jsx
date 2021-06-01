@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
@@ -167,7 +167,7 @@ const PageReviewRewards = (props) => {
                 rightIcon="arrow-right"
                 className="m-a"
                 onClick={() => openPreview(true)}
-                isLoading={isSmallLoading === 'preview'}
+                isLoading={isSmallLoading.preview}
               />
             </div>
           </>
@@ -178,23 +178,19 @@ const PageReviewRewards = (props) => {
 };
 
 PageReviewRewards.propTypes = {
-  activeSingleProperty: Proptypes.object.isRequired,
-  formValue: Proptypes.object.isRequired,
-  handleAddGameHistory: Proptypes.func.isRequired,
-  isSmallLoading: Proptypes.string,
-  history: Proptypes.object.isRequired,
-  match: Proptypes.object.isRequired,
-  gameHistory: Proptypes.arrayOf(Proptypes.object).isRequired,
-};
-
-PageReviewRewards.defaultProps = {
-  isSmallLoading: null,
+  activeSingleProperty: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
+  handleAddGameHistory: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  gameHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', ''),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   gameHistory: get(state, 'gamification.gameHistory.data', []),
 });
 
