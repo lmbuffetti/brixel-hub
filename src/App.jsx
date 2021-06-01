@@ -579,7 +579,7 @@ const App = (props) => {
               notification.map((not, i) => (
                 <Fragment key={i.toString()}>
                   <BrixelNotification
-                    className={`zIndex6 jc-fe pr-2 pr-lg-4 ${not.className ? not.className : ''} ${not.state ? 'open' : 'close'}`}
+                    className="zIndex6"
                     handleSetNotification={(data) => handleSetNotification(data)}
                     icon={not.icon}
                     isSmallLoading={isSmallLoading || {}}
