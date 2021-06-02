@@ -347,12 +347,8 @@ AddShowingsBuyer.propTypes = {
   handleSpinnerSmallOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
-  smallLoading: PropTypes.string,
+  smallLoading: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
-};
-
-AddShowingsBuyer.defaultProps = {
-  smallLoading: '',
 };
 
 const mapStateToProps = (state) => {
@@ -366,7 +362,7 @@ const mapStateToProps = (state) => {
     formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
     lang: get(state, 'user.loggedInUser.user.language', ''),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    smallLoading: get(state, 'common.isSmallLoading', null),
+    smallLoading: get(state, 'common.isSmallLoading', { }),
     userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };

@@ -344,7 +344,7 @@ MarketCheck.propTypes = {
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
-  smallLoading: PropTypes.string.isRequired,
+  smallLoading: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -353,7 +353,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.GamingFlow.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  smallLoading: get(state, 'common.isSmallLoading', null),
+  smallLoading: get(state, 'common.isSmallLoading', { }),
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
   initialValues: {
