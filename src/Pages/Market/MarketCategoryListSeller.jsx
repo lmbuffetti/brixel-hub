@@ -37,6 +37,7 @@ const MarketCategoryListSeller = (props) => {
   const {
     activeMarketOverlayProperty,
     bestimate,
+    companyListings,
     estimation,
     handleGetEstimation,
     handleSetHistory,
@@ -54,6 +55,9 @@ const MarketCategoryListSeller = (props) => {
 
   const marketCookie = getCookie('brixelMarketBestimate');
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
+  const [propertyId, setPropertyId] = useState(null);
+  const [activeCompanyId, setActiveCompanyId] = useState(null);
+  const [companyDetail, setCompanyDetail] = useState({ });
 
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
@@ -141,6 +145,18 @@ const MarketCategoryListSeller = (props) => {
       if (catList) catList.classList.remove('market-listings');
     };
   }, []);
+
+  useEffect(() => {
+    if (companyListings && activeCompanyId) {
+      const actCompany = companyListings.find((item) => item.id === activeCompanyId);
+      if (actCompany) setCompanyDetail(actCompany);
+    }
+  }, [activeCompanyId, companyListings]);
+
+  const bookNow = () => {
+    localStorage.setItem('backUrl', '/sell');
+    history.push(`/${propertyId}/trialRequest`);
+  };
 
   /* const bookNow = () => {
     localStorage.setItem('backUrl', '/sell');
@@ -419,26 +435,23 @@ const MarketCategoryListSeller = (props) => {
           <div className="max-w-fix-360 ml-sm-5 pt-sm-8 ta-c ta-l-sm">
             <h3 className="fweight-600 fsize-600 fsize-sm-800 mb-1 pt-2 pt-sm-5">Test drive our service. <br /> No strings attached.</h3>
             <h5 className="fSizePx18 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0">
-              <span>Get the full Brixel experience</span>
-              {/* {
-                // todo
-                get(teaserPrice, 'price', 0) > 0 ? (
+              {
+                get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
                   <>
                     <span>Get the full Brixel experience worth</span>
-                    <span className="ml-small-4">{get(teaserPrice, 'currency', '')} {Helpers.formatNumberValue(get(teaserPrice, 'price', ''), get(teaserPrice, 'currency', ''))}.</span>
+                    <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
                   </>
                 ) : (
                   <span>Get the full Brixel experience</span>
                 )
-              } */}
+              }
             </h5>
             <BrixelButtonPrimary
               rounded
               theme="green"
               themeSat={600}
               label="Request now"
-              // todo
-              // onClick={() => bookNow()}
+              onClick={() => bookNow()}
               className="mb-2 ml-a ml-sm-0 mr-sm-0 mr-a"
             />
 
@@ -453,6 +466,8 @@ const MarketCategoryListSeller = (props) => {
               type="own"
               items={ownerProperties.data}
               total={ownerProperties.total}
+              setPropertyId={(id) => setPropertyId(id)}
+              setActiveSingleCompany={(id) => setActiveCompanyId(id)}
             />
           )
         }
@@ -519,6 +534,7 @@ const MarketCategoryListSeller = (props) => {
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
+  companyListings: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
@@ -538,6 +554,7 @@ const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   bestimate: get(state, 'property.estimation.result', {}),
+  companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),

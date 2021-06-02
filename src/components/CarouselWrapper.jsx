@@ -9,8 +9,6 @@ import Slider from 'react-slick';
 import {
   BrixelButtonIcon,
   BrixelButtonText,
-  BrixelButtonPrimary,
-  Helpers,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -21,15 +19,16 @@ const CarouselWrapper = (props) => {
   // PROPS
   const {
     className,
-    titleClass,
-    companyListings,
     history,
     items,
     layout,
     loggedInUser,
     match,
     onSetActiveProperty,
+    setActiveSingleCompany,
+    setPropertyId,
     title,
+    titleClass,
     total,
     type,
     windowDimensions,
@@ -37,7 +36,6 @@ const CarouselWrapper = (props) => {
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [preventClick, setPreventClick] = useState(false);
-  const [teaserPrice, setTeaserPrice] = useState({});
 
   const sliderInstance = useRef(null);
   let slideToShow = 1;
@@ -92,11 +90,6 @@ const CarouselWrapper = (props) => {
     }
   };
 
-  const bookNow = () => {
-    localStorage.setItem('backUrl', '/sell');
-    history.push(`/${items[activeSlide].id}/trialRequest`);
-  };
-
   // eslint-disable-next-line consistent-return
   const showAll = useCallback(() => {
     const baseUrl = match.url.includes('sell') ? 'sell' : 'buy';
@@ -129,15 +122,12 @@ const CarouselWrapper = (props) => {
   useEffect(() => {
     if (layout === 'singleOwnCard') {
       const activeCompanyId = items[activeSlide].company;
-      const activeCompanyDetail = companyListings.find((item) => item.id === activeCompanyId);
-      if (activeCompanyDetail) {
-        setTeaserPrice({
-          price: get(activeCompanyDetail, 'meta.teaserPackage.price', ''),
-          currency: get(activeCompanyDetail, 'meta.teaserPackage.currency', ''),
-        });
+      if (activeCompanyId) {
+        setActiveSingleCompany(activeCompanyId);
+        setPropertyId(items[activeSlide].id);
       }
     }
-  }, [activeSlide, companyListings]);
+  }, [activeSlide]);
 
   if (layout === 'singleOwnCard') {
     return (
@@ -312,17 +302,18 @@ const CarouselWrapper = (props) => {
 
 CarouselWrapper.propTypes = {
   className: PropTypes.string,
-  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.object.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   layout: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   onSetActiveProperty: PropTypes.func,
+  setActiveSingleCompany: PropTypes.func,
+  setPropertyId: PropTypes.func,
   title: PropTypes.string,
+  titleClass: PropTypes.string,
   total: PropTypes.number,
   type: PropTypes.string,
-  titleClass: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -331,14 +322,15 @@ CarouselWrapper.defaultProps = {
   items: null,
   layout: null,
   onSetActiveProperty: () => '',
+  setActiveSingleCompany: () => '',
+  setPropertyId: () => '',
   title: '',
+  titleClass: '',
   total: 0,
   type: '',
-  titleClass: '',
 };
 
 const mapStateToProps = (state) => ({
-  companyListings: get(state, 'companies.companyListings.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
