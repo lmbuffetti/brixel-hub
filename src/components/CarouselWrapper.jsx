@@ -17,9 +17,6 @@ import { connect } from 'react-redux';
 import { setWindowDimensions } from '../actions/CommonActions';
 import MarketCard from './MarketCard';
 
-// images
-import testdrive from '../images/Market/testdrive.svg';
-
 const CarouselWrapper = (props) => {
   // PROPS
   const {

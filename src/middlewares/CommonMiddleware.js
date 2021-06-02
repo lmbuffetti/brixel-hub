@@ -77,7 +77,7 @@ const checkCommon = (store) => (next) => (action) => {
       } else if (!action.payload.state) {
         const getIndex = notification.findIndex((item) => item.type === action.payload.type && item.label === action.payload.label);
         const getIndexSaveData = notification.findIndex((item) => item.action === 'saveData');
-        notification[getIndex].state = action.payload.state;
+        if (notification[getIndex]) notification[getIndex].state = action.payload.state;
         if (notification[getIndexSaveData]) {
           delete notification[getIndexSaveData].action;
         }
