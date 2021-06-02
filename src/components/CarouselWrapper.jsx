@@ -148,49 +148,7 @@ const CarouselWrapper = (props) => {
         {/* <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
           <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
         </div> */}
-        <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
-          <BrixelButtonText
-            className="fsize-300 show-all pos-r mr-1"
-            label={`<span>View all properties</span> <span class="ml-1">(${total})</span>`}
-            onClick={() => showAll()}
-          />
-          <BrixelButtonText
-            className="fsize-300 show-all pos-r"
-            label="+ Add new"
-            onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
-          />
-        </div>
-        <div className="marketSellBanner dis-fl-col dis-fl-row-sm a-c jc-c pb-2 mt-2-neg mt-sm-0">
-          <div className="max-w-fix-144 min-h-fix-200 min-h-fix-sm-360 max-w-fix-sm-264 w-perc-100">
-            <img src={testdrive} alt="testdrive" />
-          </div>
-          <div className="max-w-fix-360 ml-sm-5 pt-sm-8 ta-c ta-l-sm">
-            <h3 className="fweight-600 fsize-600 fsize-sm-800 mb-1 pt-2 pt-sm-5">Test drive our service. <br /> No strings attached.</h3>
-            <h5 className="fSizePx18 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0">
-              {
-                get(teaserPrice, 'price', 0) > 0 ? (
-                  <>
-                    <span>Get the full Brixel experience worth</span>
-                    <span className="ml-small-4">{get(teaserPrice, 'currency', '')} {Helpers.formatNumberValue(get(teaserPrice, 'price', ''), get(teaserPrice, 'currency', ''))}.</span>
-                  </>
-                ) : (
-                  <span>Get the full Brixel experience</span>
-                )
-              }
-            </h5>
-            <BrixelButtonPrimary
-              rounded
-              theme="green"
-              themeSat="600"
-              label="Request now"
-              onClick={() => bookNow()}
-              className="mb-2 ml-a ml-sm-0 mr-sm-0 mr-a"
-            />
-            {/* <p className="fsize-100 mb-5">No commission. No hidden terms.</p> */}
 
-          </div>
-
-        </div>
         <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
           <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
             <Slider ref={sliderInstance} {...settingSlider()}>
