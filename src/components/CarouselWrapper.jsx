@@ -181,7 +181,7 @@ const CarouselWrapper = (props) => {
             <BrixelButtonPrimary
               rounded
               theme="green"
-              themeSat="600"
+              themeSat={600}
               label="Request now"
               onClick={() => bookNow()}
               className="mb-2 ml-a ml-sm-0 mr-sm-0 mr-a"

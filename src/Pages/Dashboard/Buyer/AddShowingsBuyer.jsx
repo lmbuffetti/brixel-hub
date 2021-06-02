@@ -26,7 +26,6 @@ import { DateTime } from 'luxon';
 import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
 import ContactForm from '../../../components/ContactForm';
-import 'react-datepicker/dist/react-datepicker.css';
 import 'react-input-range/lib/css/index.css';
 
 // COMPONENTS
