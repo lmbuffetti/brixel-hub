@@ -60,27 +60,34 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       let notification = cloneDeep(get(store.getState(), 'common.notification', []));
       const errorExist = notification.filter((item) => item.type === action.payload.type && item.label === action.payload.label);
+      let delaySetState = 0;
       if (action.payload.type === 'resetAll') {
-        store.dispatch({ type: SET_NOTIFICATION, payload: [] });
+        notification = [];
       } else if (errorExist.length === 0 && action.payload.state) {
         if (action.payload.type === 'save') notification = [action.payload];
         else notification.push(action.payload);
-        store.dispatch({ type: SET_NOTIFICATION, payload: notification });
       } else if (action.payload.type === 'save') {
         const getIndex = notification.findIndex((item) => item.type === action.payload.type);
         if (action.payload.action !== notification[getIndex].action) {
           notification[getIndex].action = action.payload.action;
         } else {
           notification.splice(getIndex, 1);
+          delaySetState = 2000;
         }
-        store.dispatch({ type: SET_NOTIFICATION, payload: notification });
       } else if (!action.payload.state) {
         const getIndex = notification.findIndex((item) => item.type === action.payload.type && item.label === action.payload.label);
         const getIndexSaveData = notification.findIndex((item) => item.action === 'saveData');
+        notification[getIndex].state = action.payload.state;
+        if (notification[getIndexSaveData]) {
+          delete notification[getIndexSaveData].action;
+        }
+        store.dispatch({ type: SET_NOTIFICATION, payload: cloneDeep(notification) });
+        delaySetState = 2000;
         notification.splice(getIndex, 1);
-        if (notification[getIndexSaveData]) delete notification[getIndexSaveData].action;
-        store.dispatch({ type: SET_NOTIFICATION, payload: notification });
       }
+      setTimeout(() => {
+        store.dispatch({ type: SET_NOTIFICATION, payload: notification });
+      }, delaySetState);
       break;
     }
     default:

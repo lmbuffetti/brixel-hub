@@ -579,10 +579,10 @@ const App = (props) => {
               notification.map((not, i) => (
                 <Fragment key={i.toString()}>
                   <BrixelNotification
-                    className="zIndex6"
+                    className={not.state ? '' : 'fadeOut'}
                     handleSetNotification={(data) => handleSetNotification(data)}
+                    isSmallLoading={isSmallLoading}
                     icon={not.icon}
-                    isSmallLoading={isSmallLoading || {}}
                     label={not.label}
                     notification={not}
                     resetForm={(form, data) => handleReset(form, data)}
