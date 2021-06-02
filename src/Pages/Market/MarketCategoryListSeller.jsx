@@ -434,17 +434,20 @@ const MarketCategoryListSeller = (props) => {
           </div>
           <div className="max-w-fix-360 ml-sm-5 pt-sm-8 ta-c ta-l-sm">
             <h3 className="fweight-600 fsize-600 fsize-sm-800 mb-1 pt-2 pt-sm-5">Test drive our service. <br /> No strings attached.</h3>
-            <h5 className="fSizePx18 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0">
+            <h5 className="fSizePx18 min-h-fix-56 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0">
               {
                 get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
                   <>
-                    <span>Get the full Brixel experience worth</span>
+                    <span>Get the full Brixel experience <br /> worth</span>
                     <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
                   </>
                 ) : (
                   <span>Get the full Brixel experience</span>
                 )
               }
+              { get(companyDetail, 'meta.teaserPackage.price', 0) === 0 && (
+                <span className="dis-b"> worth . . . </span>
+              )}
             </h5>
             <BrixelButtonPrimary
               rounded
@@ -474,7 +477,7 @@ const MarketCategoryListSeller = (props) => {
         {
           (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
             <div className="marketSellBanner">
-              <div className="m-a max-w-fix-376 max-w-fix-sm-768">
+              <div className="m-a px-2 px-sm-0 max-w-fix-480 max-w-fix-sm-768">
                 <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
                 <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
               </div>
