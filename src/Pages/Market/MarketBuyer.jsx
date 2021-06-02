@@ -84,7 +84,7 @@ const MarketBuyer = (props) => {
   }, [userSearchProfiles, get(history, 'location.pathname', null)]);
 
   return (
-    <div className="market-container container buyerPage" id="market">
+    <div className="market-container buyerPage" id="market">
       {/* premarket overlay */}
       <Switch>
         <Route exact path="/buy" component={MarketCategoryListBuyer} />

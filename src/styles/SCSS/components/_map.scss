@@ -157,6 +157,8 @@
   }
   .gm-style .gm-style-iw-c {
     box-shadow: $shadow-3dp;
+    top: 30px !important;
+    min-width: 300px !important;
   }
   .info {
     padding: $step * 2;

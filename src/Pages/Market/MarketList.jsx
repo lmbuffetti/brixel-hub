@@ -267,7 +267,7 @@ const MarketList = (props) => {
   }, []);
 
   return (
-    <>
+    <div className="container">
       <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
         <BrixelButtonPrimary
           label="Map View"
@@ -370,7 +370,7 @@ const MarketList = (props) => {
                 theme="dark"
                 onClick={() => handleMapClose()}
                 icon="close-small"
-                className="pos-a-fix x-r-0 zIndex1 mt-2 mr-2"
+                className="pos-a-fix x-r-0 zIndex1 mt-10 mr-2"
               />
             )
           }
@@ -382,7 +382,7 @@ const MarketList = (props) => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
