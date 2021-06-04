@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
+import { checkBrowser } from '../../utils/helpers';
 
 const { factsOptions } = FactsOptions;
 
@@ -107,10 +108,14 @@ const ScanTrialFlow = (props) => {
   // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act, condition) => {
     const el = document.getElementsByClassName('singleStep')[0];
-    el.scrollTo({
-      top: 0,
-      left: 0,
-    });
+    if (checkBrowser() > 0) {
+      el.scrollTop = 0;
+    } else {
+      el.scrollTo({
+        top: 0,
+        left: 0,
+      });
+    }
     if (currentIndex < 1) {
       if (condition || condition === false) changeFieldValue('interested', condition);
       if (condition) {

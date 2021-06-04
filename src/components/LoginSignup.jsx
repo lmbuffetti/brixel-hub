@@ -13,6 +13,7 @@ import { setFormError } from '../actions/CommonActions';
 import { recoverPassword } from '../actions/UserActions';
 import Support from './Support';
 import Accordion from './Accordion';
+import { checkBrowser } from '../utils/helpers';
 
 // COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {
@@ -58,7 +59,11 @@ const LoginSignup = (props) => {
 
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"
-    window.scrollTo({ top: 0 });
+    if (checkBrowser() > 0) {
+      window.scrollTop = 0;
+    } else {
+      window.scrollTo({ top: 0 });
+    }
   }, []);
 
   // FUNCTION TO SAVE THE DATA, IF NOT VALID SHOW THE ERROR

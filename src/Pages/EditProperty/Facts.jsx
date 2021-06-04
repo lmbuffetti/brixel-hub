@@ -21,7 +21,7 @@ import {
 } from '../../actions/CommonActions';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
-import { calcPercentageFacts } from '../../utils/helpers';
+import { calcPercentageFacts, checkBrowser } from '../../utils/helpers';
 
 // COMPONENTS
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
@@ -117,8 +117,13 @@ const Facts = (props) => {
         onSelectQuest(Questions[findCurrentId + 1]);
         const scrollElement = document.getElementById('bodyScroll');
         const scrollElementMobile = document.getElementById('factsQuestion');
-        scrollElement.scrollTo({ top: 0, behavior: 'smooth' });
-        scrollElementMobile.scrollTo({ top: 0, behavior: 'smooth' });
+        if (checkBrowser() > 0) {
+          scrollElement.scrollTop = 0;
+          scrollElementMobile.scrollTop = 0;
+        } else {
+          scrollElement.scrollTo({ top: 0, behavior: 'smooth' });
+          scrollElementMobile.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
       handleSaveData('saveFacts');
     }
