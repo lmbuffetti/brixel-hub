@@ -579,7 +579,7 @@ const App = (props) => {
               notification.map((not, i) => (
                 <Fragment key={i.toString()}>
                   <BrixelNotification
-                    className={not.state ? '' : 'fadeOutLeft'}
+                    className={not.state ? 'fadeInLeft' : 'fadeOutLeft'}
                     handleSetNotification={(data) => handleSetNotification(data)}
                     isSmallLoading={isSmallLoading}
                     icon={not.icon}

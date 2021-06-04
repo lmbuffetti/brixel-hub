@@ -74,7 +74,7 @@ const checkCommon = (store) => (next) => (action) => {
           notification[getIndex].action = action.payload.action;
         } else if (!action.payload.state) {
           store.dispatch({ type: SET_NOTIFICATION, payload: cloneDeep(notification) });
-          delaySetState = 2000;
+          delaySetState = 4000;
         }
       } else if (!action.payload.state) {
         const getIndex = notification.findIndex((item) => item.type === action.payload.type && item.label === action.payload.label);

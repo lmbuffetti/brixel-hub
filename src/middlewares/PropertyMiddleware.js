@@ -192,16 +192,6 @@ const checkCommon = (store) => (next) => (action) => {
                 action: 'reloadButton',
               },
             });
-            setTimeout(() => {
-              store.dispatch({
-                type: SET_ACTIVE_SINGLE_PROPERTY,
-                payload: {},
-              });
-              store.dispatch({
-                type: GET_ACTIVE_SINGLE_PROPERTY,
-                payload: id,
-              });
-            }, 1000);
           } else {
             if (splashType === 'bestimateTeaser') {
               store.dispatch({ type: SET_SPLASH_TYPE, payload: 'bestimateTeaser' });
