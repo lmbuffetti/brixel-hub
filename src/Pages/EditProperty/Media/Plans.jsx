@@ -20,7 +20,7 @@ import { deleteImg, multiUploadImg, uploadImg } from '../../../actions/UploadAct
 import DetailMedia from './DetailMedia';
 import uploadFloorPlansEmpty from '../../../images/Upload/upload_floorPlans_empty.svg';
 import OutsideElement from '../../../components/OutsideElement';
-import { tobase64Handler, Truncate } from '../../../utils/helpers';
+import { tobase64Handler, Truncate, checkBrowser } from '../../../utils/helpers';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
@@ -133,7 +133,12 @@ const Photos = (props) => {
 
   const scrollToTopEdit = () => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
-    if (scrollEl) scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
+    if (checkBrowser() > 0 && scrollEl) {
+      scrollEl.scrollTop = 0;
+    } else if (scrollEl) {
+      scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
+    }
+
   };
 
   return (

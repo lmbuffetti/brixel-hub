@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setFormError } from '../actions/CommonActions';
 import { recoverPassword } from '../actions/UserActions';
+import { checkBrowser } from '../utils/helpers';
 import Support from './Support';
 import Accordion from './Accordion';
 
@@ -58,7 +59,11 @@ const LoginSignup = (props) => {
 
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"
-    window.scrollTo({ top: 0 });
+    if (checkBrowser() > 0) {
+      window.scrollTop = 0;
+    } else {
+      window.scrollTo({ top: 0 });
+    }
   }, []);
 
   // FUNCTION TO SAVE THE DATA, IF NOT VALID SHOW THE ERROR

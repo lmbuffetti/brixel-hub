@@ -22,7 +22,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
 import { deleteImg, uploadImg, multiUploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
-import { Truncate, tobase64Handler } from '../../../utils/helpers';
+import { Truncate, tobase64Handler, checkBrowser } from '../../../utils/helpers';
 import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
 import OutsideElement from '../../../components/OutsideElement';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
@@ -148,7 +148,12 @@ const Photos = (props) => {
 
   const scrollToTopEdit = () => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
-    if (scrollEl) scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
+    if (checkBrowser() > 0 && scrollEl) {
+      scrollEl.scrollTop = 0;
+    } else if (scrollEl) {
+      scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
+    }
+
   };
 
   return (

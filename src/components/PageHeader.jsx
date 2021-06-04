@@ -14,7 +14,7 @@ import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_
 import Loadable from 'react-loadable';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { setCookie } from '../utils/helpers';
+import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import { translateTo } from '../utils/translation';
@@ -119,7 +119,12 @@ function PageHeader(props) {
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"
     if (window.innerWidth < 590) {
-      window.scrollTo({ top: 0 });
+      if (checkBrowser() > 0) {
+        window.scrollTop = 0;
+      } else {
+        window.scrollTo({ top: 0 });
+      }
+
     }
   }, []);
 
