@@ -62,16 +62,18 @@ const checkCommon = (store) => (next) => (action) => {
       const errorExist = notification.filter((item) => item.type === action.payload.type && item.label === action.payload.label);
       let delaySetState = 0;
       if (action.payload.type === 'resetAll') {
-        notification = [];
+        // notification = [];
       } else if (errorExist.length === 0 && action.payload.state) {
-        if (action.payload.type === 'save') notification = [action.payload];
+        const checkAlert = notification.filter((item) => item.type === 'alert');
+        if (action.payload.type === 'save' && checkAlert.length > 0) notification = [action.payload];
         else notification.push(action.payload);
       } else if (action.payload.type === 'save') {
         const getIndex = notification.findIndex((item) => item.type === action.payload.type);
-        if (action.payload.action !== notification[getIndex].action) {
+        if (notification[getIndex]) notification[getIndex].state = action.payload.state;
+        if (action.payload.action !== notification[getIndex].action && getIndex >= 0) {
           notification[getIndex].action = action.payload.action;
-        } else {
-          notification.splice(getIndex, 1);
+        } else if (!action.payload.state) {
+          store.dispatch({ type: SET_NOTIFICATION, payload: cloneDeep(notification) });
           delaySetState = 2000;
         }
       } else if (!action.payload.state) {
@@ -83,11 +85,17 @@ const checkCommon = (store) => (next) => (action) => {
         }
         store.dispatch({ type: SET_NOTIFICATION, payload: cloneDeep(notification) });
         delaySetState = 2000;
-        notification.splice(getIndex, 1);
       }
-      setTimeout(() => {
+      if (delaySetState === 0) {
         store.dispatch({ type: SET_NOTIFICATION, payload: notification });
-      }, delaySetState);
+      } else {
+        setTimeout(() => {
+          notification = cloneDeep(get(store.getState(), 'common.notification', []));
+          const getIndex = notification.findIndex((item) => item.type === action.payload.type && item.label === action.payload.label);
+          if (getIndex >= 0) notification.splice(getIndex, 1);
+          store.dispatch({ type: SET_NOTIFICATION, payload: notification });
+        }, delaySetState);
+      }
       break;
     }
     default:

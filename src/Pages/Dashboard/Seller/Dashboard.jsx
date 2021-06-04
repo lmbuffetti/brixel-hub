@@ -323,12 +323,14 @@ const Dashboard = (props) => {
       let changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
       changeObj = omit(changeObj, ['inputSheet']);
+      const getIndexNotification = notification.findIndex((item) => item.type === 'save');
       if (Object.keys(changeObj).length === 0 && get(notification, 'label', '').toLowerCase().includes('changes')) {
         handleSetScreenNotification({
-          ...notification,
+          ...notification[getIndexNotification],
           state: false,
         });
       }
+
       if (
         checkIsValid &&
         Object.keys(changeObj).length > 0 &&
@@ -350,7 +352,7 @@ const Dashboard = (props) => {
         !get(notification, 'label', '').toLowerCase().includes('saved')
       ) {
         handleSetScreenNotification({
-          ...notification,
+          ...notification[getIndexNotification],
           state: false,
         });
       }

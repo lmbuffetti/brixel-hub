@@ -416,12 +416,11 @@ const MarketCategoryListSeller = (props) => {
 
       <div className="mb-5 mb-sm-3 mt-4-neg mt-sm-10-neg">
         <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
-          {/* <BrixelButtonText
+          <BrixelButtonText
             className="fsize-300 show-all pos-r mr-1"
-            // todo please show the total and showall fucntion here
-            // label={`<span>View all properties</span> <span class="ml-1">(${total})</span>`}
-            // onClick={() => showAll()}
-          /> */}
+            label={`<span>View all properties</span> <span class="ml-1">(${get(ownerProperties, 'total', '-')})</span>`}
+            onClick={() => history.push('/sell/own')}
+          />
           <BrixelButtonText
             className="fsize-300 show-all pos-r"
             label="+ Add new"
@@ -537,7 +536,7 @@ const MarketCategoryListSeller = (props) => {
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
-  companyListings: PropTypes.object.isRequired,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
