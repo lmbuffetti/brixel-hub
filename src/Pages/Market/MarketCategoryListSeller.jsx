@@ -25,7 +25,7 @@ import marketSkelton from '../../images/market-skelton.svg';
 import marketSkeltonMobile from '../../images/market-skelton-mobile.svg';
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
-import testdrive from '../../images/Market/testdrive.svg';
+import testdrive from '../../images/Market/testdrive.jpeg';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
