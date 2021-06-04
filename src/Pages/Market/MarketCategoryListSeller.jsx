@@ -537,7 +537,7 @@ const MarketCategoryListSeller = (props) => {
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
-  companyListings: PropTypes.object.isRequired,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
