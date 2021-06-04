@@ -124,7 +124,6 @@ function PageHeader(props) {
       } else {
         window.scrollTo({ top: 0 });
       }
-
     }
   }, []);
 

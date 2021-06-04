@@ -124,7 +124,6 @@ const Facts = (props) => {
           scrollElement.scrollTo({ top: 0, behavior: 'smooth' });
           scrollElementMobile.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
       }
       handleSaveData('saveFacts');
     }

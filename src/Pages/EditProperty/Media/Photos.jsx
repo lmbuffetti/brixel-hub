@@ -153,7 +153,6 @@ const Photos = (props) => {
     } else if (scrollEl) {
       scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
     }
-
   };
 
   return (

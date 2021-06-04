@@ -42,7 +42,6 @@ const Support = (props) => {
         } else {
           scrollPage.scrollTo({ top: scrollPage.offsetHeight, behavior: 'smooth' });
         }
-
       }, 100);
     }
   };

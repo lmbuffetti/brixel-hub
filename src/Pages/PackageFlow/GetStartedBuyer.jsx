@@ -239,7 +239,6 @@ const GetStartedBuyer = (props) => {
           if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
           if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
       }
     }
   };

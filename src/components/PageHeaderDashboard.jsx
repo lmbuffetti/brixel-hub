@@ -500,7 +500,7 @@ function PageHeaderDashboard(props) {
                 )
               }
               {
-                propID && windowDimensions.width > 1024 && userType === 'seller' && (
+                propID && windowDimensions.width > 1024 && userType === 'seller' && propID !== 'sell' && propID !== 'buy' && (
                   <>
                     <BrixelButtonText
                       className="hide dis-f-md ml-2 mr-2"
