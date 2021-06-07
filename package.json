@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "2.3.73",
+    "@brixel/brixel-components": "2.3.75",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^1.2.2",
     "css-split-webpack-plugin": "^0.2.6",
     "d3": "^6.7.0",
     "date-fns": "^2.22.1",
     "deep-object-diff": "^1.1.0",
-    "eslint": "^7.27.0",
+    "eslint": "^7.28.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-webpack": "^0.13.1",
@@ -112,7 +112,7 @@
     "webpack": "4.44.2",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.7.3",
+    "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0"
   }
 }
