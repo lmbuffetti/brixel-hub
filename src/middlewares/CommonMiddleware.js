@@ -84,7 +84,7 @@ const checkCommon = (store) => (next) => (action) => {
           delete notification[getIndexSaveData].action;
         }
         store.dispatch({ type: SET_NOTIFICATION, payload: cloneDeep(notification) });
-        delaySetState = 2000;
+        delaySetState = 1000;
       }
       if (delaySetState === 0) {
         store.dispatch({ type: SET_NOTIFICATION, payload: notification });
