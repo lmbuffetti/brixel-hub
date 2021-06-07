@@ -20,7 +20,7 @@ import { deleteImg, multiUploadImg, uploadImg } from '../../../actions/UploadAct
 import DetailMedia from './DetailMedia';
 import uploadFloorPlansEmpty from '../../../images/Upload/upload_floorPlans_empty.svg';
 import OutsideElement from '../../../components/OutsideElement';
-import { tobase64Handler, Truncate } from '../../../utils/helpers';
+import { tobase64Handler, Truncate, checkBrowser } from '../../../utils/helpers';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
@@ -53,7 +53,7 @@ const Photos = (props) => {
 
   // COMPARE FLOOR PLANS AND fixPhotos TO ADD THE PREVIEW FLOOR PLANS ON UPLOADING
   useEffect(() => {
-    if (Object.keys(diff(floorPlans, fixPhotos)).length > 0 && !isSmallLoading) {
+    if (Object.keys(diff(floorPlans, fixPhotos)).length > 0 && !isSmallLoading.uploadMedia) {
       setNewImages([]);
       setConfirmDelete(null);
       setBtnActive(null);
@@ -68,7 +68,7 @@ const Photos = (props) => {
       id: mediaID,
       pageID: propID,
       type: 'floorPlans',
-      smallLoader: true,
+      smallLoader: 'deleteMedia',
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
@@ -91,7 +91,7 @@ const Photos = (props) => {
         allImgs: res,
         actions: 'floorPlans',
         pageID: formValue.id || propID,
-        smallLoader: 'upload',
+        smallLoader: 'uploadMedia',
       });
     });
   }, []);
@@ -133,7 +133,11 @@ const Photos = (props) => {
 
   const scrollToTopEdit = () => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
-    if (scrollEl) scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
+    if (checkBrowser() > 0 && scrollEl) {
+      scrollEl.scrollTop = 0;
+    } else if (scrollEl) {
+      scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -195,7 +199,7 @@ const Photos = (props) => {
                                   label="delete?"
                                   className={`${confirmDelete === i ? '' : 'hide'}`}
                                   onClick={() => deleteImage(item.id)}
-                                  isLoading={isSmallLoading && btnActive === 'delete'}
+                                  isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
                                 />
                                 <BrixelButtonIcon
                                   ghost
@@ -236,7 +240,7 @@ const Photos = (props) => {
                           data-id={JSON.stringify(fixPhotos[0])}
                         >
                           {
-                            isSmallLoading && (
+                            isSmallLoading.uploadMedia && (
                               <div
                                 className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
                               >
@@ -271,7 +275,7 @@ const Photos = (props) => {
                   label="upload"
                   rightIcon="upload"
                   className="mt-3"
-                  isLoading={isSmallLoading === 'upload'}
+                  isLoading={isSmallLoading.uploadMedia}
                 />
               </div>
             </>
@@ -305,21 +309,17 @@ Photos.propTypes = {
   handleMultiUploadImg: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
-};
-
-Photos.defaultProps = {
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   imageType: get(state, 'images.imageType', []),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

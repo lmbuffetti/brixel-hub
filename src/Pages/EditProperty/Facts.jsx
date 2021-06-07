@@ -17,11 +17,11 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import {
-  setModal, setScreenNotification, setPageData,
+  setModal, setPageData,
 } from '../../actions/CommonActions';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
-import { calcPercentageFacts } from '../../utils/helpers';
+import { calcPercentageFacts, checkBrowser } from '../../utils/helpers';
 
 // COMPONENTS
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
@@ -117,8 +117,13 @@ const Facts = (props) => {
         onSelectQuest(Questions[findCurrentId + 1]);
         const scrollElement = document.getElementById('bodyScroll');
         const scrollElementMobile = document.getElementById('factsQuestion');
-        scrollElement.scrollTo({ top: 0, behavior: 'smooth' });
-        scrollElementMobile.scrollTo({ top: 0, behavior: 'smooth' });
+        if (checkBrowser() > 0) {
+          scrollElement.scrollTop = 0;
+          scrollElementMobile.scrollTop = 0;
+        } else {
+          scrollElement.scrollTo({ top: 0, behavior: 'smooth' });
+          scrollElementMobile.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
       handleSaveData('saveFacts');
     }
@@ -231,10 +236,10 @@ const mapStateToProps = (state) => ({
   errorValue: get(state, 'brixelForm.Property.syncErrors', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   activeSingleUser: get(state, 'user.activeSingleUser', {}),
   singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
-  notification: get(state, 'common.notification', {}),
+  notification: get(state, 'common.notification', []),
   initial: get(state, 'brixelForm.Property.initial', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });
@@ -250,7 +255,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
-  setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
 });
 

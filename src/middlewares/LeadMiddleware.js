@@ -35,7 +35,9 @@ const checkLead = (store) => (next) => (action) => {
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL_ON,
-          payload: smallLoader,
+          payload: {
+            [smallLoader]: true,
+          },
         });
       } else {
         store.dispatch({
@@ -51,6 +53,7 @@ const checkLead = (store) => (next) => (action) => {
               const data = {
                 properties: response.data.data,
                 total: response.data.total,
+                smallLoader,
               };
               store.dispatch({
                 type: SET_PROPERTY_LISTINGS,

@@ -21,7 +21,7 @@ import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodeP
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
-import { calcPercentageFacts, setCookie } from '../../utils/helpers';
+import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingSeller';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
@@ -246,8 +246,13 @@ const GetStartedSeller = (props) => {
         }
         const getOnlyQuest = questions.filter((item) => item.inputs);
         setProgressBar((defId * 100) / getOnlyQuest.length);
-        if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-        if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+        if (checkBrowser() > 0) {
+          if (singleStepEl) singleStepEl.scrollTop = 0;
+          if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
+        } else {
+          if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+          if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
     }
   };

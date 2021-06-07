@@ -76,7 +76,7 @@ const Upgrade = (props) => {
   const saveData = () => {
     const data = {
       page: propID,
-      smallLoader: true,
+      smallLoader: 'saveData',
       data: {
         userId: loggedInUser.id,
         ...formValue.packageUpgrade,
@@ -153,7 +153,7 @@ const Upgrade = (props) => {
     return label;
   };
 
-  if (isSmallLoading) {
+  if (isSmallLoading.getData) {
     return <div />;
   }
 
@@ -296,7 +296,7 @@ const mapStateToProps = (state) => {
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.GamingFlow.values', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', null),
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     packagesProperty: get(state, 'companies.activeSingleCompany.servicePackages', []),
     initialValues: {

@@ -27,7 +27,7 @@ const OfferDetail = (props) => {
     if (activeSingleProperty.id && activeSingleDeal.id !== dealID && !isBuyer) {
       const data = {
         id: dealID,
-        smallLoader: true,
+        smallLoader: 'getDeal',
       };
       handleGetActiveSingleDeal(data);
     }

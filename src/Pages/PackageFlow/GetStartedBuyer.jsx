@@ -27,7 +27,7 @@ import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodeP
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { setCookie } from '../../utils/helpers';
+import { setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingBuyer';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
@@ -232,8 +232,13 @@ const GetStartedBuyer = (props) => {
         const getOnlyQuest = reloadQuestions.filter((item) => item.inputs);
         setQuestions(reloadQuestions);
         setProgressBar((defId * 100) / getOnlyQuest.length);
-        if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-        if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+        if (checkBrowser() > 0) {
+          if (singleStepEl) singleStepEl.scrollTop = 0;
+          if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
+        } else {
+          if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+          if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
     }
   };

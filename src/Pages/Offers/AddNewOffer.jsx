@@ -60,7 +60,7 @@ const AddNewOffer = (props) => {
   }, [activeSingleProperty, activeSingleCompany]);
 
   useEffect(() => {
-    if (isSmallLoading === 'done') {
+    if (isSmallLoading.makeOffer === 'done') {
       setSuccess(true);
     }
   }, [isSmallLoading]);
@@ -303,14 +303,13 @@ AddNewOffer.propTypes = {
   handleUploadDocument: PropTypes.func.isRequired,
   initForm: PropTypes.func,
   initialValue: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userLang: PropTypes.string.isRequired,
 };
 
 AddNewOffer.defaultProps = {
-  isSmallLoading: null,
   initForm: () => '',
 };
 
@@ -321,7 +320,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   errors: get(state, 'brixelForm.Offer.syncErrors', {}),
   formValue: get(state, 'brixelForm.Offer.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValue: {
     currency: 'CHF',

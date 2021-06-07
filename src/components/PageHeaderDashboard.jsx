@@ -118,7 +118,7 @@ function PageHeaderDashboard(props) {
         id: get(loggedInUser, 'user.id', null),
         language: defLangCode,
         setLoggedInUser: true,
-        smallLoader: true,
+        smallLoader: 'saveData',
       };
       handleSaveActiveSingleUser(userData);
     }
@@ -500,7 +500,7 @@ function PageHeaderDashboard(props) {
                 )
               }
               {
-                propID && windowDimensions.width > 1024 && userType === 'seller' && (
+                propID && windowDimensions.width > 1024 && userType === 'seller' && propID !== 'sell' && propID !== 'buy' && (
                   <>
                     <BrixelButtonText
                       className="hide dis-f-md ml-2 mr-2"
@@ -651,7 +651,7 @@ function PageHeaderDashboard(props) {
         </div>
         <div className="tabWrapper hide-xlg">
           {
-            !history.location.pathname.includes('home') && has(activeSingleProperty, 'id') && (
+            !history.location.pathname.includes('sell') && !history.location.pathname.includes('buy') && has(activeSingleProperty, 'id') && (
               <>
                 {
                   userType === 'seller' ? (

@@ -203,20 +203,16 @@ HomeDashboard.propTypes = {
   handleGetUserProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  // isSmallLoading: PropTypes.string,
+  // isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-HomeDashboard.defaultProps = {
-  // isSmallLoading: null,
-};
-
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   form: get(state, 'brixelForm', {}),
-  // isSmallLoading: get(state, 'common.isSmallLoading', null),
+  // isSmallLoading: get(state, 'common.isSmallLoading', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),

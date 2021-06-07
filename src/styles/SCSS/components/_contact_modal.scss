@@ -96,15 +96,14 @@
   }
   #wrapDatePicker {
     position: static;
+
+    .button-choice {
+      width: 100%;
+      top: 284px;
+    }
     #fixedDatePicker {
-      top: auto;
-      bottom: 16px;
-      left: 16px;
-      position: absolute;
-      width: calc(100% - 32px);
-      background: $brx-white;
-      box-shadow: 0 0 1px 0 rgba(10,22,70,0.06), 0 16px 16px -1px rgba(10,22,70,0.10);
-      border-radius: $step;
+      bottom: auto;
+      top: 100px;
     }
     .react-datepicker {
       position: relative;

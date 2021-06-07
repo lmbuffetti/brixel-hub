@@ -14,7 +14,7 @@ import {
   SPINNER_SMALL_ON,
   SET_LANGUAGES,
   SET_LANGUAGE,
-  SET_SCREEN_NOTIFICATION,
+  SET_NOTIFICATION,
   SET_PAGE_DATA, SET_MODAL,
   PREVENT_EXIT_FROM_SCREEN,
   SET_UNSAVED_CHANGES_MODAL,
@@ -37,7 +37,7 @@ export const defaultState = {
   },
   formError: {},
   isLoading: 1,
-  isSmallLoading: null,
+  isSmallLoading: {},
   requestDone: false,
   redirectTo: null,
   configUrl: getConfigEnv,
@@ -54,7 +54,7 @@ export const defaultState = {
   ],
   country: countryList,
   language: cookie.get('brixelLang') || 'en',
-  notification: {},
+  notification: [],
   setPageData: null,
   modal: {
     state: false, title: '', body: '', action: {}, multiActions: [],
@@ -88,11 +88,14 @@ export default handleActions(
     }),
     [SPINNER_SMALL_ON]: (state, action) => ({
       ...state,
-      isSmallLoading: action.payload,
+      isSmallLoading: {
+        ...state.isSmallLoading,
+        ...action.payload,
+      },
     }),
     [SPINNER_SMALL_OFF]: (state) => ({
       ...state,
-      isSmallLoading: null,
+      isSmallLoading: { },
     }),
     [REQUEST_DONE]: (state) => ({
       ...state,
@@ -118,7 +121,7 @@ export default handleActions(
       ...state,
       language: action.payload,
     }),
-    [SET_SCREEN_NOTIFICATION]: (state, action) => ({
+    [SET_NOTIFICATION]: (state, action) => ({
       ...state,
       notification: action.payload,
     }),

@@ -42,11 +42,6 @@ const RewardsDashboard = Loadable({
   loading: () => null,
 });
 
-const PropertiesDashboard = Loadable({
-  loader: () => import('./PropertiesDashboard' /* webpackChunkName: "PropertiesDashboard" */),
-  loading: () => null,
-});
-
 const PropertyDashboard = Loadable({
   loader: () => import('./PropertyDashboard' /* webpackChunkName: "PropertyDashboard" */),
   loading: () => null,
@@ -105,7 +100,6 @@ const Dashboard = (props) => {
     handleSaveActiveSingleProperty,
     handleGetPropertyListings,
     handleGetActiveSinglePropertyEstimation,
-    handleSaveData,
     handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
     history,
@@ -119,12 +113,10 @@ const Dashboard = (props) => {
     match,
     notification,
     resetForm,
-    savePageData,
     userTypes,
     handleSpinnerOn,
     handleSpinnerOff,
   } = props;
-  const [isDiscardChanges, setIsDiscardChanges] = useState(false);
   const [userType, setUserType] = useState(null);
   const [loadedProp, setLoadedProp] = useState(false);
   // const [showMessage, setShowMessage] = useState(false);
@@ -226,9 +218,9 @@ const Dashboard = (props) => {
       }
     }
     localStorage.removeItem('gameGroup');
-    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', null);
-    if (activeLeads && activeLeads.company !== activeSingleCompany.id) {
-      handleGetActiveSingleCompany({ id: activeLeads.company });
+    const activeLeads = get(activeSingleProperty, 'company', null);
+    if (activeLeads && activeLeads !== activeSingleCompany.id) {
+      handleGetActiveSingleCompany({ id: activeLeads });
     }
   }, [activeSingleProperty]);
 
@@ -267,7 +259,7 @@ const Dashboard = (props) => {
         objToSave.inputSheet = get(formValue, 'inputSheet', {});
         const data = {
           id: propID,
-          smallLoader: true,
+          smallLoader: 'saveData',
           setSuccessNotification: true,
           ...objToSave,
         };
@@ -310,43 +302,11 @@ const Dashboard = (props) => {
 
   // LOAD SAVE FUNCTION FORM REDUX
   useEffect(() => {
-    if (savePageData === 'saveFacts') {
+    const checkSaveNotidification = notification.filter((item) => item.action === 'saveData');
+    if (checkSaveNotidification.length > 0) {
       saveData();
-      handleSaveData(null);
     }
-  }, [savePageData]);
-
-  // FUNCTION TO DISCARD SAVE
-  useEffect(() => {
-    if (isDiscardChanges) {
-      const newNotification = cloneDeep(notification);
-      resetForm(initialValues);
-      newNotification.state = false;
-      handleSetScreenNotification({
-        ...newNotification,
-      });
-      setIsDiscardChanges(false);
-    }
-  }, [isDiscardChanges]);
-
-  // FUNCTION TO SET TRUE THE DISCARD SAVE
-  const discardChanges = () => {
-    setIsDiscardChanges(true);
-  };
-
-  // FUNCTION TO ADD THE SMALL LOADING ON BUTTON SAVE ON NOTIFICATION BAR
-  useEffect(() => {
-    if (notification && notification.actions && notification.type === 'infoHub' && isSmallLoading) {
-      const getID = notification.actions.findIndex((item) => item.label === 'Save');
-      if (getID > -1) {
-        const newNotification = cloneDeep(notification);
-        newNotification.actions[getID].isLoading = isSmallLoading !== null;
-        handleSetScreenNotification({
-          ...newNotification,
-        });
-      }
-    }
-  }, [isSmallLoading]);
+  }, [notification]);
 
   // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
@@ -363,17 +323,19 @@ const Dashboard = (props) => {
       let changeObj = diff(initialValues, formValue);
       const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
       changeObj = omit(changeObj, ['inputSheet']);
+      const getIndexNotification = notification.findIndex((item) => item.type === 'save');
       if (Object.keys(changeObj).length === 0 && get(notification, 'label', '').toLowerCase().includes('changes')) {
         handleSetScreenNotification({
-          ...notification,
+          ...notification[getIndexNotification],
           state: false,
         });
       }
+
       if (
         checkIsValid &&
         Object.keys(changeObj).length > 0 &&
         (Object.keys(changeObj).length > 1 || !changeObj.inputSheet) &&
-        !isSmallLoading &&
+        !isSmallLoading.saveData &&
         !isLoading &&
         !has(isDocEdit, 'name') &&
         !has(isDocEdit, 'isPrivate') &&
@@ -382,22 +344,15 @@ const Dashboard = (props) => {
       ) {
         handleSetScreenNotification({
           state: true,
-          type: 'infoHub',
+          type: 'save',
           label: 'Unsaved changes',
-          actions:
-            [
-              { type: 'secondary', label: 'Discard', func: () => discardChanges(notification) },
-              {
-                type: 'primary', label: 'Save', func: () => saveData(), isLoading: isSmallLoading,
-              },
-            ],
         });
       } else if (
         !!notification &&
         !get(notification, 'label', '').toLowerCase().includes('saved')
       ) {
         handleSetScreenNotification({
-          ...notification,
+          ...notification[getIndexNotification],
           state: false,
         });
       }
@@ -418,7 +373,6 @@ const Dashboard = (props) => {
     <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
       {/* teaserScreens && isEligible(activeSingleProperty) && () */}
       { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-      <ProtectedRoute path="/seller/pageLists" exact component={PropertiesDashboard} />
       <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
       <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
       <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
@@ -449,7 +403,6 @@ Dashboard.propTypes = {
   handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  handleSaveData: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleSetScreenNotification: PropTypes.func.isRequired,
@@ -459,12 +412,11 @@ Dashboard.propTypes = {
   initValues: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  notification: PropTypes.object,
+  notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetForm: PropTypes.func.isRequired,
-  savePageData: PropTypes.string,
   userTypes: PropTypes.string,
   handleSpinnerOn: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
@@ -474,9 +426,6 @@ Dashboard.defaultProps = {
   activeSingleCompany: {},
   activeSingleProperty: {},
   errorValue: null,
-  isSmallLoading: null,
-  notification: null,
-  savePageData: null,
   userTypes: null,
 };
 
@@ -546,9 +495,9 @@ const mapStateToProps = (state) => {
       virtual: get(state, 'property.activeSingleProperty.virtual', null),
     },
     isLoading: get(state, 'common.isLoading', 0) > 0,
-    isSmallLoading: get(state, 'common.isSmallLoading', null),
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     loggedInUser: get(state, 'user.loggedInUser', {}),
-    notification: get(state, 'common.notification', {}),
+    notification: get(state, 'common.notification', []),
     regFields: get(state, 'brixelForm.Property.registeredFields', null),
     savePageData: get(state, 'common.setPageData', null),
     userTypes: get(state, 'user.userTypes', null),

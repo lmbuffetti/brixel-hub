@@ -5,7 +5,6 @@ import React, {
   useState, useRef, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import DatePicker from 'react-datepicker';
 import InputRange from 'react-input-range';
 import subDays from 'date-fns/subDays';
 import { withRouter } from 'react-router-dom';
@@ -16,6 +15,7 @@ import {
   BrixelModal,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelDatePicker,
   BrixelSwitchButton,
   BrixelButtonIcon,
   BrixelIcon,
@@ -26,7 +26,6 @@ import { DateTime } from 'luxon';
 import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
 import ContactForm from '../../../components/ContactForm';
-import 'react-datepicker/dist/react-datepicker.css';
 import 'react-input-range/lib/css/index.css';
 
 // COMPONENTS
@@ -220,29 +219,20 @@ const AddShowingsBuyer = (props) => {
                         <div id="wrapDatePicker">
                           {
                             showDate && (
-                              <div className="overlay">
-                                <div id="fixedDatePicker" ref={datePicker}>
-                                  <DatePicker
-                                    inline
-                                    selected={date}
-                                    onChange={(day) => handleChangeDate(day)}
-                                    ref={calendarRef}
-                                    minDate={subDays(new Date(), 0)}
-                                    locale={lang.value || lang}
-                                  />
-                                  <div className="bgWhite dis-f a-c jc-c my-1 mt-lg-2 mb-lg-3">
-                                    <BrixelButtonPrimary
-                                      disabled={!date}
-                                      label="Choose time"
-                                      rounded
-                                      onClick={() => {
-                                        setShowDate(false);
-                                        setShowResizer(true);
-                                      }}
-                                    />
-                                  </div>
-                                </div>
-                              </div>
+                              <BrixelDatePicker
+                                ref1={datePicker}
+                                ref2={calendarRef}
+                                inline
+                                selected={date}
+                                onChange={(day) => handleChangeDate(day)}
+                                minDate={subDays(new Date(), 0)}
+                                lang={lang.value || lang}
+                                hasButtonChoice
+                                onClick={() => {
+                                  setShowDate(false);
+                                  setShowResizer(true);
+                                }}
+                              />
                             )
                           }
                         </div>
@@ -357,12 +347,8 @@ AddShowingsBuyer.propTypes = {
   handleSpinnerSmallOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
-  smallLoading: PropTypes.string,
+  smallLoading: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
-};
-
-AddShowingsBuyer.defaultProps = {
-  smallLoading: '',
 };
 
 const mapStateToProps = (state) => {
@@ -376,7 +362,7 @@ const mapStateToProps = (state) => {
     formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
     lang: get(state, 'user.loggedInUser.user.language', ''),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    smallLoading: get(state, 'common.isSmallLoading', null),
+    smallLoading: get(state, 'common.isSmallLoading', { }),
     userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };

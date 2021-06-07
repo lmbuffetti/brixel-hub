@@ -20,6 +20,7 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   SET_SCREEN_NOTIFICATION,
+  SPINNER_SMALL_ON,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -28,11 +29,21 @@ const checkEstimation = (store) => (next) => (action) => {
   switch (action.type) {
     case CREATE_ESTIMATION: {
       next(action);
-      store.dispatch({
-        type: SPINNER_ON,
-      });
-      const { generate, redirectTo } = action.payload;
+      const { generate, redirectTo, smallLoader } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       delete action.payload.generate;
+      delete action.payload.smallLoader;
       api.estimation.createEstimation(action.payload)
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
@@ -49,9 +60,6 @@ const checkEstimation = (store) => (next) => (action) => {
             } else if (redirectTo) {
               window.location.href = redirectTo;
             }
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
           } else {
             store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
@@ -61,6 +69,15 @@ const checkEstimation = (store) => (next) => (action) => {
                 type: 'alert',
               },
             });
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
             store.dispatch({
               type: SPINNER_OFF,
             });
@@ -70,10 +87,19 @@ const checkEstimation = (store) => (next) => (action) => {
     }
     case GENERATE_ESTIMATION: {
       next(action);
-      store.dispatch({
-        type: SPINNER_ON,
-      });
-      const { page, redirectTo } = action.payload;
+      const { page, redirectTo, smallLoader } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       api.estimation.generateEstimation(action.payload.id || action.payload)
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
@@ -88,9 +114,6 @@ const checkEstimation = (store) => (next) => (action) => {
               set(proList.data[findProp], 'estimation', response.data);
               store.dispatch({ type: SET_OWNED_PROPERTIES, payload: proList });
             }
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
             if (redirectTo) {
               window.location.href = redirectTo;
             }
@@ -104,15 +127,24 @@ const checkEstimation = (store) => (next) => (action) => {
               },
             });
             store.dispatch({
-              type: SPINNER_OFF,
-            });
-            store.dispatch({
               type: SET_ESTIMATION,
               payload: { status: 'pending' },
             });
             if (redirectTo) {
               window.location.href = redirectTo;
             }
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
           }
         });
       break;

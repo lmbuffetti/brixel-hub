@@ -40,7 +40,7 @@ const Page = (props) => {
   const changeReviewStatus = (status) => {
     const data = {
       page: propID,
-      smallLoader: true,
+      smallLoader: 'pageReview',
       status,
     };
     handleUpdatePublishedReview(data);
@@ -250,7 +250,7 @@ const Page = (props) => {
                         theme="dark"
                         rounded
                         onClick={() => changeReviewStatus('offline')}
-                        isLoading={isSmallLoading}
+                        isLoading={isSmallLoading.pageReview}
                       />
                     </div>
                   )
@@ -285,19 +285,15 @@ Page.propTypes = {
   company: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-};
-
-Page.defaultProps = {
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
