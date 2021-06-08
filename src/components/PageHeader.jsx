@@ -39,6 +39,8 @@ function PageHeader(props) {
     userAwards,
   } = props;
 
+  const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
+
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
   const [dropLang, setDropLang] = useState([]);
@@ -134,7 +136,7 @@ function PageHeader(props) {
     handleSetLanguage(langCode.value);
     if (typeof Transifex !== 'undefined') Transifex.live.translateTo(langCode.value);
     setCookie('brixelLang', langCode.value);
-  }, [Transifex]);
+  }, [localTransifex]);
 
   // FUNCTION WHEN CLICKED ON AVATAR - DIFFERENT IF DESKTOP OR MOBILE
   const avatarAction = useCallback(() => {

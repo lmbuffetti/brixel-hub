@@ -72,12 +72,18 @@ export const MapsWithModalManual = (props) => {
   const [showManualInput, setShowManualInput] = useState(false);
   const [loadingAddress, setLoadingAddress] = useState(false);
   const [errorResult, setErrorResult] = useState(null);
+  const [idLocaSel, setIdLocaSel] = useState(0);
   // REF
   // const inputZipSearch = useRef(null);
   const addressRef = useRef(null);
 
   useEffect(() => {
-    setSelectedAddress(false);
+    const checkPath = get(history, 'location.pathname', '').split('/');
+    if (checkPath[checkPath.length - 1] === 'locationInput') {
+      setSelectedAddress(false);
+      changeFieldValue('location.latitude', null);
+      changeFieldValue('location.longitude', null);
+    }
   }, [history.location.pathname]);
 
   useEffect(() => {
@@ -352,14 +358,16 @@ export const MapsWithModalManual = (props) => {
       setSelLocAuto(newId);
     }
     if (e.key === 'Enter' && get(locList, `[${newId}].description`, null)) {
+      setSelectedAddress(false);
       geoCode(locList[newId].description, 'submit');
     }
+    setIdLocaSel(newId);
   };
 
   useEffect(() => {
     if (!get(formValue, 'location.latitude', 0) && get(history, 'location.pathname', '').includes('locationInputResume')) {
       if (get(formValue, 'locationsList', []).length > 0) {
-        geoCode(formValue.locationsList[0].description);
+        geoCode(formValue.locationsList[idLocaSel].description);
       } else {
         setShowManualInput(true);
       }
