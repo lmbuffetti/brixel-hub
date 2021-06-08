@@ -212,7 +212,7 @@ const LoginSignup = (props) => {
                     )
                   }
                 </div>
-                <div className="innerBox bgWhite p-2">
+                <div className="innerBox bgWhite p-2 px-2 px-sm-5">
                   {
                     loginPage === 'login' && (
                       <>

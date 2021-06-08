@@ -569,7 +569,7 @@ const App = (props) => {
 
       { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
       {
-        notification.length > 0 &&
+        notification && notification.length > 0 &&
         !history.location.pathname.includes('rewards') &&
         !history.location.pathname.includes('packageFlow') &&
         !history.location.pathname.includes('upgrade') &&
