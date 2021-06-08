@@ -68,7 +68,7 @@ const AccountDropdown = (props) => {
       handleSaveActiveSingleUser(userData);
     }
     setCloseDropdown(true);
-  }, [Transifex]);
+  }, [localTransifex]);
 
   // FUNCTIONS TO CREATE THE PROFILE DROPDOWN MENU
   const dropdownAccount = useCallback(() => (
