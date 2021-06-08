@@ -24,6 +24,8 @@ import Loading from '../../components/Loading';
 import marketSkelton from '../../images/market-skelton.svg';
 import marketSkeltonMobile from '../../images/market-skelton-mobile.svg';
 import EmptyHubImg from '../../images/emptyHub.svg';
+// images
+import testdrive from '../../images/Market/testdrive.jpeg';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -35,6 +37,7 @@ const MarketCategoryListSeller = (props) => {
   const {
     activeMarketOverlayProperty,
     bestimate,
+    companyListings,
     estimation,
     handleGetEstimation,
     handleSetHistory,
@@ -52,6 +55,9 @@ const MarketCategoryListSeller = (props) => {
 
   const marketCookie = getCookie('brixelMarketBestimate');
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
+  const [propertyId, setPropertyId] = useState(null);
+  const [activeCompanyId, setActiveCompanyId] = useState(null);
+  const [companyDetail, setCompanyDetail] = useState({ });
 
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
@@ -139,6 +145,23 @@ const MarketCategoryListSeller = (props) => {
       if (catList) catList.classList.remove('market-listings');
     };
   }, []);
+
+  useEffect(() => {
+    if (companyListings && activeCompanyId) {
+      const actCompany = companyListings.find((item) => item.id === activeCompanyId);
+      if (actCompany) setCompanyDetail(actCompany);
+    }
+  }, [activeCompanyId, companyListings]);
+
+  const bookNow = () => {
+    localStorage.setItem('backUrl', '/sell');
+    history.push(`/${propertyId}/trialRequest`);
+  };
+
+  /* const bookNow = () => {
+    localStorage.setItem('backUrl', '/sell');
+    history.push(`/${items[activeSlide].id}/trialRequest`);
+  }; */
 
   return (
     <>
@@ -391,31 +414,71 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="mb-5 mb-sm-3">
+      <div className="mb-5 mb-sm-3 mt-4-neg mt-sm-10-neg">
+        <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
+          <BrixelButtonText
+            className="fsize-300 show-all pos-r mr-1"
+            label={`<span>View all properties</span> <span class="ml-1">(${get(ownerProperties, 'total', '-')})</span>`}
+            onClick={() => history.push('/sell/own')}
+          />
+          <BrixelButtonText
+            className="fsize-300 show-all pos-r"
+            label="+ Add new"
+            onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
+          />
+        </div>
+        <div className="marketSellBanner dis-fl-col dis-fl-row-sm a-c jc-c pb-2 mt-2-neg mt-sm-0">
+          <div className="max-w-fix-144 min-h-fix-200 min-h-fix-sm-360 max-w-fix-sm-264 w-perc-100">
+            <img src={testdrive} alt="testdrive" />
+          </div>
+          <div className="max-w-fix-360 ml-sm-5 pt-sm-8 ta-c ta-l-sm">
+            <h3 className="fweight-600 fsize-600 fsize-sm-800 mb-1 pt-2 pt-sm-5">Test drive our service. <br /> No strings attached.</h3>
+            <h5 className="fSizePx18 min-h-fix-56 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0">
+              {
+                get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
+                  <>
+                    <span>Get the full Brixel experience <br /> worth</span>
+                    <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
+                  </>
+                ) : (
+                  <span>Get the full Brixel experience</span>
+                )
+              }
+              { get(companyDetail, 'meta.teaserPackage.price', 0) === 0 && (
+                <span className="dis-b"> worth . . . </span>
+              )}
+            </h5>
+            <BrixelButtonPrimary
+              rounded
+              theme="green"
+              themeSat={600}
+              label="Request now"
+              onClick={() => bookNow()}
+              className="mb-2 ml-a ml-sm-0 mr-sm-0 mr-a"
+            />
+
+          </div>
+
+        </div>
         {
           ownerProperties.total > 0 && (
             <CarouselWrapper
               layout="singleOwnCard"
-              title="Your properties"
               className="market-category-carousel type-own"
               type="own"
               items={ownerProperties.data}
               total={ownerProperties.total}
+              setPropertyId={(id) => setPropertyId(id)}
+              setActiveSingleCompany={(id) => setActiveCompanyId(id)}
             />
           )
         }
-
         {
           (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
-            <div className="mb-8">
-              <h4 className="fweight-700 fsize-600 mb-4">Your properties</h4>
-              <div className="ml-1-neg">
-                <div className="marketSellBanner hideBg h-fix-392 mt-8 mt-sm-0">
-                  <div className="m-a pt-8 max-w-fix-784">
-                    <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
-                    <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
-                  </div>
-                </div>
+            <div className="marketSellBanner">
+              <div className="m-a px-2 px-sm-0 max-w-fix-480 max-w-fix-sm-768">
+                <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
+                <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
               </div>
             </div>
           )
@@ -450,18 +513,21 @@ const MarketCategoryListSeller = (props) => {
 
       </div>
 
-      <div className="mb-8">
-        {
-          premiumProperties.total > 0 && (
-            <CarouselWrapper
-              title="Others selling with Brixel"
-              className="market-category-carousel"
-              type="premium"
-              items={premiumProperties.data}
-              total={premiumProperties.total}
-            />
-          )
-        }
+      <div className={`${ownerProperties.total !== 0 && ownerProperties.total === undefined ? '' : 'paddingOffset bgLight300'}  `}>
+        <div className="container">
+          {
+            premiumProperties.total > 0 && (
+              <CarouselWrapper
+                title="Others selling with Brixel"
+                titleClass="fweight-600 fsize-600"
+                className="market-category-carousel"
+                type="premium"
+                items={premiumProperties.data}
+                total={premiumProperties.total}
+              />
+            )
+          }
+        </div>
       </div>
     </>
   );
@@ -470,13 +536,14 @@ const MarketCategoryListSeller = (props) => {
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  notification: PropTypes.object.isRequired,
+  notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   ownerProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
   setMarketOverlayProperty: PropTypes.func.isRequired,
@@ -489,12 +556,13 @@ const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   bestimate: get(state, 'property.estimation.result', {}),
+  companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
-  notification: get(state, 'common.notification', {}),
+  notification: get(state, 'common.notification', []),
   ownerEstimations: get(state, 'market.ownerEstimations', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),

@@ -110,7 +110,7 @@ const Documents = (props) => {
   const documentRef = useRef(null);
 
   useEffect(() => {
-    if (!isSmallLoading) {
+    if (!isSmallLoading.uploadMedia) {
       setDocumentOptionsOpen({ id: null, active: false });
     }
   }, [isSmallLoading]);
@@ -129,7 +129,7 @@ const Documents = (props) => {
         allImgs: res,
         actions: 'documents',
         pageID: formValue.id || propID,
-        smallLoader: 'upload',
+        smallLoader: 'uploadMedia',
       });
     });
   }, [formValue]);
@@ -149,7 +149,7 @@ const Documents = (props) => {
     const data = {
       id: idDocs,
       pageID: formValue.id,
-      smallLoader: true,
+      smallLoader: 'deleteMedia',
     };
     handleDeleteDocument(data);
   };
@@ -229,6 +229,7 @@ const Documents = (props) => {
                                   saturation={100}
                                   background="green"
                                   className="mr-2"
+                                  isLoading={isSmallLoading.deleteMedia}
                                 />
                                 <h6>{key}</h6>
                               </div>
@@ -472,7 +473,7 @@ const Documents = (props) => {
                     rightIcon="upload"
                     rounded
                     className="mt-3"
-                    isLoading={isSmallLoading}
+                    isLoading={isSmallLoading.uploadMedia}
                   />
                 </div>
               </>
@@ -488,7 +489,7 @@ Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.string,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
@@ -496,13 +497,9 @@ Documents.propTypes = {
   userType: PropTypes.string.isRequired,
 };
 
-Documents.defaultProps = {
-  isSmallLoading: null,
-};
-
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
   userType: get(state, 'user.userTypes', ''),

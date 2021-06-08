@@ -27,7 +27,6 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   SPINNER_SMALL_ON,
-  SPINNER_SMALL_OFF,
 } from '../actions/types/CommonTypes';
 import { SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
 
@@ -36,7 +35,19 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO ROTATE IMG - by IMAGE ID
     case ROTATE_IMG: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader });
+      const { smallLoader } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       api.image.rotateImg(action.payload.id, action.payload.rotate)
         .then((res) => {
           const arrayImg = store.getState().brixelForm.Property.values[action.payload.type];
@@ -47,18 +58,54 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch(change('Property', action.payload.type, arrayImg));
             store.dispatch(reset('Property', store.getState().brixelForm.Property.initialValues));
           }
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         });
       break;
     }
     // DISPATCH TO IMG TYPE
     case GET_IMAGE_TYPE: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'imgType' });
+      const {
+        smallLoader,
+      } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       api.image.getImageType()
         .then((res) => {
           store.dispatch({ type: SET_IMAGE_TYPE, payload: res.data });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         });
       break;
     }
@@ -76,8 +123,18 @@ const checkCommon = (store) => (next) => (action) => {
       allImgs.forEach((img) => {
         calls.push(api.image.addImage(img));
       });
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
-      else store.dispatch({ type: SPINNER_ON });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       Promise.all(calls).then((res) => {
         const data = {};
         const filesArray = get(store.getState(), `brixelForm.Property.values[${actions}]`, []);
@@ -108,8 +165,18 @@ const checkCommon = (store) => (next) => (action) => {
           payload: data,
           setSuccessNotification: true,
         });
-        if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-        else store.dispatch({ type: SPINNER_OFF });
+        if (smallLoader) {
+          store.dispatch({
+            type: SPINNER_SMALL_ON,
+            payload: {
+              [smallLoader]: false,
+            },
+          });
+        } else {
+          store.dispatch({
+            type: SPINNER_OFF,
+          });
+        }
       });
       break;
     }
@@ -126,8 +193,18 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.pageID;
       delete action.payload.uploadAction;
       delete action.payload.smallLoader;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
-      else store.dispatch({ type: SPINNER_ON });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       api.image.addImage(action.payload)
         .then(async (res) => {
           if (uploadAction === 'photos' ||
@@ -179,12 +256,32 @@ const checkCommon = (store) => (next) => (action) => {
             };
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: userData });
           }
-          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-          else store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         })
         .catch(() => {
-          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-          else store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         });
 
       break;
@@ -192,9 +289,21 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO DELETE IMG - IMAGE ID
     case DELETE_IMG: {
       next(action);
+      const { smallLoader } = action.payload;
       const arrayImg = store.getState().brixelForm.Property.values[action.payload.type];
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
-      store.dispatch({ type: SPINNER_SMALL_ON, payload: action.payload.smallLoader });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       api.image.deleteImg(action.payload.id)
         .then(() => {
           arrayImg.splice(idImg, 1);
@@ -209,7 +318,18 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (action.payload.type === 'photos' && arrayImg.length === 0) data.coverPhoto = null;
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         });
       break;
     }
@@ -227,8 +347,18 @@ const checkCommon = (store) => (next) => (action) => {
       allImgs.forEach((img) => {
         calls.push(api.image.uploadDocument(img));
       });
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
-      else store.dispatch({ type: SPINNER_ON });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       Promise.all(calls).then((res) => {
         const data = {};
         const filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
@@ -243,8 +373,18 @@ const checkCommon = (store) => (next) => (action) => {
           payload: data,
           setSuccessNotification: true,
         });
-        if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-        else store.dispatch({ type: SPINNER_OFF });
+        if (smallLoader) {
+          store.dispatch({
+            type: SPINNER_SMALL_ON,
+            payload: {
+              [smallLoader]: false,
+            },
+          });
+        } else {
+          store.dispatch({
+            type: SPINNER_OFF,
+          });
+        }
       });
       break;
     }
@@ -255,8 +395,18 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.pageID;
       delete action.payload.smallLoader;
       delete action.payload.saveAction;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
-      else store.dispatch({ type: SPINNER_ON });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       const docData = get(action.payload, 'docs', action.payload);
       api.image.uploadDocument(docData)
         .then((res) => {
@@ -278,8 +428,18 @@ const checkCommon = (store) => (next) => (action) => {
               smallLoader: true,
             };
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
-            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-            else store.dispatch({ type: SPINNER_OFF });
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL_ON,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
           }
         });
       break;
@@ -291,8 +451,18 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.smallLaoder;
       const arrayImg = store.getState().brixelForm.Property.values.documents;
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
-      else store.dispatch({ type: SPINNER_ON });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       api.image.deleteDocument(action.payload.id)
         .then(() => {
           arrayImg.splice(idImg, 1);
@@ -303,8 +473,18 @@ const checkCommon = (store) => (next) => (action) => {
             smallLoader: true,
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-          else store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         });
       break;
     }
@@ -314,8 +494,18 @@ const checkCommon = (store) => (next) => (action) => {
       const { pageID, smallLoader } = action.payload;
       delete action.payload.pageID;
       delete action.payload.smallLaoder;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
-      else store.dispatch({ type: SPINNER_ON });
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL_ON,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
       api.image.updateDocument(action.payload.id, action.payload.body)
         .then((res) => {
           const docList = store.getState().brixelForm.Property.values.documents;
@@ -330,8 +520,18 @@ const checkCommon = (store) => (next) => (action) => {
             setSuccessNotification: true,
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
-          else store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         });
       break;
     }

@@ -37,7 +37,7 @@ const MenuNavigationSubmenu = (props) => {
         activeMenu && (
           <div className="sidebarSubmenu" style={{ height: windowDimensions.height }}>
             <div className="sidebarSubmenuContent shadow-2dp dis-fl-col h-perc-100 pos-r" ref={wrapperRef}>
-              <Loading isSmall isLoading={isSmallLoading !== null} />
+              <Loading isSmall isLoading={isSmallLoading.getData} />
               {
                 activeMenu === 'propertyList' && (
                   <Properties {...props} closeProperty={() => onClose(null)} />
@@ -65,7 +65,7 @@ MenuNavigationSubmenu.propTypes = {
   activeMenu: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   rightMenu: PropTypes.string,
-  isSmallLoading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  isSmallLoading: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object,
 };
 
@@ -73,11 +73,10 @@ MenuNavigationSubmenu.defaultProps = {
   activeMenu: null,
   rightMenu: null,
   windowDimensions: {},
-  isSmallLoading: null,
 };
 
 const mapStateToProps = (state) => ({
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 
 export default compose(

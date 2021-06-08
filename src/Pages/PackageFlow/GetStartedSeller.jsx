@@ -21,7 +21,7 @@ import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodeP
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
-import { calcPercentageFacts, checkBrowser, setCookie } from '../../utils/helpers';
+import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingSeller';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';

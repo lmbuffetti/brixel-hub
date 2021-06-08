@@ -61,7 +61,7 @@ const MarketSeller = (props) => {
   }, [loggedInUser]);
 
   return (
-    <div className="market-container container" id="market">
+    <div className="market-container sellerPage" id="market">
       {/* premarket overlay */}
       <Switch>
         <Route exact path="/sell" component={MarketCategoryListSeller} />
@@ -83,7 +83,7 @@ MarketSeller.propTypes = {
 
 const mapStateToProps = (state) => ({
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', null),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),

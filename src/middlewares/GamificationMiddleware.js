@@ -23,7 +23,6 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   SPINNER_SMALL_ON,
-  SPINNER_SMALL_OFF,
 } from '../actions/types/CommonTypes';
 
 const checkGamification = (store) => (next) => (action) => {
@@ -109,7 +108,18 @@ const checkGamification = (store) => (next) => (action) => {
             achievement: stub,
           };
         }
-        if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
+        if (smallLoader) {
+          store.dispatch({
+            type: SPINNER_SMALL_ON,
+            payload: {
+              [smallLoader]: true,
+            },
+          });
+        } else {
+          store.dispatch({
+            type: SPINNER_ON,
+          });
+        }
         api.gamification.addGameHistory(newID, data)
           .then((res) => {
             if (typeof res.data.status === 'undefined' && typeof res.data.statusCode === 'undefined') {
@@ -118,7 +128,18 @@ const checkGamification = (store) => (next) => (action) => {
               store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
               if (redirectTo) window.location.href = redirectTo;
             }
-            if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL_ON,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
           });
       } else if (redirectTo) window.location.href = redirectTo;
       break;

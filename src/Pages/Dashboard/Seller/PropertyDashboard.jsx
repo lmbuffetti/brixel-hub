@@ -67,17 +67,6 @@ const HomeDashboard = (props) => {
     }
   }, [windowDimensions, getFact()]);
 
-  // CHECK IF THE USER IS A BUYER OR SELLER
-  /* useEffect(() => {
-    if (property.id && loggedInUser.user) {
-      let userTypeCur = 'buyer';
-      if (property.id && (property.owner === loggedInUser.user.id || property.owner.id === loggedInUser.user.id)) {
-        userTypeCur = 'seller';
-      }
-      // setUserType(userTypeCur);
-    }
-  }, [property, loggedInUser]); */
-
   // CLASS FOR OPEN/CLOSE COLUMNS
   const openCloseColumn = () => {
     if (

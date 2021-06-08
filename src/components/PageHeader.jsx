@@ -14,7 +14,7 @@ import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_
 import Loadable from 'react-loadable';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { checkBrowser, setCookie } from '../utils/helpers';
+import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
 import { translateTo } from '../utils/translation';
@@ -38,6 +38,8 @@ function PageHeader(props) {
     property,
     userAwards,
   } = props;
+
+  const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
 
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
@@ -134,7 +136,7 @@ function PageHeader(props) {
     handleSetLanguage(langCode.value);
     if (typeof Transifex !== 'undefined') Transifex.live.translateTo(langCode.value);
     setCookie('brixelLang', langCode.value);
-  }, [Transifex]);
+  }, [localTransifex]);
 
   // FUNCTION WHEN CLICKED ON AVATAR - DIFFERENT IF DESKTOP OR MOBILE
   const avatarAction = useCallback(() => {

@@ -1,7 +1,12 @@
-<svg width="783" height="353" viewBox="0 0 783 353" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="128" width="527" height="35" fill="#D8D8D8"/>
-<path d="M0 228C0 223.582 3.58172 220 8 220H775C779.418 220 783 223.582 783 228V353H0V228Z" fill="#D8D8D8"/>
-<rect x="188" y="47" width="407" height="23" fill="#D8D8D8"/>
-<rect x="298" y="171" width="187" height="8" fill="#D8D8D8"/>
-<rect width="129" height="40" rx="20" transform="matrix(1 0 0 -1 328 151)" fill="#D8D8D8"/>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 764.7 242.6" style="enable-background:new 0 0 764.7 242.6;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#D8D8D8;}
+</style>
+<g>
+	<path class="st0" d="M755.7,242.6H7c-4.4,0-8-3.6-8-8V8c0-4.4,3.6-8,8-8h748.7c4.4,0,8,3.6,8,8v226.5
+		C763.7,239,760.1,242.6,755.7,242.6z"/>
+</g>
 </svg>

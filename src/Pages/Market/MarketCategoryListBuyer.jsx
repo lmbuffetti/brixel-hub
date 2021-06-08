@@ -102,7 +102,7 @@ const MarketCategoryListBuyer = (props) => {
   }, []);
 
   return (
-    <>
+    <div className="container">
       {/* SECTION: buyer welcome message  */}
       {
         splashScreenType === 'buyerWelcome' && (
@@ -426,7 +426,7 @@ const MarketCategoryListBuyer = (props) => {
           )
         }
       </div>
-    </>
+    </div>
   );
 };
 

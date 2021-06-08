@@ -24,7 +24,7 @@ import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { checkBrowser, setCookie } from '../../utils/helpers';
+import { setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';

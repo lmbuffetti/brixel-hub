@@ -4,6 +4,7 @@ import { BrixelIcon, BrixelButtonIcon, Helpers } from '@brixel/brixel-components
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { checkBrowser } from '../utils/helpers';
 import CallUsImg from '../images/Support/call_us.svg';
 import WriteUsImg from '../images/Support/wite_us.svg';
 import WhatAppImg from '../images/Support/whatsapp.svg';
