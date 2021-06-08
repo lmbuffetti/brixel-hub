@@ -77,6 +77,10 @@ export const MapsWithModalManual = (props) => {
   const addressRef = useRef(null);
 
   useEffect(() => {
+    setSelectedAddress(false);
+  }, [history.location.pathname]);
+
+  useEffect(() => {
     const { body } = document;
     if (body) {
       if (showManualInput) body.classList.add('overlayOpen');
