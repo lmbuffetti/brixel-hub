@@ -151,6 +151,20 @@
       position: relative;
     }
 
+    &.propertyType {
+      @media (max-width: $responsive-small) {
+        padding-left: 0;
+        padding-right: 0;
+        h3,
+        #progressBar,
+        .footerAction {
+          padding-left: $step * 2;
+          padding-right: $step * 2;
+        }
+      }
+    }
+
+
     .fieldHolder {
       box-shadow: $shadow-1dp;
     }
@@ -194,15 +208,15 @@
             padding-bottom: 24px;
 
             @media (max-width: $responsive-medium) {
-             padding-top: 40px;
-             padding-bottom: 40px;
-             padding-left: 0;
-             padding-right: 0;
+              padding-top: 40px;
+              padding-bottom: 40px;
+              padding-left: 0;
+              padding-right: 0;
 
-             .cardLayout .slick-slider .slick-slide {
-              padding-top: 0;
-              padding-bottom: $step * 3;
-             }
+              .cardLayout .slick-slider .slick-slide {
+                padding-top: 0;
+                padding-bottom: $step * 3;
+              }
             }
             .subcontainer {
               max-width: inherit;
