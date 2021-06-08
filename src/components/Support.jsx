@@ -8,7 +8,6 @@ import { checkBrowser } from '../utils/helpers';
 import CallUsImg from '../images/Support/call_us.svg';
 import WriteUsImg from '../images/Support/wite_us.svg';
 import WhatAppImg from '../images/Support/whatsapp.svg';
-import { checkBrowser } from '../utils/helpers';
 
 const Support = (props) => {
   const {

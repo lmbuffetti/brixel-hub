@@ -14,7 +14,6 @@ import { recoverPassword } from '../actions/UserActions';
 import { checkBrowser } from '../utils/helpers';
 import Support from './Support';
 import Accordion from './Accordion';
-import { checkBrowser } from '../utils/helpers';
 
 // COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {

@@ -21,7 +21,6 @@ import get from 'lodash/get';
 import { checkBrowser } from '../../utils/helpers';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
-import { checkBrowser } from '../../utils/helpers';
 
 const { factsOptions } = FactsOptions;
 
