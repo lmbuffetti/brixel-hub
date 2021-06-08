@@ -47,7 +47,7 @@ const AccountDropdown = (props) => {
   }, [localTransifex]);
 
   // FUNCTION TO CHANGE  THE LANGUAGE
-  const newLang = useCallback((langCode) => {
+  const newLang = (langCode) => {
     // handleChangeLanguage(lang);
     const defLangCode = get(langCode, 'value', null) ? langCode.value : langCode;
     if (typeof Transifex !== 'undefined') {
@@ -68,7 +68,7 @@ const AccountDropdown = (props) => {
       handleSaveActiveSingleUser(userData);
     }
     setCloseDropdown(true);
-  }, [localTransifex]);
+  };
 
   // FUNCTIONS TO CREATE THE PROFILE DROPDOWN MENU
   const dropdownAccount = useCallback(() => (
