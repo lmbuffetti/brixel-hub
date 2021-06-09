@@ -14,10 +14,10 @@ import MapsCities from '../components/Map/MapsCities';
 import LoginSignup from '../components/LoginSignup';
 import { translateTo } from '../utils/translation';
 import { configureStore } from '../store';
-
+/*
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
-import land from '../images/BrxielComingTown/land.svg';
+import land from '../images/BrxielComingTown/land.svg'; */
 
 const { factsOptions } = FactsOptions;
 

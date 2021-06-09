@@ -70,6 +70,7 @@ const GetStartedEstimation = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [showError, setShowError] = useState(0);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -267,6 +268,7 @@ const GetStartedEstimation = (props) => {
   const changeStep = (act, e, step = 1) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
+    setShowError(false);
     if (act === 'back') {
       newIndex -= step;
     } else {
@@ -595,6 +597,7 @@ const GetStartedEstimation = (props) => {
                           onClickDisabled={!checkValidateField()}
                           onSubmit={() => changeStep()}
                           showSendButton={quest.showSendButton}
+                          showErrors={showError}
                           disableDelay
                         />
                       </div>

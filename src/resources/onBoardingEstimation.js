@@ -11,10 +11,10 @@ import LoginSignup from '../components/LoginSignup';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
 import { configureStore } from '../store';
-
+/*
 import apartment from '../images/BrxielComingTown/apartment.svg';
 import house from '../images/BrxielComingTown/house.svg';
-import commercial from '../images/BrxielComingTown/commercial.svg';
+import commercial from '../images/BrxielComingTown/commercial.svg'; */
 
 import { BestimateQuestions } from './Bestimate';
 import MapsWithModalManual from '../components/Map/MapsWithModalManual';
@@ -152,7 +152,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
-          placeholder: translateTo(lang, 'e.g. 120'),
+          placeholder: '117',
           maxLenghtNum: 9999,
         },
         {
