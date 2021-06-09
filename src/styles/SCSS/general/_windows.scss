@@ -9,6 +9,7 @@ div#dashboard {
   }
 } */
 .hubContainer {
+
   &.sellerHub,
   &.buyerHub {
     @media (max-width: $responsive-medium) {
@@ -42,6 +43,13 @@ div#dashboard {
 
       @media (max-width: $responsive-medium) {
         background-color: map-get($lightColor, 100);
+      }
+    }
+  }
+  &.buyerHub {
+    .innerWrap {
+      @media (max-width: $responsive-medium) {
+        z-index: 3;
       }
     }
   }
