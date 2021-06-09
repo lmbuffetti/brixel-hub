@@ -94,7 +94,7 @@ const Dashboard = (props) => {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
     if (activeSingleProperty.id && (dealID !== activeSingleDeal.id || !dealID)) {
-      handleGetBuyerDeal(activeSingleProperty.id);
+      handleGetBuyerDeal({ id: activeSingleProperty.id });
     }
   }, [activeSingleProperty]);
 
