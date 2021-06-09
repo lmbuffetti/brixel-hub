@@ -273,10 +273,10 @@ const Documents = (props) => {
                                         get(doc, 'createdAt', null) ? (
                                           <span className="date body2 txtDark200">
                                             {
-                                              !isNaN(new Date(doc.createdAt).getTime()) ? (
-                                                <>{DateTime.fromJSDate(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
-                                              ) : (
+                                              !isNaN(+doc.createdAt) ? (
                                                 <>{DateTime.fromMillis(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                              ) : (
+                                                <>{DateTime.fromISO(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
                                               )
                                             }
                                           </span>
@@ -374,7 +374,13 @@ const Documents = (props) => {
                                   {
                                     get(doc, 'createdAt', null) ? (
                                       <span className="date body2 txtDark200">
-                                        {DateTime.fromMillis(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}
+                                        {
+                                          !isNaN(+doc.createdAt) ? (
+                                            <>{DateTime.fromMillis(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                          ) : (
+                                            <>{DateTime.fromISO(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                          )
+                                        }
                                       </span>
                                     ) : (
                                       <span className="date body2 txtDark200">-</span>
