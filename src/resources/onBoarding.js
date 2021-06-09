@@ -6,9 +6,6 @@ import {
 import { translateTo } from '../utils/translation';
 
 import homesSvg from '../images/getstarted/svgs/homes.svg';
-import selIcon from '../images/getstarted/sellIcon.svg';
-import estIcon from '../images/getstarted/estIcon.svg';
-import buyIcon from '../images/getstarted/buyIcon.svg';
 // QUESTION LISTS
 export const QuestionsList = (lang) => [
   {
