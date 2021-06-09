@@ -58,6 +58,7 @@ const GetStartedSeller = (props) => {
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showError, setShowError] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
@@ -201,6 +202,7 @@ const GetStartedSeller = (props) => {
   const changeStep = (act, e, step = 1) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
+    setShowError(false);
     if (act === 'back') {
       newIndex -= step;
     } else {
@@ -531,6 +533,7 @@ const GetStartedSeller = (props) => {
                         onClickDisabled={!checkValidateField()}
                         onSubmit={() => changeStep()}
                         showSendButton={quest.showSendButton}
+                        showErrors={showError}
                         disableDelay
                       />
                     </div>
@@ -600,6 +603,7 @@ const GetStartedSeller = (props) => {
                           label={buttonLabel()}
                           rightIcon="arrow-right-small"
                           onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                          onShowError={() => setShowError(true)}
                         />
                       )
                     }
@@ -670,6 +674,7 @@ const mapStateToProps = (state, props) => {
       properties: {
         propertyType,
         typology: {
+          bedrooms: 3,
           livingArea: {
             unit: 'm2',
           },

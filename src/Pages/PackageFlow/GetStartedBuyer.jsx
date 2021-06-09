@@ -67,6 +67,7 @@ const GetStartedBuyer = (props) => {
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
+  const [showError, setShowError] = useState(0);
   // const [roomValue, setRoomValue] = useState('');
 
   const singleStepRef = useRef(null);
@@ -185,6 +186,7 @@ const GetStartedBuyer = (props) => {
     if (e) e.preventDefault();
     const reloadQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
+    setShowError(false);
     if (act === 'back') {
       newIndex -= step;
     } else {
@@ -506,6 +508,7 @@ const GetStartedBuyer = (props) => {
                           onClickDisabled={!checkValidateField()}
                           onSubmit={() => changeStep()}
                           showSendButton
+                          showErrors={showError}
                           disableDelay
                         />
                       </div>
