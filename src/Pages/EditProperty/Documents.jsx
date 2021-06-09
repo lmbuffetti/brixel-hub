@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
+import isNaN from 'lodash/isNaN';
 import findIndex from 'lodash/findIndex';
 import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
@@ -271,7 +272,13 @@ const Documents = (props) => {
                                       {
                                         get(doc, 'createdAt', null) ? (
                                           <span className="date body2 txtDark200">
-                                            {DateTime.fromMillis(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}
+                                            {
+                                              !isNaN(new Date(doc.createdAt).getTime()) ? (
+                                                <>{DateTime.fromJSDate(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                              ) : (
+                                                <>{DateTime.fromMillis(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                              )
+                                            }
                                           </span>
                                         ) : (
                                           <span className="date body2 txtDark200">-</span>
