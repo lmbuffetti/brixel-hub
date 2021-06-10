@@ -178,18 +178,54 @@ const GetStartedBuyer = (props) => {
     return newIndex;
   };
 
+  // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
+  const checkValidateField = (act) => {
+    let isValid = true;
+    let isNotEmpty = false;
+    if (get(quest, 'inputs', null)) {
+      quest.inputs.forEach((input) => {
+        const err = get(errorValue, input.name, null);
+        const noEmpty = get(formValue, input.name, 'ayc');
+        if (noEmpty !== 'ayc') isNotEmpty = true;
+        if (input.condition) {
+          input.condition.forEach((item) => {
+            if (get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+          });
+        } else if (input.validation) {
+          // const getRegField = get(registeredFields
+          let field;
+          if (input.name === 'profileUaer') {
+            const page = get(formValue, 'signupScreen', null);
+            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
+            if (page === 'login') {
+              field = ['login.email', 'login.password'];
+            }
+            field.forEach((item) => {
+              const err = get(errorValue, item, true);
+              if (err !== true && err !== false && isValid) isValid = false;
+            });
+          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
+        }
+      });
+    }
+    if (act === 'value') return isValid && isNotEmpty;
+    return isValid;
+  };
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1) => {
     if (e) e.preventDefault();
-    const reloadQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
     setShowError(false);
     if (act === 'back') {
       newIndex -= step;
     } else {
+      if (!checkValidateField()) return false;
       newIndex += step;
     }
     if (newIndex === -1) {
@@ -199,18 +235,17 @@ const GetStartedBuyer = (props) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
 
       // setPosition(newIndex);
-      if (reloadQuestions[defId] && reloadQuestions[defId].toSave) saveData(get(reloadQuestions[defId], 'action', null));
+      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
       else {
-        setIsEnter(false);
         let newQuest = {
-          ...reloadQuestions[defId],
+          ...questions[defId],
         };
-        if (reloadQuestions[defId].effect === 'slideUp') {
+        if (questions[defId].effect === 'slideUp') {
           newQuest = {
-            ...reloadQuestions[defId - 1],
+            ...questions[defId - 1],
           };
         }
-        if (act === 'back' && reloadQuestions[defId + 1].effect === 'slideUp') {
+        if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
           setQuest(newQuest);
           setCurrentIndex(defId);
         } else {
@@ -225,14 +260,13 @@ const GetStartedBuyer = (props) => {
             getCurStep.querySelector('input[type="text"]').focus();
           }
         }, 100);
-        if (reloadQuestions[defId].history) {
+        if (questions[defId].history) {
           history.push({
-            pathname: `/packageFlow/getstartedBuyer/${reloadQuestions[defId].history}`,
+            pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
             state: get(history, 'location.state', {}),
           });
         }
-        const getOnlyQuest = reloadQuestions.filter((item) => item.inputs);
-        setQuestions(reloadQuestions);
+        const getOnlyQuest = questions.filter((item) => item.inputs);
         setProgressBar((defId * 100) / getOnlyQuest.length);
         if (checkBrowser() > 0) {
           if (singleStepEl) singleStepEl.scrollTop = 0;
@@ -243,6 +277,7 @@ const GetStartedBuyer = (props) => {
         }
       }
     }
+    return null;
   };
 
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
@@ -389,42 +424,6 @@ const GetStartedBuyer = (props) => {
     }
     if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
   }, [company]);
-
-  // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
-  const checkValidateField = (act) => {
-    let isValid = true;
-    let isNotEmpty = false;
-    if (get(quest, 'inputs', null)) {
-      quest.inputs.forEach((input) => {
-        const err = get(errorValue, input.name, null);
-        const noEmpty = get(formValue, input.name, 'ayc');
-        if (noEmpty !== 'ayc') isNotEmpty = true;
-        if (input.condition) {
-          input.condition.forEach((item) => {
-            if (get(formValue, item.name, null) === item.value) {
-              if (err !== true && err !== false && isValid) isValid = false;
-            }
-          });
-        } else if (input.validation) {
-          // const getRegField = get(registeredFields
-          let field;
-          if (input.name === 'profileUaer') {
-            const page = get(formValue, 'signupScreen', null);
-            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
-            if (page === 'login') {
-              field = ['login.email', 'login.password'];
-            }
-            field.forEach((item) => {
-              const err = get(errorValue, item, true);
-              if (err !== true && err !== false && isValid) isValid = false;
-            });
-          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
-        }
-      });
-    }
-    if (act === 'value') return isValid && isNotEmpty;
-    return isValid;
-  };
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {

@@ -195,6 +195,51 @@ const GetStartedSeller = (props) => {
     return newIndex;
   };
 
+  // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
+  const checkValidateField = (act) => {
+    let isValid = true;
+    let isNotEmpty = false;
+    if (get(quest, 'inputs', null)) {
+      quest.inputs.forEach((input) => {
+        const err = get(errorValue, input.name, null);
+        const noEmpty = get(formValue, input.name, 'ayc');
+        if (noEmpty !== 'ayc') isNotEmpty = true;
+        if (input.condition) {
+          input.condition.forEach((item) => {
+            if (item.value && get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+          });
+        } else if (input.validation) {
+          // const getRegField = get(registeredFields
+          let field;
+          if (input.name === 'profile') {
+            const page = get(formValue, 'signupScreen', null);
+            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
+            if (page === 'login') {
+              field = ['login.email', 'login.password'];
+            }
+            field.forEach((item) => {
+              const err = get(errorValue, item, true);
+              if (err !== true && err !== false && isValid) isValid = false;
+            });
+          }
+          if (input.name === 'register.ownerType') {
+            if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
+          }
+          if (input.name === 'register.whenToSell') {
+            if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
+          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
+        }
+      });
+    }
+    if (act === 'value') return isValid && isNotEmpty;
+    return isValid;
+  };
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
@@ -206,6 +251,7 @@ const GetStartedSeller = (props) => {
     if (act === 'back') {
       newIndex -= step;
     } else {
+      if (!checkValidateField()) return false;
       newIndex += step;
     }
     if (newIndex === -1) {
@@ -239,10 +285,10 @@ const GetStartedSeller = (props) => {
           } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
             getCurStep.querySelector('input[type="text"]').focus();
           }
-        }, 400);
+        }, 100);
         if (questions[defId].history) {
           history.push({
-            pathname: `/packageFlow/getStarted/${questions[defId].history}`,
+            pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
             state: get(history, 'location.state', {}),
           });
         }
@@ -257,6 +303,7 @@ const GetStartedSeller = (props) => {
         }
       }
     }
+    return null;
   };
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
@@ -415,51 +462,6 @@ const GetStartedSeller = (props) => {
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
   }, [company]);
-
-  // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
-  const checkValidateField = (act) => {
-    let isValid = true;
-    let isNotEmpty = false;
-    if (get(quest, 'inputs', null)) {
-      quest.inputs.forEach((input) => {
-        const err = get(errorValue, input.name, null);
-        const noEmpty = get(formValue, input.name, 'ayc');
-        if (noEmpty !== 'ayc') isNotEmpty = true;
-        if (input.condition) {
-          input.condition.forEach((item) => {
-            if (item.value && get(formValue, item.name, null) === item.value) {
-              if (err !== true && err !== false && isValid) isValid = false;
-            }
-            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
-              if (err !== true && err !== false && isValid) isValid = false;
-            }
-          });
-        } else if (input.validation) {
-          // const getRegField = get(registeredFields
-          let field;
-          if (input.name === 'profile') {
-            const page = get(formValue, 'signupScreen', null);
-            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
-            if (page === 'login') {
-              field = ['login.email', 'login.password'];
-            }
-            field.forEach((item) => {
-              const err = get(errorValue, item, true);
-              if (err !== true && err !== false && isValid) isValid = false;
-            });
-          }
-          if (input.name === 'register.ownerType') {
-            if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
-          }
-          if (input.name === 'register.whenToSell') {
-            if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
-          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
-        }
-      });
-    }
-    if (act === 'value') return isValid && isNotEmpty;
-    return isValid;
-  };
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
