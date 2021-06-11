@@ -259,10 +259,10 @@ const GetStartedSeller = (props) => {
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
-
-      // setPosition(newIndex);
-      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
-      else {
+      if (questions[defId]) {
+        // setPosition(newIndex);
+        if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
+      } else {
         let newQuest = {
           ...questions[defId],
         };
