@@ -70,7 +70,7 @@ const GetStartedEstimation = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
-  const [showError, setShowError] = useState(0);
+  const [showError, setShowError] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -310,14 +310,17 @@ const GetStartedEstimation = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act, e, step = 1) => {
+  const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
     setShowError(false);
     if (act === 'back') {
       newIndex -= step;
     } else {
-      if (!checkValidateField()) return false;
+      if (!checkValidateField() && !skipValidation) {
+        setShowError(true);
+        return false;
+      }
       newIndex += step;
     }
     if (newIndex === -1) {
@@ -381,7 +384,7 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('inputSheet', inputSheet);
     }
     if (quest.inputs && quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
-      changeStep();
+      changeStep('next', null, 1, true);
     }
   }, [formValue]);
 
@@ -690,6 +693,7 @@ const GetStartedEstimation = (props) => {
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                onShowError={() => setShowError(true)}
                               />
                             )
                           }

@@ -67,7 +67,7 @@ const GetStartedBuyer = (props) => {
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
-  const [showError, setShowError] = useState(0);
+  const [showError, setShowError] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
 
   const singleStepRef = useRef(null);
@@ -218,14 +218,17 @@ const GetStartedBuyer = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act, e, step = 1) => {
+  const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
     setShowError(false);
     if (act === 'back') {
       newIndex -= step;
     } else {
-      if (!checkValidateField()) return false;
+      if (!checkValidateField() && !skipValidation) {
+        setShowError(true);
+        return false;
+      }
       newIndex += step;
     }
     if (newIndex === -1) {
@@ -397,7 +400,7 @@ const GetStartedBuyer = (props) => {
       setQuestions(newQuest);
     }
     if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
-      changeStep();
+      changeStep('next', null, 1, true);
     }
   }, [formValue]);
 
@@ -607,6 +610,7 @@ const GetStartedBuyer = (props) => {
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                onShowError={() => setShowError(true)}
                               />
                             )
                           }
@@ -650,7 +654,7 @@ const GetStartedBuyer = (props) => {
                     onCloseGoBack={() => changeStep('back')}
                     onClickDisabled={!checkValidateField()}
                     showSendButton
-                    showErrors
+                    showErrors={showError}
                   />
                 </div>
               )
