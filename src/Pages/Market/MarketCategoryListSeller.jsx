@@ -21,11 +21,11 @@ import { getCompanyListing } from '../../actions/CompanyActions';
 import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 // import CardImageText from '../../components/Skeleton/CardImageText';
 import Loading from '../../components/Loading';
-import marketSkelton from '../../images/market-skelton.svg';
-import marketSkeltonMobile from '../../images/market-skelton-mobile.svg';
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
 import testdrive from '../../images/Market/testdrive.jpeg';
+import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
+import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 
 const CarouselWrapper = Loadable({
   loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
@@ -491,8 +491,10 @@ const MarketCategoryListSeller = (props) => {
               (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
                 <div className="marketSellBanner">
                   <div className="m-a px-2 px-sm-0 max-w-fix-480 max-w-fix-sm-768">
-                    <img className="hide dis-b-sm" src={marketSkelton} alt="marketSkelton" />
-                    <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
+                    <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
+                      <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
+                      <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
+                    </div>
                   </div>
                 </div>
               )
