@@ -54,26 +54,6 @@ export const BestimateCH = (type = null, propertyType) => {
         },
       ],
     },
-    {
-      title: 'Which extra features do you have?',
-      vCentered: true,
-      history: 'step3',
-      cardType: 'step3',
-      bgImg: homesSvg,
-      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
-      footerWidth: 'max-w-fix-600',
-      inputs: [
-        {
-          component: BrixelExtraFeature,
-          label: 'Extra features',
-          name: 'properties.extraFeatures',
-          pdClass: 'p-1 bgLight100',
-          className: 'extraFeature',
-          iconClass: 'p-small-10 bgPrimary100 txtWhite brdRadius mr-1',
-          options: factsOptions.BrixelExtraFeature,
-        },
-      ],
-    },
   ];
   if (type !== 'getStarted') {
     bestimate.push(
