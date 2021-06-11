@@ -264,9 +264,11 @@ function PageHeaderDashboard(props) {
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
     if (dashContentEl) {
       if (showMobileMenu) {
+        dashContentEl.classList.add('menuOn');
         dashContentEl.style.overflowY = 'hidden';
       } else {
         dashContentEl.style.overflowY = '';
+        dashContentEl.classList.remove('menuOn');
       }
     }
   }, [showMobileMenu]);
