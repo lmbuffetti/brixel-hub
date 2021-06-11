@@ -93,7 +93,7 @@ const MarketCard = (props) => {
         ((
           type === 'premium' || get(item, 'tags', []).includes('premium') ||
           type === 'new' || get(item, 'tags', []).includes('new')
-        ) && type !== 'favorite')
+        ) && type !== 'favorite' && !history.location.pathname.includes('sell'))
       ) {
         setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
