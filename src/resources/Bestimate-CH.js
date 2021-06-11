@@ -2,14 +2,9 @@
 import {
   BrixelInputStepNumber,
   BrixelInputText,
-  BrixelExtraFeature,
-  FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
 import ResumeBestimate from '../Pages/GameHistory/Bestimate/ResumeBestimate';
-import homesSvg from '../images/getstarted/svgs/homes.svg';
-
-const { factsOptions } = FactsOptions;
 
 export const BestimateCH = (type = null, propertyType) => {
   const bestimate = [
