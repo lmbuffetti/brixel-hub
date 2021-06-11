@@ -150,7 +150,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
-          placeholder: '117',
+          placeholder: translateTo(lang, 'e.g. 120'),
           maxLenghtNum: 9999,
         },
         {
