@@ -111,13 +111,13 @@ const PropertyBuyerDashboard = (props) => {
               />
             </div>
 
-            <div className="dis-f mt-2 w-perc-50">
+            <div className="dis-f mt-2">
               <BrixelButtonBox
                 verticalView
                 bgTransparent
                 icon="calendar"
                 label="Showings"
-                labelClass="fweight-400 w-perc-50"
+                labelClass={`fweight-400 ${windowDimensions.width <= 1024 ? 'w-perc-50' : 'w-perc-25'}`}
                 subtitle=""
                 subtitleClass="fsize-200 pt-small-6"
                 className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
@@ -125,6 +125,23 @@ const PropertyBuyerDashboard = (props) => {
                 backIcon="primary100"
                 onClick={() => history.push(`/buyer/${propID}/property/showings`)}
               />
+              {
+                windowDimensions.width <= 1024 && (
+                  <BrixelButtonBox
+                    verticalView
+                    bgTransparent
+                    icon="money"
+                    label="Deals"
+                    labelClass="fweight-400 w-perc-50"
+                    subtitle=""
+                    subtitleClass="fsize-200 pt-small-6"
+                    className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'deals' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                    colorIcon="primary700"
+                    backIcon="primary100"
+                    onClick={() => history.push(`/buyer/${propID}/deal`)}
+                  />
+                )
+              }
 
             </div>
 
