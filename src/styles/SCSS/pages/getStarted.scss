@@ -2,7 +2,7 @@
   background-color: #F7F6F5;
   &.flowProfile,
   &.flowResume {
-    background-color: map-get($greenColor, 500);
+    background-color: #009579;
   }
   &.flowResume {
     .content .container {
@@ -90,6 +90,8 @@
 
           > label  {
             padding: $step;
+            padding-left: $step * 2;
+            padding-right: $step * 2;
           }
 
           &:nth-child(odd) {
