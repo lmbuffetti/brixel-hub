@@ -846,14 +846,20 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({
             type: GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
             payload: {
-              id: page, data: { user: getByUser }, smallLoader, redirectTo,
+              id: page, data: { user: getByUser }, smallLoader: 'loadBooking', redirectTo,
             },
           });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL_ON,
               payload: {
-                [smallLoader]: false,
+                savedBooking: 'sentMessage',
+              },
+            });
+            store.dispatch({
+              type: SPINNER_SMALL_ON,
+              payload: {
+                [smallLoader]: 'sentMessage',
               },
             });
           } else {

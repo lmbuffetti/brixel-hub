@@ -78,7 +78,7 @@ const AddNewOffer = (props) => {
 
     const dataForm = cloneDeep(formValue);
     dataForm.id = activeSingleDeal.id;
-    dataForm.smallLoader = 'saveMakeOffer';
+    dataForm.smallLoader = 'makeOffer';
     if (get(formValue, 'file', null)) {
       dataForm.docs = dataForm.file;
       dataForm.docs.user = get(loggedInUser, 'id', null);
@@ -278,7 +278,7 @@ const AddNewOffer = (props) => {
                     rounded
                     label="Send offer"
                     onClick={() => saveData()}
-                    isLoading={isSmallLoading === 'saveMakeOffer'}
+                    isLoading={isSmallLoading.makeOffer === true}
                   />
                 </div>
 

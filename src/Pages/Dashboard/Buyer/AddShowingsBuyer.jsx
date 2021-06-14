@@ -34,10 +34,9 @@ const AddShowingsBuyer = (props) => {
   // PROPS
   const {
     activeSingleProperty,
-    handleSpinnerSmallOff,
     history,
     lang,
-    smallLoading,
+    isSmallLoading,
     userLang,
   } = props;
   const [currentStep, setCurrentStep] = useState('schedule');
@@ -55,11 +54,10 @@ const AddShowingsBuyer = (props) => {
   const hoursRef = useRef(null);
 
   useEffect(() => {
-    if (smallLoading === 'savedBooking') {
+    if (isSmallLoading.savedBooking === 'sentMessage' || isSmallLoading.sendMessage === 'sentMessage') {
       setCurrentStep('sentMessage');
-      handleSpinnerSmallOff();
     }
-  }, [smallLoading]);
+  }, [isSmallLoading]);
 
   const removeEl = (id) => {
     const visit = scheduleVisitFree;
@@ -108,6 +106,7 @@ const AddShowingsBuyer = (props) => {
           func: () => setCurrentStep('message'),
           btnType: 'Primary',
           className: 'mr-1',
+          isLoading: isSmallLoading.sendMessage === true,
           bkg: 'primary',
           sat: 400,
           round: true,
@@ -344,10 +343,9 @@ const AddShowingsBuyer = (props) => {
 
 AddShowingsBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  handleSpinnerSmallOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
-  smallLoading: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
 };
 
@@ -362,7 +360,7 @@ const mapStateToProps = (state) => {
     formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
     lang: get(state, 'user.loggedInUser.user.language', ''),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    smallLoading: get(state, 'common.isSmallLoading', { }),
+    isSmallLoading: get(state, 'common.isSmallLoading', { }),
     userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };

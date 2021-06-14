@@ -721,7 +721,7 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL_ON,
               payload: {
-                [smallLoader]: false,
+                [smallLoader]: 'done',
               },
             });
           } else {
