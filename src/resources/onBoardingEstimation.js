@@ -238,7 +238,7 @@ export const QuestionsList = (lang, country = 'CH') => {
             multipleFieldSearch: false,
             draggable: false,
           },
-          // validation: [Validation.required],
+          validation: [Validation.required],
         },
       ],
     },
