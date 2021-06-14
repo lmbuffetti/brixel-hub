@@ -10,7 +10,6 @@ import {
   BrixelAvatar,
   BrixelButtonBox,
   BrixelButtonIcon,
-  Helpers,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
@@ -28,6 +27,11 @@ const PageBuyer = Loadable({
 
 const ShowingsBuyer = Loadable({
   loader: () => import('./ShowingsBuyer' /* webpackChunkName: "ShowingsBuyer" */),
+  loading: LoadingSimple,
+});
+
+const ContactBuyer = Loadable({
+  loader: () => import('./ContactBuyer' /* webpackChunkName: "ContactBuyer" */),
   loading: LoadingSimple,
 });
 
@@ -80,6 +84,27 @@ const PropertyBuyerDashboard = (props) => {
       <div className="property-container dis-f jc-fs h-perc-lg-100 pos-r a-t" id="propertyDashboard">
         <Sticker>
           <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
+
+            <div className="pl-1 mb-2">
+              <div
+                className="dis-f p-2 buttonBox"
+                onClick={() => history.push(`/buyer/${propID}/property/contact`)}
+              >
+                <BrixelAvatar
+                  baseURL={get(baseByData, 'shortPath', '')}
+                  name={get(formValue, 'contacts[0].name', '')}
+                  profileId={get(formValue, 'contacts[0].id', '')}
+                />
+                <div className="ml-2">
+                  <h6>{get(formValue, 'contacts[0].name', '')}</h6>
+                  {
+                    get(formValue, 'contacts[0].company', null) && (
+                      <p className="body2 txtDark700">{get(formValue, 'contacts[0].company', '')}</p>
+                    )
+                  }
+                </div>
+              </div>
+            </div>
 
             <div className="dis-f">
               <BrixelButtonBox
@@ -145,43 +170,6 @@ const PropertyBuyerDashboard = (props) => {
 
             </div>
 
-            <div className="pl-1">
-              <h6 className="overline mt-3 mb-2">Contact</h6>
-              <div className="dis-f p-2 buttonBox">
-                <BrixelAvatar
-                  baseURL={get(baseByData, 'shortPath', '')}
-                  name={get(formValue, 'contacts[0].name', '')}
-                  profileId={get(formValue, 'contacts[0].id', '')}
-                />
-                <div className="ml-2">
-                  <h6>{get(formValue, 'contacts[0].name', '')}</h6>
-                  {
-                    get(formValue, 'contacts[0].company', null) && (
-                      <p className="body2 txtDark700">{get(formValue, 'contacts[0].company', '')}</p>
-                    )
-                  }
-                  {
-                    get(formValue, 'contacts[0].phone.number', null) && (
-                      <div>
-                        <a
-                          href={`${Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}), false, false, true)}`}
-                          className="body2 txtDark700"
-                        >{Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}))}
-                        </a>
-                      </div>
-                    )
-                  }
-                  {
-                    get(formValue, 'contacts[0].email', null) && (
-                      <div>
-                        <a href={`mailto:${get(formValue, 'contacts[0].email', '')}`} className="body2 txtDark700">{get(formValue, 'contacts[0].email', '')}</a>
-                      </div>
-                    )
-                  }
-                </div>
-              </div>
-            </div>
-
           </div>
         </Sticker>
         <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
@@ -197,6 +185,7 @@ const PropertyBuyerDashboard = (props) => {
               <Route path="/buyer/:propId/property/page" component={PageBuyer} />
               <Route path="/buyer/:propId/property/documents" exact component={Documents} />
               <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
+              <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
             </div>
           )
         }

@@ -136,6 +136,11 @@ const AddShowingsBuyer = Loadable({
   loading: Loading,
 });
 
+const AddContactBuyer = Loadable({
+  loader: () => import('./Pages/Dashboard/Buyer/AddContactBuyer' /* webpackChunkName: "AddContactBuyer" */),
+  loading: Loading,
+});
+
 const SingleDeal = Loadable({
   loader: () => import('./Pages/Deals/SingleDeal' /* webpackChunkName: "SingleDeal" */),
   loading: Loading,
@@ -526,6 +531,7 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
           <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
+          <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
           <ProtectedRoute exact path="/:propID/deals/lists/:dealID/deal" component={SingleDeal} />
           <ProtectedRoute exact path="/:propID/deals/lists/newDeal" component={CreateDeal} />
         </Switch>
