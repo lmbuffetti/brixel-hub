@@ -16,6 +16,8 @@ import {
   SET_PREMIUM_PROPERTIES,
   GET_PREMARKET_PROPERTIES,
   SET_PREMARKET_PROPERTIES,
+  GET_WHISHLIST_PROPERTIES,
+  SET_WHISHLIST_PROPERTIES,
 } from './types/MarketTypes';
 
 export const {
@@ -32,7 +34,9 @@ export const {
   getPremiumProperties,
   setPremiumProperties,
   getPremarketProperties,
-  SetPremarketProperties,
+  setPremarketProperties,
+  getWhishlistProperties,
+  setWhishlistProperties,
 } = createActions({
   [GET_ALL_PROPERTIES]: (payload) => payload,
   [SET_ALL_PROPERTIES]: (payload) => payload,
@@ -48,4 +52,6 @@ export const {
   [SET_PREMIUM_PROPERTIES]: (payload) => payload,
   [GET_PREMARKET_PROPERTIES]: (payload) => payload,
   [SET_PREMARKET_PROPERTIES]: (payload) => payload,
+  [GET_WHISHLIST_PROPERTIES]: (payload) => payload,
+  [SET_WHISHLIST_PROPERTIES]: (payload) => payload,
 });

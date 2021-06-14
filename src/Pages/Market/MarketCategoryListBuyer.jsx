@@ -38,6 +38,7 @@ const MarketCategoryListBuyer = (props) => {
     setSplashScreen,
     splashScreenType,
     userSearchProfiles,
+    whishlistProperties,
     windowDimensions,
   } = props;
 
@@ -73,6 +74,10 @@ const MarketCategoryListBuyer = (props) => {
     switch (type) {
       case 'own': {
         history.push(`/${baseUrl}/own`);
+        break;
+      }
+      case 'whishlist': {
+        history.push(`/${baseUrl}/whishlist`);
         break;
       }
       case 'favorite': {
@@ -250,6 +255,10 @@ const MarketCategoryListBuyer = (props) => {
                     label: 'All',
                     value: 'all',
                   },
+                  whishlistProperties.total > 0 && {
+                    label: 'Whishlist',
+                    value: 'whishlist',
+                  },
                   favoritesProperties.total > 0 && {
                     label: 'Your favorites',
                     value: 'favorites',
@@ -279,14 +288,18 @@ const MarketCategoryListBuyer = (props) => {
                       themeSat={300}
                       className="fsize-300 mb-1 txtDark400 mr-1"
                     />
-                    {/* <BrixelButtonSecondary
-                      onClick={() => history.push(`${match.url}/own`)}
-                      label="Your properties"
-                      rounded
-                      theme="light"
-                      themeSat={300}
-                      className="fsize-300 mb-1 txtDark400 mr-1"
-                    /> */}
+                    {
+                      get(whishlistProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={(e) => showAll(e, 'whishlist')}
+                          label="Whishlist"
+                          rounded
+                          theme="light"
+                          themeSat={300}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
                     {/* <BrixelButtonSecondary
                       onClick={() => history.push(`${match.url}/lastViewed`)}
                       label="Last viewed"
@@ -366,6 +379,20 @@ const MarketCategoryListBuyer = (props) => {
       </div>
 
       {
+        whishlistProperties.total > 0 && (
+          <div className={`min-h-fix-448 ${whishlistProperties.total === 0 ? '' : 'mb-8'}`}>
+            <CarouselWrapper
+              title="Whishlist"
+              className="market-category-carousel"
+              type="whishlist"
+              items={whishlistProperties.data}
+              total={whishlistProperties.total}
+            />
+          </div>
+        )
+      }
+
+      {
         favoritesProperties.total > 0 && (
           <div className={`min-h-fix-448 ${favoritesProperties.total === 0 ? '' : 'mb-8'}`}>
             <CarouselWrapper
@@ -441,6 +468,7 @@ MarketCategoryListBuyer.propTypes = {
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
+  whishlistProperties: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -457,6 +485,7 @@ const mapStateToProps = (state) => ({
   premiumProperties: get(state, 'market.premiumProperties', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
+  whishlistProperties: get(state, 'market.whishlistProperties', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

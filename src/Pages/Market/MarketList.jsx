@@ -12,7 +12,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   getAllProperties, getFavoritesProperties, getLastViewedProperties,
   getNewProperties, getOwnedProperties, getPremarketProperties,
-  getPremiumProperties,
+  getPremiumProperties, getWhishlistProperties,
 } from '../../actions/MarketActions';
 import MarketCardMap from '../../components/MarketCardMap';
 import Pagination from '../../components/Pagination';
@@ -36,6 +36,7 @@ const MarketList = (props) => {
     handleGetPreMarketProperties,
     handleGetPremiumProperties,
     handleGetSellerProperties,
+    handleGetWhishlistProperties,
     history,
     lastViewedProperties,
     loggedInUser,
@@ -47,6 +48,7 @@ const MarketList = (props) => {
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
+    whishlistProperties,
     windowDimensions,
   } = props;
   // URL PARAMS
@@ -86,6 +88,10 @@ const MarketList = (props) => {
         case 'all': {
           if (profileID) set(data, 'searchProfileId', profileID);
           handleGetAllProperties(data);
+          break;
+        }
+        case 'whishlist': {
+          handleGetWhishlistProperties(data);
           break;
         }
         case 'favorites': {
@@ -129,6 +135,10 @@ const MarketList = (props) => {
     switch (catName) {
       case 'own': {
         setPropertyListings(ownerProperties.data || []);
+        break;
+      }
+      case 'whishlist': {
+        setPropertyListings(whishlistProperties.data || []);
         break;
       }
       case 'favorites': {
@@ -188,6 +198,9 @@ const MarketList = (props) => {
       case 'all': {
         return 'All properties';
       }
+      case 'whishlist': {
+        return 'Whishlist';
+      }
       case 'favorites': {
         return 'Your favorites';
       }
@@ -215,6 +228,9 @@ const MarketList = (props) => {
       }
       case 'all': {
         return allProperties.total;
+      }
+      case 'whishlist': {
+        return whishlistProperties.total;
       }
       case 'favorites': {
         return favoritesProperties.total;
@@ -396,6 +412,7 @@ MarketList.propTypes = {
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
+  handleGetWhishlistProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lastViewedProperties: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -407,6 +424,7 @@ MarketList.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
+  whishlistProperties: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -424,6 +442,7 @@ const mapStateToProps = (state) => ({
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
+  whishlistProperties: get(state, 'market.whishlistProperties', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
@@ -435,6 +454,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
+  handleGetWhishlistProperties: bindActionCreators(getWhishlistProperties, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
