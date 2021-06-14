@@ -11,10 +11,6 @@ import LoginSignup from '../components/LoginSignup';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
 import { configureStore } from '../store';
-/*
-import apartment from '../images/BrxielComingTown/apartment.svg';
-import house from '../images/BrxielComingTown/house.svg';
-import commercial from '../images/BrxielComingTown/commercial.svg'; */
 
 // VALIDATION OF FIELDS
 export const maxLengthNum = (val, name) => (value) => {

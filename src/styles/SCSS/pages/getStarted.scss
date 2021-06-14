@@ -90,6 +90,8 @@
 
           > label  {
             padding: $step;
+            padding-left: $step * 2;
+            padding-right: $step * 2;
           }
 
           &:nth-child(odd) {

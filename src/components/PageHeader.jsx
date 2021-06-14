@@ -10,7 +10,7 @@ import has from 'lodash/has';
 import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 // import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colors_new.svg';
-import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_color_icon.svg';
+import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import Loadable from 'react-loadable';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -160,10 +160,10 @@ function PageHeader(props) {
       <header className="flowHeader">
         <div className="container">
           <div className={`dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pt-2 pb-3 py-sm-5 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
-            <div className="dis-f  jc-c a-c w-fix-104 min-h-fix-56 h-perc-100">
+            <div className="dis-f a-c w-fix-104 min-h-fix-56 h-perc-100">
 
               <img
-                className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+                className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-48 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
                 src={`${window.innerWidth <= 600 ? logoColorIcon : logoColor}`}
                 alt="Brixel Logo"
                 id="header-logo"

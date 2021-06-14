@@ -207,7 +207,7 @@ export const QuestionsList = (lang) => {
       inputs: [
         {
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-lg-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-2',
           icons: true,
           label: '',
           name: 'profile.livingSituation',
