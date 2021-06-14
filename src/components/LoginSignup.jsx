@@ -377,7 +377,6 @@ const LoginSignup = (props) => {
             titleClass="fsize-600 txtWhite fweight-600"
             contentClass="txtWhite py-2"
             className="mb-2"
-            isExpanded
           >
             All our properties are presented on a dedicated website with a 3D tour, high-quality photos, and much more. Buyers confirm that the presentation is outstanding.
           </Accordion>
@@ -385,7 +384,6 @@ const LoginSignup = (props) => {
             title="Start with a free test drive"
             titleClass="fsize-600 txtWhite fweight-600"
             contentClass="txtWhite py-2"
-            isExpanded
           >
             Convince yourself of our quality before you commit to any package. We offer a 7 days trial for all our packages. No strings attached.
           </Accordion>
