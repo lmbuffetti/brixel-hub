@@ -10,7 +10,6 @@ import {
   BrixelAvatar,
   BrixelButtonBox,
   BrixelButtonIcon,
-  Helpers,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
@@ -80,9 +79,12 @@ const PropertyBuyerDashboard = (props) => {
       <div className="property-container dis-f jc-fs h-perc-lg-100 pos-r a-t" id="propertyDashboard">
         <Sticker>
           <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
-            <div className="pl-1 mb-1">
-              <h6 className="overline mb-2">Contact</h6>
-              <div className="dis-f p-2 buttonBox">
+
+            <div className="pl-1 mb-2">
+              <div
+                className="dis-f p-2 buttonBox"
+                onClick={() => history.push(`/buyer/${propID}/property/contact`)}
+              >
                 <BrixelAvatar
                   baseURL={get(baseByData, 'shortPath', '')}
                   name={get(formValue, 'contacts[0].name', '')}
@@ -95,27 +97,10 @@ const PropertyBuyerDashboard = (props) => {
                       <p className="body2 txtDark700">{get(formValue, 'contacts[0].company', '')}</p>
                     )
                   }
-                  {
-                    get(formValue, 'contacts[0].phone.number', null) && (
-                      <div>
-                        <a
-                          href={`${Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}), false, false, true)}`}
-                          className="body2 txtDark700"
-                        >{Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}))}
-                        </a>
-                      </div>
-                    )
-                  }
-                  {
-                    get(formValue, 'contacts[0].email', null) && (
-                      <div>
-                        <a href={`mailto:${get(formValue, 'contacts[0].email', '')}`} className="body2 txtDark700">{get(formValue, 'contacts[0].email', '')}</a>
-                      </div>
-                    )
-                  }
                 </div>
               </div>
             </div>
+
             <div className="dis-f min-h-fix-136">
               <BrixelButtonBox
                 verticalView

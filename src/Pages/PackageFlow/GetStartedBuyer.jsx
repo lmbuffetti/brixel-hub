@@ -265,7 +265,7 @@ const GetStartedBuyer = (props) => {
         }, 100);
         if (questions[defId].history) {
           history.push({
-            pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
+            pathname: `/packageFlow/getStartedBuyer/${questions[defId].history}`,
             state: get(history, 'location.state', {}),
           });
         }

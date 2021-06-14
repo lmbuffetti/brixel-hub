@@ -9,7 +9,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelTextArea, BrixelInputText, Validation, BrixelIcon, ReduxField, initializeForm, change, destroy,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { createPropertyVisitBooking } from '../actions/PropertyActions';
+import { sendMessage } from '../actions/CommonActions';
 
 function ContactForm(props) {
   // PROPS
@@ -21,12 +23,13 @@ function ContactForm(props) {
     errorValue,
     formValue,
     handleCreatePropertyVisitBooking,
+    handleSendMessage,
     history,
     initForm,
     initialValues,
+    isSmallLoading,
     lang,
     loggedInUser,
-    messageSent,
     onChangeAction,
     scheduleVisit,
     type,
@@ -38,22 +41,24 @@ function ContactForm(props) {
   useEffect(() => () => destroyForm(), []);
 
   useEffect(() => {
-    if (messageSent) {
+    if (isSmallLoading.sendMessage === 'sentMessage') {
       setStep('success');
       changeFieldValue('userMessage', '');
       // history.push({state: { step: 'success' }});
       // handleResetSendMessage();
     }
-  }, [messageSent]);
+  }, [isSmallLoading]);
 
   useEffect(() => {
-    initForm(initialValues);
-  }, []);
+    if (!formValue.userEmail && loggedInUser.email) initForm(initialValues);
+  }, [initialValues, loggedInUser]);
 
   const checkField = () => {
     let isValid = true;
     const currentError = cloneDeep(errorValue);
     delete currentError.location;
+    delete currentError.reset;
+    if (scheduleVisit) delete currentError.userMessage;
     Object.keys(currentError).forEach((item) => {
       if (isValid) isValid = currentError[item] === true;
     });
@@ -82,9 +87,23 @@ function ContactForm(props) {
         },
         getByUser: loggedInUser.id,
         message: formValue.userMessage,
+        smallLoader: 'sendMessage',
       };
       handleCreatePropertyVisitBooking(data);
       onChangeAction('isLoading');
+    } else {
+      const data = {
+        messageType: type ? baseByData.messageTypeID[type] : 0,
+        page: activeSingleProperty.id,
+        title: 'Page',
+        message: formValue.userMessage,
+        senderName: formValue.userName,
+        senderEmail: formValue.userEmail,
+        senderPhone: formValue.userPhone,
+        language: lang,
+        smallLoader: 'sendMessage',
+      };
+      handleSendMessage(data);
     }
     return null;
   };
@@ -185,7 +204,8 @@ function ContactForm(props) {
                       }}
                       input={{
                         name: 'userMessage',
-                        placeholder: type === 'schedule' ? 'Let us know about important schedule information' : 'Let us know how we can help you',
+                        placeholder: scheduleVisit ? 'Let us know about important schedule information' : 'Let us know how we can help you',
+                        validate: scheduleVisit ? null : [Validation.required],
                       }}
                       labels={{
                         label: 'Message',
@@ -254,12 +274,13 @@ ContactForm.propTypes = {
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
+  handleSendMessage: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  messageSent: PropTypes.bool,
   onChangeAction: PropTypes.func.isRequired,
   scheduleVisit: PropTypes.arrayOf(PropTypes.object),
   type: PropTypes.string,
@@ -267,7 +288,6 @@ ContactForm.propTypes = {
 
 ContactForm.defaultProps = {
   action: null,
-  messageSent: false,
   scheduleVisit: null,
   type: null,
 };
@@ -279,6 +299,7 @@ const mapStateToProps = (state) => {
     configUrl: get(state, 'common.configUrl', {}),
     errorValue: get(state, 'brixelForm.ContactForm.syncErrors', {}),
     formValue: get(state, 'brixelForm.ContactForm.values', {}),
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language.code', 'de'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     messageSent: get(state, 'common.messageSent', false),
@@ -301,6 +322,7 @@ const mapPropsToState = (dispatch) => ({
     dispatch(change('ContactForm', field, value));
   },
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
+  handleSendMessage: bindActionCreators(sendMessage, dispatch),
 });
 
 export default compose(connect(mapStateToProps, mapPropsToState), withRouter)(ContactForm);

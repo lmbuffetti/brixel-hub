@@ -27,6 +27,8 @@ import {
   SET_SPLASH_TYPE,
   GET_HISTORY,
   SET_HISTORY,
+  SEND_MESSAGE,
+  MESSAGE_SENT,
 } from './types/CommonTypes';
 
 export const {
@@ -57,6 +59,8 @@ export const {
   setSplashType,
   getHistory,
   setHistory,
+  sendMessage,
+  messageSent,
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -85,4 +89,6 @@ export const {
   [SET_SPLASH_TYPE]: (payload) => payload,
   [GET_HISTORY]: (payload) => payload,
   [SET_HISTORY]: (payload) => payload,
+  [SEND_MESSAGE]: (payload) => payload,
+  [MESSAGE_SENT]: (payload) => payload,
 });
