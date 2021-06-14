@@ -58,6 +58,7 @@ function ContactForm(props) {
     const currentError = cloneDeep(errorValue);
     delete currentError.location;
     delete currentError.reset;
+    if (scheduleVisit) delete currentError.userMessage;
     Object.keys(currentError).forEach((item) => {
       if (isValid) isValid = currentError[item] === true;
     });
@@ -194,7 +195,7 @@ function ContactForm(props) {
                         />
                       </div>
                     </div>
-
+                    {console.log(scheduleVisit)}
                     <ReduxField
                       form="ContactForm"
                       component={BrixelTextArea}
@@ -203,8 +204,8 @@ function ContactForm(props) {
                       }}
                       input={{
                         name: 'userMessage',
-                        placeholder: type === 'schedule' ? 'Let us know about important schedule information' : 'Let us know how we can help you',
-                        validate: [Validation.required],
+                        placeholder: scheduleVisit ? 'Let us know about important schedule information' : 'Let us know how we can help you',
+                        validate: scheduleVisit ? null : [Validation.required],
                       }}
                       labels={{
                         label: 'Message',
