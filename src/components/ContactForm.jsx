@@ -17,6 +17,7 @@ function ContactForm(props) {
   // PROPS
   const {
     action,
+    activeSingleCompany,
     activeSingleProperty,
     changeFieldValue,
     destroyForm,
@@ -51,10 +52,10 @@ function ContactForm(props) {
   useEffect(() => {
     if (!formValue.userEmail && loggedInUser.email) {
       changeFieldValue('userName', loggedInUser.name);
-      changeFieldValue('userPhone', loggedInUser.phone);
+      changeFieldValue('userPhone', get(loggedInUser, 'phone', { }));
       changeFieldValue('userEmail', loggedInUser.email);
     }
-  }, [initialValues, loggedInUser]);
+  }, [initialValues, loggedInUser, activeSingleCompany.id]);
 
   const checkField = () => {
     let isValid = true;
@@ -271,6 +272,7 @@ function ContactForm(props) {
 
 ContactForm.propTypes = {
   action: PropTypes.string,
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
@@ -297,6 +299,7 @@ ContactForm.defaultProps = {
 const mapStateToProps = (state) => {
   const loggedInUser = get(state, 'user.loggedInUser.user', {});
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     configUrl: get(state, 'common.configUrl', {}),
     errorValue: get(state, 'brixelForm.ContactForm.syncErrors', {}),
