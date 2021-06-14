@@ -25,7 +25,6 @@ function ContactForm(props) {
     handleCreatePropertyVisitBooking,
     handleSendMessage,
     history,
-    initForm,
     initialValues,
     isSmallLoading,
     lang,
@@ -50,7 +49,11 @@ function ContactForm(props) {
   }, [isSmallLoading]);
 
   useEffect(() => {
-    if (!formValue.userEmail && loggedInUser.email) initForm(initialValues);
+    if (!formValue.userEmail && loggedInUser.email) {
+      changeFieldValue('userName', loggedInUser.name);
+      changeFieldValue('userPhone', loggedInUser.phone);
+      changeFieldValue('userEmail', loggedInUser.email);
+    }
   }, [initialValues, loggedInUser]);
 
   const checkField = () => {
@@ -276,7 +279,6 @@ ContactForm.propTypes = {
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
   handleSendMessage: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,

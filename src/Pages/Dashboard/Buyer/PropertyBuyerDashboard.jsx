@@ -30,6 +30,11 @@ const ShowingsBuyer = Loadable({
   loading: LoadingSimple,
 });
 
+const ContactBuyer = Loadable({
+  loader: () => import('./ContactBuyer' /* webpackChunkName: "ContactBuyer" */),
+  loading: LoadingSimple,
+});
+
 const Documents = Loadable({
   loader: () => import('../../EditProperty/Documents' /* webpackChunkName: "Documents" */),
   loading: Loading,
@@ -180,6 +185,7 @@ const PropertyBuyerDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Route path="/buyer/:propId/property/page" component={PageBuyer} />
               <Route path="/buyer/:propId/property/documents" exact component={Documents} />
+              <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
               <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
             </div>
           )

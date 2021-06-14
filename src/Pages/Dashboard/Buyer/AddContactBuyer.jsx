@@ -26,7 +26,6 @@ const AddContactBuyer = (props) => {
   // PROPS
   const {
     activeSingleProperty,
-    handleSpinnerSmallOff,
     history,
     isSmallLoading,
   } = props;
@@ -36,7 +35,6 @@ const AddContactBuyer = (props) => {
   useEffect(() => {
     if (isSmallLoading.sendMessage === 'savedBooking' || isSmallLoading.sendMessage === 'sentMessage') {
       setCurrentStep('sentMessage');
-      handleSpinnerSmallOff();
     }
   }, [isSmallLoading]);
 
@@ -129,7 +127,6 @@ const AddContactBuyer = (props) => {
 
 AddContactBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  handleSpinnerSmallOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
 };
