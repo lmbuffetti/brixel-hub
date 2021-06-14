@@ -618,7 +618,7 @@ export const checkBrowser = () => {
   } else if (navigator.appName === 'Netscape') {
     /// in IE 11 the navigator.appVersion says 'trident'
     /// in Edge the navigator.appVersion does not say trident
-    if (navigator.appVersion.indexOf('Trident') === -1) rv = 12;
+    if (navigator.appVersion.indexOf('Trident') === -1) rv = -1;
     else rv = 11;
   }
 
