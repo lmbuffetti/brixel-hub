@@ -10,7 +10,6 @@ import {
   BrixelAvatar,
   BrixelButtonBox,
   BrixelButtonIcon,
-  Helpers,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
@@ -28,11 +27,6 @@ const PageBuyer = Loadable({
 
 const ShowingsBuyer = Loadable({
   loader: () => import('./ShowingsBuyer' /* webpackChunkName: "ShowingsBuyer" */),
-  loading: LoadingSimple,
-});
-
-const ContactBuyer = Loadable({
-  loader: () => import('./ContactBuyer' /* webpackChunkName: "ContactBuyer" */),
   loading: LoadingSimple,
 });
 

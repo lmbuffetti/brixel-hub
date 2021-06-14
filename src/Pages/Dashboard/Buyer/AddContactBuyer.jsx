@@ -72,7 +72,9 @@ const AddContactBuyer = (props) => {
             <section className="titleSection">
               <h4 className="mb-2 txtDark700">About you</h4>
               <h5 className="heading6 txtDark700">How can we reach you?</h5>
-              <div className="min-h-fix-320">
+              <div className="min-h-
+              fix-320"
+              >
                 <ContactForm
                   action={action}
                   onChangeAction={(val) => setAction(val)}

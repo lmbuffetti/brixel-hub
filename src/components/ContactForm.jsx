@@ -195,7 +195,7 @@ function ContactForm(props) {
                         />
                       </div>
                     </div>
-                    {console.log(scheduleVisit)}
+
                     <ReduxField
                       form="ContactForm"
                       component={BrixelTextArea}
