@@ -10,6 +10,7 @@ import {
   BrixelAvatar,
   BrixelButtonBox,
   BrixelButtonIcon,
+  Helpers,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
@@ -106,7 +107,7 @@ const PropertyBuyerDashboard = (props) => {
               </div>
             </div>
 
-            <div className="dis-f">
+            <div className="dis-f min-h-fix-136">
               <BrixelButtonBox
                 verticalView
                 bgTransparent
@@ -136,7 +137,7 @@ const PropertyBuyerDashboard = (props) => {
               />
             </div>
 
-            <div className="dis-f mt-2">
+            <div className="dis-f mt-1 pr-lg-2 min-h-fix-136">
               <BrixelButtonBox
                 verticalView
                 bgTransparent
@@ -145,22 +146,23 @@ const PropertyBuyerDashboard = (props) => {
                 labelClass={`fweight-400 ${windowDimensions.width <= 1024 ? 'w-perc-50' : 'w-perc-25'}`}
                 subtitle=""
                 subtitleClass="fsize-200 pt-small-6"
-                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                className={`w-perc-100 w-perc-lg-50 shadow-1dp ml-1 brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon="primary700"
                 backIcon="primary100"
                 onClick={() => history.push(`/buyer/${propID}/property/showings`)}
               />
+
               {
                 windowDimensions.width <= 1024 && (
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
                     icon="money"
-                    label="Deals"
+                    label="Deal"
                     labelClass="fweight-400 w-perc-50"
                     subtitle=""
                     subtitleClass="fsize-200 pt-small-6"
-                    className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'deals' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                    className={`w-perc-100 min-h-fix-136 shadow-1dp brdMedium ${getFact() === 'deals' ? 'brdPrimary400 bgWhite' : 'brdTrans'} ml-1 p-2`}
                     colorIcon="primary700"
                     backIcon="primary100"
                     onClick={() => history.push(`/buyer/${propID}/deal`)}
@@ -185,7 +187,6 @@ const PropertyBuyerDashboard = (props) => {
               <Route path="/buyer/:propId/property/page" component={PageBuyer} />
               <Route path="/buyer/:propId/property/documents" exact component={Documents} />
               <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
-              <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
             </div>
           )
         }

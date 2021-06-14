@@ -283,7 +283,7 @@ const App = (props) => {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('property') || history.location.pathname.includes('deal')) {
         if (history.location.pathname.includes('buyer')) {
-          setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+          setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
         } else {
           setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');
         }
@@ -419,7 +419,7 @@ const App = (props) => {
 
       <Loading isLoading={isLoading} />
 
-      <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'buyerHub' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
+      <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
