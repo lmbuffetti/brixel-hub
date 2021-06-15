@@ -21,16 +21,9 @@ export const BestimatePT = (type = null) => {
       history: 'step1',
       cardType: 'step1',
       bgImg: homesSvg,
-      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
-      footerWidth: 'max-w-fix-600',
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
+      footerWidth: 'max-w-fix-544',
       inputs: [
-        /* {
-          component: BrixelRadioButton,
-          label: type === 'getStarted' ? 'Condition' : 'Property condition',
-          name: 'properties.building.conditionStatus',
-          options: factsOptions.conditionStatus,
-          validation: [Validation.markRequired],
-        }, */
         {
           className: 'pos-r zIndex6',
           classBoxWrapper: 'two-cols',
@@ -43,6 +36,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputText,
           className: '',
+          classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? null : 'What\'s the gross area of the property?',
           labelLeft: 'Gross area',
           placeholder: '120',
@@ -59,7 +53,7 @@ export const BestimatePT = (type = null) => {
             name: 'properties.propertyType',
             noValue: 'Apartment',
           }],
-          className: '',
+          classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? null : 'What\'s the lot size?',
           name: 'properties.typology.lotArea.value',
           type: 'number',
@@ -76,14 +70,14 @@ export const BestimatePT = (type = null) => {
       title: type === 'getStarted' ? 'Any secondary room?' : 'Step 2',
       bgImg: homesSvg,
       vCentered: true,
-      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
-      footerWidth: 'max-w-fix-600',
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
+      footerWidth: 'max-w-fix-544',
       history: 'step2',
       cardType: 'step2',
       inputs: [
         {
           component: BrixelInputStepNumber,
-          className: '',
+          className: 'two-cols',
           label: type === 'getStarted' ? null : 'How many bathrooms does the property have?',
           name: 'properties.typology.bathrooms',
           labelLeft: 'Bathrooms',
@@ -95,7 +89,7 @@ export const BestimatePT = (type = null) => {
         },
         {
           component: BrixelInputText,
-          className: '',
+          classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? null : 'What\'s the surface of the balcony?',
           name: 'properties.typology.balconyArea.value',
           type: 'number',
@@ -108,6 +102,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputText,
           className: '',
+          classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? null : 'What\'s the surface of the terrace?',
           name: 'properties.typology.terraceArea.value',
           type: 'number',
@@ -120,6 +115,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputText,
           className: '',
+          classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? null : 'What\'s the size of the garden?',
           name: 'properties.typology.gardenArea.value',
           type: 'number',
@@ -135,14 +131,14 @@ export const BestimatePT = (type = null) => {
       title: type === 'getStarted' ? 'Only a few inputs left.' : 'Step 3',
       bgImg: homesSvg,
       vCentered: true,
-      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
-      footerWidth: 'max-w-fix-600',
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
+      footerWidth: 'max-w-fix-544',
       history: 'step3',
       cardType: 'step3',
       inputs: [
         {
           component: BrixelInputStepNumber,
-          className: '',
+          className: 'two-cols',
           label: type === 'getStarted' ? null : 'How many garage parking lots belong to the property?',
           name: 'properties.parking.garage',
           labelLeft: 'Garage parking',
@@ -155,7 +151,7 @@ export const BestimatePT = (type = null) => {
         },
         {
           component: BrixelInputStepNumber,
-          className: '',
+          className: 'two-cols',
           label: type === 'getStarted' ? null : 'How many external parking lots belong to the property?',
           name: 'properties.parking.outside',
           labelLeft: 'External parking',
@@ -167,14 +163,14 @@ export const BestimatePT = (type = null) => {
         },
         {
           component: BrixelInputQuality,
-          className: '',
+          classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? 'Energy efficiency' : 'What\'s the energy efficiency of the property?',
           name: 'properties.energy.efficiency',
           options: factsOptions.energyEfficiencyOptions,
         },
         {
           component: BrixelCheckbox,
-          className: '',
+          classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? 'Solar orientation' : 'What is the solar orientation?',
           name: 'properties.building.solarOrientarion',
           options: factsOptions.solarOrientation,
@@ -186,8 +182,8 @@ export const BestimatePT = (type = null) => {
       bgImg: homesSvg,
       vCentered: true,
       history: 'step4',
-      className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
-      footerWidth: 'max-w-fix-600',
+      className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
+      footerWidth: 'max-w-fix-544',
       cardType: 'step4',
       inputs: [
         {

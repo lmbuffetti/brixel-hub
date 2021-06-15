@@ -13,8 +13,8 @@ export const BestimateCH = (type = null, propertyType) => {
       extraInfo: 'We need some extra information about your property.',
       history: type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'step1' : 'bathrooms'}` : '',
       cardType: 'step1',
-      className: type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : ''}` : '',
-      footerWidth: `${propertyType !== 'Apartment' ? 'max-w-fix-600' : 'max-w-fix-384'}`,
+      className: type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : ''}` : '',
+      footerWidth: `${propertyType !== 'Apartment' ? 'max-w-fix-544' : 'max-w-fix-384'}`,
       inputs: [
         {
           component: BrixelInputText,
@@ -23,6 +23,7 @@ export const BestimateCH = (type = null, propertyType) => {
             noValue: 'Apartment',
           }],
           className: '',
+          classBoxWrapper: 'two-cols',
           label: '',
           name: 'properties.typology.lotArea.value',
           type: 'number',
