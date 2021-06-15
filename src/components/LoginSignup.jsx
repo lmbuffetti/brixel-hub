@@ -333,7 +333,7 @@ const LoginSignup = (props) => {
         </div>
         <div className="footerActionLogin">
           <div className={`dis-fl-col col-reverse dis-fl-row-sm a-c ${loginPage === 'register' ? 'jc-c' : 'jc-fs'} my-3 pos-r`}>
-            {
+            {/* {
               loginPage === 'register' && (
                 <BrixelButtonSecondary
                   className="pos-a-fix-sm x-l-0 mt-2 mt-sm-0"
@@ -344,7 +344,7 @@ const LoginSignup = (props) => {
                   onClick={TertiaryButton().action}
                 />
               )
-            }
+            } */}
             <BrixelButtonPrimary
               rounded
               rightIcon="arrow-right-small"
