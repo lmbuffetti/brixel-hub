@@ -748,6 +748,7 @@ const mapStateToProps = (state, props) => {
   const propertyType = get(urlSearch, 'propertyType', null);
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
+  const formValue = get(state, 'brixelForm.GetStarted.values', {});
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -768,6 +769,9 @@ const mapStateToProps = (state, props) => {
       login: {},
       owner: get(state, 'user.loggedInUser.id', null),
       properties: {
+        building: {
+          conditionStatus: get(formValue, 'location.countryCode', '').toLowerCase() !== 'ch' ? 'used' : '',
+        },
         propertyType,
         typology: {
           bedrooms: 3,

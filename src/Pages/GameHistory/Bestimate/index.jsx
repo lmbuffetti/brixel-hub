@@ -380,20 +380,28 @@ Bestimate.propTypes = {
   resetForm: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
-  gameGroup: get(state, 'gamification.gameGroup', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
-  initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
-  packagesProperty: get(state, 'property.packagesProperty', []),
-  initialValues: {
-    id: get(state, 'property.activeSingleProperty.id', null),
-    properties: get(state, 'property.activeSingleProperty.properties', null),
-    location: get(state, 'property.activeSingleProperty.location', null),
-  },
-});
+const mapStateToProps = (state) => {
+  const formValue = get(state, 'property.activeSingleProperty', {});
+  const defaultStatusCondition = get(formValue, 'location.countryCode', '').toLowerCase() !== 'ch' ? 'used' : '';
+  return ({
+    activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+    errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+    formValue: get(state, 'brixelForm.GamingFlow.values', {}),
+    gameGroup: get(state, 'gamification.gameGroup', []),
+    gameHistory: get(state, 'gamification.gameHistory', {}),
+    initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
+    packagesProperty: get(state, 'property.packagesProperty', []),
+    initialValues: {
+      id: get(state, 'property.activeSingleProperty.id', null),
+      properties: {
+        ...get(state, 'property.activeSingleProperty.properties', null),
+        building: {
+          conditionStatus: get(state, 'property.activeSingleProperty.properties.building.conditionStatus', defaultStatusCondition),
+        },
+      },
+    },
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
