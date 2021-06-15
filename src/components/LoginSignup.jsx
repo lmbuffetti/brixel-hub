@@ -151,7 +151,7 @@ const LoginSignup = (props) => {
       default:
         return {
           action: () => onSubmitForm(),
-          label: 'Save',
+          label: 'Sign up',
         };
     }
   };
@@ -286,6 +286,15 @@ const LoginSignup = (props) => {
                       </div>
                     )
                   }
+                  <BrixelButtonPrimary
+                    rounded
+                    rightIcon="arrow-right-small"
+                    theme="red"
+                    className="ml-a mr-a mt-3 mb-2"
+                    label={PrimaryButton().label}
+                    onClick={PrimaryButton().action}
+                    isLoading={isSmallLoading === 'recoverPassword'}
+                  />
                 </div>
               </>
             )
@@ -345,15 +354,6 @@ const LoginSignup = (props) => {
                 />
               )
             } */}
-            <BrixelButtonPrimary
-              rounded
-              rightIcon="arrow-right-small"
-              theme="red"
-              className={loginPage === 'register' ? 'mr-sm-a ml-sm-a' : 'ml-sm-a'}
-              label={PrimaryButton().label}
-              onClick={PrimaryButton().action}
-              isLoading={isSmallLoading === 'recoverPassword'}
-            />
           </div>
         </div>
       </div>
