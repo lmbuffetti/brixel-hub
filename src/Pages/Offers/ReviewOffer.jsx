@@ -46,8 +46,9 @@ const ReviewOffer = (props) => {
   useEffect(() => () => destroyForm(), []);
 
   useEffect(() => {
+    console.log(isSmallLoading);
     if (isSmallLoading.saveOffer === 'done') {
-      setSuccess(true);
+      setSuccess(false);
     }
     if (isSmallLoading.saveOffer === 'close') {
       setSuccess(false);
@@ -204,7 +205,7 @@ const ReviewOffer = (props) => {
                       <BrixelButtonPrimary
                         rounded
                         label="Send"
-                        isLoading={isSmallLoading.saveNoteOffer}
+                        isLoading={isSmallLoading.saveOffer === true}
                         onClick={() => saveData('saveNote')}
                       />
                     </div>
