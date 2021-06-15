@@ -52,7 +52,7 @@ export const QuestionsList = (lang) => {
     {
       title: translateTo(lang, 'What kind of property would you like to buy?'),
       history: 'propertyType',
-      vCentered: true,
+      className: 'max-w-fix-880 ml-a mr-a',
       footerWidth: 'max-w-fix-880',
       inputs: [
         {

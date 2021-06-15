@@ -379,3 +379,22 @@ body:not(.overlayOpen).locationInputResume {
     opacity: 1;
   }
 }
+
+.onBoardingSignUp {
+  .required-state {
+    .error-message {
+      display: none;
+    }
+    .checkmark {
+      border-color: map-get($redColor, 400);
+    }
+    .policyText *,
+    .policyText {
+      color: map-get($redColor, 400);
+    }
+  }
+}
+
+.message.cardError {
+    padding-left: $step * 3;
+  }
