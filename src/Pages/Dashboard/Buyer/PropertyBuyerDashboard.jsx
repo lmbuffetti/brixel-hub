@@ -7,11 +7,9 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelAvatar,
   BrixelButtonBox,
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
@@ -85,25 +83,20 @@ const PropertyBuyerDashboard = (props) => {
         <Sticker>
           <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
 
-            <div className="pl-1 mb-2">
-              <div
-                className="dis-f p-2 buttonBox"
+            <div className="dis-f min-h-fix-136 mb-2">
+              <BrixelButtonBox
+                verticalView
+                bgTransparent
+                icon="message"
+                label="Contact"
+                labelClass="fweight-400"
+                subtitle={get(formValue, 'contacts[0].name', '')}
+                subtitleClass="fsize-200 pt-small-6"
+                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'contact' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                colorIcon="primary700"
+                backIcon="primary100"
                 onClick={() => history.push(`/buyer/${propID}/property/contact`)}
-              >
-                <BrixelAvatar
-                  baseURL={get(baseByData, 'shortPath', '')}
-                  name={get(formValue, 'contacts[0].name', '')}
-                  profileId={get(formValue, 'contacts[0].id', '')}
-                />
-                <div className="ml-2">
-                  <h6>{get(formValue, 'contacts[0].name', '')}</h6>
-                  {
-                    get(formValue, 'contacts[0].company', null) && (
-                      <p className="body2 txtDark700">{get(formValue, 'contacts[0].company', '')}</p>
-                    )
-                  }
-                </div>
-              </div>
+              />
             </div>
 
             <div className="dis-f min-h-fix-136">

@@ -9,6 +9,8 @@ import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
+  BrixelButtonPrimary,
+  BrixelButtonSecondary,
   BrixelButtonText,
   BrixelAvatar,
   Helpers,
@@ -68,6 +70,33 @@ const ContactBuyer = (props) => {
               label="Ask a question"
             />
           </div>
+
+          {
+            get(contacts, 'generalInformation', null) && (
+              <div className="mb-4">
+                <h6 className="overline">INFO</h6>
+
+                <p>
+                  {get(contacts, 'generalInformation', '')}
+                </p>
+              </div>
+            )
+          }
+
+          <div className="dis-f">
+            <BrixelButtonPrimary
+              rounded
+              label="Schedule visit"
+              onClick={() => history.push(`/buyer/${propID}/property/showings/add`)}
+            />
+            <BrixelButtonSecondary
+              className="ml-2"
+              rounded
+              label="Make an offer"
+              onClick={() => history.push(`/buyer/${propID}/deal`)}
+            />
+          </div>
+
         </div>
       </div>
     </div>

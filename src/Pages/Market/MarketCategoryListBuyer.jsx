@@ -396,7 +396,7 @@ const MarketCategoryListBuyer = (props) => {
         favoritesProperties.total > 0 && (
           <div className={`min-h-fix-448 ${favoritesProperties.total === 0 ? '' : 'mb-8'}`}>
             <CarouselWrapper
-              title="Your favorites"
+              title="Liked by you"
               className="market-category-carousel"
               type="favorite"
               items={favoritesProperties.data}

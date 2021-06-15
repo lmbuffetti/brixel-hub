@@ -107,7 +107,7 @@ const MarketCard = (props) => {
           property.splice(0, 0, element);
         }
         handleSetActiveMarketOverlayPropertyLists(property);
-      } else if (type === 'favorite') {
+      } else if (type === 'favorite' || type === 'whishlist') {
         if (get(windowDimensions, 'width', 0) <= 1024) {
           history.push({
             pathname: `/buyer/${item.id}/property`,
