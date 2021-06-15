@@ -5,7 +5,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -47,7 +46,7 @@ const ContactBuyer = (props) => {
                 <span className="dis-b">{contacts.name}</span>
               </h5>
               {
-                has(contacts, 'company') && (
+                get(contacts, 'company', null) && (
                   <p className="ml-3"><span>from</span><span>&nbsp;{contacts.company}</span></p>
                 )
               }
