@@ -290,6 +290,7 @@ const AddShowingsBuyer = (props) => {
               <div className="min-h-fix-320">
                 <ContactForm
                   action={action}
+                  resetAction={() => setAction(null)}
                   onChangeAction={(val) => setAction(val)}
                   scheduleVisit={scheduleVisitFree}
                 />

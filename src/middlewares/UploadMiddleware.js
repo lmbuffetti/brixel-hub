@@ -26,7 +26,7 @@ import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SPINNER_SMALL_ON,
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 import { SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
 
@@ -38,7 +38,7 @@ const checkCommon = (store) => (next) => (action) => {
       const { smallLoader } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -60,7 +60,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -81,7 +81,7 @@ const checkCommon = (store) => (next) => (action) => {
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -96,7 +96,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SET_IMAGE_TYPE, payload: res.data });
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -125,7 +125,7 @@ const checkCommon = (store) => (next) => (action) => {
       });
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -167,7 +167,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
         if (smallLoader) {
           store.dispatch({
-            type: SPINNER_SMALL_ON,
+            type: SPINNER_SMALL,
             payload: {
               [smallLoader]: false,
             },
@@ -195,7 +195,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.smallLoader;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -258,7 +258,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -272,7 +272,7 @@ const checkCommon = (store) => (next) => (action) => {
         .catch(() => {
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -294,7 +294,7 @@ const checkCommon = (store) => (next) => (action) => {
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -320,7 +320,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -349,7 +349,7 @@ const checkCommon = (store) => (next) => (action) => {
       });
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -375,7 +375,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
         if (smallLoader) {
           store.dispatch({
-            type: SPINNER_SMALL_ON,
+            type: SPINNER_SMALL,
             payload: {
               [smallLoader]: false,
             },
@@ -397,7 +397,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.saveAction;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -430,7 +430,7 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
             if (smallLoader) {
               store.dispatch({
-                type: SPINNER_SMALL_ON,
+                type: SPINNER_SMALL,
                 payload: {
                   [smallLoader]: false,
                 },
@@ -453,7 +453,7 @@ const checkCommon = (store) => (next) => (action) => {
       const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -475,7 +475,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -496,7 +496,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.smallLaoder;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -522,7 +522,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },

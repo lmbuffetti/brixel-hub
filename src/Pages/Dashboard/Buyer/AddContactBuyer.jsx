@@ -75,6 +75,7 @@ const AddContactBuyer = (props) => {
               >
                 <ContactForm
                   action={action}
+                  resetAction={() => setAction(null)}
                   onChangeAction={(val) => setAction(val)}
                 />
               </div>

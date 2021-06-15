@@ -8,7 +8,7 @@ import {
   SET_NOTIFICATION,
   SET_SCREEN_NOTIFICATION,
   SEND_MESSAGE,
-  SPINNER_SMALL_ON,
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -23,7 +23,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete data.smallLoader;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -37,7 +37,7 @@ const checkCommon = (store) => (next) => (action) => {
         .then(() => {
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -61,7 +61,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete data.smallLoader;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -75,7 +75,7 @@ const checkCommon = (store) => (next) => (action) => {
         .then(() => {
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: 'sentMessage',
               },

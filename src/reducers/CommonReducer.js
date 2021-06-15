@@ -11,7 +11,7 @@ import {
   SPINNER_OFF,
   SPINNER_ON,
   SPINNER_SMALL_OFF,
-  SPINNER_SMALL_ON,
+  SPINNER_SMALL,
   SET_LANGUAGES,
   SET_LANGUAGE,
   SET_NOTIFICATION,
@@ -86,7 +86,7 @@ export default handleActions(
       ...state,
       isLoading: state.isLoading - 1,
     }),
-    [SPINNER_SMALL_ON]: (state, action) => ({
+    [SPINNER_SMALL]: (state, action) => ({
       ...state,
       isSmallLoading: {
         ...state.isSmallLoading,

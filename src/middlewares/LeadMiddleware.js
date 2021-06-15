@@ -17,8 +17,7 @@ import {
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SPINNER_SMALL_ON,
-  SPINNER_SMALL_OFF,
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -34,7 +33,7 @@ const checkLead = (store) => (next) => (action) => {
       // delete action.payload.smallLoader;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -71,8 +70,10 @@ const checkLead = (store) => (next) => (action) => {
             }
             if (smallLoader) {
               store.dispatch({
-                type: SPINNER_SMALL_OFF,
-                payload: smallLoader,
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
               });
             } else {
               store.dispatch({
@@ -102,8 +103,10 @@ const checkLead = (store) => (next) => (action) => {
             }
             if (smallLoader) {
               store.dispatch({
-                type: SPINNER_SMALL_OFF,
-                payload: smallLoader,
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
               });
             } else {
               store.dispatch({
