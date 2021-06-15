@@ -20,7 +20,6 @@ export const BestimatePT = (type = null) => {
       extraInfo: 'We need some extra information about your property.',
       history: 'step1',
       cardType: 'step1',
-      bgImg: homesSvg,
       className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
       footerWidth: 'max-w-fix-544',
       inputs: [
@@ -68,8 +67,6 @@ export const BestimatePT = (type = null) => {
     },
     {
       title: type === 'getStarted' ? 'Any secondary room?' : 'Step 2',
-      bgImg: homesSvg,
-      vCentered: true,
       className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
       footerWidth: 'max-w-fix-544',
       history: 'step2',
@@ -179,7 +176,6 @@ export const BestimatePT = (type = null) => {
     },
     {
       title: 'Which extra features do you have?',
-      bgImg: homesSvg,
       vCentered: true,
       history: 'step4',
       className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',

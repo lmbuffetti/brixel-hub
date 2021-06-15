@@ -47,13 +47,37 @@
 }
 
 .extraCols {
-  display: block;
-  columns: 2;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  > div {
+    max-width: 50%;
+    width: 100%;
+
+    @media (max-width: $responsive-small) {
+      max-width: 100%;
+    }
+    > label {
+      padding-top: 0;
+    }
+  }
+/*   columns: 2;
   -webkit-columns: 2;
   -moz-columns: 2;
+
+  .extraFeature {
+    &:nth-child(9) {
+      margin-bottom: 0;
+      > label {
+        padding-bottom: 0;
+      }
+    }
+  }
+
   @media (max-width: $responsive-small) {
     columns: 1;
     -webkit-columns: 1;
     -moz-columns: 1;
-  }
+  } */
 }
