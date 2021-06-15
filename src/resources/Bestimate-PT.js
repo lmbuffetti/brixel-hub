@@ -4,9 +4,9 @@ import {
   BrixelInputStepNumber,
   BrixelInputText,
   BrixelInputQuality,
-  BrixelRadioButton,
   FactsOptions,
   Validation,
+  BrixelSelect,
 } from '@brixel/brixel-components';
 import ResumeBestimate from '../Pages/GameHistory/Bestimate/ResumeBestimate';
 import homesSvg from '../images/getstarted/svgs/homes.svg';
@@ -24,12 +24,21 @@ export const BestimatePT = (type = null) => {
       className: type === 'getStarted' ? 'bgWhite max-w-fix-600 m-a brdRadius px-2 px-sm-5 py-5' : '',
       footerWidth: 'max-w-fix-600',
       inputs: [
-        {
+        /* {
           component: BrixelRadioButton,
           label: type === 'getStarted' ? 'Condition' : 'Property condition',
           name: 'properties.building.conditionStatus',
           options: factsOptions.conditionStatus,
           validation: [Validation.markRequired],
+        }, */
+        {
+          className: 'pos-r zIndex6',
+          classBoxWrapper: 'two-cols',
+          component: BrixelSelect,
+          label: type === 'getStarted' ? 'Condition' : 'Property condition',
+          name: 'properties.building.conditionStatus',
+          options: factsOptions.conditionStatus,
+          validation: [Validation.required],
         },
         {
           component: BrixelInputText,

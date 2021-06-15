@@ -23,7 +23,7 @@ export const BestimateCH = (type = null, propertyType) => {
             noValue: 'Apartment',
           }],
           className: '',
-          label: 'What\'s the lot size?',
+          label: '',
           name: 'properties.typology.lotArea.value',
           type: 'number',
           unit: 'm2',
@@ -35,7 +35,7 @@ export const BestimateCH = (type = null, propertyType) => {
         },
         {
           component: BrixelInputStepNumber,
-          className: 'className',
+          className: 'two-cols',
           label: type === 'getStarted' ? null : 'How many bathrooms does the property have?',
           name: 'properties.typology.bathrooms',
           labelLeft: `${type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'Bathrooms' : ''}` : 'Bathrooms'}`,

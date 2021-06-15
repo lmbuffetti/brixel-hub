@@ -345,13 +345,34 @@ img {
 
 //  custom label styles
 
+.flowBody {
+  .two-cols {
+    .brixel-input-step {
+      justify-content: flex-start;
+      > span {
+        max-width: 50%;
+        width: 100%;
+      }
+    }
+    .brixel-select-wrapper  {
+      display: flex;
+      align-items: center;
+      > div,
+      .brixel-label {
+        flex: 50%;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
 .flowBody label.brixel-label,
 .flowBody .labelLeft,
 .flowBody label.txtDark200,
 .singleInput label.txtDark200,
 .singleInput label.brixel-label {
   color: map-get($darkColor, 400) !important;
-  @include fontStyle(300);
+  @include fontStyle(400);
   font-weight: 500;
 }
 
