@@ -27,6 +27,10 @@
     &:hover {
       background: map_get($lightColor, 100);
     }
+    &.active {
+      background: map_get($lightColor, 200);
+      font-weight: 500;
+    }
     .highlight {
       font-weight: 600;
     }
