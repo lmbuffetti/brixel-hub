@@ -28,7 +28,6 @@ const CarouselWrapper = (props) => {
     setActiveSingleCompany,
     setPropertyId,
     title,
-    titleClass,
     total,
     type,
     windowDimensions,
@@ -315,7 +314,6 @@ CarouselWrapper.propTypes = {
   setActiveSingleCompany: PropTypes.func,
   setPropertyId: PropTypes.func,
   title: PropTypes.string,
-  titleClass: PropTypes.string,
   total: PropTypes.number,
   type: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -329,7 +327,6 @@ CarouselWrapper.defaultProps = {
   setActiveSingleCompany: () => '',
   setPropertyId: () => '',
   title: '',
-  titleClass: '',
   total: 0,
   type: '',
 };
