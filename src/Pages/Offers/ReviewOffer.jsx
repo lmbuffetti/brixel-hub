@@ -46,7 +46,6 @@ const ReviewOffer = (props) => {
   useEffect(() => () => destroyForm(), []);
 
   useEffect(() => {
-    console.log(isSmallLoading);
     if (isSmallLoading.saveOffer === 'done') {
       setSuccess(false);
     }
