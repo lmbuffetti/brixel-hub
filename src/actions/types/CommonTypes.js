@@ -9,7 +9,7 @@ export const RESET_REQUEST = 'RESET_REQUEST';
 export const SPINNER_ON = 'SPINNER_ON';
 export const SPINNER_OFF = 'SPINNER_OFF';
 
-export const SPINNER_SMALL_ON = 'SPINNER_SMALL_ON';
+export const SPINNER_SMALL = 'SPINNER_SMALL';
 export const SPINNER_SMALL_OFF = 'SPINNER_SMALL_OFF';
 
 export const SKELETON_ON = 'SKELETON_ON';

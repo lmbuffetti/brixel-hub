@@ -25,8 +25,7 @@ import {
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SPINNER_SMALL_ON,
-  SPINNER_SMALL_OFF,
+  SPINNER_SMALL,
   REDIRECT_TO,
   SET_FORM_ERROR,
   SET_SCREEN_NOTIFICATION,
@@ -177,7 +176,7 @@ const checkUser = (store) => (next) => (action) => {
         email,
         smallLoader,
       } = action.payload;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: smallLoader });
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
       else store.dispatch({ type: SPINNER_ON });
       api.user.recoverPassword(email)
         .then(() => {
@@ -187,7 +186,7 @@ const checkUser = (store) => (next) => (action) => {
             type: 'done',
           };
           store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
-          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: false } });
           else store.dispatch({ type: SPINNER_OFF });
         });
       break;
@@ -202,11 +201,12 @@ const checkUser = (store) => (next) => (action) => {
       delete objData.sendEmail;
       delete objData.smallLoader;
       delete objData.setLoggedInUser;
-      if (smallLoader) store.dispatch({ type: SPINNER_SMALL_ON, payload: 'userData' });
+      delete objData.setLoggedInUser;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
       else store.dispatch({ type: SPINNER_ON });
       api.user.updateUser(id, objData)
         .then((response) => {
-          if (smallLoader) store.dispatch({ type: SPINNER_SMALL_OFF });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: false } });
           else store.dispatch({ type: SPINNER_OFF });
           if (sendEmail) {
             api.common.sendGenericMessage(sendEmail)
@@ -228,17 +228,17 @@ const checkUser = (store) => (next) => (action) => {
     // GET USER PROPERTIES AS SELLER
     case GET_USER_PROPERTIES: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'usrProperties' });
+      store.dispatch({ type: SPINNER_SMALL, payload: { usrProperties: true } });
       api.user.getPropertiesOfUser(action.payload)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_USER_PROPERTIES, payload: res.data });
           }
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SPINNER_SMALL, payload: { usrProperties: false } });
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SPINNER_SMALL, payload: { usrProperties: false } });
         });
       break;
     }
@@ -294,15 +294,15 @@ const checkUser = (store) => (next) => (action) => {
     // DISPATCH TO GET FAVORITES LIST
     case GET_FAVORITES: {
       next(action);
-      store.dispatch({ type: SPINNER_SMALL_ON, payload: 'favorite' });
+      store.dispatch({ type: SPINNER_SMALL, payload: { favorite: true } });
       store.dispatch({ type: GET_FAVORITES_PROPERTIES });
       api.user.getFavoritesPages()
         .then((res) => {
           store.dispatch({ type: SET_FAVORITES, payload: res.data });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SPINNER_SMALL, payload: { favorite: false } });
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_SMALL_OFF });
+          store.dispatch({ type: SPINNER_SMALL, payload: { favorite: false } });
         });
       break;
     }
@@ -312,7 +312,7 @@ const checkUser = (store) => (next) => (action) => {
       const {
         id, data, act, property,
       } = action.payload;
-      store.dispatch({ type: SPINNER_SMALL_ON, payload: `favorite-${id}` });
+      store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: true } });
       const favoritesData = cloneDeep(get(store.getState(), 'market.favoritesProperties', {}));
       const favoritesList = favoritesData.data;
       if (act === 'add') {
@@ -323,7 +323,7 @@ const checkUser = (store) => (next) => (action) => {
               store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: favoritesData });
             }
             // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
-            store.dispatch({ type: SPINNER_SMALL_OFF });
+            store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: false } });
           });
       } else {
         api.user.removeFavorite(id, data)
@@ -333,7 +333,7 @@ const checkUser = (store) => (next) => (action) => {
               favoritesList.splice(findIndex, 1);
               store.dispatch({ type: SET_FAVORITES_PROPERTIES, payload: favoritesData });
             }
-            store.dispatch({ type: SPINNER_SMALL_OFF });
+            store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: false } });
           });
       }
       break;
@@ -344,7 +344,6 @@ const checkUser = (store) => (next) => (action) => {
         .then(() => {
           // console.log(res);
           // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }
@@ -354,7 +353,6 @@ const checkUser = (store) => (next) => (action) => {
         .then(() => {
           // console.log(res);
           // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
-          store.dispatch({ type: SPINNER_SMALL_OFF });
         });
       break;
     }

@@ -11,7 +11,7 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { createPropertyVisitBooking } from '../actions/PropertyActions';
-import { sendMessage } from '../actions/CommonActions';
+import { sendMessage, spinnerSmall } from '../actions/CommonActions';
 
 function ContactForm(props) {
   // PROPS
@@ -25,12 +25,14 @@ function ContactForm(props) {
     formValue,
     handleCreatePropertyVisitBooking,
     handleSendMessage,
+    handleSpinnerSmall,
     history,
     initialValues,
     isSmallLoading,
     lang,
     loggedInUser,
     onChangeAction,
+    resetAction,
     scheduleVisit,
     type,
   } = props;
@@ -38,12 +40,19 @@ function ContactForm(props) {
   const [step, setStep] = useState('form');
   const [showErrors, setShowErrors] = useState(false);
 
-  useEffect(() => () => destroyForm(), []);
+  useEffect(() => {
+    setStep('form');
+    return () => {
+      setStep('form');
+      destroyForm();
+    };
+  }, []);
 
   useEffect(() => {
     if (isSmallLoading.sendMessage === 'sentMessage') {
       setStep('success');
       changeFieldValue('userMessage', '');
+      handleSpinnerSmall({ sendMessage: false });
       // history.push({state: { step: 'success' }});
       // handleResetSendMessage();
     }
@@ -74,6 +83,7 @@ function ContactForm(props) {
       e.preventDefault();
       e.stopPropagation();
     }
+    resetAction();
     if (!checkField()) {
       setShowErrors(true);
       return false;
@@ -280,18 +290,21 @@ ContactForm.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
   handleSendMessage: PropTypes.func.isRequired,
+  handleSpinnerSmall: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   onChangeAction: PropTypes.func.isRequired,
+  resetAction: PropTypes.func,
   scheduleVisit: PropTypes.arrayOf(PropTypes.object),
   type: PropTypes.string,
 };
 
 ContactForm.defaultProps = {
   action: null,
+  resetAction: () => '',
   scheduleVisit: null,
   type: null,
 };
@@ -327,6 +340,7 @@ const mapPropsToState = (dispatch) => ({
     dispatch(change('ContactForm', field, value));
   },
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
+  handleSpinnerSmall: bindActionCreators(spinnerSmall, dispatch),
   handleSendMessage: bindActionCreators(sendMessage, dispatch),
 });
 
