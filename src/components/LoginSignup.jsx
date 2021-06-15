@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonSecondary, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
+  BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -97,25 +97,25 @@ const LoginSignup = (props) => {
   };
 
   // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF TERTIARY BUTTON (bottom left)
-  const TertiaryButton = () => {
-    switch (loginPage) {
-      case 'not_sure':
-        return {
-          action: () => changeScreen('support'),
-          label: 'Still, not convinced',
-        };
-      case 'support':
-        return {
-          action: () => changeScreen('register'),
-          label: 'Cancel',
-        };
-      default:
-        return {
-          action: () => changeScreen('not_sure'),
-          label: 'I am not sure',
-        };
-    }
-  };
+  // const TertiaryButton = () => {
+  //   switch (loginPage) {
+  //     case 'not_sure':
+  //       return {
+  //         action: () => changeScreen('support'),
+  //         label: 'Still, not convinced',
+  //       };
+  //     case 'support':
+  //       return {
+  //         action: () => changeScreen('register'),
+  //         label: 'Cancel',
+  //       };
+  //     default:
+  //       return {
+  //         action: () => changeScreen('not_sure'),
+  //         label: 'I am not sure',
+  //       };
+  //   }
+  // };
 
   // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF PRIMARY BUTTON (center)
   const PrimaryButton = () => {
