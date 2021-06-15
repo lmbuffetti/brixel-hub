@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonSecondary, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
+  BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -97,25 +97,25 @@ const LoginSignup = (props) => {
   };
 
   // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF TERTIARY BUTTON (bottom left)
-  const TertiaryButton = () => {
-    switch (loginPage) {
-      case 'not_sure':
-        return {
-          action: () => changeScreen('support'),
-          label: 'Still, not convinced',
-        };
-      case 'support':
-        return {
-          action: () => changeScreen('register'),
-          label: 'Cancel',
-        };
-      default:
-        return {
-          action: () => changeScreen('not_sure'),
-          label: 'I am not sure',
-        };
-    }
-  };
+  // const TertiaryButton = () => {
+  //   switch (loginPage) {
+  //     case 'not_sure':
+  //       return {
+  //         action: () => changeScreen('support'),
+  //         label: 'Still, not convinced',
+  //       };
+  //     case 'support':
+  //       return {
+  //         action: () => changeScreen('register'),
+  //         label: 'Cancel',
+  //       };
+  //     default:
+  //       return {
+  //         action: () => changeScreen('not_sure'),
+  //         label: 'I am not sure',
+  //       };
+  //   }
+  // };
 
   // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF PRIMARY BUTTON (center)
   const PrimaryButton = () => {
@@ -151,7 +151,7 @@ const LoginSignup = (props) => {
       default:
         return {
           action: () => onSubmitForm(),
-          label: 'Save',
+          label: 'Sign up',
         };
     }
   };
@@ -286,6 +286,14 @@ const LoginSignup = (props) => {
                       </div>
                     )
                   }
+                  <BrixelButtonPrimary
+                    rounded
+                    rightIcon="arrow-right-small"
+                    className={`ml-a mr-a mt-3 mb-2 ${loginPage === 'register' ? 'w-fix-168' : ''}`}
+                    label={PrimaryButton().label}
+                    onClick={PrimaryButton().action}
+                    isLoading={isSmallLoading === 'recoverPassword'}
+                  />
                 </div>
               </>
             )
@@ -333,7 +341,7 @@ const LoginSignup = (props) => {
         </div>
         <div className="footerActionLogin">
           <div className={`dis-fl-col col-reverse dis-fl-row-sm a-c ${loginPage === 'register' ? 'jc-c' : 'jc-fs'} my-3 pos-r`}>
-            {
+            {/* {
               loginPage === 'register' && (
                 <BrixelButtonSecondary
                   className="pos-a-fix-sm x-l-0 mt-2 mt-sm-0"
@@ -344,16 +352,7 @@ const LoginSignup = (props) => {
                   onClick={TertiaryButton().action}
                 />
               )
-            }
-            <BrixelButtonPrimary
-              rounded
-              rightIcon="arrow-right-small"
-              theme="red"
-              className={loginPage === 'register' ? 'mr-sm-a ml-sm-a' : 'ml-sm-a'}
-              label={PrimaryButton().label}
-              onClick={PrimaryButton().action}
-              isLoading={isSmallLoading === 'recoverPassword'}
-            />
+            } */}
           </div>
         </div>
       </div>
