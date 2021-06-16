@@ -773,8 +773,13 @@ const mapStateToProps = (state, props) => {
           conditionStatus: get(formValue, 'location.countryCode', '').toLowerCase() !== 'ch' ? 'used' : '',
         },
         propertyType,
+        parking: {
+          garage: 0,
+          outside: 0,
+        },
         typology: {
           bedrooms: 3,
+          bathrooms: 1,
           livingArea: {
             unit: 'm2',
           },
