@@ -7,6 +7,8 @@ import {
   SET_SAVED_SCREEN,
   SET_NOTIFICATION,
   SET_SCREEN_NOTIFICATION,
+  SEND_MESSAGE,
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -16,13 +18,73 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO SEND GENERAL EMAIL
     case SEND_GENERIC_MAIL: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
-      api.common.sendGenericMessage(action.payload)
+      const data = cloneDeep(action.payload);
+      const { smallLoader } = data;
+      delete data.smallLoader;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.common.sendGenericMessage(data)
         .then(() => {
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         })
         .catch(() => {
           // console.log(res.data);
+        });
+      break;
+    }
+    // DISPATCH TO SEND EMAIL
+    case SEND_MESSAGE: {
+      next(action);
+      const data = cloneDeep(action.payload);
+      const { smallLoader } = data;
+      delete data.smallLoader;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.common.sendMessage(data)
+        .then(() => {
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: 'sentMessage',
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         });
       break;
     }

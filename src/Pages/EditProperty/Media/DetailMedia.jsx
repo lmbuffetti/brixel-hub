@@ -71,7 +71,7 @@ const DetailMedia = (props) => {
 
   // WHEN THE SMALL LOADING END AND changeSection IS SET TO TRUE MOVED TO NEXT IMAGES
   useEffect(() => {
-    if (changeSection && !isSmallLoading) {
+    if (changeSection && !isSmallLoading.saveData) {
       const arrayImages = get(formValue, mediaType, []);
       const curImgID = arrayImages.findIndex((img) => img.id === mediaID);
       if (curImgID >= 0 && arrayImages[curImgID + 1]) {
@@ -86,7 +86,7 @@ const DetailMedia = (props) => {
       id: mediaID,
       pageID: propID,
       type: mediaType,
-      smallLoader: 'deleteMedia',
+      smallLoader: 'saveData',
     };
     // eslint-disable-next-line no-alert
     handleDeleteImg(data);
@@ -101,7 +101,7 @@ const DetailMedia = (props) => {
       type: mediaType,
       id: mediaID,
       rotate: 90,
-      smallLoader: 'rotate',
+      smallLoader: 'saveData',
     };
     setRotation(rotate);
     handleRotateImg(data);

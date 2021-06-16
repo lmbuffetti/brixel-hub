@@ -158,7 +158,7 @@ function PageHeaderDashboard(props) {
   useEffect(() => {
     if (gameGroup && gameHistory && userType === 'seller') {
       if (activeSingleProperty.id) {
-        getPropertyDealsCount(activeSingleProperty.id);
+        getPropertyDealsCount({ id: activeSingleProperty.id, smallLoader: 'countDeal' });
       }
       // let numDone = 0;
       /* let numTodo = 0;
@@ -264,9 +264,11 @@ function PageHeaderDashboard(props) {
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
     if (dashContentEl) {
       if (showMobileMenu) {
+        dashContentEl.classList.add('menuOn');
         dashContentEl.style.overflowY = 'hidden';
       } else {
         dashContentEl.style.overflowY = '';
+        dashContentEl.classList.remove('menuOn');
       }
     }
   }, [showMobileMenu]);
@@ -651,7 +653,7 @@ function PageHeaderDashboard(props) {
         </div>
         <div className="tabWrapper hide-xlg">
           {
-            !history.location.pathname.includes('sell') && !history.location.pathname.includes('buy') && has(activeSingleProperty, 'id') && (
+            !history.location.pathname.includes('sell') && (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) && has(activeSingleProperty, 'id') && (
               <>
                 {
                   userType === 'seller' ? (
@@ -672,20 +674,22 @@ function PageHeaderDashboard(props) {
                     />
                   ) : (
                     <>
-                      {/* <BrixelTabs
-                      classNameLi="dis-fl-col dis-fl-row-md py-1 py-lg-0 pos-r"
-                      classNameUl="zIndex4"
-                      labels={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.title) : []}
-                      labelsIcons={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.icon) : []}
-                      clicksList={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.path) : []}
-                      clicksListName={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.name) : []}
-                      classNameArray={['order-lg-2 homeTab mt-1 mt-lg-0 px-lg-2', 'order-lg-1 propertyTab mt-1 mt-lg-0 px-lg-2', 'order-lg-3 supportTab  mt-1 mt-lg-0 px-lg-2']}
-                      activeTab={activeMenu || checkActiveTab()}
-                      onClick={(val) => onTabClick(val)}
-                      showFull={false}
-                      classNameIcon="fsize-lg-400 txtLight600"
-                      classNameLabel="fsize-300 txtLight600 dis-f a-c ml-1"
-                    /> */}
+                      {/*
+                      <BrixelTabs
+                        classNameLi="dis-fl-col dis-fl-row-md py-1 py-lg-0 pos-r"
+                        classNameUl="zIndex4"
+                        labels={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.title) : []}
+                        labelsIcons={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.icon) : []}
+                        clicksList={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.path) : []}
+                        clicksListName={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.name) : []}
+                        classNameArray={['order-lg-2 homeTab mt-1 mt-lg-0 px-lg-2', 'order-lg-1 propertyTab mt-1 mt-lg-0 px-lg-2', 'order-lg-3 supportTab  mt-1 mt-lg-0 px-lg-2']}
+                        activeTab={activeMenu || checkActiveTab()}
+                        onClick={(val) => onTabClick(val)}
+                        showFull={false}
+                        classNameIcon="fsize-lg-400 txtLight600"
+                        classNameLabel="fsize-300 txtLight600 dis-f a-c ml-1"
+                      />
+                      */}
                     </>
                   )
                 }

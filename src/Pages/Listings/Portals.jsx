@@ -54,7 +54,7 @@ const Portals = (props) => {
   const changeReviewStatus = (status) => {
     const data = {
       page: propID,
-      smallLoader: 'portalsReview',
+      smallLoader: 'saveData',
       status,
     };
     handleUpdatePortalsReview(data);

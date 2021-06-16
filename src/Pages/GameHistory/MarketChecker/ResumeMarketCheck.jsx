@@ -16,6 +16,7 @@ import { addGameHistory } from '../../../actions/GamificationActions';
 import Maps from '../../../components/Map/Maps';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
+import Loading from '../../../components/Loading';
 
 function ResumeMarketCheck(props) {
   // PROPS
@@ -27,6 +28,7 @@ function ResumeMarketCheck(props) {
     activeSingleProperty,
     gameHistory,
     handleAddGameHistory,
+    isSmallLoading,
     match,
   } = props;
   // STATE
@@ -51,6 +53,7 @@ function ResumeMarketCheck(props) {
         minLivingSpace: +livingSpace - percLivingSpace,
         maxLivingSpace: +livingSpace + percLivingSpace,
         stateCode: activeSingleProperty.location.countryCode,
+        smallLoader: 'loadMarket',
       };
       handleGetMarketData(data);
     }
@@ -84,6 +87,7 @@ function ResumeMarketCheck(props) {
         typeOfBuyer: formValue.typeOfBuyer,
         whenToSell: formValue.whenToSell,
         setSuccessNotification: true,
+        smallLoader: 'saveMarket',
       };
       data.properties.building.conditionCode = get(formValue, 'properties.building.conditionCode', null);
       data.packageFlowProcess = {
@@ -109,7 +113,8 @@ function ResumeMarketCheck(props) {
   // eslint-disable-next-line no-undef
 
   return (
-    <main id="rewards" className="pb-4 h-perc-100">
+    <main id="rewards" className="pb-4 h-perc-100 wrapLoader">
+      <Loading isLoading={isSmallLoading.loadMarket || isSmallLoading.saveMarket} isSmall />
       {
         has(marketData, 'priceDistribution') && (
           <div className="bgWhite brdRadius">
@@ -240,6 +245,7 @@ ResumeMarketCheck.propTypes = {
   handleAddGameHistory: PropTypes.func.isRequired,
   handleGetMarketData: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   marketData: PropTypes.object,
   match: PropTypes.object.isRequired,
 };
@@ -255,6 +261,7 @@ const mapStateToProps = (state, props) => ({
   formValue: get(state, `brixelForm.${props.formName}.values`, {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', []),
+  isSmallLoading: get(state, 'console.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   marketData: get(state, 'property.marketCheck', {}),
 });

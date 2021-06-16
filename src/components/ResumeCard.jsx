@@ -74,7 +74,7 @@ const ResumeCard = (props) => {
       </div>
       <div className="w-perc-100 w-perc-sm-50 pl-sm-3 px-2 px-sm-0">
         {/* Property Card */}
-        <div className="scaleAnim bgWhite max-w-fix-344 mr-a ml-a ml-sm-0 brdRadius shadow-2dp ov-h">
+        <div className="scaleAnim bgWhite max-w-fix-352 mr-a ml-a ml-sm-0 brdRadius shadow-2dp ov-h">
           <img
             src={defImg()}
             className="dis-b w-perc-100"

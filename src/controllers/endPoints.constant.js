@@ -60,6 +60,7 @@ export default {
   },
   market: {
     allProperties: (paginationLimit, paginationSkip, data) => `/market/list/all/${paginationLimit}/${paginationSkip}${data}`,
+    deal: (paginationLimit, paginationSkip, data) => `/market/list/deals/${paginationLimit}/${paginationSkip}${data}`,
     lastViewed: () => '/market/list/lastViewed/',
     newInRadar: (paginationLimit, paginationSkip, data) => `/market/list/newInRadar/${paginationLimit}/${paginationSkip}${data}`,
     ownedEstimations: (paginationLimit, paginationSkip, data) => `/market/list/ownedEstimations/${paginationLimit}/${paginationSkip}${data}`,

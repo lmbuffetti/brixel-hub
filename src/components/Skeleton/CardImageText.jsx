@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import SkeletonCard from '../../images/skeletonCard.svg';
 import SkeletonOwnCard from '../../images/skeletonOwn.svg';
 import SkeletonMapCard from '../../images/skeletonMapCard.svg';
+import SkeletonCardOwnMobile from '../../images/Market/skeletonCardMobile.svg';
 
 const CardImageText = (props) => {
   const {
@@ -20,7 +21,7 @@ const CardImageText = (props) => {
       <img
         alt="Sckeleton Card Loading"
         id="cartello"
-        src={type === 'own' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonOwnCard : type === 'map-view' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonMapCard : SkeletonCard}
+        src={type === 'own' ? windowDimensions.width < 590 ? SkeletonCardOwnMobile : SkeletonOwnCard : type === 'map-view' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonMapCard : SkeletonCard}
         className={`notranslate ${type === 'map-view' ? '' : 'ml-1'} ${type === 'own' || type === 'map-view' ? windowDimensions.width < 590 ? 'w-perc-100 pr-2' : 'h-fix-208' : 'w-perc-100 pr-2'} ${className}`}
       />
       {

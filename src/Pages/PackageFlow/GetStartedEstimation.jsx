@@ -70,6 +70,7 @@ const GetStartedEstimation = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [showError, setShowError] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const getAchievement = () => last(history.location.pathname.split('/'));
@@ -260,9 +261,6 @@ const GetStartedEstimation = (props) => {
     return newIndex;
   };
 
-  const singleStepEl = singleStepRef.current;
-  const multiStepSlidesEl = multiStepSlidesRef.current;
-
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -308,14 +306,21 @@ const GetStartedEstimation = (props) => {
     return isValid;
   };
 
+  const singleStepEl = singleStepRef.current;
+  const multiStepSlidesEl = multiStepSlidesRef.current;
+
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act, e, step = 1) => {
+  const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
+    setShowError(false);
     if (act === 'back') {
       newIndex -= step;
     } else {
-      if (!checkValidateField()) return false;
+      if (!checkValidateField() && !skipValidation) {
+        setShowError(true);
+        return false;
+      }
       newIndex += step;
     }
     if (newIndex === -1) {
@@ -323,47 +328,48 @@ const GetStartedEstimation = (props) => {
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
-
-      // setPosition(newIndex);
-      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
-      else {
-        let newQuest = {
-          ...questions[defId],
-        };
-        if (questions[defId].effect === 'slideUp') {
-          newQuest = {
-            ...questions[defId - 1],
+      if (questions[defId]) {
+        // setPosition(newIndex);
+        if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
+        else {
+          let newQuest = {
+            ...questions[defId],
           };
-        }
-        if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
-          setQuest(newQuest);
-          setCurrentIndex(defId);
-        } else {
-          setQuest(newQuest);
-          setCurrentIndex(defId);
-        }
-        setTimeout(() => {
-          const getCurStep = document.getElementById(`step-${defId}`);
-          if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-            getCurStep.querySelector('input[type="number"]').focus();
-          } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-            getCurStep.querySelector('input[type="text"]').focus();
+          if (questions[defId].effect === 'slideUp') {
+            newQuest = {
+              ...questions[defId - 1],
+            };
           }
-        }, 100);
-        if (questions[defId].history) {
-          history.push({
-            pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
-            state: get(history, 'location.state', {}),
-          });
-        }
-        const getOnlyQuest = questions.filter((item) => item.inputs);
-        setProgressBar((defId * 100) / getOnlyQuest.length);
-        if (checkBrowser() > 0) {
-          if (singleStepEl) singleStepEl.scrollTop = 0;
-          if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
-        } else {
-          if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-          if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+          if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+            setQuest(newQuest);
+            setCurrentIndex(defId);
+          } else {
+            setQuest(newQuest);
+            setCurrentIndex(defId);
+          }
+          setTimeout(() => {
+            const getCurStep = document.getElementById(`step-${defId}`);
+            if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+              getCurStep.querySelector('input[type="number"]').focus();
+            } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+              getCurStep.querySelector('input[type="text"]').focus();
+            }
+          }, 100);
+          if (questions[defId].history) {
+            history.push({
+              pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
+              state: get(history, 'location.state', {}),
+            });
+          }
+          const getOnlyQuest = questions.filter((item) => item.inputs);
+          setProgressBar((defId * 100) / getOnlyQuest.length);
+          if (checkBrowser() > 0) {
+            if (singleStepEl) singleStepEl.scrollTop = 0;
+            if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
+          } else {
+            if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+          }
         }
       }
     }
@@ -378,7 +384,7 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('inputSheet', inputSheet);
     }
     if (quest.inputs && quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
-      changeStep();
+      changeStep('next', null, 1, true);
     }
   }, [formValue]);
 
@@ -542,7 +548,7 @@ const GetStartedEstimation = (props) => {
   }, [get(formValue, 'properties.propertyType', null)]);
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted container">
+    <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'history', '')}`}>
       {
         get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
           <BrixelProgressBar
@@ -597,6 +603,7 @@ const GetStartedEstimation = (props) => {
                           onClickDisabled={!checkValidateField()}
                           onSubmit={() => changeStep()}
                           showSendButton={quest.showSendButton}
+                          showErrors={showError}
                           disableDelay
                         />
                       </div>
@@ -686,6 +693,7 @@ const GetStartedEstimation = (props) => {
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                onShowError={() => setShowError(true)}
                               />
                             )
                           }
@@ -740,6 +748,7 @@ const mapStateToProps = (state, props) => {
   const propertyType = get(urlSearch, 'propertyType', null);
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
+  const formValue = get(state, 'brixelForm.GetStarted.values', {});
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -760,9 +769,17 @@ const mapStateToProps = (state, props) => {
       login: {},
       owner: get(state, 'user.loggedInUser.id', null),
       properties: {
+        building: {
+          conditionStatus: get(formValue, 'location.countryCode', '').toLowerCase() !== 'ch' ? 'used' : '',
+        },
         propertyType,
+        parking: {
+          garage: 0,
+          outside: 0,
+        },
         typology: {
           bedrooms: 3,
+          bathrooms: 1,
           livingArea: {
             unit: 'm2',
           },

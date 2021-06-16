@@ -28,7 +28,6 @@ const CarouselWrapper = (props) => {
     setActiveSingleCompany,
     setPropertyId,
     title,
-    titleClass,
     total,
     type,
     windowDimensions,
@@ -96,6 +95,10 @@ const CarouselWrapper = (props) => {
     switch (type) {
       case 'own': {
         history.push(`/${baseUrl}/own`);
+        break;
+      }
+      case 'whishlist': {
+        history.push(`/${baseUrl}/whishlist`);
         break;
       }
       case 'favorite': {
@@ -239,7 +242,7 @@ const CarouselWrapper = (props) => {
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
       <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
-        <h4 className={`title fweight-600 ${titleClass || (type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400')}`}>{title}</h4>
+        <h4 className="title fweight-600 fsize-600">{title}</h4>
         <div className="mt-1 mt-sm-0 dis-f a-c">
           <BrixelButtonText
             className="fsize-300 show-all pos-r mr-1"
@@ -310,7 +313,6 @@ CarouselWrapper.propTypes = {
   setActiveSingleCompany: PropTypes.func,
   setPropertyId: PropTypes.func,
   title: PropTypes.string,
-  titleClass: PropTypes.string,
   total: PropTypes.number,
   type: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -324,7 +326,6 @@ CarouselWrapper.defaultProps = {
   setActiveSingleCompany: () => '',
   setPropertyId: () => '',
   title: '',
-  titleClass: '',
   total: 0,
   type: '',
 };

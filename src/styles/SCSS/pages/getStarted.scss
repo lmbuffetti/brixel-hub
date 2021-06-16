@@ -2,7 +2,7 @@
   background-color: #F7F6F5;
   &.flowProfile,
   &.flowResume {
-    background-color: map-get($greenColor, 500);
+    background-color: #009579;
   }
   &.flowResume {
     .content .container {
@@ -90,6 +90,8 @@
 
           > label  {
             padding: $step;
+            padding-left: $step * 2;
+            padding-right: $step * 2;
           }
 
           &:nth-child(odd) {
@@ -151,6 +153,20 @@
       position: relative;
     }
 
+    &.propertyType {
+      @media (max-width: $responsive-small) {
+        padding-left: 0;
+        padding-right: 0;
+        h3,
+        #progressBar,
+        .footerAction {
+          padding-left: $step * 2;
+          padding-right: $step * 2;
+        }
+      }
+    }
+
+
     .fieldHolder {
       box-shadow: $shadow-1dp;
     }
@@ -194,15 +210,15 @@
             padding-bottom: 24px;
 
             @media (max-width: $responsive-medium) {
-             padding-top: 40px;
-             padding-bottom: 40px;
-             padding-left: 0;
-             padding-right: 0;
+              padding-top: 40px;
+              padding-bottom: 40px;
+              padding-left: 0;
+              padding-right: 0;
 
-             .cardLayout .slick-slider .slick-slide {
-              padding-top: 0;
-              padding-bottom: $step * 3;
-             }
+              .cardLayout .slick-slider .slick-slide {
+                padding-top: 0;
+                padding-bottom: $step * 3;
+              }
             }
             .subcontainer {
               max-width: inherit;
@@ -363,3 +379,19 @@ body:not(.overlayOpen).locationInputResume {
     opacity: 1;
   }
 }
+
+.onBoardingSignUp {
+  .required-state {
+    .checkmark {
+      border-color: map-get($redColor, 400);
+    }
+    .policyText *,
+    .policyText {
+      color: map-get($redColor, 400);
+    }
+  }
+}
+
+.message.cardError {
+    padding-left: $step * 3;
+  }

@@ -61,7 +61,7 @@ const ScanTrialFlow = (props) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    if (!isSmallLoading && questions[currentIndex + 1].history === 'success') {
+    if (!isSmallLoading.sendData && questions[currentIndex + 1].history === 'success') {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setQuest(questions[newIndex]);
@@ -354,7 +354,7 @@ const ScanTrialFlow = (props) => {
                         theme={questions[currentIndex - 1] ? 'primary' : 'red'}
                         label={get(formValue, 'interested', null) ? 'Send request' : 'Send feedback'}
                         rightIcon="arrow-right-small"
-                        isLoading={isSmallLoading === 'sendData'}
+                        isLoading={isSmallLoading.sendData}
                         onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                       />
                     </>

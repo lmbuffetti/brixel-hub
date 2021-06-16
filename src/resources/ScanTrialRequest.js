@@ -55,6 +55,7 @@ export const ScanTrialQuestions = () => {
           component: BrixelInputText,
           label: 'Phone number',
           name: 'contactPhone',
+          type: 'text',
           formatType: 'tel',
           placeholder: '',
           validation: [Validation.required],

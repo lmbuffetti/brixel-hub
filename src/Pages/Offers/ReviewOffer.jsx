@@ -19,7 +19,7 @@ import {
 import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import SplashScreen from '../../components/SplashScreen';
-import { setSplashType, spinnerSmallOn } from '../../actions/CommonActions';
+import { setSplashType, spinnerSmall } from '../../actions/CommonActions';
 import { saveReviewOffer, setActiveSingleDeal } from '../../actions/DealActions';
 
 const ReviewOffer = (props) => {
@@ -47,7 +47,7 @@ const ReviewOffer = (props) => {
 
   useEffect(() => {
     if (isSmallLoading.saveOffer === 'done') {
-      setSuccess(true);
+      setSuccess(false);
     }
     if (isSmallLoading.saveOffer === 'close') {
       setSuccess(false);
@@ -204,7 +204,7 @@ const ReviewOffer = (props) => {
                       <BrixelButtonPrimary
                         rounded
                         label="Send"
-                        isLoading={isSmallLoading.saveNoteOffer}
+                        isLoading={isSmallLoading.saveOffer === true}
                         onClick={() => saveData('saveNote')}
                       />
                     </div>
@@ -413,7 +413,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(initializeForm('Offer', value));
   },
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
-  handleSmallSpinner: bindActionCreators(spinnerSmallOn, dispatch),
+  handleSmallSpinner: bindActionCreators(spinnerSmall, dispatch),
   handleReviewOffer: bindActionCreators(saveReviewOffer, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });

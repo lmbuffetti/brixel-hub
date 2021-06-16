@@ -136,6 +136,11 @@ const AddShowingsBuyer = Loadable({
   loading: Loading,
 });
 
+const AddContactBuyer = Loadable({
+  loader: () => import('./Pages/Dashboard/Buyer/AddContactBuyer' /* webpackChunkName: "AddContactBuyer" */),
+  loading: Loading,
+});
+
 const SingleDeal = Loadable({
   loader: () => import('./Pages/Deals/SingleDeal' /* webpackChunkName: "SingleDeal" */),
   loading: Loading,
@@ -278,7 +283,7 @@ const App = (props) => {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('property') || history.location.pathname.includes('deal')) {
         if (history.location.pathname.includes('buyer')) {
-          setClassMain('w-perc-100 pos-r hubContainer propertyTop');
+          setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
         } else {
           setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');
         }
@@ -414,7 +419,7 @@ const App = (props) => {
 
       <Loading isLoading={isLoading} />
 
-      <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'buyerHub' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
+      <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
         <div className="dis-f">
           <div
             className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : ''}`}
@@ -526,6 +531,7 @@ const App = (props) => {
           <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
           <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
           <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
+          <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
           <ProtectedRoute exact path="/:propID/deals/lists/:dealID/deal" component={SingleDeal} />
           <ProtectedRoute exact path="/:propID/deals/lists/newDeal" component={CreateDeal} />
         </Switch>

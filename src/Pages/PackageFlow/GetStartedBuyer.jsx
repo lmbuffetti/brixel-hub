@@ -67,6 +67,7 @@ const GetStartedBuyer = (props) => {
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
+  const [showError, setShowError] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
 
   const singleStepRef = useRef(null);
@@ -177,9 +178,6 @@ const GetStartedBuyer = (props) => {
     return newIndex;
   };
 
-  const singleStepEl = singleStepRef.current;
-  const multiStepSlidesEl = multiStepSlidesRef.current;
-
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -216,15 +214,21 @@ const GetStartedBuyer = (props) => {
     return isValid;
   };
 
+  const singleStepEl = singleStepRef.current;
+  const multiStepSlidesEl = multiStepSlidesRef.current;
+
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act, e, step = 1) => {
+  const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const reloadQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
+    setShowError(false);
     if (act === 'back') {
       newIndex -= step;
     } else {
-      if (!checkValidateField()) return false;
+      if (!checkValidateField() && !skipValidation) {
+        setShowError(true);
+        return false;
+      }
       newIndex += step;
     }
     if (newIndex === -1) {
@@ -234,18 +238,17 @@ const GetStartedBuyer = (props) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
 
       // setPosition(newIndex);
-      if (reloadQuestions[defId] && reloadQuestions[defId].toSave) saveData(get(reloadQuestions[defId], 'action', null));
+      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
       else {
-        setIsEnter(false);
         let newQuest = {
-          ...reloadQuestions[defId],
+          ...questions[defId],
         };
-        if (reloadQuestions[defId].effect === 'slideUp') {
+        if (questions[defId].effect === 'slideUp') {
           newQuest = {
-            ...reloadQuestions[defId - 1],
+            ...questions[defId - 1],
           };
         }
-        if (act === 'back' && reloadQuestions[defId + 1].effect === 'slideUp') {
+        if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
           setQuest(newQuest);
           setCurrentIndex(defId);
         } else {
@@ -260,14 +263,13 @@ const GetStartedBuyer = (props) => {
             getCurStep.querySelector('input[type="text"]').focus();
           }
         }, 100);
-        if (reloadQuestions[defId].history) {
+        if (questions[defId].history) {
           history.push({
-            pathname: `/packageFlow/getstartedBuyer/${reloadQuestions[defId].history}`,
+            pathname: `/packageFlow/getStartedBuyer/${questions[defId].history}`,
             state: get(history, 'location.state', {}),
           });
         }
-        const getOnlyQuest = reloadQuestions.filter((item) => item.inputs);
-        setQuestions(reloadQuestions);
+        const getOnlyQuest = questions.filter((item) => item.inputs);
         setProgressBar((defId * 100) / getOnlyQuest.length);
         if (checkBrowser() > 0) {
           if (singleStepEl) singleStepEl.scrollTop = 0;
@@ -398,7 +400,7 @@ const GetStartedBuyer = (props) => {
       setQuestions(newQuest);
     }
     if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
-      changeStep();
+      changeStep('next', null, 1, true);
     }
   }, [formValue]);
 
@@ -438,7 +440,7 @@ const GetStartedBuyer = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted container">
+    <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'history', '')}`}>
       {
         (get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile') && get(quest, 'history', null) !== 'resume' && (
           <BrixelProgressBar
@@ -508,6 +510,7 @@ const GetStartedBuyer = (props) => {
                           onClickDisabled={!checkValidateField()}
                           onSubmit={() => changeStep()}
                           showSendButton
+                          showErrors={showError}
                           disableDelay
                         />
                       </div>
@@ -607,6 +610,7 @@ const GetStartedBuyer = (props) => {
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                onShowError={() => setShowError(true)}
                               />
                             )
                           }
@@ -650,7 +654,7 @@ const GetStartedBuyer = (props) => {
                     onCloseGoBack={() => changeStep('back')}
                     onClickDisabled={!checkValidateField()}
                     showSendButton
-                    showErrors
+                    showErrors={showError}
                   />
                 </div>
               )

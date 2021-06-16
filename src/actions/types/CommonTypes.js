@@ -9,7 +9,7 @@ export const RESET_REQUEST = 'RESET_REQUEST';
 export const SPINNER_ON = 'SPINNER_ON';
 export const SPINNER_OFF = 'SPINNER_OFF';
 
-export const SPINNER_SMALL_ON = 'SPINNER_SMALL_ON';
+export const SPINNER_SMALL = 'SPINNER_SMALL';
 export const SPINNER_SMALL_OFF = 'SPINNER_SMALL_OFF';
 
 export const SKELETON_ON = 'SKELETON_ON';
@@ -25,6 +25,8 @@ export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const SET_PAGE_DATA = 'SET_PAGE_DATA';
 
 export const SEND_GENERIC_MAIL = 'SEND_GENERIC_MAIL';
+export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const MESSAGE_SENT = 'MESSAGE_SENT';
 
 export const SET_MODAL = 'SET_MODAL';
 export const SET_UNSAVED_CHANGES_MODAL = 'SET_UNSAVED_CHANGES_MODAL';
