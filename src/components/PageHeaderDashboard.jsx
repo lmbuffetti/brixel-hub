@@ -158,7 +158,7 @@ function PageHeaderDashboard(props) {
   useEffect(() => {
     if (gameGroup && gameHistory && userType === 'seller') {
       if (activeSingleProperty.id) {
-        getPropertyDealsCount(activeSingleProperty.id);
+        getPropertyDealsCount({ id: activeSingleProperty.id, smallLoader: 'countDeal' });
       }
       // let numDone = 0;
       /* let numTodo = 0;

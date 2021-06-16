@@ -64,7 +64,7 @@ const Photos = (props) => {
       setBtnActive(null);
       setFixPhotos(cloneDeep(photos));
     }
-  }, [photos]);
+  }, [photos, isSmallLoading]);
 
   // FUNCTION TO DELETE IMAGE
   const deleteImage = (id) => {

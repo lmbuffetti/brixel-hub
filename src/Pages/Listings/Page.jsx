@@ -40,7 +40,7 @@ const Page = (props) => {
   const changeReviewStatus = (status) => {
     const data = {
       page: propID,
-      smallLoader: 'pageReview',
+      smallLoader: 'saveData',
       status,
     };
     handleUpdatePublishedReview(data);

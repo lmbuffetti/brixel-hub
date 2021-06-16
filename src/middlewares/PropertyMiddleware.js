@@ -1106,20 +1106,36 @@ const checkCommon = (store) => (next) => (action) => {
     }
     case GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT: {
       next(action);
-      store.dispatch({
-        type: SPINNER_ON,
-      });
-      api.property.getPageDealsCount(action.payload).then((res) => {
+      const { id, smallLoader } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.property.getPageDealsCount(id).then((res) => {
         if (res.meta.status === 200) {
           store.dispatch({
             type: SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
             payload: res.data,
           });
-          store.dispatch({
-            type: SPINNER_OFF,
-          });
         } else {
           // TODO: Should dispatch error state
+        }
+        if (smallLoader) {
+          store.dispatch({
+            type: SPINNER_SMALL,
+            payload: {
+              [smallLoader]: false,
+            },
+          });
+        } else {
           store.dispatch({
             type: SPINNER_OFF,
           });

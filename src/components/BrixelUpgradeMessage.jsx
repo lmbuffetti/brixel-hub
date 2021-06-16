@@ -87,7 +87,7 @@ const BrixelUpgradeMessage = (props) => {
                 rounded
                 className="ml-1"
                 label="Order now"
-                isLoading={isSmallLoading !== null}
+                isLoading={isSmallLoading.saveData}
                 onClick={() => onClick()}
               />
             </div>

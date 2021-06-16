@@ -254,7 +254,7 @@ const Dashboard = (props) => {
           return null;
         });
         if (changeObj.photos) {
-          objToSave.coverPhoto = changeObj.photos[0];
+          objToSave.coverPhoto = get(formValue, 'photos', [])[0];
         }
         objToSave.inputSheet = get(formValue, 'inputSheet', {});
         const data = {
