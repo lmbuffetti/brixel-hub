@@ -382,9 +382,6 @@ body:not(.overlayOpen).locationInputResume {
 
 .onBoardingSignUp {
   .required-state {
-    .error-message {
-      display: none;
-    }
     .checkmark {
       border-color: map-get($redColor, 400);
     }
