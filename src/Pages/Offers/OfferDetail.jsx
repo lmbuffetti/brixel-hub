@@ -17,6 +17,7 @@ const OfferDetail = (props) => {
     history,
     isBuyer,
     match,
+    windowDimensions,
   } = props;
   // PARAMS
   const dealID = get(match, 'params.dealID', null);
@@ -35,7 +36,7 @@ const OfferDetail = (props) => {
 
   return (
     <>
-      <div className="single-offer-container dis-fl-col pb-4 px-0 px-sm-2 dealsListings">
+      <div className={`single-offer-container ${isBuyer && windowDimensions.width <= 1024 ? 'secondLevel p-2' : ''} dis-fl-col pb-4 px-0 px-sm-2 dealsListings`}>
         {
           !isBuyer ? (
             <>
@@ -75,7 +76,19 @@ const OfferDetail = (props) => {
               </div>
             </>
           ) : (
-            <h3 className="mb-3">Deal</h3>
+            <div className="p-0 p-0 pt-lg-2">
+              {isBuyer && windowDimensions.width <= 1024 && (
+                <BrixelButtonIcon
+                  icon="arrow-left-small"
+                  theme="dark"
+                  ghost
+                  bgTransparent
+                  className="mb-1"
+                  onClick={() => history.goBack()}
+                />
+              )}
+              <h5 className="mb-3">Deal</h5>
+            </div>
           )
         }
         <BrixelClosingTree
@@ -94,6 +107,7 @@ OfferDetail.propTypes = {
   history: PropTypes.object.isRequired,
   isBuyer: PropTypes.bool,
   match: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 OfferDetail.defaultProps = {
@@ -103,6 +117,7 @@ OfferDetail.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
