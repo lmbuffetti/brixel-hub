@@ -51,6 +51,7 @@ export const QuestionsList = (lang, country = 'CH') => {
   const countryCode = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', '');
 
   return [
+    // ...BestimateQuestions('getStarted', countryCode, propertyType),
     {
       title: translateTo(lang, 'What is the estimation for?'),
       history: 'estimationType',
