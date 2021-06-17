@@ -1055,7 +1055,6 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       const id = get(action.payload, 'id', action.payload);
-      console.log(id);
       api.property.getPageDeals(id)
         .then((response) => {
           const calls = [];

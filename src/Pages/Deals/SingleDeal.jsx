@@ -313,13 +313,13 @@ const SingleDeal = (props) => {
                     <div className="dis-fl-col col-6 p-0">
                       <div className="dis-fl-col ta-l mb-2">
                         <span className="subtitle fsize-200 txtDark200">Signed Up</span>
-                        {/*
+                        {
                           get(activeSingleDeal, 'user.createdAt', null) ? (
                             <span className="value txtDark700">{DateTime.fromMillis(activeSingleDeal.user.createdAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}</span>
                           ) : (
                             <span className="value txtDark700">-</span>
                           )
-                        */}
+                        }
 
                       </div>
                     </div>

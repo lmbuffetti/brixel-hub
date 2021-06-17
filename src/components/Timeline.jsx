@@ -405,7 +405,7 @@ const Timeline = (props) => {
                               { get(find(event.history, (el) => (el.type === 'create')), 'author.name', 'BOT') }
                             </span>
                             <span className="fsize-100 txtDark200">
-                              {/* DateTime.fromMillis(event.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm') */}
+                              {DateTime.fromMillis(event.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                             </span>
                           </div>
                         )
