@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelButtonIcon,
   BrixelButtonText,
   BrixelAvatar,
   Helpers,
@@ -34,22 +35,34 @@ const ContactBuyer = (props) => {
     <div className="dis-f">
       <div className="secondLevel dis-fl-col">
         <div>
-          <div className="dis-f">
-            <BrixelAvatar
-              avatarImg={get(contacts, 'avatar.thumbnailPath', null) ? `${baseByData.shortPath}${get(contacts, 'avatar.thumbnailPath', '')}` : null}
-              name={get(contacts, 'name', '') ? get(contacts, 'name', '') : ''}
-              size="large"
-            />
-            <div>
-              <h5 className="ml-3 mb-0">
-                <span className="dis-b">Hello, I am</span>
-                <span className="dis-b">{contacts.name}</span>
-              </h5>
-              {
-                get(contacts, 'company', null) && (
-                  <p className="ml-3"><span>from</span><span>&nbsp;{contacts.company}</span></p>
-                )
-              }
+          <div className="dis-f jc-b">
+            <div className="dis-f">
+              <BrixelAvatar
+                baseURL={get(baseByData, 'shortPath', '')}
+                avatarImg={get(contacts, 'avatar.thumbnailPath', null) ? `${baseByData.shortPath}${get(contacts, 'avatar.thumbnailPath', '')}` : null}
+                name={get(contacts, 'name', '') ? get(contacts, 'name', '') : 'No Name'}
+                size="large"
+              />
+              <div>
+                <h5 className="ml-3 mb-0">
+                  <span className="dis-b">Hello, I am</span>
+                  <span className="dis-b">{get(contacts, 'name', '') ? get(contacts, 'name', '') : 'No Name'}</span>
+                </h5>
+                {
+                  get(contacts, 'company', null) && (
+                    <p className="ml-3"><span>from</span><span>&nbsp;{contacts.company}</span></p>
+                  )
+                }
+              </div>
+            </div>
+            <div className="hide-lg">
+              <BrixelButtonIcon
+                icon="close"
+                theme="dark"
+                ghost
+                className="as-c"
+                onClick={() => history.goBack()}
+              />
             </div>
           </div>
           <div className="dis-f a-c my-3">
@@ -73,7 +86,7 @@ const ContactBuyer = (props) => {
           {
             get(contacts, 'generalInformation', null) && (
               <div className="mb-4">
-                <h6 className="overline">INFO</h6>
+                <h6 className="overline mb-2 mt-1">INFO</h6>
 
                 <p>
                   {get(contacts, 'generalInformation', '')}

@@ -698,7 +698,7 @@ function PageHeaderDashboard(props) {
           }
         </div>
         {
-          windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && getCurrentRoute().title && (
+          windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
               {
                 getCurrentRoute().title && (
