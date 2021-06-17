@@ -276,7 +276,7 @@ const LoginSignup = (props) => {
                                 {notification[0].label}
                               </p>
                               <BrixelButtonText
-                                className="mt-2"
+                                className="mt-2 ml-a mr-a"
                                 label="Resend password"
                                 onClick={() => onSubmitForm()}
                               />
