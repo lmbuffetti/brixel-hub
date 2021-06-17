@@ -361,7 +361,7 @@ const checkCommon = (store) => (next) => (action) => {
                 const obj = cloneDeep(response.data);
                 delete obj.user;
                 set(obj, 'newSeller', false);
-                call3 = api.deal.updateSingleDeal(action.payload, obj)
+                call3 = api.deal.updateSingleDeal(id, obj)
                   .then((res2) => {
                     if (res2.meta.status === 200) {
                       updatedDeal = res2.data;
@@ -375,7 +375,6 @@ const checkCommon = (store) => (next) => (action) => {
                     }
                   });
               }
-
               Promise.all([call2, call3]).then(() => {
                 store.dispatch({
                   type: SET_ACTIVE_SINGLE_DEAL,
