@@ -344,6 +344,7 @@ const checkCommon = (store) => (next) => (action) => {
           payload: exampleDeal(country),
         });
       } else {
+        console.log(id);
         api.deal.getSingleDeal(id)
           .then((response) => {
             if (response.meta.status === 200) {
@@ -361,7 +362,7 @@ const checkCommon = (store) => (next) => (action) => {
                 const obj = cloneDeep(response.data);
                 delete obj.user;
                 set(obj, 'newSeller', false);
-                call3 = api.deal.updateSingleDeal(action.payload, obj)
+                call3 = api.deal.updateSingleDeal(id, obj)
                   .then((res2) => {
                     if (res2.meta.status === 200) {
                       updatedDeal = res2.data;
@@ -375,7 +376,7 @@ const checkCommon = (store) => (next) => (action) => {
                     }
                   });
               }
-
+              console.log(call2, call3);
               Promise.all([call2, call3]).then(() => {
                 store.dispatch({
                   type: SET_ACTIVE_SINGLE_DEAL,
@@ -465,6 +466,7 @@ const checkCommon = (store) => (next) => (action) => {
                 }
               });
           } else {
+            console.log(res.data);
             store.dispatch({
               type: SET_ACTIVE_SINGLE_DEAL,
               payload: res.data,
@@ -510,6 +512,7 @@ const checkCommon = (store) => (next) => (action) => {
 
       const obj = cloneDeep(data);
       delete obj.user;
+      console.log(id);
       api.deal.updateSingleDeal(id, obj)
         .then((res) => {
           if (res.meta.status === 200) {
