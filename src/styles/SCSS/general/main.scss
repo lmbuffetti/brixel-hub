@@ -371,17 +371,14 @@ img {
           width: 100%;
           max-width: 100%;
           justify-content: flex-start;
-
           &.input-container {
             flex: 100%;
             max-width: 200px;
            }
         }
       }
-
-
     }
-    .brixek-checkbox-wrapper {
+    .brixel-checkbox-wrapper {
       align-items: baseline;
 
       > .dis-fl-col {
