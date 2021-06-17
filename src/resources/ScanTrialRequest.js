@@ -58,7 +58,6 @@ export const ScanTrialQuestions = () => {
           type: 'text',
           formatType: 'tel',
           placeholder: '',
-          validation: [Validation.required],
         },
         {
           condition: [{
