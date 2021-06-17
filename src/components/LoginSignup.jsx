@@ -270,10 +270,10 @@ const LoginSignup = (props) => {
                           showErrors={showErrors}
                         />
                         {
-                          notification.label && (
+                          get(notification[0], 'label', null) && (
                             <>
                               <p className="fsize-300 mt-1 txtGreen400">
-                                {notification.label}
+                                {notification[0].label}
                               </p>
                               <BrixelButtonText
                                 className="mt-2"
