@@ -92,6 +92,7 @@ const LoginSignup = (props) => {
 
   // CHANGE PAGE
   const changeScreen = (page) => {
+    changeFieldValue(formName, 'signupScreen', page);
     setLoginPage(page);
     handleSetFormError({});
   };
