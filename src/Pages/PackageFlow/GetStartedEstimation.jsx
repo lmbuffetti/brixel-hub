@@ -131,7 +131,8 @@ const GetStartedEstimation = (props) => {
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     getCurrency();
-  }, [get(history, 'location.countryCode', null)]);
+    if (get(formValue, 'location.countryCode', null) !== 'ch') changeFieldValue('properties.building.conditionStatus', 'used');
+  }, [get(formValue, 'location.countryCode', null)]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
