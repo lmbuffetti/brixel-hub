@@ -396,7 +396,18 @@ const mapStateToProps = (state) => {
       properties: {
         ...get(state, 'property.activeSingleProperty.properties', null),
         building: {
+          ...get(state, 'property.activeSingleProperty.properties.building', null),
           conditionStatus: get(state, 'property.activeSingleProperty.properties.building.conditionStatus', defaultStatusCondition),
+        },
+        parking: {
+          ...get(state, 'property.activeSingleProperty.properties.parking', null),
+          garage: get(formValue, 'properties.parking.garage', 0),
+          outside: get(formValue, 'properties.parking.outside', 0),
+        },
+        typology: {
+          ...get(state, 'property.activeSingleProperty.properties.typology', null),
+          bedrooms: get(formValue, 'properties.typology.bedrooms', 3),
+          bathrooms: get(formValue, 'properties.typology.bathrooms', 1),
         },
       },
     },
