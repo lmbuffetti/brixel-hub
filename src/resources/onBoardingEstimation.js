@@ -193,7 +193,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       ],
       successMessage: translateTo(lang, 'A good year for real estate.'),
     },
-
     {
       title: translateTo(lang, 'What is the location?'),
       history: 'locationInput',

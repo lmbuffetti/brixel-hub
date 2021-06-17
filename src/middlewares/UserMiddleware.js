@@ -280,7 +280,7 @@ const checkUser = (store) => (next) => (action) => {
               state: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
-            if (extraLoading) store.dispatch({ type: SPINNER_OFF });
+            store.dispatch({ type: SPINNER_OFF });
           } else if (newUser) {
             store.dispatch({ type: CREATE_USER, payload: action.payload });
           }
