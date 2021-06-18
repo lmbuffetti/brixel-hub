@@ -87,6 +87,17 @@ export const MapsWithModalManual = (props) => {
   }, [history.location.pathname]);
 
   useEffect(() => {
+    setTimeout(() => {
+      const getCurStep = document.getElementById('searchInputWrap');
+      if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+        getCurStep.querySelector('input[type="number"]').focus();
+      } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+        getCurStep.querySelector('input[type="text"]').focus();
+      }
+    }, 100);
+  }, []);
+
+  useEffect(() => {
     const { body } = document;
     if (body) {
       if (showManualInput) body.classList.add('overlayOpen');
@@ -568,7 +579,7 @@ export const MapsWithModalManual = (props) => {
         {
           // IF multipleFieldSearch SHOW THE FIELDS STREET NAME AND STREET NUMBER
           multipleFieldSearch && (
-            <div className="fieldMapSearch mb-1">
+            <div className="fieldMapSearch mb-1" id="searchInputWrap">
               <div className="dis-f jc-b flex-wrap">
                 <div className="w-perc-100 pos-r">
                   <BrixelInputText
