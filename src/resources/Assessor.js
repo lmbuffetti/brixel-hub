@@ -97,7 +97,7 @@ export const AssessorQuestions = (lang = 'en') => [
         classNameBox: 'bgLight100 p-1 brdRadius max-w-fix-lg-232',
         placeholder: translateTo(lang, 'e.g. 1990'),
         minLenghtNum: 999,
-        maxLenghtNum: 9999,
+        maxLengthNum: 9999,
       },
     ],
   },

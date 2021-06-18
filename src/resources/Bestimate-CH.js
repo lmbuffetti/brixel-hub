@@ -29,7 +29,7 @@ export const BestimateCH = (type = null, propertyType) => {
           type: 'number',
           unit: 'm2',
           minLengthNum: 1,
-          maxLenghtNum: 99999,
+          maxLengthNum: 99999,
           labelLeft: 'Lot Size',
           placeholder: 'e.g. 140',
           validation: [Validation.required],
