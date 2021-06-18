@@ -186,7 +186,7 @@ export const BestimatePT = (type = null) => {
           classNameParent: 'extraCols',
           className: 'extraFeature',
           component: BrixelCheckbox,
-          icons: true,
+          icons: false,
           label: type === 'getStarted' ? null : '',
           name: 'properties.extraFeaturesBestimatePT',
           pdClass: 'p-1',
