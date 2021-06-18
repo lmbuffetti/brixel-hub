@@ -203,7 +203,7 @@ const MarketList = (props) => {
         return 'Whishlist';
       }
       case 'favorites': {
-        return 'Your favorites';
+        return 'Bookmarks';
       }
       case 'lastViewed': {
         return 'Last viewed properties';
