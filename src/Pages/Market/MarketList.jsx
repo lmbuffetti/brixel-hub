@@ -9,6 +9,7 @@ import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { diff } from 'deep-object-diff';
 import {
   getAllProperties, getFavoritesProperties, getLastViewedProperties,
   getNewProperties, getOwnedProperties, getPremarketProperties,
@@ -202,7 +203,7 @@ const MarketList = (props) => {
         return 'Whishlist';
       }
       case 'favorites': {
-        return 'Your favorites';
+        return 'Bookmarks';
       }
       case 'lastViewed': {
         return 'Last viewed properties';
@@ -460,7 +461,15 @@ const mapDispatchToProps = (dispatch) => ({
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
+export const MarketListMemo = React.memo(MarketList, (prevProps, nextProps) => {
+  const diffProps = diff(prevProps, nextProps);
+  return (
+    Object.keys(diffProps).length === 0 &&
+    nextProps.userSearchProfiles === null
+  );
+});
+
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(MarketList);
+)(MarketListMemo);

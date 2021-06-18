@@ -147,8 +147,7 @@ export const MarketBuyerMemo = React.memo(MarketBuyer, (prevProps, nextProps) =>
   const diffSearchProfile = diff(prevProps.userSearchProfiles, nextProps.userSearchProfiles);
   return (
     Object.keys(diffProps).length === 0 &&
-    Object.keys(diffSearchProfile).length === 0 &&
-    nextProps.userSearchProfiles === null
+    Object.keys(diffSearchProfile).length === 0
   );
 });
 
