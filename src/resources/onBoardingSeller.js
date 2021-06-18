@@ -128,7 +128,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
           placeholder: '117',
-          maxLenghtNum: 9999,
+          maxLengthNum: 9999,
         },
         {
           condition: [{
@@ -144,7 +144,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
           placeholder: translateTo(lang, 'e.g. 120'),
-          maxLenghtNum: 9999,
+          maxLengthNum: 9999,
         },
       ],
       successMessage: translateTo(lang, 'Great living space.'),
@@ -163,7 +163,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
           placeholder: translateTo(lang, 'e.g. 1990'),
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
-          maxLenghtNum: 9999,
+          maxLengthNum: 9999,
           minLengthNum: 999,
         },
       ],
