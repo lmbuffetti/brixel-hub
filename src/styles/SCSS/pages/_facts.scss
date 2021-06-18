@@ -55,6 +55,20 @@
     max-width: 50%;
     width: 100%;
 
+    &.brixel-checkbox-icon,
+    &.brixel-checkbox {
+
+      @media (min-width: $responsive-small) {
+        &:nth-child(odd) {
+          padding-right: $step;
+        }
+        &:nth-child(even) {
+          padding-left: $step;
+        }
+      }
+    }
+
+
     @media (max-width: $responsive-small) {
       max-width: 100%;
     }
