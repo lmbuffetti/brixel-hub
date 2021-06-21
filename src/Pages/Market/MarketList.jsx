@@ -13,7 +13,7 @@ import { diff } from 'deep-object-diff';
 import {
   getAllProperties, getFavoritesProperties, getLastViewedProperties,
   getNewProperties, getOwnedProperties, getPremarketProperties,
-  getPremiumProperties, getWhishlistProperties,
+  getPremiumProperties, getWishlistProperties,
 } from '../../actions/MarketActions';
 import MarketCardMap from '../../components/MarketCardMap';
 import Pagination from '../../components/Pagination';
@@ -37,7 +37,7 @@ const MarketList = (props) => {
     handleGetPreMarketProperties,
     handleGetPremiumProperties,
     handleGetSellerProperties,
-    handleGetWhishlistProperties,
+    handleGetWishlistProperties,
     history,
     lastViewedProperties,
     loggedInUser,
@@ -49,7 +49,7 @@ const MarketList = (props) => {
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
-    whishlistProperties,
+    wishlistProperties,
     windowDimensions,
   } = props;
   // URL PARAMS
@@ -91,8 +91,8 @@ const MarketList = (props) => {
           handleGetAllProperties(data);
           break;
         }
-        case 'whishlist': {
-          handleGetWhishlistProperties(data);
+        case 'wishlist': {
+          handleGetWishlistProperties(data);
           break;
         }
         case 'favorites': {
@@ -138,8 +138,8 @@ const MarketList = (props) => {
         setPropertyListings(ownerProperties.data || []);
         break;
       }
-      case 'whishlist': {
-        setPropertyListings(whishlistProperties.data || []);
+      case 'wishlist': {
+        setPropertyListings(wishlistProperties.data || []);
         break;
       }
       case 'favorites': {
@@ -199,8 +199,8 @@ const MarketList = (props) => {
       case 'all': {
         return 'All properties';
       }
-      case 'whishlist': {
-        return 'Whishlist';
+      case 'wishlist': {
+        return 'Wishlist';
       }
       case 'favorites': {
         return 'Bookmarks';
@@ -230,8 +230,8 @@ const MarketList = (props) => {
       case 'all': {
         return allProperties.total;
       }
-      case 'whishlist': {
-        return whishlistProperties.total;
+      case 'wishlist': {
+        return wishlistProperties.total;
       }
       case 'favorites': {
         return favoritesProperties.total;
@@ -413,7 +413,7 @@ MarketList.propTypes = {
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
-  handleGetWhishlistProperties: PropTypes.func.isRequired,
+  handleGetWishlistProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lastViewedProperties: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -425,7 +425,7 @@ MarketList.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-  whishlistProperties: PropTypes.object.isRequired,
+  wishlistProperties: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -443,7 +443,7 @@ const mapStateToProps = (state) => ({
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
-  whishlistProperties: get(state, 'market.whishlistProperties', {}),
+  wishlistProperties: get(state, 'market.wishlistProperties', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
@@ -455,7 +455,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
-  handleGetWhishlistProperties: bindActionCreators(getWhishlistProperties, dispatch),
+  handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
