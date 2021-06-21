@@ -94,7 +94,7 @@ const MarketCard = (props) => {
         ((
           type === 'premium' || get(item, 'tags', []).includes('premium') ||
           type === 'new' || get(item, 'tags', []).includes('new')
-        ) && type !== 'favorite')
+        ) && type !== 'favorite' && !history.location.pathname.includes('sell'))
       ) {
         setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
@@ -108,7 +108,7 @@ const MarketCard = (props) => {
           property.splice(0, 0, element);
         }
         handleSetActiveMarketOverlayPropertyLists(property);
-      } else if (type === 'favorite') {
+      } else if (type === 'favorite' || type === 'wishlist') {
         if (get(windowDimensions, 'width', 0) <= 1024) {
           history.push({
             pathname: `/buyer/${item.id}/property`,

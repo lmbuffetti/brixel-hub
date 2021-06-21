@@ -59,7 +59,7 @@ const Photos = (props) => {
       setBtnActive(null);
       setFixPhotos(floorPlans ? cloneDeep(floorPlans) : []);
     }
-  });
+  }, [floorPlans, isSmallLoading]);
 
   // FUNCTION TO DELETE FLOOR PLAN
   const deleteImage = (id) => {

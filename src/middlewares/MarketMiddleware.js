@@ -18,6 +18,8 @@ import {
   SET_PREMIUM_PROPERTIES,
   GET_FAVORITES_PROPERTIES,
   SET_FAVORITES_PROPERTIES,
+  GET_WISHLIST_PROPERTIES,
+  SET_WISHLIST_PROPERTIES,
 } from '../actions/types/MarketTypes';
 
 import {
@@ -256,6 +258,31 @@ const checkLead = (store) => (next) => (action) => {
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMIUM_PROPERTIES, payload: res.data });
+          }
+          loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
+          loadSkeleton.favorite = false;
+          store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
+        })
+        .catch(() => {
+          store.dispatch({ type: SKELETON_OFF });
+        });
+      break;
+    }
+    case GET_WISHLIST_PROPERTIES: {
+      next(action);
+      let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
+      loadSkeleton.favorite = 'CardImageTextVertical';
+      store.dispatch({
+        type: SKELETON_ON,
+        payload: {
+          ...loadSkeleton,
+        },
+      });
+      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
+      api.market.getDeals(action.payload.resultsPerPage, action.payload.offset, queryParams)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({ type: SET_WISHLIST_PROPERTIES, payload: res.data });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.favorite = false;

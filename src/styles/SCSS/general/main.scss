@@ -345,13 +345,63 @@ img {
 
 //  custom label styles
 
+.flowBody {
+  .inputStepDisplay {
+    > span {
+      font-family: $font-family-secondary;
+    }
+  }
+  .two-cols {
+    .brixel-select-wrapper,
+    .brixel-input-step,
+    .brixel-checkbox-wrapper,
+    .brixel-text-input-container,
+    .brixel-quality-container {
+      display: flex;
+      justify-content: flex-start;
+      .row-cols-2 {
+        justify-content: flex-start;
+      }
+      > .brixel-label,
+        .labelLeft {
+        max-width: 40%;
+        width: 100%;
+
+        + div {
+          width: 100%;
+          max-width: 100%;
+          justify-content: flex-start;
+          &.input-container {
+            flex: 100%;
+            max-width: 200px;
+           }
+        }
+      }
+    }
+    .brixel-checkbox-wrapper {
+      align-items: baseline;
+
+      > .dis-fl-col {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        .brixel-checkbox {
+          width: 100%;
+          max-width: 50%;
+        }
+      }
+    }
+  }
+}
+
 .flowBody label.brixel-label,
 .flowBody .labelLeft,
 .flowBody label.txtDark200,
 .singleInput label.txtDark200,
 .singleInput label.brixel-label {
-  color: map-get($darkColor, 400) !important;
-  @include fontStyle(300);
+  color: map-get($darkColor, 500) !important;
+  @include fontStyle(400);
   font-weight: 500;
 }
 
@@ -467,3 +517,8 @@ sub {
 .transY-100 {
   transform: translateY(-100%) !important;
 }
+
+button.minimum-w-210 {
+  min-width: 210px;
+}
+

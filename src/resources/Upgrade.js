@@ -185,6 +185,7 @@ export const UpgradeQuestions = (lang, packagesProperty, location = {}) => {
           classNameBox: 'bgLight100 p-1',
           label: 'Phone number',
           name: 'packageUpgrade.contactPhone',
+          type: 'text',
           formatType: 'tel',
           placeholder: '',
           validation: [Validation.required],

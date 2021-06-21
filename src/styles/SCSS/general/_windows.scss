@@ -9,6 +9,19 @@ div#dashboard {
   }
 } */
 .hubContainer {
+  &.buyerHub {
+    @media (max-width: $responsive-large) {
+      .innerWrap {
+        z-index: 3;
+      }
+      .menuOn {
+        .innerWrap {
+          z-index: 1;
+        }
+      }
+    }
+  }
+
   &.sellerHub,
   &.buyerHub {
     @media (max-width: $responsive-medium) {

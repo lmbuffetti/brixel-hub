@@ -380,20 +380,39 @@ Bestimate.propTypes = {
   resetForm: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
-  errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
-  formValue: get(state, 'brixelForm.GamingFlow.values', {}),
-  gameGroup: get(state, 'gamification.gameGroup', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
-  initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
-  packagesProperty: get(state, 'property.packagesProperty', []),
-  initialValues: {
-    id: get(state, 'property.activeSingleProperty.id', null),
-    properties: get(state, 'property.activeSingleProperty.properties', null),
-    location: get(state, 'property.activeSingleProperty.location', null),
-  },
-});
+const mapStateToProps = (state) => {
+  const formValue = get(state, 'property.activeSingleProperty', {});
+  const defaultStatusCondition = get(formValue, 'location.countryCode', '').toLowerCase() !== 'ch' ? 'used' : '';
+  return ({
+    activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+    errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
+    formValue: get(state, 'brixelForm.GamingFlow.values', {}),
+    gameGroup: get(state, 'gamification.gameGroup', []),
+    gameHistory: get(state, 'gamification.gameHistory', {}),
+    initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
+    packagesProperty: get(state, 'property.packagesProperty', []),
+    initialValues: {
+      id: get(state, 'property.activeSingleProperty.id', null),
+      properties: {
+        ...get(state, 'property.activeSingleProperty.properties', null),
+        building: {
+          ...get(state, 'property.activeSingleProperty.properties.building', null),
+          conditionStatus: get(state, 'property.activeSingleProperty.properties.building.conditionStatus', defaultStatusCondition),
+        },
+        parking: {
+          ...get(state, 'property.activeSingleProperty.properties.parking', null),
+          garage: get(formValue, 'properties.parking.garage', 0),
+          outside: get(formValue, 'properties.parking.outside', 0),
+        },
+        typology: {
+          ...get(state, 'property.activeSingleProperty.properties.typology', null),
+          bedrooms: get(formValue, 'properties.typology.bedrooms', 3),
+          bathrooms: get(formValue, 'properties.typology.bathrooms', 1),
+        },
+      },
+    },
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {

@@ -37,7 +37,7 @@ const MarketCheck = (props) => {
     initialValues,
     match,
     resetForm,
-    smallLoading,
+    isSmallLoader,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(FactsApartment('en'));
@@ -116,7 +116,7 @@ const MarketCheck = (props) => {
       ...formValue,
     };
     if (calcPercentageFacts('GamingFlow').calcPerc >= 20) {
-      handleAddGameHistory({ stub: 'facts' });
+      handleAddGameHistory({ stub: 'facts', smallLoader: 'saveData' });
     }
     handleSaveActiveSingleProperty(data);
   };
@@ -307,7 +307,7 @@ const MarketCheck = (props) => {
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      isLoading={smallLoading === 'Property'}
+                      isLoading={isSmallLoader.saveData}
                     />
                   ) : (
                     <BrixelButtonPrimary
@@ -317,7 +317,7 @@ const MarketCheck = (props) => {
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      isLoading={smallLoading === 'property'}
+                      isLoading={isSmallLoader.saveData}
                     />
                   )
                 }
@@ -344,7 +344,7 @@ MarketCheck.propTypes = {
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
-  smallLoading: PropTypes.object.isRequired,
+  isSmallLoader: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -353,7 +353,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.GamingFlow.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  smallLoading: get(state, 'common.isSmallLoading', { }),
+  isSmallLoader: get(state, 'common.isSmallLoading', { }),
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
   initialValues: {

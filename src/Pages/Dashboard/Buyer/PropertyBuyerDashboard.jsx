@@ -7,12 +7,9 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelAvatar,
   BrixelButtonBox,
   BrixelButtonIcon,
-  Helpers,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
@@ -28,6 +25,11 @@ const PageBuyer = Loadable({
 
 const ShowingsBuyer = Loadable({
   loader: () => import('./ShowingsBuyer' /* webpackChunkName: "ShowingsBuyer" */),
+  loading: LoadingSimple,
+});
+
+const ContactBuyer = Loadable({
+  loader: () => import('./ContactBuyer' /* webpackChunkName: "ContactBuyer" */),
   loading: LoadingSimple,
 });
 
@@ -81,7 +83,23 @@ const PropertyBuyerDashboard = (props) => {
         <Sticker>
           <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
 
-            <div className="dis-f">
+            <div className="dis-f min-h-fix-136 mb-2">
+              <BrixelButtonBox
+                verticalView
+                bgTransparent
+                icon="message"
+                label="Contact"
+                labelClass="fweight-400"
+                subtitle={get(formValue, 'contacts[0].name', '')}
+                subtitleClass="fsize-200 pt-small-6"
+                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'contact' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                colorIcon="primary700"
+                backIcon="primary100"
+                onClick={() => history.push(`/buyer/${propID}/property/contact`)}
+              />
+            </div>
+
+            <div className="dis-f min-h-fix-136">
               <BrixelButtonBox
                 verticalView
                 bgTransparent
@@ -111,58 +129,39 @@ const PropertyBuyerDashboard = (props) => {
               />
             </div>
 
-            <div className="dis-f mt-2 w-perc-50">
+            <div className="dis-f mt-1 pr-lg-2 min-h-fix-136">
               <BrixelButtonBox
                 verticalView
                 bgTransparent
                 icon="calendar"
                 label="Showings"
-                labelClass="fweight-400 w-perc-50"
+                labelClass={`fweight-400 ${windowDimensions.width <= 1024 ? 'w-perc-50' : 'w-perc-25'}`}
                 subtitle=""
                 subtitleClass="fsize-200 pt-small-6"
-                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                className={`w-perc-100 w-perc-lg-50 shadow-1dp ml-1 brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon="primary700"
                 backIcon="primary100"
                 onClick={() => history.push(`/buyer/${propID}/property/showings`)}
               />
 
-            </div>
+              {
+                windowDimensions.width <= 1024 && (
+                  <BrixelButtonBox
+                    verticalView
+                    bgTransparent
+                    icon="money"
+                    label="Deal"
+                    labelClass="fweight-400 w-perc-50"
+                    subtitle=""
+                    subtitleClass="fsize-200 pt-small-6"
+                    className={`w-perc-100 min-h-fix-136 shadow-1dp brdMedium ${getFact() === 'deals' ? 'brdPrimary400 bgWhite' : 'brdTrans'} ml-1 p-2`}
+                    colorIcon="primary700"
+                    backIcon="primary100"
+                    onClick={() => history.push(`/buyer/${propID}/deal`)}
+                  />
+                )
+              }
 
-            <div className="pl-1">
-              <h6 className="overline mt-3 mb-2">Contact</h6>
-              <div className="dis-f p-2 buttonBox">
-                <BrixelAvatar
-                  baseURL={get(baseByData, 'shortPath', '')}
-                  name={get(formValue, 'contacts[0].name', '')}
-                  profileId={get(formValue, 'contacts[0].id', '')}
-                />
-                <div className="ml-2">
-                  <h6>{get(formValue, 'contacts[0].name', '')}</h6>
-                  {
-                    get(formValue, 'contacts[0].company', null) && (
-                      <p className="body2 txtDark700">{get(formValue, 'contacts[0].company', '')}</p>
-                    )
-                  }
-                  {
-                    get(formValue, 'contacts[0].phone.number', null) && (
-                      <div>
-                        <a
-                          href={`${Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}), false, false, true)}`}
-                          className="body2 txtDark700"
-                        >{Helpers.telephoneFormat(get(formValue, 'contacts[0].phone', {}))}
-                        </a>
-                      </div>
-                    )
-                  }
-                  {
-                    get(formValue, 'contacts[0].email', null) && (
-                      <div>
-                        <a href={`mailto:${get(formValue, 'contacts[0].email', '')}`} className="body2 txtDark700">{get(formValue, 'contacts[0].email', '')}</a>
-                      </div>
-                    )
-                  }
-                </div>
-              </div>
             </div>
 
           </div>
@@ -179,6 +178,7 @@ const PropertyBuyerDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Route path="/buyer/:propId/property/page" component={PageBuyer} />
               <Route path="/buyer/:propId/property/documents" exact component={Documents} />
+              <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
               <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
             </div>
           )

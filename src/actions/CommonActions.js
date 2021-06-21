@@ -3,7 +3,7 @@ import {
   ERROR_MESSAGE,
   SPINNER_OFF,
   SPINNER_ON,
-  SPINNER_SMALL_ON,
+  SPINNER_SMALL,
   SPINNER_SMALL_OFF,
   REDIRECT_TO,
   REQUEST_DONE,
@@ -27,13 +27,15 @@ import {
   SET_SPLASH_TYPE,
   GET_HISTORY,
   SET_HISTORY,
+  SEND_MESSAGE,
+  MESSAGE_SENT,
 } from './types/CommonTypes';
 
 export const {
   errorMessage,
   spinnerOn,
   spinnerOff,
-  spinnerSmallOn,
+  spinnerSmall,
   spinnerSmallOff,
   redirectTo,
   requestDone,
@@ -57,6 +59,8 @@ export const {
   setSplashType,
   getHistory,
   setHistory,
+  sendMessage,
+  messageSent,
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -65,7 +69,7 @@ export const {
   [SEND_GENERIC_MAIL]: (payload) => payload,
   [SPINNER_ON]: (payload) => payload,
   [SPINNER_OFF]: (payload) => payload,
-  [SPINNER_SMALL_ON]: (payload) => payload,
+  [SPINNER_SMALL]: (payload) => payload,
   [SPINNER_SMALL_OFF]: (payload) => payload,
   [SET_LANGUAGES]: (payload) => payload,
   [SET_LANGUAGE]: (payload) => payload,
@@ -85,4 +89,6 @@ export const {
   [SET_SPLASH_TYPE]: (payload) => payload,
   [GET_HISTORY]: (payload) => payload,
   [SET_HISTORY]: (payload) => payload,
+  [SEND_MESSAGE]: (payload) => payload,
+  [MESSAGE_SENT]: (payload) => payload,
 });

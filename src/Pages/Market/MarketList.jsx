@@ -9,10 +9,11 @@ import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { diff } from 'deep-object-diff';
 import {
   getAllProperties, getFavoritesProperties, getLastViewedProperties,
   getNewProperties, getOwnedProperties, getPremarketProperties,
-  getPremiumProperties,
+  getPremiumProperties, getWishlistProperties,
 } from '../../actions/MarketActions';
 import MarketCardMap from '../../components/MarketCardMap';
 import Pagination from '../../components/Pagination';
@@ -36,6 +37,7 @@ const MarketList = (props) => {
     handleGetPreMarketProperties,
     handleGetPremiumProperties,
     handleGetSellerProperties,
+    handleGetWishlistProperties,
     history,
     lastViewedProperties,
     loggedInUser,
@@ -47,6 +49,7 @@ const MarketList = (props) => {
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
+    wishlistProperties,
     windowDimensions,
   } = props;
   // URL PARAMS
@@ -86,6 +89,10 @@ const MarketList = (props) => {
         case 'all': {
           if (profileID) set(data, 'searchProfileId', profileID);
           handleGetAllProperties(data);
+          break;
+        }
+        case 'wishlist': {
+          handleGetWishlistProperties(data);
           break;
         }
         case 'favorites': {
@@ -129,6 +136,10 @@ const MarketList = (props) => {
     switch (catName) {
       case 'own': {
         setPropertyListings(ownerProperties.data || []);
+        break;
+      }
+      case 'wishlist': {
+        setPropertyListings(wishlistProperties.data || []);
         break;
       }
       case 'favorites': {
@@ -188,8 +199,11 @@ const MarketList = (props) => {
       case 'all': {
         return 'All properties';
       }
+      case 'wishlist': {
+        return 'Wishlist';
+      }
       case 'favorites': {
-        return 'Your favorites';
+        return 'Bookmarks';
       }
       case 'lastViewed': {
         return 'Last viewed properties';
@@ -215,6 +229,9 @@ const MarketList = (props) => {
       }
       case 'all': {
         return allProperties.total;
+      }
+      case 'wishlist': {
+        return wishlistProperties.total;
       }
       case 'favorites': {
         return favoritesProperties.total;
@@ -396,6 +413,7 @@ MarketList.propTypes = {
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
+  handleGetWishlistProperties: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lastViewedProperties: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -407,6 +425,7 @@ MarketList.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
+  wishlistProperties: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -424,6 +443,7 @@ const mapStateToProps = (state) => ({
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
+  wishlistProperties: get(state, 'market.wishlistProperties', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
@@ -435,12 +455,21 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
+  handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
+export const MarketListMemo = React.memo(MarketList, (prevProps, nextProps) => {
+  const diffProps = diff(prevProps, nextProps);
+  return (
+    Object.keys(diffProps).length === 0 &&
+    nextProps.userSearchProfiles === null
+  );
+});
+
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(MarketList);
+)(MarketListMemo);

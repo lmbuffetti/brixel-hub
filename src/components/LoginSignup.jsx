@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonSecondary, BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
+  BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -92,30 +92,31 @@ const LoginSignup = (props) => {
 
   // CHANGE PAGE
   const changeScreen = (page) => {
+    changeFieldValue(formName, 'signupScreen', page);
     setLoginPage(page);
     handleSetFormError({});
   };
 
   // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF TERTIARY BUTTON (bottom left)
-  const TertiaryButton = () => {
-    switch (loginPage) {
-      case 'not_sure':
-        return {
-          action: () => changeScreen('support'),
-          label: 'Still, not convinced',
-        };
-      case 'support':
-        return {
-          action: () => changeScreen('register'),
-          label: 'Cancel',
-        };
-      default:
-        return {
-          action: () => changeScreen('not_sure'),
-          label: 'I am not sure',
-        };
-    }
-  };
+  // const TertiaryButton = () => {
+  //   switch (loginPage) {
+  //     case 'not_sure':
+  //       return {
+  //         action: () => changeScreen('support'),
+  //         label: 'Still, not convinced',
+  //       };
+  //     case 'support':
+  //       return {
+  //         action: () => changeScreen('register'),
+  //         label: 'Cancel',
+  //       };
+  //     default:
+  //       return {
+  //         action: () => changeScreen('not_sure'),
+  //         label: 'I am not sure',
+  //       };
+  //   }
+  // };
 
   // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF PRIMARY BUTTON (center)
   const PrimaryButton = () => {
@@ -151,7 +152,7 @@ const LoginSignup = (props) => {
       default:
         return {
           action: () => onSubmitForm(),
-          label: 'Save',
+          label: 'Sign up',
         };
     }
   };
@@ -270,13 +271,13 @@ const LoginSignup = (props) => {
                           showErrors={showErrors}
                         />
                         {
-                          notification.label && (
+                          get(notification[0], 'label', null) && (
                             <>
                               <p className="fsize-300 mt-1 txtGreen400">
-                                {notification.label}
+                                {notification[0].label}
                               </p>
                               <BrixelButtonText
-                                className="mt-2"
+                                className="mt-2 ml-a mr-a"
                                 label="Resend password"
                                 onClick={() => onSubmitForm()}
                               />
@@ -286,6 +287,13 @@ const LoginSignup = (props) => {
                       </div>
                     )
                   }
+                  <BrixelButtonPrimary
+                    rounded
+                    className="ml-a mr-a mt-3 mb-2 minimum-w-210"
+                    label={PrimaryButton().label}
+                    onClick={PrimaryButton().action}
+                    isLoading={isSmallLoading === 'recoverPassword'}
+                  />
                 </div>
               </>
             )
@@ -333,7 +341,7 @@ const LoginSignup = (props) => {
         </div>
         <div className="footerActionLogin">
           <div className={`dis-fl-col col-reverse dis-fl-row-sm a-c ${loginPage === 'register' ? 'jc-c' : 'jc-fs'} my-3 pos-r`}>
-            {
+            {/* {
               loginPage === 'register' && (
                 <BrixelButtonSecondary
                   className="pos-a-fix-sm x-l-0 mt-2 mt-sm-0"
@@ -344,16 +352,7 @@ const LoginSignup = (props) => {
                   onClick={TertiaryButton().action}
                 />
               )
-            }
-            <BrixelButtonPrimary
-              rounded
-              rightIcon="arrow-right-small"
-              theme="red"
-              className={loginPage === 'register' ? 'mr-sm-a ml-sm-a' : 'ml-sm-a'}
-              label={PrimaryButton().label}
-              onClick={PrimaryButton().action}
-              isLoading={isSmallLoading === 'recoverPassword'}
-            />
+            } */}
           </div>
         </div>
       </div>
@@ -377,7 +376,6 @@ const LoginSignup = (props) => {
             titleClass="fsize-600 txtWhite fweight-600"
             contentClass="txtWhite py-2"
             className="mb-2"
-            isExpanded
           >
             All our properties are presented on a dedicated website with a 3D tour, high-quality photos, and much more. Buyers confirm that the presentation is outstanding.
           </Accordion>
@@ -385,7 +383,6 @@ const LoginSignup = (props) => {
             title="Start with a free test drive"
             titleClass="fsize-600 txtWhite fweight-600"
             contentClass="txtWhite py-2"
-            isExpanded
           >
             Convince yourself of our quality before you commit to any package. We offer a 7 days trial for all our packages. No strings attached.
           </Accordion>

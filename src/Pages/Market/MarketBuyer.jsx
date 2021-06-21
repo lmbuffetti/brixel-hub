@@ -13,6 +13,7 @@ import { diff } from 'deep-object-diff';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,
   getPremiumProperties, getPremarketProperties, getLastViewedProperties,
+  getWishlistProperties,
 } from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
@@ -38,6 +39,7 @@ const MarketBuyer = (props) => {
     handleGetPreMarketProperties,
     handleGetPremiumProperties,
     handleGetUserSearchProfiles,
+    handleGetWishlistProperties,
     handleSpinnerOff,
     history,
     loggedInUser,
@@ -60,6 +62,7 @@ const MarketBuyer = (props) => {
         multiLoader: true,
       };
       if (!catName) handleGetFavoritesProperties(data);
+      handleGetWishlistProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
       handleSpinnerOff();
     }
@@ -101,6 +104,7 @@ MarketBuyer.propTypes = {
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
+  handleGetWishlistProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -132,6 +136,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
+  handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
@@ -142,8 +147,7 @@ export const MarketBuyerMemo = React.memo(MarketBuyer, (prevProps, nextProps) =>
   const diffSearchProfile = diff(prevProps.userSearchProfiles, nextProps.userSearchProfiles);
   return (
     Object.keys(diffProps).length === 0 &&
-    Object.keys(diffSearchProfile).length === 0 &&
-    nextProps.userSearchProfiles === null
+    Object.keys(diffSearchProfile).length === 0
   );
 });
 

@@ -326,8 +326,9 @@ const Deals = (props) => {
   return (
     <div className="dealsListings">
       <div className="listings-header bg-white">
-        <div className="dis-f backPanel">
-          <div className="fixedIcon dis-f jc-b w-perc-100">
+        <div className="dis-f jc-b backPanel">
+          <h5 className="sectionTitle">Buyers</h5>
+          <div className="fixedIcon dis-f jc-fe-md w-perc-100">
             <BrixelButtonIcon
               className="hide-md"
               icon="arrow-left-small"
@@ -358,7 +359,7 @@ const Deals = (props) => {
               />
             </div>
           </div>
-          <h5 className="sectionTitle">Buyers</h5>
+
         </div>
         {
           windowDimensions.width <= 1024 && (

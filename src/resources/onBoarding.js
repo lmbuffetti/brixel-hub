@@ -1,13 +1,12 @@
+/* eslint-disable max-len */
 import {
   BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components';
+import { svgIcons } from './svgIcons';
 import { translateTo } from '../utils/translation';
 
 import homesSvg from '../images/getstarted/svgs/homes.svg';
-import selIcon from '../images/getstarted/sellIcon.svg';
-import estIcon from '../images/getstarted/estIcon.svg';
-import buyIcon from '../images/getstarted/buyIcon.svg';
 // QUESTION LISTS
 export const QuestionsList = (lang) => [
   {
@@ -24,25 +23,26 @@ export const QuestionsList = (lang) => [
       validation: [Validation.required],
       icons: true,
       cardLayout: true,
+      svgSupport: true,
       pdClass: '',
       isHorizontal: true,
       options: [
         {
           label: 'I want to start <b>selling</b>',
           value: 'seller',
-          img: selIcon,
+          img: svgIcons.selling,
           color: 'blue',
         },
         {
           label: 'I want to <b>estimate</b> a property',
           value: 'estimation',
-          img: estIcon,
+          img: svgIcons.estimate,
           color: 'green',
         },
         {
           label: 'I want to <b>buy</b> a property',
           value: 'buyer',
-          img: buyIcon,
+          img: svgIcons.buy,
           color: 'red',
         },
       ],

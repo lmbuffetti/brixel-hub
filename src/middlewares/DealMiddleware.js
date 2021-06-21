@@ -7,7 +7,7 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   REDIRECT_TO,
-  SET_SCREEN_NOTIFICATION, SPINNER_SMALL_ON,
+  SET_SCREEN_NOTIFICATION, SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import {
@@ -50,7 +50,7 @@ const checkCommon = (store) => (next) => (action) => {
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -65,7 +65,7 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SET_USER_DEALS, payload: res.data });
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -91,7 +91,7 @@ const checkCommon = (store) => (next) => (action) => {
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -125,7 +125,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -147,7 +147,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.link;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -208,7 +208,7 @@ const checkCommon = (store) => (next) => (action) => {
                       }
                       if (smallLoader) {
                         store.dispatch({
-                          type: SPINNER_SMALL_ON,
+                          type: SPINNER_SMALL,
                           payload: {
                             [smallLoader]: false,
                           },
@@ -283,7 +283,7 @@ const checkCommon = (store) => (next) => (action) => {
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -306,7 +306,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -327,7 +327,7 @@ const checkCommon = (store) => (next) => (action) => {
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -361,7 +361,7 @@ const checkCommon = (store) => (next) => (action) => {
                 const obj = cloneDeep(response.data);
                 delete obj.user;
                 set(obj, 'newSeller', false);
-                call3 = api.deal.updateSingleDeal(action.payload, obj)
+                call3 = api.deal.updateSingleDeal(id, obj)
                   .then((res2) => {
                     if (res2.meta.status === 200) {
                       updatedDeal = res2.data;
@@ -375,7 +375,6 @@ const checkCommon = (store) => (next) => (action) => {
                     }
                   });
               }
-
               Promise.all([call2, call3]).then(() => {
                 store.dispatch({
                   type: SET_ACTIVE_SINGLE_DEAL,
@@ -387,7 +386,7 @@ const checkCommon = (store) => (next) => (action) => {
                 });
                 if (smallLoader) {
                   store.dispatch({
-                    type: SPINNER_SMALL_ON,
+                    type: SPINNER_SMALL,
                     payload: {
                       [smallLoader]: false,
                     },
@@ -401,7 +400,7 @@ const checkCommon = (store) => (next) => (action) => {
             } else if (!smallLoader) {
               if (smallLoader) {
                 store.dispatch({
-                  type: SPINNER_SMALL_ON,
+                  type: SPINNER_SMALL,
                   payload: {
                     [smallLoader]: false,
                   },
@@ -424,7 +423,7 @@ const checkCommon = (store) => (next) => (action) => {
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -453,7 +452,7 @@ const checkCommon = (store) => (next) => (action) => {
                 }
                 if (smallLoader) {
                   store.dispatch({
-                    type: SPINNER_SMALL_ON,
+                    type: SPINNER_SMALL,
                     payload: {
                       [smallLoader]: false,
                     },
@@ -471,7 +470,7 @@ const checkCommon = (store) => (next) => (action) => {
             });
             if (smallLoader) {
               store.dispatch({
-                type: SPINNER_SMALL_ON,
+                type: SPINNER_SMALL,
                 payload: {
                   [smallLoader]: false,
                 },
@@ -496,7 +495,7 @@ const checkCommon = (store) => (next) => (action) => {
       if (type !== 'archive') {
         if (smallLoader) {
           store.dispatch({
-            type: SPINNER_SMALL_ON,
+            type: SPINNER_SMALL,
             payload: {
               [smallLoader]: true,
             },
@@ -547,7 +546,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (action.payload.type !== 'archive') {
               if (smallLoader) {
                 store.dispatch({
-                  type: SPINNER_SMALL_ON,
+                  type: SPINNER_SMALL,
                   payload: {
                     [smallLoader]: false,
                   },
@@ -579,7 +578,7 @@ const checkCommon = (store) => (next) => (action) => {
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -606,7 +605,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -627,7 +626,7 @@ const checkCommon = (store) => (next) => (action) => {
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: false,
           },
@@ -676,7 +675,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
         if (smallLoader) {
           store.dispatch({
-            type: SPINNER_SMALL_ON,
+            type: SPINNER_SMALL,
             payload: {
               [smallLoader]: false,
             },
@@ -701,7 +700,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.id;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -719,7 +718,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: 'done',
               },
@@ -749,7 +748,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.act;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -764,14 +763,14 @@ const checkCommon = (store) => (next) => (action) => {
           if (!get(res.data, 'statusCode', null)) {
             if (act === 'saveNote') {
               store.dispatch({
-                type: SPINNER_SMALL_ON,
+                type: SPINNER_SMALL,
                 payload: {
                   [smallLoader]: 'close',
                 },
               });
             } else if (smallLoader) {
               store.dispatch({
-                type: SPINNER_SMALL_ON,
+                type: SPINNER_SMALL,
                 payload: {
                   [smallLoader]: 'done',
                 },
@@ -780,7 +779,7 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: res.data });
           } else if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -809,7 +808,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.id;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -838,7 +837,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },

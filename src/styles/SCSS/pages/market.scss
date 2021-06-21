@@ -3,6 +3,14 @@ $lightColorNew: #F7F6F5;
 $lightColorNew2: #F0F0F2;
 
 .marketHome {
+  .sellerPage,
+  .innerWrap {
+    height: 100%;
+  }
+  .sellerPage {
+    display: flex;
+    flex-direction: column;
+  }
   .hubDasContent {
     padding-top: 0;
 
@@ -21,10 +29,12 @@ $lightColorNew2: #F0F0F2;
           margin-top: 0;
         }
         .paddingOffset {
-          padding-top: 130px;
+          flex: 1;
+          padding-top: 150px;
           margin-top: -130px;
           padding-bottom: 80px;
           background-color: $lightColorNew;
+
 
           .market-card .info {
             background: white;
@@ -355,41 +365,11 @@ $lightColorNew2: #F0F0F2;
 
 .marketSellBanner {
   position: relative;
-  //background-image: url(../../../images/Market/bgSellBanner.jpeg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  //background-position: top -1px right -1px;
   border-radius: $brd-radius-small;
-  //padding-bottom: 125px;
   z-index: 1;
-  @media (max-width: $responsive-medium) {
-    background-position: top left;
-  }
-  &.hideBg {
-    //background-image: none;
-  }
-  &:after {
-    //content: '';
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(#ffffff, #ffffff00);
-    left: 0;
-    top: 0;
-    border-radius: 8px;
-    overflow: hidden;
-    z-index: -1;
-    opacity: 0.1;
-
-    @media (max-width: $responsive-small) {
-      //opacity: 0.7;
-    }
-  }
 }
 .carouselContainer {
-  //margin-top: -125px;
   z-index: 2;
-
   .market-card .cover.pre-market:not(.premium) {
     filter: initial;
   }

@@ -179,7 +179,7 @@ export const createTimelineEntry = (item, userLang) => {
   return {
     description: getHTMLDescription(), // Content of the event
     icon: getIcon(), // Defines the type of icon on the event
-    formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
+    formattedDate: item.createdAt ? DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm') : '', // Formatted date to be shown on the event
     timestamp: item.createdAt, // Unix timestamp for sorting purposes
     pinned: false, // Flag for sorting purposes
   };

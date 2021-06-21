@@ -36,13 +36,14 @@ import SplashScreen from '../../components/SplashScreen';
 
 const SingleDocument = (props) => {
   const {
-    history,
     activeSingleProperty,
-    match,
-    handleUpdateDocument,
     changeFieldValue,
     formValue,
+    handleUpdateDocument,
+    history,
     initialValues,
+    isSmallLoading,
+    match,
   } = props;
 
   const [activeDocument, setActiveDocument] = useState({});
@@ -87,6 +88,12 @@ const SingleDocument = (props) => {
     }
   }, [activeDocument]);
 
+  useEffect(() => {
+    if (isSmallLoading.saveData === false) {
+      history.push(`/${activeSingleProperty.id}/property/documents`);
+    }
+  }, [isSmallLoading]);
+
   // UPDATE DOCUMENTS
   const updateDoc = (e) => {
     e.preventDefault();
@@ -100,6 +107,7 @@ const SingleDocument = (props) => {
         path: activeDocument.path,
         mimeType: activeDocument.mimeType,
       },
+      smallLoader: 'saveData',
     };
     handleUpdateDocument(data);
     setDocumentFolders([]);
@@ -278,6 +286,7 @@ const SingleDocument = (props) => {
                   rounded
                   small
                   disabled={checkDisabled()}
+                  isLoading={isSmallLoading.saveData}
                   onClick={(e) => {
                     updateDoc(e);
                   }}
@@ -292,22 +301,24 @@ const SingleDocument = (props) => {
 };
 
 SingleDocument.propTypes = {
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
-  handleUpdateDocument: PropTypes.func.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
+  formValue: PropTypes.object.isRequired,
+  handleUpdateDocument: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 SingleDocument.defaultProps = {};
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'property.activeSingleProperty', {}),
   isSuperAdmin: get(state, 'common.superAdmin', false),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 

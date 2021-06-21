@@ -20,7 +20,7 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   SET_SCREEN_NOTIFICATION,
-  SPINNER_SMALL_ON,
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -32,7 +32,7 @@ const checkEstimation = (store) => (next) => (action) => {
       const { generate, redirectTo, smallLoader } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -72,7 +72,7 @@ const checkEstimation = (store) => (next) => (action) => {
           }
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },
@@ -90,7 +90,7 @@ const checkEstimation = (store) => (next) => (action) => {
       const { page, redirectTo, smallLoader } = action.payload;
       if (smallLoader) {
         store.dispatch({
-          type: SPINNER_SMALL_ON,
+          type: SPINNER_SMALL,
           payload: {
             [smallLoader]: true,
           },
@@ -136,7 +136,7 @@ const checkEstimation = (store) => (next) => (action) => {
           }
           if (smallLoader) {
             store.dispatch({
-              type: SPINNER_SMALL_ON,
+              type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
               },

@@ -10,6 +10,7 @@ import {
   SET_LAST_VIEWED_PROPERTIES,
   SET_PREMIUM_PROPERTIES,
   SET_PREMARKET_PROPERTIES,
+  SET_WISHLIST_PROPERTIES,
 } from '../actions/types/MarketTypes';
 
 export const defaultState = {
@@ -21,6 +22,7 @@ export const defaultState = {
   lastViewedProperties: {},
   premiumProperties: {},
   preMarketProperties: {},
+  wishlistProperties: {},
 };
 
 export default handleActions(
@@ -28,6 +30,10 @@ export default handleActions(
     [SET_ALL_PROPERTIES]: (state, action) => ({
       ...state,
       allProperties: action.payload,
+    }),
+    [SET_WISHLIST_PROPERTIES]: (state, action) => ({
+      ...state,
+      wishlistProperties: action.payload,
     }),
     [SET_OWNED_PROPERTIES]: (state, action) => ({
       ...state,

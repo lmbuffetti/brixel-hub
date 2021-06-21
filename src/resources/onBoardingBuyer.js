@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   BrixelRadioButton,
   BrixelCheckbox,
@@ -13,10 +14,7 @@ import MapsCities from '../components/Map/MapsCities';
 import LoginSignup from '../components/LoginSignup';
 import { translateTo } from '../utils/translation';
 import { configureStore } from '../store';
-
-import apartment from '../images/BrxielComingTown/apartment.svg';
-import house from '../images/BrxielComingTown/house.svg';
-import land from '../images/BrxielComingTown/land.svg';
+import { svgIcons } from './svgIcons';
 
 const { factsOptions } = FactsOptions;
 
@@ -51,7 +49,7 @@ export const QuestionsList = (lang) => {
     {
       title: translateTo(lang, 'What kind of property would you like to buy?'),
       history: 'propertyType',
-      vCentered: true,
+      className: 'max-w-fix-880 ml-a mr-a',
       footerWidth: 'max-w-fix-880',
       inputs: [
         {
@@ -64,25 +62,25 @@ export const QuestionsList = (lang) => {
           icons: true,
           cardLayout: true,
           cardSmall: true,
+          svgSupport: true,
           isHorizontal: true,
           pdClass: 'pt-3 pb-5',
           options: [
             {
               label: translateTo(lang, 'Apartment'),
               value: 'Apartment',
-              img: apartment,
+              img: svgIcons.apartment,
               color: 'blue',
             },
             {
               label: translateTo(lang, 'House'),
               value: 'House',
-              img: house,
+              img: svgIcons.house,
               color: 'blue',
             },
             {
               label: 'Building land',
-              value: 'Building land',
-              img: land,
+              img: svgIcons.land,
               color: 'blue',
             },
           ],
@@ -206,7 +204,7 @@ export const QuestionsList = (lang) => {
       inputs: [
         {
           component: BrixelRadioButton,
-          pdClass: 'py-2 py-lg-3 px-1',
+          pdClass: 'py-2 py-lg-3 px-2',
           icons: true,
           label: '',
           name: 'profile.livingSituation',
@@ -227,7 +225,7 @@ export const QuestionsList = (lang) => {
       cardType: 'createProfile',
       inputs: [{
         component: LoginSignup,
-        name: 'profileUaer',
+        name: 'register.name',
         validation: [Validation.required],
       }],
     },

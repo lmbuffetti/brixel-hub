@@ -38,6 +38,7 @@ const MarketCategoryListBuyer = (props) => {
     setSplashScreen,
     splashScreenType,
     userSearchProfiles,
+    wishlistProperties,
     windowDimensions,
   } = props;
 
@@ -73,6 +74,10 @@ const MarketCategoryListBuyer = (props) => {
     switch (type) {
       case 'own': {
         history.push(`/${baseUrl}/own`);
+        break;
+      }
+      case 'wishlist': {
+        history.push(`/${baseUrl}/wishlist`);
         break;
       }
       case 'favorite': {
@@ -250,8 +255,12 @@ const MarketCategoryListBuyer = (props) => {
                     label: 'All',
                     value: 'all',
                   },
+                  wishlistProperties.total > 0 && {
+                    label: 'Wishlist',
+                    value: 'wishlist',
+                  },
                   favoritesProperties.total > 0 && {
-                    label: 'Your favorites',
+                    label: 'Bookmarks',
                     value: 'favorites',
                   },
                   newProperties.total > 0 && {
@@ -279,14 +288,18 @@ const MarketCategoryListBuyer = (props) => {
                       themeSat={300}
                       className="fsize-300 mb-1 txtDark400 mr-1"
                     />
-                    {/* <BrixelButtonSecondary
-                      onClick={() => history.push(`${match.url}/own`)}
-                      label="Your properties"
-                      rounded
-                      theme="light"
-                      themeSat={300}
-                      className="fsize-300 mb-1 txtDark400 mr-1"
-                    /> */}
+                    {
+                      get(wishlistProperties, 'total', 0) > 0 && (
+                        <BrixelButtonSecondary
+                          onClick={(e) => showAll(e, 'wishlist')}
+                          label="Wishlist"
+                          rounded
+                          theme="light"
+                          themeSat={300}
+                          className="fsize-300 mb-1 txtDark400 mr-1"
+                        />
+                      )
+                    }
                     {/* <BrixelButtonSecondary
                       onClick={() => history.push(`${match.url}/lastViewed`)}
                       label="Last viewed"
@@ -299,7 +312,7 @@ const MarketCategoryListBuyer = (props) => {
                       get(favoritesProperties, 'total', 0) > 0 && (
                         <BrixelButtonSecondary
                           onClick={(e) => showAll(e, 'favorites')}
-                          label="Your favorites"
+                          label="Bookmarks"
                           rounded
                           theme="light"
                           themeSat={300}
@@ -366,10 +379,24 @@ const MarketCategoryListBuyer = (props) => {
       </div>
 
       {
+        wishlistProperties.total > 0 && (
+          <div className={`min-h-fix-448 ${wishlistProperties.total === 0 ? '' : 'mb-8'}`}>
+            <CarouselWrapper
+              title="Wishlist"
+              className="market-category-carousel"
+              type="wishlist"
+              items={wishlistProperties.data}
+              total={wishlistProperties.total}
+            />
+          </div>
+        )
+      }
+
+      {
         favoritesProperties.total > 0 && (
           <div className={`min-h-fix-448 ${favoritesProperties.total === 0 ? '' : 'mb-8'}`}>
             <CarouselWrapper
-              title="Your favorites"
+              title="Bookmarks"
               className="market-category-carousel"
               type="favorite"
               items={favoritesProperties.data}
@@ -441,6 +468,7 @@ MarketCategoryListBuyer.propTypes = {
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
+  wishlistProperties: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -457,6 +485,7 @@ const mapStateToProps = (state) => ({
   premiumProperties: get(state, 'market.premiumProperties', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
+  wishlistProperties: get(state, 'market.wishlistProperties', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

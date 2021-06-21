@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   BrixelRadioButton,
   BrixelInputStepNumber,
@@ -10,10 +11,7 @@ import LoginSignup from '../components/LoginSignup';
 import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
 import { configureStore } from '../store';
-
-import apartment from '../images/BrxielComingTown/apartment.svg';
-import house from '../images/BrxielComingTown/house.svg';
-import commercial from '../images/BrxielComingTown/commercial.svg';
+import { svgIcons } from './svgIcons';
 
 import { BestimateQuestions } from './Bestimate';
 import MapsWithModalManual from '../components/Map/MapsWithModalManual';
@@ -84,25 +82,26 @@ export const QuestionsList = (lang, country = 'CH') => {
         icons: true,
         cardLayout: true,
         cardSmall: true,
+        svgSupport: true,
         pdClass: '',
         isHorizontal: true,
         options: [
           {
             label: translateTo(lang, 'Apartment'),
             value: 'Apartment',
-            img: apartment,
+            img: svgIcons.apartment,
             color: 'blue',
           },
           {
             label: translateTo(lang, 'House'),
             value: 'House',
-            img: house,
+            img: svgIcons.house,
             color: 'blue',
           },
           {
             label: translateTo(lang, 'Commercial'),
             value: 'Commercial',
-            img: commercial,
+            img: svgIcons.commercial,
             color: 'blue',
           },
         ],
@@ -150,8 +149,8 @@ export const QuestionsList = (lang, country = 'CH') => {
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
-          placeholder: translateTo(lang, 'e.g. 120'),
-          maxLenghtNum: 9999,
+          placeholder: '117',
+          maxLengthNum: 9999,
         },
         {
           condition: [{
@@ -166,7 +165,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
           placeholder: translateTo(lang, 'e.g. 120'),
-          maxLenghtNum: 9999,
+          maxLengthNum: 9999,
         },
       ],
       successMessage: translateTo(lang, 'Great living space.'),
@@ -185,13 +184,12 @@ export const QuestionsList = (lang, country = 'CH') => {
           classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
           placeholder: translateTo(lang, 'e.g. 1990'),
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
-          maxLenghtNum: 9999,
+          maxLengthNum: 9999,
           minLengthNum: 999,
         },
       ],
       successMessage: translateTo(lang, 'A good year for real estate.'),
     },
-
     {
       title: translateTo(lang, 'What is the location?'),
       history: 'locationInput',
@@ -260,7 +258,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'createProfile',
       inputs: [{
         component: LoginSignup,
-        name: 'profile',
+        name: 'register.name',
         validation: [Validation.required],
       }],
     },

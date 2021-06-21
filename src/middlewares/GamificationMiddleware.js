@@ -22,7 +22,7 @@ import { gameHistoryDataLocal } from '../resources/localData/gameHistory';
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SPINNER_SMALL_ON,
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 const checkGamification = (store) => (next) => (action) => {
@@ -110,7 +110,7 @@ const checkGamification = (store) => (next) => (action) => {
         }
         if (smallLoader) {
           store.dispatch({
-            type: SPINNER_SMALL_ON,
+            type: SPINNER_SMALL,
             payload: {
               [smallLoader]: true,
             },
@@ -130,7 +130,7 @@ const checkGamification = (store) => (next) => (action) => {
             }
             if (smallLoader) {
               store.dispatch({
-                type: SPINNER_SMALL_ON,
+                type: SPINNER_SMALL,
                 payload: {
                   [smallLoader]: false,
                 },
