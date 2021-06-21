@@ -59,6 +59,7 @@ const GetStarted = (props) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [companyURL, setCompanyURL] = useState('');
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
@@ -79,13 +80,13 @@ const GetStarted = (props) => {
     const userType = get(dataForm, 'userType', null);
     switch (userType) {
       case 'buyer':
-        history.push('/packageFlow/getStartedBuyer');
+        history.push(`/packageFlow/getStartedBuyer?company=${companyURL}`);
         break;
       case 'estimation':
-        history.push('/packageFlow/getStartedEstimation');
+        history.push(`/packageFlow/getStartedEstimation?company=${companyURL}`);
         break;
       default:
-        history.push('/packageFlow/getStarted');
+        history.push(`/packageFlow/getStarted?company=${companyURL}`);
     }
   };
 
@@ -99,8 +100,9 @@ const GetStarted = (props) => {
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
+    let defComp = companyCookie;
     if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
+      defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
     } else {
@@ -114,6 +116,7 @@ const GetStarted = (props) => {
     } else {
       changeFieldValue('channel', channelCookie);
     }
+    setCompanyURL(defComp);
   }, []);
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
