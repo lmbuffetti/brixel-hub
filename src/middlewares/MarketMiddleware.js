@@ -18,8 +18,8 @@ import {
   SET_PREMIUM_PROPERTIES,
   GET_FAVORITES_PROPERTIES,
   SET_FAVORITES_PROPERTIES,
-  GET_WHISHLIST_PROPERTIES,
-  SET_WHISHLIST_PROPERTIES,
+  GET_WISHLIST_PROPERTIES,
+  SET_WISHLIST_PROPERTIES,
 } from '../actions/types/MarketTypes';
 
 import {
@@ -268,7 +268,7 @@ const checkLead = (store) => (next) => (action) => {
         });
       break;
     }
-    case GET_WHISHLIST_PROPERTIES: {
+    case GET_WISHLIST_PROPERTIES: {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.favorite = 'CardImageTextVertical';
@@ -282,7 +282,7 @@ const checkLead = (store) => (next) => (action) => {
       api.market.getDeals(action.payload.resultsPerPage, action.payload.offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
-            store.dispatch({ type: SET_WHISHLIST_PROPERTIES, payload: res.data });
+            store.dispatch({ type: SET_WISHLIST_PROPERTIES, payload: res.data });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.favorite = false;

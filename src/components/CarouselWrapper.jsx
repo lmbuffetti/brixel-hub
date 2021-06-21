@@ -97,8 +97,8 @@ const CarouselWrapper = (props) => {
         history.push(`/${baseUrl}/own`);
         break;
       }
-      case 'whishlist': {
-        history.push(`/${baseUrl}/whishlist`);
+      case 'wishlist': {
+        history.push(`/${baseUrl}/wishlist`);
         break;
       }
       case 'favorite': {
