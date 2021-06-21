@@ -382,7 +382,7 @@ const MarketCategoryListBuyer = (props) => {
         whishlistProperties.total > 0 && (
           <div className={`min-h-fix-448 ${whishlistProperties.total === 0 ? '' : 'mb-8'}`}>
             <CarouselWrapper
-              title="Whishlist"
+              title="Wishlist"
               className="market-category-carousel"
               type="whishlist"
               items={whishlistProperties.data}
