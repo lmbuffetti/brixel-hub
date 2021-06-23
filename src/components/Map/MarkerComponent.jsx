@@ -38,14 +38,14 @@ const MarkerComponent = (props) => {
           pathname: `/${page.id}/rewards`,
           state: { section: 'Market' },
         });
+      } else if (type === 'preMarket' || type === 'premium' || type === 'new') {
+        setSplashScreen('marketOverlay');
+        setMarketOverlayProperty(page);
       } else if (type === 'favorites') {
         historyLocal.push({
           pathname: `/buyer/${page.id}/property/page`,
           state: { section: 'Market' },
         });
-      } else if (type === 'preMarket' || type === 'premium' || type === 'new') {
-        setSplashScreen('marketOverlay');
-        setMarketOverlayProperty(page);
       } else window.open(`${baseByData.pageUrl}${page.stub}`, '_blank');
     };
     return (
