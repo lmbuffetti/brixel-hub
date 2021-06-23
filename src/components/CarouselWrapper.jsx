@@ -196,18 +196,42 @@ const CarouselWrapper = (props) => {
               )
             }
           </div>
-          <div className="mt-1 dis-fl-row-sm hide a-c jc-c">
+          <div className="mt-1 dis-fl-col-sm hide a-c jc-c">
+            <div className="my-2 dis-fl-row a-c jc-c">
+              <p
+                className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-2"
+              >
+                <span className="type">Pre-market</span>
+              </p>
 
-            <BrixelButtonText
-              className="fsize-300 show-all pos-r"
-              label="+ Add new"
-              onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
-            />
-            <BrixelButtonText
-              className="fsize-300 show-all pos-r mr-1"
-              label={`<span>View all</span> <span class="ml-1">(${total})</span>`}
-              onClick={() => showAll()}
-            />
+              {
+                items[activeSlide].tags[0].indexOf('pre-market') !== -1 ? (
+                  <p className="txtDark700">
+                    <span className="fsize-300">Your property is visible on our pre-market.</span>
+                    <a className="fsize-300 link" href={`/${items[activeSlide].id}/listings/portals`}> Learn more.</a>
+                  </p>
+                ) : (
+                  <p>
+                    <span>Your property is not visible to any buyers.</span>
+                    <a className="link" href={`/${items[activeSlide].id}/listings/portals`}> Change it here.</a>
+                  </p>
+                )
+              }
+            </div>
+
+            <div className="dis-fl-row-sm a-c jc-c">
+              <BrixelButtonText
+                className="fsize-300 show-all pos-r"
+                label="+ Add new"
+                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+              />
+              <BrixelButtonText
+                className="fsize-300 show-all pos-r mr-1"
+                label={`<span>View all</span> <span class="ml-1">(${total})</span>`}
+                onClick={() => showAll()}
+              />
+            </div>
+
           </div>
           {
             items.length > 1 && (

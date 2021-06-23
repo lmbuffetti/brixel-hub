@@ -487,6 +487,7 @@ const mapStateToProps = (state) => {
       portals: allPortals,
       portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
       properties,
+      preMarketVisible: get(state, 'property.activeSingleProperty.preMarketVisible', false),
       publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
       published: get(state, 'property.activeSingleProperty.published', null),
       schedule: get(state, 'property.activeSingleProperty.schedule', {}),
