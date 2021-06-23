@@ -90,32 +90,36 @@ const Portals = (props) => {
 
       <div className="secondLevel dis-fl-col">
 
-        <div className="mb-5">
-          <div className="portalsWrapper dis-fl-col cardInfoBox">
-            <BrixelSwitchButton
-              label="Pre-market"
-              className="mb-2"
-              input={{
-                onChange: () => changeFieldValue('preMarketVisible', !formValue.preMarketVisible),
-                name: 'stageOffer',
-                value: formValue.preMarketVisible,
-              }}
-            />
-            {
-              get(formValue, 'preMarketVisible', false) === true ? (
-                <span>
-                  Your property is visible on our pre-market.
-                  Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
-                </span>
-              ) : (
-                <span>
-                  Your property is not visible on our pre-market.
-                  Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
-                </span>
-              )
-            }
-          </div>
-        </div>
+        {
+          has(formValue, 'published') && formValue.published === false && (
+            <div className="mb-5">
+              <div className="portalsWrapper dis-fl-col cardInfoBox">
+                <BrixelSwitchButton
+                  label="Pre-market"
+                  className="mb-2"
+                  input={{
+                    onChange: () => changeFieldValue('preMarketVisible', !formValue.preMarketVisible),
+                    name: 'stageOffer',
+                    value: formValue.preMarketVisible,
+                  }}
+                />
+                {
+                  get(formValue, 'preMarketVisible', false) === true ? (
+                    <span>
+                      Your property is visible on our pre-market.
+                      Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
+                    </span>
+                  ) : (
+                    <span>
+                      Your property is not visible on our pre-market.
+                      Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
+                    </span>
+                  )
+                }
+              </div>
+            </div>
+          )
+        }
 
         <div>
           <div className="portalsWrapper dis-fl-col cardInfoBox">

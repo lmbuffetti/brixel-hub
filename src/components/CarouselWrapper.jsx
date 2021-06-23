@@ -5,6 +5,7 @@ import React, {
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import Slider from 'react-slick';
 import {
   BrixelButtonIcon,
@@ -197,27 +198,32 @@ const CarouselWrapper = (props) => {
             }
           </div>
           <div className="mt-1 dis-fl-col-sm hide a-c jc-c">
-            <div className="my-2 dis-fl-row a-c jc-c">
-              <p
-                className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-2"
-              >
-                <span className="type">Pre-market</span>
-              </p>
 
-              {
-                items[activeSlide].tags[0].indexOf('pre-market') !== -1 ? (
-                  <p className="txtDark700">
-                    <span className="fsize-300">Your property is visible on our pre-market.</span>
-                    <a className="fsize-300 link" href={`/${items[activeSlide].id}/listings/portals`}> Learn more.</a>
+            {
+              has(items[activeSlide], 'published') && items[activeSlide].published === false && (
+                <div className="my-2 dis-fl-row a-c jc-c">
+                  <p
+                    className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-2"
+                  >
+                    <span className="type">Pre-market</span>
                   </p>
-                ) : (
-                  <p>
-                    <span>Your property is not visible to any buyers.</span>
-                    <a className="link" href={`/${items[activeSlide].id}/listings/portals`}> Change it here.</a>
-                  </p>
-                )
-              }
-            </div>
+
+                  {
+                    items[activeSlide].tags[0].indexOf('pre-market') !== -1 ? (
+                      <p className="txtDark700">
+                        <span className="fsize-300">Your property is visible on our pre-market.</span>
+                        <a className="fsize-300 link" href={`/${items[activeSlide].id}/listings/portals`}> Learn more.</a>
+                      </p>
+                    ) : (
+                      <p>
+                        <span>Your property is not visible to any buyers.</span>
+                        <a className="link" href={`/${items[activeSlide].id}/listings/portals`}> Change it here.</a>
+                      </p>
+                    )
+                  }
+                </div>
+              )
+            }
 
             <div className="dis-fl-row-sm a-c jc-c">
               <BrixelButtonText
