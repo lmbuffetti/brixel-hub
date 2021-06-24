@@ -125,7 +125,7 @@ const Portals = (props) => {
                     </span>
                   ) : (
                     <span className="txtDark700">
-                      Your property is not visible on our pre-market.
+                      Your property is <strong className="lh-in fweight-600">not</strong> visible on our pre-market.
                       Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
                     </span>
                   )
