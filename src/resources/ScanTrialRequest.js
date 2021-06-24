@@ -1,107 +1,116 @@
 /* eslint-disable max-len */
 import {
-  BrixelCheckbox,
-  BrixelInputText,
-  BrixelTextArea,
-  FactsOptions,
+  BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import IntroScanFlow from '../Pages/ScanTrialFlow/IntroScanFlow';
+import BookTrialFlow from '../Pages/ScanTrialFlow/BookTrialFlow';
+import ClipboardImg from '../images/scanTrial/clipboard.png';
 import { configureStore } from '../store';
 import scanComplete from '../images/Upgrade/upgrade_complete.svg';
+import { svgIcons } from './svgIcons';
 
 export const ScanTrialQuestions = () => {
   const formValue = get(configureStore.getState(), 'brixelForm.scanFlow.values', {});
   const isInterested = get(formValue, 'interested', false);
-  const { factsOptions } = FactsOptions;
+
   return [
     {
+      cardType: 'loadComponent',
       history: 'servicePackage',
       component: IntroScanFlow,
     },
     {
-      title: isInterested ? 'Please just confirm your personal data so we can reach out to you.' : 'Fair enough. Please let us know why you are not interested to help improve our product.',
-      history: isInterested ? 'contactInformation' : 'feedbackForm',
+      title: 'How do you want to do the analysis?',
+      history: 'analysis',
       vCentered: true,
+      inputs: [{
+        component: BrixelRadioButton,
+        className: 'radioBtnImg',
+        ReduxFieldClass: '',
+        label: '',
+        name: 'analysis',
+        validation: [Validation.required],
+        icons: true,
+        cardLayout: true,
+        svgSupport: true,
+        pdClass: '',
+        isHorizontal: true,
+        options: [
+          {
+            title: 'On-site',
+            label: 'We visit you to evaluate your property.\n',
+            value: 'on-site',
+            img: svgIcons.onSite,
+            color: 'blue',
+          },
+          {
+            title: 'Remote',
+            label: 'We get to know you and your property in a call.',
+            value: 'remote',
+            img: svgIcons.remote,
+            color: 'green',
+          },
+        ],
+      }],
+    },
+    {
+      cardType: 'loadComponent',
+      history: 'BookTrialFlow',
+      component: BookTrialFlow,
       inputs: [
         {
           condition: [{
-            name: 'interested',
-            value: false,
+            name: 'bookType',
+            value: 'online',
           }],
-          component: BrixelCheckbox,
-          label: '',
-          name: 'answers',
-          placeholder: '',
-          options: factsOptions.scanTrialFeedback,
-        },
-        {
-          condition: [{
-            name: 'interested',
-            value: true,
-          }],
-          component: BrixelInputText,
-          label: 'Your full name',
-          name: 'contactFullName',
-          placeholder: '',
+          name: 'phone',
           validation: [Validation.required],
         },
         {
           condition: [{
-            name: 'interested',
-            value: true,
+            name: 'bookType',
+            value: 'online',
           }],
-          component: BrixelInputText,
-          label: 'Phone number',
-          name: 'contactPhone',
-          type: 'text',
-          formatType: 'tel',
-          placeholder: '',
+          name: 'date',
+          validation: [Validation.required],
         },
         {
           condition: [{
-            name: 'interested',
-            value: true,
+            name: 'bookType',
+            value: 'online',
           }],
-          component: BrixelInputText,
-          label: 'E-mail',
-          name: 'contactEmail',
-          placeholder: 'hans.muster@amazon.com',
-          validation: [Validation.isEmail, Validation.required],
-        },
-        {
-          condition: [{
-            name: 'interested',
-            value: true,
-          }],
-          component: BrixelCheckbox,
-          label: 'What do you want us to do?',
-          name: 'answers',
-          placeholder: '',
-          options: factsOptions.scanTrialInterest,
-        },
-        {
-          condition: [{
-            name: 'interested',
-            value: true,
-          }],
-          component: BrixelTextArea,
-          label: 'Comments',
-          name: 'comments',
-          placeholder: '',
-          className: 'mb-5',
-          options: factsOptions.scanTrialInterest,
+          name: 'hourBook',
+          validation: [Validation.required],
         },
       ],
     },
     {
-      title: 'Thanks for your feedback',
+      conditions: [{
+        name: 'step',
+        noValue: 'skip',
+      }],
+      background: 'bgGreen200',
+      cardType: 'card',
+      title: 'Great',
       img: scanComplete,
       subtitle: isInterested ? 'We will work on your feedback.' : 'We will contact as soos as possible',
       history: 'success',
       vCentered: true,
       toSave: true,
+      classWrapper: 'fullSize',
+    },
+    {
+      cardType: 'card',
+      title: 'Get Prepared',
+      img: ClipboardImg,
+      subtitle: 'The more we know the better. Please fill out as many facts as possible for preparation.',
+      history: 'success',
+      vCentered: true,
+      toSave: true,
+      classWrapper: 'fullSize',
+      showExitText: true,
     },
   ];
 };

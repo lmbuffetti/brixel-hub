@@ -8,9 +8,10 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helpers } from '@brixel/brixel-components';
-import FirstImpression from '../../images/scanTrial/firstImpression.png';
-import scanTrialImg2 from '../../images/scanTrial/scanTrialImg2.png';
-import scanTrialImg3 from '../../images/scanTrial/scanTrialImg3.png';
+import AnalyseImg from '../../images/scanTrial/analyse.png';
+import DeliverImg from '../../images/scanTrial/deliver.png';
+import YourTestImg from '../../images/scanTrial/your_test.png';
+import DecideImg from '../../images/scanTrial/decide.png';
 
 const IntroScanFlow = (props) => {
   const {
@@ -19,75 +20,55 @@ const IntroScanFlow = (props) => {
 
   return (
     <main id="rewards" className="introScanFlow pb-4 h-perc-100 txtDark700">
-      <h3 className="mb-2 max-w-fix-544">
-        {
-          get(activeSingleCompany, 'meta.teaserPackage.price', 0) > 0 ? (
-            <>
-              <span>Test drive our service and get the full experience worth</span>
-              <span className="ml-small-4">{get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', 0), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.</span>
-            </>
-          ) : (
-            <span>Test drive our service and get the full experience</span>
-          )
-        }
+      <h3 className="mb-2 ta-c">
+        How it works
       </h3>
-      <h5 className="mb-5 txtDark200">Here are your main benefits:</h5>
+
       <div className="row">
-        <div className="col-12 col-sm-4 mb-2 mb-sm-0">
-          <div className="brdRadius ov-h">
-            <img className="w-perc-100" src={FirstImpression} alt="text-1" />
-            <h5 className="mt-2 mb-1">First impressions matter.</h5>
-            <p>Our experts will capture your property in its best possible light to stand out in the market. You can use
-              these photos also <b>for free</b> after your trial.
+        <div className="col-12 col-sm-3 mb-2 mb-sm-0">
+          <div className="brdRadius ov-h ta-c">
+            <img className="w-perc-100" src={AnalyseImg} alt="text-1" />
+            <div className="roundNumber ml-a mr-a">1</div>
+            <h5 className="mt-2 mb-1">We analyse</h5>
+            <p>
+              We estimate your property and define the sales process with you.
             </p>
           </div>
         </div>
-        <div className="col-12 col-sm-4 mb-2 mb-sm-0">
-          <div className="brdRadius ov-h">
-            <img src={scanTrialImg2} alt="text-1" />
-            <h5 className="mt-2 mb-1">Get only qualified buyers.</h5>
-            <p>We will offer you a 3D tour of your property to improve the quality of your visitors. You can test the 3D
-              tour <b>7 days for free</b>. No strings attached.
+
+        <div className="col-12 col-sm-3 mb-2 mb-sm-0">
+          <div className="brdRadius ov-h ta-c">
+            <img className="w-perc-100" src={DeliverImg} alt="text-1" />
+            <div className="roundNumber ml-a mr-a">2</div>
+            <h5 className="mt-2 mb-1">We deliver</h5>
+            <p>
+              We capture your property and create your personal Brixel Page.
             </p>
           </div>
         </div>
-        <div className="col-12 col-sm-4 brdRadius">
-          <div className="brdRadius ov-h">
-            <img src={scanTrialImg3} alt="text-1" />
-            <h5 className="mt-2 mb-1">Know what your property is worth.</h5>
-            <p>You will get to know what&apos;s the fair market value of your property thanks to a full estimation by
-              our experts.
+
+        <div className="col-12 col-sm-3 mb-2 mb-sm-0">
+          <div className="brdRadius ov-h ta-c">
+            <img className="w-perc-100" src={YourTestImg} alt="text-1" />
+            <div className="roundNumber ml-a mr-a">3</div>
+            <h5 className="mt-2 mb-1">You test</h5>
+            <p>
+              You review our work and can test our full service on the market.
+            </p>
+          </div>
+        </div>
+
+        <div className="col-12 col-sm-3 mb-2 mb-sm-0">
+          <div className="brdRadius ov-h ta-c">
+            <img className="w-perc-100" src={DecideImg} alt="text-1" />
+            <div className="roundNumber ml-a mr-a">4</div>
+            <h5 className="mt-2 mb-1">You decide</h5>
+            <p>
+              If you are happy, you book one of our service packages or withdraw without any costs.
             </p>
           </div>
         </div>
       </div>
-
-      <h4 className="my-5">How does it work?</h4>
-
-      <ol className="olLgNum">
-        <li>
-          <h5>Schedule your appointment.</h5>
-          <p>Send us your request and add some date suggestions to it. Our experts will confirm your appointment.</p>
-        </li>
-        <li>
-          <h5>Prepare your property.</h5>
-          <p>Once you&apos;ve sent us the relevant documents for the estimation, make sure your property is clean and
-            styled for the scan.
-          </p>
-        </li>
-        <li>
-          <h5>Open the door.</h5>
-          <p>Our experts will do a full scan of your property to use it for photos, floor plans and the 3D tour. This
-            digital twin of your property also helps to get an accurate estimation value.
-          </p>
-        </li>
-        <li>
-          <h5>Review the result.</h5>
-          <p>We will prepare everything for your marketing. You can use our full experience for 7 days as a trial.
-            Decide afterwards if you want to continue working with us.
-          </p>
-        </li>
-      </ol>
 
     </main>
   );

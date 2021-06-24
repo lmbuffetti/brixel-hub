@@ -145,8 +145,19 @@
 }
 
 #bodyModalWrapper {
+  &.fullSize {
+    position: absolute !important;
+    left: 0;
+    top: 136px;
+    min-height: calc(100% - 136px);
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
   &.getStarted {
-    background-color: transparent;
+    &:not([class*="bg"]) {
+      background-color: transparent;
+    }
     z-index: 1;
 
     #progressBar {

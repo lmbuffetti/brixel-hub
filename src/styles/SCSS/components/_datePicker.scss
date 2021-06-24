@@ -80,4 +80,10 @@
       color: $brx-white;
     }
   }
+
+  &.book-datepicker {
+    .react-datepicker {
+      top: 20px
+    }
+  }
 }
