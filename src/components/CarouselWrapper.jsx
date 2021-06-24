@@ -135,13 +135,10 @@ const CarouselWrapper = (props) => {
 
   if (layout === 'singleOwnCard') {
     return (
-      <div className={`${className} carousel-wrapper pos-r`}>
-        {/* <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
-          <h4 className={`fweight-700 ${type === 'own' || type === 'favorite' ? 'fsize-600' : 'fsize-400'}`}>{title}</h4>
-        </div> */}
+      <div className={`${className} carousel-wrapper pos-r ${has(items[activeSlide], 'published') && items[activeSlide].published === false ? 'mb-neg-58' : ''}`}>
 
         <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
-          <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
+          <div className="p-2 py-sm-3 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
             <Slider ref={sliderInstance} {...settingSlider()}>
               {
                 !items && numCard.map((card, i) => (
@@ -174,20 +171,15 @@ const CarouselWrapper = (props) => {
                 <>
                   <BrixelButtonIcon
                     onClick={() => moveSlide('prev')}
-                    className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c ml-7-neg transY-100 ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                    className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c ml-7-neg ${activeSlide < 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-left"
                     theme="light"
                     saturation={500}
                     secondary
                   />
-                  {/* <div className="fsize-300 txtPrimary400 ml-3 mr-3">
-                    <span>{activeSlide + 1}</span>
-                    <span className="ml-small-4 mr-small-4">of</span>
-                    <span>{total}</span>
-                  </div> */}
                   <BrixelButtonIcon
                     onClick={() => moveSlide('next')}
-                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c mr-7-neg x-r transY-100 ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c mr-7-neg x-r ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-right"
                     theme="light"
                     saturation={500}
@@ -197,35 +189,46 @@ const CarouselWrapper = (props) => {
               )
             }
           </div>
-          <div className="mt-1 dis-fl-col-sm hide a-c jc-c">
+          <div className={`mt-1 dis-fl-col-sm a-c jc-c ${has(items[activeSlide], 'published') && items[activeSlide].published === false ? '' : ''}`}>
 
             {
               has(items[activeSlide], 'published') && items[activeSlide].published === false && (
-                <div className="my-2 dis-fl-row a-c jc-c">
-                  <p
-                    className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-2"
-                  >
-                    <span className="type">Pre-market</span>
-                  </p>
+                <div
+                  className="my-2 dis-fl-col dis-fl-row-sm jc-c a-c"
+                >
+                  <span className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 as-c">Pre-market</span>
+                  <div className="dis-fl-row-sm pt-1 pt-sm-0 ta-c">
 
-                  {
-                    items[activeSlide].tags[0].indexOf('pre-market') !== -1 ? (
-                      <p className="txtDark700">
-                        <span className="fsize-300">Your property is visible on our pre-market.</span>
-                        <a className="fsize-300 link" href={`/${items[activeSlide].id}/listings/portals`}> Learn more.</a>
-                      </p>
-                    ) : (
-                      <p>
-                        <span>Your property is not visible to any buyers.</span>
-                        <a className="link" href={`/${items[activeSlide].id}/listings/portals`}> Change it here.</a>
-                      </p>
-                    )
-                  }
+                    {
+                      items[activeSlide].tags[0].indexOf('pre-market') !== -1 ? (
+                        <>
+                          <p className="pl-1 body2 txtDark700"><span>Your property is visible on our pre-market.</span></p>
+                          <a
+                            href={`/${items[activeSlide].id}/listings/portals`}
+                            className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
+                          >
+                            Learn more.
+                          </a>
+                        </>
+                      ) : (
+                        <>
+                          <p className="pl-1 body2 txtDark700"> <span>Your property is <strong className="lh-in fweight-600">not</strong> visible to any buyers.</span> </p>
+                          <a
+                            href={`/${items[activeSlide].id}/listings/portals`}
+                            className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
+                          >
+                            Change it here.
+                          </a>
+                        </>
+                      )
+                    }
+
+                  </div>
                 </div>
               )
             }
 
-            <div className="dis-fl-row-sm a-c jc-c">
+            <div className="dis-fl-row-sm hide a-c jc-c">
               <BrixelButtonText
                 className="fsize-300 show-all pos-r"
                 label="+ Add new"
@@ -241,7 +244,7 @@ const CarouselWrapper = (props) => {
           </div>
           {
             items.length > 1 && (
-              <div className="dis-f a-c jc-c mt-2 hide-sm">
+              <div className="dis-f a-c jc-c mt-2 hide-sm w-perc-100">
                 <BrixelButtonIcon
                   onClick={() => moveSlide('prev')}
                   className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}

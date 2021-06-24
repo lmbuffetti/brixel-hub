@@ -491,7 +491,7 @@ const MarketCategoryListSeller = (props) => {
               (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
                 <div className="marketSellBanner mb-10">
                   <div className="m-a px-2 px-sm-0 max-w-fix-480 max-w-fix-sm-768">
-                    <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
+                    <div className="p-2 py-sm-3 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
                       <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
                       <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                     </div>

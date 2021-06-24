@@ -86,17 +86,31 @@ const Portals = (props) => {
 
   return (
     <div className="dis-fl-col">
-      <h5 className="sectionTitle ml-3 mb-3">Portals</h5>
+
+      <h5 className="sectionTitle hide dis-b-md mb-3">Portals</h5>
 
       <div className="secondLevel dis-fl-col">
-
+        <div className="hide-md pos-r">
+          <div className="dis-fl-col pageTitle">
+            <div className="fixedIcon w-perc-100">
+              <BrixelButtonIcon
+                icon="arrow-left-small"
+                theme="dark"
+                ghost
+                onClick={() => history.push(`/${propID}/listings`)}
+              />
+            </div>
+            <h5 className="sectionTitle">Portals</h5>
+          </div>
+        </div>
         {
           has(formValue, 'published') && formValue.published === false && (
             <div className="mb-5">
               <div className="portalsWrapper dis-fl-col cardInfoBox">
                 <BrixelSwitchButton
+                  isReversed
                   label="Pre-market"
-                  className="mb-2"
+                  className="mb-3 boldLabel"
                   input={{
                     onChange: () => changeFieldValue('preMarketVisible', !formValue.preMarketVisible),
                     name: 'stageOffer',
@@ -105,12 +119,12 @@ const Portals = (props) => {
                 />
                 {
                   get(formValue, 'preMarketVisible', false) === true ? (
-                    <span>
+                    <span className="txtDark700">
                       Your property is visible on our pre-market.
                       Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
                     </span>
                   ) : (
-                    <span>
+                    <span className="txtDark700">
                       Your property is not visible on our pre-market.
                       Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
                     </span>
@@ -120,22 +134,9 @@ const Portals = (props) => {
             </div>
           )
         }
-
         <div>
           <div className="portalsWrapper dis-fl-col cardInfoBox">
-            <div className="pos-r">
-              <div className="dis-fl-col pageTitle">
-                <div className="fixedIcon w-perc-100">
-                  <BrixelButtonIcon
-                    className="hide-md"
-                    icon="arrow-left-small"
-                    theme="dark"
-                    ghost
-                    onClick={() => history.push(`/${propID}/listings`)}
-                  />
-                </div>
-              </div>
-            </div>
+
             <div className="max-h-perc-100 pb-4 ov-a">
               {
                 formValue.portalsReview ? (
