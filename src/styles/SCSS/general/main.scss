@@ -522,6 +522,19 @@ button.minimum-w-210 {
   min-width: 210px;
 }
 
+.roundNumber {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $cardBlueDark;
+  color: #FFF;
+  font-family: $font-family-secondary;
+  font-size: 18px;
+}
+
 .brixel-switch-button.boldLabel .labelText {
   font-weight: 600;
 }
