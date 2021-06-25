@@ -49,6 +49,7 @@ const ScanTrialFlow = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [progressBar, setProgressBar] = useState(0);
   const [showError, setShowError] = useState(false);
+  const [saved, setSaved] = useState(false);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -96,29 +97,32 @@ const ScanTrialFlow = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-    const obj = cloneDeep(formValue);
-    delete obj.hourBook;
-    delete obj.dateBook;
-    delete obj.fullDate;
-    delete obj.name;
-    delete obj.phone;
-    delete obj.email;
-    const data = {
-      page: propID,
-      smallLoader: 'sendData',
-      data: {
-        user: loggedInUser.id,
-        interested: true,
-        meta: {
-          ...obj,
-          answers: formValue,
+    if (!saved) {
+      setSaved(true);
+      const obj = cloneDeep(formValue);
+      delete obj.hourBook;
+      delete obj.dateBook;
+      delete obj.fullDate;
+      delete obj.name;
+      delete obj.phone;
+      delete obj.email;
+      const data = {
+        page: propID,
+        smallLoader: 'sendData',
+        data: {
+          user: loggedInUser.id,
+          interested: true,
+          meta: {
+            ...obj,
+            answers: formValue,
+          },
+          userName: get(formValue, 'name', ''),
+          userEmail: get(formValue, 'email', ''),
+          userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
         },
-        userName: get(formValue, 'name', ''),
-        userEmail: get(formValue, 'email', ''),
-        userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
-      },
-    };
-    handleSendScanTrial(data);
+      };
+      handleSendScanTrial(data);
+    }
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
