@@ -125,6 +125,25 @@ const ScanTrialFlow = (props) => {
     }
   };
 
+  const progressBarCalc = () => {
+    let num = 0;
+    questions.forEach((item) => {
+      if (item.conditions) {
+        item.conditions.forEach((cond) => {
+          const val = get(formValue, cond.name, null);
+          if (cond.value && val === cond.value) {
+            num += 1;
+          } else if (cond.noValue && val !== cond.noValue) {
+            num += 1;
+          }
+        });
+      } else {
+        num += 1;
+      }
+    });
+    return (currentIndex * 100) / num;
+  };
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -300,7 +319,7 @@ const ScanTrialFlow = (props) => {
         color="green"
         barBackground="light"
         backgroundSaturation={200}
-        progressValue={progressBar}
+        progressValue={progressBarCalc()}
       />
 
       <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
