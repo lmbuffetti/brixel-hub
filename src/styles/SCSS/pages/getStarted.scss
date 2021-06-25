@@ -2,7 +2,7 @@
   background-color: #F7F6F5;
   &.flowProfile,
   &.flowResume {
-    background-color: #009579;
+    background-color: $cardGreen;
   }
   &.flowResume {
     .content .container {
@@ -406,3 +406,32 @@ body:not(.overlayOpen).locationInputResume {
 .message.cardError {
     padding-left: $step * 3;
   }
+
+.flowProfile {
+  .signUpScreen {
+    .slick-dots {
+      margin-top: $step * 2;
+      li {
+        width: 8px;
+        height: 8px;
+        button{
+          &:before {
+            width: 8px;
+            height: 8px;
+            font-size: 0;
+            border-radius: 50%;
+            background-color: #A1DED2;
+            opacity: 1;
+          }
+        }
+        &.slick-active {
+          button {
+            &:before {
+              background-color: $brx-white;
+            }
+          }
+        }
+      }
+    }
+  }
+}

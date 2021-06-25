@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
@@ -9,11 +11,14 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import Slider from 'react-slick';
 import { setFormError } from '../actions/CommonActions';
 import { recoverPassword } from '../actions/UserActions';
 import { checkBrowser } from '../utils/helpers';
 import Support from './Support';
-import Accordion from './Accordion';
+import FabianImg from '../images/getstarted/fabian.png';
+import SchimdsImg from '../images/getstarted/schmids.png';
+import MartinImg from '../images/getstarted/martin.png';
 
 // COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {
@@ -37,6 +42,20 @@ const LoginSignup = (props) => {
   // STATE
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
+
+  const sliderInstance = useRef(null);
+  const settingSlider = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    speed: 500,
+    slidesToShow: 1,
+    arrows: false,
+    slidesToScroll: 1,
+    draggable: false,
+    centerPadding: '8px',
+  };
 
   useEffect(() => {
     onDisableValidation(true);
@@ -356,36 +375,65 @@ const LoginSignup = (props) => {
           </div>
         </div>
       </div>
-      <div className="w-perc-100 w-perc-md-50 dis-f">
-        <div className="max-w-fix-600 pt-2 px-3 pb-3 px-md-5 pb-md-5 txtWhite">
-          <h2 className="txtWhite fsize-700 fweight-600 mb-3">
-            Your benefits when you sell with Brixel.
-          </h2>
+      <div className="w-perc-100 w-perc-md-50 dis-f a-c">
+        <div className="max-w-fix-304 w-perc-100 ml-a mr-a pt-2 px-3 pb-3 px-md-5 pb-md-5 txtWhite">
 
-          <Accordion
-            title="Sell without an agent"
-            titleClass="fsize-600 txtWhite fweight-600"
-            contentClass="txtWhite py-2"
-            className="mb-2"
-            isExpanded
-          >
-            All our service packages have fixed prices. Without any exclusive brokerage contract or commission. Just pay what you need.
-          </Accordion>
-          <Accordion
-            title="The best presentation"
-            titleClass="fsize-600 txtWhite fweight-600"
-            contentClass="txtWhite py-2"
-            className="mb-2"
-          >
-            All our properties are presented on a dedicated website with a 3D tour, high-quality photos, and much more. Buyers confirm that the presentation is outstanding.
-          </Accordion>
-          <Accordion
-            title="Start with a free test drive"
-            titleClass="fsize-600 txtWhite fweight-600"
-            contentClass="txtWhite py-2"
-          >
-            Convince yourself of our quality before you commit to any package. We offer a 7 days trial for all our packages. No strings attached.
-          </Accordion>
+          {
+            get(formValue, 'location.countryCode', '') === 'CH' ? (
+              <Slider ref={sliderInstance} {...settingSlider}>
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={FabianImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h4 className="ta-c mb-2">&quot;We would sell with Brixel again anytime.&quot;</h4>
+
+                  <h6 className="ta-c txtAltColor400">Fabian</h6>
+                  <p className="ta-c txtAltColor400">saved CHF 30&apos;700</p>
+                </div>
+
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={SchimdsImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h4 className="ta-c mb-2">&quot;That&apos;s what the real estate market needs.&quot;</h4>
+
+                  <h6 className="ta-c txtAltColor400">The Schmids</h6>
+                  <p className="ta-c txtAltColor400"> saved CHF 29&apos;210</p>
+                </div>
+
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={MartinImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h4 className="ta-c mb-2">&quot;Absolutely perfect and straightforward.&quot;</h4>
+
+                  <h6 className="ta-c txtAltColor400">Martin</h6>
+                  <p className="ta-c txtAltColor400">saved CHF 23&apos;600</p>
+                </div>
+              </Slider>
+            ) : (
+              <Slider ref={sliderInstance} {...settingSlider}>
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={FabianImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h4 className="ta-c mb-2">&quot;We would sell with Brixel again anytime.&quot;</h4>
+
+                  <h6 className="ta-c txtAltColor400">Fabian</h6>
+                  <p className="ta-c txtAltColor400">saved EUR 28.000</p>
+                </div>
+
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={SchimdsImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h4 className="ta-c mb-2">&quot;That&apos;s what the real estate market needs.&quot;</h4>
+
+                  <h6 className="ta-c txtAltColor400">The Schmids</h6>
+                  <p className="ta-c txtAltColor400"> saved EUR 26.210</p>
+                </div>
+
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={MartinImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h4 className="ta-c mb-2">&quot;Absolutely perfect and straightforward.&quot;</h4>
+
+                  <h6 className="ta-c txtAltColor400">Martin</h6>
+                  <p className="ta-c txtAltColor400">saved EUR 21.600</p>
+                </div>
+              </Slider>
+            )
+          }
+
         </div>
       </div>
     </div>
