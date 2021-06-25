@@ -16,7 +16,7 @@ import {
   Helpers,
   changeSyncError,
   ReduxField,
-  useOutsideAlerter, Validation,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
 import Accordion from '../../components/Accordion';
@@ -61,23 +61,33 @@ const BookTrialFlow = (props) => {
 
   useEffect(() => {
     changeFieldValue('bookType', openAccordion);
-    if (openAccordion === 'online') {
-      updateError('date', 'Required');
+    if (openAccordion === 'online' || openAccordion === 'schedule') {
+      updateError('dateBook', 'Required');
       updateError('hourBook', 'Required');
       updateError('phone', 'Required');
     }
   }, [openAccordion]);
 
   useEffect(() => {
-    if (get(formValue, 'date', null)) updateError('date', true);
+    if (get(formValue, 'dateBook', null)) updateError('dateBook', true);
     if (get(formValue, 'hourBook', null)) updateError('hourBook', true);
     if (get(formValue, 'phone', { }).number) updateError('phone', true);
   }, [formValue]);
 
   const handleChangeDate = (day) => {
     setDate(day);
-    changeFieldValue('date', DateTime.fromJSDate(day).toFormat('dd-LL-yyyy'));
+    changeFieldValue('dateBook', DateTime.fromJSDate(day).toFormat('dd-LL-yyyy'));
+    changeFieldValue('fullDate', day);
   };
+
+  useEffect(() => {
+    if (get(formValue, 'fullDate', null) && get(formValue, 'hourBook', null)) {
+      const splitDate = (get(formValue, 'fullDate', '')).toString().split(' ');
+      splitDate[4] = `${get(formValue, 'hourBook', null)}:00`;
+      const defDate = new Date(splitDate.join(' '));
+      changeFieldValue('date', (DateTime.fromJSDate(defDate).toMillis()));
+    }
+  }, [get(formValue, 'fullDate', null), get(formValue, 'hourBook', null)]);
 
   const closeModal = () => {
     setDatePickerModal(!datePickerModal);
@@ -85,7 +95,7 @@ const BookTrialFlow = (props) => {
 
   const openVideoCall = () => {
     changeFieldValue('step', 'skip');
-    onClick();
+    onClick(2);
   };
 
   useOutsideAlerter(datePicker, {
@@ -124,13 +134,13 @@ const BookTrialFlow = (props) => {
                     input={{
                       disabled: datePickerModal,
                       placeholder: 'DD-MM-YYYY',
-                      name: 'date',
+                      name: 'dateBook',
                       onChange: (val) => setDate(val),
                       onFocus: () => setDatePickerModal(!datePickerModal),
                     }}
                     meta={{
-                      invalid: get(syncErrors, 'date', '') !== true,
-                      dirty: get(syncErrors, 'date', '') !== true,
+                      invalid: get(syncErrors, 'dateBook', '') !== true,
+                      dirty: get(syncErrors, 'dateBook', '') !== true,
                       showErrors: showError,
                       message: {
                         error: 'Please select a date',
@@ -323,13 +333,13 @@ const BookTrialFlow = (props) => {
                       input={{
                         disabled: datePickerModal,
                         placeholder: 'DD-MM-YYYY',
-                        name: 'date',
+                        name: 'dateBook',
                         onChange: (val) => setDate(val),
                         onFocus: () => setDatePickerModal(!datePickerModal),
                       }}
                       meta={{
-                        invalid: get(syncErrors, 'date', '') !== true,
-                        dirty: get(syncErrors, 'date', '') !== true,
+                        invalid: get(syncErrors, 'dateBook', '') !== true,
+                        dirty: get(syncErrors, 'dateBook', '') !== true,
                         showErrors: showError,
                         message: {
                           error: 'Please select a date',

@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-shadow */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  FactsOptions,
   MultiFileldsReduxForm,
   change,
   destroy,
@@ -19,18 +19,16 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { checkBrowser } from '../../utils/helpers';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
 
-const { factsOptions } = FactsOptions;
-
 const ScanTrialFlow = (props) => {
   // PROPS
   const {
     activeSingleProperty,
-    changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
@@ -98,27 +96,29 @@ const ScanTrialFlow = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = () => {
+    const obj = cloneDeep(formValue);
+    delete obj.hourBook;
+    delete obj.dateBook;
+    delete obj.fullDate;
+    delete obj.name;
+    delete obj.phone;
+    delete obj.email;
     const data = {
       page: propID,
       smallLoader: 'sendData',
       data: {
         user: loggedInUser.id,
-        interested: get(formValue, 'interested', null),
+        interested: true,
         meta: {
-          answers: get(formValue, 'answers', []),
+          ...obj,
+          answers: formValue,
         },
+        userName: get(formValue, 'name', ''),
+        userEmail: get(formValue, 'email', ''),
+        userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
       },
     };
-    if (get(formValue, 'interested', null)) {
-      data.data.meta = {
-        ...data.data.meta,
-        userName: get(formValue, 'contactFullName', null),
-        userEmail: get(formValue, 'contactEmail', null),
-        userPhone: get(formValue, 'contactPhone', null),
-        comments: get(formValue, 'comments', ''),
-      };
-    }
-    // handleSendScanTrial(data);
+    handleSendScanTrial(data);
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -128,7 +128,12 @@ const ScanTrialFlow = (props) => {
       let checkCond = true;
       questions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
-        if (val !== cond.value && checkCond) {
+        if (cond.value && val !== cond.value && checkCond) {
+          if (act === 'back') newIndex -= 1;
+          else newIndex += 1;
+          checkCond = false;
+        }
+        if (cond.noValue && val === cond.noValue && checkCond) {
           if (act === 'back') newIndex -= 1;
           else newIndex += 1;
           checkCond = false;
@@ -150,7 +155,10 @@ const ScanTrialFlow = (props) => {
         if (noEmpty !== 'ayc') isNotEmpty = true;
         if (input.condition) {
           input.condition.forEach((item) => {
-            if (get(formValue, item.name, null) === item.value) {
+            if (item.value && get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
               if (err !== true && err !== false && isValid) isValid = false;
             }
           });
@@ -179,7 +187,6 @@ const ScanTrialFlow = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
-    console.log('eh');
     if (e) e.preventDefault();
     let newIndex = currentIndex;
     setShowError(false);
@@ -346,7 +353,7 @@ const ScanTrialFlow = (props) => {
                         formName: 'scanFlow',
                         initialValue: formValue,
                         ...quest,
-                        onClick: () => (questions[currentIndex + 1] ? changeStep('next', null, 1, true) : closeWindow()),
+                        onClick: (step = 1) => (questions[currentIndex + 1] ? changeStep('next', null, step, true) : closeWindow()),
                         showError,
                       },
                     )
@@ -354,8 +361,8 @@ const ScanTrialFlow = (props) => {
                 }
                 {
                   (get(quest, 'cardType', null) === 'card') && (
-                    <div className="scaleAnim ta-c">
-                      <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                    <div className={`scaleAnim ta-c ${quest.cardClass}`}>
+                      <img src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-5`} />
                       <h5
                         className="fadeAnim mt-2 ta-c"
                         dangerouslySetInnerHTML={{ __html: quest.title }}
@@ -463,13 +470,12 @@ const ScanTrialFlow = (props) => {
 
 ScanTrialFlow.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
-  destroyForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -487,13 +493,12 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     initialValues: {
-      id: get(state, 'property.activeSingleProperty.id', null),
-      contactFullName: get(state, 'user.loggedInUser.user.name', null),
+      name: get(state, 'user.loggedInUser.user.name', null),
       phone: {
         prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,
         number: get(state, 'user.loggedInUser.user.phone.number', ''),
       },
-      contactEmail: get(state, 'user.loggedInUser.user.email', null),
+      email: get(state, 'user.loggedInUser.user.email', null),
     },
   });
 };
