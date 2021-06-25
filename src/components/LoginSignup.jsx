@@ -420,7 +420,7 @@ const LoginSignup = (props) => {
                   <h4 className="ta-c mb-2">&quot;That&apos;s what the real estate market needs.&quot;</h4>
 
                   <h6 className="ta-c txtAltColor400">The Schmids</h6>
-                  <p className="ta-c txtAltColor400"> saved EUR 26&.210</p>
+                  <p className="ta-c txtAltColor400"> saved EUR 26.210</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
