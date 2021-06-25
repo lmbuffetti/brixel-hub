@@ -196,7 +196,12 @@ const CarouselWrapper = (props) => {
                 <div
                   className="my-2 dis-fl-col dis-fl-row-sm jc-c a-c"
                 >
-                  <span className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 as-c">Pre-market</span>
+                  <span
+                    className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 as-c cur-poi"
+                    onClick={() => history.push(`/${items[activeSlide].id}/listings/portals`)}
+                  >
+                    Pre-market
+                  </span>
                   <div className="dis-fl-row-sm pt-1 pt-sm-0 ta-c">
 
                     {
