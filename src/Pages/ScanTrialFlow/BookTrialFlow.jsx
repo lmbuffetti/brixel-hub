@@ -106,221 +106,23 @@ const BookTrialFlow = (props) => {
   return (
     <main id="rewards" className="BookTrialFlow pb-4 h-perc-100 txtDark700">
       <h3 className="ta-c">We are ready 🚀.</h3>
-      <h3 className="mb-2 ta-c">Let&apos;s talk now or later?</h3>
 
       {
         get(formValue, 'analysis', 'on-site') === 'on-site' ? (
-          <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
-            <Accordion
-              color="dark"
-              saturationTxt={400}
-              title="Book online"
-              titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
-              contentClass="py-2"
-              className="mb-2"
-              onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
-              smallRightIcon
-              paddingContent="px-5"
-              isExpanded={openAccordion === 'online'}
-            >
-              <div className="dis-f a-t jc-b w-perc-100">
-                <div className="pos-r pr-1 w-perc-50">
-                  <ReduxField
-                    form="scanFlow"
-                    component={BrixelInputText}
-                    design={{
-                      showIconValidation: false,
-                    }}
-                    input={{
-                      disabled: datePickerModal,
-                      placeholder: 'DD-MM-YYYY',
-                      name: 'dateBook',
-                      onChange: (val) => setDate(val),
-                      onFocus: () => setDatePickerModal(!datePickerModal),
-                    }}
-                    meta={{
-                      invalid: get(syncErrors, 'dateBook', '') !== true,
-                      dirty: get(syncErrors, 'dateBook', '') !== true,
-                      showErrors: showError,
-                      message: {
-                        error: 'Please select a date',
-                      },
-                    }}
-                  />
-                  <BrixelIcon
-                    className="pos-a-fix x-r-2 activity-calendar cur-poi x-t-1"
-                    icon="calendar"
-                    color="dark"
-                    onClick={() => setDatePickerModal(!datePickerModal)}
-                  />
-                  {
-                    datePickerModal && (
-                      <BrixelDatePicker
-                        ref1={datePicker}
-                        ref2={calendarRef}
-                        inline
-                        className="afterInput"
-                        selected={date}
-                        onChange={(day) => {
-                          handleChangeDate(day, 'new');
-                          closeModal();
-                        }}
-                        lang={lang}
-                      />
-                    )
-                  }
-                </div>
-                <div className="pos-r pl-1 w-perc-50">
-                  <ReduxField
-                    form="scanFlow"
-                    component={BrixelSelect}
-                    input={{
-                      name: 'hourBook',
-                      options: optionHours,
-                    }}
-                    meta={{
-                      invalid: get(syncErrors, 'hourBook', '') !== true,
-                      dirty: get(syncErrors, 'hourBook', '') !== true,
-                      showErrors: showError,
-                      message: {
-                        error: 'Please select an hour',
-                      },
-                    }}
-                  />
-                </div>
-              </div>
-              <div>
-                <ReduxField
-                  form="scanFlow"
-                  component={BrixelInputText}
-                  design={{
-                    className: 'mb-1 mt-1',
-                  }}
-                  input={{
-                    name: 'phone',
-                    type: 'text',
-                    placeholder: '',
-                  }}
-                  inputFormat={{
-                    formatType: 'tel',
-                  }}
-                  labels={{
-                    label: 'Phone',
-                  }}
-                  meta={{
-                    invalid: get(syncErrors, 'phone', '') !== true,
-                    dirty: get(syncErrors, 'phone', '') !== true,
-                    showErrors: showError,
-                    message: {
-                      error: 'Please insert a valid phone',
-                    },
-                  }}
-                />
-              </div>
-            </Accordion>
-            <hr />
-            <Accordion
-              color="dark"
-              saturationTxt={400}
-              title="Book via phone"
-              titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
-              contentClass="py-2"
-              className="mb-2"
-              onExpand={(val) => setOpenAccordion(val === true ? 'phone' : '')}
-              smallRightIcon
-              paddingContent="px-5"
-              isExpanded={openAccordion === 'phone'}
-            >
-              {
-                phone && (
-                  <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-3">
-                    <BrixelIcon
-                      color="white"
-                      saturation={0}
-                      icon="phone"
-                      iconWidth="w-fix-24"
-                    />
-                    <p className="ml-2">{Helpers.telephoneFormat(phone)}</p>
-                  </a>
-                )
-              }
-              {
-                whatsapp && (
-                  <a
-                    href={`https://wa.me/${Helpers.telephoneFormat(whatsapp, false, false, false, true)}`}
-                    className="dis-f a-c"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <BrixelIcon
-                      color="white"
-                      saturation={0}
-                      icon="whatsapp"
-                      iconWidth="w-fix-24"
-                    />
-                    <p className="ml-2">{Helpers.telephoneFormat(whatsapp)}</p>
-                  </a>
-                )
-              }
-              <p className="mt-3 txtDark100">You can reach us Monday to Friday, 9:00 to 18:00.</p>
-            </Accordion>
-          </div>
-        ) : (
-          <div>
+          <>
+            <h3 className="mb-2 ta-c">When do you want us to visit?</h3>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
               <Accordion
                 color="dark"
                 saturationTxt={400}
-                title="Speak to us now"
+                title="Book online"
                 titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
                 contentClass="py-2"
                 className="mb-2"
-                onExpand={(val) => setOpenAccordion(val === true ? 'whereby' : '')}
+                onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
                 smallRightIcon
                 paddingContent="px-5"
-                isExpanded={openAccordion === 'whereby'}
-              >
-                {
-                  whereby && (
-                    <a
-                      href={whereby}
-                      target="_blank"
-                      className="dis-f a-c mb-3"
-                      rel="noreferrer"
-                      onClick={() => openVideoCall()}
-                    >
-                      <BrixelIcon
-                        color="white"
-                        saturation={0}
-                        icon="monitor"
-                        iconWidth="w-fix-24"
-                      />
-                      <p className="ml-2 td-u">Start a video call</p>
-                    </a>
-                  )
-                }
-                <p className="mt-3">We are reachable Mo - Fr, 09:00 to 18:00.</p>
-                <p>
-                  <span>Alternatively you can call us on</span>
-                  {
-                    phone && (
-                      <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtDark400">{Helpers.telephoneFormat(phone)}</a>
-                    )
-                  }
-                </p>
-              </Accordion>
-              <hr />
-              <Accordion
-                color="dark"
-                saturationTxt={400}
-                title="Schedule for later"
-                titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
-                contentClass="py-2"
-                className="mb-2"
-                onExpand={(val) => setOpenAccordion(val === true ? 'schedule' : '')}
-                smallRightIcon
-                paddingContent="px-5"
-                isExpanded={openAccordion === 'schedule'}
+                isExpanded={openAccordion === 'online'}
               >
                 <div className="dis-f a-t jc-b w-perc-100">
                   <div className="pos-r pr-1 w-perc-50">
@@ -417,8 +219,211 @@ const BookTrialFlow = (props) => {
                   />
                 </div>
               </Accordion>
+              <hr />
+              <Accordion
+                color="dark"
+                saturationTxt={400}
+                title="Book via phone"
+                titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
+                contentClass="py-2"
+                className="mb-2"
+                onExpand={(val) => setOpenAccordion(val === true ? 'phone' : '')}
+                smallRightIcon
+                paddingContent="px-5"
+                isExpanded={openAccordion === 'phone'}
+              >
+                {
+                  phone && (
+                    <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-3">
+                      <BrixelIcon
+                        color="white"
+                        saturation={0}
+                        icon="phone"
+                        iconWidth="w-fix-24"
+                      />
+                      <p className="ml-2">{Helpers.telephoneFormat(phone)}</p>
+                    </a>
+                  )
+                }
+                {
+                  whatsapp && (
+                    <a
+                      href={`https://wa.me/${Helpers.telephoneFormat(whatsapp, false, false, false, true)}`}
+                      className="dis-f a-c"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BrixelIcon
+                        color="white"
+                        saturation={0}
+                        icon="whatsapp"
+                        iconWidth="w-fix-24"
+                      />
+                      <p className="ml-2">{Helpers.telephoneFormat(whatsapp)}</p>
+                    </a>
+                  )
+                }
+                <p className="mt-3 txtDark100">You can reach us Monday to Friday, 9:00 to 18:00.</p>
+              </Accordion>
             </div>
-          </div>
+          </>
+        ) : (
+          <>
+            <h3 className="mb-2 ta-c">Let&apos;s talk now or later?</h3>
+            <div>
+              <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
+                <Accordion
+                  color="dark"
+                  saturationTxt={400}
+                  title="Speak to us now"
+                  titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
+                  contentClass="py-2"
+                  className="mb-2"
+                  onExpand={(val) => setOpenAccordion(val === true ? 'whereby' : '')}
+                  smallRightIcon
+                  paddingContent="px-5"
+                  isExpanded={openAccordion === 'whereby'}
+                >
+                  {
+                    whereby && (
+                      <a
+                        href={whereby}
+                        target="_blank"
+                        className="dis-f a-c mb-3"
+                        rel="noreferrer"
+                        onClick={() => openVideoCall()}
+                      >
+                        <BrixelIcon
+                          color="white"
+                          saturation={0}
+                          icon="monitor"
+                          iconWidth="w-fix-24"
+                        />
+                        <p className="ml-2 td-u">Start a video call</p>
+                      </a>
+                    )
+                  }
+                  <p className="mt-3">We are reachable Mo - Fr, 09:00 to 18:00.</p>
+                  <p>
+                    <span>Alternatively you can call us on</span>
+                    {
+                      phone && (
+                        <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtDark400">{Helpers.telephoneFormat(phone)}</a>
+                      )
+                    }
+                  </p>
+                </Accordion>
+                <hr />
+                <Accordion
+                  color="dark"
+                  saturationTxt={400}
+                  title="Schedule for later"
+                  titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
+                  contentClass="py-2"
+                  className="mb-2"
+                  onExpand={(val) => setOpenAccordion(val === true ? 'schedule' : '')}
+                  smallRightIcon
+                  paddingContent="px-5"
+                  isExpanded={openAccordion === 'schedule'}
+                >
+                  <div className="dis-f a-t jc-b w-perc-100">
+                    <div className="pos-r pr-1 w-perc-50">
+                      <ReduxField
+                        form="scanFlow"
+                        component={BrixelInputText}
+                        design={{
+                          showIconValidation: false,
+                        }}
+                        input={{
+                          disabled: datePickerModal,
+                          placeholder: 'DD-MM-YYYY',
+                          name: 'dateBook',
+                          onChange: (val) => setDate(val),
+                          onFocus: () => setDatePickerModal(!datePickerModal),
+                        }}
+                        meta={{
+                          invalid: get(syncErrors, 'dateBook', '') !== true,
+                          dirty: get(syncErrors, 'dateBook', '') !== true,
+                          showErrors: showError,
+                          message: {
+                            error: 'Please select a date',
+                          },
+                        }}
+                      />
+                      <BrixelIcon
+                        className="pos-a-fix x-r-2 activity-calendar cur-poi x-t-1"
+                        icon="calendar"
+                        color="dark"
+                        onClick={() => setDatePickerModal(!datePickerModal)}
+                      />
+                      {
+                        datePickerModal && (
+                          <BrixelDatePicker
+                            ref1={datePicker}
+                            ref2={calendarRef}
+                            inline
+                            className="afterInput"
+                            selected={date}
+                            onChange={(day) => {
+                              handleChangeDate(day, 'new');
+                              closeModal();
+                            }}
+                            lang={lang}
+                          />
+                        )
+                      }
+                    </div>
+                    <div className="pos-r pl-1 w-perc-50">
+                      <ReduxField
+                        form="scanFlow"
+                        component={BrixelSelect}
+                        input={{
+                          name: 'hourBook',
+                          options: optionHours,
+                        }}
+                        meta={{
+                          invalid: get(syncErrors, 'hourBook', '') !== true,
+                          dirty: get(syncErrors, 'hourBook', '') !== true,
+                          showErrors: showError,
+                          message: {
+                            error: 'Please select an hour',
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <ReduxField
+                      form="scanFlow"
+                      component={BrixelInputText}
+                      design={{
+                        className: 'mb-1 mt-1',
+                      }}
+                      input={{
+                        name: 'phone',
+                        type: 'text',
+                        placeholder: '',
+                      }}
+                      inputFormat={{
+                        formatType: 'tel',
+                      }}
+                      labels={{
+                        label: 'Phone',
+                      }}
+                      meta={{
+                        invalid: get(syncErrors, 'phone', '') !== true,
+                        dirty: get(syncErrors, 'phone', '') !== true,
+                        showErrors: showError,
+                        message: {
+                          error: 'Please insert a valid phone',
+                        },
+                      }}
+                    />
+                  </div>
+                </Accordion>
+              </div>
+            </div>
+          </>
         )
       }
 

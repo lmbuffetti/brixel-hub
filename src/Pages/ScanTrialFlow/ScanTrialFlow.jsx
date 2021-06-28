@@ -47,7 +47,6 @@ const ScanTrialFlow = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
   const [isEnter, setIsEnter] = useState(true);
-  const [progressBar, setProgressBar] = useState(0);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
   // GET URL PARAMS
@@ -123,6 +122,25 @@ const ScanTrialFlow = (props) => {
       };
       handleSendScanTrial(data);
     }
+  };
+
+  const progressBarCalc = () => {
+    let num = 0;
+    questions.forEach((item) => {
+      if (item.conditions) {
+        item.conditions.forEach((cond) => {
+          const val = get(formValue, cond.name, null);
+          if (cond.value && val === cond.value) {
+            num += 1;
+          } else if (cond.noValue && val !== cond.noValue) {
+            num += 1;
+          }
+        });
+      } else {
+        num += 1;
+      }
+    });
+    return (currentIndex * 100) / num;
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -241,8 +259,6 @@ const ScanTrialFlow = (props) => {
           state: get(history, 'location.state', {}),
         });
       }
-      const getOnlyQuest = questions.filter((item) => item.inputs);
-      setProgressBar((defId * 100) / getOnlyQuest.length);
       if (checkBrowser() > 0) {
         if (singleStepEl) singleStepEl.scrollTop = 0;
         if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
@@ -300,7 +316,7 @@ const ScanTrialFlow = (props) => {
         color="green"
         barBackground="light"
         backgroundSaturation={200}
-        progressValue={progressBar}
+        progressValue={progressBarCalc()}
       />
 
       <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
