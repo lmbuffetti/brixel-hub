@@ -12,24 +12,26 @@ import { svgIcons } from './svgIcons';
 export const ScanTrialQuestions = () => [
   {
     cardType: 'loadComponent',
-    history: 'servicePackage',
+    history: 'introScanFlow',
     component: IntroScanFlow,
   },
   {
     title: 'How do you want to do the analysis?',
     history: 'analysis',
-    vCentered: true,
     inputs: [{
       component: BrixelRadioButton,
       className: 'radioBtnImg',
+      classNameBox: 'max-w-fix-816 ml-a mr-a',
       ReduxFieldClass: '',
       label: '',
       name: 'analysis',
       validation: [Validation.required],
       icons: true,
       cardLayout: true,
+      svgWidth: 'max-w-fix-192',
+      stretched: true,
+      pdClass: 'py-3 py-md-5',
       svgSupport: true,
-      pdClass: '',
       isHorizontal: true,
       options: [
         {

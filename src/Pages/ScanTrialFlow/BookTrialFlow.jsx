@@ -105,12 +105,12 @@ const BookTrialFlow = (props) => {
 
   return (
     <main id="rewards" className="BookTrialFlow pb-4 h-perc-100 txtDark700">
-      <h3 className="ta-c">We are ready 🚀.</h3>
+      <h2 className="ta-c fweight-600">We are ready 🚀.</h2>
 
       {
         get(formValue, 'analysis', 'on-site') === 'on-site' ? (
           <>
-            <h3 className="mb-2 ta-c">When do you want us to visit?</h3>
+            <h2 className="mb-6 ta-c fweight-600">When do you want us to visit?</h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
               <Accordion
                 color="dark"

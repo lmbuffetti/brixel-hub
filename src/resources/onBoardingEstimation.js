@@ -75,6 +75,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
+        classNameBox: 'max-w-fix-880 ml-a mr-a',
         ReduxFieldClass: '',
         label: '',
         name: 'properties.propertyType',
@@ -83,7 +84,8 @@ export const QuestionsList = (lang, country = 'CH') => {
         cardLayout: true,
         cardSmall: true,
         svgSupport: true,
-        pdClass: '',
+        svgWidth: 'max-w-fix-200',
+        pdClass: 'py-3 py-md-5',
         isHorizontal: true,
         options: [
           {

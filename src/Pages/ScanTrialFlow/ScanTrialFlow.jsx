@@ -309,15 +309,19 @@ const ScanTrialFlow = (props) => {
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'history', '')} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}`}>
 
-      <BrixelProgressBar
-        large
-        className="brdRadius"
-        saturation={500}
-        color="green"
-        barBackground="light"
-        backgroundSaturation={200}
-        progressValue={progressBarCalc()}
-      />
+      {
+        get(quest, 'history', '') !== 'introScanFlow' && (
+          <BrixelProgressBar
+            large
+            className="brdRadius"
+            saturation={500}
+            color="green"
+            barBackground="light"
+            backgroundSaturation={200}
+            progressValue={progressBarCalc()}
+          />
+        )
+      }
 
       <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
         <form
@@ -333,19 +337,14 @@ const ScanTrialFlow = (props) => {
                   get(quest, 'inputs', null) && !get(quest, 'cardType', null) && (
                     <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
-                        quest.titleGreen && (
-                          <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
-                        )
-                      }
-                      {
                         quest.title && (
-                          <h3 className={`fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h2 className={`fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
-                      {
+                      {/*                       {
                         quest.subtitle && (
                           <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
-                      }
+                      } */}
                       <div className={`${quest.className} w-perc-100`}>
                         <MultiFileldsReduxForm
                           form="scanFlow"
@@ -422,7 +421,7 @@ const ScanTrialFlow = (props) => {
                 className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
               >
                 <div className="pos-r">
-                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
                     {
                       (get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0) && (
                         <BrixelButtonIcon
