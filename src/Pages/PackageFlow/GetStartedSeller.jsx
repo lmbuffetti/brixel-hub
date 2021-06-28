@@ -58,7 +58,7 @@ const GetStartedSeller = (props) => {
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showError, setShowError] = useState(0);
+  const [showError, setShowError] = useState(false);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
@@ -299,11 +299,11 @@ const GetStartedSeller = (props) => {
           const getOnlyQuest = questions.filter((item) => item.inputs);
           setProgressBar((defId * 100) / getOnlyQuest.length);
           if (checkBrowser() > 0) {
-            if (singleStepEl) singleStepEl.scrollTop = 0;
-            if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
+            if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
           } else {
-            if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-            if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }
       }
@@ -481,6 +481,8 @@ const GetStartedSeller = (props) => {
   useEffect(() => {
     if (get(formValue, 'properties.propertyType', null)) changeStep();
   }, [get(formValue, 'properties.propertyType', null)]);
+
+  // console.log(errorValue);
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'history', '')}`}>
@@ -667,6 +669,7 @@ const mapStateToProps = (state, props) => {
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
     initialValues: {
+      ...get(state, 'brixelForm.GetStarted.initialValues', {}),
       channel,
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       company: get(state, 'companies.activeSingleCompany.stub', null),
