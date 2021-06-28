@@ -50,4 +50,6 @@ const composedEnhancers = compose(
 export const configureStore = createStore(rootReducer, {}, composedEnhancers);
 const store = createStore(rootReducer);
 
+export const configureStorePreload = (initialValues = {}) => createStore(rootReducer, initialValues, composedEnhancers);
+
 export default store;

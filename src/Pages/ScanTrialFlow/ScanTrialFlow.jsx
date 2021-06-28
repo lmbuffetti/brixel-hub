@@ -28,6 +28,7 @@ import { sendScanTrialRequest } from '../../actions/PropertyActions';
 const ScanTrialFlow = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     destroyForm,
     errorValue,
@@ -215,6 +216,9 @@ const ScanTrialFlow = (props) => {
     if (act === 'back') {
       newIndex -= step;
     } else {
+      if (get(questions, `[${currentIndex}].history`, null)) {
+        window.open(get(activeSingleCompany, 'contact.whereby', ''), '_blank');
+      }
       if (!checkValidateField() && !skipValidation) {
         setShowError(true);
         return false;
@@ -300,7 +304,8 @@ const ScanTrialFlow = (props) => {
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    if (currentIndex === 0) label = 'Book your test drive';
+    if (get(questions, `[${currentIndex}].history`, null)) label = 'Start video call now';
+    else if (currentIndex === 0) label = 'Book your test drive';
     else if (currentIndex === questions.length - 1) label = 'Continue';
     else label = 'Continue';
     return label;
@@ -488,6 +493,7 @@ const ScanTrialFlow = (props) => {
 };
 
 ScanTrialFlow.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
@@ -506,6 +512,7 @@ const mapStateToProps = (state) => {
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.scanFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.scanFlow.values', {}),

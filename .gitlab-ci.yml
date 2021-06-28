@@ -1,18 +1,36 @@
 image: node:14.14.0
 
 stages:
+  - install_dependencies
   - build
+  - test
   - deploy
 
-build site:
-  image: node:14.14.0
-  stage: build
-  variables:
-    FOLDER: $CI_COMMIT_REF_NAME
+install_dependencies:
+  stage: install_dependencies
   only:
     - develop
     - staging
     - master
+  script:
+    - npm install
+  artifacts:
+    expire_in: 2 days
+    paths:
+      - node_modules/
+
+build site:
+  image: node:14.14.0
+  stage: build
+  cache:
+    paths:
+      - node_modules/
+  only:
+    - develop
+    - staging
+    - master
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -23,17 +41,28 @@ build site:
     - echo $CI_JOB_STAGE
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_BUILD_REF_NAME
-    - node --version
-    - npm --version
-    - npm install
     - if [ "$FOLDER" == "master" ]; then MODULE="prod"; else MODULE="dev"; fi
     - if [ "$FOLDER" == "staging" ]; then MODULE="stage"; else MODULESS="dev"; fi
     - npm run build-${MODULE}
-
   artifacts:
-    expire_in: 1 week
+    expire_in: 10 days
     paths:
       - dist
+
+test integration:
+  image: node:14.14.0
+  stage: test
+  cache:
+    paths:
+      - node_modules/
+  only:
+    - feature/test
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
+  script:
+    - if [ "$FOLDER" == "master" ]; then MODULE="-prod"; else MODULE=""; fi
+    - if [ "$FOLDER" == "staging" ]; then MODULE="-stage"; else MODULESS=""; fi
+    - npm run test${MODULE}
 
 deploy_dev:
   image: alpine
