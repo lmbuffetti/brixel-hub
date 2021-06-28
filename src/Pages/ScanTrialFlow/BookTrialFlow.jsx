@@ -116,9 +116,8 @@ const BookTrialFlow = (props) => {
                 color="dark"
                 saturationTxt={400}
                 title="Book online"
-                titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
-                contentClass="py-2"
-                className="mb-2"
+                titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
+                contentClass="pb-5"
                 onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
                 smallRightIcon
                 paddingContent="px-5"
@@ -195,7 +194,7 @@ const BookTrialFlow = (props) => {
                     form="scanFlow"
                     component={BrixelInputText}
                     design={{
-                      className: 'mb-1 mt-1',
+                      className: 'mt-3',
                     }}
                     input={{
                       name: 'phone',
@@ -206,7 +205,7 @@ const BookTrialFlow = (props) => {
                       formatType: 'tel',
                     }}
                     labels={{
-                      label: 'Phone',
+                      label: '',
                     }}
                     meta={{
                       invalid: get(syncErrors, 'phone', '') !== true,
@@ -219,13 +218,13 @@ const BookTrialFlow = (props) => {
                   />
                 </div>
               </Accordion>
-              <hr />
+              <hr className="lighter" />
               <Accordion
                 color="dark"
                 saturationTxt={400}
                 title="Book via phone"
-                titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
-                contentClass="py-2"
+                titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
+                contentClass="pb-5"
                 className="mb-2"
                 onExpand={(val) => setOpenAccordion(val === true ? 'phone' : '')}
                 smallRightIcon

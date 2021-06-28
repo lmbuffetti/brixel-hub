@@ -12,6 +12,50 @@ import { svgIcons } from './svgIcons';
 export const ScanTrialQuestions = () => [
   {
     cardType: 'loadComponent',
+    history: 'BookTrialFlow',
+    component: BookTrialFlow,
+    footerWidth: 'max-w-fix-600',
+    inputs: [
+      {
+        condition: [{
+          name: 'bookType',
+          value: 'online',
+        },
+        {
+          name: 'bookType',
+          value: 'schedule',
+        }],
+        name: 'phone',
+        validation: [Validation.required],
+      },
+      {
+        condition: [{
+          name: 'bookType',
+          value: 'online',
+        },
+        {
+          name: 'bookType',
+          value: 'schedule',
+        }],
+        name: 'dateBook',
+        validation: [Validation.required],
+      },
+      {
+        condition: [{
+          name: 'bookType',
+          value: 'online',
+        },
+        {
+          name: 'bookType',
+          value: 'schedule',
+        }],
+        name: 'hourBook',
+        validation: [Validation.required],
+      },
+    ],
+  },
+  {
+    cardType: 'loadComponent',
     history: 'introScanFlow',
     component: IntroScanFlow,
   },
@@ -55,6 +99,7 @@ export const ScanTrialQuestions = () => [
     cardType: 'loadComponent',
     history: 'BookTrialFlow',
     component: BookTrialFlow,
+    footerWidth: 'max-w-fix-600',
     inputs: [
       {
         condition: [{

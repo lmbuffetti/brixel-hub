@@ -526,3 +526,28 @@ button.minimum-w-210 {
 .brixel-switch-button.boldLabel .labelText {
   font-weight: 600;
 }
+
+
+
+.BookTrialFlow {
+
+  .input-container .brixel-text-input {
+    min-height: 56px;
+  }
+  .input-container div:not(.flags) .brixel-text-input {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .brixel-select.flags .dropdown {
+    min-height: 54px;
+  }
+
+  .brixel-select:not(.flags) .dropdown .selElement {
+    min-height: 54px;
+  }
+  span.brixelIcon.activity-calendar {
+    top: 16px;
+    right: 24px;
+  }
+}
