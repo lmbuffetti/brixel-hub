@@ -47,7 +47,6 @@ const ScanTrialFlow = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
   const [isEnter, setIsEnter] = useState(true);
-  const [progressBar, setProgressBar] = useState(0);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
   // GET URL PARAMS
@@ -260,8 +259,6 @@ const ScanTrialFlow = (props) => {
           state: get(history, 'location.state', {}),
         });
       }
-      const getOnlyQuest = questions.filter((item) => item.inputs);
-      setProgressBar((defId * 100) / getOnlyQuest.length);
       if (checkBrowser() > 0) {
         if (singleStepEl) singleStepEl.scrollTop = 0;
         if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
