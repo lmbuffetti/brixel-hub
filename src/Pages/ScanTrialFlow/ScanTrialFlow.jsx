@@ -442,7 +442,6 @@ const ScanTrialFlow = (props) => {
                               <BrixelButtonSecondary
                                 className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
-                                saturation={400}
                                 theme="green"
                                 rounded
                                 label={buttonLabel()}
@@ -455,6 +454,7 @@ const ScanTrialFlow = (props) => {
                                 disabled={!checkValidateField()}
                                 rounded
                                 theme="green"
+                                themeSat={600}
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}

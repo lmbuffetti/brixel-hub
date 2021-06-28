@@ -1,13 +1,7 @@
-div#dashboard {
+.sellerHub div#dashboard {
   max-width: 1248px;
 }
-/* .factsWrapper .secondLevel{
-  max-width: 768px;
 
-  @media (min-width: $responsive-medium) {
-    min-width: 480px;
-  }
-} */
 .hubContainer {
   &.buyerHub {
     @media (max-width: $responsive-large) {

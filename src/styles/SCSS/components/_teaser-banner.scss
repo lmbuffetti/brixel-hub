@@ -5,12 +5,14 @@
     padding-bottom: 0;
 
     max-width: 1248px;
+
     @media (min-width: 1400px) {
       //padding-left: 24px;
       //padding-right: 24px;
     }
   }
 }
+
 .teaserWrapper {
   overflow: hidden;
   margin: auto;
@@ -20,6 +22,7 @@
     .link {
       line-height: 16px;
     }
+
     @media (max-width: $responsive-small) {
       flex-wrap: wrap;
       flex-direction: column;
@@ -32,30 +35,36 @@
       .teaserTag {
         margin-bottom: $step;
       }
+
       p {
         padding-left: 0;
+
         span {
           display: block;
         }
       }
     }
   }
+
   &.smallOn {
     .smallBanner {
       top: 0;
       //transition: opacity 450ms ease;
       opacity: 0;
-      animation: slidefromtop 0.6s cubic-bezier(.39,.575,.565,1) forwards;
+      animation: slidefromtop 0.6s cubic-bezier(.39, .575, .565, 1) forwards;
       margin-bottom: 24px;
       position: relative;
     }
+
     .bigBanner {
       //opacity: 0;
     }
   }
+
   &.bigOn {
     opacity: 0;
-    animation: slidefromtop 0.6s cubic-bezier(.39,.575,.565,1) forwards;
+    animation: slidefromtop 0.6s cubic-bezier(.39, .575, .565, 1) forwards;
+
     /* .smallBanner {
       position: absolute;
       top: 0;
@@ -67,6 +76,7 @@
     }
   }
 }
+
 .teaserBanner {
   position: relative;
 
@@ -81,6 +91,7 @@
       @media (max-width: $responsive-small) {
         margin-top: -2px;
       }
+
       img {
         border-radius: 4px;
         object-fit: cover;
@@ -89,17 +100,20 @@
         height: 100%;
       }
     }
+
     padding: $step * 2;
 
     .bannerContent {
       padding-right: $step * 3;
       padding-left: $step * 3;
       padding-top: $step * 1;
+
       p {
         padding-top: $step * 2;
         padding-bottom: $step * 2;
       }
     }
+
     @media (max-width: $responsive-small) {
       flex-direction: column;
       padding: 0px;
@@ -109,23 +123,28 @@
         position: absolute;
         top: $step;
         right: $step;
+
         .iconBtn {
           background: $brx-white;
         }
       }
+
       .teaserImage {
         max-width: 100%;
         width: 100%;
+
         img {
           width: 100%;
           border-bottom-right-radius: 0px;
           border-bottom-left-radius: 0px;
         }
       }
+
       .bannerContent {
         padding-top: $step * 2;
         padding-right: $step * 2;
         padding-left: $step * 2;
+
         p {
           padding-bottom: $step * 3;
         }
@@ -138,10 +157,13 @@
   @keyframes fadeIn {
     0% {
       opacity: 0;
-    } 100% {
+    }
+
+    100% {
       opacity: 1;
     }
   }
+
   .teaserTag {
     background-color: map-get($greenColor, 400);
     padding-left: $step * 2;
@@ -157,17 +179,21 @@
 .introScanFlow {
   .olLgNum {
     counter-reset: olList;
+
     li {
       list-style: none;
       position: relative;
       padding-left: 72px;
       margin-bottom: $step * 4;
-      > h5 {
+
+      >h5 {
         margin-bottom: $step;
       }
+
       &:last-child {
         margin-bottom: 0;
       }
+
       &:before {
         position: absolute;
         left: 16px;
@@ -191,4 +217,48 @@
 .btnInline {
   padding: 0;
   display: inline-block;
+}
+
+
+// scan trial request css
+
+.divider-line {
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #EDEDED;
+  max-width: 75%;
+  margin: 0 auto;
+  margin-bottom: -28px;
+}
+
+
+.roundNumber {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $cardBlueDark;
+  color: #FFF;
+  font-family: $font-family-secondary;
+  font-size: 18px;
+  position: relative;
+
+  &::after {
+    content: '';
+    background: #F7F6F5;
+    width: 20px;
+    left: -20px;
+    position: absolute;
+    height: 100%;
+  }
+  &::before {
+    content: '';
+    background: #F7F6F5;
+    width: 20px;
+    right: -20px;
+    position: absolute;
+    height: 100%;
+  }
 }
