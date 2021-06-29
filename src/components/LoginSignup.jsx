@@ -78,10 +78,10 @@ const LoginSignup = (props) => {
 
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"
-    if (checkBrowser() > 0) {
-      window.scrollTop = 0;
-    } else {
-      window.scrollTo({ top: 0 });
+    if (typeof window !== 'undefined' && window.innerHeight > 50) {
+      if (checkBrowser() > 0) {
+        if (window.scrollTop) window.scrollTop = 0;
+      } else if (window.scrollTo) window.scrollTo({ top: 0 });
     }
   }, []);
 
@@ -260,6 +260,13 @@ const LoginSignup = (props) => {
                           get(formError, 'state', false) && (
                             <p className="txtRed400">
                               {get(formError, 'message', '')}
+                            </p>
+                          )
+                        }
+                        {
+                          get(notification, 'state', false) && get(notification, 'type', '') === 'done' && (
+                            <p className="txtGreen400">
+                              Registration complete.
                             </p>
                           )
                         }
