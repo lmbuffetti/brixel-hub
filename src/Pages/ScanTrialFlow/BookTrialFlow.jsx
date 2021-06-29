@@ -118,15 +118,16 @@ const BookTrialFlow = (props) => {
                 title="Book online"
                 titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
                 contentClass="pb-5"
+                paddingContent="px-5"
                 onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
                 smallRightIcon
-                paddingContent="px-5"
                 isExpanded={openAccordion === 'online'}
               >
                 <div className="dis-f a-t jc-b w-perc-100">
                   <div className="pos-r pr-1 w-perc-50">
                     <ReduxField
                       form="scanFlow"
+                      ReduxFieldClass="inputDate"
                       component={BrixelInputText}
                       design={{
                         showIconValidation: false,
@@ -193,6 +194,7 @@ const BookTrialFlow = (props) => {
                   <ReduxField
                     form="scanFlow"
                     component={BrixelInputText}
+                    ReduxFieldClass="inputPhone"
                     design={{
                       className: 'mt-3',
                     }}
@@ -225,15 +227,14 @@ const BookTrialFlow = (props) => {
                 title="Book via phone"
                 titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
                 contentClass="pb-5"
-                className="mb-2"
+                paddingContent="px-5"
                 onExpand={(val) => setOpenAccordion(val === true ? 'phone' : '')}
                 smallRightIcon
-                paddingContent="px-5"
                 isExpanded={openAccordion === 'phone'}
               >
                 {
                   phone && (
-                    <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-3">
+                    <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-small-12">
                       <BrixelIcon
                         color="white"
                         saturation={0}
@@ -268,19 +269,18 @@ const BookTrialFlow = (props) => {
           </>
         ) : (
           <>
-            <h3 className="mb-2 ta-c">Let&apos;s talk now or later?</h3>
+            <h2 className="mb-6 ta-c fweight-600">Let&apos;s talk now or later?</h2>
             <div>
               <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
                 <Accordion
                   color="dark"
                   saturationTxt={400}
                   title="Speak to us now"
-                  titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
-                  contentClass="py-2"
-                  className="mb-2"
+                  titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
+                  contentClass="pb-5"
+                  paddingContent="px-5"
                   onExpand={(val) => setOpenAccordion(val === true ? 'whereby' : '')}
                   smallRightIcon
-                  paddingContent="px-5"
                   isExpanded={openAccordion === 'whereby'}
                 >
                   {
@@ -302,33 +302,33 @@ const BookTrialFlow = (props) => {
                       </a>
                     )
                   }
-                  <p className="mt-3">We are reachable Mo - Fr, 09:00 to 18:00.</p>
+                  <p className="">We are reachable Mo - Fr, 09:00 to 18:00.</p>
                   <p>
                     <span>Alternatively you can call us on</span>
                     {
                       phone && (
-                        <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtDark400">{Helpers.telephoneFormat(phone)}</a>
+                        <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtDark400 cur-poi">{Helpers.telephoneFormat(phone)}</a>
                       )
                     }
                   </p>
                 </Accordion>
-                <hr />
+                <hr className="lighter" />
                 <Accordion
                   color="dark"
                   saturationTxt={400}
                   title="Schedule for later"
-                  titleClass="fsize-600 w-perc-100 jc-b py-4 px-5"
-                  contentClass="py-2"
-                  className="mb-2"
+                  titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
+                  contentClass="pb-5"
+                  paddingContent="px-5"
                   onExpand={(val) => setOpenAccordion(val === true ? 'schedule' : '')}
                   smallRightIcon
-                  paddingContent="px-5"
                   isExpanded={openAccordion === 'schedule'}
                 >
                   <div className="dis-f a-t jc-b w-perc-100">
                     <div className="pos-r pr-1 w-perc-50">
                       <ReduxField
                         form="scanFlow"
+                        ReduxFieldClass="inputDate"
                         component={BrixelInputText}
                         design={{
                           showIconValidation: false,
@@ -393,6 +393,7 @@ const BookTrialFlow = (props) => {
                   </div>
                   <div>
                     <ReduxField
+                      ReduxFieldClass="inputPhone"
                       form="scanFlow"
                       component={BrixelInputText}
                       design={{
@@ -405,9 +406,6 @@ const BookTrialFlow = (props) => {
                       }}
                       inputFormat={{
                         formatType: 'tel',
-                      }}
-                      labels={{
-                        label: 'Phone',
                       }}
                       meta={{
                         invalid: get(syncErrors, 'phone', '') !== true,

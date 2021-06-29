@@ -534,20 +534,54 @@ button.minimum-w-210 {
   .input-container .brixel-text-input {
     min-height: 56px;
   }
-  .input-container div:not(.flags) .brixel-text-input {
+  .inputDate .input-container .brixel-text-input {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  .inputPhone .input-container .brixel-text-input {
+    padding-right: 24px !important;
+  }
+  .brixel-select.flags .dropdown .selElement,
+  .brixel-select.flags .dropdown> ul li {
     padding-left: 24px;
-    padding-right: 24px;
   }
 
   .brixel-select.flags .dropdown {
     min-height: 54px;
   }
 
+  .brixel-select .mobile-version {
+    min-height: 56px;
+  }
+
   .brixel-select:not(.flags) .dropdown .selElement {
     min-height: 54px;
+    display: flex;
+    padding-left: 24px;
+    padding-right: 24px;
+    > div {
+      width: 100%;
+    }
   }
   span.brixelIcon.activity-calendar {
     top: 16px;
-    right: 24px;
+    right: 30px;
   }
+  #wrapDatePicker #fixedDatePicker {
+    left: 0;
+    width: 100% !important;
+  }
+  #wrapDatePicker.afterInput .react-datepicker {
+    padding: 4px 7px 0;
+    box-shadow: $shadow-2dp;
+  }
+  button.react-datepicker__navigation--previous {
+    left: 10px;
+  }
+  button.react-datepicker__navigation--next {
+    right: 10px;
+  }
+}
+.txtWhite {
+  color: #fff;
 }

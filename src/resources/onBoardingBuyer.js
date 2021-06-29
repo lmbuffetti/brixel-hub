@@ -219,6 +219,7 @@ export const QuestionsList = (lang) => {
         name: 'owner',
         value: null,
       }],
+      background: 'bgCardGreen',
       history: 'createProfile',
       component: LoginSignup,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),

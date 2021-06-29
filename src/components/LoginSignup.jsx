@@ -208,13 +208,13 @@ const LoginSignup = (props) => {
           {
             (loginPage === 'register' || loginPage === 'login' || loginPage === 'reset') && (
               <>
-                <div className="topBar fsize-400 bgLight200 p-2 ta-c">
+                <div className="topBar fsize-400 p-2 ta-c">
                   {
                     (loginPage === 'register' || loginPage === 'reset') && (
-                      <p className="txtDark700">
+                      <p className="txtWhite">
                         <span>Already have an account?</span>
                         <span>&nbsp;</span>
-                        <span className="cur-poi td-u txtPrimary400" onClick={() => changeScreen('login')}>
+                        <span className="cur-poi td-u txtWhite" onClick={() => changeScreen('login')}>
                           <span>Login here</span>
                         </span>
                       </p>
@@ -222,10 +222,10 @@ const LoginSignup = (props) => {
                   }
                   {
                     loginPage === 'login' && (
-                      <p className="txtDark700">
+                      <p className="txtWhite">
                         <span>Login or&nbsp;</span>
                         <span
-                          className="cur-poi td-u txtPrimary400"
+                          className="cur-poi td-u txtWhite"
                           onClick={() => changeScreen('register')}
                         >
                           <span>create profile here</span>
@@ -345,62 +345,60 @@ const LoginSignup = (props) => {
           </div>
         </div>
       </div>
-      <div className="w-perc-100 w-perc-md-50 dis-f a-c">
-        <div
-          className="max-w-fix-304 w-perc-100 ml-a mr-a pt-2 px-3 pb-3 px-md-5 pb-md-5 txtWhite testimonialsSlide"
-        >
+      <div className="w-perc-100 w-perc-md-50 dis-f a-c py-2 pt-md-0 pb-md-10">
+        <div className="max-w-fix-304 w-perc-100 ml-a mr-a testimonialsSlide">
 
           {
             get(formValue, 'location.countryCode', '') === 'CH' ? (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;Absolutely perfect and uncomplicated&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and uncomplicated&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">M. Hardegger</h6>
-                  <p className="ta-c txtAltColor400">House sold</p>
+                  <h5 className="ta-c txtAltColor400">M. Hardegger</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">House sold</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;We would sell with Brixel again anytime.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">F. Pfiffner</h6>
+                  <h5 className="ta-c txtAltColor400">F. Pfiffner</h5>
                   <p className="ta-c txtAltColor400">Saved CHF 30&apos;700</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;Excellent service with flexible fees.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Excellent service with flexible fees.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">M. Callaghan</h6>
-                  <p className="ta-c txtAltColor400">Saved CHF 44&apos;050</p>
+                  <h5 className="ta-c txtAltColor400">M. Callaghan</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved CHF 44&apos;050</p>
                 </div>
               </Slider>
             ) : (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;Always quick in responding, friendly, professional.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Always quick in responding, friendly, professional.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">Katrien Willems</h6>
-                  <p className="ta-c txtAltColor400">House sold</p>
+                  <h5 className="ta-c txtAltColor400">Katrien Willems</h5>
+                  <p className="ta-c txtAltColor400 fsize-500"></p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;Easy to use and the buyer selection and service was great.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Easy to use and the buyer selection and service was great.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">Rui Gonçalves</h6>
-                  <p className="ta-c txtAltColor400">Saved 6.000€</p>
+                  <h5 className="ta-c txtAltColor400">Rui Gonçalves</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved 6.000€</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;The sale was done even faster than expected.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;The sale was done even faster than expected.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">Márcia Traça</h6>
-                  <p className="ta-c txtAltColor400">Saved 13.000€</p>
+                  <h5 className="ta-c txtAltColor400">Márcia Traça</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved 13.000€</p>
                 </div>
               </Slider>
             )

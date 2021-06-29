@@ -1,8 +1,16 @@
+.bgCardGreenDark {
+  background-color: $cardGreenDark;
+}
+.bgCardGreen {
+  background-color: $cardGreen;
+}
+
 .flowBody {
   background-color: #F7F6F5;
+
   &.flowProfile,
   &.flowResume {
-    background-color: $cardGreen;
+  //  background-color: $cardGreen;
   }
   &.flowResume {
     .content .container {
@@ -23,12 +31,29 @@
     background-color: #F7F6F5;
   }
 }
+.flowBody {
+  .trialRequest {
+    height: 100%;
+    padding-left: 0;
+    padding-right: 0;
 
+    .vCentered .singleStep {
+      padding-top: 0 !important;
+    }
+  }
+  #bodyScroll {
+    min-height: calc(100vh - 136px) !important;
+    @media (max-width: $responsive-small) {
+      min-height: calc(100vh - 96px) !important;
+    }
+  }
+}
 
 //on boarding custom styles
 .flowWrapper {
   min-height: 100%;
   .packageFlow {
+
     #multiStepForm {
 
       .brixel-checkbox-icon.radioBtnImg,
@@ -149,7 +174,10 @@
     position: absolute !important;
     left: 0;
     top: 136px;
-    min-height: calc(100% - 136px);
+    min-height: calc(100vh - 136px);
+    @media (max-width: $responsive-small) {
+      min-height: calc(100vh - 96px);
+    }
     width: 100%;
     max-width: 100%;
     height: auto;
@@ -266,6 +294,7 @@
           .topBar {
             border-top-left-radius: $step;
             border-top-right-radius: $step;
+            background-color: #009579;
           }
           .innerBox {
             border-bottom-left-radius: $step;

@@ -24,8 +24,8 @@ const ResumeTrialFlow = (props) => {
       {
         get(formValue, 'bookType', '') === 'phone' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
-            <img src={GreenHouseImg} alt="Resume" />
-            <h4 className="fweight-400 ta-c mt-6">Thanks for booking your on-site appointment.</h4>
+            <img width="164" src={GreenHouseImg} alt="Resume" />
+            <h4 className="fweight-400 ta-c mt-3">Thanks for booking your on-site appointment.</h4>
             <p className="ta-c mt-2">You will get an e-mail with a confirmation and more details.</p>
           </div>
         )
@@ -34,8 +34,8 @@ const ResumeTrialFlow = (props) => {
       {
         get(formValue, 'bookType', '') === 'online' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
-            <img src={GreenHouseImg} alt="Resume" />
-            <h4 className="fweight-400 ta-c mt-6">Great. Your on-site appointment will be on:</h4>
+            <img width="164" src={GreenHouseImg} alt="Resume" />
+            <h4 className="fweight-400 ta-c mt-3">Great. Your on-site appointment will be on:</h4>
             <h4 className="fweight-700 mt-2">
               <span>{DateTime.fromMillis(get(formValue, 'timestampDate', 1624618800000), { locale: userLang }).toFormat('EEE, d MMMM yyyy')}</span>
               <spam className="ml-small-4 mr-small-4">at</spam>
@@ -49,8 +49,8 @@ const ResumeTrialFlow = (props) => {
       {
         get(formValue, 'bookType', '') === 'schedule' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
-            <img src={ScheduleImg} alt="Resume" />
-            <h4 className="fweight-400 ta-c mt-6">Great. Your on-site appointment will be on:</h4>
+            <img width="194" src={ScheduleImg} alt="Resume" />
+            <h4 className="fweight-400 ta-c mt-3">Great. Your on-site appointment will be on:</h4>
             <h4 className="fweight-700 mt-2">
               <span>{DateTime.fromMillis(get(formValue, 'timestampDate', 1624618800000), { locale: userLang }).toFormat('EEE, d MMMM yyyy')}</span>
               <spam className="ml-small-4 mr-small-4">at</spam>
@@ -64,8 +64,8 @@ const ResumeTrialFlow = (props) => {
       {
         get(formValue, 'bookType', 'whereby') === 'whereby' && !step && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
-            <img src={WherbyImg} alt="Resume" />
-            <h4 className="fweight-700 mt-2">Let&apos;s meet now.</h4>
+            <img width="100" src={WherbyImg} alt="Resume" />
+            <h4 className="fweight-700 mt-3">Let&apos;s meet now.</h4>
             <p className="ta-c mt-2">We use Whereby – a safe and easy video call tool from Norway. No installation needed. Just click to start.</p>
           </div>
         )

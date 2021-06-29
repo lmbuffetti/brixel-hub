@@ -12,50 +12,6 @@ import { svgIcons } from './svgIcons';
 export const ScanTrialQuestions = () => [
   {
     cardType: 'loadComponent',
-    history: 'BookTrialFlow',
-    component: BookTrialFlow,
-    footerWidth: 'max-w-fix-600',
-    inputs: [
-      {
-        condition: [{
-          name: 'bookType',
-          value: 'online',
-        },
-        {
-          name: 'bookType',
-          value: 'schedule',
-        }],
-        name: 'phone',
-        validation: [Validation.required],
-      },
-      {
-        condition: [{
-          name: 'bookType',
-          value: 'online',
-        },
-        {
-          name: 'bookType',
-          value: 'schedule',
-        }],
-        name: 'dateBook',
-        validation: [Validation.required],
-      },
-      {
-        condition: [{
-          name: 'bookType',
-          value: 'online',
-        },
-        {
-          name: 'bookType',
-          value: 'schedule',
-        }],
-        name: 'hourBook',
-        validation: [Validation.required],
-      },
-    ],
-  },
-  {
-    cardType: 'loadComponent',
     history: 'introScanFlow',
     component: IntroScanFlow,
   },
@@ -144,13 +100,13 @@ export const ScanTrialQuestions = () => [
       name: 'step',
       noValue: 'skip',
     }],
-    background: 'bgGreen200',
+    background: 'bgCardGreen',
     cardType: 'loadComponent',
     component: ResumeTrialFlow,
     history: 'resume',
     vCentered: true,
     toSave: true,
-    classWrapper: 'fullSize',
+    classWrapper: '',
   },
   {
     conditions: [{
@@ -158,24 +114,24 @@ export const ScanTrialQuestions = () => [
       value: 'whereby',
     }],
     step: 'wherebyResume',
-    background: 'bgGreen200',
+    background: 'bgCardGreen',
     cardType: 'loadComponent',
     component: ResumeTrialFlow,
     history: 'whereby',
     vCentered: true,
     toSave: true,
-    classWrapper: 'fullSize',
+    classWrapper: '',
   },
   {
     cardType: 'card',
     title: 'Get Prepared',
     img: ClipboardImg,
     imgMaxWidth: 'max-w-fix-160',
-    cardClass: 'max-w-fix-360 ml-a mr-a',
+    cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
     subtitle: 'The more we know the better. Please fill out as many facts as possible for preparation.',
     history: 'success',
     vCentered: true,
-    classWrapper: 'fullSize',
+    classWrapper: '',
     showExitText: true,
   },
 ];
