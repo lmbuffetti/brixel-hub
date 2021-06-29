@@ -18,6 +18,7 @@ import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import { diff } from 'deep-object-diff';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
@@ -437,7 +438,8 @@ const GetStartedSeller = (props) => {
         }
         return null;
       });
-      setQuestions(newQuest);
+      const checkDiff = diff(quest, newQuest);
+      if (Object.keys(checkDiff).length > 0) setQuestions(newQuest);
     }
   }, [formValue]);
 
@@ -461,7 +463,7 @@ const GetStartedSeller = (props) => {
       }
       const companyCountry = get(company, 'country.code', 'CH');
       setQuestions(QuestionsList(getLang, companyCountry));
-      changeFieldValue('location.countryCode', companyCountry);
+      // changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
     }
@@ -481,8 +483,6 @@ const GetStartedSeller = (props) => {
   useEffect(() => {
     // if (get(formValue, 'properties.propertyType', null)) changeStep('next', null, 1, true);
   }, [get(formValue, 'properties.propertyType', null)]);
-
-  // console.log(errorValue);
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : 'container'} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
@@ -658,7 +658,7 @@ const mapStateToProps = (state, props) => {
   const channelCookie = cookie.get('brixelChannelSignup') || null;
   const channel = get(urlSearch, 'channel', channelCookie);
   const propertyType = get(urlSearch, 'propertyType', null);
-  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'PT');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
@@ -676,7 +676,8 @@ const mapStateToProps = (state, props) => {
       //   currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       // },
       location: {
-        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'DE'),
+        ...get(state, 'brixelForm.GetStarted.values.location', { }),
+        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'PT'),
       },
       login: {},
       owner: get(state, 'user.loggedInUser.id', null),
@@ -735,7 +736,14 @@ const mapDispatchToProps = (dispatch) => ({
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
+export const GetStartedSellerMemo = React.memo(GetStartedSeller, (prevProps, nextProps) => {
+  const diffProps = diff(prevProps, nextProps);
+  return (
+    Object.keys(diffProps).length === 0
+  );
+});
+
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(GetStartedSeller);
+)(GetStartedSellerMemo);

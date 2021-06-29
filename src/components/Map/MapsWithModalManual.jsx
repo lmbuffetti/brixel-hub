@@ -602,7 +602,7 @@ export const MapsWithModalManual = (props) => {
                     iconLeft="location-pin-simple"
                   />
                   {
-                    !selectedAddress && locList.length > 0 && !disabled && (
+                    !selectedAddress && locList.length > 1 && !disabled && (
                       <ul className="resultAutoComplete notranslate" ref={addressRef}>
                         {
                           locList.map((loc, i) => (

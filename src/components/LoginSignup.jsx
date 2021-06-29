@@ -15,10 +15,12 @@ import Slider from 'react-slick';
 import { setFormError } from '../actions/CommonActions';
 import { recoverPassword } from '../actions/UserActions';
 import { checkBrowser } from '../utils/helpers';
-import Support from './Support';
-import FabianImg from '../images/getstarted/fabian.png';
-import SchimdsImg from '../images/getstarted/schmids.png';
-import MartinImg from '../images/getstarted/martin.png';
+import Testimonial1CH from '../images/getstarted/testimonial-1_CH.jpeg';
+import Testimonial2CH from '../images/getstarted/testimonial-2_CH.jpeg';
+import Testimonial3CH from '../images/getstarted/testimonial-3_CH.jpeg';
+import Testimonial1PT from '../images/getstarted/testimonial-1_PT.jpg';
+import Testimonial2PT from '../images/getstarted/testimonial-2_PT.jpg';
+import Testimonial3PT from '../images/getstarted/testimonial-3_PT.jpg';
 
 // COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {
@@ -78,10 +80,10 @@ const LoginSignup = (props) => {
 
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"
-    if (checkBrowser() > 0) {
-      window.scrollTop = 0;
-    } else {
-      window.scrollTo({ top: 0 });
+    if (typeof window !== 'undefined' && window.innerHeight > 50) {
+      if (checkBrowser() > 0) {
+        if (window.scrollTop) window.scrollTop = 0;
+      } else if (window.scrollTo) window.scrollTo({ top: 0 });
     }
   }, []);
 
@@ -263,6 +265,13 @@ const LoginSignup = (props) => {
                             </p>
                           )
                         }
+                        {
+                          get(notification, 'state', false) && get(notification, 'type', '') === 'done' && (
+                            <p className="txtGreen400">
+                              Registration complete.
+                            </p>
+                          )
+                        }
                         <BrixelRegister
                           baseURL={baseByData.apiRoot}
                           showGeneratePassword={false}
@@ -318,45 +327,6 @@ const LoginSignup = (props) => {
             )
           }
 
-          {
-            (loginPage === 'not_sure' || loginPage === 'support') && (
-
-              <div className="p-2 bgWhite brdRadius">
-                {
-                  loginPage === 'not_sure' && (
-                    <div className="p-3 p-sm-5">
-                      <h4 className="ta-c-md  pr-lg-0">Here are 3 reasons to sign up.</h4>
-                      <ol className="mt-3 px-2 px-lg-0">
-                        <li className="pl-1">You receive a free price indication and a local market check.</li>
-                        <li className="pl-1 mt-1">You get free access to the full Brixel Hub. Your all-in-one tool to sell your home.</li>
-                        <li className="pl-1 mt-1">All services are free of charge. You decide if you want to upgrade or not.</li>
-                      </ol>
-
-                      <h4 className="ta-c-md  mt-5 pr-lg-0">Don’t worry about spam.</h4>
-                      <ol className="mt-3 px-2 px-lg-0">
-                        <li className="pl-1">All your personal data is save with us. We are not using them for commercial purpose.</li>
-                        <li className="pl-1 mt-1">We will contact you only for support and consultation</li>
-                        <li className="pl-1 mt-1">Your property data will not be published unless you request it explicitly.</li>
-                      </ol>
-                    </div>
-                  )
-                }
-                {
-                  loginPage === 'support' && (
-                    <div className="p-3 p-sm-5">
-                      <h4 className="ta-c-md  pr-5 pr-lg-0">You want to talk to us before? No problem. We are here for you.</h4>
-                      <Support
-                        isFixed={false}
-                        expanded
-                        hideClose
-                        layout="onboarding"
-                      />
-                    </div>
-                  )
-                }
-              </div>
-            )
-          }
         </div>
         <div className="footerActionLogin">
           <div className={`dis-fl-col col-reverse dis-fl-row-sm a-c ${loginPage === 'register' ? 'jc-c' : 'jc-fs'} my-3 pos-r`}>
@@ -376,59 +346,59 @@ const LoginSignup = (props) => {
         </div>
       </div>
       <div className="w-perc-100 w-perc-md-50 dis-f a-c py-2 pt-md-0 pb-md-10">
-        <div className="max-w-fix-304 w-perc-100 ml-a mr-a">
+        <div className="max-w-fix-304 w-perc-100 ml-a mr-a testimonialsSlide">
 
           {
             get(formValue, 'location.countryCode', '') === 'CH' ? (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={FabianImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and uncomplicated&quot;</h2>
+
+                  <h5 className="ta-c txtAltColor400">M. Hardegger</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">House sold</p>
+                </div>
+
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor400">Fabian</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved chf 30&apos;700</p>
+                  <h5 className="ta-c txtAltColor400">F. Pfiffner</h5>
+                  <p className="ta-c txtAltColor400">Saved CHF 30&apos;700</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={SchimdsImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;That&apos;s what the real estate market needs.&quot;</h2>
+                  <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Excellent service with flexible fees.&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor400">The Schmids</h5>
-                  <p className="ta-c txtAltColor400"> saved chf 29&apos;210</p>
-                </div>
-
-                <div className="ta-c ml-a mr-a mb-2">
-                  <img src={MartinImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and straightforward.&quot;</h2>
-
-                  <h5 className="ta-c txtAltColor400">Martin</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved chf 23&apos;600</p>
+                  <h5 className="ta-c txtAltColor400">M. Callaghan</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved CHF 44&apos;050</p>
                 </div>
               </Slider>
             ) : (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={FabianImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
+                  <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Always quick in responding, friendly, professional.&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor400">Fabian</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved eur 28.000</p>
+                  <h5 className="ta-c txtAltColor400">Katrien Willems</h5>
+                  <p className="ta-c txtAltColor400 fsize-500" />
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={SchimdsImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;That&apos;s what the real estate market needs.&quot;</h2>
+                  <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Easy to use and the buyer selection and service was great.&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor400">The Schmids</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved eur 26.210</p>
+                  <h5 className="ta-c txtAltColor400">Rui Gonçalves</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved 6.000€</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={MartinImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and straightforward.&quot;</h2>
+                  <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;The sale was done even faster than expected.&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor400">Martin</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved eur 21.600</p>
+                  <h5 className="ta-c txtAltColor400">Márcia Traça</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved 13.000€</p>
                 </div>
               </Slider>
             )
