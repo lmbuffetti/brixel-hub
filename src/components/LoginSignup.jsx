@@ -206,13 +206,13 @@ const LoginSignup = (props) => {
           {
             (loginPage === 'register' || loginPage === 'login' || loginPage === 'reset') && (
               <>
-                <div className="topBar fsize-400 bgLight200 p-2 ta-c">
+                <div className="topBar fsize-400 p-2 ta-c">
                   {
                     (loginPage === 'register' || loginPage === 'reset') && (
-                      <p className="txtDark700">
+                      <p className="txtWhite">
                         <span>Already have an account?</span>
                         <span>&nbsp;</span>
-                        <span className="cur-poi td-u txtPrimary400" onClick={() => changeScreen('login')}>
+                        <span className="cur-poi td-u txtWhite" onClick={() => changeScreen('login')}>
                           <span>Login here</span>
                         </span>
                       </p>
@@ -220,10 +220,10 @@ const LoginSignup = (props) => {
                   }
                   {
                     loginPage === 'login' && (
-                      <p className="txtDark700">
+                      <p className="txtWhite">
                         <span>Login or&nbsp;</span>
                         <span
-                          className="cur-poi td-u txtPrimary400"
+                          className="cur-poi td-u txtWhite"
                           onClick={() => changeScreen('register')}
                         >
                           <span>create profile here</span>
@@ -375,60 +375,60 @@ const LoginSignup = (props) => {
           </div>
         </div>
       </div>
-      <div className="w-perc-100 w-perc-md-50 dis-f a-c">
-        <div className="max-w-fix-304 w-perc-100 ml-a mr-a pt-2 px-3 pb-3 px-md-5 pb-md-5 txtWhite">
+      <div className="w-perc-100 w-perc-md-50 dis-f a-c py-2 pt-md-0 pb-md-10">
+        <div className="max-w-fix-304 w-perc-100 ml-a mr-a">
 
           {
             get(formValue, 'location.countryCode', '') === 'CH' ? (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={FabianImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;We would sell with Brixel again anytime.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">Fabian</h6>
-                  <p className="ta-c txtAltColor400">saved CHF 30&apos;700</p>
+                  <h5 className="ta-c txtAltColor400">Fabian</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">saved CHF 30&apos;700</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={SchimdsImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;That&apos;s what the real estate market needs.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;That&apos;s what the real estate market needs.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">The Schmids</h6>
+                  <h5 className="ta-c txtAltColor400">The Schmids</h5>
                   <p className="ta-c txtAltColor400"> saved CHF 29&apos;210</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={MartinImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;Absolutely perfect and straightforward.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and straightforward.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">Martin</h6>
-                  <p className="ta-c txtAltColor400">saved CHF 23&apos;600</p>
+                  <h5 className="ta-c txtAltColor400">Martin</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">saved CHF 23&apos;600</p>
                 </div>
               </Slider>
             ) : (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={FabianImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;We would sell with Brixel again anytime.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">Fabian</h6>
-                  <p className="ta-c txtAltColor400">saved EUR 28.000</p>
+                  <h5 className="ta-c txtAltColor400">Fabian</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">saved EUR 28.000</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={SchimdsImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;That&apos;s what the real estate market needs.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;That&apos;s what the real estate market needs.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">The Schmids</h6>
-                  <p className="ta-c txtAltColor400"> saved EUR 26.210</p>
+                  <h5 className="ta-c txtAltColor400">The Schmids</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">saved EUR 26.210</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={MartinImg} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h4 className="ta-c mb-2">&quot;Absolutely perfect and straightforward.&quot;</h4>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and straightforward.&quot;</h2>
 
-                  <h6 className="ta-c txtAltColor400">Martin</h6>
-                  <p className="ta-c txtAltColor400">saved EUR 21.600</p>
+                  <h5 className="ta-c txtAltColor400">Martin</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">saved EUR 21.600</p>
                 </div>
               </Slider>
             )

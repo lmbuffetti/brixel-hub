@@ -312,7 +312,7 @@ const ScanTrialFlow = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'history', '')} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'history', '')} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
 
       {
         get(quest, 'history', '') !== 'introScanFlow' && (
@@ -328,7 +328,7 @@ const ScanTrialFlow = (props) => {
         )
       }
 
-      <div className={`bodyModal dis-fl-col upgradeModal stepNo${currentIndex}`}>
+      <div className={`bodyModal dis-fl-col upgradeModal ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
         <form
           id="multiStepForm"
           autoComplete="off"
@@ -336,7 +336,7 @@ const ScanTrialFlow = (props) => {
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+            <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && !get(quest, 'cardType', null) && (
@@ -386,15 +386,15 @@ const ScanTrialFlow = (props) => {
                 {
                   (get(quest, 'cardType', null) === 'card') && (
                     <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                      <img src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-5`} />
-                      <h5
-                        className="fadeAnim mt-2 ta-c"
+                      <img src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
+                      <h2
+                        className="fadeAnim fweight-600 ta-c"
                         dangerouslySetInnerHTML={{ __html: quest.title }}
                       />
                       {
                         quest.subtitle && (
                           <h6
-                            className="fadeAnim mt-2 ta-c"
+                            className="fadeAnim fsize-600 fweight-400 mt-2 ta-c"
                             dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                           />
                         )
@@ -409,6 +409,7 @@ const ScanTrialFlow = (props) => {
                         className={`mt-3 m-a noWrap ${quest.history}`}
                         rounded
                         theme="green"
+                        themeSat={600}
                         label={buttonLabel()}
                         disabled={!checkValidateField()}
                         rightIcon="arrow-right-small"
@@ -447,6 +448,7 @@ const ScanTrialFlow = (props) => {
                                 className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 theme="green"
+                                themeSat={600}
                                 rounded
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"

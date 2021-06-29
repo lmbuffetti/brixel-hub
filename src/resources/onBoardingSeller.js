@@ -225,12 +225,14 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'loadComponent',
       component: ResumeCard,
       btnLabel: 'Continue',
+      background: 'bgCardGreenDark',
     },
     {
       conditions: [{
         name: 'owner',
         value: null,
       }],
+      background: 'bgCardGreen',
       history: 'createProfile',
       component: LoginSignup,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),

@@ -52,6 +52,23 @@ export const QuestionsList = (lang, country = 'CH') => {
 
   return [
     {
+      conditions: [{
+        name: 'owner',
+        value: null,
+      }],
+      history: 'createProfile',
+      background: 'bgCardGreen',
+      component: LoginSignup,
+      signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
+      loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
+      cardType: 'createProfile',
+      inputs: [{
+        component: LoginSignup,
+        name: 'register.name',
+        validation: [Validation.required],
+      }],
+    },
+    {
       title: translateTo(lang, 'What is the estimation for?'),
       history: 'estimationType',
       footerWidth: 'max-w-fix-464',
@@ -245,6 +262,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'resume',
       cardType: 'loadComponent',
       component: ResumeCard,
+      background: 'bgCardGreenDark',
       btnLabel: 'Continue',
     },
     ...BestimateQuestions('getStarted', countryCode, propertyType),
@@ -254,6 +272,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         value: null,
       }],
       history: 'createProfile',
+      background: 'bgCardGreen',
       component: LoginSignup,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
