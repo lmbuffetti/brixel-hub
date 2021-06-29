@@ -382,7 +382,7 @@ const LoginSignup = (props) => {
                   <h2 className="ta-c mb-2 fweight-600">&quot;Always quick in responding, friendly, professional.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor400">Katrien Willems</h5>
-                  <p className="ta-c txtAltColor400 fsize-500"></p>
+                  <p className="ta-c txtAltColor400 fsize-500" />
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
