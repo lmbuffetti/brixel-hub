@@ -386,7 +386,7 @@ const LoginSignup = (props) => {
                   <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor400">Fabian</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved CHF 30&apos;700</p>
+                  <p className="ta-c txtAltColor400 fsize-500">saved chf 30&apos;700</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
@@ -394,7 +394,7 @@ const LoginSignup = (props) => {
                   <h2 className="ta-c mb-2 fweight-600">&quot;That&apos;s what the real estate market needs.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor400">The Schmids</h5>
-                  <p className="ta-c txtAltColor400"> saved CHF 29&apos;210</p>
+                  <p className="ta-c txtAltColor400"> saved chf 29&apos;210</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
@@ -402,7 +402,7 @@ const LoginSignup = (props) => {
                   <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and straightforward.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor400">Martin</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved CHF 23&apos;600</p>
+                  <p className="ta-c txtAltColor400 fsize-500">saved chf 23&apos;600</p>
                 </div>
               </Slider>
             ) : (
@@ -412,7 +412,7 @@ const LoginSignup = (props) => {
                   <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor400">Fabian</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved EUR 28.000</p>
+                  <p className="ta-c txtAltColor400 fsize-500">saved eur 28.000</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
@@ -420,7 +420,7 @@ const LoginSignup = (props) => {
                   <h2 className="ta-c mb-2 fweight-600">&quot;That&apos;s what the real estate market needs.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor400">The Schmids</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved EUR 26.210</p>
+                  <p className="ta-c txtAltColor400 fsize-500">saved eur 26.210</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
@@ -428,7 +428,7 @@ const LoginSignup = (props) => {
                   <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and straightforward.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor400">Martin</h5>
-                  <p className="ta-c txtAltColor400 fsize-500">saved EUR 21.600</p>
+                  <p className="ta-c txtAltColor400 fsize-500">saved eur 21.600</p>
                 </div>
               </Slider>
             )
