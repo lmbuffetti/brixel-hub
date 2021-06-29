@@ -479,7 +479,7 @@ const GetStartedSeller = (props) => {
   };
 
   useEffect(() => {
-    if (get(formValue, 'properties.propertyType', null)) changeStep();
+    // if (get(formValue, 'properties.propertyType', null)) changeStep('next', null, 1, true);
   }, [get(formValue, 'properties.propertyType', null)]);
 
   // console.log(errorValue);
@@ -530,7 +530,6 @@ const GetStartedSeller = (props) => {
                         quest.subtitle && (
                           <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
-
                       <MultiFileldsReduxForm
                         form="GetStarted"
                         className="w-perc-100"

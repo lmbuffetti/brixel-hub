@@ -216,7 +216,7 @@ const ScanTrialFlow = (props) => {
     if (act === 'back') {
       newIndex -= step;
     } else {
-      if (get(questions, `[${currentIndex}].history`, null)) {
+      if (get(questions, `[${currentIndex}].history`, null) === 'resume' && get(activeSingleCompany, 'contact.whereby', null) && get(formValue, 'bookType', '') === 'whereby') {
         window.open(get(activeSingleCompany, 'contact.whereby', ''), '_blank');
       }
       if (!checkValidateField() && !skipValidation) {
@@ -304,7 +304,7 @@ const ScanTrialFlow = (props) => {
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    if (get(questions, `[${currentIndex}].history`, null)) label = 'Start video call now';
+    if (get(questions, `[${currentIndex}].history`, null) === 'resume' && get(formValue, 'bookType', '') === 'whereby') label = 'Start video call now';
     else if (currentIndex === 0) label = 'Book your test drive';
     else if (currentIndex === questions.length - 1) label = 'Continue';
     else label = 'Continue';

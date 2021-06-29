@@ -154,14 +154,11 @@ const MarketCategoryListSeller = (props) => {
   }, [activeCompanyId, companyListings]);
 
   const bookNow = () => {
-    localStorage.setItem('backUrl', '/sell');
-    history.push(`/${propertyId}/trialRequest`);
+    if (propertyId) {
+      localStorage.setItem('backUrl', '/sell');
+      history.push(`/${propertyId}/trialRequest`);
+    }
   };
-
-  /* const bookNow = () => {
-    localStorage.setItem('backUrl', '/sell');
-    history.push(`/${items[activeSlide].id}/trialRequest`);
-  }; */
 
   return (
     <>
