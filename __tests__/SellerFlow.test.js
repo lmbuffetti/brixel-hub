@@ -15,6 +15,14 @@ describe('Render Seller Flow', () => {
   render(
     <SellerFlow isTest />, {
       brixelForm: {
+        companies: {
+          activeSingleCompany: {
+            country: {
+              code: 'PT',
+            },
+            stub: 'brixel_portugal',
+          },
+        },
         GetStarted: {
           values: {
             test: true,
