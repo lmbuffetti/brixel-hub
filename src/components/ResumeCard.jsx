@@ -19,7 +19,6 @@ const ResumeCard = (props) => {
     onClick,
     title,
     btnLabel,
-    history,
   } = props;
 
   const defImg = () => {
@@ -163,7 +162,6 @@ ResumeCard.propTypes = {
   onClick: PropTypes.func,
   title: PropTypes.string.isRequired,
   btnLabel: PropTypes.string.isRequired,
-  history: PropTypes.object.isRequired,
 };
 
 ResumeCard.defaultProps = {
