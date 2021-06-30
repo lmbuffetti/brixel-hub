@@ -1,27 +1,17 @@
-import React from 'react';
-import Loadable from 'react-loadable';
+import React, { lazy, Suspense } from 'react';
 import Loading from '../../components/Loading';
 
-const ProtectedRoute = Loadable({
-  loader: () => import('../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
-  loading: () => null,
-});
+const ProtectedRoute = lazy(() => import('../../components/ProtectedRoute'));
 
-const OffersList = Loadable({
-  loader: () => import('./OffersList' /* webpackChunkName: "OffersList" */),
-  loading: Loading,
-});
+const OffersList = lazy(() => import('./OffersList'));
 
-const OfferDetail = Loadable({
-  loader: () => import('./OfferDetail' /* webpackChunkName: "OfferDetail" */),
-  loading: Loading,
-});
+const OfferDetail = lazy(() => import('./OfferDetail'));
 
 const DashboardOffer = () => (
-  <>
+  <Suspense fallback={<Loading isLoading />}>
     <ProtectedRoute exact path="/:propId?/deals/offers" component={OffersList} />
     <ProtectedRoute exact path="/:propId?/deals/offers/:dealID" component={OfferDetail} />
-  </>
+  </Suspense>
 );
 
 export default DashboardOffer;

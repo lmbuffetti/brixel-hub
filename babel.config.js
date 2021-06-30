@@ -3,7 +3,6 @@ module.exports = {
   plugins: [
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-syntax-dynamic-import',
-    'react-loadable/babel',
     'babel-plugin-require-context-hook',
     ['@babel/transform-runtime', {
       regenerator: true,

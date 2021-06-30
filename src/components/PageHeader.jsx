@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* global Transifex */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState, useEffect, useCallback, lazy, Suspense,
+} from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -11,7 +13,6 @@ import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 // import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colors_new.svg';
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
-import Loadable from 'react-loadable';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setCookie, checkBrowser } from '../utils/helpers';
@@ -21,10 +22,7 @@ import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 
-const AvatarImage = Loadable({
-  loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
-  loading: () => '',
-});
+const AvatarImage = lazy(() => import('./AvatarImage'));
 
 function PageHeader(props) {
   // PROPS
@@ -230,12 +228,14 @@ function PageHeader(props) {
                     {
                       !history.location.pathname.includes('packageFlow') &&
                       !history.location.pathname.includes('trialRequest') && (
-                        <AvatarImage
-                          avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
-                          name={loggedInUser.user.name}
-                          size={40}
-                          onClick={() => avatarAction()}
-                        />
+                        <Suspense fallback="">
+                          <AvatarImage
+                            avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                            name={loggedInUser.user.name}
+                            size={40}
+                            onClick={() => avatarAction()}
+                          />
+                        </Suspense>
                       )
                     }
                     {

@@ -1,28 +1,22 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import Loadable from 'react-loadable';
 import {
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-// COMPONENTS
-import LoadingSimple from '../../components/LoadingSimple';
 
 import {
   getUserProperties,
   getFavorites,
 } from '../../actions/UserActions';
 
-const PropertyList = Loadable({
-  loader: () => import('./PropertyList' /* webpackChunkName: "Maps" */),
-  loading: LoadingSimple,
-});
+const PropertyList = lazy(() => import('./PropertyList'));
 
 const Properties = (props) => {
   // PROPS
@@ -104,7 +98,9 @@ const Properties = (props) => {
         fullWidth
       />
       */}
-      <PropertyList className="px-2 px-lg-3" activeSection={activeTab} />
+      <Suspense fallback="">
+        <PropertyList className="px-2 px-lg-3" activeSection={activeTab} />
+      </Suspense>
     </>
   );
 };

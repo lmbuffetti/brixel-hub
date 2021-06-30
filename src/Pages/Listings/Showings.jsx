@@ -1,7 +1,9 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState, useEffect, lazy, Suspense,
+} from 'react';
 import { withRouter, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -18,21 +20,17 @@ import {
   change,
   reset,
 } from '@brixel/brixel-components';
-import Loadable from 'react-loadable';
 import { DateTime } from 'luxon';
+import Loading from '../../components/Loading';
 import {
   getActiveSinglePropertyBookings,
   savePropertyVisitSchedule,
   createPropertyVisitSchedule,
   savePropertyVisitBooking,
 } from '../../actions/PropertyActions';
-import LoadingSimple from '../../components/LoadingSimple';
 import ShowingPlaceholder from '../../images/Listings/showing_placeholder.svg';
 
-const AddShowings = Loadable({
-  loader: () => import('./AddShowings' /* webpackChunkName: "AddShowings" */),
-  loading: LoadingSimple,
-});
+const AddShowings = lazy(() => import('./AddShowings'));
 
 const Showings = (props) => {
   // PROPS
@@ -250,11 +248,13 @@ const Showings = (props) => {
       </div>
       {
         getFact() !== 'showings' && (
-          <Route
-            path="/:propId/listings/showings/addBooking/:idShowing"
-            exact
-            component={AddShowings}
-          />
+          <Suspense fallback={<Loading isLoading />}>
+            <Route
+              path="/:propId/listings/showings/addBooking/:idShowing"
+              exact
+              component={AddShowings}
+            />
+          </Suspense>
         )
       }
     </div>

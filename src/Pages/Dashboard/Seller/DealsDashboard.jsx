@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import {
   Route,
   Redirect,
@@ -12,20 +12,13 @@ import { BrixelButtonBox } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import isNumber from 'lodash/isNumber';
-import Loadable from 'react-loadable';
 import Sticker from 'react-stickyfill';
 import Loading from '../../../components/Loading';
 import { getOfferListings, setActiveSingleDeal } from '../../../actions/DealActions';
 
-const Deals = Loadable({
-  loader: () => import('../../Deals/Deals' /* webpackChunkName: "Deals" */),
-  loading: Loading,
-});
+const Deals = lazy(() => import('../../Deals/Deals'));
 
-const DashboardOffer = Loadable({
-  loader: () => import('../../Offers/DashboardOffer' /* webpackChunkName: "DashboardOffer" */),
-  loading: Loading,
-});
+const DashboardOffer = lazy(() => import('../../Offers/DashboardOffer'));
 
 const ListingsDashboard = (props) => {
   // PROPS
@@ -142,8 +135,10 @@ const ListingsDashboard = (props) => {
                 ? (
                   <div className="dis-f">
                     <div className="secondLevel dis-fl-col ml-lg-1">
-                      <Route path="/:propId/deals/lists" component={Deals} />
-                      <Route path="/:propId/deals/offers" component={DashboardOffer} />
+                      <Suspense fallback={<Loading isLoading />}>
+                        <Route path="/:propId/deals/lists" component={Deals} />
+                        <Route path="/:propId/deals/offers" component={DashboardOffer} />
+                      </Suspense>
                     </div>
                   </div>
                 ) : (

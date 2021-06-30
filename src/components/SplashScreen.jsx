@@ -1,26 +1,16 @@
 import React, {
-  useRef,
+  useRef, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-} from 'react-router-dom';
-import {
-  compose,
-} from 'redux';
-import {
-  connect,
-} from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import {
   useOutsideAlerter,
 } from '@brixel/brixel-components';
-import Loadable from 'react-loadable';
 import Loading from './Loading';
 
-const SplashScreenContent = Loadable({
-  loader: () => import('./SplashScreenContent' /* webpackChunkName: "SplashScreenContent" */),
-  loading: Loading,
-});
+const SplashScreenContent = lazy(() => import('./SplashScreenContent'));
 
 const SplashScreen = (props) => {
   const {
@@ -51,9 +41,11 @@ const SplashScreen = (props) => {
         <div className={`h-perc-100 ov-a dis-fl-col ${type === 'marketOverlay' ? '' : 'p-lg-3 p-2 px-2'}`}>
           {
             children || (
-              <SplashScreenContent
-                type={type}
-              />
+              <Suspense fallback={<Loading isLoading />}>
+                <SplashScreenContent
+                  type={type}
+                />
+              </Suspense>
             )
           }
         </div>
