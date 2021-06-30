@@ -377,6 +377,7 @@
 // overwrite inner scroll
 #bodyModalWrapper {
   &.getStarted {
+    overflow-x: hidden;
     .bodyModal {
       overflow: inherit;
       #multiStepForm {
