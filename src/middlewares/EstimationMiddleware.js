@@ -58,6 +58,13 @@ const checkEstimation = (store) => (next) => (action) => {
                 },
               });
             } else if (redirectTo) {
+              store.dispatch({
+                type: SET_SCREEN_NOTIFICATION,
+                payload: {
+                  state: true,
+                  type: 'done',
+                },
+              });
               window.location.href = redirectTo;
             }
           } else {
@@ -115,6 +122,13 @@ const checkEstimation = (store) => (next) => (action) => {
               store.dispatch({ type: SET_OWNED_PROPERTIES, payload: proList });
             }
             if (redirectTo) {
+              store.dispatch({
+                type: SET_SCREEN_NOTIFICATION,
+                payload: {
+                  state: true,
+                  type: 'done',
+                },
+              });
               window.location.href = redirectTo;
             }
           } else {

@@ -238,8 +238,9 @@ const GetStartedBuyer = (props) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
 
       // setPosition(newIndex);
-      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
-      else {
+      if (questions[defId].toSave) {
+        saveData(get(questions[defId], 'action', null));
+      } else {
         let newQuest = {
           ...questions[defId],
         };
@@ -272,11 +273,11 @@ const GetStartedBuyer = (props) => {
         const getOnlyQuest = questions.filter((item) => item.inputs);
         setProgressBar((defId * 100) / getOnlyQuest.length);
         if (checkBrowser() > 0) {
-          if (singleStepEl) singleStepEl.scrollTop = 0;
-          if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
+          if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+          if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
         } else {
-          if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-          if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+          if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+          if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
     }
@@ -438,6 +439,8 @@ const GetStartedBuyer = (props) => {
     else label = 'Next';
     return label;
   };
+
+  // console.log(formValue);
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
@@ -700,6 +703,7 @@ const mapStateToProps = (state, props) => {
       location: {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
+      locations: get(state, 'brixelForm.GetStarted.values.locations', []),
       characteristics: {
         livingArea: {
           unit: 'm2',

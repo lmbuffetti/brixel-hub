@@ -119,7 +119,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         {
           component: BrixelInputStepNumber,
           classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius px-2 px-sm-5 py-5 m-a',
-          label: '',
+          label: 'Number of rooms',
           name: 'properties.typology.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
           step: 0.5,

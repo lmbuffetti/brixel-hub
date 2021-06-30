@@ -49,6 +49,7 @@ const GetStartedSeller = (props) => {
     history,
     initForm,
     initialValues,
+    isTest,
     lang,
     loggedInUser,
     match,
@@ -344,9 +345,9 @@ const GetStartedSeller = (props) => {
       const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
-    } else {
+    } else if (!isTest) {
       handleGetActiveSingleCompany({ stub: 'default' });
-      // changeFieldValue('location.countryCode', 'all');`
+      changeFieldValue('location.countryCode', 'all');
     }
     if (get(companyByUrl, 'channel', channelCookie)) {
       const defChan = get(companyByUrl, 'channel', channelCookie);
@@ -647,6 +648,7 @@ GetStartedSeller.propTypes = {
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -654,6 +656,7 @@ GetStartedSeller.propTypes = {
 };
 
 GetStartedSeller.defaultProps = {
+  isTest: false,
   lang: 'en',
 };
 

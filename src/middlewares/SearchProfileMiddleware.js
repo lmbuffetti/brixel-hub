@@ -7,7 +7,7 @@ import {
 
 import {
   SPINNER_ON,
-  SPINNER_OFF,
+  SPINNER_OFF, SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -43,17 +43,24 @@ const checkSearchProfile = (store) => (next) => (action) => {
     case UPDATE_USER_SEARCH_PROFILE: {
       next(action);
       store.dispatch({ type: SPINNER_ON });
-      const token = action.payload.token || null;
-      const addSearchProfile = action.payload.addSearchProfile || false;
+      const token = get(action, 'payload.token', null);
+      const addSearchProfile = get(action, 'payload.addSearchProfile', false);
       const extraLoading = get(action.payload, 'extraLoading', false);
       const { redirectToUrl } = action.payload;
       api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
         .then(() => {
+          store.dispatch({
+            type: SET_SCREEN_NOTIFICATION,
+            payload: {
+              state: true,
+              type: 'done',
+            },
+          });
           if (redirectToUrl) {
             window.location.href = redirectToUrl;
           } else if (addSearchProfile) {
             // window.location.href = '/home';
-            window.location.href = '/buyer/propertyLists';
+            window.location.href = '/buy';
           } else if (extraLoading) store.dispatch({ type: SPINNER_OFF });
         });
       break;
