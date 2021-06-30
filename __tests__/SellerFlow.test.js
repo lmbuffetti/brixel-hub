@@ -42,32 +42,39 @@ describe('Render Register Page', () => {
 
   it('check the show error', async () => {
     // PROPERTY TYPE
+    console.log('propertyType');
     const propType = screen.getAllByRole('radio', { name: 'Apartment' })[0];
     await userEvent.click(propType);
 
     // BEDROOMS
+    console.log('bedrooms');
     const Rooms = screen.getByLabelText('Number of rooms');
-    await userEvent.type(Rooms, 2, { allAtOnce: true });
+    await userEvent.type(Rooms, '2');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
     // LIVING AREA
-    const Area = screen.getByLabelText('Net living space');
-    await userEvent.type(Area, 120, { allAtOnce: true });
+    console.log('living area');
+    const Area = screen.getByLabelText('Gross area');
+    await userEvent.type(Area, '120');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
     // YEAR CONSTRUCTION
+    console.log('year construction');
     const Year = screen.getByLabelText('Construction year');
-    await userEvent.type(Year, 2000, { allAtOnce: true });
+    await userEvent.type(Year, '2000');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
     // SKIP LOCATION
+    console.log('location');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
     // RESUME CARD
+    console.log('resume');
     await fireEvent.click(screen.getAllByRole('button', { name: 'Continue' })[0]);
 
     // SIGN UP
+    console.log('signup');
     const Name = screen.getByLabelText('Full Name');
     await userEvent.type(Name, 'Jest Test', { allAtOnce: true });
     const Email = screen.getByLabelText('Email address');
@@ -78,10 +85,11 @@ describe('Render Register Page', () => {
     await userEvent.click(Privacy);
 
     // screen.getByRole('button', { name: 'Sign up' });
+    console.log('save');
     await fireEvent.click(screen.getByRole('button', { name: 'Sign up' }));
 
     await waitFor(async () => {
       await expect(screen.getByText(/Registration complete/i));
-    }, { timeout: 20000 });
+    }, { timeout: 10000 });
   });
 });

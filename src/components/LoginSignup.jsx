@@ -266,7 +266,7 @@ const LoginSignup = (props) => {
                           )
                         }
                         {
-                          get(notification, 'state', false) && get(notification, 'type', '') === 'done' && (
+                          get(notification[0], 'state', false) && get(notification[0], 'type', '') === 'done' && (
                             <p className="txtGreen400">
                               Registration complete.
                             </p>
