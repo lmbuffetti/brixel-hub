@@ -239,7 +239,7 @@ const App = (props) => {
 
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
-    if (get(history, 'location', null)) {
+    if (get(history, 'location', null) && typeof ga !== 'undefined') {
       ga('send', 'pageview', history.location.pathname);
     }
   }, [history.location]);

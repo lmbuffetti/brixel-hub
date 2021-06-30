@@ -175,6 +175,7 @@ const GetStartedEstimation = (props) => {
       redirectToUrl: '/sell',
       extraLoading: true,
     };
+    if (formValue.pageID) data.id = formValue.pageID;
     data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
@@ -756,6 +757,7 @@ const mapStateToProps = (state, props) => {
       // price: {
       //   currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       // },
+      pageID: get(state, 'brixelForm.GetStarted.values.pageID', null),
       location: {
         ...get(state, 'brixelForm.GetStarted.values.location', { }),
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
