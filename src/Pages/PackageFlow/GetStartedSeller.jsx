@@ -485,7 +485,7 @@ const GetStartedSeller = (props) => {
   }, [get(formValue, 'properties.propertyType', null)]);
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : 'container'} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
       {
         get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
           <BrixelProgressBar
@@ -501,7 +501,7 @@ const GetStartedSeller = (props) => {
       }
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
+        className={`bodyModal ${get(quest, 'background', '') ? 'container' : ''} ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
       >
 
         <form
