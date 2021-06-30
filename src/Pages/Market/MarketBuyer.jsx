@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
 import {
   destroy,
 } from '@brixel/brixel-components';
@@ -20,15 +19,9 @@ import { setSplashType, spinnerOff } from '../../actions/CommonActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import { updateFavorite } from '../../actions/UserActions';
 
-const MarketCategoryListBuyer = Loadable({
-  loader: () => import('./MarketCategoryListBuyer' /* webpackChunkName: "MarketCategoryListBuyer" */),
-  loading: () => null,
-});
+const MarketCategoryListBuyer = lazy(() => import('./MarketCategoryListBuyer'));
 
-const MarketList = Loadable({
-  loader: () => import('./MarketList' /* webpackChunkName: "MarketList" */),
-  loading: () => null,
-});
+const MarketList = lazy(() => import('./MarketList'));
 
 const MarketBuyer = (props) => {
   // PROPS
@@ -89,10 +82,12 @@ const MarketBuyer = (props) => {
   return (
     <div className="market-container buyerPage" id="market">
       {/* premarket overlay */}
-      <Switch>
-        <Route exact path="/buy" component={MarketCategoryListBuyer} />
-        <Route exact path="/buy/:cat/:id?" component={() => <MarketList isBuyer />} />
-      </Switch>
+      <Suspense fallback="">
+        <Switch>
+          <Route exact path="/buy" component={MarketCategoryListBuyer} />
+          <Route exact path="/buy/:cat/:id?" component={() => <MarketList isBuyer />} />
+        </Switch>
+      </Suspense>
     </div>
   );
 };

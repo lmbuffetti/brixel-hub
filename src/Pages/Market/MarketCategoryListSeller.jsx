@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect, useState, lazy, Suspense,
+} from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -11,7 +13,6 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
@@ -27,10 +28,7 @@ import testdrive from '../../images/Market/testdrive.jpeg';
 import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
 import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 
-const CarouselWrapper = Loadable({
-  loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
-  loading: () => null,
-});
+const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListSeller = (props) => {
   // PROPS
@@ -161,7 +159,7 @@ const MarketCategoryListSeller = (props) => {
   };
 
   return (
-    <>
+    <Suspense fallback="">
       {/* SECTION: seller welcome message  */}
       {
         splashScreenType === 'sellerWelcome' && (
@@ -515,7 +513,7 @@ const MarketCategoryListSeller = (props) => {
           }
         </div>
       </div>
-    </>
+    </Suspense>
   );
 };
 
