@@ -58,6 +58,14 @@ const checkEstimation = (store) => (next) => (action) => {
                 },
               });
             } else if (redirectTo) {
+              console.log('estimation redirect');
+              store.dispatch({
+                type: SET_SCREEN_NOTIFICATION,
+                payload: {
+                  state: true,
+                  type: 'done',
+                },
+              });
               window.location.href = redirectTo;
             }
           } else {
@@ -115,6 +123,14 @@ const checkEstimation = (store) => (next) => (action) => {
               store.dispatch({ type: SET_OWNED_PROPERTIES, payload: proList });
             }
             if (redirectTo) {
+              console.log('generate redirect');
+              store.dispatch({
+                type: SET_SCREEN_NOTIFICATION,
+                payload: {
+                  state: true,
+                  type: 'done',
+                },
+              });
               window.location.href = redirectTo;
             }
           } else {

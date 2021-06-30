@@ -11,9 +11,9 @@ import {
 } from '../configJest/testUtils';
 import SellerFlow from '../src/Pages/PackageFlow/GetStartedSeller';
 
-describe('Render Register Page', () => {
+describe('Render Seller Flow', () => {
   render(
-    <SellerFlow />, {
+    <SellerFlow isTest />, {
       brixelForm: {
         GetStarted: {
           values: {
@@ -40,7 +40,7 @@ describe('Render Register Page', () => {
     }, '',
   );
 
-  it('check the show error', async () => {
+  it('check the success save user/page', async () => {
     // PROPERTY TYPE
     console.log('propertyType');
     const propType = screen.getAllByRole('radio', { name: 'Apartment' })[0];
@@ -54,7 +54,7 @@ describe('Render Register Page', () => {
 
     // LIVING AREA
     console.log('living area');
-    const Area = screen.getByLabelText('Gross area');
+    const Area = screen.getByRole('spinbutton');
     await userEvent.type(Area, '120');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
@@ -78,7 +78,7 @@ describe('Render Register Page', () => {
     const Name = screen.getByLabelText('Full Name');
     await userEvent.type(Name, 'Jest Test', { allAtOnce: true });
     const Email = screen.getByLabelText('Email address');
-    await userEvent.type(Email, 'user+testjestSeller@brixel.io', { allAtOnce: true });
+    await userEvent.type(Email, 'jestTest+testjestSeller@brixel.io', { allAtOnce: true });
     const Password = screen.getByLabelText('Password');
     await userEvent.type(Password, 'test.99', { allAtOnce: true });
     const Privacy = screen.getAllByRole('checkbox')[0];
