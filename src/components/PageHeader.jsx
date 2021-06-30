@@ -98,25 +98,11 @@ function PageHeader(props) {
   // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
   useEffect(() => {
     document.body.classList.add('flowBody');
-
-    if (history.location.pathname.includes('/resume')) {
-      document.body.classList.add('flowResume');
-    } else {
-      document.body.classList.remove('flowResume');
-    }
-
-    if (history.location.pathname.includes('/createProfile')) {
-      document.body.classList.add('flowProfile');
-    } else {
-      document.body.classList.remove('flowProfile');
-    }
     return () => {
       //  clean up
-      document.body.classList.remove('flowProfile');
       document.body.classList.remove('flowBody');
-      document.body.classList.remove('flowResume');
     };
-  }, [history.location.pathname]);
+  }, []);
 
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"

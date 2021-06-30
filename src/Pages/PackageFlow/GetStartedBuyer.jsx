@@ -440,23 +440,26 @@ const GetStartedBuyer = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : 'container'} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
       {
         (get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile') && get(quest, 'history', null) !== 'resume' && (
-          <BrixelProgressBar
-            large
-            className="brdRadius"
-            saturation={500}
-            color="green"
-            barBackground="light"
-            backgroundSaturation={200}
-            progressValue={progressBar}
-          />
+          <div className="pos-r">
+            <BrixelProgressBar
+              large
+              classProgressBar="container"
+              className="brdRadius"
+              saturation={500}
+              color="green"
+              barBackground="light"
+              backgroundSaturation={200}
+              progressValue={progressBar}
+            />
+          </div>
         )
       }
 
       <div
-        className={`bodyModal ${get(quest, 'background', '') ? 'container' : ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
+        className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
       >
 
         <form

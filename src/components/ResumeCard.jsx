@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelButtonPrimary, BrixelIcon, FormatValue } from '@brixel/brixel-components';
 import get from 'lodash/get';
@@ -19,6 +19,7 @@ const ResumeCard = (props) => {
     onClick,
     title,
     btnLabel,
+    history,
   } = props;
 
   const defImg = () => {
@@ -35,6 +36,14 @@ const ResumeCard = (props) => {
         return resumeHouse;
     }
   };
+
+  useEffect(() => {
+    if (document) document.body.classList.add('flowResume');
+    return () => {
+      //  clean up
+      if (document) document.body.classList.remove('flowResume');
+    };
+  }, []);
 
   return (
     <div className="dis-f flex-wrap w-perc-100 pt-4 pt-sm-10">
@@ -154,6 +163,7 @@ ResumeCard.propTypes = {
   onClick: PropTypes.func,
   title: PropTypes.string.isRequired,
   btnLabel: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 ResumeCard.defaultProps = {

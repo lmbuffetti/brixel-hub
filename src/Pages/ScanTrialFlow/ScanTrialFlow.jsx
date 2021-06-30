@@ -312,14 +312,15 @@ const ScanTrialFlow = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : 'container'} ${get(quest, 'history', '')} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
 
-      <div className="container pos-r">
+      <div className="pos-r">
         {
           get(quest, 'history', '') !== 'introScanFlow' && (
             <BrixelProgressBar
               large
-              className="brdRadius pos-a-fix"
+              classProgressBar="container"
+              className="brdRadius"
               saturation={500}
               color="green"
               barBackground="light"
@@ -330,7 +331,7 @@ const ScanTrialFlow = (props) => {
         }
       </div>
 
-      <div className={`bodyModal dis-fl-col upgradeModal ${get(quest, 'background', '') ? 'container' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
+      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
         <form
           id="multiStepForm"
           autoComplete="off"

@@ -195,6 +195,18 @@
 
     #progressBar {
       position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      /* padding-right: 16px;
+      padding-left: 16px; */
+      //max-width: 100%;
+      //max-width: calc(100% - 32px);
+    }
+    .fixedWidthBar {
+      #progressBar {
+        //left: 16px;
+        //max-width: calc(100% - 32px);
+      }
     }
 
     &.propertyType {
