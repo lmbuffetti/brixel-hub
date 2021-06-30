@@ -195,14 +195,25 @@
 
     #progressBar {
       position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      /* padding-right: 16px;
+      padding-left: 16px; */
+      //max-width: 100%;
+      //max-width: calc(100% - 32px);
+    }
+    .fixedWidthBar {
+      #progressBar {
+        //left: 16px;
+        //max-width: calc(100% - 32px);
+      }
     }
 
-    &.propertyType {
+    .propertyType.container {
       @media (max-width: $responsive-small) {
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
         h3,
-        #progressBar,
         .footerAction {
           padding-left: $step * 2;
           padding-right: $step * 2;

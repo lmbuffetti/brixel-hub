@@ -17,7 +17,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import {
-  setModal, setPageData,
+  setModal, setPageData, setWindowDimensions,
 } from '../../actions/CommonActions';
 import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
 import { InputSheets } from '../../resources/inputSheets';
@@ -34,6 +34,7 @@ const Facts = (props) => {
     handleSaveData,
     history,
     match,
+    windowDimensions,
   } = props;
 
   // STATE
@@ -129,6 +130,15 @@ const Facts = (props) => {
     }
     return null;
   };
+
+  useEffect(() => {
+    if (windowDimensions.width <= 1024) {
+      setTimeout(() => {
+        const hubDashboard = document.getElementsByClassName('hubDashboard')[0];
+        if (hubDashboard) hubDashboard.classList.add('secondLevelActive');
+      }, 10);
+    }
+  }, []);
 
   return (
     <div className="factsWrapper dis-f h-perc-lg-100">
@@ -227,6 +237,7 @@ Facts.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 Facts.defaultProps = {
@@ -242,6 +253,7 @@ const mapStateToProps = (state) => ({
   notification: get(state, 'common.notification', []),
   initial: get(state, 'brixelForm.Property.initial', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -256,6 +268,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
+  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
 export default compose(

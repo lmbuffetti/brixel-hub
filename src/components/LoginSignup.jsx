@@ -63,6 +63,14 @@ const LoginSignup = (props) => {
     onDisableValidation(true);
   }, []);
 
+  useEffect(() => {
+    document.body.classList.add('flowProfile');
+    return () => {
+      //  clean up
+      document.body.classList.remove('flowProfile');
+    };
+  }, []);
+
   // FUNCTION TO SAVE ON REDUX FORM THE CURRENT PAGE (LOGIN OR REGISTER)
   useEffect(() => {
     if (typeof loggedInUser.token === 'undefined') {
