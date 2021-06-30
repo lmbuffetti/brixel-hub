@@ -537,13 +537,23 @@ button.minimum-w-210 {
   .inputDate .input-container .brixel-text-input {
     padding-left: 24px !important;
     padding-right: 24px !important;
+    @media (max-width: $responsive-small) {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
   }
   .inputPhone .input-container .brixel-text-input {
     padding-right: 24px !important;
+    @media (max-width: $responsive-small) {
+      padding-right: 16px !important;
+    }
   }
   .brixel-select.flags .dropdown .selElement,
   .brixel-select.flags .dropdown> ul li {
     padding-left: 24px;
+    @media (max-width: $responsive-small) {
+      padding-left: 16px !important;
+    }
   }
 
   .brixel-select.flags .dropdown {
@@ -559,6 +569,10 @@ button.minimum-w-210 {
     display: flex;
     padding-left: 24px;
     padding-right: 24px;
+    @media (max-width: $responsive-small) {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
     > div {
       width: 100%;
     }
@@ -566,6 +580,9 @@ button.minimum-w-210 {
   span.brixelIcon.activity-calendar {
     top: 16px;
     right: 30px;
+    @media (max-width: $responsive-small) {
+      right: 16px;
+    }
   }
   #wrapDatePicker #fixedDatePicker {
     left: 0;

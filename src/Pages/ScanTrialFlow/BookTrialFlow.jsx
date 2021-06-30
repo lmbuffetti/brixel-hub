@@ -116,9 +116,9 @@ const BookTrialFlow = (props) => {
                 color="dark"
                 saturationTxt={400}
                 title="Book online"
-                titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
+                titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
                 contentClass="pb-5"
-                paddingContent="px-5"
+                paddingContent="px-2 px-sm-5"
                 onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
                 smallRightIcon
                 isExpanded={openAccordion === 'online'}
@@ -225,9 +225,9 @@ const BookTrialFlow = (props) => {
                 color="dark"
                 saturationTxt={400}
                 title="Book via phone"
-                titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
+                titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
                 contentClass="pb-5"
-                paddingContent="px-5"
+                paddingContent="px-2 px-sm-5"
                 onExpand={(val) => setOpenAccordion(val === true ? 'phone' : '')}
                 smallRightIcon
                 isExpanded={openAccordion === 'phone'}
@@ -276,9 +276,9 @@ const BookTrialFlow = (props) => {
                   color="dark"
                   saturationTxt={400}
                   title="Speak to us now"
-                  titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
+                  titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
                   contentClass="pb-5"
-                  paddingContent="px-5"
+                  paddingContent="px-2 px-sm-5"
                   onExpand={(val) => setOpenAccordion(val === true ? 'whereby' : '')}
                   smallRightIcon
                   isExpanded={openAccordion === 'whereby'}
@@ -317,9 +317,9 @@ const BookTrialFlow = (props) => {
                   color="dark"
                   saturationTxt={400}
                   title="Schedule for later"
-                  titleClass="fsize-500 w-perc-100 jc-b py-3 px-5"
+                  titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
                   contentClass="pb-5"
-                  paddingContent="px-5"
+                  paddingContent="px-2 px-sm-5"
                   onExpand={(val) => setOpenAccordion(val === true ? 'schedule' : '')}
                   smallRightIcon
                   isExpanded={openAccordion === 'schedule'}
