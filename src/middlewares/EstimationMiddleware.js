@@ -58,7 +58,6 @@ const checkEstimation = (store) => (next) => (action) => {
                 },
               });
             } else if (redirectTo) {
-              console.log('estimation redirect');
               store.dispatch({
                 type: SET_SCREEN_NOTIFICATION,
                 payload: {
@@ -123,7 +122,6 @@ const checkEstimation = (store) => (next) => (action) => {
               store.dispatch({ type: SET_OWNED_PROPERTIES, payload: proList });
             }
             if (redirectTo) {
-              console.log('generate redirect');
               store.dispatch({
                 type: SET_SCREEN_NOTIFICATION,
                 payload: {
