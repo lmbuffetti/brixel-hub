@@ -315,7 +315,7 @@ export const getDevMode = () => {
 };
 
 export const setCookie = (key, val) => {
-  const host = window.location.host.split('.');
+  const host = get(window, 'location.host', '').split('.');
   const localhost = host[0].match(/localhost/gi);
   const localip = host[0].match(/0/gi);
   let domain;
@@ -324,7 +324,7 @@ export const setCookie = (key, val) => {
   } else if (localip) {
     domain = '0.0.0.0';
   } else {
-    const curDomain = document.location.hostname.split('.')[document.location.hostname.split('.').length - 1];
+    const curDomain = get(document, 'location.hostname', '').split('.')[get(document, 'location.hostname', '').split('.').length - 1];
     domain = `.brixel.${curDomain}`;
   }
   const options = {
@@ -337,7 +337,7 @@ export const setCookie = (key, val) => {
 };
 
 export const getCookie = (key) => {
-  const host = window.location.host.split('.');
+  const host = get(window, 'location.host', '').split('.');
   const localhost = host[0].match(/localhost/gi);
   const localip = host[0].match(/0/gi);
   let domain;
@@ -346,7 +346,7 @@ export const getCookie = (key) => {
   } else if (localip) {
     domain = '0.0.0.0';
   } else {
-    const curDomain = document.location.hostname.split('.')[document.location.hostname.split('.').length - 1];
+    const curDomain = get(document, 'location.hostname', '').split('.')[get(document, 'location.hostname', '').split('.').length - 1];
     domain = `.brixel.${curDomain}`;
   }
   const options = {
@@ -359,7 +359,7 @@ export const getCookie = (key) => {
 };
 
 export const removeCookie = (key) => {
-  const host = window.location.host.split('.');
+  const host = get(window, 'location.host', '').split('.');
   const localhost = host[0].match(/localhost/gi);
   const localip = host[0].match(/0/gi);
   let domain;
@@ -368,7 +368,7 @@ export const removeCookie = (key) => {
   } else if (localip) {
     domain = '0.0.0.0';
   } else {
-    const curDomain = document.location.hostname.split('.')[document.location.hostname.split('.').length - 1];
+    const curDomain = get(document, 'location.hostname', '').split('.')[get(document, 'location.hostname', '').split('.').length - 1];
     domain = `.brixel.${curDomain}`;
   }
   const options = {

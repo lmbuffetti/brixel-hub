@@ -422,7 +422,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
         })
         .catch(() => {
-          if (window.location.href.includes('localhost')) {
+          if (get(window, 'location.href', '').includes('localhost')) {
             if (setAsSingle) {
               store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: {} });
             } else {

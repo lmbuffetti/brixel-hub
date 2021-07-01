@@ -34,7 +34,7 @@ const PageReviewRewards = (props) => {
 
   // FUNCTION TO OPEN THE PAGE PREVIEW AND ADD TO GAME HISTORY
   const openPreview = () => {
-    const redirectUrl = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${window.location.href}`;
+    const redirectUrl = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
     handleAddGameHistory({ stub: gameStub, redirectTo: redirectUrl, smallLoader: 'preview' });
   };
 

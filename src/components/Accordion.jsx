@@ -35,7 +35,8 @@ const Accordion = (props) => {
     <div
       className={`accordion ${className} ${open ? 'open' : 'close'}`}
     >
-      <div
+      <button
+        type="button"
         className={`title cur-poi ${titleClass} dis-f a-t`}
         onClick={() => onClickExpand(!open)}
       >
@@ -62,7 +63,7 @@ const Accordion = (props) => {
             />
           )
         }
-      </div>
+      </button>
 
       <div className={`content ${paddingContent} ${!open ? 'collapsed' : ''}`}>
         <div className={contentClass}>

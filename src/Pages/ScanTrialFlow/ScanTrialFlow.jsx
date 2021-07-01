@@ -59,7 +59,7 @@ const ScanTrialFlow = (props) => {
 
   useEffect(() => {
     localStorage.setItem('brixelRegField', JSON.stringify({}));
-    return () => destroyForm();
+    // return () => destroyForm();
   }, []);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT
@@ -121,6 +121,7 @@ const ScanTrialFlow = (props) => {
           userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
         },
       };
+      console.log(data.data.meta);
       handleSendScanTrial(data);
     }
   };
@@ -264,11 +265,11 @@ const ScanTrialFlow = (props) => {
         });
       }
       if (checkBrowser() > 0) {
-        if (singleStepEl) singleStepEl.scrollTop = 0;
-        if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
+        if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+        if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
       } else {
-        if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-        if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+        if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+        if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
     return null;
@@ -301,6 +302,7 @@ const ScanTrialFlow = (props) => {
     }
   }, [formValue]);
 
+  console.log(formValue);
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
@@ -524,6 +526,7 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     initialValues: {
+      ...get(state, 'brixelForm.scanFlow.values', {}),
       name: get(state, 'user.loggedInUser.user.name', null),
       phone: {
         prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,

@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import logger from 'redux-logger';
+import get from 'lodash/get';
 import { rootReducer } from '../reducers';
 
 // MIDDLEWARES
@@ -21,7 +22,7 @@ import EstimationMiddleware from '../middlewares/EstimationMiddleware';
 const enhancers = [];
 const middlewares = [thunkMiddleware];
 
-const getIfDev = (window.location.href).split('?');
+const getIfDev = (get(window, 'location.href', '')).split('?');
 
 if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || (getIfDev[1] && getIfDev[1].includes('dev=true')))) {
   middlewares.push(logger);

@@ -35,7 +35,7 @@ const checkGamification = (store) => (next) => (action) => {
           store.dispatch({ type: SET_ACHIEVEMENT, payload: res.data });
         })
         .catch(() => {
-          if (window.location.href.includes('localhost')) {
+          if (get(window, 'location.href', '').includes('localhost')) {
             store.dispatch({ type: SET_ACHIEVEMENT, payload: gameAchievement });
           }
         });
@@ -49,7 +49,7 @@ const checkGamification = (store) => (next) => (action) => {
           store.dispatch({ type: SET_GAMEGROUP, payload: res.data });
         })
         .catch(() => {
-          if (window.location.href.includes('localhost')) {
+          if (get(window, 'location.href', '').includes('localhost')) {
             store.dispatch({ type: SET_GAMEGROUP, payload: gameGroupDataLocal });
           }
         });
@@ -68,7 +68,7 @@ const checkGamification = (store) => (next) => (action) => {
           store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
-          if (window.location.href.includes('localhost')) {
+          if (get(window, 'location.href', '').includes('localhost')) {
             store.dispatch({ type: SET_GAME_HISTORY, payload: gameHistoryDataLocal });
             store.dispatch({ type: SET_AWARDS, payload: 2 });
             store.dispatch({ type: SET_BRIXEL_POINTS, payload: 1000 });

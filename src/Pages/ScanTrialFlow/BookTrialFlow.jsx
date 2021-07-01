@@ -55,12 +55,13 @@ const BookTrialFlow = (props) => {
   }, []);
 
   useEffect(() => {
-    if (get(formValue, 'analysis', 'on-site') === 'on-site') setOpenAccordion('online');
+    if (get(formValue, 'analysis', '') === 'on-site') setOpenAccordion('online');
     else setOpenAccordion('whereby');
-  }, [get(formValue, 'analysis', 'on-site')]);
+  }, [get(formValue, 'analysis', '')]);
 
   useEffect(() => {
-    changeFieldValue('bookType', openAccordion);
+    console.log(openAccordion);
+    if (openAccordion) changeFieldValue('bookType', openAccordion);
     if (openAccordion === 'online' || openAccordion === 'schedule') {
       updateError('dateBook', 'Required');
       updateError('hourBook', 'Required');
@@ -108,7 +109,7 @@ const BookTrialFlow = (props) => {
       <h2 className="ta-c fweight-600">We are ready 🚀.</h2>
 
       {
-        get(formValue, 'analysis', 'on-site') === 'on-site' ? (
+        get(formValue, 'analysis', '') === 'on-site' ? (
           <>
             <h2 className="mb-6 ta-c fweight-600">When do you want us to visit?</h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">

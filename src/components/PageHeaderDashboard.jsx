@@ -624,19 +624,19 @@ function PageHeaderDashboard(props) {
                               </div>
                               <a
                                 className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-r"
-                                href={`${baseByData().loginBasePath}/account/account?url=${window.location.href}`}
+                                href={`${baseByData().loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                               >
                                 Password
                               </a>
                               <a
                                 className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-r"
-                                href={`${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`}
+                                href={`${baseByData().loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                               >
                                 Preferences
                               </a>
                               <a
                                 className="px-2 link txtDark700 fweight-500 fsize-300 ta-r"
-                                href={`${baseByData().loginBasePath}/logout?url=${window.location.href}`}
+                                href={`${baseByData().loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                               >
                                 Logout
                               </a>
