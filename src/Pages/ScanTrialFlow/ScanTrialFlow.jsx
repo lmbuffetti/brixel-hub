@@ -59,7 +59,7 @@ const ScanTrialFlow = (props) => {
 
   useEffect(() => {
     localStorage.setItem('brixelRegField', JSON.stringify({}));
-    // return () => destroyForm();
+    return () => destroyForm();
   }, []);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT
@@ -121,7 +121,6 @@ const ScanTrialFlow = (props) => {
           userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
         },
       };
-      console.log(data.data.meta);
       handleSendScanTrial(data);
     }
   };
@@ -302,7 +301,6 @@ const ScanTrialFlow = (props) => {
     }
   }, [formValue]);
 
-  console.log(formValue);
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;

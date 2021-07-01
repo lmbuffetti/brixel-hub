@@ -60,7 +60,6 @@ const BookTrialFlow = (props) => {
   }, [get(formValue, 'analysis', '')]);
 
   useEffect(() => {
-    console.log(openAccordion);
     if (openAccordion) changeFieldValue('bookType', openAccordion);
     if (openAccordion === 'online' || openAccordion === 'schedule') {
       updateError('dateBook', 'Required');
