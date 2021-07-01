@@ -311,6 +311,8 @@ const ScanTrialFlow = (props) => {
     return label;
   };
 
+  console.log(formValue);
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
 

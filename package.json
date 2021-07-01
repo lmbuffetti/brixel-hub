@@ -54,7 +54,7 @@
     "build-dev": "webpack --config webpack_prod.config.js --env DEV --mode production",
     "build-stage": "webpack --config webpack_prod.config.js --env STAGING --mode production",
     "build-prod": "webpack --config webpack_prod.config.js --env PROD --mode production",
-    "test": "NODE_ENV=page-dev jest __tests__/Facts.test.js --updateSnapshot --runInBand --detectOpenHandles",
+    "test": "NODE_ENV=page-dev jest __tests__/ScanTrial.test.js --updateSnapshot --runInBand --detectOpenHandles",
     "test-stage": "NODE_ENV=page-stag jest --updateSnapshot --coverage --runInBand --detectOpenHandles",
     "test-prod": "NODE_ENV=page-prod jest --updateSnapshot --coverage --runInBand --detectOpenHandles",
     "eject": "react-scripts eject",
