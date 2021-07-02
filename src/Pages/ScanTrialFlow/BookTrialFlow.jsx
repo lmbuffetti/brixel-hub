@@ -179,6 +179,7 @@ const BookTrialFlow = (props) => {
                       input={{
                         name: 'hourBook',
                         options: optionHours,
+                        placeholder: '08.00',
                       }}
                       meta={{
                         invalid: get(syncErrors, 'hourBook', '') !== true,
