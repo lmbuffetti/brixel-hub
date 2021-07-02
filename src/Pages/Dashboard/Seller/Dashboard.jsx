@@ -139,6 +139,7 @@ const Dashboard = (props) => {
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
+      console.log(propID);
       if (propID && propID !== 'home') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetActiveSinglePropertyEstimation(propID);
@@ -177,6 +178,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
+    console.log(activeSingleProperty);
     if (!history.location.pathname.includes('pageLists') && loadedProp) {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
@@ -197,6 +199,7 @@ const Dashboard = (props) => {
     }
     localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'company', null);
+    console.log(activeSingleProperty);
     if (activeLeads && activeLeads !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads });
     }

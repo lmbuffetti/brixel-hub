@@ -72,6 +72,7 @@ const BookTrialFlow = (props) => {
     if (get(formValue, 'dateBook', null)) updateError('dateBook', true);
     if (get(formValue, 'hourBook', null)) updateError('hourBook', true);
     if (get(formValue, 'phone', { }).number) updateError('phone', true);
+    else updateError('phone', 'Required');
   }, [formValue]);
 
   const handleChangeDate = (day) => {

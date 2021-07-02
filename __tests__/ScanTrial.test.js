@@ -69,10 +69,6 @@ describe('Render Seller Flow', () => {
       await fireEvent.click(screen.getByRole('button', { name: 'Book your test drive' }));
       const propType = screen.getAllByRole('radio');
       await userEvent.click(propType[0]);
-
-      //await fireEvent.click(screen.getByRole('button', { name: 'Book via phone' }));
-      //await fireEvent.click(screen.getByText(/Book via phone/i));
-
     }, { timeout: 2000 });
 
     await waitFor(async () => {
@@ -101,10 +97,6 @@ describe('Render Seller Flow', () => {
       await fireEvent.click(screen.getByRole('button', { name: 'Book your test drive' }));
       const propType = screen.getAllByRole('radio');
       await userEvent.click(propType[0]);
-
-      //await fireEvent.click(screen.getByRole('button', { name: 'Book via phone' }));
-      //await fireEvent.click(screen.getByText(/Book via phone/i));
-
     }, { timeout: 2000 });
 
     await waitFor(async () => {

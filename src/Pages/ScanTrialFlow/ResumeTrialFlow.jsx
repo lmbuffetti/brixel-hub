@@ -37,9 +37,9 @@ const ResumeTrialFlow = (props) => {
             <img width="164" src={GreenHouseImg} alt="Resume" />
             <h4 className="fweight-400 ta-c mt-3">Great. Your on-site appointment will be on:</h4>
             <h4 className="fweight-700 mt-2">
-              <span>{DateTime.fromMillis(get(formValue, 'timestampDate', 1624618800000), { locale: userLang }).toFormat('EEE, d MMMM yyyy')}</span>
+              <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('EEE, d MMMM yyyy')}</span>
               <spam className="ml-small-4 mr-small-4">at</spam>
-              <span>{DateTime.fromMillis(get(formValue, 'timestampDate', 1624618800000), { locale: userLang }).toFormat('hh:mm')}</span>
+              <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('hh:mm')}</span>
             </h4>
             <p className="ta-c mt-2">You also got an e-mail with a confirmation and more details.</p>
           </div>
@@ -51,11 +51,15 @@ const ResumeTrialFlow = (props) => {
           <div className="max-w-fix-360 ml-a mr-a ta-c">
             <img width="194" src={ScheduleImg} alt="Resume" />
             <h4 className="fweight-400 ta-c mt-3">Great. Your on-site appointment will be on:</h4>
-            <h4 className="fweight-700 mt-2">
-              <span>{DateTime.fromMillis(get(formValue, 'timestampDate', 1624618800000), { locale: userLang }).toFormat('EEE, d MMMM yyyy')}</span>
-              <spam className="ml-small-4 mr-small-4">at</spam>
-              <span>{DateTime.fromMillis(get(formValue, 'timestampDate', 1624618800000), { locale: userLang }).toFormat('hh:mm')}</span>
-            </h4>
+            {
+              get(formValue, 'date', null) && (
+                <h4 className="fweight-700 mt-2">
+                  <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('EEE, d MMMM yyyy')}</span>
+                  <spam className="ml-small-4 mr-small-4">at</spam>
+                  <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('hh:mm')}</span>
+                </h4>
+              )
+            }
             <p className="ta-c mt-2">You also got an e-mail with a confirmation and more details.</p>
           </div>
         )
