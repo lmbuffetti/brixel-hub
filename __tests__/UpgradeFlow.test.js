@@ -66,17 +66,50 @@ describe('Render Seller Flow', () => {
 
     await waitFor(async () => {
       // PROPERTY TYPE
-      const Package = screen.getByRole('checkbox');
-      await userEvent.click(Package[0]);
-    }, { timeout: 2000 });
-    /*
-    await waitFor(async () => {
-      await fireEvent.click(screen.getByRole('button', { name: 'Book via phone' }));
+      await expect(screen.getAllByRole('heading').length > 0);
     }, { timeout: 2000 });
 
     await waitFor(async () => {
-      await fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+      console.log('Package');
+      const Package = screen.getAllByRole('checkbox');
+      await userEvent.click(Package[0]);
+      await userEvent.click(Package[1]);
     }, { timeout: 3000 });
-     */
+
+    await waitFor(async () => {
+      await fireEvent.click(screen.getByRole('button', { name: 'Order now' }));
+      console.log('Want Start');
+      const Start = screen.getAllByRole('radio');
+      await userEvent.click(Start[0]);
+    }, { timeout: 4000 });
+
+    await waitFor(async () => {
+      await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+      console.log('Current Situation');
+      const Situation = screen.getAllByRole('radio');
+      await userEvent.click(Situation[0]);
+      await userEvent.click(Situation[1]);
+      await userEvent.click(Situation[2]);
+    }, { timeout: 1000 });
+
+    await waitFor(async () => {
+      await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+      console.log('Contact Checkbox');
+      const Contact = screen.getAllByRole('checkbox');
+      await userEvent.click(Contact[0]);
+      await userEvent.click(Contact[5]);
+
+      console.log('Contact Detail');
+      const Phone = screen.getAllByRole('text');
+      await userEvent.type(Phone[0], '910123456', { allAtOnce: true });
+    }, { timeout: 1000 });
+
+    await waitFor(async () => {
+      await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    }, { timeout: 1000 });
+
+    await waitFor(async () => {
+      await expect(screen.getByRole('button', { name: 'Back to Hub' }));
+    }, { timeout: 1000 });
   });
 });

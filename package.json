@@ -136,6 +136,7 @@
     "react-dev-utils": "^11.0.4",
     "react-stickyfill": "^0.2.5",
     "redux-mock-store": "^1.5.4",
+    "regenerator-runtime": "^0.13.7",
     "reload": "^3.2.0",
     "resolve-url-loader": "^4.0.0",
     "sass-loader": "^10.2.0",
