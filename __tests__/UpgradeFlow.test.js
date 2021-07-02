@@ -6,30 +6,13 @@
 
 import React from 'react';
 import userEvent from '@testing-library/user-event';
+import get from 'lodash/get';
 import {
   render, fireEvent, screen, waitFor,
 } from '../configJest/testUtils';
 import App from '../src/App';
 import api from '../src/controllers/api/config';
-
-const fakeLocalStorage = (function () {
-  let store = {};
-
-  return {
-    getItem: function (key) {
-      return store[key] || null;
-    },
-    setItem: function (key, value) {
-      store[key] = value.toString();
-    },
-    removeItem: function (key) {
-      delete store[key];
-    },
-    clear: function () {
-      store = {};
-    }
-  };
-})();
+import { fakeLocalStorage } from '../src/utils/helpers.test';
 
 describe('Render Seller Flow', () => {
   let token;
@@ -45,7 +28,7 @@ describe('Render Seller Flow', () => {
     };
     api.user.getToken(data, { rememberMe: true })
       .then((res) => {
-        token = res.data.token;
+        token = get(res, 'data.token', null);
         user = res.data;
         done();
         window.localStorage.setItem('brixelToken', token);
