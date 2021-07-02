@@ -40,7 +40,7 @@ describe('Render Seller Flow', () => {
       value: fakeLocalStorage,
     });
     const data = {
-      username: 'jestTest+testjestEstimation@brixel.io',
+      username: 'jestTest+testjestSeller@brixel.io',
       password: 'test.99',
     };
     api.user.getToken(data, { rememberMe: true })

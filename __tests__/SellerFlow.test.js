@@ -51,31 +51,31 @@ describe('Render Seller Flow', () => {
   it('check the success save user/page', async () => {
     // PROPERTY TYPE
     console.log('propertyType');
-    const propType = screen.getAllByRole('radio', { name: 'Apartment' })[0];
+    const propType = screen.getAllByRole('radio')[0];
     await userEvent.click(propType);
 
     // BEDROOMS
     console.log('bedrooms');
     const Rooms = screen.getByLabelText('Number of rooms');
     await userEvent.type(Rooms, '2');
-    await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);
 
     // LIVING AREA
     console.log('living area');
-    const Area = screen.getByRole('spinbutton');
+    const Area = screen.getByRole('number');
     await userEvent.type(Area, '120');
-    await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);
 
     // YEAR CONSTRUCTION
     console.log('year construction');
     const Year = screen.getByLabelText('Construction year');
     await userEvent.type(Year, '2000');
-    await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);
 
     // SKIP LOCATION
     console.log('location');
-    await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);
+    await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);
 
     // RESUME CARD
     console.log('resume');
@@ -94,7 +94,7 @@ describe('Render Seller Flow', () => {
 
     // screen.getByRole('button', { name: 'Sign up' });
     console.log('save');
-    await fireEvent.click(screen.getByRole('button', { name: 'Sign up' }));
+    await fireEvent.click(screen.getAllByRole('button', { name: 'Sign up' })[0]);
 
     await waitFor(async () => {
       await expect(screen.getByText(/Registration complete/i));

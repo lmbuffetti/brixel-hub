@@ -753,7 +753,7 @@ PageHeaderDashboard.propTypes = {
   // handleSetModal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  lang: PropTypes.string,
+  lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,

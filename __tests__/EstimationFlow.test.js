@@ -51,41 +51,41 @@ describe('Render Estimation Flow', () => {
 
   it('check the show error', async () => {
     // ESTIMATION TYPE
-    console.log('estimationType');
+    console.log('estimation estimationType');
     const estimationType = screen.getAllByRole('radio')[0];
     await userEvent.click(estimationType);
 
     // PROPERTY TYPE
-    console.log('propertyType');
+    console.log('estimation propertyType');
     const propType = screen.getAllByRole('radio')[0];
     await userEvent.click(propType);
 
     // BEDROOMS
-    console.log('bedrooms');
+    console.log('estimation bedrooms');
     const Rooms = screen.getByLabelText('Number of rooms');
     await userEvent.type(Rooms, '2');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
 
     // LIVING AREA
-    console.log('living area');
+    console.log('estimation living area');
     const Area = screen.getByRole('number');
     await userEvent.type(Area, '120');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
     // YEAR CONSTRUCTION
-    console.log('year construction');
+    console.log('estimation year construction');
     const Year = screen.getByLabelText('Construction year');
     await userEvent.type(Year, '2000');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
     // SKIP LOCATION
-    console.log('location');
+    console.log('estimation location');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
     // RESUME CARD
-    console.log('resume');
+    console.log('estimation resume');
     await fireEvent.click(screen.getAllByRole('button', { name: 'Continue' })[0]);
 
     // DETAILS
