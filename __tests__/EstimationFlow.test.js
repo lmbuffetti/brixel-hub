@@ -25,7 +25,7 @@ describe('Render Estimation Flow', () => {
       brixelForm: {
         GetStarted: {
           values: {
-            pageID: '100000000000000000000000',
+            pageID: '200000000000000000000000',
             test: true,
             location: {
               address: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',

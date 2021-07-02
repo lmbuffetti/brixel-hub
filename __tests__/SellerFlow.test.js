@@ -25,6 +25,7 @@ describe('Render Seller Flow', () => {
         },
         GetStarted: {
           values: {
+            pageID: '100000000000000000000000',
             test: true,
             location: {
               address: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',

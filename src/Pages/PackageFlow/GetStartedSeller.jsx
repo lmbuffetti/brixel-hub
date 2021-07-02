@@ -130,6 +130,7 @@ const GetStartedSeller = (props) => {
       company,
       extraLoading: true,
     };
+    if (formValue.pageID) data.id = formValue.pageID;
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
@@ -677,6 +678,7 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       ...get(state, 'brixelForm.GetStarted.initialValues', {}),
       channel,
+      pageID: get(state, 'brixelForm.GetStarted.values.pageID', null),
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       company: get(state, 'companies.activeSingleCompany.stub', null),
       // price: {
