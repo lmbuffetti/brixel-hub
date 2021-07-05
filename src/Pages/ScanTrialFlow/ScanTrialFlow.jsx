@@ -311,7 +311,7 @@ const ScanTrialFlow = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
 
       <div className="pos-r">
         {
@@ -330,7 +330,7 @@ const ScanTrialFlow = (props) => {
         }
       </div>
 
-      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
+      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
         <form
           id="multiStepForm"
           autoComplete="off"
