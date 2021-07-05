@@ -9,10 +9,10 @@ import React from 'react';
 import get from 'lodash/get';
 import {
   render, screen, waitFor,
-} from '../configJest/testUtils';
-import App from '../src/App';
-import api from '../src/controllers/api/config';
-import { fakeLocalStorage } from '../src/utils/helpers.test';
+} from '../../configJest/testUtils';
+import App from '../../src/App';
+import api from '../../src/controllers/api/config';
+import { fakeLocalStorage } from '../../src/utils/helpers.test';
 
 describe('Render Sell Home', () => {
   let token;

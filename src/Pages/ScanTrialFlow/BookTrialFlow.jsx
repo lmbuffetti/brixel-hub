@@ -11,7 +11,6 @@ import {
   BrixelDatePicker,
   BrixelIcon,
   BrixelInputText,
-  BrixelSelect,
   change,
   Helpers,
   changeSyncError,
@@ -35,7 +34,6 @@ const BookTrialFlow = (props) => {
   // STATE
   const [date, setDate] = useState('');
   const [datePickerModal, setDatePickerModal] = useState(false);
-  const [optionHours, setOptionHours] = useState([]);
   // REF
   const calendarRef = useRef(null);
   const datePicker = useRef(null);
@@ -45,14 +43,6 @@ const BookTrialFlow = (props) => {
   const whereby = get(activeSingleCompany, 'contact.whereby', null);
 
   const [openAccordion, setOpenAccordion] = useState('online');
-
-  useEffect(() => {
-    const hours = [];
-    for (let $i = 0; $i < 12; $i += 1) {
-      hours.push({ value: `${8 + $i < 10 ? '0' : ''}${8 + $i}:00`, label: `${8 + $i < 10 ? '0' : ''}${8 + $i}.00` });
-    }
-    setOptionHours(hours);
-  }, []);
 
   useEffect(() => {
     if (get(formValue, 'analysis', '') === 'on-site') setOpenAccordion('online');
@@ -92,11 +82,6 @@ const BookTrialFlow = (props) => {
 
   const closeModal = () => {
     setDatePickerModal(!datePickerModal);
-  };
-
-  const openVideoCall = () => {
-    changeFieldValue('step', 'skip');
-    onClick(2);
   };
 
   useOutsideAlerter(datePicker, {
@@ -175,11 +160,16 @@ const BookTrialFlow = (props) => {
                   <div className="pos-r pl-1 w-perc-50">
                     <ReduxField
                       form="scanFlow"
-                      component={BrixelSelect}
+                      component={BrixelInputText}
                       input={{
                         name: 'hourBook',
-                        options: optionHours,
-                        placeholder: '08.00',
+                        placeholder: '08:00',
+                      }}
+                      inputFormat={{
+                        formatType: 'date-hh:mm',
+                      }}
+                      labels={{
+                        label: '',
                       }}
                       meta={{
                         invalid: get(syncErrors, 'hourBook', '') !== true,
@@ -287,12 +277,10 @@ const BookTrialFlow = (props) => {
                 >
                   {
                     whereby && (
-                      <a
-                        href={whereby}
-                        target="_blank"
+                      <button
+                        type="button"
                         className="dis-f a-c mb-3"
-                        rel="noreferrer"
-                        onClick={() => openVideoCall()}
+                        onClick={() => onClick()}
                       >
                         <BrixelIcon
                           color="white"
@@ -301,7 +289,7 @@ const BookTrialFlow = (props) => {
                           iconWidth="w-fix-24"
                         />
                         <p className="ml-2 td-u">Start a video call</p>
-                      </a>
+                      </button>
                     )
                   }
                   <p className="">We are reachable Mo - Fr, 09:00 to 18:00.</p>
@@ -377,10 +365,16 @@ const BookTrialFlow = (props) => {
                     <div className="pos-r pl-1 w-perc-50">
                       <ReduxField
                         form="scanFlow"
-                        component={BrixelSelect}
+                        component={BrixelInputText}
                         input={{
                           name: 'hourBook',
-                          options: optionHours,
+                          placeholder: '08:00',
+                        }}
+                        inputFormat={{
+                          formatType: 'date-hh:mm',
+                        }}
+                        labels={{
+                          label: '',
                         }}
                         meta={{
                           invalid: get(syncErrors, 'hourBook', '') !== true,

@@ -8,8 +8,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import {
   render, fireEvent, screen, waitFor,
-} from '../configJest/testUtils';
-import SellerFlow from '../src/Pages/PackageFlow/GetStartedSeller';
+} from '../../configJest/testUtils';
+import SellerFlow from '../../src/Pages/PackageFlow/GetStartedSeller';
 
 describe('Render Seller Flow', () => {
   render(
