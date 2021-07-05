@@ -184,10 +184,10 @@
   }
 
   .slick-prev {
-    left: 20px;
+    left: $step * 2;
   }
   .slick-next {
-    right: 20px;
+    right: $step * 2;
   }
   .slick-prev,
   .slick-next {
