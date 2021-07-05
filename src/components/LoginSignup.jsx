@@ -372,7 +372,7 @@ const LoginSignup = (props) => {
                   <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor400">F. Pfiffner</h5>
-                  <p className="ta-c txtAltColor400">Saved CHF 30&apos;700</p>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved CHF 30&apos;700</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
