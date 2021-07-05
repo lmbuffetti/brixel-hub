@@ -176,124 +176,154 @@
   }
 }
 
-.introScanFlow {
+.trialRequest {
 
-  .singleStep {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+  .btnInline {
+    padding: 0;
+    display: inline-block;
   }
 
-  .slick-prev {
-    left: $step * 2;
+  button.introScanFlow {
+    opacity: 0;
+    animation: fadeIn 600ms 1s forwards;
   }
-  .slick-next {
-    right: $step * 2;
+
+
+  .fadeIn {
+    opacity: 0;
+    animation: fadeIn 800ms 100ms forwards;
+    &:nth-child(2) {
+      animation-delay: 400ms;
+    }
+    &:nth-child(3) {
+      animation-delay: 700ms;
+    }
+    &:nth-child(4) {
+      animation-delay: 1s;
+    }
   }
-  .slick-prev,
-  .slick-next {
-    z-index: 2;
+
+
+  // scan trial request css
+
+  .divider-line {
+    display: block;
+    border-bottom: 1px solid #EDEDED;
+    left: 12.5%;
+    top: 20px;
+    position: relative;
+    animation: widthAnim 1.5s 200ms ease-in forwards;
+
+    @keyframes widthAnim {
+      0% {
+        width: 1px;
+      } 100% {
+        width: 75%;
+      }
+    }
+  }
+  .divider-line-mobile {
+    display: block;
     position: absolute;
-    margin-top: -5px;
-    background: white;
+    width: 100%;
+    border-bottom: 1px solid #EDEDED;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .roundNumber {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: $cardBlueDark;
+    color: #FFF;
+    font-family: $font-family-secondary;
+    font-size: 18px;
+    position: relative;
+
+    &::after {
+      content: '';
+      background: #F7F6F5;
+      width: 20px;
+      left: -20px;
+      position: absolute;
+      height: 100%;
+    }
     &::before {
-      content: none;
-    }
-    &.slick-disabled {
-      display: none !important;
-    }
-  }
-
-  .olLgNum {
-    counter-reset: olList;
-
-    li {
-      list-style: none;
-      position: relative;
-      padding-left: 72px;
-      margin-bottom: $step * 4;
-
-      >h5 {
-        margin-bottom: $step;
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-
-      &:before {
-        position: absolute;
-        left: 16px;
-        transform: translateY(-15%);
-        @include fontStyle(400, 'medium');
-        counter-increment: olList;
-        content: counter(olList);
-        border-radius: 50%;
-        color: map_get($greenColor, 400);
-        border: 1px solid map_get($greenColor, 400);
-        display: flex;
-        width: 40px;
-        height: 40px;
-        align-items: center;
-        justify-content: center;
-      }
+      content: '';
+      background: #F7F6F5;
+      width: 20px;
+      right: -20px;
+      position: absolute;
+      height: 100%;
     }
   }
-}
-
-.btnInline {
-  padding: 0;
-  display: inline-block;
-}
 
 
-// scan trial request css
+  .introScanFlow {
+    .singleStep {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
 
-.divider-line {
-  display: block;
-  width: 100%;
-  border-bottom: 1px solid #EDEDED;
-  max-width: 75%;
-  margin: 0 auto;
-  top: 20px;
-  position: relative;
-}
-.divider-line-mobile {
-  display: block;
-  position: absolute;
-  width: 100%;
-  border-bottom: 1px solid #EDEDED;
-  margin: 0 auto;
-  top: 50%;
-  transform: translateY(-50%);
-}
+    .slick-prev {
+      left: $step * 2;
+    }
+    .slick-next {
+      right: $step * 2;
+    }
+    .slick-prev,
+    .slick-next {
+      z-index: 2;
+      position: absolute;
+      margin-top: -2px;
+      background: white;
+      &::before {
+        content: none;
+      }
+      &.slick-disabled {
+        display: none !important;
+      }
+    }
 
-.roundNumber {
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: $cardBlueDark;
-  color: #FFF;
-  font-family: $font-family-secondary;
-  font-size: 18px;
-  position: relative;
+    .olLgNum {
+      counter-reset: olList;
 
-  &::after {
-    content: '';
-    background: #F7F6F5;
-    width: 20px;
-    left: -20px;
-    position: absolute;
-    height: 100%;
-  }
-  &::before {
-    content: '';
-    background: #F7F6F5;
-    width: 20px;
-    right: -20px;
-    position: absolute;
-    height: 100%;
+      li {
+        list-style: none;
+        position: relative;
+        padding-left: 72px;
+        margin-bottom: $step * 4;
+
+        >h5 {
+          margin-bottom: $step;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        &:before {
+          position: absolute;
+          left: 16px;
+          transform: translateY(-15%);
+          @include fontStyle(400, 'medium');
+          counter-increment: olList;
+          content: counter(olList);
+          border-radius: 50%;
+          color: map_get($greenColor, 400);
+          border: 1px solid map_get($greenColor, 400);
+          display: flex;
+          width: 40px;
+          height: 40px;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
   }
 }

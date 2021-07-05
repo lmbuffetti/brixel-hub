@@ -47,33 +47,33 @@ const IntroScanFlow = (props) => {
   return (
     <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700">
 
-      <h2 className="mb-2 mb-lg-5 ta-c fweight-600">
+      <h2 className="mb-3 mb-lg-5 ta-c fweight-600">
         How it works
       </h2>
       {
         windowDimensions.width >= 1024 ? (
           <>
-            <div className="">
+            <div className="trailFlow">
               <div className="row">
-                <div className="col-3">
+                <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
                     <img className="w-perc-100 max-w-fix-144" src={AnalyseImg} alt="text-1" />
                   </div>
                 </div>
 
-                <div className="col-3">
+                <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
                     <img className="w-perc-100 max-w-fix-144" src={DeliverImg} alt="text-1" />
                   </div>
                 </div>
 
-                <div className="col-3">
+                <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
                     <img className="w-perc-100 max-w-fix-144" src={YourTestImg} alt="text-1" />
                   </div>
                 </div>
 
-                <div className="col-3">
+                <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
                     <img className="w-perc-100 max-w-fix-144" src={DecideImg} alt="text-1" />
                   </div>
@@ -86,7 +86,7 @@ const IntroScanFlow = (props) => {
             </div>
             <div className="row">
 
-              <div className="col-12 col-sm-3 mb-2 mb-sm-0">
+              <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={AnalyseImg} alt="text-1" /> */}
                   <div className="roundNumber ml-a mr-a">1</div>
@@ -97,7 +97,7 @@ const IntroScanFlow = (props) => {
                 </div>
               </div>
 
-              <div className="col-12 col-sm-3 mb-2 mb-sm-0">
+              <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={DeliverImg} alt="text-1" /> */}
                   <div className="roundNumber ml-a mr-a">2</div>
@@ -108,7 +108,7 @@ const IntroScanFlow = (props) => {
                 </div>
               </div>
 
-              <div className="col-12 col-sm-3 mb-2 mb-sm-0">
+              <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={YourTestImg} alt="text-1" /> */}
                   <div className="roundNumber ml-a mr-a">3</div>
@@ -119,7 +119,7 @@ const IntroScanFlow = (props) => {
                 </div>
               </div>
 
-              <div className="col-12 col-sm-3 mb-2 mb-sm-0">
+              <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={DecideImg} alt="text-1" /> */}
                   <div className="roundNumber ml-a mr-a">4</div>
@@ -138,7 +138,7 @@ const IntroScanFlow = (props) => {
               <div className="">
                 <div className="brdRadius ov-h ta-c">
                   <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={AnalyseImg} alt="text-1" />
-                  <div className="pos-r">
+                  <div className="pos-r my-1">
                     <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-r-0" />
                     <div className="roundNumber ml-a mr-a">1</div>
                   </div>
@@ -152,7 +152,7 @@ const IntroScanFlow = (props) => {
               <div className="">
                 <div className="brdRadius ov-h ta-c">
                   <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DeliverImg} alt="text-1" />
-                  <div className="pos-r">
+                  <div className="pos-r my-1">
                     <hr className="divider-line-mobile" />
                     <div className="roundNumber ml-a mr-a">2</div>
                   </div>
@@ -166,7 +166,7 @@ const IntroScanFlow = (props) => {
               <div className="">
                 <div className="brdRadius ov-h ta-c">
                   <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={YourTestImg} alt="text-1" />
-                  <div className="pos-r">
+                  <div className="pos-r my-1">
                     <hr className="divider-line-mobile" />
                     <div className="roundNumber ml-a mr-a">3</div>
                   </div>
@@ -180,7 +180,7 @@ const IntroScanFlow = (props) => {
               <div className="">
                 <div className="brdRadius ov-h ta-c">
                   <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DecideImg} alt="text-1" />
-                  <div className="pos-r">
+                  <div className="pos-r my-1">
                     <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-l-0" />
                     <div className="roundNumber ml-a mr-a">4</div>
                   </div>
