@@ -47,13 +47,13 @@ const IntroScanFlow = (props) => {
   return (
     <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700">
 
-      <h2 className="mb-1 mb-sm-2 mb-md-6 ta-c fweight-600">
+      <h2 className="mb-1 mb-sm-2 mb-lg-5 ta-c fweight-600">
         How it works
       </h2>
       {
         windowDimensions.width >= 1024 ? (
           <>
-            <div className="hide dis-b-sm mb-1">
+            <div className="">
               <div className="row">
                 <div className="col-3">
                   <div className="ov-h ta-c">

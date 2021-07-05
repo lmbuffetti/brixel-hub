@@ -254,7 +254,8 @@
   border-bottom: 1px solid #EDEDED;
   max-width: 75%;
   margin: 0 auto;
-  margin-bottom: -28px;
+  top: 20px;
+  position: relative;
 }
 .divider-line-mobile {
   display: block;
@@ -265,7 +266,6 @@
   top: 50%;
   transform: translateY(-50%);
 }
-
 
 .roundNumber {
   width: 38px;
