@@ -179,10 +179,8 @@
 .introScanFlow {
 
   .singleStep {
-    @media (max-width: $responsive-medium) {
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
-    }
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
 
   .slick-prev {
@@ -195,12 +193,8 @@
   .slick-next {
     z-index: 2;
     position: absolute;
-    margin-top: 3px;
+    margin-top: -5px;
     background: white;
-    &::after {
-      content: '';
-      top: 30px;
-    }
     &::before {
       content: none;
     }
