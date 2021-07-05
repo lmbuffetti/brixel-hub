@@ -307,6 +307,8 @@ const App = (props) => {
       if (windowDimensions.width <= 1024) {
         return { height: windowDimensions.height };
       }
+    } else if (isFlow) {
+      return { height: windowDimensions.height };
     }
     return null;
   }, [isFlow]);

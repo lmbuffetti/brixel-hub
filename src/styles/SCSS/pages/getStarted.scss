@@ -43,9 +43,10 @@
     }
   }
   #bodyScroll {
-    min-height: calc(100vh - 136px) !important;
+    flex: 1;
+    //min-height: calc(100vh - 136px) !important;
     @media (max-width: $responsive-small) {
-      min-height: auto !important;
+      //min-height: calc(100vh - 96px) !important;
     }
   }
 }
