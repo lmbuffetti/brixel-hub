@@ -177,6 +177,38 @@
 }
 
 .introScanFlow {
+
+  .singleStep {
+    @media (max-width: $responsive-medium) {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+  }
+
+  .slick-prev {
+    left: 20px;
+  }
+  .slick-next {
+    right: 20px;
+  }
+  .slick-prev,
+  .slick-next {
+    z-index: 2;
+    position: absolute;
+    margin-top: 3px;
+    background: white;
+    &::after {
+      content: '';
+      top: 30px;
+    }
+    &::before {
+      content: none;
+    }
+    &.slick-disabled {
+      display: none !important;
+    }
+  }
+
   .olLgNum {
     counter-reset: olList;
 
@@ -229,6 +261,15 @@
   max-width: 75%;
   margin: 0 auto;
   margin-bottom: -28px;
+}
+.divider-line-mobile {
+  display: block;
+  position: absolute;
+  width: 100%;
+  border-bottom: 1px solid #EDEDED;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 
