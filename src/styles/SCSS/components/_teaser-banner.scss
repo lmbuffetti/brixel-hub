@@ -158,7 +158,6 @@
     0% {
       opacity: 0;
     }
-
     100% {
       opacity: 1;
     }
@@ -184,8 +183,10 @@
   }
 
   button.introScanFlow {
-    opacity: 0;
-    animation: fadeIn 600ms 1s forwards;
+    @media (min-width: $responsive-medium) {
+      opacity: 0;
+      animation: fadeIn 600ms 1s forwards;
+    }
   }
 
 
