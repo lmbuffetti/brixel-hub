@@ -287,7 +287,7 @@ const App = (props) => {
       if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = { hideLoad: true };
       handleCheckToken(data);
     }
-    window.addEventListener('resize', () => {
+    /*  window.addEventListener('resize', () => {
       handleSetWindowsDimension({
         height: window.innerHeight,
         width: window.innerWidth,
@@ -295,7 +295,7 @@ const App = (props) => {
       headerCalc();
       calcHeaderHeight();
       calcFlowHeaderHeight();
-    });
+    }); */
     handleGetImageType({ smallLoader: 'imgType' });
   }, []);
 
@@ -311,7 +311,19 @@ const App = (props) => {
       return { height: windowDimensions.height };
     }
     return null;
-  }, [isFlow]);
+  }, [isFlow, windowDimensions]);
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      handleSetWindowsDimension({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+      headerCalc();
+      calcHeaderHeight();
+      calcFlowHeaderHeight();
+    });
+  }, [window]);
 
   const overflowClass = useCallback(() => {
     if (history.location.pathname.includes('deals') && !history.location.pathname.includes('offers')) return 'ov-y-h ov-x-h';
