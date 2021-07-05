@@ -395,7 +395,7 @@ const LoginSignup = (props) => {
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;Thank you for the constant support and professionalism! Everything went impeccably well, it doesn&apos;t even seem real!&quot;</h2>
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Everything went incredibly well, it doesn't even seem real!&quot;</h2>
 
                   <h5 className="ta-c txtAltColor400">Luca Benussi</h5>
                   <p className="ta-c txtAltColor400 fsize-500">Saved 18.400€</p>
