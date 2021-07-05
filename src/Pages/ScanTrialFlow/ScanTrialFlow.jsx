@@ -71,7 +71,7 @@ const ScanTrialFlow = (props) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    if (!isSmallLoading.sendData && questions[currentIndex + 1].history === 'success') {
+    if (!isSmallLoading.sendData && (questions[currentIndex + 1] && questions[currentIndex + 1].history === 'success')) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setQuest(questions[newIndex]);
