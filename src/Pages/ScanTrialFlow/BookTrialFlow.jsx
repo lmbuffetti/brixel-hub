@@ -84,11 +84,6 @@ const BookTrialFlow = (props) => {
     setDatePickerModal(!datePickerModal);
   };
 
-  const openVideoCall = () => {
-    changeFieldValue('step', 'skip');
-    onClick(2);
-  };
-
   useOutsideAlerter(datePicker, {
     action: 'function',
     func: () => closeModal(),
@@ -282,12 +277,10 @@ const BookTrialFlow = (props) => {
                 >
                   {
                     whereby && (
-                      <a
-                        href={whereby}
-                        target="_blank"
+                      <button
+                        type="button"
                         className="dis-f a-c mb-3"
-                        rel="noreferrer"
-                        onClick={() => openVideoCall()}
+                        onClick={() => onClick()}
                       >
                         <BrixelIcon
                           color="white"
@@ -296,7 +289,7 @@ const BookTrialFlow = (props) => {
                           iconWidth="w-fix-24"
                         />
                         <p className="ml-2 td-u">Start a video call</p>
-                      </a>
+                      </button>
                     )
                   }
                   <p className="">We are reachable Mo - Fr, 09:00 to 18:00.</p>
