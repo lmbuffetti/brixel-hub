@@ -45,7 +45,7 @@
   #bodyScroll {
     min-height: calc(100vh - 136px) !important;
     @media (max-width: $responsive-small) {
-      min-height: calc(100vh - 96px) !important;
+      min-height: auto !important;
     }
   }
 }
