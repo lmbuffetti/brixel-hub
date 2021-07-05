@@ -422,7 +422,7 @@ export const MapsWithModalManual = (props) => {
                 theme="dark"
                 onClick={() => closeModal()}
               />
-              <div className="w-perc-100 px-2 px-sm-5 m-a pt-5 h-perc-100 ov-y-a">
+              <div className="w-perc-100 px-2 px-sm-5 m-a pt-5 h-perc-100 ov-y-a pb-5 pb-sm-0">
                 <h3 className="mt-3 mb-5 w-perc-100 pr-4">
                   Please edit your address manually.
                 </h3>
@@ -543,7 +543,7 @@ export const MapsWithModalManual = (props) => {
                 )
               }
               <div
-                className={`footerAction shadow-1dp-top normStep ${errorResult ? 'mt-2' : 'mt-5'}`}
+                className={`footerAction shadow-1dp-top normStep ${errorResult ? 'mt-2' : 'mt-sm-5'}`}
               >
                 <div className="pos-r p-2">
                   <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-b jc-fe-sm">

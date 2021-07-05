@@ -26,6 +26,9 @@
   }
   &.overlayOpen {
     overflow: hidden;
+    .flowHeader {
+      z-index: 1;
+    }
   }
   .flowHeader {
     background-color: #F7F6F5;
@@ -172,18 +175,7 @@
 }
 
 #bodyModalWrapper {
- /*  &.fullSize {
-    position: absolute !important;
-    left: 0;
-    top: 136px;
-    min-height: calc(100vh - 136px);
-    @media (max-width: $responsive-small) {
-      min-height: calc(100vh - 96px);
-    }
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-  } */
+
   &.getStarted {
     &:not([class*="bg"]) {
       background-color: transparent;
@@ -390,7 +382,7 @@
 // overwrite inner scroll
 #bodyModalWrapper {
   &.getStarted {
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     .bodyModal {
       overflow: inherit;
       #multiStepForm {
