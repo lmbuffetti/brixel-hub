@@ -8,8 +8,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import {
   render, fireEvent, screen, waitFor,
-} from '../configJest/testUtils';
-import EstimationFlow from '../src/Pages/PackageFlow/GetStartedEstimation';
+} from '../../configJest/testUtils';
+import EstimationFlow from '../../src/Pages/PackageFlow/GetStartedEstimation';
 
 describe('Render Estimation Flow', () => {
   render(

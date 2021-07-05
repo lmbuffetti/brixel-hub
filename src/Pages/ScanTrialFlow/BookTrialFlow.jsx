@@ -11,7 +11,6 @@ import {
   BrixelDatePicker,
   BrixelIcon,
   BrixelInputText,
-  BrixelSelect,
   change,
   Helpers,
   changeSyncError,
@@ -35,7 +34,6 @@ const BookTrialFlow = (props) => {
   // STATE
   const [date, setDate] = useState('');
   const [datePickerModal, setDatePickerModal] = useState(false);
-  const [optionHours, setOptionHours] = useState([]);
   // REF
   const calendarRef = useRef(null);
   const datePicker = useRef(null);
@@ -45,14 +43,6 @@ const BookTrialFlow = (props) => {
   const whereby = get(activeSingleCompany, 'contact.whereby', null);
 
   const [openAccordion, setOpenAccordion] = useState('online');
-
-  useEffect(() => {
-    const hours = [];
-    for (let $i = 0; $i < 12; $i += 1) {
-      hours.push({ value: `${8 + $i < 10 ? '0' : ''}${8 + $i}:00`, label: `${8 + $i < 10 ? '0' : ''}${8 + $i}.00` });
-    }
-    setOptionHours(hours);
-  }, []);
 
   useEffect(() => {
     if (get(formValue, 'analysis', '') === 'on-site') setOpenAccordion('online');
@@ -175,11 +165,16 @@ const BookTrialFlow = (props) => {
                   <div className="pos-r pl-1 w-perc-50">
                     <ReduxField
                       form="scanFlow"
-                      component={BrixelSelect}
+                      component={BrixelInputText}
                       input={{
                         name: 'hourBook',
-                        options: optionHours,
-                        placeholder: '08.00',
+                        placeholder: '08:00',
+                      }}
+                      inputFormat={{
+                        formatType: 'date-hh:mm',
+                      }}
+                      labels={{
+                        label: '',
                       }}
                       meta={{
                         invalid: get(syncErrors, 'hourBook', '') !== true,
@@ -377,10 +372,16 @@ const BookTrialFlow = (props) => {
                     <div className="pos-r pl-1 w-perc-50">
                       <ReduxField
                         form="scanFlow"
-                        component={BrixelSelect}
+                        component={BrixelInputText}
                         input={{
                           name: 'hourBook',
-                          options: optionHours,
+                          placeholder: '08:00',
+                        }}
+                        inputFormat={{
+                          formatType: 'date-hh:mm',
+                        }}
+                        labels={{
+                          label: '',
                         }}
                         meta={{
                           invalid: get(syncErrors, 'hourBook', '') !== true,

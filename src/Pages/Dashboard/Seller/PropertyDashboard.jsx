@@ -14,7 +14,6 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
-import Sticker from 'react-stickyfill';
 import Loading from '../../../components/Loading';
 
 const Facts = lazy(() => import('../../EditProperty/Facts'));
@@ -70,7 +69,7 @@ const HomeDashboard = (props) => {
   return (
     <>
       <div className="property-container dis-f jc-fs h-perc-lg-100 pos-r a-t" id="propertyDashboard">
-        <Sticker>
+        <div>
           {
             windowDimensions.width <= 1024 && (
               <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
@@ -184,7 +183,7 @@ const HomeDashboard = (props) => {
               </div>
             )
           }
-        </Sticker>
+        </div>
         {/* <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
           <BrixelButtonIcon
             ghost

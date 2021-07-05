@@ -111,7 +111,6 @@ const ScanTrialFlow = (props) => {
         smallLoader: 'sendData',
         data: {
           user: loggedInUser.id,
-          interested: true,
           meta: {
             ...obj,
             answers: formValue,
