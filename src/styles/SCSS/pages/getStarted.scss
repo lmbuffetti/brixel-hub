@@ -8,6 +8,22 @@
 .flowBody {
   background-color: #F7F6F5;
 
+  overflow: hidden;
+  .flowScrollWrap {
+    overflow-y: auto;
+  }
+
+  &.overlayOpen {
+    .flowScrollWrap {
+      overflow-y: hidden;
+    }
+    .flowHeader {
+      z-index: 1;
+    }
+  }
+
+
+
   &.flowProfile,
   &.flowResume {
   //  background-color: $cardGreen;
@@ -24,12 +40,7 @@
       }
     }
   }
-  &.overlayOpen {
-    overflow: hidden;
-    .flowHeader {
-      z-index: 1;
-    }
-  }
+
   .flowHeader {
     background-color: #F7F6F5;
   }
