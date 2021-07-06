@@ -66,7 +66,6 @@ describe('Render Estimation Flow', () => {
     await userEvent.type(Rooms, '2');
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
-
     // LIVING AREA
     console.log('estimation living area');
     const Area = screen.getByRole('number');
