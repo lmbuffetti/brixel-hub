@@ -1,8 +1,32 @@
+.bgCardGreenDark {
+  background-color: $cardGreenDark;
+}
+.bgCardGreen {
+  background-color: $cardGreen;
+}
+
 .flowBody {
   background-color: #F7F6F5;
+
+  overflow: hidden;
+  .flowScrollWrap {
+    overflow-y: auto;
+  }
+
+  &.overlayOpen {
+    .flowScrollWrap {
+      overflow-y: hidden;
+    }
+    .flowHeader {
+      z-index: 1;
+    }
+  }
+
+
+
   &.flowProfile,
   &.flowResume {
-    background-color: #009579;
+  //  background-color: $cardGreen;
   }
   &.flowResume {
     .content .container {
@@ -16,19 +40,36 @@
       }
     }
   }
-  &.overlayOpen {
-    overflow: hidden;
-  }
+
   .flowHeader {
     background-color: #F7F6F5;
   }
 }
+.flowBody {
+  .trialRequest {
+    height: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 100%;
 
+    .vCentered .singleStep {
+      padding-top: 0 !important;
+    }
+  }
+  #bodyScroll {
+    flex: 1;
+    //min-height: calc(100vh - 136px) !important;
+    @media (max-width: $responsive-small) {
+      //min-height: calc(100vh - 96px) !important;
+    }
+  }
+}
 
 //on boarding custom styles
 .flowWrapper {
   min-height: 100%;
   .packageFlow {
+
     #multiStepForm {
 
       .brixel-checkbox-icon.radioBtnImg,
@@ -145,20 +186,39 @@
 }
 
 #bodyModalWrapper {
+
   &.getStarted {
-    background-color: transparent;
+    &:not([class*="bg"]) {
+      background-color: transparent;
+    }
+    &.container[class*="bg"] {
+      /* margin-left: 0px;
+      margin-right: 0px; */
+    }
     z-index: 1;
 
     #progressBar {
-      position: relative;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      /* padding-right: 16px;
+      padding-left: 16px; */
+      //max-width: 100%;
+      //max-width: calc(100% - 32px);
+    }
+    .fixedWidthBar {
+      #progressBar {
+        //left: 16px;
+        //max-width: calc(100% - 32px);
+      }
     }
 
-    &.propertyType {
+    .analysis.container,
+    .propertyType.container {
       @media (max-width: $responsive-small) {
-        padding-left: 0;
-        padding-right: 0;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
         h3,
-        #progressBar,
         .footerAction {
           padding-left: $step * 2;
           padding-right: $step * 2;
@@ -255,6 +315,7 @@
           .topBar {
             border-top-left-radius: $step;
             border-top-right-radius: $step;
+            background-color: #009579;
           }
           .innerBox {
             border-bottom-left-radius: $step;
@@ -332,6 +393,7 @@
 // overwrite inner scroll
 #bodyModalWrapper {
   &.getStarted {
+    /* overflow-x: hidden; */
     .bodyModal {
       overflow: inherit;
       #multiStepForm {
@@ -395,3 +457,38 @@ body:not(.overlayOpen).locationInputResume {
 .message.cardError {
     padding-left: $step * 3;
   }
+
+.flowProfile {
+  .signUpScreen {
+    .slick-dots {
+      margin-top: $step * 2;
+      li {
+        width: 8px;
+        height: 8px;
+        button{
+          &:before {
+            width: 8px;
+            height: 8px;
+            font-size: 0;
+            border-radius: 50%;
+            background-color: #A1DED2;
+            opacity: 1;
+          }
+        }
+        &.slick-active {
+          button {
+            &:before {
+              background-color: $brx-white;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.testimonialsSlide {
+  img {
+    border-radius: 50%;
+  }
+}

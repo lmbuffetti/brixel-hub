@@ -20,16 +20,17 @@ const ProtectedRoute = (props) => {
     component,
     exact,
     history,
+    isTest,
     loggedInUser,
     path,
     render,
   } = props;
 
   useEffect(() => {
-    if (window.location.hostname.includes('localhost') && typeof cookie.get('brixelToken') === 'undefined') {
+    if (get(window, 'location.hostname', '').includes('localhost') && typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
       history.push('/tokeninput');
-    } else if (typeof cookie.get('brixelToken') === 'undefined') {
-      window.location.href = `${baseByData.loginUrl}?url=${window.location.href}`;
+    } else if (typeof cookie.get('brixelToken') === 'undefined' && !isTest) {
+      window.location.href = `${baseByData.loginUrl}?url=${get(window, 'location.href', '')}`;
     } else if (loggedInUser.token && userTypes && allowAccess && allowAccess !== userTypes) {
       // history.push('/');
     }
@@ -59,14 +60,15 @@ const ProtectedRoute = (props) => {
 };
 
 ProtectedRoute.propTypes = {
-  userTypes: PropTypes.string,
   allowAccess: PropTypes.bool,
-  loggedInUser: PropTypes.object.isRequired,
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   exact: PropTypes.bool,
   history: PropTypes.object.isRequired,
+  isTest: PropTypes.bool.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
   render: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  userTypes: PropTypes.string,
 };
 
 ProtectedRoute.defaultProps = {
@@ -78,8 +80,9 @@ ProtectedRoute.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  userTypes: get(state, 'user.userTypes', null),
+  isTest: get(state, 'common.test', false),
   loggedInUser: get(state, 'user.loggedInUser', null),
+  userTypes: get(state, 'user.userTypes', null),
 });
 
 const mapDispatchToProps = () => ({

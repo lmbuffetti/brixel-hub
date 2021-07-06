@@ -1,7 +1,9 @@
 #bodyModalWrapper {
+  &:not([class*="bg"]) {
+    background-color: map_get($lightColor, 100);
+  }
   width: 100%;
   height: 100%;
-  background-color: map_get($lightColor, 100);
   z-index: 10;
   position: fixed;
   left: 0;

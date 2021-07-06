@@ -5,12 +5,14 @@
     padding-bottom: 0;
 
     max-width: 1248px;
+
     @media (min-width: 1400px) {
       //padding-left: 24px;
       //padding-right: 24px;
     }
   }
 }
+
 .teaserWrapper {
   overflow: hidden;
   margin: auto;
@@ -20,6 +22,7 @@
     .link {
       line-height: 16px;
     }
+
     @media (max-width: $responsive-small) {
       flex-wrap: wrap;
       flex-direction: column;
@@ -32,30 +35,36 @@
       .teaserTag {
         margin-bottom: $step;
       }
+
       p {
         padding-left: 0;
+
         span {
           display: block;
         }
       }
     }
   }
+
   &.smallOn {
     .smallBanner {
       top: 0;
       //transition: opacity 450ms ease;
       opacity: 0;
-      animation: slidefromtop 0.6s cubic-bezier(.39,.575,.565,1) forwards;
+      animation: slidefromtop 0.6s cubic-bezier(.39, .575, .565, 1) forwards;
       margin-bottom: 24px;
       position: relative;
     }
+
     .bigBanner {
       //opacity: 0;
     }
   }
+
   &.bigOn {
     opacity: 0;
-    animation: slidefromtop 0.6s cubic-bezier(.39,.575,.565,1) forwards;
+    animation: slidefromtop 0.6s cubic-bezier(.39, .575, .565, 1) forwards;
+
     /* .smallBanner {
       position: absolute;
       top: 0;
@@ -67,6 +76,7 @@
     }
   }
 }
+
 .teaserBanner {
   position: relative;
 
@@ -81,6 +91,7 @@
       @media (max-width: $responsive-small) {
         margin-top: -2px;
       }
+
       img {
         border-radius: 4px;
         object-fit: cover;
@@ -89,17 +100,20 @@
         height: 100%;
       }
     }
+
     padding: $step * 2;
 
     .bannerContent {
       padding-right: $step * 3;
       padding-left: $step * 3;
       padding-top: $step * 1;
+
       p {
         padding-top: $step * 2;
         padding-bottom: $step * 2;
       }
     }
+
     @media (max-width: $responsive-small) {
       flex-direction: column;
       padding: 0px;
@@ -109,23 +123,28 @@
         position: absolute;
         top: $step;
         right: $step;
+
         .iconBtn {
           background: $brx-white;
         }
       }
+
       .teaserImage {
         max-width: 100%;
         width: 100%;
+
         img {
           width: 100%;
           border-bottom-right-radius: 0px;
           border-bottom-left-radius: 0px;
         }
       }
+
       .bannerContent {
         padding-top: $step * 2;
         padding-right: $step * 2;
         padding-left: $step * 2;
+
         p {
           padding-bottom: $step * 3;
         }
@@ -138,10 +157,12 @@
   @keyframes fadeIn {
     0% {
       opacity: 0;
-    } 100% {
+    }
+    100% {
       opacity: 1;
     }
   }
+
   .teaserTag {
     background-color: map-get($greenColor, 400);
     padding-left: $step * 2;
@@ -154,41 +175,156 @@
   }
 }
 
-.introScanFlow {
-  .olLgNum {
-    counter-reset: olList;
-    li {
-      list-style: none;
-      position: relative;
-      padding-left: 72px;
-      margin-bottom: $step * 4;
-      > h5 {
-        margin-bottom: $step;
-      }
-      &:last-child {
-        margin-bottom: 0;
-      }
-      &:before {
-        position: absolute;
-        left: 16px;
-        transform: translateY(-15%);
-        @include fontStyle(400, 'medium');
-        counter-increment: olList;
-        content: counter(olList);
-        border-radius: 50%;
-        color: map_get($greenColor, 400);
-        border: 1px solid map_get($greenColor, 400);
-        display: flex;
-        width: 40px;
-        height: 40px;
-        align-items: center;
-        justify-content: center;
+.trialRequest {
+
+  .btnInline {
+    padding: 0;
+    display: inline-block;
+  }
+
+  button.introScanFlow {
+    @media (min-width: $responsive-medium) {
+      opacity: 0;
+      animation: fadeIn 600ms 1s forwards;
+    }
+  }
+
+
+  .fadeIn {
+    opacity: 0;
+    animation: fadeIn 800ms 100ms forwards;
+    &:nth-child(2) {
+      animation-delay: 400ms;
+    }
+    &:nth-child(3) {
+      animation-delay: 700ms;
+    }
+    &:nth-child(4) {
+      animation-delay: 1s;
+    }
+  }
+
+
+  // scan trial request css
+
+  .divider-line {
+    display: block;
+    border-bottom: 1px solid #EDEDED;
+    left: 12.5%;
+    top: 20px;
+    position: relative;
+    animation: widthAnim 1.5s 200ms ease-in forwards;
+
+    @keyframes widthAnim {
+      0% {
+        width: 1px;
+      } 100% {
+        width: 75%;
       }
     }
   }
-}
+  .divider-line-mobile {
+    display: block;
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid #EDEDED;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 
-.btnInline {
-  padding: 0;
-  display: inline-block;
+  .roundNumber {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: $cardBlueDark;
+    color: #FFF;
+    font-family: $font-family-secondary;
+    font-size: 18px;
+    position: relative;
+
+    &::after {
+      content: '';
+      background: #F7F6F5;
+      width: 20px;
+      left: -20px;
+      position: absolute;
+      height: 100%;
+    }
+    &::before {
+      content: '';
+      background: #F7F6F5;
+      width: 20px;
+      right: -20px;
+      position: absolute;
+      height: 100%;
+    }
+  }
+
+
+  .introScanFlow {
+    .singleStep {
+      //padding-top: $step * 4 !important;
+      padding-bottom: 0 !important;
+    }
+
+    .slick-prev {
+      left: $step * 2;
+    }
+    .slick-next {
+      right: $step * 2;
+    }
+    .slick-prev,
+    .slick-next {
+      z-index: 2;
+      position: absolute;
+      margin-top: -2px;
+      background: white;
+      &::before {
+        content: none;
+      }
+      &.slick-disabled {
+        display: none !important;
+      }
+    }
+
+    .olLgNum {
+      counter-reset: olList;
+
+      li {
+        list-style: none;
+        position: relative;
+        padding-left: 72px;
+        margin-bottom: $step * 4;
+
+        >h5 {
+          margin-bottom: $step;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        &:before {
+          position: absolute;
+          left: 16px;
+          transform: translateY(-15%);
+          @include fontStyle(400, 'medium');
+          counter-increment: olList;
+          content: counter(olList);
+          border-radius: 50%;
+          color: map_get($greenColor, 400);
+          border: 1px solid map_get($greenColor, 400);
+          display: flex;
+          width: 40px;
+          height: 40px;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+  }
 }

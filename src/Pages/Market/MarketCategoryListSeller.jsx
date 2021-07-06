@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect, useState, lazy, Suspense,
+} from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -11,7 +13,6 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
@@ -27,10 +28,7 @@ import testdrive from '../../images/Market/testdrive.jpeg';
 import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
 import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 
-const CarouselWrapper = Loadable({
-  loader: () => import('../../components/CarouselWrapper' /* webpackChunkName: "CarouselWrapper" */),
-  loading: () => null,
-});
+const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListSeller = (props) => {
   // PROPS
@@ -154,17 +152,14 @@ const MarketCategoryListSeller = (props) => {
   }, [activeCompanyId, companyListings]);
 
   const bookNow = () => {
-    localStorage.setItem('backUrl', '/sell');
-    history.push(`/${propertyId}/trialRequest`);
+    if (propertyId) {
+      localStorage.setItem('backUrl', '/sell');
+      history.push(`/${propertyId}/trialRequest`);
+    }
   };
 
-  /* const bookNow = () => {
-    localStorage.setItem('backUrl', '/sell');
-    history.push(`/${items[activeSlide].id}/trialRequest`);
-  }; */
-
   return (
-    <>
+    <Suspense fallback="">
       {/* SECTION: seller welcome message  */}
       {
         splashScreenType === 'sellerWelcome' && (
@@ -491,7 +486,7 @@ const MarketCategoryListSeller = (props) => {
               (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
                 <div className="marketSellBanner mb-10">
                   <div className="m-a px-2 px-sm-0 max-w-fix-480 max-w-fix-sm-768">
-                    <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
+                    <div className="p-2 py-sm-3 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
                       <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
                       <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                     </div>
@@ -518,7 +513,7 @@ const MarketCategoryListSeller = (props) => {
           }
         </div>
       </div>
-    </>
+    </Suspense>
   );
 };
 

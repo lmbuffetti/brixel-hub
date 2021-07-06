@@ -1,6 +1,8 @@
 // @collapse
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect, useState, lazy, Suspense,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -13,10 +15,10 @@ import { connect } from 'react-redux';
 import cloneDeep from 'lodash/cloneDeep';
 import set from 'lodash/set';
 import find from 'lodash/find';
-import Loadable from 'react-loadable';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
 import { change, initializeForm, reset } from '@brixel/brixel-components';
+import Loading from '../../../components/Loading';
 import {
   getPropertyListings,
   getActiveSingleProperty,
@@ -37,46 +39,22 @@ import {
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
 
-const RewardsDashboard = Loadable({
-  loader: () => import('./RewardsDashboard' /* webpackChunkName: "HomeDashboard" */),
-  loading: () => null,
-});
+const RewardsDashboard = lazy(() => import('./RewardsDashboard'));
 
-const PropertyDashboard = Loadable({
-  loader: () => import('./PropertyDashboard' /* webpackChunkName: "PropertyDashboard" */),
-  loading: () => null,
-});
+const PropertyDashboard = lazy(() => import('./PropertyDashboard'));
 
-const ListingsDashboard = Loadable({
-  loader: () => import('./ListingsDashboard' /* webpackChunkName: "ListingsDashboard" */),
-  loading: () => null,
-});
+const ListingsDashboard = lazy(() => import('./ListingsDashboard'));
 
-const DealsDashboard = Loadable({
-  loader: () => import('./DealsDashboard' /* webpackChunkName: "DealsDashboard" */),
-  loading: () => null,
-});
+const DealsDashboard = lazy(() => import('./DealsDashboard'));
 
-const EmptyProperty = Loadable({
-  loader: () => import('./EmptyProperty' /* webpackChunkName: "EmptyProperty" */),
-  loading: () => null,
-});
+const EmptyProperty = lazy(() => import('./EmptyProperty'));
 
 // UPGRADE
-const Upgrade = Loadable({
-  loader: () => import('../../Upgrade/Upgrade' /* webpackChunkName: "Upgrade" */),
-  loading: () => null,
-});
+const Upgrade = lazy(() => import('../../Upgrade/Upgrade'));
 
-const ScanTrialFlow = Loadable({
-  loader: () => import('../../ScanTrialFlow/ScanTrialFlow' /* webpackChunkName: "ScanTrialFlow" */),
-  loading: () => null,
-});
+const ScanTrialFlow = lazy(() => import('../../ScanTrialFlow/ScanTrialFlow'));
 
-const ProtectedRoute = Loadable({
-  loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
-  loading: () => null,
-});
+const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
 const Dashboard = (props) => {
   // PROPS
@@ -330,7 +308,6 @@ const Dashboard = (props) => {
           state: false,
         });
       }
-
       if (
         checkIsValid &&
         Object.keys(changeObj).length > 0 &&
@@ -371,15 +348,17 @@ const Dashboard = (props) => {
 
   return (
     <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
-      {/* teaserScreens && isEligible(activeSingleProperty) && () */}
-      { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-      <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
-      <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-      <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
-      <ProtectedRoute path="/:propId?/deals" component={DealsDashboard} />
-      <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-      <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
-      <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
+      <Suspense fallback={<Loading isLoading />}>
+        {/* teaserScreens && isEligible(activeSingleProperty) && () */}
+        { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+        <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
+        <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
+        <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
+        <ProtectedRoute path="/:propId?/deals" component={DealsDashboard} />
+        <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
+        <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
+        <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
+      </Suspense>
     </div>
   );
 };
@@ -487,6 +466,7 @@ const mapStateToProps = (state) => {
       portals: allPortals,
       portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
       properties,
+      preMarketVisible: get(state, 'property.activeSingleProperty.preMarketVisible', false),
       publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
       published: get(state, 'property.activeSingleProperty.published', null),
       schedule: get(state, 'property.activeSingleProperty.schedule', {}),

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -12,31 +12,17 @@ import {
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
 import last from 'lodash/last';
 import Sticker from 'react-stickyfill';
-import LoadingSimple from '../../../components/LoadingSimple';
 import Loading from '../../../components/Loading';
 
-const PageBuyer = Loadable({
-  loader: () => import('./PageBuyer' /* webpackChunkName: "PageBuyer" */),
-  loading: LoadingSimple,
-});
+const PageBuyer = lazy(() => import('./PageBuyer'));
 
-const ShowingsBuyer = Loadable({
-  loader: () => import('./ShowingsBuyer' /* webpackChunkName: "ShowingsBuyer" */),
-  loading: LoadingSimple,
-});
+const ShowingsBuyer = lazy(() => import('./ShowingsBuyer'));
 
-const ContactBuyer = Loadable({
-  loader: () => import('./ContactBuyer' /* webpackChunkName: "ContactBuyer" */),
-  loading: LoadingSimple,
-});
+const ContactBuyer = lazy(() => import('./ContactBuyer'));
 
-const Documents = Loadable({
-  loader: () => import('../../EditProperty/Documents' /* webpackChunkName: "Documents" */),
-  loading: Loading,
-});
+const Documents = lazy(() => import('../../EditProperty/Documents'));
 
 const PropertyBuyerDashboard = (props) => {
   // PROPS
@@ -176,10 +162,12 @@ const PropertyBuyerDashboard = (props) => {
         {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
-              <Route path="/buyer/:propId/property/page" component={PageBuyer} />
-              <Route path="/buyer/:propId/property/documents" exact component={Documents} />
-              <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
-              <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
+              <Suspense fallback={<Loading isLoading />}>
+                <Route path="/buyer/:propId/property/page" component={PageBuyer} />
+                <Route path="/buyer/:propId/property/documents" exact component={Documents} />
+                <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
+                <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
+              </Suspense>
             </div>
           )
         }

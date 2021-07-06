@@ -31,13 +31,13 @@ class ApiClient {
   }) {
     this.baseURL = baseURL;
     this.brixelator = brixelator;
-    this.token = cookies.get('brixelToken');
+    this.token = cookies.get('brixelToken') || window.localStorage.getItem('brixelToken');
   }
 
   get(requestUrl, options = {}, params = {}, headers = {}, payload = {}) {
     const baseUrlType = options.baseUrlType ? options.baseUrlType : 'baseUrl';
     const type = options.type ? options.type : 'data';
-    this.token = options.token || this.token;
+    this.token = options.token || this.token || window.localStorage.getItem('brixelToken');
     return this.request({
       url: requestUrl,
       method: 'get',
@@ -53,7 +53,7 @@ class ApiClient {
   put(requestUrl, options = {}, payload = {}, headers = {}) {
     const baseUrlType = options.baseUrlType ? options.baseUrlType : 'baseUrl';
     const type = options.type ? options.type : 'data';
-    this.token = options.token || this.token;
+    this.token = options.token || this.token || window.localStorage.getItem('brixelToken');
     return this.request({
       url: requestUrl,
       method: 'put',
@@ -68,7 +68,7 @@ class ApiClient {
   post(requestUrl, options = {}, payload = {}, headers = {}) {
     const baseUrlType = options.baseUrlType ? options.baseUrlType : 'baseUrl';
     const type = options.type ? options.type : 'data';
-    this.token = options.token || this.token;
+    this.token = options.token || this.token || window.localStorage.getItem('brixelToken');
     return this.request({
       url: requestUrl,
       method: 'post',
@@ -93,7 +93,7 @@ class ApiClient {
   delete(requestUrl, options = {}, payload = {}, headers = {}) {
     const baseUrlType = options.baseUrlType ? options.baseUrlType : 'baseUrl';
     const type = options.type ? options.type : 'data';
-    this.token = options.token || this.token;
+    this.token = options.token || this.token || window.localStorage.getItem('brixelToken');
     return this.request({
       url: requestUrl,
       method: 'delete',

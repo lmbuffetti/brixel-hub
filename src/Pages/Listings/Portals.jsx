@@ -11,7 +11,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon, Helpers,
-  change, reset, BrixelButtonText,
+  change, reset, BrixelButtonText, BrixelSwitchButton,
 } from '@brixel/brixel-components';
 import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
@@ -32,6 +32,7 @@ const Portals = (props) => {
     isSmallLoading,
     match,
     portals,
+    changeFieldValue,
   } = props;
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
@@ -84,24 +85,58 @@ const Portals = (props) => {
   };
 
   return (
-    <div className="dis-f">
+    <div className="dis-fl-col">
+
+      <h5 className="sectionTitle hide dis-b-md mb-3">Portals</h5>
+
       <div className="secondLevel dis-fl-col">
-        <div>
-          <div className="portalsWrapper dis-fl-col cardInfoBox">
-            <div className="pos-r">
-              <div className="dis-fl-col pageTitle">
-                <div className="fixedIcon w-perc-100">
-                  <BrixelButtonIcon
-                    className="hide-md"
-                    icon="arrow-left-small"
-                    theme="dark"
-                    ghost
-                    onClick={() => history.push(`/${propID}/listings`)}
-                  />
-                </div>
-                <h5 className="sectionTitle">Portals</h5>
+        <div className="hide-md pos-r">
+          <div className="dis-fl-col pageTitle">
+            <div className="fixedIcon w-perc-100">
+              <BrixelButtonIcon
+                icon="arrow-left-small"
+                theme="dark"
+                ghost
+                onClick={() => history.push(`/${propID}/listings`)}
+              />
+            </div>
+            <h5 className="sectionTitle">Portals</h5>
+          </div>
+        </div>
+        {
+          has(formValue, 'published') && formValue.published === false && (
+            <div className="mb-5">
+              <div className="portalsWrapper dis-fl-col cardInfoBox">
+                <BrixelSwitchButton
+                  isReversed
+                  label="Pre-market"
+                  className="mb-3 boldLabel"
+                  input={{
+                    onChange: () => changeFieldValue('preMarketVisible', !formValue.preMarketVisible),
+                    name: 'stageOffer',
+                    value: formValue.preMarketVisible,
+                  }}
+                />
+                {
+                  get(formValue, 'preMarketVisible', false) === true ? (
+                    <span className="txtDark700">
+                      Your property is visible on our pre-market.
+                      Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
+                    </span>
+                  ) : (
+                    <span className="txtDark700">
+                      Your property is <strong className="lh-in fweight-600">not</strong> visible on our pre-market.
+                      Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
+                    </span>
+                  )
+                }
               </div>
             </div>
+          )
+        }
+        <div>
+          <div className="portalsWrapper dis-fl-col cardInfoBox">
+
             <div className="max-h-perc-100 pb-4 ov-a">
               {
                 formValue.portalsReview ? (
@@ -293,6 +328,7 @@ Portals.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

@@ -75,6 +75,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
+        classNameBox: 'max-w-fix-880 ml-a mr-a',
         ReduxFieldClass: '',
         label: '',
         name: 'properties.propertyType',
@@ -83,7 +84,8 @@ export const QuestionsList = (lang, country = 'CH') => {
         cardLayout: true,
         cardSmall: true,
         svgSupport: true,
-        pdClass: '',
+        svgWidth: 'max-w-fix-200',
+        pdClass: 'py-3 py-md-5',
         isHorizontal: true,
         options: [
           {
@@ -117,7 +119,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         {
           component: BrixelInputStepNumber,
           classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius px-2 px-sm-5 py-5 m-a',
-          label: '',
+          label: 'Number of rooms',
           name: 'properties.typology.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
           step: 0.5,
@@ -243,6 +245,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'resume',
       cardType: 'loadComponent',
       component: ResumeCard,
+      background: 'bgCardGreenDark',
       btnLabel: 'Continue',
     },
     ...BestimateQuestions('getStarted', countryCode, propertyType),
@@ -252,6 +255,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         value: null,
       }],
       history: 'createProfile',
+      background: 'bgCardGreen',
       component: LoginSignup,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),

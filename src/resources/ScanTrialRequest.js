@@ -1,107 +1,137 @@
 /* eslint-disable max-len */
 import {
-  BrixelCheckbox,
-  BrixelInputText,
-  BrixelTextArea,
-  FactsOptions,
+  BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components';
-import get from 'lodash/get';
 import IntroScanFlow from '../Pages/ScanTrialFlow/IntroScanFlow';
-import { configureStore } from '../store';
-import scanComplete from '../images/Upgrade/upgrade_complete.svg';
+import BookTrialFlow from '../Pages/ScanTrialFlow/BookTrialFlow';
+import ResumeTrialFlow from '../Pages/ScanTrialFlow/ResumeTrialFlow';
+import ClipboardImg from '../images/scanTrial/clipboard.png';
+import { svgIcons } from './svgIcons';
 
-export const ScanTrialQuestions = () => {
-  const formValue = get(configureStore.getState(), 'brixelForm.scanFlow.values', {});
-  const isInterested = get(formValue, 'interested', false);
-  const { factsOptions } = FactsOptions;
-  return [
-    {
-      history: 'servicePackage',
-      component: IntroScanFlow,
-    },
-    {
-      title: isInterested ? 'Please just confirm your personal data so we can reach out to you.' : 'Fair enough. Please let us know why you are not interested to help improve our product.',
-      history: isInterested ? 'contactInformation' : 'feedbackForm',
-      vCentered: true,
-      inputs: [
+export const ScanTrialQuestions = () => [
+  {
+    cardType: 'loadComponent',
+    history: 'introScanFlow',
+    component: IntroScanFlow,
+  },
+  {
+    title: 'How do you want to do the analysis?',
+    history: 'analysis',
+    inputs: [{
+      component: BrixelRadioButton,
+      className: 'radioBtnImg',
+      classNameBox: 'max-w-fix-816 ml-a mr-a',
+      ReduxFieldClass: '',
+      label: '',
+      name: 'analysis',
+      validation: [Validation.required],
+      icons: true,
+      cardLayout: true,
+      svgWidth: 'max-w-fix-192',
+      stretched: true,
+      pdClass: 'py-3 py-md-5',
+      svgSupport: true,
+      isHorizontal: true,
+      options: [
         {
-          condition: [{
-            name: 'interested',
-            value: false,
-          }],
-          component: BrixelCheckbox,
-          label: '',
-          name: 'answers',
-          placeholder: '',
-          options: factsOptions.scanTrialFeedback,
+          title: 'On-site',
+          label: 'We visit you to evaluate your property.\n',
+          value: 'on-site',
+          img: svgIcons.onSite,
+          color: 'blue',
         },
         {
-          condition: [{
-            name: 'interested',
-            value: true,
-          }],
-          component: BrixelInputText,
-          label: 'Your full name',
-          name: 'contactFullName',
-          placeholder: '',
-          validation: [Validation.required],
-        },
-        {
-          condition: [{
-            name: 'interested',
-            value: true,
-          }],
-          component: BrixelInputText,
-          label: 'Phone number',
-          name: 'contactPhone',
-          type: 'text',
-          formatType: 'tel',
-          placeholder: '',
-        },
-        {
-          condition: [{
-            name: 'interested',
-            value: true,
-          }],
-          component: BrixelInputText,
-          label: 'E-mail',
-          name: 'contactEmail',
-          placeholder: 'hans.muster@amazon.com',
-          validation: [Validation.isEmail, Validation.required],
-        },
-        {
-          condition: [{
-            name: 'interested',
-            value: true,
-          }],
-          component: BrixelCheckbox,
-          label: 'What do you want us to do?',
-          name: 'answers',
-          placeholder: '',
-          options: factsOptions.scanTrialInterest,
-        },
-        {
-          condition: [{
-            name: 'interested',
-            value: true,
-          }],
-          component: BrixelTextArea,
-          label: 'Comments',
-          name: 'comments',
-          placeholder: '',
-          className: 'mb-5',
-          options: factsOptions.scanTrialInterest,
+          title: 'Remote',
+          label: 'We get to know you and your property in a call.',
+          value: 'remote',
+          img: svgIcons.remote,
+          color: 'green',
         },
       ],
-    },
-    {
-      title: 'Thanks for your feedback',
-      img: scanComplete,
-      subtitle: isInterested ? 'We will work on your feedback.' : 'We will contact as soos as possible',
-      history: 'success',
-      vCentered: true,
-      toSave: true,
-    },
-  ];
-};
+    }],
+  },
+  {
+    cardType: 'loadComponent',
+    history: 'BookTrialFlow',
+    component: BookTrialFlow,
+    footerWidth: 'max-w-fix-600',
+    inputs: [
+      {
+        condition: [{
+          name: 'bookType',
+          value: 'online',
+        },
+        {
+          name: 'bookType',
+          value: 'schedule',
+        }],
+        name: 'phone',
+        validation: [Validation.required],
+      },
+      {
+        condition: [{
+          name: 'bookType',
+          value: 'online',
+        },
+        {
+          name: 'bookType',
+          value: 'schedule',
+        }],
+        name: 'dateBook',
+        validation: [Validation.required],
+      },
+      {
+        condition: [{
+          name: 'bookType',
+          value: 'online',
+        },
+        {
+          name: 'bookType',
+          value: 'schedule',
+        }],
+        name: 'hourBook',
+        validation: [Validation.required],
+      },
+    ],
+  },
+  {
+    conditions: [{
+      name: 'step',
+      noValue: 'skip',
+    }],
+    background: 'bgCardGreen',
+    cardType: 'loadComponent',
+    component: ResumeTrialFlow,
+    history: 'resume',
+    vCentered: true,
+    toSave: true,
+    classWrapper: '',
+  },
+  {
+    conditions: [{
+      name: 'bookType',
+      value: 'whereby',
+    }],
+    step: 'wherebyResume',
+    background: 'bgCardGreen',
+    cardType: 'loadComponent',
+    component: ResumeTrialFlow,
+    history: 'whereby',
+    vCentered: true,
+    classWrapper: '',
+  },
+  {
+    hideProgress: true,
+    cardType: 'card',
+    title: 'Get Prepared',
+    img: ClipboardImg,
+    imgMaxWidth: 'max-w-fix-160',
+    cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
+    subtitle: 'The more we know the better. Please fill out as many facts as possible for preparation.',
+    history: 'success',
+    vCentered: true,
+    classWrapper: '',
+    showExitText: true,
+  },
+];

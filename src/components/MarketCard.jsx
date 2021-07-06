@@ -228,6 +228,7 @@ const MarketCard = (props) => {
                           <p
                             key={i.toString()}
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
+                            onClick={() => tag === 'pre-market' && history.push(`/${item.id}/listings/portals`)}
                           >
                             <span className="type">{getTypeText(tag)}</span>
                           </p>

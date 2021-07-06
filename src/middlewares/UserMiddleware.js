@@ -52,18 +52,18 @@ const checkUser = (store) => (next) => (action) => {
       if (data) data = Object.keys(data).length > 0 ? data : undefined;
       api.user.validateToken(data)
         .then((response) => {
-          if (response.data && response.data.statusCode && response.data.statusCode === 401 && window.location.hostname.includes('localhost')) {
+          if (response.data && response.data.statusCode && response.data.statusCode === 401 && get(window, 'location.hostname', '').includes('localhost')) {
             removeCookie('brixelToken');
             window.location.href = '/tokeninput';
           } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
-            window.location.href = `${baseByData.logoutUrl}?url=${window.location.href}`;
+            window.location.href = `${baseByData.logoutUrl}?url=${get(window, 'location.href', '')}`;
           } else {
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: response.data });
           }
           if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
-          if (window.location.href.includes('localhost')) {
+          if (get(window, 'location.href', '').includes('localhost')) {
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: user });
           }
           store.dispatch({ type: SPINNER_OFF });

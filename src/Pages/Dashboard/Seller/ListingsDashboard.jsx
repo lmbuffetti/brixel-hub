@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import {
   Route,
   Redirect,
@@ -12,24 +12,14 @@ import { BrixelButtonBox, BrixelProgressBar } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import isNumber from 'lodash/isNumber';
-import Loadable from 'react-loadable';
 import Sticker from 'react-stickyfill';
 import Loading from '../../../components/Loading';
 
-const Showings = Loadable({
-  loader: () => import('../../Listings/Showings' /* webpackChunkName: "Showings" */),
-  loading: Loading,
-});
+const Showings = lazy(() => import('../../Listings/Showings'));
 
-const Page = Loadable({
-  loader: () => import('../../Listings/Page' /* webpackChunkName: "Page" */),
-  loading: Loading,
-});
+const Page = lazy(() => import('../../Listings/Page'));
 
-const Portals = Loadable({
-  loader: () => import('../../Listings/Portals' /* webpackChunkName: "Portals" */),
-  loading: Loading,
-});
+const Portals = lazy(() => import('../../Listings/Portals'));
 
 const ListingsDashboard = (props) => {
   // PROPS
@@ -231,11 +221,11 @@ const ListingsDashboard = (props) => {
                 isNumber(+getFact())
               )
                 ? (
-                  <>
+                  <Suspense fallback={<Loading isLoading />}>
                     <Route path="/:propId/listings/showings" component={Showings} />
                     <Route path="/:propId/listings/page" exact component={Page} />
                     <Route path="/:propId/listings/portals" exact component={Portals} />
-                  </>
+                  </Suspense>
                 ) : (
                   <Redirect from="/:propId/listings/*" to={`/${propID}/listings/page`} />
                 )
