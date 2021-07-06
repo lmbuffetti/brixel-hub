@@ -257,7 +257,7 @@ const BookTrialFlow = (props) => {
                     </a>
                   )
                 }
-                <p className="mt-3 txtDark100">You can reach us Monday to Friday, 9:00 to 18:00.</p>
+                <p className="mt-3 txtDark100">You can reach us Monday to Friday, 09:00 to 18:00.</p>
               </Accordion>
             </div>
           </>
