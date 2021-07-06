@@ -119,10 +119,10 @@ export const ScanTrialQuestions = () => [
     component: ResumeTrialFlow,
     history: 'whereby',
     vCentered: true,
-    toSave: true,
     classWrapper: '',
   },
   {
+    hideProgress: true,
     cardType: 'card',
     title: 'Get Prepared',
     img: ClipboardImg,

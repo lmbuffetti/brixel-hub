@@ -127,20 +127,22 @@ const ScanTrialFlow = (props) => {
   const progressBarCalc = () => {
     let num = 0;
     questions.forEach((item) => {
-      if (item.conditions) {
-        item.conditions.forEach((cond) => {
-          const val = get(formValue, cond.name, null);
-          if (cond.value && val === cond.value) {
-            num += 1;
-          } else if (cond.noValue && val !== cond.noValue) {
-            num += 1;
-          }
-        });
-      } else {
-        num += 1;
+      if (get(item, 'hideProgress', false) !== true) {
+        if (item.conditions) {
+          item.conditions.forEach((cond) => {
+            const val = get(formValue, cond.name, null);
+            if (cond.value && val === cond.value) {
+              num += 1;
+            } else if (cond.noValue && val !== cond.noValue) {
+              num += 1;
+            }
+          });
+        } else {
+          num += 1;
+        }
       }
     });
-    return (currentIndex * 100) / num;
+    return (currentIndex * 100) / (num - 1);
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -315,7 +317,7 @@ const ScanTrialFlow = (props) => {
 
       <div className="pos-r">
         {
-          get(quest, 'history', '') !== 'introScanFlow' && (
+          get(quest, 'hideProgress', false) !== true && (
             <BrixelProgressBar
               large
               classProgressBar="container"

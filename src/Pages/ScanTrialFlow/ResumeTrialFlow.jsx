@@ -50,7 +50,7 @@ const ResumeTrialFlow = (props) => {
         get(formValue, 'bookType', '') === 'schedule' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
             <img width="194" src={ScheduleImg} alt="Resume" />
-            <h4 className="fweight-400 ta-c mt-3">Great. Your on-site appointment will be on:</h4>
+            <h4 className="fweight-400 ta-c mt-3">Great. Your online appointment will be on:</h4>
             {
               get(formValue, 'date', null) && (
                 <h4 className="fweight-700 mt-2">
