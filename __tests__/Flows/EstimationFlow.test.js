@@ -49,7 +49,7 @@ describe('Render Estimation Flow', () => {
     }, '',
   );
 
-  it('check the show error', async () => {
+  it('check the estimation', async () => {
     // ESTIMATION TYPE
     console.log('estimation estimationType');
     const estimationType = screen.getAllByRole('radio')[0];
