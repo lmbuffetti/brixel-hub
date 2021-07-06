@@ -60,7 +60,9 @@ const BookTrialFlow = (props) => {
 
   useEffect(() => {
     if (get(formValue, 'dateBook', null)) updateError('dateBook', true);
+    else updateError('dateBook', 'Required');
     if (get(formValue, 'hourBook', null)) updateError('hourBook', true);
+    else updateError('hourBook', 'Required');
     if (get(formValue, 'phone', { }).number) updateError('phone', true);
     else updateError('phone', 'Required');
   }, [formValue]);
@@ -251,7 +253,7 @@ const BookTrialFlow = (props) => {
                         icon="whatsapp"
                         iconWidth="w-fix-24"
                       />
-                      <p className="ml-2">{Helpers.telephoneFormat(whatsapp)}</p>
+                      <p className="ml-2 td-u">Whatsapp</p>
                     </a>
                   )
                 }
