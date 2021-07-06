@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -21,41 +21,6 @@ const IntroScanFlow = (props) => {
   // PROPS
   const { windowDimensions } = props;
   const sliderInstance = useRef(null);
-  /*
-  const [firstClientX, setFirstClientX] = useState();
-  const [firstClientY, setFirstClientY] = useState();
-  const [clientX, setClientX] = useState();
-
-  useEffect(() => {
-    if (window.innerWidth > 600) {
-      const touchStart = (e) => {
-        setFirstClientX(e.touches[0].clientX);
-        setFirstClientY(e.touches[0].clientY);
-      };
-
-      const preventTouch = (e) => {
-        const minValue = 5; // threshold
-
-        setClientX(e.touches[0].clientX - firstClientX);
-
-        // Vertical scrolling does not work when you start swiping horizontally.
-        if (Math.abs(clientX) > minValue) {
-          e.preventDefault();
-          e.returnValue = false;
-          return false;
-        }
-      };
-
-      window.addEventListener('touchstart', touchStart);
-      window.addEventListener('touchmove', preventTouch, { passive: false });
-      return () => {
-        window.removeEventListener('touchstart', touchStart);
-        window.removeEventListener('touchmove', preventTouch, {
-          passive: false,
-        });
-      };
-    }
-  }, [clientX, firstClientX, firstClientY]); */
 
   const settingSlider = () => ({
     dots: false,
