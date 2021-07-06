@@ -56,8 +56,8 @@ test integration:
     paths:
       - node_modules/
   only:
-    - staging
-    - master
+    - stagings
+    - masters
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
