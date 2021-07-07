@@ -1,3 +1,5 @@
+import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import get from 'lodash/get';
 import ApiClient from './ApiClient';
 
 import Common from '../actions/Common';
@@ -51,12 +53,21 @@ if (typeof window !== 'undefined') {
   if (getCurDom.length > 3) domain = 'io';
 }
 
+let configUrl = getConfigEnvWeb(env, domain);
+
+if (typeof window !== 'undefined') {
+  const urlAddress = get(window, 'location.href', '');
+  if (urlAddress.includes('dev-') || urlAddress.includes('stage-')) {
+    configUrl = getConfigEnv;
+  }
+}
+
 if (url.indexOf('dev') !== -1) env = 'DEV';
 else if (url.indexOf('stag') !== -1) env = 'STAGING';
 else env = 'PROD';
 
 export default apiFactory({
-  baseURL: getConfigEnvWeb(env, domain).apiRoot,
+  baseURL: configUrl.apiRoot,
   // baseURL: 'http://localhost:46071/api/v3/',
-  brixelator: getConfigEnvWeb(env, domain).brixelatorRoot,
+  brixelator: configUrl.brixelatorRoot,
 });

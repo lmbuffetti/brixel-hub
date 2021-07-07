@@ -101,8 +101,8 @@ test integration:
       - node_modules/
   only:
     - develop
-    - stagings
-    - masters
+    - staging
+    - master
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   allow_failure: true
