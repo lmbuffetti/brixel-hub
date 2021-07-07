@@ -142,7 +142,7 @@ const ScanTrialFlow = (props) => {
         }
       }
     });
-    return (currentIndex * 100) / (num - 1);
+    return (currentIndex * 100) / (num);
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION

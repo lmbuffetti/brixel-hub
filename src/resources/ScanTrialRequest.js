@@ -110,6 +110,7 @@ export const ScanTrialQuestions = () => [
     classWrapper: '',
   },
   {
+    hideProgress: true,
     conditions: [{
       name: 'bookType',
       value: 'whereby',
