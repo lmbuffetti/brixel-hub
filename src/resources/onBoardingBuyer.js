@@ -68,19 +68,20 @@ export const QuestionsList = (lang) => {
           pdClass: 'py-3 py-md-5',
           options: [
             {
-              label: translateTo(lang, 'Apartment'),
+              label: 'Apartment',
               value: 'Apartment',
               img: svgIcons.apartment,
               color: 'blue',
             },
             {
-              label: translateTo(lang, 'House'),
+              label: 'House',
               value: 'House',
               img: svgIcons.house,
               color: 'blue',
             },
             {
               label: 'Building land',
+              value: 'Building land',
               img: svgIcons.land,
               color: 'blue',
             },
