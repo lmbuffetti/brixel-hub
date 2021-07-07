@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect, useState, lazy, Suspense,
+} from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import Loadable from 'react-loadable';
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -20,10 +21,7 @@ import Pagination from '../../components/Pagination';
 import { setSplashType, setWindowDimensions } from '../../actions/CommonActions';
 import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 
-const MarketMap = Loadable({
-  loader: () => import('./MarketMap' /* webpackChunkName: "MarketMap" */),
-  loading: () => null,
-});
+const MarketMap = lazy(() => import('./MarketMap'));
 
 const MarketList = (props) => {
   // PROPS
@@ -391,12 +389,14 @@ const MarketList = (props) => {
               />
             )
           }
-          <MarketMap
-            type={catName}
-            activeProperty={activeProperty}
-            onActiveProperty={(val) => setActiveProperty(val)}
-            properties={propertyListings}
-          />
+          <Suspense fallback="">
+            <MarketMap
+              type={catName}
+              activeProperty={activeProperty}
+              onActiveProperty={(val) => setActiveProperty(val)}
+              properties={propertyListings}
+            />
+          </Suspense>
         </div>
       </div>
     </div>

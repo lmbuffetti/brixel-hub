@@ -58,6 +58,7 @@ const GetStartedEstimation = (props) => {
     history,
     initForm,
     initialValues,
+    isTest,
     lang,
     loggedInUser,
     match,
@@ -174,6 +175,7 @@ const GetStartedEstimation = (props) => {
       redirectToUrl: '/sell',
       extraLoading: true,
     };
+    if (formValue.pageID) data.id = formValue.pageID;
     data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
@@ -365,11 +367,11 @@ const GetStartedEstimation = (props) => {
           const getOnlyQuest = questions.filter((item) => item.inputs);
           setProgressBar((defId * 100) / getOnlyQuest.length);
           if (checkBrowser() > 0) {
-            if (singleStepEl) singleStepEl.scrollTop = 0;
-            if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
+            if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
           } else {
-            if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-            if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }
       }
@@ -409,9 +411,9 @@ const GetStartedEstimation = (props) => {
       const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
-    } else {
+    } else if (!isTest) {
       handleGetActiveSingleCompany({ stub: 'default' });
-      // changeFieldValue('location.countryCode', 'all');`
+      changeFieldValue('location.countryCode', 'all');
     }
     if (get(companyByUrl, 'channel', channelCookie)) {
       const defChan = get(companyByUrl, 'channel', channelCookie);
@@ -440,13 +442,6 @@ const GetStartedEstimation = (props) => {
       setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
   }, [lang]);
-
-  // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
-  useEffect(() => {
-    if (get(initialValues, 'properties.propertyType', null)) {
-      // changeStep();
-    }
-  }, [initialValues]);
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
@@ -514,7 +509,7 @@ const GetStartedEstimation = (props) => {
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
-  }, [formValue.location, lang]);
+  }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -544,28 +539,27 @@ const GetStartedEstimation = (props) => {
     return label;
   };
 
-  useEffect(() => {
-    if (get(formValue, 'properties.propertyType', null)) changeStep();
-  }, [get(formValue, 'properties.propertyType', null)]);
-
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'history', '')}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}`}>
       {
         get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
-          <BrixelProgressBar
-            large
-            className="brdRadius"
-            saturation={500}
-            color="green"
-            barBackground="light"
-            backgroundSaturation={200}
-            progressValue={progressBar}
-          />
+          <div className="pos-r">
+            <BrixelProgressBar
+              large
+              classProgressBar="container"
+              className="brdRadius"
+              saturation={500}
+              color="green"
+              barBackground="light"
+              backgroundSaturation={200}
+              progressValue={progressBar}
+            />
+          </div>
         )
       }
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
+        className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
       >
         <form
           id="multiStepForm"
@@ -732,6 +726,7 @@ GetStartedEstimation.propTypes = {
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -739,6 +734,7 @@ GetStartedEstimation.propTypes = {
 };
 
 GetStartedEstimation.defaultProps = {
+  isTest: false,
   lang: 'en',
 };
 
@@ -746,7 +742,7 @@ const mapStateToProps = (state, props) => {
   const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
   const channelCookie = cookie.get('brixelChannelSignup') || null;
   const channel = get(urlSearch, 'channel', channelCookie);
-  const propertyType = get(urlSearch, 'propertyType', null);
+  const propertyType = get(state, 'brixelForm.GetStarted.values.properties.propertyType', get(urlSearch, 'propertyType', null));
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   const formValue = get(state, 'brixelForm.GetStarted.values', {});
@@ -764,7 +760,9 @@ const mapStateToProps = (state, props) => {
       // price: {
       //   currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       // },
+      pageID: get(state, 'brixelForm.GetStarted.values.pageID', null),
       location: {
+        ...get(state, 'brixelForm.GetStarted.values.location', { }),
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
       login: {},

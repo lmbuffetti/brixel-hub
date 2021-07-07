@@ -1,41 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 
 const Accordion = (props) => {
   const {
-    title,
     children,
     className,
-    titleClass,
+    color,
     contentClass,
     isExpanded,
+    onExpand,
+    paddingContent,
+    saturationTxt,
+    smallRightIcon,
+    title,
+    titleClass,
   } = props;
 
   const [open, setOpen] = useState(isExpanded);
 
+  useEffect(() => {
+    setOpen(isExpanded);
+  }, [isExpanded]);
+
+  const onClickExpand = (val) => {
+    if (onExpand) {
+      onExpand(val);
+    } else {
+      setOpen(val);
+    }
+  };
+
   return (
     <div
-      className={`accordion ${className}`}
+      className={`accordion ${className} ${open ? 'open' : 'close'}`}
     >
-      <div
+      <button
+        type="button"
         className={`title cur-poi ${titleClass} dis-f a-t`}
-        onClick={() => setOpen(!open)}
+        onClick={() => onClickExpand(!open)}
       >
-        <BrixelIcon
-          color="green"
-          saturationTxt={200}
-          iconWidth="w-fix-24"
-          className="mt-small-4 mr-small-8"
-          icon={!open ? 'arrow-right' : 'arrow-down'}
-        />
+        {
+          !smallRightIcon && (
+            <BrixelIcon
+              color="green"
+              saturationTxt={200}
+              iconWidth="w-fix-24"
+              className="mt-small-4 mr-small-8"
+              icon={!open ? 'arrow-right' : 'arrow-down'}
+            />
+          )
+        }
         <span>{title}</span>
-      </div>
+        {
+          smallRightIcon && (
+            <BrixelIcon
+              color={color}
+              saturationTxt={saturationTxt}
+              iconWidth="w-fix-24"
+              className="mt-small-4 mr-small-8"
+              icon={!open ? 'arrow-simple-right' : 'arrow-simple-down'}
+            />
+          )
+        }
+      </button>
 
-      <div className={`content pl-4 ${!open ? 'collapsed' : ''}`}>
-        <p className={contentClass}>
+      <div className={`content ${paddingContent} ${!open ? 'collapsed' : ''}`}>
+        <div className={contentClass}>
           {children}
-        </p>
+        </div>
       </div>
 
     </div>
@@ -43,21 +76,31 @@ const Accordion = (props) => {
 };
 
 Accordion.defaultProps = {
-  title: '',
   children: '',
   className: '',
-  titleClass: '',
+  color: 'green',
   contentClass: '',
   isExpanded: false,
+  onExpand: null,
+  paddingContent: 'pl-4',
+  saturationTxt: 200,
+  smallRightIcon: false,
+  title: '',
+  titleClass: '',
 };
 
 Accordion.propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.string,
-  titleClass: PropTypes.string,
-  contentClass: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.any]),
   className: PropTypes.string,
+  color: PropTypes.string,
+  contentClass: PropTypes.string,
   isExpanded: PropTypes.bool,
+  onExpand: PropTypes.func,
+  paddingContent: PropTypes.string,
+  saturationTxt: PropTypes.number,
+  smallRightIcon: PropTypes.bool,
+  title: PropTypes.string,
+  titleClass: PropTypes.string,
 };
 
 export default Accordion;

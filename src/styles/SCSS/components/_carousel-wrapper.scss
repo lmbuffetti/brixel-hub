@@ -22,6 +22,16 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
       }
     }
   }
+
+  .premarket-tag {
+    background-color: rgba(map-get($primaryColor, 400), 0.8);
+    padding: 4px;
+    padding-left: $step;
+    padding-right: $step;
+    font-size: 12px;
+    color: white;
+    border-radius: 4px;
+  }
  }
 
  .carousel3d {

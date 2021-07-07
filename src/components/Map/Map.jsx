@@ -12,10 +12,7 @@ import { BrixelIcon, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import markerImg from '../../images/location/icon_location.svg';
 import markerSimilarProperties from '../../images/location/icon_similar_properties.svg';
-import { mapCaptionData, mapStyles, getDistance } from '../../constants/map';
-import { compareArray } from '../../utils/helpers';
-
-const images = require.context('../../images', true);
+import { mapStyles } from '../../constants/map';
 
 export const ComponentMap = (props) => {
   // PROPS
@@ -44,7 +41,7 @@ export const ComponentMap = (props) => {
     zoom,
   } = props;
   // STATE
-  const [selectedPlace, setSelectedPlace] = useState([]);
+  // const [selectedPlace, setSelectedPlace] = useState([]);
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [modalInfo] = useState({});
   const [mapTypeId, setMapTypeId] = useState('roadmap');
@@ -80,7 +77,6 @@ export const ComponentMap = (props) => {
     setOptMap(map);
     // FUNCTION TO LOAD NEAR PLACES
     if (nearBy) {
-      const service = new google.maps.places.PlacesService(map);
       const streetViewService = new google.maps.StreetViewService();
       const STREETVIEW_MAX_DISTANCE = 50;
       const latLng = new google.maps.LatLng(center.lat, center.lng);
@@ -92,7 +88,7 @@ export const ComponentMap = (props) => {
         }
       });
 
-      Object.keys(mapCaptionData).map(async (keys) => {
+      /* Object.keys(mapCaptionData).map(async (keys) => {
         await mapCaptionData[keys].keywordsInclude.map(async (query) => {
           const placeRequest = {
             location: center,
@@ -126,7 +122,7 @@ export const ComponentMap = (props) => {
             ]);
           });
         });
-      });
+      }); */
     }
   };
 

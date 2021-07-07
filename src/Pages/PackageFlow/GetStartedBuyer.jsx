@@ -238,8 +238,9 @@ const GetStartedBuyer = (props) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
 
       // setPosition(newIndex);
-      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
-      else {
+      if (questions[defId].toSave) {
+        saveData(get(questions[defId], 'action', null));
+      } else {
         let newQuest = {
           ...questions[defId],
         };
@@ -272,11 +273,11 @@ const GetStartedBuyer = (props) => {
         const getOnlyQuest = questions.filter((item) => item.inputs);
         setProgressBar((defId * 100) / getOnlyQuest.length);
         if (checkBrowser() > 0) {
-          if (singleStepEl) singleStepEl.scrollTop = 0;
-          if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
+          if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+          if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
         } else {
-          if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-          if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+          if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+          if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
     }
@@ -439,44 +440,35 @@ const GetStartedBuyer = (props) => {
     return label;
   };
 
+  // console.log(formValue);
+
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'history', '')}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
       {
         (get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile') && get(quest, 'history', null) !== 'resume' && (
-          <BrixelProgressBar
-            large
-            className="brdRadius"
-            saturation={500}
-            color="green"
-            barBackground="light"
-            backgroundSaturation={200}
-            progressValue={progressBar}
-          />
+          <div className="pos-r">
+            <BrixelProgressBar
+              large
+              classProgressBar="container"
+              className="brdRadius"
+              saturation={500}
+              color="green"
+              barBackground="light"
+              backgroundSaturation={200}
+              progressValue={progressBar}
+            />
+          </div>
         )
       }
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
-        // style={{ backgroundImage: `url(${quest.bgImg})` }}
+        className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
       >
-        {/* preload all background images */}
-        {/* {
-          questions.map((questStep, i) => (
-            <Fragment key={i.toString()}>
-              <div className="slideBg" key={i.toString()}>
-                <div
-                  // eslint-disable-next-line no-nested-ternary
-                  className={` ${tansitionBg(i)} ${i < currentIndex && i <= 4 ? 'prev' : ''}`}
-                  style={{ backgroundImage: `url(${questStep.bgImg})` }}
-                />
-              </div>
-            </Fragment>
-          ))
-        } */}
+
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+          className={`interactive dis-fl-col jc-b ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
@@ -711,6 +703,7 @@ const mapStateToProps = (state, props) => {
       location: {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
+      locations: get(state, 'brixelForm.GetStarted.values.locations', []),
       characteristics: {
         livingArea: {
           unit: 'm2',

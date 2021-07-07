@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import {
   Route,
   withRouter,
@@ -10,12 +10,8 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import isNumber from 'lodash/isNumber';
-import Loadable from 'react-loadable';
 
-const OfferDetail = Loadable({
-  loader: () => import('../../Offers/OfferDetail' /* webpackChunkName: "OfferDetail" */),
-  loading: () => null,
-});
+const OfferDetail = lazy(() => import('../../Offers/OfferDetail'));
 
 const DealsDashboardBuyer = (props) => {
   // PROPS
@@ -47,7 +43,9 @@ const DealsDashboardBuyer = (props) => {
           isNumber(+getFact())
         )
           ? (
-            <Route path="/buyer/:propID/deal/:dealID" component={() => <OfferDetail isBuyer />} />
+            <Suspense fallback="">
+              <Route path="/buyer/:propID/deal/:dealID" component={() => <OfferDetail isBuyer />} />
+            </Suspense>
           ) : (
             <div />
           )

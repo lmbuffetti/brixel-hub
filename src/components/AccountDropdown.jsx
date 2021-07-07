@@ -87,19 +87,19 @@ const AccountDropdown = (props) => {
         },
       },
       {
-        href: `${baseByData().loginBasePath}/account/profile?url=${window.location.href}`,
+        href: `${baseByData().loginBasePath}/account/profile?url=${get(window, 'location.href', '')}`,
         label: 'Personal Information',
       },
       {
-        href: `${baseByData().loginBasePath}/account/account?url=${window.location.href}`,
+        href: `${baseByData().loginBasePath}/account/account?url=${get(window, 'location.href', '')}`,
         label: 'Password',
       },
       {
-        href: `${baseByData().loginBasePath}/account/preferences?url=${window.location.href}`,
+        href: `${baseByData().loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`,
         label: 'Preferences',
       },
       {
-        href: `${baseByData().loginBasePath}/logout?url=${window.location.href}`,
+        href: `${baseByData().loginBasePath}/logout?url=${get(window, 'location.href', '')}`,
         label: 'Logout',
       },
     ]

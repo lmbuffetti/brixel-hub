@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* global Transifex */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState, useEffect, useCallback, lazy, Suspense,
+} from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -11,7 +13,6 @@ import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
 // import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colors_new.svg';
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
-import Loadable from 'react-loadable';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setCookie, checkBrowser } from '../utils/helpers';
@@ -21,10 +22,7 @@ import { translateTo } from '../utils/translation';
 import awards from '../images/BrxielComingTown/awards.svg';
 import brixels from '../images/BrxielComingTown/brixels.svg';
 
-const AvatarImage = Loadable({
-  loader: () => import('./AvatarImage' /* webpackChunkName: "AvatarImage" */),
-  loading: () => '',
-});
+const AvatarImage = lazy(() => import('./AvatarImage'));
 
 function PageHeader(props) {
   // PROPS
@@ -98,25 +96,11 @@ function PageHeader(props) {
   // FUNCTION TO INITIALIZE THE EVENT LISTENER FOR SCREEN RESIZE
   useEffect(() => {
     document.body.classList.add('flowBody');
-
-    if (history.location.pathname.includes('/resume')) {
-      document.body.classList.add('flowResume');
-    } else {
-      document.body.classList.remove('flowResume');
-    }
-
-    if (history.location.pathname.includes('/createProfile')) {
-      document.body.classList.add('flowProfile');
-    } else {
-      document.body.classList.remove('flowProfile');
-    }
     return () => {
       //  clean up
-      document.body.classList.remove('flowProfile');
       document.body.classList.remove('flowBody');
-      document.body.classList.remove('flowResume');
     };
-  }, [history.location.pathname]);
+  }, []);
 
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"
@@ -159,11 +143,11 @@ function PageHeader(props) {
     <>
       <header className="flowHeader">
         <div className="container">
-          <div className={`dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pt-2 pb-3 py-sm-5 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'jc-fe-md'}`}>
+          <div className={`dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pt-2 pb-3 py-sm-5 ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('trialRequest')) ? '' : 'jc-fe-md'}`}>
             <div className="dis-f a-c w-fix-104 min-h-fix-56 h-perc-100">
 
               <img
-                className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-48 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow')) ? '' : 'hide-md'}`}
+                className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-48 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('trialRequest')) ? '' : 'hide-md'}`}
                 src={`${window.innerWidth <= 600 ? logoColorIcon : logoColor}`}
                 alt="Brixel Logo"
                 id="header-logo"
@@ -182,7 +166,8 @@ function PageHeader(props) {
             <div className="dis-f a-c">
               {
                 !history.location.pathname.includes('packageFlow') &&
-                !history.location.pathname.includes('onBoarding') && (
+                !history.location.pathname.includes('onBoarding') &&
+                !history.location.pathname.includes('trialRequest') && (
                   <>
                     {
                       userAwards >= 0 && (
@@ -241,17 +226,20 @@ function PageHeader(props) {
                 ) : (
                   <div className="ml-2">
                     {
-                      !history.location.pathname.includes('packageFlow') && (
-                        <AvatarImage
-                          avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
-                          name={loggedInUser.user.name}
-                          size={40}
-                          onClick={() => avatarAction()}
-                        />
+                      !history.location.pathname.includes('packageFlow') &&
+                      !history.location.pathname.includes('trialRequest') && (
+                        <Suspense fallback="">
+                          <AvatarImage
+                            avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
+                            name={loggedInUser.user.name}
+                            size={40}
+                            onClick={() => avatarAction()}
+                          />
+                        </Suspense>
                       )
                     }
                     {
-                      history.location.pathname.includes('packageFlow') &&
+                      (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('trialRequest')) &&
                       !(get(history, 'location.state.hideClose', null)) && (
                         <BrixelButtonIcon
                           ghost

@@ -42,8 +42,7 @@ map-get($blueColor, 300);
 "./hubDashboard";
 
 // PAGES
-@import "../pages/getStarted",
-"../pages/onBoarding",
+@import "../pages/onBoarding",
 "../pages/listings",
 "../pages/_property_listings",
 "../pages/upgrade",
@@ -52,6 +51,7 @@ map-get($blueColor, 300);
 "../pages/facts",
 "../pages/buyer",
 "../pages/deals",
+"../pages/getStarted",
 "../pages/seller";
 
 // TRANSITIONS
@@ -522,3 +522,101 @@ button.minimum-w-210 {
   min-width: 210px;
 }
 
+
+.brixel-switch-button.boldLabel .labelText {
+  font-weight: 600;
+  margin-left: 0;
+}
+
+
+
+.BookTrialFlow {
+
+  .input-container .brixel-text-input {
+    min-height: 56px;
+  }
+  .inputTime .input-container .brixel-text-input,
+  .inputDate .input-container .brixel-text-input {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    @media (max-width: $responsive-small) {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+  }
+  .inputPhone .input-container .brixel-text-input {
+    padding-right: 24px !important;
+    @media (max-width: $responsive-small) {
+      padding-right: 16px !important;
+    }
+  }
+  .brixel-select.flags .dropdown .selElement,
+  .brixel-select.flags .dropdown> ul li {
+    padding-left: 24px;
+    @media (max-width: $responsive-small) {
+      padding-left: 16px !important;
+    }
+  }
+
+  .brixel-select.flags .dropdown {
+    min-height: 54px;
+  }
+
+  .brixel-select .mobile-version {
+    min-height: 56px;
+  }
+
+  .brixel-select:not(.flags) .dropdown .selElement {
+    min-height: 54px;
+    display: flex;
+    padding-left: 24px;
+    padding-right: 24px;
+    @media (max-width: $responsive-small) {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    > div {
+      width: 100%;
+    }
+  }
+  span.brixelIcon.activity-calendar {
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    @media (max-width: $responsive-small) {
+      right: 22px;
+    }
+  }
+  span.brixelIcon.hour-book {
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    @media (max-width: $responsive-small) {
+      right: 16px;
+    }
+  }
+  #wrapDatePicker #fixedDatePicker {
+    left: 0;
+    width: 100% !important;
+  }
+  #wrapDatePicker.afterInput .react-datepicker {
+    padding: 4px 7px 0;
+    box-shadow: $shadow-2dp;
+  }
+  button.react-datepicker__navigation--previous {
+    left: 10px;
+  }
+  button.react-datepicker__navigation--next {
+    right: 10px;
+  }
+}
+.txtWhite {
+  color: #fff;
+}
+
+.no-padd {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}

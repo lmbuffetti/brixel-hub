@@ -3,11 +3,18 @@
   .content {
     transition: all 0.35s ease-in;
     overflow: hidden;
+    opacity: 0;
     height: auto;
     max-height: 500px;
     &.collapsed {
       max-height: 0;
       transition: all 0.35s ease-out;
+    }
+  }
+  &.open {
+    .content {
+      overflow: visible;
+      animation: fadeIn $default-time-long 100ms forwards;
     }
   }
 }

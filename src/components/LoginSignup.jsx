@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
@@ -9,11 +11,16 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import Slider from 'react-slick';
 import { setFormError } from '../actions/CommonActions';
 import { recoverPassword } from '../actions/UserActions';
 import { checkBrowser } from '../utils/helpers';
-import Support from './Support';
-import Accordion from './Accordion';
+import Testimonial1CH from '../images/getstarted/testimonial-1_CH.jpeg';
+import Testimonial2CH from '../images/getstarted/testimonial-2_CH.jpeg';
+import Testimonial3CH from '../images/getstarted/testimonial-3_CH.jpeg';
+import Testimonial1PT from '../images/getstarted/testimonial-1_PT.jpg';
+import Testimonial2PT from '../images/getstarted/testimonial-2_PT.jpg';
+import Testimonial3PT from '../images/getstarted/testimonial-3_PT.jpg';
 
 // COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {
@@ -38,8 +45,30 @@ const LoginSignup = (props) => {
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
 
+  const sliderInstance = useRef(null);
+  const settingSlider = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    speed: 500,
+    slidesToShow: 1,
+    arrows: false,
+    slidesToScroll: 1,
+    draggable: false,
+    centerPadding: '8px',
+  };
+
   useEffect(() => {
     onDisableValidation(true);
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.add('flowProfile');
+    return () => {
+      //  clean up
+      document.body.classList.remove('flowProfile');
+    };
   }, []);
 
   // FUNCTION TO SAVE ON REDUX FORM THE CURRENT PAGE (LOGIN OR REGISTER)
@@ -59,10 +88,10 @@ const LoginSignup = (props) => {
 
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"
-    if (checkBrowser() > 0) {
-      window.scrollTop = 0;
-    } else {
-      window.scrollTo({ top: 0 });
+    if (typeof window !== 'undefined' && window.innerHeight > 50) {
+      if (checkBrowser() > 0) {
+        if (window.scrollTop) window.scrollTop = 0;
+      } else if (window.scrollTo) window.scrollTo({ top: 0 });
     }
   }, []);
 
@@ -187,13 +216,13 @@ const LoginSignup = (props) => {
           {
             (loginPage === 'register' || loginPage === 'login' || loginPage === 'reset') && (
               <>
-                <div className="topBar fsize-400 bgLight200 p-2 ta-c">
+                <div className="topBar fsize-400 p-2 ta-c">
                   {
                     (loginPage === 'register' || loginPage === 'reset') && (
-                      <p className="txtDark700">
+                      <p className="txtWhite">
                         <span>Already have an account?</span>
                         <span>&nbsp;</span>
-                        <span className="cur-poi td-u txtPrimary400" onClick={() => changeScreen('login')}>
+                        <span className="cur-poi td-u txtWhite" onClick={() => changeScreen('login')}>
                           <span>Login here</span>
                         </span>
                       </p>
@@ -201,10 +230,10 @@ const LoginSignup = (props) => {
                   }
                   {
                     loginPage === 'login' && (
-                      <p className="txtDark700">
+                      <p className="txtWhite">
                         <span>Login or&nbsp;</span>
                         <span
-                          className="cur-poi td-u txtPrimary400"
+                          className="cur-poi td-u txtWhite"
                           onClick={() => changeScreen('register')}
                         >
                           <span>create profile here</span>
@@ -241,6 +270,13 @@ const LoginSignup = (props) => {
                           get(formError, 'state', false) && (
                             <p className="txtRed400">
                               {get(formError, 'message', '')}
+                            </p>
+                          )
+                        }
+                        {
+                          get(notification[0], 'state', false) && get(notification[0], 'type', '') === 'done' && (
+                            <p className="txtGreen400">
+                              Registration complete.
                             </p>
                           )
                         }
@@ -299,45 +335,6 @@ const LoginSignup = (props) => {
             )
           }
 
-          {
-            (loginPage === 'not_sure' || loginPage === 'support') && (
-
-              <div className="p-2 bgWhite brdRadius">
-                {
-                  loginPage === 'not_sure' && (
-                    <div className="p-3 p-sm-5">
-                      <h4 className="ta-c-md  pr-lg-0">Here are 3 reasons to sign up.</h4>
-                      <ol className="mt-3 px-2 px-lg-0">
-                        <li className="pl-1">You receive a free price indication and a local market check.</li>
-                        <li className="pl-1 mt-1">You get free access to the full Brixel Hub. Your all-in-one tool to sell your home.</li>
-                        <li className="pl-1 mt-1">All services are free of charge. You decide if you want to upgrade or not.</li>
-                      </ol>
-
-                      <h4 className="ta-c-md  mt-5 pr-lg-0">Don’t worry about spam.</h4>
-                      <ol className="mt-3 px-2 px-lg-0">
-                        <li className="pl-1">All your personal data is save with us. We are not using them for commercial purpose.</li>
-                        <li className="pl-1 mt-1">We will contact you only for support and consultation</li>
-                        <li className="pl-1 mt-1">Your property data will not be published unless you request it explicitly.</li>
-                      </ol>
-                    </div>
-                  )
-                }
-                {
-                  loginPage === 'support' && (
-                    <div className="p-3 p-sm-5">
-                      <h4 className="ta-c-md  pr-5 pr-lg-0">You want to talk to us before? No problem. We are here for you.</h4>
-                      <Support
-                        isFixed={false}
-                        expanded
-                        hideClose
-                        layout="onboarding"
-                      />
-                    </div>
-                  )
-                }
-              </div>
-            )
-          }
         </div>
         <div className="footerActionLogin">
           <div className={`dis-fl-col col-reverse dis-fl-row-sm a-c ${loginPage === 'register' ? 'jc-c' : 'jc-fs'} my-3 pos-r`}>
@@ -356,36 +353,65 @@ const LoginSignup = (props) => {
           </div>
         </div>
       </div>
-      <div className="w-perc-100 w-perc-md-50 dis-f">
-        <div className="max-w-fix-600 pt-2 px-3 pb-3 px-md-5 pb-md-5 txtWhite">
-          <h2 className="txtWhite fsize-700 fweight-600 mb-3">
-            Your benefits when you sell with Brixel.
-          </h2>
+      <div className="w-perc-100 w-perc-md-50 dis-f a-c py-2 pt-md-0 pb-md-10">
+        <div className="max-w-fix-304 w-perc-100 ml-a mr-a testimonialsSlide">
 
-          <Accordion
-            title="Sell without an agent"
-            titleClass="fsize-600 txtWhite fweight-600"
-            contentClass="txtWhite py-2"
-            className="mb-2"
-            isExpanded
-          >
-            All our service packages have fixed prices. Without any exclusive brokerage contract or commission. Just pay what you need.
-          </Accordion>
-          <Accordion
-            title="The best presentation"
-            titleClass="fsize-600 txtWhite fweight-600"
-            contentClass="txtWhite py-2"
-            className="mb-2"
-          >
-            All our properties are presented on a dedicated website with a 3D tour, high-quality photos, and much more. Buyers confirm that the presentation is outstanding.
-          </Accordion>
-          <Accordion
-            title="Start with a free test drive"
-            titleClass="fsize-600 txtWhite fweight-600"
-            contentClass="txtWhite py-2"
-          >
-            Convince yourself of our quality before you commit to any package. We offer a 7 days trial for all our packages. No strings attached.
-          </Accordion>
+          {
+            get(formValue, 'location.countryCode', '') === 'CH' ? (
+              <Slider ref={sliderInstance} {...settingSlider}>
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and uncomplicated&quot;</h2>
+
+                  <h5 className="ta-c txtAltColor400">M. Hardegger</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">House sold</p>
+                </div>
+
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
+
+                  <h5 className="ta-c txtAltColor400">F. Pfiffner</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved CHF 30&apos;700</p>
+                </div>
+
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Excellent service with flexible fees.&quot;</h2>
+
+                  <h5 className="ta-c txtAltColor400">M. Callaghan</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved CHF 44&apos;050</p>
+                </div>
+              </Slider>
+            ) : (
+              <Slider ref={sliderInstance} {...settingSlider}>
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Always quick in responding, friendly, professional.&quot;</h2>
+
+                  <h5 className="ta-c txtAltColor400">Katrien Willems</h5>
+                  <p className="ta-c txtAltColor400 fsize-500" />
+                </div>
+
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;Everything went incredibly well, it doesn&apos;t even seem real!&quot;</h2>
+
+                  <h5 className="ta-c txtAltColor400">Luca Benussi</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved 18.400€</p>
+                </div>
+
+                <div className="ta-c ml-a mr-a mb-2">
+                  <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600">&quot;The sale was done even faster than expected.&quot;</h2>
+
+                  <h5 className="ta-c txtAltColor400">Márcia Traça</h5>
+                  <p className="ta-c txtAltColor400 fsize-500">Saved 13.000€</p>
+                </div>
+              </Slider>
+            )
+          }
+
         </div>
       </div>
     </div>

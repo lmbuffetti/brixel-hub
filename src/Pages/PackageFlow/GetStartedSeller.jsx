@@ -18,6 +18,7 @@ import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import { diff } from 'deep-object-diff';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
@@ -48,6 +49,7 @@ const GetStartedSeller = (props) => {
     history,
     initForm,
     initialValues,
+    isTest,
     lang,
     loggedInUser,
     match,
@@ -58,7 +60,7 @@ const GetStartedSeller = (props) => {
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showError, setShowError] = useState(0);
+  const [showError, setShowError] = useState(false);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
@@ -128,6 +130,7 @@ const GetStartedSeller = (props) => {
       company,
       extraLoading: true,
     };
+    if (formValue.pageID) data.id = formValue.pageID;
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
@@ -299,11 +302,11 @@ const GetStartedSeller = (props) => {
           const getOnlyQuest = questions.filter((item) => item.inputs);
           setProgressBar((defId * 100) / getOnlyQuest.length);
           if (checkBrowser() > 0) {
-            if (singleStepEl) singleStepEl.scrollTop = 0;
-            if (multiStepSlidesEl) multiStepSlidesEl.scrollTop = 0;
+            if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
           } else {
-            if (singleStepEl) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-            if (multiStepSlidesEl) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }
       }
@@ -343,9 +346,9 @@ const GetStartedSeller = (props) => {
       const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
-    } else {
+    } else if (!isTest) {
       handleGetActiveSingleCompany({ stub: 'default' });
-      // changeFieldValue('location.countryCode', 'all');`
+      changeFieldValue('location.countryCode', 'all');
     }
     if (get(companyByUrl, 'channel', channelCookie)) {
       const defChan = get(companyByUrl, 'channel', channelCookie);
@@ -437,7 +440,8 @@ const GetStartedSeller = (props) => {
         }
         return null;
       });
-      setQuestions(newQuest);
+      const checkDiff = diff(quest, newQuest);
+      if (Object.keys(checkDiff).length > 0) setQuestions(newQuest);
     }
   }, [formValue]);
 
@@ -461,7 +465,7 @@ const GetStartedSeller = (props) => {
       }
       const companyCountry = get(company, 'country.code', 'CH');
       setQuestions(QuestionsList(getLang, companyCountry));
-      changeFieldValue('location.countryCode', companyCountry);
+      // changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
     }
@@ -479,27 +483,31 @@ const GetStartedSeller = (props) => {
   };
 
   useEffect(() => {
-    if (get(formValue, 'properties.propertyType', null)) changeStep();
+    // if (get(formValue, 'properties.propertyType', null)) changeStep('next', null, 1, true);
   }, [get(formValue, 'properties.propertyType', null)]);
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted container ${get(quest, 'history', '')}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
       {
         get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
-          <BrixelProgressBar
-            large
-            className="brdRadius"
-            saturation={500}
-            color="green"
-            barBackground="light"
-            backgroundSaturation={200}
-            progressValue={progressBar}
-          />
+          <div className="pos-r">
+            <BrixelProgressBar
+              large
+              classProgressBar="container"
+              className="brdRadius"
+              saturation={500}
+              color="green"
+              barBackground="light"
+              backgroundSaturation={200}
+              progressValue={progressBar}
+            />
+          </div>
+
         )
       }
 
       <div
-        className={`bodyModal ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
+        className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
       >
 
         <form
@@ -528,7 +536,6 @@ const GetStartedSeller = (props) => {
                         quest.subtitle && (
                           <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
-
                       <MultiFileldsReduxForm
                         form="GetStarted"
                         className="w-perc-100"
@@ -642,6 +649,7 @@ GetStartedSeller.propTypes = {
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -649,6 +657,7 @@ GetStartedSeller.propTypes = {
 };
 
 GetStartedSeller.defaultProps = {
+  isTest: false,
   lang: 'en',
 };
 
@@ -657,7 +666,7 @@ const mapStateToProps = (state, props) => {
   const channelCookie = cookie.get('brixelChannelSignup') || null;
   const channel = get(urlSearch, 'channel', channelCookie);
   const propertyType = get(urlSearch, 'propertyType', null);
-  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
+  const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'PT');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
@@ -667,14 +676,17 @@ const mapStateToProps = (state, props) => {
     gameGroup: get(state, 'gamification.gameGroup', []),
     gameHistory: get(state, 'gamification.gameHistory', {}),
     initialValues: {
+      ...get(state, 'brixelForm.GetStarted.initialValues', {}),
       channel,
+      pageID: get(state, 'brixelForm.GetStarted.values.pageID', null),
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       company: get(state, 'companies.activeSingleCompany.stub', null),
       // price: {
       //   currency: get(state, 'companies.activeSingleCompany.country.currency', null),
       // },
       location: {
-        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'DE'),
+        ...get(state, 'brixelForm.GetStarted.values.location', { }),
+        countryCode: get(state, 'companies.activeSingleCompany.country.code', 'PT'),
       },
       login: {},
       owner: get(state, 'user.loggedInUser.id', null),
@@ -733,7 +745,14 @@ const mapDispatchToProps = (dispatch) => ({
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
+export const GetStartedSellerMemo = React.memo(GetStartedSeller, (prevProps, nextProps) => {
+  const diffProps = diff(prevProps, nextProps);
+  return (
+    Object.keys(diffProps).length === 0
+  );
+});
+
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(GetStartedSeller);
+)(GetStartedSellerMemo);

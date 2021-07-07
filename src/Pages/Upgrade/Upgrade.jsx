@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState, useEffect, lazy, Suspense,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, MultiFileldsReduxForm, reset, initializeForm,
@@ -10,16 +12,11 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import Loadable from 'react-loadable';
-import Loading from '../../components/Loading';
 import { UpgradeQuestions } from '../../resources/Upgrade';
 import InfoImg from '../../images/Upgrade/info.svg';
 import { getPackagesProperty, saveUpgradePlan } from '../../actions/PropertyActions';
 
-const Support = Loadable({
-  loader: () => import('../../components/Support' /* webpackChunkName: "Support" */),
-  loading: Loading,
-});
+const Support = lazy(() => import('../../components/Support'));
 
 const Upgrade = (props) => {
   // PROPS
@@ -220,7 +217,9 @@ const Upgrade = (props) => {
                 {
                   currentIndex === 0 && (
                     <div className="max-w-fix-360 shadow-1dp mt-3 m-a">
-                      <Support hideClose expanded />
+                      <Suspense fallback="">
+                        <Support hideClose expanded />
+                      </Suspense>
                     </div>
                   )
                 }

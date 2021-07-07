@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect, useState, lazy, Suspense,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   withRouter,
@@ -7,7 +9,6 @@ import {
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
 import {
   change,
   initializeForm,
@@ -20,30 +21,15 @@ import { spinnerOff } from '../../../actions/CommonActions';
 import { getFavoritesProperties } from '../../../actions/MarketActions';
 import { getBuyerDeal } from '../../../actions/DealActions';
 
-const ProtectedRoute = Loadable({
-  loader: () => import('../../../components/ProtectedRoute' /* webpackChunkName: "ProtectedRoute" */),
-  loading: () => null,
-});
+const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
-const PropertiesBuyerDashboard = Loadable({
-  loader: () => import('./PropertiesBuyerDashboard' /* webpackChunkName: "PropertiesBuyerDashboard" */),
-  loading: () => null,
-});
+const PropertiesBuyerDashboard = lazy(() => import('./PropertiesBuyerDashboard'));
 
-const RewardsBuyerDashboard = Loadable({
-  loader: () => import('./RewardsBuyerDashboard' /* webpackChunkName: "RewardsBuyerDashboard" */),
-  loading: () => null,
-});
+const RewardsBuyerDashboard = lazy(() => import('./RewardsBuyerDashboard'));
 
-const PropertyBuyerDashboard = Loadable({
-  loader: () => import('./PropertyBuyerDashboard' /* webpackChunkName: "PropertyBuyerDashboard" */),
-  loading: () => null,
-});
+const PropertyBuyerDashboard = lazy(() => import('./PropertyBuyerDashboard'));
 
-const DealsDashboardBuyer = Loadable({
-  loader: () => import('./DealsDashboardBuyer' /* webpackChunkName: "DealsDashboardBuyer" */),
-  loading: () => null,
-});
+const DealsDashboardBuyer = lazy(() => import('./DealsDashboardBuyer'));
 
 const Dashboard = (props) => {
   // PROPS
@@ -111,11 +97,13 @@ const Dashboard = (props) => {
 
   return (
     <div className="container dashboardContainer" id="dashboard">
-      { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-      <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
-      <ProtectedRoute path="/buyer/:propID/rewards" component={RewardsBuyerDashboard} />
-      <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
-      <ProtectedRoute path="/buyer/:propID/deal" component={DealsDashboardBuyer} />
+      <Suspense fallback="">
+        { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+        <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
+        <ProtectedRoute path="/buyer/:propID/rewards" component={RewardsBuyerDashboard} />
+        <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
+        <ProtectedRoute path="/buyer/:propID/deal" component={DealsDashboardBuyer} />
+      </Suspense>
     </div>
   );
 };

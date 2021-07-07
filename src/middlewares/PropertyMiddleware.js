@@ -63,7 +63,7 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO CREATE SINGLE PROPERTY - used on onBoarding
     case CREATE_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const objData = cloneDeep(action.payload);
+      const objData = action.payload;
       const {
         getEstimation, token, redirectToUserFlow, redirectToRewards,
         redirectToHome, smallLoader, createEstimation, redirectToUrl,
@@ -107,12 +107,40 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
             if (extraLoading) store.dispatch({ type: SPINNER_OFF });
           } else if (redirectToUrl) {
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                state: true,
+                type: 'done',
+              },
+            });
             window.location.href = redirectToUrl;
           } else if (redirectToHome) {
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                state: true,
+                type: 'done',
+              },
+            });
             window.location.href = `/${res.data.id}/sell`;
           } else if (redirectToRewards) {
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                state: true,
+                type: 'done',
+              },
+            });
             window.location.href = `/${res.data.id}/rewards`;
           } else if (redirectToUserFlow) {
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                state: true,
+                type: 'done',
+              },
+            });
             window.location.href = '/onBoarding/brixelComingInTown';
           } else if (smallLoader) {
             store.dispatch({
@@ -394,7 +422,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
         })
         .catch(() => {
-          if (window.location.href.includes('localhost')) {
+          if (get(window, 'location.href', '').includes('localhost')) {
             if (setAsSingle) {
               store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: {} });
             } else {

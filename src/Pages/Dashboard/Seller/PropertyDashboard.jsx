@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
   Route,
@@ -13,36 +13,18 @@ import {
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
 import last from 'lodash/last';
-import Sticker from 'react-stickyfill';
-import LoadingSimple from '../../../components/LoadingSimple';
 import Loading from '../../../components/Loading';
 
-const Facts = Loadable({
-  loader: () => import('../../EditProperty/Facts' /* webpackChunkName: "Facts" */),
-  loading: LoadingSimple,
-});
+const Facts = lazy(() => import('../../EditProperty/Facts'));
 
-const Photos = Loadable({
-  loader: () => import('../../EditProperty/Media/Photos' /* webpackChunkName: "Photos" */),
-  loading: LoadingSimple,
-});
+const Photos = lazy(() => import('../../EditProperty/Media/Photos'));
 
-const Plans = Loadable({
-  loader: () => import('../../EditProperty/Media/Plans' /* webpackChunkName: "Plans" */),
-  loading: LoadingSimple,
-});
+const Plans = lazy(() => import('../../EditProperty/Media/Plans'));
 
-const Tour = Loadable({
-  loader: () => import('../../EditProperty/Media/Tour' /* webpackChunkName: "Tour" */),
-  loading: LoadingSimple,
-});
+const Tour = lazy(() => import('../../EditProperty/Media/Tour'));
 
-const Documents = Loadable({
-  loader: () => import('../../EditProperty/Documents' /* webpackChunkName: "Documents" */),
-  loading: Loading,
-});
+const Documents = lazy(() => import('../../EditProperty/Documents'));
 
 const HomeDashboard = (props) => {
   // PROPS
@@ -87,7 +69,7 @@ const HomeDashboard = (props) => {
   return (
     <>
       <div className="property-container dis-f jc-fs h-perc-lg-100 pos-r a-t" id="propertyDashboard">
-        <Sticker>
+        <div>
           {
             windowDimensions.width <= 1024 && (
               <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
@@ -201,7 +183,7 @@ const HomeDashboard = (props) => {
               </div>
             )
           }
-        </Sticker>
+        </div>
         {/* <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
           <BrixelButtonIcon
             ghost
@@ -212,11 +194,13 @@ const HomeDashboard = (props) => {
         {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
-              <Route path="/:propId?/property/facts" component={Facts} />
-              <Route path="/:propId?/property/photos" component={Photos} />
-              <Route path="/:propId?/property/floorPlans" component={Plans} />
-              <Route path="/:propId?/property/tour" exact component={Tour} />
-              <Route path="/:propId?/property/documents" component={Documents} />
+              <Suspense fallback={<Loading isLoading />}>
+                <Route path="/:propId?/property/facts" component={Facts} />
+                <Route path="/:propId?/property/photos" component={Photos} />
+                <Route path="/:propId?/property/floorPlans" component={Plans} />
+                <Route path="/:propId?/property/tour" exact component={Tour} />
+                <Route path="/:propId?/property/documents" component={Documents} />
+              </Suspense>
             </div>
           )
         }

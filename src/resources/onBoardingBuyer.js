@@ -49,13 +49,13 @@ export const QuestionsList = (lang) => {
     {
       title: translateTo(lang, 'What kind of property would you like to buy?'),
       history: 'propertyType',
-      className: 'max-w-fix-880 ml-a mr-a',
       footerWidth: 'max-w-fix-880',
       inputs: [
         {
           component: BrixelCheckbox,
           className: 'radioBtnImg',
           ReduxFieldClass: '',
+          classNameBox: 'max-w-fix-880 ml-a mr-a',
           label: '',
           name: 'characteristics.propertyType',
           validation: [Validation.required],
@@ -63,8 +63,9 @@ export const QuestionsList = (lang) => {
           cardLayout: true,
           cardSmall: true,
           svgSupport: true,
+          svgWidth: 'max-w-fix-200',
           isHorizontal: true,
-          pdClass: 'pt-3 pb-5',
+          pdClass: 'py-3 py-md-5',
           options: [
             {
               label: translateTo(lang, 'Apartment'),
@@ -218,6 +219,7 @@ export const QuestionsList = (lang) => {
         name: 'owner',
         value: null,
       }],
+      background: 'bgCardGreen',
       history: 'createProfile',
       component: LoginSignup,
       signupTitle: translateTo(lang, 'Create your profile to save your progress.'),

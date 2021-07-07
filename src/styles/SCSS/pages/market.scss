@@ -30,7 +30,7 @@ $lightColorNew2: #F0F0F2;
         }
         .paddingOffset {
           flex: 1;
-          padding-top: 150px;
+          padding-top: 180px;
           margin-top: -130px;
           padding-bottom: 80px;
           background-color: $lightColorNew;
@@ -373,4 +373,8 @@ $lightColorNew2: #F0F0F2;
   .market-card .cover.pre-market:not(.premium) {
     filter: initial;
   }
+}
+
+.mb-neg-58 {
+  margin-bottom: -58px;
 }
