@@ -383,7 +383,7 @@ const BookTrialFlow = (props) => {
                           dirty: get(syncErrors, 'hourBook', '') !== true,
                           showErrors: showError,
                           message: {
-                            error: 'Please select an hour',
+                            error: 'Please insert an hour',
                           },
                         }}
                       />
