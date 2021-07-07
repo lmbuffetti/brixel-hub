@@ -535,6 +535,7 @@ button.minimum-w-210 {
   .input-container .brixel-text-input {
     min-height: 56px;
   }
+  .inputTime .input-container .brixel-text-input,
   .inputDate .input-container .brixel-text-input {
     padding-left: 24px !important;
     padding-right: 24px !important;
@@ -579,8 +580,17 @@ button.minimum-w-210 {
     }
   }
   span.brixelIcon.activity-calendar {
-    top: 16px;
     right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    @media (max-width: $responsive-small) {
+      right: 22px;
+    }
+  }
+  span.brixelIcon.hour-book {
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
     @media (max-width: $responsive-small) {
       right: 16px;
     }

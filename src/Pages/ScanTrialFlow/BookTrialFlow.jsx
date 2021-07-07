@@ -162,6 +162,7 @@ const BookTrialFlow = (props) => {
                   <div className="pos-r pl-1 w-perc-50">
                     <ReduxField
                       form="scanFlow"
+                      ReduxFieldClass="inputDate"
                       component={BrixelInputText}
                       input={{
                         name: 'hourBook',
@@ -181,6 +182,11 @@ const BookTrialFlow = (props) => {
                           error: 'Please insert an hour',
                         },
                       }}
+                    />
+                    <BrixelIcon
+                      className="pos-a-fix x-r-1 hour-book x-t-1"
+                      icon="clock"
+                      color="dark"
                     />
                   </div>
                 </div>
@@ -367,6 +373,7 @@ const BookTrialFlow = (props) => {
                     <div className="pos-r pl-1 w-perc-50">
                       <ReduxField
                         form="scanFlow"
+                        ReduxFieldClass="inputTime"
                         component={BrixelInputText}
                         input={{
                           name: 'hourBook',
@@ -386,6 +393,11 @@ const BookTrialFlow = (props) => {
                             error: 'Please insert an hour',
                           },
                         }}
+                      />
+                      <BrixelIcon
+                        className="pos-a-fix x-r-1 hour-book x-t-1"
+                        icon="clock"
+                        color="dark"
                       />
                     </div>
                   </div>
