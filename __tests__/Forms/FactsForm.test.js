@@ -35,18 +35,18 @@ describe('Render Seller Flow', () => {
       });
   });
 
-  it('check notification show', async () => {
-    await render(
-      <App isTest />, {
-        common: {
-          test: true,
-        },
-        user: {
-          loggedInUser: user,
-        },
-      }, '/100000000000000000000000/property/facts/propertyType',
-    );
+  render(
+    <App isTest />, {
+      common: {
+        test: true,
+      },
+      user: {
+        loggedInUser: user,
+      },
+    }, '/100000000000000000000000/property/facts/propertyType',
+  );
 
+  it('check notification show', async () => {
     await waitFor(async () => {
       // PROPERTY TYPE
       await expect(screen.getAllByRole('heading').length > 0);
