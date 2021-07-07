@@ -49,22 +49,6 @@ build site:
     paths:
       - dist
 
-test integration:
-  image: node:14.14.0
-  stage: test
-  cache:
-    paths:
-      - node_modules/
-  only:
-    - stagings
-    - masters
-  variables:
-    FOLDER: $CI_COMMIT_REF_NAME
-  script:
-    - if [ "$FOLDER" == "master" ]; then MODULE="-prod"; else MODULE=""; fi
-    - if [ "$FOLDER" == "staging" ]; then MODULE="-stage"; else MODULESS=""; fi
-    - npm run test${MODULE}
-
 deploy_dev:
   image: alpine
   stage: deploy
@@ -77,6 +61,7 @@ deploy_dev:
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-hub
+    - ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanTestsData.js delete'
 
 deploy_staging:
   image: alpine
@@ -106,3 +91,26 @@ deploy_master:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.95.1:/srv/production/brixel-hub
     - ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanTestsData.js delete'
+
+
+test integration:
+  image: node:14.14.0
+  stage: test
+  cache:
+    paths:
+      - node_modules/
+  only:
+    - develop
+    - stagings
+    - masters
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
+  allow_failure: true
+  when: manual
+  script:
+    - if [ "$FOLDER" == "master" ]; then MODULE="-prod"; else MODULE=""; fi
+    - if [ "$FOLDER" == "staging" ]; then MODULE="-stage"; else MODULESS=""; fi
+    - npm run test${MODULE}
+    - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanTestsData.js delete'; fi
+    - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanTestsData.js delete'; fi
+    - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanTestsData.js delete'; fi
