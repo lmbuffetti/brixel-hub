@@ -53,6 +53,10 @@ if (typeof window !== 'undefined') {
   if (getCurDom.length > 3) domain = 'io';
 }
 
+if (url.indexOf('dev') !== -1) env = 'DEV';
+else if (url.indexOf('stag') !== -1) env = 'STAGING';
+else env = 'PROD';
+
 let configUrl = getConfigEnvWeb(env, domain);
 
 if (typeof window !== 'undefined') {
@@ -61,10 +65,6 @@ if (typeof window !== 'undefined') {
     configUrl = getConfigEnv;
   }
 }
-
-if (url.indexOf('dev') !== -1) env = 'DEV';
-else if (url.indexOf('stag') !== -1) env = 'STAGING';
-else env = 'PROD';
 
 export default apiFactory({
   baseURL: configUrl.apiRoot,
