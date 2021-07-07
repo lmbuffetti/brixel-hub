@@ -57,7 +57,7 @@ let configUrl = getConfigEnvWeb(env, domain);
 
 if (typeof window !== 'undefined') {
   const urlAddress = get(window, 'location.href', '');
-  if (urlAddress.includes('dev') || urlAddress.includes('stage')) {
+  if (urlAddress.includes('dev-') || urlAddress.includes('stage-')) {
     configUrl = getConfigEnv;
   }
 }
