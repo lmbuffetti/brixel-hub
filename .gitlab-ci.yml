@@ -61,7 +61,7 @@ deploy_dev:
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-hub
-    - ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanTestsData.js delete'
+    - ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanTestsData.js delete'
 
 deploy_staging:
   image: alpine
