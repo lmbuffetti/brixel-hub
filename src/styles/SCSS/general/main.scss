@@ -42,8 +42,7 @@ map-get($blueColor, 300);
 "./hubDashboard";
 
 // PAGES
-@import "../pages/getStarted",
-"../pages/onBoarding",
+@import "../pages/onBoarding",
 "../pages/listings",
 "../pages/_property_listings",
 "../pages/upgrade",
@@ -52,6 +51,7 @@ map-get($blueColor, 300);
 "../pages/facts",
 "../pages/buyer",
 "../pages/deals",
+"../pages/getStarted",
 "../pages/seller";
 
 // TRANSITIONS
