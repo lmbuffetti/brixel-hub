@@ -11,6 +11,7 @@ import { svgIcons } from './svgIcons';
 
 export const ScanTrialQuestions = () => [
   {
+    hideProgress: true,
     cardType: 'loadComponent',
     history: 'introScanFlow',
     component: IntroScanFlow,
