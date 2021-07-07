@@ -11,10 +11,10 @@ import { svgIcons } from './svgIcons';
 
 export const ScanTrialQuestions = () => [
   {
-    hideProgress: true,
     cardType: 'loadComponent',
     history: 'introScanFlow',
     component: IntroScanFlow,
+    hideProgress: true,
   },
   {
     title: 'How do you want to do the analysis?',
