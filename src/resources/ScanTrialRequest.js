@@ -11,6 +11,7 @@ import { svgIcons } from './svgIcons';
 
 export const ScanTrialQuestions = () => [
   {
+    hideProgress: true,
     cardType: 'loadComponent',
     history: 'introScanFlow',
     component: IntroScanFlow,
@@ -109,6 +110,7 @@ export const ScanTrialQuestions = () => [
     classWrapper: '',
   },
   {
+    hideProgress: true,
     conditions: [{
       name: 'bookType',
       value: 'whereby',
