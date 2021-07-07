@@ -57,25 +57,25 @@ const IntroScanFlow = (props) => {
               <div className="row">
                 <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-144" src={AnalyseImg} alt="text-1" />
+                    <img className="w-perc-100 max-w-fix-120" src={AnalyseImg} alt="text-1" />
                   </div>
                 </div>
 
                 <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-144" src={DeliverImg} alt="text-1" />
+                    <img className="w-perc-100 max-w-fix-120" src={DeliverImg} alt="text-1" />
                   </div>
                 </div>
 
                 <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-144" src={YourTestImg} alt="text-1" />
+                    <img className="w-perc-100 max-w-fix-120" src={YourTestImg} alt="text-1" />
                   </div>
                 </div>
 
                 <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-144" src={DecideImg} alt="text-1" />
+                    <img className="w-perc-100 max-w-fix-120" src={DecideImg} alt="text-1" />
                   </div>
                 </div>
               </div>
