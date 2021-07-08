@@ -92,6 +92,7 @@ describe('Render Estimation Flow', () => {
     console.log('skip next steps');
     await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);
     await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);
+    await fireEvent.click(screen.getAllByRole('button', { name: 'Save' })[0]);
 
     // SIGN UP
     console.log('signup');

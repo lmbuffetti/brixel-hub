@@ -14,7 +14,7 @@ import App from '../../src/App';
 import api from '../../src/controllers/api/config';
 import { fakeLocalStorage } from '../../src/utils/helpers.test';
 
-describe('Render Seller Flow', () => {
+describe('Render Scan Trial Flow', () => {
   let token;
   let user;
 
@@ -48,17 +48,20 @@ describe('Render Seller Flow', () => {
     );
 
     await waitFor(async () => {
-      // PROPERTY TYPE
+      // Start
+      console.log('start');
       await fireEvent.click(screen.getByRole('button', { name: 'Book your test drive' }));
       const propType = screen.getAllByRole('radio');
       await userEvent.click(propType[0]);
     }, { timeout: 2000 });
 
     await waitFor(async () => {
+      console.log('choose by phone');
       await fireEvent.click(screen.getByRole('button', { name: 'Book via phone' }));
     }, { timeout: 2000 });
 
     await waitFor(async () => {
+      console.log('continue and save');
       await fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
     }, { timeout: 3000 });
   });
@@ -76,27 +79,33 @@ describe('Render Seller Flow', () => {
     );
 
     await waitFor(async () => {
-      // PROPERTY TYPE
+      // Start
+      console.log('start');
       await fireEvent.click(screen.getByRole('button', { name: 'Book your test drive' }));
       const propType = screen.getAllByRole('radio');
       await userEvent.click(propType[0]);
     }, { timeout: 2000 });
 
     await waitFor(async () => {
+      console.log('fill the form');
       const InputText = screen.getAllByRole('text');
-      await userEvent.type(InputText[0], '03-07-2021');
-      await userEvent.type(InputText[1], '910234567');
+      console.log('calendar');
+      await userEvent.type(InputText[0], '10-10-2021');
+      console.log('phone');
+      await userEvent.type(InputText[2], '910234567');
       await expect(InputText);
+      console.log('calendar');
       let Calendar = screen.getAllByText('30');
       Calendar = Calendar[Calendar.length - 1];
       await fireEvent.click(Calendar);
-      const Select = screen.getAllByRole('select');
-      userEvent.selectOptions(Select[0], ['08:00']);
+      console.log('hour');
+      await userEvent.type(InputText[1], '0800', { allAtOnce: true });
       // await fireEvent.click(screen.getByRole('button', { name: 'Book via phone' }));
-    }, { timeout: 4000 });
+    }, { timeout: 3000 });
 
     await waitFor(async () => {
+      console.log('continue and save');
       await fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
-    }, { timeout: 6000 });
+    }, { timeout: 4000 });
   });
 });

@@ -57,7 +57,7 @@
     "sellerFlowTest": "jest __tests__/OnBoarding/SellerFlow.test.js --updateSnapshot --runInBand --detectOpenHandles",
     "estimationFlowTest": "jest __tests__/OnBoarding/EstimationFlow.test.js --updateSnapshot --runInBand --detectOpenHandles",
     "buyerFlowTest": "jest __tests__/OnBoarding/BuyerFlow.test.js --updateSnapshot --runInBand --detectOpenHandles",
-    "allTests": "NODE_ENV=page-dev jest __tests__/Flows --updateSnapshot --runInBand --detectOpenHandles",
+    "allTests": "jest __tests__/Flows --updateSnapshot --runInBand --detectOpenHandles && jest __tests__/RendersPage --updateSnapshot --runInBand --detectOpenHandles",
     "localTests": "NODE_ENV=page-dev jest __tests__/Flows/EstimationFlow.test.js --updateSnapshot --runInBand --detectOpenHandles",
     "test": "NODE_ENV=page-dev npm run sellerFlowTest && npm run estimationFlowTest && npm run buyerFlowTest && npm run allTests",
     "test-stage": "NODE_ENV=page-stag npm run sellerFlowTest && npm run estimationFlowTest && npm run buyerFlowTest && npm run allTests",
