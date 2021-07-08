@@ -18,9 +18,7 @@ import { getOfferListings, setActiveSingleDeal } from '../../../actions/DealActi
 
 const Deals = lazy(() => import('../../Deals/Deals'));
 
-const DashboardOffer = lazy(() => import('../../Offers/DashboardOffer'));
-
-const ListingsDashboard = (props) => {
+const MarketingDashboard = (props) => {
   // PROPS
   const {
     activeSingleProperty,
@@ -37,8 +35,8 @@ const ListingsDashboard = (props) => {
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
-    if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'deals') {
-      history.push({ pathname: `/${propID}/deals/lists` });
+    if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'prospects') {
+      history.push({ pathname: `/${propID}/prospects/lists` });
     }
   }, [windowDimensions, getFact()]);
 
@@ -94,7 +92,7 @@ const ListingsDashboard = (props) => {
                   className={`w-perc-100 max-w-perc-50 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'list' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon="primary700"
                   backIcon="primary100"
-                  onClick={() => history.push(`/${propID}/deals/lists`)}
+                  onClick={() => history.push(`/${propID}/prospects/lists`)}
                 />
                 <BrixelButtonBox
                   verticalView
@@ -107,7 +105,7 @@ const ListingsDashboard = (props) => {
                   className={`w-perc-100 max-w-perc-50 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'offers' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon="primary700"
                   backIcon="primary100"
-                  onClick={() => history.push(`/${propID}/deals/offers`)}
+                  onClick={() => history.push(`/${propID}/prospects/offers`)}
                   selected
                 />
               </div>
@@ -136,13 +134,12 @@ const ListingsDashboard = (props) => {
                   <div className="dis-f">
                     <div className="secondLevel dis-fl-col ml-lg-1">
                       <Suspense fallback={<Loading isLoading />}>
-                        <Route path="/:propId/deals/lists" component={Deals} />
-                        <Route path="/:propId/deals/offers" component={DashboardOffer} />
+                        <Route path="/:propId/prospects/lists" component={Deals} />
                       </Suspense>
                     </div>
                   </div>
                 ) : (
-                  <Redirect from="/:propId/deals/*" to={`/${propID}/deals`} />
+                  <Redirect from="/:propId/prospects/*" to={`/${propID}/prospects`} />
                 )
             }
 
@@ -153,7 +150,7 @@ const ListingsDashboard = (props) => {
   );
 };
 
-ListingsDashboard.propTypes = {
+MarketingDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyDealsCount: PropTypes.object.isRequired,
   handleGetOfferListings: PropTypes.func.isRequired,
@@ -163,7 +160,7 @@ ListingsDashboard.propTypes = {
   windowDimensions: PropTypes.object.isRequired,
 };
 
-ListingsDashboard.defaultProps = {
+MarketingDashboard.defaultProps = {
 
 };
 
@@ -183,4 +180,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(ListingsDashboard);
+)(MarketingDashboard);

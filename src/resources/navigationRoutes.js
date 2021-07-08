@@ -29,46 +29,39 @@ export const sidebarNavigationSeller = [
         name: 'tour',
         path: '/:propID/property/tour',
       },
-      {
-        title: 'Docubox',
-        name: 'documents',
-        path: '/:propID/property/documents',
-      },
     ],
   },
   {
-    title: 'Listings',
-    name: 'listings',
-    path: '/:propID/listings',
+    title: 'Docubox',
+    name: 'docubox',
+    path: '/:propID/docubox',
+  },
+  {
+    title: 'Marketing',
+    name: 'marketing',
+    path: '/:propID/marketing',
     submenu: [
       {
         title: 'Page',
         name: 'page',
-        path: '/:propID/listings/page',
+        path: '/:propID/marketing/page',
       },
       {
         title: 'Portals',
         name: 'portals',
-        path: '/:propID/listings/portals',
+        path: '/:propID/marketing/portals',
       },
     ],
   },
   {
-    title: 'Deals',
-    name: 'deals',
-    path: '/:propID/deals',
-    submenu: [
-      {
-        title: 'Buyers',
-        name: 'lists',
-        path: '/:propID/deals/lists',
-      },
-      {
-        title: 'Offers',
-        name: 'offers',
-        path: '/:propID/deals/offers',
-      },
-    ],
+    title: 'Prospects',
+    name: 'prospects',
+    path: '/:propID/prospects',
+  },
+  {
+    title: 'Closing',
+    name: 'closing',
+    path: '/:propID/closing',
   },
 ];
 
@@ -95,8 +88,8 @@ export const sidebarNavigationBuyer = [
       },
       {
         title: 'Docubox',
-        name: 'documents',
-        path: '/buyer/:propID/property/documents',
+        name: 'docubox',
+        path: '/buyer/:propID/property/docubox',
       },
     ],
   },
@@ -122,15 +115,15 @@ export const firstRoutes = [
   },
   {
     title: 'Listings',
-    name: 'listings',
+    name: 'marketing',
     icon: 'upload',
-    path: '/:propID/listings',
+    path: '/:propID/marketing',
   },
   {
     title: 'Deals',
     name: 'deals',
     icon: 'money',
-    path: '/:propID/deals',
+    path: '/:propID/closing',
   },
 ];
 

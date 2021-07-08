@@ -79,7 +79,7 @@ const CreateDeal = (props) => {
 
   const createNewDeal = () => {
     const payload = {
-      link: `/${activeSingleProperty.id}/deals`,
+      link: `/${activeSingleProperty.id}/prospects`,
       page: activeSingleProperty.id,
       leadName: formValue.name,
       leadEmail: formValue.email,
@@ -93,7 +93,7 @@ const CreateDeal = (props) => {
 
   return (
     <SplashScreen
-      closeLink={`/${activeSingleProperty.id}/deals/lists`}
+      closeLink={`/${activeSingleProperty.id}/prospects/lists`}
       className="create-deal"
       closeOutside={false}
     >
@@ -105,7 +105,7 @@ const CreateDeal = (props) => {
               ghost
               theme="dark"
               icon="close-small"
-              onClick={() => history.push(`/${activeSingleProperty.id}/deals/lists`)}
+              onClick={() => history.push(`/${activeSingleProperty.id}/prospects/lists`)}
             />
           </div>
         </div>

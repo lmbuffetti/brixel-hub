@@ -72,7 +72,7 @@ const Page = (props) => {
                     icon="arrow-left-small"
                     theme="dark"
                     ghost
-                    onClick={() => history.push(`/${propID}/listings`)}
+                    onClick={() => history.push(`/${propID}/marketing`)}
                   />
                   {
                     formValue.published ? (

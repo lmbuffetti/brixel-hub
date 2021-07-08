@@ -24,8 +24,6 @@ const Plans = lazy(() => import('../../EditProperty/Media/Plans'));
 
 const Tour = lazy(() => import('../../EditProperty/Media/Tour'));
 
-const Documents = lazy(() => import('../../EditProperty/Documents'));
-
 const HomeDashboard = (props) => {
   // PROPS
   const {
@@ -176,7 +174,7 @@ const HomeDashboard = (props) => {
                     className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                     colorIcon="primary700"
                     backIcon="primary100"
-                    onClick={() => history.push(`/${propID}/property/documents`)}
+                    onClick={() => history.push(`/${propID}/docubox`)}
                   />
                 </div>
 
@@ -199,7 +197,6 @@ const HomeDashboard = (props) => {
                 <Route path="/:propId?/property/photos" component={Photos} />
                 <Route path="/:propId?/property/floorPlans" component={Plans} />
                 <Route path="/:propId?/property/tour" exact component={Tour} />
-                <Route path="/:propId?/property/documents" component={Documents} />
               </Suspense>
             </div>
           )

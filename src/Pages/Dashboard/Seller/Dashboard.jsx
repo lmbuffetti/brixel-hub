@@ -43,11 +43,15 @@ const RewardsDashboard = lazy(() => import('./RewardsDashboard'));
 
 const PropertyDashboard = lazy(() => import('./PropertyDashboard'));
 
-const ListingsDashboard = lazy(() => import('./ListingsDashboard'));
+const MarketingDashboard = lazy(() => import('./MarketingDashboard'));
 
 const DealsDashboard = lazy(() => import('./DealsDashboard'));
 
 const EmptyProperty = lazy(() => import('./EmptyProperty'));
+
+const Documents = lazy(() => import('../../EditProperty/Documents'));
+
+const DashboardOffer = lazy(() => import('../../Offers/DashboardOffer'));
 
 // UPGRADE
 const Upgrade = lazy(() => import('../../Upgrade/Upgrade'));
@@ -353,8 +357,10 @@ const Dashboard = (props) => {
         { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
         <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
         <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-        <ProtectedRoute path="/:propId?/listings" component={ListingsDashboard} />
-        <ProtectedRoute path="/:propId?/deals" component={DealsDashboard} />
+        <ProtectedRoute path="/:propId?/docubox" component={Documents} />
+        <ProtectedRoute path="/:propId?/marketing" component={MarketingDashboard} />
+        <ProtectedRoute path="/:propId?/prospects" component={DealsDashboard} />
+        <ProtectedRoute path="/:propId/closing" component={DashboardOffer} />
         <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
         <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
         <ProtectedRoute path="/no-property" exact component={EmptyProperty} />

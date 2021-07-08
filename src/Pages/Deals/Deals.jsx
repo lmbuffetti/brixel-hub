@@ -334,7 +334,7 @@ const Deals = (props) => {
               icon="arrow-left-small"
               theme="dark"
               ghost
-              onClick={() => history.push(`/${propID}/deals`)}
+              onClick={() => history.push(`/${propID}/prospects`)}
             />
             <div className="dis-fl-row a-c zIndex3">
               {
@@ -425,7 +425,7 @@ const Deals = (props) => {
                                 <BrixelButtonPrimary
                                   label="Manage listings"
                                   rounded
-                                  onClick={() => history.push(`/${activeSingleProperty.id}/listings/page`)}
+                                  onClick={() => history.push(`/${activeSingleProperty.id}/marketing/page`)}
                                 />
                               </div>
                             </div>

@@ -1,5 +1,6 @@
 
-body .container.deals {
+body .container.deals,
+body .container.prospects {
 
   @media (max-width: $responsive-large) {
     overflow-y: hidden;

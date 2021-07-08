@@ -108,10 +108,10 @@ const PropertyBuyerDashboard = (props) => {
                 labelClass="fweight-400"
                 subtitle={`<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate))}</span>&nbsp;<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) !== 1 ? 'Files' : 'File'}</span>`}
                 subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
-                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'docubox' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon="primary700"
                 backIcon="primary100"
-                onClick={() => history.push(`/buyer/${propID}/property/documents`)}
+                onClick={() => history.push(`/buyer/${propID}/property/docubox`)}
               />
             </div>
 
@@ -164,7 +164,7 @@ const PropertyBuyerDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Route path="/buyer/:propId/property/page" component={PageBuyer} />
-                <Route path="/buyer/:propId/property/documents" exact component={Documents} />
+                <Route path="/buyer/:propId/property/docubox" exact component={Documents} />
                 <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
                 <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
               </Suspense>
