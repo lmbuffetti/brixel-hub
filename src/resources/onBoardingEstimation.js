@@ -8,7 +8,7 @@ import {
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import LoginSignup from '../components/LoginSignup';
-import ResumeCard from '../components/ResumeCard';
+// import ResumeCard from '../components/ResumeCard';
 import { translateTo } from '../utils/translation';
 import { configureStore } from '../store';
 import { svgIcons } from './svgIcons';
@@ -240,14 +240,15 @@ export const QuestionsList = (lang, country = 'CH') => {
         },
       ],
     },
-    {
+    /* {
+      hideProgress: true,
       title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
       history: 'resume',
       cardType: 'loadComponent',
       component: ResumeCard,
       background: 'bgCardGreenDark',
       btnLabel: 'Continue',
-    },
+    }, */
     ...BestimateQuestions('getStarted', countryCode, propertyType),
     {
       conditions: [{
@@ -267,6 +268,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       }],
     },
     {
+      hideProgress: true,
       history: 'savingData',
       cardType: 'createProfile',
       toSave: true,
