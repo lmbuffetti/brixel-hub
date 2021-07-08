@@ -76,11 +76,7 @@ describe('Render Seller Flow', () => {
     // SKIP LOCATION
     console.log('location');
     await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);
-    await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);
-
-    // RESUME CARD
-    console.log('resume');
-    await fireEvent.click(screen.getAllByRole('button', { name: 'Continue' })[0]);
+    await fireEvent.click(screen.getAllByRole('button', { name: 'Save' })[0]);
 
     // SIGN UP
     console.log('signup');

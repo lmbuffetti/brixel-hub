@@ -11,7 +11,7 @@ import {
 } from '../../configJest/testUtils';
 import BuyerFlow from '../../src/Pages/PackageFlow/GetStartedBuyer';
 
-describe('Render Seller Flow', () => {
+describe('Render Buyer Flow', () => {
   render(
     <BuyerFlow isTest />, {
       companies: {
