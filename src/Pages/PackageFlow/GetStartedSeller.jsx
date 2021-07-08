@@ -58,7 +58,6 @@ const GetStartedSeller = (props) => {
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-  const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
@@ -299,8 +298,6 @@ const GetStartedSeller = (props) => {
               state: get(history, 'location.state', {}),
             });
           }
-          const getOnlyQuest = questions.filter((item) => item.inputs);
-          setProgressBar((defId * 100) / getOnlyQuest.length);
           if (checkBrowser() > 0) {
             if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
             if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
@@ -486,6 +483,27 @@ const GetStartedSeller = (props) => {
     // if (get(formValue, 'properties.propertyType', null)) changeStep('next', null, 1, true);
   }, [get(formValue, 'properties.propertyType', null)]);
 
+  const progressBarCalc = () => {
+    let num = 0;
+    questions.forEach((item) => {
+      if (get(item, 'hideProgress', false) !== true) {
+        if (item.conditions) {
+          item.conditions.forEach((cond) => {
+            const val = get(formValue, cond.name, null);
+            if (cond.value && val === cond.value) {
+              num += 1;
+            } else if (cond.noValue && val !== cond.noValue) {
+              num += 1;
+            }
+          });
+        } else {
+          num += 1;
+        }
+      }
+    });
+    return (currentIndex * 100) / (num - 1);
+  };
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
       {
@@ -499,7 +517,7 @@ const GetStartedSeller = (props) => {
               color="green"
               barBackground="light"
               backgroundSaturation={200}
-              progressValue={progressBar}
+              progressValue={progressBarCalc()}
             />
           </div>
 
