@@ -35,7 +35,7 @@ const MarketingDashboard = (props) => {
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
-    if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'prospects') {
+    if (getFact() === 'prospects') {
       history.push({ pathname: `/${propID}/prospects/lists` });
     }
   }, [windowDimensions, getFact()]);
