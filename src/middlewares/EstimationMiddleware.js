@@ -65,7 +65,7 @@ const checkEstimation = (store) => (next) => (action) => {
                   type: 'done',
                 },
               });
-              window.location.href = redirectTo;
+              window.location.assign(redirectTo);
             }
           } else {
             store.dispatch({
@@ -129,7 +129,7 @@ const checkEstimation = (store) => (next) => (action) => {
                   type: 'done',
                 },
               });
-              window.location.href = redirectTo;
+              window.location.assign(redirectTo);
             }
           } else {
             store.dispatch({
@@ -145,7 +145,7 @@ const checkEstimation = (store) => (next) => (action) => {
               payload: { status: 'pending' },
             });
             if (redirectTo) {
-              window.location.href = redirectTo;
+              window.location.assign(redirectTo);
             }
           }
           if (smallLoader) {

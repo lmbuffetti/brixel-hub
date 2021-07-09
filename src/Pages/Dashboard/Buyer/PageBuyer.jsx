@@ -38,7 +38,7 @@ const PageBuyer = (props) => {
       window.open(url, '_blank');
     } else {
       url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${get(window, 'location.href', '')}`;
-      window.location.href = url;
+      window.location.assign(url);
     }
   };
 

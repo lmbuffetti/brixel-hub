@@ -180,13 +180,13 @@ const App = (props) => {
           state: get(redirectTo, 'history.state', {}),
         });
       } else if (redirectTo.history.includes('rewards')) {
-        window.location.href = redirectTo.history;
+        window.location.assign(redirectTo.history);
       } else {
         history.push(redirectTo.history);
       }
     }
     if (get(redirectTo, 'url', null)) {
-      window.location.href = redirectTo.url;
+      window.location.assign(redirectTo.url);
     }
   }, [redirectTo]);
 
