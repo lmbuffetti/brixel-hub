@@ -9,3 +9,8 @@ if (typeof window !== 'undefined') {
     };
   };
 };
+
+const noop = () => {};
+Object.defineProperty(window, 'scrollTo', { value: noop, writable: true });
+
+Object.defineProperty(window, 'location.assign', { value: noop, writable: true });
