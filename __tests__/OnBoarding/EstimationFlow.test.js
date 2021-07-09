@@ -83,10 +83,6 @@ describe('Render Estimation Flow', () => {
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
-    // RESUME CARD
-    console.log('estimation resume');
-    await fireEvent.click(screen.getAllByRole('button', { name: 'Continue' })[0]);
-
     // DETAILS
     console.log('details');
     const Gross = screen.getAllByRole('number');

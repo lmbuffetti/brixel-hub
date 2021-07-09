@@ -49,7 +49,7 @@ describe('Render Sell Home', () => {
     '/100000000000000000000000/property/photos',
     '/100000000000000000000000/property/floorPlans',
     '/100000000000000000000000/property/tour',
-    '/100000000000000000000000/property/documents',
+    '/100000000000000000000000/docubox',
   ];
 
   for (let i = 0; i < urlToTest.length; i += 1) {
