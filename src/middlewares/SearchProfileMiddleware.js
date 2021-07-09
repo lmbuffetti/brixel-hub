@@ -57,10 +57,10 @@ const checkSearchProfile = (store) => (next) => (action) => {
             },
           });
           if (redirectToUrl) {
-            window.location.href = redirectToUrl;
+            window.location.assign(redirectToUrl);
           } else if (addSearchProfile) {
             // window.location.href = '/home';
-            window.location.href = '/buy';
+            window.location.assign('/buy');
           } else if (extraLoading) store.dispatch({ type: SPINNER_OFF });
         });
       break;

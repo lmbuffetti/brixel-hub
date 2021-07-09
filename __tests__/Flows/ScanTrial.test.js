@@ -30,8 +30,8 @@ describe('Render Scan Trial Flow', () => {
       .then((res) => {
         token = get(res, 'data.token', null);
         user = res.data;
-        done();
         window.localStorage.setItem('brixelToken', token);
+        done();
       });
   });
 

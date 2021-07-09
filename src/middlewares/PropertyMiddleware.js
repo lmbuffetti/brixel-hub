@@ -103,6 +103,13 @@ const checkCommon = (store) => (next) => (action) => {
             };
             store.dispatch({ type: CREATE_ESTIMATION, payload: data });
             if (extraLoading) store.dispatch({ type: SPINNER_OFF });
+            store.dispatch({
+              type: SET_SCREEN_NOTIFICATION,
+              payload: {
+                state: true,
+                type: 'done',
+              },
+            });
           } else if (getEstimation) {
             store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
             if (extraLoading) store.dispatch({ type: SPINNER_OFF });
@@ -114,7 +121,7 @@ const checkCommon = (store) => (next) => (action) => {
                 type: 'done',
               },
             });
-            window.location.href = redirectToUrl;
+            window.location.assign(redirectToUrl);
           } else if (redirectToHome) {
             store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
@@ -123,7 +130,7 @@ const checkCommon = (store) => (next) => (action) => {
                 type: 'done',
               },
             });
-            window.location.href = `/${res.data.id}/sell`;
+            window.location.assign(`/${res.data.id}/sell`);
           } else if (redirectToRewards) {
             store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
@@ -132,7 +139,7 @@ const checkCommon = (store) => (next) => (action) => {
                 type: 'done',
               },
             });
-            window.location.href = `/${res.data.id}/rewards`;
+            window.location.assign(`/${res.data.id}/rewards`);
           } else if (redirectToUserFlow) {
             store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
@@ -141,7 +148,7 @@ const checkCommon = (store) => (next) => (action) => {
                 type: 'done',
               },
             });
-            window.location.href = '/onBoarding/brixelComingInTown';
+            window.location.assign('/onBoarding/brixelComingInTown');
           } else if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
@@ -250,7 +257,7 @@ const checkCommon = (store) => (next) => (action) => {
               store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             }
             if (redirectToHome) {
-              window.location.href = `/${res.data.id}/sell`;
+              window.location.assign(`/${res.data.id}/sell`);
             }
           }
           if (smallLoader) {
@@ -338,7 +345,7 @@ const checkCommon = (store) => (next) => (action) => {
       apiEndPoint(action.payload.id)
         .then((res) => {
           if (get(res, 'data.statusCode', null)) {
-            window.location.href = '/sell';
+            window.location.assign('/sell');
           }
           store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
           if (setSuccessNotification) {
@@ -374,7 +381,7 @@ const checkCommon = (store) => (next) => (action) => {
               type: SPINNER_OFF,
             });
           }
-          window.location.href = '/sell';
+          window.location.assign('/sell');
         });
       break;
     }
@@ -402,7 +409,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (res.data[0].id) {
               store.dispatch({ type: GET_ACTIVE_SINGLE_PROPERTY, payload: { id: res.data[0].id } });
             } else {
-              window.location.href = '/sell';
+              window.location.assign('/sell');
             }
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: res.data || {} });
@@ -431,7 +438,7 @@ const checkCommon = (store) => (next) => (action) => {
           }
           if (setAsSingle) {
             store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: {} });
-            window.location.href = '/sell';
+            window.location.assign('/sell');
           } else {
             store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
           }
