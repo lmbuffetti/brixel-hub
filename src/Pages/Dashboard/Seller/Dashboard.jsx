@@ -45,7 +45,7 @@ const PropertyDashboard = lazy(() => import('./PropertyDashboard'));
 
 const MarketingDashboard = lazy(() => import('./MarketingDashboard'));
 
-const DealsDashboard = lazy(() => import('./DealsDashboard'));
+const Deals = lazy(() => import('../../Deals/Deals'));
 
 const EmptyProperty = lazy(() => import('./EmptyProperty'));
 
@@ -359,7 +359,7 @@ const Dashboard = (props) => {
         <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
         <ProtectedRoute path="/:propId?/docubox" component={Documents} />
         <ProtectedRoute path="/:propId?/marketing" component={MarketingDashboard} />
-        <ProtectedRoute path="/:propId?/prospects" component={DealsDashboard} />
+        <ProtectedRoute path="/:propId?/prospects" component={Deals} />
         <ProtectedRoute path="/:propId/closing" component={DashboardOffer} />
         <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
         <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />

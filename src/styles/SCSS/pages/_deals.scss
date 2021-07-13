@@ -139,6 +139,7 @@ body .container.prospects {
           position: relative;
           background: $brx-white;
           border: 1px solid $brx-white;
+          padding-top: 16px;
           &.active {
             border-color: map-get($primaryColor, 400);
           }
@@ -273,7 +274,7 @@ body .container.prospects {
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .singleCol {
-  padding-top: 2px;
+  padding-top: 16px;
   padding-left: 16px;
   padding-right: 16px;
   -ms-overflow-style: none;  /* IE and Edge */
