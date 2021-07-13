@@ -48,7 +48,7 @@ const OfferListings = (props) => {
               icon="arrow-left-small"
               theme="dark"
               ghost
-              onClick={() => history.push(`/${propID}/closing`)}
+              onClick={() => history.push(`/${propID}/property`)}
             />
           </div>
           <h5 className="sectionTitle">Offers</h5>

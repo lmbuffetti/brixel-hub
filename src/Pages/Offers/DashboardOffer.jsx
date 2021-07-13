@@ -29,10 +29,14 @@ const DashboardOffer = (props) => {
   }, [activeSingleProperty]);
 
   return (
-    <Suspense fallback={<Loading isLoading />}>
-      <ProtectedRoute exact path="/:propId?/closing" component={OffersList} />
-      <ProtectedRoute exact path="/:propId?/closing/:dealID" component={OfferDetail} />
-    </Suspense>
+    <div className="dis-f">
+      <div className="secondLevel dis-fl-col ml-lg-1">
+        <Suspense fallback={<Loading isLoading />}>
+          <ProtectedRoute exact path="/:propId?/closing" component={OffersList} />
+          <ProtectedRoute exact path="/:propId?/closing/:dealID" component={OfferDetail} />
+        </Suspense>
+      </div>
+    </div>
   );
 };
 
