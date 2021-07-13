@@ -90,9 +90,9 @@ describe('Render Scan Trial Flow', () => {
       console.log('fill the form');
       const InputText = screen.getAllByRole('text');
       console.log('calendar');
-      await userEvent.type(InputText[0], '10-10-2021');
+      await userEvent.type(InputText[0], '10-10-2021', { allAtOnce: true });
       console.log('phone');
-      await userEvent.type(InputText[2], '910234567');
+      await userEvent.type(InputText[2], '910234567', { allAtOnce: true });
       await expect(InputText);
       console.log('calendar');
       let Calendar = screen.getAllByText('30');
@@ -101,7 +101,7 @@ describe('Render Scan Trial Flow', () => {
       console.log('hour');
       await userEvent.type(InputText[1], '0800', { allAtOnce: true });
       // await fireEvent.click(screen.getByRole('button', { name: 'Book via phone' }));
-    }, { timeout: 3000 });
+    }, { timeout: 4000 });
 
     await waitFor(async () => {
       console.log('continue and save');

@@ -108,6 +108,12 @@ test integration:
     FOLDER: $CI_COMMIT_REF_NAME
   allow_failure: true
   when: manual
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - if [ "$FOLDER" == "master" ]; then MODULE="-prod"; else MODULE=""; fi
     - if [ "$FOLDER" == "staging" ]; then MODULE="-stage"; else MODULESS=""; fi
