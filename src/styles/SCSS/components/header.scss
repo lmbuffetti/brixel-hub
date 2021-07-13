@@ -119,12 +119,23 @@
   }
 }
 .mini-menu {
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: $brx-white;
+  z-index: 8;
   .brixel-select {
     @media (max-width: 767px) {
       padding-right: 8px;
         border: 1px solid map-get($lightColor, 300) !important;
         border-radius: $step / 2;
     }
+  }
+  &.activeMenu {
+    height: calc(100% - 52px);
   }
 }
 
@@ -228,6 +239,82 @@
       select {
         width: auto;
         @include fontStyle(300);
+      }
+    }
+  }
+}
+
+header {
+  .brixel-page-toggle {
+    width: 40px;
+    height: 40px;
+    -webkit-flex: 0 0 40px;
+    flex: 0 0 40px;
+    position: relative;
+    cursor: pointer;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    transition: color,-webkit-transform .15s ease-in-out;
+    transition: color,transform .15s ease-in-out;
+    transition: color,transform .15s ease-in-out,-webkit-transform .15s ease-in-out;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff;
+
+    span {
+      display: block;
+      position: absolute;
+      height: 2px;
+      width: 40%;
+      background: #01575a;
+      border-radius: 4px;
+      opacity: 1;
+      left: 30%;
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+      transition: -webkit-transform .15s ease-in-out;
+      transition: transform .15s ease-in-out;
+      transition: transform .15s ease-in-out,-webkit-transform .15s ease-in-out;
+
+      &:first-child {
+        top: 12px;
+        -webkit-transform-origin: left center;
+        transform-origin: left center;
+      }
+
+      &:nth-child(2) {
+        top: 18px;
+      }
+
+      &:nth-child(3) {
+        top: 24px;
+      }
+    }
+  }
+  &.menu-active {
+    .brixel-page-toggle {
+      span {
+        &:first-child {
+          -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+          left: 14px;
+          top: 13px;
+        }
+
+        &:nth-child(2) {
+          display: none;
+        }
+
+        &:nth-child(3) {
+          -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+          top: 19px;
+        }
       }
     }
   }

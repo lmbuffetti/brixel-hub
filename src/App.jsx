@@ -404,6 +404,7 @@ const App = (props) => {
                 !history.location.pathname.includes('propertyLists') &&
                 !history.location.pathname.includes('pageLists') &&
                 loggedInUser &&
+                windowDimensions.width > 1024 &&
                 (
                   <MenuSidebar />
                 )
