@@ -23,6 +23,7 @@ import { checkToken, setUserTypes } from './actions/UserActions';
 import {
   setLanguage, setModal, setWindowDimensions, setScreenNotification,
 } from './actions/CommonActions';
+import { setActiveSingleProperty } from './actions/PropertyActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
@@ -92,6 +93,7 @@ const App = (props) => {
     handleCheckToken,
     handleGetImageType,
     handleReset,
+    handleSetActiveSingleProperty,
     handleSetLanguage,
     handleSetModal,
     handleSetNotification,
@@ -168,6 +170,10 @@ const App = (props) => {
   useEffect(() => {
     if (get(history, 'location', null) && typeof ga !== 'undefined') {
       ga('send', 'pageview', history.location.pathname);
+    }
+    const splittedURL = get(history, 'location.pathname', '').split('/');
+    if (splittedURL[1] === 'sell' || splittedURL[0] === 'sell') {
+      handleSetActiveSingleProperty({});
     }
   }, [history.location]);
 
@@ -584,6 +590,7 @@ App.propTypes = {
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
@@ -625,12 +632,13 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form, value) {
     dispatch(reset(form, value));
   },
-  handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleCheckToken: bindActionCreators(checkToken, dispatch),
-  handleSetModal: bindActionCreators(setModal, dispatch),
+  handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 

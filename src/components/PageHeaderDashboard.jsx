@@ -9,7 +9,6 @@ import get from 'lodash/get';
 import {
   BrixelAvatar,
   BrixelButtonText,
-  BrixelButtonIcon,
   BrixelIcon,
   destroy,
   BrixelSelect,
@@ -354,20 +353,34 @@ function PageHeaderDashboard(props) {
               {
                 windowDimensions.width <= 1024 && (
                   <div className="ml-2">
-                    <button
-                      type="button"
-                      className="brixel-page-toggle pos-r zIndex2"
-                      onClick={() => toggleMobileMenu()}
-                    >
-                      <span />
-                      <span />
-                      <span />
-                    </button>
+                    {
+                      activeSingleProperty.id && (
+                        <button
+                          type="button"
+                          className="brixel-page-toggle pos-r zIndex2"
+                          onClick={() => toggleMobileMenu()}
+                        >
+                          <span />
+                          <span />
+                          <span />
+                        </button>
+                      )
+                    }
                     {
                       showMobileMenu && (
-                        <div className="mobile-menu scaleUp bgWhite w-perc-100 h-perc-100 pos-a dis-fl-col a-c pt-small-12 zIndex3" style={{ height: windowDimensions.height }}>
+                        <div className="mobile-menu scaleUp bgWhite w-perc-100 h-perc-100 pos-a dis-fl-col a-c pt-small-12 zIndex3" style={{ height: windowDimensions.height - 65 }}>
                           <div className="px-2 links dis-fl-col as-b w-perc-100 h-perc-100 pb-2 ov-a">
                             <MenuSidebar />
+
+                            <span
+                              className="cur-poi link txtDark700 fweight-500 fsize-300 mb-2"
+                              onClick={() => {
+                                onTabClick('support');
+                              }}
+                            >
+                              Support
+                            </span>
+
                             <button
                               type="button"
                               onClick={() => setShowAccountMenu(true)}
@@ -390,15 +403,6 @@ function PageHeaderDashboard(props) {
                           </div>
 
                           <div className={`mini-menu dis-fl-col ${showAccountMenu ? 'activeMenu py-3 px-2' : ''}`}>
-                            <span
-                              className="cur-poi link txtDark700 fweight-500 fsize-300 mb-2"
-                              onClick={() => {
-                                onTabClick('support');
-                              }}
-                            >
-                              Support
-                            </span>
-
                             {
                               propID && userType === 'seller' && (
                                 <div className="mb-2">
