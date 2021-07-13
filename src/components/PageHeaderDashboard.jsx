@@ -158,7 +158,7 @@ function PageHeaderDashboard(props) {
   // FUNCTION TO GET CURRENT URL LOCATION
   const getCurrentRoute = () => {
     const path = history.location.pathname;
-    const currentPath = sidebarNavigationSeller.concat(sidebarNavigationBuyer).find((item) => path.includes(item.name) && item.name !== 'prospects' && item.name !== 'closing');
+    const currentPath = sidebarNavigationSeller.concat(sidebarNavigationBuyer).find((item) => path.includes(item.name));
     return currentPath || {};
   };
 
@@ -465,7 +465,18 @@ function PageHeaderDashboard(props) {
               {
                 getCurrentRoute().title && (
                   <div className="header-section dis-fl-row a-c jc-b">
-                    <h5 className="">{getCurrentRoute().title}</h5>
+                    <h5 className="">
+                      {
+                        getCurrentRoute().title === 'Prospects' || getCurrentRoute().title === 'Closing' ? (
+                          <>
+                            {getCurrentRoute().title === 'Prospects' && (<>Buyers</>)}
+                            {getCurrentRoute().title === 'Closing' && (<>Offers</>)}
+                          </>
+                        ) : (
+                          <>{getCurrentRoute().title}</>
+                        )
+                      }
+                    </h5>
                   </div>
                 )
               }
