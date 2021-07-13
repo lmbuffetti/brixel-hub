@@ -7,7 +7,7 @@ export const sidebarNavigationSeller = [
   {
     title: 'Property',
     name: 'property',
-    path: '/:propID/property/facts/propertyType',
+    path: '/:propID/property',
     submenu: [
       {
         title: 'Facts',
@@ -97,59 +97,5 @@ export const sidebarNavigationBuyer = [
     title: 'Deal',
     name: 'deal',
     path: '/buyer/:propID/deal/:dealID',
-  },
-];
-
-export const firstRoutes = [
-  {
-    title: 'Home',
-    name: 'rewards',
-    icon: 'first-time-occupancy',
-    path: '/:propID/rewards',
-  },
-  {
-    title: 'Property',
-    name: 'property',
-    icon: 'property-house',
-    path: '/:propID/property',
-  },
-  {
-    title: 'Listings',
-    name: 'marketing',
-    icon: 'upload',
-    path: '/:propID/marketing',
-  },
-  {
-    title: 'Deals',
-    name: 'deals',
-    icon: 'money',
-    path: '/:propID/closing',
-  },
-];
-
-export const secondRoutes = [
-  {
-    title: 'Property List',
-    name: 'seller',
-    icon: 'property-house',
-    path: '/seller/pageLists',
-  },
-];
-
-export const firstRoutesBuyer = [
-  {
-    title: 'Property',
-    name: 'property',
-    icon: 'property-house',
-    path: '/buyer/:propID/property',
-  },
-];
-
-export const secondRoutesBuyer = [
-  {
-    title: 'Property List',
-    name: 'buyer',
-    icon: 'property-house',
-    path: '/seller/pageLists',
   },
 ];

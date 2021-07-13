@@ -214,7 +214,7 @@ const App = (props) => {
     } else {
       if (history.location.pathname.includes('rewards')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('docubox') || history.location.pathname.includes('deal')) {
+      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects')) {
         if (history.location.pathname.includes('buyer')) {
           setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
         } else {
@@ -240,7 +240,6 @@ const App = (props) => {
       (
         history.location.pathname.includes('property/') ||
         history.location.pathname.includes('marketing/') ||
-        history.location.pathname.includes('prospects/') ||
         history.location.pathname.includes('rewards/')
       ) &&
       windowDimensions.width <= 1024 &&

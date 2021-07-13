@@ -21,10 +21,8 @@ import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import {
-  firstRoutes,
-  firstRoutesBuyer,
-  secondRoutes,
-  secondRoutesBuyer,
+  sidebarNavigationBuyer,
+  sidebarNavigationSeller,
 } from '../resources/navigationRoutes';
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
 import { setActiveSingleProperty } from '../actions/PropertyActions';
@@ -146,6 +144,11 @@ function PageHeaderDashboard(props) {
     if (!showMobileMenu) document.body.classList.remove('ov-h');
   };
 
+  useEffect(() => {
+    setShowMobileMenu(false);
+    setShowAccountMenu(false);
+  }, [get(history, 'location.pathname', null)]);
+
   // WHEN CLICK ON UPGRADE BUTTON
   const onUpgrade = () => {
     localStorage.setItem('backUrl', history.location.pathname);
@@ -155,7 +158,7 @@ function PageHeaderDashboard(props) {
   // FUNCTION TO GET CURRENT URL LOCATION
   const getCurrentRoute = () => {
     const path = history.location.pathname;
-    const currentPath = firstRoutes.concat(secondRoutes, firstRoutesBuyer, secondRoutesBuyer).find((item) => path.includes(item.name));
+    const currentPath = sidebarNavigationSeller.concat(sidebarNavigationBuyer).find((item) => path.includes(item.name) && item.name !== 'prospects' && item.name !== 'closing');
     return currentPath || {};
   };
 
@@ -393,7 +396,7 @@ function PageHeaderDashboard(props) {
                                   profileId={get(loggedInUser, 'user.id', '')}
                                 />
                                 <p className="ml-2">
-                                  {get(loggedInUser, 'user.name', loggedInUser.user.email)}
+                                  {get(loggedInUser, 'user.name', '')}
                                 </p>
                               </div>
                               <BrixelIcon
