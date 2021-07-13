@@ -49,6 +49,10 @@
 
       @media (max-width: $responsive-medium) {
         background-color: map-get($lightColor, 100);
+        &.prospects {
+          top: - $step * 3;
+          position: relative;
+        }
       }
     }
   }
