@@ -7,12 +7,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import {
+  BrixelAvatar,
   BrixelButtonText,
   BrixelButtonIcon,
+  BrixelIcon,
   destroy,
   BrixelSelect,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import useOutsideAlerter from './OutsideElement';
@@ -364,23 +366,26 @@ function PageHeaderDashboard(props) {
                     {
                       showMobileMenu && (
                         <div className="mobile-menu scaleUp bgWhite w-perc-100 h-perc-100 pos-a dis-fl-col a-c pt-small-12 zIndex3" style={{ height: windowDimensions.height }}>
-                          <div className="px-2 dis-f jc-b a-c w-perc-100">
-                            <img className="pos-r w-fix-80" src={logo} alt="Brixel Logo" id="logo" />
-                            <BrixelButtonIcon
-                              className="as-fe"
-                              icon="close-small"
-                              ghost
-                              theme="dark"
-                              onClick={() => toggleMobileMenu()}
-                            />
-                          </div>
                           <div className="px-2 links dis-fl-col as-b w-perc-100 h-perc-100 pb-2 ov-a">
                             <MenuSidebar />
                             <button
                               type="button"
                               onClick={() => setShowAccountMenu(true)}
+                              className="dis-f w-perc-100 a-c jc-b"
                             >
-                              Open Account Menu
+                              <div className="dis-f w-perc-100 a-c">
+                                <BrixelAvatar
+                                  avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+                                  name={get(loggedInUser, 'user.name', loggedInUser.user.email)}
+                                  profileId={get(loggedInUser, 'user.id', '')}
+                                />
+                                <p className="ml-2">
+                                  {get(loggedInUser, 'user.name', loggedInUser.user.email)}
+                                </p>
+                              </div>
+                              <BrixelIcon
+                                icon="arrow-simple-up"
+                              />
                             </button>
                           </div>
 
@@ -421,19 +426,19 @@ function PageHeaderDashboard(props) {
                             </div>
                             <a
                               className="link txtDark700 fweight-500 fsize-300 mb-2"
-                              href={`${baseByData().loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
+                              href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                             >
                               Password
                             </a>
                             <a
                               className="link txtDark700 fweight-500 fsize-300 mb-2"
-                              href={`${baseByData().loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                              href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                             >
                               Preferences
                             </a>
                             <a
                               className="link txtDark700 fweight-500 fsize-300"
-                              href={`${baseByData().loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                              href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                             >
                               Logout
                             </a>
