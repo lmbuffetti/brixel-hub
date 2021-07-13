@@ -334,7 +334,7 @@ const Deals = (props) => {
               icon="arrow-left-small"
               theme="dark"
               ghost
-              onClick={() => history.push(`/${propID}/prospects`)}
+              onClick={() => history.push(`/${propID}/property`)}
             />
             <div className="dis-fl-row a-c zIndex3">
               {
