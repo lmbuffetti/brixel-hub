@@ -2,7 +2,7 @@ import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 
 import { DateTime } from 'luxon';
 import {
-  has, get, tail,
+  has, get, tail, isNaN,
 } from 'lodash';
 
 import {
@@ -102,6 +102,14 @@ export const createTimelineEntry = (item, userLang) => {
             }
             if (item.meta.state === false) {
               return '<span>Deal removed as winner</span>';
+            }
+          }
+          if (item.meta.name === 'visit') {
+            if (item.meta.state === null) return '<span>Visit deleted</span>';
+            if (!isNaN(item.meta.state)) {
+              return `<span>Visit scheduled: </span><span>${DateTime.fromMillis(item.meta.state, {
+                locale: userLang,
+              }).toFormat('d LLL yyyy, H:mm')}</span>`;
             }
           }
         }
