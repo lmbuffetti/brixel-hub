@@ -470,13 +470,7 @@ function PageHeaderDashboard(props) {
                 getCurrentRoute().title && (
                   <div className="header-section dis-fl-row a-c jc-b">
                     <h5 className="">
-                      {
-                        getCurrentRoute().title === 'Closing' ? (
-                          <>Offers</>
-                        ) : (
-                          <>{getCurrentRoute().title}</>
-                        )
-                      }
+                      {getCurrentRoute().title}
                     </h5>
                   </div>
                 )

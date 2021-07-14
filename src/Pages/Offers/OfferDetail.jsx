@@ -88,7 +88,7 @@ const OfferDetail = (props) => {
                     onClick={() => history.goBack()}
                   />
                 )}
-                <h5 className="mb-3">Deal</h5>
+                <h5 className="mb-3">Closing</h5>
               </div>
             )
           }

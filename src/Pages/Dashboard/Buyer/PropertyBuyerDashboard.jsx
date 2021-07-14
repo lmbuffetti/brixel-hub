@@ -137,7 +137,7 @@ const PropertyBuyerDashboard = (props) => {
                     verticalView
                     bgTransparent
                     icon="money"
-                    label="Deal"
+                    label="Closing"
                     labelClass="fweight-400 w-perc-50"
                     subtitle=""
                     subtitleClass="fsize-200 pt-small-6"
