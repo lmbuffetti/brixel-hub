@@ -404,7 +404,7 @@ function PageHeaderDashboard(props) {
                                 </p>
                               </div>
                               <BrixelIcon
-                                icon={showAccountMenu ? 'arrow-simple-down' : 'arrow-simple-up'}
+                                icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
                               />
                             </button>
                           </div>
