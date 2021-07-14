@@ -69,7 +69,7 @@ export const sidebarNavigationBuyer = [
   {
     title: 'Property',
     name: 'property',
-    path: '/buyer/:propID/property/page',
+    path: '/buyer/:propID/property',
     submenu: [
       {
         title: 'Contact',
@@ -94,8 +94,8 @@ export const sidebarNavigationBuyer = [
     ],
   },
   {
-    title: 'Deal',
-    name: 'deal',
-    path: '/buyer/:propID/deal/:dealID',
+    title: 'Closing',
+    name: 'closing',
+    path: '/buyer/:propID/closing/:dealID',
   },
 ];

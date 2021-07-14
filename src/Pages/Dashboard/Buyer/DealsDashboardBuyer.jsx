@@ -44,7 +44,7 @@ const DealsDashboardBuyer = (props) => {
         )
           ? (
             <Suspense fallback="">
-              <Route path="/buyer/:propID/deal/:dealID" component={() => <OfferDetail isBuyer />} />
+              <Route path="/buyer/:propID/closing/:dealID" component={() => <OfferDetail isBuyer />} />
             </Suspense>
           ) : (
             <div />

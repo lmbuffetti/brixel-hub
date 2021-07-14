@@ -27,6 +27,7 @@ const Documents = lazy(() => import('../../EditProperty/Documents'));
 const PropertyBuyerDashboard = (props) => {
   // PROPS
   const {
+    activeSingleDeal,
     formValue,
     history,
     // loggedInUser,
@@ -143,7 +144,7 @@ const PropertyBuyerDashboard = (props) => {
                     className={`w-perc-100 min-h-fix-136 shadow-1dp brdMedium ${getFact() === 'deals' ? 'brdPrimary400 bgWhite' : 'brdTrans'} ml-1 p-2`}
                     colorIcon="primary700"
                     backIcon="primary100"
-                    onClick={() => history.push(`/buyer/${propID}/deal`)}
+                    onClick={() => history.push(`/buyer/${propID}/closing/${activeSingleDeal.id}`)}
                   />
                 )
               }
@@ -177,6 +178,7 @@ const PropertyBuyerDashboard = (props) => {
 };
 
 PropertyBuyerDashboard.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -187,11 +189,12 @@ PropertyBuyerDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  windowDimensions: get(state, 'common.windowDimensions', {}),
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   formValue: get(state, 'property.activeSingleProperty', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 export default compose(
