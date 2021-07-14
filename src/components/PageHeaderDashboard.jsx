@@ -375,7 +375,7 @@ function PageHeaderDashboard(props) {
                     }
                     {
                       showMobileMenu && (
-                        <div className="mobile-menu slidetoRight bgWhite w-perc-100 h-perc-100 pos-a dis-fl-col a-c zIndex3" style={{ height: windowDimensions.height - 65 }}>
+                        <div className="mobile-menu scaleUp bgWhite w-perc-100 h-perc-100 pos-a dis-fl-col a-c zIndex3" style={{ height: windowDimensions.height - 65 }}>
                           <div className="links dis-fl-col as-b w-perc-100 h-perc-100 ov-a bgLight100">
                             <MenuSidebar />
 
