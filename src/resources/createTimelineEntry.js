@@ -72,6 +72,9 @@ export const createTimelineEntry = (item, userLang) => {
         scheduleArray.forEach((date, key) => {
           dates += `<span>•${date}</span>${key !== (item.meta.schedule.split('•').length - 1) ? '</br>' : ''}`;
         });
+        if (has(item, 'meta.message')) {
+          dates += `</br><span>Message: </span><span>${item.meta.message}</span>`;
+        }
         return `<span>Requested showing</span></br></br><span>${dates}</span>`;
       }
       if (item.actionStub === 'user-get-document') return 'Requested documents';
