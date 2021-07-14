@@ -158,7 +158,7 @@ function PageHeaderDashboard(props) {
   // FUNCTION TO GET CURRENT URL LOCATION
   const getCurrentRoute = () => {
     const path = history.location.pathname;
-    const currentPath = sidebarNavigationSeller.concat(sidebarNavigationBuyer).find((item) => path.includes(item.name) && item.name !== 'prospects');
+    const currentPath = sidebarNavigationSeller.concat(sidebarNavigationBuyer).find((item) => path.includes(item.name) && item.name !== 'Prospects');
     return currentPath || {};
   };
 
@@ -346,7 +346,11 @@ function PageHeaderDashboard(props) {
               {
                 windowDimensions.width > 1024 && (
                   <>
-                    <div className="dis-f-md a-c cur-poi pos-r zIndex5" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
+                    <div
+                      className="dis-f-md a-c cur-poi pos-r zIndex5"
+                      onClick={() => setShowProfileMenu(!showProfileMenu)}
+                      ref={profileMenu}
+                    >
                       <AccountDropdown />
                     </div>
                   </>
@@ -371,23 +375,23 @@ function PageHeaderDashboard(props) {
                     }
                     {
                       showMobileMenu && (
-                        <div className="mobile-menu scaleUp bgWhite w-perc-100 h-perc-100 pos-a dis-fl-col a-c pt-small-12 zIndex3" style={{ height: windowDimensions.height - 65 }}>
-                          <div className="px-2 links dis-fl-col as-b w-perc-100 h-perc-100 pb-2 ov-a">
+                        <div className="mobile-menu slidetoRight bgWhite w-perc-100 h-perc-100 pos-a dis-fl-col a-c zIndex3" style={{ height: windowDimensions.height - 65 }}>
+                          <div className="links dis-fl-col as-b w-perc-100 h-perc-100 ov-a bgLight100">
                             <MenuSidebar />
 
                             <span
-                              className="cur-poi link txtDark700 fweight-500 fsize-300 mb-2"
+                              className="cur-poi px-2 py-2 link txtDark700 fweight-500 fsize-300"
                               onClick={() => {
                                 onTabClick('support');
                               }}
                             >
                               Support
                             </span>
-
+                            <hr className="lighter" />
                             <button
                               type="button"
-                              onClick={() => setShowAccountMenu(true)}
-                              className="dis-f w-perc-100 a-c jc-b"
+                              onClick={() => setShowAccountMenu(!showAccountMenu)}
+                              className="dis-f w-perc-100 a-c jc-b zIndex10 pos-r bgWhite p-1 px-2"
                             >
                               <div className="dis-f w-perc-100 a-c">
                                 <BrixelAvatar
@@ -395,17 +399,17 @@ function PageHeaderDashboard(props) {
                                   name={get(loggedInUser, 'user.name', loggedInUser.user.email)}
                                   profileId={get(loggedInUser, 'user.id', '')}
                                 />
-                                <p className="ml-2">
+                                <p className="ml-2 txtDark700">
                                   {get(loggedInUser, 'user.name', '')}
                                 </p>
                               </div>
                               <BrixelIcon
-                                icon="arrow-simple-up"
+                                icon={showAccountMenu ? 'arrow-simple-down' : 'arrow-simple-up'}
                               />
                             </button>
                           </div>
 
-                          <div className={`mini-menu dis-fl-col ${showAccountMenu ? 'activeMenu py-3 px-2' : ''}`}>
+                          <div className={`mini-menu px-2 dis-fl-col ${showAccountMenu ? 'activeMenu' : ''}`}>
                             {
                               propID && userType === 'seller' && (
                                 <div className="mb-2">

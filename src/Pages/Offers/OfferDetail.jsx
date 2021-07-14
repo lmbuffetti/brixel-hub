@@ -46,7 +46,7 @@ const OfferDetail = (props) => {
                   theme="dark"
                   ghost
                   bgTransparent
-                  className="mb-1 mb-md-3 mt-3 mt-md-0"
+                  className="mb-1 mb-md-3 mt-md-0"
                   onClick={() => history.push(`/${activeSingleProperty.id}/closing`)}
                 />
                 <div className="offer-info dis-f a-c mb-1">

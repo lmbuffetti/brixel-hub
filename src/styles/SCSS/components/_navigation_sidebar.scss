@@ -1,6 +1,4 @@
 .sidebarNav {
-  padding-right: $step * 3;
-  padding-top: 30px;
   li {
     list-style: none;
     &.mainNav {
@@ -10,6 +8,11 @@
         color: map_get($darkColor, 700);
         padding: 6px $step * 3;
         margin-bottom: $step;
+        font-weight: 500;
+        @media (max-width: $responsive-medium) {
+          padding-left: $step * 2;
+          padding-right: $step * 2;
+        }
       }
       &.active {
         > a {
