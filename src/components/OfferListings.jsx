@@ -10,7 +10,6 @@ import {
   Helpers,
   BrixelStatus,
   ListingsHeaderFilter,
-  BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { DateTime } from 'luxon';
@@ -23,13 +22,10 @@ const OfferListings = (props) => {
     activeSingleProperty,
     data,
     getConfigEnv,
-    history,
-    match,
     onChangeLocation,
     userLang,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
 
   const getStatusColor = useCallback((status) => {
     if (status === 'pending') return 'Yellow';
@@ -40,19 +36,19 @@ const OfferListings = (props) => {
 
   return (
     <>
-      <div className="p-md-2 pl-md-0 p-2 w-perc-100 txtDark700 dealsListings">
-        <div className="dis-f backPanel">
+      <div className="w-perc-100 txtDark700 dealsListings">
+        <h5 className="ml-md-1 hide dis-f-md">Offers</h5>
+        {/* <div className="dis-f">
           <div className="fixedIcon w-perc-100">
             <BrixelButtonIcon
               className="hide-md"
               icon="arrow-left-small"
               theme="dark"
               ghost
-              onClick={() => history.push(`/${propID}/closing`)}
+              onClick={() => history.push(`/${propID}/property`)}
             />
           </div>
-          <h5 className="sectionTitle">Offers</h5>
-        </div>
+        </div> */}
 
         {
           get(data[0], 'deal', null) === 'sample' && (
@@ -177,8 +173,6 @@ OfferListings.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   getConfigEnv: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   onChangeLocation: PropTypes.func.isRequired,
   userLang: PropTypes.string.isRequired,
 };

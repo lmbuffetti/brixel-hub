@@ -460,12 +460,20 @@ function PageHeaderDashboard(props) {
           </div>
         </div>
         {
-          windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && (
+          windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
               {
                 getCurrentRoute().title && (
                   <div className="header-section dis-fl-row a-c jc-b">
-                    <h5 className="">{getCurrentRoute().title}</h5>
+                    <h5 className="">
+                      {
+                        getCurrentRoute().title === 'Closing' ? (
+                          <>Offers</>
+                        ) : (
+                          <>{getCurrentRoute().title}</>
+                        )
+                      }
+                    </h5>
                   </div>
                 )
               }

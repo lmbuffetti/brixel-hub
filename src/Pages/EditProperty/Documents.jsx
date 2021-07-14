@@ -178,10 +178,10 @@ const Documents = (props) => {
   });
 
   return (
-    <div className="secondLevel h-perc-lg-100">
+    <div className="h-perc-lg-100">
       <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
-        <div className="dis-f backPanel">
-          <div className="fixedIcon w-perc-100">
+        <div className="dis-f">
+          {/* <div className="fixedIcon w-perc-100">
             <BrixelButtonIcon
               className="hide-md"
               icon="arrow-left-small"
@@ -195,8 +195,8 @@ const Documents = (props) => {
                 }
               }}
             />
-          </div>
-          <h5 className="sectionTitle">
+          </div> */}
+          <h5 className="sectionTitle hide dis-f-md">
             Docubox
           </h5>
         </div>
