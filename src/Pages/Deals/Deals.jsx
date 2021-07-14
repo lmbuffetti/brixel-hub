@@ -250,6 +250,10 @@ const Deals = (props) => {
       };
       resultArray.push(singleDeal);
     });
+    // Adding again parent scroll due to library constaints
+    const body = document.getElementById('bodyScroll');
+    body.classList.remove('ov-h');
+
     return saveMultipleDeals({ data: resultArray });
   }
 
@@ -263,11 +267,19 @@ const Deals = (props) => {
   };
 
   function onDragStart(result) {
+    // Remove parent scroll due to library constaints
+    const body = document.getElementById('bodyScroll');
+    body.classList.add('ov-h');
+
     const source = get(result, 'source.droppableId', '');
     const sourceIndex = get(result, 'source.index', '');
     const originCol = source.replace('right.', '');
     setActiveOrgColumn(originCol);
     setActiveIndexDeal(sourceIndex);
+
+    // Adding again parent scroll due to library constaints
+    const body2 = document.getElementById('bodyScroll');
+    body2.classList.remove('ov-h');
   }
 
   function onDragUpdate(result) {
