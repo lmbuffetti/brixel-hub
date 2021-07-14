@@ -36,65 +36,67 @@ const OfferDetail = (props) => {
 
   return (
     <>
-      <div className={`single-offer-container ${isBuyer && windowDimensions.width <= 1024 ? 'secondLevel p-2' : ''} dis-fl-col pb-4 px-0 px-sm-2 dealsListings`}>
-        {
-          !isBuyer ? (
-            <>
-              <BrixelButtonIcon
-                icon="arrow-left-small"
-                theme="dark"
-                ghost
-                bgTransparent
-                className="mb-1 mb-md-3"
-                onClick={() => history.push(`/${activeSingleProperty.id}/closing`)}
-              />
-              <div className="dis-f a-c mb-1">
-                <h5>{get(activeSingleDeal, 'user.name', 'No Name')}</h5>
-                {
-                  activeSingleDeal.id === 'sample' && (
-                    <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200 ex-tag">
-                      Example only
-                    </div>
-                  )
-                }
-              </div>
-              <div className="offer-info dis-fl-row a-c mb-5">
-                {
-                  get(activeSingleDeal, 'user.email', null) && (
-                    <a className="mr-3 txtDark700" href={`mailto:${get(activeSingleDeal, 'user.email', '')}`}>
-                      {get(activeSingleDeal, 'user.email', '')}
-                    </a>
-                  )
-                }
-                {
-                  get(activeSingleDeal, 'user.email', null) && (
-                    <a className="mr-3 txtDark700" href={'tel:get(activeSingleDeal, \'user.phone\', \'\')'}>
-                      {Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''))}
-                    </a>
-                  )
-                }
-              </div>
-            </>
-          ) : (
-            <div className="p-0 p-0 pt-lg-2">
-              {isBuyer && windowDimensions.width <= 1024 && (
+      <div className={`single-offer-container secondLevel ${isBuyer && windowDimensions.width <= 1024 ? 'secondLevel p-2' : ''} dis-fl-col pb-4 px-0 px-sm-2 dealsListings`}>
+        <div className="hideStyle">
+          {
+            !isBuyer ? (
+              <>
                 <BrixelButtonIcon
                   icon="arrow-left-small"
                   theme="dark"
                   ghost
                   bgTransparent
-                  className="mb-1"
-                  onClick={() => history.goBack()}
+                  className="mb-1 mb-md-3 mt-3 mt-md-0"
+                  onClick={() => history.push(`/${activeSingleProperty.id}/closing`)}
                 />
-              )}
-              <h5 className="mb-3">Deal</h5>
-            </div>
-          )
-        }
-        <BrixelClosingTree
-          isBuyer={isBuyer}
-          offer={{}}
-        />
+                <div className="offer-info dis-f a-c mb-1">
+                  <h5>{get(activeSingleDeal, 'user.name', 'No Name')}</h5>
+                  {
+                    activeSingleDeal.id === 'sample' && (
+                      <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200 ex-tag">
+                        Example only
+                      </div>
+                    )
+                  }
+                </div>
+                <div className="offer-info dis-fl-row a-c mb-2 mb-md-5">
+                  {
+                    get(activeSingleDeal, 'user.email', null) && (
+                      <a className="mr-3 txtDark700" href={`mailto:${get(activeSingleDeal, 'user.email', '')}`}>
+                        {get(activeSingleDeal, 'user.email', '')}
+                      </a>
+                    )
+                  }
+                  {
+                    get(activeSingleDeal, 'user.email', null) && (
+                      <a className="mr-3 txtDark700" href={`tel:${get(activeSingleDeal, 'user.phone', '')}`}>
+                        {Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''))}
+                      </a>
+                    )
+                  }
+                </div>
+              </>
+            ) : (
+              <div className="p-0 p-0 pt-lg-2">
+                {isBuyer && windowDimensions.width <= 1024 && (
+                  <BrixelButtonIcon
+                    icon="arrow-left-small"
+                    theme="dark"
+                    ghost
+                    bgTransparent
+                    className="mb-1"
+                    onClick={() => history.goBack()}
+                  />
+                )}
+                <h5 className="mb-3">Deal</h5>
+              </div>
+            )
+          }
+          <BrixelClosingTree
+            isBuyer={isBuyer}
+            offer={{}}
+          />
+        </div>
       </div>
     </>
   );
