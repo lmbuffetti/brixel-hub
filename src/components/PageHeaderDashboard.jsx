@@ -360,24 +360,24 @@ function PageHeaderDashboard(props) {
               {
                 windowDimensions.width <= 1024 && (
                   <div className="ml-2">
-                    {
-                      activeSingleProperty.id && (
-                        <button
-                          type="button"
-                          className="brixel-page-toggle pos-r zIndex2"
-                          onClick={() => toggleMobileMenu()}
-                        >
-                          <span />
-                          <span />
-                          <span />
-                        </button>
-                      )
-                    }
+                    <button
+                      type="button"
+                      className="brixel-page-toggle pos-r zIndex2"
+                      onClick={() => toggleMobileMenu()}
+                    >
+                      <span />
+                      <span />
+                      <span />
+                    </button>
                     {
                       showMobileMenu && (
                         <div className="mobile-menu scaleUp bgWhite w-perc-100 h-perc-100 pos-a dis-fl-col a-c zIndex3" style={{ height: windowDimensions.height - 65 }}>
-                          <div className="links dis-fl-col as-b w-perc-100 h-perc-100 ov-a bgLight100">
-                            <MenuSidebar />
+                          <div className="links dis-fl-col as-b jc-fe w-perc-100 h-perc-100 ov-a bgLight100">
+                            {
+                              activeSingleProperty.id && (
+                                <><MenuSidebar /></>
+                              )
+                            }
 
                             <span
                               className="cur-poi px-2 py-2 link txtDark700 fweight-500 fsize-300"
