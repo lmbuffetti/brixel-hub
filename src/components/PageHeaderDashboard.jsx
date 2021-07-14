@@ -469,9 +469,9 @@ function PageHeaderDashboard(props) {
               {
                 getCurrentRoute().title && (
                   <div className="header-section dis-fl-row a-c jc-b">
-                    <h5 className="">
+                    <h4 className="fweight-700 pt-4">
                       {getCurrentRoute().title}
-                    </h5>
+                    </h4>
                   </div>
                 )
               }
