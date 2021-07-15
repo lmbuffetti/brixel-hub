@@ -172,7 +172,7 @@ const App = (props) => {
       ga('send', 'pageview', history.location.pathname);
     }
     const splittedURL = get(history, 'location.pathname', '').split('/');
-    if (splittedURL[1] === 'sell' || splittedURL[0] === 'sell') {
+    if (splittedURL[1] === 'sell' || splittedURL[1] === 'buy') {
       handleSetActiveSingleProperty({});
     }
   }, [history.location]);
@@ -293,15 +293,6 @@ const App = (props) => {
       if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = { hideLoad: true };
       handleCheckToken(data);
     }
-    /*  window.addEventListener('resize', () => {
-      handleSetWindowsDimension({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-      headerCalc();
-      calcHeaderHeight();
-      calcFlowHeaderHeight();
-    }); */
     handleGetImageType({ smallLoader: 'imgType' });
   }, []);
 
