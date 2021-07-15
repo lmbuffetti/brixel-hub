@@ -16,6 +16,8 @@ import { connect } from 'react-redux';
 import last from 'lodash/last';
 import Loading from '../../../components/Loading';
 
+const Price = lazy(() => import('../../EditProperty/Price'));
+
 const Facts = lazy(() => import('../../EditProperty/Facts'));
 
 const Photos = lazy(() => import('../../EditProperty/Media/Photos'));
@@ -43,7 +45,7 @@ const HomeDashboard = (props) => {
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'property') {
-      history.push({ pathname: `/${propID}/property/facts` });
+      history.push({ pathname: `/${propID}/property/price` });
     }
   }, [windowDimensions, getFact()]);
 
@@ -194,6 +196,7 @@ const HomeDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Route path="/:propId?/property/facts" component={Facts} />
+                <Route path="/:propId?/property/price" component={Price} />
                 <Route path="/:propId?/property/photos" component={Photos} />
                 <Route path="/:propId?/property/floorPlans" component={Plans} />
                 <Route path="/:propId?/property/tour" exact component={Tour} />

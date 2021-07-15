@@ -10,6 +10,11 @@ export const sidebarNavigationSeller = [
     path: '/:propID/property',
     submenu: [
       {
+        title: 'Price',
+        name: 'price',
+        path: '/:propID/property/price',
+      },
+      {
         title: 'Facts',
         name: 'facts',
         path: '/:propID/property/facts/propertyType',
