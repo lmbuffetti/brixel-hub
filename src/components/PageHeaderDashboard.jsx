@@ -378,7 +378,6 @@ function PageHeaderDashboard(props) {
                                 <><MenuSidebar /></>
                               )
                             }
-
                             <span
                               className="cur-poi px-2 py-2 link txtDark700 fweight-500 fsize-300"
                               onClick={() => {
