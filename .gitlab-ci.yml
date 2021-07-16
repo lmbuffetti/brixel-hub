@@ -9,7 +9,7 @@ stages:
 install_dependencies:
   stage: install_dependencies
   only:
-    - feature/nav-sidebar
+    - develop
     - staging
     - master
   script:
@@ -26,7 +26,7 @@ build site:
     paths:
       - node_modules/
   only:
-    - feature/nav-sidebar
+    - develop
     - staging
     - master
   variables:
@@ -53,7 +53,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - feature/nav-sidebar
+    - develop
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
@@ -101,7 +101,7 @@ test integration:
     paths:
       - node_modules/
   only:
-    - feature/nav-sidebar
+    - develop
     - staging
     - master
   variables:
