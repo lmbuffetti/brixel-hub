@@ -6,50 +6,36 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
-import has from 'lodash/has';
-import cloneDeep from 'lodash/cloneDeep';
 import {
+  BrixelAvatar,
   BrixelButtonText,
-  BrixelButtonIcon,
-  BrixelTabs,
+  BrixelIcon,
   destroy,
   BrixelSelect,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
-import { setLanguage, setModal } from '../actions/CommonActions';
-import { getGameHistory } from '../actions/GamificationActions';
+import { setLanguage } from '../actions/CommonActions';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import {
-  firstRoutes,
-  firstRoutesBuyer,
-  secondRoutes,
-  secondRoutesBuyer,
+  sidebarNavigationBuyer,
+  sidebarNavigationSeller,
 } from '../resources/navigationRoutes';
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
-import { setActiveSingleProperty, getActiveSinglePropertyDealsCount, setActiveSinglePropertyDealsCount } from '../actions/PropertyActions';
-// import brixels from '../images/BrxielComingTown/brixels.svg';
-// import CoverPropertyImage from './CoverPropertyImage';
+import { setActiveSingleProperty } from '../actions/PropertyActions';
 import AccountDropdown from './AccountDropdown';
+import MenuSidebar from './MenuSidebar';
 
 function PageHeaderDashboard(props) {
   // PROPS
   const {
-    // awards,
-    // brixelPoints,
-    // handleGetGame,
-    // handleSetModal,
     activeSingleProperty,
-    activeSinglePropertyDealsCount,
     changeZIndex,
     destroyForm,
     formValue,
-    gameGroup,
-    gameHistory,
-    getPropertyDealsCount,
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
     handleSetLanguage,
@@ -61,10 +47,8 @@ function PageHeaderDashboard(props) {
     windowDimensions,
   } = props;
   // STATE
-  // const [currentLang, setCurrentLang] = useState(lang);
-  // const [dropLang, setDropLang] = useState([]);
-  const [routeNav, setRouteNav] = useState([]);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
   const [langMenu, setLangMenu] = useState([]);
@@ -130,7 +114,6 @@ function PageHeaderDashboard(props) {
       const langUsr = loggedInUser.user.language;
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
-      // if (!gameHistory.data) handleGetGame();
       if (typeof Transifex !== 'undefined') {
         setTimeout(() => {
           Transifex.live.translateTo(langUsr);
@@ -153,72 +136,18 @@ function PageHeaderDashboard(props) {
     }
   }, []);
 
-  // FUNCTION TO LOAD THE GAME GROUP AND THE GAME HISTORY AND CALC THE NUMBER OF SECTION (number iside red circle)
-  // FUNCTION TO CALC THE NUMBER OF NEW DEALS IN ORDER TO HIGHLIGHT DEALS TAB
-  useEffect(() => {
-    if (gameGroup && gameHistory && userType === 'seller') {
-      if (activeSingleProperty.id) {
-        getPropertyDealsCount({ id: activeSingleProperty.id, smallLoader: 'countDeal' });
-      }
-      // let numDone = 0;
-      /* let numTodo = 0;
-      let newSellerCount = 0;
-      const usrGroups = gameGroup.sort(sortObject('stub', 'asc'));
-      usrGroups.forEach((groups) => {
-        if (groups.stub.includes(userType)) {
-          groups.achievements.forEach((group) => {
-            if (gameHistory.data) {
-              const selElTodo = gameHistory.data.find((game) => game.achievement.stub === group.stub && game.page === propID);
-              if (typeof selElTodo === 'undefined') {
-                numTodo += 1;
-              } else {
-                // numDone += 1;
-              }
-            }
-          });
-        }
-      });
-      if (
-        get(formValue, 'location.countryCode', 'CH') !== 'CH' &&
-        get(formValue, 'location.countryCode', 'CH') !== 'PT'
-      ) numTodo -= 2;
-      const nav = cloneDeep(firstRoutes);
-      if (Object.keys(activeSinglePropertyDealsCount).length > 0) {
-        Object.keys(activeSinglePropertyDealsCount).forEach((label) => {
-          newSellerCount += activeSinglePropertyDealsCount[label].new;
-        });
-        if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
-        if (newSellerCount > 0) nav[3].title += `<span class="numRecords notranslate txtWhite">${newSellerCount}</span>`;
-        setRouteNav([...nav]);
-      } else {
-        if (numTodo > 0) nav[0].title += `<span class="numRecords notranslate txtWhite">${numTodo}</span>`;
-        setRouteNav([...nav]);
-      } */
-      const nav = cloneDeep(firstRoutes);
-      setRouteNav([...nav]);
-    }
-  }, [gameGroup, gameHistory, activeSingleProperty, userType, Object.keys(activeSinglePropertyDealsCount).length > 0]);
-
-  // SHOW DETAILS WHEN CLICK ON BRIXELS POINTS
-  /* const brixelsAchievementDetail = () => {
-    handleSetModal({
-      showAwardsInfo: true,
-    });
-  };
-
-  // FUNCTION TO MANAGE CLICK ON MOBILE MENU
-  const onClickMobileMenu = (link) => {
-    setShowMobileMenu(false);
-    setActiveMenu(link);
-    changeZIndex(1);
-    document.body.classList.remove('ov-h');
-  }; */
-
   // SHOW/HIDE MOBILE MENU
   const toggleMobileMenu = () => {
     setShowMobileMenu(!showMobileMenu);
+    setShowAccountMenu(false);
     changeZIndex(!showMobileMenu ? 8 : 1);
+    if (!showMobileMenu) document.body.classList.remove('ov-h');
   };
+
+  useEffect(() => {
+    setShowMobileMenu(false);
+    setShowAccountMenu(false);
+  }, [get(history, 'location.pathname', null)]);
 
   // WHEN CLICK ON UPGRADE BUTTON
   const onUpgrade = () => {
@@ -229,7 +158,7 @@ function PageHeaderDashboard(props) {
   // FUNCTION TO GET CURRENT URL LOCATION
   const getCurrentRoute = () => {
     const path = history.location.pathname;
-    const currentPath = firstRoutes.concat(secondRoutes, firstRoutesBuyer, secondRoutesBuyer).find((item) => path.includes(item.name));
+    const currentPath = sidebarNavigationSeller.concat(sidebarNavigationBuyer).find((item) => path.includes(item.name) && item.name !== 'Prospects');
     return currentPath || {};
   };
 
@@ -292,26 +221,6 @@ function PageHeaderDashboard(props) {
     }
   }, [get(history, 'location.state', null)]);
 
-  // CHECK TAB BY URL
-  const checkActiveTab = () => {
-    let curTab = '';
-    if (history) {
-      if (history.location.pathname.includes('rewards')) curTab = 'rewards';
-      else if (history.location.pathname.includes('property')) curTab = 'property';
-      else if (history.location.pathname.includes('listings')) curTab = 'listings';
-      else if (history.location.pathname.includes('deals')) curTab = 'deals';
-    }
-    return curTab;
-  };
-
-  // LABEL ICONS FOR THE MENU TAB
-  const labelIcons = () => {
-    if (windowDimensions.width <= 1024) {
-      if (has(activeSingleProperty, 'id')) return routeNav.map((item) => item.icon);
-    }
-    return [];
-  };
-
   useEffect(() => {
     if (userType === 'seller') setSection('Sell');
     else setSection('Buy');
@@ -335,7 +244,7 @@ function PageHeaderDashboard(props) {
         activeMenu={activeMenu}
         onClose={() => setActiveMenu(null)}
       />
-      <header className="hubDasHeader">
+      <header className={`hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
         <div className="dasHeaderContainer">
           <div className="wrapperHeader dis-f a-c h-fix-64 px-2 px-lg-3 jc-b pos-r bgWhite">
             <div className="header-section py-1 dis-fl-row a-c jc-b">
@@ -409,87 +318,6 @@ function PageHeaderDashboard(props) {
                 }
               </div>
             </div>
-            {/* {
-              activeSingleProperty.id ? (
-                <div className="propertyPanel dis-f a-c">
-                  <div
-                    className="image-ratio flex-48 squared shadow-2dp w-fix-48 h-fix-48 brdRadius ov-h"
-                    onClick={() => {
-                      if (!history.location.pathname.includes('rewards')) history.push(`/${propID}/rewards`);
-                    }}
-                  >
-                    <CoverPropertyImage
-                      className="cover"
-                      size={56}
-                      coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
-                      propertyType={get(formValue, 'properties.propertyType', undefined)}
-                    />
-                  </div>
-                  <div className="ml-2">
-                    {
-                      windowDimensions.width > 1024 && (
-                        <div
-                          className="dis-f a-c cur-poi fsize-300 txtLight600 fweight-600 smallIconLink"
-                          onClick={() => onBackProperties()}
-                        >
-                          <BrixelIcon className="mr-1" icon="arrow-left-small" />
-                          <span>All properties</span>
-                        </div>
-                      )
-                    }
-                    <h4 ref={proTitleRef} className="fsize-400 fweight-600"> {get(formValue, 'title', '')}</h4>
-                  </div>
-                </div>
-              ) : (
-                <div className="header-section dis-fl-row a-c jc-b">
-                  {
-                    history.location.pathname.includes('/home') && (
-                      <>
-                        <div className="dis-f a-c logoWrapper">
-                          <img className="pos-r h-fix-32" src={logo} alt="Brixel Logo" id="logo" />
-                        </div>
-                      </>
-                    )
-                  }
-                  {
-                    getCurrentRoute().title === 'Property' ? (
-                      <>
-                        <BrixelIcon
-                          icon="favorite-fill"
-                          color="red"
-                          saturationTxt={400}
-                          background="red"
-                          saturation={100}
-                          className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
-                        />
-                        <div className="ml-2">
-                          <span className="fsize-300 fweight-500">Buy</span>
-                          <h5>Favorites</h5>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        {
-                          getCurrentRoute().icon && (
-                            <BrixelIcon
-                              icon={getCurrentRoute().icon}
-                              color="dark"
-                              saturationTxt={400}
-                              background="primary"
-                              saturation={100}
-                              className="noRadius w-fix-40 h-fix-40 dis-f jc-c a-c"
-                            />
-                          )
-                        }
-                        <div className="ml-2">
-                          <h5>{getCurrentRoute().title}</h5>
-                        </div>
-                      </>
-                    )
-                  }
-                </div>
-              )
-            } */}
             <div className="dis-f a-c">
               {
                 windowDimensions.width > 1024 && (
@@ -517,130 +345,113 @@ function PageHeaderDashboard(props) {
 
               {
                 windowDimensions.width > 1024 && (
-                  <div className="dis-f-md a-c cur-poi pos-r zIndex5" onClick={() => setShowProfileMenu(!showProfileMenu)} ref={profileMenu}>
-                    <AccountDropdown />
-                  </div>
+                  <>
+                    <div
+                      className="dis-f-md a-c cur-poi pos-r zIndex5"
+                      onClick={() => setShowProfileMenu(!showProfileMenu)}
+                      ref={profileMenu}
+                    >
+                      <AccountDropdown />
+                    </div>
+                  </>
                 )
               }
               { /* SECTION SIDEBAR MENU MOBILE */ }
               {
                 windowDimensions.width <= 1024 && (
                   <div className="ml-2">
-                    <BrixelButtonIcon
-                      className="btnMainMenu"
-                      icon="account"
+                    <button
+                      type="button"
+                      className="brixel-page-toggle pos-r zIndex2"
                       onClick={() => toggleMobileMenu()}
-                      ghost
-                    />
+                    >
+                      <span />
+                      <span />
+                      <span />
+                    </button>
                     {
                       showMobileMenu && (
-                        <div className="mobile-menu scaleUp bgWhite w-perc-100 h-100 pos-a dis-fl-col a-c pt-small-12 pr-2 pl-2 pb-2 zIndex3" style={{ height: windowDimensions.height }}>
-                          <div className="dis-f jc-b a-c w-perc-100">
-                            <img className="pos-r w-fix-80" src={logo} alt="Brixel Logo" id="logo" />
-                            <BrixelButtonIcon
-                              className="as-fe"
-                              icon="close-small"
-                              ghost
-                              theme="dark"
+                        <div className="mobile-menu scaleUp bgWhite w-perc-100 h-perc-100 pos-a dis-fl-col a-c zIndex3" style={{ height: windowDimensions.height - 65 }}>
+                          <div className="links dis-fl-col as-b jc-fe w-perc-100 h-perc-100 ov-a bgLight100">
+                            {
+                              activeSingleProperty.id && (
+                                <><MenuSidebar /></>
+                              )
+                            }
+                            <span
+                              className="cur-poi px-2 py-2 link txtDark700 fweight-500 fsize-300"
                               onClick={() => {
-                                toggleMobileMenu();
-                                document.body.classList.remove('ov-h');
+                                onTabClick('support');
                               }}
-                            />
-                          </div>
-                          <div className="links dis-fl-col as-b w-perc-100">
-                            <div className="sidebarNav mt-0">
-                              {/* <ul className="navigation max-w-fix-240">
-                                <li
-                                  onClick={() => {
-                                    handleSetUserTypes('seller');
-                                    handleSetActiveSingleProperty({});
-                                    history.push('/seller/pageLists');
-                                    toggleMobileMenu();
-                                  }}
-                                  className={`${userType === 'buyer' ? '' : 'active'} fweight-500 fsize-300 dis-f a-c brdRadius px-2 h-fix-40 txtLight400 cur-poi`}
-                                >
-                                  <BrixelIcon
-                                    icon="property-house"
-                                    className="mr-small-12"
-                                  />
-                                  Sell
-                                </li>
-                                <li
-                                  onClick={() => {
-                                    destroyForm();
-                                    handleSetUserTypes('buyer');
-                                    handleSetActiveSingleProperty({});
-                                    history.push('/buyer/propertyLists');
-                                    toggleMobileMenu();
-                                  }}
-                                  className={`${userType === 'buyer' ? 'active' : ''} fweight-500 fsize-300 dis-f a-c brdRadius px-2 h-fix-40 txtLight400 cur-poi`}
-                                >
-                                  <BrixelIcon
-                                    icon="favorite"
-                                    className="mr-small-12"
-                                  />
-                                  Buy
-                                </li>
-                              </ul> */}
-                            </div>
-
-                            <div className="mini-menu dis-fl-col jc-e ta-r">
-                              <span
-                                className="px-2 cur-poi link txtDark700 fweight-500 fsize-300"
-                                onClick={() => {
-                                  onTabClick('support');
-                                }}
-                              >
-                                Support
-                              </span>
-
-                              <hr className="my-2 lighter" />
-                              {
-                                propID && userType === 'seller' && (
-                                  <div className="mb-2">
-                                    <a
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        onUpgrade();
-                                      }}
-                                      className="cur-poi px-2 link txtRed400 fweight-500 fsize-300 ta-r"
-                                    >
-                                      Upgrade
-                                    </a>
-                                  </div>
-                                )
-                              }
-                              <div className="dis-f jc-fe">
-                                <BrixelSelect
-                                  options={langMenu}
-                                  className="mr-1 mb-1"
-                                  input={{
-                                    value: langSel,
-                                    name: 'lang',
-                                    onChange: (val) => newLang(val),
-                                  }}
+                            >
+                              Support
+                            </span>
+                            <hr className="lighter" />
+                            <button
+                              type="button"
+                              onClick={() => setShowAccountMenu(!showAccountMenu)}
+                              className="dis-f w-perc-100 a-c jc-b zIndex10 pos-r bgWhite p-1 px-2"
+                            >
+                              <div className="dis-f w-perc-100 a-c">
+                                <BrixelAvatar
+                                  avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+                                  name={get(loggedInUser, 'user.name', loggedInUser.user.email)}
+                                  profileId={get(loggedInUser, 'user.id', '')}
                                 />
+                                <p className="ml-2 txtDark700">
+                                  {get(loggedInUser, 'user.name', '')}
+                                </p>
                               </div>
-                              <a
-                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-r"
-                                href={`${baseByData().loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
-                              >
-                                Password
-                              </a>
-                              <a
-                                className="px-2 link txtDark700 fweight-500 fsize-300 mb-2 ta-r"
-                                href={`${baseByData().loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
-                              >
-                                Preferences
-                              </a>
-                              <a
-                                className="px-2 link txtDark700 fweight-500 fsize-300 ta-r"
-                                href={`${baseByData().loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
-                              >
-                                Logout
-                              </a>
+                              <BrixelIcon
+                                icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
+                              />
+                            </button>
+                          </div>
+
+                          <div className={`mini-menu px-2 dis-fl-col ${showAccountMenu ? 'activeMenu' : ''}`}>
+                            {
+                              propID && userType === 'seller' && (
+                                <div className="mb-2">
+                                  <a
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      onUpgrade();
+                                    }}
+                                    className="cur-poi link txtRed400 fweight-500 fsize-300 ta-r"
+                                  >
+                                    Upgrade
+                                  </a>
+                                </div>
+                              )
+                            }
+                            <div className="dis-f mb-2">
+                              <BrixelSelect
+                                options={langMenu}
+                                input={{
+                                  value: langSel,
+                                  name: 'lang',
+                                  onChange: (val) => newLang(val),
+                                }}
+                              />
                             </div>
+                            <a
+                              className="link txtDark700 fweight-500 fsize-300 mb-2"
+                              href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
+                            >
+                              Password
+                            </a>
+                            <a
+                              className="link txtDark700 fweight-500 fsize-300 mb-2"
+                              href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                            >
+                              Preferences
+                            </a>
+                            <a
+                              className="link txtDark700 fweight-500 fsize-300"
+                              href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                            >
+                              Logout
+                            </a>
                           </div>
                         </div>
                       )
@@ -651,83 +462,18 @@ function PageHeaderDashboard(props) {
             </div>
           </div>
         </div>
-        <div className="tabWrapper hide-xlg">
-          {
-            !history.location.pathname.includes('sell') && (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) && has(activeSingleProperty, 'id') && (
-              <>
-                {
-                  userType === 'seller' ? (
-                    <BrixelTabs
-                      classNameLi="dis-fl-col dis-fl-row-md py-1 py-lg-0 pos-r"
-                      classNameUl="zIndex4"
-                      labels={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.title) : []}
-                      labelsIcons={labelIcons()}
-                      clicksList={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.path) : []}
-                      clicksListName={has(activeSingleProperty, 'id') ? routeNav.map((item) => item.name) : []}
-                      classNameArray={['order-lg-2 homeTab mt-1 mt-lg-0 px-lg-2', 'order-lg-1 propertyTab mt-1 mt-lg-0 px-lg-2', 'order-lg-3 supportTab  mt-1 mt-lg-0 px-lg-2']}
-                      activeTab={activeMenu || checkActiveTab()}
-                      onClick={(val) => onTabClick(val)}
-                      showFull={false}
-                      fullWidth={windowDimensions.width <= 1024}
-                      classNameIcon="fsize-lg-400 txtLight600"
-                      classNameLabel={`${windowDimensions.width <= 1024 ? 'fsize-300' : 'fsize-400'} txtLight600 dis-f a-c`}
-                    />
-                  ) : (
-                    <>
-                      {/*
-                      <BrixelTabs
-                        classNameLi="dis-fl-col dis-fl-row-md py-1 py-lg-0 pos-r"
-                        classNameUl="zIndex4"
-                        labels={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.title) : []}
-                        labelsIcons={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.icon) : []}
-                        clicksList={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.path) : []}
-                        clicksListName={has(activeSingleProperty, 'id') ? firstRoutesBuyer.map((item) => item.name) : []}
-                        classNameArray={['order-lg-2 homeTab mt-1 mt-lg-0 px-lg-2', 'order-lg-1 propertyTab mt-1 mt-lg-0 px-lg-2', 'order-lg-3 supportTab  mt-1 mt-lg-0 px-lg-2']}
-                        activeTab={activeMenu || checkActiveTab()}
-                        onClick={(val) => onTabClick(val)}
-                        showFull={false}
-                        classNameIcon="fsize-lg-400 txtLight600"
-                        classNameLabel="fsize-300 txtLight600 dis-f a-c ml-1"
-                      />
-                      */}
-                    </>
-                  )
-                }
-              </>
-            )
-          }
-        </div>
         {
-          windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && (
+          windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && (
             <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
               {
                 getCurrentRoute().title && (
                   <div className="header-section dis-fl-row a-c jc-b">
-                    {/* <BrixelIcon icon={getCurrentRoute().icon} color="dark" saturationTxt={700} /> */}
-                    <h5 className="">{getCurrentRoute().title}</h5>
+                    <h4 className="fweight-700 pt-4">
+                      {getCurrentRoute().title}
+                    </h4>
                   </div>
                 )
               }
-              {/*
-              <div className="dis-f a-c" onClick={() => brixelsAchievementDetail()}>
-                {
-                  awards >= 0 && (
-                    <div className="cur-poi dis-f a-c">
-                      <BrixelIcon iconSize="fsize-600" icon="cup-awards" color="green" />
-                      <span className="ff-mono fsize-300 pl-1 txtDark700">{awards}</span>
-                    </div>
-                  )
-                }
-                {
-                  brixelPoints >= 0 && (
-                    <div className="cur-poi dis-f a-c ml-2">
-                      <img className="max-w-fix-24" src={brixels} alt="icon awards" />
-                      <span className="ff-mono fsize-300 pl-1 txtDark700">{brixelPoints}</span>
-                    </div>
-                  )
-                }
-              </div>
-              */}
             </div>
           )
         }
@@ -738,32 +484,24 @@ function PageHeaderDashboard(props) {
 
 PageHeaderDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  activeSinglePropertyDealsCount: PropTypes.object.isRequired,
-  // awards: PropTypes.number.isRequired,
-  // brixelPoints: PropTypes.number.isRequired,
   changeZIndex: PropTypes.func,
   destroyForm: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
-  gameHistory: PropTypes.object.isRequired,
-  // handleGetGame: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
-  // handleSetModal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
-  getPropertyDealsCount: PropTypes.func.isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
+  changeZIndex: () => 1,
   lang: 'en',
   loggedInUser: {},
-  changeZIndex: () => 1,
 };
 
 const mapStateToProps = (state) => ({
@@ -787,14 +525,10 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('Property'));
   },
-  handleGetGame: bindActionCreators(getGameHistory, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
-  getPropertyDealsCount: bindActionCreators(getActiveSinglePropertyDealsCount, dispatch),
-  setDealsCount: bindActionCreators(setActiveSinglePropertyDealsCount, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard));

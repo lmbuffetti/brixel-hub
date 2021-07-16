@@ -178,10 +178,10 @@ const Documents = (props) => {
   });
 
   return (
-    <div className="secondLevel h-perc-lg-100">
+    <div className="h-perc-lg-100">
       <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
-        <div className="dis-f backPanel">
-          <div className="fixedIcon w-perc-100">
+        <div className="dis-f">
+          {/* <div className="fixedIcon w-perc-100">
             <BrixelButtonIcon
               className="hide-md"
               icon="arrow-left-small"
@@ -195,8 +195,8 @@ const Documents = (props) => {
                 }
               }}
             />
-          </div>
-          <h5 className="sectionTitle">
+          </div> */}
+          <h5 className="sectionTitle hide dis-f-md">
             Docubox
           </h5>
         </div>
@@ -359,7 +359,7 @@ const Documents = (props) => {
                               className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
                             >
 
-                              <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
+                              <div className="name w-perc-100 dis-fl-row a-c pr-1 pr-sm-0">
                                 <div className="icon-container brdRadius dis-f w-fix-40 h-fix-40 jc-c a-c mr-1">
                                   <BrixelIcon
                                     icon="document"
@@ -370,7 +370,7 @@ const Documents = (props) => {
                                   />
                                 </div>
                                 <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                  <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700">{doc.name}</span>
+                                  <span className="document-title fsize-400 txtDark700">{doc.name}</span>
                                   {
                                     get(doc, 'createdAt', null) ? (
                                       <span className="date body2 txtDark200">

@@ -198,7 +198,7 @@ const CarouselWrapper = (props) => {
                 >
                   <span
                     className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 as-c cur-poi"
-                    onClick={() => history.push(`/${items[activeSlide].id}/listings/portals`)}
+                    onClick={() => history.push(`/${items[activeSlide].id}/marketing/portals`)}
                   >
                     Pre-market
                   </span>
@@ -209,7 +209,7 @@ const CarouselWrapper = (props) => {
                         <>
                           <p className="pl-1 body2 txtDark700"><span>Your property is visible on our pre-market.</span></p>
                           <a
-                            href={`/${items[activeSlide].id}/listings/portals`}
+                            href={`/${items[activeSlide].id}/marketing/portals`}
                             className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
                           >
                             Learn more.
@@ -219,7 +219,7 @@ const CarouselWrapper = (props) => {
                         <>
                           <p className="pl-1 body2 txtDark700"> <span>Your property is <strong className="lh-in fweight-600">not</strong> visible to any buyers.</span> </p>
                           <a
-                            href={`/${items[activeSlide].id}/listings/portals`}
+                            href={`/${items[activeSlide].id}/marketing/portals`}
                             className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
                           >
                             Change it here.

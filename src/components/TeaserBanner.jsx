@@ -33,7 +33,7 @@ const TeaserBanner = (props) => {
 
   if (
     !history.location.pathname.includes('rewards') &&
-    !history.location.pathname.includes('listings') &&
+    !history.location.pathname.includes('marketing') &&
     !history.location.pathname.includes('property') &&
     !isEligible()
   ) {

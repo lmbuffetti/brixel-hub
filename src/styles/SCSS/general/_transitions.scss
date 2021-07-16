@@ -137,7 +137,11 @@
     opacity: 0;
     transition: opacity 150ms linear;
 }
+/*
+.slideFromLeft {
 
+}
+ */
 
 @keyframes slideInSec {
   0% {
@@ -227,11 +231,23 @@
 .slidetoLeft {
   animation: slidetoLeft $default-time-long $default-easing;
 }
+.slidetoRight {
+  animation: slidetoRight $default-time-long $default-easing forwards;
+}
 
 @keyframes slidetoLeft {
   0% {
     opacity: 0;
     transform: translateX(100px);
+  } 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slidetoRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
   } 100% {
     opacity: 1;
     transform: translateX(0);

@@ -90,7 +90,7 @@ const SingleDocument = (props) => {
 
   useEffect(() => {
     if (isSmallLoading.saveData === false) {
-      history.push(`/${activeSingleProperty.id}/property/documents`);
+      history.push(`/${activeSingleProperty.id}/docubox`);
     }
   }, [isSmallLoading]);
 
@@ -154,7 +154,7 @@ const SingleDocument = (props) => {
                   theme="dark"
                   onClick={() => {
                     changeFieldValue('documents', initialValues.documents);
-                    history.push(`/${activeSingleProperty.id}/property/documents`);
+                    history.push(`/${activeSingleProperty.id}/docubox`);
                   }}
                 />
               </div>
@@ -277,7 +277,7 @@ const SingleDocument = (props) => {
                   label="Cancel"
                   onClick={() => {
                     changeFieldValue('documents', initialValues.documents);
-                    history.push(`/${activeSingleProperty.id}/property/documents`);
+                    history.push(`/${activeSingleProperty.id}/docubox`);
                   }}
                 />
                 <BrixelButtonPrimary
