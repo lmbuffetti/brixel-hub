@@ -12,6 +12,7 @@ import {
   BrixelInputText,
   BrixelSelect,
   Helpers,
+  BrixelButtonText,
   ReduxField,
   change,
   reset, BrixelButtonIcon,
@@ -41,6 +42,7 @@ const Price = (props) => {
   // STATE
   const [Questions, setQuestions] = useState(InputSheets(formValue));
   const [selectedQuest, setSelectedQuest] = useState(null);
+  const [allSettings, setAllSettings] = useState(false);
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
 
@@ -101,7 +103,7 @@ const Price = (props) => {
 
             <div className="dis-f jc-b a-c mt-3">
               <ReduxField
-                ReduxFieldClass="w-perc-30 mr-1"
+                ReduxFieldClass="w-perc-40 w-perc-md-30 mr-1"
                 form="Property"
                 component={BrixelSelect}
                 design={{
@@ -134,67 +136,81 @@ const Price = (props) => {
                 }}
               />
             </div>
-            <ReduxField
-              ReduxFieldClass="w-perc-60 mt-2"
-              form="Property"
-              component={BrixelSelect}
-              design={{
-                compact: true,
-              }}
-              input={{
-                name: 'status',
-                options: factsOptions.propertyStatus,
-              }}
-              labels={{
-                label: 'Status',
-              }}
-            />
 
-            <hr className="mt-3 mb-2" />
+            <div className={`${allSettings ? '' : 'hide'} dis-b-md`}>
+              <ReduxField
+                ReduxFieldClass="w-perc-60 mt-2"
+                form="Property"
+                component={BrixelSelect}
+                design={{
+                  compact: true,
+                }}
+                input={{
+                  name: 'status',
+                  options: factsOptions.propertyStatus,
+                }}
+                labels={{
+                  label: 'Status',
+                }}
+              />
 
-            <ReduxField
-              ReduxFieldClass="w-perc-80"
-              form="Property"
-              component={BrixelInputText}
-              input={{
-                placeholder: '700\'000',
-                name: 'properties.building.purchasePrice',
-                unit: get(formValue, 'price.currency', ''),
-              }}
-              inputFormat={{
-                currency: get(formValue, 'price.currency', ''),
-                formatType: 'price',
-              }}
-              labels={{
-                label: 'Purchase price',
-              }}
-            />
+              <hr className="lighter mt-3 mb-2" />
 
-            <ReduxField
-              ReduxFieldClass="w-perc-60 mt-2"
-              form="Property"
-              component={BrixelInputText}
-              input={{
-                placeholder: 'MM/YYYY',
-                name: 'properties.building.purchaseDate',
-              }}
-              inputFormat={{
-                formatType: 'date-mm:yyyy',
-              }}
-              labels={{
-                label: 'Purchase date',
-              }}
-            />
+              <ReduxField
+                ReduxFieldClass="w-perc-80"
+                form="Property"
+                component={BrixelInputText}
+                input={{
+                  placeholder: '700\'000',
+                  name: 'properties.building.purchasePrice',
+                  unit: get(formValue, 'price.currency', ''),
+                }}
+                inputFormat={{
+                  currency: get(formValue, 'price.currency', ''),
+                  formatType: 'price',
+                }}
+                labels={{
+                  label: 'Purchase price',
+                }}
+              />
 
+              <ReduxField
+                ReduxFieldClass="w-perc-60 mt-2"
+                form="Property"
+                component={BrixelInputText}
+                input={{
+                  placeholder: 'MM/YYYY',
+                  name: 'properties.building.purchaseDate',
+                }}
+                inputFormat={{
+                  formatType: 'date-mm:yyyy',
+                }}
+                labels={{
+                  label: 'Purchase date',
+                }}
+              />
+            </div>
+
+            {
+              windowDimensions.width <= 1024 && (
+                <div className="mt-2">
+                  <BrixelButtonText
+                    label={allSettings ? 'Fewer settings' : 'Show all settings'}
+                    onClick={() => setAllSettings(!allSettings)}
+                    rightIcon={allSettings ? 'minus-small' : 'plus-small'}
+                  />
+                </div>
+              )
+            }
           </div>
 
           <div className="ml-md-2 w-perc-100">
-            <div className="dis-fl-col boxCard mb-5">
-              <h5 className="mb-2">Pro Estimation</h5>
+            <div className="dis-fl-col boxCard mb-5 pb-5">
+              <h5 className="mb-3">Pro Estimation</h5>
 
-              <p>Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.</p>
+              <p className="txtDark700">Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.</p>
 
-              <div className="dis-f a-c w-perc-100 mt-2 mb-3">
+              <div className="dis-f a-c w-perc-100 my-3">
                 <span className="ff-mono fsize-600 fweight-700 txtPrimary700">CHF</span>
                 <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur mx-1" />
                 <BrixelIcon
@@ -223,18 +239,18 @@ const Price = (props) => {
 
               <BrixelButtonPrimary
                 rounded
-                className="w-fit mt-3"
+                className="w-fit mt-5"
                 label="Complete now"
               />
 
             </div>
 
-            <div className="dis-fl-col boxCard">
+            <div className="dis-fl-col boxCard pb-5">
               <h5 className="mb-3">Bestimate®</h5>
 
-              <p>Your property is worth up to</p>
+              <p className="txtDark700">Your property is worth up to</p>
 
-              <div className="dis-f a-c w-perc-100 mt-3">
+              <div className="dis-f a-c w-perc-100 mt-3 ">
                 {
                   get(estimation, 'result.higherValue', 0) > 0 && (
                     <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
@@ -247,7 +263,7 @@ const Price = (props) => {
 
               <BrixelButtonSecondary
                 rounded
-                className="mt-4 w-fit"
+                className="mt-5 w-fit"
                 label="Open"
                 ghost
                 onClick={() => openBestimate()}
