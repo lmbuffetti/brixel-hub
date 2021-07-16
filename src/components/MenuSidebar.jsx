@@ -89,7 +89,7 @@ const MenuSidebar = (props) => {
               { /* SECTION SIDEBAR MENU DESKTOP */ }
               <div className={`pos-r sidebar w-perc-100 h-perc-100 bgLight100 ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
                 <div className="hide dis-b-md">
-                  <ul className="sidebarNav">
+                  <ul className="sidebarNav pr-3 py-4">
                     {
                       navigationMenu.map((nav, i) => (
                         <li
