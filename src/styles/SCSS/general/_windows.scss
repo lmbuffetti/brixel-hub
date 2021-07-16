@@ -28,7 +28,7 @@
       .dashboardContainer {
         @media (max-width: $responsive-medium) {
           background-color: map-get($lightColor, 100);
-          padding-bottom: 64px;
+          padding-bottom: $step * 5;
         }
       }
     }

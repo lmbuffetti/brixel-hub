@@ -131,9 +131,9 @@
 .hubContainer {
   .hubDasHeader {
     @media (max-width: $responsive-medium) {
-      position: sticky;
+      //position: sticky;
       z-index: 3;
-      top: -64px;
+      //top: -64px;
     }
   }
 }
