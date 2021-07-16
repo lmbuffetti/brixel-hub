@@ -98,7 +98,7 @@ const BookTrialFlow = (props) => {
       {
         get(formValue, 'analysis', '') === 'on-site' ? (
           <>
-            <h2 className="mb-6 ta-c fweight-600">When do you want us to visit?</h2>
+            <h2 className="mb-3 mb-sm-6 ta-c fweight-600">When do you want us to visit?</h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
               <Accordion
                 color="dark"
@@ -269,7 +269,7 @@ const BookTrialFlow = (props) => {
           </>
         ) : (
           <>
-            <h2 className="mb-6 ta-c fweight-600">Let&apos;s talk now or later?</h2>
+            <h2 className="mb-3 mb-sm-6 ta-c fweight-600">Let&apos;s talk now or later?</h2>
             <div>
               <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
                 <Accordion
