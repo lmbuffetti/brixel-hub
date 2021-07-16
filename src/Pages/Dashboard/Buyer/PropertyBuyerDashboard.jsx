@@ -27,6 +27,7 @@ const Documents = lazy(() => import('../../EditProperty/Documents'));
 const PropertyBuyerDashboard = (props) => {
   // PROPS
   const {
+    activeSingleDeal,
     formValue,
     history,
     // loggedInUser,
@@ -108,10 +109,10 @@ const PropertyBuyerDashboard = (props) => {
                 labelClass="fweight-400"
                 subtitle={`<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate))}</span>&nbsp;<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) !== 1 ? 'Files' : 'File'}</span>`}
                 subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
-                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'docubox' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                 colorIcon="primary700"
                 backIcon="primary100"
-                onClick={() => history.push(`/buyer/${propID}/property/documents`)}
+                onClick={() => history.push(`/buyer/${propID}/property/docubox`)}
               />
             </div>
 
@@ -136,14 +137,14 @@ const PropertyBuyerDashboard = (props) => {
                     verticalView
                     bgTransparent
                     icon="money"
-                    label="Deal"
+                    label="Closing"
                     labelClass="fweight-400 w-perc-50"
                     subtitle=""
                     subtitleClass="fsize-200 pt-small-6"
                     className={`w-perc-100 min-h-fix-136 shadow-1dp brdMedium ${getFact() === 'deals' ? 'brdPrimary400 bgWhite' : 'brdTrans'} ml-1 p-2`}
                     colorIcon="primary700"
                     backIcon="primary100"
-                    onClick={() => history.push(`/buyer/${propID}/deal`)}
+                    onClick={() => history.push(`/buyer/${propID}/closing/${activeSingleDeal.id}`)}
                   />
                 )
               }
@@ -164,7 +165,7 @@ const PropertyBuyerDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Route path="/buyer/:propId/property/page" component={PageBuyer} />
-                <Route path="/buyer/:propId/property/documents" exact component={Documents} />
+                <Route path="/buyer/:propId/property/docubox" exact component={Documents} />
                 <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
                 <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
               </Suspense>
@@ -177,6 +178,7 @@ const PropertyBuyerDashboard = (props) => {
 };
 
 PropertyBuyerDashboard.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -187,11 +189,12 @@ PropertyBuyerDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  windowDimensions: get(state, 'common.windowDimensions', {}),
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   formValue: get(state, 'property.activeSingleProperty', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 export default compose(

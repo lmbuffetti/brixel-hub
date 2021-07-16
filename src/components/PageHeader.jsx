@@ -326,7 +326,7 @@ function PageHeader(props) {
               <button
                 type="button"
                 className="txtLight100 fweight-700 fSizePx28 mb-4"
-                onClick={() => onClickMenu(`/${property.id}/property/list`)}
+                onClick={() => onClickMenu(`/${property.id}/property`)}
               >
                 Properties
               </button>

@@ -102,7 +102,7 @@ const Dashboard = (props) => {
         <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
         <ProtectedRoute path="/buyer/:propID/rewards" component={RewardsBuyerDashboard} />
         <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
-        <ProtectedRoute path="/buyer/:propID/deal" component={DealsDashboardBuyer} />
+        <ProtectedRoute path="/buyer/:propID/closing" component={DealsDashboardBuyer} />
       </Suspense>
     </div>
   );

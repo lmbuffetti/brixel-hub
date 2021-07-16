@@ -113,6 +113,8 @@ const ScanTrialFlow = (props) => {
           user: loggedInUser.id,
           meta: {
             ...obj,
+            analysis: obj.analysis || 'on-site',
+            bookType: obj.bookType || 'online',
             answers: formValue,
           },
           userName: get(formValue, 'name', ''),

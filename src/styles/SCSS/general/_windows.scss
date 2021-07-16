@@ -49,6 +49,10 @@
 
       @media (max-width: $responsive-medium) {
         background-color: map-get($lightColor, 100);
+        &.prospects {
+          //top: - $step * 3;
+          //position: relative;
+        }
       }
     }
   }
@@ -128,12 +132,16 @@
 
       > div {
         &:not(.brixel-upgrade-message) {
-          box-shadow: $shadow-1dp;
-          background: $brx-white;
-          border-radius: $brd-radius-small;
+          &:not(.hideStyle) {
+            box-shadow: $shadow-1dp;
+            background: $brx-white;
+            border-radius: $brd-radius-small;
+          }
         }
         &:not(.rewardsSplash) {
-          padding: $step * 3;
+          &:not(.hideStyle) {
+            padding: $step * 3;
+          }
         }
         &.dealsListings {
           box-shadow: none;

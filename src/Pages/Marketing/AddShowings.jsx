@@ -57,7 +57,7 @@ const Showings = (props) => {
         language: lang,
       },
       message: formValue.userMessage,
-      redirectTo: `/${propID}/listings/showings`,
+      redirectTo: `/${propID}/marketing/showings`,
     };
     handleCreatePropertyVisitBooking(data);
   };
@@ -90,7 +90,7 @@ const Showings = (props) => {
           <BrixelButtonIcon
             icon="close-small"
             ghost
-            onClick={() => history.push(`/${propID}/listings/showings`)}
+            onClick={() => history.push(`/${propID}/marketing/showings`)}
           />
         </div>
         <div className="mb-3">
@@ -182,7 +182,7 @@ const Showings = (props) => {
             theme="white"
             rounded
             className="mr-1"
-            onClick={() => history.push(`/${propID}/listings/showings`)}
+            onClick={() => history.push(`/${propID}/marketing/showings`)}
           />
           <BrixelButtonPrimary
             label="Save"

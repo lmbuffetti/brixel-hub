@@ -39,7 +39,7 @@ const PortalsRewards = (props) => {
   // FUNCTION TO GO TO /LISTINGS/PORTALS
   const openPreview = () => {
     // if (!done) handleAddGameHistory({stub: gameStub});
-    history.push(`/${propID}/listings/portals`);
+    history.push(`/${propID}/marketing/portals`);
     // window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
   };
 
