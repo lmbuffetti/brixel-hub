@@ -3,6 +3,7 @@ import { change, reset } from '@brixel/brixel-components';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import isArray from 'lodash/isArray';
 import {
   ROTATE_IMG,
   GET_IMAGE_TYPE,
@@ -139,22 +140,31 @@ const checkCommon = (store) => (next) => (action) => {
         const data = {};
         const filesArray = get(store.getState(), `brixelForm.Property.values[${actions}]`, []);
         res.forEach((resImg) => {
-          if (get(resImg, 'data.name', null)) {
-            const selOriginalImg = allImgs.find((img) => get(img, 'name', 'a').toString() === get(resImg, 'data.name', 'b').toString());
-            filesArray.push({
-              width: get(selOriginalImg, 'width', null),
-              height: get(selOriginalImg, 'height', null),
-              ...resImg.data,
-            });
-          } else if (resImg.data.length > 0) {
-            resImg.data.forEach((item) => {
-              const selOriginalImg = allImgs.find((img) => get(img, 'name', 'a').toString() === get(item, 'name', 'b').toString());
-              filesArray.push({
-                width: get(selOriginalImg, 'width', null),
-                height: get(selOriginalImg, 'height', null),
-                ...item,
+          if (resImg.meta.normalizedStatus === 200) {
+            if (isArray(resImg.data)) {
+              resImg.data.forEach((imgPdf) => {
+                filesArray.push({
+                  width: 0,
+                  height: 0,
+                  ...imgPdf,
+                });
               });
-            });
+            } else {
+              let width = 0;
+              let height = 0;
+              if (get(resImg, 'data.name', null)) {
+                const selOriginalImg = allImgs.find((img) => img.name.toString() === resImg.data.name.toString());
+                if (selOriginalImg) {
+                  width = get(selOriginalImg, 'width', null);
+                  height = get(selOriginalImg, 'height', null);
+                }
+              }
+              filesArray.push({
+                width,
+                height,
+                ...resImg.data,
+              });
+            }
           }
         });
         set(data, actions, filesArray);
