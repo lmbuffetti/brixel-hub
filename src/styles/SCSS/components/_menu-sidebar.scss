@@ -1,5 +1,5 @@
 .sidebar {
-  overflow-y: auto;
+  //overflow-y: auto;
 }
 
 #menu-sidebar {
@@ -159,6 +159,8 @@
     left: 0;
     position: fixed;
     top: 64px;
+    height: calc(100% - 64px);
+    overflow-y: auto;
   }
   .sidebarSubmenu {
     .sidebarSubmenuContent {
