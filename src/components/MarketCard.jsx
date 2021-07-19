@@ -77,6 +77,7 @@ const MarketCard = (props) => {
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (!preventClick) {
+      console.log(type, item.tags);
       if (type === 'own') {
         if (get(windowDimensions, 'width', 0) <= 1024) {
           history.push({
@@ -93,7 +94,7 @@ const MarketCard = (props) => {
         ((
           type === 'premium' || get(item, 'tags', []).includes('premium') ||
           type === 'new' || get(item, 'tags', []).includes('new')
-        ) && type !== 'favorite' && !history.location.pathname.includes('sell'))
+        ) && type !== 'favorite' && type !== 'wishlist' && !history.location.pathname.includes('sell'))
       ) {
         setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
