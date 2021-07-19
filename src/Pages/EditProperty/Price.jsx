@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  BrixelButtonPrimary,
+  // BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelIcon,
+  // BrixelIcon,
   BrixelInputText,
   BrixelSelect,
   Helpers,
@@ -25,7 +25,7 @@ import { InputSheets } from '../../resources/inputSheets';
 import { calcPercentageFacts } from '../../utils/helpers';
 
 // COMPONENTS
-import ProgressRing from '../../components/ProgressRing';
+// import ProgressRing from '../../components/ProgressRing';
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 
 const Price = (props) => {
