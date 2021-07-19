@@ -193,20 +193,6 @@ const HomeDashboard = (props) => {
                     onClick={() => history.push(`/${propID}/property/tour`)}
                     status={get(formValue, 'virtual.matterport', null) ? 'green' : 'red'}
                   />
-
-                  <BrixelButtonBox
-                    verticalView
-                    bgTransparent
-                    icon="folder"
-                    label="Docubox"
-                    labelClass="fweight-400"
-                    subtitle={`<span>${calcLenght(get(formValue, 'documents', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'documents', [])) !== 1 ? 'Files' : 'File'}</span>`}
-                    subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'documents', [])) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
-                    className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
-                    colorIcon="primary700"
-                    backIcon="primary100"
-                    onClick={() => history.push(`/${propID}/docubox`)}
-                  />
                 </div>
 
               </div>
