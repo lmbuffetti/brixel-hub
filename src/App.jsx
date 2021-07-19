@@ -514,7 +514,7 @@ const App = (props) => {
 
         {
           has(splashScreenType, 'component') && (
-            React.createElement(splashScreenType.component)
+            React.createElement(splashScreenType.component, splashScreenType.props)
           )
         }
 
