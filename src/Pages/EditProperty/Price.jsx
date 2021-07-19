@@ -204,7 +204,7 @@ const Price = (props) => {
             }
           </div>
 
-          <div className="ml-md-2 w-perc-100">
+          <div className="ml-md-1 w-perc-100">
             <div className="dis-fl-col boxCard mb-5 pb-5">
               <h5 className="mb-3">Pro Estimation</h5>
 
