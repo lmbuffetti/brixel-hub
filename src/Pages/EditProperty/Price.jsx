@@ -154,7 +154,9 @@ const Price = (props) => {
                 }}
               />
 
-              <hr className="lighter mt-3 mb-2" />
+              <hr className="lighter mt-3 mb-3" />
+
+              <p className="txtDark200 mb-3">For what price did you buy the property?</p>
 
               <ReduxField
                 ReduxFieldClass="w-perc-80"
@@ -205,6 +207,7 @@ const Price = (props) => {
           </div>
 
           <div className="ml-md-1 w-perc-100">
+            {/*
             <div className="dis-fl-col boxCard mb-5 pb-5">
               <h5 className="mb-3">Pro Estimation</h5>
 
@@ -244,7 +247,7 @@ const Price = (props) => {
               />
 
             </div>
-
+            */}
             <div className="dis-fl-col boxCard pb-5">
               <h5 className="mb-3">Bestimate®</h5>
 
