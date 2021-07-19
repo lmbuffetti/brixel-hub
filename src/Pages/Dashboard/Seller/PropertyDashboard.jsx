@@ -6,10 +6,10 @@ import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import has from 'lodash/has';
+// import has from 'lodash/has';
 import {
   BrixelButtonBox,
-  FormatValue,
+  // FormatValue,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -33,7 +33,7 @@ const HomeDashboard = (props) => {
     history,
     // loggedInUser,
     match,
-    property,
+    // property,
     windowDimensions,
   } = props;
   // STATE
@@ -73,7 +73,7 @@ const HomeDashboard = (props) => {
           {
             windowDimensions.width <= 1024 && (
               <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
-                <div
+                {/* <div
                   className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   onClick={() => history.push(`/${propID}/property/facts`)}
                 >
@@ -118,8 +118,37 @@ const HomeDashboard = (props) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
+                <div className="dis-f mt-2">
+                  <BrixelButtonBox
+                    verticalView
+                    bgTransparent
+                    icon="calculator"
+                    label="Price"
+                    labelClass="fweight-400"
+                    subtitle="On request"
+                    subtitleClass="fsize-200 pt-small-6 txtDark200"
+                    className="w-perc-100 mr-1 shadow-1dp brdMedium brdTrans p-2"
+                    colorIcon="primary700"
+                    backIcon="primary100 "
+                    onClick={() => history.push(`/${propID}/property/price`)}
+                  />
+                  <BrixelButtonBox
+                    verticalView
+                    bgTransparent
+                    icon="document"
+                    label="Facts"
+                    labelClass="fweight-400"
+                    subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
+                    subtitleClass="fsize-200 pt-small-6 txtPrimary700"
+                    className="w-perc-100 ml-1 shadow-1dp brdMedium brdTrans p-2"
+                    colorIcon="primary700"
+                    backIcon="primary100"
+                    onClick={() => history.push(`/${propID}/property/facts`)}
+                    selected
+                  />
+                </div>
                 <div className="dis-f mt-2">
                   <BrixelButtonBox
                     verticalView
@@ -214,7 +243,7 @@ HomeDashboard.propTypes = {
   history: PropTypes.object.isRequired,
   // loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  property: PropTypes.object.isRequired,
+  // property: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -225,7 +254,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  property: get(state, 'property.activeSingleProperty', {}),
+  // property: get(state, 'property.activeSingleProperty', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
