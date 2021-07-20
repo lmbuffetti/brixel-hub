@@ -64,6 +64,8 @@ const Assessor = lazy(() => import('./Pages/GameHistory/Assessor'));
 
 const Bestimate = lazy(() => import('./Pages/GameHistory/Bestimate'));
 
+const ProEstimationFlow = lazy(() => import('./Pages/EditProperty/ProEstimationFlow'));
+
 const Facts = lazy(() => import('./Pages/GameHistory/Facts'));
 
 const MediaExplanation = lazy(() => import('./Pages/GameHistory/SecondLevel/MediaExplanation'));
@@ -481,6 +483,7 @@ const App = (props) => {
             <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
             <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
             <ProtectedRoute exact path="/:propID/prospects/newDeal" component={CreateDeal} />
+            <ProtectedRoute path="/:propID/property/price/formFlow" component={ProEstimationFlow} />
           </Switch>
         }
 

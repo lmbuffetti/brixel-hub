@@ -17,6 +17,7 @@ const EmptyProperty = (props) => {
 
   // REDIRECT TO NO-PROPERTY AND LOAD brixel_zurich AS DEFAULT COMPANY
   useEffect(() => {
+    console.log('eh');
     history.push('/sell');
     handleGetActiveSingleCompany({ stub: 'brixel_zurich' });
   }, []);

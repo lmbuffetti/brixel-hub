@@ -6,26 +6,27 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  // BrixelButtonPrimary,
+  BrixelButtonPrimary,
   BrixelButtonSecondary,
-  // BrixelIcon,
+  BrixelIcon,
   BrixelInputText,
   BrixelSelect,
   Helpers,
   BrixelButtonText,
   ReduxField,
   change,
-  reset, BrixelButtonIcon,
+  reset,
+  BrixelButtonIcon,
+  ProgressRing,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import { setSplashType } from '../../actions/CommonActions';
 import { InputSheets } from '../../resources/inputSheets';
-import { calcPercentageFacts } from '../../utils/helpers';
+import { calcPercentageProEstimation } from '../../utils/helpers';
 
 // COMPONENTS
-// import ProgressRing from '../../components/ProgressRing';
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 
 const Price = (props) => {
@@ -48,11 +49,6 @@ const Price = (props) => {
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
-    if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
-      const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-      inputSheet.totalComplete = calcPercentageFacts().calcPerc;
-      changeFieldValue('inputSheet', inputSheet);
-    }
     if (selectedQuest) {
       const findCurrentId = Questions.findIndex((quest) => quest.history === selectedQuest.history);
       const quest = InputSheets(formValue)[findCurrentId];
@@ -207,7 +203,6 @@ const Price = (props) => {
           </div>
 
           <div className="ml-md-1 w-perc-100">
-            {/*
             <div className="dis-fl-col boxCard mb-5 pb-5">
               <h5 className="mb-3">Pro Estimation</h5>
 
@@ -224,17 +219,17 @@ const Price = (props) => {
 
               <div className="dis-f a-c">
                 <ProgressRing
-                  progress={get(formValue, 'inputSheet.totalComplete', 0)}
+                  progress={calcPercentageProEstimation().realPerc}
                   size={45}
                   strokeWidth={6}
                   circleOneStroke="#DCDDDE"
-                  circleTwoStroke="#387AFF"
+                  circleTwoStroke="#1E1491"
                   showIcon={false}
                 />
                 <div className="ml-2">
                   <p>Inputs</p>
                   <p className="ff-mono fweight-700 txtPrimary700">
-                    <span className="mr-1 notranslate">{get(formValue, 'inputSheet.totalComplete', 0)}%</span>
+                    <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
                     <span>completed</span>
                   </p>
                 </div>
@@ -244,10 +239,11 @@ const Price = (props) => {
                 rounded
                 className="w-fit mt-5"
                 label="Complete now"
+                onClick={() => history.push(`/${propID}/property/price/formFlow`)}
               />
 
             </div>
-            */}
+
             <div className="dis-fl-col boxCard pb-5">
               <h5 className="mb-3">Bestimate®</h5>
 
