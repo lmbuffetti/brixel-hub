@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
@@ -31,7 +30,6 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 
 const Price = (props) => {
   const {
-    changeFieldValue,
     estimation,
     formValue,
     history,
@@ -277,7 +275,6 @@ const Price = (props) => {
 };
 
 Price.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,

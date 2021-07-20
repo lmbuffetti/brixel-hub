@@ -103,7 +103,6 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
   // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   const calPerc = Math.floor((countDone * 100) / countTotal);
   const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);
-  console.log(calPerc, countTotal, countDone);
   return {
     realPerc: Math.ceil((countDone * 100) / countTotal),
     calcPerc: calPerc,

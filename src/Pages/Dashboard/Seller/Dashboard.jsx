@@ -307,7 +307,6 @@ const Dashboard = (props) => {
       });
       if (formValue.id && initialValues.id) {
         let changeObj = diff(initialValues, formValue);
-        console.log(changeObj);
         const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
         changeObj = omit(changeObj, ['inputSheet']);
         const getIndexNotification = notification.findIndex((item) => item.type === 'save');
