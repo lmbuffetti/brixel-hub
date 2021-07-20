@@ -110,7 +110,7 @@ const MediaRewards = (props) => {
                     className="w-perc-100 ml-1 shadow-1dp brdMedium p-2 brdTrans"
                     colorIcon={documents.length > 0 ? 'green400' : 'primary700'}
                     backIcon={documents.length > 0 ? 'green100' : 'primary100'}
-                    onClick={() => history.push(`/${propID}/property/documents`)}
+                    onClick={() => history.push(`/${propID}/docubox`)}
                   />
                 </div>
 

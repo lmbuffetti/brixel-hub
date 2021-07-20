@@ -43,6 +43,7 @@ const Dashboard = (props) => {
     handleSpinnerOff,
     handleGetBuyerDeal,
     handleSetUserTypes,
+    history,
     loggedInUser,
     match,
     favoritesProperties,
@@ -95,6 +96,13 @@ const Dashboard = (props) => {
     }
   }, [propID, favoritesProperties]);
 
+  // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
+  useEffect(() => {
+    if (get(history, 'location.pathname', '').includes('deal')) {
+      history.push({ pathname: `/buyer/${propID}/closing` });
+    }
+  }, [history.location.pathname]);
+
   return (
     <div className="container dashboardContainer" id="dashboard">
       <Suspense fallback="">
@@ -102,7 +110,7 @@ const Dashboard = (props) => {
         <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
         <ProtectedRoute path="/buyer/:propID/rewards" component={RewardsBuyerDashboard} />
         <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
-        <ProtectedRoute path="/buyer/:propID/deal" component={DealsDashboardBuyer} />
+        <ProtectedRoute path="/buyer/:propID/closing" component={DealsDashboardBuyer} />
       </Suspense>
     </div>
   );
@@ -118,6 +126,7 @@ Dashboard.propTypes = {
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,

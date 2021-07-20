@@ -97,7 +97,7 @@ const Portals = (props) => {
                 icon="arrow-left-small"
                 theme="dark"
                 ghost
-                onClick={() => history.push(`/${propID}/listings`)}
+                onClick={() => history.push(`/${propID}/marketing`)}
               />
             </div>
             <h5 className="sectionTitle">Portals</h5>

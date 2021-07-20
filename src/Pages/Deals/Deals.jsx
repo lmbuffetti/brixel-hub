@@ -72,8 +72,6 @@ const Deals = (props) => {
     userLang,
     windowDimensions,
   } = props;
-  // URL PARAMS
-  const propID = get(match, 'params.propId', null);
 
   useEffect(() => {
     if (windowDimensions.width <= 1024 && !activeTab) {
@@ -169,7 +167,6 @@ const Deals = (props) => {
       data: deal,
       type,
     };
-
     handleSaveDeal(data);
   };
 
@@ -253,8 +250,11 @@ const Deals = (props) => {
       };
       resultArray.push(singleDeal);
     });
+    // Adding again parent scroll due to library constaints
+    const body = document.getElementById('bodyScroll');
+    body.classList.remove('ov-h');
 
-    return saveMultipleDeals(resultArray);
+    return saveMultipleDeals({ data: resultArray });
   }
 
   const calcHeightCard = (id) => {
@@ -267,11 +267,19 @@ const Deals = (props) => {
   };
 
   function onDragStart(result) {
+    // Remove parent scroll due to library constaints
+    const body = document.getElementById('bodyScroll');
+    body.classList.add('ov-h');
+
     const source = get(result, 'source.droppableId', '');
     const sourceIndex = get(result, 'source.index', '');
     const originCol = source.replace('right.', '');
     setActiveOrgColumn(originCol);
     setActiveIndexDeal(sourceIndex);
+
+    // Adding again parent scroll due to library constaints
+    const body2 = document.getElementById('bodyScroll');
+    body2.classList.remove('ov-h');
   }
 
   function onDragUpdate(result) {
@@ -324,245 +332,244 @@ const Deals = (props) => {
   };
 
   return (
-    <div className="dealsListings">
-      <div className="listings-header bg-white">
-        <div className="dis-f jc-b backPanel">
-          <h5 className="sectionTitle">Buyers</h5>
-          <div className="fixedIcon dis-f jc-fe-md w-perc-100">
-            <BrixelButtonIcon
-              className="hide-md"
-              icon="arrow-left-small"
-              theme="dark"
-              ghost
-              onClick={() => history.push(`/${propID}/deals`)}
-            />
-            <div className="dis-fl-row a-c zIndex3">
-              {
-                !emptyDeals && (
-                  <FilterBar
-                    sortBarType="deals"
-                    activeSortDirection=""
-                    activeSortOrderType=""
-                    activeSearchText=""
-                    filterDeals={filterStatus}
-                    applyFilter={(text, type, direction, company, filterModal) => applyFilter(text, type, direction, company, filterModal)}
-                    dealsFilter
-                  />
-                )
-              }
-              <BrixelButtonIcon
-                icon="plus"
-                className="ml-1"
-                onClick={() => createNewDeal()}
-                label="Add Deal"
-                tooltipWidth="88"
-              />
+    <div className="deals-container dis-f jc-fs h-perc-lg-100 a-t" id="dealsDashaboard">
+      <div className="w-perc-100 dis-fl-col ml-lg-1">
+        <div className="dealsListings">
+          <div className="listings-header bg-white">
+            <div className="dis-f jc-b">
+              <div className="dis-f jc-fe-md w-perc-100">
+                <div className="dis-fl-row a-c zIndex3 jc-b w-perc-100">
+                  <h4 className="ml-md-1 fweight-700">Prospects</h4>
+                  <div className="dis-fl-row a-c zIndex3">
+                    {
+                      !emptyDeals && (
+                        <FilterBar
+                          sortBarType="deals"
+                          activeSortDirection=""
+                          activeSortOrderType=""
+                          activeSearchText=""
+                          filterDeals={filterStatus}
+                          applyFilter={(text, type, direction, company, filterModal) => applyFilter(text, type, direction, company, filterModal)}
+                          dealsFilter
+                        />
+                      )
+                    }
+                    <BrixelButtonIcon
+                      icon="plus"
+                      className="ml-1"
+                      onClick={() => createNewDeal()}
+                      label="Add Deal"
+                      tooltipWidth="88"
+                    />
+                  </div>
+                </div>
+              </div>
+
             </div>
+            {
+              windowDimensions.width <= 1024 && (
+                <BrixelTabs
+                  className="mt-3"
+                  labels={['Interested', 'Visits', 'Offers']}
+                  clicksList={['interested', 'visits', 'offers']}
+                  onClick={(val) => mobileTabsDeal(val)}
+                  fullWidth
+                />
+              )
+            }
           </div>
+          <div className={`dealsWrapper ${emptyDeals ? 'emptyDeals' : ''}`}>
+            <div className="titleContainer">
+              {
+                filteredDeals && Object.keys(filteredDeals).map((key, i) => (
 
-        </div>
-        {
-          windowDimensions.width <= 1024 && (
-            <BrixelTabs
-              className="mt-2"
-              labels={['Interested', 'Visits', 'Offers']}
-              clicksList={['interested', 'visits', 'offers']}
-              onClick={(val) => mobileTabsDeal(val)}
-              fullWidth
-            />
-          )
-        }
-      </div>
-      <div className={`dealsWrapper ${emptyDeals ? 'emptyDeals' : ''}`}>
-        <div className="titleContainer">
-          {
-            filteredDeals && Object.keys(filteredDeals).map((key, i) => (
-
-              <div
-                key={i.toString()}
-                className={key === 'right' ? 'rightCol' : 'leftCol'}
+                  <div
+                    key={i.toString()}
+                    className={key === 'right' ? 'rightCol' : 'leftCol'}
+                  >
+                    {
+                      filteredDeals[key] && Object.keys(filteredDeals[key]).map((subkey, f) => (
+                        <React.Fragment key={f.toString()}>
+                          {
+                            (!activeTab || activeTab === subkey) && (
+                              <div className="pr-2">
+                                <DealsTitle
+                                  title={subkey}
+                                  total={get(filteredDeals, `${key}.${subkey}`, []).length}
+                                />
+                              </div>
+                            )
+                          }
+                        </React.Fragment>
+                      ))
+                    }
+                  </div>
+                ))
+              }
+            </div>
+            <div className="dealsContainer">
+              <DragDropContext
+                onDragEnd={onDragEnd}
+                onDragStart={onDragStart}
+                onDragUpdate={onDragUpdate}
               >
                 {
-                  filteredDeals[key] && Object.keys(filteredDeals[key]).map((subkey, f) => (
-                    <React.Fragment key={f.toString()}>
-                      {
-                        (!activeTab || activeTab === subkey) && (
-                          <div className="pr-2">
-                            <DealsTitle
-                              title={subkey}
-                              total={get(filteredDeals, `${key}.${subkey}`, []).length}
-                            />
+                  filteredDeals && Object.keys(filteredDeals).map((key, o) => (
+                    <React.Fragment key={o.toString()}>
+                      <div className={key === 'right' ? 'topParent bgWhite' : 'leftCol'}>
+                        <div className={`${key === 'right' ? 'rightCol parentScroll' : ''} dis-fl-col w-perc-100 h-perc-100`}>
+                          <div className="scrollContent">
+                            {
+                              activeSinglePropertyDeals && emptyDeals && (
+                                <div className="emptyMessage dis-f w-perc-100 jc-c">
+                                  <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
+                                    <h5> No deals yet?</h5>
+                                    <p className="p-3 txtDark700">
+                                      Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.
+                                    </p>
+                                    <BrixelButtonPrimary
+                                      label="Manage listings"
+                                      rounded
+                                      onClick={() => history.push(`/${activeSingleProperty.id}/marketing/page`)}
+                                    />
+                                  </div>
+                                </div>
+                              )
+                            }
+                            {
+                              filteredDeals[key] && Object.keys(filteredDeals[key]).map((subkey, m) => (
+                                <React.Fragment key={m.toString()}>
+                                  {
+                                    (!activeTab || activeTab === subkey) && (
+                                      <div
+                                        className={`singleCol ${activeDestColumn === subkey ? 'active' : ''} ${activeOrgColumn !== subkey ? 'blockAnimation' : ''} ${subkey}`}
+                                        style={{
+                                          /* flex: `0 0 calc(${100 / Object.keys(processedDeals[key]).length}% + 32px)`, */
+                                          /* left: `${20 * (-f - 1)}px`, */
+                                        }}
+                                      >
+                                        <Droppable droppableId={`${key}.${subkey}`}>
+                                          {
+                                            (provided) => (
+                                              <div
+                                                className="listWrapper"
+                                                {...provided.droppableProps}
+                                                ref={provided.innerRef}
+                                              >
+                                                {
+                                                  emptyDeals && (
+                                                    <>
+                                                      <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{subkey}</span>
+                                                      <img src={DealSkelton} alt="skelton deals" />
+                                                      { subkey === 'interested' && (<img className="mt-3 mb-2" src={DealSkelton} alt="skelton deals" />)}
+                                                    </>
+                                                  )
+                                                }
+                                                {
+                                                  get(filteredDeals[key], subkey, []).filter((deal) => deal.active).map((item, k) => (
+                                                    <Fragment key={k.toString()}>
+                                                      {
+                                                        activeIndexDeal === k && activeOrgColumn === subkey && (
+                                                          <div className={`list-item pos-r ${!item.active ? 'archived' : ''}`}>
+                                                            <div
+                                                              id={`emptyCard_${subkey}-${k}`}
+                                                              className="emptyCard mb-2"
+                                                              style={{
+                                                                height: calcHeightCard(`${subkey}-${k}`),
+                                                              }}
+                                                            />
+                                                          </div>
+                                                        )
+                                                      }
+                                                      <Draggable
+                                                        draggableId={`${subkey}-${k}`}
+                                                        index={k}
+                                                      >
+                                                        {
+                                                          (provided2) => (
+                                                            <div
+                                                              id={`${subkey}-${k}`}
+                                                              ref={provided2.innerRef}
+                                                              {...provided2.draggableProps}
+                                                              {...provided2.dragHandleProps}
+                                                              className={`list-item pos-r ${!item.active ? 'archived' : ''} ${activeIndexDeal === k && activeOrgColumn === subkey ? 'enabled' : ''}`}
+                                                            >
+                                                              <DealsCard
+                                                                avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
+                                                                className={`${!item.active ? 'bgLight100' : 'bgWhite'} dealCard`}
+                                                                profileId={get(item, 'user.id', '')}
+                                                                name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
+                                                                hasMessage={item.actionStub}
+                                                                date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
+                                                                parentOnClick={() => openDeal(item.id)}
+                                                                archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                                archived={!item.active}
+                                                                isWinner={get(item, 'winner')}
+                                                                isNew={get(item, 'newSeller')}
+                                                                lastAction={has(item, 'lastAction') ? item.lastAction : {}}
+                                                              />
+                                                            </div>
+                                                          )
+                                                        }
+                                                      </Draggable>
+                                                    </Fragment>
+                                                  ))
+                                                }
+                                                {provided.placeholder}
+                                                {
+                                                  get(filteredDeals[key], subkey, []).filter((deal) => !deal.active).map((item, j) => (
+                                                    <React.Fragment key={j.toString()}>
+                                                      {
+                                                        j === 0 && (
+                                                          <div
+                                                            className="mb-3 dis-fl-row jc-c"
+                                                          >
+                                                            <span className="fsize-200 txtLight400">
+                                                              Archived
+                                                            </span>
+                                                          </div>
+                                                        )
+                                                      }
+                                                      <div
+                                                        className={`list-item pos-r ${!item.active ? 'archived' : ''}`}
+                                                      >
+                                                        <DealsCard
+                                                          avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
+                                                          className={!item.active ? 'bgLight100' : 'bgWhite'}
+                                                          profileId={get(item, 'user.id', '')}
+                                                          name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
+                                                          hasMessage={item.actionStub}
+                                                          date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
+                                                          parentOnClick={() => openDeal(item.id)}
+                                                          archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                          archived={!item.active}
+                                                          isWinner={get(item, 'winner')}
+                                                          isNew={get(item, 'newSeller')}
+                                                          lastAction={has(item, 'lastAction') ? item.lastAction : {}}
+                                                        />
+                                                      </div>
+                                                    </React.Fragment>
+                                                  ))
+                                                }
+                                              </div>
+                                            )
+                                          }
+                                        </Droppable>
+                                      </div>
+                                    )
+                                  }
+                                </React.Fragment>
+                              ))
+                            }
                           </div>
-                        )
-                      }
+                        </div>
+                      </div>
                     </React.Fragment>
                   ))
                 }
-              </div>
-            ))
-          }
-        </div>
-        <div className="dealsContainer">
-          <DragDropContext
-            onDragEnd={onDragEnd}
-            onDragStart={onDragStart}
-            onDragUpdate={onDragUpdate}
-          >
-            {
-              filteredDeals && Object.keys(filteredDeals).map((key, o) => (
-                <React.Fragment key={o.toString()}>
-                  <div className={key === 'right' ? 'topParent bgWhite' : 'leftCol'}>
-                    <div className={`${key === 'right' ? 'rightCol parentScroll' : ''} dis-fl-col w-perc-100 h-perc-100`}>
-                      <div className="scrollContent">
-                        {
-                          activeSinglePropertyDeals && emptyDeals && (
-                            <div className="emptyMessage dis-f w-perc-100 jc-c">
-                              <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
-                                <h5> No deals yet?</h5>
-                                <p className="p-3 txtDark700">
-                                  Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.
-                                </p>
-                                <BrixelButtonPrimary
-                                  label="Manage listings"
-                                  rounded
-                                  onClick={() => history.push(`/${activeSingleProperty.id}/listings/page`)}
-                                />
-                              </div>
-                            </div>
-                          )
-                        }
-                        {
-                          filteredDeals[key] && Object.keys(filteredDeals[key]).map((subkey, m) => (
-                            <React.Fragment key={m.toString()}>
-                              {
-                                (!activeTab || activeTab === subkey) && (
-                                  <div
-                                    className={`singleCol ${activeDestColumn === subkey ? 'active' : ''} ${activeOrgColumn !== subkey ? 'blockAnimation' : ''} ${subkey}`}
-                                    style={{
-                                      /* flex: `0 0 calc(${100 / Object.keys(processedDeals[key]).length}% + 32px)`, */
-                                      /* left: `${20 * (-f - 1)}px`, */
-                                    }}
-                                  >
-                                    <Droppable droppableId={`${key}.${subkey}`}>
-                                      {
-                                        (provided) => (
-                                          <div
-                                            className="listWrapper"
-                                            {...provided.droppableProps}
-                                            ref={provided.innerRef}
-                                          >
-                                            {
-                                              emptyDeals && (
-                                                <>
-                                                  <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{subkey}</span>
-                                                  <img src={DealSkelton} alt="skelton deals" />
-                                                  { subkey === 'interested' && (<img className="mt-3 mb-2" src={DealSkelton} alt="skelton deals" />)}
-                                                </>
-                                              )
-                                            }
-                                            {
-                                              get(filteredDeals[key], subkey, []).filter((deal) => deal.active).map((item, k) => (
-                                                <Fragment key={k.toString()}>
-                                                  {
-                                                    activeIndexDeal === k && activeOrgColumn === subkey && (
-                                                      <div className={`list-item pos-r ${!item.active ? 'archived' : ''}`}>
-                                                        <div
-                                                          id={`emptyCard_${subkey}-${k}`}
-                                                          className="emptyCard mb-2"
-                                                          style={{
-                                                            height: calcHeightCard(`${subkey}-${k}`),
-                                                          }}
-                                                        />
-                                                      </div>
-                                                    )
-                                                  }
-                                                  <Draggable
-                                                    draggableId={`${subkey}-${k}`}
-                                                    index={k}
-                                                  >
-                                                    {
-                                                      (provided2) => (
-                                                        <div
-                                                          id={`${subkey}-${k}`}
-                                                          ref={provided2.innerRef}
-                                                          {...provided2.draggableProps}
-                                                          {...provided2.dragHandleProps}
-                                                          className={`list-item pos-r ${!item.active ? 'archived' : ''} ${activeIndexDeal === k && activeOrgColumn === subkey ? 'enabled' : ''}`}
-                                                        >
-                                                          <DealsCard
-                                                            avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
-                                                            className={`${!item.active ? 'bgLight100' : 'bgWhite'} dealCard`}
-                                                            profileId={get(item, 'user.id', '')}
-                                                            name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
-                                                            hasMessage={item.actionStub}
-                                                            date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
-                                                            parentOnClick={() => openDeal(item.id)}
-                                                            archOnClick={() => archiveDeal(item.id, item.stage, key)}
-                                                            archived={!item.active}
-                                                            isWinner={get(item, 'winner')}
-                                                            isNew={get(item, 'newSeller')}
-                                                            lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                          />
-                                                        </div>
-                                                      )
-                                                    }
-                                                  </Draggable>
-                                                </Fragment>
-                                              ))
-                                            }
-                                            {provided.placeholder}
-                                            {
-                                              get(filteredDeals[key], subkey, []).filter((deal) => !deal.active).map((item, j) => (
-                                                <React.Fragment key={j.toString()}>
-                                                  {
-                                                    j === 0 && (
-                                                      <div
-                                                        className="mb-3 dis-fl-row jc-c"
-                                                      >
-                                                        <span className="fsize-200 txtLight400">
-                                                          Archived
-                                                        </span>
-                                                      </div>
-                                                    )
-                                                  }
-                                                  <div
-                                                    className={`list-item pos-r ${!item.active ? 'archived' : ''}`}
-                                                  >
-                                                    <DealsCard
-                                                      avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
-                                                      className={!item.active ? 'bgLight100' : 'bgWhite'}
-                                                      profileId={get(item, 'user.id', '')}
-                                                      name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
-                                                      hasMessage={item.actionStub}
-                                                      date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
-                                                      parentOnClick={() => openDeal(item.id)}
-                                                      archOnClick={() => archiveDeal(item.id, item.stage, key)}
-                                                      archived={!item.active}
-                                                      isWinner={get(item, 'winner')}
-                                                      isNew={get(item, 'newSeller')}
-                                                      lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                    />
-                                                  </div>
-                                                </React.Fragment>
-                                              ))
-                                            }
-                                          </div>
-                                        )
-                                      }
-                                    </Droppable>
-                                  </div>
-                                )
-                              }
-                            </React.Fragment>
-                          ))
-                        }
-                      </div>
-                    </div>
-                  </div>
-                </React.Fragment>
-              ))
-            }
-          </DragDropContext>
+              </DragDropContext>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -23,6 +23,7 @@ import { checkToken, setUserTypes } from './actions/UserActions';
 import {
   setLanguage, setModal, setWindowDimensions, setScreenNotification,
 } from './actions/CommonActions';
+import { setActiveSingleProperty } from './actions/PropertyActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
@@ -92,6 +93,7 @@ const App = (props) => {
     handleCheckToken,
     handleGetImageType,
     handleReset,
+    handleSetActiveSingleProperty,
     handleSetLanguage,
     handleSetModal,
     handleSetNotification,
@@ -169,6 +171,10 @@ const App = (props) => {
     if (get(history, 'location', null) && typeof ga !== 'undefined') {
       ga('send', 'pageview', history.location.pathname);
     }
+    const splittedURL = get(history, 'location.pathname', '').split('/');
+    if (splittedURL[1] === 'sell' || splittedURL[1] === 'buy') {
+      handleSetActiveSingleProperty({});
+    }
   }, [history.location]);
 
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
@@ -208,15 +214,15 @@ const App = (props) => {
     } else {
       if (history.location.pathname.includes('rewards')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('deal')) {
+      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects')) {
         if (history.location.pathname.includes('buyer')) {
           setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
         } else {
           setClassMain('w-perc-100 pos-r hubContainer propertyTop withTopBar sellerHub');
         }
-      } else if (history.location.pathname.includes('listings')) {
-        setClassMain('w-perc-100 pos-r hubContainer listingsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('deals')) {
+      } else if (history.location.pathname.includes('marketing')) {
+        setClassMain('w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub');
+      } else if (history.location.pathname.includes('prospects') || history.location.pathname.includes('closing')) {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('/sell') || history.location.pathname.includes('/buy')) {
         setClassMain('w-perc-100 pos-r ov-h marketHome');
@@ -233,9 +239,9 @@ const App = (props) => {
     if (
       (
         history.location.pathname.includes('property/') ||
-        history.location.pathname.includes('listings/') ||
-        history.location.pathname.includes('deals/') ||
-        history.location.pathname.includes('rewards/')
+        history.location.pathname.includes('marketing/') ||
+        history.location.pathname.includes('rewards/') ||
+        history.location.pathname.includes('closing/')
       ) &&
       windowDimensions.width <= 1024 &&
       !history.location.pathname.includes('buyer')
@@ -287,15 +293,6 @@ const App = (props) => {
       if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = { hideLoad: true };
       handleCheckToken(data);
     }
-    /*  window.addEventListener('resize', () => {
-      handleSetWindowsDimension({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-      headerCalc();
-      calcHeaderHeight();
-      calcFlowHeaderHeight();
-    }); */
     handleGetImageType({ smallLoader: 'imgType' });
   }, []);
 
@@ -326,7 +323,7 @@ const App = (props) => {
   }, [window]);
 
   const overflowClass = useCallback(() => {
-    if (history.location.pathname.includes('deals') && !history.location.pathname.includes('offers')) return 'ov-y-h ov-x-h';
+    if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) return 'ov-y-h ov-x-h';
     return 'ov-y-a ov-x-h';
   }, []);
 
@@ -383,14 +380,15 @@ const App = (props) => {
                 {
                   (
                     !history.location.pathname.includes('packageFlow') &&
-                  !history.location.pathname.includes('onBoarding')) &&
-                !history.location.pathname.includes('upgrade') &&
-                !history.location.pathname.includes('trialRequest') &&
-                (
-                  <>
-                    <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
-                  </>
-                )
+                    !history.location.pathname.includes('onBoarding')
+                  ) &&
+                  !history.location.pathname.includes('upgrade') &&
+                  !history.location.pathname.includes('trialRequest') &&
+                  (
+                    <>
+                      <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                    </>
+                  )
                 }
                 {
                   !history.location.pathname.includes('packageFlow') &&
@@ -403,6 +401,7 @@ const App = (props) => {
                 !history.location.pathname.includes('propertyLists') &&
                 !history.location.pathname.includes('pageLists') &&
                 loggedInUser &&
+                windowDimensions.width > 1024 &&
                 (
                   <MenuSidebar />
                 )
@@ -438,10 +437,14 @@ const App = (props) => {
                           <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
                           <ProtectedRoute path="/" exact component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/docubox" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/closing" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/listings" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/marketing" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/deals" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/prospects" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/offers" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/deal" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
                         </>
@@ -476,8 +479,8 @@ const App = (props) => {
             <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
             <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
             <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
-            <ProtectedRoute exact path="/:propID/deals/lists/:dealID/deal" component={SingleDeal} />
-            <ProtectedRoute exact path="/:propID/deals/lists/newDeal" component={CreateDeal} />
+            <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
+            <ProtectedRoute exact path="/:propID/prospects/newDeal" component={CreateDeal} />
           </Switch>
         }
 
@@ -513,7 +516,7 @@ const App = (props) => {
 
         {
           has(splashScreenType, 'component') && (
-            React.createElement(splashScreenType.component)
+            React.createElement(splashScreenType.component, splashScreenType.props)
           )
         }
 
@@ -565,10 +568,10 @@ const App = (props) => {
         <Switch>
           <Route
             exact
-            path="/:propID/property/documents/:docID/editDocument"
+            path="/:propID/docubox/:docID/editDocument"
             component={SingleDocument}
           />
-          <Route exact path="/:propID/deals/newDeal" component={CreateDeal} />
+          <Route exact path="/:propID/prospects/newDeal" component={CreateDeal} />
         </Switch>
       </Suspense>
     </main>
@@ -580,6 +583,7 @@ App.propTypes = {
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
@@ -621,12 +625,13 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form, value) {
     dispatch(reset(form, value));
   },
-  handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleCheckToken: bindActionCreators(checkToken, dispatch),
-  handleSetModal: bindActionCreators(setModal, dispatch),
+  handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 

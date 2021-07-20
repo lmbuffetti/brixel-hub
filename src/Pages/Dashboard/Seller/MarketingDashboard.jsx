@@ -15,13 +15,13 @@ import isNumber from 'lodash/isNumber';
 import Sticker from 'react-stickyfill';
 import Loading from '../../../components/Loading';
 
-const Showings = lazy(() => import('../../Listings/Showings'));
+const Showings = lazy(() => import('../../Marketing/Showings'));
 
-const Page = lazy(() => import('../../Listings/Page'));
+const Page = lazy(() => import('../../Marketing/Page'));
 
-const Portals = lazy(() => import('../../Listings/Portals'));
+const Portals = lazy(() => import('../../Marketing/Portals'));
 
-const ListingsDashboard = (props) => {
+const MarketingDashboard = (props) => {
   // PROPS
   const {
     formValue,
@@ -35,8 +35,8 @@ const ListingsDashboard = (props) => {
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
-    if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'listings') {
-      history.push({ pathname: `/${propID}/listings/page` });
+    if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'marketing') {
+      history.push({ pathname: `/${propID}/marketing/page` });
     }
   }, [windowDimensions, getFact()]);
 
@@ -128,7 +128,7 @@ const ListingsDashboard = (props) => {
                   className={`w-perc-100 max-w-perc-50 mr-1 shadow-1dp brdMedium p-2 ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon="primary700"
                   backIcon="primary100"
-                  onClick={() => history.push(`/${propID}/listings/page`)}
+                  onClick={() => history.push(`/${propID}/marketing/page`)}
                   status={statusPage().colorIcon}
                 />
                 <BrixelButtonBox
@@ -142,7 +142,7 @@ const ListingsDashboard = (props) => {
                   className={`w-perc-100 max-w-perc-50 ml-1 shadow-1dp brdMedium p-2 ${getFact() === 'portals' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   colorIcon="primary700"
                   backIcon="primary100"
-                  onClick={() => history.push(`/${propID}/listings/portals`)}
+                  onClick={() => history.push(`/${propID}/marketing/portals`)}
                   status={statusPortals().colorIcon}
                   selected
                 />
@@ -211,7 +211,7 @@ const ListingsDashboard = (props) => {
         />
       </div> */}
       {
-        getFact() !== 'listings' && (
+        getFact() !== 'marketing' && (
           <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'closed' : 'opened'}`}>
             {
               (
@@ -222,12 +222,12 @@ const ListingsDashboard = (props) => {
               )
                 ? (
                   <Suspense fallback={<Loading isLoading />}>
-                    <Route path="/:propId/listings/showings" component={Showings} />
-                    <Route path="/:propId/listings/page" exact component={Page} />
-                    <Route path="/:propId/listings/portals" exact component={Portals} />
+                    <Route path="/:propId/marketing/showings" component={Showings} />
+                    <Route path="/:propId/marketing/page" exact component={Page} />
+                    <Route path="/:propId/marketing/portals" exact component={Portals} />
                   </Suspense>
                 ) : (
-                  <Redirect from="/:propId/listings/*" to={`/${propID}/listings/page`} />
+                  <Redirect from="/:propId/marketing/*" to={`/${propID}/marketing/page`} />
                 )
             }
 
@@ -238,14 +238,14 @@ const ListingsDashboard = (props) => {
   );
 };
 
-ListingsDashboard.propTypes = {
+MarketingDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
-ListingsDashboard.defaultProps = {
+MarketingDashboard.defaultProps = {
 
 };
 
@@ -257,4 +257,4 @@ const mapStateToProps = (state) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, null),
-)(ListingsDashboard);
+)(MarketingDashboard);

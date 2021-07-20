@@ -94,7 +94,7 @@ const MarketCard = (props) => {
         ((
           type === 'premium' || get(item, 'tags', []).includes('premium') ||
           type === 'new' || get(item, 'tags', []).includes('new')
-        ) && type !== 'favorite' && !history.location.pathname.includes('sell'))
+        ) && type !== 'favorite' && type !== 'wishlist' && !history.location.pathname.includes('sell'))
       ) {
         setSplashScreen('marketOverlay');
         setMarketOverlayProperty(item);
@@ -228,7 +228,7 @@ const MarketCard = (props) => {
                           <p
                             key={i.toString()}
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
-                            onClick={() => tag === 'pre-market' && history.push(`/${item.id}/listings/portals`)}
+                            onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
                           >
                             <span className="type">{getTypeText(tag)}</span>
                           </p>

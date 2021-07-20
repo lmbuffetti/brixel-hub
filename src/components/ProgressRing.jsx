@@ -7,11 +7,12 @@ const ProgressRing = (props) => {
   const [offset, setOffset] = useState(0);
   const circleRef = useRef(null);
   const {
-    size,
-    progress,
-    strokeWidth,
     circleOneStroke,
     circleTwoStroke,
+    progress,
+    showIcon,
+    size,
+    strokeWidth,
   } = props;
 
   const center = size / 2;
@@ -27,7 +28,11 @@ const ProgressRing = (props) => {
 
   return (
     <div className="pos-r">
-      <img width={size / 2.5} height={size / 2.5} className="factIcon pos-a xy-c" alt="factIcon" src={factIcon} />
+      {
+        showIcon && (
+          <img width={size / 2.5} height={size / 2.5} className="factIcon pos-a xy-c" alt="factIcon" src={factIcon} />
+        )
+      }
       <svg
         className="progressRing"
         width={size}
@@ -59,11 +64,16 @@ const ProgressRing = (props) => {
 };
 
 ProgressRing.propTypes = {
-  size: PropTypes.number.isRequired,
-  progress: PropTypes.number.isRequired,
-  strokeWidth: PropTypes.number.isRequired,
   circleOneStroke: PropTypes.string.isRequired,
   circleTwoStroke: PropTypes.string.isRequired,
+  progress: PropTypes.number.isRequired,
+  showIcon: PropTypes.bool,
+  size: PropTypes.number.isRequired,
+  strokeWidth: PropTypes.number.isRequired,
+};
+
+ProgressRing.defaultProps = {
+  showIcon: true,
 };
 
 export default ProgressRing;

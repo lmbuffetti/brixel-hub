@@ -172,10 +172,12 @@ const Facts = (props) => {
           <div className="inputSheet">
             {
               Questions.map((quest, i) => (
-                <div
-                  className={`accordWrap cur-poi ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
+                <button
+                  type="button"
+                  className={`dis-b w-perc-100 accordWrap cur-poi ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
                   key={i.toString()}
                   onClick={() => onSelectQuest(quest)}
+                  aria-label={quest.title}
                 >
                   <div className="accordControl dis-f a-c jc-b py-small-14">
                     <div className="accordTitle dis-f a-c">
@@ -199,7 +201,7 @@ const Facts = (props) => {
                     />
                   </div>
 
-                </div>
+                </button>
               ))
             }
           </div>

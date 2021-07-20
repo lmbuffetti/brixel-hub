@@ -142,7 +142,7 @@ const Showings = (props) => {
                 className={`shadow-3dp hide-md ${manageAvailability ? 'opacity0' : ''}`}
                 icon="arrow-simple-left"
                 ghost
-                onClick={() => history.push(`/${propID}/listings`)}
+                onClick={() => history.push(`/${propID}/marketing`)}
               />
               <h5 className="sectionTitle">Showings</h5>
               <BrixelButtonIcon
@@ -214,7 +214,7 @@ const Showings = (props) => {
                                   buyer={day.buyer}
                                   onAccept={() => manageBooking(day, 'accepted')}
                                   onCancel={() => manageBooking(day, 'canceled')}
-                                  onAdd={() => history.push(`/${propID}/listings/showings/addBooking/${day.id}`)}
+                                  onAdd={() => history.push(`/${propID}/marketing/showings/addBooking/${day.id}`)}
                                   insertBooking={day.slot.status === 'free'}
                                   showActions={DateTime.fromSQL(day.slot.slot).toMillis() > DateTime.now().toMillis()}
                                 />
@@ -250,7 +250,7 @@ const Showings = (props) => {
         getFact() !== 'showings' && (
           <Suspense fallback={<Loading isLoading />}>
             <Route
-              path="/:propId/listings/showings/addBooking/:idShowing"
+              path="/:propId/marketing/showings/addBooking/:idShowing"
               exact
               component={AddShowings}
             />

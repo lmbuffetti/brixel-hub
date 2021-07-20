@@ -35,7 +35,7 @@ const PagePublishedRewards = (props) => {
 
   // FUNCTION TO GO TO /LISTINGS/PAGE
   const openPreview = () => {
-    history.push(`/${propID}/listings/page`);
+    history.push(`/${propID}/marketing/page`);
   };
 
   return (

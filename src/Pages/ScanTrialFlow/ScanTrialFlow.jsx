@@ -113,6 +113,8 @@ const ScanTrialFlow = (props) => {
           user: loggedInUser.id,
           meta: {
             ...obj,
+            analysis: obj.analysis || 'on-site',
+            bookType: obj.bookType || 'online',
             answers: formValue,
           },
           userName: get(formValue, 'name', ''),
@@ -347,7 +349,7 @@ const ScanTrialFlow = (props) => {
                     <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.title && (
-                          <h2 className={`fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h2 className={`fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
                       {/*                       {

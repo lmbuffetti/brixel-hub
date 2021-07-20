@@ -6,15 +6,17 @@ import {
   withRouter,
 } from 'react-router-dom';
 import get from 'lodash/get';
-import has from 'lodash/has';
+// import has from 'lodash/has';
 import {
   BrixelButtonBox,
-  FormatValue,
+  // FormatValue,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import Loading from '../../../components/Loading';
+
+const Price = lazy(() => import('../../EditProperty/Price'));
 
 const Facts = lazy(() => import('../../EditProperty/Facts'));
 
@@ -24,8 +26,6 @@ const Plans = lazy(() => import('../../EditProperty/Media/Plans'));
 
 const Tour = lazy(() => import('../../EditProperty/Media/Tour'));
 
-const Documents = lazy(() => import('../../EditProperty/Documents'));
-
 const HomeDashboard = (props) => {
   // PROPS
   const {
@@ -33,7 +33,7 @@ const HomeDashboard = (props) => {
     history,
     // loggedInUser,
     match,
-    property,
+    // property,
     windowDimensions,
   } = props;
   // STATE
@@ -45,7 +45,7 @@ const HomeDashboard = (props) => {
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'property') {
-      history.push({ pathname: `/${propID}/property/facts` });
+      history.push({ pathname: `/${propID}/property/price` });
     }
   }, [windowDimensions, getFact()]);
 
@@ -73,7 +73,7 @@ const HomeDashboard = (props) => {
           {
             windowDimensions.width <= 1024 && (
               <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
-                <div
+                {/* <div
                   className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
                   onClick={() => history.push(`/${propID}/property/facts`)}
                 >
@@ -118,8 +118,37 @@ const HomeDashboard = (props) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
+                <div className="dis-f mt-2">
+                  <BrixelButtonBox
+                    verticalView
+                    bgTransparent
+                    icon="calculator"
+                    label="Price"
+                    labelClass="fweight-400"
+                    subtitle="On request"
+                    subtitleClass="fsize-200 pt-small-6 txtDark200"
+                    className="w-perc-100 mr-1 shadow-1dp brdMedium brdTrans p-2"
+                    colorIcon="primary700"
+                    backIcon="primary100 "
+                    onClick={() => history.push(`/${propID}/property/price`)}
+                  />
+                  <BrixelButtonBox
+                    verticalView
+                    bgTransparent
+                    icon="document"
+                    label="Facts"
+                    labelClass="fweight-400"
+                    subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
+                    subtitleClass="fsize-200 pt-small-6 txtPrimary700"
+                    className="w-perc-100 ml-1 shadow-1dp brdMedium brdTrans p-2"
+                    colorIcon="primary700"
+                    backIcon="primary100"
+                    onClick={() => history.push(`/${propID}/property/facts`)}
+                    selected
+                  />
+                </div>
                 <div className="dis-f mt-2">
                   <BrixelButtonBox
                     verticalView
@@ -164,20 +193,6 @@ const HomeDashboard = (props) => {
                     onClick={() => history.push(`/${propID}/property/tour`)}
                     status={get(formValue, 'virtual.matterport', null) ? 'green' : 'red'}
                   />
-
-                  <BrixelButtonBox
-                    verticalView
-                    bgTransparent
-                    icon="folder"
-                    label="Docubox"
-                    labelClass="fweight-400"
-                    subtitle={`<span>${calcLenght(get(formValue, 'documents', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'documents', [])) !== 1 ? 'Files' : 'File'}</span>`}
-                    subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'documents', [])) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
-                    className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'documents' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
-                    colorIcon="primary700"
-                    backIcon="primary100"
-                    onClick={() => history.push(`/${propID}/property/documents`)}
-                  />
                 </div>
 
               </div>
@@ -196,10 +211,10 @@ const HomeDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Route path="/:propId?/property/facts" component={Facts} />
+                <Route path="/:propId?/property/price" component={Price} />
                 <Route path="/:propId?/property/photos" component={Photos} />
                 <Route path="/:propId?/property/floorPlans" component={Plans} />
                 <Route path="/:propId?/property/tour" exact component={Tour} />
-                <Route path="/:propId?/property/documents" component={Documents} />
               </Suspense>
             </div>
           )
@@ -214,7 +229,7 @@ HomeDashboard.propTypes = {
   history: PropTypes.object.isRequired,
   // loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  property: PropTypes.object.isRequired,
+  // property: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -225,7 +240,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  property: get(state, 'property.activeSingleProperty', {}),
+  // property: get(state, 'property.activeSingleProperty', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
