@@ -227,31 +227,18 @@ const ProEstimationFlow = (props) => {
                         saturation={400}
                         theme="red"
                         label="Discard"
-                        onClick={() => closeWindow()}
+                        onClick={() => (savedBtn ? '' : closeWindow())}
                       />
-                      {
-                        savedBtn ? (
-                          <BrixelButtonPrimary
-                            rounded
-                            className="noWrap"
-                            saturation={400}
-                            theme="green"
-                            label="Saved"
-                            leftIcon="check"
-                            onClick={() => ''}
-                          />
-                        ) : (
-                          <BrixelButtonPrimary
-                            rounded
-                            className="noWrap"
-                            saturation={400}
-                            theme="primary"
-                            label="Save"
-                            onClick={() => saveData()}
-                            isLoading={isSmallLoading.saveData}
-                          />
-                        )
-                      }
+                      <BrixelButtonPrimary
+                        rounded
+                        className="noWrap"
+                        saturation={400}
+                        theme={savedBtn ? 'green' : 'primary'}
+                        label="Save"
+                        onClick={() => (savedBtn ? '' : saveData())}
+                        isLoading={isSmallLoading.saveData}
+                        isSaved={savedBtn}
+                      />
                     </div>
                   ) : (
                     <>
