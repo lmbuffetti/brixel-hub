@@ -443,6 +443,8 @@ const App = (props) => {
                           <ProtectedRoute path="/:propId?/marketing" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/prospects" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/offers" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/deal" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
                         </>

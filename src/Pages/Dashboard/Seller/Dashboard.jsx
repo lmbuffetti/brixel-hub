@@ -115,6 +115,9 @@ const Dashboard = (props) => {
     ) {
       resetForm(initialValues);
     }
+    if (get(history, 'location.pathname', '').includes('deal')) {
+      history.push({ pathname: `/${propID}/prospects` });
+    }
   }, [history.location.pathname]);
 
   // CHECK IF USER IS LOGGED IN AND LOAD GAME HISTORY IF NO DATA
