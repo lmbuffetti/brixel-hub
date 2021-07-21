@@ -115,7 +115,7 @@ const Dashboard = (props) => {
     ) {
       resetForm(initialValues);
     }
-    if (get(history, 'location.pathname', '').includes('deal')) {
+    if (get(history, 'location.pathname', '').includes('deal') && !get(history, 'location.pathname', '').includes('prospects')) {
       history.push({ pathname: `/${propID}/prospects` });
     }
   }, [history.location.pathname]);
