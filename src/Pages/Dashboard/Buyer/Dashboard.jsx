@@ -98,7 +98,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
-    if (get(history, 'location.pathname', '').includes('deal')) {
+    if (get(history, 'location.pathname', '').includes('deal') && !get(history, 'location.pathname', '').includes('closing')) {
       history.push({ pathname: `/buyer/${propID}/closing` });
     }
   }, [history.location.pathname]);
