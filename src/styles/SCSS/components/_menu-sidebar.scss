@@ -6,8 +6,10 @@
   left: 0;
   top: 0;
   background-color: white;
-  width: 0;
-  position: sticky;
+  @media (min-width: $responsive-medium) {
+    width: 0;
+    position: sticky;
+  }
 
   .admin-info {
     // border-bottom: 1px solid map_get($lightColor, 400);

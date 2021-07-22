@@ -7,8 +7,13 @@ export const sidebarNavigationSeller = [
   {
     title: 'Property',
     name: 'property',
-    path: '/:propID/property/facts/propertyType',
+    path: '/:propID/property',
     submenu: [
+      {
+        title: 'Price',
+        name: 'price',
+        path: '/:propID/property/price',
+      },
       {
         title: 'Facts',
         name: 'facts',
@@ -29,46 +34,39 @@ export const sidebarNavigationSeller = [
         name: 'tour',
         path: '/:propID/property/tour',
       },
-      {
-        title: 'Docubox',
-        name: 'documents',
-        path: '/:propID/property/documents',
-      },
     ],
   },
   {
-    title: 'Listings',
-    name: 'listings',
-    path: '/:propID/listings',
+    title: 'Docubox',
+    name: 'docubox',
+    path: '/:propID/docubox',
+  },
+  {
+    title: 'Marketing',
+    name: 'marketing',
+    path: '/:propID/marketing',
     submenu: [
       {
         title: 'Page',
         name: 'page',
-        path: '/:propID/listings/page',
+        path: '/:propID/marketing/page',
       },
       {
         title: 'Portals',
         name: 'portals',
-        path: '/:propID/listings/portals',
+        path: '/:propID/marketing/portals',
       },
     ],
   },
   {
-    title: 'Deals',
-    name: 'deals',
-    path: '/:propID/deals',
-    submenu: [
-      {
-        title: 'Buyers',
-        name: 'lists',
-        path: '/:propID/deals/lists',
-      },
-      {
-        title: 'Offers',
-        name: 'offers',
-        path: '/:propID/deals/offers',
-      },
-    ],
+    title: 'Prospects',
+    name: 'prospects',
+    path: '/:propID/prospects',
+  },
+  {
+    title: 'Closing',
+    name: 'closing',
+    path: '/:propID/closing',
   },
 ];
 
@@ -76,7 +74,7 @@ export const sidebarNavigationBuyer = [
   {
     title: 'Property',
     name: 'property',
-    path: '/buyer/:propID/property/page',
+    path: '/buyer/:propID/property',
     submenu: [
       {
         title: 'Contact',
@@ -95,68 +93,14 @@ export const sidebarNavigationBuyer = [
       },
       {
         title: 'Docubox',
-        name: 'documents',
-        path: '/buyer/:propID/property/documents',
+        name: 'docubox',
+        path: '/buyer/:propID/property/docubox',
       },
     ],
   },
   {
-    title: 'Deal',
-    name: 'deal',
-    path: '/buyer/:propID/deal/:dealID',
-  },
-];
-
-export const firstRoutes = [
-  {
-    title: 'Home',
-    name: 'rewards',
-    icon: 'first-time-occupancy',
-    path: '/:propID/rewards',
-  },
-  {
-    title: 'Property',
-    name: 'property',
-    icon: 'property-house',
-    path: '/:propID/property',
-  },
-  {
-    title: 'Listings',
-    name: 'listings',
-    icon: 'upload',
-    path: '/:propID/listings',
-  },
-  {
-    title: 'Deals',
-    name: 'deals',
-    icon: 'money',
-    path: '/:propID/deals',
-  },
-];
-
-export const secondRoutes = [
-  {
-    title: 'Property List',
-    name: 'seller',
-    icon: 'property-house',
-    path: '/seller/pageLists',
-  },
-];
-
-export const firstRoutesBuyer = [
-  {
-    title: 'Property',
-    name: 'property',
-    icon: 'property-house',
-    path: '/buyer/:propID/property',
-  },
-];
-
-export const secondRoutesBuyer = [
-  {
-    title: 'Property List',
-    name: 'buyer',
-    icon: 'property-house',
-    path: '/seller/pageLists',
+    title: 'Closing',
+    name: 'closing',
+    path: '/buyer/:propID/closing/:dealID',
   },
 ];

@@ -49,7 +49,6 @@ describe('Render Sell Home', () => {
     '/100000000000000000000000/property/photos',
     '/100000000000000000000000/property/floorPlans',
     '/100000000000000000000000/property/tour',
-    '/100000000000000000000000/property/documents',
   ];
 
   for (let i = 0; i < urlToTest.length; i += 1) {
@@ -67,7 +66,7 @@ describe('Render Sell Home', () => {
 
       await waitFor(async () => {
         await expect(screen.getAllByRole('heading').length > 0);
-      }, { timeout: 2000 });
+      }, { timeout: 4000 });
     });
   }
 });

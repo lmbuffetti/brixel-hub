@@ -30,7 +30,7 @@ const ProtectedRoute = (props) => {
     if (get(window, 'location.hostname', '').includes('localhost') && typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
       history.push('/tokeninput');
     } else if (typeof cookie.get('brixelToken') === 'undefined' && !isTest) {
-      window.location.href = `${baseByData.loginUrl}?url=${get(window, 'location.href', '')}`;
+      window.location.assign(`${baseByData.loginUrl}?url=${get(window, 'location.href', '')}`);
     } else if (loggedInUser.token && userTypes && allowAccess && allowAccess !== userTypes) {
       // history.push('/');
     }

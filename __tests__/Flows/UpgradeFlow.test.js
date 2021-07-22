@@ -14,7 +14,7 @@ import App from '../../src/App';
 import api from '../../src/controllers/api/config';
 import { fakeLocalStorage } from '../../src/utils/helpers.test';
 
-describe('Render Seller Flow', () => {
+describe('Render Upgrade Flow', () => {
   let token;
   let user;
 
@@ -35,7 +35,7 @@ describe('Render Seller Flow', () => {
       });
   });
 
-  it('check via phone', async () => {
+  it('check steps', async () => {
     await render(
       <App isTest />, {
         common: {

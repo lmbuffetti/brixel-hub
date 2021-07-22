@@ -1,5 +1,6 @@
 
-body .container.deals {
+body .container.deals,
+body .container.prospects {
 
   @media (max-width: $responsive-large) {
     overflow-y: hidden;
@@ -138,6 +139,7 @@ body .container.deals {
           position: relative;
           background: $brx-white;
           border: 1px solid $brx-white;
+          padding-top: 16px;
           &.active {
             border-color: map-get($primaryColor, 400);
           }
@@ -272,7 +274,7 @@ body .container.deals {
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .singleCol {
-  padding-top: 2px;
+  padding-top: 16px;
   padding-left: 16px;
   padding-right: 16px;
   -ms-overflow-style: none;  /* IE and Edge */

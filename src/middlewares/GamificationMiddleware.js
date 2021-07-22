@@ -126,7 +126,7 @@ const checkGamification = (store) => (next) => (action) => {
               store.dispatch({ type: GET_GAME_HISTORY });
               store.dispatch({ type: SET_AWARDS, payload: res.data.numAwards });
               store.dispatch({ type: SET_BRIXEL_POINTS, payload: res.data.actualPoints });
-              if (redirectTo) window.location.href = redirectTo;
+              if (redirectTo) window.location.assign(redirectTo);
             }
             if (smallLoader) {
               store.dispatch({
@@ -141,7 +141,7 @@ const checkGamification = (store) => (next) => (action) => {
               });
             }
           });
-      } else if (redirectTo) window.location.href = redirectTo;
+      } else if (redirectTo) window.location.assign(redirectTo);
       break;
     }
     default:

@@ -26,8 +26,8 @@ const DealsDashboardBuyer = (props) => {
   const link = get(history, 'location.pathname', '').split('/');
 
   useEffect(() => {
-    if ((link[link.length - 1] === 'deal' || !link[link.length - 1]) && activeSingleDeal.id) {
-      history.push(`/buyer/${propID}/deal/${activeSingleDeal.id}`);
+    if ((link[link.length - 1] === 'closing' || !link[link.length - 1]) && activeSingleDeal.id) {
+      history.push(`/buyer/${propID}/closing/${activeSingleDeal.id}`);
     }
   }, [activeSingleDeal.id]);
 
@@ -44,7 +44,7 @@ const DealsDashboardBuyer = (props) => {
         )
           ? (
             <Suspense fallback="">
-              <Route path="/buyer/:propID/deal/:dealID" component={() => <OfferDetail isBuyer />} />
+              <Route path="/buyer/:propID/closing/:dealID" component={() => <OfferDetail isBuyer />} />
             </Suspense>
           ) : (
             <div />
