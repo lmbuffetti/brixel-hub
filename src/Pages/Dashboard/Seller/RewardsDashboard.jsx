@@ -243,6 +243,7 @@ const RewardsDashboard = (props) => {
       className={`rewards-container ${classToHide ? 'hide' : ''}`}
       id="rewardsDashboard"
     >
+      <h3 className="mb-3 hide dis-b-md">Home</h3>
       <div className="dis-f a-t jc-fs pos-r-md">
         {
           usrGroups && (

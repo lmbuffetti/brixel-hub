@@ -141,95 +141,97 @@ const Facts = (props) => {
   }, []);
 
   return (
-    <div className="factsWrapper dis-f h-perc-lg-100">
-      <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
-        <div className="dis-fl-col">
-
-          <div className="dis-fl-col backPanel">
-            <div className="fixedIcon w-perc-100">
-              <BrixelButtonIcon
-                className="dis-b hide-md"
-                icon="arrow-left-small"
-                theme="dark"
-                ghost
-                onClick={() => history.push(`/${propID}/property`)}
-              />
+    <>
+      <h3 className="mb-3 hide dis-b-lg">Facts</h3>
+      <div className="factsWrapper dis-f h-perc-lg-100">
+        <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
+          <div className="dis-fl-col">
+            <div className="dis-fl-col backPanel hide-lg">
+              <div className="fixedIcon w-perc-100">
+                <BrixelButtonIcon
+                  className="dis-b hide-md"
+                  icon="arrow-left-small"
+                  theme="dark"
+                  ghost
+                  onClick={() => history.push(`/${propID}/property`)}
+                />
+              </div>
+              <h5 className="sectionTitle">Facts</h5>
             </div>
-            <h5 className="sectionTitle">Facts</h5>
-          </div>
 
-          <div className="mt-3 mb-3">
-            <BrixelProgressBar
-              rounded
-              saturation={700}
-              large
-              barBackground="Red"
-              backgroundSaturation={100}
-              progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
-            />
-            <h6 className="mt-1 ff-mono txtPrimary700"><span className="notranslate">{get(formValue, 'inputSheet.totalComplete', 0)}%</span><span>&nbsp;</span><span>complete</span></h6>
-          </div>
-          <div className="inputSheet">
-            {
-              Questions.map((quest, i) => (
-                <button
-                  type="button"
-                  className={`dis-b w-perc-100 accordWrap cur-poi ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
-                  key={i.toString()}
-                  onClick={() => onSelectQuest(quest)}
-                  aria-label={quest.title}
-                >
-                  <div className="accordControl dis-f a-c jc-b py-small-14">
-                    <div className="accordTitle dis-f a-c">
+            <div className="mt-3 mb-3">
+              <BrixelProgressBar
+                rounded
+                saturation={700}
+                large
+                barBackground="Red"
+                backgroundSaturation={100}
+                progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
+              />
+              <h6 className="mt-1 ff-mono txtPrimary700"><span className="notranslate">{get(formValue, 'inputSheet.totalComplete', 0)}%</span><span>&nbsp;</span><span>complete</span></h6>
+            </div>
+            <div className="inputSheet">
+              {
+                Questions.map((quest, i) => (
+                  <button
+                    type="button"
+                    className={`dis-b w-perc-100 accordWrap cur-poi ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
+                    key={i.toString()}
+                    onClick={() => onSelectQuest(quest)}
+                    aria-label={quest.title}
+                  >
+                    <div className="accordControl dis-f a-c jc-b py-small-14">
+                      <div className="accordTitle dis-f a-c">
+                        <BrixelIcon
+                          icon="check"
+                          bgTransparent
+                          color="green"
+                          saturationTxt={400}
+                          className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b fsize-400`}
+                        />
+                        <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtDark200 td-lt' : 'txtDark200'}`}>
+                          {quest.title}
+                        </h4>
+                      </div>
                       <BrixelIcon
-                        icon="check"
-                        bgTransparent
-                        color="green"
+                        className="fsize-400 mr-1 onHover"
+                        icon="arrow-simple-right"
+                        color="light"
                         saturationTxt={400}
-                        className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b fsize-400`}
+                        bgTransparent
                       />
-                      <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtDark200 td-lt' : 'txtDark200'}`}>
-                        {quest.title}
-                      </h4>
                     </div>
-                    <BrixelIcon
-                      className="fsize-400 mr-1 onHover"
-                      icon="arrow-simple-right"
-                      color="light"
-                      saturationTxt={400}
-                      bgTransparent
-                    />
-                  </div>
 
-                </button>
-              ))
-            }
+                  </button>
+                ))
+              }
+            </div>
           </div>
         </div>
-      </div>
-      {
-        selectedQuest && getFact() !== 'facts' && (
-          <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-lg-2" id="factsQuestion">
-            <div className="p-3">
-              <div className="">
-                <FactsQuestion quest={selectedQuest} />
-                <div className="dis-f jc-fe mb-1">
-                  {
-                    onNextSection('label') && (
-                      <BrixelButtonText
-                        rightIcon="arrow-right"
-                        onClick={() => onNextSection('click')}
-                        label={onNextSection('label')}
-                      />
-                    )
-                  }
+        {
+          selectedQuest && getFact() !== 'facts' && (
+            <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-lg-2" id="factsQuestion">
+              <div className="p-3">
+                <div className="">
+                  <FactsQuestion quest={selectedQuest} />
+                  <div className="dis-f jc-fe mb-1">
+                    {
+                      onNextSection('label') && (
+                        <BrixelButtonText
+                          rightIcon="arrow-right"
+                          onClick={() => onNextSection('click')}
+                          label={onNextSection('label')}
+                        />
+                      )
+                    }
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )
-      }
-    </div>
+          )
+        }
+      </div>
+    </>
   );
 };
 

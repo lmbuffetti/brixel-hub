@@ -84,10 +84,10 @@ const Price = (props) => {
 
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
 
-        <div className="hideStyle dis-fl-col backPanel">
+        <div className="hideStyle dis-fl-col backPanel dis-b hide-md">
           <div className="fixedIcon w-perc-100">
             <BrixelButtonIcon
-              className="dis-b hide-md"
+              className=""
               icon="arrow-left-small"
               theme="dark"
               ghost
@@ -97,8 +97,10 @@ const Price = (props) => {
           <h5 className="sectionTitle">Price</h5>
         </div>
 
-        <div className="hideStyle dis-f-md a-t jc-b p-2 p-0-md mt-5 mt-md-0">
-          <div className="dis-fl-col boxCard mr-2 w-perc-100 mb-5 mb-md-0">
+        <h3 className="mb-3 hide dis-b-md">Price</h3>
+
+        <div className="hideStyle dis-f-md a-t jc-b px-2 p-lg-0">
+          <div className="dis-fl-col boxCard mr-2 w-perc-100 mb-5 mb-lg-0">
             <h5>Listing price</h5>
 
             <div className="dis-f jc-b a-c mt-3">

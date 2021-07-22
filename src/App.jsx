@@ -27,7 +27,7 @@ import { setActiveSingleProperty } from './actions/PropertyActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
-import TeaserBanner from './components/TeaserBanner';
+// import TeaserBanner from './components/TeaserBanner';
 import SplashScreen from './components/SplashScreen';
 
 // GET STARTED ADD ADD PROPERTY
@@ -354,7 +354,6 @@ const App = (props) => {
       className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
       ref={dashWrapperRef}
     >
-
       <Loading isLoading={isLoading} />
       <Suspense fallback={<Loading isLoading />}>
         <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
@@ -407,14 +406,14 @@ const App = (props) => {
                 )
                 }
                 <div className="w-perc-100 innerWrap">
-                  {
+                  {/*  {
                     !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') &&
                   !history.location.pathname.includes('buyer') &&
                     (
-                      <TeaserBanner />
+                      // <TeaserBanner />
                     )
-                  }
+                  } */}
                   <Switch>
                     { /* SECTION: ONBOARDING */ }
                     <Route exact path="/packageFlow/" component={GetStarted} />
