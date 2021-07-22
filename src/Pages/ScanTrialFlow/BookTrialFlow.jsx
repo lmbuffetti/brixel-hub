@@ -37,7 +37,7 @@ const BookTrialFlow = (props) => {
   // REF
   const calendarRef = useRef(null);
   const datePicker = useRef(null);
-  // COMAPNY DATA
+  // COMPANY DATA
   const phone = get(activeSingleCompany, 'contact.phone', null);
   const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
   const whereby = get(activeSingleCompany, 'contact.whereby', null);
