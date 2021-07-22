@@ -106,6 +106,13 @@ const ScanTrialFlow = (props) => {
       delete obj.name;
       delete obj.phone;
       delete obj.email;
+      if (obj.bookType === 'phone' || obj.bookType === 'whereby') {
+        delete obj.date;
+        delete formValue.hourBook;
+        delete formValue.dateBook;
+        delete formValue.fullDate;
+        delete formValue.date;
+      }
       const data = {
         page: propID,
         smallLoader: 'sendData',
