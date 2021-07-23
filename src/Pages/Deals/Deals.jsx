@@ -340,7 +340,7 @@ const Deals = (props) => {
               <div className="dis-f jc-fe-md w-perc-100">
                 <div className="dis-fl-row a-c zIndex3 jc-b w-perc-100">
                   <h4 className="ml-md-1 fweight-700 hide-lg">Prospects</h4>
-                  <h3 className="mb-3 hide dis-b-lg">Price</h3>
+                  <h3 className="mb-3 hide dis-b-lg">Prospects</h3>
                   <div className="dis-fl-row a-c zIndex3">
                     {
                       !emptyDeals && (
