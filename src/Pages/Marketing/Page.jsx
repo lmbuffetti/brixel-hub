@@ -62,7 +62,7 @@ const Page = (props) => {
   return (
     <>
       <div className="hide dis-f-lg jc-b max-w-fix-768">
-        <h3 className="mb-3">Docubox</h3>
+        <h3 className="mb-3 hide dis-b-lg">Brixel Page</h3>
         <div className="">
           {
             formValue.published ? (
