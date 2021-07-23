@@ -333,7 +333,7 @@ const Deals = (props) => {
 
   return (
     <div className="deals-container dis-f jc-fs h-perc-lg-100 a-t" id="dealsDashaboard">
-      <div className="w-perc-100 dis-fl-col ml-lg-1">
+      <div className="w-perc-100 dis-fl-col">
         <div className="dealsListings">
           <div className="listings-header bg-white">
             <div className="dis-f jc-b">
