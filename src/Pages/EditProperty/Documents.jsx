@@ -179,8 +179,9 @@ const Documents = (props) => {
 
   return (
     <div className="h-perc-lg-100">
-      <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
-        <div className="dis-f">
+      <h3 className="mb-3 hide dis-b-lg">Docubox</h3>
+      <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox brdRadius shadow-1dp p-3 bgWhite cardSecondLevel`}>
+        <div className="dis-f hide-lg">
           {/* <div className="fixedIcon w-perc-100">
             <BrixelButtonIcon
               className="hide-md"
@@ -468,7 +469,7 @@ const Documents = (props) => {
             userType === 'seller' && (
               <>
                 <div
-                  className={`${(!documentLists || (documentLists.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c mt-2 ta-c w-perc-100`}
+                  className={`${(!documentLists || (documentLists.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c ta-c w-perc-100`}
                   {...getRootProps()}
                 >
                   <input {...getInputProps()} />

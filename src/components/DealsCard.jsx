@@ -230,7 +230,6 @@ DealsCard.defaultProps = {
   parentOnClick: () => '',
   profileId: '',
   stage: '',
-  probability: 0,
   visit: 0,
   lang: 'en',
 };
