@@ -504,12 +504,12 @@ const Deals = (props) => {
                                                                 date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
                                                                 parentOnClick={() => openDeal(item.id)}
                                                                 archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                                stage={item.stage}
+                                                                visit={item.visit}
                                                                 archived={!item.active}
                                                                 isWinner={get(item, 'winner')}
                                                                 isNew={get(item, 'newSeller')}
                                                                 lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                                stage={item.stage}
-                                                                visit={item.visit}
                                                               />
                                                             </div>
                                                           )
@@ -545,12 +545,12 @@ const Deals = (props) => {
                                                           date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
                                                           parentOnClick={() => openDeal(item.id)}
                                                           archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                          stage={item.stage}
+                                                          visit={item.visit}
                                                           archived={!item.active}
                                                           isWinner={get(item, 'winner')}
                                                           isNew={get(item, 'newSeller')}
                                                           lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                          stage={item.stage}
-                                                          visit={item.visit}
                                                         />
                                                       </div>
                                                     </React.Fragment>
