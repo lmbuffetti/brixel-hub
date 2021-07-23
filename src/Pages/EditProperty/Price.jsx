@@ -201,50 +201,50 @@ const Price = (props) => {
               }
             </div>
 
-          <div className="ml-md-1 w-perc-100">
-            <div className="dis-fl-col boxCard mb-5 pb-5">
-              <h5 className="mb-3">Pro Estimation</h5>
+            <div className="ml-md-1 w-perc-100">
+              <div className="dis-fl-col boxCard mb-5 pb-5">
+                <h5 className="mb-3">Pro Estimation</h5>
 
-              <p className="txtDark700">Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.</p>
+                <p className="txtDark700">Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.</p>
 
-              <div className="dis-f a-c w-perc-100 my-3">
-                <span className="ff-mono fsize-600 fweight-700 txtPrimary700">CHF</span>
-                <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur mx-1" />
-                <BrixelIcon
-                  color="red"
-                  icon="locked"
-                />
-              </div>
-
-              <div className="dis-f a-c">
-                <ProgressRing
-                  progress={calcPercentageProEstimation().realPerc}
-                  size={45}
-                  strokeWidth={6}
-                  circleOneStroke="#DCDDDE"
-                  circleTwoStroke="#1E1491"
-                  showIcon={false}
-                />
-                <div className="ml-2">
-                  <p>Inputs</p>
-                  <p className="ff-mono fweight-700 txtPrimary700">
-                    <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
-                    <span>completed</span>
-                  </p>
+                <div className="dis-f a-c w-perc-100 my-3">
+                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">CHF</span>
+                  <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur mx-1" />
+                  <BrixelIcon
+                    color="red"
+                    icon="locked"
+                  />
                 </div>
+
+                <div className="dis-f a-c">
+                  <ProgressRing
+                    progress={calcPercentageProEstimation().realPerc}
+                    size={45}
+                    strokeWidth={6}
+                    circleOneStroke="#DCDDDE"
+                    circleTwoStroke="#1E1491"
+                    showIcon={false}
+                  />
+                  <div className="ml-2">
+                    <p>Inputs</p>
+                    <p className="ff-mono fweight-700 txtPrimary700">
+                      <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
+                      <span>completed</span>
+                    </p>
+                  </div>
+                </div>
+
+                <BrixelButtonPrimary
+                  rounded
+                  className="w-fit mt-5"
+                  label="Complete now"
+                  onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                />
+
               </div>
 
-              <BrixelButtonPrimary
-                rounded
-                className="w-fit mt-5"
-                label="Complete now"
-                onClick={() => history.push(`/${propID}/property/price/formFlow`)}
-              />
-
-            </div>
-
-            <div className="dis-fl-col boxCard pb-5">
-              <h5 className="mb-3">Bestimate®</h5>
+              <div className="dis-fl-col boxCard pb-5">
+                <h5 className="mb-3">Bestimate®</h5>
 
                 <p className="txtDark700">Your property is worth up to</p>
 

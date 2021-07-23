@@ -510,8 +510,6 @@ const Deals = (props) => {
                                                                 isWinner={get(item, 'winner')}
                                                                 isNew={get(item, 'newSeller')}
                                                                 lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                                stage={item.stage}
-                                                                visit={item.visit}
                                                               />
                                                             </div>
                                                           )
@@ -553,8 +551,6 @@ const Deals = (props) => {
                                                           isWinner={get(item, 'winner')}
                                                           isNew={get(item, 'newSeller')}
                                                           lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                          stage={item.stage}
-                                                          visit={item.visit}
                                                         />
                                                       </div>
                                                     </React.Fragment>
