@@ -466,6 +466,7 @@ const mapStateToProps = (state) => {
       },
       packageFlowProcess: get(state, 'property.activeSingleProperty.packageFlowProcess', {}),
       price: get(state, 'property.activeSingleProperty.price', {}),
+      proEstimation: get(state, 'property.activeSingleProperty.proEstimation', {}),
       status: get(state, 'property.activeSingleProperty.status', null),
       // language: get(state, 'property.activeSingleProperty.language', null),
       // listed: get(state, 'property.activeSingleProperty.listed', null),

@@ -18,9 +18,11 @@ import {
   BrixelButtonIcon,
   ProgressRing,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
+import { DateTime } from 'luxon';
 import { setSplashType } from '../../actions/CommonActions';
 import { InputSheets } from '../../resources/inputSheets';
 import { calcPercentageProEstimation } from '../../utils/helpers';
@@ -30,10 +32,12 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 
 const Price = (props) => {
   const {
+    activeSingleProperty,
     estimation,
     formValue,
     history,
     match,
+    proEstimation,
     setSplashScreen,
     windowDimensions,
   } = props;
@@ -71,6 +75,15 @@ const Price = (props) => {
         clearEstimation: false,
       },
     });
+  };
+
+  const selectDocument = (id, action) => {
+    const docs = get(activeSingleProperty, 'documents', []);
+    const doc = docs.find((item) => item.id === id);
+    if (action === 'name' && doc) return doc.name;
+    if (action === 'path' && doc) return doc.path;
+    if (action === 'date' && doc) return `${DateTime.fromMillis(doc.createdAt).toFormat('dd.MM.yyyy')}, ${DateTime.fromMillis(doc.createdAt).toFormat('hh:mm')}`;
+    return null;
   };
 
   return (
@@ -209,37 +222,98 @@ const Price = (props) => {
 
                 <div className="dis-f a-c w-perc-100 my-3">
                   <span className="ff-mono fsize-600 fweight-700 txtPrimary700">CHF</span>
-                  <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur mx-1" />
-                  <BrixelIcon
-                    color="red"
-                    icon="locked"
-                  />
+                  {
+                    get(proEstimation, 'value', 0) <= 0 ? (
+                      <>
+                        <div className="w-perc-100 h-fix-40 mx-1 pos-r">
+                          <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur pos-a" />
+                          <div className="pos-r zIndex1">
+                            {
+                              calcPercentageProEstimation().realPerc === 100 && (
+                                <p className="fsize-300 txtYellow400 ta-c pt-small-4">pending</p>
+                              )
+                            }
+                          </div>
+                        </div>
+                        <BrixelIcon
+                          color={calcPercentageProEstimation().realPerc === 100 ? 'yellow' : 'red'}
+                          icon={calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : 'locked'}
+                        />
+                      </>
+                    ) : (
+                      <p className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1">{get(proEstimation, 'value', 0) }</p>
+                    )
+                  }
+
                 </div>
 
-                <div className="dis-f a-c">
-                  <ProgressRing
-                    progress={calcPercentageProEstimation().realPerc}
-                    size={45}
-                    strokeWidth={6}
-                    circleOneStroke="#DCDDDE"
-                    circleTwoStroke="#1E1491"
-                    showIcon={false}
-                  />
-                  <div className="ml-2">
-                    <p>Inputs</p>
-                    <p className="ff-mono fweight-700 txtPrimary700">
-                      <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
-                      <span>completed</span>
-                    </p>
-                  </div>
-                </div>
+                {
+                  proEstimation.document ? (
+                    <div className="dis-f a-c mt-2">
+                      <BrixelIcon
+                        className="mr-1"
+                        icon="document"
+                        background="blue"
+                        saturation={100}
+                        color="blue"
+                        saturationTxt={700}
+                      />
+                      <div className="pl-small-4">
+                        <a
+                          className="txtDark700 fweight-600 fsize-300 dis-b"
+                          href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {selectDocument(proEstimation.document, 'name')}
+                        </a>
+                        <small className="fsize-200 fweight-500 txtLight400">
+                          {selectDocument(proEstimation.document, 'date')}
+                        </small>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="dis-f a-c">
+                        <ProgressRing
+                          progress={calcPercentageProEstimation().realPerc}
+                          size={45}
+                          strokeWidth={6}
+                          circleOneStroke="#DCDDDE"
+                          circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
+                          showIcon={false}
+                          showIconComplete={calcPercentageProEstimation().realPerc === 100}
+                        />
+                        <div className="ml-2">
+                          <p>Inputs</p>
+                          <p className={`fsize-300 ff-mono fweight-700 ${calcPercentageProEstimation().realPerc === 100 ? 'txtGreen600' : 'txtPrimary700'}`}>
+                            <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
+                            <span>completed</span>
+                          </p>
+                        </div>
+                      </div>
 
-                <BrixelButtonPrimary
-                  rounded
-                  className="w-fit mt-5"
-                  label="Complete now"
-                  onClick={() => history.push(`/${propID}/property/price/formFlow`)}
-                />
+                      {
+                        calcPercentageProEstimation().realPerc === 100 ? (
+                          <BrixelButtonSecondary
+                            rounded
+                            className="mt-5 w-fit"
+                            label="Edit inputs"
+                            ghost
+                            onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                          />
+                        ) : (
+                          <BrixelButtonPrimary
+                            rounded
+                            className="w-fit mt-5"
+                            label="Complete now"
+                            onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                          />
+                        )
+                      }
+                    </>
+                  )
+                }
 
               </div>
 
@@ -277,11 +351,13 @@ const Price = (props) => {
 };
 
 Price.propTypes = {
-  setSplashScreen: PropTypes.func.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  proEstimation: PropTypes.object.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -289,8 +365,10 @@ Price.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
