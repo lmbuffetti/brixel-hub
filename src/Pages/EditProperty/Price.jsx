@@ -218,10 +218,19 @@ const Price = (props) => {
               <div className="dis-fl-col boxCard mb-5 pb-5">
                 <h5 className="mb-3">Pro Estimation</h5>
 
-                <p className="txtDark700">Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.</p>
+                {
+                  get(proEstimation, 'value', 0) <= 0 ? (
+                    <p className="txtDark700">Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.</p>
+                  ) : (
+
+                    <p className="txtDark700">This is your estimated value for your property.</p>
+                  )
+                }
 
                 <div className="dis-f a-c w-perc-100 my-3">
-                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">CHF</span>
+                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">{get(estimation, 'result.currency', '')}</span>
+
+                  {/* <span className="">CHF</span> */}
                   {
                     get(proEstimation, 'value', 0) <= 0 ? (
                       <>
@@ -241,7 +250,7 @@ const Price = (props) => {
                         />
                       </>
                     ) : (
-                      <p className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1">{get(proEstimation, 'value', 0) }</p>
+                      <span className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1">{Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
                     )
                   }
 
@@ -249,7 +258,7 @@ const Price = (props) => {
 
                 {
                   proEstimation.document ? (
-                    <div className="dis-f a-c mt-2">
+                    <div className="dis-f a-c">
                       <BrixelIcon
                         className="mr-1"
                         icon="document"
