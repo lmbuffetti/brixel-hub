@@ -259,27 +259,47 @@ const Price = (props) => {
                 {
                   proEstimation.document ? (
                     <div className="dis-f a-c">
-                      <BrixelIcon
-                        className="mr-1"
-                        icon="document"
-                        background="blue"
-                        saturation={100}
-                        color="blue"
-                        saturationTxt={700}
-                      />
-                      <div className="pl-small-4">
-                        <a
-                          className="txtDark700 fweight-600 fsize-300 dis-b"
-                          href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {selectDocument(proEstimation.document, 'name')}
-                        </a>
-                        <small className="fsize-200 fweight-500 txtLight400">
-                          {selectDocument(proEstimation.document, 'date')}
-                        </small>
-                      </div>
+                      {
+                        selectDocument(proEstimation.document, 'name') ? (
+                          <>
+                            <BrixelIcon
+                              className="mr-1"
+                              icon="document"
+                              background="blue"
+                              saturation={100}
+                              color="blue"
+                              saturationTxt={700}
+                            />
+                            <div className="pl-small-4">
+                              <a
+                                className="txtDark700 fweight-600 fsize-300 dis-b"
+                                href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {selectDocument(proEstimation.document, 'name')}
+                              </a>
+                              <small className="fsize-200 fweight-500 txtLight400">
+                                {selectDocument(proEstimation.document, 'date')}
+                              </small>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            {
+                              calcPercentageProEstimation().realPerc === 100 && (
+                                <BrixelButtonSecondary
+                                  rounded
+                                  className="mt-2 w-fit"
+                                  label="Edit inputs"
+                                  ghost
+                                  onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                                />
+                              )
+                            }
+                          </>
+                        )
+                      }
                     </div>
                   ) : (
                     <>
