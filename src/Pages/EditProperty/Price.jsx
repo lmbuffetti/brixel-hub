@@ -225,12 +225,12 @@ const Price = (props) => {
                   {
                     get(proEstimation, 'value', 0) <= 0 ? (
                       <>
-                        <div className="w-perc-100 h-fix-40 mx-1 pos-r">
+                        <div className="w-perc-100 h-fix-40 mx-1 pos-r dis-f jc-c a-c">
                           <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur pos-a" />
                           <div className="pos-r zIndex1">
                             {
                               calcPercentageProEstimation().realPerc === 100 && (
-                                <p className="fsize-300 txtYellow400 ta-c pt-small-4">pending</p>
+                                <p className="ff-mono fweight-700 fsize-400 txtYellow400">pending</p>
                               )
                             }
                           </div>
@@ -285,8 +285,8 @@ const Price = (props) => {
                           showIconComplete={calcPercentageProEstimation().realPerc === 100}
                         />
                         <div className="ml-2">
-                          <p>Inputs</p>
-                          <p className={`fsize-300 ff-mono fweight-700 ${calcPercentageProEstimation().realPerc === 100 ? 'txtGreen600' : 'txtPrimary700'}`}>
+                          <p className="fsize-300 txtDark700">Estimation inputs</p>
+                          <p className={`ff-mono fweight-700 ${calcPercentageProEstimation().realPerc === 100 ? 'txtGreen600' : 'txtPrimary700'}`}>
                             <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
                             <span>completed</span>
                           </p>

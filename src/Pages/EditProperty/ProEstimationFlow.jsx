@@ -177,7 +177,7 @@ const ProEstimationFlow = (props) => {
           id="multiStepForm"
           onSubmit={(e) => e.preventDefault()}
           autoComplete="off"
-          className="dis-fl-col jc-b"
+          className="dis-fl-col jc-b formFlow"
         >
           <div className="multiStepSlides">
             <div
