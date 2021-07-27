@@ -111,7 +111,7 @@ const MarketCategoryListBuyer = (props) => {
         {
           splashScreenType === 'buyerWelcome' && (
             <SplashScreen
-              className="result-popup"
+              className="result-popup centered"
               closeOutside={false}
             >
               <div className="dis-f jc-fe mb-2">

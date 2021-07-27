@@ -238,7 +238,7 @@ const MarketCategoryListSeller = (props) => {
       {
         !bestimateMessage && splashScreenType === 'bestimateTeaser' && (
           <SplashScreen
-            className="result-popup"
+            className="result-popup centered"
             closeOutside={false}
           >
             {
@@ -317,7 +317,7 @@ const MarketCategoryListSeller = (props) => {
       {
         !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending') && (
           <SplashScreen
-            className="result-popup"
+            className="result-popup centered"
             closeOutside={false}
           >
             <div className="dis-f jc-fe mb-2">

@@ -27,7 +27,7 @@ import { setActiveSingleProperty } from './actions/PropertyActions';
 
 import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
-import TeaserBanner from './components/TeaserBanner';
+// import TeaserBanner from './components/TeaserBanner';
 import SplashScreen from './components/SplashScreen';
 
 // GET STARTED ADD ADD PROPERTY
@@ -63,6 +63,8 @@ const MarketChecker = lazy(() => import('./Pages/GameHistory/MarketChecker'));
 const Assessor = lazy(() => import('./Pages/GameHistory/Assessor'));
 
 const Bestimate = lazy(() => import('./Pages/GameHistory/Bestimate'));
+
+const ProEstimationFlow = lazy(() => import('./Pages/EditProperty/ProEstimationFlow'));
 
 const Facts = lazy(() => import('./Pages/GameHistory/Facts'));
 
@@ -354,7 +356,6 @@ const App = (props) => {
       className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
       ref={dashWrapperRef}
     >
-
       <Loading isLoading={isLoading} />
       <Suspense fallback={<Loading isLoading />}>
         <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
@@ -407,14 +408,14 @@ const App = (props) => {
                 )
                 }
                 <div className="w-perc-100 innerWrap">
-                  {
+                  {/*  {
                     !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') &&
                   !history.location.pathname.includes('buyer') &&
                     (
-                      <TeaserBanner />
+                      // <TeaserBanner />
                     )
-                  }
+                  } */}
                   <Switch>
                     { /* SECTION: ONBOARDING */ }
                     <Route exact path="/packageFlow/" component={GetStarted} />
@@ -481,6 +482,7 @@ const App = (props) => {
             <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
             <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
             <ProtectedRoute exact path="/:propID/prospects/newDeal" component={CreateDeal} />
+            <ProtectedRoute path="/:propID/property/price/formFlow" component={ProEstimationFlow} />
           </Switch>
         }
 

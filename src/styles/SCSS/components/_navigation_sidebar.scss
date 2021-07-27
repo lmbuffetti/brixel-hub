@@ -21,10 +21,16 @@
           background-color: map_get($primaryColor, 100);
           color: map_get($primaryColor, 400);
         }
+        .submenu {
+          max-height: 350px;
+        }
       }
     }
     .submenu {
       padding-left: $step * 3;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 750ms ease-in;
       li {
         padding: 4px 12px;
         border-left: 1px solid map_get($lightColor, 200);

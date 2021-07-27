@@ -331,9 +331,6 @@ img {
   line-height: initial;
 }
 
-
-
-
 // hide notification bar
 #bodyModalWrapper,
 .rewardsTop {
@@ -394,6 +391,8 @@ img {
     }
   }
 }
+.formFlow label.brixel-label,
+.formFlow .labelLeft,
 
 .flowBody label.brixel-label,
 .flowBody .labelLeft,
@@ -626,4 +625,9 @@ button.minimum-w-210 {
   padding-right: 0 !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
+}
+
+
+.ProEstimationFlow .pageHeaderAchievement > div {
+  box-shadow: none !important;
 }

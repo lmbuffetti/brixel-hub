@@ -37,7 +37,7 @@ const OfferListings = (props) => {
   return (
     <>
       <div className="w-perc-100 txtDark700 dealsListings">
-        <h5 className="ml-md-1 hide dis-f-md">Closing</h5>
+        <h3 className="mb-3 hide dis-b-lg">Closing</h3>
         {/* <div className="dis-f">
           <div className="fixedIcon w-perc-100">
             <BrixelButtonIcon
