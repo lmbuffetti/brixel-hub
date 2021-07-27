@@ -235,7 +235,9 @@ const Price = (props) => {
                 }
 
                 <div className="dis-f a-c w-perc-100 my-3">
-                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">{get(estimation, 'result.currency', '')}</span>
+                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
+                    {get(estimation, 'result.currency', '')}
+                  </span>
 
                   {/* <span className="">CHF</span> */}
                   {
