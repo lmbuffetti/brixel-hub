@@ -220,9 +220,16 @@ const Price = (props) => {
 
                 {
                   get(proEstimation, 'value', 0) <= 0 ? (
-                    <p className="txtDark700">Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.</p>
+                    <p className="txtDark700">
+                      {
+                        calcPercentageProEstimation().realPerc === 100 ? (
+                          <>Your estimation is being calculated. You will receive an email with the result </>
+                        ) : (
+                          <>Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation. </>
+                        )
+                      }
+                    </p>
                   ) : (
-
                     <p className="txtDark700">This is your estimated value for your property.</p>
                   )
                 }

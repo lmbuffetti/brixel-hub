@@ -168,9 +168,10 @@ const ProEstimationFlow = (props) => {
   }
 
   return (
-    <div id="bodyModalWrapper" className="achievementFlow">
+    <div id="bodyModalWrapper" className="achievementFlow ProEstimationFlow">
       <div className="bodyModal">
         <PageHeaderAchievement
+          title="Pro Estimation inputs"
           historyUrl={`/${activeSingleProperty.id}/property/price`}
         />
         <form
