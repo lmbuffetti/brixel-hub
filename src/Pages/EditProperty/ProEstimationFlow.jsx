@@ -191,6 +191,7 @@ const ProEstimationFlow = (props) => {
                   <h4>Pro Estimation inputs</h4>
                 </div>
                 <MultiFileldsReduxForm
+                  showCheckMark
                   disableNextBtn={false}
                   formValue={formValue}
                   form="formFlow"
@@ -227,14 +228,19 @@ const ProEstimationFlow = (props) => {
                 {
                   unsavedChange ? (
                     <div className="dis-f a-c">
-                      <BrixelButtonSecondary
-                        rounded
-                        className="noWrap mr-2"
-                        saturation={400}
-                        theme="red"
-                        label="Discard"
-                        onClick={() => (savedBtn ? '' : closeWindow())}
-                      />
+                      {
+                        !isSmallLoading.saveData && !savedBtn && (
+
+                          <BrixelButtonSecondary
+                            rounded
+                            className="noWrap mr-2"
+                            saturation={400}
+                            theme="red"
+                            label="Discard"
+                            onClick={() => (savedBtn ? '' : closeWindow())}
+                          />
+                        )
+                      }
                       <BrixelButtonPrimary
                         rounded
                         className="noWrap"

@@ -628,23 +628,37 @@ button.minimum-w-210 {
 }
 
 
-.extraFeatureTitle .mt-5.mb-3 {
+.extraFeatureTitle .multiFieldWrap {
   display: none;
 }
 
 .ProEstimationFlow {
-  .subcontainer > .mt-5 {
+
+  .subcontainer > .multiFieldWrap {
     border-top: 1px solid map-get($lightColor, 200);
     padding: $step * 3 0;
     margin-top: 0;
-    > .mt-5 {
+
+    > .multiFieldWrap {
       margin-top: 0;
     }
   }
-  .extraFeatureTitle .mt-5.mb-3 {
+  .extraFeatureTitle .multiFieldWrap {
     display: block;
   }
  .pageHeaderAchievement > div {
   box-shadow: none !important;
  }
+}
+
+
+.extraFeatureTitle {
+  .withCheckMark {
+    display: initial !important;
+    > .checkIconWrap {
+      position: absolute;
+      top: -48px;
+      right: 0;
+    }
+  }
 }
