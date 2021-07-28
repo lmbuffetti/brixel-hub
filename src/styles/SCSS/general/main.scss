@@ -650,3 +650,15 @@ button.minimum-w-210 {
   box-shadow: none !important;
  }
 }
+
+
+.extraFeatureTitle {
+  .withCheckMark {
+    display: initial !important;
+    > .checkIconWrap {
+      position: absolute;
+      top: -48px;
+      right: 0;
+    }
+  }
+}
