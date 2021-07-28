@@ -2,11 +2,11 @@
   li {
     list-style: none;
     &.mainNav {
-      margin-bottom: $step;
       > a {
         display: block;
         color: map_get($darkColor, 700);
-        padding: 6px $step * 3;
+        padding: 6px 24px;
+        margin-top: $step / 2;
         margin-bottom: $step;
         font-weight: 500;
         @media (max-width: $responsive-medium) {
@@ -29,6 +29,7 @@
     .submenu {
       padding-left: $step * 3;
       max-height: 0;
+      position: relative;
       overflow: hidden;
       transition: max-height 750ms ease-in;
       li {

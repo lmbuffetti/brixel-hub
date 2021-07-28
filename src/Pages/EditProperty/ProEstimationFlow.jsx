@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary, initializeForm,
-  MultiFileldsReduxForm,
+  MultiFileldsReduxForm, BrixelButtonIcon,
   ProgressRing, destroy,
 } from '@brixel/brixel-components';
 import { diff } from 'deep-object-diff';
@@ -20,7 +20,7 @@ import {
 } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
-import PageHeaderAchievement from '../../components/PageHeaderAchievement';
+// import PageHeaderAchievement from '../../components/PageHeaderAchievement';
 
 const ProEstimationFlow = (props) => {
   // PROPS
@@ -170,10 +170,6 @@ const ProEstimationFlow = (props) => {
   return (
     <div id="bodyModalWrapper" className="achievementFlow ProEstimationFlow">
       <div className="bodyModal">
-        <PageHeaderAchievement
-          title="Pro Estimation inputs"
-          historyUrl={`/${activeSingleProperty.id}/property/price`}
-        />
         <form
           id="multiStepForm"
           onSubmit={(e) => e.preventDefault()}
@@ -181,10 +177,19 @@ const ProEstimationFlow = (props) => {
           className="dis-fl-col jc-b formFlow"
         >
           <div className="multiStepSlides">
-            <div
-              className="singleStep jc-c"
-            >
+            <div className="singleStep jc-c">
               <div className="subcontainer m-a">
+                <div className="pos-a max-w-fix-768 w-perc-100 x-c jc-fe dis-f pr-2 pt-2 pr-md-3 pt-md-3">
+                  <BrixelButtonIcon
+                    icon="close-small"
+                    ghost
+                    theme="dark"
+                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                  />
+                </div>
+                <div className="mt-4 pb-3">
+                  <h4>Pro Estimation inputs</h4>
+                </div>
                 <MultiFileldsReduxForm
                   disableNextBtn={false}
                   formValue={formValue}

@@ -235,7 +235,9 @@ const Price = (props) => {
                 }
 
                 <div className="dis-f a-c w-perc-100 my-3">
-                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">{get(estimation, 'result.currency', '')}</span>
+                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
+                    {get(estimation, 'result.currency', '')}
+                  </span>
 
                   {/* <span className="">CHF</span> */}
                   {
@@ -264,7 +266,7 @@ const Price = (props) => {
                 </div>
 
                 {
-                  proEstimation.document ? (
+                  proEstimation && proEstimation.document ? (
                     <div className="dis-f a-c">
                       {
                         selectDocument(proEstimation.document, 'name') ? (
@@ -355,29 +357,42 @@ const Price = (props) => {
 
               <div className="dis-fl-col boxCard pb-5">
                 <h5 className="mb-3">Bestimate®</h5>
+                {
+                  get(estimation, 'result.higherValue', 0) > 0 ? (
+                    <>
+                      <p className="txtDark700">Your property is worth up to</p>
 
-                <p className="txtDark700">Your property is worth up to</p>
+                      <div className="dis-f a-c w-perc-100 mt-3 ">
+                        <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
+                          <span>{get(estimation, 'result.currency', '')}</span>
+                          <span className="ml-1">{Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
+                        </span>
+                      </div>
 
-                <div className="dis-f a-c w-perc-100 mt-3 ">
-                  {
-                    get(estimation, 'result.higherValue', 0) > 0 && (
-                      <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
-                        <span>{get(estimation, 'result.currency', '')}</span>
-                        <span className="ml-1">{Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
-                      </span>
-                    )
-                  }
-                </div>
+                      <BrixelButtonSecondary
+                        rounded
+                        className="mt-5 w-fit"
+                        label="Open"
+                        ghost
+                        onClick={() => openBestimate()}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <p className="txtDark700">Bestimate is pending or we don&rsquo;t have enough data.</p>
 
-                <BrixelButtonSecondary
-                  rounded
-                  className="mt-5 w-fit"
-                  label="Open"
-                  ghost
-                  onClick={() => openBestimate()}
-                />
+                      <BrixelButtonText
+                        rounded
+                        className="mt-3 w-fit"
+                        label="More details"
+                        onClick={() => history.push(`/${formValue.id}/rewards/bestimate`)}
+                      />
+                    </>
+                  )
+                }
 
               </div>
+
             </div>
           </div>
         </div>

@@ -628,6 +628,23 @@ button.minimum-w-210 {
 }
 
 
-.ProEstimationFlow .pageHeaderAchievement > div {
+.extraFeatureTitle .mt-5.mb-3 {
+  display: none;
+}
+
+.ProEstimationFlow {
+  .subcontainer > .mt-5 {
+    border-top: 1px solid map-get($lightColor, 200);
+    padding: $step * 3 0;
+    margin-top: 0;
+    > .mt-5 {
+      margin-top: 0;
+    }
+  }
+  .extraFeatureTitle .mt-5.mb-3 {
+    display: block;
+  }
+ .pageHeaderAchievement > div {
   box-shadow: none !important;
+ }
 }
