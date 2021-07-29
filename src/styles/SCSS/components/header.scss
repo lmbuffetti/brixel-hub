@@ -63,6 +63,10 @@
 }
 
 .hubDasHeader {
+  @media (max-width: $responsive-medium) {
+    position: sticky;
+    top: 0;
+  }
   @media (min-width: $responsive-medium) {
     background-color: map-get($lightColor, 100);
     // padding-left: $sidebarWidth;
@@ -73,7 +77,6 @@
     z-index: 5;
   }
   .dasHeaderContainer {
-    transition: margin-top $default-time-long $default-easing;
     .wrapperHeader {
       box-shadow: $shadow-1dp;
       .header-section {

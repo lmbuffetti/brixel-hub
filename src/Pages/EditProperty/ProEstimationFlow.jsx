@@ -218,9 +218,9 @@ const ProEstimationFlow = (props) => {
                     showIcon={false}
                   />
                   <div className="ml-2">
-                    <p>Inputs</p>
+                    <p className="hide dis-b-sm">Inputs</p>
                     <p className="ff-mono fweight-700 txtPrimary700">
-                      <span className="mr-1 notranslate">{percComplete}%</span>
+                      <span className="mr-1 notranslate dis-b dis-ib-sm">{percComplete}%</span>
                       <span>completed</span>
                     </p>
                   </div>
@@ -230,15 +230,23 @@ const ProEstimationFlow = (props) => {
                     <div className="dis-f a-c">
                       {
                         !isSmallLoading.saveData && !savedBtn && (
-
-                          <BrixelButtonSecondary
-                            rounded
-                            className="noWrap mr-2"
-                            saturation={400}
-                            theme="red"
-                            label="Discard"
-                            onClick={() => (savedBtn ? '' : closeWindow())}
-                          />
+                          <>
+                            <BrixelButtonIcon
+                              secondary
+                              className="hide-sm mr-2"
+                              theme="red"
+                              icon="close-small"
+                              onClick={() => (savedBtn ? '' : closeWindow())}
+                            />
+                            <BrixelButtonSecondary
+                              rounded
+                              className="noWrap mr-2 hide dis-b-sm"
+                              saturation={400}
+                              theme="red"
+                              label="Discard"
+                              onClick={() => (savedBtn ? '' : closeWindow())}
+                            />
+                          </>
                         )
                       }
                       <BrixelButtonPrimary
