@@ -82,61 +82,57 @@ const MenuSidebar = (props) => {
 
   return (
     <>
-      {
-        windowDimensions.width > 1024 && (
-          <header className="sideHeader dis-fl-col a-c jc-fs h-perc-100" id="menu-sidebar">
-            <div className="w-perc-100 h-perc-100 pos-r">
-              { /* SECTION SIDEBAR MENU DESKTOP */ }
-              <div className={`pos-r sidebar w-perc-100 h-perc-100 bgLight100 ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
-                <div className="hide dis-b-md">
-                  <ul className="sidebarNav pr-3 py-4">
-                    {
-                      navigationMenu.map((nav, i) => (
-                        <li
-                          key={i.toString()}
-                          className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav fsize-300`}
-                        >
-                          <Link to={linkMenu(nav.path)}>{nav.title}</Link>
-                          {
-                            nav.submenu && (
-                              <ul className="submenu">
-                                {
-                                  nav.submenu.map((submenu, f) => (
-                                    <li
-                                      key={f.toString()}
-                                      className={`${history.location.pathname.includes(submenu.name) ? 'submenuActive' : ''} subNav`}
-                                    >
-                                      <Link to={linkMenu(submenu.path)}>{submenu.title}</Link>
-                                    </li>
-                                  ))
-                                }
-                              </ul>
-                            )
-                          }
-                        </li>
-                      ))
-                    }
-                  </ul>
-                </div>
-              </div>
-              <CSSTransition
-                in={slideIn}
-                timeout={200}
-                classNames="slideIn"
-                onEnter={() => setSlideIn(true)}
-                onExited={() => setActiveMenu(null)}
-                unmountOnExit
-              >
-                <MenuNavigationSubmenu
-                  windowDimensions={windowDimensions}
-                  activeMenu={activeMenu}
-                  onClose={() => onCloseSupport()}
-                />
-              </CSSTransition>
+      <header className="sideHeader dis-fl-col a-c jc-fs h-perc-100" id="menu-sidebar">
+        <div className="w-perc-100 pos-r h-perc-100">
+          { /* SECTION SIDEBAR MENU DESKTOP */ }
+          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgLight100 ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
+            <div>
+              <ul className="sidebarNav dis-fl-col pr-3 py-4">
+                {
+                  navigationMenu.map((nav, i) => (
+                    <li
+                      key={i.toString()}
+                      className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav fsize-300`}
+                    >
+                      <Link to={linkMenu(nav.path)}>{nav.title}</Link>
+                      {
+                        nav.submenu && (
+                          <ul className="submenu">
+                            {
+                              nav.submenu.map((submenu, f) => (
+                                <li
+                                  key={f.toString()}
+                                  className={`${history.location.pathname.includes(submenu.name) ? 'submenuActive' : ''} subNav`}
+                                >
+                                  <Link to={linkMenu(submenu.path)}>{submenu.title}</Link>
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        )
+                      }
+                    </li>
+                  ))
+                }
+              </ul>
             </div>
-          </header>
-        )
-      }
+          </div>
+          <CSSTransition
+            in={slideIn}
+            timeout={200}
+            classNames="slideIn"
+            onEnter={() => setSlideIn(true)}
+            onExited={() => setActiveMenu(null)}
+            unmountOnExit
+          >
+            <MenuNavigationSubmenu
+              windowDimensions={windowDimensions}
+              activeMenu={activeMenu}
+              onClose={() => onCloseSupport()}
+            />
+          </CSSTransition>
+        </div>
+      </header>
     </>
   );
 };
