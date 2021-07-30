@@ -205,7 +205,7 @@ const CarouselWrapper = (props) => {
                   <div className="dis-fl-row-sm pt-1 pt-sm-0 ta-c">
 
                     {
-                      items[activeSlide].tags[0].indexOf('pre-market') !== -1 ? (
+                      items[activeSlide].tags && items[activeSlide].tags[0].indexOf('pre-market') !== -1 ? (
                         <>
                           <p className="pl-1 body2 txtDark700"><span>Your property is visible on our pre-market.</span></p>
                           <a
