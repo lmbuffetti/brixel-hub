@@ -628,7 +628,7 @@ button.minimum-w-210 {
 }
 
 
-.extraFeatureTitle .multiFieldWrap {
+.extraFeatureTitle > h6 {
   display: none;
 }
 
@@ -643,7 +643,7 @@ button.minimum-w-210 {
       margin-top: 0;
     }
   }
-  .extraFeatureTitle .multiFieldWrap {
+  .extraFeatureTitle > h6 {
     display: block;
   }
  .pageHeaderAchievement > div {
