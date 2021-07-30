@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -356,10 +357,10 @@ const Price = (props) => {
               </div>
 
               <div className="dis-fl-col boxCard pb-5">
-                <h5 className="mb-3">Bestimate®</h5>
                 {
                   get(estimation, 'result.higherValue', 0) > 0 ? (
                     <>
+                      <h5 className="mb-3">Bestimate®</h5>
                       <p className="txtDark700">Your property is worth up to</p>
 
                       <div className="dis-f a-c w-perc-100 mt-3 ">
@@ -379,20 +380,20 @@ const Price = (props) => {
                     </>
                   ) : (
                     <>
-                      <p className="txtDark700">Bestimate is pending or we don&rsquo;t have enough data.</p>
-
-                      <BrixelButtonText
+                      <h5 className="mb-3">Bestimate® is missing 🙁</h5>
+                      <p className="txtDark700">We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.</p>
+                      <BrixelButtonSecondary
                         rounded
                         className="mt-3 w-fit"
-                        label="More details"
-                        onClick={() => history.push(`/${formValue.id}/rewards/bestimate`)}
+                        label="Contact support"
+                        onClick={() => {
+                          history.push({ state: { showSupport: true } });
+                        }}
                       />
                     </>
                   )
                 }
-
               </div>
-
             </div>
           </div>
         </div>
