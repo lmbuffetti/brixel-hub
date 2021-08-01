@@ -34,6 +34,7 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 const Price = (props) => {
   const {
     activeSingleProperty,
+    changeFieldValue,
     estimation,
     formValue,
     history,
@@ -87,6 +88,12 @@ const Price = (props) => {
     return null;
   };
 
+  const onChangePrice = (val) => {
+    if (val && +(val.replace(/\./g, '')) > 0 && get(activeSingleProperty, 'price.total', 0) <= 0) {
+      changeFieldValue('status', 'on-sale');
+    }
+  };
+
   return (
     <>
       <h3 className="mb-3 hide dis-b-lg">Price</h3>
@@ -135,6 +142,7 @@ const Price = (props) => {
                     placeholder: '700\'000',
                     name: 'price.total',
                     unit: get(formValue, 'price.currency', ''),
+                    onChange: (val) => onChangePrice(val),
                   }}
                   inputFormat={{
                     currency: get(formValue, 'price.currency', ''),
@@ -404,6 +412,7 @@ const Price = (props) => {
 
 Price.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
