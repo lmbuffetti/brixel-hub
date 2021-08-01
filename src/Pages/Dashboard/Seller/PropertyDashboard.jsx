@@ -178,7 +178,7 @@ const HomeDashboard = (props) => {
                     onClick={() => history.push(`/${propID}/property/floorPlans`)}
                   />
                 </div>
-                <div className="dis-f mt-2">
+                <div className="dis-f mt-2 max-w-perc-50">
                   <BrixelButtonBox
                     verticalView
                     bgTransparent

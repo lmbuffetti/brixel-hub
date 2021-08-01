@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -218,19 +219,37 @@ const Price = (props) => {
               <div className="dis-fl-col boxCard mb-5 pb-5">
                 <h5 className="mb-3">Pro Estimation</h5>
 
-                <p className="txtDark700">Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.</p>
+                {
+                  get(proEstimation, 'value', 0) <= 0 ? (
+                    <p className="txtDark700">
+                      {
+                        calcPercentageProEstimation().realPerc === 100 ? (
+                          <>Your estimation is being calculated. You will receive an email with the result </>
+                        ) : (
+                          <>Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation. </>
+                        )
+                      }
+                    </p>
+                  ) : (
+                    <p className="txtDark700">This is your estimated value for your property.</p>
+                  )
+                }
 
                 <div className="dis-f a-c w-perc-100 my-3">
-                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">CHF</span>
+                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
+                    {get(estimation, 'result.currency', '')}
+                  </span>
+
+                  {/* <span className="">CHF</span> */}
                   {
                     get(proEstimation, 'value', 0) <= 0 ? (
                       <>
-                        <div className="w-perc-100 h-fix-40 mx-1 pos-r">
+                        <div className="w-perc-100 h-fix-40 mx-1 pos-r dis-f jc-c a-c">
                           <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur pos-a" />
                           <div className="pos-r zIndex1">
                             {
                               calcPercentageProEstimation().realPerc === 100 && (
-                                <p className="fsize-300 txtYellow400 ta-c pt-small-4">pending</p>
+                                <p className="ff-mono fweight-700 fsize-400 txtYellow400">pending</p>
                               )
                             }
                           </div>
@@ -241,36 +260,56 @@ const Price = (props) => {
                         />
                       </>
                     ) : (
-                      <p className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1">{get(proEstimation, 'value', 0) }</p>
+                      <span className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1">{Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
                     )
                   }
 
                 </div>
 
                 {
-                  proEstimation.document ? (
-                    <div className="dis-f a-c mt-2">
-                      <BrixelIcon
-                        className="mr-1"
-                        icon="document"
-                        background="blue"
-                        saturation={100}
-                        color="blue"
-                        saturationTxt={700}
-                      />
-                      <div className="pl-small-4">
-                        <a
-                          className="txtDark700 fweight-600 fsize-300 dis-b"
-                          href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {selectDocument(proEstimation.document, 'name')}
-                        </a>
-                        <small className="fsize-200 fweight-500 txtLight400">
-                          {selectDocument(proEstimation.document, 'date')}
-                        </small>
-                      </div>
+                  proEstimation && proEstimation.document ? (
+                    <div className="dis-f a-c">
+                      {
+                        selectDocument(proEstimation.document, 'name') ? (
+                          <>
+                            <BrixelIcon
+                              className="mr-1"
+                              icon="document"
+                              background="blue"
+                              saturation={100}
+                              color="blue"
+                              saturationTxt={700}
+                            />
+                            <div className="pl-small-4">
+                              <a
+                                className="txtDark700 fweight-600 fsize-300 dis-b"
+                                href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {selectDocument(proEstimation.document, 'name')}
+                              </a>
+                              <small className="fsize-200 fweight-500 txtLight400">
+                                {selectDocument(proEstimation.document, 'date')}
+                              </small>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            {
+                              calcPercentageProEstimation().realPerc === 100 && (
+                                <BrixelButtonSecondary
+                                  rounded
+                                  className="mt-2 w-fit"
+                                  label="Edit inputs"
+                                  ghost
+                                  onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                                />
+                              )
+                            }
+                          </>
+                        )
+                      }
                     </div>
                   ) : (
                     <>
@@ -285,8 +324,8 @@ const Price = (props) => {
                           showIconComplete={calcPercentageProEstimation().realPerc === 100}
                         />
                         <div className="ml-2">
-                          <p>Inputs</p>
-                          <p className={`fsize-300 ff-mono fweight-700 ${calcPercentageProEstimation().realPerc === 100 ? 'txtGreen600' : 'txtPrimary700'}`}>
+                          <p className="fsize-300 txtDark700">Estimation inputs</p>
+                          <p className={`ff-mono fweight-700 ${calcPercentageProEstimation().realPerc === 100 ? 'txtGreen600' : 'txtPrimary700'}`}>
                             <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
                             <span>completed</span>
                           </p>
@@ -318,29 +357,42 @@ const Price = (props) => {
               </div>
 
               <div className="dis-fl-col boxCard pb-5">
-                <h5 className="mb-3">Bestimate®</h5>
+                {
+                  get(estimation, 'result.higherValue', 0) > 0 ? (
+                    <>
+                      <h5 className="mb-3">Bestimate®</h5>
+                      <p className="txtDark700">Your property is worth up to</p>
 
-                <p className="txtDark700">Your property is worth up to</p>
+                      <div className="dis-f a-c w-perc-100 mt-3 ">
+                        <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
+                          <span>{get(estimation, 'result.currency', '')}</span>
+                          <span className="ml-1">{Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
+                        </span>
+                      </div>
 
-                <div className="dis-f a-c w-perc-100 mt-3 ">
-                  {
-                    get(estimation, 'result.higherValue', 0) > 0 && (
-                      <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
-                        <span>{get(estimation, 'result.currency', '')}</span>
-                        <span className="ml-1">{Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
-                      </span>
-                    )
-                  }
-                </div>
-
-                <BrixelButtonSecondary
-                  rounded
-                  className="mt-5 w-fit"
-                  label="Open"
-                  ghost
-                  onClick={() => openBestimate()}
-                />
-
+                      <BrixelButtonSecondary
+                        rounded
+                        className="mt-5 w-fit"
+                        label="Open"
+                        ghost
+                        onClick={() => openBestimate()}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <h5 className="mb-3">Bestimate® is missing 🙁</h5>
+                      <p className="txtDark700">We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.</p>
+                      <BrixelButtonSecondary
+                        rounded
+                        className="mt-3 w-fit"
+                        label="Contact support"
+                        onClick={() => {
+                          history.push({ state: { showSupport: true } });
+                        }}
+                      />
+                    </>
+                  )
+                }
               </div>
             </div>
           </div>

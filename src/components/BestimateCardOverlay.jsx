@@ -39,10 +39,10 @@ const BestimateCardOverlay = (props) => {
   return (
     <>
       <SplashScreen
-        className="result-popup"
+        className="result-popup centered"
         closeOutside={false}
       >
-        <div className="dis-f jc-fe mb-2">
+        <div className="dis-f jc-fe">
           <BrixelButtonIcon
             ghost
             theme="dark"

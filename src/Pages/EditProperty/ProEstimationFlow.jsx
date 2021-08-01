@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary, initializeForm,
-  MultiFileldsReduxForm,
+  MultiFileldsReduxForm, BrixelButtonIcon,
   ProgressRing, destroy,
 } from '@brixel/brixel-components';
 import { diff } from 'deep-object-diff';
@@ -20,7 +20,7 @@ import {
 } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
-import PageHeaderAchievement from '../../components/PageHeaderAchievement';
+// import PageHeaderAchievement from '../../components/PageHeaderAchievement';
 
 const ProEstimationFlow = (props) => {
   // PROPS
@@ -168,23 +168,30 @@ const ProEstimationFlow = (props) => {
   }
 
   return (
-    <div id="bodyModalWrapper" className="achievementFlow">
+    <div id="bodyModalWrapper" className="achievementFlow ProEstimationFlow">
       <div className="bodyModal">
-        <PageHeaderAchievement
-          historyUrl={`/${activeSingleProperty.id}/property/price`}
-        />
         <form
           id="multiStepForm"
           onSubmit={(e) => e.preventDefault()}
           autoComplete="off"
-          className="dis-fl-col jc-b"
+          className="dis-fl-col jc-b formFlow"
         >
           <div className="multiStepSlides">
-            <div
-              className="singleStep jc-c"
-            >
+            <div className="singleStep jc-c">
               <div className="subcontainer m-a">
+                <div className="pos-a max-w-fix-768 w-perc-100 x-c jc-fe dis-f pr-2 pt-2 pr-md-3 pt-md-3">
+                  <BrixelButtonIcon
+                    icon="close-small"
+                    ghost
+                    theme="dark"
+                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                  />
+                </div>
+                <div className="mt-4 pb-3">
+                  <h4>Pro Estimation inputs</h4>
+                </div>
                 <MultiFileldsReduxForm
+                  showCheckMark
                   disableNextBtn={false}
                   formValue={formValue}
                   form="formFlow"
@@ -211,9 +218,9 @@ const ProEstimationFlow = (props) => {
                     showIcon={false}
                   />
                   <div className="ml-2">
-                    <p>Inputs</p>
+                    <p className="hide dis-b-sm">Inputs</p>
                     <p className="ff-mono fweight-700 txtPrimary700">
-                      <span className="mr-1 notranslate">{percComplete}%</span>
+                      <span className="mr-1 notranslate dis-b dis-ib-sm">{percComplete}%</span>
                       <span>completed</span>
                     </p>
                   </div>
@@ -221,14 +228,27 @@ const ProEstimationFlow = (props) => {
                 {
                   unsavedChange ? (
                     <div className="dis-f a-c">
-                      <BrixelButtonSecondary
-                        rounded
-                        className="noWrap mr-2"
-                        saturation={400}
-                        theme="red"
-                        label="Discard"
-                        onClick={() => (savedBtn ? '' : closeWindow())}
-                      />
+                      {
+                        !isSmallLoading.saveData && !savedBtn && (
+                          <>
+                            <BrixelButtonIcon
+                              secondary
+                              className="hide-sm mr-2"
+                              theme="red"
+                              icon="close-small"
+                              onClick={() => (savedBtn ? '' : closeWindow())}
+                            />
+                            <BrixelButtonSecondary
+                              rounded
+                              className="noWrap mr-2 hide dis-b-sm"
+                              saturation={400}
+                              theme="red"
+                              label="Discard"
+                              onClick={() => (savedBtn ? '' : closeWindow())}
+                            />
+                          </>
+                        )
+                      }
                       <BrixelButtonPrimary
                         rounded
                         className="noWrap"
