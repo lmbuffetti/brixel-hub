@@ -3,9 +3,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
-  BrixelButtonSecondary, initializeForm,
-  MultiFileldsReduxForm, BrixelButtonIcon,
-  ProgressRing, destroy,
+  BrixelButtonSecondary,
+  initializeForm,
+  MultiFileldsReduxForm,
+  BrixelButtonIcon,
+  ProgressRing,
+  destroy,
+  reset,
 } from '@brixel/brixel-components';
 import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
@@ -27,6 +31,7 @@ const ProEstimationFlow = (props) => {
   const {
     activeSingleProperty,
     formValue,
+    handleDestroy,
     handleReset,
     handleSaveActiveSingleProperty,
     history,
@@ -57,7 +62,7 @@ const ProEstimationFlow = (props) => {
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
-    handleReset();
+    handleDestroy();
     history.push(`/${activeSingleProperty.id}/property/price`);
   };
 
@@ -149,7 +154,7 @@ const ProEstimationFlow = (props) => {
       });
     });
     setQuestions(questList);
-    const percentageComplete = calcPercentageProEstimation();
+    const percentageComplete = calcPercentageProEstimation('formFlow');
     setPercComplete(percentageComplete.realPerc);
   }, [formValue]);
 
@@ -244,7 +249,7 @@ const ProEstimationFlow = (props) => {
                               saturation={400}
                               theme="red"
                               label="Discard"
-                              onClick={() => (savedBtn ? '' : closeWindow())}
+                              onClick={() => (savedBtn ? '' : handleReset(initialValues))}
                             />
                           </>
                         )
@@ -286,6 +291,7 @@ ProEstimationFlow.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
+  handleDestroy: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
@@ -305,8 +311,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleReset() {
+  handleDestroy() {
     dispatch(destroy('formFlow'));
+  },
+  handleReset(value) {
+    dispatch(reset('formFlow', value));
   },
   initForm(value) {
     dispatch(initializeForm('formFlow', value));
