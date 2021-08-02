@@ -155,7 +155,6 @@ const ProEstimationFlow = (props) => {
     });
     setQuestions(questList);
     const percentageComplete = calcPercentageProEstimation('formFlow');
-    console.log(percentageComplete);
     setPercComplete(percentageComplete.realPerc);
   }, [formValue]);
 
