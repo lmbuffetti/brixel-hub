@@ -226,7 +226,9 @@ const ProEstimationFlow = (props) => {
                   <div className="ml-2">
                     <p className="hide dis-b-sm">Inputs</p>
                     <p className="ff-mono fweight-700 txtPrimary700">
-                      <span className="mr-1 notranslate dis-b dis-ib-sm">{percComplete}%</span>
+                      <span className="mr-1 notranslate dis-b dis-ib-sm">
+                        {percComplete}%
+                      </span>
                       <span>completed</span>
                     </p>
                   </div>

@@ -252,7 +252,7 @@ const Price = (props) => {
                 </div>
 
                 {
-                  proEstimation && proEstimation.document ? (
+                  proEstimation && selectDocument(proEstimation.document, 'path') ? (
                     <div className="dis-f a-c">
                       {
                         selectDocument(proEstimation.document, 'name') ? (
