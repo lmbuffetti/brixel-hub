@@ -101,7 +101,7 @@ const ProEstimationFlow = (props) => {
     }
     if (Object.keys(initialValues).length > 0 && Object.keys(formValue).length > 0) {
       keyChanged.forEach((item) => {
-        InputSheets().forEach((singleQuest) => {
+        InputSheets('proEstimation').forEach((singleQuest) => {
           singleQuest.inputs.forEach((input) => {
             if (input.condition) {
               if (input.condition.name) {
@@ -125,7 +125,7 @@ const ProEstimationFlow = (props) => {
       });
     }
     const questList = [];
-    InputSheets(formValue).forEach((singleQuest) => {
+    InputSheets('proEstimation').forEach((singleQuest) => {
       singleQuest.inputs.forEach((input) => {
         if (input.isProEstimation) {
           let mergeCondition = [];
@@ -307,6 +307,19 @@ const mapStateToProps = (state) => ({
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
     ...get(state, 'brixelForm.Property.values', {}),
+    properties: {
+      ...get(state, 'brixelForm.Property.values.properties', {}),
+      parking: {
+        ...get(state, 'brixelForm.Property.values.parking', {}),
+        garage: get(state, 'brixelForm.Property.values.parking.garage', 0),
+        outside: get(state, 'brixelForm.Property.values.parking.garage', 0),
+        underground: get(state, 'brixelForm.Property.values.parking.garage', 0),
+      },
+      typology: {
+        ...get(state, 'brixelForm.Property.values.typology', {}),
+        bathrooms: get(state, 'brixelForm.Property.values.bathrooms', 0),
+      },
+    },
   },
 });
 

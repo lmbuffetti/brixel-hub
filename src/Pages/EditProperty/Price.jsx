@@ -24,12 +24,13 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import { DateTime } from 'luxon';
-import { setSplashType } from '../../actions/CommonActions';
+import { setHistory, setSplashType } from '../../actions/CommonActions';
 import { InputSheets } from '../../resources/inputSheets';
 import { calcPercentageProEstimation } from '../../utils/helpers';
 
 // COMPONENTS
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
+import { getEstimation } from '../../actions/PropertyActions';
 
 const Price = (props) => {
   const {
@@ -37,6 +38,8 @@ const Price = (props) => {
     changeFieldValue,
     estimation,
     formValue,
+    handleGetActiveSinglePropertyEstimation,
+    handleSetHistory,
     history,
     match,
     proEstimation,
@@ -68,6 +71,9 @@ const Price = (props) => {
         if (hubDashboard) hubDashboard.classList.add('secondLevelActive');
       }, 10);
     }
+    if (get(estimation, 'result.higherValue', 0) === 0) {
+      handleGetActiveSinglePropertyEstimation(propID);
+    }
   }, []);
 
   const openBestimate = () => {
@@ -77,6 +83,12 @@ const Price = (props) => {
         clearEstimation: false,
       },
     });
+  };
+
+  const onBestimateFlow = () => {
+    history.push(`/${activeSingleProperty.id}/rewards/achievement/bestimate/step1`);
+    setSplashScreen('');
+    handleSetHistory({ source: `/${activeSingleProperty.id}/property/price` });
   };
 
   const selectDocument = (id, action) => {
@@ -168,44 +180,6 @@ const Price = (props) => {
                   }}
                   labels={{
                     label: 'Status',
-                  }}
-                />
-
-                <hr className="lighter mt-3 mb-3" />
-
-                <p className="txtDark200 mb-3">For what price did you buy the property?</p>
-
-                <ReduxField
-                  ReduxFieldClass="w-perc-80"
-                  form="Property"
-                  component={BrixelInputText}
-                  input={{
-                    placeholder: '700\'000',
-                    name: 'properties.building.purchasePrice',
-                    unit: get(formValue, 'price.currency', ''),
-                  }}
-                  inputFormat={{
-                    currency: get(formValue, 'price.currency', ''),
-                    formatType: 'price',
-                  }}
-                  labels={{
-                    label: 'Purchase price',
-                  }}
-                />
-
-                <ReduxField
-                  ReduxFieldClass="w-perc-60 mt-2"
-                  form="Property"
-                  component={BrixelInputText}
-                  input={{
-                    placeholder: 'MM/YYYY',
-                    name: 'properties.building.purchaseDate',
-                  }}
-                  inputFormat={{
-                    formatType: 'date-mm:yyyy',
-                  }}
-                  labels={{
-                    label: 'Purchase date',
                   }}
                 />
               </div>
@@ -388,16 +362,34 @@ const Price = (props) => {
                     </>
                   ) : (
                     <>
-                      <h5 className="mb-3">Bestimate® is missing 🙁</h5>
-                      <p className="txtDark700">We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.</p>
-                      <BrixelButtonSecondary
-                        rounded
-                        className="mt-3 w-fit"
-                        label="Contact support"
-                        onClick={() => {
-                          history.push({ state: { showSupport: true } });
-                        }}
-                      />
+                      {
+                        get(estimation, 'status', null) !== 'pending' ? (
+                          <>
+                            <h5 className="mb-3">Get a free price indication.</h5>
+                            <p className="txtDark700">Compare your property to real transaction data to better define the pricing.</p>
+                            <BrixelButtonPrimary
+                              rounded
+                              label="Get free Bestimate&reg;"
+                              className="mt-3 w-fit"
+                              onClick={() => onBestimateFlow()}
+                              rightIcon="arrow-right"
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <h5 className="mb-3">Bestimate® is missing 🙁</h5>
+                            <p className="txtDark700">We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.</p>
+                            <BrixelButtonSecondary
+                              rounded
+                              className="mt-3 w-fit"
+                              label="Contact support"
+                              onClick={() => {
+                                history.push({ state: { showSupport: true } });
+                              }}
+                            />
+                          </>
+                        )
+                      }
                     </>
                   )
                 }
@@ -415,6 +407,8 @@ Price.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
+  handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   proEstimation: PropTypes.object.isRequired,
@@ -440,6 +434,8 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)));
   },
+  handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
+  handleSetHistory: bindActionCreators(setHistory, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
