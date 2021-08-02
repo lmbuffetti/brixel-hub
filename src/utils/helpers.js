@@ -60,7 +60,7 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
   let countDone = 0;
   const questList = [];
   const formValue = get(configureStore.getState(), `brixelForm[${form}].values`, value);
-  InputSheets(formValue).forEach((singleQuest) => {
+  InputSheets('proEstimation').forEach((singleQuest) => {
     singleQuest.inputs.forEach((input) => {
       if (input.isProEstimation) {
         let mergeCondition = [];

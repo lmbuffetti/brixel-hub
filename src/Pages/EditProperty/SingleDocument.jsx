@@ -115,7 +115,7 @@ const SingleDocument = (props) => {
 
   const checkDisabled = () => {
     const isDocEdit = find(diff(initialValues, formValue).documents, (el) => {
-      if (history.location.pathname.includes('documents') &&
+      if (history.location.pathname.includes('docubox') &&
           (has(el, 'isPrivate') || has(el, 'name') || has(el, 'folder')) &&
           !has(el, 'id') && newFolder === false) {
         return true;
