@@ -104,6 +104,9 @@ const Price = (props) => {
     if (val && +(val.toString().replace(/\./g, '')) > 0 && get(activeSingleProperty, 'price.total', 0) <= 0) {
       changeFieldValue('status', 'on-sale');
     }
+    if (((val && +(val.toString().replace(/\./g, '')) === 0) || !val) && get(activeSingleProperty, 'status', null) === 'on-sale') {
+      changeFieldValue('status', 'on-request');
+    }
   };
 
   return (
