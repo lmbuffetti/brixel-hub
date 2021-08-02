@@ -126,6 +126,7 @@ const FactsQuestion = (props) => {
         classNameBox={quest.classNameBox}
         className="singleInput"
         form="Property"
+        hitMessage
         disableNextBtn={false}
         formValue={formValue}
         inputs={quest.inputs}

@@ -197,6 +197,7 @@ const ProEstimationFlow = (props) => {
                 </div>
                 <MultiFileldsReduxForm
                   showCheckMark
+                  hitMessage
                   disableNextBtn={false}
                   formValue={formValue}
                   form="formFlow"
