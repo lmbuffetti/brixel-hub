@@ -1,5 +1,5 @@
 .sellerHub div#dashboard {
-  max-width: 1248px;
+  //max-width: 1248px;
 }
 
 .hubContainer {
@@ -18,6 +18,9 @@
 
   &.sellerHub,
   &.buyerHub {
+    .hubDasContent {
+      background: linear-gradient(122.7deg, #FFFFFF 6.68%, #F7F6F5 43.53%);
+    }
     @media (max-width: $responsive-medium) {
       overflow-y: hidden;
     }
@@ -27,47 +30,35 @@
       }
       .dashboardContainer {
         @media (max-width: $responsive-medium) {
-          background-color: map-get($lightColor, 100);
           padding-bottom: $step * 5;
         }
       }
     }
   }
   .innerWrap {
-    padding-top: $step * 3;
-    background: white;
     height: 100%;
     z-index: 1;
-
 
     @media (max-width: $responsive-medium) {
       background-color: map-get($lightColor, 100);
     }
     .dashboardContainer {
-      background-color: white;
       padding-bottom: 24px;
 
       @media (max-width: $responsive-medium) {
         background-color: map-get($lightColor, 100);
         &.prospects {
-          //top: - $step * 3;
-          //position: relative;
         }
       }
     }
   }
 }
 .hubDasContent {
-  .container {
+  .dashboardContainer {
     margin: auto;
 
     @media (min-width: $responsive-medium) {
-      //min-height: 100%;
-      padding: $step * 3;
-
-      &.dashboardContainer {
-        padding: 0px $step * 3 $step * 3;
-      }
+      padding: $step * 4 $step * 5;
     }
     @media (max-width: $responsive-medium) {
       padding-left: $step * 2;
@@ -95,7 +86,7 @@
     max-width: 768px;
 
     @media (max-width: $responsive-medium) {
-      background: $brx-white;
+      background: #E5E5E5;
       position: fixed;
       z-index: 100;
       overflow-y: auto;
@@ -103,11 +94,12 @@
       left: 0;
       top: 0;
       max-width: 100%;
+      padding: $step * 2;
     }
 
     > div {
       &:not([class*=" p-"]) {
-        padding: $step * 2;
+        //padding: $step * 2;
       }
     }
   }
@@ -133,14 +125,14 @@
       > div {
         &:not(.brixel-upgrade-message) {
           &:not(.hideStyle) {
-            box-shadow: $shadow-1dp;
-            background: $brx-white;
-            border-radius: $brd-radius-small;
+            //box-shadow: $shadow-1dp;
+            //background: $brx-white;
+            //border-radius: $brd-radius-small;
           }
         }
         &:not(.rewardsSplash) {
           &:not(.hideStyle) {
-            padding: $step * 3;
+            //padding: $step * 3;
           }
         }
         &.dealsListings {
@@ -160,11 +152,11 @@
 
 }
 
-.longScroll .hubDasContent .container .firstLevel{
+/* .longScroll .hubDasContent .container .firstLevel{
   @media (max-width: $responsive-medium) {
    margin-bottom: 0;
   }
-}
+} */
 
 .brixel-upgrade-message:not(.tourTeaser):not(.tour) {
   @media (max-width: $responsive-medium) {

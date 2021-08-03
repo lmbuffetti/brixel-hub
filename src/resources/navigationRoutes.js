@@ -80,6 +80,7 @@ export const sidebarNavigationBuyer = [
   {
     title: 'Property',
     name: 'property',
+    icon: 'property-new',
     path: '/buyer/:propID/property',
     submenu: [
       {
@@ -107,6 +108,7 @@ export const sidebarNavigationBuyer = [
   {
     title: 'Closing',
     name: 'closing',
+    icon: 'flag-wave',
     path: '/buyer/:propID/closing/:dealID',
   },
 ];

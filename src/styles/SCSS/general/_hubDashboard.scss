@@ -25,7 +25,7 @@
   .hubDasContent {
     @media (min-width: $responsive-medium) {
       // padding-left: $sidebarWidth;
-      top: 64px;
+      //top: 64px;
       position: relative;
     }
     .property-container,
@@ -72,7 +72,7 @@
         .fixedIcon {
           display: flex;
           position: fixed;
-          background: white;
+          background: #E5E5E5;
           padding: $step * 2;
           padding-bottom: 0;
           max-width: 100%;
@@ -92,7 +92,7 @@
   .withTopBar {
     .hubDasContent {
       @media (min-width: $responsive-medium) {
-        top: 64px;
+       // top: 72px;
       }
     }
   }
@@ -151,7 +151,7 @@
     }
     .hubDasContent {
       @media (max-width: $responsive-medium) {
-        top: 108px;
+        //top: 108px;
         position: relative;
       }
     }

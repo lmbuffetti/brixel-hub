@@ -246,7 +246,7 @@ function PageHeaderDashboard(props) {
       />
       <header className={`hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
         <div className="dasHeaderContainer">
-          <div className="wrapperHeader dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r bgWhite">
+          <div className="wrapperHeader dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
             <div className="header-section dis-fl-row a-c jc-b w-perc-100">
               <div className="dis-f a-c pl-2 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256 w-perc-100">
                 {
@@ -277,7 +277,7 @@ function PageHeaderDashboard(props) {
                   )
                 }
               </div>
-              <div className="quickNav mr-a dis-f fsize-300">
+              <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-3">
                 {
                   activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' && propID !== 'buy' && propID !== 'sell' ? (
                     <>

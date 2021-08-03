@@ -112,291 +112,289 @@ const Price = (props) => {
   return (
     <>
       <h3 className="mb-3 hide dis-b-lg">Price</h3>
-      <div className="factsWrapper dis-f h-perc-lg-100">
-        <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
+      <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
 
-          <div className="hideStyle dis-fl-col backPanel dis-b hide-md">
-            <div className="fixedIcon w-perc-100">
-              <BrixelButtonIcon
-                className=""
-                icon="arrow-left-small"
-                theme="dark"
-                ghost
-                onClick={() => history.push(`/${propID}/property`)}
+        <div className="dis-fl-col backPanel dis-b hide-md">
+          <div className="fixedIcon w-perc-100">
+            <BrixelButtonIcon
+              className=""
+              icon="arrow-left-small"
+              theme="dark"
+              ghost
+              onClick={() => history.push(`/${propID}/property`)}
+            />
+          </div>
+          <h5 className="sectionTitle">Price</h5>
+        </div>
+
+        <div className="dis-fl-col dis-fl-row-lg a-t jc-b">
+          <div className="boxCard dis-fl-col mr-2 w-perc-100 mb-5 mb-lg-0">
+            <h5>Listing price</h5>
+
+            <div className="dis-f jc-b a-c mt-3">
+              <ReduxField
+                ReduxFieldClass="w-perc-40 w-perc-md-30 mr-1"
+                form="Property"
+                component={BrixelSelect}
+                design={{
+                  compact: true,
+                }}
+                input={{
+                  placeholder: 'CHF',
+                  name: 'price.currency',
+                  options: factsOptions.currency,
+                }}
+                labels={{
+                  label: 'Currency',
+                }}
+              />
+              <ReduxField
+                ReduxFieldClass="w-perc-70 ml-1"
+                form="Property"
+                component={BrixelInputText}
+                input={{
+                  placeholder: '700\'000',
+                  name: 'price.total',
+                  unit: get(formValue, 'price.currency', ''),
+                  onChange: (val) => onChangePrice(val),
+                }}
+                inputFormat={{
+                  currency: get(formValue, 'price.currency', ''),
+                  formatType: 'price',
+                }}
+                labels={{
+                  label: 'Price',
+                }}
               />
             </div>
-            <h5 className="sectionTitle">Price</h5>
-          </div>
 
-          <div className="hideStyle dis-f-lg a-t jc-b px-2 p-lg-0">
-            <div className="dis-fl-col boxCard mr-2 w-perc-100 mb-5 mb-lg-0">
-              <h5>Listing price</h5>
-
-              <div className="dis-f jc-b a-c mt-3">
-                <ReduxField
-                  ReduxFieldClass="w-perc-40 w-perc-md-30 mr-1"
-                  form="Property"
-                  component={BrixelSelect}
-                  design={{
-                    compact: true,
-                  }}
-                  input={{
-                    placeholder: 'CHF',
-                    name: 'price.currency',
-                    options: factsOptions.currency,
-                  }}
-                  labels={{
-                    label: 'Currency',
-                  }}
-                />
-                <ReduxField
-                  ReduxFieldClass="w-perc-70 ml-1"
-                  form="Property"
-                  component={BrixelInputText}
-                  input={{
-                    placeholder: '700\'000',
-                    name: 'price.total',
-                    unit: get(formValue, 'price.currency', ''),
-                    onChange: (val) => onChangePrice(val),
-                  }}
-                  inputFormat={{
-                    currency: get(formValue, 'price.currency', ''),
-                    formatType: 'price',
-                  }}
-                  labels={{
-                    label: 'Price',
-                  }}
-                />
-              </div>
-
-              <div className={`${allSettings ? '' : 'hide'} dis-b-md`}>
-                <ReduxField
-                  ReduxFieldClass="w-perc-60 mt-2"
-                  form="Property"
-                  component={BrixelSelect}
-                  design={{
-                    compact: true,
-                  }}
-                  input={{
-                    name: 'status',
-                    options: factsOptions.propertyStatus,
-                  }}
-                  labels={{
-                    label: 'Status',
-                  }}
-                />
-              </div>
-
-              {
-                windowDimensions.width <= 1024 && (
-                  <div className="mt-2">
-                    <BrixelButtonText
-                      label={allSettings ? 'Fewer settings' : 'Show all settings'}
-                      onClick={() => setAllSettings(!allSettings)}
-                      rightIcon={allSettings ? 'minus-small' : 'plus-small'}
-                    />
-                  </div>
-                )
-              }
+            <div className={`${allSettings ? '' : 'hide'} dis-b-md`}>
+              <ReduxField
+                ReduxFieldClass="w-perc-60 mt-2"
+                form="Property"
+                component={BrixelSelect}
+                design={{
+                  compact: true,
+                }}
+                input={{
+                  name: 'status',
+                  options: factsOptions.propertyStatus,
+                }}
+                labels={{
+                  label: 'Status',
+                }}
+              />
             </div>
 
-            <div className="ml-md-1 w-perc-100">
-              <div className="dis-fl-col boxCard mb-5 pb-5">
-                <h5 className="mb-3">Pro Estimation</h5>
+            {
+              windowDimensions.width <= 1024 && (
+                <div className="mt-2">
+                  <BrixelButtonText
+                    label={allSettings ? 'Fewer settings' : 'Show all settings'}
+                    onClick={() => setAllSettings(!allSettings)}
+                    rightIcon={allSettings ? 'minus-small' : 'plus-small'}
+                  />
+                </div>
+              )
+            }
+          </div>
 
+          <div className="ml-lg-1 w-perc-100">
+            <div className="boxCard dis-fl-col mb-5">
+              <h5 className="mb-3">Pro Estimation</h5>
+
+              {
+                get(proEstimation, 'value', 0) <= 0 ? (
+                  <p className="txtDark700">
+                    {
+                      calcPercentageProEstimation().realPerc === 100 ? (
+                        <>Your estimation is being calculated. You will receive an email with the result </>
+                      ) : (
+                        <>Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation. </>
+                      )
+                    }
+                  </p>
+                ) : (
+                  <p className="txtDark700">This is your estimated value for your property.</p>
+                )
+              }
+
+              <div className="dis-f a-c w-perc-100 my-3">
+                <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
+                  {get(estimation, 'result.currency', '')}
+                </span>
+
+                {/* <span className="">CHF</span> */}
                 {
                   get(proEstimation, 'value', 0) <= 0 ? (
-                    <p className="txtDark700">
-                      {
-                        calcPercentageProEstimation().realPerc === 100 ? (
-                          <>Your estimation is being calculated. You will receive an email with the result </>
-                        ) : (
-                          <>Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation. </>
-                        )
-                      }
-                    </p>
-                  ) : (
-                    <p className="txtDark700">This is your estimated value for your property.</p>
-                  )
-                }
-
-                <div className="dis-f a-c w-perc-100 my-3">
-                  <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
-                    {get(estimation, 'result.currency', '')}
-                  </span>
-
-                  {/* <span className="">CHF</span> */}
-                  {
-                    get(proEstimation, 'value', 0) <= 0 ? (
-                      <>
-                        <div className="w-perc-100 h-fix-40 mx-1 pos-r dis-f jc-c a-c">
-                          <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur pos-a" />
-                          <div className="pos-r zIndex1">
-                            {
-                              calcPercentageProEstimation().realPerc === 100 && (
-                                <p className="ff-mono fweight-700 fsize-400 txtYellow400">pending</p>
-                              )
-                            }
-                          </div>
-                        </div>
-                        <BrixelIcon
-                          color={calcPercentageProEstimation().realPerc === 100 ? 'yellow' : 'red'}
-                          icon={calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : 'locked'}
-                        />
-                      </>
-                    ) : (
-                      <span className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1">{Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
-                    )
-                  }
-
-                </div>
-
-                {
-                  proEstimation && selectDocument(proEstimation.document, 'path') ? (
-                    <div className="dis-f a-c">
-                      {
-                        selectDocument(proEstimation.document, 'name') ? (
-                          <>
-                            <BrixelIcon
-                              className="mr-1"
-                              icon="document"
-                              background="blue"
-                              saturation={100}
-                              color="blue"
-                              saturationTxt={700}
-                            />
-                            <div className="pl-small-4">
-                              <a
-                                className="txtDark700 fweight-600 fsize-300 dis-b"
-                                href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                {selectDocument(proEstimation.document, 'name')}
-                              </a>
-                              <small className="fsize-200 fweight-500 txtLight400">
-                                {selectDocument(proEstimation.document, 'date')}
-                              </small>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            {
-                              calcPercentageProEstimation().realPerc === 100 && (
-                                <BrixelButtonSecondary
-                                  rounded
-                                  className="mt-2 w-fit"
-                                  label="Edit inputs"
-                                  ghost
-                                  onClick={() => history.push(`/${propID}/property/price/formFlow`)}
-                                />
-                              )
-                            }
-                          </>
-                        )
-                      }
-                    </div>
-                  ) : (
                     <>
-                      <div className="dis-f a-c">
-                        <ProgressRing
-                          progress={calcPercentageProEstimation().realPerc}
-                          size={45}
-                          strokeWidth={6}
-                          circleOneStroke="#DCDDDE"
-                          circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
-                          showIcon={false}
-                          showIconComplete={calcPercentageProEstimation().realPerc === 100}
-                        />
-                        <div className="ml-2">
-                          <p className="fsize-300 txtDark700">Estimation inputs</p>
-                          <p className={`ff-mono fweight-700 ${calcPercentageProEstimation().realPerc === 100 ? 'txtGreen600' : 'txtPrimary700'}`}>
-                            <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
-                            <span>completed</span>
-                          </p>
+                      <div className="w-perc-100 h-fix-40 mx-1 pos-r dis-f jc-c a-c">
+                        <div className="w-perc-100 h-fix-40 bgBlue100 bgBlur pos-a" />
+                        <div className="pos-r zIndex1">
+                          {
+                            calcPercentageProEstimation().realPerc === 100 && (
+                              <p className="ff-mono fweight-700 fsize-400 txtYellow400">pending</p>
+                            )
+                          }
                         </div>
                       </div>
-
-                      {
-                        calcPercentageProEstimation().realPerc === 100 ? (
-                          <BrixelButtonSecondary
-                            rounded
-                            className="mt-5 w-fit"
-                            label="Edit inputs"
-                            ghost
-                            onClick={() => history.push(`/${propID}/property/price/formFlow`)}
-                          />
-                        ) : (
-                          <BrixelButtonPrimary
-                            rounded
-                            className="w-fit mt-5"
-                            label="Complete now"
-                            onClick={() => history.push(`/${propID}/property/price/formFlow`)}
-                          />
-                        )
-                      }
-                    </>
-                  )
-                }
-
-              </div>
-
-              <div className="dis-fl-col boxCard pb-5">
-                {
-                  get(estimation, 'result.higherValue', 0) > 0 ? (
-                    <>
-                      <h5 className="mb-3">Bestimate®</h5>
-                      <p className="txtDark700">Your property is worth up to</p>
-
-                      <div className="dis-f a-c w-perc-100 mt-3 ">
-                        <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
-                          <span>{get(estimation, 'result.currency', '')}</span>
-                          <span className="ml-1">{Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
-                        </span>
-                      </div>
-
-                      <BrixelButtonSecondary
-                        rounded
-                        className="mt-5 w-fit"
-                        label="Open"
-                        ghost
-                        onClick={() => openBestimate()}
+                      <BrixelIcon
+                        color={calcPercentageProEstimation().realPerc === 100 ? 'yellow' : 'red'}
+                        icon={calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : 'locked'}
                       />
                     </>
                   ) : (
-                    <>
-                      {
-                        get(estimation, 'status', null) !== 'pending' ? (
-                          <>
-                            <h5 className="mb-3">Get a free price indication.</h5>
-                            <p className="txtDark700">Compare your property to real transaction data to better define the pricing.</p>
-                            <BrixelButtonPrimary
-                              rounded
-                              label="Get free Bestimate&reg;"
-                              className="mt-3 w-fit"
-                              onClick={() => onBestimateFlow()}
-                              rightIcon="arrow-right"
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <h5 className="mb-3">Bestimate® is missing 🙁</h5>
-                            <p className="txtDark700">We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.</p>
-                            <BrixelButtonSecondary
-                              rounded
-                              className="mt-3 w-fit"
-                              label="Contact support"
-                              onClick={() => {
-                                history.push({ state: { showSupport: true } });
-                              }}
-                            />
-                          </>
-                        )
-                      }
-                    </>
+                    <span className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1">{Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
                   )
                 }
+
               </div>
+
+              {
+                proEstimation && selectDocument(proEstimation.document, 'path') ? (
+                  <div className="dis-f a-c">
+                    {
+                      selectDocument(proEstimation.document, 'name') ? (
+                        <>
+                          <BrixelIcon
+                            className="mr-1"
+                            icon="document"
+                            background="blue"
+                            saturation={100}
+                            color="blue"
+                            saturationTxt={700}
+                          />
+                          <div className="pl-small-4">
+                            <a
+                              className="txtDark700 fweight-600 fsize-300 dis-b"
+                              href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {selectDocument(proEstimation.document, 'name')}
+                            </a>
+                            <small className="fsize-200 fweight-500 txtLight400">
+                              {selectDocument(proEstimation.document, 'date')}
+                            </small>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          {
+                            calcPercentageProEstimation().realPerc === 100 && (
+                              <BrixelButtonSecondary
+                                rounded
+                                className="mt-2 w-fit"
+                                label="Edit inputs"
+                                ghost
+                                onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                              />
+                            )
+                          }
+                        </>
+                      )
+                    }
+                  </div>
+                ) : (
+                  <>
+                    <div className="dis-f a-c">
+                      <ProgressRing
+                        progress={calcPercentageProEstimation().realPerc}
+                        size={45}
+                        strokeWidth={6}
+                        circleOneStroke="#DCDDDE"
+                        circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
+                        showIcon={false}
+                        showIconComplete={calcPercentageProEstimation().realPerc === 100}
+                      />
+                      <div className="ml-2">
+                        <p className="fsize-300 txtDark700">Estimation inputs</p>
+                        <p className={`ff-mono fweight-700 ${calcPercentageProEstimation().realPerc === 100 ? 'txtGreen600' : 'txtPrimary700'}`}>
+                          <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
+                          <span>completed</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    {
+                      calcPercentageProEstimation().realPerc === 100 ? (
+                        <BrixelButtonSecondary
+                          rounded
+                          className="mt-5 w-fit"
+                          label="Edit inputs"
+                          ghost
+                          onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                        />
+                      ) : (
+                        <BrixelButtonPrimary
+                          rounded
+                          className="w-fit mt-5"
+                          label="Complete now"
+                          onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                        />
+                      )
+                    }
+                  </>
+                )
+              }
+
+            </div>
+
+            <div className="boxCard dis-fl-col">
+              {
+                get(estimation, 'result.higherValue', 0) > 0 ? (
+                  <>
+                    <h5 className="mb-3">Bestimate®</h5>
+                    <p className="txtDark700">Your property is worth up to</p>
+
+                    <div className="dis-f a-c w-perc-100 mt-3 ">
+                      <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
+                        <span>{get(estimation, 'result.currency', '')}</span>
+                        <span className="ml-1">{Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
+                      </span>
+                    </div>
+
+                    <BrixelButtonSecondary
+                      rounded
+                      className="mt-5 w-fit"
+                      label="Open"
+                      ghost
+                      onClick={() => openBestimate()}
+                    />
+                  </>
+                ) : (
+                  <>
+                    {
+                      get(estimation, 'status', null) !== 'pending' ? (
+                        <>
+                          <h5 className="mb-3">Get a free price indication.</h5>
+                          <p className="txtDark700">Compare your property to real transaction data to better define the pricing.</p>
+                          <BrixelButtonPrimary
+                            rounded
+                            label="Get free Bestimate&reg;"
+                            className="mt-3 w-fit"
+                            onClick={() => onBestimateFlow()}
+                            rightIcon="arrow-right"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <h5 className="mb-3">Bestimate® is missing 🙁</h5>
+                          <p className="txtDark700">We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.</p>
+                          <BrixelButtonSecondary
+                            rounded
+                            className="mt-3 w-fit"
+                            label="Contact support"
+                            onClick={() => {
+                              history.push({ state: { showSupport: true } });
+                            }}
+                          />
+                        </>
+                      )
+                    }
+                  </>
+                )
+              }
             </div>
           </div>
         </div>

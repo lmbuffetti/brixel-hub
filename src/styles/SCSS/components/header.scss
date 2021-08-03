@@ -21,9 +21,8 @@
   align-self: stretch;
   align-items: center;
 
-  @media (max-width: $responsive-small) {
-
-    .propertyTitle {
+  .propertyTitle {
+    @media (max-width: $responsive-small) {
       line-height: $step * 2;
       font-size: 12px;
       font-weight: 500;
@@ -57,21 +56,17 @@
     }
   }
 }
+.scrollingHeader .hubDasHeader {
+  background-color: white;
 
+}
 .hubDasHeader {
-  @media (max-width: $responsive-medium) {
     position: sticky;
     top: 0;
-  }
-  @media (min-width: $responsive-medium) {
-    background-color: map-get($lightColor, 100);
-    // padding-left: $sidebarWidth;
-    position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 5;
-  }
   .dasHeaderContainer {
     .wrapperHeader {
       box-shadow: $shadow-1dp;
@@ -150,6 +145,7 @@
   }
 }
 .marketHome .hubDasHeader {
+  background-color: white;
   z-index: 3;
   @media (max-width: $responsive-medium) {
     position: sticky;

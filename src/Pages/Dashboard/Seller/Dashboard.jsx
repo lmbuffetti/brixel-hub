@@ -356,20 +356,29 @@ const Dashboard = (props) => {
   const sectionClass = get(history, 'location.pathname', '/').split('/');
 
   return (
-    <div className={`container dashboardContainer ${sectionClass[2]}`} id="dashboard">
-      <Suspense fallback={<Loading isLoading />}>
-        {/* teaserScreens && isEligible(activeSingleProperty) && () */}
-        { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-        <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={HubDashboard} />
-        <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-        <ProtectedRoute path="/:propId?/docubox" component={Documents} />
-        <ProtectedRoute path="/:propId?/marketing" component={MarketingDashboard} />
-        <ProtectedRoute path="/:propId?/prospects" component={Deals} />
-        <ProtectedRoute path="/:propId/closing" component={DashboardOffer} />
-        <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-        <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
-        <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
-      </Suspense>
+    <div className={`dashboardContainer dis-f jc-b ${sectionClass[2]}`} id="dashboard">
+      <div className="w-perc-100">
+        <Suspense fallback={<Loading isLoading />}>
+          {/* teaserScreens && isEligible(activeSingleProperty) && () */}
+          { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+          <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={HubDashboard} />
+          <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
+          <ProtectedRoute path="/:propId?/docubox" component={Documents} />
+          <ProtectedRoute path="/:propId?/marketing" component={MarketingDashboard} />
+          <ProtectedRoute path="/:propId?/prospects" component={Deals} />
+          <ProtectedRoute path="/:propId/closing" component={DashboardOffer} />
+          <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
+          <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
+          <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
+        </Suspense>
+      </div>
+      {
+        get(history, 'location.pathname', '').includes('rewards') && (
+          <div className="hide dis-f-lg">
+            <h2>sidbar</h2>
+          </div>
+        )
+      }
     </div>
   );
 };

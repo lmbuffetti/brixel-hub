@@ -216,7 +216,7 @@ const App = (props) => {
     } else {
       if (history.location.pathname.includes('rewards')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects')) {
+      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('closing') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects')) {
         if (history.location.pathname.includes('buyer')) {
           setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
         } else {
@@ -280,7 +280,7 @@ const App = (props) => {
           contentHeight = windowDimensions.height;
         }
       } else {
-        contentHeight = `calc(100vh - ${calcHeaderHeight()}px)`;
+        contentHeight = '100vh';
       }
     } else {
       contentHeight = 'auto';
@@ -325,7 +325,10 @@ const App = (props) => {
   }, [window]);
 
   const overflowClass = useCallback(() => {
-    if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) return 'ov-y-h ov-x-h';
+    if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) {
+      // if (windowDimensions.width <= 1024) return 'ov-y-a ov-x-h';
+      return 'ov-y-h ov-x-h';
+    }
     return 'ov-y-a ov-x-h';
   }, []);
 
