@@ -259,7 +259,7 @@ const ProEstimationFlow = (props) => {
                       }
                       <BrixelButtonPrimary
                         rounded
-                        className="noWrap"
+                        className={savedBtn || isSmallLoading.saveData ? 'notranslate' : 'noWrap'}
                         saturation={400}
                         theme={savedBtn ? 'green' : 'primary'}
                         label="Save"
@@ -313,14 +313,14 @@ const mapStateToProps = (state) => ({
     properties: {
       ...get(state, 'brixelForm.Property.values.properties', {}),
       parking: {
-        ...get(state, 'brixelForm.Property.values.parking', {}),
-        garage: get(state, 'brixelForm.Property.values.parking.garage', 0),
-        outside: get(state, 'brixelForm.Property.values.parking.garage', 0),
-        underground: get(state, 'brixelForm.Property.values.parking.garage', 0),
+        ...get(state, 'brixelForm.Property.values.properties.parking', {}),
+        garage: get(state, 'brixelForm.Property.values.properties.parking.garage', 0),
+        outside: get(state, 'brixelForm.Property.values.properties.parking.garage', 0),
+        underground: get(state, 'brixelForm.Property.values.properties.parking.garage', 0),
       },
       typology: {
-        ...get(state, 'brixelForm.Property.values.typology', {}),
-        bathrooms: get(state, 'brixelForm.Property.values.bathrooms', 0),
+        ...get(state, 'brixelForm.Property.values.properties.typology', {}),
+        bathrooms: get(state, 'brixelForm.Property.values.properties.typology.bathrooms', 0),
       },
     },
   },
