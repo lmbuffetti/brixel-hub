@@ -98,9 +98,13 @@ const MenuSidebar = (props) => {
                       <Link to={linkMenu(nav.path)}>
 
                         <BrixelIcon
+                          color="altColor"
+                          saturationTxt={700}
                           icon={nav.icon}
+
                         />
-                        {nav.title}
+
+                        <span className="pl-3">{nav.title}</span>
 
                       </Link>
                       {
@@ -112,7 +116,13 @@ const MenuSidebar = (props) => {
                                   key={f.toString()}
                                   className={`${history.location.pathname.includes(submenu.name) ? 'submenuActive' : ''} subNav`}
                                 >
-                                  <Link to={linkMenu(submenu.path)}>{submenu.title}</Link>
+                                  <Link
+                                    to={linkMenu(submenu.path)}
+                                    className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtAltColor700' : 'txtAltColor100'}`}
+                                  >
+                                    <span className="dot" />
+                                    <span className="pl-4">{submenu.title}</span>
+                                  </Link>
                                 </li>
                               ))
                             }

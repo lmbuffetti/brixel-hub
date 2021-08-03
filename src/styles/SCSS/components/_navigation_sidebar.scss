@@ -22,32 +22,51 @@
       }
       &.active {
         > a {
-          background-color: map_get($primaryColor, 100);
-          color: map_get($primaryColor, 400);
-          border-left-color: map_get($altColor, 400);
+          background-color: map_get($altColor, 1000);
+          color:  map_get($altColor, 700);
+          border-left-color:  map_get($altColor, 700);
         }
         .submenu {
-          max-height: 350px;
+          max-height: 260px;
         }
       }
     }
     .submenu {
-      padding-left: $step * 3;
+      padding-left: $step * 5;
       max-height: 0;
       position: relative;
       overflow: hidden;
-      transition: max-height 750ms ease-in;
+      transition: max-height 550ms linear;
       li {
+        &:first-child {
+          margin-top: $step * 2;
+        }
+        &:last-child {
+          margin-bottom: $step * 2;
+        }
         padding: 4px 12px;
-        border-left: 1px solid map_get($lightColor, 200);
+        //border-left: 1px solid map_get($lightColor, 200);
         a {
-          color: map_get($darkColor, 200);
+          color: map_get($altColor, 100);
+          .dot {
+            line-height: inherit;
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            position: relative;
+            top: $step;
+            border-radius: 50%;
+          }
+          //color: map_get($darkColor, 200);
         }
       }
       .submenuActive {
-        border-left-color: map_get($primaryColor, 400);
         a {
-          color: map_get($primaryColor, 400);
+          color: map_get($altColor, 700);
+          .dot {
+            background-color:  map_get($altColor, 700);;
+          }
         }
       }
     }

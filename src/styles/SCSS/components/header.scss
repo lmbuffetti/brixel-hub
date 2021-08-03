@@ -1,12 +1,11 @@
 .logoWrapper {
   @media (max-width: $responsive-small) {
-    width: 32px;
+   // width: 32px;
   }
   img {
-    max-width: 80px;
+    //max-width: 80px;
     @media (max-width: $responsive-small) {
-      max-width: 32px;
-      width: 100%;
+      //width: 100%;
     }
   }
 }
@@ -19,13 +18,10 @@
   }
 }
 .quickNav {
-  border-left: 1px solid map-get($lightColor, 200);
   align-self: stretch;
   align-items: center;
 
   @media (max-width: $responsive-small) {
-    padding-left: $step * 2;
-    margin-left: $step * 2;
 
     .propertyTitle {
       line-height: $step * 2;
