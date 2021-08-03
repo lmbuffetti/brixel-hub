@@ -240,7 +240,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: $cardBlueDark;
+    background: map-get($altColor, 900);
     color: #FFF;
     font-family: $font-family-secondary;
     font-size: 18px;
