@@ -30,6 +30,7 @@ const ProEstimationFlow = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    estimation,
     formValue,
     handleDestroy,
     handleReset,
@@ -44,6 +45,7 @@ const ProEstimationFlow = (props) => {
   const [unsavedChange, setUnsavedChange] = useState(false);
   const [percComplete, setPercComplete] = useState(0);
   const [savedBtn, setSavedBtn] = useState(false);
+  const [sendNotification, setSendNotification] = useState(false);
 
   useEffect(() => {
     if (initialValues.id) {
@@ -82,6 +84,8 @@ const ProEstimationFlow = (props) => {
       smallLoader: 'saveData',
       setSuccessNotification: true,
       ...objToSave,
+      sendNotification,
+      estimationId: estimation.id,
     };
     // ADD THE ACHIEVEMENT
     handleSaveActiveSingleProperty(data);
@@ -155,6 +159,7 @@ const ProEstimationFlow = (props) => {
     });
     setQuestions(questList);
     const percentageComplete = calcPercentageProEstimation('formFlow');
+    if (percComplete < percentageComplete.realPerc && percentageComplete.realPerc === 100) setSendNotification(true);
     setPercComplete(percentageComplete.realPerc);
   }, [formValue]);
 
@@ -293,19 +298,21 @@ const ProEstimationFlow = (props) => {
 
 ProEstimationFlow.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
   handleDestroy: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
-  initForm: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initForm: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
   errorValue: get(state, 'brixelForm.formFlow.syncErrors', {}),
+  estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.formFlow.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),

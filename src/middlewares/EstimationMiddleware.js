@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import {
   CREATE_ESTIMATION,
   GENERATE_ESTIMATION,
+  SEND_PROESTIMATION_NOTIFICATION,
   // SAVE_ACTIVE_SINGLE_ESTIMATION,
   // DELETE_ACTIVE_SINGLE_ESTIMATION,
 } from '../actions/types/EstimationTypes';
@@ -160,6 +161,17 @@ const checkEstimation = (store) => (next) => (action) => {
               type: SPINNER_OFF,
             });
           }
+        });
+      break;
+    }
+    case SEND_PROESTIMATION_NOTIFICATION: {
+      next(action);
+      const {
+        id,
+      } = action.payload;
+      api.estimation.proEstimationNotification(id)
+        .then(() => {
+          // console.log(res);
         });
       break;
     }
