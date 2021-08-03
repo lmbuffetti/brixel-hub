@@ -189,7 +189,7 @@ const ProEstimationFlow = (props) => {
                     icon="close-small"
                     ghost
                     theme="dark"
-                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                    onClick={() => closeWindow()}
                   />
                 </div>
                 <div className="mt-4 pb-3">
@@ -207,6 +207,7 @@ const ProEstimationFlow = (props) => {
               </div>
             </div>
           </div>
+
           <div
             className={`footerAction p-1 p-lg-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
@@ -259,7 +260,7 @@ const ProEstimationFlow = (props) => {
                       }
                       <BrixelButtonPrimary
                         rounded
-                        className="noWrap"
+                        className={savedBtn || isSmallLoading.saveData ? 'notranslate' : 'noWrap'}
                         saturation={400}
                         theme={savedBtn ? 'green' : 'primary'}
                         label="Save"
@@ -313,14 +314,14 @@ const mapStateToProps = (state) => ({
     properties: {
       ...get(state, 'brixelForm.Property.values.properties', {}),
       parking: {
-        ...get(state, 'brixelForm.Property.values.parking', {}),
-        garage: get(state, 'brixelForm.Property.values.parking.garage', 0),
-        outside: get(state, 'brixelForm.Property.values.parking.garage', 0),
-        underground: get(state, 'brixelForm.Property.values.parking.garage', 0),
+        ...get(state, 'brixelForm.Property.values.properties.parking', {}),
+        garage: get(state, 'brixelForm.Property.values.properties.parking.garage', 0),
+        outside: get(state, 'brixelForm.Property.values.properties.parking.garage', 0),
+        underground: get(state, 'brixelForm.Property.values.properties.parking.garage', 0),
       },
       typology: {
-        ...get(state, 'brixelForm.Property.values.typology', {}),
-        bathrooms: get(state, 'brixelForm.Property.values.bathrooms', 0),
+        ...get(state, 'brixelForm.Property.values.properties.typology', {}),
+        bathrooms: get(state, 'brixelForm.Property.values.properties.typology.bathrooms', 0),
       },
     },
   },
