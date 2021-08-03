@@ -2,11 +2,13 @@ export const sidebarNavigationSeller = [
   {
     title: 'Home',
     name: 'rewards',
+    icon: 'four-circles',
     path: '/:propID/rewards',
   },
   {
     title: 'Property',
     name: 'property',
+    icon: 'property-new',
     path: '/:propID/property',
     submenu: [
       {
@@ -39,11 +41,13 @@ export const sidebarNavigationSeller = [
   {
     title: 'Docubox',
     name: 'docubox',
+    icon: 'docs',
     path: '/:propID/docubox',
   },
   {
     title: 'Marketing',
     name: 'marketing',
+    icon: 'mike',
     path: '/:propID/marketing',
     submenu: [
       {
@@ -61,11 +65,13 @@ export const sidebarNavigationSeller = [
   {
     title: 'Prospects',
     name: 'prospects',
+    icon: 'search-user',
     path: '/:propID/prospects',
   },
   {
     title: 'Closing',
     name: 'closing',
+    icon: 'flag-wave',
     path: '/:propID/closing',
   },
 ];

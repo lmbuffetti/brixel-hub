@@ -2,13 +2,17 @@
   li {
     list-style: none;
     &.mainNav {
+      .brixelIcon > i {
+        width: 22px;
+      }
       > a {
         display: block;
-        color: map_get($darkColor, 700);
-        padding: 6px 24px;
-        margin-top: $step / 2;
-        margin-bottom: $step;
-        font-weight: 500;
+        color: map_get($altColor, 100);
+        margin: 0;
+        padding-left: $step * 5;
+        padding-right: $step * 2;
+        padding-top: $step * 2;
+        padding-bottom: $step * 2;
         @media (max-width: $responsive-medium) {
           padding-left: $step * 2;
           padding-right: $step * 2;
@@ -16,10 +20,9 @@
       }
       &.active {
         > a {
-          border-bottom-right-radius: $step;
-          border-top-right-radius: $step;
           background-color: map_get($primaryColor, 100);
           color: map_get($primaryColor, 400);
+          border-left: 4px solid red;
         }
         .submenu {
           max-height: 350px;
