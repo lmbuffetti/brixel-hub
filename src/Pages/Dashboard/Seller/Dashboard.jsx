@@ -39,7 +39,7 @@ import {
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
 
-const RewardsDashboard = lazy(() => import('./RewardsDashboard'));
+const HubDashboard = lazy(() => import('./HubDashboard'));
 
 const PropertyDashboard = lazy(() => import('./PropertyDashboard'));
 
@@ -360,7 +360,7 @@ const Dashboard = (props) => {
       <Suspense fallback={<Loading isLoading />}>
         {/* teaserScreens && isEligible(activeSingleProperty) && () */}
         { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-        <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={RewardsDashboard} />
+        <ProtectedRoute path="/:propId?/rewards/:rewardType?" component={HubDashboard} />
         <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
         <ProtectedRoute path="/:propId?/docubox" component={Documents} />
         <ProtectedRoute path="/:propId?/marketing" component={MarketingDashboard} />
