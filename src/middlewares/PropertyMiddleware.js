@@ -39,6 +39,7 @@ import {
 
 import {
   CREATE_ESTIMATION,
+  SEND_PROESTIMATION_NOTIFICATION,
 } from '../actions/types/EstimationTypes';
 
 import api from '../controllers/api/config';
@@ -184,16 +185,25 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const obj = cloneDeep(action.payload);
       const {
-        id, redirectTo, redirectToHome, smallLoader, setSuccessNotification, getEstimation,
+        estimationId,
+        getEstimation,
+        id,
+        redirectTo,
+        redirectToHome,
+        sendNotification,
+        setSuccessNotification,
+        smallLoader,
         splashType,
       } = action.payload;
+      delete obj.estimationId;
+      delete obj.getEstimation;
       delete obj.id;
       delete obj.redirectTo;
-      delete obj.splashType;
-      delete obj.smallLoader;
       delete obj.redirectToHome;
+      delete obj.sendNotification;
       delete obj.setSuccessNotification;
-      delete obj.getEstimation;
+      delete obj.smallLoader;
+      delete obj.splashType;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -240,6 +250,7 @@ const checkCommon = (store) => (next) => (action) => {
               };
               store.dispatch({ type: CREATE_ESTIMATION, payload: estimationPayload });
             }
+            if (sendNotification) store.dispatch({ type: SEND_PROESTIMATION_NOTIFICATION, payload: { id: estimationId } });
             store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
             if (setSuccessNotification) {
               store.dispatch({
