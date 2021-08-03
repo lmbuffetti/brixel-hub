@@ -13,6 +13,8 @@
         padding-right: $step * 2;
         padding-top: $step * 2;
         padding-bottom: $step * 2;
+        border-left: 4px solid transparent;
+
         @media (max-width: $responsive-medium) {
           padding-left: $step * 2;
           padding-right: $step * 2;
@@ -22,7 +24,7 @@
         > a {
           background-color: map_get($primaryColor, 100);
           color: map_get($primaryColor, 400);
-          border-left: 4px solid red;
+          border-left-color: map_get($altColor, 400);
         }
         .submenu {
           max-height: 350px;
