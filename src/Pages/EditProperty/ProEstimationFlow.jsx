@@ -189,7 +189,7 @@ const ProEstimationFlow = (props) => {
                     icon="close-small"
                     ghost
                     theme="dark"
-                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                    onClick={() => closeWindow()}
                   />
                 </div>
                 <div className="mt-4 pb-3">
