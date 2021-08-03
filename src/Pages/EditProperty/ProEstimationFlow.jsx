@@ -207,6 +207,7 @@ const ProEstimationFlow = (props) => {
               </div>
             </div>
           </div>
+
           <div
             className={`footerAction p-1 p-lg-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >

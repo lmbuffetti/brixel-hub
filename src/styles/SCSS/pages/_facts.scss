@@ -76,22 +76,41 @@
       padding-top: 0;
     }
   }
-/*   columns: 2;
-  -webkit-columns: 2;
-  -moz-columns: 2;
+}
 
-  .extraFeature {
-    &:nth-child(9) {
-      margin-bottom: 0;
-      > label {
-        padding-bottom: 0;
-      }
+
+
+
+.singleInput.extraFeatureWrap > h6 {
+  display: none;
+}
+
+.ProEstimationFlow {
+  .subcontainer > .multiFieldWrap {
+    border-top: 1px solid map-get($lightColor, 200);
+    padding: $step * 3 0;
+    margin-top: 0;
+
+    > .multiFieldWrap {
+      margin-top: 0;
     }
   }
+  .extraFeatureWrap > h6 {
+    display: block;
+  }
+ .pageHeaderAchievement > div {
+  box-shadow: none !important;
+ }
+}
 
-  @media (max-width: $responsive-small) {
-    columns: 1;
-    -webkit-columns: 1;
-    -moz-columns: 1;
-  } */
+// fix broken layout of extra feature on estimation flow
+.extraFeatureWrap {
+  .withCheckMark {
+    display: initial !important;
+    > .checkIconWrap {
+      position: absolute;
+      top: -48px;
+      right: 0;
+    }
+  }
 }
