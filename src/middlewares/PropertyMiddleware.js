@@ -495,6 +495,7 @@ const checkCommon = (store) => (next) => (action) => {
         type = false;
         id = action.payload;
       }
+      console.log(id);
       api.property.getEstimation(id)
         .then((res) => {
           if (res.meta.normalizedStatus === 200) {
@@ -509,6 +510,7 @@ const checkCommon = (store) => (next) => (action) => {
               generate: true,
               reloadOnwProperties: get(action.payload, 'reloadOnwProperties', false),
             };
+            console.log(data);
             store.dispatch({ type: CREATE_ESTIMATION, payload: data });
           }
           if (smallLoader) {
