@@ -1,251 +1,137 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
+// import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonIcon, BrixelButtonBox,
+  BrixelIcon,
+  BrixelButtonPrimary,
+  ProgressRing,
 } from '@brixel/brixel-components';
-import Sticker from 'react-stickyfill';
-import { addGameHistory } from '../../../actions/GamificationActions';
-import Loading from '../../../components/Loading';
-import { GameGroupConfig } from '../../../constants/global';
-// import helloImg from '../../../images/hello.svg';
-import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
-import { /* setCookie, getCookie,  */sortObject } from '../../../utils/helpers';
-import SuccessMarketCheck from '../../GameHistory/MarketChecker/SuccessMarketCheck';
-import SuccessHomebase from '../../GameHistory/Homebase/SuccessHomebase';
-import SuccessBestimate from '../../GameHistory/Bestimate/SuccessBestimate';
-import SuccessAssessor from '../../GameHistory/Assessor/SuccessAssessor';
-import FactsRewards from '../../GameHistory/Facts/SuccessFacts';
-import MediaExplanation from '../../GameHistory/SecondLevel/MediaRewards';
-import PageReviewRewards from '../../GameHistory/SecondLevel/PageReviewRewards';
-import PagePublishedRewards from '../../GameHistory/SecondLevel/PagePublishedRewards';
-import PortalsRewards from '../../GameHistory/SecondLevel/PortalsRewards';
 
+import { calcPercentageProEstimation } from '../../../utils/helpers';
+import docIcon from '../../../images/dashboard/icon-docs.svg';
+
+import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
-import Support from '../../../components/Support';
-import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
+import CoverPropertyImage from '../../../components/CoverPropertyImage';
+// import Support from '../../../components/Support';
+// import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const DashboardHome = (props) => {
   // PROPS
   const {
     activeSingleProperty,
-    formValue,
+    // windowDimensions,
+    isSmallLoading,
+    userTypes,
+    history,
+    /* formValue,
     gameGroup,
     gameHistory,
     handleAddGameHistory,
-    history,
     isLoading,
-    isSmallLoading,
-    match,
-    userTypes,
+    handleSpinnerOff, */
+    proEstimation,
     windowDimensions,
-    handleSpinnerOff,
+    match,
   } = props;
-  // STATE
-  const [usrGroups, setUsrGroups] = useState(gameGroup.sort(sortObject('stub', 'asc')));
-  // const [idVideo, setIdVideo] = useState(null);
-  const [activeGameGroup, setActiveGameGroup] = useState(null);
-  const [activeAchievement, setActiveAchievement] = useState(null);
-  // const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
-  // PARAMS URL
-  const splitRewards = get(history, 'location.pathname', '').split('/');
-  const rewardType = splitRewards[3] ? splitRewards[3].replace('-done', '') : splitRewards[2];
-  const propID = get(match, 'params.propId', '');
-  const gameHistoryData = get(gameHistory, 'data', null);
-
-  const isDisabledFlow = (game) => {
-    let disabled = false;
-    if (game === 'market-checker' && (get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT')) {
-      disabled = true;
-    }
-    if (game === 'bestimate' && get(formValue, 'location.countryCode', null) !== 'CH' && get(formValue, 'location.countryCode', null) !== 'PT') {
-      disabled = true;
-    }
-    return disabled;
-  };
-
-  // LOAD ID VIDEO BY LANGAUGE
-  /* useEffect(() => {
-    switch (language.toLowerCase()) {
-      case 'de':
-        setIdVideo('463015773');
-        break;
-      case 'pt':
-        setIdVideo('463008537');
-        break;
-      default:
-        setIdVideo(null);
-    }
-  }, [language]); */
-
-  useEffect(() => {
-    let getNameGroup = localStorage.getItem('gameGroup') || null;
-    if (windowDimensions && windowDimensions.width > 1024 && rewardType === 'rewards' && usrGroups) {
-      if (!getNameGroup && gameHistory && gameHistory.data) {
-        usrGroups.forEach((groups) => {
-          if (groups.stub.includes('seller')) {
-            groups.achievements.forEach((group) => {
-              const selElTodo = gameHistory.data.find((game) => game.achievement.stub === group.stub && game.page === propID);
-              if (typeof selElTodo === 'undefined' && !getNameGroup && !isDisabledFlow(group.stub)) {
-                localStorage.setItem('gameGroup', group.stub);
-                getNameGroup = group.stub;
-                setActiveGameGroup(group.stub);
-                return false;
-              }
-              return null;
-            });
-          }
-        });
-      }
-      getNameGroup = getNameGroup || 'homebase';
-      history.push({ pathname: `/${propID}/rewards/${getNameGroup}` });
-    }
-  }, [windowDimensions, gameHistory, usrGroups]);
-
-  // FUNCTION TO ADD MEDIA TO GAME HISTORY
-  useEffect(() => {
-    const getFloorPlans = get(formValue, 'floorPlans', []);
-    const getPhotos = get(formValue, 'photos', []);
-    const getDocuments = get(formValue, 'documents', []);
-    if (getDocuments.length > 0 && getPhotos.length > 0 && getFloorPlans.length > 0) {
-      handleAddGameHistory({ stub: 'media' });
-    }
-  }, [get(formValue, 'floorPlans', []), get(formValue, 'photos', []), get(formValue, 'documents', [])]);
-
-  // FUNCTION TO ADD PAGE OR PORTALS TO GAME HISTORY
-  useEffect(() => {
-    let filtUsrGroup = cloneDeep(gameGroup);
-    filtUsrGroup = filtUsrGroup.filter((val) => val.stub.indexOf(userTypes) !== -1);
-    filtUsrGroup = filtUsrGroup.sort(sortObject('stub', 'asc'));
-    if (gameHistory.data && activeSingleProperty.id === propID && formValue.id === propID) {
-      // CHECK IF DONE HOMEBASE
-      gameHistory.data.map((game) => {
-        filtUsrGroup.map((group, f) => {
-          const idGroup = group.achievements.findIndex((val) => val.stub === game.achievement.stub && activeSingleProperty.id === game.page);
-          if (idGroup >= 0) filtUsrGroup[f].achievements[idGroup].done = true;
-          else if (filtUsrGroup[f].achievements) {
-            // CHECK PORTALS
-            const idGroupPortals = group.achievements.findIndex((val) => val.stub === 'portals');
-            if (idGroupPortals > 0) {
-              if (!filtUsrGroup[f].achievements[idGroupPortals].done) {
-                let isOnline = false;
-                const portals = get(formValue, 'portals', {});
-                Object.keys(portals).map((key) => {
-                  if (portals[key]) isOnline = true;
-                  return null;
-                });
-                if (isOnline) {
-                  handleAddGameHistory({ stub: 'portals' });
-                  filtUsrGroup[f].achievements[idGroupPortals].done = true;
-                }
-              }
-            }
-            // CHECK PAGE
-            const idGroupPage = group.achievements.findIndex((val) => val.stub === 'page-published');
-            if (idGroupPage > 0) {
-              if (!filtUsrGroup[f].achievements[idGroupPage].done) {
-                const pageIsOnline = get(formValue, 'published', false);
-                if (pageIsOnline) {
-                  handleAddGameHistory({ stub: 'page-published' });
-                  filtUsrGroup[f].achievements[idGroupPage].done = true;
-                }
-              }
-            }
-          }
-          return null;
-        });
-        return null;
-      });
-    }
-    setUsrGroups([...filtUsrGroup]);
-  }, [userTypes, activeSingleProperty, gameGroup, gameHistory, formValue.id]);
-
-  useEffect(() => {
-    if (gameHistory.data) {
-      if (isLoading) handleSpinnerOff();
-    }
-  }, [gameHistory]);
-
-  // FUNCTION TO SET THE ACTIVE REWARDS GROUP ON FIRST LOAD IF NOT COMPLETED
-  useEffect(() => {
-    if (gameHistory.data && rewardType && rewardType !== 'rewards' && gameGroup) {
-      let selectEl;
-      usrGroups.map((item) => {
-        if (!selectEl) selectEl = item.achievements.find((el) => el.stub === rewardType);
-        return null;
-      });
-      setActiveGameGroup(rewardType);
-      setActiveAchievement(selectEl);
-      if (rewardType === 'call-expert') {
-        setActiveAchievement({ title: 'Call the expert' });
-      }
-    } else {
-      setActiveGameGroup(null);
-      setActiveAchievement(null);
-    }
-  }, [gameHistoryData, usrGroups, history, gameGroup, rewardType, formValue.id]);
-
-  // FUNCTION CLICK ON GAME GROUP
-  const onClickAchievement = (game, achievement) => {
-    setActiveGameGroup(game);
-    localStorage.setItem('gameGroup', game);
-    history.push({ pathname: `/${propID}/rewards/${game}` });
-    setActiveAchievement(achievement);
-  };
-
-  // LOAD COMPONENTET IN BASE OF ACTIVE GROUP ACTIVE
-  const getSuccessActiveGroup = () => (
-    <>
-      {activeGameGroup === 'homebase' && (<SuccessHomebase gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-      {activeGameGroup === 'market-checker' && (<SuccessMarketCheck gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-      {activeGameGroup === 'bestimate' && (<SuccessBestimate gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-      {activeGameGroup === 'assessor' && (<SuccessAssessor gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-      {activeGameGroup === 'facts' && (<FactsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-      {activeGameGroup === 'media' && (<MediaExplanation gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-      {activeGameGroup === 'page-preview' && (<PageReviewRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-      {activeGameGroup === 'page-published' && (<PagePublishedRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-      {activeGameGroup === 'portals' && (<PortalsRewards gameStub={activeGameGroup} groupdAchievement={activeAchievement} />)}
-      {activeGameGroup === 'call-expert' && (<Support layout="rewards" expanded isFixed={false} hideClose />)}
-    </>
-  );
-
-  // TEXT FOR SCAN TRIAL BOX MESSAGE
-  const brixelScanTrialMessage = (type) => {
-    switch (type) {
-      case 'media':
-        return {
-          title: 'Do you want to capture your property in its best possible light?',
-          description: 'Request a free photo shooting by one of our experts.',
-          btnLabel: 'Request photo shoot',
-        };
-      case 'bestimate':
-        return {
-          title: 'Do you want a more accurate estimation value?',
-          description: 'Request a free on-site appointment by one of our experts.',
-          btnLabel: 'Request estimation',
-        };
-      default:
-        return null;
-    }
-  };
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
     return <Loading />;
   }
-  const classToHide = get(history, 'location.state.hideBackPage', false);
+
+  // const classToHide = get(history, 'location.state.hideBackPage', false);
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
       <h3 className="mb-3 hide dis-b-lg">Welcome back Jim 👋</h3>
       <div className="max-w-fix-768 dis-fl-col">
-        <div className="boxCard">
-          <img src={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', null)} alt="" />
+        <div className="shadow-2dp bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
+          <div className="imgSection w-perc-100 w-fix-sm-232 h-fix-sm-152 pos-r">
+            <CoverPropertyImage
+              className="cover w-perc-100 h-perc-100"
+              coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
+              propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
+            />
+            <span className="pos-a-fix x-r-1 x-b-1 bgAltColor700 p-small-10 txtWhite opacity-08">
+              Edit
+            </span>
+          </div>
+          <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
+            <div className="d">
+              <h4 className="txtAltColor100 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
+              <span className="fsize-400 txtDark200"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
+
+            </div>
+            <div className="dis-f pt-2">
+              <BrixelIcon
+                background="AltColor"
+                saturation="1000"
+                color="AltColor"
+                saturationTxt="700"
+                padding="p-small-12"
+                icon="chart"
+                rounded
+                iconSize="large"
+              />
+              <div className="dis-fl-col pl-2">
+                <span className="txtDark200 fsize-400"> Your Bestimate</span>
+                <span className="txtAltColor700 fweight-600"> CHF 1’344’849</span>
+              </div>
+              <div className="tagBg dis-f a-c">
+                <span className="dot" /> <span className="px-2 txtAltColor700"> Set your priece </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="dis-f">
+          <div className="shadow-2dp bgAltColor1000 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 max-w-fix-300 w-perc-sm-50">
+            <div className="dis-fl-col">
+              <span className="fsize-400 txtAltColor900">Pro estimation</span>
+              <span className="fsize-600 fweight-600 txtAltColor700">{calcPercentageProEstimation().realPerc}% <span> Complete</span></span>
+              <BrixelButtonPrimary
+                label="Next step"
+                theme="AltColor"
+                themeSat="700"
+                className="mt-2"
+                rounded
+              />
+            </div>
+            <div className="div">
+              <ProgressRing
+                progress={calcPercentageProEstimation().realPerc}
+                size={windowDimensions.width <= 590 ? 80 : 100}
+                strokeWidth={14}
+                circleOneStroke="#fff"
+                circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
+                showIcon={false}
+                showIconComplete={calcPercentageProEstimation().realPerc === 100}
+              />
+            </div>
+          </div>
+          <div className="shadow-2dp bgAltColor300 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 ml-1 w-perc-100 max-w-fix-300 w-perc-sm-50">
+            <div className="dis-fl-col">
+              <span className="fsize-400 txtAltColor200">Docubox</span>
+              <span className="fsize-600 fweight-600 txtAltColor200">
+                2 of 4 uploaded
+              </span>
+              <BrixelButtonPrimary
+                label="Next step"
+                theme="AltColor"
+                themeSat="200"
+                className="mt-2"
+                rounded
+              />
+            </div>
+            <div className="div">
+              <img width="92" src={docIcon} alt="" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -254,22 +140,23 @@ const DashboardHome = (props) => {
 
 DashboardHome.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
+  userTypes: PropTypes.string,
+  windowDimensions: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
+  /* formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired, */
   match: PropTypes.object.isRequired,
-  userTypes: PropTypes.string,
-  windowDimensions: PropTypes.object.isRequired,
+  proEstimation: PropTypes.object.isRequired,
 };
 
 DashboardHome.defaultProps = {
-  gameGroup: [],
-  gameHistory: {},
+/*   gameGroup: [],
+  gameHistory: {}, */
   userTypes: 'user',
 };
 
@@ -285,11 +172,13 @@ const mapStateToProps = (state) => ({
   language: get(state, 'user.loggedInUser.user.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   userTypes: get(state, 'user.userTypes', null),
+  history: PropTypes.object.isRequired,
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+  // handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

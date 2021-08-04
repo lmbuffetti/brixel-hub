@@ -626,3 +626,43 @@ button.minimum-w-210 {
   margin-left: 0 !important;
   margin-right: 0 !important;
 }
+
+
+.opacity-08 {
+  opacity: 0.8;
+}
+
+.tagBg {
+  background-color: map-get($altColor, 1000);
+  color: white;
+  background: map-get($altColor, 1000);
+  position: relative;
+  float: left;
+  position: relative;
+  height: 48px;
+  margin-left: $step * 4;
+
+  &:before {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent;
+    border-right: 16px solid map-get($altColor, 1000);
+    position: absolute;
+    top: 50%;
+    margin-top: -24px;
+    right: 100%;
+    z-index: 2;
+  }
+  .dot {
+    line-height: inherit;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    position: relative;
+    border-radius: 50%;
+  }
+}
