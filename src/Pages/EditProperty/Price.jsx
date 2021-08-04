@@ -77,13 +77,11 @@ const Price = (props) => {
     }
     if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id) {
       if (!has(estimation, 'result')) {
-        console.log(activeSingleProperty.id);
         const payload = {
           reloadOnwProperties: true,
           type: 'market',
           id: activeSingleProperty.id,
         };
-        console.log(payload);
         handleGetEstimation(payload);
       } else if (has(estimation, 'result') && !has(estimation, 'result.value')) {
         handleGenerateBestimate(estimation.id);
