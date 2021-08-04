@@ -163,7 +163,7 @@ const MarketCategoryListSeller = (props) => {
       {
         splashScreenType === 'sellerWelcome' && (
           <SplashScreen
-            className="result-popup"
+            className="result-popup centered"
             closeOutside={false}
           >
             <div className="dis-f jc-fe mb-2">
