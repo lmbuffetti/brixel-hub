@@ -60,224 +60,254 @@ const Page = (props) => {
   };
 
   return (
-    <div className="dis-f">
-      <div className="secondLevel dis-fl-col">
-        <div>
-          <div className="brixelPageWrapper dis-fl-col cardInfoBox">
-            <div className="pos-r">
-              <div className="dis-f backPanel">
-                <div className="fixedIcon dis-f jc-b w-perc-100">
-                  <BrixelButtonIcon
-                    className="hide-md"
-                    icon="arrow-left-small"
-                    theme="dark"
-                    ghost
-                    onClick={() => history.push(`/${propID}/marketing`)}
-                  />
-                  {
-                    formValue.published ? (
-                      <BrixelButtonPrimary
-                        leftIcon="eye"
-                        label="Live view"
-                        rounded
-                        onClick={() => onClickPreview()}
-                      />
-                    ) : (
-                      <BrixelButtonPrimary
-                        leftIcon="eye"
-                        label="Preview"
-                        rounded
-                        onClick={() => onClickPreview()}
-                      />
-                    )
-                  }
-                </div>
-                <h5 className="sectionTitle">Brixel Page</h5>
+    <>
+      <div className="hide dis-f-lg jc-b max-w-fix-768">
+        <h3 className="mb-3 hide dis-b-lg">Brixel Page</h3>
+        <div className="">
+          {
+            formValue.published ? (
+              <BrixelButtonPrimary
+                leftIcon="eye"
+                label="Live view"
+                rounded
+                onClick={() => onClickPreview()}
+              />
+            ) : (
+              <BrixelButtonPrimary
+                leftIcon="eye"
+                label="Preview"
+                rounded
+                onClick={() => onClickPreview()}
+              />
+            )
+          }
+        </div>
 
-              </div>
-            </div>
-            <div className="pb-4">
-              <>
-                <div
-                  className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi"
-                  onClick={() => onClickPreview()}
-                >
-                  <div className="dis-f bgLight100 p-1">
-                    <div className="square brdCircle w-fix-8 bgRed400 mr-1" />
-                    <div className="square brdCircle w-fix-8 bgYellow400 mr-1" />
-                    <div className="square brdCircle w-fix-8 bgGreen400" />
-                  </div>
-                  <div className="image-ratio">
-                    <CoverPropertyImage
-                      size="56"
-                      className="cover"
-                      coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
-                      propertyType={get(formValue, 'properties.propertyType', undefined)}
+      </div>
+      <div className="dis-f">
+        <div className="secondLevel dis-fl-col">
+          <div>
+            <div className="brixelPageWrapper dis-fl-col cardInfoBox">
+              <div className="pos-r">
+                <div className="dis-f backPanel hide-lg">
+                  <div className="fixedIcon dis-f jc-b w-perc-100">
+                    <BrixelButtonIcon
+                      className=""
+                      icon="arrow-left-small"
+                      theme="dark"
+                      ghost
+                      onClick={() => history.push(`/${propID}/marketing`)}
                     />
                   </div>
-                  <div className="cardPageInfo">
-                    <div className="w-fix-80 bgPrimary400 opacity5 h-fix-8 mb-1" />
-                    <h6>{formValue.title}</h6>
-                    <div className="dis-f jc-b a-c mt-2">
-                      <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
-                      <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
-                    </div>
-                    <div className="dis-f jc-b a-c mt-3">
-                      <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
-                      <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
-                      <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
-                    </div>
-                    <div className="dis-f jc-b a-c pb-3">
-                      <h6 className="w-fix-24 ff-mono">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', 'CH'))}</h6>
+                  <div className="dis-f jc-b a-bl w-perc-100 pt-small-2">
+
+                    <h5 className="sectionTitle">Brixel Page</h5>
+                    <div className="">
                       {
-                        get(formValue, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
-                          <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.grossArea.value', 0)}</h6>
+                        formValue.published ? (
+                          <BrixelButtonPrimary
+                            leftIcon="eye"
+                            label="Live view"
+                            rounded
+                            onClick={() => onClickPreview()}
+                          />
                         ) : (
-                          <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.livingArea.value', 0)}</h6>
+                          <BrixelButtonPrimary
+                            leftIcon="eye"
+                            label="Preview"
+                            rounded
+                            onClick={() => onClickPreview()}
+                          />
                         )
                       }
-                      <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.building.built', 0)}</h6>
-                    </div>
-                    <div className="contactPageCard">
-                      <div className="contactUser">
-                        <BrixelIcon icon="account" />
-                      </div>
-                      <div className="button" />
                     </div>
                   </div>
+
                 </div>
+              </div>
+              <div className="pb-4">
+                <>
+                  <div
+                    className="websitePage brdRadius ov-h shadow-3dp pos-r cur-poi"
+                    onClick={() => onClickPreview()}
+                  >
+                    <div className="dis-f bgLight100 p-1">
+                      <div className="square brdCircle w-fix-8 bgRed400 mr-1" />
+                      <div className="square brdCircle w-fix-8 bgYellow400 mr-1" />
+                      <div className="square brdCircle w-fix-8 bgGreen400" />
+                    </div>
+                    <div className="image-ratio">
+                      <CoverPropertyImage
+                        size="56"
+                        className="cover"
+                        coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
+                        propertyType={get(formValue, 'properties.propertyType', undefined)}
+                      />
+                    </div>
+                    <div className="cardPageInfo">
+                      <div className="w-fix-80 bgPrimary400 opacity5 h-fix-8 mb-1" />
+                      <h6>{formValue.title}</h6>
+                      <div className="dis-f jc-b a-c mt-2">
+                        <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
+                        <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
+                      </div>
+                      <div className="dis-f jc-b a-c mt-3">
+                        <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                        <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                        <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
+                      </div>
+                      <div className="dis-f jc-b a-c pb-3">
+                        <h6 className="w-fix-24 ff-mono">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', 'CH'))}</h6>
+                        {
+                          get(formValue, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
+                            <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.grossArea.value', 0)}</h6>
+                          ) : (
+                            <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.livingArea.value', 0)}</h6>
+                          )
+                        }
+                        <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.building.built', 0)}</h6>
+                      </div>
+                      <div className="contactPageCard">
+                        <div className="contactUser">
+                          <BrixelIcon icon="account" />
+                        </div>
+                        <div className="button" />
+                      </div>
+                    </div>
+                  </div>
 
-                {
-                  formValue.publishReview && (
-                    <>
-                      <div className="ta-c mt-3">
-                        <h5 className="txtPrimary600 mb-1 mt-3">Review in the making…</h5>
+                  {
+                    formValue.publishReview && (
+                      <>
+                        <div className="ta-c mt-3">
+                          <h5 className="txtPrimary600 mb-1 mt-3">Review in the making…</h5>
 
-                        <p className="mb-1">To assure great quality your page is being reviewed for free.</p>
+                          <p className="mb-1">To assure great quality your page is being reviewed for free.</p>
 
-                        <p>Our customer team gets back to you within one business day.</p>
+                          <p>Our customer team gets back to you within one business day.</p>
+
+                          <hr className="my-3" />
+
+                          <p className="txtDark200">Any questions?</p>
+                          {
+                            has(company, 'contact.phone') && (
+                              <p className="txtDark200">
+                                <span>Call us</span>
+                                <span>:&nbsp;</span>
+                                <a
+                                  className="txtDark200"
+                                  href={`tel:${company.contact.phone}`}
+                                >
+                                  {Helpers.telephoneFormat(company.contact.phone)}
+                                </a>
+                              </p>
+                            )
+                          }
+                          {
+                            has(company, 'contact.phone') && (
+                              <p className="txtDark200">
+                                <span>Write us</span>
+                                <span>:&nbsp;</span>
+                                <a
+                                  className="txtDark200"
+                                  href={`mailto:${company.contact.email}`}
+                                >
+                                  {company.contact.email}
+                                </a>
+                              </p>
+                            )
+                          }
+                        </div>
+                      </>
+                    )
+                  }
+                  {
+                    formValue.published && (
+                      <div className="ta-c mt-4">
+                        <h5 className="mb-1">Share for free.</h5>
+                        <p className="fsize-300 txtDark200">Use the power of social media.</p>
+
+                        <div className="dis-f jc-c a-c max-w-fix-344 m-a mt-3">
+                          <a
+                            href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData.pageUrl}${formValue.stub}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="dis-b mr-4"
+                          >
+                            <BrixelIcon
+                              icon="facebook"
+                              color="primary"
+                              saturationTxt={700}
+                            />
+                            <span className="dis-b ta-c txtDark700 fsize-300">Facebook</span>
+                          </a>
+                          <a
+                            href={`https://twitter.com/share?url=${baseByData.pageUrl}${formValue.stub}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="dis-b mr-4"
+                          >
+                            <BrixelIcon
+                              icon="twitter"
+                              color="primary"
+                              saturationTxt={700}
+                            />
+                            <span className="dis-b ta-c txtDark700 fsize-300">Twitter</span>
+                          </a>
+                          <a
+                            href={`https://www.linkedin.com/shareArticle?url=${baseByData.pageUrl}${formValue.stub}&title=${formValue.title}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="dis-b"
+                          >
+                            <BrixelIcon
+                              icon="linkedin"
+                              color="primary"
+                              saturationTxt={700}
+                            />
+                            <span className="dis-b ta-c txtDark700 fsize-300">Linkedin</span>
+                          </a>
+                        </div>
 
                         <hr className="my-3" />
 
-                        <p className="txtDark200">Any questions?</p>
-                        {
-                          has(company, 'contact.phone') && (
-                            <p className="txtDark200">
-                              <span>Call us</span>
-                              <span>:&nbsp;</span>
-                              <a
-                                className="txtDark200"
-                                href={`tel:${company.contact.phone}`}
-                              >
-                                {Helpers.telephoneFormat(company.contact.phone)}
-                              </a>
-                            </p>
-                          )
-                        }
-                        {
-                          has(company, 'contact.phone') && (
-                            <p className="txtDark200">
-                              <span>Write us</span>
-                              <span>:&nbsp;</span>
-                              <a
-                                className="txtDark200"
-                                href={`mailto:${company.contact.email}`}
-                              >
-                                {company.contact.email}
-                              </a>
-                            </p>
-                          )
-                        }
+                        <p className="fsize-300 txtDark200 w-fix-200 m-a">Your property should not be visible anymore?</p>
+
+                        <BrixelButtonPrimary
+                          className="m-a mt-3"
+                          label="Take Page offline"
+                          theme="dark"
+                          rounded
+                          onClick={() => changeReviewStatus('offline')}
+                          isLoading={isSmallLoading.pageReview}
+                        />
                       </div>
-                    </>
-                  )
-                }
-                {
-                  formValue.published && (
-                    <div className="ta-c mt-4">
-                      <h5 className="mb-1">Share for free.</h5>
-                      <p className="fsize-300 txtDark200">Use the power of social media.</p>
-
-                      <div className="dis-f jc-c a-c max-w-fix-344 m-a mt-3">
-                        <a
-                          href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData.pageUrl}${formValue.stub}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="dis-b mr-4"
-                        >
-                          <BrixelIcon
-                            icon="facebook"
-                            color="primary"
-                            saturationTxt={700}
-                          />
-                          <span className="dis-b ta-c txtDark700 fsize-300">Facebook</span>
-                        </a>
-                        <a
-                          href={`https://twitter.com/share?url=${baseByData.pageUrl}${formValue.stub}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="dis-b mr-4"
-                        >
-                          <BrixelIcon
-                            icon="twitter"
-                            color="primary"
-                            saturationTxt={700}
-                          />
-                          <span className="dis-b ta-c txtDark700 fsize-300">Twitter</span>
-                        </a>
-                        <a
-                          href={`https://www.linkedin.com/shareArticle?url=${baseByData.pageUrl}${formValue.stub}&title=${formValue.title}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="dis-b"
-                        >
-                          <BrixelIcon
-                            icon="linkedin"
-                            color="primary"
-                            saturationTxt={700}
-                          />
-                          <span className="dis-b ta-c txtDark700 fsize-300">Linkedin</span>
-                        </a>
-                      </div>
-
-                      <hr className="my-3" />
-
-                      <p className="fsize-300 txtDark200 w-fix-200 m-a">Your property should not be visible anymore?</p>
-
-                      <BrixelButtonPrimary
-                        className="m-a mt-3"
-                        label="Take Page offline"
-                        theme="dark"
-                        rounded
-                        onClick={() => changeReviewStatus('offline')}
-                        isLoading={isSmallLoading.pageReview}
-                      />
-                    </div>
-                  )
-                }
-              </>
+                    )
+                  }
+                </>
+              </div>
             </div>
           </div>
+
+          {
+            !formValue.published && !formValue.publishReview && (
+              <BrixelUpgradeMessage
+                className="mt-3"
+                title="Make your Brixel Page public."
+                description="You can publish your Brixel Page for free to share it wherever you want. We will review your content before publishing to make sure you get the best result."
+                btnLabel="Request Brixel Page"
+                titleConfirm="Please confirm your order."
+                descriptionConfirm="You can publish your Brixel Page for free to share it wherever you want. We will review your content before publishing to make sure you get the best result."
+                onClick={() => changeReviewStatus('online')}
+                isSmallLoading={isSmallLoading}
+                unlockFunction
+              />
+            )
+          }
+
         </div>
-
-        {
-          !formValue.published && !formValue.publishReview && (
-            <BrixelUpgradeMessage
-              className="mt-3"
-              title="Make your Brixel Page public."
-              description="You can publish your Brixel Page for free to share it wherever you want. We will review your content before publishing to make sure you get the best result."
-              btnLabel="Request Brixel Page"
-              titleConfirm="Please confirm your order."
-              descriptionConfirm="You can publish your Brixel Page for free to share it wherever you want. We will review your content before publishing to make sure you get the best result."
-              onClick={() => changeReviewStatus('online')}
-              isSmallLoading={isSmallLoading}
-              unlockFunction
-            />
-          )
-        }
-
       </div>
-    </div>
+    </>
   );
 };
 

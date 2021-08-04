@@ -462,22 +462,22 @@ function PageHeaderDashboard(props) {
             </div>
           </div>
         </div>
-        {
-          windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && (
-            <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
-              {
-                getCurrentRoute().title && (
-                  <div className="header-section dis-fl-row a-c jc-b">
-                    <h4 className="fweight-700 pt-4">
-                      {getCurrentRoute().title}
-                    </h4>
-                  </div>
-                )
-              }
-            </div>
-          )
-        }
       </header>
+      {
+        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && (
+          <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
+            {
+              getCurrentRoute().title && (
+                <div className="dis-fl-row a-c jc-b">
+                  <h4 className="fweight-700 pt-4">
+                    {getCurrentRoute().title}
+                  </h4>
+                </div>
+              )
+            }
+          </div>
+        )
+      }
     </>
   );
 }

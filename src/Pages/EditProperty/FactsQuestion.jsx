@@ -17,6 +17,7 @@ import { InputSheets } from '../../resources/inputSheets';
 
 const FactsQuestion = (props) => {
   const {
+    changeFieldValue,
     formValue,
     history,
     initValues,
@@ -52,6 +53,16 @@ const FactsQuestion = (props) => {
         });
       });
     });
+    if (formValue.id && initValues.id) {
+      const val = get(formValue, 'price.total', 0);
+      const initVal = get(initValues, 'price.total', 0);
+      if (val && +(val.toString().replace(/\./g, '')) > 0 && initVal <= 0) {
+        changeFieldValue('status', 'on-sale');
+      }
+      if (((val && +(val.toString().replace(/\./g, '')) === 0) || !val) && get(initValues, 'status', null) === 'on-sale') {
+        changeFieldValue('status', 'on-request');
+      }
+    }
   }, [formValue]);
 
   // FUNCTIONS TO SKIP SECTION
@@ -126,6 +137,7 @@ const FactsQuestion = (props) => {
         classNameBox={quest.classNameBox}
         className="singleInput"
         form="Property"
+        hintMessage
         disableNextBtn={false}
         formValue={formValue}
         inputs={quest.inputs}
@@ -136,6 +148,7 @@ const FactsQuestion = (props) => {
 };
 
 FactsQuestion.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   initValues: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,

@@ -44,6 +44,7 @@ const LoginSignup = (props) => {
   // STATE
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(false);
 
   const sliderInstance = useRef(null);
   const settingSlider = {
@@ -147,12 +148,23 @@ const LoginSignup = (props) => {
   //   }
   // };
 
+  useEffect(() => {
+    if (disabledButton) {
+      setTimeout(() => {
+        setDisabledButton(false);
+      }, 2000);
+    }
+  }, [disabledButton]);
+
   // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF PRIMARY BUTTON (center)
   const PrimaryButton = () => {
     switch (loginPage) {
       case 'not_sure':
         return {
-          action: () => changeScreen('register'),
+          action: () => {
+            setDisabledButton(true);
+            changeScreen('register');
+          },
           label: 'Ok, save now',
         };
       case 'support':
@@ -162,7 +174,10 @@ const LoginSignup = (props) => {
         };
       case 'login':
         return {
-          action: () => onSubmitForm(),
+          action: () => {
+            setDisabledButton(true);
+            onSubmitForm();
+          },
           label: 'Login',
         };
       case 'reset':
@@ -175,12 +190,18 @@ const LoginSignup = (props) => {
           };
         }
         return {
-          action: () => onSubmitForm(),
+          action: () => {
+            setDisabledButton(true);
+            onSubmitForm();
+          },
           label: 'Reset Password',
         };
       default:
         return {
-          action: () => onSubmitForm(),
+          action: () => {
+            setDisabledButton(true);
+            onSubmitForm();
+          },
           label: 'Sign up',
         };
     }
@@ -327,7 +348,7 @@ const LoginSignup = (props) => {
                     rounded
                     className="ml-a mr-a mt-3 mb-2 minimum-w-210"
                     label={PrimaryButton().label}
-                    onClick={PrimaryButton().action}
+                    onClick={!disabledButton ? PrimaryButton().action : ''}
                     isLoading={isSmallLoading === 'recoverPassword'}
                   />
                 </div>

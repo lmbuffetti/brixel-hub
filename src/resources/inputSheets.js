@@ -1,4 +1,5 @@
 import { InputSheetsConfig } from '@brixel/brixel-configuration-partner/src/InputSheets';
+import { ProEstimationConfig } from '@brixel/brixel-configuration-partner/src/ProEstimation';
 import {
   BrixelCheckbox,
   BrixelExtraFeature, BrixelInputQuality,
@@ -25,9 +26,12 @@ const componentsList = {
   Validation,
 };
 
-export const InputSheets = () => {
+export const InputSheets = (type = 'facts') => {
   let Input = [];
-  if (configureStore) Input = InputSheetsConfig('hub', configureStore.getState(), Maps, 'brixelForm', componentsList);
+  if (configureStore) {
+    if (type === 'proEstimation') Input = ProEstimationConfig('hub', configureStore.getState(), Maps, 'brixelForm', componentsList);
+    else Input = InputSheetsConfig('hub', configureStore.getState(), Maps, 'brixelForm', componentsList);
+  }
   const filteredInput = [];
   Input.forEach((item, i) => {
     filteredInput[i] = item;

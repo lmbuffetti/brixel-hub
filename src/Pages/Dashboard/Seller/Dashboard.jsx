@@ -178,7 +178,9 @@ const Dashboard = (props) => {
         propID !== formValue.id
       )
     ) {
-      if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty.id === propID) initForm(cloneDeep(initialValues));
+      if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty.id === propID) {
+        initForm(cloneDeep(initialValues));
+      }
     }
   }, [initialValues, propID]);
 
@@ -296,56 +298,58 @@ const Dashboard = (props) => {
   // FUNCTION TO SHOW/HIDE THE NOTIFICATION BAR TO SAVE
   useEffect(() => {
     // eslint-disable-next-line consistent-return
-    const isDocEdit = find(diff(initialValues, formValue).documents, (el) => {
-      if (history.location.pathname.includes('documents') &&
+    if (!get(history, 'location.pathname', '').includes('formFlow')) {
+      const isDocEdit = find(diff(initialValues, formValue).documents, (el) => {
+        if (history.location.pathname.includes('docubox') &&
           (has(el, 'isPrivate') || has(el, 'name') || has(el, 'folder')) &&
           !has(el, 'id')) {
-        return true;
+          return true;
+        }
+        return false;
+      });
+      if (formValue.id && initialValues.id) {
+        let changeObj = diff(initialValues, formValue);
+        const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
+        changeObj = omit(changeObj, ['inputSheet']);
+        const getIndexNotification = notification.findIndex((item) => item.type === 'save');
+        if (Object.keys(changeObj).length === 0 && get(notification, 'label', '').toLowerCase().includes('changes')) {
+          handleSetScreenNotification({
+            ...notification[getIndexNotification],
+            state: false,
+          });
+        }
+        if (
+          checkIsValid &&
+          Object.keys(changeObj).length > 0 &&
+          (Object.keys(changeObj).length > 1 || !changeObj.inputSheet) &&
+          !isSmallLoading.saveData &&
+          !isLoading &&
+          !has(isDocEdit, 'name') &&
+          !has(isDocEdit, 'isPrivate') &&
+          !has(isDocEdit, 'folder') &&
+          validForm()
+        ) {
+          handleSetScreenNotification({
+            state: true,
+            type: 'save',
+            label: 'Unsaved changes',
+          });
+        } else if (
+          !!notification &&
+          !get(notification, 'label', '').toLowerCase().includes('saved')
+        ) {
+          handleSetScreenNotification({
+            ...notification[getIndexNotification],
+            state: false,
+          });
+        }
       }
-      return false;
-    });
-    if (formValue.id && initialValues.id) {
-      let changeObj = diff(initialValues, formValue);
-      const checkIsValid = Object.keys(changeObj).find((key) => typeof changeObj[key] !== 'undefined');
-      changeObj = omit(changeObj, ['inputSheet']);
-      const getIndexNotification = notification.findIndex((item) => item.type === 'save');
-      if (Object.keys(changeObj).length === 0 && get(notification, 'label', '').toLowerCase().includes('changes')) {
-        handleSetScreenNotification({
-          ...notification[getIndexNotification],
-          state: false,
-        });
+      // FUNCTION TO CHANGE THE FACTS PERCENTAGE
+      if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
+        const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+        inputSheet.totalComplete = calcPercentageFacts().calcPerc;
+        // initializeForm('inputSheet', inputSheet);
       }
-      if (
-        checkIsValid &&
-        Object.keys(changeObj).length > 0 &&
-        (Object.keys(changeObj).length > 1 || !changeObj.inputSheet) &&
-        !isSmallLoading.saveData &&
-        !isLoading &&
-        !has(isDocEdit, 'name') &&
-        !has(isDocEdit, 'isPrivate') &&
-        !has(isDocEdit, 'folder') &&
-        validForm()
-      ) {
-        handleSetScreenNotification({
-          state: true,
-          type: 'save',
-          label: 'Unsaved changes',
-        });
-      } else if (
-        !!notification &&
-        !get(notification, 'label', '').toLowerCase().includes('saved')
-      ) {
-        handleSetScreenNotification({
-          ...notification[getIndexNotification],
-          state: false,
-        });
-      }
-    }
-    // FUNCTION TO CHANGE THE FACTS PERCENTAGE
-    if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
-      const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-      inputSheet.totalComplete = calcPercentageFacts().calcPerc;
-      // initializeForm('inputSheet', inputSheet);
     }
   }, [formValue, errorValue]);
 
@@ -464,6 +468,7 @@ const mapStateToProps = (state) => {
       },
       packageFlowProcess: get(state, 'property.activeSingleProperty.packageFlowProcess', {}),
       price: get(state, 'property.activeSingleProperty.price', {}),
+      proEstimation: get(state, 'property.activeSingleProperty.proEstimation', {}),
       status: get(state, 'property.activeSingleProperty.status', null),
       // language: get(state, 'property.activeSingleProperty.language', null),
       // listed: get(state, 'property.activeSingleProperty.listed', null),

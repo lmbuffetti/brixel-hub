@@ -178,7 +178,7 @@ const HomeDashboard = (props) => {
                     onClick={() => history.push(`/${propID}/property/floorPlans`)}
                   />
                 </div>
-                <div className="dis-f mt-2">
+                <div className="dis-f mt-2 max-w-perc-50">
                   <BrixelButtonBox
                     verticalView
                     bgTransparent
@@ -208,7 +208,7 @@ const HomeDashboard = (props) => {
         </div> */}
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
+            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Route path="/:propId?/property/facts" component={Facts} />
                 <Route path="/:propId?/property/price" component={Price} />

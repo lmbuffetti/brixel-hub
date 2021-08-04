@@ -510,7 +510,7 @@ export const MapsWithModalManual = (props) => {
                         showIconValidation: false,
                       }}
                       input={{
-                        name: 'location.state',
+                        name: 'location.city',
                       }}
                       labels={{
                         label: 'City',

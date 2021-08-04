@@ -238,7 +238,7 @@ const MarketCategoryListSeller = (props) => {
       {
         !bestimateMessage && splashScreenType === 'bestimateTeaser' && (
           <SplashScreen
-            className="result-popup"
+            className="result-popup centered"
             closeOutside={false}
           >
             {
@@ -283,7 +283,7 @@ const MarketCategoryListSeller = (props) => {
                   </div>
                   <div className="dis-fl-col jc-c a-c pb-2">
                     <h3 className="ta-c">Get a free price indication. </h3>
-                    <span className="max-w-fix-448 ta-c txtDark700 py-2"> Compare your property to real transaction data to better define the pricing. </span>
+                    <span className="max-w-fix-448 ta-c txtDark700 py-2">Compare your property to real transaction data to better define the pricing.</span>
 
                     <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
 
@@ -317,7 +317,7 @@ const MarketCategoryListSeller = (props) => {
       {
         !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending') && (
           <SplashScreen
-            className="result-popup"
+            className="result-popup centered"
             closeOutside={false}
           >
             <div className="dis-f jc-fe mb-2">

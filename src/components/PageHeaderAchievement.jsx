@@ -13,9 +13,10 @@ function PageHeaderAchievement(props) {
   const {
     handleSetHistory,
     history,
-    navHistory,
+    historyUrl,
     icon,
     match,
+    navHistory,
     onClick,
     title,
   } = props;
@@ -28,22 +29,28 @@ function PageHeaderAchievement(props) {
       handleSetHistory({});
       history.push(navHistory.source);
     } else if (onClick) onClick();
-    else history.push(`/${pageId}/rewards/${rewardType}`);
+    else if (historyUrl) {
+      history.push(historyUrl);
+    } else history.push(`/${pageId}/rewards/${rewardType}`);
   }, [navHistory.source]);
 
   return (
     <header className="max-w-fix-760 w-perc-100 m-a pageHeaderAchievement">
       <div className="container p-1 p-lg-2 dis-f jc-b a-c">
         <div className="dis-f a-c">
-          <BrixelIcon
-            rounded
-            icon={icon || ''}
-            background="green"
-            saturation={100}
-            color="green"
-            saturationTxt={400}
-            padding="p-small-9"
-          />
+          {
+            icon && (
+              <BrixelIcon
+                rounded
+                icon={icon || ''}
+                background="green"
+                saturation={100}
+                color="green"
+                saturationTxt={400}
+                padding="p-small-9"
+              />
+            )
+          }
           <div className="ml-2 dis-fl-col">
             <p className="fsize-400 fweight-500 txtDark700">{title}</p>
           </div>
@@ -63,6 +70,7 @@ function PageHeaderAchievement(props) {
 PageHeaderAchievement.propTypes = {
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  historyUrl: PropTypes.object,
   icon: PropTypes.string,
   match: PropTypes.object.isRequired,
   navHistory: PropTypes.object,
@@ -71,7 +79,8 @@ PageHeaderAchievement.propTypes = {
 };
 
 PageHeaderAchievement.defaultProps = {
-  icon: '',
+  historyUrl: null,
+  icon: null,
   navHistory: {},
   onClick: null,
   title: null,

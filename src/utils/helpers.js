@@ -55,6 +55,66 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
   };
 };
 
+export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
+  let countTotal = 0;
+  let countDone = 0;
+  const questList = [];
+  const formValue = get(configureStore.getState(), `brixelForm[${form}].values`, value);
+  InputSheets('proEstimation').forEach((singleQuest) => {
+    singleQuest.inputs.forEach((input) => {
+      if (input.isProEstimation) {
+        let mergeCondition = [];
+        if (input.condition && input.condition.name && input.condition.value) {
+          mergeCondition = [{ name: input.condition.name, value: input.condition.value }];
+        } else if (input.condition && input.condition.name && input.condition.noValue) {
+          mergeCondition = [{ name: input.condition.name, noValue: input.condition.noValue }];
+        } else if (input.condition) {
+          mergeCondition = input.condition;
+        }
+        if (input.proEstimationConditions) {
+          mergeCondition = mergeCondition.concat(input.proEstimationConditions);
+        }
+        let isValid = true;
+        if (mergeCondition.length > 0) {
+          mergeCondition.forEach((item) => {
+            if (item.value && item.value !== get(formValue, item.name, null)) {
+              isValid = false;
+            } else if (item.noValue && item.noValue === get(formValue, item.name, null)) {
+              isValid = false;
+            }
+          });
+        }
+        if (isValid) questList.push(input);
+      }
+    });
+  });
+  const Questions = questList;
+  Questions.forEach((val) => {
+    if (get(formValue, `inputSheet.skipSection[${val.name}]`, false)) {
+      countTotal += 1;
+      countDone += 1;
+    } else if (get(formValue, val.name, 'ayc') !== 'ayc' && get(formValue, val.name, 'ayc') !== null) {
+      countTotal += 1;
+      countDone += 1;
+    } else if (get(val, 'component.type.defaultProps.startFrom', null) !== null) {
+      countDone += 1;
+      countTotal += 1;
+    } else {
+      countTotal += 1;
+    }
+  });
+  // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+  const calPerc = Math.floor((countDone * 100) / countTotal);
+  const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);
+  return {
+    realPerc: Math.ceil((countDone * 100) / countTotal),
+    calcPerc: calPerc,
+    savedPerc,
+    countTotal,
+    countDone,
+  };
+};
+
 export const formatPrice = (value, lang) => {
   if (typeof value !== 'number' && !value) return '';
   return Number(value).toLocaleString(lang);

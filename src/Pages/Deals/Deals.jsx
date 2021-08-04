@@ -333,13 +333,14 @@ const Deals = (props) => {
 
   return (
     <div className="deals-container dis-f jc-fs h-perc-lg-100 a-t" id="dealsDashaboard">
-      <div className="w-perc-100 dis-fl-col ml-lg-1">
+      <div className="w-perc-100 dis-fl-col">
         <div className="dealsListings">
           <div className="listings-header bg-white">
             <div className="dis-f jc-b">
               <div className="dis-f jc-fe-md w-perc-100">
                 <div className="dis-fl-row a-c zIndex3 jc-b w-perc-100">
-                  <h4 className="ml-md-1 fweight-700">Prospects</h4>
+                  <h4 className="ml-md-1 fweight-700 hide-lg">Prospects</h4>
+                  <h3 className="mb-3 hide dis-b-lg">Prospects</h3>
                   <div className="dis-fl-row a-c zIndex3">
                     {
                       !emptyDeals && (
@@ -378,7 +379,7 @@ const Deals = (props) => {
               )
             }
           </div>
-          <div className={`dealsWrapper ${emptyDeals ? 'emptyDeals' : ''}`}>
+          <div className={`dealsWrapper shadow-1dp p-1 bgWhite brdRadius mt-3 ${emptyDeals ? 'emptyDeals' : ''}`}>
             <div className="titleContainer">
               {
                 filteredDeals && Object.keys(filteredDeals).map((key, i) => (
@@ -503,12 +504,12 @@ const Deals = (props) => {
                                                                 date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
                                                                 parentOnClick={() => openDeal(item.id)}
                                                                 archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                                stage={item.stage}
+                                                                visit={item.visit}
                                                                 archived={!item.active}
                                                                 isWinner={get(item, 'winner')}
                                                                 isNew={get(item, 'newSeller')}
                                                                 lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                                stage={item.stage}
-                                                                visit={item.visit}
                                                               />
                                                             </div>
                                                           )
@@ -544,12 +545,12 @@ const Deals = (props) => {
                                                           date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
                                                           parentOnClick={() => openDeal(item.id)}
                                                           archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                          stage={item.stage}
+                                                          visit={item.visit}
                                                           archived={!item.active}
                                                           isWinner={get(item, 'winner')}
                                                           isNew={get(item, 'newSeller')}
                                                           lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                          stage={item.stage}
-                                                          visit={item.visit}
                                                         />
                                                       </div>
                                                     </React.Fragment>
