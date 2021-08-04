@@ -75,7 +75,7 @@ const Price = (props) => {
         if (hubDashboard) hubDashboard.classList.add('secondLevelActive');
       }, 10);
     }
-    if (get(estimation, 'result.higherValue', 0) === 0) {
+    if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id) {
       if (!has(estimation, 'result')) {
         const payload = {
           reloadOnwProperties: true,
@@ -87,7 +87,7 @@ const Price = (props) => {
         handleGenerateBestimate(estimation.id);
       }
     }
-  }, []);
+  }, [activeSingleProperty.id]);
 
   useEffect(() => {
     setPercComplete(calcPercentageProEstimation().realPerc);
@@ -221,21 +221,13 @@ const Price = (props) => {
               <div className="dis-fl-col boxCard mb-5 pb-5">
                 <h5 className="mb-3">Pro Estimation</h5>
 
-                <div className="notranslate">
+                <div>
                   {
                     get(proEstimation, 'value', 0) <= 0 ? (
                       <p className="txtDark700">
-                        {
-                          percComplete === 100 ? (
-                            <span>
-                              Your estimation is being calculated. You will receive an email with the result
-                            </span>
-                          ) : (
-                            <span>
-                              Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.
-                            </span>
-                          )
-                        }
+                        <span>
+                          {percComplete === 100 ? 'Your estimation is being calculated. You will receive an email with the result' : 'Complete your inputs to <span className="txtRed400 fweight-700">unlock</span> your professional estimation.'}
+                        </span>
                       </p>
                     ) : (
                       <p className="txtDark700">This is your estimated value for your property.</p>
@@ -439,12 +431,13 @@ Price.propTypes = {
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  proEstimation: PropTypes.object.isRequired,
+  proEstimation: PropTypes.object,
   setSplashScreen: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 Price.defaultProps = {
+  proEstimation: null,
 };
 
 const mapStateToProps = (state) => ({
