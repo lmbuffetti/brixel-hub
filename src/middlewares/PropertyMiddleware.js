@@ -509,7 +509,7 @@ const checkCommon = (store) => (next) => (action) => {
               generate: true,
               reloadOnwProperties: get(action.payload, 'reloadOnwProperties', false),
             };
-            store.dispatch({ type: CREATE_ESTIMATION, payload: data });
+            // store.dispatch({ type: CREATE_ESTIMATION, payload: data });
           }
           if (smallLoader) {
             store.dispatch({
