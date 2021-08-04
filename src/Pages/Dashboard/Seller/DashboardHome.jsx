@@ -25,11 +25,12 @@ import MediaExplanation from '../../GameHistory/SecondLevel/MediaRewards';
 import PageReviewRewards from '../../GameHistory/SecondLevel/PageReviewRewards';
 import PagePublishedRewards from '../../GameHistory/SecondLevel/PagePublishedRewards';
 import PortalsRewards from '../../GameHistory/SecondLevel/PortalsRewards';
+
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import Support from '../../../components/Support';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
-const HubDashboard = (props) => {
+const DashboardHome = (props) => {
   // PROPS
   const {
     activeSingleProperty,
@@ -238,144 +239,20 @@ const HubDashboard = (props) => {
     return <Loading />;
   }
   const classToHide = get(history, 'location.state.hideBackPage', false);
-  return (
-    <div
-      className={`rewards-container ${classToHide ? 'hide' : ''}`}
-      id="rewardsDashboard"
-    >
-      <h3 className="mb-3 hide dis-b-lg">Hub</h3>
-      <div className="dis-f a-t jc-fs pos-r-lg">
-        {
-          usrGroups && (
-            <div className="firstLevel mr-lg-2">
-              {
-                usrGroups.map((group, i) => (
-                  <div className={`level-${group.stub.replace(/^\D+/g, '')} pr-lg-8`} key={i.toString()}>
-                    {
-                      GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`] && (
-                        <>
-                          {
-                            i === 0 ? (
-                              <div className="dis-f backPanel mt-0 mb-3">
-                                <span className="dis-b txtGreen700 fweight-500">
-                                  {GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`].name}
-                                </span>
-                              </div>
-                            ) : (
-                              <span className="mb-3 dis-b txtRed700 fweight-500">
-                                {GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`].name}
-                              </span>
-                            )
-                          }
 
-                          <div key={i.toString()} className="pos-r">
-                            {
-                              group.achievements && group.achievements.map((item, f) => (
-                                <React.Fragment key={f.toString()}>
-                                  <div className="pos-r">
-                                    <BrixelButtonAchievement
-                                      level={group.stub.replace(/^\D+/g, '')}
-                                      done={item.done}
-                                      active={item.stub === activeGameGroup}
-                                      icon={item.icon}
-                                      title={item.description}
-                                      subtitle={item.name}
-                                      isFree={isDisabledFlow(item.stub) ? null : item.isFree}
-                                      onClick={() => onClickAchievement(item.stub, item)}
-                                      lineAfter={group.achievements.length - 1 > f}
-                                      award={item.achievementType === 'award'}
-                                      disabled={isDisabledFlow(item.stub)}
-                                      config={GameGroupConfig[`sellerLevel${group.stub.replace(/^\D+/g, '')}`]}
-                                    />
-                                  </div>
-                                  {
-                                    f === group.achievements.length - 1 && group.stub.replace(/^\D+/g, '') === '1' && (
-                                      <div className="pos-r" key={`${f.toString()}group`}>
-                                        <hr className="lighter" />
-                                        <BrixelButtonBox
-                                          bgTransparent
-                                          className={`mt-2 mb-4 w-perc-100 shadow-1dp brdMedium p-2 ${rewardType === 'call-expert' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                                          backIcon="Primary100"
-                                          done={false}
-                                          icon="call"
-                                          paddingIconClass="p-small-9 mr-1"
-                                          label="Call the expert"
-                                          labelClass="fweight-400"
-                                          subtitleClass="pt-1 txtDark200"
-                                          subtitle="15 min personal support for free"
-                                          isFree="15 min personal support for free"
-                                          onClick={() => onClickAchievement('call-expert', { title: 'Call the expert' })}
-                                        />
-                                      </div>
-                                    )
-                                  }
-                                </React.Fragment>
-                              ))
-                            }
-                          </div>
-                        </>
-                      )
-                    }
-                  </div>
-                ))
-              }
-            </div>
-          )
-        }
-        {
-          activeGameGroup && rewardType !== 'rewards' && (
-            <Sticker>
-              <div className="secondLevel w-perc-100 dis-fl-col ml-md">
-                <div className="rewardsSplash h-perc-100 dis-fl-col p-2 p-lg-3 pb-lg-8 cardSecondLevel">
-                  {
-                    activeAchievement && (
-                      <div className="dis-f a-c jc-b mb-5 mb-lg-2">
-                        <div className="dis-f a-c backPanel">
-                          <div className="fixedIcon dis-f w-perc-100">
-                            <BrixelButtonIcon
-                              className="hide-md"
-                              icon="arrow-left-small"
-                              ghost
-                              theme="dark"
-                              onClick={() => history.push(`/${propID}/rewards`)}
-                            />
-                          </div>
-                          {
-                            windowDimensions.width <= 1024 && (
-                              <h5 className="sectionTitle">
-                                Home
-                              </h5>
-                            )
-                          }
-                        </div>
-                      </div>
-                    )
-                  }
-                  {getSuccessActiveGroup()}
-                </div>
-                {
-                  brixelScanTrialMessage(rewardType) && (
-                    <BrixelUpgradeMessage
-                      className="mt-3"
-                      unlockFunction={false}
-                      title={brixelScanTrialMessage(rewardType).title}
-                      description={brixelScanTrialMessage(rewardType).description}
-                      btnLabel={brixelScanTrialMessage(rewardType).btnLabel}
-                      redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
-                      trialRequest
-                    />
-                  )
-                }
-              </div>
-            </Sticker>
-          )
-        }
+  return (
+    <div className="rewards-container" id="rewardsDashboard">
+      <h3 className="mb-3 hide dis-b-lg">Welcome back Jim 👋</h3>
+      <div className="max-w-fix-768 dis-fl-col">
+        <div className="boxCard">
+          <img src={activeSingleProperty.id} />
+        </div>
       </div>
     </div>
   );
 };
 
-HubDashboard.propTypes = {
+DashboardHome.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
@@ -390,7 +267,7 @@ HubDashboard.propTypes = {
   windowDimensions: PropTypes.object.isRequired,
 };
 
-HubDashboard.defaultProps = {
+DashboardHome.defaultProps = {
   gameGroup: [],
   gameHistory: {},
   userTypes: 'user',
@@ -420,4 +297,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(HubDashboard);
+)(DashboardHome);
