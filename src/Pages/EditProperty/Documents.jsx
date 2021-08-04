@@ -178,9 +178,9 @@ const Documents = (props) => {
   });
 
   return (
-    <div className="h-perc-lg-100">
+    <div className="max-w-fix-768 h-perc-lg-100">
       <h3 className="mb-3 hide dis-b-lg">Docubox</h3>
-      <div className={`boxCard ${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
+      <div className={`scaleUp boxCard ${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
         <div className="dis-fl-col uploadPanel a-c">
           {
             processedDocuments && Object.keys(processedDocuments).length < 1 && userType === 'buyer' && (
