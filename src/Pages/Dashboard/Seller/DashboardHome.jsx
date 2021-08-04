@@ -245,7 +245,7 @@ const DashboardHome = (props) => {
       <h3 className="mb-3 hide dis-b-lg">Welcome back Jim 👋</h3>
       <div className="max-w-fix-768 dis-fl-col">
         <div className="boxCard">
-          <img src={activeSingleProperty.id} />
+          <img src={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', null)} alt="" />
         </div>
       </div>
     </div>
