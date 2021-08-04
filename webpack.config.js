@@ -78,22 +78,7 @@ const clientConfig = {
             loader: 'css-loader',
             options: {
               sourceMap: devMode,
-              importLoaders: 1
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    "autoprefixer",
-                    {
-                      // Options
-                    },
-                  ],
-                ],
-              },
+              importLoaders: 1,
             },
           },
           {
@@ -103,6 +88,21 @@ const clientConfig = {
                 outputStyle: 'compressed',
               },
               sourceMap: devMode,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    'autoprefixer',
+                    {
+                      // Options
+                    },
+                  ],
+                ],
+              },
             },
           },
         ],
@@ -239,25 +239,6 @@ const clientConfig = {
   optimization: {
     nodeEnv: devMode ? 'development' : 'production',
     minimize: !devMode,
-    splitChunks: {
-      chunks: 'all',
-      maxSize: 200000,
-      cacheGroups: {
-        default: false, // disable the built-in groups, default & vendors (vendors is overwritten below)
-        reactDom: {
-          test: /[\\/]node_modules[\\/]react-dom[\\/]/,
-          name: 'vendor.react-dom',
-          enforce: !devMode,
-          maxSize: 200000,
-        },
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          enforce: !devMode, // create chunk regardless of the size of the chunk
-          maxSize: 200000,
-        },
-      },
-    },
     minimizer: [
       new OptimizeCSSAssetsPlugin({
         cssProcessor: CSSNano,
