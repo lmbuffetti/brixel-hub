@@ -435,7 +435,6 @@ Price.propTypes = {
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGenerateBestimate: PropTypes.func.isRequired,
-  handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
