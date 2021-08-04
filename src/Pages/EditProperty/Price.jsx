@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
@@ -31,6 +32,7 @@ import { calcPercentageProEstimation } from '../../utils/helpers';
 // COMPONENTS
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 import { getEstimation } from '../../actions/PropertyActions';
+import { generateEstimation } from '../../actions/EstimationActions';
 
 const Price = (props) => {
   const {
@@ -38,7 +40,8 @@ const Price = (props) => {
     changeFieldValue,
     estimation,
     formValue,
-    handleGetActiveSinglePropertyEstimation,
+    handleGetEstimation,
+    handleGenerateBestimate,
     handleSetHistory,
     history,
     match,
@@ -73,7 +76,16 @@ const Price = (props) => {
       }, 10);
     }
     if (get(estimation, 'result.higherValue', 0) === 0) {
-      handleGetActiveSinglePropertyEstimation(propID);
+      if (!has(estimation, 'result')) {
+        const payload = {
+          reloadOnwProperties: true,
+          type: 'market',
+          id: activeSingleProperty.id,
+        };
+        handleGetEstimation(payload);
+      } else if (has(estimation, 'result') && !has(estimation, 'result.value')) {
+        handleGenerateBestimate(estimation.id);
+      }
     }
   }, []);
 
@@ -422,7 +434,8 @@ Price.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
+  handleGenerateBestimate: PropTypes.func.isRequired,
+  handleGetEstimation: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -449,7 +462,8 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)));
   },
-  handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
