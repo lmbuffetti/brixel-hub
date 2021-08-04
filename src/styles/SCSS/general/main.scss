@@ -124,6 +124,9 @@ hr {
   &.lighter {
     border-color: map_get($lightColor, 200);
   }
+  &.white {
+    border-color: white;
+  }
 }
 
 #page-header {
@@ -656,13 +659,19 @@ button.minimum-w-210 {
     right: 100%;
     z-index: 2;
   }
-  .dot {
-    line-height: inherit;
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background-color: white;
-    position: relative;
-    border-radius: 50%;
+}
+.activeDot {
+  line-height: inherit;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  position: relative;
+  border-radius: 50%;
+  &.green {
+    background-color: map-get($altColor, 200);;
+  }
+  &.grey {
+    background-color: #CFD2D3;
   }
 }
