@@ -160,6 +160,7 @@ const ProEstimationFlow = (props) => {
     setQuestions(questList);
     const percentageComplete = calcPercentageProEstimation('formFlow');
     if (percComplete < percentageComplete.realPerc && percentageComplete.realPerc === 100) setSendNotification(true);
+    if (percentageComplete.realPerc < 100) setSendNotification(false);
     setPercComplete(percentageComplete.realPerc);
   }, [formValue]);
 
