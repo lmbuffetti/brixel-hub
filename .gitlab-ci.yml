@@ -9,7 +9,7 @@ stages:
 install_dependencies:
   stage: install_dependencies
   only:
-    - develops
+    - develop
     - staging
     - master
   script:
@@ -22,6 +22,9 @@ install_dependencies:
 build site:
   image: node:14.14.0
   stage: build
+  cache:
+    paths:
+      - node_modules/
   only:
     - develop
     - staging
@@ -35,10 +38,10 @@ build site:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
+    - ldd chrome | grep not
     - echo $CI_JOB_STAGE
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_BUILD_REF_NAME
-    - npm install
     - if [ "$FOLDER" == "master" ]; then MODULE="prod"; else MODULE="dev"; fi
     - if [ "$FOLDER" == "staging" ]; then MODULE="stage"; else MODULESS="dev"; fi
     - npm run build-${MODULE}
