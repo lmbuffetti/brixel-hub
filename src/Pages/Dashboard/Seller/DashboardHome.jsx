@@ -53,7 +53,7 @@ const DashboardHome = (props) => {
   return (
     <div className="rewards-container" id="rewardsDashboard">
       <h4 className="mb-3 hide dis-b-lg fweight-600">Welcome back Jim 👋</h4>
-      <div className="max-w-fix-768 dis-fl-col">
+      <div className="max-w-fix-760 dis-fl-col">
         <div className="shadow-2dp bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
           <div className="imgSection w-perc-100 w-fix-sm-232 h-fix-sm-152 pos-r">
             <CoverPropertyImage

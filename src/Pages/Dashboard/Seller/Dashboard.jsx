@@ -39,6 +39,8 @@ import {
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
 
+import SellerSidebar from './SellerSidebar';
+
 const DashboardHome = lazy(() => import('./DashboardHome'));
 
 const PropertyDashboard = lazy(() => import('./PropertyDashboard'));
@@ -357,7 +359,7 @@ const Dashboard = (props) => {
 
   return (
     <div className={`dashboardContainer dis-f jc-b ${sectionClass[2]}`} id="dashboard">
-      <div className="w-perc-100">
+      <div className="w-perc-100 pt-0 pt-lg-3">
         <Suspense fallback={<Loading isLoading />}>
           {/* teaserScreens && isEligible(activeSingleProperty) && () */}
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
@@ -374,8 +376,8 @@ const Dashboard = (props) => {
       </div>
       {
         get(history, 'location.pathname', '').includes('rewards') && (
-          <div className="hide dis-f-lg">
-            <h2>sidbar</h2>
+          <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+            <SellerSidebar />
           </div>
         )
       }

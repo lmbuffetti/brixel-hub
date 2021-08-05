@@ -277,7 +277,7 @@ function PageHeaderDashboard(props) {
                   )
                 }
               </div>
-              <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-5">
+              <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
                 {
                   activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' && propID !== 'buy' && propID !== 'sell' ? (
                     <>
