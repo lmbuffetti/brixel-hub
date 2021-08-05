@@ -1,6 +1,6 @@
 const HtmlCriticalWebpackPlugin = require('html-critical-webpack-plugin');
 const path = require('path');
-const webpackConfig = require('./webpack.config.js');
+const webpackConfig = require('./webpack.config');
 
 const devMode = process.argv[process.argv.length - 1] === 'development';
 

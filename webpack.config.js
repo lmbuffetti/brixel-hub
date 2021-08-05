@@ -5,11 +5,11 @@ const webpack = require('webpack');
 const baseByData = require('@brixel/brixel-configuration-partner/src/SettingsWebpack');
 const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInfo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const CSSNano = require('cssnano');
+// const CSSNano = require('cssnano');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -52,9 +52,9 @@ const clientConfig = {
     publicPath: '/',
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
-    chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[hash].js',
-    hotUpdateChunkFilename: devMode ? 'hot/hot-update.js' : 'hot/hot-update.[hash].js',
-    hotUpdateMainFilename: devMode ? 'hot/hot-update.json' : 'hot/hot-update.[hash].js',
+    chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[chunkhash].js',
+    hotUpdateChunkFilename: devMode ? 'hot/hot-update.js' : 'hot/hot-update.[chunkhash].js',
+    hotUpdateMainFilename: devMode ? 'hot/hot-update.json' : 'hot/hot-update.[chunkhash].js',
     globalObject: 'this',
   },
   stats: {
@@ -152,7 +152,7 @@ const clientConfig = {
         use: [{
           loader: 'file-loader',
           options: {
-            name: '[name].[hash].[ext]',
+            name: '[name].[fullhash].[ext]',
             outputPath: 'fonts/',
 
           },
@@ -186,8 +186,8 @@ const clientConfig = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: devMode ? 'css/[name].css' : 'css/[name].[hash].css',
-      chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[hash].css',
+      filename: devMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
+      chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
     }),
     new CleanWebpackPlugin({
       dry: false,
@@ -239,15 +239,15 @@ const clientConfig = {
   optimization: {
     nodeEnv: devMode ? 'development' : 'production',
     minimize: !devMode,
-    minimizer: [
-      new OptimizeCSSAssetsPlugin({
-        cssProcessor: CSSNano,
-        cssProcessorPluginOptions: {
-          preset: ['default', { discardComments: { removeAll: true } }],
-        },
-        canPrint: true,
-      }),
-    ],
+    splitChunks: {
+      chunks: 'all',
+      minSize: 20000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+    },
   },
 };
 
