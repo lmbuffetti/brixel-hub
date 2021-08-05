@@ -13,6 +13,7 @@ install_dependencies:
     - staging
     - master
   script:
+    - npm install puppeteer
     - ldd ./node_modules/puppeteer/.local-chromium/linux-756035/chrome-linux/chrome | grep not
     - npm install
   artifacts:
