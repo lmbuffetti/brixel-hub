@@ -25,7 +25,7 @@ const SellerSidebar = (props) => {
   return (
     <div className="seller-sidebar w-perc-100 max-w-fix-368 p-3">
       <span className="txtDark700">Your Progress: <span className="fweight-600">Onboarding</span></span>
-      <div className="progress-steps dis-f">
+      <div className="progress-steps dis-f jc-b pos-r mb-4 mt-2">
         <span className="liner" />
         <div className="step-item active">
           <span>1</span>
@@ -41,6 +41,26 @@ const SellerSidebar = (props) => {
         </div>
         <div className="step-item">
           <span>5</span>
+        </div>
+      </div>
+      <div className="updates dis-fl-col">
+        <p className="fweight-600 txtDark700 mb-2">Updates</p>
+        <div className="update-item brdRadius brdSmall p-2 dis-f">
+          <BrixelIcon
+            background="AltColor"
+            saturation="1000"
+            color="AltColor"
+            saturationTxt="700"
+            padding="p-small-12"
+            icon="tag"
+            rounded
+            className="as-fs"
+            iconSize="large"
+          />
+          <div className="pl-2">
+            <p className="fsize-300 txtDark600">Hi Michael, why not try our test drive service for free.</p>
+            <p className="fsize-200 pt-small-4 txtLight400">8 hours ago</p>
+          </div>
         </div>
       </div>
     </div>
