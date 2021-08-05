@@ -229,8 +229,6 @@ const clientConfig = {
       'process.env': {
         NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
       },
-      'process.env.client': true,
-      'process.env.BROWSER': JSON.stringify(true),
     }),
   ],
   resolve: {
