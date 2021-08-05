@@ -5,11 +5,11 @@ const webpack = require('webpack');
 const baseByData = require('@brixel/brixel-configuration-partner/src/SettingsWebpack');
 const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInfo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const CSSNano = require('cssnano');
+// const CSSNano = require('cssnano');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -258,15 +258,6 @@ const clientConfig = {
         },
       },
     },
-    minimizer: [
-      new OptimizeCSSAssetsPlugin({
-        cssProcessor: CSSNano,
-        cssProcessorPluginOptions: {
-          preset: ['default', { discardComments: { removeAll: true } }],
-        },
-        canPrint: true,
-      }),
-    ],
   },
 };
 
