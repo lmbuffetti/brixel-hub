@@ -9,12 +9,10 @@ stages:
 install_dependencies:
   stage: install_dependencies
   only:
-    - develop
+    - develops
     - staging
     - master
   script:
-    - npm install puppeteer
-    - ldd ./node_modules/puppeteer/.local-chromium/linux-756035/chrome-linux/chrome | grep not
     - npm install
   artifacts:
     expire_in: 2 days
@@ -43,6 +41,7 @@ build site:
     - echo $CI_JOB_STAGE
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_BUILD_REF_NAME
+    - npm install
     - if [ "$FOLDER" == "master" ]; then MODULE="prod"; else MODULE="dev"; fi
     - if [ "$FOLDER" == "staging" ]; then MODULE="stage"; else MODULESS="dev"; fi
     - npm run build-${MODULE}
