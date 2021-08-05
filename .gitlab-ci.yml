@@ -22,9 +22,6 @@ install_dependencies:
 build site:
   image: node:14.14.0
   stage: build
-  cache:
-    paths:
-      - node_modules/
   only:
     - develop
     - staging
