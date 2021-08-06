@@ -23,7 +23,6 @@ const SellerSidebar = (props) => {
 
   useEffect(() => {
     if (activeSingleProperty.id) {
-      console.log(activeSingleProperty.progress.state, factsOptions.progressBarOptions);
       const defState = factsOptions.progressBarOptions.find((item) => item.value === activeSingleProperty.progress.state);
       const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === activeSingleProperty.progress.state);
       setStepProgrss(defState);
