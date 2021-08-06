@@ -1,8 +1,8 @@
-// CUSTOM VARIABLES
+/* CUSTOM VARIABLES */
 $sidebarWidth: 84px;
 $iphone5: 320px;
 
-// GENERAL
+/* GENERAL */
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
 $imgRootpath: "~@brixel/brixel-components/dist/";
@@ -37,11 +37,11 @@ map-get($greenColor, 300),
 map-get($yellowColor, 300),
 map-get($blueColor, 300);
 
-// DASHBOARD STUFF
+/* DASHBOARD STUFF */
 @import "./windows",
 "./hubDashboard";
 
-// PAGES
+/* PAGES */
 @import "../pages/onBoarding",
 "../pages/listings",
 "../pages/_property_listings",
@@ -55,7 +55,7 @@ map-get($blueColor, 300);
 "../pages/sellerSidebar",
 "../pages/seller";
 
-// TRANSITIONS
+/* TRANSITIONS */
 @import "./transitions";
 
 

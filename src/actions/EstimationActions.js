@@ -6,6 +6,7 @@ import {
   GENERATE_ESTIMATION,
   SAVE_ACTIVE_SINGLE_ESTIMATION,
   DELETE_ACTIVE_SINGLE_ESTIMATION,
+  SEND_PROESTIMATION_NOTIFICATION,
 } from './types/EstimationTypes';
 
 export const {
@@ -13,9 +14,11 @@ export const {
   generateEstimation,
   saveActiveSingleEstimation,
   deleteActiveSingleEstimation,
+  sendProestimationNotification,
 } = createActions({
   [CREATE_ESTIMATION]: (payload) => payload,
   [GENERATE_ESTIMATION]: (payload) => payload,
   [SAVE_ACTIVE_SINGLE_ESTIMATION]: (payload) => payload,
   [DELETE_ACTIVE_SINGLE_ESTIMATION]: (payload) => payload,
+  [SEND_PROESTIMATION_NOTIFICATION]: (payload) => payload,
 });

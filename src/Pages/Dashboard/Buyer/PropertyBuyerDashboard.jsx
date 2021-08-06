@@ -165,7 +165,7 @@ const PropertyBuyerDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Route path="/buyer/:propId/property/page" component={PageBuyer} />
-                <Route path="/buyer/:propId/property/docubox" exact component={Documents} />
+                <Route path="/buyer/:propId/property/docubox" exact component={() => <Documents isBuyer />} />
                 <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
                 <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
               </Suspense>

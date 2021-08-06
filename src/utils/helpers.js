@@ -96,6 +96,9 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
     } else if (get(formValue, val.name, 'ayc') !== 'ayc' && get(formValue, val.name, 'ayc') !== null) {
       countTotal += 1;
       countDone += 1;
+    } else if (get(val, 'component.type.defaultProps.startFrom', null) !== null) {
+      countDone += 1;
+      countTotal += 1;
     } else {
       countTotal += 1;
     }

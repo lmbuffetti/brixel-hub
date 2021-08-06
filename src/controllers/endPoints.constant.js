@@ -37,6 +37,7 @@ export default {
     getEstimationList: (paginationLimit, paginationSkip, data) => `/estimation/${paginationLimit}/${paginationSkip}${data}`,
     createEstimation: () => '/estimation/',
     generateEstimation: (id) => `/estimation/${id}/generate`,
+    proEstimationNotification: (id) => `/estimation/${id}/completeProEstimation`,
   },
   gamification: {
     gameAchievement: () => '/gameAchievement',

@@ -39,6 +39,7 @@ const Documents = (props) => {
     loggedInUser,
     handleDeleteDocument,
     history,
+    isBuyer,
     isSmallLoading,
     match,
     userLang,
@@ -178,8 +179,26 @@ const Documents = (props) => {
   });
 
   return (
-    <div className="max-w-fix-768 h-perc-lg-100">
+    <div className={`h-perc-lg-100 ${isBuyer ? 'secondLevel' : ''}`}>
       <h3 className="mb-3 hide dis-b-lg">Docubox</h3>
+      {
+        isBuyer && (
+          <div className="pos-r hide-lg">
+            <div className="dis-f backPanel">
+              <div className="fixedIcon dis-f jc-b w-perc-100">
+                <BrixelButtonIcon
+                  className="hide-md"
+                  icon="arrow-left-small"
+                  ghost
+                  theme="dark"
+                  onClick={() => history.push(`/buyer/${propID}/property`)}
+                />
+              </div>
+              <h5 className="sectionTitle">Docubox</h5>
+            </div>
+          </div>
+        )
+      }
       <div className={`scaleUp boxCard ${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
         <div className="dis-fl-col uploadPanel a-c">
           {
@@ -483,12 +502,17 @@ Documents.propTypes = {
   history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
+  isBuyer: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
   userType: PropTypes.string.isRequired,
+};
+
+Documents.defaultProps = {
+  isBuyer: false,
 };
 
 const mapStateToProps = (state) => ({
