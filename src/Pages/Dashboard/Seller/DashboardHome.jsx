@@ -1,18 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelIcon,
   BrixelButtonPrimary,
-  ProgressRing,
+  BrixelIcon,
   BrixelProgressBar,
+  Helpers,
+  ProgressRing,
 } from '@brixel/brixel-components';
 
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
 import demoBg from '../../../images/dashboard/demo.jpeg';
@@ -21,28 +23,36 @@ import testDrive from '../../../images/dashboard/testDrive.png';
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
+import { getHistoryListings } from '../../../actions/HistoryActions';
 // import Support from '../../../components/Support';
 // import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const DashboardHome = (props) => {
   // PROPS
   const {
-    activeSingleCompany,
     activeSingleProperty,
-    // windowDimensions,
+    estimation,
+    handleGetHistoryList,
+    history,
     isSmallLoading,
     userTypes,
-    history,
-    /* formValue,
-    gameGroup,
-    gameHistory,
-    handleAddGameHistory,
-    isLoading,
-    handleSpinnerOff, */
-    proEstimation,
     windowDimensions,
-    match,
   } = props;
+
+  useEffect(() => {
+    if (activeSingleProperty.id) {
+      const payloadPageHistory = {
+        parent: activeSingleProperty.id,
+        type: 'page',
+        resultsPerPage: 50,
+        offset: 0,
+        order: '',
+        direction: 'DESC',
+        smallLoader: 'getPageHistory',
+      };
+      handleGetHistoryList(payloadPageHistory);
+    }
+  }, [activeSingleProperty.id]);
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
@@ -72,7 +82,7 @@ const DashboardHome = (props) => {
               <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
             </div>
-            <div className="dis-f pt-2">
+            <div className="dis-f pt-2 a-t">
               <BrixelIcon
                 background="AltColor"
                 saturation="1000"
@@ -85,7 +95,7 @@ const DashboardHome = (props) => {
               />
               <div className="dis-fl-col pl-2 mr-1">
                 <span className="txtLight600 fsize-300"> Your Bestimate</span>
-                <span className="txtAltColor700 fweight-600"> CHF 1’344’849</span>
+                <span className="txtAltColor700 fweight-600">{get(estimation, 'currency', '')} {Helpers.formatNumberValue(get(estimation, 'higherValue', ''), get(estimation, 'currency', ''))}</span>
               </div>
               <div className="tagBg dis-fl-row-sm hide a-c">
                 <span className="activeDot" /> <span className="px-2 txtAltColor700"> Set your price </span>
@@ -99,6 +109,7 @@ const DashboardHome = (props) => {
               <span className="fsize-400 txtAltColor900">Pro estimation</span>
               <span className="fsize-600 fweight-600 txtAltColor700">{calcPercentageProEstimation().realPerc}% <span> Complete</span></span>
               <BrixelButtonPrimary
+                onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
                 label="Next step"
                 theme="AltColor"
                 themeSat="700"
@@ -125,6 +136,7 @@ const DashboardHome = (props) => {
                 2 of 4 uploaded
               </span>
               <BrixelButtonPrimary
+                onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                 label="Upload"
                 theme="AltColor"
                 themeSat="2000"
@@ -160,9 +172,9 @@ const DashboardHome = (props) => {
               </div>
               <div className="div">
                 <hr className="lighter mb-1" />
-                <span className="cur-poi txtLight700 px-3 pt-1">
+                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi txtLight700 px-3 pt-1">
                   View &#62;
-                </span>
+                </Link>
               </div>
             </div>
             <div className="w-perc-50 brdRadius bgWhite shadow-2dp ml-1 pt-2 pb-1 h-fix-184 dis-fl-col jc-b">
@@ -177,28 +189,28 @@ const DashboardHome = (props) => {
               <div className="px-3">
                 {
                   Object.keys(get(activeSingleProperty, 'customPortals', {})).map((portal, i) => (
-                    <>
+                    <React.Fragment key={i.toString()}>
                       {
-                        !portal.includes('Url') && activeSingleProperty.customPortals[portal] && (
-                          <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c" key={i.toString()}>
+                        !portal.includes('Url') && activeSingleProperty.customPortals[portal] && i < 2 && (
+                          <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
                             <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.customPortals[portal] ? 'green' : 'grey'}`} />
                           </span>
                         )
                       }
-                    </>
+                    </React.Fragment>
                   ))
                 }
                 {
                   Object.keys(get(activeSingleProperty, 'portals', {})).map((portal, i) => (
-                    <>
+                    <React.Fragment key={i.toString()}>
                       {
-                        !portal.includes('Url') && (
-                          <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c" key={i.toString()}>
+                        !portal.includes('Url') && activeSingleProperty.portals[portal] && i < 2 && (
+                          <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
                             <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.portals[portal] ? 'green' : 'grey'}`} />
                           </span>
                         )
                       }
-                    </>
+                    </React.Fragment>
                   ))
                 }
                 <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
@@ -207,9 +219,9 @@ const DashboardHome = (props) => {
               </div>
               <div className="div">
                 <hr className="lighter mb-1" />
-                <span className="cur-poi txtLight700 px-3 pt-1">
+                <Link to={`/${activeSingleProperty.id}/marketing/portals`} className="cur-poi txtLight700 px-3 pt-1">
                   View &#62;
-                </span>
+                </Link>
               </div>
             </div>
           </div>
@@ -226,9 +238,9 @@ const DashboardHome = (props) => {
             </div>
             <div className="div">
               <hr className="white mb-1" />
-              <span className="cur-poi txtWhite px-3 pt-1">
+              <a href={`${baseByData.pageUrl}preview/${activeSingleProperty.stub}`} target="_blank" className="cur-poi txtWhite px-3 pt-1" rel="noreferrer">
                 View &#62;
-              </span>
+              </a>
             </div>
           </div>
         </div>
@@ -258,18 +270,14 @@ const DashboardHome = (props) => {
 DashboardHome.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  userTypes: PropTypes.string,
-  windowDimensions: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  /* formValue: PropTypes.object.isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object),
-  gameHistory: PropTypes.object,
-  handleAddGameHistory: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
+  estimation: PropTypes.object.isRequired,
+  handleGetHistoryList: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired, */
+  isSmallLoading: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   proEstimation: PropTypes.object.isRequired,
+  userTypes: PropTypes.string,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 DashboardHome.defaultProps = {
@@ -281,23 +289,15 @@ DashboardHome.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  awards: get(state, 'user.awards', []),
-  brixelPoints: get(state, 'user.brixelPoints', []),
+  estimation: get(state, 'property.estimation.result', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
-  gameGroup: get(state, 'gamification.gameGroup', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
-  language: get(state, 'user.loggedInUser.user.language', 'en'),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
-  userTypes: get(state, 'user.userTypes', null),
-  history: PropTypes.object.isRequired,
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+  handleGetHistoryList: bindActionCreators(getHistoryListings, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
