@@ -13,7 +13,7 @@ import {
   BrixelProgressBar,
 } from '@brixel/brixel-components';
 
-import { calcPercentageProEstimation } from '../../../utils/helpers';
+import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
 import demoBg from '../../../images/dashboard/demo.jpeg';
 import testDrive from '../../../images/dashboard/testDrive.png';
@@ -27,6 +27,7 @@ import CoverPropertyImage from '../../../components/CoverPropertyImage';
 const DashboardHome = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     // windowDimensions,
     isSmallLoading,
@@ -149,12 +150,12 @@ const DashboardHome = (props) => {
               </div>
               <div className="px-3 pb-2">
                 <BrixelProgressBar
-                  progressValue={35}
+                  progressValue={calcPercentageFacts().realPerc}
                   saturation={200}
                   color="AltColor"
                 />
                 <span className="txtDark700 pt-small-4 fsize-300 fsize-sm-400 pt-small-4">
-                  57% complete
+                  {calcPercentageFacts().realPerc}% complete
                 </span>
               </div>
               <div className="div">
@@ -174,14 +175,34 @@ const DashboardHome = (props) => {
                 <span className="txtDark700 fweight-600 pl-1"> Marketing </span>
               </div>
               <div className="px-3">
+                {
+                  Object.keys(get(activeSingleProperty, 'customPortals', {})).map((portal, i) => (
+                    <>
+                      {
+                        !portal.includes('Url') && activeSingleProperty.customPortals[portal] && (
+                          <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c" key={i.toString()}>
+                            <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.customPortals[portal] ? 'green' : 'grey'}`} />
+                          </span>
+                        )
+                      }
+                    </>
+                  ))
+                }
+                {
+                  Object.keys(get(activeSingleProperty, 'portals', {})).map((portal, i) => (
+                    <>
+                      {
+                        !portal.includes('Url') && (
+                          <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c" key={i.toString()}>
+                            <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.portals[portal] ? 'green' : 'grey'}`} />
+                          </span>
+                        )
+                      }
+                    </>
+                  ))
+                }
                 <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
-                  <span>Homegate</span> <span className="activeDot green" />
-                </span>
-                <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
-                  <span>ImmoScout24</span> <span className="activeDot grey" />
-                </span>
-                <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
-                  <span>Brixel Page</span> <span className="activeDot grey" />
+                  <span>Brixel Page</span> <span className={`activeDot ${get(activeSingleProperty, 'published', false) ? 'green' : 'grey'}`} />
                 </span>
               </div>
               <div className="div">
@@ -235,6 +256,7 @@ const DashboardHome = (props) => {
 };
 
 DashboardHome.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -257,6 +279,7 @@ DashboardHome.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   awards: get(state, 'user.awards', []),
   brixelPoints: get(state, 'user.brixelPoints', []),
