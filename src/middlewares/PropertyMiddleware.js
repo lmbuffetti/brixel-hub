@@ -525,7 +525,19 @@ const checkCommon = (store) => (next) => (action) => {
           }
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+          store.dispatch({ type: SET_ESTIMATION, payload: {} });
         });
       break;
     }

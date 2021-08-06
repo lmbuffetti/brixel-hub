@@ -15,6 +15,7 @@ import {
 } from '@brixel/brixel-components';
 
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { DateTime } from 'luxon';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
 import demoBg from '../../../images/dashboard/demo.jpeg';
@@ -35,6 +36,7 @@ const DashboardHome = (props) => {
     handleGetHistoryList,
     history,
     isSmallLoading,
+    proEstimation,
     userTypes,
     windowDimensions,
   } = props;
@@ -54,6 +56,15 @@ const DashboardHome = (props) => {
     }
   }, [activeSingleProperty.id]);
 
+  const selectDocument = (id, action) => {
+    const docs = get(activeSingleProperty, 'documents', []);
+    const doc = docs.find((item) => item.id === id);
+    if (action === 'name' && doc) return doc.name;
+    if (action === 'path' && doc) return doc.path;
+    if (action === 'date' && doc) return `${DateTime.fromMillis(doc.createdAt).toFormat('dd.MM.yyyy')}, ${DateTime.fromMillis(doc.createdAt).toFormat('hh:mm')}`;
+    return null;
+  };
+
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
     return <Loading />;
@@ -72,9 +83,12 @@ const DashboardHome = (props) => {
               coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
             />
-            <span className="pos-a-fix x-r-1 x-b-1 bgAltColor700 p-small-10 txtWhite opacity-08">
+            <Link
+              to={`/${activeSingleProperty.id}/property`}
+              className="pos-a-fix x-r-1 x-b-1 bgAltColor700 p-small-10 txtWhite opacity-08"
+            >
               Edit
-            </span>
+            </Link>
           </div>
           <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
             <div className="d">
@@ -95,39 +109,130 @@ const DashboardHome = (props) => {
               />
               <div className="dis-fl-col pl-2 mr-1">
                 <span className="txtLight600 fsize-300"> Your Bestimate</span>
-                <span className="txtAltColor700 fweight-600">{get(estimation, 'currency', '')} {Helpers.formatNumberValue(get(estimation, 'higherValue', ''), get(estimation, 'currency', ''))}</span>
+                {
+                  !get(estimation, 'status', null) && (
+                    <Link to={`/${activeSingleProperty.id}/rewards/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
+                      Get Estimation
+                    </Link>
+                  )
+                }
+                {
+                  get(estimation, 'status', '') === 'pending' && (
+                    <span className="txtAltColor700 fweight-600">
+                      Pending
+                    </span>
+                  )
+                }
+                {
+                  get(estimation, 'status', '') === 'processed' && (
+                    <span className="txtAltColor700 fweight-600">
+                      {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
+                    </span>
+                  )
+                }
               </div>
               <div className="tagBg dis-fl-row-sm hide a-c">
-                <span className="activeDot" /> <span className="px-2 txtAltColor700"> Set your price </span>
+                <span className="activeDot" />
+                {
+                  get(activeSingleProperty, 'price.total', 0) > 0 ? (
+                    <span className="px-2 txtAltColor700 fweight-700">{get(activeSingleProperty, 'price.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
+                  ) : (
+                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 txtAltColor700"> Set your price </Link>
+                  )
+                }
               </div>
             </div>
           </div>
         </div>
         <div className="dis-fl-col dis-fl-row-sm">
           <div className="shadow-2dp bgAltColor1000 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0  w-perc-sm-50">
-            <div className="dis-fl-col">
-              <span className="fsize-400 txtAltColor900">Pro estimation</span>
-              <span className="fsize-600 fweight-600 txtAltColor700">{calcPercentageProEstimation().realPerc}% <span> Complete</span></span>
-              <BrixelButtonPrimary
-                onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-                label="Next step"
-                theme="AltColor"
-                themeSat="700"
-                className="mt-2 as-fs"
-                rounded
-              />
-            </div>
-            <div className="div">
-              <ProgressRing
-                progress={calcPercentageProEstimation().realPerc}
-                size={windowDimensions.width <= 590 ? 80 : 100}
-                strokeWidth={windowDimensions.width <= 590 ? 10 : 14}
-                circleOneStroke="#fff"
-                circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
-                showIcon={false}
-                showIconComplete={calcPercentageProEstimation().realPerc === 100}
-              />
-            </div>
+            {
+              proEstimation.document || proEstimation.value ? (
+                <div className="dis-fl-col max-w-perc-100">
+                  <span className="fsize-400 txtAltColor900">Pro estimation</span>
+
+                  <div className="dis-f a-c max-w-perc-100">
+                    {
+                      selectDocument(proEstimation.document, 'name') && (
+                        <>
+                          <BrixelIcon
+                            className="mr-1"
+                            icon="document"
+                            background="blue"
+                            saturation={100}
+                            color="blue"
+                            saturationTxt={700}
+                          />
+                          <div className="pl-small-4 max-w-perc-100">
+                            <a
+                              className="txtDark700 fweight-600 fsize-300 dis-b tt-ellips ws-nw max-w-perc-90"
+                              href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {selectDocument(proEstimation.document, 'name')}
+                            </a>
+                            <small className="fsize-200 fweight-500 txtLight600">
+                              {selectDocument(proEstimation.document, 'date')}
+                            </small>
+                          </div>
+                        </>
+                      )
+                    }
+                  </div>
+                  {
+                    get(proEstimation, 'value', 0) > 0 && (
+                      <>
+                        <p className="txtDark700 mt-3">This is your estimated value for your property.</p>
+                        <div className="dis-f a-c w-perc-100 mb-1">
+                          <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
+                            {get(estimation, 'result.currency', '')}
+                          </span>
+                          <span className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1 notranslate">
+                            {Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}
+                          </span>
+                        </div>
+                      </>
+                    )
+                  }
+                </div>
+              ) : (
+                <>
+                  <div className="dis-fl-col">
+                    <span className="fsize-400 txtAltColor900">Pro estimation</span>
+
+                    <span className="fsize-600 fweight-600 txtAltColor700">{calcPercentageProEstimation().realPerc}% <span> Complete</span></span>
+                    {
+                      calcPercentageProEstimation().realPerc < 100 ? (
+                        <BrixelButtonPrimary
+                          onClick={() => history.push(`/${activeSingleProperty.id}/property/price/formFlow`)}
+                          label="Next step"
+                          theme="AltColor"
+                          themeSat="700"
+                          className="mt-2 as-fs"
+                          rounded
+                        />
+                      ) : (
+                        <span className="txtAltColor700 fweight-600 mt-3">
+                          Pending
+                        </span>
+                      )
+                    }
+                  </div>
+                  <div className={`div ${windowDimensions.width <= 590 ? 'min-w-fix-80' : 'min-w-fix-104'}`}>
+                    <ProgressRing
+                      progress={calcPercentageProEstimation().realPerc}
+                      size={windowDimensions.width <= 590 ? 80 : 100}
+                      strokeWidth={windowDimensions.width <= 590 ? 10 : 14}
+                      circleOneStroke="#fff"
+                      circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
+                      showIcon={false}
+                      showIconComplete={calcPercentageProEstimation().realPerc === 100}
+                    />
+                  </div>
+                </>
+              )
+            }
           </div>
           <div className="shadow-2dp bgAltColor300 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 ml-sm-1 w-perc-100  w-perc-sm-50">
             <div className="dis-fl-col">
@@ -188,23 +293,10 @@ const DashboardHome = (props) => {
               </div>
               <div className="px-3">
                 {
-                  Object.keys(get(activeSingleProperty, 'customPortals', {})).map((portal, i) => (
-                    <React.Fragment key={i.toString()}>
-                      {
-                        !portal.includes('Url') && activeSingleProperty.customPortals[portal] && i < 2 && (
-                          <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
-                            <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.customPortals[portal] ? 'green' : 'grey'}`} />
-                          </span>
-                        )
-                      }
-                    </React.Fragment>
-                  ))
-                }
-                {
                   Object.keys(get(activeSingleProperty, 'portals', {})).map((portal, i) => (
                     <React.Fragment key={i.toString()}>
                       {
-                        !portal.includes('Url') && activeSingleProperty.portals[portal] && i < 2 && (
+                        !portal.includes('Url') && i < 2 && (
                           <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
                             <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.portals[portal] ? 'green' : 'grey'}`} />
                           </span>
@@ -238,9 +330,9 @@ const DashboardHome = (props) => {
             </div>
             <div className="div">
               <hr className="white mb-1" />
-              <a href={`${baseByData.pageUrl}preview/${activeSingleProperty.stub}`} target="_blank" className="cur-poi txtWhite px-3 pt-1" rel="noreferrer">
+              <Link to={`/${activeSingleProperty.id}/property/tour`} className="cur-poi txtWhite px-3 pt-1">
                 View &#62;
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -268,13 +360,11 @@ const DashboardHome = (props) => {
 };
 
 DashboardHome.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetHistoryList: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   proEstimation: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -289,10 +379,11 @@ DashboardHome.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  estimation: get(state, 'property.estimation.result', {}),
+  estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
