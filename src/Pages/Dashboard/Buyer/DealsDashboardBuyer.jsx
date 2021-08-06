@@ -32,7 +32,7 @@ const DealsDashboardBuyer = (props) => {
   }, [activeSingleDeal.id]);
 
   return (
-    <div>
+    <div className="secondLevel">
       {
         (link[link.length - 1] === 'deal' || !link[link.length - 1]) && (
           <OfferDetail isBuyer />

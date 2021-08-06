@@ -101,21 +101,21 @@ const ShowingsBuyer = (props) => {
 
   return (
     <div className="secondLevel h-perc-lg-100">
-      <div className="cardSecondLevel">
-        <div className="dis-f backPanel">
-          <div className="fixedIcon w-perc-100">
-            <BrixelButtonIcon
-              className="hide-md"
-              icon="arrow-left-small"
-              theme="dark"
-              ghost
-              onClick={() => history.push(`/buyer/${propID}/property`)}
-            />
-          </div>
-          <h5 className="sectionTitle">
-            Showings
-          </h5>
+      <div className="dis-f backPanel">
+        <div className="fixedIcon w-perc-100">
+          <BrixelButtonIcon
+            className="hide-md"
+            bgTransparent
+            icon="arrow-left-small"
+            theme="dark"
+            ghost
+            onClick={() => history.push(`/buyer/${propID}/property`)}
+          />
         </div>
+        <h3 className="mb-3 hide dis-b-lg">Showings</h3>
+        <h5 className="sectionTitle hide-lg">Showings</h5>
+      </div>
+      <div className="boxCard cardSecondLevel">
         {
           bookingSlot.length > 0 ? (
             <div className="dis-fl-col a-c min-h-fix-336">

@@ -86,26 +86,25 @@ const Portals = (props) => {
 
   return (
     <div className="dis-fl-col">
-
       <h3 className="mb-3 hide dis-b-lg">Portals</h3>
 
       <div className="secondLevel dis-fl-col">
-        <div className="hide-lg pos-r">
-          <div className="dis-fl-col pageTitle">
-            <div className="fixedIcon w-perc-100">
-              <BrixelButtonIcon
-                icon="arrow-left-small"
-                theme="dark"
-                ghost
-                onClick={() => history.push(`/${propID}/marketing`)}
-              />
-            </div>
-            <h5 className="sectionTitle">Portals</h5>
+        <div className="dis-fl-col backPanel dis-b hide-md">
+          <div className="fixedIcon w-perc-100">
+            <BrixelButtonIcon
+              className=""
+              icon="arrow-left-small"
+              theme="dark"
+              ghost
+              onClick={() => history.push(`/${propID}/marketing`)}
+            />
           </div>
+          <h5 className="sectionTitle">Portals</h5>
         </div>
+
         {
           has(formValue, 'published') && formValue.published === false && (
-            <div className="mb-5">
+            <div className="boxCard mb-5">
               <div className="portalsWrapper dis-fl-col cardInfoBox">
                 <BrixelSwitchButton
                   isReversed
@@ -133,7 +132,7 @@ const Portals = (props) => {
             </div>
           )
         }
-        <div>
+        <div className="boxCard mb-5">
           <div className="portalsWrapper dis-fl-col cardInfoBox">
 
             <div className="max-h-perc-100 pb-4 ov-a">
@@ -302,7 +301,6 @@ const Portals = (props) => {
         {
           !checkPortalsOnline() && !formValue.portalsReview && (
             <BrixelUpgradeMessage
-              className="mt-3"
               title={messageToUnlock('title')}
               description={messageToUnlock('description')}
               btnLabel={messageToUnlock('btnLabel')}

@@ -145,21 +145,21 @@ const Photos = (props) => {
       <h3 className="mb-3 hide dis-b-lg">Floor Plans</h3>
       <div className="plansWrapper dis-f">
         <div className="secondLevel dis-fl-col">
-          <div className={`${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
-            <div className="dis-f backPanel hide-lg">
-              <div className="fixedIcon w-perc-100">
-                <BrixelButtonIcon
-                  className="hide-md"
-                  icon="arrow-left-small"
-                  ghost
-                  theme="dark"
-                  onClick={() => history.push(`/${propID}/property`)}
-                />
-              </div>
-              <h5 className="sectionTitle">
-                Floor Plans
-              </h5>
+          <div className="dis-f backPanel hide-lg">
+            <div className="fixedIcon w-perc-100">
+              <BrixelButtonIcon
+                className="hide-md"
+                icon="arrow-left-small"
+                ghost
+                theme="dark"
+                onClick={() => history.push(`/${propID}/property`)}
+              />
             </div>
+            <h5 className="sectionTitle">
+              Floor Plans
+            </h5>
+          </div>
+          <div className={`boxCard mb-5 ${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
 
             <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
               {
@@ -287,7 +287,6 @@ const Photos = (props) => {
           {
             get(activeSingleProperty, 'servicePackages', []).length === 0 && (
               <BrixelUpgradeMessage
-                className="mt-3"
                 unlockFunction={false}
                 title="You don't have a plan?"
                 description="Accurate floor plans are important for your potential buyers. Request a free photo shooting by one of our experts to get your own plan."

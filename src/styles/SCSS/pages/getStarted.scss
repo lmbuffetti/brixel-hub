@@ -1,8 +1,8 @@
 .bgCardGreenDark {
-  background-color: map-get($altColor, 200);;
+  background-color: $newGreenDark;
 }
 .bgCardGreen {
-  background-color: map-get($altColor, 300);;
+  background-color: $newGreenLight;
 }
 
 .flowBody {

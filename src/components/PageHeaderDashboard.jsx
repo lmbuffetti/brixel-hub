@@ -14,8 +14,8 @@ import {
   BrixelSelect,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import logo from '@brixel/brixel-configuration-partner/src/images/logo_full_v2.svg';
-import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
+import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -246,9 +246,9 @@ function PageHeaderDashboard(props) {
       />
       <header className={`hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
         <div className="dasHeaderContainer">
-          <div className="wrapperHeader dis-f a-c h-fix-64 px-2 px-lg-3 jc-b pos-r bgWhite">
-            <div className="header-section py-1 dis-fl-row a-c jc-b">
-              <div className="dis-f a-c logoWrapper">
+          <div className="wrapperHeader dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
+            <div className="header-section dis-fl-row a-c jc-b w-perc-100">
+              <div className="dis-f a-c pl-2 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256 w-perc-100">
                 {
                   windowDimensions.width <= 590 ? (
                     <img
@@ -257,7 +257,7 @@ function PageHeaderDashboard(props) {
                         handleSetActiveSingleProperty({});
                         history.push('/sell');
                       }}
-                      className="pos-r cur-poi"
+                      className="pos-r max-w-fix-32 cur-poi"
                       src={logoMobile}
                       alt="Brixel Logo"
                       id="logo"
@@ -277,7 +277,7 @@ function PageHeaderDashboard(props) {
                   )
                 }
               </div>
-              <div className="quickNav dis-f ml-3 pl-3 fsize-300">
+              <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
                 {
                   activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' && propID !== 'buy' && propID !== 'sell' ? (
                     <>

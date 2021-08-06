@@ -54,6 +54,7 @@ const PageBuyer = (props) => {
                     className="hide-md"
                     icon="arrow-left-small"
                     ghost
+                    bgTransparent
                     theme="dark"
                     onClick={() => history.push(`/buyer/${propID}/property`)}
                   />
@@ -64,7 +65,8 @@ const PageBuyer = (props) => {
                     onClick={() => onClickPreview()}
                   />
                 </div>
-                <h5 className="sectionTitle">Brixel Page</h5>
+                <h3 className="mb-3 hide dis-b-lg">Brixel Page</h3>
+                <h5 className="sectionTitle hide-lg">Brixel Page</h5>
               </div>
             </div>
             <div className="pb-4">

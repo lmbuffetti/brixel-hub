@@ -53,7 +53,7 @@ const BrixelUpgradeMessage = (props) => {
   }
 
   return (
-    <div className={`brixel-upgrade-message ta-c brdRadius ${className} ${bgColor}`}>
+    <div className={`brixel-upgrade-message shadow-1dp p-2 p-md-3 ta-c brdRadius ${className} ${bgColor}`}>
       {
         // CONDITION TO SHOW/HIDE THE CLOSE ICON
         showClose && (

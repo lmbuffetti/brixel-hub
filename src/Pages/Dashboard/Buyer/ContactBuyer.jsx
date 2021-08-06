@@ -34,7 +34,7 @@ const ContactBuyer = (props) => {
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col">
-        <div>
+        <div className="boxCard">
           <div className="dis-f jc-b">
             <div className="dis-f">
               <BrixelAvatar
@@ -60,6 +60,7 @@ const ContactBuyer = (props) => {
                 icon="close"
                 theme="dark"
                 ghost
+                transparent
                 className="as-c"
                 onClick={() => history.goBack()}
               />

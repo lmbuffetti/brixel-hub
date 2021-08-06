@@ -1,12 +1,11 @@
 .logoWrapper {
   @media (max-width: $responsive-small) {
-    width: 32px;
+   // width: 32px;
   }
   img {
-    max-width: 80px;
+    //max-width: 80px;
     @media (max-width: $responsive-small) {
-      max-width: 32px;
-      width: 100%;
+      //width: 100%;
     }
   }
 }
@@ -19,15 +18,11 @@
   }
 }
 .quickNav {
-  border-left: 1px solid map-get($lightColor, 200);
   align-self: stretch;
   align-items: center;
 
-  @media (max-width: $responsive-small) {
-    padding-left: $step * 2;
-    margin-left: $step * 2;
-
-    .propertyTitle {
+  .propertyTitle {
+    @media (max-width: $responsive-small) {
       line-height: $step * 2;
       font-size: 12px;
       font-weight: 500;
@@ -61,21 +56,17 @@
     }
   }
 }
+.scrollingHeader .hubDasHeader {
+  background-color: white;
 
+}
 .hubDasHeader {
-  @media (max-width: $responsive-medium) {
     position: sticky;
     top: 0;
-  }
-  @media (min-width: $responsive-medium) {
-    background-color: map-get($lightColor, 100);
-    // padding-left: $sidebarWidth;
-    position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 5;
-  }
   .dasHeaderContainer {
     .wrapperHeader {
       box-shadow: $shadow-1dp;
@@ -154,6 +145,7 @@
   }
 }
 .marketHome .hubDasHeader {
+  background-color: white;
   z-index: 3;
   @media (max-width: $responsive-medium) {
     position: sticky;

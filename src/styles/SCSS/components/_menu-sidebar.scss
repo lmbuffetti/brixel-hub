@@ -113,7 +113,7 @@
   position: fixed;
   left: 0;
   width: 100%;
-  top: 64px;
+  top: 72px;
   max-width: 100%;
   z-index: 4;
 
@@ -160,8 +160,8 @@
     z-index: 2;
     left: 0;
     position: fixed;
-    top: 64px;
-    height: calc(100% - 64px);
+    top: 72px;
+    height: calc(100% - 72px);
     overflow-y: auto;
   }
   .sidebarSubmenu {

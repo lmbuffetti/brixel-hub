@@ -199,27 +199,7 @@ const Documents = (props) => {
           </div>
         )
       }
-      <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox brdRadius shadow-1dp p-3 bgWhite cardSecondLevel`}>
-        <div className="dis-f hide-lg">
-          {/* <div className="fixedIcon w-perc-100">
-            <BrixelButtonIcon
-              className="hide-md"
-              icon="arrow-left-small"
-              theme="dark"
-              ghost
-              onClick={() => {
-                if (history.location.pathname.includes('buyer')) {
-                  history.push(`/buyer/${propID}/property`);
-                } else {
-                  history.push(`/${propID}/property`);
-                }
-              }}
-            />
-          </div> */}
-          <h5 className="sectionTitle hide dis-f-md">
-            Docubox
-          </h5>
-        </div>
+      <div className={`scaleUp boxCard ${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
         <div className="dis-fl-col uploadPanel a-c">
           {
             processedDocuments && Object.keys(processedDocuments).length < 1 && userType === 'buyer' && (
