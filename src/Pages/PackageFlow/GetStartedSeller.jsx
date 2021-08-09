@@ -291,7 +291,7 @@ const GetStartedSeller = (props) => {
             } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
               getCurStep.querySelector('input[type="text"]').focus();
             }
-          }, 100);
+          }, 300);
           if (questions[defId].history) {
             history.push({
               pathname: `/packageFlow/getStarted/${questions[defId].history}`,
