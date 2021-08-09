@@ -130,7 +130,7 @@ const MarketCheck = (props) => {
       newIndex += 1;
     }
     if (questions[newIndex].toSave) {
-      history.push(`/${propID}/home/achievement/${getAchievement()}/${questions[newIndex].history}`);
+      history.push(`/${propID}/singleFlow/achievement/${getAchievement()}/${questions[newIndex].history}`);
       saveData();
     }
     // setPosition(newIndex);

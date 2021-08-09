@@ -98,7 +98,7 @@ const Bestimate = (props) => {
       const redo = get(history, 'location.state.redo', false);
       if (getAchievement()) {
         history.push({
-          pathname: `/${propID}/home/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+          pathname: `/${propID}/singleFlow/achievement/${getAchievement()}/${questions[currentIndex].history}`,
           state: {
             redo,
           },

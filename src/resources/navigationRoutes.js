@@ -1,7 +1,7 @@
 export const sidebarNavigationSeller = [
   {
     title: 'Home',
-    name: 'rewards',
+    name: 'home',
     icon: 'four-circles',
     path: '/:propID/home',
   },

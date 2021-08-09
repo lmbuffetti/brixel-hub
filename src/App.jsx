@@ -441,6 +441,7 @@ const App = (props) => {
                           <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
                           <ProtectedRoute path="/" exact component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/home" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/singleFlow" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/docubox" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/closing" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
@@ -476,11 +477,11 @@ const App = (props) => {
         { /* SECTION: ACHIVEMENT FLOW */ }
         {
           <Switch>
-            <ProtectedRoute path="/:propId?/home/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-            <ProtectedRoute path="/:propId?/home/achievement/assessor" component={Assessor} allowAccess="seller" />
-            <ProtectedRoute path="/:propId?/home/achievement/bestimate" component={Bestimate} allowAccess="seller" />
-            <ProtectedRoute path="/:propId?/home/achievement/media" component={MediaExplanation} allowAccess="seller" />
-            <ProtectedRoute path="/:propId?/home/achievement/facts" component={Facts} allowAccess="seller" />
+            <ProtectedRoute path="/:propId?/singleFlow/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
+            <ProtectedRoute path="/:propId?/singleFlow/achievement/assessor" component={Assessor} userTypes="seller" />
+            <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" component={Bestimate} userTypes="seller" />
+            <ProtectedRoute path="/:propId?/singleFlow/achievement/media" component={MediaExplanation} userTypes="seller" />
+            <ProtectedRoute path="/:propId?/singleFlow/achievement/facts" component={Facts} userTypes="seller" />
             <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
             <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
             <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
@@ -532,6 +533,7 @@ const App = (props) => {
         !history.location.pathname.includes('packageFlow') &&
         !history.location.pathname.includes('upgrade') &&
         !history.location.pathname.includes('trialRequest') &&
+        !history.location.pathname.includes('docubox') &&
           (
             <div className="brixel-notifications">
               {
@@ -555,6 +557,7 @@ const App = (props) => {
         }
 
         {
+          !history.location.pathname.includes('docubox') &&
           notification && (notification.small || notification.state) && (
             <>
               {

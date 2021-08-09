@@ -32,12 +32,14 @@ import { getHistoryListings } from '../../../actions/HistoryActions';
 const DashboardHome = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     estimation,
     formValue,
     handleGetHistoryList,
     history,
     isSmallLoading,
+    loggedInUser,
     proEstimation,
     userTypes,
     windowDimensions,
@@ -98,7 +100,7 @@ const DashboardHome = (props) => {
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
-      <h4 className="mb-3 hide dis-b-lg fweight-600">Welcome back Jim 👋</h4>
+      <h4 className="mb-3 hide dis-b-lg fweight-600">Welcome back {loggedInUser.firstName} 👋</h4>
       <div className="max-w-fix-760 dis-fl-col">
         <div className="shadow-2dp bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
           <div className="imgSection w-perc-100 w-fix-sm-232 h-fix-sm-152 pos-r">
@@ -135,7 +137,7 @@ const DashboardHome = (props) => {
                 <span className="txtLight600 fsize-300"> Your Bestimate</span>
                 {
                   !get(estimation, 'status', null) && (
-                    <Link to={`/${activeSingleProperty.id}/home/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
+                    <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
                       Get Estimation
                     </Link>
                   )
@@ -149,9 +151,9 @@ const DashboardHome = (props) => {
                 }
                 {
                   get(estimation, 'status', '') === 'processed' && (
-                    <span className="txtAltColor700 fweight-600">
+                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 fweight-600">
                       {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
-                    </span>
+                    </Link>
                   )
                 }
               </div>
@@ -159,7 +161,10 @@ const DashboardHome = (props) => {
                 <span className="activeDot" />
                 {
                   get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                    <span className="px-2 txtAltColor700 fweight-700">{get(activeSingleProperty, 'price.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
+                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 txtAltColor700 fweight-700">
+                      <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
+                      <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
+                    </Link>
                   ) : (
                     <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 txtAltColor700"> Set your price </Link>
                   )
@@ -169,7 +174,10 @@ const DashboardHome = (props) => {
           </div>
         </div>
         <div className="dis-fl-col dis-fl-row-sm">
-          <div className="shadow-2dp bgAltColor1000 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0  w-perc-sm-50">
+          <div
+            onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+            className="shadow-2dp bgAltColor1000 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+          >
             {
               proEstimation.value ? (
                 <div className="dis-fl-col max-w-perc-100">
@@ -258,7 +266,10 @@ const DashboardHome = (props) => {
               )
             }
           </div>
-          <div className="shadow-2dp bgAltColor300 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 ml-sm-1 w-perc-100  w-perc-sm-50">
+          <div
+            className="shadow-2dp bgAltColor300 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 ml-sm-1 w-perc-100  w-perc-sm-50 cur-poi"
+            onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
+          >
             <div className="dis-fl-col">
               <span className="fsize-400 txtAltColor200">Docubox</span>
               <span className="fsize-600 fweight-600 txtAltColor2000">
@@ -335,7 +346,7 @@ const DashboardHome = (props) => {
               </div>
               <div className="div">
                 <hr className="lighter mb-1" />
-                <Link to={`/${activeSingleProperty.id}/marketing/portals`} className="cur-poi txtLight700 px-3 pt-1">
+                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi txtLight700 px-3 pt-1">
                   View &#62;
                 </Link>
               </div>
@@ -366,7 +377,7 @@ const DashboardHome = (props) => {
             <h3 className="txtDark700 fweight-600 fsize-500">Test drive our service. <br /> No strings attached.</h3>
             <p className="txtDark700">
               <span>Get the full Brixel experience worth</span>
-              <span className="ml-small-4">CHF 9900</span>
+              <span className="ml-small-4">{get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
             </p>
             <BrixelButtonPrimary
               rounded
@@ -384,12 +395,14 @@ const DashboardHome = (props) => {
 };
 
 DashboardHome.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetHistoryList: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   proEstimation: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -406,6 +419,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', null),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),

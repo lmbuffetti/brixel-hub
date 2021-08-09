@@ -81,7 +81,7 @@ const Assessor = (props) => {
     if (questions[currentIndex].history && loaded) {
       const redo = get(history, 'location.state.redo', false);
       history.push({
-        pathname: `/${propID}/home/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+        pathname: `/${propID}/singleFlow/achievement/${getAchievement()}/${questions[currentIndex].history}`,
         state: {
           redo,
         },

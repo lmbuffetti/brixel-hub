@@ -354,7 +354,7 @@ const MarketCard = (props) => {
                   <div
                     className="p-2 brdRadius bgLight100 dis-f a-c"
                     onClick={() => history.push({
-                      pathname: `/${item.id}/home/achievement/facts`,
+                      pathname: `/${item.id}/singleFlow/achievement/facts`,
                       search: '',
                       state: { hideBackPage: true },
                     })}
