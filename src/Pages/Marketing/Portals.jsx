@@ -118,14 +118,12 @@ const Portals = (props) => {
                 />
                 {
                   get(formValue, 'preMarketVisible', false) === true ? (
-                    <span className="txtDark700">
+                    <p className="txtDark700">
                       Your property is visible on our pre-market.
                       Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
-                    </span>
+                    </p>
                   ) : (
-                    <span className="txtDark700">
-                      Your property is <strong className="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
-                    </span>
+                    <p className="txtDark700" dangerouslySetInnerHTML={{ __html: 'Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.' }} />
                   )
                 }
               </div>
