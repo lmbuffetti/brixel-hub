@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -13,8 +13,9 @@ import {
   Helpers,
   ProgressRing,
 } from '@brixel/brixel-components';
-
+import has from 'lodash/has';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import { DateTime } from 'luxon';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
@@ -33,6 +34,7 @@ const DashboardHome = (props) => {
   const {
     activeSingleProperty,
     estimation,
+    formValue,
     handleGetHistoryList,
     history,
     isSmallLoading,
@@ -40,6 +42,16 @@ const DashboardHome = (props) => {
     userTypes,
     windowDimensions,
   } = props;
+  // STATE
+  const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
+
+  const { documents } = formValue;
+
+  useEffect(() => {
+    if (has(formValue, 'location.countryCode')) {
+      setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')]);
+    }
+  }, [formValue]);
 
   useEffect(() => {
     if (activeSingleProperty.id) {
@@ -63,6 +75,18 @@ const DashboardHome = (props) => {
     if (action === 'path' && doc) return doc.path;
     if (action === 'date' && doc) return `${DateTime.fromMillis(doc.createdAt).toFormat('dd.MM.yyyy')}, ${DateTime.fromMillis(doc.createdAt).toFormat('hh:mm')}`;
     return null;
+  };
+
+  const countMandatoryDocuments = () => {
+    let count = 0;
+    if (documents) {
+      documents.forEach((doc) => {
+        mandatoryDocuments.forEach((el) => {
+          if (el === doc.type) count += 1;
+        });
+      });
+    }
+    return count;
   };
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
@@ -99,9 +123,9 @@ const DashboardHome = (props) => {
             <div className="dis-f pt-2 a-t">
               <BrixelIcon
                 background="AltColor"
-                saturation="1000"
+                saturation={1000}
                 color="AltColor"
-                saturationTxt="700"
+                saturationTxt={700}
                 padding="p-small-12"
                 icon="chart"
                 rounded
@@ -208,7 +232,7 @@ const DashboardHome = (props) => {
                           onClick={() => history.push(`/${activeSingleProperty.id}/property/price/formFlow`)}
                           label="Next step"
                           theme="AltColor"
-                          themeSat="700"
+                          themeSat={700}
                           className="mt-2 as-fs"
                           rounded
                         />
@@ -238,13 +262,13 @@ const DashboardHome = (props) => {
             <div className="dis-fl-col">
               <span className="fsize-400 txtAltColor200">Docubox</span>
               <span className="fsize-600 fweight-600 txtAltColor2000">
-                2 of 4 uploaded
+                {countMandatoryDocuments()} of {mandatoryDocuments.length} uploaded
               </span>
               <BrixelButtonPrimary
                 onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                 label="Upload"
                 theme="AltColor"
-                themeSat="2000"
+                themeSat={2000}
                 className="mt-2 as-fs"
                 rounded
               />
@@ -261,7 +285,7 @@ const DashboardHome = (props) => {
                 <BrixelIcon
                   icon="property-new"
                   color="AltColor"
-                  saturationTxt="700"
+                  saturationTxt={700}
                 />
                 <span className="txtDark700 fweight-600 pl-1"> Facts </span>
               </div>
@@ -287,7 +311,7 @@ const DashboardHome = (props) => {
                 <BrixelIcon
                   icon="mike"
                   color="AltColor"
-                  saturationTxt="700"
+                  saturationTxt={700}
                 />
                 <span className="txtDark700 fweight-600 pl-1"> Marketing </span>
               </div>
@@ -347,7 +371,7 @@ const DashboardHome = (props) => {
             <BrixelButtonPrimary
               rounded
               theme="AltColor"
-              themeSat="400"
+              themeSat={400}
               label="Book Now"
               className="mt-3"
             />
@@ -362,6 +386,7 @@ const DashboardHome = (props) => {
 DashboardHome.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   handleGetHistoryList: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
