@@ -122,7 +122,7 @@ const MarketCategoryListSeller = (props) => {
   };
 
   const onBestimateFlow = () => {
-    history.push(`/${activeMarketOverlayProperty.id}/rewards/achievement/bestimate/step1`);
+    history.push(`/${activeMarketOverlayProperty.id}/singleFlow/achievement/bestimate/step1`);
     setMarketOverlayProperty({});
     setSplashScreen('');
     handleSetHistory({ source: '/sell' });

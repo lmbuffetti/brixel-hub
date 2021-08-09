@@ -470,9 +470,9 @@ const GetStartedEstimation = (props) => {
   const closeWindow = () => {
     reset('Property');
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/rewards`);
+      history.push(`/${propID}/home`);
     } else {
-      history.push(`/${propID}/rewards/${getAchievement()}`);
+      history.push(`/${propID}/home/${getAchievement()}`);
     }
   };
 

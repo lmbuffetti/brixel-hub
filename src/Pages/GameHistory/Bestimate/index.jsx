@@ -98,7 +98,7 @@ const Bestimate = (props) => {
       const redo = get(history, 'location.state.redo', false);
       if (getAchievement()) {
         history.push({
-          pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+          pathname: `/${propID}/singleFlow/achievement/${getAchievement()}/${questions[currentIndex].history}`,
           state: {
             redo,
           },
@@ -143,9 +143,9 @@ const Bestimate = (props) => {
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
-      history.push(`/${propID}/rewards`);
+      history.push(`/${propID}/home`);
     } else {
-      history.push(`/${propID}/rewards/${getAchievement()}`);
+      history.push(`/${propID}/home/${getAchievement()}`);
     }
     resetForm('Property', initialValuesPage);
   };

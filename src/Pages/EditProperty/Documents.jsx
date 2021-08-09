@@ -10,16 +10,18 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
+import values from 'lodash/values';
 import isNaN from 'lodash/isNaN';
 import findIndex from 'lodash/findIndex';
 import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdownMini,
-  useOutsideAlerter,
+  useOutsideAlerter, BrixelButtonText,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import { useDropzone } from 'react-dropzone';
 import { DateTime } from 'luxon';
 import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actions/UploadActions';
@@ -51,8 +53,15 @@ const Documents = (props) => {
   const [showFullFolder, setShowFullFolder] = useState([]);
   const [isCopied, setIsCopied] = useState(false);
   const [documentLists, setDocumentLists] = useState([]);
+  const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
 
   const { documents } = formValue;
+
+  useEffect(() => {
+    if (has(formValue, 'location.countryCode')) {
+      setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')]);
+    }
+  }, [formValue]);
 
   useEffect(() => {
     const docs = documents || [];
@@ -136,6 +145,28 @@ const Documents = (props) => {
     });
   }, [formValue]);
 
+  const loadFile = async (e, type = '', key = '') => {
+    if (e) e.preventDefault();
+    const acceptedFiles = values(document.getElementById(`documentInput${key}`).files);
+    const reader = new FileReader();
+    // eslint-disable-next-line no-console
+    reader.onabort = () => console.log('file reading was aborted');
+    // eslint-disable-next-line no-console
+    reader.onerror = () => console.log('file reading has failed');
+    const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id, '', type);
+    imgList.then((res) => {
+      handleMultiUploadDocument({
+        allImgs: res,
+        actions: 'documents',
+        pageID: formValue.id,
+        smallLoader: 'uploadMedia',
+      });
+      //   .catch((error) => {
+      //     console.err(error);
+      //   });
+    });
+  };
+
   // DROPZONE SETTINGS - SUPPORTED EXTENSIONS AND MAX SIZE AND OTHER SETTINGS
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -169,6 +200,24 @@ const Documents = (props) => {
     setTimeout(() => { setIsCopied(false); }, 2000);
   };
 
+  const countMandatoryDocuments = () => {
+    let count = 0;
+    documents.forEach((doc) => {
+      mandatoryDocuments.forEach((el) => {
+        if (el === doc.type) count += 1;
+      });
+    });
+    return count;
+  };
+
+  const mandatoryDocumentExists = (el) => {
+    let result = false;
+    documents.forEach((doc) => {
+      if (el === doc.type) result = true;
+    });
+    return result;
+  };
+
   // Function to close the small menus when we click outside
   useOutsideAlerter(documentRef, {
     id: documentId,
@@ -199,27 +248,66 @@ const Documents = (props) => {
           </div>
         )
       }
-      <div className={`${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox brdRadius shadow-1dp p-3 bgWhite cardSecondLevel`}>
-        <div className="dis-f hide-lg">
-          {/* <div className="fixedIcon w-perc-100">
-            <BrixelButtonIcon
-              className="hide-md"
-              icon="arrow-left-small"
-              theme="dark"
-              ghost
-              onClick={() => {
-                if (history.location.pathname.includes('buyer')) {
-                  history.push(`/buyer/${propID}/property`);
-                } else {
-                  history.push(`/${propID}/property`);
-                }
-              }}
-            />
-          </div> */}
-          <h5 className="sectionTitle hide dis-f-md">
-            Docubox
-          </h5>
-        </div>
+      {
+        has(formValue, 'location') && (
+          <div className="mandatory-documents mb-5">
+            <p className="fweight-500 fsize-500 txtGreen700 mb-4">
+              <span>You have uploaded</span><span> {countMandatoryDocuments()} </span><span>of</span><span> {mandatoryDocuments.length} </span><span>documents.</span>
+            </p>
+            {
+              mandatoryDocuments.map((element, j) => (
+                <div className="dis-fl-col max-w-perc-50" key={j.toString()}>
+                  <div className="dis-fl-row a-c jc-b p-2">
+                    <div className="dis-fl-row a-c">
+                      {
+                        mandatoryDocumentExists(element) === true && (
+                          <BrixelIcon
+                            icon="check-small-fill"
+                            color="dark"
+                            className="mr-3"
+                          />
+                        )
+                      }
+                      {
+                        mandatoryDocumentExists(element) === false && (
+                          <BrixelIcon
+                            icon="document"
+                            ghost
+                            bgTransparent
+                            className="mr-3"
+                          />
+                        )
+                      }
+                      {
+                        mandatoryDocumentExists(element) === true && (
+                          <span className="txtDark700"><s>{element}</s></span>
+                        )
+                      }
+                      {
+                        mandatoryDocumentExists(element) === false && (
+                          <span className="txtDark700">{element}</span>
+                        )
+                      }
+                    </div>
+                    {
+                      mandatoryDocumentExists(element) === false && (
+                        <div className="upload-wrapper px-2 pos-r ov-h">
+                          <BrixelButtonText
+                            label="Upload"
+                          />
+                          <input accept="application/pdf, image/png, image/jpeg" multiple className="upload" type="file" name="document" id={`documentInput${j}`} onChange={(e) => loadFile(e, element, j)} />
+                        </div>
+                      )
+                    }
+                  </div>
+                  <hr className="lighter" />
+                </div>
+              ))
+            }
+          </div>
+        )
+      }
+      <div className={`scaleUp boxCard ${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
         <div className="dis-fl-col uploadPanel a-c">
           {
             processedDocuments && Object.keys(processedDocuments).length < 1 && userType === 'buyer' && (

@@ -47,7 +47,7 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
   const calPerc = Math.floor((countDone * 100) / countTotal);
   const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);
   return {
-    realPerc: (countDone * 100) / countTotal,
+    realPerc: Math.round((countDone * 100) / countTotal),
     calcPerc: calPerc,
     savedPerc,
     countTotal,
@@ -597,7 +597,7 @@ export const toBase64 = (file) => new Promise((resolve, reject) => {
   reader.onerror = (error) => reject(error);
 });
 
-export const tobase64Handler = async (files, user, action, pageID, imgType) => {
+export const tobase64Handler = async (files, user, action, pageID, imgType, docType = '') => {
   const filePathsPromises = [];
   await files.forEach((file) => {
     filePathsPromises.push(toBase64(file));
@@ -605,10 +605,12 @@ export const tobase64Handler = async (files, user, action, pageID, imgType) => {
   const filePaths = await Promise.all(filePathsPromises);
   const mappedFiles = filePaths.map((base64File) => {
     if (action === 'documents') {
-      const name = get(base64File, 'name', Date.now() / 1000);
+      let name = get(base64File, 'name', Date.now() / 1000);
+      if (docType) name = docType;
       return {
         name,
         user,
+        type: docType,
         isBrochure: false,
         file: base64File.file,
         pageID,

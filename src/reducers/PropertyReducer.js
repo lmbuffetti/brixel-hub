@@ -12,13 +12,20 @@ import {
   SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
 } from '../actions/types/PropertyTypes';
 
+import {
+  SET_PROPERTY_HISTORY_LISTINGS,
+  SET_PROPERTY_OWNER_HISTORY_LISTINGS,
+} from '../actions/types/HistoryTypes';
+
 export const defaultState = {
-  activeSingleProperty: {},
   activeMarketOverlayProperty: {},
   activeMarketOverlayPropertyLists: null,
+  activeSingleProperty: {},
   activeSinglePropertyBooking: [],
   activeSinglePropertyDeals: null,
   activeSinglePropertyDealsCount: {},
+  activeSinglePropertyHistory: {},
+  activeSinglePropertyOwnerHistory: {},
   estimation: {},
   marketCheck: {},
   packagesProperty: [],
@@ -66,6 +73,14 @@ export default handleActions(
     [SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT]: (state, action) => ({
       ...state,
       activeSinglePropertyDealsCount: action.payload,
+    }),
+    [SET_PROPERTY_HISTORY_LISTINGS]: (state, action) => ({
+      ...state,
+      activeSinglePropertyHistory: action.payload,
+    }),
+    [SET_PROPERTY_OWNER_HISTORY_LISTINGS]: (state, action) => ({
+      ...state,
+      activeSinglePropertyOwnerHistory: action.payload,
     }),
   },
   defaultState,

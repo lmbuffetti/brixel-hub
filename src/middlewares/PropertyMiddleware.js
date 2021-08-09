@@ -140,7 +140,7 @@ const checkCommon = (store) => (next) => (action) => {
                 type: 'done',
               },
             });
-            window.location.assign(`/${res.data.id}/rewards`);
+            window.location.assign(`/${res.data.id}/home`);
           } else if (redirectToUserFlow) {
             store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
@@ -500,7 +500,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (res.meta.normalizedStatus === 200) {
             store.dispatch({ type: SET_ESTIMATION, payload: res.data });
             if (typeof res.data.statusCode === 'undefined') {
-              // window.location.href = `/packageFlow/${action.payload}/rewards`;
+              // window.location.href = `/packageFlow/${action.payload}/home`;
             }
           } else {
             const data = {
@@ -525,7 +525,19 @@ const checkCommon = (store) => (next) => (action) => {
           }
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+          store.dispatch({ type: SET_ESTIMATION, payload: {} });
         });
       break;
     }

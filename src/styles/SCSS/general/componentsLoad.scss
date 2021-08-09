@@ -1,4 +1,4 @@
-// GENERAL
+/* GENERAL */
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
 @import '~@brixel/brixel-configuration-partner/src/Variables';
@@ -19,9 +19,9 @@ $responsive-medium: map_get($grid-breakpoints, md);
 @import '~@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
 @import '~@brixel/brixel-components/dist/styles/SCSS/general/icomoon';
 
-$sidebarWidth: 256px;
+$sidebarWidth: 236px;
 $sidebarWidthCollapsed: 70px;
-// Color array to be used with randomizer for avatar background
+/* Color array to be used with randomizer for avatar background */
 $avatarColors: map-get($primaryColor, 300),
 map-get($darkColor, 300),
 map-get($redColor, 300),
@@ -29,11 +29,11 @@ map-get($greenColor, 300),
 map-get($yellowColor, 300),
 map-get($blueColor, 300);
 
-// DASHBOARD STUFF
+/* DASHBOARD STUFF */
 @import "./windows",
 "./hubDashboard";
 
-// COMPONENTS
+/* COMPONENTS */
 @import "../components/loading",
 "../components/radioButtonEmoji",
 "../components/donut",
@@ -66,7 +66,7 @@ map-get($blueColor, 300);
 "../components/pagination",
 "../components/accordion";
 
-// PAGES
+/* PAGES */
 @import "../pages/getStarted",
 "../pages/onBoarding",
 "../pages/listings",
@@ -78,5 +78,5 @@ map-get($blueColor, 300);
 "../pages/buyer",
 "../pages/seller";
 
-// TRANSITIONS
+/* TRANSITIONS */
 @import "./transitions";

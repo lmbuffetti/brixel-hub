@@ -104,11 +104,11 @@ const Dashboard = (props) => {
   }, [history.location.pathname]);
 
   return (
-    <div className="container dashboardContainer" id="dashboard">
+    <div className="dashboardContainer" id="dashboard">
       <Suspense fallback="">
         { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
         <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
-        <ProtectedRoute path="/buyer/:propID/rewards" component={RewardsBuyerDashboard} />
+        <ProtectedRoute path="/buyer/:propID/home" component={RewardsBuyerDashboard} />
         <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
         <ProtectedRoute path="/buyer/:propID/closing" component={DealsDashboardBuyer} />
       </Suspense>

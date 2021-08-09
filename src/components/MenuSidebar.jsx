@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
   destroy,
+  BrixelIcon,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { CSSTransition } from 'react-transition-group';
@@ -85,16 +86,27 @@ const MenuSidebar = (props) => {
       <header className="sideHeader dis-fl-col a-c jc-fs h-perc-100" id="menu-sidebar">
         <div className="w-perc-100 pos-r h-perc-100">
           { /* SECTION SIDEBAR MENU DESKTOP */ }
-          <div className={`pos-r sidebar w-perc-100 h-perc-100 bgLight100 ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
+          <div className={`pos-r sidebar w-perc-100 h-perc-100 ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div>
-              <ul className="sidebarNav dis-fl-col pr-3 py-4">
+              <ul className="sidebarNav dis-fl-col">
                 {
                   navigationMenu.map((nav, i) => (
                     <li
                       key={i.toString()}
-                      className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav fsize-300`}
+                      className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav fsize-400 fweight-600`}
                     >
-                      <Link to={linkMenu(nav.path)}>{nav.title}</Link>
+                      <Link to={linkMenu(nav.path)}>
+
+                        <BrixelIcon
+                          color="altColor"
+                          saturationTxt={700}
+                          icon={nav.icon}
+
+                        />
+
+                        <span className="pl-3">{nav.title}</span>
+
+                      </Link>
                       {
                         nav.submenu && (
                           <ul className="submenu">
@@ -104,7 +116,13 @@ const MenuSidebar = (props) => {
                                   key={f.toString()}
                                   className={`${history.location.pathname.includes(submenu.name) ? 'submenuActive' : ''} subNav`}
                                 >
-                                  <Link to={linkMenu(submenu.path)}>{submenu.title}</Link>
+                                  <Link
+                                    to={linkMenu(submenu.path)}
+                                    className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtAltColor700' : 'txtAltColor100'}`}
+                                  >
+                                    <span className="dot" />
+                                    <span className="pl-4">{submenu.title}</span>
+                                  </Link>
                                 </li>
                               ))
                             }

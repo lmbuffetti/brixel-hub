@@ -1,6 +1,6 @@
 
-body .container.deals,
-body .container.prospects {
+body .dashboardContainer.deals,
+body .dashboardContainer.prospects {
 
   @media (max-width: $responsive-large) {
     overflow-y: hidden;
@@ -82,7 +82,7 @@ body .container.prospects {
       height: calc(100vh - 285px);
     }
     @media (max-width: $responsive-large) {
-      max-height: calc(100vh - 80px - 60px - 56px);
+      max-height: calc(100vh - 270px);
       height: 100vh;
     }
 
