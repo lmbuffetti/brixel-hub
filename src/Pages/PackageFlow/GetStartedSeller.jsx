@@ -626,7 +626,7 @@ const GetStartedSeller = (props) => {
                       )
                     }
                     {
-                      get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                      get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
                         <BrixelButtonPrimary
                           className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
                           disabled={!checkValidateField()}

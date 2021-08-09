@@ -696,7 +696,7 @@ const GetStartedEstimation = (props) => {
                             )
                           }
                           {
-                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
+                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
                               <BrixelButtonPrimary
                                 className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                 disabled={!checkValidateField()}
