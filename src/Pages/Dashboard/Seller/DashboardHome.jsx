@@ -171,7 +171,7 @@ const DashboardHome = (props) => {
         <div className="dis-fl-col dis-fl-row-sm">
           <div className="shadow-2dp bgAltColor1000 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0  w-perc-sm-50">
             {
-              proEstimation.document || proEstimation.value ? (
+              proEstimation.value ? (
                 <div className="dis-fl-col max-w-perc-100">
                   <span className="fsize-400 txtAltColor900">Pro estimation</span>
 
