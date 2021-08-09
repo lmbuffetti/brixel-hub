@@ -87,7 +87,7 @@ const ScanTrialFlow = (props) => {
     reset('scanFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
-    history.push(url || `/${propID}/rewards`);
+    history.push(url || `/${propID}/home`);
   };
 
   const goToFacts = () => {

@@ -81,7 +81,7 @@ const Assessor = (props) => {
     if (questions[currentIndex].history && loaded) {
       const redo = get(history, 'location.state.redo', false);
       history.push({
-        pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+        pathname: `/${propID}/home/achievement/${getAchievement()}/${questions[currentIndex].history}`,
         state: {
           redo,
         },
@@ -92,9 +92,9 @@ const Assessor = (props) => {
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
-      history.push(`/${propID}/rewards`);
+      history.push(`/${propID}/home`);
     } else {
-      history.push(`/${propID}/rewards/${getAchievement()}`);
+      history.push(`/${propID}/home/${getAchievement()}`);
     }
   };
 

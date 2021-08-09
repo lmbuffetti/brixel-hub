@@ -99,7 +99,7 @@ const FactsRewards = (props) => {
                 rounded
                 rightIcon="arrow-right"
                 className="m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/facts`)}
+                onClick={() => history.push(`/${propID}/home/achievement/facts`)}
               />
             </>
           )
@@ -112,7 +112,7 @@ const FactsRewards = (props) => {
                 rounded
                 rightIcon="arrow-right"
                 className="m-a"
-                onClick={() => (total < perc ? history.push(`/${propID}/rewards/achievement/facts`) : history.push(`/${propID}/property/facts/propertyType`))}
+                onClick={() => (total < perc ? history.push(`/${propID}/home/achievement/facts`) : history.push(`/${propID}/property/facts/propertyType`))}
               />
             </>
           )

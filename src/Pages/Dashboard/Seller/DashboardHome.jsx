@@ -135,7 +135,7 @@ const DashboardHome = (props) => {
                 <span className="txtLight600 fsize-300"> Your Bestimate</span>
                 {
                   !get(estimation, 'status', null) && (
-                    <Link to={`/${activeSingleProperty.id}/rewards/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
+                    <Link to={`/${activeSingleProperty.id}/home/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
                       Get Estimation
                     </Link>
                   )

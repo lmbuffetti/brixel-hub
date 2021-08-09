@@ -22,7 +22,6 @@ function PageHeaderAchievement(props) {
   } = props;
 
   const pageId = get(match, 'params.propId', '');
-  const rewardType = get(history, 'location.pathname', '').split('/')[4];
 
   const onClose = useCallback(() => {
     if (navHistory.source) {
@@ -31,7 +30,7 @@ function PageHeaderAchievement(props) {
     } else if (onClick) onClick();
     else if (historyUrl) {
       history.push(historyUrl);
-    } else history.push(`/${pageId}/rewards/${rewardType}`);
+    } else history.push(`/${pageId}/home`);
   }, [navHistory.source]);
 
   return (

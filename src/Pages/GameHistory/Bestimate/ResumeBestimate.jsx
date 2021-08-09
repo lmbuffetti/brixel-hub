@@ -66,7 +66,7 @@ function ResumeBestimate(props) {
         generate: false,
       };
       handleCreateEstimation(data);
-      history.push(`/${activeSingleProperty.id}/rewards/bestimate`);
+      history.push(`/${activeSingleProperty.id}/home/bestimate`);
     } else if (get(activeSingleProperty, 'location.countryCode', null) === 'CH' ||
       get(activeSingleProperty, 'location.countryCode', null) === 'PT') handleGetEstimation(propID);
   }, [activeSingleProperty, marketData]);

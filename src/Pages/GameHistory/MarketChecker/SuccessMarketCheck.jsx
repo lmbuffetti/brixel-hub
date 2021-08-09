@@ -89,7 +89,7 @@ function SuccessMarketCheck(props) {
                                   label="Update now"
                                   background="primary"
                                   className="m-a"
-                                  onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                                  onClick={() => history.push(`/${propID}/home/achievement/${getParams}`)}
                                   rightIcon="arrow-right"
                                 />
                               </div>
@@ -108,7 +108,7 @@ function SuccessMarketCheck(props) {
                                       rounded
                                       label="Check market now"
                                       className="m-a mt-2"
-                                      onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                                      onClick={() => history.push(`/${propID}/home/achievement/${getParams}`)}
                                       rightIcon="arrow-right"
                                     />
                                   </div>
@@ -142,7 +142,7 @@ function SuccessMarketCheck(props) {
                 rounded
                 label="Check market now"
                 className="m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                onClick={() => history.push(`/${propID}/home/achievement/${getParams}`)}
                 rightIcon="arrow-right"
               />
             </div>

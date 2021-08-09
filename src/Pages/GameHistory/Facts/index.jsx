@@ -88,7 +88,7 @@ const MarketCheck = (props) => {
     if (get(questions, `[${currentIndex}].history`, null) && loaded) {
       const redo = get(history, 'location.state.redo', false);
       history.push({
-        pathname: `/${propID}/rewards/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+        pathname: `/${propID}/home/achievement/${getAchievement()}/${questions[currentIndex].history}`,
         state: {
           redo,
         },
@@ -100,9 +100,9 @@ const MarketCheck = (props) => {
   const closeWindow = () => {
     resetForm('Property', initialValuesPage);
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
-      history.push(`/${propID}/rewards`);
+      history.push(`/${propID}/home`);
     } else {
-      history.push(`/${propID}/rewards/${getAchievement()}`);
+      history.push(`/${propID}/home/${getAchievement()}`);
     }
   };
 
@@ -112,7 +112,7 @@ const MarketCheck = (props) => {
     const data = {
       id: propID,
       smallLoader: 'saveData',
-      redirectTo: `/${propID}/rewards/${getAchievement()}`,
+      redirectTo: `/${propID}/home/${getAchievement()}`,
       ...formValue,
     };
     if (calcPercentageFacts('GamingFlow').calcPerc >= 20) {
@@ -130,7 +130,7 @@ const MarketCheck = (props) => {
       newIndex += 1;
     }
     if (questions[newIndex].toSave) {
-      history.push(`/${propID}/rewards/achievement/${getAchievement()}/${questions[newIndex].history}`);
+      history.push(`/${propID}/home/achievement/${getAchievement()}/${questions[newIndex].history}`);
       saveData();
     }
     // setPosition(newIndex);

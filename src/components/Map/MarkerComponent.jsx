@@ -35,7 +35,7 @@ const MarkerComponent = (props) => {
     const openCard = () => {
       if (type === 'own') {
         historyLocal.push({
-          pathname: `/${page.id}/rewards`,
+          pathname: `/${page.id}/home`,
           state: { section: 'Market' },
         });
       } else if (type === 'preMarket' || type === 'premium' || type === 'new') {

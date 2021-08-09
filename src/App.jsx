@@ -187,7 +187,7 @@ const App = (props) => {
           pathname: get(redirectTo, 'history.pathname', ''),
           state: get(redirectTo, 'history.state', {}),
         });
-      } else if (redirectTo.history.includes('rewards')) {
+      } else if (redirectTo.history.includes('home')) {
         window.location.assign(redirectTo.history);
       } else {
         history.push(redirectTo.history);
@@ -214,7 +214,7 @@ const App = (props) => {
       setIsFlow(true);
       setZIndex(6);
     } else {
-      if (history.location.pathname.includes('rewards')) {
+      if (history.location.pathname.includes('home')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('property') || history.location.pathname.includes('closing') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects')) {
         if (history.location.pathname.includes('buyer')) {
@@ -440,7 +440,7 @@ const App = (props) => {
                           <ProtectedRoute path="/buy/:cat?/:id?" component={MarketBuyer} />
                           <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
                           <ProtectedRoute path="/" exact component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/rewards" component={DashboardSeller} />
+                          <ProtectedRoute path="/:propId?/home" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/docubox" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/closing" component={DashboardSeller} />
                           <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
@@ -476,11 +476,11 @@ const App = (props) => {
         { /* SECTION: ACHIVEMENT FLOW */ }
         {
           <Switch>
-            <ProtectedRoute path="/:propId?/rewards/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-            <ProtectedRoute path="/:propId?/rewards/achievement/assessor" component={Assessor} allowAccess="seller" />
-            <ProtectedRoute path="/:propId?/rewards/achievement/bestimate" component={Bestimate} allowAccess="seller" />
-            <ProtectedRoute path="/:propId?/rewards/achievement/media" component={MediaExplanation} allowAccess="seller" />
-            <ProtectedRoute path="/:propId?/rewards/achievement/facts" component={Facts} allowAccess="seller" />
+            <ProtectedRoute path="/:propId?/home/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
+            <ProtectedRoute path="/:propId?/home/achievement/assessor" component={Assessor} allowAccess="seller" />
+            <ProtectedRoute path="/:propId?/home/achievement/bestimate" component={Bestimate} allowAccess="seller" />
+            <ProtectedRoute path="/:propId?/home/achievement/media" component={MediaExplanation} allowAccess="seller" />
+            <ProtectedRoute path="/:propId?/home/achievement/facts" component={Facts} allowAccess="seller" />
             <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
             <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
             <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
@@ -528,7 +528,7 @@ const App = (props) => {
         { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
         {
           notification && notification.length > 0 &&
-        !history.location.pathname.includes('rewards') &&
+        !history.location.pathname.includes('home') &&
         !history.location.pathname.includes('packageFlow') &&
         !history.location.pathname.includes('upgrade') &&
         !history.location.pathname.includes('trialRequest') &&
