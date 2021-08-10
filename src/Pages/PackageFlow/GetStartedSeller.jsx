@@ -444,7 +444,7 @@ const GetStartedSeller = (props) => {
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
-    if (currentIndex <= 5) {
+    if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
