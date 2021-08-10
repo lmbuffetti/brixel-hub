@@ -291,7 +291,7 @@ const GetStartedSeller = (props) => {
             } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
               getCurStep.querySelector('input[type="text"]').focus();
             }
-          }, 100);
+          }, 300);
           if (questions[defId].history) {
             history.push({
               pathname: `/packageFlow/getStarted/${questions[defId].history}`,
@@ -444,7 +444,7 @@ const GetStartedSeller = (props) => {
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
-    if (currentIndex <= 5) {
+    if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
@@ -626,7 +626,7 @@ const GetStartedSeller = (props) => {
                       )
                     }
                     {
-                      get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                      get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
                         <BrixelButtonPrimary
                           className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
                           disabled={!checkValidateField()}

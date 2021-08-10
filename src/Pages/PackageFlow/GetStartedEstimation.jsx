@@ -501,7 +501,7 @@ const GetStartedEstimation = (props) => {
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
-    if (currentIndex <= 5) {
+    if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
@@ -696,7 +696,7 @@ const GetStartedEstimation = (props) => {
                             )
                           }
                           {
-                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
+                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
                               <BrixelButtonPrimary
                                 className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                 disabled={!checkValidateField()}
