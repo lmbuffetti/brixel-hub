@@ -47,7 +47,7 @@ const Support = (props) => {
   };
 
   return (
-    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius' : ''}`} id="supportBox">
+    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius min-w-fix-312' : ''}`} id="supportBox">
       <div className={`${isFixed && layout !== 'floatable' ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'pt-2 px-2 pb-3'}`}>
         {
           layout !== 'rewards' && layout !== 'onboarding' && (
@@ -59,7 +59,25 @@ const Support = (props) => {
                     <h5 className="txtDark700">{companyLegalName}</h5>
                   </div>
                 ) : (
-                  <h5 className="txtDark700">Support</h5>
+                  <div className="dis-f a-c">
+                    {
+                      layout !== 'onboarding' && layout === 'floatable' && (
+                        <div className="dis-f jc-fs a-t">
+                          {
+                            teamAvatars.map((imgTeam, i) => (
+                              <img
+                                key={i.toString()}
+                                src={`${baseByData.shortPath}${imgTeam.path}`}
+                                alt="Support Team"
+                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                              />
+                            ))
+                          }
+                        </div>
+                      )
+                    }
+                    <span className="ml-2 txtLight400">Support</span>
+                  </div>
                 )
               }
               {
@@ -99,7 +117,7 @@ const Support = (props) => {
           onClick={() => (expanded ? '' : onclickOne())}
         >
           {
-            layout !== 'onboarding' && (
+            layout !== 'onboarding' && layout !== 'floatable' && (
               <div className="dis-f jc-fs a-t">
                 {
                   teamAvatars.map((imgTeam, i) => (
@@ -123,7 +141,7 @@ const Support = (props) => {
           }
         </div>
         {
-          layout !== 'rewards' && layout !== 'onboarding' && (
+          layout !== 'rewards' && layout !== 'onboarding' && layout !== 'floatable' && (
             <hr className="my-3 lighter" />
           )
         }
