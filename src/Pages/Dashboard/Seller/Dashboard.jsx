@@ -127,7 +127,7 @@ const Dashboard = (props) => {
     if (loggedInUser && loggedInUser.user) {
       if (!gameHistory.data) {
         if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-        handleGetGameHistory();
+        // handleGetGameHistory();
       }
     }
   }, [loggedInUser]);
@@ -158,14 +158,14 @@ const Dashboard = (props) => {
         handleSpinnerOff();
       }
     }
-    if (gameAchievement.length === 0) handleGetAchievement();
+    // if (gameAchievement.length === 0) handleGetAchievement();
     if (gameGroup.length === 0) {
       // if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-      handleGetGameGroup();
+      // handleGetGameGroup();
     }
     if (gameHistory.length === 0) {
       if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-      handleGetGameHistory();
+      // handleGetGameHistory();
     }
     setLoadedProp(true);
   }, [userTypes, propID]);

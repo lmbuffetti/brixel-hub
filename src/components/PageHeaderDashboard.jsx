@@ -25,7 +25,7 @@ import {
   sidebarNavigationSeller,
 } from '../resources/navigationRoutes';
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
-import { setActiveSingleProperty } from '../actions/PropertyActions';
+import { getPackageProperty, setActiveSingleProperty, getPackagesProperty } from '../actions/PropertyActions';
 import AccountDropdown from './AccountDropdown';
 import MenuSidebar from './MenuSidebar';
 
@@ -33,9 +33,12 @@ function PageHeaderDashboard(props) {
   // PROPS
   const {
     activeSingleProperty,
+    activeSinglePropertyPackage,
     changeZIndex,
     destroyForm,
     formValue,
+    handleGetPackageProperty,
+    handleGetPackagesProperty,
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
     handleSetLanguage,
@@ -45,6 +48,7 @@ function PageHeaderDashboard(props) {
     loggedInUser,
     userType,
     windowDimensions,
+    packagesProperty,
   } = props;
   // STATE
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -55,6 +59,7 @@ function PageHeaderDashboard(props) {
   const [langSel, setSelLang] = useState(lang);
   const [section, setSection] = useState('Sell');
   const [linkSection, setLinkSection] = useState('Sell');
+  const [packageName, setPackageName] = useState('Sell');
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   // REF
   const profileMenu = useRef(null);
@@ -68,6 +73,32 @@ function PageHeaderDashboard(props) {
   useEffect(() => {
     setShowMobileMenu(false);
   }, [history]);
+
+  useEffect(() => {
+    if (activeSingleProperty.id) {
+      const payloadPackage = {
+        id: activeSingleProperty.id,
+        limit: 20,
+        offset: 0,
+        direction: 'ASC',
+        order: 'name',
+        smallLoader: 'getPackage',
+      };
+      handleGetPackageProperty(payloadPackage);
+      handleGetPackagesProperty({ smallLoader: 'loadPackages' });
+    }
+  }, [activeSingleProperty.id]);
+
+  useEffect(() => {
+    if (activeSinglePropertyPackage && packagesProperty.length > 0) {
+      const activePackage = activeSinglePropertyPackage.find((item) => item.started);
+      if (activePackage) {
+        const filtPackages = packagesProperty.find((item) => activePackage.servicePackage === item.id);
+        if (filtPackages) setPackageName(filtPackages.name);
+        else setPackageName('Basic');
+      }
+    }
+  }, [activeSinglePropertyPackage, packagesProperty]);
 
   // GET LANGUAGE LISTS
   useEffect(() => {
@@ -322,7 +353,7 @@ function PageHeaderDashboard(props) {
               {
                 windowDimensions.width > 1024 && (
                   <BrixelButtonText
-                    className=""
+                    className="fixedPos"
                     label="Support"
                     rounded
                     onClick={() => onTabClick('support')}
@@ -331,15 +362,16 @@ function PageHeaderDashboard(props) {
               }
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && propID !== 'sell' && propID !== 'buy' && (
-                  <>
+                  <div className="ws-nw flex-nowrap dis-f a-c">
+                    <span>Your Plan:</span>
                     <BrixelButtonText
-                      className="hide dis-f-md ml-2 mr-2"
-                      label="Upgrade"
-                      theme="red"
+                      className="td-u hide dis-f-md mr-2"
+                      label={packageName}
+                      theme="dark"
                       rounded
                       onClick={() => onUpgrade()}
                     />
-                  </>
+                  </div>
                 )
               }
 
@@ -387,43 +419,43 @@ function PageHeaderDashboard(props) {
                               Support
                             </span>
                             <hr className="lighter" />
-                            <button
-                              type="button"
-                              onClick={() => setShowAccountMenu(!showAccountMenu)}
-                              className="dis-f w-perc-100 a-c jc-b zIndex10 pos-r bgWhite p-1 px-2"
-                            >
-                              <div className="dis-f w-perc-100 a-c">
-                                <BrixelAvatar
-                                  avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
-                                  name={get(loggedInUser, 'user.name', loggedInUser.user.email)}
-                                  profileId={get(loggedInUser, 'user.id', '')}
-                                />
-                                <p className="ml-2 txtDark700">
-                                  {get(loggedInUser, 'user.name', '')}
-                                </p>
-                              </div>
-                              <BrixelIcon
-                                icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
-                              />
-                            </button>
+                            <div className="dis-f a-c jc-b px-2">
+                              {
+                                propID && userType === 'seller' && (
+                                  <div>
+                                    <div className="ws-nw flex-nowrap dis-f a-c">
+                                      <span>Your Plan:</span>
+                                      <BrixelButtonText
+                                        className="td-u dis-f"
+                                        label={packageName}
+                                        theme="dark"
+                                        rounded
+                                        onClick={() => onUpgrade()}
+                                      />
+                                    </div>
+                                  </div>
+                                )
+                              }
+                              <button
+                                type="button"
+                                onClick={() => setShowAccountMenu(!showAccountMenu)}
+                                className="dis-f w-fit a-c jc-b zIndex10 pos-r bgWhite p-1 px-2"
+                              >
+                                <div className="dis-f w-perc-100 a-c">
+                                  <BrixelAvatar
+                                    avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+                                    name={get(loggedInUser, 'user.name', loggedInUser.user.email)}
+                                    profileId={get(loggedInUser, 'user.id', '')}
+                                  />
+                                  <BrixelIcon
+                                    icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
+                                  />
+                                </div>
+                              </button>
+                            </div>
                           </div>
 
                           <div className={`mini-menu px-2 dis-fl-col ${showAccountMenu ? 'activeMenu' : ''}`}>
-                            {
-                              propID && userType === 'seller' && (
-                                <div className="mb-2">
-                                  <a
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      onUpgrade();
-                                    }}
-                                    className="cur-poi link txtRed400 fweight-500 fsize-300 ta-r"
-                                  >
-                                    Upgrade
-                                  </a>
-                                </div>
-                              )
-                            }
                             <div className="dis-f mb-2">
                               <BrixelSelect
                                 options={langMenu}
@@ -484,9 +516,13 @@ function PageHeaderDashboard(props) {
 
 PageHeaderDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   changeZIndex: PropTypes.func,
   destroyForm: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetPackageProperty: PropTypes.func.isRequired,
+  handleGetPackagesProperty: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
@@ -507,6 +543,7 @@ PageHeaderDashboard.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
+  activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   awards: get(state, 'user.awards', 0),
   brixelPoints: get(state, 'user.brixelPoints', 0),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
@@ -516,7 +553,7 @@ const mapStateToProps = (state) => ({
   languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
-  userBrixelPoint: get(state, 'user.brixelPoints', []),
+  packagesProperty: get(state, 'property.packagesProperty.data', []),
   userType: get(state, 'user.userTypes', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
@@ -527,6 +564,8 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
+  handleGetPackagesProperty: bindActionCreators(getPackagesProperty, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });

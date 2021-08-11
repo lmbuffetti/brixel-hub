@@ -111,6 +111,11 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
+  packagePage(id, limit, offset, data) {
+    const url = ep.property.packagePage(id, limit, offset, data);
+    return this.apiClient.get(url, {});
+  }
+
   saveUpgradePlan(id, data) {
     const url = ep.property.upgradePlan(id);
     return this.apiClient.put(url, {}, data);
