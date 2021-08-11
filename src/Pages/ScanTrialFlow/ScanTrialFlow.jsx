@@ -492,7 +492,7 @@ const ScanTrialFlow = (props) => {
                           label="Not now"
                           theme="dark"
                           saturation={200}
-                          onClick={() => history.push('/sell')}
+                          onClick={() => closeWindow()}
                         />
                       </div>
                     )

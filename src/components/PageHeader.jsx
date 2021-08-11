@@ -139,6 +139,16 @@ function PageHeader(props) {
     setShowMobileMenu(false);
   }, []);
 
+  const closeOverlay = () => {
+    if (history.location.pathname.toLowerCase().includes('getstartedbuyer')) {
+      history.push('/buy');
+    } else {
+      const url = localStorage.getItem('backUrl');
+      localStorage.removeItem('backUrl');
+      history.push(url || '/sell');
+    }
+  };
+
   return (
     <>
       <header className="flowHeader">
@@ -246,7 +256,7 @@ function PageHeader(props) {
                           className="zIndex11"
                           theme="dark"
                           icon="close-small"
-                          onClick={() => (history.location.pathname.toLowerCase().includes('getstartedbuyer') ? history.push('/buy') : history.push('/sell'))}
+                          onClick={() => closeOverlay()}
                         />
                       )
                     }

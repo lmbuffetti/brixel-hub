@@ -72,6 +72,13 @@ const DashboardHome = (props) => {
     return count;
   };
 
+  const bookNow = () => {
+    if (activeSingleProperty.id) {
+      localStorage.setItem('backUrl', `/${activeSingleProperty.id}/home`);
+      history.push(`/${activeSingleProperty.id}/trialRequest`);
+    }
+  };
+
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
     return <Loading />;
@@ -352,21 +359,29 @@ const DashboardHome = (props) => {
             </div>
           </div>
         </div>
-        <div className="testDrive dis-f a-c brdRadius bgWhite shadow-2dp">
-          <img width={windowDimensions.width <= 590 ? 110 : 300} src={testDrive} alt="" />
-          <div className="div">
+        <div className="testDrive dis-f-md a-c brdRadius bgWhite shadow-2dp p-2">
+          <img
+            className={windowDimensions.width <= 590 ? 'dis-b mx-a' : ''}
+            width={windowDimensions.width <= 590 ? 300 : 300}
+            src={testDrive}
+            alt=""
+          />
+          <div className="div ta-c ta-l-md">
             <h3 className="txtDark700 fweight-600 fsize-500">Test drive our service. <br /> No strings attached.</h3>
             <p className="txtDark700">
               <span>Get the full Brixel experience worth</span>
               <span className="ml-small-4">{get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
             </p>
-            <BrixelButtonPrimary
-              rounded
-              theme="AltColor"
-              themeSat={400}
-              label="Book Now"
-              className="mt-3"
-            />
+            <div className="dis-f jc-c jc-fs-md">
+              <BrixelButtonPrimary
+                onClick={() => bookNow()}
+                rounded
+                theme="AltColor"
+                themeSat={400}
+                label="Book Now"
+                className="mt-3"
+              />
+            </div>
           </div>
 
         </div>

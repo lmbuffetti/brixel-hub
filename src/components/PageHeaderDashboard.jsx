@@ -61,7 +61,7 @@ function PageHeaderDashboard(props) {
   const [langSel, setSelLang] = useState(lang);
   const [section, setSection] = useState('Sell');
   const [linkSection, setLinkSection] = useState('Sell');
-  const [packageName, setPackageName] = useState('Sell');
+  const [packageName, setPackageName] = useState('Basic');
   const [showSupport, setShowSupport] = useState(false);
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   // REF
@@ -453,7 +453,7 @@ function PageHeaderDashboard(props) {
                               Support
                             </span>
                             <hr className="lighter" />
-                            <div className="dis-f a-c jc-b px-2">
+                            <div className={`dis-f a-c ${userType === 'seller' ? 'jc-b' : 'jc-fe'} px-2`}>
                               {
                                 propID && userType === 'seller' && (
                                   <div>
