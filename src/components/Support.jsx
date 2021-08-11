@@ -47,21 +47,37 @@ const Support = (props) => {
   };
 
   return (
-    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'}`} id="supportBox">
-      <div className={`${isFixed ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'pt-2 px-2 pb-3'}`}>
+    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius' : ''}`} id="supportBox">
+      <div className={`${isFixed && layout !== 'floatable' ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'pt-2 px-2 pb-3'}`}>
         {
           layout !== 'rewards' && layout !== 'onboarding' && (
             <div className="dis-f jc-b a-t">
-              <div>
-                <p className="txtDark200 mb-2">Need support?</p>
-                <h5 className="txtDark700">{companyLegalName}</h5>
-              </div>
+              {
+                layout !== 'floatable' ? (
+                  <div>
+                    <p className="txtDark200 mb-2">Need support?</p>
+                    <h5 className="txtDark700">{companyLegalName}</h5>
+                  </div>
+                ) : (
+                  <h5 className="txtDark700">Support</h5>
+                )
+              }
               {
                 // HIDE CLOSE BUTTON IF PROPS isFixed OR hideClose
                 !isFixed && !hideClose && (
                   <BrixelButtonIcon
                     icon="close-small"
+                    theme
                     ghost
+                    onClick={() => onClose()}
+                  />
+                )
+              }
+              {
+                layout === 'floatable' && (
+                  <BrixelButtonIcon
+                    icon="close-small"
+                    theme="green"
                     onClick={() => onClose()}
                   />
                 )

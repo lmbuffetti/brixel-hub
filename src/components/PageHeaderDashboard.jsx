@@ -28,6 +28,7 @@ import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
 import { getPackageProperty, setActiveSingleProperty, getPackagesProperty } from '../actions/PropertyActions';
 import AccountDropdown from './AccountDropdown';
 import MenuSidebar from './MenuSidebar';
+import Support from './Support';
 
 function PageHeaderDashboard(props) {
   // PROPS
@@ -47,6 +48,7 @@ function PageHeaderDashboard(props) {
     lang,
     loggedInUser,
     userType,
+    teamAvatars,
     windowDimensions,
     packagesProperty,
   } = props;
@@ -60,6 +62,7 @@ function PageHeaderDashboard(props) {
   const [section, setSection] = useState('Sell');
   const [linkSection, setLinkSection] = useState('Sell');
   const [packageName, setPackageName] = useState('Sell');
+  const [showSupport, setShowSupport] = useState(false);
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   // REF
   const profileMenu = useRef(null);
@@ -350,16 +353,47 @@ function PageHeaderDashboard(props) {
               </div>
             </div>
             <div className="dis-f a-c">
-              {
-                windowDimensions.width > 1024 && (
-                  <BrixelButtonText
-                    className="fixedPos"
-                    label="Support"
-                    rounded
-                    onClick={() => onTabClick('support')}
-                  />
-                )
-              }
+              <div
+                className="dis-fl-col a-b jc-fe"
+                style={{
+                  position: 'fixed',
+                  bottom: '32px',
+                  right: '32px',
+                }}
+              >
+                {
+                  showSupport && (
+                    <Support
+                      layout="floatable"
+                      expanded
+                      isFixed={false}
+                      onClose={() => setShowSupport(false)}
+                    />
+                  )
+                }
+                {
+                  windowDimensions.width > 1024 && (
+                    <div
+                      className="dis-f jc-b a-c brdFullRadius cur-poi bgWhite p-1 shadow-2dp"
+                      onClick={() => setShowSupport(!showSupport)}
+                    >
+                      <div className="dis-f jc-b a-c">
+                        {
+                          teamAvatars.map((imgTeam, i) => (
+                            <img
+                              key={i.toString()}
+                              src={`${baseByData.shortPath}${imgTeam.path}`}
+                              alt="Support Team"
+                              className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                            />
+                          ))
+                        }
+                      </div>
+                      <span className="ml-2 txtDark700 fweight-500">Support</span>
+                    </div>
+                  )
+                }
+              </div>
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && propID !== 'sell' && propID !== 'buy' && (
                   <div className="ws-nw flex-nowrap dis-f a-c">
@@ -531,6 +565,7 @@ PageHeaderDashboard.propTypes = {
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   userType: PropTypes.string.isRequired,
+  teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -555,6 +590,7 @@ const mapStateToProps = (state) => ({
   property: get(state, 'property.activeSingleProperty', {}),
   packagesProperty: get(state, 'property.packagesProperty.data', []),
   userType: get(state, 'user.userTypes', ''),
+  teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
