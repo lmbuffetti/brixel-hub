@@ -30,6 +30,7 @@ export const defaultState = {
   marketCheck: {},
   packagesProperty: [],
   propertyListings: [],
+  historyFeed: {},
 };
 
 export default handleActions(

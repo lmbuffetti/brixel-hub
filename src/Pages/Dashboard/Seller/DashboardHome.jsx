@@ -25,9 +25,6 @@ import testDrive from '../../../images/dashboard/testDrive.png';
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
-import { getHistoryListings } from '../../../actions/HistoryActions';
-// import Support from '../../../components/Support';
-// import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const DashboardHome = (props) => {
   // PROPS
@@ -36,7 +33,6 @@ const DashboardHome = (props) => {
     activeSingleProperty,
     estimation,
     formValue,
-    handleGetHistoryList,
     history,
     isSmallLoading,
     loggedInUser,
@@ -54,21 +50,6 @@ const DashboardHome = (props) => {
       setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')]);
     }
   }, [formValue]);
-
-  useEffect(() => {
-    if (activeSingleProperty.id) {
-      const payloadPageHistory = {
-        parent: activeSingleProperty.id,
-        type: 'page',
-        resultsPerPage: 50,
-        offset: 0,
-        order: '',
-        direction: 'DESC',
-        smallLoader: 'getPageHistory',
-      };
-      handleGetHistoryList(payloadPageHistory);
-    }
-  }, [activeSingleProperty.id]);
 
   const selectDocument = (id, action) => {
     const docs = get(activeSingleProperty, 'documents', []);
@@ -179,7 +160,7 @@ const DashboardHome = (props) => {
             className="shadow-2dp bgAltColor1000 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
           >
             {
-              proEstimation.value ? (
+              get(proEstimation, 'value', null) ? (
                 <div className="dis-fl-col max-w-perc-100">
                   <span className="fsize-400 txtAltColor900">Pro estimation</span>
 
@@ -371,7 +352,7 @@ const DashboardHome = (props) => {
             </div>
           </div>
         </div>
-        <div className="testDrive dis-f a-c brdRadius brdSmall">
+        <div className="testDrive dis-f a-c brdRadius bgWhite shadow-2dp">
           <img width={windowDimensions.width <= 590 ? 110 : 300} src={testDrive} alt="" />
           <div className="div">
             <h3 className="txtDark700 fweight-600 fsize-500">Test drive our service. <br /> No strings attached.</h3>
@@ -399,7 +380,6 @@ DashboardHome.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetHistoryList: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -427,7 +407,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetHistoryList: bindActionCreators(getHistoryListings, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

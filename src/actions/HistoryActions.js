@@ -10,6 +10,8 @@ import {
   SET_USER_HISTORY_LISTINGS,
   SET_DEAL_HISTORY_LISTINGS,
   SET_DEAL_OWNER_HISTORY_LISTINGS,
+  GET_HISTORY_FEED,
+  SET_HISTORY_FEED,
 } from './types/HistoryTypes';
 
 export const {
@@ -21,6 +23,8 @@ export const {
   setUserHistoryListings,
   setDealHistoryListings,
   setDealOwnerHistoryListings,
+  getHistoryFeed,
+  setHistoryFeed,
 } = createActions({
   [CREATE_HISTORY]: (payload) => payload,
   [DELETE_ACTIVE_SINGLE_HISTORY]: (payload) => payload,
@@ -30,4 +34,6 @@ export const {
   [SET_USER_HISTORY_LISTINGS]: (payload) => payload,
   [SET_DEAL_HISTORY_LISTINGS]: (payload) => payload,
   [SET_DEAL_OWNER_HISTORY_LISTINGS]: (payload) => payload,
+  [GET_HISTORY_FEED]: (payload) => payload,
+  [SET_HISTORY_FEED]: (payload) => payload,
 });

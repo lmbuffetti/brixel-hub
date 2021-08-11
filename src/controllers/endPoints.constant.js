@@ -54,6 +54,7 @@ export default {
     historyById: (id) => `/history/${id}`,
     createHistory: () => '/history/',
     getHistoryListOfParent: (paginationLimit, paginationSkip, data) => `/history/${paginationLimit}/${paginationSkip}${data}`,
+    historyFeed: (id, paginationLimit, paginationSkip, data) => `/feed/${id}/${paginationLimit}/${paginationSkip}${data}`,
   },
   lead: {
     getLeadList: (leadType, paginationLimit, paginationSkip, data) => `/lead/${leadType}/${paginationLimit}/${paginationSkip}${data}`,
