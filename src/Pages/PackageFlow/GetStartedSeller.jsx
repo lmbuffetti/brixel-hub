@@ -444,12 +444,12 @@ const GetStartedSeller = (props) => {
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
-    if (currentIndex <= 5) {
+    if (formValue.location) {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
-  }, [formValue.location, lang]);
+  }, [formValue, lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
