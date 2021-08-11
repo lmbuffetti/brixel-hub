@@ -53,6 +53,7 @@ const SellerSidebar = (props) => {
     if (activeSingleProperty.id) {
       const defState = factsOptions.progressBarOptions.find((item) => item.value === activeSingleProperty.progress.state);
       const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === activeSingleProperty.progress.state);
+      if (defState.label === 'Sales Lead') defState.label = 'Onboarding';
       setStepProgrss(defState);
       setIndexProgrss(defIndexState);
     }
