@@ -101,13 +101,6 @@ const MarketCategoryListSeller = (props) => {
     setSplashScreen('');
   };
 
-  const openBestimate = () => {
-    setCookie('brixelMarketWelcome', false);
-    setCookie('brixelMarketBestimate', true);
-    setCookie('brixelSplashHome', 'bestimateResult');
-    setSplashScreen('');
-  };
-
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
@@ -176,11 +169,11 @@ const MarketCategoryListSeller = (props) => {
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
               <h3>Welcome 🖐 </h3>
-              <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
+              <span className="txtDark200 pt-2 pb-5"> We are happy to have you as a new member at Brixel. Are you thinking about selling? </span>
               <div className="mb-5">
                 <div className="dis-f mb-2">
                   <p className="max-w-fix-440 txtDark700 pl-2">
-                    <span>Are you thinking about selling? Get in touch with</span>
+                    <span>Sell privately without an agent. We</span>
                     <a
                       href="#"
                       className="link ml-small-4"
@@ -188,29 +181,23 @@ const MarketCategoryListSeller = (props) => {
                     >
                       <span>support</span>
                     </a>
-                    <span className="ml-small-4">and get a free consultation by our experts.</span>
+                    <span className="ml-small-4">you with modular service packages - without any brokerage contract.</span>
                   </p>
                 </div>
                 <div className="dis-f mb-2">
                   <p className="max-w-fix-440 txtDark700 pl-2">
-                    <span>Do you want to know how much your home is worth? Get a free price indication with our</span>
-                    <a
-                      href="#"
-                      className="link ml-small-4"
-                      onClick={(e) => openBestimate(e)}
-                    >
-                      <span>Bestimate®</span>
-                    </a>
+                    <span>Market with the best presentation. Buyers confirm that our quality stands out on the market.</span>
                   </p>
                 </div>
                 <div className="dis-f">
-                  <p className="max-w-fix-440 txtDark700 pl-2">Are you looking for a property to buy? Define your
+                  <p className="max-w-fix-440 txtDark700 pl-2">Test our full service with a
                     <a
                       className="link ml-small-4"
-                      href={`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`}
+                      href="#"
+                      onClick={() => bookNow()}
                     >
-                      <span>&nbsp;search profile</span>
-                    </a> and get exclusive access to hundreds of properties that are not yet on market.
+                      <span>&nbsp;test drive</span>
+                    </a> – like a car. No strings attached.
                   </p>
                 </div>
               </div>
