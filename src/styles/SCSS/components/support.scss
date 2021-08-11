@@ -11,6 +11,28 @@
     &.open {
       max-height: 500px;
     }
+
+    .icon-phone, .icon-whatsapp {
+      svg {
+        path {
+          fill: $brx-white;
+        }
+      }
+    }
+    .icon-phone {
+      svg {
+        path {
+          stroke: map_get($altColor, 700);
+        }
+      }
+    }
+    .icon-mail {
+      svg {
+        path {
+          stroke: map_get($altColor, 700);
+        }
+      }
+    }
   }
 }
 

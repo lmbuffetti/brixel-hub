@@ -5,9 +5,6 @@ import get from 'lodash/get';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { checkBrowser } from '../utils/helpers';
-import CallUsImg from '../images/Support/call_us.svg';
-import WriteUsImg from '../images/Support/wite_us.svg';
-import WhatAppImg from '../images/Support/whatsapp.svg';
 
 const Support = (props) => {
   const {
@@ -26,7 +23,6 @@ const Support = (props) => {
   const teamAvatars = get(activeSingleCompany, 'teamAvatars', []);
   const companyLegalName = get(activeSingleCompany, 'legalName', get(activeSingleCompany, 'name', null));
   // COLOR
-  const colorLinkTextTitle = layout === 'onboarding' ? 'txtPrimary200' : 'txtDark200';
   const colorLinkTextInfo = layout === 'onboarding' ? 'txtDark700' : 'txtDark700';
 
   const [openDetail, setOpenDetail] = useState(expanded);
@@ -149,9 +145,13 @@ const Support = (props) => {
           {
             phone && (
               <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-3">
-                <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
+                <BrixelIcon
+                  color="altColor"
+                  saturationTxt={700}
+                  icon="phone"
+                  iconSize="large"
+                />
                 <p className="ml-2">
-                  <span className={`dis-b body2 ${colorLinkTextTitle}`}>Call Us</span>
                   <span className={`ff-mono ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(phone)}</span>
                 </p>
               </a>
@@ -160,9 +160,13 @@ const Support = (props) => {
           {
             email && (
               <a href={`mailto: ${email}`} className="dis-f a-c mb-3">
-                <img className="w-fix-40" src={WriteUsImg} alt="Call Us" />
+                <BrixelIcon
+                  color="altColor"
+                  saturationTxt={700}
+                  icon="mail"
+                  iconSize="large"
+                />
                 <p className="ml-2">
-                  <span className={`dis-b body2 ${colorLinkTextTitle}`}>Write us</span>
                   <span className={colorLinkTextInfo}>{email}</span>
                 </p>
               </a>
@@ -176,9 +180,13 @@ const Support = (props) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img className="w-fix-40" src={WhatAppImg} alt="Call Us" />
+                <BrixelIcon
+                  color="altColor"
+                  saturationTxt={200}
+                  icon="whatsapp"
+                  iconSize="large"
+                />
                 <p className="ml-2">
-                  <span className={`dis-b body2 ${colorLinkTextTitle}`}>Text Us</span>
                   <span className={`ff-mono ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(whatsapp)}</span>
                 </p>
               </a>
