@@ -23,6 +23,7 @@ const SellerSidebar = (props) => {
     handleGetHistoryFeed,
     historyFeed,
     loggedInUser,
+    packagesProperty,
   } = props;
   // STATE
   const [stepProgrss, setStepProgrss] = useState({});
@@ -31,12 +32,12 @@ const SellerSidebar = (props) => {
   useEffect(() => {
     if (activeSingleProperty.id) {
       const arryaStubs = [
-        'page-add-package',
         'page-create',
         'page-listed',
         'page-published',
         'page-scan-trial',
         'page-start-service-package',
+        'page-stop-service-package',
         'page-unlisted',
         'page-unpublished',
         'pro-estimation-complete',
@@ -66,8 +67,8 @@ const SellerSidebar = (props) => {
     }
   }, [activeSingleProperty.id]);
 
-  const convertFeedMessage = (stub, type) => {
-    const data = feedMessage(loggedInUser);
+  const convertFeedMessage = (stub, type, history) => {
+    const data = feedMessage(loggedInUser, history, packagesProperty);
     return data[stub][type];
   };
 
@@ -90,22 +91,22 @@ const SellerSidebar = (props) => {
         {
           historyFeed.map((history, i) => (
             <div
-              className={`update-item brdRadius brdSmall p-2 dis-f mb-2 ${convertFeedMessage(history.actionStub, 'className')}`}
+              className={`update-item brdRadius brdSmall p-2 dis-f mb-2 ${convertFeedMessage(history.actionStub, 'className', history)}`}
               key={i.toString()}
             >
               <BrixelIcon
-                background={convertFeedMessage(history.actionStub, 'colorIcon')}
-                saturation={convertFeedMessage(history.actionStub, 'colorIconSat')}
-                color={convertFeedMessage(history.actionStub, 'colorIcon')}
-                saturationTxt={convertFeedMessage(history.actionStub, 'colorBgIconSat')}
+                background={convertFeedMessage(history.actionStub, 'colorIcon', history)}
+                saturation={convertFeedMessage(history.actionStub, 'colorIconSat', history)}
+                color={convertFeedMessage(history.actionStub, 'colorIcon', history)}
+                saturationTxt={convertFeedMessage(history.actionStub, 'colorBgIconSat', history)}
                 padding="p-small-12"
-                icon={convertFeedMessage(history.actionStub, 'icon')}
+                icon={convertFeedMessage(history.actionStub, 'icon', history)}
                 rounded
                 className="as-fs"
                 iconSize="large"
               />
               <div className="pl-2">
-                <p className="fsize-300 txtDark600">{convertFeedMessage(history.actionStub, 'message')}</p>
+                <p className="fsize-300 txtDark600" dangerouslySetInnerHTML={{ __html: convertFeedMessage(history.actionStub, 'message', history) }} />
                 {
                   !isNaN(get(history, 'createdAt', null)) && (
                     <p className="fsize-200 pt-small-4 txtLight400">
@@ -129,6 +130,7 @@ SellerSidebar.propTypes = {
   handleGetHistoryFeed: PropTypes.func.isRequired,
   historyFeed: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  packagesProperty: PropTypes.object.isRequired,
 };
 
 SellerSidebar.defaultProps = {
@@ -138,6 +140,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   historyFeed: get(state, 'history.historyFeed.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', null),
+  packagesProperty: get(state, 'property.packagesProperty.data', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
