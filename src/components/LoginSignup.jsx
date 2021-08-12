@@ -346,7 +346,7 @@ const LoginSignup = (props) => {
                   }
                   <BrixelButtonPrimary
                     rounded
-                    className="ml-a mr-a mt-3 mb-2 minimum-w-210"
+                    className="ml-a mr-a mt-2 mb-2 minimum-w-210"
                     label={PrimaryButton().label}
                     onClick={!disabledButton ? PrimaryButton().action : ''}
                     isLoading={isSmallLoading === 'recoverPassword'}
