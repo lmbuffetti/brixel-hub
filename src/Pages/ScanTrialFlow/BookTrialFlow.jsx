@@ -74,7 +74,8 @@ const BookTrialFlow = (props) => {
   };
 
   useEffect(() => {
-    if (get(formValue, 'fullDate', null) && get(formValue, 'hourBook', null)) {
+    const hourBook = get(formValue, 'hourBook', '').replace(':', '');
+    if (get(formValue, 'fullDate', null) && get(formValue, 'hourBook', null) && +hourBook > 1000) {
       const splitDate = (get(formValue, 'fullDate', '')).toString().split(' ');
       splitDate[4] = `${get(formValue, 'hourBook', null)}:00`;
       const defDate = new Date(splitDate.join(' '));
