@@ -31,10 +31,17 @@ const SellerSidebar = (props) => {
   useEffect(() => {
     if (activeSingleProperty.id) {
       const arryaStubs = [
-        'user-register',
+        'page-add-package',
         'page-create',
+        'page-listed',
+        'page-published',
+        'page-scan-trial',
+        'page-start-service-package',
+        'page-unlisted',
+        'page-unpublished',
         'pro-estimation-complete',
         'user-create-estimation',
+        'user-register',
       ];
       const payloadPageHistory = {
         arryaStubs,
