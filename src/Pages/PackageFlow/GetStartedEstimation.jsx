@@ -349,6 +349,18 @@ const GetStartedEstimation = (props) => {
             setQuest(newQuest);
             setCurrentIndex(defId);
           }
+          // create invisible dummy input to receive the focus first
+          const fakeInput = document.createElement('input');
+          fakeInput.setAttribute('type', 'text');
+          fakeInput.style.position = 'absolute';
+          fakeInput.style.opacity = 0;
+          fakeInput.style.height = 0;
+          fakeInput.style.fontSize = '16px'; // disable auto zoom
+          // zoom/scroll behavior
+          document.body.prepend(fakeInput);
+
+          // focus so that subsequent async focus will work
+          fakeInput.focus();
           setTimeout(() => {
             const getCurStep = document.getElementById(`step-${defId}`);
             if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
@@ -356,7 +368,9 @@ const GetStartedEstimation = (props) => {
             } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
               getCurStep.querySelector('input[type="text"]').focus();
             }
-          }, 100);
+            // cleanup
+            fakeInput.remove();
+          }, 500);
           if (questions[defId].history) {
             history.push({
               pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
