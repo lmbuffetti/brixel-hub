@@ -33,12 +33,10 @@ const SellerSidebar = (props) => {
     if (activeSingleProperty.id) {
       const arryaStubs = [
         'page-create',
-        'page-listed',
         'page-published',
         'page-scan-trial',
         'page-start-service-package',
         'page-stop-service-package',
-        'page-unlisted',
         'page-unpublished',
         'pro-estimation-complete',
         'user-create-estimation',
