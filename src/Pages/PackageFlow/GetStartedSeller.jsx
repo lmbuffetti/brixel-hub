@@ -296,10 +296,13 @@ const GetStartedSeller = (props) => {
             fakeInput.style.fontSize = '16px'; // disable auto zoom
             // zoom/scroll behavior
             document.body.prepend(fakeInput);
-
-            // focus so that subsequent async focus will work
-            if (getCurStep && (getCurStep.querySelector('input[type="number"]') || getCurStep.querySelector('input[type="text"]'))) {
-              fakeInput.focus();
+            if (getCurStep) {
+              const inputNumber = getCurStep.querySelector('input[type="number"]');
+              const inputText = getCurStep.querySelector('input[type="text"]');
+              // focus so that subsequent async focus will work
+              if ((inputNumber || inputText) && !inputNumber.classList.contains('ignoreFocus') && !inputText.classList.contains('ignoreFocus')) {
+                fakeInput.focus();
+              }
             }
           }, 100);
           setTimeout(() => {
