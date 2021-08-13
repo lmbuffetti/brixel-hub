@@ -327,10 +327,11 @@
             margin-bottom: $step;
           }
           .brixel-checkbox {
-            padding: $step;
-            margin-bottom: 8px;
+            padding-top: $step;
+            padding-bottom: $step;
           }
           .policyText {
+            line-height: 1rem;
             a {
               text-decoration: underline;
             }
@@ -344,6 +345,8 @@
             }
           }
           .stengthPassword {
+            margin-bottom: 40px;
+
             .passContent > p {
               //color: $brx-white;
             }
