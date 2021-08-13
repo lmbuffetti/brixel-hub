@@ -312,14 +312,13 @@
         .onBoardingSignUp {
 
           .topBar {
-            border-top-left-radius: $step;
-            border-top-right-radius: $step;
+            border-bottom-left-radius: $step;
+            border-bottom-right-radius: $step;
             background-color: #009579;
           }
           .innerBox {
-            border-bottom-left-radius: $step;
-            border-bottom-right-radius: $step;
-
+            border-top-left-radius: $step;
+            border-top-right-radius: $step;
           }
 
           label.brixel-label {
