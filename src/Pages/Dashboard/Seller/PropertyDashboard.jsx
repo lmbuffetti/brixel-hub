@@ -45,7 +45,7 @@ const HomeDashboard = (props) => {
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && getFact() === 'property') {
-      // history.push({ pathname: `/${propID}/property/price` });
+      history.push({ pathname: `/${propID}/property/price` });
     }
   }, [windowDimensions, getFact()]);
 
@@ -155,7 +155,7 @@ const HomeDashboard = (props) => {
         </div>
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'closed' : 'opened'}`}>
+            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Route path="/:propId?/property/facts" component={Facts} />
                 <Route path="/:propId?/property/price" component={Price} />
