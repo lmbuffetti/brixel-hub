@@ -249,7 +249,7 @@ const Documents = (props) => {
         )
       }
       {
-        has(formValue, 'location') && (
+        has(formValue, 'location') && userType === 'seller' && (
           <div className="mandatory-documents mb-5">
             <p className="fweight-500 fsize-500 txtGreen700 mb-4">
               <span>You have uploaded</span><span> {countMandatoryDocuments()} </span><span>of</span><span> {mandatoryDocuments.length} </span><span>documents.</span>
