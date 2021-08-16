@@ -39,7 +39,7 @@ const BookTrialFlow = (props) => {
   const datePicker = useRef(null);
   // COMPANY DATA
   const phone = get(activeSingleCompany, 'contact.phone', null);
-  const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
+  // const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
   const whereby = get(activeSingleCompany, 'contact.whereby', null);
 
   const [openAccordion, setOpenAccordion] = useState('online');
@@ -74,7 +74,8 @@ const BookTrialFlow = (props) => {
   };
 
   useEffect(() => {
-    if (get(formValue, 'fullDate', null) && get(formValue, 'hourBook', null)) {
+    const hourBook = get(formValue, 'hourBook', '').replace(':', '');
+    if (get(formValue, 'fullDate', null) && get(formValue, 'hourBook', null) && +hourBook > 1000) {
       const splitDate = (get(formValue, 'fullDate', '')).toString().split(' ');
       splitDate[4] = `${get(formValue, 'hourBook', null)}:00`;
       const defDate = new Date(splitDate.join(' '));
@@ -105,7 +106,7 @@ const BookTrialFlow = (props) => {
                 saturationTxt={400}
                 title="Book online"
                 titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
-                contentClass="pb-5"
+                contentClass="pb-3"
                 paddingContent="px-2 px-sm-5"
                 onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
                 smallRightIcon
@@ -219,8 +220,16 @@ const BookTrialFlow = (props) => {
                     }}
                   />
                 </div>
+                <p className="mt-2">
+                  <span>Alternatively you can call us on</span>
+                  {
+                    phone && (
+                      <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtDark400 cur-poi td-u">{Helpers.telephoneFormat(phone)}</a>
+                    )
+                  }
+                </p>
               </Accordion>
-              <hr className="lighter" />
+              {/* <hr className="lighter" />
               <Accordion
                 color="dark"
                 saturationTxt={400}
@@ -264,7 +273,7 @@ const BookTrialFlow = (props) => {
                   )
                 }
                 <p className="mt-3 txtDark100">You can reach us Monday to Friday, 09:00 to 18:00.</p>
-              </Accordion>
+              </Accordion> */}
             </div>
           </>
         ) : (
@@ -305,7 +314,7 @@ const BookTrialFlow = (props) => {
                     <span>Alternatively you can call us on</span>
                     {
                       phone && (
-                        <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtDark400 cur-poi">{Helpers.telephoneFormat(phone)}</a>
+                        <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtDark400 cur-poi td-u">{Helpers.telephoneFormat(phone)}</a>
                       )
                     }
                   </p>

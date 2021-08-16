@@ -237,33 +237,7 @@ const LoginSignup = (props) => {
           {
             (loginPage === 'register' || loginPage === 'login' || loginPage === 'reset') && (
               <>
-                <div className="topBar fsize-400 p-2 ta-c">
-                  {
-                    (loginPage === 'register' || loginPage === 'reset') && (
-                      <p className="txtWhite">
-                        <span>Already have an account?</span>
-                        <span>&nbsp;</span>
-                        <span className="cur-poi td-u txtWhite" onClick={() => changeScreen('login')}>
-                          <span>Login here</span>
-                        </span>
-                      </p>
-                    )
-                  }
-                  {
-                    loginPage === 'login' && (
-                      <p className="txtWhite">
-                        <span>Login or&nbsp;</span>
-                        <span
-                          className="cur-poi td-u txtWhite"
-                          onClick={() => changeScreen('register')}
-                        >
-                          <span>create profile here</span>
-                        </span>
-                      </p>
-                    )
-                  }
-                </div>
-                <div className="innerBox bgWhite p-2 px-2 px-sm-5">
+                <div className="innerBox bgWhite pb-2 pt-1 px-2 px-sm-5">
                   {
                     loginPage === 'login' && (
                       <>
@@ -346,11 +320,37 @@ const LoginSignup = (props) => {
                   }
                   <BrixelButtonPrimary
                     rounded
-                    className="ml-a mr-a mt-3 mb-2 minimum-w-210"
+                    className="ml-a mr-a mt-2 mb-2 minimum-w-210"
                     label={PrimaryButton().label}
                     onClick={!disabledButton ? PrimaryButton().action : ''}
                     isLoading={isSmallLoading === 'recoverPassword'}
                   />
+                </div>
+                <div className="topBar fsize-400 p-2 ta-c">
+                  {
+                    (loginPage === 'register' || loginPage === 'reset') && (
+                      <p className="txtWhite">
+                        <span>Already have an account?</span>
+                        <span>&nbsp;</span>
+                        <span className="cur-poi td-u txtWhite" onClick={() => changeScreen('login')}>
+                          <span>Login here</span>
+                        </span>
+                      </p>
+                    )
+                  }
+                  {
+                    loginPage === 'login' && (
+                      <p className="txtWhite">
+                        <span>Login or&nbsp;</span>
+                        <span
+                          className="cur-poi td-u txtWhite"
+                          onClick={() => changeScreen('register')}
+                        >
+                          <span>create profile here</span>
+                        </span>
+                      </p>
+                    )
+                  }
                 </div>
               </>
             )

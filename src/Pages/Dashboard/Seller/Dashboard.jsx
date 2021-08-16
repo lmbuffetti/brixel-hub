@@ -69,17 +69,17 @@ const Dashboard = (props) => {
     activeSingleProperty,
     errorValue,
     formValue,
-    gameAchievement,
+    // gameAchievement,
     gameGroup,
     gameHistory,
     handleAddGameHistory,
     handleCreatePropertyVisitSchedule,
-    handleGetAchievement,
+    // handleGetAchievement,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
-    handleGetGameGroup,
-    handleGetGameHistory,
+    // handleGetGameGroup,
+    // handleGetGameHistory,
     handleGetImageType,
     handleSaveActiveSingleProperty,
     handleGetPropertyListings,
@@ -127,7 +127,7 @@ const Dashboard = (props) => {
     if (loggedInUser && loggedInUser.user) {
       if (!gameHistory.data) {
         if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-        handleGetGameHistory();
+        // handleGetGameHistory();
       }
     }
   }, [loggedInUser]);
@@ -158,14 +158,14 @@ const Dashboard = (props) => {
         handleSpinnerOff();
       }
     }
-    if (gameAchievement.length === 0) handleGetAchievement();
+    // if (gameAchievement.length === 0) handleGetAchievement();
     if (gameGroup.length === 0) {
       // if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-      handleGetGameGroup();
+      // handleGetGameGroup();
     }
     if (gameHistory.length === 0) {
       if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-      handleGetGameHistory();
+      // handleGetGameHistory();
     }
     setLoadedProp(true);
   }, [userTypes, propID]);
@@ -377,7 +377,7 @@ const Dashboard = (props) => {
         </Suspense>
       </div>
       {
-        get(history, 'location.pathname', '').includes('rewards') && (
+        get(history, 'location.pathname', '').includes('home') && (
           <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
             <SellerSidebar />
           </div>
@@ -392,18 +392,18 @@ Dashboard.propTypes = {
   activeSingleProperty: PropTypes.object,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
-  gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
-  handleGetAchievement: PropTypes.func.isRequired,
+  // handleGetAchievement: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
-  handleGetGameGroup: PropTypes.func.isRequired,
-  handleGetGameHistory: PropTypes.func.isRequired,
+  // handleGetGameGroup: PropTypes.func.isRequired,
+  // handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
@@ -518,16 +518,14 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm(data) {
     (dispatch(reset('Property', data)));
   },
-  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
   handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
-  handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
+  handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
@@ -538,6 +536,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
 });
 

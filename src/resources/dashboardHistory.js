@@ -1,0 +1,96 @@
+import get from 'lodash/get';
+
+export const feedMessage = (user, history, packages) => {
+  let filtPackages = {};
+  if (history.meta.servicePackage) filtPackages = packages.find((item) => history.meta.servicePackage === item.id);
+  return ({
+    'page-create': {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: 'Property created',
+      icon: 'tag',
+    },
+    'page-listed': {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: 'Page published to the Portal',
+      icon: 'tag',
+    },
+    'page-published': {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: 'Page Published',
+      icon: 'tag',
+    },
+    'page-scan-trial': {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: 'Test drive request (Trial)',
+      icon: 'tag',
+    },
+    'page-start-service-package': {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: `<span>${get(filtPackages, 'name', '')}</span> <span>started</span>`,
+      icon: 'tag',
+    },
+    'page-stop-service-package': {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: `<span>${get(filtPackages, 'name', '')}</span> <span>stopped</span>`,
+      icon: 'tag',
+    },
+    'page-unlisted': {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: 'Page unpublished to the Portal',
+      icon: 'tag',
+    },
+    'page-unpublished': {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: 'Page Published',
+      icon: 'tag',
+    },
+    'pro-estimation-complete': {
+      className: 'brdAltColor1000',
+      colorIcon: 'AltColor',
+      colorIconSat: 1000,
+      colorBgIconSat: 700,
+      message: 'Pro Estimation completed',
+      icon: 'chart',
+    },
+    'user-create-estimation': {
+      className: 'brdAltColor1000',
+      colorIcon: 'AltColor',
+      colorIconSat: 1000,
+      colorBgIconSat: 700,
+      message: 'Bestimate®️ calculated',
+      icon: 'chart',
+    },
+    'user-register': {
+      className: 'brdAltColor300',
+      colorIcon: 'alltColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: `${user.email} just signed up`,
+      icon: 'userNew',
+    },
+  });
+};

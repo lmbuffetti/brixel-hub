@@ -10,6 +10,7 @@ import {
   SET_PAGE_DEALS,
   SET_PROPERTY_LISTINGS,
   SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
+  SET_PACKAGE_PROPERTY,
 } from '../actions/types/PropertyTypes';
 
 import {
@@ -26,7 +27,9 @@ export const defaultState = {
   activeSinglePropertyDealsCount: {},
   activeSinglePropertyHistory: {},
   activeSinglePropertyOwnerHistory: {},
+  activeSinglePropertyPackage: [],
   estimation: {},
+  historyFeed: {},
   marketCheck: {},
   packagesProperty: [],
   propertyListings: [],
@@ -81,6 +84,10 @@ export default handleActions(
     [SET_PROPERTY_OWNER_HISTORY_LISTINGS]: (state, action) => ({
       ...state,
       activeSinglePropertyOwnerHistory: action.payload,
+    }),
+    [SET_PACKAGE_PROPERTY]: (state, action) => ({
+      ...state,
+      activeSinglePropertyPackage: action.payload,
     }),
   },
   defaultState,

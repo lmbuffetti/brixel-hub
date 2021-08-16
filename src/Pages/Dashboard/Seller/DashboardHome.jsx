@@ -25,9 +25,6 @@ import testDrive from '../../../images/dashboard/testDrive.png';
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
-import { getHistoryListings } from '../../../actions/HistoryActions';
-// import Support from '../../../components/Support';
-// import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const DashboardHome = (props) => {
   // PROPS
@@ -36,7 +33,6 @@ const DashboardHome = (props) => {
     activeSingleProperty,
     estimation,
     formValue,
-    handleGetHistoryList,
     history,
     isSmallLoading,
     loggedInUser,
@@ -54,21 +50,6 @@ const DashboardHome = (props) => {
       setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')]);
     }
   }, [formValue]);
-
-  useEffect(() => {
-    if (activeSingleProperty.id) {
-      const payloadPageHistory = {
-        parent: activeSingleProperty.id,
-        type: 'page',
-        resultsPerPage: 50,
-        offset: 0,
-        order: '',
-        direction: 'DESC',
-        smallLoader: 'getPageHistory',
-      };
-      handleGetHistoryList(payloadPageHistory);
-    }
-  }, [activeSingleProperty.id]);
 
   const selectDocument = (id, action) => {
     const docs = get(activeSingleProperty, 'documents', []);
@@ -91,6 +72,13 @@ const DashboardHome = (props) => {
     return count;
   };
 
+  const bookNow = () => {
+    if (activeSingleProperty.id) {
+      localStorage.setItem('backUrl', `/${activeSingleProperty.id}/home`);
+      history.push(`/${activeSingleProperty.id}/trialRequest`);
+    }
+  };
+
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
     return <Loading />;
@@ -110,8 +98,8 @@ const DashboardHome = (props) => {
               propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
             />
             <Link
-              to={`/${activeSingleProperty.id}/property`}
-              className="pos-a-fix x-r-1 x-b-1 bgAltColor700 p-small-10 txtWhite opacity-08"
+              to={`/${activeSingleProperty.id}/property/photos`}
+              className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
             >
               Edit
             </Link>
@@ -122,55 +110,72 @@ const DashboardHome = (props) => {
               <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
             </div>
-            <div className="dis-f pt-2 a-t">
-              <BrixelIcon
-                background="AltColor"
-                saturation={1000}
-                color="AltColor"
-                saturationTxt={700}
-                padding="p-small-12"
-                icon="chart"
-                rounded
-                iconSize="large"
-              />
-              <div className="dis-fl-col pl-2 mr-1">
-                <span className="txtLight600 fsize-300"> Your Bestimate</span>
-                {
-                  !get(estimation, 'status', null) && (
-                    <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
-                      Get Estimation
-                    </Link>
-                  )
-                }
-                {
-                  get(estimation, 'status', '') === 'pending' && (
-                    <span className="txtAltColor700 fweight-600">
-                      Pending
-                    </span>
-                  )
-                }
-                {
-                  get(estimation, 'status', '') === 'processed' && (
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 fweight-600">
-                      {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
-                    </Link>
-                  )
-                }
-              </div>
-              <div className="tagBg dis-fl-row-sm hide a-c">
-                <span className="activeDot" />
-                {
-                  get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 txtAltColor700 fweight-700">
-                      <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
-                      <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
-                    </Link>
-                  ) : (
+            {
+              get(activeSingleProperty, 'price.total', 0) > 0 ? (
+                <div className="dis-fl-col">
+                  <div className="dis-f a-c">
+                    <BrixelIcon
+                      background="AltColor"
+                      saturation={1000}
+                      color="AltColor"
+                      saturationTxt={700}
+                      padding="p-small-12"
+                      icon="price"
+                      rounded
+                      iconSize="large"
+                    />
+                    <div className="ml-2 dis-fl-col">
+                      <span className="txtLight600 fsize-300"> Your Price</span>
+                      <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 fweight-600">
+                        <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
+                        <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="dis-f pt-2 a-t">
+                  <BrixelIcon
+                    background="AltColor"
+                    saturation={1000}
+                    color="AltColor"
+                    saturationTxt={700}
+                    padding="p-small-12"
+                    icon="chart"
+                    rounded
+                    iconSize="large"
+                  />
+                  <div className="dis-fl-col pl-2 mr-1">
+                    <span className="txtLight600 fsize-300"> Your Bestimate</span>
+                    {
+                      !get(estimation, 'status', null) && (
+                        <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
+                          Get Estimation
+                        </Link>
+                      )
+                    }
+                    {
+                      get(estimation, 'status', '') === 'pending' && (
+                        <span className="txtAltColor700 fweight-600">
+                          Pending
+                        </span>
+                      )
+                    }
+                    {
+                      get(estimation, 'status', '') === 'processed' && (
+                        <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 fweight-600">
+                          {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
+                        </Link>
+                      )
+                    }
+                  </div>
+                  <div className="tagBg dis-fl-row-sm hide a-c">
+                    <span className="activeDot" />
                     <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 txtAltColor700"> Set your price </Link>
-                  )
-                }
-              </div>
-            </div>
+                  </div>
+                </div>
+              )
+            }
           </div>
         </div>
         <div className="dis-fl-col dis-fl-row-sm">
@@ -179,7 +184,7 @@ const DashboardHome = (props) => {
             className="shadow-2dp bgAltColor1000 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
           >
             {
-              proEstimation.value ? (
+              get(proEstimation, 'value', null) ? (
                 <div className="dis-fl-col max-w-perc-100">
                   <span className="fsize-400 txtAltColor900">Pro estimation</span>
 
@@ -237,7 +242,7 @@ const DashboardHome = (props) => {
                     {
                       calcPercentageProEstimation().realPerc < 100 ? (
                         <BrixelButtonPrimary
-                          onClick={() => history.push(`/${activeSingleProperty.id}/property/price/formFlow`)}
+                          onClick={() => window.location.assign(`/${activeSingleProperty.id}/property/price/formFlow`)}
                           label="Next step"
                           theme="AltColor"
                           themeSat={700}
@@ -371,21 +376,29 @@ const DashboardHome = (props) => {
             </div>
           </div>
         </div>
-        <div className="testDrive dis-f a-c brdRadius brdSmall">
-          <img width={windowDimensions.width <= 590 ? 110 : 300} src={testDrive} alt="" />
-          <div className="div">
+        <div className="testDrive dis-f-md a-c brdRadius bgWhite shadow-2dp p-2">
+          <img
+            className={windowDimensions.width <= 590 ? 'dis-b mx-a' : ''}
+            width={windowDimensions.width <= 590 ? 300 : 300}
+            src={testDrive}
+            alt=""
+          />
+          <div className="div ta-c ta-l-md">
             <h3 className="txtDark700 fweight-600 fsize-500">Test drive our service. <br /> No strings attached.</h3>
             <p className="txtDark700">
               <span>Get the full Brixel experience worth</span>
               <span className="ml-small-4">{get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
             </p>
-            <BrixelButtonPrimary
-              rounded
-              theme="AltColor"
-              themeSat={400}
-              label="Book Now"
-              className="mt-3"
-            />
+            <div className="dis-f jc-c jc-fs-md">
+              <BrixelButtonPrimary
+                onClick={() => bookNow()}
+                rounded
+                theme="AltColor"
+                themeSat={400}
+                label="Book Now"
+                className="mt-3"
+              />
+            </div>
           </div>
 
         </div>
@@ -399,7 +412,6 @@ DashboardHome.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetHistoryList: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -427,7 +439,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetHistoryList: bindActionCreators(getHistoryListings, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

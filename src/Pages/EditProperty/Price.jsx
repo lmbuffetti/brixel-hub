@@ -76,14 +76,14 @@ const Price = (props) => {
       }, 10);
     }
     if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id) {
-      if (!has(estimation, 'result')) {
+      if (!has(estimation, 'result') && get(estimation, 'status', '') !== 'pending') {
         const payload = {
           reloadOnwProperties: true,
           type: 'market',
           id: activeSingleProperty.id,
         };
         handleGetEstimation(payload);
-      } else if (has(estimation, 'result') && !has(estimation, 'result.value')) {
+      } else if (has(estimation, 'result') && !has(estimation, 'result.value') && get(estimation, 'status', '') !== 'pending' && estimation.id) {
         handleGenerateBestimate(estimation.id);
       }
     }
@@ -427,12 +427,13 @@ Price.propTypes = {
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  proEstimation: PropTypes.object.isRequired,
+  proEstimation: PropTypes.object,
   setSplashScreen: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 Price.defaultProps = {
+  proEstimation: {},
 };
 
 const mapStateToProps = (state) => ({

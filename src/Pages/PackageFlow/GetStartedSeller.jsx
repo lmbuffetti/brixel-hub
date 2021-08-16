@@ -286,12 +286,36 @@ const GetStartedSeller = (props) => {
           }
           setTimeout(() => {
             const getCurStep = document.getElementById(`step-${defId}`);
+            // create invisible dummy input to receive the focus first
+            const fakeInput = document.createElement('input');
+            fakeInput.setAttribute('type', 'text');
+            fakeInput.setAttribute('id', 'fakeInput');
+            fakeInput.style.position = 'absolute';
+            fakeInput.style.opacity = 0;
+            fakeInput.style.height = 0;
+            fakeInput.style.fontSize = '16px'; // disable auto zoom
+            // zoom/scroll behavior
+            document.body.prepend(fakeInput);
+            if (getCurStep) {
+              const inputNumber = getCurStep.querySelector('input[type="number"]');
+              const inputText = getCurStep.querySelector('input[type="text"]');
+              // focus so that subsequent async focus will work
+              if ((inputNumber || inputText) && !inputNumber.classList.contains('ignoreFocus') && !inputText.classList.contains('ignoreFocus')) {
+                fakeInput.focus();
+              }
+            }
+          }, 100);
+          setTimeout(() => {
+            const fakeInput = document.getElementById('fakeInput');
+            const getCurStep = document.getElementById(`step-${defId}`);
             if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
               getCurStep.querySelector('input[type="number"]').focus();
             } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
               getCurStep.querySelector('input[type="text"]').focus();
             }
-          }, 300);
+            // cleanup
+            if (fakeInput) fakeInput.remove();
+          }, 500);
           if (questions[defId].history) {
             history.push({
               pathname: `/packageFlow/getStarted/${questions[defId].history}`,
