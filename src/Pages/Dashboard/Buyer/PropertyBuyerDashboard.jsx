@@ -67,98 +67,105 @@ const PropertyBuyerDashboard = (props) => {
   return (
     <>
       <div className="property-container dis-f jc-fs h-perc-lg-100 pos-r a-t" id="propertyDashboard">
-        <Sticker>
-          <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
+        <div className="flex-1">
+          <Sticker>
+            {
+              windowDimensions.width <= 1024 && (
+                <div
+                  className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}
+                >
+                  <div className="dis-f min-h-fix-136 mb-2">
+                    <BrixelButtonBox
+                      verticalView
+                      bgTransparent
+                      icon="message"
+                      label="Contact"
+                      labelClass="fweight-400"
+                      subtitle={get(formValue, 'contacts[0].name', '')}
+                      subtitleClass="fsize-200 pt-small-6"
+                      className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'contact' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                      colorIcon="primary700"
+                      backIcon="primary100"
+                      onClick={() => history.push(`/buyer/${propID}/property/contact`)}
+                    />
+                  </div>
 
-            <div className="dis-f min-h-fix-136 mb-2">
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon="message"
-                label="Contact"
-                labelClass="fweight-400"
-                subtitle={get(formValue, 'contacts[0].name', '')}
-                subtitleClass="fsize-200 pt-small-6"
-                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'contact' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
-                colorIcon="primary700"
-                backIcon="primary100"
-                onClick={() => history.push(`/buyer/${propID}/property/contact`)}
-              />
-            </div>
+                  <div className="dis-f min-h-fix-136">
+                    <BrixelButtonBox
+                      verticalView
+                      bgTransparent
+                      icon="copy-link"
+                      label="Page"
+                      labelClass="fweight-400"
+                      subtitle=""
+                      subtitleClass="fsize-200 pt-small-6"
+                      className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                      colorIcon="primary700"
+                      backIcon="primary100"
+                      onClick={() => history.push(`/buyer/${propID}/property/page`)}
+                    />
 
-            <div className="dis-f min-h-fix-136">
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon="copy-link"
-                label="Page"
-                labelClass="fweight-400"
-                subtitle=""
-                subtitleClass="fsize-200 pt-small-6"
-                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'page' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
-                colorIcon="primary700"
-                backIcon="primary100"
-                onClick={() => history.push(`/buyer/${propID}/property/page`)}
-              />
+                    <BrixelButtonBox
+                      verticalView
+                      bgTransparent
+                      icon="folder"
+                      label="Docubox"
+                      labelClass="fweight-400"
+                      subtitle={`<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate))}</span>&nbsp;<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) !== 1 ? 'Files' : 'File'}</span>`}
+                      subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
+                      className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'docubox' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                      colorIcon="primary700"
+                      backIcon="primary100"
+                      onClick={() => history.push(`/buyer/${propID}/property/docubox`)}
+                    />
+                  </div>
 
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon="folder"
-                label="Docubox"
-                labelClass="fweight-400"
-                subtitle={`<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate))}</span>&nbsp;<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) !== 1 ? 'Files' : 'File'}</span>`}
-                subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
-                className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'docubox' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
-                colorIcon="primary700"
-                backIcon="primary100"
-                onClick={() => history.push(`/buyer/${propID}/property/docubox`)}
-              />
-            </div>
+                  <div className="dis-f mt-1 pr-lg-2 min-h-fix-136">
+                    <BrixelButtonBox
+                      verticalView
+                      bgTransparent
+                      icon="calendar"
+                      label="Showings"
+                      labelClass={`fweight-400 ${windowDimensions.width <= 1024 ? 'w-perc-50' : 'w-perc-25'}`}
+                      subtitle=""
+                      subtitleClass="fsize-200 pt-small-6"
+                      className={`w-perc-100 w-perc-lg-50 shadow-1dp ml-1 brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
+                      colorIcon="primary700"
+                      backIcon="primary100"
+                      onClick={() => history.push(`/buyer/${propID}/property/showings`)}
+                    />
 
-            <div className="dis-f mt-1 pr-lg-2 min-h-fix-136">
-              <BrixelButtonBox
-                verticalView
-                bgTransparent
-                icon="calendar"
-                label="Showings"
-                labelClass={`fweight-400 ${windowDimensions.width <= 1024 ? 'w-perc-50' : 'w-perc-25'}`}
-                subtitle=""
-                subtitleClass="fsize-200 pt-small-6"
-                className={`w-perc-100 w-perc-lg-50 shadow-1dp ml-1 brdMedium ${getFact() === 'showings' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
-                colorIcon="primary700"
-                backIcon="primary100"
-                onClick={() => history.push(`/buyer/${propID}/property/showings`)}
-              />
+                    {
+                      windowDimensions.width <= 1024 && (
+                        <BrixelButtonBox
+                          verticalView
+                          bgTransparent
+                          icon="money"
+                          label="Closing"
+                          labelClass="fweight-400 w-perc-50"
+                          subtitle=""
+                          subtitleClass="fsize-200 pt-small-6"
+                          className={`w-perc-100 min-h-fix-136 shadow-1dp brdMedium ${getFact() === 'deals' ? 'brdPrimary400 bgWhite' : 'brdTrans'} ml-1 p-2`}
+                          colorIcon="primary700"
+                          backIcon="primary100"
+                          onClick={() => history.push(`/buyer/${propID}/closing/${activeSingleDeal.id}`)}
+                        />
+                      )
+                    }
 
-              {
-                windowDimensions.width <= 1024 && (
-                  <BrixelButtonBox
-                    verticalView
-                    bgTransparent
-                    icon="money"
-                    label="Closing"
-                    labelClass="fweight-400 w-perc-50"
-                    subtitle=""
-                    subtitleClass="fsize-200 pt-small-6"
-                    className={`w-perc-100 min-h-fix-136 shadow-1dp brdMedium ${getFact() === 'deals' ? 'brdPrimary400 bgWhite' : 'brdTrans'} ml-1 p-2`}
-                    colorIcon="primary700"
-                    backIcon="primary100"
-                    onClick={() => history.push(`/buyer/${propID}/closing/${activeSingleDeal.id}`)}
-                  />
-                )
-              }
+                  </div>
 
-            </div>
-
+                </div>
+              )
+            }
+          </Sticker>
+          <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
+            <BrixelButtonIcon
+              ghost
+              icon="arrow-simple-left"
+              onClick={() => history.push('../page')}
+            />
           </div>
-        </Sticker>
-        <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
-          <BrixelButtonIcon
-            ghost
-            icon="arrow-simple-left"
-            onClick={() => history.push('../page')}
-          />
         </div>
         {
           getFact() !== 'property' && (
