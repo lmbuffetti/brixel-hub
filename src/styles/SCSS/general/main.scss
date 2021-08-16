@@ -679,3 +679,9 @@ button.minimum-w-210 {
 .brdRadiusLrg {
   border-radius: $step * 3;
 }
+
+.disAct {
+  &:active {
+    color: initial;
+  }
+}

@@ -122,10 +122,10 @@ const DashboardHome = (props) => {
                 iconSize="large"
               />
               <div className="dis-fl-col pl-2 mr-1">
-                <span className="txtLight600 fsize-300"> Your Bestimate</span>
+                <span className="txtLight600  fsize-300"> Your Bestimate</span>
                 {
                   !get(estimation, 'status', null) && (
-                    <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
+                    <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltColor700 no-state fweight-600">
                       Get Estimation
                     </Link>
                   )
@@ -139,7 +139,7 @@ const DashboardHome = (props) => {
                 }
                 {
                   get(estimation, 'status', '') === 'processed' && (
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 fweight-600">
+                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 no-state fweight-600">
                       {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
                     </Link>
                   )
@@ -154,7 +154,7 @@ const DashboardHome = (props) => {
                       <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
                     </Link>
                   ) : (
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 txtAltColor700"> Set your price </Link>
+                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtAltColor700"> Set your price </Link>
                   )
                 }
               </div>
@@ -300,7 +300,7 @@ const DashboardHome = (props) => {
               </div>
               <div className="div">
                 <hr className="lighter mb-1" />
-                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi txtLight700 px-3 pt-1">
+                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi no-state txtHoverDark200 txtLight700 px-3 pt-1">
                   View &#62;
                 </Link>
               </div>
@@ -334,7 +334,7 @@ const DashboardHome = (props) => {
               </div>
               <div className="div">
                 <hr className="lighter mb-1" />
-                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi txtLight700 px-3 pt-1">
+                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi no-state txtHoverDark200 txtLight700 px-3 pt-1">
                   View &#62;
                 </Link>
               </div>
@@ -353,7 +353,7 @@ const DashboardHome = (props) => {
             </div>
             <div className="div">
               <hr className="white mb-1" />
-              <Link to={`/${activeSingleProperty.id}/property/tour`} className="cur-poi txtWhite px-3 pt-1">
+              <Link to={`/${activeSingleProperty.id}/property/tour`} className="cur-poi no-state txtHoverLight200 txtWhite px-3 pt-1">
                 View &#62;
               </Link>
             </div>
