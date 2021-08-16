@@ -99,7 +99,7 @@ const DashboardHome = (props) => {
             />
             <Link
               to={`/${activeSingleProperty.id}/property/photos`}
-              className="pos-a-fix x-r-1 x-b-1 bgAltColor700 p-small-10 txtWhite opacity-08"
+              className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
             >
               Edit
             </Link>
