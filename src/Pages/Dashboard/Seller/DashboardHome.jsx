@@ -110,55 +110,72 @@ const DashboardHome = (props) => {
               <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
             </div>
-            <div className="dis-f pt-2 a-t">
-              <BrixelIcon
-                background="AltColor"
-                saturation={1000}
-                color="AltColor"
-                saturationTxt={700}
-                padding="p-small-12"
-                icon="chart"
-                rounded
-                iconSize="large"
-              />
-              <div className="dis-fl-col pl-2 mr-1">
-                <span className="txtLight600  fsize-300"> Your Bestimate</span>
-                {
-                  !get(estimation, 'status', null) && (
-                    <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltColor700 no-state fweight-600">
-                      Get Estimation
-                    </Link>
-                  )
-                }
-                {
-                  get(estimation, 'status', '') === 'pending' && (
-                    <span className="txtAltColor700 fweight-600">
-                      Pending
-                    </span>
-                  )
-                }
-                {
-                  get(estimation, 'status', '') === 'processed' && (
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 no-state fweight-600">
-                      {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
-                    </Link>
-                  )
-                }
-              </div>
-              <div className="tagBg dis-fl-row-sm hide a-c">
-                <span className="activeDot" />
-                {
-                  get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 txtAltColor700 fweight-700">
-                      <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
-                      <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
-                    </Link>
-                  ) : (
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtAltColor700"> Set your price </Link>
-                  )
-                }
-              </div>
-            </div>
+            {
+              get(activeSingleProperty, 'price.total', 0) > 0 ? (
+                <div className="dis-fl-col">
+                  <div className="dis-f a-c">
+                    <BrixelIcon
+                      background="AltColor"
+                      saturation={1000}
+                      color="AltColor"
+                      saturationTxt={700}
+                      padding="p-small-12"
+                      icon="price"
+                      rounded
+                      iconSize="large"
+                    />
+                    <div className="ml-2 dis-fl-col">
+                      <span className="txtLight600 fsize-300"> Your Price</span>
+                      <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 fweight-600">
+                        <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
+                        <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="dis-f pt-2 a-t">
+                  <BrixelIcon
+                    background="AltColor"
+                    saturation={1000}
+                    color="AltColor"
+                    saturationTxt={700}
+                    padding="p-small-12"
+                    icon="chart"
+                    rounded
+                    iconSize="large"
+                  />
+                  <div className="dis-fl-col pl-2 mr-1">
+                    <span className="txtLight600 fsize-300"> Your Bestimate</span>
+                    {
+                      !get(estimation, 'status', null) && (
+                        <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
+                          Get Estimation
+                        </Link>
+                      )
+                    }
+                    {
+                      get(estimation, 'status', '') === 'pending' && (
+                        <span className="txtAltColor700 fweight-600">
+                          Pending
+                        </span>
+                      )
+                    }
+                    {
+                      get(estimation, 'status', '') === 'processed' && (
+                        <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 fweight-600">
+                          {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
+                        </Link>
+                      )
+                    }
+                  </div>
+                  <div className="tagBg dis-fl-row-sm hide a-c">
+                    <span className="activeDot" />
+                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 txtAltColor700"> Set your price </Link>
+                  </div>
+                </div>
+              )
+            }
           </div>
         </div>
         <div className="dis-fl-col dis-fl-row-sm">
@@ -225,7 +242,7 @@ const DashboardHome = (props) => {
                     {
                       calcPercentageProEstimation().realPerc < 100 ? (
                         <BrixelButtonPrimary
-                          onClick={() => history.push(`/${activeSingleProperty.id}/property/price/formFlow`)}
+                          onClick={() => window.location.assign(`/${activeSingleProperty.id}/property/price/formFlow`)}
                           label="Next step"
                           theme="AltColor"
                           themeSat={700}
