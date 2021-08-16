@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 export const feedMessage = (user, history, packages) => {
   let filtPackages = {};
   if (history.meta.servicePackage) filtPackages = packages.find((item) => history.meta.servicePackage === item.id);
@@ -39,7 +41,7 @@ export const feedMessage = (user, history, packages) => {
       colorIcon: 'altColor',
       colorIconSat: 300,
       colorBgIconSat: 200,
-      message: `<span>${filtPackages.name}</span> <span>started</span>`,
+      message: `<span>${get(filtPackages, 'name', '')}</span> <span>started</span>`,
       icon: 'tag',
     },
     'page-stop-service-package': {
@@ -47,7 +49,7 @@ export const feedMessage = (user, history, packages) => {
       colorIcon: 'altColor',
       colorIconSat: 300,
       colorBgIconSat: 200,
-      message: `<span>${filtPackages.name}</span> <span>stopped</span>`,
+      message: `<span>${get(filtPackages, 'name', '')}</span> <span>stopped</span>`,
       icon: 'tag',
     },
     'page-unlisted': {

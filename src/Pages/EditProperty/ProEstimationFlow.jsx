@@ -27,6 +27,7 @@ import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 // import PageHeaderAchievement from '../../components/PageHeaderAchievement';
 
 const ProEstimationFlow = (props) => {
+  console.log('eh');
   // PROPS
   const {
     activeSingleProperty,
