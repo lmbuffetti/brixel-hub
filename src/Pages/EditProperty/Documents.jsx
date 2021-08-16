@@ -17,7 +17,7 @@ import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdownMini,
-  useOutsideAlerter, BrixelButtonText,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
