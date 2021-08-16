@@ -163,7 +163,7 @@ const DashboardHome = (props) => {
                     }
                     {
                       get(estimation, 'status', '') === 'processed' && (
-                        <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 fweight-600">
+                        <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 no-state fweight-600">
                           {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
                         </Link>
                       )
@@ -171,7 +171,7 @@ const DashboardHome = (props) => {
                   </div>
                   <div className="tagBg dis-fl-row-sm hide a-c">
                     <span className="activeDot" />
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 txtAltColor700"> Set your price </Link>
+                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtAltColor700"> Set your price </Link>
                   </div>
                 </div>
               )
@@ -317,8 +317,8 @@ const DashboardHome = (props) => {
               </div>
               <div className="div">
                 <hr className="lighter mb-1" />
-                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi no-state txtHoverDark200 txtLight700 px-3 pt-1">
-                  View &#62;
+                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 pt-1">
+                  View <span className="arrowSymbol">&#62; </span>
                 </Link>
               </div>
             </div>
@@ -351,8 +351,8 @@ const DashboardHome = (props) => {
               </div>
               <div className="div">
                 <hr className="lighter mb-1" />
-                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi no-state txtHoverDark200 txtLight700 px-3 pt-1">
-                  View &#62;
+                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 pt-1">
+                  View <span className="arrowIcon">&#62; </span>
                 </Link>
               </div>
             </div>
@@ -370,8 +370,8 @@ const DashboardHome = (props) => {
             </div>
             <div className="div">
               <hr className="white mb-1" />
-              <Link to={`/${activeSingleProperty.id}/property/tour`} className="cur-poi no-state txtHoverLight200 txtWhite px-3 pt-1">
-                View &#62;
+              <Link to={`/${activeSingleProperty.id}/property/tour`} className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 pt-1">
+                View <span className="arrowIcon">&#62; </span>
               </Link>
             </div>
           </div>
