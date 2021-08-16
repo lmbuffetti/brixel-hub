@@ -296,7 +296,7 @@ const DashboardHome = (props) => {
         </div>
         <div className="dis-fl-col dis-fl-row-sm my-3">
           <div className="w-perc-100 w-perc-sm-75 dis-f pr-sm-4">
-            <div className="w-perc-50 brdRadius bgWhite shadow-2dp mr-1 pt-2 pb-1 h-fix-184 dis-fl-col jc-b">
+            <div className="w-perc-50 brdRadius bgWhite shadow-2dp mr-1 pt-2 h-fix-184 dis-fl-col jc-b">
               <div className="dis-f px-3">
                 <BrixelIcon
                   icon="property-new"
@@ -315,14 +315,14 @@ const DashboardHome = (props) => {
                   {calcPercentageFacts().realPerc}% complete
                 </span>
               </div>
-              <div className="div">
-                <hr className="lighter mb-1" />
-                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 pt-1">
-                  View <span className="arrowSymbol">&#62; </span>
+              <div className="linkWrap">
+                <hr className="lighter" />
+                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 py-1">
+                  <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
                 </Link>
               </div>
             </div>
-            <div className="w-perc-50 brdRadius bgWhite shadow-2dp ml-1 pt-2 pb-1 h-fix-184 dis-fl-col jc-b">
+            <div className="w-perc-50 brdRadius bgWhite shadow-2dp ml-1 pt-2 h-fix-184 dis-fl-col jc-b">
               <div className="dis-f px-3">
                 <BrixelIcon
                   icon="mike"
@@ -349,16 +349,16 @@ const DashboardHome = (props) => {
                   <span>Brixel Page</span> <span className={`activeDot ${get(activeSingleProperty, 'published', false) ? 'green' : 'grey'}`} />
                 </span>
               </div>
-              <div className="div">
-                <hr className="lighter mb-1" />
-                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 pt-1">
-                  View <span className="arrowIcon">&#62; </span>
+              <div className="linkWrap">
+                <hr className="lighter" />
+                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 py-1">
+                  <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
                 </Link>
               </div>
             </div>
           </div>
           <div
-            className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 pb-1"
+            className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2"
             style={{
               backgroundImage: `url("${demoBg}")`,
             }}
@@ -368,10 +368,10 @@ const DashboardHome = (props) => {
                 See how your property could look...
               </span>
             </div>
-            <div className="div">
-              <hr className="white mb-1" />
-              <Link to={`/${activeSingleProperty.id}/property/tour`} className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 pt-1">
-                View <span className="arrowIcon">&#62; </span>
+            <div className="linkWrap">
+              <hr className="white" />
+              <Link to={`/${activeSingleProperty.id}/property/tour`} className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1">
+                <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
               </Link>
             </div>
           </div>

@@ -634,10 +634,13 @@ button.minimum-w-210 {
 
 .opacity-08 {
   opacity: 0.8;
+  transition: opacity 450ms ease-in;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .tagBg {
-  background-color: map-get($altColor, 1000);
   color: white;
   background: map-get($altColor, 1000);
   position: relative;
@@ -645,6 +648,10 @@ button.minimum-w-210 {
   position: relative;
   height: 48px;
   margin-left: $step * 4;
+
+  &:hover {
+    background: rgba(map-get($altColor, 1000), 0.8);
+  }
 
   &:before {
     content: " ";
@@ -678,4 +685,23 @@ button.minimum-w-210 {
 }
 .brdRadiusLrg {
   border-radius: $step * 3;
+}
+
+.linkWrap {
+  .wHover {
+    display: block;
+    span {
+      transition: left 150ms ease-in;
+      position: relative;
+      display: inline-block;
+      left: 0px;
+    }
+    .arrow-symbol {
+      transition-delay: 100ms;
+    }
+  }
+  &:hover {
+    .text { left: -5px; }
+    .arrow-symbol { left: 5px; }
+  }
 }
