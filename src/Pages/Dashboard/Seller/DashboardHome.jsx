@@ -317,7 +317,7 @@ const DashboardHome = (props) => {
               </div>
               <div className="div">
                 <hr className="lighter mb-1" />
-                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi txtLight700 px-3 pt-1">
+                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi no-state txtHoverDark200 txtLight700 px-3 pt-1">
                   View &#62;
                 </Link>
               </div>
@@ -351,7 +351,7 @@ const DashboardHome = (props) => {
               </div>
               <div className="div">
                 <hr className="lighter mb-1" />
-                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi txtLight700 px-3 pt-1">
+                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi no-state txtHoverDark200 txtLight700 px-3 pt-1">
                   View &#62;
                 </Link>
               </div>
@@ -370,7 +370,7 @@ const DashboardHome = (props) => {
             </div>
             <div className="div">
               <hr className="white mb-1" />
-              <Link to={`/${activeSingleProperty.id}/property/tour`} className="cur-poi txtWhite px-3 pt-1">
+              <Link to={`/${activeSingleProperty.id}/property/tour`} className="cur-poi no-state txtHoverLight200 txtWhite px-3 pt-1">
                 View &#62;
               </Link>
             </div>

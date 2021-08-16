@@ -59,11 +59,10 @@
 
     @media (min-width: $responsive-medium) {
       padding: $step * 4 $step * 5;
-      padding-right: 0;
       padding-top: 0;
-      &.prospects,
-      &.closing {
-        padding-right: $step * 5;
+      padding-right: $step * 5;
+      &.home {
+        padding-right: 0px;
       }
     }
     @media (max-width: $responsive-medium) {

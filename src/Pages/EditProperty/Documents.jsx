@@ -17,7 +17,7 @@ import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdownMini,
-  useOutsideAlerter, BrixelButtonText,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
@@ -257,7 +257,7 @@ const Documents = (props) => {
             {
               mandatoryDocuments.map((element, j) => (
                 <div className="dis-fl-col max-w-perc-50" key={j.toString()}>
-                  <div className="dis-fl-row a-c jc-b p-2">
+                  <div className="dis-fl-row a-c jc-b py-2 pl-2">
                     <div className="dis-fl-row a-c">
                       {
                         mandatoryDocumentExists(element) === true && (
@@ -291,11 +291,9 @@ const Documents = (props) => {
                     </div>
                     {
                       mandatoryDocumentExists(element) === false && (
-                        <div className="upload-wrapper px-2 pos-r ov-h">
-                          <BrixelButtonText
-                            label="Upload"
-                          />
-                          <input accept="application/pdf, image/png, image/jpeg" multiple className="upload" type="file" name="document" id={`documentInput${j}`} onChange={(e) => loadFile(e, element, j)} />
+                        <div className="upload-wrapper cur-poi pl-2 pos-r ov-h">
+                          <span className="txtPrimary400 fweight-500">Upload</span>
+                          <input accept="application/pdf, image/png, image/jpeg" multiple className="cur-poi upload" type="file" name="document" id={`documentInput${j}`} onChange={(e) => loadFile(e, element, j)} />
                         </div>
                       )
                     }
