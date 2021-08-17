@@ -79,7 +79,7 @@ const clientConfig = {
             loader: 'css-loader',
             options: {
               sourceMap: devMode,
-              importLoaders: 1
+              importLoaders: 1,
             },
           },
           {
@@ -88,7 +88,7 @@ const clientConfig = {
               postcssOptions: {
                 plugins: [
                   [
-                    "autoprefixer",
+                    'autoprefixer',
                     {
                       // Options
                     },
