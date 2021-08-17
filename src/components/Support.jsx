@@ -81,7 +81,6 @@ const Support = (props) => {
                 !isFixed && !hideClose && (
                   <BrixelButtonIcon
                     icon="close-small"
-                    theme
                     ghost
                     onClick={() => onClose()}
                   />
