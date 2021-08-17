@@ -42,7 +42,6 @@ const clientConfig = {
     ],
   },
   devServer: {
-    host: '192.168.178.25',
     contentBase: path.join(__dirname, 'dist'),
     compress: devMode,
     port: 5000,
