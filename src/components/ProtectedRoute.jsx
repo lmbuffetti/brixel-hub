@@ -27,7 +27,7 @@ const ProtectedRoute = (props) => {
   } = props;
 
   useEffect(() => {
-    if (get(window, 'location.hostname', '').includes('localhost') && typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
+    if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168')) && typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
       history.push('/tokeninput');
     } else if (typeof cookie.get('brixelToken') === 'undefined' && !isTest) {
       window.location.assign(`${baseByData.loginUrl}?url=${get(window, 'location.href', '')}`);

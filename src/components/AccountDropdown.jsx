@@ -103,7 +103,7 @@ const AccountDropdown = (props) => {
         label: 'Logout',
       },
     ]
-  ), [langMenu, langSel]);
+  ), [langMenu, langSel, loggedInUser]);
 
   return (
     <>

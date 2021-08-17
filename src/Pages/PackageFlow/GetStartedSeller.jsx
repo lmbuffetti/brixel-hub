@@ -284,9 +284,9 @@ const GetStartedSeller = (props) => {
             setQuest(newQuest);
             setCurrentIndex(defId);
           }
-          setTimeout(() => {
-            const getCurStep = document.getElementById(`step-${defId}`);
-            // create invisible dummy input to receive the focus first
+          // const getCurStep = document.getElementById(`step-${defId}`);
+          // create invisible dummy input to receive the focus first
+          if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
             const fakeInput = document.createElement('input');
             fakeInput.setAttribute('type', 'text');
             fakeInput.setAttribute('id', 'fakeInput');
@@ -296,15 +296,9 @@ const GetStartedSeller = (props) => {
             fakeInput.style.fontSize = '16px'; // disable auto zoom
             // zoom/scroll behavior
             document.body.prepend(fakeInput);
-            if (getCurStep) {
-              const inputNumber = getCurStep.querySelector('input[type="number"]');
-              const inputText = getCurStep.querySelector('input[type="text"]');
-              // focus so that subsequent async focus will work
-              if ((inputNumber || inputText) && !inputNumber.classList.contains('ignoreFocus') && !inputText.classList.contains('ignoreFocus')) {
-                fakeInput.focus();
-              }
-            }
-          }, 100);
+            fakeInput.focus();
+          }
+
           setTimeout(() => {
             const fakeInput = document.getElementById('fakeInput');
             const getCurStep = document.getElementById(`step-${defId}`);
