@@ -291,8 +291,8 @@ const Documents = (props) => {
                     </div>
                     {
                       mandatoryDocumentExists(element) === false && (
-                        <div className="upload-wrapper cur-poi pl-2 pos-r ov-h">
-                          <span className="txtPrimary400 fweight-500">Upload</span>
+                        <div className="upload-wrapper cur-poi pl-2 pos-r">
+                          <BrixelButtonPrimary rounded theme="white" label="Upload" />
                           <input accept="application/pdf, image/png, image/jpeg" multiple className="cur-poi upload" type="file" name="document" id={`documentInput${j}`} onChange={(e) => loadFile(e, element, j)} />
                         </div>
                       )
