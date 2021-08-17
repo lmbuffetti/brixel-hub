@@ -52,7 +52,7 @@ const checkUser = (store) => (next) => (action) => {
       if (data) data = Object.keys(data).length > 0 ? data : undefined;
       api.user.validateToken(data)
         .then((response) => {
-          if (response.data && response.data.statusCode && response.data.statusCode === 401 && get(window, 'location.hostname', '').includes('localhost')) {
+          if (response.data && response.data.statusCode && response.data.statusCode === 401 && (get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
             removeCookie('brixelToken');
             window.location.assign('/tokeninput');
           } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
@@ -201,7 +201,6 @@ const checkUser = (store) => (next) => (action) => {
       delete objData.id;
       delete objData.sendEmail;
       delete objData.smallLoader;
-      delete objData.setLoggedInUser;
       delete objData.setLoggedInUser;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
       else store.dispatch({ type: SPINNER_ON });

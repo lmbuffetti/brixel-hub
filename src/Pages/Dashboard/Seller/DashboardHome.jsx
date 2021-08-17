@@ -88,7 +88,10 @@ const DashboardHome = (props) => {
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
-      <h4 className="mb-3 hide dis-b-lg fweight-600">Welcome back {loggedInUser.firstName} 👋</h4>
+      <h4 className="mb-3 hide dis-b-lg fweight-600">
+        <span>Welcome back</span>
+        <span className="ml-small-4">{loggedInUser.firstName} 👋</span>
+      </h4>
       <div className="max-w-fix-760 dis-fl-col">
         <div className="shadow-2dp bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
           <div className="imgSection w-perc-100 w-fix-sm-232 h-fix-sm-152 pos-r">
@@ -238,7 +241,10 @@ const DashboardHome = (props) => {
                   <div className="dis-fl-col">
                     <span className="fsize-400 txtAltColor900">Pro estimation</span>
 
-                    <span className="fsize-600 fweight-600 txtAltColor700">{calcPercentageProEstimation().realPerc}% <span> Complete</span></span>
+                    <span className="fsize-600 fweight-600 txtAltColor700">
+                      <span>{calcPercentageProEstimation().realPerc}%</span>
+                      <span className="ml-small-4"> Complete</span>
+                    </span>
                     {
                       calcPercentageProEstimation().realPerc < 100 ? (
                         <BrixelButtonPrimary
@@ -278,7 +284,10 @@ const DashboardHome = (props) => {
             <div className="dis-fl-col">
               <span className="fsize-400 txtAltColor200">Docubox</span>
               <span className="fsize-600 fweight-600 txtAltColor2000">
-                {countMandatoryDocuments()} of {mandatoryDocuments.length} uploaded
+                <span>{countMandatoryDocuments()}</span>
+                <span className="mx-small-4">of</span>
+                <span>{mandatoryDocuments.length}</span>
+                <span className="ml-small-1">uploaded</span>
               </span>
               <BrixelButtonPrimary
                 onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
@@ -312,7 +321,8 @@ const DashboardHome = (props) => {
                   color="AltColor"
                 />
                 <span className="txtDark700 pt-small-4 fsize-300 fsize-sm-400 pt-small-4">
-                  {calcPercentageFacts().realPerc}% complete
+                  <span>{calcPercentageFacts().realPerc}%</span>
+                  <span className="ml-small-4">complete</span>
                 </span>
               </div>
               <div className="linkWrap">

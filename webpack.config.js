@@ -42,6 +42,7 @@ const clientConfig = {
     ],
   },
   devServer: {
+    // host: '192.168.178.25',
     contentBase: path.join(__dirname, 'dist'),
     compress: devMode,
     port: 5000,
@@ -78,7 +79,7 @@ const clientConfig = {
             loader: 'css-loader',
             options: {
               sourceMap: devMode,
-              importLoaders: 1
+              importLoaders: 1,
             },
           },
           {
@@ -87,7 +88,7 @@ const clientConfig = {
               postcssOptions: {
                 plugins: [
                   [
-                    "autoprefixer",
+                    'autoprefixer',
                     {
                       // Options
                     },
