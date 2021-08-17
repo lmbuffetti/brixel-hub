@@ -14,9 +14,7 @@ import {
   ProgressRing,
 } from '@brixel/brixel-components';
 import has from 'lodash/has';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
-import { DateTime } from 'luxon';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
 import demoBg from '../../../images/dashboard/demo.jpeg';
@@ -50,15 +48,6 @@ const DashboardHome = (props) => {
       setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')]);
     }
   }, [formValue]);
-
-  const selectDocument = (id, action) => {
-    const docs = get(activeSingleProperty, 'documents', []);
-    const doc = docs.find((item) => item.id === id);
-    if (action === 'name' && doc) return doc.name;
-    if (action === 'path' && doc) return doc.path;
-    if (action === 'date' && doc) return `${DateTime.fromMillis(doc.createdAt).toFormat('dd.MM.yyyy')}, ${DateTime.fromMillis(doc.createdAt).toFormat('hh:mm')}`;
-    return null;
-  };
 
   const countMandatoryDocuments = () => {
     let count = 0;
@@ -190,41 +179,10 @@ const DashboardHome = (props) => {
               get(proEstimation, 'value', null) ? (
                 <div className="dis-fl-col max-w-perc-100">
                   <span className="fsize-400 txtAltColor900">Pro estimation</span>
-
-                  <div className="dis-f a-c max-w-perc-100">
-                    {
-                      selectDocument(proEstimation.document, 'name') && (
-                        <>
-                          <BrixelIcon
-                            className="mr-1"
-                            icon="document"
-                            background="blue"
-                            saturation={100}
-                            color="blue"
-                            saturationTxt={700}
-                          />
-                          <div className="pl-small-4 max-w-perc-100">
-                            <a
-                              className="txtDark700 fweight-600 fsize-300 dis-b tt-ellips ws-nw max-w-perc-90"
-                              href={`${baseByData.shortPath}${selectDocument(proEstimation.document, 'path')}`}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              {selectDocument(proEstimation.document, 'name')}
-                            </a>
-                            <small className="fsize-200 fweight-500 txtLight600">
-                              {selectDocument(proEstimation.document, 'date')}
-                            </small>
-                          </div>
-                        </>
-                      )
-                    }
-                  </div>
                   {
                     get(proEstimation, 'value', 0) > 0 && (
                       <>
-                        <p className="txtDark700 mt-3">This is your estimated value for your property.</p>
-                        <div className="dis-f a-c w-perc-100 mb-1">
+                        <div className="dis-f a-c w-perc-100 mt-1">
                           <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
                             {get(estimation, 'result.currency', '')}
                           </span>
@@ -232,6 +190,7 @@ const DashboardHome = (props) => {
                             {Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}
                           </span>
                         </div>
+                        <p className="txtDark700 mt-1">This is your estimated value for your property.</p>
                       </>
                     )
                   }

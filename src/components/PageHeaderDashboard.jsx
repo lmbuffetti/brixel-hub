@@ -473,15 +473,17 @@ function PageHeaderDashboard(props) {
                               <button
                                 type="button"
                                 onClick={() => setShowAccountMenu(!showAccountMenu)}
-                                className="dis-f w-fit a-c jc-b zIndex10 pos-r bgWhite p-1 px-2"
+                                className="dis-f w-fit a-c jc-b zIndex10 pos-r p-1 px-2"
                               >
                                 <div className="dis-f w-perc-100 a-c">
                                   <BrixelAvatar
                                     avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
                                     name={get(loggedInUser, 'user.name', loggedInUser.user.email)}
+                                    isIcon
                                     profileId={get(loggedInUser, 'user.id', '')}
                                   />
                                   <BrixelIcon
+                                    className="ml-1"
                                     icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
                                   />
                                 </div>

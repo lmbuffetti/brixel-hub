@@ -256,7 +256,7 @@ const Documents = (props) => {
             </p>
             {
               mandatoryDocuments.map((element, j) => (
-                <div className="dis-fl-col max-w-perc-50" key={j.toString()}>
+                <div className="dis-fl-col max-w-perc-100 max-w-fix-768" key={j.toString()}>
                   <div className="dis-fl-row a-c jc-b py-2 pl-2">
                     <div className="dis-fl-row a-c">
                       {
@@ -305,7 +305,7 @@ const Documents = (props) => {
           </div>
         )
       }
-      <div className={`scaleUp boxCard ${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel`}>
+      <div className={`scaleUp boxCard ${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel max-w-perc-100 max-w-fix-768`}>
         <div className="dis-fl-col uploadPanel a-c">
           {
             processedDocuments && Object.keys(processedDocuments).length < 1 && userType === 'buyer' && (
