@@ -82,8 +82,8 @@ const DashboardHome = (props) => {
         <span className="ml-small-4">{loggedInUser.firstName} 👋</span>
       </h4>
       <div className="max-w-fix-760 dis-fl-col">
-        <div className="shadow-2dp bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
-          <div className="imgSection w-perc-100 w-fix-sm-232 h-fix-sm-152 pos-r">
+        <div className="shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
+          <div className="w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
             <CoverPropertyImage
               className="cover w-perc-100 h-perc-100"
               coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
