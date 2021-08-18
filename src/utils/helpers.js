@@ -1,6 +1,7 @@
 import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
 import get from 'lodash/get';
+import isArray from 'lodash/isArray';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 import has from 'lodash/has';
 import { translateTo } from './translation';
@@ -94,8 +95,17 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
       countTotal += 1;
       countDone += 1;
     } else if (get(formValue, val.name, 'ayc') !== 'ayc' && get(formValue, val.name, 'ayc') !== null) {
-      countTotal += 1;
-      countDone += 1;
+      if (isArray(get(formValue, val.name, 'ayc'))) {
+        if (get(formValue, val.name, []).length > 0) {
+          countTotal += 1;
+          countDone += 1;
+        } else {
+          countTotal += 1;
+        }
+      } else {
+        countTotal += 1;
+        countDone += 1;
+      }
     } else if (get(val, 'component.type.defaultProps.startFrom', null) !== null) {
       countDone += 1;
       countTotal += 1;
@@ -103,6 +113,7 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
       countTotal += 1;
     }
   });
+
   // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   const calPerc = Math.floor((countDone * 100) / countTotal);
   const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);
