@@ -455,7 +455,7 @@ function PageHeaderDashboard(props) {
                             Support
                           </span>
                           <hr className="lighter" />
-                          <div className={`dis-f a-c ${userType === 'seller' ? 'jc-b' : 'jc-fe'} px-2`}>
+                          <div className={`dis-f a-c ${userType === 'seller' ? 'jc-b' : 'jc-fe'} px-2 py-1`}>
                             {
                               propID && userType === 'seller' && (
                                 <div>
