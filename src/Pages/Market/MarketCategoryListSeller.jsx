@@ -154,7 +154,7 @@ const MarketCategoryListSeller = (props) => {
     <Suspense fallback="">
       {/* SECTION: seller welcome message  */}
       {
-        splashScreenType === 'sellerWelcome' && (
+        splashScreenType !== 'sellerWelcome' && (
           <SplashScreen
             className="result-popup centered"
             closeOutside={false}
