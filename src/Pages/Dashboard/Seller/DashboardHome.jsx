@@ -11,11 +11,13 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   BrixelProgressBar,
+  FactsOptions,
   Helpers,
   ProgressRing,
 } from '@brixel/brixel-components';
 import has from 'lodash/has';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
 import demoBg from '../../../images/dashboard/demo.jpeg';
@@ -24,6 +26,8 @@ import testDrive from '../../../images/dashboard/testDrive.png';
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
+
+const { factsOptions } = FactsOptions;
 
 const DashboardHome = (props) => {
   // PROPS
@@ -41,6 +45,7 @@ const DashboardHome = (props) => {
   } = props;
   // STATE
   const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
+  const [progressState, setProgressState] = useState({});
 
   const { documents } = formValue;
 
@@ -49,6 +54,18 @@ const DashboardHome = (props) => {
       setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')]);
     }
   }, [formValue]);
+
+  useEffect(() => {
+    if (activeSingleProperty.id) {
+      const defState = factsOptions.progressBarOptions.find((item) => item.value === activeSingleProperty.progress.state);
+      const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === activeSingleProperty.progress.state);
+      if (defState.label === 'Sales Lead') defState.label = 'Onboarding';
+      setProgressState({
+        ...defState,
+        id: defIndexState,
+      });
+    }
+  }, [activeSingleProperty.id]);
 
   const countMandatoryDocuments = () => {
     let count = 0;
@@ -354,31 +371,67 @@ const DashboardHome = (props) => {
               backgroundImage: `url("${demoBg}")`,
             }}
           >
-            <div className="px-3 pb-5">
-              <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
-                See how your property could look...
-              </span>
-            </div>
-            <div className="linkWrap">
-              <hr className="white" />
-              {
-                get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
-                  <a
-                    href={`https://page.brixel.io/preview/Apartamento-T2-Renovado-Bairro-dos-Actores-Lisboa?hubUrl=${get(window, 'location.href', '')}`}
-                    className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
-                  >
-                    <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                  </a>
-                ) : (
-                  <a
-                    href={`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}`}
-                    className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
-                  >
-                    <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                  </a>
-                )
-              }
-            </div>
+            {
+              progressState.id > 0 ? (
+                <>
+                  <div className="px-3 pb-5">
+                    <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
+                      {activeSingleProperty.published ? 'View your public Brixel Page' : 'Preview your Brixel Page'}
+                    </span>
+                  </div>
+                  <div className="linkWrap">
+                    <hr className="white" />
+                    {
+                      get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                        <a
+                          href={activeSingleProperty.published ? `${baseByData.pageUrl}${activeSingleProperty.stub}` : `${baseByData.pageUrl}preview/${activeSingleProperty.stub}`}
+                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
+                        >
+                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                        </a>
+                      ) : (
+                        <a
+                          target="_blank"
+                          href={`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}?hubUrl=${get(window, 'location.href', '')}`}
+                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
+                          rel="noreferrer"
+                        >
+                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                        </a>
+                      )
+                    }
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="px-3 pb-5">
+                    <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
+                      See how your property could look...
+                    </span>
+                  </div>
+                  <div className="linkWrap">
+                    <hr className="white" />
+                    {
+                      get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                        <a
+                          href={`https://page.brixel.io/preview/Apartamento-T2-Renovado-Bairro-dos-Actores-Lisboa?hubUrl=${get(window, 'location.href', '')}`}
+                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
+                        >
+                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                        </a>
+                      ) : (
+                        <a
+                          href={`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}`}
+                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
+                        >
+                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                        </a>
+                      )
+                    }
+                  </div>
+                </>
+              )
+            }
           </div>
         </div>
         <div className="testDrive dis-f-md a-c brdRadius bgWhite shadow-2dp p-2">
