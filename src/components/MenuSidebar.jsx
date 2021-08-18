@@ -83,10 +83,10 @@ const MenuSidebar = (props) => {
 
   return (
     <>
-      <header className="sideHeader dis-fl-col a-c jc-fs h-perc-100" id="menu-sidebar">
-        <div className="w-perc-100 pos-r h-perc-100">
+      <header className="sideHeader dis-fl-col a-c jc-fs " id="menu-sidebar">
+        <div className="w-perc-100 pos-r ">
           { /* SECTION SIDEBAR MENU DESKTOP */ }
-          <div className={`pos-r sidebar w-perc-100 h-perc-100 ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
+          <div className={`pos-r sidebar w-perc-100  ${levelUrl.length > 3 && windowDimensions.width <= 1024 ? 'zIndex1' : 'zIndex7'}`}>
             <div>
               <ul className="sidebarNav dis-fl-col">
                 {
