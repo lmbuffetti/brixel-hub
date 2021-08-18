@@ -116,26 +116,22 @@
   }
 }
 .mini-menu {
-  top: 65px;
-  opacity: 0;
-  transform: translateY(100%);
+  opacity: 1;
   z-index: 8;
   width: 100%;
   overflow: hidden;
-  position: absolute;
-  background-color: $brx-white;
-  height: calc(100% - 56px);
-  transition: transform 500ms ease-in;
   .brixel-select {
     @media (max-width: 767px) {
       padding-right: 8px;
-        border: 1px solid map-get($lightColor, 300) !important;
-        border-radius: $step / 2;
+      border: 1px solid map-get($lightColor, 300) !important;
+      border-radius: $step / 2;
+       .mobile-version {
+         background-color: #f7f6f4;
+       }
     }
   }
   &.activeMenu {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -239,7 +235,6 @@
   transition: height 450ms ease-in;
   overflow: hidden;
   top: 0;
-  height: 100vh;
   background-color: white;
 
   .sideHeader {
@@ -253,8 +248,10 @@
     width: 100%;
     bottom: 0;
     z-index: 10;
+    opacity: 0;
     background-color: white;
     &.bottomMenuOn {
+      animation: fadeIn 350ms 450ms ease-in forwards;
      // animation: fadeIn 1s 2s ease-in forwards;
     }
   }
@@ -358,5 +355,14 @@ header {
         }
       }
     }
+  }
+}
+
+.account-menu  {
+  height: 64px;
+  transition: height 300ms ease-in;
+  background-color: #F7F6F4;
+  &.opened {
+    height: 252px;
   }
 }

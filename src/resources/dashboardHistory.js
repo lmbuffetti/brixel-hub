@@ -65,7 +65,7 @@ export const feedMessage = (user, history, packages) => {
       colorIcon: 'altColor',
       colorIconSat: 300,
       colorBgIconSat: 200,
-      message: 'Page Published',
+      message: 'Page Unpublished',
       icon: 'tag',
     },
     'pro-estimation-complete': {

@@ -86,6 +86,20 @@ const DashboardHome = (props) => {
     }
   };
 
+  const openBrixelPage = () => {
+    if (progressState.id > 0) {
+      if (activeSingleProperty.published) {
+        window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank');
+      } else {
+        window.location.assign(`${baseByData.pageUrl}${activeSingleProperty.stub}`);
+      }
+    } else if (get(activeSingleProperty, 'location.countryCode', '') === 'PT') {
+      window.location.assign(`https://page.brixel.io/preview/Apartamento-T2-Renovado-Bairro-dos-Actores-Lisboa?hubUrl=${get(window, 'location.href', '')}`);
+    } else {
+      window.location.assign(`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}`);
+    }
+  };
+
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
     return <Loading />;
@@ -301,137 +315,125 @@ const DashboardHome = (props) => {
             </div>
           </div>
         </div>
+
         <div className="dis-fl-col dis-fl-row-sm my-3">
           <div className="w-perc-100 w-perc-sm-75 dis-f pr-sm-4">
-            <div className="w-perc-50 brdRadius bgWhite shadow-2dp mr-1 pt-2 h-fix-184 dis-fl-col jc-b">
-              <div className="dis-f px-3">
-                <BrixelIcon
-                  icon="property-new"
-                  color="AltColor"
-                  saturationTxt={700}
-                />
-                <span className="txtDark700 fweight-600 pl-1"> Facts </span>
+
+            <Link
+              to={`/${activeSingleProperty.id}/facts`}
+              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp mr-1 pt-2 cur-poi"
+            >
+              <div className="h-fix-184 dis-fl-col jc-b">
+                <div className="dis-f px-3">
+                  <BrixelIcon
+                    icon="property-new"
+                    color="AltColor"
+                    saturationTxt={700}
+                  />
+                  <span className="txtDark700 fweight-600 pl-1"> Facts </span>
+                </div>
+                <div className="px-3 pb-2">
+                  <BrixelProgressBar
+                    progressValue={calcPercentageFacts().realPerc}
+                    saturation={200}
+                    color="AltColor"
+                  />
+                  <span className="txtDark700 pt-small-4 fsize-300 fsize-sm-400 pt-small-4">
+                    <span>{calcPercentageFacts().realPerc}%</span>
+                    <span className="ml-small-4">complete</span>
+                  </span>
+                </div>
+                <div className="linkWrap">
+                  <hr className="lighter" />
+                  <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 py-1">
+                    <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                  </Link>
+                </div>
               </div>
-              <div className="px-3 pb-2">
-                <BrixelProgressBar
-                  progressValue={calcPercentageFacts().realPerc}
-                  saturation={200}
-                  color="AltColor"
-                />
-                <span className="txtDark700 pt-small-4 fsize-300 fsize-sm-400 pt-small-4">
-                  <span>{calcPercentageFacts().realPerc}%</span>
-                  <span className="ml-small-4">complete</span>
-                </span>
+            </Link>
+            <Link
+              to={`/${activeSingleProperty.id}/marketing`}
+              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp ml-1 pt-2 cur-poi"
+            >
+              <div className="h-fix-184 dis-fl-col jc-b">
+                <div className="dis-f px-3">
+                  <BrixelIcon
+                    icon="mike"
+                    color="AltColor"
+                    saturationTxt={700}
+                  />
+                  <span className="txtDark700 fweight-600 pl-1"> Marketing </span>
+                </div>
+                <div className="px-3">
+                  {
+                    Object.keys(get(activeSingleProperty, 'portals', {})).map((portal, i) => (
+                      <React.Fragment key={i.toString()}>
+                        {
+                          !portal.includes('Url') && i < 2 && (
+                            <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
+                              <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.portals[portal] ? 'green' : 'grey'}`} />
+                            </span>
+                          )
+                        }
+                      </React.Fragment>
+                    ))
+                  }
+                  <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
+                    <span>Brixel Page</span> <span className={`activeDot ${get(activeSingleProperty, 'published', false) ? 'green' : 'grey'}`} />
+                  </span>
+                </div>
+                <div className="linkWrap">
+                  <hr className="lighter" />
+                  <div className="px-3 py-1 txtLight700">
+                    <span className="text"> View</span>
+                    <span className="arrow-symbol ml-1">&#62; </span>
+                  </div>
+                </div>
               </div>
-              <div className="linkWrap">
-                <hr className="lighter" />
-                <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 py-1">
-                  <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                </Link>
-              </div>
-            </div>
-            <div className="w-perc-50 brdRadius bgWhite shadow-2dp ml-1 pt-2 h-fix-184 dis-fl-col jc-b">
-              <div className="dis-f px-3">
-                <BrixelIcon
-                  icon="mike"
-                  color="AltColor"
-                  saturationTxt={700}
-                />
-                <span className="txtDark700 fweight-600 pl-1"> Marketing </span>
-              </div>
-              <div className="px-3">
-                {
-                  Object.keys(get(activeSingleProperty, 'portals', {})).map((portal, i) => (
-                    <React.Fragment key={i.toString()}>
-                      {
-                        !portal.includes('Url') && i < 2 && (
-                          <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
-                            <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.portals[portal] ? 'green' : 'grey'}`} />
-                          </span>
-                        )
-                      }
-                    </React.Fragment>
-                  ))
-                }
-                <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
-                  <span>Brixel Page</span> <span className={`activeDot ${get(activeSingleProperty, 'published', false) ? 'green' : 'grey'}`} />
-                </span>
-              </div>
-              <div className="linkWrap">
-                <hr className="lighter" />
-                <Link to={`/${activeSingleProperty.id}/marketing`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 py-1">
-                  <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                </Link>
-              </div>
-            </div>
+            </Link>
           </div>
+
           <div
-            className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2"
+            className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp"
             style={{
               backgroundImage: `url("${demoBg}")`,
             }}
+            onClick={() => openBrixelPage()}
           >
-            {
-              progressState.id > 0 ? (
-                <>
-                  <div className="px-3 pb-5">
-                    <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
-                      {activeSingleProperty.published ? 'View your public Brixel Page' : 'Preview your Brixel Page'}
-                    </span>
-                  </div>
-                  <div className="linkWrap">
-                    <hr className="white" />
-                    {
-                      get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
-                        <a
-                          href={activeSingleProperty.published ? `${baseByData.pageUrl}${activeSingleProperty.stub}` : `${baseByData.pageUrl}preview/${activeSingleProperty.stub}`}
-                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
-                        >
-                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                        </a>
-                      ) : (
-                        <a
-                          target="_blank"
-                          href={`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}?hubUrl=${get(window, 'location.href', '')}`}
-                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
-                          rel="noreferrer"
-                        >
-                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                        </a>
-                      )
-                    }
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="px-3 pb-5">
-                    <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
+            <div className="px-3 pb-5">
+              <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
+                {
+                  progressState > 0 ? (
+                    <>
+                      {activeSingleProperty.published ? 'View your Brixel Page' : 'Preview your Brixel Page'}
+                    </>
+                  ) : (
+                    <>
                       See how your property could look...
-                    </span>
+                    </>
+                  )
+                }
+              </span>
+            </div>
+            <div className="linkWrap">
+              <hr className="white" />
+              {
+                get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                  <div
+                    className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
+                  >
+                    <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
                   </div>
-                  <div className="linkWrap">
-                    <hr className="white" />
-                    {
-                      get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
-                        <a
-                          href={`https://page.brixel.io/preview/Apartamento-T2-Renovado-Bairro-dos-Actores-Lisboa?hubUrl=${get(window, 'location.href', '')}`}
-                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
-                        >
-                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                        </a>
-                      ) : (
-                        <a
-                          href={`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}`}
-                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
-                        >
-                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                        </a>
-                      )
-                    }
-                  </div>
-                </>
-              )
-            }
+                ) : (
+                  <a
+                    href={`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}`}
+                    className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
+                  >
+                    <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                  </a>
+                )
+              }
+            </div>
           </div>
         </div>
         <div className="testDrive dis-f-md a-c brdRadius bgWhite shadow-2dp p-2">
