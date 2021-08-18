@@ -649,10 +649,6 @@ button.minimum-w-210 {
   height: 48px;
   margin-left: $step * 4;
 
-  &:hover {
-    background: rgba(map-get($altColor, 1000), 0.8);
-  }
-
   &:before {
     content: " ";
     display: block;
