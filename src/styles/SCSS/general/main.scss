@@ -705,3 +705,9 @@ button.minimum-w-210 {
     .arrow-symbol { left: 5px; }
   }
 }
+
+.icon-hourglass {
+  svg > g {
+    transform: translate(6px, 0);
+  }
+}
