@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
+import orderBy from 'lodash/orderBy';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
@@ -13,6 +14,8 @@ import {
 import { DateTime } from 'luxon';
 import { feedMessage } from '../../../resources/dashboardHistory';
 import { getHistoryFeed } from '../../../actions/HistoryActions';
+import { getNoteListings } from '../../../actions/NoteActions';
+import { arrayMove } from '../../../utils/helpers';
 
 const { factsOptions } = FactsOptions;
 
@@ -20,7 +23,9 @@ const SellerSidebar = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    activeSinglePropertyNotes,
     handleGetHistoryFeed,
+    handleGetNoteListings,
     historyFeed,
     loggedInUser,
     packagesProperty,
@@ -28,6 +33,7 @@ const SellerSidebar = (props) => {
   // STATE
   const [stepProgrss, setStepProgrss] = useState({});
   const [stepIndexProgrss, setIndexProgrss] = useState(0);
+  const [fullUpdates, setFullUpdates] = useState([]);
 
   useEffect(() => {
     if (activeSingleProperty.id) {
@@ -51,9 +57,35 @@ const SellerSidebar = (props) => {
         direction: 'DESC',
         smallLoader: 'getPageHistory',
       };
+      const payloadNote = {
+        object: activeSingleProperty.id,
+        type: 'page',
+        resultsPerPage: 50,
+        offset: 0,
+        text: '',
+        order: '',
+        direction: 'DESC',
+        company: '',
+        smallLoader: 'pageNotes',
+      };
       handleGetHistoryFeed(payloadPageHistory);
+      handleGetNoteListings(payloadNote);
     }
   }, [activeSingleProperty.id]);
+
+  useEffect(() => {
+    let mergedFeed = historyFeed.concat(activeSinglePropertyNotes);
+    mergedFeed = orderBy(mergedFeed, ['createdAt'], ['desc']);
+    let newId = 0;
+    console.log(activeSinglePropertyNotes);
+    mergedFeed.forEach((item, i) => {
+      if (item.pinned) {
+        arrayMove(mergedFeed, i, newId);
+        newId += 1;
+      }
+    });
+    setFullUpdates(mergedFeed);
+  }, [historyFeed, activeSinglePropertyNotes]);
 
   useEffect(() => {
     if (activeSingleProperty.id) {
@@ -67,7 +99,9 @@ const SellerSidebar = (props) => {
 
   const convertFeedMessage = (stub, type, history) => {
     const data = feedMessage(loggedInUser, history, packagesProperty);
-    return data[stub][type];
+    if (data[stub] && data[stub][type]) return data[stub][type];
+    if (history.content) return data.note[type];
+    return data.default[type];
   };
 
   return (
@@ -87,7 +121,7 @@ const SellerSidebar = (props) => {
         <p className="fweight-600 txtDark700 mb-2">Updates</p>
 
         {
-          historyFeed.map((history, i) => (
+          fullUpdates.map((history, i) => (
             <div
               className={`update-item brdRadius brdSmall p-2 dis-f mb-2 ${convertFeedMessage(history.actionStub, 'className', history)}`}
               key={i.toString()}
@@ -103,11 +137,18 @@ const SellerSidebar = (props) => {
                 className="as-fs"
                 iconSize="large"
               />
-              <div className="pl-2">
+              <div className="pl-2 desc">
                 <p className="fsize-300 txtDark600" dangerouslySetInnerHTML={{ __html: convertFeedMessage(history.actionStub, 'message', history) }} />
                 {
                   !isNaN(get(history, 'createdAt', null)) && (
                     <p className="fsize-200 pt-small-4 txtLight400">
+                      {
+                        get(history, 'history[0].author.name', null) && (
+                          <>
+                            {get(history, 'history[0].author.name', '')} -
+                          </>
+                        )
+                      }
                       {DateTime.fromMillis(history.createdAt, {
                         locale: loggedInUser.language,
                       }).toFormat('d LLL yyyy, H:mm')}
@@ -124,8 +165,10 @@ const SellerSidebar = (props) => {
 };
 
 SellerSidebar.propTypes = {
+  activeSinglePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
+  handleGetNoteListings: PropTypes.func.isRequired,
   historyFeed: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
   packagesProperty: PropTypes.object.isRequired,
@@ -135,6 +178,7 @@ SellerSidebar.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   historyFeed: get(state, 'history.historyFeed.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', null),
@@ -143,6 +187,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetHistoryFeed: bindActionCreators(getHistoryFeed, dispatch),
+  handleGetNoteListings: bindActionCreators(getNoteListings, dispatch),
 });
 
 export default compose(

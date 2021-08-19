@@ -10,6 +10,7 @@ import image from './UploadReducer';
 import lead from './LeadReducer';
 import property from './PropertyReducer';
 import user from './UserReducer';
+import notes from './NoteReducer';
 
 export const rootReducer = combineReducers({
   brixelForm: formReduxer,
@@ -21,6 +22,7 @@ export const rootReducer = combineReducers({
   images: image,
   lead,
   market,
+  notes,
   property,
   user,
 });
