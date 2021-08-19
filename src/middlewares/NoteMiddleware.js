@@ -54,23 +54,23 @@ const checkNote = (store) => (next) => (action) => {
       const queryParams = `?search=${text}&order=${order}&direction=${direction}&company=${company}&public=true`;
       api.note.getNotesList(type, object, resultsPerPage, offset, queryParams)
         .then((response) => {
-          if (get(response, 'data.data', '').length >= 0) {
+          if (response.data.length >= 0) {
             if (action.payload.type === 'page') {
               store.dispatch({
                 type: SET_PROPERTY_NOTE_LISTINGS,
-                payload: response.data.data,
+                payload: response.data,
               });
             }
             if (action.payload.type === 'user') {
               store.dispatch({
                 type: SET_USER_NOTE_LISTINGS,
-                payload: response.data.data,
+                payload: response.data,
               });
             }
             if (action.payload.type === 'deal') {
               store.dispatch({
                 type: SET_DEAL_NOTE_LISTINGS,
-                payload: response.data.data,
+                payload: response.data,
               });
             }
           } else {
