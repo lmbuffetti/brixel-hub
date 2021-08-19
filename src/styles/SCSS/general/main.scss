@@ -697,7 +697,7 @@ button.minimum-w-210 {
     }
   }
   &:hover {
-    .text { left: -5px; }
+    //.text { left: -5px; }
     .arrow-symbol { left: 5px; }
   }
 }
@@ -706,4 +706,8 @@ button.minimum-w-210 {
   svg > g {
     transform: translate(6px, 0);
   }
+}
+
+.shadowHover-4dp {
+  transition: all 450ms ease-in;
 }
