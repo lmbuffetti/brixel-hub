@@ -418,76 +418,77 @@ function PageHeaderDashboard(props) {
                           )
                         }
                         <div className={`bottomMenu ${showMobileMenu ? 'bottomMenuOn' : ''}`}>
-
                           <hr className="lighter" />
-                          <div className={`dis-f a-c ${userType === 'seller' ? 'jc-b' : 'jc-fe'} px-2 py-1`}>
-                            {
-                              propID && userType === 'seller' && (
-                                <div>
-                                  <div className="ws-nw flex-nowrap dis-f a-c txtDark700">
-                                    <span>Your Plan:&nbsp;</span>
-                                    <span
-                                      className="fweight-600 td-u-colored dis-f cur-poi"
-                                      onClick={() => onUpgrade()}
-                                    >
-                                      {packageName}
-                                    </span>
+                          <div className={`account-menu pb-2 dis-fl-col px-2 ${showAccountMenu ? 'opened' : 'closed'}`}>
+                            <div className={`dis-f a-c py-1 ${userType === 'seller' ? 'jc-b' : 'jc-fe'}  w-perc-100`}>
+                              {
+                                propID && userType === 'seller' && (
+                                  <div>
+                                    <div className="ws-nw flex-nowrap dis-f a-c txtDark700">
+                                      <span>Your Plan:&nbsp;</span>
+                                      <span
+                                        className="fweight-600 td-u-colored dis-f cur-poi"
+                                        onClick={() => onUpgrade()}
+                                      >
+                                        {packageName}
+                                      </span>
+                                    </div>
                                   </div>
+                                )
+                              }
+                              <button
+                                type="button"
+                                onClick={() => setShowAccountMenu(!showAccountMenu)}
+                                className="dis-f w-fit a-c jc-b zIndex10 pos-r p-1 px-2"
+                              >
+                                <div className="dis-f w-perc-100 a-c">
+                                  <BrixelAvatar
+                                    avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+                                    name={get(loggedInUser, 'user.email')}
+                                    isIcon
+                                    profileId={get(loggedInUser, 'user.id', '')}
+                                  />
+                                  <BrixelIcon
+                                    className="ml-1"
+                                    icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
+                                  />
                                 </div>
-                              )
-                            }
-                            <button
-                              type="button"
-                              onClick={() => setShowAccountMenu(!showAccountMenu)}
-                              className="dis-f w-fit a-c jc-b zIndex10 pos-r p-1 px-2"
-                            >
-                              <div className="dis-f w-perc-100 a-c">
-                                <BrixelAvatar
-                                  avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
-                                  name={get(loggedInUser, 'user.email')}
-                                  isIcon
-                                  profileId={get(loggedInUser, 'user.id', '')}
-                                />
-                                <BrixelIcon
-                                  className="ml-1"
-                                  icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
+                              </button>
+                            </div>
+                            <div className="mini-menu dis-fl-col">
+                              <div className="dis-f mb-2">
+                                <BrixelSelect
+                                  options={langMenu}
+                                  input={{
+                                    value: langSel,
+                                    name: 'lang',
+                                    onChange: (val) => newLang(val),
+                                  }}
                                 />
                               </div>
-                            </button>
+                              <a
+                                className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
+                              >
+                                Password
+                              </a>
+                              <a
+                                className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                              >
+                                Preferences
+                              </a>
+                              <a
+                                className="link txtDark700 fweight-500 fsize-300"
+                                href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                              >
+                                Logout
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className={`mini-menu px-2 dis-fl-col ${showAccountMenu ? 'activeMenu' : ''}`}>
-                        <div className="dis-f mb-2">
-                          <BrixelSelect
-                            options={langMenu}
-                            input={{
-                              value: langSel,
-                              name: 'lang',
-                              onChange: (val) => newLang(val),
-                            }}
-                          />
-                        </div>
-                        <a
-                          className="link txtDark700 fweight-500 fsize-300 mb-2"
-                          href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
-                        >
-                          Password
-                        </a>
-                        <a
-                          className="link txtDark700 fweight-500 fsize-300 mb-2"
-                          href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
-                        >
-                          Preferences
-                        </a>
-                        <a
-                          className="link txtDark700 fweight-500 fsize-300"
-                          href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
-                        >
-                          Logout
-                        </a>
-                      </div>
                     </div>
                   </div>
                 )

@@ -68,7 +68,7 @@
     @media (max-width: $responsive-medium) {
       padding-left: $step * 2;
       padding-right: $step * 2;
-      padding-top: $step;
+      padding-top: $step * 2;
       padding-bottom: $step;
       overflow-y: auto;
       overflow-x: hidden;
