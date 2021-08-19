@@ -120,27 +120,41 @@
   z-index: 8;
   width: 100%;
   overflow: hidden;
+
   .brixel-select {
     @media (max-width: 767px) {
       padding-right: 8px;
       border: 1px solid map-get($lightColor, 300) !important;
       border-radius: $step / 2;
-       .mobile-version {
-         background-color: #f7f6f4;
-       }
     }
   }
-  &.activeMenu {
-    opacity: 1;
+
+  @media (max-width: 767px) {
+    .brixel-select {
+      border: none !important;
+      select {
+        padding-left: 0 !important;
+        font-weight: 500 !important;
+        color: map-get($darkColor, 700);
+      }
+      .mobile-version {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        background-color: #f7f6f4;
+      }
+    }
+    &.whiteBg {
+      .brixel-select .mobile-version {
+        background-color: white;
+      }
+    }
   }
 }
 
 .hubContainer {
   .hubDasHeader {
     @media (max-width: $responsive-medium) {
-      //position: sticky;
       z-index: 3;
-      //top: -64px;
     }
   }
 }
@@ -240,7 +254,7 @@
   .sideHeader {
     position: absolute;
     width: 100%;
-    top: 65px;
+    top: 72px;
   }
 
   .bottomMenu {
@@ -252,7 +266,6 @@
     background-color: white;
     &.bottomMenuOn {
       animation: fadeIn 350ms 450ms ease-in forwards;
-     // animation: fadeIn 1s 2s ease-in forwards;
     }
   }
 
