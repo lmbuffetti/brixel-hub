@@ -23,7 +23,11 @@ import {
   keyify, calcPercentageProEstimation, calcPercentageFacts,
 } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
+import AddNewOffer from '../../components/WarningScreen';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
+import {
+  preventExitFromScreen, setUnsavedChangesModal, setModal, setSplashType,
+} from '../../actions/CommonActions';
 // import PageHeaderAchievement from '../../components/PageHeaderAchievement';
 
 const ProEstimationFlow = (props) => {
@@ -39,6 +43,10 @@ const ProEstimationFlow = (props) => {
     initForm,
     initialValues,
     isSmallLoading,
+    handleSetModal,
+    setUnsavedModal,
+    setPreventExit,
+    setSplashScreen,
   } = props;
   // STATE
   const [Questions, setQuestions] = useState([]);
@@ -61,12 +69,6 @@ const ProEstimationFlow = (props) => {
       }, 2000);
     }
   }, [isSmallLoading.saveData]);
-
-  // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
-  const closeWindow = () => {
-    handleDestroy();
-    history.push(`/${activeSingleProperty.id}/property/price`);
-  };
 
   // FUNCTION TO SAVE DATA AND DO ALL CALC OF ASSESSOR BY AGE
   const saveData = () => {
@@ -169,6 +171,70 @@ const ProEstimationFlow = (props) => {
     const isNotEmpty = false;
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
+  };
+
+  // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
+  const closeWindow = () => {
+    if (unsavedChange) {
+      setSplashScreen({
+        component: AddNewOffer,
+      });
+      // handleSetModal({
+      //   state: true,
+      //   layout: 'large',
+      //   title: 'Oops!',
+      //   body: 'You have unsaved changes',
+      //   clickOutsideToClose: false,
+      //   titleIcon: 'alert',
+      //   color: 'red',
+      //   saturationTxt: 400,
+      //   onClose: () => {
+      //     setUnsavedModal({
+      //       state: false,
+      //     });
+      //   },
+      //   multiActions: [
+      //     {
+      //       round: true,
+      //       clr: 'red',
+      //       btnType: 'Secondary',
+      //       className: 'mr-1',
+      //       name: 'Discard and exit',
+      //       func: () => {
+      //         setUnsavedModal({
+      //           state: false,
+      //         });
+      //         handleDestroy();
+      //         handleSetModal({
+      //           state: false,
+      //         });
+      //         setPreventExit(false);
+      //         history.push(`/${activeSingleProperty.id}/property/price`);
+      //       },
+      //     },
+      //     {
+      //       round: true,
+      //       clr: 'primary',
+      //       name: 'Save and exit',
+      //       btnType: 'Primary',
+      //       func: () => {
+      //         setUnsavedModal({
+      //           state: false,
+      //         });
+      //         saveData();
+      //         handleSetModal({
+      //           state: false,
+      //         });
+      //         setPreventExit(false);
+      //         history.push(`/${activeSingleProperty.id}/property/price`);
+      //       },
+      //     },
+      //   ],
+      // });
+    } else {
+      handleDestroy();
+      history.push(`/${activeSingleProperty.id}/property/price`);
+    }
   };
 
   if (!formValue.id) {
@@ -307,6 +373,10 @@ ProEstimationFlow.propTypes = {
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
+  setUnsavedModal: PropTypes.func.isRequired,
+  setPreventExit: PropTypes.func.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -345,6 +415,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(initializeForm('formFlow', value));
   },
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
+  setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
+  setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(
