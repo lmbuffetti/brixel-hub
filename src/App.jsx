@@ -88,6 +88,8 @@ const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
 
 const MarketBuyer = lazy(() => import('./Pages/Market/MarketBuyer'));
 
+const WarningScreen = lazy(() => import('./components/WarningScreen'));
+
 const cookies = new Cookies();
 
 const App = (props) => {
@@ -502,7 +504,7 @@ const App = (props) => {
             )
           }
           {
-            modal.state && (
+            modal.state && !modal.type && (
               <BrixelModalFullScreen
                 title={modal.title}
                 onClose={() => {
@@ -511,6 +513,17 @@ const App = (props) => {
               >
                 {modal.body}
               </BrixelModalFullScreen>
+            )
+          }
+
+          {
+            modal.state && modal.type === 'confirmExit' && (
+              <WarningScreen
+                saveFunc={() => modal.saveFunc()}
+                title={modal.title}
+                formName={modal.formName}
+                onClose={() => modal.onClose()}
+              />
             )
           }
 

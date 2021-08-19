@@ -23,12 +23,10 @@ import {
   keyify, calcPercentageProEstimation, calcPercentageFacts,
 } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
-import AddNewOffer from '../../components/WarningScreen';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import {
   preventExitFromScreen, setUnsavedChangesModal, setModal, setSplashType,
 } from '../../actions/CommonActions';
-// import PageHeaderAchievement from '../../components/PageHeaderAchievement';
 
 const ProEstimationFlow = (props) => {
   // PROPS
@@ -39,14 +37,11 @@ const ProEstimationFlow = (props) => {
     handleDestroy,
     handleReset,
     handleSaveActiveSingleProperty,
+    handleSetModal,
     history,
     initForm,
     initialValues,
     isSmallLoading,
-    handleSetModal,
-    setUnsavedModal,
-    setPreventExit,
-    setSplashScreen,
   } = props;
   // STATE
   const [Questions, setQuestions] = useState([]);
@@ -174,63 +169,15 @@ const ProEstimationFlow = (props) => {
   };
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
-  const closeWindow = () => {
-    if (unsavedChange) {
-      setSplashScreen({
-        component: AddNewOffer,
+  const closeWindow = (skipModal = false) => {
+    if (unsavedChange && !skipModal) {
+      handleSetModal({
+        state: true,
+        type: 'confirmExit',
+        saveFunc: () => saveData(),
+        formName: 'formFlow',
+        onClose: () => closeWindow(true),
       });
-      // handleSetModal({
-      //   state: true,
-      //   layout: 'large',
-      //   title: 'Oops!',
-      //   body: 'You have unsaved changes',
-      //   clickOutsideToClose: false,
-      //   titleIcon: 'alert',
-      //   color: 'red',
-      //   saturationTxt: 400,
-      //   onClose: () => {
-      //     setUnsavedModal({
-      //       state: false,
-      //     });
-      //   },
-      //   multiActions: [
-      //     {
-      //       round: true,
-      //       clr: 'red',
-      //       btnType: 'Secondary',
-      //       className: 'mr-1',
-      //       name: 'Discard and exit',
-      //       func: () => {
-      //         setUnsavedModal({
-      //           state: false,
-      //         });
-      //         handleDestroy();
-      //         handleSetModal({
-      //           state: false,
-      //         });
-      //         setPreventExit(false);
-      //         history.push(`/${activeSingleProperty.id}/property/price`);
-      //       },
-      //     },
-      //     {
-      //       round: true,
-      //       clr: 'primary',
-      //       name: 'Save and exit',
-      //       btnType: 'Primary',
-      //       func: () => {
-      //         setUnsavedModal({
-      //           state: false,
-      //         });
-      //         saveData();
-      //         handleSetModal({
-      //           state: false,
-      //         });
-      //         setPreventExit(false);
-      //         history.push(`/${activeSingleProperty.id}/property/price`);
-      //       },
-      //     },
-      //   ],
-      // });
     } else {
       handleDestroy();
       history.push(`/${activeSingleProperty.id}/property/price`);
@@ -369,14 +316,11 @@ ProEstimationFlow.propTypes = {
   handleDestroy: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  handleSetModal: PropTypes.func.isRequired,
-  setUnsavedModal: PropTypes.func.isRequired,
-  setPreventExit: PropTypes.func.isRequired,
-  setSplashScreen: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
