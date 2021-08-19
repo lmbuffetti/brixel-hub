@@ -44,7 +44,7 @@ const Support = (props) => {
 
   return (
     <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius min-w-fix-312' : ''}`} id="supportBox">
-      <div className={`${isFixed && layout !== 'floatable' ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'pt-2 px-2 pb-3'}`}>
+      <div className={`${isFixed && layout !== 'floatable' ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'p-3'}`}>
         {
           layout !== 'rewards' && layout !== 'onboarding' && (
             <div className="dis-f jc-b a-t">
@@ -143,7 +143,7 @@ const Support = (props) => {
         <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'rewards' ? 'w-fit m-a' : ''}`}>
           {
             phone && (
-              <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-3">
+              <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-2">
                 <BrixelIcon
                   color="altColor"
                   saturationTxt={700}
@@ -151,17 +151,17 @@ const Support = (props) => {
                   iconSize="large"
                 />
                 <p className="ml-2">
-                  <span className={`ff-mono ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(phone)}</span>
+                  <span className={` ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(phone)}</span>
                 </p>
               </a>
             )
           }
           {
             email && (
-              <a href={`mailto: ${email}`} className="dis-f a-c mb-3">
+              <a href={`mailto: ${email}`} className="dis-f a-c mb-2">
                 <BrixelIcon
                   color="altColor"
-                  saturationTxt={700}
+                  saturationTxt={400}
                   icon="mail"
                   iconSize="large"
                 />
@@ -186,7 +186,7 @@ const Support = (props) => {
                   iconSize="large"
                 />
                 <p className="ml-2">
-                  <span className={`ff-mono ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(whatsapp)}</span>
+                  <span className={` ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(whatsapp)}</span>
                 </p>
               </a>
             )
