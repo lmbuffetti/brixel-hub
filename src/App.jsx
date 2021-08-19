@@ -491,7 +491,7 @@ const App = (props) => {
                         )
                       }
                       <div
-                        className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                        className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
                         onClick={() => setShowSupport(!showSupport)}
                       >
                         <div className="dis-f jc-b a-c">

@@ -276,8 +276,10 @@ const MarketList = (props) => {
     if (scrollEl) scrollEl.scrollTo = 0;
 
     if (catList) catList.classList.add('dis-f');
+    if (catList) catList.classList.add('map-view');
     return () => {
       if (catList) catList.classList.remove('dis-f');
+      if (catList) catList.classList.remove('map-view');
     };
   }, []);
 
