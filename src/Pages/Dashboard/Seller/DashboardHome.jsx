@@ -221,10 +221,11 @@ const DashboardHome = (props) => {
                             {Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}
                           </span>
                         </div>
+
                         <BrixelButtonSecondary
                           bgTransparent
                           onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-                          className="mt-2"
+                          className="mt-2 as-fs"
                           theme="AltColor"
                           themeSat={700}
                           rounded
@@ -383,7 +384,7 @@ const DashboardHome = (props) => {
                 </div>
                 <div className="linkWrap">
                   <hr className="lighter" />
-                  <div className="px-3 py-1 txtLight700">
+                  <div className="px-3 py-1 txtLight700 wHover">
                     <span className="text"> View</span>
                     <span className="arrow-symbol ml-1">&#62; </span>
                   </div>
