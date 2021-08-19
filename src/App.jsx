@@ -474,6 +474,41 @@ const App = (props) => {
                         )
                       }
                     </Switch>
+                    <div
+                      className="dis-fl-col a-b jc-fe supportBtn"
+                      style={{
+
+                      }}
+                    >
+                      {
+                        showSupport && (
+                          <Support
+                            layout="floatable"
+                            expanded
+                            isFixed
+                            onClose={() => setShowSupport(false)}
+                          />
+                        )
+                      }
+                      <div
+                        className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                        onClick={() => setShowSupport(!showSupport)}
+                      >
+                        <div className="dis-f jc-b a-c">
+                          {
+                            teamAvatars.map((imgTeam, i) => (
+                              <img
+                                key={i.toString()}
+                                src={`${baseByData.shortPath}${imgTeam.path}`}
+                                alt="Support Team"
+                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                              />
+                            ))
+                          }
+                        </div>
+                        <span className="ml-2 txtDark700 fweight-500">Support</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -601,41 +636,6 @@ const App = (props) => {
           </Switch>
         </Suspense>
       </main>
-      <div
-        className="dis-fl-col a-b jc-fe supportBtn"
-        style={{
-
-        }}
-      >
-        {
-          showSupport && (
-            <Support
-              layout="floatable"
-              expanded
-              isFixed={false}
-              onClose={() => setShowSupport(false)}
-            />
-          )
-        }
-        <div
-          className={`dis-f jc-b a-c  cur-poi bgWhite p-1 ${windowDimensions.width > 1024 ? 'brdFullRadius shadow-2dp' : ''}`}
-          onClick={() => setShowSupport(!showSupport)}
-        >
-          <div className="dis-f jc-b a-c">
-            {
-              teamAvatars.map((imgTeam, i) => (
-                <img
-                  key={i.toString()}
-                  src={`${baseByData.shortPath}${imgTeam.path}`}
-                  alt="Support Team"
-                  className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
-                />
-              ))
-            }
-          </div>
-          <span className="ml-2 txtDark700 fweight-500">Support</span>
-        </div>
-      </div>
     </>
   );
 };

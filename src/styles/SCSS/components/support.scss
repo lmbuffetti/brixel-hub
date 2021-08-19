@@ -41,14 +41,20 @@
 
 .supportBtn {
   position: relative;
-  width: 100%;
-  > div {
-    width: 100%;
+  @media (max-width: $responsive-medium) {
+    background-color: #fbfbfb;
+    padding-right: 16px;
+    padding-bottom: 24px;
+    #supportBox {
+      bottom: 60px !important;
+    }
   }
   #supportBox {
     position: absolute;
-    bottom: 20px;
     z-index: 5;
+    padding: 0;
+    bottom: 30px;
+    animation: scaleUp $default-time $default-easing forwards;
   }
   @media (min-width: $responsive-medium) {
     width: fit-content;
