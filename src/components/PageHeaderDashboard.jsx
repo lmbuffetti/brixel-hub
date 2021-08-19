@@ -184,7 +184,8 @@ function PageHeaderDashboard(props) {
     setShowMobileMenu(!showMobileMenu);
     setShowAccountMenu(false);
     changeZIndex(!showMobileMenu ? 8 : 1);
-    if (!showMobileMenu) document.body.classList.remove('ov-h');
+    if (showMobileMenu) document.body.classList.remove('ov-h');
+    else document.body.classList.add('ov-h');
   };
 
   useEffect(() => {
