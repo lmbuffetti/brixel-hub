@@ -38,3 +38,26 @@
     }
   }
 }
+
+.supportBtn {
+  position: relative;
+  width: 100%;
+  > div {
+    width: 100%;
+  }
+  #supportBox {
+    position: absolute;
+    bottom: 20px;
+    z-index: 5;
+  }
+  @media (min-width: $responsive-medium) {
+    width: fit-content;
+    > div {
+      width: 100%;
+    }
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 1;
+  }
+}

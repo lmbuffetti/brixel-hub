@@ -93,11 +93,25 @@ function PageHeaderDashboard(props) {
 
   useEffect(() => {
     if (activeSinglePropertyPackage && packagesProperty.length > 0) {
+      const sortedPackage = {};
+
+      Object.keys(activeSinglePropertyPackage).sort((a, b) => (
+        activeSinglePropertyPackage[b].price.total - activeSinglePropertyPackage[a].price.total
+      ))
+        .forEach((key) => {
+          sortedPackage[key] = activeSinglePropertyPackage[key];
+        });
+      console.log(sortedPackage);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
       if (activePackage) {
         const filtPackages = packagesProperty.find((item) => activePackage.servicePackage === item.id);
         if (filtPackages) setPackageName(filtPackages.name);
         else setPackageName('Basic');
+      } else if (sortedPackage[0]) {
+        const filtPackage = packagesProperty.find((item) => sortedPackage[0].servicePackage === item.id);
+        setPackageName(filtPackage.name);
+      } else {
+        setPackageName('Basic');
       }
     }
   }, [activeSinglePropertyPackage, packagesProperty]);
@@ -352,47 +366,6 @@ function PageHeaderDashboard(props) {
               </div>
             </div>
             <div className="dis-f a-c">
-              <div
-                className="dis-fl-col a-b jc-fe"
-                style={{
-                  position: 'fixed',
-                  bottom: '32px',
-                  right: '32px',
-                }}
-              >
-                {
-                  showSupport && (
-                    <Support
-                      layout="floatable"
-                      expanded
-                      isFixed={false}
-                      onClose={() => setShowSupport(false)}
-                    />
-                  )
-                }
-                {
-                  windowDimensions.width > 1024 && (
-                    <div
-                      className="dis-f jc-b a-c brdFullRadius cur-poi bgWhite p-1 shadow-2dp"
-                      onClick={() => setShowSupport(!showSupport)}
-                    >
-                      <div className="dis-f jc-b a-c">
-                        {
-                          teamAvatars.map((imgTeam, i) => (
-                            <img
-                              key={i.toString()}
-                              src={`${baseByData.shortPath}${imgTeam.path}`}
-                              alt="Support Team"
-                              className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
-                            />
-                          ))
-                        }
-                      </div>
-                      <span className="ml-2 txtDark700 fweight-500">Support</span>
-                    </div>
-                  )
-                }
-              </div>
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && propID !== 'sell' && propID !== 'buy' && (
                   <div className="ws-nw flex-nowrap dis-f a-c txtDark700 mr-4">
@@ -446,14 +419,6 @@ function PageHeaderDashboard(props) {
                         }
                         <div className={`bottomMenu ${showMobileMenu ? 'bottomMenuOn' : ''}`}>
 
-                          <span
-                            className="cur-poi dis-b px-2 py-2 link txtDark700 fweight-500 fsize-300"
-                            onClick={() => {
-                              onTabClick('support');
-                            }}
-                          >
-                            Support
-                          </span>
                           <hr className="lighter" />
                           <div className={`dis-f a-c ${userType === 'seller' ? 'jc-b' : 'jc-fe'} px-2 py-1`}>
                             {
