@@ -24,7 +24,9 @@ import {
 } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
-// import PageHeaderAchievement from '../../components/PageHeaderAchievement';
+import {
+  preventExitFromScreen, setUnsavedChangesModal, setModal, setSplashType,
+} from '../../actions/CommonActions';
 
 const ProEstimationFlow = (props) => {
   // PROPS
@@ -35,6 +37,7 @@ const ProEstimationFlow = (props) => {
     handleDestroy,
     handleReset,
     handleSaveActiveSingleProperty,
+    handleSetModal,
     history,
     initForm,
     initialValues,
@@ -61,12 +64,6 @@ const ProEstimationFlow = (props) => {
       }, 2000);
     }
   }, [isSmallLoading.saveData]);
-
-  // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
-  const closeWindow = () => {
-    handleDestroy();
-    history.push(`/${activeSingleProperty.id}/property/price`);
-  };
 
   // FUNCTION TO SAVE DATA AND DO ALL CALC OF ASSESSOR BY AGE
   const saveData = () => {
@@ -169,6 +166,22 @@ const ProEstimationFlow = (props) => {
     const isNotEmpty = false;
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
+  };
+
+  // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
+  const closeWindow = (skipModal = false) => {
+    if (unsavedChange && !skipModal) {
+      handleSetModal({
+        state: true,
+        type: 'confirmExit',
+        saveFunc: () => saveData(),
+        formName: 'formFlow',
+        onClose: () => closeWindow(true),
+      });
+    } else {
+      handleDestroy();
+      history.push(`/${activeSingleProperty.id}/property/price`);
+    }
   };
 
   if (!formValue.id) {
@@ -303,6 +316,7 @@ ProEstimationFlow.propTypes = {
   handleDestroy: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -345,6 +359,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(initializeForm('formFlow', value));
   },
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
+  setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),
+  setPreventExit: bindActionCreators(preventExitFromScreen, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(
