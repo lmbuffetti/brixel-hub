@@ -18,6 +18,7 @@ import {
   BrixelNotification,
   reset,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import Loading from './components/Loading';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
@@ -29,6 +30,7 @@ import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
 // import TeaserBanner from './components/TeaserBanner';
 import SplashScreen from './components/SplashScreen';
+import Support from './components/Support';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
@@ -110,6 +112,7 @@ const App = (props) => {
     redirectTo,
     splashScreenType,
     userTypes,
+    teamAvatars,
     windowDimensions,
   } = props;
   // STATE
@@ -119,6 +122,7 @@ const App = (props) => {
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
 
   const [isSecLevel, setIsSecLevel] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
 
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
@@ -355,63 +359,64 @@ const App = (props) => {
   }
 
   return (
-    <main
-      className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
-      ref={dashWrapperRef}
-    >
-      <Loading isLoading={isLoading} />
-      <Suspense fallback={<Loading isLoading />}>
-        <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
-          <div className="dis-f">
-            <div
-              className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : 'flowScrollWrap'}`}
-              style={contentLayout()}
-            >
-              {
-                (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest')) && (
-                  <>
-                    <PageHeader />
-                  </>
-                )
-              }
-
+    <>
+      <main
+        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
+        ref={dashWrapperRef}
+      >
+        <Loading isLoading={isLoading} />
+        <Suspense fallback={<Loading isLoading />}>
+          <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
+            <div className="dis-f">
               <div
-                id="bodyScroll"
-                className={`content ${!isFlow ? `hubDasContent dis-fl-col ${overflowClass()}` : 'flowContent dis-f'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
-                style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
-                ref={dashContentRef}
+                className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : 'flowScrollWrap'}`}
+                style={contentLayout()}
               >
                 {
-                  (
-                    !history.location.pathname.includes('packageFlow') &&
-                    !history.location.pathname.includes('onBoarding')
-                  ) &&
-                  !history.location.pathname.includes('upgrade') &&
-                  !history.location.pathname.includes('trialRequest') &&
-                  (
+                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest')) && (
                     <>
-                      <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                      <PageHeader />
                     </>
                   )
                 }
-                {
-                  !history.location.pathname.includes('packageFlow') &&
-                (!history.location.pathname.includes('sell') || history.location.pathname.includes('homebase')) &&
-                (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
-                !history.location.pathname.includes('onBoarding') &&
-                !history.location.pathname.includes('upgrade') &&
-                !history.location.pathname.includes('trialRequest') &&
-                !history.location.pathname.includes('achievement') &&
-                !history.location.pathname.includes('propertyLists') &&
-                !history.location.pathname.includes('pageLists') &&
-                loggedInUser &&
-                windowDimensions.width > 1024 &&
-                (
-                  <MenuSidebar />
-                )
-                }
-                <div className="w-perc-100 innerWrap">
-                  {/*  {
+
+                <div
+                  id="bodyScroll"
+                  className={`content ${!isFlow ? `hubDasContent dis-fl-col ${overflowClass()}` : 'flowContent dis-f'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
+                  style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
+                  ref={dashContentRef}
+                >
+                  {
+                    (
+                      !history.location.pathname.includes('packageFlow') &&
+                      !history.location.pathname.includes('onBoarding')
+                    ) &&
+                    !history.location.pathname.includes('upgrade') &&
+                    !history.location.pathname.includes('trialRequest') &&
+                    (
+                      <>
+                        <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
+                      </>
+                    )
+                  }
+                  {
+                    !history.location.pathname.includes('packageFlow') &&
+                    (!history.location.pathname.includes('sell') || history.location.pathname.includes('homebase')) &&
+                    (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
+                    !history.location.pathname.includes('onBoarding') &&
+                    !history.location.pathname.includes('upgrade') &&
+                    !history.location.pathname.includes('trialRequest') &&
+                    !history.location.pathname.includes('achievement') &&
+                    !history.location.pathname.includes('propertyLists') &&
+                    !history.location.pathname.includes('pageLists') &&
+                    loggedInUser &&
+                    windowDimensions.width > 1024 &&
+                    (
+                      <MenuSidebar />
+                    )
+                  }
+                  <div className="w-perc-100 innerWrap">
+                    {/*  {
                     !history.location.pathname.includes('packageFlow') &&
                   !history.location.pathname.includes('onBoarding') &&
                   !history.location.pathname.includes('buyer') &&
@@ -419,170 +424,206 @@ const App = (props) => {
                       // <TeaserBanner />
                     )
                   } */}
-                  <Switch>
-                    { /* SECTION: ONBOARDING */ }
-                    <Route exact path="/packageFlow/" component={GetStarted} />
-                    <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
-                    <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
-                    <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
+                    <Switch>
+                      { /* SECTION: ONBOARDING */ }
+                      <Route exact path="/packageFlow/" component={GetStarted} />
+                      <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
+                      <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
+                      <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
 
-                    { /* SECTION: INSERT TOKEN */ }
-                    <Route path="/tokeninput" component={InsertToken} />
+                      { /* SECTION: INSERT TOKEN */ }
+                      <Route path="/tokeninput" component={InsertToken} />
 
-                    { /* SECTION: HUB DASHBOARD */ }
-                    {
-                      !history.location.pathname.includes('packageFlow') &&
-                    !history.location.pathname.includes('onBoarding') &&
-                    !history.location.pathname.includes('buyer') &&
-                      (
-                        <>
-                          <ProtectedRoute path="/sell" component={MarketSeller} />
-                          <ProtectedRoute path="/buy/:cat?/:id?" component={MarketBuyer} />
-                          <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
-                          <ProtectedRoute path="/" exact component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/home" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/singleFlow" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/docubox" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/closing" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/marketing" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/prospects" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/offers" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/deal" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
-                          <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
-                        </>
-                      )
-                    }
-                    {
-                      !history.location.pathname.includes('packageFlow') &&
-                    !history.location.pathname.includes('onBoarding') &&
-                      (
-                        <>
-                          <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
-                          <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
-                          <ProtectedRoute path="/buyer/:propID/:act" component={DashboardBuyer} />
-                        </>
-                      )
-                    }
-                  </Switch>
+                      { /* SECTION: HUB DASHBOARD */ }
+                      {
+                        !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('onBoarding') &&
+                        !history.location.pathname.includes('buyer') &&
+                        (
+                          <>
+                            <ProtectedRoute path="/sell" component={MarketSeller} />
+                            <ProtectedRoute path="/buy/:cat?/:id?" component={MarketBuyer} />
+                            <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
+                            <ProtectedRoute path="/" exact component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/home" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/singleFlow" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/docubox" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/closing" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/marketing" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/prospects" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/offers" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/deal" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
+                            <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
+                          </>
+                        )
+                      }
+                      {
+                        !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('onBoarding') &&
+                        (
+                          <>
+                            <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
+                            <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
+                            <ProtectedRoute path="/buyer/:propID/:act" component={DashboardBuyer} />
+                          </>
+                        )
+                      }
+                    </Switch>
+                  </div>
                 </div>
               </div>
+
             </div>
-
           </div>
-        </div>
 
-        { /* SECTION: ACHIVEMENT FLOW */ }
-        {
+          { /* SECTION: ACHIVEMENT FLOW */ }
+          {
+            <Switch>
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/assessor" component={Assessor} userTypes="seller" />
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" component={Bestimate} userTypes="seller" />
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/media" component={MediaExplanation} userTypes="seller" />
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/facts" component={Facts} userTypes="seller" />
+              <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
+              <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
+              <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
+              <ProtectedRoute exact path="/:propID/prospects/newDeal" component={CreateDeal} />
+              <ProtectedRoute path="/:propID/property/price/formFlow" component={ProEstimationFlow} />
+            </Switch>
+          }
+
+          { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
+          {
+            modal.showAwardsInfo && (
+              <BrixelModalAwards />
+            )
+          }
+          {
+            modal.state && (
+              <BrixelModalFullScreen
+                title={modal.title}
+                onClose={() => {
+                  handleSetModal({ state: false });
+                }}
+              >
+                {modal.body}
+              </BrixelModalFullScreen>
+            )
+          }
+
+          { /* SPLASH SCREEN */ }
+          {
+            splashScreenType === 'marketOverlay' && (
+              <SplashScreen
+                className="result-market-overlay"
+                closeOutside={false}
+                type="marketOverlay"
+              />
+            )
+          }
+
+          {
+            has(splashScreenType, 'component') && (
+              React.createElement(splashScreenType.component, splashScreenType.props)
+            )
+          }
+
+          { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+          {
+            notification && notification.length > 0 &&
+            !history.location.pathname.includes('home') &&
+            !history.location.pathname.includes('packageFlow') &&
+            !history.location.pathname.includes('upgrade') &&
+            !history.location.pathname.includes('trialRequest') &&
+            !history.location.pathname.includes('docubox') &&
+            (
+              <div className="brixel-notifications">
+                {
+                  notification.map((not, i) => (
+                    <Fragment key={i.toString()}>
+                      <BrixelNotification
+                        className={not.state ? 'fadeInLeft' : 'fadeOutLeft'}
+                        handleSetNotification={(data) => handleSetNotification(data)}
+                        isSmallLoading={isSmallLoading}
+                        icon={not.icon}
+                        label={not.label}
+                        notification={not}
+                        resetForm={(form, data) => handleReset(form, data)}
+                        type={not.type}
+                      />
+                    </Fragment>
+                  ))
+                }
+              </div>
+            )
+          }
+
+          {
+            !history.location.pathname.includes('docubox') &&
+            notification && (notification.small || notification.state) && (
+              <>
+                {
+                  notification.small && (
+                    <div className="brxNotification">
+                      <BrixelIcon icon={notification.icon} />
+                      <span>{notification.text}</span>
+                    </div>
+                  )
+                }
+              </>
+            )
+          }
+
+          {/* Splash screens for single deal, create new deal and edit document */}
           <Switch>
-            <ProtectedRoute path="/:propId?/singleFlow/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-            <ProtectedRoute path="/:propId?/singleFlow/achievement/assessor" component={Assessor} userTypes="seller" />
-            <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" component={Bestimate} userTypes="seller" />
-            <ProtectedRoute path="/:propId?/singleFlow/achievement/media" component={MediaExplanation} userTypes="seller" />
-            <ProtectedRoute path="/:propId?/singleFlow/achievement/facts" component={Facts} userTypes="seller" />
-            <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
-            <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
-            <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
-            <ProtectedRoute exact path="/:propID/prospects/newDeal" component={CreateDeal} />
-            <ProtectedRoute path="/:propID/property/price/formFlow" component={ProEstimationFlow} />
+            <Route
+              exact
+              path="/:propID/docubox/:docID/editDocument"
+              component={SingleDocument}
+            />
+            <Route exact path="/:propID/prospects/newDeal" component={CreateDeal} />
           </Switch>
-        }
+        </Suspense>
+      </main>
+      <div
+        className="dis-fl-col a-b jc-fe supportBtn"
+        style={{
 
-        { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
+        }}
+      >
         {
-          modal.showAwardsInfo && (
-            <BrixelModalAwards />
-          )
-        }
-        {
-          modal.state && (
-            <BrixelModalFullScreen
-              title={modal.title}
-              onClose={() => {
-                handleSetModal({ state: false });
-              }}
-            >
-              {modal.body}
-            </BrixelModalFullScreen>
-          )
-        }
-
-        { /* SPLASH SCREEN */ }
-        {
-          splashScreenType === 'marketOverlay' && (
-            <SplashScreen
-              className="result-market-overlay"
-              closeOutside={false}
-              type="marketOverlay"
+          showSupport && (
+            <Support
+              layout="floatable"
+              expanded
+              isFixed={false}
+              onClose={() => setShowSupport(false)}
             />
           )
         }
-
-        {
-          has(splashScreenType, 'component') && (
-            React.createElement(splashScreenType.component, splashScreenType.props)
-          )
-        }
-
-        { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
-        {
-          notification && notification.length > 0 &&
-        !history.location.pathname.includes('home') &&
-        !history.location.pathname.includes('packageFlow') &&
-        !history.location.pathname.includes('upgrade') &&
-        !history.location.pathname.includes('trialRequest') &&
-        !history.location.pathname.includes('docubox') &&
-          (
-            <div className="brixel-notifications">
-              {
-                notification.map((not, i) => (
-                  <Fragment key={i.toString()}>
-                    <BrixelNotification
-                      className={not.state ? 'fadeInLeft' : 'fadeOutLeft'}
-                      handleSetNotification={(data) => handleSetNotification(data)}
-                      isSmallLoading={isSmallLoading}
-                      icon={not.icon}
-                      label={not.label}
-                      notification={not}
-                      resetForm={(form, data) => handleReset(form, data)}
-                      type={not.type}
-                    />
-                  </Fragment>
-                ))
-              }
-            </div>
-          )
-        }
-
-        {
-          !history.location.pathname.includes('docubox') &&
-          notification && (notification.small || notification.state) && (
-            <>
-              {
-                notification.small && (
-                  <div className="brxNotification">
-                    <BrixelIcon icon={notification.icon} />
-                    <span>{notification.text}</span>
-                  </div>
-                )
-              }
-            </>
-          )
-        }
-
-        {/* Splash screens for single deal, create new deal and edit document */}
-        <Switch>
-          <Route
-            exact
-            path="/:propID/docubox/:docID/editDocument"
-            component={SingleDocument}
-          />
-          <Route exact path="/:propID/prospects/newDeal" component={CreateDeal} />
-        </Switch>
-      </Suspense>
-    </main>
+        <div
+          className={`dis-f jc-b a-c  cur-poi bgWhite p-1 ${windowDimensions.width > 1024 ? 'brdFullRadius shadow-2dp' : ''}`}
+          onClick={() => setShowSupport(!showSupport)}
+        >
+          <div className="dis-f jc-b a-c">
+            {
+              teamAvatars.map((imgTeam, i) => (
+                <img
+                  key={i.toString()}
+                  src={`${baseByData.shortPath}${imgTeam.path}`}
+                  alt="Support Team"
+                  className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                />
+              ))
+            }
+          </div>
+          <span className="ml-2 txtDark700 fweight-500">Support</span>
+        </div>
+      </div>
+    </>
   );
 };
 
@@ -606,6 +647,7 @@ App.propTypes = {
   redirectTo: PropTypes.object,
   splashScreenType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   userTypes: PropTypes.string,
+  teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -626,6 +668,7 @@ const mapStateToProps = (state) => ({
   redirectTo: get(state, 'common.redirectTo', null),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userTypes: get(state, 'user.userTypes', null),
+  teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

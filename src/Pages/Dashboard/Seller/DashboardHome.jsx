@@ -20,7 +20,6 @@ import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsCo
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
-import demoBg from '../../../images/dashboard/demo.jpeg';
 import testDrive from '../../../images/dashboard/testDrive.png';
 
 import Loading from '../../../components/Loading';
@@ -396,7 +395,7 @@ const DashboardHome = (props) => {
           <div
             className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp"
             style={{
-              backgroundImage: `url("${demoBg}")`,
+              backgroundImage: `url("${baseByData.shortPath}${get(activeSingleProperty, 'coverPhoto.thumbnailPath', '')}")`,
             }}
             onClick={() => openBrixelPage()}
           >
