@@ -2,7 +2,7 @@ import get from 'lodash/get';
 
 export const feedMessage = (user, history, packages) => {
   let filtPackages = {};
-  if (history.meta.servicePackage) filtPackages = packages.find((item) => history.meta.servicePackage === item.id);
+  if (get(history, 'meta.servicePackage', null)) filtPackages = packages.find((item) => history.meta.servicePackage === item.id);
   return ({
     'page-create': {
       className: 'brdAltColor300',
@@ -86,8 +86,24 @@ export const feedMessage = (user, history, packages) => {
     },
     'user-register': {
       className: 'brdAltColor300',
-      colorIcon: 'alltColor',
+      colorIcon: 'altColor',
       colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: `${user.email} just signed up`,
+      icon: 'userNew',
+    },
+    note: {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 300,
+      colorBgIconSat: 200,
+      message: history.content,
+      icon: 'message',
+    },
+    default: {
+      className: 'brdAltColor300',
+      colorIcon: 'altColor',
+      colorIconSat: 400,
       colorBgIconSat: 200,
       message: `${user.email} just signed up`,
       icon: 'userNew',

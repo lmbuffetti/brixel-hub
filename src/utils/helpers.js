@@ -360,6 +360,8 @@ export const sortObjByKey = (obj, key, isBool = false) => {
   if (isBool) {
     orderedObj = obj.sort((a, b) => b[key] - a[key]);
   }
+  // eslint-disable-next-line no-nested-ternary
+  orderedObj.sort((a, b) => ((a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0)));
   return orderedObj;
 };
 
@@ -696,4 +698,16 @@ export const checkBrowser = () => {
   }
 
   return rv;
+};
+
+export const arrayMove = (arr, oldIndex, newIndex) => {
+  if (newIndex >= arr.length) {
+    let k = oldIndex - arr.length + 1;
+    // eslint-disable-next-line no-cond-assign
+    while (k -= 1) {
+      arr.push(undefined);
+    }
+  }
+  arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+  return arr; // for testing
 };
