@@ -76,8 +76,9 @@
       background-color: #F7F6F5;
     }
   }
+  .map-view,
   .buyerPage {
-    +  .supportBtn {
+    + .supportBtn {
       @media (max-width: $responsive-medium) {
         background-color: white;
       }
