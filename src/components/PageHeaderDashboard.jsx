@@ -411,17 +411,20 @@ function PageHeaderDashboard(props) {
                                 </button>
                               </>
                             ) : (
-                              <button
-                                type="button"
-                                onClick={() => toggleMobileMenu()}
-                              >
-                                <BrixelAvatar
-                                  avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
-                                  name={get(loggedInUser, 'user.email')}
-                                  isIcon
-                                  profileId={get(loggedInUser, 'user.id', '')}
-                                />
-                              </button>
+                              <div className="">
+                                <button
+                                  className="w-fix-32 h-fix-32"
+                                  type="button"
+                                  onClick={() => toggleMobileMenu()}
+                                >
+                                  <BrixelAvatar
+                                    avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+                                    name={get(loggedInUser, 'user.email')}
+                                    isIcon
+                                    profileId={get(loggedInUser, 'user.id', '')}
+                                  />
+                                </button>
+                              </div>
                             )
                           }
                         </>

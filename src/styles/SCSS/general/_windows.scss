@@ -30,7 +30,7 @@
       }
       .dashboardContainer {
         @media (max-width: $responsive-medium) {
-          padding-bottom: $step * 3;
+          padding-bottom: $step;
         }
       }
     }

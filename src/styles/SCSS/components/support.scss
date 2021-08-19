@@ -44,6 +44,7 @@
   @media (max-width: $responsive-medium) {
     background-color: #fbfbfb;
     padding-right: 16px;
+    padding-top: 24px;
     padding-bottom: 24px;
     #supportBox {
       bottom: 60px !important;
@@ -65,5 +66,21 @@
     bottom: 32px;
     right: 32px;
     z-index: 1;
+  }
+}
+
+.marketHome {
+  .supportBtn {
+    @media (max-width: $responsive-medium) {
+      padding-top: 0px;
+      background-color: #F7F6F5;
+    }
+  }
+  .buyerPage {
+    +  .supportBtn {
+      @media (max-width: $responsive-medium) {
+        background-color: white;
+      }
+    }
   }
 }
