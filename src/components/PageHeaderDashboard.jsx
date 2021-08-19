@@ -393,96 +393,171 @@ function PageHeaderDashboard(props) {
               {
                 windowDimensions.width <= 1024 && (
                   <div className="ml-2">
-                    <button
-                      type="button"
-                      className="brixel-page-toggle pos-r zIndex5"
-                      onClick={() => toggleMobileMenu()}
-                    >
-                      <span />
-                      <span />
-                      <span />
-                    </button>
-
-                    <div
-                      className={`mobile-menu w-perc-100 dis-fl-col a-c zIndex3 ${showMobileMenu ? 'opned' : 'closed'}`}
-                      style={{ height: showMobileMenu ? windowDimensions.height : '0px' }}
-                    >
-                      <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a bgLight100">
-                        {
-                          activeSingleProperty.id && (
-                            <><MenuSidebar /></>
-                          )
-                        }
-                        <div className={`bottomMenu ${showMobileMenu ? 'bottomMenuOn' : ''}`}>
-                          <hr className="lighter" />
-                          <div className={`account-menu pb-2 dis-fl-col px-2 ${showAccountMenu ? 'opened' : 'closed'}`}>
-                            <div className={`dis-f a-c py-1 ${userType === 'seller' ? 'jc-b' : 'jc-fe'}  w-perc-100`}>
-                              {
-                                propID && userType === 'seller' && (
-                                  <div>
-                                    <div className="ws-nw flex-nowrap dis-f a-c txtDark700">
-                                      <span>Your Plan:&nbsp;</span>
-                                      <span
-                                        className="fweight-600 td-u-colored dis-f cur-poi"
-                                        onClick={() => onUpgrade()}
-                                      >
-                                        {packageName}
-                                      </span>
-                                    </div>
-                                  </div>
-                                )
-                              }
+                    {
+                      (propID === 'sell' || propID === 'buy') ? (
+                        <>
+                          {
+                            showMobileMenu ? (
+                              <>
+                                <button
+                                  type="button"
+                                  className="brixel-page-toggle pos-r zIndex5"
+                                  onClick={() => toggleMobileMenu()}
+                                >
+                                  <span />
+                                  <span />
+                                  <span />
+                                </button>
+                              </>
+                            ) : (
                               <button
                                 type="button"
-                                onClick={() => setShowAccountMenu(!showAccountMenu)}
-                                className="dis-f w-fit a-c jc-b zIndex10 pos-r p-1 px-2"
+                                onClick={() => toggleMobileMenu()}
                               >
-                                <div className="dis-f w-perc-100 a-c">
-                                  <BrixelAvatar
-                                    avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
-                                    name={get(loggedInUser, 'user.email')}
-                                    isIcon
-                                    profileId={get(loggedInUser, 'user.id', '')}
-                                  />
-                                  <BrixelIcon
-                                    className="ml-1"
-                                    icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
+                                <BrixelAvatar
+                                  avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+                                  name={get(loggedInUser, 'user.email')}
+                                  isIcon
+                                  profileId={get(loggedInUser, 'user.id', '')}
+                                />
+                              </button>
+                            )
+                          }
+                        </>
+                      ) : (
+                        <button
+                          type="button"
+                          className="brixel-page-toggle pos-r zIndex5"
+                          onClick={() => toggleMobileMenu()}
+                        >
+                          <span />
+                          <span />
+                          <span />
+                        </button>
+                      )
+                    }
+
+                    <div
+                      className="mobile-menu w-perc-100 dis-fl-col a-c zIndex3"
+                      style={{ height: showMobileMenu ? windowDimensions.height : '0px' }}
+                    >
+                      <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
+                        {
+                          (propID === 'sell' || propID === 'buy') && (
+                            <>
+                              <hr className="lighter mt-9" />
+                              <div className="mini-menu whiteBg dis-fl-col px-3 pt-3">
+                                <div className="dis-f mb-2">
+                                  <BrixelSelect
+                                    options={langMenu}
+                                    input={{
+                                      value: langSel,
+                                      name: 'lang',
+                                      onChange: (val) => newLang(val),
+                                    }}
                                   />
                                 </div>
-                              </button>
-                            </div>
-                            <div className="mini-menu dis-fl-col">
-                              <div className="dis-f mb-2">
-                                <BrixelSelect
-                                  options={langMenu}
-                                  input={{
-                                    value: langSel,
-                                    name: 'lang',
-                                    onChange: (val) => newLang(val),
-                                  }}
-                                />
+                                <a
+                                  className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                  href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
+                                >
+                                  Password
+                                </a>
+                                <a
+                                  className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                  href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                                >
+                                  Preferences
+                                </a>
+                                <a
+                                  className="link txtDark700 fweight-500 fsize-300"
+                                  href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                                >
+                                  Logout
+                                </a>
                               </div>
-                              <a
-                                className="link txtDark700 fweight-500 fsize-300 mb-2"
-                                href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
-                              >
-                                Password
-                              </a>
-                              <a
-                                className="link txtDark700 fweight-500 fsize-300 mb-2"
-                                href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
-                              >
-                                Preferences
-                              </a>
-                              <a
-                                className="link txtDark700 fweight-500 fsize-300"
-                                href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
-                              >
-                                Logout
-                              </a>
+                            </>
+                          )
+                        }
+                        {
+                          activeSingleProperty.id && (
+                            <MenuSidebar />
+                          )
+                        }
+                        {
+                          propID !== 'sell' && propID !== 'buy' && (
+                            <div className={`bottomMenu ${showMobileMenu ? 'bottomMenuOn' : ''}`}>
+                              <hr className="lighter" />
+                              <div className={`account-menu pb-2 dis-fl-col px-2 ${showAccountMenu ? 'opened' : 'closed'}`}>
+                                <div className={`dis-f a-c py-1 ${userType === 'seller' ? 'jc-b' : 'jc-fe'}  w-perc-100`}>
+                                  {
+                                    propID && userType === 'seller' && (
+                                      <div>
+                                        <div className="ws-nw flex-nowrap dis-f a-c txtDark700">
+                                          <span>Your Plan:&nbsp;</span>
+                                          <span
+                                            className="fweight-600 td-u-colored dis-f cur-poi"
+                                            onClick={() => onUpgrade()}
+                                          >
+                                            {packageName}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    )
+                                  }
+                                  <button
+                                    type="button"
+                                    onClick={() => setShowAccountMenu(!showAccountMenu)}
+                                    className="dis-f w-fit a-c jc-b zIndex10 pos-r p-1 px-2"
+                                  >
+                                    <div className="dis-f w-perc-100 a-c">
+                                      <BrixelAvatar
+                                        avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? baseByData.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
+                                        name={get(loggedInUser, 'user.email')}
+                                        isIcon
+                                        profileId={get(loggedInUser, 'user.id', '')}
+                                      />
+                                      <BrixelIcon
+                                        className="ml-1"
+                                        icon={showAccountMenu ? 'arrow-simple-up' : 'arrow-simple-down'}
+                                      />
+                                    </div>
+                                  </button>
+                                </div>
+                                <div className="mini-menu dis-fl-col">
+                                  <div className="dis-f mb-2">
+                                    <BrixelSelect
+                                      options={langMenu}
+                                      input={{
+                                        value: langSel,
+                                        name: 'lang',
+                                        onChange: (val) => newLang(val),
+                                      }}
+                                    />
+                                  </div>
+                                  <a
+                                    className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                    href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
+                                  >
+                                    Password
+                                  </a>
+                                  <a
+                                    className="link txtDark700 fweight-500 fsize-300 mb-2"
+                                    href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
+                                  >
+                                    Preferences
+                                  </a>
+                                  <a
+                                    className="link txtDark700 fweight-500 fsize-300"
+                                    href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
+                                  >
+                                    Logout
+                                  </a>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
+                          )
+                        }
                       </div>
 
                     </div>
