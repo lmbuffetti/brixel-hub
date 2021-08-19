@@ -55,9 +55,7 @@ const checkNote = (store) => (next) => (action) => {
       api.note.getNotesList(type, object, resultsPerPage, offset, queryParams)
         .then((response) => {
           if (get(response, 'data.data', '').length >= 0) {
-            console.log(action.payload.type);
             if (action.payload.type === 'page') {
-              console.log(response);
               store.dispatch({
                 type: SET_PROPERTY_NOTE_LISTINGS,
                 payload: response.data.data,

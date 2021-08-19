@@ -77,7 +77,6 @@ const SellerSidebar = (props) => {
     let mergedFeed = historyFeed.concat(activeSinglePropertyNotes);
     mergedFeed = orderBy(mergedFeed, ['createdAt'], ['desc']);
     let newId = 0;
-    console.log(activeSinglePropertyNotes);
     mergedFeed.forEach((item, i) => {
       if (item.pinned) {
         arrayMove(mergedFeed, i, newId);
