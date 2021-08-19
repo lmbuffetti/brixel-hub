@@ -27,7 +27,6 @@ import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
 import { getPackageProperty, setActiveSingleProperty, getPackagesProperty } from '../actions/PropertyActions';
 import AccountDropdown from './AccountDropdown';
 import MenuSidebar from './MenuSidebar';
-import Support from './Support';
 
 function PageHeaderDashboard(props) {
   // PROPS
@@ -47,7 +46,6 @@ function PageHeaderDashboard(props) {
     lang,
     loggedInUser,
     userType,
-    teamAvatars,
     windowDimensions,
     packagesProperty,
   } = props;
@@ -61,7 +59,6 @@ function PageHeaderDashboard(props) {
   const [section, setSection] = useState('Sell');
   const [linkSection, setLinkSection] = useState('Sell');
   const [packageName, setPackageName] = useState('Basic');
-  const [showSupport, setShowSupport] = useState(false);
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   // REF
   const profileMenu = useRef(null);
@@ -101,7 +98,6 @@ function PageHeaderDashboard(props) {
         .forEach((key) => {
           sortedPackage[key] = activeSinglePropertyPackage[key];
         });
-      console.log(sortedPackage);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
       if (activePackage) {
         const filtPackages = packagesProperty.find((item) => activePackage.servicePackage === item.id);
@@ -533,7 +529,6 @@ PageHeaderDashboard.propTypes = {
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   userType: PropTypes.string.isRequired,
-  teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -558,7 +553,6 @@ const mapStateToProps = (state) => ({
   property: get(state, 'property.activeSingleProperty', {}),
   packagesProperty: get(state, 'property.packagesProperty.data', []),
   userType: get(state, 'user.userTypes', ''),
-  teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
