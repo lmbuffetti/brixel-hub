@@ -117,8 +117,8 @@ const DashboardHome = (props) => {
           <div className="w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
             <CoverPropertyImage
               className="cover w-perc-100 h-perc-100"
-              coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
-              propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
+              coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+              propertyType={get(formValue, 'properties.propertyType', undefined)}
             />
             <Link
               to={`/${activeSingleProperty.id}/property/photos`}
@@ -395,12 +395,14 @@ const DashboardHome = (props) => {
 
           <div
             className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp"
-            style={{
-              backgroundImage: `url("${baseByData.shortPath}${get(activeSingleProperty, 'coverPhoto.thumbnailPath', '')}")`,
-            }}
             onClick={() => openBrixelPage()}
           >
-            <div className="px-3 pb-5">
+            <CoverPropertyImage
+              className="cover w-perc-100 h-perc-100 pos-a zIndex1"
+              coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+              propertyType={get(formValue, 'properties.propertyType', undefined)}
+            />
+            <div className="px-3 pb-5 pos-r zIndex3">
               <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
                 {
                   progressState > 0 ? (
@@ -415,7 +417,7 @@ const DashboardHome = (props) => {
                 }
               </span>
             </div>
-            <div className="linkWrap">
+            <div className="linkWrap pos-r zIndex3">
               <hr className="white" />
               {
                 get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
