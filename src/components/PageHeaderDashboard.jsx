@@ -291,7 +291,7 @@ function PageHeaderDashboard(props) {
       <header className={`hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
         <div className="dasHeaderContainer">
           <div className="wrapperHeader dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
-            <div className={`header-section dis-fl-row a-c jc-b w-perc-100 ${showMobileMenu ? 'hide' : ''}`}>
+            <div className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}>
               <div className="dis-f a-c pl-2 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256 w-perc-100">
                 {
                   windowDimensions.width <= 590 ? (
@@ -365,7 +365,7 @@ function PageHeaderDashboard(props) {
             <div className="dis-f a-c">
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && propID !== 'sell' && propID !== 'buy' && (
-                  <div className="ws-nw flex-nowrap dis-f a-c txtDark700 mr-4">
+                  <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pr-4">
                     <span>Your Plan:&nbsp;</span>
                     <span
                       className="fweight-600 td-u-colored dis-f cur-poi"
@@ -381,7 +381,7 @@ function PageHeaderDashboard(props) {
                 windowDimensions.width > 1024 && (
                   <>
                     <div
-                      className="dis-f-md a-c cur-poi pos-r zIndex5"
+                      className={`dis-f-md a-c cur-poi pos-r zIndex5 ${propID !== 'sell' && propID !== 'buy' ? '' : ''}`}
                       onClick={() => setShowProfileMenu(!showProfileMenu)}
                       ref={profileMenu}
                     >
