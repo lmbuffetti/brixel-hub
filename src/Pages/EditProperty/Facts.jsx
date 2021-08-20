@@ -8,7 +8,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelIcon,
   BrixelProgressBar,
-  BrixelButtonIcon,
   BrixelButtonText,
   change,
   reset,

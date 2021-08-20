@@ -15,13 +15,10 @@ const Tour = (props) => {
   // PROPS
   const {
     formValue,
-    history,
-    match,
   } = props;
   // STATE
   const [showTour, setShowTour] = useState(false);
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
 
   return (
     <>
@@ -101,8 +98,6 @@ const Tour = (props) => {
 
 Tour.propTypes = {
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 Tour.defaultProps = {

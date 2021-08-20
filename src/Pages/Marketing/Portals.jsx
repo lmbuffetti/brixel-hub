@@ -8,7 +8,6 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon, Helpers,
   change, reset, BrixelButtonText, BrixelSwitchButton,

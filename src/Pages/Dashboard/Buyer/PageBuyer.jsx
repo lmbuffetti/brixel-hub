@@ -8,7 +8,6 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon,
   FormatValue,
@@ -24,11 +23,8 @@ const PageBuyer = (props) => {
   // PROPS
   const {
     formValue,
-    history,
-    match,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
 
   // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
   const onClickPreview = () => {
@@ -137,9 +133,7 @@ const PageBuyer = (props) => {
 };
 
 PageBuyer.propTypes = {
-  history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 PageBuyer.defaultProps = {

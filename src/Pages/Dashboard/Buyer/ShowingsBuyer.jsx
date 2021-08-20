@@ -11,7 +11,6 @@ import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
-  BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
 import Loading from '../../../components/Loading';

@@ -17,7 +17,6 @@ import {
   ReduxField,
   change,
   reset,
-  BrixelButtonIcon,
   ProgressRing,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';

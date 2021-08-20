@@ -9,7 +9,6 @@ import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon,
   Helpers,
@@ -29,7 +28,6 @@ const Page = (props) => {
     company,
     formValue,
     handleUpdatePublishedReview,
-    history,
     isSmallLoading,
     match,
   } = props;
@@ -304,7 +302,6 @@ const Page = (props) => {
 
 Page.propTypes = {
   company: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
