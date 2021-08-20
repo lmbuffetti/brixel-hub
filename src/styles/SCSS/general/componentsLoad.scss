@@ -19,7 +19,7 @@ $responsive-medium: map_get($grid-breakpoints, md);
 @import '~@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
 @import '~@brixel/brixel-components/dist/styles/SCSS/general/icomoon';
 
-$sidebarWidth: 256px;
+$sidebarWidth: 236px;
 $sidebarWidthCollapsed: 70px;
 /* Color array to be used with randomizer for avatar background */
 $avatarColors: map-get($primaryColor, 300),
@@ -64,6 +64,8 @@ map-get($blueColor, 300);
 "../components/closing-tree",
 "../components/box_card",
 "../components/pagination",
+"../components/seller_sidebar",
+"../components/warningScreen",
 "../components/accordion";
 
 /* PAGES */

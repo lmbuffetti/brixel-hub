@@ -35,6 +35,8 @@ import {
   SET_PAGE_DEALS,
   SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
   GET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
+  GET_PACKAGE_PROPERTY,
+  SET_PACKAGE_PROPERTY,
 } from '../actions/types/PropertyTypes';
 
 import {
@@ -140,7 +142,7 @@ const checkCommon = (store) => (next) => (action) => {
                 type: 'done',
               },
             });
-            window.location.assign(`/${res.data.id}/rewards`);
+            window.location.assign(`/${res.data.id}/home`);
           } else if (redirectToUserFlow) {
             store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
@@ -500,7 +502,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (res.meta.normalizedStatus === 200) {
             store.dispatch({ type: SET_ESTIMATION, payload: res.data });
             if (typeof res.data.statusCode === 'undefined') {
-              // window.location.href = `/packageFlow/${action.payload}/rewards`;
+              // window.location.href = `/packageFlow/${action.payload}/home`;
             }
           } else {
             const data = {
@@ -525,7 +527,19 @@ const checkCommon = (store) => (next) => (action) => {
           }
         })
         .catch(() => {
-          store.dispatch({ type: SPINNER_OFF });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+          store.dispatch({ type: SET_ESTIMATION, payload: {} });
         });
       break;
     }
@@ -1000,9 +1014,51 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      api.property.getPackageList(10, 0)
+      api.property.getPackageList(20, 0)
         .then((res) => {
           store.dispatch({ type: SET_PACKAGES_PROPERTY, payload: res.data });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        });
+      break;
+    }
+    // DISPATCH TO GET PACKAGE FO PROPERTY - by PROPERTY ID
+    case GET_PACKAGE_PROPERTY: {
+      next(action);
+      const {
+        id,
+        limit,
+        offset,
+        order,
+        direction,
+        smallLoader,
+      } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      const queryParams = `?order=${order}&direction=${direction}`;
+      api.property.packagePage(id, limit, offset, queryParams)
+        .then((res) => {
+          store.dispatch({ type: SET_PACKAGE_PROPERTY, payload: res.data });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,

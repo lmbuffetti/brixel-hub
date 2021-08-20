@@ -34,7 +34,21 @@ const ContactBuyer = (props) => {
   return (
     <div className="dis-f">
       <div className="secondLevel dis-fl-col">
-        <div>
+        <div className="dis-f backPanel">
+          <div className="fixedIcon w-perc-100">
+            <BrixelButtonIcon
+              className="hide-md"
+              bgTransparent
+              icon="arrow-left-small"
+              theme="dark"
+              ghost
+              onClick={() => history.push(`/buyer/${propID}/property`)}
+            />
+          </div>
+          <h3 className="mb-3 hide dis-b-lg">Contact</h3>
+          <h5 className="sectionTitle hide-lg">Contact</h5>
+        </div>
+        <div className="boxCard">
           <div className="dis-f jc-b">
             <div className="dis-f">
               <BrixelAvatar
@@ -60,6 +74,7 @@ const ContactBuyer = (props) => {
                 icon="close"
                 theme="dark"
                 ghost
+                transparent
                 className="as-c"
                 onClick={() => history.goBack()}
               />

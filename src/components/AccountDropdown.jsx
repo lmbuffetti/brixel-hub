@@ -103,7 +103,7 @@ const AccountDropdown = (props) => {
         label: 'Logout',
       },
     ]
-  ), [langMenu, langSel]);
+  ), [langMenu, langSel, loggedInUser]);
 
   return (
     <>
@@ -124,7 +124,7 @@ const AccountDropdown = (props) => {
                 component: BrixelAvatar,
                 props: {
                   avatarImg: has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null,
-                  name: has(loggedInUser, 'user.firstName') ? loggedInUser.user.firstName : '',
+                  // name: has(loggedInUser, 'user.firstName') ? loggedInUser.user.firstName : '',
                   isIcon: true,
                 },
               }}

@@ -87,7 +87,7 @@ const ScanTrialFlow = (props) => {
     reset('scanFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
-    history.push(url || `/${propID}/rewards`);
+    history.push(url || `/${propID}/home`);
   };
 
   const goToFacts = () => {
@@ -492,7 +492,7 @@ const ScanTrialFlow = (props) => {
                           label="Not now"
                           theme="dark"
                           saturation={200}
-                          onClick={() => history.push('/sell')}
+                          onClick={() => closeWindow()}
                         />
                       </div>
                     )

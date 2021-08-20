@@ -5,9 +5,6 @@ import get from 'lodash/get';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { checkBrowser } from '../utils/helpers';
-import CallUsImg from '../images/Support/call_us.svg';
-import WriteUsImg from '../images/Support/wite_us.svg';
-import WhatAppImg from '../images/Support/whatsapp.svg';
 
 const Support = (props) => {
   const {
@@ -26,7 +23,6 @@ const Support = (props) => {
   const teamAvatars = get(activeSingleCompany, 'teamAvatars', []);
   const companyLegalName = get(activeSingleCompany, 'legalName', get(activeSingleCompany, 'name', null));
   // COLOR
-  const colorLinkTextTitle = layout === 'onboarding' ? 'txtPrimary200' : 'txtDark200';
   const colorLinkTextInfo = layout === 'onboarding' ? 'txtDark700' : 'txtDark700';
 
   const [openDetail, setOpenDetail] = useState(expanded);
@@ -47,21 +43,54 @@ const Support = (props) => {
   };
 
   return (
-    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'}`} id="supportBox">
-      <div className={`${isFixed ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'pt-2 px-2 pb-3'}`}>
+    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius min-w-fix-312' : ''}`} id="supportBox">
+      <div className={`${isFixed && layout !== 'floatable' ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'p-3'}`}>
         {
           layout !== 'rewards' && layout !== 'onboarding' && (
             <div className="dis-f jc-b a-t">
-              <div>
-                <p className="txtDark200 mb-2">Need support?</p>
-                <h5 className="txtDark700">{companyLegalName}</h5>
-              </div>
+              {
+                layout !== 'floatable' ? (
+                  <div>
+                    <p className="txtDark200 mb-2">Need support?</p>
+                    <h5 className="txtDark700">{companyLegalName}</h5>
+                  </div>
+                ) : (
+                  <div className="dis-f a-c">
+                    {
+                      layout !== 'onboarding' && layout === 'floatable' && (
+                        <div className="dis-f jc-fs a-t">
+                          {
+                            teamAvatars.map((imgTeam, i) => (
+                              <img
+                                key={i.toString()}
+                                src={`${baseByData.shortPath}${imgTeam.path}`}
+                                alt="Support Team"
+                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                              />
+                            ))
+                          }
+                        </div>
+                      )
+                    }
+                    <span className="ml-2 txtLight400">Support</span>
+                  </div>
+                )
+              }
               {
                 // HIDE CLOSE BUTTON IF PROPS isFixed OR hideClose
                 !isFixed && !hideClose && (
                   <BrixelButtonIcon
                     icon="close-small"
                     ghost
+                    onClick={() => onClose()}
+                  />
+                )
+              }
+              {
+                layout === 'floatable' && (
+                  <BrixelButtonIcon
+                    icon="close-small"
+                    theme="green"
                     onClick={() => onClose()}
                   />
                 )
@@ -83,7 +112,7 @@ const Support = (props) => {
           onClick={() => (expanded ? '' : onclickOne())}
         >
           {
-            layout !== 'onboarding' && (
+            layout !== 'onboarding' && layout !== 'floatable' && (
               <div className="dis-f jc-fs a-t">
                 {
                   teamAvatars.map((imgTeam, i) => (
@@ -107,28 +136,36 @@ const Support = (props) => {
           }
         </div>
         {
-          layout !== 'rewards' && layout !== 'onboarding' && (
+          layout !== 'rewards' && layout !== 'onboarding' && layout !== 'floatable' && (
             <hr className="my-3 lighter" />
           )
         }
         <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'rewards' ? 'w-fit m-a' : ''}`}>
           {
             phone && (
-              <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-3">
-                <img className="w-fix-40" src={CallUsImg} alt="Call Us" />
+              <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-2">
+                <BrixelIcon
+                  color="altColor"
+                  saturationTxt={700}
+                  icon="phone"
+                  iconSize="large"
+                />
                 <p className="ml-2">
-                  <span className={`dis-b body2 ${colorLinkTextTitle}`}>Call Us</span>
-                  <span className={`ff-mono ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(phone)}</span>
+                  <span className={` ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(phone)}</span>
                 </p>
               </a>
             )
           }
           {
             email && (
-              <a href={`mailto: ${email}`} className="dis-f a-c mb-3">
-                <img className="w-fix-40" src={WriteUsImg} alt="Call Us" />
+              <a href={`mailto: ${email}`} className="dis-f a-c mb-2">
+                <BrixelIcon
+                  color="altColor"
+                  saturationTxt={400}
+                  icon="mail"
+                  iconSize="large"
+                />
                 <p className="ml-2">
-                  <span className={`dis-b body2 ${colorLinkTextTitle}`}>Write us</span>
                   <span className={colorLinkTextInfo}>{email}</span>
                 </p>
               </a>
@@ -142,10 +179,14 @@ const Support = (props) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img className="w-fix-40" src={WhatAppImg} alt="Call Us" />
+                <BrixelIcon
+                  color="altColor"
+                  saturationTxt={200}
+                  icon="whatsapp"
+                  iconSize="large"
+                />
                 <p className="ml-2">
-                  <span className={`dis-b body2 ${colorLinkTextTitle}`}>Text Us</span>
-                  <span className={`ff-mono ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(whatsapp)}</span>
+                  <span className={` ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(whatsapp)}</span>
                 </p>
               </a>
             )

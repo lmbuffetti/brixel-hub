@@ -148,7 +148,7 @@ function SuccessBestimate(props) {
                                         rounded
                                         label="See full Bestimate®"
                                         className="m-a"
-                                        onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                                        onClick={() => history.push(`/${propID}/singleFlow/achievement/${getParams}`)}
                                         rightIcon="arrow-right"
                                       />
                                     </div>
@@ -220,7 +220,7 @@ function SuccessBestimate(props) {
                 rounded
                 label="Get free Bestimate&reg;"
                 className="m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                onClick={() => history.push(`/${propID}/singleFlow/achievement/${getParams}`)}
                 rightIcon="arrow-right"
               />
             </div>

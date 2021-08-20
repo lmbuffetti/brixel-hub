@@ -24,6 +24,9 @@ import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '..
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
 import testdrive from '../../images/Market/testdrive.jpeg';
+import testdrive2 from '../../images/Market/testdrive2.png';
+import presentation from '../../images/Market/presentation.png';
+import sellYourself from '../../images/Market/sellYourself.png';
 import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
 import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 
@@ -101,13 +104,6 @@ const MarketCategoryListSeller = (props) => {
     setSplashScreen('');
   };
 
-  const openBestimate = () => {
-    setCookie('brixelMarketWelcome', false);
-    setCookie('brixelMarketBestimate', true);
-    setCookie('brixelSplashHome', 'bestimateResult');
-    setSplashScreen('');
-  };
-
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
@@ -122,7 +118,7 @@ const MarketCategoryListSeller = (props) => {
   };
 
   const onBestimateFlow = () => {
-    history.push(`/${activeMarketOverlayProperty.id}/rewards/achievement/bestimate/step1`);
+    history.push(`/${activeMarketOverlayProperty.id}/singleFlow/achievement/bestimate/step1`);
     setMarketOverlayProperty({});
     setSplashScreen('');
     handleSetHistory({ source: '/sell' });
@@ -176,42 +172,60 @@ const MarketCategoryListSeller = (props) => {
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
               <h3>Welcome 🖐 </h3>
-              <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
+              <span className="txtDark200 pt-2 pb-5"> We are happy to have you as a new member at Brixel. Are you thinking about selling? </span>
               <div className="mb-5">
                 <div className="dis-f mb-2">
-                  <p className="max-w-fix-440 txtDark700 pl-2">
-                    <span>Are you thinking about selling? Get in touch with</span>
-                    <a
-                      href="#"
-                      className="link ml-small-4"
-                      onClick={(e) => openSupport(e)}
-                    >
-                      <span>support</span>
-                    </a>
-                    <span className="ml-small-4">and get a free consultation by our experts.</span>
-                  </p>
+                  <div className="dis-fl-row a-c">
+                    <img
+                      className="w-fix-48"
+                      src={sellYourself}
+                      alt="Sell Yourself"
+                      id="sell"
+                    />
+                    <p className="max-w-fix-440 txtDark700 pl-2">
+                      <span>Sell privately without an agent. We</span>
+                      <a
+                        href="#"
+                        className="link ml-small-4"
+                        onClick={(e) => openSupport(e)}
+                      >
+                        <span>support</span>
+                      </a>
+                      <span className="ml-small-4">you with modular service packages - without any brokerage contract.</span>
+                    </p>
+                  </div>
                 </div>
                 <div className="dis-f mb-2">
-                  <p className="max-w-fix-440 txtDark700 pl-2">
-                    <span>Do you want to know how much your home is worth? Get a free price indication with our</span>
-                    <a
-                      href="#"
-                      className="link ml-small-4"
-                      onClick={(e) => openBestimate(e)}
-                    >
-                      <span>Bestimate®</span>
-                    </a>
-                  </p>
+                  <div className="dis-fl-row a-c">
+                    <img
+                      className="w-fix-48"
+                      src={presentation}
+                      alt="Presentation"
+                      id="presentation"
+                    />
+                    <p className="max-w-fix-440 txtDark700 pl-2">
+                      <span>Market with the best presentation. Buyers confirm that our quality stands out on the market.</span>
+                    </p>
+                  </div>
                 </div>
                 <div className="dis-f">
-                  <p className="max-w-fix-440 txtDark700 pl-2">Are you looking for a property to buy? Define your
-                    <a
-                      className="link ml-small-4"
-                      href={`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`}
-                    >
-                      <span>&nbsp;search profile</span>
-                    </a> and get exclusive access to hundreds of properties that are not yet on market.
-                  </p>
+                  <div className="dis-fl-row a-c">
+                    <img
+                      className="w-fix-48"
+                      src={testdrive2}
+                      alt="Test Drive"
+                      id="testDrive"
+                    />
+                    <p className="max-w-fix-440 txtDark700 pl-2">Test our full service with a
+                      <a
+                        className="link ml-small-4"
+                        href="#"
+                        onClick={() => bookNow()}
+                      >
+                        <span>&nbsp;test drive</span>
+                      </a> – like a car. No strings attached.
+                    </p>
+                  </div>
                 </div>
               </div>
               <BrixelButtonPrimary

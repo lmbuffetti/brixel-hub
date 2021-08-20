@@ -62,6 +62,7 @@ const Page = (props) => {
   return (
     <>
       <div className="hide dis-f-lg jc-b max-w-fix-768">
+
         <h3 className="mb-3 hide dis-b-lg">Brixel Page</h3>
         <div className="">
           {
@@ -86,45 +87,45 @@ const Page = (props) => {
       </div>
       <div className="dis-f">
         <div className="secondLevel dis-fl-col">
-          <div>
-            <div className="brixelPageWrapper dis-fl-col cardInfoBox">
-              <div className="pos-r">
-                <div className="dis-f backPanel hide-lg">
-                  <div className="fixedIcon dis-f jc-b w-perc-100">
-                    <BrixelButtonIcon
-                      className=""
-                      icon="arrow-left-small"
-                      theme="dark"
-                      ghost
-                      onClick={() => history.push(`/${propID}/marketing`)}
-                    />
-                  </div>
-                  <div className="dis-f jc-b a-bl w-perc-100 pt-small-2">
+          <div className="pos-r">
+            <div className="dis-f backPanel hide-lg">
+              <div className="fixedIcon dis-f jc-b w-perc-100">
+                <BrixelButtonIcon
+                  className=""
+                  icon="arrow-left-small"
+                  theme="dark"
+                  ghost
+                  onClick={() => history.push(`/${propID}/marketing`)}
+                />
+              </div>
+              <div className="dis-f jc-b a-bl w-perc-100 pt-small-2">
 
-                    <h5 className="sectionTitle">Brixel Page</h5>
-                    <div className="">
-                      {
-                        formValue.published ? (
-                          <BrixelButtonPrimary
-                            leftIcon="eye"
-                            label="Live view"
-                            rounded
-                            onClick={() => onClickPreview()}
-                          />
-                        ) : (
-                          <BrixelButtonPrimary
-                            leftIcon="eye"
-                            label="Preview"
-                            rounded
-                            onClick={() => onClickPreview()}
-                          />
-                        )
-                      }
-                    </div>
-                  </div>
-
+                <h5 className="sectionTitle">Brixel Page</h5>
+                <div className="">
+                  {
+                    formValue.published ? (
+                      <BrixelButtonPrimary
+                        leftIcon="eye"
+                        label="Live view"
+                        rounded
+                        onClick={() => onClickPreview()}
+                      />
+                    ) : (
+                      <BrixelButtonPrimary
+                        leftIcon="eye"
+                        label="Preview"
+                        rounded
+                        onClick={() => onClickPreview()}
+                      />
+                    )
+                  }
                 </div>
               </div>
+
+            </div>
+          </div>
+          <div className="mb-5">
+            <div className="brixelPageWrapper dis-fl-col cardInfoBox">
               <div className="pb-4">
                 <>
                   <div
@@ -292,7 +293,6 @@ const Page = (props) => {
           {
             !formValue.published && !formValue.publishReview && (
               <BrixelUpgradeMessage
-                className="mt-3"
                 title="Make your Brixel Page public."
                 description="You can publish your Brixel Page for free to share it wherever you want. We will review your content before publishing to make sure you get the best result."
                 btnLabel="Request Brixel Page"

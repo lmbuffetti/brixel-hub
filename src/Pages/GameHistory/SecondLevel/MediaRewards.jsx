@@ -45,7 +45,7 @@ const MediaRewards = (props) => {
                 rounded
                 rightIcon="arrow-right"
                 className="m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/media`)}
+                onClick={() => history.push(`/${propID}/singleFlow/achievement/media`)}
               />
             </div>
           </>

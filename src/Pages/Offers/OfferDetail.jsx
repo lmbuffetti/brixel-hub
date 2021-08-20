@@ -36,7 +36,7 @@ const OfferDetail = (props) => {
 
   return (
     <>
-      <div className={`single-offer-container secondLevel ${isBuyer && windowDimensions.width <= 1024 ? 'secondLevel p-2' : ''} dis-fl-col pb-4 px-0 px-sm-2 dealsListings`}>
+      <div className={`single-offer-container secondLevel ${isBuyer && windowDimensions.width <= 1024 ? 'secondLevel p-2' : ''} dis-fl-col pb-4 pl-sm-1 pr-sm-2 dealsListings`}>
         <div className="hideStyle">
           {
             !isBuyer ? (
@@ -77,7 +77,7 @@ const OfferDetail = (props) => {
                 </div>
               </>
             ) : (
-              <div className="p-0 p-0 pt-lg-2">
+              <div className="p-0 p-0">
                 {isBuyer && windowDimensions.width <= 1024 && (
                   <BrixelButtonIcon
                     icon="arrow-left-small"
@@ -88,7 +88,8 @@ const OfferDetail = (props) => {
                     onClick={() => history.goBack()}
                   />
                 )}
-                <h5 className="mb-3">Closing</h5>
+                <h3 className="mb-3 hide dis-b-lg">Closing</h3>
+                <h5 className="sectionTitle mb-2 hide-lg">Closing</h5>
               </div>
             )
           }

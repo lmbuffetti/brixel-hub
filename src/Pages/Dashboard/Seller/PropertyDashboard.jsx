@@ -73,52 +73,6 @@ const HomeDashboard = (props) => {
           {
             windowDimensions.width <= 1024 && (
               <div className={`firstLevel expandableColumn ${openCloseColumn() === 'opened' ? 'mr-lg-2' : 'collapsed'}`}>
-                {/* <div
-                  className={`cur-poi showHover brdRadius shadow-1dp brdMedium ${getFact() === 'facts' ? 'brdPrimary400 bgWhite' : 'brdTrans'}`}
-                  onClick={() => history.push(`/${propID}/property/facts`)}
-                >
-                  <div className="transparency-container">
-                    <div className="dis-fl-col ta-l cur-poi">
-                      <>
-                        <BrixelButtonBox
-                          bgTransparent
-                          icon="document"
-                          label="Facts"
-                          labelClass="fweight-400"
-                          subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
-                          subtitleClass="ff-mono fsize-200 txtPrimary700 mt-small-4"
-                          className="w-perc-100 cur-poi p-2 labelAend"
-                          colorIcon="primary700"
-                          backIcon="primary100"
-                          hoverEffect={false}
-                        />
-                      </>
-                    </div>
-                  </div>
-
-                  <div className="details dis-fl-col p-2">
-                    <div className="dis-fl-row jc-b a-c">
-                      <div className="fourth dis-fl-col ta-l">
-                        <span className="subtitle fsize-200 txtDark200">Rooms</span>
-                        <span className="value ff-mono txtDark400">{has(property, 'properties.typology.bedrooms') ? FormatValue.formatRooms(property.properties.typology.bedrooms, get(formValue, 'location.countryCode', 'CH')) : 'N/A'}</span>
-                      </div>
-                      <div className="dis-fl-col ta-l">
-                        <span className="subtitle fsize-200 txtDark200">Living space</span>
-                        {
-                          get(property, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
-                            <span className="value ff-mono txtDark400">{get(property, 'properties.typology.grossArea.value', 'N/A')} m2</span>
-                          ) : (
-                            <span className="value ff-mono txtDark400">{get(property, 'properties.typology.livingArea.value', 'N/A')} m2</span>
-                          )
-                        }
-                      </div>
-                      <div className="dis-fl-col ta-l">
-                        <span className="subtitle fsize-200 txtDark200">Year built</span>
-                        <span className="value ff-mono txtDark400">{(has(property.properties, 'building') && property.properties.building.built) ? property.properties.building.built : 'N/A'}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
 
                 <div className="dis-f mt-2">
                   <BrixelButtonBox
@@ -199,16 +153,9 @@ const HomeDashboard = (props) => {
             )
           }
         </div>
-        {/* <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
-          <BrixelButtonIcon
-            ghost
-            icon="arrow-simple-left"
-            onClick={() => history.push('../facts')}
-          />
-        </div> */}
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'closed' : 'opened'}`}>
+            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Route path="/:propId?/property/facts" component={Facts} />
                 <Route path="/:propId?/property/price" component={Price} />

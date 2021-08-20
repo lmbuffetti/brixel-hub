@@ -46,6 +46,7 @@ export const QuestionsList = (lang, country = 'CH') => {
   return [
     {
       title: translateTo(lang, 'What type of property do you have?'),
+      subtitle: translateTo(lang, 'Choose between apartment, house and commercial.'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
       inputs: [{

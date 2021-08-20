@@ -22,6 +22,11 @@ class History extends Base {
     const url = ep.history.createHistory();
     return this.apiClient.post(url, {}, data);
   }
+
+  historyFeed(id, paginationLimit, paginationSkip, query, data) {
+    const url = ep.history.historyFeed(id, paginationLimit, paginationSkip, query);
+    return this.apiClient.post(url, {}, data);
+  }
 }
 
 export default History;

@@ -349,14 +349,31 @@ const GetStartedEstimation = (props) => {
             setQuest(newQuest);
             setCurrentIndex(defId);
           }
+
+          if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
+            const fakeInput = document.createElement('input');
+            fakeInput.setAttribute('type', 'text');
+            fakeInput.setAttribute('id', 'fakeInput');
+            fakeInput.style.position = 'absolute';
+            fakeInput.style.opacity = 0;
+            fakeInput.style.height = 0;
+            fakeInput.style.fontSize = '16px'; // disable auto zoom
+            // zoom/scroll behavior
+            document.body.prepend(fakeInput);
+            fakeInput.focus();
+          }
+
           setTimeout(() => {
+            const fakeInput = document.getElementById('fakeInput');
             const getCurStep = document.getElementById(`step-${defId}`);
             if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
               getCurStep.querySelector('input[type="number"]').focus();
             } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
               getCurStep.querySelector('input[type="text"]').focus();
             }
-          }, 100);
+            // cleanup
+            fakeInput.remove();
+          }, 500);
           if (questions[defId].history) {
             history.push({
               pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
@@ -470,9 +487,9 @@ const GetStartedEstimation = (props) => {
   const closeWindow = () => {
     reset('Property');
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/rewards`);
+      history.push(`/${propID}/home`);
     } else {
-      history.push(`/${propID}/rewards/${getAchievement()}`);
+      history.push(`/${propID}/home/${getAchievement()}`);
     }
   };
 
@@ -501,7 +518,7 @@ const GetStartedEstimation = (props) => {
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
-    if (currentIndex <= 5) {
+    if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
@@ -696,7 +713,7 @@ const GetStartedEstimation = (props) => {
                             )
                           }
                           {
-                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
+                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
                               <BrixelButtonPrimary
                                 className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                 disabled={!checkValidateField()}

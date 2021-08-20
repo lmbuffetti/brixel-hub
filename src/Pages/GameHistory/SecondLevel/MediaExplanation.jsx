@@ -62,7 +62,7 @@ function MediaExplanation(props) {
   const onClickNextBtn = () => {
     if (currentIndex === Questions.length - 1) {
       localStorage.setItem('donMediaExplanation', propID);
-      history.push(`/${propID}/rewards/media`);
+      history.push(`/${propID}/home/media`);
     } else {
       changeStep();
     }

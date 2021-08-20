@@ -11,6 +11,21 @@
     &.open {
       max-height: 500px;
     }
+
+    .icon-phone, .icon-whatsapp {
+      svg {
+        path {
+          fill: $brx-white;
+        }
+      }
+    }
+    .icon-phone {
+      svg {
+        path {
+          stroke: map_get($altColor, 700);
+        }
+      }
+    }
   }
 }
 
@@ -20,6 +35,53 @@
       position: fixed;
       bottom: 48px;
       right: $step;
+    }
+  }
+}
+
+.supportBtn {
+  position: relative;
+  @media (max-width: $responsive-medium) {
+    background-color: #fbfbfb;
+    padding-right: 16px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    #supportBox {
+      bottom: 60px !important;
+    }
+  }
+  #supportBox {
+    position: absolute;
+    z-index: 5;
+    padding: 0;
+    bottom: 30px;
+    animation: scaleUp $default-time $default-easing forwards;
+  }
+  @media (min-width: $responsive-medium) {
+    width: fit-content;
+    > div {
+      width: 100%;
+    }
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 1;
+  }
+}
+
+.marketHome {
+  .supportBtn {
+    @media (max-width: $responsive-medium) {
+      padding-top: 0px;
+      background-color: #F7F6F5;
+    }
+  }
+  .map-view,
+  .buyerPage {
+    + .supportBtn {
+      @media (max-width: $responsive-medium) {
+        background-color: white;
+      }
     }
   }
 }

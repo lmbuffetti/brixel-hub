@@ -37,15 +37,7 @@ describe('Render Sell Home', () => {
 
   const urlToTest = [
     '/buy',
-    '/100000000000000000000000/rewards/homebase',
-    '/100000000000000000000000/rewards/market-checker',
-    '/100000000000000000000000/rewards/bestimate',
-    '/100000000000000000000000/rewards/assessor',
-    '/100000000000000000000000/rewards/facts',
-    '/100000000000000000000000/rewards/media',
-    '/100000000000000000000000/rewards/page-published',
-    '/100000000000000000000000/rewards/page-preview',
-    '/100000000000000000000000/rewards/portals',
+    '/100000000000000000000000/home',
     '/100000000000000000000000/property/photos',
     '/100000000000000000000000/property/floorPlans',
     '/100000000000000000000000/property/tour',

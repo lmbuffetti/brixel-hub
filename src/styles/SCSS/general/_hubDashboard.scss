@@ -25,7 +25,7 @@
   .hubDasContent {
     @media (min-width: $responsive-medium) {
       // padding-left: $sidebarWidth;
-      top: 64px;
+      //top: 64px;
       position: relative;
     }
     .property-container,
@@ -92,7 +92,7 @@
   .withTopBar {
     .hubDasContent {
       @media (min-width: $responsive-medium) {
-        top: 64px;
+       // top: 72px;
       }
     }
   }
@@ -151,7 +151,7 @@
     }
     .hubDasContent {
       @media (max-width: $responsive-medium) {
-        top: 108px;
+        //top: 108px;
         position: relative;
       }
     }
@@ -175,4 +175,26 @@
   @media screen and(max-width: map-get($grid-breakpoints, xl)) {
   }
 
+}
+
+
+.demoBg {
+  background-size: cover;
+  z-index: 1;
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-color: rgba($color: #323E48, $alpha: 0.6);
+  }
+}
+
+.testDrive {
+  @media (max-width: $responsive-small) {
+    border: none;
+  }
 }

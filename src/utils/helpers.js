@@ -1,6 +1,7 @@
 import isObject from 'lodash/isObject';
 import Cookies from 'universal-cookie';
 import get from 'lodash/get';
+import isArray from 'lodash/isArray';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 import has from 'lodash/has';
 import { translateTo } from './translation';
@@ -47,7 +48,7 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
   const calPerc = Math.floor((countDone * 100) / countTotal);
   const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);
   return {
-    realPerc: (countDone * 100) / countTotal,
+    realPerc: Math.round((countDone * 100) / countTotal),
     calcPerc: calPerc,
     savedPerc,
     countTotal,
@@ -94,8 +95,17 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
       countTotal += 1;
       countDone += 1;
     } else if (get(formValue, val.name, 'ayc') !== 'ayc' && get(formValue, val.name, 'ayc') !== null) {
-      countTotal += 1;
-      countDone += 1;
+      if (isArray(get(formValue, val.name, 'ayc'))) {
+        if (get(formValue, val.name, []).length > 0) {
+          countTotal += 1;
+          countDone += 1;
+        } else {
+          countTotal += 1;
+        }
+      } else {
+        countTotal += 1;
+        countDone += 1;
+      }
     } else if (get(val, 'component.type.defaultProps.startFrom', null) !== null) {
       countDone += 1;
       countTotal += 1;
@@ -103,6 +113,7 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
       countTotal += 1;
     }
   });
+
   // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   const calPerc = Math.floor((countDone * 100) / countTotal);
   const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);
@@ -349,6 +360,8 @@ export const sortObjByKey = (obj, key, isBool = false) => {
   if (isBool) {
     orderedObj = obj.sort((a, b) => b[key] - a[key]);
   }
+  // eslint-disable-next-line no-nested-ternary
+  orderedObj.sort((a, b) => ((a[key] > b[key]) ? 1 : ((b[key] > a[key]) ? -1 : 0)));
   return orderedObj;
 };
 
@@ -597,7 +610,7 @@ export const toBase64 = (file) => new Promise((resolve, reject) => {
   reader.onerror = (error) => reject(error);
 });
 
-export const tobase64Handler = async (files, user, action, pageID, imgType) => {
+export const tobase64Handler = async (files, user, action, pageID, imgType, docType = '') => {
   const filePathsPromises = [];
   await files.forEach((file) => {
     filePathsPromises.push(toBase64(file));
@@ -605,10 +618,12 @@ export const tobase64Handler = async (files, user, action, pageID, imgType) => {
   const filePaths = await Promise.all(filePathsPromises);
   const mappedFiles = filePaths.map((base64File) => {
     if (action === 'documents') {
-      const name = get(base64File, 'name', Date.now() / 1000);
+      let name = get(base64File, 'name', Date.now() / 1000);
+      if (docType) name = docType;
       return {
         name,
         user,
+        type: docType,
         isBrochure: false,
         file: base64File.file,
         pageID,
@@ -683,4 +698,16 @@ export const checkBrowser = () => {
   }
 
   return rv;
+};
+
+export const arrayMove = (arr, oldIndex, newIndex) => {
+  if (newIndex >= arr.length) {
+    let k = oldIndex - arr.length + 1;
+    // eslint-disable-next-line no-cond-assign
+    while (k -= 1) {
+      arr.push(undefined);
+    }
+  }
+  arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+  return arr; // for testing
 };

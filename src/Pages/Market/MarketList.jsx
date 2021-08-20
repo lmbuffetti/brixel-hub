@@ -253,7 +253,7 @@ const MarketList = (props) => {
   const openCard = (item) => {
     if (catName === 'own') {
       history.push({
-        pathname: `/${item.id}/rewards/market-checker`,
+        pathname: `/${item.id}/home/market-checker`,
         state: { section: 'Market' },
       });
     } else if (catName === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
@@ -276,8 +276,10 @@ const MarketList = (props) => {
     if (scrollEl) scrollEl.scrollTo = 0;
 
     if (catList) catList.classList.add('dis-f');
+    if (catList) catList.classList.add('map-view');
     return () => {
       if (catList) catList.classList.remove('dis-f');
+      if (catList) catList.classList.remove('map-view');
     };
   }, []);
 

@@ -114,7 +114,7 @@ const HomeDashboard = (props) => {
                   <div
                     key={i.toString()}
                     className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius cur-poi"
-                    onClick={() => history.push({ pathname: `/${property.id}/rewards`, state: { section: 'Sell' } })}
+                    onClick={() => history.push({ pathname: `/${property.id}/home`, state: { section: 'Sell' } })}
                   >
                     <div className="row-section p-1 avatar-container dis-f a-c ov-h flex-112">
                       <Link

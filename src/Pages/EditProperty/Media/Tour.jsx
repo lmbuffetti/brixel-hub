@@ -44,7 +44,7 @@ const Tour = (props) => {
           </div>
           {
             get(formValue, 'virtual.matterport', null) ? (
-              <div className="tour">
+              <div className="tour boxCard mb-5">
                 {
                   !showTour ? (
                     <div className="pos-r brdRadius ov-h">
@@ -89,9 +89,8 @@ const Tour = (props) => {
                 }
               </div>
             ) : (
-              <div className="tour brixel-upgrade-message p- rewardsSplash">
+              <div className="tour brixel-upgrade-message rewardsSplash">
                 <BrixelUpgradeMessage
-                  className="mt-0 p-2"
                   unlockFunction={false}
                   title="Do you want a 3D tour for your property?"
                   description="A 3D tour helps you to avoid unnecessary showings and increases the attention of your property in the market. Request a free scan by one of our experts to get your own tour."

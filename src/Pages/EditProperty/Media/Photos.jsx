@@ -160,21 +160,21 @@ const Photos = (props) => {
       <h3 className="mb-3 hide dis-b-lg">Photos</h3>
       <div className="photosWrapper dis-f">
         <div className="secondLevel dis-fl-col">
-          <div className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
-            <div className="dis-f backPanel hide-lg">
-              <div className="fixedIcon w-perc-100">
-                <BrixelButtonIcon
-                  className="hide-md"
-                  icon="arrow-left-small"
-                  ghost
-                  theme="dark"
-                  onClick={() => history.push(`/${propID}/property`)}
-                />
-              </div>
-              <h5 className="sectionTitle">
-                Photos
-              </h5>
+          <div className="dis-f backPanel hide-lg">
+            <div className="fixedIcon w-perc-100">
+              <BrixelButtonIcon
+                className="hide-md"
+                icon="arrow-left-small"
+                ghost
+                theme="dark"
+                onClick={() => history.push(`/${propID}/property`)}
+              />
             </div>
+            <h5 className="sectionTitle">
+              Photos
+            </h5>
+          </div>
+          <div className={`boxCard mb-5 ${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
             <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
               {
                 (fixPhotos && fixPhotos.length > 0) && (
@@ -308,7 +308,6 @@ const Photos = (props) => {
           </div>
 
           <BrixelUpgradeMessage
-            className="mt-3"
             unlockFunction={false}
             title="Do you want to capture your property in its best possible light?"
             description="High-quality photos help you to stand out in the market. Request a free on-site appointment by one of our experts to get a free photo shooting."
