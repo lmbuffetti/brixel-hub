@@ -34,7 +34,6 @@ const Facts = (props) => {
     handleSaveData,
     history,
     match,
-    windowDimensions,
   } = props;
 
   // STATE
@@ -131,30 +130,12 @@ const Facts = (props) => {
     return null;
   };
 
-  useEffect(() => {
-    if (windowDimensions.width <= 1024) {
-      setTimeout(() => {
-        const hubDashboard = document.getElementsByClassName('hubDashboard')[0];
-        if (hubDashboard) hubDashboard.classList.add('secondLevelActive');
-      }, 10);
-    }
-  }, []);
-
   return (
     <>
       <h3 className="mb-3 hide dis-b-lg">Facts</h3>
       <div className="dis-f h-perc-lg-100">
         <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
           <div className="dis-fl-col backPanel hide-lg">
-            <div className="fixedIcon w-perc-100">
-              <BrixelButtonIcon
-                className="dis-b hide-md"
-                icon="arrow-left-small"
-                theme="dark"
-                ghost
-                onClick={() => history.push(`/${propID}/property`)}
-              />
-            </div>
             <h5 className="sectionTitle">Facts</h5>
           </div>
           <div className="boxCard flex-1">
@@ -243,7 +224,6 @@ Facts.propTypes = {
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
 Facts.defaultProps = {

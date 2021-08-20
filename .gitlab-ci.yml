@@ -9,7 +9,7 @@ stages:
 install_dependencies:
   stage: install_dependencies
   only:
-    - develop
+    - feature/new-header-menu
     - staging
     - master
   script:
@@ -26,7 +26,7 @@ build site:
     paths:
       - node_modules/
   only:
-    - develop
+    - feature/new-header-menu
     - staging
     - master
   variables:
@@ -53,7 +53,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - develop
+    - feature/new-header-menu
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
@@ -100,7 +100,7 @@ test integration:
     paths:
       - node_modules/
   only:
-    - develop
+    - feature/new-header-menu
     - staging
     - master
   variables:

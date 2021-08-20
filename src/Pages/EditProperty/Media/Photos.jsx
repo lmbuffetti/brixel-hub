@@ -161,15 +161,6 @@ const Photos = (props) => {
       <div className="photosWrapper dis-f">
         <div className="secondLevel dis-fl-col">
           <div className="dis-f backPanel hide-lg">
-            <div className="fixedIcon w-perc-100">
-              <BrixelButtonIcon
-                className="hide-md"
-                icon="arrow-left-small"
-                ghost
-                theme="dark"
-                onClick={() => history.push(`/${propID}/property`)}
-              />
-            </div>
             <h5 className="sectionTitle">
               Photos
             </h5>

@@ -29,15 +29,6 @@ const Tour = (props) => {
       <div className="tourWrapper h-perc-lg-100">
         <div className="secondLevel dis-fl-col">
           <div className="dis-f backPanel hide-lg">
-            <div className="fixedIcon w-perc-100">
-              <BrixelButtonIcon
-                className="hide-md"
-                ghost
-                icon="arrow-left-small"
-                theme="dark"
-                onClick={() => history.push(`/${propID}/property`)}
-              />
-            </div>
             <h5 className="sectionTitle">
               3D tour
             </h5>

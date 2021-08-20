@@ -320,7 +320,7 @@ const DashboardHome = (props) => {
           <div className="w-perc-100 w-perc-sm-75 dis-f pr-sm-4">
 
             <Link
-              to={`/${activeSingleProperty.id}/facts`}
+              to={`/${activeSingleProperty.id}/property/facts`}
               className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp mr-1 pt-2 cur-poi"
             >
               <div className="h-fix-184 dis-fl-col jc-b">
@@ -345,9 +345,9 @@ const DashboardHome = (props) => {
                 </div>
                 <div className="linkWrap">
                   <hr className="lighter" />
-                  <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 py-1">
+                  <div className="txtHoverDark200 txtLight700 px-3 py-1">
                     <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </Link>
@@ -362,7 +362,7 @@ const DashboardHome = (props) => {
                     color="AltColor"
                     saturationTxt={700}
                   />
-                  <span className="txtDark700 fweight-600 pl-1"> Marketing </span>
+                  <span className="txtDark700 fweight-600 pl-1">Marketing</span>
                 </div>
                 <div className="px-3">
                   {

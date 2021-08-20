@@ -100,57 +100,51 @@ const ShowingsBuyer = (props) => {
   }
 
   return (
-    <div className="secondLevel h-perc-lg-100">
-      <div className="dis-f backPanel">
-        <div className="fixedIcon w-perc-100">
-          <BrixelButtonIcon
-            className="hide-md"
-            bgTransparent
-            icon="arrow-left-small"
-            theme="dark"
-            ghost
-            onClick={() => history.push(`/buyer/${propID}/property`)}
-          />
+    <>
+      <h3 className="mb-3 hide dis-b-lg">Showings</h3>
+      <div className="dis-f h-perc-lg-100">
+        <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
+          <div className="dis-fl-col backPanel hide-lg">
+            <h5 className="sectionTitle">Showings</h5>
+          </div>
+          <div className="boxCard flex-1">
+            {
+              bookingSlot.length > 0 ? (
+                <div className="dis-fl-col a-c min-h-fix-336">
+                  <img src={showingsIMG} alt="Showing Buyer" />
+                  <h5 className="my-3">Thanks for your request.</h5>
+                  {
+                    bookingSlot.map((day, g) => (
+                      <div key={g.toString()} className="w-perc-100 max-w-fix-360">
+                        <BrixelInfoSlot
+                          title={DateTime.fromISO(extractDate(day.slot.slot), { locale: userLang }).toFormat('cccc - dd LLL yyyy')}
+                          subtitle={extractDate(day.slot.slot, true)}
+                        />
+                      </div>
+                    ))
+                  }
+                  <h6>
+                    We will contact you as soon as possible for confirmation.
+                  </h6>
+                </div>
+              ) : (
+                <div className="dis-fl-col a-c min-h-fix-336">
+                  <img src={showingsEmpty} alt="Showing Buyer" />
+                  <h5 className="my-3">Request your showing</h5>
+                  <BrixelButtonPrimary
+                    rounded
+                    label="Add dates"
+                    rightIcon="calendar-add"
+                    onClick={() => history.push(`/buyer/${propID}/property/showings/add`)}
+                    className="mb-3"
+                  />
+                </div>
+              )
+            }
+          </div>
         </div>
-        <h3 className="mb-3 hide dis-b-lg">Showings</h3>
-        <h5 className="sectionTitle hide-lg">Showings</h5>
       </div>
-      <div className="boxCard cardSecondLevel">
-        {
-          bookingSlot.length > 0 ? (
-            <div className="dis-fl-col a-c min-h-fix-336">
-              <img src={showingsIMG} alt="Showing Buyer" />
-              <h5 className="my-3">Thanks for your request.</h5>
-              {
-                bookingSlot.map((day, g) => (
-                  <div key={g.toString()} className="w-perc-100 max-w-fix-360">
-                    <BrixelInfoSlot
-                      title={DateTime.fromISO(extractDate(day.slot.slot), { locale: userLang }).toFormat('cccc - dd LLL yyyy')}
-                      subtitle={extractDate(day.slot.slot, true)}
-                    />
-                  </div>
-                ))
-              }
-              <h6>
-                We will contact you as soon as possible for confirmation.
-              </h6>
-            </div>
-          ) : (
-            <div className="dis-fl-col a-c min-h-fix-336">
-              <img src={showingsEmpty} alt="Showing Buyer" />
-              <h5 className="my-3">Request your showing</h5>
-              <BrixelButtonPrimary
-                rounded
-                label="Add dates"
-                rightIcon="calendar-add"
-                onClick={() => history.push(`/buyer/${propID}/property/showings/add`)}
-                className="mb-3"
-              />
-            </div>
-          )
-        }
-      </div>
-    </div>
+    </>
   );
 };
 

@@ -90,15 +90,6 @@ const Portals = (props) => {
 
       <div className="secondLevel dis-fl-col">
         <div className="dis-fl-col backPanel dis-b hide-md">
-          <div className="fixedIcon w-perc-100">
-            <BrixelButtonIcon
-              className=""
-              icon="arrow-left-small"
-              theme="dark"
-              ghost
-              onClick={() => history.push(`/${propID}/marketing`)}
-            />
-          </div>
           <h5 className="sectionTitle">Portals</h5>
         </div>
 
