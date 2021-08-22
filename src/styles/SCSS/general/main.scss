@@ -118,9 +118,11 @@ img {
   max-width: 100%;
   height: auto;
 }
-
+.hr,
 hr {
   border: none;
+  display: block;
+  width: 100%;
   border-top:1px solid map_get($lightColor, 400);
   &.lighter {
     border-color: map_get($lightColor, 200);

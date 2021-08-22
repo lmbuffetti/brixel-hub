@@ -307,11 +307,11 @@ function PageHeaderDashboard(props) {
       />
       <header className={`hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
         <div className="dasHeaderContainer">
-          <div className="wrapperHeader dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
+          <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
             {
               windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name ? (
                 <div className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}>
-                  <div className="dis-f a-c pl-2 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256 w-perc-100">
+                  <div className="dis-f a-c pl-0 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256 w-perc-100">
                     {
                       windowDimensions.width <= 590 ? (
                         <img
