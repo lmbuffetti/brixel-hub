@@ -23,7 +23,7 @@ import {
   keyify, calcPercentageProEstimation, calcPercentageFacts,
 } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
-import { saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { getEstimation, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import {
   preventExitFromScreen, setUnsavedChangesModal, setModal, setSplashType,
 } from '../../actions/CommonActions';
@@ -35,6 +35,7 @@ const ProEstimationFlow = (props) => {
     estimation,
     formValue,
     handleDestroy,
+    handleGetEstimation,
     handleReset,
     handleSaveActiveSingleProperty,
     handleSetModal,
@@ -73,19 +74,28 @@ const ProEstimationFlow = (props) => {
       objToSave[key] = get(formValue, key, {});
       return null;
     });
-    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-    inputSheet.totalComplete = calcPercentageFacts().calcPerc;
-    objToSave.inputSheet = inputSheet;
-    const data = {
-      id: activeSingleProperty.id,
-      smallLoader: 'saveData',
-      setSuccessNotification: true,
-      ...objToSave,
-      sendNotification,
-      estimationId: estimation.id,
-    };
-    // ADD THE ACHIEVEMENT
-    handleSaveActiveSingleProperty(data);
+    if (estimation.id) {
+      const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+      inputSheet.totalComplete = calcPercentageFacts().calcPerc;
+      objToSave.inputSheet = inputSheet;
+      const data = {
+        id: activeSingleProperty.id,
+        smallLoader: 'saveData',
+        setSuccessNotification: true,
+        ...objToSave,
+        sendNotification,
+        estimationId: estimation.id,
+      };
+      // ADD THE ACHIEVEMENT
+      handleSaveActiveSingleProperty(data);
+    } else {
+      const payload = {
+        reloadOnwProperties: true,
+        type: 'market',
+        id: activeSingleProperty.id,
+      };
+      handleGetEstimation(payload);
+    }
   };
 
   // FUNCTION TO REMOVE ALL SINGLE OBJECT FROM INPUT SHEETS
@@ -314,6 +324,7 @@ ProEstimationFlow.propTypes = {
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleDestroy: PropTypes.func.isRequired,
+  handleGetEstimation: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
@@ -358,6 +369,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('formFlow', value));
   },
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   setUnsavedModal: bindActionCreators(setUnsavedChangesModal, dispatch),

@@ -26,7 +26,7 @@ import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import { DateTime } from 'luxon';
 import { setHistory, setSplashType } from '../../actions/CommonActions';
 import { InputSheets } from '../../resources/inputSheets';
-import { calcPercentageProEstimation } from '../../utils/helpers';
+import { calcPercentageProEstimation, completedBestimate } from '../../utils/helpers';
 
 // COMPONENTS
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
@@ -56,6 +56,7 @@ const Price = (props) => {
   const [percComplete, setPercComplete] = useState(0);
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
+  const bestimateflowCompleted = completedBestimate(formValue);
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
@@ -74,13 +75,14 @@ const Price = (props) => {
           reloadOnwProperties: true,
           type: 'market',
           id: activeSingleProperty.id,
+          generate: bestimateflowCompleted,
         };
         handleGetEstimation(payload);
-      } else if (has(estimation, 'result') && !has(estimation, 'result.value') && get(estimation, 'status', '') !== 'pending' && estimation.id) {
+      } else if (has(estimation, 'result') && !has(estimation, 'result.value') && (get(estimation, 'status', '') !== 'pending' || bestimateflowCompleted) && estimation.id) {
         handleGenerateBestimate(estimation.id);
       }
     }
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, bestimateflowCompleted]);
 
   useEffect(() => {
     setPercComplete(calcPercentageProEstimation().realPerc);
@@ -363,8 +365,9 @@ const Price = (props) => {
                 ) : (
                   <>
                     {
-                      get(estimation, 'status', null) !== 'pending' ? (
+                      get(estimation, 'status', null) !== 'pending' || !bestimateflowCompleted ? (
                         <>
+                          {bestimateflowCompleted.toString()}
                           <h5 className="mb-3">Get a free price indication.</h5>
                           <p className="txtDark700">Compare your property to real transaction data to better define the pricing.</p>
                           <BrixelButtonPrimary

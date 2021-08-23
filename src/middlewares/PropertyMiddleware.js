@@ -476,7 +476,7 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       let type;
       let id;
-      const { smallLoader } = action.payload;
+      const { generate, smallLoader } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -508,7 +508,7 @@ const checkCommon = (store) => (next) => (action) => {
             const data = {
               owner: store.getState().user.loggedInUser.user.id,
               page: type === true ? id : store.getState().brixelForm.Property.values.id,
-              generate: true,
+              generate: has(action.payload, 'generate') ? generate : true,
               reloadOnwProperties: get(action.payload, 'reloadOnwProperties', false),
             };
             store.dispatch({ type: CREATE_ESTIMATION, payload: data });
