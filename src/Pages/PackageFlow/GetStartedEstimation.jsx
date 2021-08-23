@@ -520,9 +520,8 @@ const GetStartedEstimation = (props) => {
   useEffect(() => {
     if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
       const propertyType = get(formValue, 'properties.propertyType', null);
-      const pageTitleVal = get(formValue, 'pageTitle', '');
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-      if (pageTitle && pageTitleVal.includes('undefined')) changeFieldValue('pageTitle', pageTitle);
+      if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
   }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
 
