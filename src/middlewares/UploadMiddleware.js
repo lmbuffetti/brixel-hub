@@ -137,6 +137,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       Promise.all(calls).then((res) => {
+        const coverImg = get(store.getState(), 'brixelForm.Property.values.coverPhoto', {});
         const data = {};
         const filesArray = get(store.getState(), `brixelForm.Property.values[${actions}]`, []);
         res.forEach((resImg) => {
@@ -167,6 +168,9 @@ const checkCommon = (store) => (next) => (action) => {
             }
           }
         });
+        if (!coverImg.id) {
+          data.coverPhoto = filesArray[0];
+        }
         set(data, actions, filesArray);
         data.id = pageID;
         data.smallLoader = smallLoader;
