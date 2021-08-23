@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 import { Helpers } from '@brixel/brixel-components';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import { createEstimation } from '../../../actions/EstimationActions';
+import { createEstimation, generateEstimation } from '../../../actions/EstimationActions';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 import Loading from '../../../components/Loading';
@@ -19,19 +19,17 @@ function ResumeBestimate(props) {
   // PROPS
   const {
     activeSingleCompany,
+    activeSingleProperty,
     condition,
     estimation,
+    handleCreateEstimation,
+    handleGenerateBestimate,
     handleGetEstimation,
     handleGetMarketCheck,
-    handleSaveActiveSingleProperty,
-    handleCreateEstimation,
     history,
     marketData,
     match,
-    activeSingleProperty,
   } = props;
-  // STATE
-  const [saved, setSaved] = useState(false);
   // URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -73,20 +71,17 @@ function ResumeBestimate(props) {
 
   // LOAD THE ESTIMATION
   useEffect(() => {
-    if (estimation.value) {
-      const data = {
-        id: propID,
-        estimation: {
-          bestimate: {
-            ...estimation,
-          },
-        },
-      };
-      if (get(estimation, 'result.value', null)) data.estimation.bestimate.updatedAt = new Date();
-      else data.estimation.bestimate.createdAt = new Date();
-      if (estimation && !saved) {
-        handleSaveActiveSingleProperty(data);
-        setSaved(true);
+    if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id) {
+      if (!has(estimation, 'result') && get(estimation, 'status', '') !== 'pending') {
+        const payload = {
+          reloadOnwProperties: true,
+          type: 'market',
+          id: activeSingleProperty.id,
+          generate: true,
+        };
+        handleGetEstimation(payload);
+      } else if (has(estimation, 'result') && !has(estimation, 'result.value') && estimation.id) {
+        handleGenerateBestimate(estimation.id);
       }
     }
   }, [estimation, activeSingleProperty]);
@@ -179,34 +174,35 @@ function ResumeBestimate(props) {
 
 ResumeBestimate.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   condition: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
+  handleCreateEstimation: PropTypes.func.isRequired,
+  handleGenerateBestimate: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetMarketCheck: PropTypes.func.isRequired,
-  handleCreateEstimation: PropTypes.func.isRequired,
-  handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
 };
 
 ResumeBestimate.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   condition: get(state, 'property.estimation.result', {}),
+  estimation: get(state, 'property.estimation', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.marketCheck', {}),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-  estimation: get(state, 'property.estimation', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleCreateEstimation: bindActionCreators(createEstimation, dispatch),
+  handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetMarketCheck: bindActionCreators(getMarketCheck, dispatch),
-  handleCreateEstimation: bindActionCreators(createEstimation, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
