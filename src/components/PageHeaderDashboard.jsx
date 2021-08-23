@@ -210,10 +210,12 @@ function PageHeaderDashboard(props) {
   useEffect(() => {
     // this changes the scrolling behavior to "smooth"
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
-    if (checkBrowser() > 0) {
-      dashContentEl.scrollTop = 0;
-    } else {
-      dashContentEl.scrollTo({ top: 0 });
+    if (dashContentEl) {
+      if (checkBrowser() > 0) {
+        dashContentEl.scrollTop = 0;
+      } else {
+        dashContentEl.scrollTo({ top: 0 });
+      }
     }
   }, [history.location]);
 
