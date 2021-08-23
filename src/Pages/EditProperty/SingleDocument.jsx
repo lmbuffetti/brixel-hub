@@ -27,6 +27,7 @@ import {
   change, BrixelSelect, BrixelButtonText, BrixelButtonSecondary,
   BrixelRadioButton,
 } from '@brixel/brixel-components';
+import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import {
   updateDocument,
 } from '../../actions/UploadActions';
@@ -50,6 +51,24 @@ const SingleDocument = (props) => {
   const [activeDocumentKey, setActiveDocumentKey] = useState();
   const [documentFolders, setDocumentFolders] = useState([]);
   const [newFolder, setNewFolder] = useState(false);
+  const [docuementsType, setDocumentsType] = useState([]);
+
+  useEffect(() => {
+    if (has(formValue, 'location.countryCode')) {
+      const docsConfig = documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')];
+      const docsOptions = [{
+        label: 'Generic',
+        value: 'Generic',
+      }];
+      docsConfig.forEach((doc) => {
+        docsOptions.push({
+          label: doc,
+          value: doc,
+        });
+      });
+      setDocumentsType(docsOptions);
+    }
+  }, [formValue]);
 
   useEffect(() => {
     const docID = get(match, 'params.docID', null);
@@ -106,6 +125,7 @@ const SingleDocument = (props) => {
         folder: formValue.documents[`${activeDocumentKey}`].folder,
         path: activeDocument.path,
         mimeType: activeDocument.mimeType,
+        type: formValue.documents[`${activeDocumentKey}`].type,
       },
       smallLoader: 'saveData',
     };
@@ -116,14 +136,14 @@ const SingleDocument = (props) => {
   const checkDisabled = () => {
     const isDocEdit = find(diff(initialValues, formValue).documents, (el) => {
       if (history.location.pathname.includes('docubox') &&
-          (has(el, 'isPrivate') || has(el, 'name') || has(el, 'folder')) &&
+          (has(el, 'isPrivate') || has(el, 'name') || has(el, 'type') || has(el, 'folder')) &&
           !has(el, 'id') && newFolder === false) {
         return true;
       }
       return false;
     });
 
-    if (has(isDocEdit, 'name') || has(isDocEdit, 'isPrivate') || has(isDocEdit, 'folder')) return false;
+    if (has(isDocEdit, 'name') || has(isDocEdit, 'isPrivate') || has(isDocEdit, 'type') || has(isDocEdit, 'folder')) return false;
     return true;
   };
 
@@ -174,6 +194,22 @@ const SingleDocument = (props) => {
                     label: 'Name',
                   }}
                   component={BrixelInputText}
+                />
+                <ReduxField
+                  form="Property"
+                  design={{
+                    className: 'zIndex3 mb-3',
+                    borderColor: 'light',
+                    color: 'light',
+                  }}
+                  input={{
+                    name: `documents[${activeDocumentKey}].type`,
+                    options: docuementsType,
+                  }}
+                  labels={{
+                    label: 'Type of document',
+                  }}
+                  component={BrixelSelect}
                 />
                 <ReduxField
                   form="Property"

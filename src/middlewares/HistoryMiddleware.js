@@ -4,11 +4,14 @@ import {
   SET_PROPERTY_HISTORY_LISTINGS,
   SET_USER_HISTORY_LISTINGS,
   SET_DEAL_HISTORY_LISTINGS,
+  GET_HISTORY_FEED,
+  SET_HISTORY_FEED,
 } from '../actions/types/HistoryTypes';
 
 import {
   SPINNER_ON,
   SPINNER_OFF,
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -17,12 +20,29 @@ const checkHistory = (store) => (next) => (action) => {
   switch (action.type) {
     case GET_HISTORY_LISTINGS: {
       next(action);
-      store.dispatch({
-        type: SPINNER_ON,
-      });
       // eslint-disable-next-line no-case-declarations
-      const queryParams = `?parent=${action.payload.parent}&order=${action.payload.order}&direction=${action.payload.direction}`;
-      api.history.getHistoryList(action.payload.resultsPerPage, action.payload.offset, queryParams)
+      const {
+        direction,
+        offset,
+        order,
+        parent,
+        resultsPerPage,
+        smallLoader,
+      } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      const queryParams = `?parent=${parent}&order=${order}&direction=${direction}`;
+      api.history.getHistoryList(resultsPerPage, offset, queryParams)
         .then((response) => {
           if (response.data.total > 0) {
             if (action.payload.type === 'page') {
@@ -49,13 +69,57 @@ const checkHistory = (store) => (next) => (action) => {
                 payload: response.data,
               });
             }
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
+          } else {
             store.dispatch({
               type: SPINNER_OFF,
             });
+          }
+        });
+      break;
+    }
+    case GET_HISTORY_FEED: {
+      next(action);
+      const {
+        arryaStubs,
+        direction,
+        id,
+        offset,
+        order,
+        resultsPerPage,
+        smallLoader,
+      } = action.payload;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      const queryParams = `?order=${order}&direction=${direction}`;
+      api.history.historyFeed(id, resultsPerPage, offset, queryParams, arryaStubs)
+        .then((res) => {
+          store.dispatch({ type: SET_HISTORY_FEED, payload: res.data });
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
+            });
           } else {
-            // Should dispatch error state
-            // eslint-disable-next-line no-console
-            console.warn('Could not get any history for this object');
             store.dispatch({
               type: SPINNER_OFF,
             });

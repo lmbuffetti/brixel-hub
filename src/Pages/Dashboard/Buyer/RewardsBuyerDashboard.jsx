@@ -37,7 +37,7 @@ const RewardsBuyerDashboard = (props) => {
   const onClickAchievement = (game, achievement) => {
     setActiveGameGroup(game);
     localStorage.setItem('gameGroup', game);
-    history.push({ pathname: `/${propID}/rewards/${game}` });
+    history.push({ pathname: `/${propID}/home/${game}` });
     setActiveAchievement(achievement);
   };
 
@@ -90,7 +90,7 @@ const RewardsBuyerDashboard = (props) => {
                               className="hide-md"
                               icon="arrow-left-small"
                               ghost
-                              onClick={() => history.push(`/${propID}/rewards`)}
+                              onClick={() => history.push(`/${propID}/home`)}
                             />
                           </div>
                           {

@@ -83,14 +83,14 @@ function SuccessAssessor(props) {
                             rounded
                             label="See full report"
                             className="m-a mb-2"
-                            onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                            onClick={() => history.push(`/${propID}/singleFlow/achievement/${getParams}`)}
                             rightIcon="arrow-right"
                           />
                           <BrixelButtonText
                             label="Redo condition check"
                             className="m-a"
                             onClick={() => history.push({
-                              pathname: `/${propID}/rewards/achievement/${getParams}`,
+                              pathname: `/${propID}/singleFlow/achievement/${getParams}`,
                               state: { redo: true },
                             })}
                           />
@@ -120,7 +120,7 @@ function SuccessAssessor(props) {
                 rounded
                 label="Assess condition"
                 className="m-a"
-                onClick={() => history.push(`/${propID}/rewards/achievement/${getParams}`)}
+                onClick={() => history.push(`/${propID}/singleFlow/achievement/${getParams}`)}
                 rightIcon="arrow-right"
               />
             </div>

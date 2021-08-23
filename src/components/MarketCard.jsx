@@ -81,12 +81,12 @@ const MarketCard = (props) => {
       if (type === 'own') {
         if (get(windowDimensions, 'width', 0) <= 1024) {
           history.push({
-            pathname: `/${item.id}/rewards`,
+            pathname: `/${item.id}/home`,
             state: { section: 'Market' },
           });
         } else {
           history.push({
-            pathname: `/${item.id}/rewards/market-checker`,
+            pathname: `/${item.id}/home`,
             state: { section: 'Market' },
           });
         }
@@ -356,7 +356,7 @@ const MarketCard = (props) => {
                   <div
                     className="p-2 brdRadius bgLight100 dis-f a-c"
                     onClick={() => history.push({
-                      pathname: `/${item.id}/rewards/achievement/facts`,
+                      pathname: `/${item.id}/singleFlow/achievement/facts`,
                       search: '',
                       state: { hideBackPage: true },
                     })}

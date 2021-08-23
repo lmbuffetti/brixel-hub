@@ -1,8 +1,8 @@
 .bgCardGreenDark {
-  background-color: map-get($altColor, 200);;
+  background-color: $newGreenDark;
 }
 .bgCardGreen {
-  background-color: map-get($altColor, 300);;
+  background-color: $newGreenLight;
 }
 
 .flowBody {
@@ -312,14 +312,13 @@
         .onBoardingSignUp {
 
           .topBar {
-            border-top-left-radius: $step;
-            border-top-right-radius: $step;
+            border-bottom-left-radius: $step;
+            border-bottom-right-radius: $step;
             background-color: #009579;
           }
           .innerBox {
-            border-bottom-left-radius: $step;
-            border-bottom-right-radius: $step;
-
+            border-top-left-radius: $step;
+            border-top-right-radius: $step;
           }
 
           label.brixel-label {
@@ -327,10 +326,11 @@
             margin-bottom: $step;
           }
           .brixel-checkbox {
-            padding: $step;
-            margin-bottom: 8px;
+            padding-top: $step;
+            padding-bottom: $step;
           }
           .policyText {
+            line-height: 1rem;
             a {
               text-decoration: underline;
             }
@@ -344,6 +344,8 @@
             }
           }
           .stengthPassword {
+            margin-bottom: 40px;
+
             .passContent > p {
               //color: $brx-white;
             }

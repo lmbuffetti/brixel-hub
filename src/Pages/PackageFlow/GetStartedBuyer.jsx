@@ -256,14 +256,31 @@ const GetStartedBuyer = (props) => {
           setQuest(newQuest);
           setCurrentIndex(defId);
         }
+
+        if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
+          const fakeInput = document.createElement('input');
+          fakeInput.setAttribute('type', 'text');
+          fakeInput.setAttribute('id', 'fakeInput');
+          fakeInput.style.position = 'absolute';
+          fakeInput.style.opacity = 0;
+          fakeInput.style.height = 0;
+          fakeInput.style.fontSize = '16px'; // disable auto zoom
+          // zoom/scroll behavior
+          document.body.prepend(fakeInput);
+          fakeInput.focus();
+        }
+
         setTimeout(() => {
+          const fakeInput = document.getElementById('fakeInput');
           const getCurStep = document.getElementById(`step-${defId}`);
           if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
             getCurStep.querySelector('input[type="number"]').focus();
           } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
             getCurStep.querySelector('input[type="text"]').focus();
           }
-        }, 100);
+          // cleanup
+          fakeInput.remove();
+        }, 500);
         if (questions[defId].history) {
           history.push({
             pathname: `/packageFlow/getStartedBuyer/${questions[defId].history}`,
@@ -489,7 +506,7 @@ const GetStartedBuyer = (props) => {
                       }
                       {
                         quest.subtitle && (
-                          <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                          <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
                       <div className={`${quest.className} w-perc-100`}>
                         <MultiFileldsReduxForm

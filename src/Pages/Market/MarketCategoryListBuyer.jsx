@@ -162,7 +162,7 @@ const MarketCategoryListBuyer = (props) => {
           )
         }
 
-        <div className="dis-fl-col mb-8">
+        <div className="dis-fl-col pb-8">
           <div className="dis-fl-row jc-b flex-wrap">
             <div className="dis-fl-col mb-3">
               <h4 className="fweight-700">Discover our market</h4>
@@ -379,7 +379,7 @@ const MarketCategoryListBuyer = (props) => {
 
         {
           wishlistProperties.total > 0 && (
-            <div className={`min-h-fix-448 ${wishlistProperties.total === 0 ? '' : 'mb-8'}`}>
+            <div className={`min-h-fix-448 ${wishlistProperties.total === 0 ? '' : 'pb-8'}`}>
               <CarouselWrapper
                 title="Wishlist"
                 className="market-category-carousel"
@@ -393,7 +393,7 @@ const MarketCategoryListBuyer = (props) => {
 
         {
           favoritesProperties.total > 0 && (
-            <div className={`min-h-fix-448 ${favoritesProperties.total === 0 ? '' : 'mb-8'}`}>
+            <div className={`min-h-fix-448 ${favoritesProperties.total === 0 ? '' : 'pb-8'}`}>
               <CarouselWrapper
                 title="Bookmarks"
                 className="market-category-carousel"
@@ -405,7 +405,7 @@ const MarketCategoryListBuyer = (props) => {
           )
         }
 
-        <div className="mb-8">
+        <div className="pb-8">
           {
             newProperties.total !== 0 ? (
               <CarouselWrapper
@@ -425,7 +425,7 @@ const MarketCategoryListBuyer = (props) => {
           }
         </div>
 
-        <div className="mb-8">
+        <div className="pb-8">
           {
             preMarketProperties.total > 0 && (
               <CarouselWrapper
@@ -439,7 +439,7 @@ const MarketCategoryListBuyer = (props) => {
           }
         </div>
 
-        <div className="mb-8">
+        <div className="pb-8">
           {
             premiumProperties.total > 0 && (
               <CarouselWrapper

@@ -8,7 +8,6 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon, Helpers,
   change, reset, BrixelButtonText, BrixelSwitchButton,
@@ -86,26 +85,16 @@ const Portals = (props) => {
 
   return (
     <div className="dis-fl-col">
-
       <h3 className="mb-3 hide dis-b-lg">Portals</h3>
 
       <div className="secondLevel dis-fl-col">
-        <div className="hide-lg pos-r">
-          <div className="dis-fl-col pageTitle">
-            <div className="fixedIcon w-perc-100">
-              <BrixelButtonIcon
-                icon="arrow-left-small"
-                theme="dark"
-                ghost
-                onClick={() => history.push(`/${propID}/marketing`)}
-              />
-            </div>
-            <h5 className="sectionTitle">Portals</h5>
-          </div>
+        <div className="dis-fl-col backPanel dis-b hide-md">
+          <h5 className="sectionTitle">Portals</h5>
         </div>
+
         {
           has(formValue, 'published') && formValue.published === false && (
-            <div className="mb-5">
+            <div className="boxCard mb-5">
               <div className="portalsWrapper dis-fl-col cardInfoBox">
                 <BrixelSwitchButton
                   isReversed
@@ -119,21 +108,19 @@ const Portals = (props) => {
                 />
                 {
                   get(formValue, 'preMarketVisible', false) === true ? (
-                    <span className="txtDark700">
+                    <p className="txtDark700">
                       Your property is visible on our pre-market.
                       Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
-                    </span>
+                    </p>
                   ) : (
-                    <span className="txtDark700">
-                      Your property is <strong className="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
-                    </span>
+                    <p className="txtDark700" dangerouslySetInnerHTML={{ __html: 'Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.' }} />
                   )
                 }
               </div>
             </div>
           )
         }
-        <div>
+        <div className="boxCard mb-5">
           <div className="portalsWrapper dis-fl-col cardInfoBox">
 
             <div className="max-h-perc-100 pb-4 ov-a">
@@ -302,7 +289,6 @@ const Portals = (props) => {
         {
           !checkPortalsOnline() && !formValue.portalsReview && (
             <BrixelUpgradeMessage
-              className="mt-3"
               title={messageToUnlock('title')}
               description={messageToUnlock('description')}
               btnLabel={messageToUnlock('btnLabel')}

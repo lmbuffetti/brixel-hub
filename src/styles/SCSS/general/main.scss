@@ -1,8 +1,8 @@
-// CUSTOM VARIABLES
+/* CUSTOM VARIABLES */
 $sidebarWidth: 84px;
 $iphone5: 320px;
 
-// GENERAL
+/* GENERAL */
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
 $imgRootpath: "~@brixel/brixel-components/dist/";
@@ -37,11 +37,11 @@ map-get($greenColor, 300),
 map-get($yellowColor, 300),
 map-get($blueColor, 300);
 
-// DASHBOARD STUFF
+/* DASHBOARD STUFF */
 @import "./windows",
 "./hubDashboard";
 
-// PAGES
+/* PAGES */
 @import "../pages/onBoarding",
 "../pages/listings",
 "../pages/_property_listings",
@@ -52,9 +52,10 @@ map-get($blueColor, 300);
 "../pages/buyer",
 "../pages/deals",
 "../pages/getStarted",
+"../pages/sellerSidebar",
 "../pages/seller";
 
-// TRANSITIONS
+/* TRANSITIONS */
 @import "./transitions";
 
 
@@ -117,12 +118,17 @@ img {
   max-width: 100%;
   height: auto;
 }
-
+.hr,
 hr {
   border: none;
+  display: block;
+  width: 100%;
   border-top:1px solid map_get($lightColor, 400);
   &.lighter {
     border-color: map_get($lightColor, 200);
+  }
+  &.white {
+    border-color: white;
   }
 }
 
@@ -625,4 +631,85 @@ button.minimum-w-210 {
   padding-right: 0 !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
+}
+
+
+.opacity-08 {
+  opacity: 0.8;
+  transition: opacity 450ms ease-in;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.tagBg {
+  color: white;
+  background: map-get($altColor, 1000);
+  position: relative;
+  float: left;
+  position: relative;
+  height: 48px;
+  margin-left: $step * 4;
+
+  &:before {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent;
+    border-right: 16px solid map-get($altColor, 1000);
+    position: absolute;
+    top: 50%;
+    margin-top: -24px;
+    right: 100%;
+    z-index: 2;
+  }
+}
+.activeDot {
+  line-height: inherit;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  position: relative;
+  border-radius: 50%;
+  &.green {
+    background-color: map-get($altColor, 200);;
+  }
+  &.grey {
+    background-color: #CFD2D3;
+  }
+}
+.brdRadiusLrg {
+  border-radius: $step * 3;
+}
+
+.linkWrap {
+  .wHover {
+    display: block;
+    span {
+      transition: left 150ms ease-in;
+      position: relative;
+      display: inline-block;
+      left: 0px;
+    }
+    .arrow-symbol {
+      transition-delay: 100ms;
+    }
+  }
+  &:hover {
+    //.text { left: -5px; }
+    .arrow-symbol { left: 5px; }
+  }
+}
+
+.icon-hourglass {
+  svg > g {
+    transform: translate(6px, 0);
+  }
+}
+
+.shadowHover-4dp {
+  transition: all 450ms ease-in;
 }

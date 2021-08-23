@@ -137,15 +137,14 @@ const DetailMedia = (props) => {
 
   return (
     <div className="thirdLevel mediaDetails">
-      <div className="dis-fl-col max-h-perc-100">
+      <div className="boxCard dis-fl-col max-h-perc-100">
         <div className="max-h-perc-100">
           <div className="image-detail">
-            <div className="dis-f backPanel">
-              <div className="fixedIcon w-perc-100">
-                <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
+            <div className="dis-f jc-b w-perc-100 mb-3">
+              <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
+              <div className="">
                 <BrixelButtonIcon
                   ghost
-                  theme="dark"
                   icon="close-small"
                   noBorder
                   onClick={() => history.push(`/${propID}/property/${mediaType}`)}

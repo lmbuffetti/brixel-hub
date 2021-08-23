@@ -15,13 +15,10 @@ const Tour = (props) => {
   // PROPS
   const {
     formValue,
-    history,
-    match,
   } = props;
   // STATE
   const [showTour, setShowTour] = useState(false);
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
 
   return (
     <>
@@ -29,22 +26,13 @@ const Tour = (props) => {
       <div className="tourWrapper h-perc-lg-100">
         <div className="secondLevel dis-fl-col">
           <div className="dis-f backPanel hide-lg">
-            <div className="fixedIcon w-perc-100">
-              <BrixelButtonIcon
-                className="hide-md"
-                ghost
-                icon="arrow-left-small"
-                theme="dark"
-                onClick={() => history.push(`/${propID}/property`)}
-              />
-            </div>
             <h5 className="sectionTitle">
               3D tour
             </h5>
           </div>
           {
             get(formValue, 'virtual.matterport', null) ? (
-              <div className="tour">
+              <div className="tour boxCard mb-5">
                 {
                   !showTour ? (
                     <div className="pos-r brdRadius ov-h">
@@ -89,9 +77,8 @@ const Tour = (props) => {
                 }
               </div>
             ) : (
-              <div className="tour brixel-upgrade-message p- rewardsSplash">
+              <div className="tour brixel-upgrade-message rewardsSplash">
                 <BrixelUpgradeMessage
-                  className="mt-0 p-2"
                   unlockFunction={false}
                   title="Do you want a 3D tour for your property?"
                   description="A 3D tour helps you to avoid unnecessary showings and increases the attention of your property in the market. Request a free scan by one of our experts to get your own tour."
@@ -111,8 +98,6 @@ const Tour = (props) => {
 
 Tour.propTypes = {
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 Tour.defaultProps = {

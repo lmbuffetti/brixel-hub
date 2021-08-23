@@ -284,14 +284,32 @@ const GetStartedSeller = (props) => {
             setQuest(newQuest);
             setCurrentIndex(defId);
           }
+          // const getCurStep = document.getElementById(`step-${defId}`);
+          // create invisible dummy input to receive the focus first
+          if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
+            const fakeInput = document.createElement('input');
+            fakeInput.setAttribute('type', 'text');
+            fakeInput.setAttribute('id', 'fakeInput');
+            fakeInput.style.position = 'absolute';
+            fakeInput.style.opacity = 0;
+            fakeInput.style.height = 0;
+            fakeInput.style.fontSize = '16px'; // disable auto zoom
+            // zoom/scroll behavior
+            document.body.prepend(fakeInput);
+            fakeInput.focus();
+          }
+
           setTimeout(() => {
+            const fakeInput = document.getElementById('fakeInput');
             const getCurStep = document.getElementById(`step-${defId}`);
             if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
               getCurStep.querySelector('input[type="number"]').focus();
             } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
               getCurStep.querySelector('input[type="text"]').focus();
             }
-          }, 100);
+            // cleanup
+            if (fakeInput) fakeInput.remove();
+          }, 500);
           if (questions[defId].history) {
             history.push({
               pathname: `/packageFlow/getStarted/${questions[defId].history}`,
@@ -412,9 +430,9 @@ const GetStartedSeller = (props) => {
   const closeWindow = () => {
     reset('Property');
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/rewards`);
+      history.push(`/${propID}/home`);
     } else {
-      history.push(`/${propID}/rewards/${getAchievement()}`);
+      history.push(`/${propID}/home/${getAchievement()}`);
     }
   };
 
@@ -444,12 +462,12 @@ const GetStartedSeller = (props) => {
 
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
-    if (formValue.location) {
+    if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
-  }, [formValue, lang]);
+  }, [formValue.location, lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -552,7 +570,7 @@ const GetStartedSeller = (props) => {
                       }
                       {
                         quest.subtitle && (
-                          <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                          <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
                       <MultiFileldsReduxForm
                         form="GetStarted"
@@ -626,7 +644,7 @@ const GetStartedSeller = (props) => {
                       )
                     }
                     {
-                      get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                      get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
                         <BrixelButtonPrimary
                           className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
                           disabled={!checkValidateField()}
