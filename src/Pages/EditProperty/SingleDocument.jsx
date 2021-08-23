@@ -56,7 +56,10 @@ const SingleDocument = (props) => {
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
       const docsConfig = documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')];
-      const docsOptions = [];
+      const docsOptions = [{
+        label: 'Generic',
+        value: 'Generic',
+      }];
       docsConfig.forEach((doc) => {
         docsOptions.push({
           label: doc,
