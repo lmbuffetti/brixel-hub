@@ -330,7 +330,7 @@ const DashboardHome = (props) => {
                     color="AltColor"
                     saturationTxt={700}
                   />
-                  <span className="txtDark700 fweight-600 pl-1"> Facts </span>
+                  <span className="txtDark700 fweight-600 pl-1">Facts</span>
                 </div>
                 <div className="px-3 pb-2">
                   <BrixelProgressBar
@@ -385,7 +385,7 @@ const DashboardHome = (props) => {
                 <div className="linkWrap">
                   <span className="hr lighter" />
                   <div className="px-3 py-1 txtLight700 wHover">
-                    <span className="text"> View</span>
+                    <span className="text">View</span>
                     <span className="arrow-symbol ml-1">&#62; </span>
                   </div>
                 </div>
@@ -397,15 +397,39 @@ const DashboardHome = (props) => {
             className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp"
             onClick={() => openBrixelPage()}
           >
-            <CoverPropertyImage
-              className="cover w-perc-100 h-perc-100 pos-a zIndex1"
-              coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
-              propertyType={get(formValue, 'properties.propertyType', undefined)}
-            />
+            <div className=" w-perc-100 h-perc-100 image-ratio pos-a zIndex1">
+              {
+                progressState.id > 0 ? (
+                  <CoverPropertyImage
+                    className="cover w-perc-100 h-perc-100"
+                    coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+                    propertyType={get(formValue, 'properties.propertyType', undefined)}
+                  />
+                ) : (
+                  <>
+                    {
+                      get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                        <img
+                          className="cover w-perc-100 h-perc-100 pos-a zIndex1 imgCover"
+                          src="https://api.brixel.io/image/thumbnail/611a3b1f038a7621c297a488"
+                          alt="Preview PT"
+                        />
+                      ) : (
+                        <img
+                          className="cover w-perc-100 h-perc-100 pos-a zIndex1"
+                          src="https://api.brixel.io/image/thumbnail/5fce51745006e9175720b1c8"
+                          alt="Preview CH"
+                        />
+                      )
+                    }
+                  </>
+                )
+              }
+            </div>
             <div className="px-3 pb-5 pos-r zIndex3">
               <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
                 {
-                  progressState > 0 ? (
+                  progressState.id > 0 ? (
                     <>
                       {activeSingleProperty.published ? 'View your Brixel Page' : 'Preview your Brixel Page'}
                     </>
