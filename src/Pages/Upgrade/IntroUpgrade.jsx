@@ -31,7 +31,36 @@ const IntroUpgrade = (props) => {
         Boost your private sale with an upgrade.
       </h2>
 
-      <div />
+      <div className="dis-f mb-8">
+        <h4 className="mr-5 w-perc-100 max-w-fix-384">
+          <span>Your current plan</span>
+          <span className="dis-b">Basic</span>
+        </h4>
+
+        <ul className="fullGreenList">
+          <li>
+            <div>
+              <b>Brixel Hub</b>
+              <p>Your client portal to digitalize your property</p>
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <b>Pre-market</b>
+              <p>Test your demand anonymously</p>
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <b>Brixel Page</b>
+              <p>Your property website to share in your network</p>
+            </div>
+          </li>
+
+        </ul>
+      </div>
 
       <div className="dis-f">
         {
