@@ -402,7 +402,7 @@ const DashboardHome = (props) => {
                 progressState.id > 0 ? (
                   <CoverPropertyImage
                     className="cover w-perc-100 h-perc-100"
-                    coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+                    coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', get(formValue, 'photos[0].galleryThumbnailPath', undefined))}
                     propertyType={get(formValue, 'properties.propertyType', undefined)}
                   />
                 ) : (
