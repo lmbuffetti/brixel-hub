@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   withRouter,
@@ -11,15 +11,70 @@ import orderBy from 'lodash/orderBy';
 import {
   Helpers,
 } from '@brixel/brixel-components';
+import { getPackageProperty } from '../../actions/PropertyActions';
 
 const IntroUpgrade = (props) => {
   // PROPS
-  const { packages } = props;
+  const {
+    activeSingleProperty,
+    activeSinglePropertyPackage,
+    handleGetPackageProperty,
+    packages,
+  } = props;
   // STATE
   const [filteredPackages, setFilteredPackages] = useState([]);
+  const [packageName, setPackageName] = useState({ type: '', name: '' });
+
+  useEffect(() => {
+    if (activeSingleProperty.id) {
+      const payloadPackage = {
+        id: activeSingleProperty.id,
+        limit: 20,
+        offset: 0,
+        direction: 'ASC',
+        order: 'name',
+        smallLoader: 'getPackage',
+      };
+      handleGetPackageProperty(payloadPackage);
+    }
+  }, [activeSingleProperty]);
+
+  useEffect(() => {
+    if (activeSinglePropertyPackage && packages.length > 0) {
+      const sortedPackage = {};
+      const activePackage = activeSinglePropertyPackage.find((item) => item.started);
+      if (activePackage) {
+        const filtPackages = packages.find((item) => activePackage.servicePackage === item.id);
+        if (filtPackages) {
+          setPackageName({
+            type: filtPackages.type,
+            name: filtPackages.name,
+          });
+        } else {
+          setPackageName({
+            type: 'Basic',
+            name: 'basic',
+          });
+        }
+      } else if (sortedPackage[0]) {
+        const filtPackage = packages.find((item) => sortedPackage[0].servicePackage === item.id);
+        setPackageName({
+          type: filtPackage.type,
+          name: filtPackage.name,
+        });
+      } else {
+        setPackageName({
+          type: 'Basic',
+          name: 'basic',
+        });
+      }
+    }
+  }, [activeSinglePropertyPackage, packages]);
 
   useEffect(() => {
     let filtPkg = packages.filter((pkg) => pkg.type === 'one' || pkg.type === 'premium' || pkg.type === 'private');
+    // eslint-disable-next-line no-return-assign
+    filtPkg.map((pkg) => pkg.price.total = +pkg.price.total);
     filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
     setFilteredPackages(filtPkg);
   }, [packages]);
@@ -34,32 +89,36 @@ const IntroUpgrade = (props) => {
       <div className="dis-f mb-8">
         <h4 className="mr-5 w-perc-100 max-w-fix-384">
           <span>Your current plan</span>
-          <span className="dis-b">Basic</span>
+          <span className={`dis-b ${packageName.type} fweight-600`}>{packageName.name}</span>
         </h4>
 
-        <ul className="fullGreenList">
-          <li>
-            <div>
-              <b>Brixel Hub</b>
-              <p>Your client portal to digitalize your property</p>
-            </div>
-          </li>
+        {
+          packageName.type === 'basic' && (
+            <ul className="fullGreenList">
+              <li>
+                <div>
+                  <b>Brixel Hub</b>
+                  <p>Your client portal to digitalize your property</p>
+                </div>
+              </li>
 
-          <li>
-            <div>
-              <b>Pre-market</b>
-              <p>Test your demand anonymously</p>
-            </div>
-          </li>
+              <li>
+                <div>
+                  <b>Pre-market</b>
+                  <p>Test your demand anonymously</p>
+                </div>
+              </li>
 
-          <li>
-            <div>
-              <b>Brixel Page</b>
-              <p>Your property website to share in your network</p>
-            </div>
-          </li>
+              <li>
+                <div>
+                  <b>Brixel Page</b>
+                  <p>Your property website to share in your network</p>
+                </div>
+              </li>
 
-        </ul>
+            </ul>
+          )
+        }
       </div>
 
       <div className="dis-f">
@@ -70,7 +129,7 @@ const IntroUpgrade = (props) => {
               key={i.toString()}
             >
               <div className="p-4">
-                <h5>{pkg.name}</h5>
+                <h5 className="fweight-600">{pkg.name}</h5>
                 <p className="mt-2">
                   {pkg.description}
                 </p>
@@ -103,15 +162,21 @@ const IntroUpgrade = (props) => {
 };
 
 IntroUpgrade.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleGetPackageProperty: PropTypes.func.isRequired,
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   packages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch) => ({
+  handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
 });
 
 export default compose(

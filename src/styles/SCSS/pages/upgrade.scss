@@ -110,6 +110,21 @@
   }
 }
 
+span {
+  &.basic {
+    color: map_get($altColor, 2000);
+  }
+  &.private {
+    color: map_get($altColor, 900);
+  }
+  &.premium {
+    color: map_get($altColor, 400);
+  }
+  &.one {
+    color: map_get($altColor, 100);
+  }
+}
+
 .fullGreenList {
   li {
     list-style: none;
@@ -131,3 +146,4 @@
     }
   }
 }
+

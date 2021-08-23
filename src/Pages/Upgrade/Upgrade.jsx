@@ -179,7 +179,7 @@ const Upgrade = (props) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
 
       // setPosition(newIndex);
-      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
+      // if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
 
       let newQuest = {
         ...questions[defId],
