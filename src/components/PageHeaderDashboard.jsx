@@ -350,8 +350,14 @@ function PageHeaderDashboard(props) {
                           >
                             {section}
                           </span>
-                          <span className="px-1"> &gt; </span>
-                          <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
+                          {
+                            windowDimensions.width > 1024 && (
+                              <>
+                                <span className="px-1"> &gt; </span>
+                                <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
+                              </>
+                            )
+                          }
                         </>
                       ) : (
                         <>
