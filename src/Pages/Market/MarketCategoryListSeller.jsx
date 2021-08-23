@@ -157,7 +157,7 @@ const MarketCategoryListSeller = (props) => {
     <Suspense fallback="">
       {/* SECTION: seller welcome message  */}
       {
-        splashScreenType === 'sellerWelcome' && (
+        splashScreenType !== 'sellerWelcome' && (
           <SplashScreen
             className="result-popup centered"
             closeOutside={false}
@@ -216,14 +216,16 @@ const MarketCategoryListSeller = (props) => {
                       alt="Test Drive"
                       id="testDrive"
                     />
-                    <p className="max-w-fix-440 txtDark700 pl-2">Test our full service with a
+                    <p className="max-w-fix-440 txtDark700 pl-2">
+                      <span>Test our full service with a</span>
                       <a
                         className="link ml-small-4"
                         href="#"
                         onClick={() => bookNow()}
                       >
                         <span>&nbsp;test drive</span>
-                      </a> – like a car. No strings attached.
+                      </a>
+                      <span className="ml-small-4">– like a car. No strings attached.</span>
                     </p>
                   </div>
                 </div>
