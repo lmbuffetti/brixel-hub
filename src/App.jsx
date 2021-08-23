@@ -134,6 +134,7 @@ const App = (props) => {
   const dashContentRef = useRef(null);
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
+  const el = document.getElementsByClassName('thirdLevel');
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
@@ -255,8 +256,10 @@ const App = (props) => {
       !history.location.pathname.includes('buyer')
     ) {
       setIsSecLevel(true);
-      if (dashWrapperEl) {
+      if ([...el].length > 0 && dashWrapperEl) {
         dashWrapperEl.classList.add('secondLevelActive');
+      } else if (dashWrapperEl) {
+        dashWrapperEl.classList.remove('secondLevelActive');
       }
     } else {
       setIsSecLevel(false);
@@ -264,7 +267,7 @@ const App = (props) => {
         dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
-  }, [history.location.pathname, dashWrapperEl]);
+  }, [history.location.pathname, dashWrapperEl, [...el].length]);
 
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');

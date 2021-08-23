@@ -114,11 +114,11 @@ const DashboardHome = (props) => {
       </h4>
       <div className="max-w-fix-760 dis-fl-col">
         <div className="shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
-          <div className="w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
+          <Link to={`/${activeSingleProperty.id}/property/photos`} className="dis-b w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
             <CoverPropertyImage
               className="cover w-perc-100 h-perc-100"
-              coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
-              propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
+              coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+              propertyType={get(formValue, 'properties.propertyType', undefined)}
             />
             <Link
               to={`/${activeSingleProperty.id}/property/photos`}
@@ -126,7 +126,7 @@ const DashboardHome = (props) => {
             >
               Edit
             </Link>
-          </div>
+          </Link>
           <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
             <div className="d">
               <h4 className="txtAltColor100 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
@@ -298,8 +298,8 @@ const DashboardHome = (props) => {
               <span className="fsize-600 fweight-600 txtAltColor2000">
                 <span>{countMandatoryDocuments()}</span>
                 <span className="mx-small-4">of</span>
-                <span>{mandatoryDocuments.length}</span>
-                <span className="ml-small-1">uploaded</span>
+                <span>{mandatoryDocuments.length} </span>
+                <span className="ml-small-1"> uploaded</span>
               </span>
               <BrixelButtonPrimary
                 onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
@@ -320,8 +320,8 @@ const DashboardHome = (props) => {
           <div className="w-perc-100 w-perc-sm-75 dis-f pr-sm-4">
 
             <Link
-              to={`/${activeSingleProperty.id}/facts`}
-              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp mr-1 pt-2 cur-poi"
+              to={`/${activeSingleProperty.id}/property/facts`}
+              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp mr-1 pt-2 cur-poi txtDark700"
             >
               <div className="h-fix-184 dis-fl-col jc-b">
                 <div className="dis-f px-3">
@@ -344,16 +344,16 @@ const DashboardHome = (props) => {
                   </span>
                 </div>
                 <div className="linkWrap">
-                  <hr className="lighter" />
-                  <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 py-1">
+                  <span className="hr lighter" />
+                  <div className="txtHoverDark200 txtLight700 px-3 py-1 wHover">
                     <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </Link>
             <Link
               to={`/${activeSingleProperty.id}/marketing`}
-              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp ml-1 pt-2 cur-poi"
+              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp ml-1 pt-2 cur-poi txtDark700"
             >
               <div className="h-fix-184 dis-fl-col jc-b">
                 <div className="dis-f px-3">
@@ -362,7 +362,7 @@ const DashboardHome = (props) => {
                     color="AltColor"
                     saturationTxt={700}
                   />
-                  <span className="txtDark700 fweight-600 pl-1"> Marketing </span>
+                  <span className="txtDark700 fweight-600 pl-1">Marketing</span>
                 </div>
                 <div className="px-3">
                   {
@@ -383,7 +383,7 @@ const DashboardHome = (props) => {
                   </span>
                 </div>
                 <div className="linkWrap">
-                  <hr className="lighter" />
+                  <span className="hr lighter" />
                   <div className="px-3 py-1 txtLight700 wHover">
                     <span className="text"> View</span>
                     <span className="arrow-symbol ml-1">&#62; </span>
@@ -395,12 +395,14 @@ const DashboardHome = (props) => {
 
           <div
             className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp"
-            style={{
-              backgroundImage: `url("${baseByData.shortPath}${get(activeSingleProperty, 'coverPhoto.thumbnailPath', '')}")`,
-            }}
             onClick={() => openBrixelPage()}
           >
-            <div className="px-3 pb-5">
+            <CoverPropertyImage
+              className="cover w-perc-100 h-perc-100 pos-a zIndex1"
+              coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+              propertyType={get(formValue, 'properties.propertyType', undefined)}
+            />
+            <div className="px-3 pb-5 pos-r zIndex3">
               <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
                 {
                   progressState > 0 ? (
@@ -415,8 +417,8 @@ const DashboardHome = (props) => {
                 }
               </span>
             </div>
-            <div className="linkWrap">
-              <hr className="white" />
+            <div className="linkWrap pos-r zIndex3">
+              <span className="hr white" />
               {
                 get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
                   <div
@@ -436,7 +438,7 @@ const DashboardHome = (props) => {
             </div>
           </div>
         </div>
-        <div className="testDrive dis-f-md a-c brdRadius bgWhite shadow-2dp p-2">
+        <div onClick={() => bookNow()} className="testDrive cur-poi dis-f-md a-c brdRadius bgWhite shadow-2dp p-2">
           <img
             className={windowDimensions.width <= 590 ? 'dis-b mx-a' : ''}
             width={windowDimensions.width <= 590 ? 300 : 300}

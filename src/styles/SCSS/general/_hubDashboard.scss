@@ -71,20 +71,23 @@
 
         .fixedIcon {
           display: flex;
-          position: fixed;
           background: white;
-          padding: $step * 2;
-          padding-bottom: 0;
+          padding: $step * 2 0;
           max-width: 100%;
           z-index: 4;
-          top: 0;
-          left: 0;
           justify-content: space-between;
           align-items: center;
         }
         .sectionTitle {
-          padding-top: $step * 6;
+          padding-top: $step * 3;
           position: relative;
+        }
+      }
+    }
+    .secondLevel {
+      @media (max-width: $responsive-large) {
+        .backPanel {
+          padding-top: $step * 8;
         }
       }
     }
@@ -188,7 +191,7 @@
     width: 100%;
     top: 0;
     left: 0;
-    z-index: -1;
+    z-index: 2;
     background-color: rgba($color: #323E48, $alpha: 0.6);
   }
 }

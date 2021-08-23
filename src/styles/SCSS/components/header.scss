@@ -69,6 +69,9 @@
     z-index: 5;
   .dasHeaderContainer {
     .wrapperHeader {
+      @media (max-width: $responsive-large) {
+        background-color: white;
+      }
       box-shadow: $shadow-1dp;
       .header-section {
         align-self: stretch;

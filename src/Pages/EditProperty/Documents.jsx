@@ -234,15 +234,6 @@ const Documents = (props) => {
         isBuyer && (
           <div className="pos-r hide-lg">
             <div className="dis-f backPanel">
-              <div className="fixedIcon dis-f jc-b w-perc-100">
-                <BrixelButtonIcon
-                  className="hide-md"
-                  icon="arrow-left-small"
-                  ghost
-                  theme="dark"
-                  onClick={() => history.push(`/buyer/${propID}/property`)}
-                />
-              </div>
               <h5 className="sectionTitle">Docubox</h5>
             </div>
           </div>
