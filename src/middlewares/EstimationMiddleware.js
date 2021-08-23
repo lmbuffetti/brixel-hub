@@ -78,6 +78,10 @@ const checkEstimation = (store) => (next) => (action) => {
               },
             });
           }
+          store.dispatch({
+            type: SET_ESTIMATION,
+            payload: response.data,
+          });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,

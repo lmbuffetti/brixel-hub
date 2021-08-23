@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import ProgressRing from './ProgressRing';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
-import { setCookie } from '../utils/helpers';
+import { calcPercentageFacts, setCookie } from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
 import { generateEstimation } from '../actions/EstimationActions';
 import {
@@ -361,7 +361,7 @@ const MarketCard = (props) => {
                   >
                     <div className="w-fix-48 hide dis-b-sm">
                       <ProgressRing
-                        progress={get(item, 'inputSheet.totalComplete', 0)}
+                        progress={calcPercentageFacts(null, item).realPerc}
                         size={45}
                         strokeWidth={2}
                         circleOneStroke="#DCDDDE"
