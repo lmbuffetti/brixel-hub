@@ -9,7 +9,6 @@ import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelIcon,
   Helpers,
@@ -29,7 +28,6 @@ const Page = (props) => {
     company,
     formValue,
     handleUpdatePublishedReview,
-    history,
     isSmallLoading,
     match,
   } = props;
@@ -89,15 +87,6 @@ const Page = (props) => {
         <div className="secondLevel dis-fl-col">
           <div className="pos-r">
             <div className="dis-f backPanel hide-lg">
-              <div className="fixedIcon dis-f jc-b w-perc-100">
-                <BrixelButtonIcon
-                  className=""
-                  icon="arrow-left-small"
-                  theme="dark"
-                  ghost
-                  onClick={() => history.push(`/${propID}/marketing`)}
-                />
-              </div>
               <div className="dis-f jc-b a-bl w-perc-100 pt-small-2">
 
                 <h5 className="sectionTitle">Brixel Page</h5>
@@ -313,7 +302,6 @@ const Page = (props) => {
 
 Page.propTypes = {
   company: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,

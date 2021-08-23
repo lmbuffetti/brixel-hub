@@ -17,7 +17,6 @@ import {
   ReduxField,
   change,
   reset,
-  BrixelButtonIcon,
   ProgressRing,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -69,12 +68,6 @@ const Price = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    if (windowDimensions.width <= 1024) {
-      setTimeout(() => {
-        const hubDashboard = document.getElementsByClassName('hubDashboard')[0];
-        if (hubDashboard) hubDashboard.classList.add('secondLevelActive');
-      }, 10);
-    }
     if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id) {
       if (!has(estimation, 'result') && get(estimation, 'status', '') !== 'pending') {
         const payload = {
@@ -132,15 +125,6 @@ const Price = (props) => {
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
 
         <div className="dis-fl-col backPanel dis-b hide-md">
-          <div className="fixedIcon w-perc-100">
-            <BrixelButtonIcon
-              className=""
-              icon="arrow-left-small"
-              theme="dark"
-              ghost
-              onClick={() => history.push(`/${propID}/property`)}
-            />
-          </div>
           <h5 className="sectionTitle">Price</h5>
         </div>
 

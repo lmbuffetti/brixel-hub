@@ -10,7 +10,7 @@ import {
   BrixelAvatar,
   BrixelIcon,
   destroy,
-  BrixelSelect,
+  BrixelSelect, BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
@@ -62,6 +62,7 @@ function PageHeaderDashboard(props) {
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   // REF
   const profileMenu = useRef(null);
+  const currentPathName = get(history, 'location.pathname', '').split('/')[get(history, 'location.pathname', '').split('/').length - 1];
 
   // URL PARAMS
   let propID = history.location.pathname.split('/')[1];
@@ -281,6 +282,22 @@ function PageHeaderDashboard(props) {
     }
   }, [section]);
 
+  const urlBackAction = () => {
+    if (get(history, 'location.pathname', '').includes('buyer')) {
+      if (currentPathName === getCurrentRoute().name) {
+        history.push('/buy');
+      } else if (get(history, 'location.pathname', '').includes('closing')) {
+        history.push(`/buyer/${activeSingleProperty.id}/property`);
+      } else {
+        history.push(`/buyer${getCurrentRoute().path.replace(':propID', activeSingleProperty.id)}`);
+      }
+    } else if (currentPathName === getCurrentRoute().name) {
+      history.push(`/${activeSingleProperty.id}/home`);
+    } else if (getCurrentRoute().path.includes(':propID')) {
+      history.push(`${getCurrentRoute().path.replace(':propID', activeSingleProperty.id)}`);
+    }
+  };
+
   return (
     <>
       <MenuNavigationSubmenu
@@ -290,78 +307,98 @@ function PageHeaderDashboard(props) {
       />
       <header className={`hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
         <div className="dasHeaderContainer">
-          <div className="wrapperHeader dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
-            <div className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}>
-              <div className="dis-f a-c pl-2 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256 w-perc-100">
-                {
-                  windowDimensions.width <= 590 ? (
-                    <img
-                      onClick={() => {
-                        handleSetUserTypes('seller');
-                        handleSetActiveSingleProperty({});
-                        history.push('/sell');
-                      }}
-                      className="pos-r max-w-fix-32 cur-poi"
-                      src={logoMobile}
-                      alt="Brixel Logo"
-                      id="logo"
-                    />
-                  ) : (
-                    <img
-                      onClick={() => {
-                        handleSetUserTypes('seller');
-                        handleSetActiveSingleProperty({});
-                        history.push('/sell');
-                      }}
-                      className="pos-r cur-poi"
-                      src={logo}
-                      alt="Brixel Logo"
-                      id="logo"
-                    />
-                  )
-                }
-              </div>
-              <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
-                {
-                  activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' && propID !== 'buy' && propID !== 'sell' ? (
-                    <>
-                      <span
-                        className="cur-poi"
-                        onClick={() => history.push(linkSection)}
-                      >
-                        {section}
-                      </span>
-                      <span className="px-1"> &gt; </span>
-                      <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
-                    </>
-                  ) : (
-                    <>
-                      <span
-                        className={`pr-3 cur-poi ${history.location.pathname.includes('/sell') ? 'fweight-600 txtDark600' : ''}`}
-                        onClick={() => {
-                          handleSetUserTypes('seller');
-                          handleSetActiveSingleProperty({});
-                          history.push('/sell');
-                        }}
-                      >
-                        Sell
-                      </span>
-                      <span
-                        className={`cur-poi ${history.location.pathname.includes('/buy') ? 'fweight-600 txtDark600' : ''}`}
-                        onClick={() => {
-                          destroyForm();
-                          handleSetUserTypes('buyer');
-                          handleSetActiveSingleProperty({});
-                          history.push('/buy');
-                        }}
-                      >
-                        Buy
-                      </span>
-                    </>
-                  )
-                }
-              </div>
-            </div>
+          <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
+            {
+              windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name ? (
+                <div className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}>
+                  <div className="dis-f a-c pl-0 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256 w-perc-100">
+                    {
+                      windowDimensions.width <= 590 ? (
+                        <img
+                          onClick={() => {
+                            handleSetUserTypes('seller');
+                            handleSetActiveSingleProperty({});
+                            history.push('/sell');
+                          }}
+                          className="pos-r max-w-fix-32 cur-poi"
+                          src={logoMobile}
+                          alt="Brixel Logo"
+                          id="logo"
+                        />
+                      ) : (
+                        <img
+                          onClick={() => {
+                            handleSetUserTypes('seller');
+                            handleSetActiveSingleProperty({});
+                            history.push('/sell');
+                          }}
+                          className="pos-r cur-poi"
+                          src={logo}
+                          alt="Brixel Logo"
+                          id="logo"
+                        />
+                      )
+                    }
+                  </div>
+                  <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
+                    {
+                      activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' && propID !== 'buy' && propID !== 'sell' ? (
+                        <>
+                          <span
+                            className="cur-poi"
+                            onClick={() => history.push(linkSection)}
+                          >
+                            {section}
+                          </span>
+                          {
+                            windowDimensions.width > 1024 && (
+                              <>
+                                <span className="px-1"> &gt; </span>
+                                <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
+                              </>
+                            )
+                          }
+                        </>
+                      ) : (
+                        <>
+                          <span
+                            className={`pr-3 cur-poi ${history.location.pathname.includes('/sell') ? 'fweight-600 txtDark600' : ''}`}
+                            onClick={() => {
+                              handleSetUserTypes('seller');
+                              handleSetActiveSingleProperty({});
+                              history.push('/sell');
+                            }}
+                          >
+                            Sell
+                          </span>
+                          <span
+                            className={`cur-poi ${history.location.pathname.includes('/buy') ? 'fweight-600 txtDark600' : ''}`}
+                            onClick={() => {
+                              destroyForm();
+                              handleSetUserTypes('buyer');
+                              handleSetActiveSingleProperty({});
+                              history.push('/buy');
+                            }}
+                          >
+                            Buy
+                          </span>
+                        </>
+                      )
+                    }
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <BrixelButtonIcon
+                    className="dis-b hide-md"
+                    icon="arrow-left-small"
+                    theme="dark"
+                    ghost
+                    onClick={() => urlBackAction()}
+                  />
+                </div>
+              )
+            }
             <div className="dis-f a-c">
               {
                 propID && windowDimensions.width > 1024 && userType === 'seller' && propID !== 'sell' && propID !== 'buy' && (
@@ -578,7 +615,7 @@ function PageHeaderDashboard(props) {
             {
               getCurrentRoute().title && (
                 <div className="dis-fl-row a-c jc-b">
-                  <h4 className="fweight-700 pt-4">
+                  <h4 className="fweight-700 pt-2">
                     {getCurrentRoute().title}
                   </h4>
                 </div>

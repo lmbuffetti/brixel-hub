@@ -77,19 +77,11 @@ const OfferDetail = (props) => {
                 </div>
               </>
             ) : (
-              <div className="p-0 p-0">
-                {isBuyer && windowDimensions.width <= 1024 && (
-                  <BrixelButtonIcon
-                    icon="arrow-left-small"
-                    theme="dark"
-                    ghost
-                    bgTransparent
-                    className="mb-1"
-                    onClick={() => history.goBack()}
-                  />
-                )}
+              <div>
                 <h3 className="mb-3 hide dis-b-lg">Closing</h3>
-                <h5 className="sectionTitle mb-2 hide-lg">Closing</h5>
+                <div className="dis-fl-col backPanel hide-lg">
+                  <h5 className="sectionTitle">Closing</h5>
+                </div>
               </div>
             )
           }

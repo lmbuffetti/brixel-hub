@@ -33,24 +33,25 @@ const DealsDashboardBuyer = (props) => {
 
   return (
     <div className="secondLevel">
-      {
-        (link[link.length - 1] === 'deal' || !link[link.length - 1]) && (
-          <OfferDetail isBuyer />
-        )
-      }
-      {
-        (
-          isNumber(+getFact())
-        )
-          ? (
-            <Suspense fallback="">
-              <Route path="/buyer/:propID/closing/:dealID" component={() => <OfferDetail isBuyer />} />
-            </Suspense>
-          ) : (
-            <div />
+      <div className="pt-3">
+        {
+          (link[link.length - 1] === 'deal' || !link[link.length - 1]) && (
+            <OfferDetail isBuyer />
           )
-      }
-
+        }
+        {
+          (
+            isNumber(+getFact())
+          )
+            ? (
+              <Suspense fallback="">
+                <Route path="/buyer/:propID/closing/:dealID" component={() => <OfferDetail isBuyer />} />
+              </Suspense>
+            ) : (
+              <div />
+            )
+        }
+      </div>
     </div>
   );
 };
