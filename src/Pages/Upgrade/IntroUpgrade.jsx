@@ -1,214 +1,88 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   withRouter,
 } from 'react-router-dom';
-import Slider from 'react-slick';
-import {
-  BrixelButtonIcon,
-} from '@brixel/brixel-components';
 import get from 'lodash/get';
-import AnalyseImg from '../../images/scanTrial/analyse.png';
-import DeliverImg from '../../images/scanTrial/deliver.png';
-import YourTestImg from '../../images/scanTrial/your_test.png';
-import DecideImg from '../../images/scanTrial/decide.png';
-import { setWindowDimensions } from '../../actions/CommonActions';
+import orderBy from 'lodash/orderBy';
+import {
+  Helpers,
+} from '@brixel/brixel-components';
 
 const IntroUpgrade = (props) => {
   // PROPS
-  const { windowDimensions } = props;
-  const sliderInstance = useRef(null);
+  const { packages } = props;
+  // STATE
+  const [filteredPackages, setFilteredPackages] = useState([]);
 
-  const settingSlider = () => ({
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 2,
-    arrows: true,
-    slidesToScroll: 1,
-    nextArrow: <BrixelButtonIcon theme="light" secondary ghost icon="arrow-simple-right" />,
-    prevArrow: <BrixelButtonIcon theme="light" secondary ghost icon="arrow-simple-left" />,
-    responsive: [
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          swipeToSlide: true,
-          draggable: true,
-        },
-      },
-    ],
-  });
+  useEffect(() => {
+    let filtPkg = packages.filter((pkg) => pkg.type === 'one' || pkg.type === 'premium' || pkg.type === 'private');
+    filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
+    setFilteredPackages(filtPkg);
+  }, [packages]);
 
   return (
     <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700">
 
       <h2 className="mb-0 mb-lg-5 ta-c fweight-600">
-        How it works
+        Boost your private sale with an upgrade.
       </h2>
-      {
-        windowDimensions.width >= 1024 ? (
-          <>
-            <div className="trailFlow">
-              <div className="row">
-                <div className="col-3 fadeIn">
-                  <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-120" src={AnalyseImg} alt="text-1" />
-                  </div>
-                </div>
 
-                <div className="col-3 fadeIn">
-                  <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-120" src={DeliverImg} alt="text-1" />
-                  </div>
-                </div>
+      <div />
 
-                <div className="col-3 fadeIn">
-                  <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-120" src={YourTestImg} alt="text-1" />
-                  </div>
-                </div>
+      <div className="dis-f">
+        {
+          filteredPackages.map((pkg, i) => (
+            <div
+              className={`packageBox w-perc-100 ${pkg.type} dis-fl-col jc-b`}
+              key={i.toString()}
+            >
+              <div className="p-4">
+                <h5>{pkg.name}</h5>
+                <p className="mt-2">
+                  {pkg.description}
+                </p>
 
-                <div className="col-3 fadeIn">
-                  <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-120" src={DecideImg} alt="text-1" />
-                  </div>
-                </div>
+                <ul className="checked">
+                  {
+                    pkg.details && get(pkg, 'details', []).map((detail, f) => (
+                      <li
+                        key={f.toString()}
+                        className={i > 0 && f === 0 ? 'fweight-700' : ''}
+                      >
+                        {detail.description}
+                      </li>
+                    ))
+                  }
+                </ul>
               </div>
-
-              <div className="row">
-                <span className="divider-line" />
-              </div>
+              <h6
+                className="px-4 py-2"
+              >
+                <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                <small>inc VAT</small>
+              </h6>
             </div>
-            <div className="row">
-
-              <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
-                <div className="brdRadius ov-h ta-c">
-                  {/* <img className="w-perc-100 max-w-fix-144" src={AnalyseImg} alt="text-1" /> */}
-                  <div className="roundNumber ml-a mr-a">1</div>
-                  <h4 className="fweight-600 my-3 mb-1">We analyse</h4>
-                  <p className="max-w-fix-280 m-a">
-                    We estimate your property and define the sales process with you.
-                  </p>
-                </div>
-              </div>
-
-              <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
-                <div className="brdRadius ov-h ta-c">
-                  {/* <img className="w-perc-100 max-w-fix-144" src={DeliverImg} alt="text-1" /> */}
-                  <div className="roundNumber ml-a mr-a">2</div>
-                  <h4 className="fweight-600 my-3 mb-1">We deliver</h4>
-                  <p className="max-w-fix-280 m-a">
-                    We capture your property and create your personal Brixel Page.
-                  </p>
-                </div>
-              </div>
-
-              <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
-                <div className="brdRadius ov-h ta-c">
-                  {/* <img className="w-perc-100 max-w-fix-144" src={YourTestImg} alt="text-1" /> */}
-                  <div className="roundNumber ml-a mr-a">3</div>
-                  <h4 className="fweight-600 my-3 mb-1">You test</h4>
-                  <p className="max-w-fix-280 m-a">
-                    You review our work and can test our full service on the market.
-                  </p>
-                </div>
-              </div>
-
-              <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
-                <div className="brdRadius ov-h ta-c">
-                  {/* <img className="w-perc-100 max-w-fix-144" src={DecideImg} alt="text-1" /> */}
-                  <div className="roundNumber ml-a mr-a">4</div>
-                  <h4 className="fweight-600 my-3 mb-1">You decide</h4>
-                  <p className="max-w-fix-280 m-a">
-                    If you are happy, you book one of our service packages or withdraw without any costs.
-                  </p>
-                </div>
-              </div>
-
-            </div>
-          </>
-        ) : (
-          <div className="row">
-            <Slider ref={sliderInstance} {...settingSlider()}>
-              <div className="">
-                <div className="brdRadius ov-h ta-c">
-                  <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={AnalyseImg} alt="text-1" />
-                  <div className="pos-r my-1">
-                    <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-r-0" />
-                    <div className="roundNumber ml-a mr-a">1</div>
-                  </div>
-                  <h4 className="fweight-600 my-3 mb-1">We analyse</h4>
-                  <p className="max-w-fix-280 m-a">
-                    We estimate your property and define the sales process with you.
-                  </p>
-                </div>
-              </div>
-
-              <div className="">
-                <div className="brdRadius ov-h ta-c">
-                  <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DeliverImg} alt="text-1" />
-                  <div className="pos-r my-1">
-                    <hr className="divider-line-mobile" />
-                    <div className="roundNumber ml-a mr-a">2</div>
-                  </div>
-                  <h4 className="fweight-600 my-3 mb-1">We deliver</h4>
-                  <p className="max-w-fix-280 m-a">
-                    We capture your property and create your personal Brixel Page.
-                  </p>
-                </div>
-              </div>
-
-              <div className="">
-                <div className="brdRadius ov-h ta-c">
-                  <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={YourTestImg} alt="text-1" />
-                  <div className="pos-r my-1">
-                    <hr className="divider-line-mobile" />
-                    <div className="roundNumber ml-a mr-a">3</div>
-                  </div>
-                  <h4 className="fweight-600 my-3 mb-1">You test</h4>
-                  <p className="max-w-fix-280 m-a">
-                    You review our work and can test our full service on the market.
-                  </p>
-                </div>
-              </div>
-
-              <div className="">
-                <div className="brdRadius ov-h ta-c">
-                  <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DecideImg} alt="text-1" />
-                  <div className="pos-r my-1">
-                    <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-l-0" />
-                    <div className="roundNumber ml-a mr-a">4</div>
-                  </div>
-                  <h4 className="fweight-600 my-3 mb-1">You decide</h4>
-                  <p className="max-w-fix-280 m-a">
-                    If you are happy, you book one of our service packages or withdraw without any costs.
-                  </p>
-                </div>
-              </div>
-            </Slider>
-          </div>
-        )
-      }
-
+          ))
+        }
+      </div>
     </main>
   );
 };
 
 IntroUpgrade.propTypes = {
-  windowDimensions: PropTypes.object.isRequired,
+  packages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  packages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
+const mapDispatchToProps = () => ({
 });
 
 export default compose(

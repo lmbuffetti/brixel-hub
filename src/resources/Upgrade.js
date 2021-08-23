@@ -4,7 +4,7 @@ import IntroUpgrade from '../Pages/Upgrade/IntroUpgrade';
 export const UpgradeQuestions = () => [
   {
     cardType: 'loadComponent',
-    history: 'introScanFlow',
+    history: 'packages',
     component: IntroUpgrade,
     hideProgress: true,
   },

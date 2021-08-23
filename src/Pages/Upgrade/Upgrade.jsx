@@ -19,7 +19,6 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { checkBrowser } from '../../utils/helpers';
 import { UpgradeQuestions } from '../../resources/Upgrade';
@@ -33,12 +32,10 @@ const Upgrade = (props) => {
     destroyForm,
     errorValue,
     formValue,
-    handleSendScanTrial,
     history,
     initForm,
     initialValues,
     isSmallLoading,
-    loggedInUser,
     match,
     reset,
   } = props;
@@ -49,7 +46,6 @@ const Upgrade = (props) => {
   const [quest, setQuest] = useState(UpgradeQuestions()[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
-  const [saved, setSaved] = useState(false);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -66,7 +62,7 @@ const Upgrade = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (questions[currentIndex].history) {
-      history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
+      history.push(`/${propID}/upgrade/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
 
@@ -93,65 +89,6 @@ const Upgrade = (props) => {
   const goToFacts = () => {
     reset('scanFlow');
     history.push(`/${propID}/property/facts/propertyType`);
-  };
-
-  // FUNCTION TO SAVE DATA
-  const saveData = () => {
-    if (!saved) {
-      setSaved(true);
-      const obj = cloneDeep(formValue);
-      delete obj.hourBook;
-      delete obj.dateBook;
-      delete obj.fullDate;
-      delete obj.name;
-      delete obj.phone;
-      delete obj.email;
-      if (obj.bookType === 'phone' || obj.bookType === 'whereby') {
-        delete obj.date;
-        delete formValue.hourBook;
-        delete formValue.dateBook;
-        delete formValue.fullDate;
-        delete formValue.date;
-      }
-      const data = {
-        page: propID,
-        smallLoader: 'sendData',
-        data: {
-          user: loggedInUser.id,
-          meta: {
-            ...obj,
-            analysis: obj.analysis || 'on-site',
-            bookType: obj.bookType || 'online',
-            answers: formValue,
-          },
-          userName: get(formValue, 'name', ''),
-          userEmail: get(formValue, 'email', ''),
-          userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
-        },
-      };
-      handleSendScanTrial(data);
-    }
-  };
-
-  const progressBarCalc = () => {
-    let num = 0;
-    questions.forEach((item) => {
-      if (get(item, 'hideProgress', false) !== true) {
-        if (item.conditions) {
-          item.conditions.forEach((cond) => {
-            const val = get(formValue, cond.name, null);
-            if (cond.value && val === cond.value) {
-              num += 1;
-            } else if (cond.noValue && val !== cond.noValue) {
-              num += 1;
-            }
-          });
-        } else {
-          num += 1;
-        }
-      }
-    });
-    return (currentIndex * 100) / (num);
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -236,7 +173,7 @@ const Upgrade = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push(`/${propID}/trialRequest/`);
+      history.push(`/${propID}/upgrade/`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -269,7 +206,7 @@ const Upgrade = (props) => {
       }, 100);
       if (questions[defId].history) {
         history.push({
-          pathname: `/${propID}/trialRequest/${questions[defId].history}`,
+          pathname: `/${propID}/upgrade/${questions[defId].history}`,
           state: get(history, 'location.state', {}),
         });
       }
@@ -335,13 +272,15 @@ const Upgrade = (props) => {
               color="green"
               barBackground="light"
               backgroundSaturation={200}
-              progressValue={progressBarCalc()}
+              progressValue={0}
             />
           )
         }
       </div>
 
-      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
+      <div
+        className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}
+      >
         <form
           id="multiStepForm"
           autoComplete="off"
@@ -415,22 +354,6 @@ const Upgrade = (props) => {
                     </div>
                   )
                 }
-                {
-                  get(quest, 'history', null) === 'resume' && (
-                    <div className="max-w-fix-344 m-a">
-                      <BrixelButtonPrimary
-                        className={`mt-3 m-a noWrap ${quest.history}`}
-                        rounded
-                        theme="green"
-                        themeSat={600}
-                        label={buttonLabel()}
-                        disabled={!checkValidateField()}
-                        rightIcon="arrow-right-small"
-                        onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      />
-                    </div>
-                  )
-                }
               </div>
             </div>
           </div>
@@ -453,7 +376,7 @@ const Upgrade = (props) => {
                       )
                     }
                     {
-                      (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                      (get(quest, 'inputs', []).length > 1 && get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
                         <>
                           {
                             buttonLabel().toLowerCase() === 'skip' ? (
@@ -513,12 +436,10 @@ Upgrade.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleSendScanTrial: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
