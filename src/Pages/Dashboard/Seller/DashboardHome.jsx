@@ -21,7 +21,6 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
 import testDrive from '../../../images/dashboard/testDrive.png';
-
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';

@@ -271,12 +271,12 @@ const Documents = (props) => {
                       }
                       {
                         mandatoryDocumentExists(element) === true && (
-                          <span className="txtDark700"><s>{element}</s></span>
+                          <span className="txtDark700 dont-break-out">{element}</span>
                         )
                       }
                       {
                         mandatoryDocumentExists(element) === false && (
-                          <span className="txtDark700">{element}</span>
+                          <span className="txtDark700 dont-break-out">{element}</span>
                         )
                       }
                     </div>
