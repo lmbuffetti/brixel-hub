@@ -107,21 +107,23 @@ const DashboardHome = (props) => {
       </h4>
       <div className="max-w-fix-760 dis-fl-col">
         <div className="shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
-          <Link to={`/${activeSingleProperty.id}/property/photos`} className="dis-b w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
-            <CoverPropertyImage
-              className="cover w-perc-100 h-perc-100"
-              coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
-              propertyType={get(formValue, 'properties.propertyType', undefined)}
-            />
-            <Link
-              to={`/${activeSingleProperty.id}/property/photos`}
-              className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
-            >
-              Edit
+          <div>
+            <Link to={`/${activeSingleProperty.id}/property/photos`} className="dis-b w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
+              <CoverPropertyImage
+                className="cover w-perc-100 h-perc-100"
+                coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+                propertyType={get(formValue, 'properties.propertyType', undefined)}
+              />
+              <Link
+                to={`/${activeSingleProperty.id}/property/photos`}
+                className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
+              >
+                Edit
+              </Link>
             </Link>
-          </Link>
+          </div>
           <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
-            <div className="d">
+            <div className="">
               <h4 className="txtAltColor100 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
               <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
@@ -331,7 +333,7 @@ const DashboardHome = (props) => {
                     saturation={200}
                     color="AltColor"
                   />
-                  <span className="txtDark700 pt-small-4 fsize-300 fsize-sm-400 pt-small-4">
+                  <span className="txtDark700 fsize-300 fsize-sm-400 pt-small-4 dis-b">
                     <span>{calcPercentageFacts().realPerc}%</span>
                     <span className="ml-small-4">complete</span>
                   </span>

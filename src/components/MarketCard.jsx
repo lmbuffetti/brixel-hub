@@ -356,7 +356,7 @@ const MarketCard = (props) => {
                           }
                         </div>
                         <div
-                          onClick={() => history.push(`/${item.id}/property/price`)}
+                          onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
                           className="dis-fl-row-sm hide a-c ml-2"
                         >
                           <ProgressRing
@@ -387,46 +387,46 @@ const MarketCard = (props) => {
                 </div>
               </>
             ) : (
-              <>
-                <>
-                  <CoverPropertyImage
-                    loadedImg={(val) => setCoverImgLoaded(val)}
-                    className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
-                    coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-                    propertyType={get(item, 'properties.propertyType', undefined)}
-                  />
-                  {
-                    checkFavorite() && (
-                      <div className="tag-container dis-fl-row a-c">
-                        <BrixelIcon
-                          icon="favorite-fill"
-                          color="red"
-                          className="type-tag pos-a favorite"
-                        />
-                      </div>
-                    )
-                  }
-                  {
-                    get(item, 'tags', []).length > 0 && (
-                      <div className="tag-container pos-a dis-fl-row a-c jc-b">
-                        {
-                          item.tags.map((tag, i) => (
-                            <p
-                              key={i.toString()}
-                              className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
-                            >
-                              <span className="type">{getTypeText(tag)}</span>
-                            </p>
-                          ))
-                        }
-                      </div>
-                    )
-                  }
-                </>
+              <div className="brdSmall brdRadius brdAltColor2100 ov-h">
+                <CoverPropertyImage
+                  loadedImg={(val) => setCoverImgLoaded(val)}
+                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                  propertyType={get(item, 'properties.propertyType', undefined)}
+                />
+                {
+                  checkFavorite() && (
+                    <div className="tag-container dis-fl-row a-c">
+                      <BrixelIcon
+                        icon="favorite-fill"
+                        color="red"
+                        className="type-tag pos-a favorite"
+                      />
+                    </div>
+                  )
+                }
+                {
+                  get(item, 'tags', []).length > 0 && (
+                    <div className="tag-container pos-a dis-fl-row a-c jc-b">
+                      {
+                        item.tags.map((tag, i) => (
+                          <p
+                            key={i.toString()}
+                            className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
+                          >
+                            <span className="type">{getTypeText(tag)}</span>
+                          </p>
+                        ))
+                      }
+                    </div>
+                  )
+                }
                 <div className="info dis-fl-col jc-b">
-                  <div className="top dis-fl-col notranslate">
-                    <span className="fweight-600 fsize-300 txtDark700 ellipsis one notranslate">{get(item, 'title', '')}</span>
-                    <span className="fsize-300 txtDark700 notranslate">
+                  <div className="top dis-fl-col notranslate px-3 pt-3">
+                    <span className="fweight-600 fsize-500 txtAltColor100 ellipsis one notranslate">
+                      {get(item, 'title', '')}
+                    </span>
+                    <span className="fsize-300 txtAltColor100 mt-1 notranslate">
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                       {
                         get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -437,7 +437,26 @@ const MarketCard = (props) => {
                       }
                     </span>
                   </div>
-                  <div className="mid dis-fl-row a-c fsize-300 pt-1 txtDark400">
+                  <div className="bottom a-c txtDark700 px-3 mt-3 mb-2">
+
+                    {
+                      get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
+                        <div className="txtGreen400 dis-f a-b">
+                          <span className="fsize-300 ff-mono notranslate">
+                            {get(item, 'price.currency', '')}
+                          </span>
+                          <span className="fsize-500 ff-mono notranslate ml-1">
+                            {Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="txtGreen400 fsize-500">On Request</span>
+                      )
+                    }
+
+                  </div>
+                  <hr />
+                  <div className="mid dis-fl-row a-c fsize-300 px-3 pt-1 txtDark400 pb-2">
                     <div className="dis-f a-c flex-wrap">
                       <div className="div pt-small-2">
                         <span>
@@ -472,22 +491,8 @@ const MarketCard = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="bottom a-c txtDark700 pt-1">
-
-                    {
-                      get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
-                        <>
-                          <span className="fsize-300 fweight-600 notranslate">{get(item, 'price.currency', '')} &nbsp; </span>
-                          <span className="fsize-300 fweight-600 notranslate">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
-                        </>
-                      ) : (
-                        <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
-                      )
-                    }
-
-                  </div>
                 </div>
-              </>
+              </div>
             )
           }
         </div>
@@ -502,11 +507,11 @@ const MarketCard = (props) => {
               >
 
                 {
-                  has(item, 'published') && item.published === false && (
+                  has(item, 'published') && item.published === false ? (
                     <div
-                      className="py-1 dis-fl-col dis-fl-row-sm jc-c a-c"
+                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
                     >
-                      <div className="dis-fl-row-sm pt-1 pt-sm-0 ta-c">
+                      <div className="dis-fl-row-sm ta-c">
 
                         {
                           item.tags && item.tags[0].indexOf('pre-market') !== -1 ? (
@@ -534,6 +539,16 @@ const MarketCard = (props) => {
                           )
                         }
 
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
+                    >
+                      <div className="dis-fl-row-sm ta-c">
+                        <p className="pl-1 body2 txtDark700">
+                          <span>Your property is visible on our market.</span>
+                        </p>
                       </div>
                     </div>
                   )

@@ -207,6 +207,14 @@ function PageHeaderDashboard(props) {
     return currentPath || {};
   };
 
+  useEffect(() => {
+    // this changes the scrolling behavior to "smooth"
+    const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
+    if (dashContentEl) {
+      dashContentEl.scrollTop = 0;
+    }
+  }, [history.location]);
+
   // Function to close the drawer menus when we click outside
   useOutsideAlerter(profileMenu, {
     action: 'function',

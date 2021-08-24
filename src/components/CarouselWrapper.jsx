@@ -40,7 +40,7 @@ const CarouselWrapper = (props) => {
   const sliderInstance = useRef(null);
   let slideToShow = 1;
   if (windowDimensions.width > 767) slideToShow = type === 'own' ? 1 : 2;
-  if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 1 : 4;
+  if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 1 : 3;
   const numCard = [...Array(slideToShow)];
 
   const settingSlider = useCallback(() => ({
@@ -49,7 +49,7 @@ const CarouselWrapper = (props) => {
     speed: 500,
     slidesToShow: slideToShow,
     arrows: false,
-    slidesToScroll: type === 'own' ? 1 : 4,
+    slidesToScroll: type === 'own' ? 1 : 3,
     responsive: [
       {
         breakpoint: 1024,
