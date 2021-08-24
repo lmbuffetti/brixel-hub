@@ -1,9 +1,14 @@
-#bodyModalWrapper.getStarted {
-
-  .bodyModal.upgradeModal {
-     #multiStepForm .multiStepSlides .singleStep {
-       padding: 0;
+.packageBody {
+  background-color: white;
+  .upgradePackages {
+    .flowHeader {
+      background-color: white;
     }
+    #bodyModalWrapper.getStarted .bodyModal {
+       #multiStepForm .multiStepSlides .singleStep {
+         padding: 0;
+     }
+   }
   }
 }
 

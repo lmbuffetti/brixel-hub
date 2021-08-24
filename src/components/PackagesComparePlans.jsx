@@ -9,13 +9,49 @@ export const PackagesComparePlans = (props) => {
   } = props;
 
   return (
-    <table>
-      <tbody>
-        <tr>
-          <td>Test {windowDimensions.width}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div className="comparePlans">
+      <table>
+        <thead>
+          <tr>
+            <td />
+            <th>Basic</th>
+            <th>Premium</th>
+            <th>Deluxe</th>
+            <th>Business</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Feature 1</th>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <th>Feature 2</th>
+            <td>❌</td>
+            <td>✔</td>
+            <td>✔</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <th>Feature 3</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>✔</td>
+            <td>✔</td>
+          </tr>
+          <tr>
+            <th>Feature 4</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>✔</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 };
 

@@ -367,7 +367,7 @@ const App = (props) => {
   return (
     <>
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
+        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />

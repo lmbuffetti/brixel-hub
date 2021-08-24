@@ -147,8 +147,23 @@ const IntroUpgrade = (props) => {
     history.push(url);
   };
 
+  useEffect(() => {
+    document.body.classList.add('packageBody');
+    return () => {
+      //  clean up
+      document.body.classList.remove('packageBody');
+    };
+  }, []);
+
   return (
     <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700">
+
+      <div className="bgAltColor2100 py-8" id="comparePlan">
+        <h3 className="ta-c mb-8">Compare all plans</h3>
+
+        <PackagesComparePlans />
+
+      </div>
 
       <h2 className="mb-0 mb-lg-5 fweight-600">
         Boost your private sale with an upgrade.
@@ -342,13 +357,6 @@ const IntroUpgrade = (props) => {
           }
 
         </div>
-
-      </div>
-
-      <div className="bgAltColor2100 py-8 mt-10" id="comparePlan">
-        <h3 className="ta-c mb-8">Compare all plans</h3>
-
-        <PackagesComparePlans />
 
       </div>
 

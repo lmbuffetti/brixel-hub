@@ -282,7 +282,7 @@ const Upgrade = (props) => {
       </div>
 
       <div
-        className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}
+        className={`bodyModal dis-fl-col ${history.location.pathname.includes('upgrade/packages') ? '' : 'container'}  ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}
       >
         <form
           id="multiStepForm"
