@@ -135,10 +135,10 @@ const CarouselWrapper = (props) => {
 
   if (layout === 'singleOwnCard') {
     return (
-      <div className={`${className} carousel-wrapper pos-r ${has(items[activeSlide], 'published') && items[activeSlide].published === false ? 'mb-neg-58' : ''}`}>
+      <div className={`${className} carousel-wrapper pos-r`}>
 
         <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
-          <div className="p-2 py-sm-3 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
+          <div className="p-2 pt-sm-3 pb-sm-1 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
             <Slider ref={sliderInstance} {...settingSlider()}>
               {
                 !items && numCard.map((card, i) => (

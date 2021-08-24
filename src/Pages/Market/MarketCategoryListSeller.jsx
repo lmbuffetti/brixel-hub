@@ -475,7 +475,7 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="mt-10 bgAltColor2100 py-8">
+      <div className="bgAltColor200 py-8">
         <div className="container">
           <h3 className="ta-c mb-7">Boost your private sale with an upgrade.</h3>
 

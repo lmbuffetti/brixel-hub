@@ -504,7 +504,7 @@ const MarketCard = (props) => {
                 {
                   has(item, 'published') && item.published === false && (
                     <div
-                      className="my-2 dis-fl-col dis-fl-row-sm jc-c a-c"
+                      className="py-1 dis-fl-col dis-fl-row-sm jc-c a-c"
                     >
                       <div className="dis-fl-row-sm pt-1 pt-sm-0 ta-c">
 
@@ -513,13 +513,13 @@ const MarketCard = (props) => {
                             <>
                               <p className="pl-1 body2 txtDark700">
                                 <span>Your property is visible on our pre-market.</span>
+                                <a
+                                  href={`/${item.id}/marketing/portals`}
+                                  className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u lh-in btnInline"
+                                >
+                                  Learn more.
+                                </a>
                               </p>
-                              <a
-                                href={`/${item.id}/marketing/portals`}
-                                className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
-                              >
-                                Learn more.
-                              </a>
                             </>
                           ) : (
                             <>
