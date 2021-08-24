@@ -137,7 +137,7 @@ const SellerSidebar = (props) => {
                 iconSize="large"
               />
               <div className="pl-2 desc">
-                <p className="fsize-300 txtDark600" dangerouslySetInnerHTML={{ __html: convertFeedMessage(history.actionStub, 'message', history) }} />
+                <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: convertFeedMessage(history.actionStub, 'message', history) }} />
                 {
                   !isNaN(get(history, 'createdAt', null)) && (
                     <p className="fsize-200 pt-small-4 txtLight400">
