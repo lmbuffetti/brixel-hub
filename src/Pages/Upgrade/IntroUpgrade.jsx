@@ -150,7 +150,7 @@ const IntroUpgrade = (props) => {
   return (
     <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700">
 
-      <h2 className="mb-0 mb-lg-5 ta-c fweight-600 container">
+      <h2 className="mb-0 mb-lg-5 fweight-600 container">
         Boost your private sale with an upgrade.
       </h2>
 

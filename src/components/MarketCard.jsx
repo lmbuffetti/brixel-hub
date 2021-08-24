@@ -238,9 +238,10 @@ const MarketCard = (props) => {
                     )
                   }
                 </>
+
                 <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
                   <div className="top dis-fl-col notranslate" onClick={(e) => openCard(e)}>
-                    <h6 className="fweight-700 fsize-400 mb-small-4 txtDark700 ellipsis one w-perc-100 max-w-fix-496 ta-l">{get(item, 'title', '')}</h6>
+                    <h6 className="fweight-600 fsize-600 mb-small-4 txtDark700 ellipsis two w-perc-100 max-w-fix-496 ta-l">{get(item, 'title', '')}</h6>
                     <span className="fsize-300 txtDark700 mb-1 ta-l">
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                       {
@@ -366,7 +367,7 @@ const MarketCard = (props) => {
                               sat: 2000,
                             }}
                             progress={calcPercentageProEstimation().realPerc}
-                            size={40}
+                            size={48}
                             strokeWidth={10}
                             circleOneStroke="#D7F0F1"
                             circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
@@ -376,8 +377,8 @@ const MarketCard = (props) => {
                           <div className="pl-2">
                             <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>
                             <span className="txtAltColor700 fweight-600 dis-b">
-                              <span>{calcPercentageProEstimation().realPerc}%</span>
-                              <span>complete</span>
+                              <span>{calcPercentageProEstimation().realPerc}% </span>
+                              <span> complete</span>
                             </span>
                           </div>
                         </div>
@@ -455,7 +456,7 @@ const MarketCard = (props) => {
                     }
 
                   </div>
-                  <hr />
+                  <span className="hr lighter" />
                   <div className="mid dis-fl-row a-c fsize-300 px-3 pt-1 txtDark400 pb-2">
                     <div className="dis-f a-c flex-wrap">
                       <div className="div pt-small-2">
@@ -500,10 +501,10 @@ const MarketCard = (props) => {
         {
           type === 'own' && (
             <>
-              <hr className="mt-3" />
+              <span className="hr mt-3 lighter" />
 
               <div
-                className={`mt-1 dis-fl-col dis-fl-row-md a-c jc-b ${has(item, 'published') && item.published === false ? '' : ''}`}
+                className={`dis-fl-col dis-fl-row-md a-c jc-b ${has(item, 'published') && item.published === false ? '' : ''}`}
               >
 
                 {
@@ -518,20 +519,20 @@ const MarketCard = (props) => {
                             <>
                               <p className="pl-1 body2 txtDark700">
                                 <span>Your property is visible on our pre-market.</span>
+                                <a
+                                  href={`/${item.id}/marketing/portals`}
+                                  className="fsize-300 fweight-500 txtAltColor700 cur-poi ml-1 td-u lh-in btnInline"
+                                >
+                                  Learn more.
+                                </a>
                               </p>
-                              <a
-                                href={`/${item.id}/marketing/portals`}
-                                className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
-                              >
-                                Learn more.
-                              </a>
                             </>
                           ) : (
                             <>
                               <p className="pl-1 body2 txtDark700"><span>Your property is <strong className="lh-in fweight-600">not</strong> visible to any buyers.</span></p>
                               <a
                                 href={`/${item.id}/marketing/portals`}
-                                className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
+                                className="fsize-300 fweight-500 txtAltColor700 cur-poi ml-1 td-u p-0 btnInline"
                               >
                                 Change it here.
                               </a>
@@ -553,14 +554,15 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-
-                <BrixelButtonPrimary
-                  rounded
-                  label="Edit"
-                  onClick={() => history.push(`/${item.id}/home`)}
-                  theme="altColor"
-                  themeSat={200}
-                />
+                <div className="pt-1">
+                  <BrixelButtonPrimary
+                    rounded
+                    label="Edit"
+                    onClick={() => history.push(`/${item.id}/home`)}
+                    theme="altColor"
+                    themeSat={200}
+                  />
+                </div>
               </div>
             </>
           )

@@ -1,3 +1,12 @@
+#bodyModalWrapper.getStarted {
+
+  .bodyModal.upgradeModal {
+     #multiStepForm .multiStepSlides .singleStep {
+       padding: 0;
+    }
+  }
+}
+
 .packageBox {
   border: 1px solid map_get($lightColor, 200);
   border-radius: $brd-radius-small;
@@ -49,6 +58,8 @@
     color: #FFF;
     align-items: flex-end;
     @include fontStyle(500,'normal',left);
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
     small {
       @include fontStyle(300,'normal',left);
       margin-left: $step;
