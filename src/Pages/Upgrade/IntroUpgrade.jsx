@@ -158,100 +158,105 @@ const IntroUpgrade = (props) => {
   return (
     <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700">
 
-      <div className="bgAltColor2100 py-8" id="comparePlan">
-        <h3 className="ta-c mb-8">Compare all plans</h3>
+      <section className="compairePlans bgAltColor2100 py-8" id="comparePlan">
+        <div className="container">
+          <h3 className="ta-c mb-8">Compare all plans</h3>
+          <PackagesComparePlans />
+        </div>
 
-        <PackagesComparePlans />
+      </section>
 
-      </div>
+      <section className="container">
 
-      <h2 className="mb-0 mb-lg-5 fweight-600">
-        Boost your private sale with an upgrade.
-      </h2>
+        <h2 className="mb-0 mb-lg-5 fweight-600">
+          Boost your private sale with an upgrade.
+        </h2>
 
-      <div className="dis-f mb-8 container">
-        <h4 className="mr-5 w-perc-100 max-w-fix-384">
-          <span>Your current plan</span>
-          <span className={`dis-b ${packageName.type} fweight-600`}>{packageName.name}</span>
-        </h4>
+        <div className="dis-f mb-8">
+          <h4 className="mr-5 w-perc-100 max-w-fix-384">
+            <span>Your current plan</span>
+            <span className={`dis-b ${packageName.type} fweight-600`}>{packageName.name}</span>
+          </h4>
 
-        {
-          packageName.type === 'basic' && (
-            <ul className="fullGreenList">
-              <li>
-                <div>
-                  <b>Brixel Hub</b>
-                  <p>Your client portal to digitalize your property</p>
-                </div>
-              </li>
+          {
+            packageName.type === 'basic' && (
+              <ul className="fullGreenList">
+                <li>
+                  <div>
+                    <b>Brixel Hub</b>
+                    <p>Your client portal to digitalize your property</p>
+                  </div>
+                </li>
 
-              <li>
-                <div>
-                  <b>Pre-market</b>
-                  <p>Test your demand anonymously</p>
-                </div>
-              </li>
+                <li>
+                  <div>
+                    <b>Pre-market</b>
+                    <p>Test your demand anonymously</p>
+                  </div>
+                </li>
 
-              <li>
-                <div>
-                  <b>Brixel Page</b>
-                  <p>Your property website to share in your network</p>
-                </div>
-              </li>
+                <li>
+                  <div>
+                    <b>Brixel Page</b>
+                    <p>Your property website to share in your network</p>
+                  </div>
+                </li>
 
-            </ul>
-          )
-        }
-      </div>
+              </ul>
+            )
+          }
+        </div>
+      </section>
 
-      <div className="dis-f container">
-        {
-          filteredPackages.map((pkg, i) => (
-            <div
-              className={`packageBox w-perc-100 ${pkg.type} dis-fl-col jc-b`}
-              key={i.toString()}
-            >
-              <div className="p-4">
-                <h5 className="fweight-600">{pkg.name}</h5>
-                <p className="mt-2">
-                  {pkg.description}
-                </p>
-
-                <ul className="checked">
-                  {
-                    pkg.details && get(pkg, 'details', []).map((detail, f) => (
-                      <li
-                        key={f.toString()}
-                        className={i > 0 && f === 0 ? 'fweight-700' : ''}
-                      >
-                        {detail.description}
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-              <h6
-                className="px-4 py-2"
+      <section className="container packages">
+        <div className="dis-f">
+          {
+            filteredPackages.map((pkg, i) => (
+              <div
+                className={`packageBox w-perc-100 ${pkg.type} dis-fl-col jc-b`}
+                key={i.toString()}
               >
-                <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                <small>inc VAT</small>
-              </h6>
-            </div>
-          ))
-        }
-      </div>
+                <div className="p-4">
+                  <h5 className="fweight-600">{pkg.name}</h5>
+                  <p className="mt-2">
+                    {pkg.description}
+                  </p>
 
-      <div className="dis-f jc-c mt-5 container">
-        <BrixelButtonSecondary
-          rounded
-          ghost
-          theme="dark"
-          label="Compare all details"
-          onClick={() => scrollTo('comparePlan')}
-        />
-      </div>
+                  <ul className="checked">
+                    {
+                      pkg.details && get(pkg, 'details', []).map((detail, f) => (
+                        <li
+                          key={f.toString()}
+                          className={i > 0 && f === 0 ? 'fweight-700' : ''}
+                        >
+                          {detail.description}
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
+                <h6
+                  className="px-4 py-2"
+                >
+                  <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                  <small>inc VAT</small>
+                </h6>
+              </div>
+            ))
+          }
+        </div>
+        <div className="dis-f jc-c mt-5">
+          <BrixelButtonSecondary
+            rounded
+            ghost
+            theme="dark"
+            label="Compare all details"
+            onClick={() => scrollTo('comparePlan')}
+          />
+        </div>
+      </section>
 
-      <div className="mt-10 container">
+      <section className="container contact-section mt-10">
         <h3 className="ta-c">Do you want to upgrade or change plans?</h3>
 
         <div className="dis-f a-fs jc-sa mt-8">
@@ -291,14 +296,14 @@ const IntroUpgrade = (props) => {
             />
           </div>
         </div>
-      </div>
+      </section>
 
-      <hr className="mt-10 mb-6 container" />
+      <hr className="mt-10 mb-6" />
 
-      <div>
-        <h3 className="ta-c mb-8 container">You’re in good company</h3>
+      <section className="container testimonial">
+        <h3 className="ta-c mb-8">You’re in good company</h3>
 
-        <div className="w-perc-100 ml-a mr-a testimonialsSlide container">
+        <div className="w-perc-100 ml-a mr-a testimonialsSlide">
 
           {
             get(activeSingleProperty, 'location.countryCode', '') === 'CH' ? (
@@ -358,13 +363,13 @@ const IntroUpgrade = (props) => {
 
         </div>
 
-      </div>
+      </section>
 
-      <div className="dis-f jc-c mt-10 bgWhite">
+      <section className="container testdrive-teaser dis-f jc-c mt-10 bgWhite">
 
         <BoxTrialTestDirve />
 
-      </div>
+      </section>
 
     </main>
   );
