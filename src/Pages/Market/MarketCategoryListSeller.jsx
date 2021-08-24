@@ -478,7 +478,7 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="bgAltColor200 py-8">
+      <div className="bgAltColor2100 py-8">
         <div className="container">
           <h3 className="ta-c mb-7">Boost your private sale with an upgrade.</h3>
 
@@ -516,8 +516,9 @@ const MarketCategoryListSeller = (props) => {
               rounded
               label="compare all plans"
               onClick={() => history.push(`/${propertyId}/upgrade#comparePlan`)}
-              theme="dark"
-              themeSat={700}
+              transparent
+              theme="altColor"
+              themeSat={100}
             />
 
           </div>
@@ -546,9 +547,9 @@ const MarketCategoryListSeller = (props) => {
         </div>
       </div>
 
-      <hr className="mt-7" />
+      <span className="my-6 hr lighter" />
 
-      <div className="mt-10 mb-10">
+      <div className="mb-10">
         <div className="container">
           {
             premiumProperties.total > 0 && (
