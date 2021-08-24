@@ -61,6 +61,7 @@ const MarketCategoryListSeller = (props) => {
   const [activeCompanyId, setActiveCompanyId] = useState(null);
   const [companyDetail, setCompanyDetail] = useState({ });
   const [filteredPackages, setFilteredPackages] = useState([]);
+  const [artByCountry, setArtByCountry] = useState(ArticlesList.default);
 
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
@@ -157,6 +158,8 @@ const MarketCategoryListSeller = (props) => {
     if (companyListings && activeCompanyId) {
       const actCompany = companyListings.find((item) => item.id === activeCompanyId);
       if (actCompany) setCompanyDetail(actCompany);
+      const actCountry = get(actCompany, 'country.code', '').toLowerCase();
+      setArtByCountry(ArticlesList[actCountry] || ArticlesList.default);
     }
   }, [activeCompanyId, companyListings]);
 
@@ -527,7 +530,7 @@ const MarketCategoryListSeller = (props) => {
 
           <div className="dis-f a-t flex-wrap">
             {
-              ArticlesList.map((article, i) => (
+              artByCountry.map((article, i) => (
                 <div
                   key={i.toString()}
                   className={`dis-fl-col jc-b a-t w-perc-50 ${i % 2 === 0 ? 'pr-2' : 'pl-2'}`}
