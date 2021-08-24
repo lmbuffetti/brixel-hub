@@ -214,7 +214,7 @@ function PageHeaderDashboard(props) {
       if (checkBrowser() > 0) {
         dashContentEl.scrollTop = 0;
       } else {
-        dashContentEl.scrollTo({ top: 0 });
+        dashContentEl.scrollTop = 0;
       }
     }
   }, [history.location]);
