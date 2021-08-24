@@ -16,7 +16,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import useOutsideAlerter from './OutsideElement';
-import { setCookie, checkBrowser } from '../utils/helpers';
+import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import {
@@ -211,11 +211,7 @@ function PageHeaderDashboard(props) {
     // this changes the scrolling behavior to "smooth"
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
     if (dashContentEl) {
-      if (checkBrowser() > 0) {
-        dashContentEl.scrollTop = 0;
-      } else {
-        dashContentEl.scrollTo({ top: 0 });
-      }
+      dashContentEl.scrollTop = 0;
     }
   }, [history.location]);
 
