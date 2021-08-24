@@ -90,7 +90,6 @@ const IntroUpgrade = (props) => {
   }, [activeSingleProperty]);
 
   const scrollTo = (id) => {
-    // http://localhost:5000/610a6cdf2de8b153b31b03f9/upgrade/packages#comparePlan
     setTimeout(() => {
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
       const scrollEl = document.getElementById(id);
