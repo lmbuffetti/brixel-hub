@@ -86,3 +86,9 @@
   }
 }
 
+
+.overlayOpen {
+  .supportBtn {
+    z-index: -1;
+  }
+}
