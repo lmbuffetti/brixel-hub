@@ -356,7 +356,7 @@ const MarketCard = (props) => {
                           }
                         </div>
                         <div
-                          onClick={() => history.push(`/${item.id}/property/price`)}
+                          onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
                           className="dis-fl-row-sm hide a-c ml-2"
                         >
                           <ProgressRing
@@ -502,11 +502,11 @@ const MarketCard = (props) => {
               >
 
                 {
-                  has(item, 'published') && item.published === false && (
+                  has(item, 'published') && item.published === false ? (
                     <div
-                      className="my-2 dis-fl-col dis-fl-row-sm jc-c a-c"
+                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
                     >
-                      <div className="dis-fl-row-sm pt-1 pt-sm-0 ta-c">
+                      <div className="dis-fl-row-sm ta-c">
 
                         {
                           item.tags && item.tags[0].indexOf('pre-market') !== -1 ? (
@@ -534,6 +534,16 @@ const MarketCard = (props) => {
                           )
                         }
 
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
+                    >
+                      <div className="dis-fl-row-sm ta-c">
+                        <p className="pl-1 body2 txtDark700">
+                          <span>Your property is visible on our market.</span>
+                        </p>
                       </div>
                     </div>
                   )
