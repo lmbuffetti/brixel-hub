@@ -345,7 +345,7 @@ const IntroUpgrade = (props) => {
 
       </div>
 
-      <div className="bgLight100 py-8 mt-10" id="comparePlan">
+      <div className="bgAltColor2100 py-8 mt-10" id="comparePlan">
         <h3 className="ta-c mb-8">Compare all plans</h3>
 
         <PackagesComparePlans />

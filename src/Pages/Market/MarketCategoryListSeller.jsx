@@ -13,6 +13,7 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import orderBy from 'lodash/orderBy';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
@@ -21,6 +22,7 @@ import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { getCompanyListing } from '../../actions/CompanyActions';
 import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
+import ArticlesList from '../../resources/homeArticles';
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
 import testdrive from '../../images/Market/testdrive.jpeg';
@@ -58,6 +60,7 @@ const MarketCategoryListSeller = (props) => {
   const [propertyId, setPropertyId] = useState(null);
   const [activeCompanyId, setActiveCompanyId] = useState(null);
   const [companyDetail, setCompanyDetail] = useState({ });
+  const [filteredPackages, setFilteredPackages] = useState([]);
 
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
@@ -66,6 +69,17 @@ const MarketCategoryListSeller = (props) => {
   useEffect(() => {
     handleGetCompanyListing();
   }, []);
+
+  useEffect(() => {
+    const packages = get(companyDetail, 'servicePackages', null);
+    if (packages) {
+      let filtPkg = packages.filter((pkg) => pkg.type === 'one' || pkg.type === 'premium' || pkg.type === 'private');
+      // eslint-disable-next-line no-return-assign
+      filtPkg.map((pkg) => pkg.price.total = +pkg.price.total);
+      filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
+      setFilteredPackages(filtPkg);
+    }
+  }, [get(companyDetail, 'servicePackages', null)]);
 
   // Update market card when bestimate changes
   useEffect(() => {
@@ -461,7 +475,77 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className={`${ownerProperties.total !== 0 && ownerProperties.total === undefined ? '' : 'paddingOffset bgLight300'}  `}>
+      <div className="mt-10 bgAltColor2100 py-8">
+        <div className="container">
+          <h3 className="ta-c mb-7">Boost your private sale with an upgrade.</h3>
+
+          <div className="dis-f">
+            {
+              filteredPackages.map((pkg, i) => (
+                <div
+                  key={i.toString()}
+                  className={`${pkg.type} bgWhite mx-1 w-perc-100 brdSmall brdRadius p-3`}
+                >
+                  <h5 className="fweight-600">{pkg.name}</h5>
+                  <p
+                    className="mt-1 mb-3 fsize-500 dis-f a-b"
+                  >
+                    <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                    <small className="ml-1 fsize-300">inc VAT</small>
+                  </p>
+                  <p>{pkg.description}</p>
+                </div>
+              ))
+            }
+          </div>
+
+          <div className="dis-f jc-c a-c mt-4">
+
+            <BrixelButtonPrimary
+              rounded
+              label="Upgrade your plan"
+              onClick={() => history.push(`/${propertyId}/upgrade`)}
+              theme="altColor"
+              themeSat={200}
+            />
+            <span className="mx-1">or</span>
+            <BrixelButtonText
+              rounded
+              label="compare all plans"
+              onClick={() => history.push(`/${propertyId}/upgrade#comparePlan`)}
+              theme="dark"
+              themeSat={700}
+            />
+
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-10">
+        <div className="container">
+          <h3 className="mb-7">This may interest you</h3>
+
+          <div className="dis-f a-t flex-wrap">
+            {
+              ArticlesList.map((article, i) => (
+                <div
+                  key={i.toString()}
+                  className={`dis-fl-col jc-b a-t w-perc-50 ${i % 2 === 0 ? 'pr-2' : 'pl-2'}`}
+                >
+                  <img src={article.img} alt={`Article ${i}`} />
+                  <p className="fweight-600 mt-3 mb-2">{article.desc}</p>
+                  <a href={article.url} target="_blank" rel="noreferrer">Read more</a>
+                </div>
+              ))
+            }
+          </div>
+
+        </div>
+      </div>
+
+      <hr className="mt-7" />
+
+      <div className="mt-10 mb-10">
         <div className="container">
           {
             premiumProperties.total > 0 && (

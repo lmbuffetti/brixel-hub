@@ -110,6 +110,60 @@
   }
 }
 
+.private {
+  border-color: map_get($altColor, 900);
+  h5 {
+    color: map_get($altColor, 900);
+  }
+  h6:not([class*=bg]) {
+    background-color: map_get($altColor, 900);
+  }
+
+  ul.checked {
+    li {
+      &:before {
+        background-color: map_get($altColor, 900);
+      }
+    }
+  }
+}
+
+.premium {
+  border-color: map_get($altColor, 400);
+  h5 {
+    color: map_get($altColor, 400);
+  }
+  h6:not([class*=bg]) {
+    background-color: map_get($altColor, 400);
+  }
+
+  ul.checked {
+    li {
+      &:before {
+        background-color: map_get($altColor, 400);
+      }
+    }
+  }
+}
+
+.one {
+  border-color: map_get($altColor, 100);
+  h5 {
+    color: map_get($altColor, 100);
+  }
+  h6:not([class*=bg]) {
+    background-color: map_get($altColor, 100);
+  }
+
+  ul.checked {
+    li {
+      &:before {
+        background-color: map_get($altColor, 100);
+      }
+    }
+  }
+}
+
 span {
   &.basic {
     color: map_get($altColor, 2000);

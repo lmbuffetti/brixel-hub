@@ -191,48 +191,6 @@ const CarouselWrapper = (props) => {
           </div>
           <div className={`mt-1 dis-fl-col-sm a-c jc-c ${has(items[activeSlide], 'published') && items[activeSlide].published === false ? '' : ''}`}>
 
-            {
-              has(items[activeSlide], 'published') && items[activeSlide].published === false && (
-                <div
-                  className="my-2 dis-fl-col dis-fl-row-sm jc-c a-c"
-                >
-                  <span
-                    className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 as-c cur-poi"
-                    onClick={() => history.push(`/${items[activeSlide].id}/marketing/portals`)}
-                  >
-                    Pre-market
-                  </span>
-                  <div className="dis-fl-row-sm pt-1 pt-sm-0 ta-c">
-
-                    {
-                      items[activeSlide].tags && items[activeSlide].tags[0].indexOf('pre-market') !== -1 ? (
-                        <>
-                          <p className="pl-1 body2 txtDark700"><span>Your property is visible on our pre-market.</span></p>
-                          <a
-                            href={`/${items[activeSlide].id}/marketing/portals`}
-                            className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
-                          >
-                            Learn more.
-                          </a>
-                        </>
-                      ) : (
-                        <>
-                          <p className="pl-1 body2 txtDark700"> <span>Your property is <strong className="lh-in fweight-600">not</strong> visible to any buyers.</span> </p>
-                          <a
-                            href={`/${items[activeSlide].id}/marketing/portals`}
-                            className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
-                          >
-                            Change it here.
-                          </a>
-                        </>
-                      )
-                    }
-
-                  </div>
-                </div>
-              )
-            }
-
             <div className="dis-fl-row-sm hide a-c jc-c">
               <BrixelButtonText
                 className="fsize-300 show-all pos-r"
