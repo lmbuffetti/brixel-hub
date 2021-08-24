@@ -456,7 +456,7 @@ const MarketCard = (props) => {
                     }
 
                   </div>
-                  <hr />
+                  <span className="hr lighter" />
                   <div className="mid dis-fl-row a-c fsize-300 px-3 pt-1 txtDark400 pb-2">
                     <div className="dis-f a-c flex-wrap">
                       <div className="div pt-small-2">

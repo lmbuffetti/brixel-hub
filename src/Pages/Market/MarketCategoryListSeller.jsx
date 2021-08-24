@@ -478,16 +478,18 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="bgAltColor2100 py-8">
+      <div className="bgAltColor2100 pt-8 pb-7">
         <div className="container">
-          <h3 className="ta-c mb-7">Boost your private sale with an upgrade.</h3>
+          <h3 className="ta-c mb-7 max-w-fix-416 fsize-800 fweight-600 m-a">
+            Boost your private sale with an upgrade.
+          </h3>
 
           <div className="dis-f">
             {
               filteredPackages.map((pkg, i) => (
                 <div
                   key={i.toString()}
-                  className={`${pkg.type} bgWhite mx-1 w-perc-100 brdSmall brdRadius p-3`}
+                  className={`${pkg.type} bgWhite mx-2 w-perc-100 brdSmall brdRadius p-3`}
                 >
                   <h5 className="fweight-600">{pkg.name}</h5>
                   <p
