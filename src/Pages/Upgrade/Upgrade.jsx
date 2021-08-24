@@ -282,7 +282,7 @@ const Upgrade = (props) => {
       </div>
 
       <div
-        className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}
+        className={`bodyModal dis-fl-col upgradeModal ${quest.fullScreen ? '' : 'container'} ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}
       >
         <form
           id="multiStepForm"
@@ -291,7 +291,7 @@ const Upgrade = (props) => {
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+            <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''} ${quest.fullScreen ? 'p-0' : ''} `}>
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && !get(quest, 'cardType', null) && (

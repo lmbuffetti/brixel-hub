@@ -150,11 +150,11 @@ const IntroUpgrade = (props) => {
   return (
     <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700">
 
-      <h2 className="mb-0 mb-lg-5 ta-c fweight-600">
+      <h2 className="mb-0 mb-lg-5 ta-c fweight-600 container">
         Boost your private sale with an upgrade.
       </h2>
 
-      <div className="dis-f mb-8">
+      <div className="dis-f mb-8 container">
         <h4 className="mr-5 w-perc-100 max-w-fix-384">
           <span>Your current plan</span>
           <span className={`dis-b ${packageName.type} fweight-600`}>{packageName.name}</span>
@@ -189,7 +189,7 @@ const IntroUpgrade = (props) => {
         }
       </div>
 
-      <div className="dis-f">
+      <div className="dis-f container">
         {
           filteredPackages.map((pkg, i) => (
             <div
@@ -226,7 +226,7 @@ const IntroUpgrade = (props) => {
         }
       </div>
 
-      <div className="dis-f jc-c mt-5">
+      <div className="dis-f jc-c mt-5 container">
         <BrixelButtonSecondary
           rounded
           ghost
@@ -236,7 +236,7 @@ const IntroUpgrade = (props) => {
         />
       </div>
 
-      <div className="mt-10">
+      <div className="mt-10 container">
         <h3 className="ta-c">Do you want to upgrade or change plans?</h3>
 
         <div className="dis-f a-fs jc-sa mt-8">
@@ -278,12 +278,12 @@ const IntroUpgrade = (props) => {
         </div>
       </div>
 
-      <hr className="mt-10 mb-6" />
+      <hr className="mt-10 mb-6 container" />
 
       <div>
-        <h3 className="ta-c mb-8">You’re in good company</h3>
+        <h3 className="ta-c mb-8 container">You’re in good company</h3>
 
-        <div className="w-perc-100 ml-a mr-a testimonialsSlide">
+        <div className="w-perc-100 ml-a mr-a testimonialsSlide container">
 
           {
             get(activeSingleProperty, 'location.countryCode', '') === 'CH' ? (
@@ -346,15 +346,17 @@ const IntroUpgrade = (props) => {
       </div>
 
       <div className="bgAltColor2100 py-8 mt-10" id="comparePlan">
-        <h3 className="ta-c mb-8">Compare all plans</h3>
+        <div className="container">
+          <h3 className="ta-c mb-8">Compare all plans</h3>
 
-        <PackagesComparePlans />
-
+          <PackagesComparePlans />
+        </div>
       </div>
 
-      <div className="dis-f jc-c mt-10 bgWhite">
-
-        <BoxTrialTestDirve />
+      <div className="mt-10 bgWhite">
+        <div className="container dis-f jc-c">
+          <BoxTrialTestDirve />
+        </div>
 
       </div>
 
