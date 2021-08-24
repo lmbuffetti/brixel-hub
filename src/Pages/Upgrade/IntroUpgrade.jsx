@@ -11,7 +11,6 @@ import {
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
 import {
-  BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonText,
   Helpers,
@@ -95,7 +94,6 @@ const IntroUpgrade = (props) => {
     setTimeout(() => {
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
       const scrollEl = document.getElementById(id);
-      console.log(scrollEl.getBoundingClientRect().top);
       if (checkBrowser() > 0) {
         scrollPage.scrollTop = 0;
       } else {

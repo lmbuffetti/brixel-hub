@@ -20,7 +20,6 @@ import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsCo
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
-import testDrive from '../../../images/dashboard/testDrive.png';
 
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
@@ -33,7 +32,6 @@ const { factsOptions } = FactsOptions;
 const DashboardHome = (props) => {
   // PROPS
   const {
-    activeSingleCompany,
     activeSingleProperty,
     estimation,
     formValue,
@@ -78,13 +76,6 @@ const DashboardHome = (props) => {
       });
     }
     return count;
-  };
-
-  const bookNow = () => {
-    if (activeSingleProperty.id) {
-      localStorage.setItem('backUrl', `/${activeSingleProperty.id}/home`);
-      history.push(`/${activeSingleProperty.id}/trialRequest`);
-    }
   };
 
   const openBrixelPage = () => {
@@ -475,7 +466,6 @@ const DashboardHome = (props) => {
 };
 
 DashboardHome.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
