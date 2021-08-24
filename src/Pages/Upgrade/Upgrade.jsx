@@ -46,6 +46,7 @@ const Upgrade = (props) => {
   const [quest, setQuest] = useState(UpgradeQuestions()[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
+  const [scrollHash, setScrollHash] = useState(null);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -62,6 +63,8 @@ const Upgrade = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (questions[currentIndex].history) {
+      const { hash } = history.location;
+      if (hash) setScrollHash(hash);
       history.push(`/${propID}/upgrade/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
@@ -331,6 +334,7 @@ const Upgrade = (props) => {
                         ...quest,
                         onClick: (step = 1) => (questions[currentIndex + 1] ? changeStep('next', null, step, true) : closeWindow()),
                         showError,
+                        scrollHash,
                       },
                     )
                   )

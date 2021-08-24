@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { lazy, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -25,6 +25,8 @@ import testDrive from '../../../images/dashboard/testDrive.png';
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
+
+const BoxTrialTestDirve = lazy(() => import('../../../components/BoxTrialTestDirve'));
 
 const { factsOptions } = FactsOptions;
 
@@ -462,32 +464,11 @@ const DashboardHome = (props) => {
             </div>
           </div>
         </div>
-        <div onClick={() => bookNow()} className="testDrive cur-poi dis-f-md a-c brdRadius bgWhite shadow-2dp p-2">
-          <img
-            className={windowDimensions.width <= 590 ? 'dis-b mx-a' : ''}
-            width={windowDimensions.width <= 590 ? 300 : 300}
-            src={testDrive}
-            alt=""
-          />
-          <div className="div ta-c ta-l-md">
-            <h3 className="txtDark700 fweight-600 fsize-500">Test drive our service. <br /> No strings attached.</h3>
-            <p className="txtDark700">
-              <span>Get the full Brixel experience worth</span>
-              <span className="ml-small-4">{get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
-            </p>
-            <div className="dis-f jc-c jc-fs-md">
-              <BrixelButtonPrimary
-                onClick={() => bookNow()}
-                rounded
-                theme="AltColor"
-                themeSat={400}
-                label="Book Now"
-                className="mt-3"
-              />
-            </div>
-          </div>
 
-        </div>
+        <BoxTrialTestDirve
+          className="shadow-2dp"
+        />
+
       </div>
     </div>
   );
