@@ -501,7 +501,7 @@ const MarketCard = (props) => {
         {
           type === 'own' && (
             <>
-              <span className="hr mt-3 lighter" />
+              <span className="hr mt-3 lighter mb-1" />
 
               <div
                 className={`dis-fl-col dis-fl-row-md a-c jc-b ${has(item, 'published') && item.published === false ? '' : ''}`}

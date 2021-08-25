@@ -478,33 +478,31 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="bgAltColor2100 pt-8 pb-7">
+      <div className="bgAltColor2100 pt-6 pt-sm-8 pb-4 pb-sm-7">
         <div className="container">
-          <h3 className="ta-c mb-7 max-w-fix-416 fsize-800 fweight-600 m-a">
+          <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
             Boost your private sale with an upgrade.
           </h3>
 
-          <div className="dis-f">
+          <div className="dis-fl-col dis-fl-row-md">
             {
               filteredPackages.map((pkg, i) => (
                 <div
                   key={i.toString()}
-                  className={`${pkg.type} bgWhite mx-2 w-perc-100 brdSmall brdRadius p-3`}
+                  className={`${pkg.type} bgWhite txtAltColor100 mb-2 mb-md-0 mx-0 mx-md-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248`}
                 >
-                  <h5 className="fweight-600">{pkg.name}</h5>
-                  <p
-                    className="mt-1 mb-3 fsize-500 dis-f a-b"
-                  >
+                  <h4 className="fweight-600 txtAltColor100">{pkg.name}</h4>
+                  <p className="mt-1 mb-3 fsize-500 dis-f a-b txtAltColor100">
                     <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                    <small className="ml-1 fsize-300">inc VAT</small>
+                    <small className="ml-1 fsize-300 txtAltColor100">inc VAT</small>
                   </p>
-                  <p>{pkg.description}</p>
+                  <p className="txtAltColor100">{pkg.description}</p>
                 </div>
               ))
             }
           </div>
 
-          <div className="dis-f jc-c a-c mt-4">
+          <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
 
             <BrixelButtonPrimary
               rounded
@@ -527,20 +525,20 @@ const MarketCategoryListSeller = (props) => {
         </div>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-6 mt-sm-10">
         <div className="container">
-          <h3 className="mb-7">This may interest you</h3>
+          <h4 className="mb-4 fweight-600 txtAltColor100">This may interest you</h4>
 
-          <div className="dis-f a-t flex-wrap">
+          <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
             {
               artByCountry.map((article, i) => (
                 <div
                   key={i.toString()}
-                  className={`dis-fl-col jc-b a-t w-perc-50 ${i % 2 === 0 ? 'pr-2' : 'pl-2'}`}
+                  className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
                 >
                   <img src={article.img} alt={`Article ${i}`} />
-                  <p className="fweight-600 mt-3 mb-2">{article.desc}</p>
-                  <a href={article.url} target="_blank" rel="noreferrer">Read more</a>
+                  <p className="fweight-600 mt-3 mb-2 txtAltColor100">{article.desc}</p>
+                  <a className="txtAltColor100 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
                 </div>
               ))
             }
@@ -549,9 +547,9 @@ const MarketCategoryListSeller = (props) => {
         </div>
       </div>
 
-      <span className="my-6 hr lighter" />
+      <span className="mt-4 mb-6 hr lighter" />
 
-      <div className="mb-10">
+      <div className="mb-5 mb-sm-10">
         <div className="container">
           {
             premiumProperties.total > 0 && (

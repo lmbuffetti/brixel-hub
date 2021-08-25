@@ -16,6 +16,7 @@ import {
   Helpers,
 } from '@brixel/brixel-components';
 import Slider from 'react-slick';
+import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 import { getPackageProperty } from '../../actions/PropertyActions';
 
 import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
@@ -174,21 +175,24 @@ const IntroUpgrade = (props) => {
             packageName.type === 'basic' && (
               <ul className="fullGreenList w-perc-100 pt-2 pt-sm-0">
                 <li>
-                  <div>
+                  <BrixelIcon className="dis-b" color="AltColor" saturationTxt="200" iconWidth="w-fix-32" icon="check-small-fill" />
+                  <div className="pl-2">
                     <b>Brixel Hub</b>
                     <p>Your client portal to digitalize your property</p>
                   </div>
                 </li>
 
                 <li>
-                  <div>
+                  <BrixelIcon className="dis-b" color="AltColor" saturationTxt="200" iconWidth="w-fix-32" icon="check-small-fill" />
+                  <div className="pl-2">
                     <b>Pre-market</b>
                     <p>Test your demand anonymously</p>
                   </div>
                 </li>
 
                 <li>
-                  <div>
+                  <BrixelIcon className="dis-b" color="AltColor" saturationTxt="200" iconWidth="w-fix-32" icon="check-small-fill" />
+                  <div className="pl-2">
                     <b>Brixel Page</b>
                     <p>Your property website to share in your network</p>
                   </div>
@@ -205,7 +209,7 @@ const IntroUpgrade = (props) => {
           {
             filteredPackages.map((pkg, i) => (
               <div
-                className={`packageBox mb-2 mb-md-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
+                className={`packageBox mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
                 key={i.toString()}
               >
                 <div className="p-4">
@@ -233,7 +237,7 @@ const IntroUpgrade = (props) => {
                 </h6>
                 {
                   pkg.type === 'one' && (
-                    <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-4-neg ta-c">Let us handle all showings for additional CHF 4&apos;000.</span>
+                    <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg mb-sm-4-neg ta-c">Let us handle all showings for additional CHF 4&apos;000.</span>
                   )
                 }
               </div>
@@ -252,7 +256,7 @@ const IntroUpgrade = (props) => {
       </section>
 
       <section className="container contact-section py-6">
-        <h3 className="ta-c fweight-600">Do you want to upgrade or change plans?</h3>
+        <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">Do you want to upgrade or change plans?</h3>
 
         <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
@@ -305,10 +309,10 @@ const IntroUpgrade = (props) => {
         </div>
       </section>
 
-      <hr className="lighter my-5" />
+      <hr className="lighter my-2 my-ms-5" />
 
       <section className="container testimonial py-6">
-        <h3 className="ta-c fweight-600 mb-8">You’re in good company</h3>
+        <h3 className="ta-c fweight-600 mb-8 fsize-600 fsize-sm-700">You’re in good company</h3>
 
         <div className="w-perc-100 ml-a mr-a testimonialsSlide">
 
@@ -317,7 +321,7 @@ const IntroUpgrade = (props) => {
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and uncomplicated&quot;</h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700">&quot;Absolutely perfect and uncomplicated&quot;</h2>
 
                   <h5 className="ta-c txtAltColor200 fweight-600">M. Hardegger</h5>
                   <p className="ta-c txtAltColor200 fsize-500">House sold</p>
@@ -325,7 +329,7 @@ const IntroUpgrade = (props) => {
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor200 fweight-600">F. Pfiffner</h5>
                   <p className="ta-c txtAltColor200 fsize-500">Saved CHF 30&apos;700</p>
@@ -333,7 +337,7 @@ const IntroUpgrade = (props) => {
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;Excellent service with flexible fees.&quot;</h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700">&quot;Excellent service with flexible fees.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor200 fweight-600">M. Callaghan</h5>
                   <p className="ta-c txtAltColor200 fsize-500">Saved CHF 44&apos;050</p>
@@ -343,7 +347,7 @@ const IntroUpgrade = (props) => {
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;Always quick in responding, friendly, professional.&quot;</h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700">&quot;Always quick in responding, friendly, professional.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor200 fweight-600">Katrien Willems</h5>
                   <p className="ta-c txtAltColor200 fsize-500" />
@@ -351,7 +355,7 @@ const IntroUpgrade = (props) => {
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;Everything went incredibly well, it doesn&apos;t even seem real!&quot;</h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700">&quot;Everything went incredibly well, it doesn&apos;t even seem real!&quot;</h2>
 
                   <h5 className="ta-c txtAltColor200 fweight-600">Luca Benussi</h5>
                   <p className="ta-c txtAltColor200 fsize-500">Saved 18.400€</p>
@@ -359,7 +363,7 @@ const IntroUpgrade = (props) => {
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">&quot;The sale was done even faster than expected.&quot;</h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700">&quot;The sale was done even faster than expected.&quot;</h2>
 
                   <h5 className="ta-c txtAltColor200 fweight-600">Márcia Traça</h5>
                   <p className="ta-c txtAltColor200 fsize-500">Saved 13.000€</p>
@@ -374,7 +378,7 @@ const IntroUpgrade = (props) => {
 
       <section className="compairePlans bgAltColor2100 py-9" id="comparePlan">
         <div className="container">
-          <h3 className="ta-c mb-7 fweight-600">Compare all plans</h3>
+          <h3 className="ta-c mb-7 fweight-600 fsize-600 fsize-sm-700">Compare all plans</h3>
           <PackagesComparePlans
             packages={filteredPackages}
           />
@@ -382,9 +386,9 @@ const IntroUpgrade = (props) => {
 
       </section>
 
-      <section className="container testdrive-teaser dis-f jc-c mt-10 bgWhite">
+      <section className="container testdrive-teaser dis-f jc-c bgWhite">
 
-        <BoxTrialTestDirve />
+        <BoxTrialTestDirve isLarge />
 
       </section>
 

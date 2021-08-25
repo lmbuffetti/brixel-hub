@@ -76,7 +76,7 @@
       }
       tbody th {
         border-bottom: none;
-        padding-bottom: 0;
+        //padding-bottom: 0;
       }
       tbody * {
         font-size: 14px;
@@ -209,7 +209,7 @@
 }
 
 .private {
-  border-color: map_get($altColor, 900);
+  border-color: map_get($altColor, 1000);
   h5 {
     color: map_get($altColor, 900);
   }
@@ -227,7 +227,7 @@
 }
 
 .premium {
-  border-color: map_get($altColor, 400);
+  border-color: map_get($altColor, 600);
   h5 {
     color: map_get($altColor, 400);
   }
@@ -245,7 +245,7 @@
 }
 
 .one {
-  border-color: map_get($altColor, 100);
+  border-color: #CFD2D3;
   h5 {
     color: map_get($altColor, 100);
   }
@@ -283,7 +283,7 @@ span {
     display: flex;
     margin-bottom: $step * 2;
     &:before {
-      content: '';
+      //content: '';
       background-color: map_get($altColor, 200);
       -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
       mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
