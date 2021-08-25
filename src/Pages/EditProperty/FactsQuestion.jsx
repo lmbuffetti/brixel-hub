@@ -26,6 +26,14 @@ const FactsQuestion = (props) => {
   } = props;
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
+  const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
+
+  useEffect(() => {
+    if (dashWrapperEl) dashWrapperEl.classList.add('secondLevelActive');
+    return () => {
+      if (dashWrapperEl) dashWrapperEl.classList.add('secondLevelActive');
+    };
+  }, [dashWrapperEl]);
 
   useEffect(() => {
     const fieldsChanged = diff(initValues, formValue);

@@ -134,6 +134,7 @@ const App = (props) => {
   const dashContentRef = useRef(null);
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
+  const el = document.getElementsByClassName('thirdLevel');
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
@@ -210,7 +211,8 @@ const App = (props) => {
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
-      history.location.pathname.includes('trialRequest')
+      history.location.pathname.includes('trialRequest') ||
+      history.location.pathname.includes('upgrade')
     ) {
       if (history.location.pathname.includes('packageFlow')) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -255,8 +257,10 @@ const App = (props) => {
       !history.location.pathname.includes('buyer')
     ) {
       setIsSecLevel(true);
-      if (dashWrapperEl) {
+      if ([...el].length > 0 && dashWrapperEl) {
         dashWrapperEl.classList.add('secondLevelActive');
+      } else if (dashWrapperEl) {
+        dashWrapperEl.classList.remove('secondLevelActive');
       }
     } else {
       setIsSecLevel(false);
@@ -264,7 +268,7 @@ const App = (props) => {
         dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
-  }, [history.location.pathname, dashWrapperEl]);
+  }, [history.location.pathname, dashWrapperEl, [...el].length]);
 
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');
@@ -363,7 +367,7 @@ const App = (props) => {
   return (
     <>
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
+        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />
@@ -375,7 +379,7 @@ const App = (props) => {
                 style={contentLayout()}
               >
                 {
-                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest')) && (
+                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) && (
                     <>
                       <PageHeader />
                     </>
@@ -586,6 +590,7 @@ const App = (props) => {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('upgrade') &&
             !history.location.pathname.includes('trialRequest') &&
+            !history.location.pathname.includes('upgrade') &&
             !history.location.pathname.includes('docubox') &&
             (
               <div className="brixel-notifications">

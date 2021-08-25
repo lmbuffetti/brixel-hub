@@ -234,15 +234,6 @@ const Documents = (props) => {
         isBuyer && (
           <div className="pos-r hide-lg">
             <div className="dis-f backPanel">
-              <div className="fixedIcon dis-f jc-b w-perc-100">
-                <BrixelButtonIcon
-                  className="hide-md"
-                  icon="arrow-left-small"
-                  ghost
-                  theme="dark"
-                  onClick={() => history.push(`/buyer/${propID}/property`)}
-                />
-              </div>
               <h5 className="sectionTitle">Docubox</h5>
             </div>
           </div>
@@ -280,12 +271,12 @@ const Documents = (props) => {
                       }
                       {
                         mandatoryDocumentExists(element) === true && (
-                          <span className="txtDark700"><s>{element}</s></span>
+                          <span className="txtDark700 dont-break-out">{element}</span>
                         )
                       }
                       {
                         mandatoryDocumentExists(element) === false && (
-                          <span className="txtDark700">{element}</span>
+                          <span className="txtDark700 dont-break-out">{element}</span>
                         )
                       }
                     </div>
@@ -374,7 +365,7 @@ const Documents = (props) => {
                                       />
                                     </div>
                                     <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                      <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700">{doc.name}</span>
+                                      <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700 dont-break-out">{doc.name}</span>
                                       {
                                         get(doc, 'createdAt', null) ? (
                                           <span className="date body2 txtDark200">
@@ -476,7 +467,7 @@ const Documents = (props) => {
                                   />
                                 </div>
                                 <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
-                                  <span className="document-title fsize-400 txtDark700">{doc.name}</span>
+                                  <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
                                   {
                                     get(doc, 'createdAt', null) ? (
                                       <span className="date body2 txtDark200">

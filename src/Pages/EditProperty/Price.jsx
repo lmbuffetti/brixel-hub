@@ -17,7 +17,6 @@ import {
   ReduxField,
   change,
   reset,
-  BrixelButtonIcon,
   ProgressRing,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -27,7 +26,7 @@ import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import { DateTime } from 'luxon';
 import { setHistory, setSplashType } from '../../actions/CommonActions';
 import { InputSheets } from '../../resources/inputSheets';
-import { calcPercentageProEstimation } from '../../utils/helpers';
+import { calcPercentageProEstimation, completedBestimate } from '../../utils/helpers';
 
 // COMPONENTS
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
@@ -57,6 +56,7 @@ const Price = (props) => {
   const [percComplete, setPercComplete] = useState(0);
   // PARAMS URL
   const propID = get(match, 'params.propId', null);
+  const bestimateflowCompleted = completedBestimate(formValue);
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
@@ -69,25 +69,20 @@ const Price = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    if (windowDimensions.width <= 1024) {
-      setTimeout(() => {
-        const hubDashboard = document.getElementsByClassName('hubDashboard')[0];
-        if (hubDashboard) hubDashboard.classList.add('secondLevelActive');
-      }, 10);
-    }
     if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id) {
       if (!has(estimation, 'result') && get(estimation, 'status', '') !== 'pending') {
         const payload = {
           reloadOnwProperties: true,
           type: 'market',
           id: activeSingleProperty.id,
+          generate: bestimateflowCompleted,
         };
         handleGetEstimation(payload);
-      } else if (has(estimation, 'result') && !has(estimation, 'result.value') && get(estimation, 'status', '') !== 'pending' && estimation.id) {
+      } else if (has(estimation, 'result') && !has(estimation, 'result.value') && (get(estimation, 'status', '') !== 'pending' || bestimateflowCompleted) && estimation.id) {
         handleGenerateBestimate(estimation.id);
       }
     }
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, bestimateflowCompleted]);
 
   useEffect(() => {
     setPercComplete(calcPercentageProEstimation().realPerc);
@@ -132,15 +127,6 @@ const Price = (props) => {
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
 
         <div className="dis-fl-col backPanel dis-b hide-md">
-          <div className="fixedIcon w-perc-100">
-            <BrixelButtonIcon
-              className=""
-              icon="arrow-left-small"
-              theme="dark"
-              ghost
-              onClick={() => history.push(`/${propID}/property`)}
-            />
-          </div>
           <h5 className="sectionTitle">Price</h5>
         </div>
 
@@ -379,8 +365,9 @@ const Price = (props) => {
                 ) : (
                   <>
                     {
-                      get(estimation, 'status', null) !== 'pending' ? (
+                      get(estimation, 'status', null) !== 'pending' || !bestimateflowCompleted ? (
                         <>
+                          {bestimateflowCompleted.toString()}
                           <h5 className="mb-3">Get a free price indication.</h5>
                           <p className="txtDark700">Compare your property to real transaction data to better define the pricing.</p>
                           <BrixelButtonPrimary

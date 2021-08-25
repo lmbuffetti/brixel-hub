@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { lazy, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -20,18 +20,18 @@ import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsCo
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
-import testDrive from '../../../images/dashboard/testDrive.png';
 
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
+
+const BoxTrialTestDirve = lazy(() => import('../../../components/BoxTrialTestDirve'));
 
 const { factsOptions } = FactsOptions;
 
 const DashboardHome = (props) => {
   // PROPS
   const {
-    activeSingleCompany,
     activeSingleProperty,
     estimation,
     formValue,
@@ -78,13 +78,6 @@ const DashboardHome = (props) => {
     return count;
   };
 
-  const bookNow = () => {
-    if (activeSingleProperty.id) {
-      localStorage.setItem('backUrl', `/${activeSingleProperty.id}/home`);
-      history.push(`/${activeSingleProperty.id}/trialRequest`);
-    }
-  };
-
   const openBrixelPage = () => {
     if (progressState.id > 0) {
       if (activeSingleProperty.published) {
@@ -114,21 +107,23 @@ const DashboardHome = (props) => {
       </h4>
       <div className="max-w-fix-760 dis-fl-col">
         <div className="shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
-          <div className="w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
-            <CoverPropertyImage
-              className="cover w-perc-100 h-perc-100"
-              coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
-              propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
-            />
-            <Link
-              to={`/${activeSingleProperty.id}/property/photos`}
-              className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
-            >
-              Edit
+          <div>
+            <Link to={`/${activeSingleProperty.id}/property/photos`} className="dis-b w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
+              <CoverPropertyImage
+                className="cover w-perc-100 h-perc-100"
+                coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+                propertyType={get(formValue, 'properties.propertyType', undefined)}
+              />
+              <Link
+                to={`/${activeSingleProperty.id}/property/photos`}
+                className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
+              >
+                Edit
+              </Link>
             </Link>
           </div>
           <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
-            <div className="d">
+            <div className="">
               <h4 className="txtAltColor100 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
               <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
@@ -298,8 +293,8 @@ const DashboardHome = (props) => {
               <span className="fsize-600 fweight-600 txtAltColor2000">
                 <span>{countMandatoryDocuments()}</span>
                 <span className="mx-small-4">of</span>
-                <span>{mandatoryDocuments.length}</span>
-                <span className="ml-small-1">uploaded</span>
+                <span>{mandatoryDocuments.length} </span>
+                <span className="ml-small-1"> uploaded</span>
               </span>
               <BrixelButtonPrimary
                 onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
@@ -320,8 +315,8 @@ const DashboardHome = (props) => {
           <div className="w-perc-100 w-perc-sm-75 dis-f pr-sm-4">
 
             <Link
-              to={`/${activeSingleProperty.id}/facts`}
-              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp mr-1 pt-2 cur-poi"
+              to={`/${activeSingleProperty.id}/property/facts`}
+              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp mr-1 pt-2 cur-poi txtDark700"
             >
               <div className="h-fix-184 dis-fl-col jc-b">
                 <div className="dis-f px-3">
@@ -330,7 +325,7 @@ const DashboardHome = (props) => {
                     color="AltColor"
                     saturationTxt={700}
                   />
-                  <span className="txtDark700 fweight-600 pl-1"> Facts </span>
+                  <span className="txtDark700 fweight-600 pl-1">Facts</span>
                 </div>
                 <div className="px-3 pb-2">
                   <BrixelProgressBar
@@ -338,22 +333,22 @@ const DashboardHome = (props) => {
                     saturation={200}
                     color="AltColor"
                   />
-                  <span className="txtDark700 pt-small-4 fsize-300 fsize-sm-400 pt-small-4">
+                  <span className="txtDark700 fsize-300 fsize-sm-400 pt-small-4 dis-b">
                     <span>{calcPercentageFacts().realPerc}%</span>
                     <span className="ml-small-4">complete</span>
                   </span>
                 </div>
                 <div className="linkWrap">
-                  <hr className="lighter" />
-                  <Link to={`/${activeSingleProperty.id}/property/facts`} className="cur-poi wHover no-state txtHoverDark200 txtLight700 px-3 py-1">
+                  <span className="hr lighter" />
+                  <div className="txtHoverDark200 txtLight700 px-3 py-1 wHover">
                     <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </Link>
             <Link
               to={`/${activeSingleProperty.id}/marketing`}
-              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp ml-1 pt-2 cur-poi"
+              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp ml-1 pt-2 cur-poi txtDark700"
             >
               <div className="h-fix-184 dis-fl-col jc-b">
                 <div className="dis-f px-3">
@@ -362,7 +357,7 @@ const DashboardHome = (props) => {
                     color="AltColor"
                     saturationTxt={700}
                   />
-                  <span className="txtDark700 fweight-600 pl-1"> Marketing </span>
+                  <span className="txtDark700 fweight-600 pl-1">Marketing</span>
                 </div>
                 <div className="px-3">
                   {
@@ -383,9 +378,9 @@ const DashboardHome = (props) => {
                   </span>
                 </div>
                 <div className="linkWrap">
-                  <hr className="lighter" />
+                  <span className="hr lighter" />
                   <div className="px-3 py-1 txtLight700 wHover">
-                    <span className="text"> View</span>
+                    <span className="text">View</span>
                     <span className="arrow-symbol ml-1">&#62; </span>
                   </div>
                 </div>
@@ -395,15 +390,41 @@ const DashboardHome = (props) => {
 
           <div
             className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp"
-            style={{
-              backgroundImage: `url("${baseByData.shortPath}${get(activeSingleProperty, 'coverPhoto.thumbnailPath', '')}")`,
-            }}
             onClick={() => openBrixelPage()}
           >
-            <div className="px-3 pb-5">
+            <div className=" w-perc-100 h-perc-100 image-ratio pos-a zIndex1">
+              {
+                progressState.id > 0 ? (
+                  <CoverPropertyImage
+                    className="cover w-perc-100 h-perc-100"
+                    coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', get(formValue, 'photos[0].galleryThumbnailPath', undefined))}
+                    propertyType={get(formValue, 'properties.propertyType', undefined)}
+                  />
+                ) : (
+                  <>
+                    {
+                      get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                        <img
+                          className="cover w-perc-100 h-perc-100 pos-a zIndex1 imgCover"
+                          src="https://api.brixel.io/image/thumbnail/611a3b1f038a7621c297a488"
+                          alt="Preview PT"
+                        />
+                      ) : (
+                        <img
+                          className="cover w-perc-100 h-perc-100 pos-a zIndex1"
+                          src="https://api.brixel.io/image/thumbnail/5fce51745006e9175720b1c8"
+                          alt="Preview CH"
+                        />
+                      )
+                    }
+                  </>
+                )
+              }
+            </div>
+            <div className="px-3 pb-5 pos-r zIndex3">
               <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
                 {
-                  progressState > 0 ? (
+                  progressState.id > 0 ? (
                     <>
                       {activeSingleProperty.published ? 'View your Brixel Page' : 'Preview your Brixel Page'}
                     </>
@@ -415,8 +436,8 @@ const DashboardHome = (props) => {
                 }
               </span>
             </div>
-            <div className="linkWrap">
-              <hr className="white" />
+            <div className="linkWrap pos-r zIndex3">
+              <span className="hr white" />
               {
                 get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
                   <div
@@ -436,39 +457,17 @@ const DashboardHome = (props) => {
             </div>
           </div>
         </div>
-        <div className="testDrive dis-f-md a-c brdRadius bgWhite shadow-2dp p-2">
-          <img
-            className={windowDimensions.width <= 590 ? 'dis-b mx-a' : ''}
-            width={windowDimensions.width <= 590 ? 300 : 300}
-            src={testDrive}
-            alt=""
-          />
-          <div className="div ta-c ta-l-md">
-            <h3 className="txtDark700 fweight-600 fsize-500">Test drive our service. <br /> No strings attached.</h3>
-            <p className="txtDark700">
-              <span>Get the full Brixel experience worth</span>
-              <span className="ml-small-4">{get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
-            </p>
-            <div className="dis-f jc-c jc-fs-md">
-              <BrixelButtonPrimary
-                onClick={() => bookNow()}
-                rounded
-                theme="AltColor"
-                themeSat={400}
-                label="Book Now"
-                className="mt-3"
-              />
-            </div>
-          </div>
 
-        </div>
+        <BoxTrialTestDirve
+          className="shadow-2dp"
+        />
+
       </div>
     </div>
   );
 };
 
 DashboardHome.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,

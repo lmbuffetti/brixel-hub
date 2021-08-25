@@ -296,7 +296,7 @@ const MarketList = (props) => {
         />
       </div>
       <div className="firstLevel dis-f">
-        <div className="property-list">
+        <div className="property-list pb-md-3">
           <div className="mb-3 dis-fl-col">
             <div className="dis-fl-col pos-r">
               <BrixelButtonIcon

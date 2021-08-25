@@ -8,6 +8,7 @@ import { translateTo } from './translation';
 import { AssessorAvgLifespan } from '../resources/Assessor';
 import { configureStore } from '../store';
 import { InputSheets } from '../resources/inputSheets';
+import { BestimateQuestions } from '../resources/Bestimate';
 
 const cookies = new Cookies();
 
@@ -619,7 +620,7 @@ export const tobase64Handler = async (files, user, action, pageID, imgType, docT
   const mappedFiles = filePaths.map((base64File) => {
     if (action === 'documents') {
       let name = get(base64File, 'name', Date.now() / 1000);
-      if (docType) name = docType;
+      if (docType && docType !== 'Generic') name = docType;
       return {
         name,
         user,
@@ -710,4 +711,35 @@ export const arrayMove = (arr, oldIndex, newIndex) => {
   }
   arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
   return arr; // for testing
+};
+
+export const completedBestimate = (formValue) => {
+  const location = get(formValue, 'location.countryCode', '');
+  const propertyType = get(formValue, 'propperties.propertyType', '');
+  const BestimateQuest = BestimateQuestions(null, location, propertyType);
+  let isValid = true;
+  BestimateQuest.forEach((inputs) => {
+    if (inputs.inputs) {
+      inputs.inputs.forEach((input) => {
+        if (input.validation) {
+          input.validation.forEach((validation) => {
+            if (validation.name === 'required') {
+              if (input.condition) {
+                input.condition.forEach((cond) => {
+                  if (get(formValue, cond.name, null) === cond.value) {
+                    if (get(formValue, input.name, null) === null) isValid = false;
+                  } else if (get(formValue, cond.name, null) !== cond.noValue) {
+                    if (get(formValue, input.name, null) === null) isValid = false;
+                  }
+                });
+              } else if (get(formValue, input.name, null) === null) {
+                isValid = false;
+              }
+            }
+          });
+        }
+      });
+    }
+  });
+  return isValid;
 };

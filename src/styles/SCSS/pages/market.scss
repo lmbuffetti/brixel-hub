@@ -35,6 +35,10 @@ $lightColorNew2: #F0F0F2;
           padding-bottom: 40px;
           background-color: $lightColorNew;
 
+          @media (min-width: $responsive-medium) {
+            padding-bottom: 62px;
+          }
+
 
           .market-card .info {
             background: white;
@@ -349,8 +353,4 @@ $lightColorNew2: #F0F0F2;
   .market-card .cover.pre-market:not(.premium) {
     filter: initial;
   }
-}
-
-.mb-neg-58 {
-  margin-bottom: -58px;
 }

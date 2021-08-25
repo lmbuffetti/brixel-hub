@@ -64,8 +64,8 @@
     }
     position: fixed;
     bottom: 32px;
-    right: 32px;
-    z-index: 1;
+    right: 48px;
+    z-index: 3;
   }
 }
 
@@ -83,5 +83,12 @@
         background-color: white;
       }
     }
+  }
+}
+
+
+.overlayOpen {
+  .supportBtn {
+    z-index: -1;
   }
 }
