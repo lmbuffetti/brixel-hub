@@ -211,7 +211,8 @@ const App = (props) => {
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
-      history.location.pathname.includes('trialRequest')
+      history.location.pathname.includes('trialRequest') ||
+      history.location.pathname.includes('upgrade')
     ) {
       if (history.location.pathname.includes('packageFlow')) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -366,7 +367,7 @@ const App = (props) => {
   return (
     <>
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
+        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />
@@ -378,7 +379,7 @@ const App = (props) => {
                 style={contentLayout()}
               >
                 {
-                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest')) && (
+                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) && (
                     <>
                       <PageHeader />
                     </>
@@ -589,6 +590,7 @@ const App = (props) => {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('upgrade') &&
             !history.location.pathname.includes('trialRequest') &&
+            !history.location.pathname.includes('upgrade') &&
             !history.location.pathname.includes('docubox') &&
             (
               <div className="brixel-notifications">
