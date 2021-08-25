@@ -110,31 +110,85 @@ export const PackagesComparePlans = (props) => {
           <tr>
             <td />
             <th>Private <span>CHF 950 inc VAT</span></th>
-            <th>Premium <span>CHF 3'900 inc VAT</span></th>
-            <th>One <span>CHF 9'900 inc VAT</span></th>
+            <th>Premium <span>CHF 3&apos;900 inc VAT</span></th>
+            <th>One <span>CHF 9&apos;900 inc VAT</span></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th>Feature 1</th>
+            <th>Brixel Hub</th>
             <td>✔</td>
             <td>✔</td>
             <td>✔</td>
           </tr>
           <tr>
-            <th>Feature 2</th>
+            <th>Pre-market</th>
             <td>❌</td>
             <td>✔</td>
             <td>✔</td>
           </tr>
           <tr>
-            <th>Feature 3</th>
+            <th>Brixel Page</th>
             <td>❌</td>
             <td>❌</td>
             <td>✔</td>
           </tr>
           <tr>
-            <th>Feature 4</th>
+            <th>Listings</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <th>Support</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <th>Full estimation</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <th>Property scan</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <th>3D tour</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <th>PDF factsheet</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <th>Prospects management</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <th>Negotiating support</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <th>Contract handling</th>
+            <td>❌</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <th>Support up to the notary</th>
             <td>❌</td>
             <td>❌</td>
             <td>❌</td>

@@ -34,7 +34,7 @@
       text-align: center;
     }
     table thead {
-      color: white;
+
       //background: #0cf;
     }
     table thead th {
@@ -43,7 +43,6 @@
     table[data-comparing=active] tbody th {
       border-bottom: none;
       font-size: 0.75em;
-      color: #767676;
       padding-bottom: 0;
     }
   }
