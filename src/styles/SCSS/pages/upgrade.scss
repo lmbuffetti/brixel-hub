@@ -11,39 +11,76 @@
    }
   }
   .compairePlans {
-    body {
-      padding: 5%;
+    .no-right-border {
+      border-right: none;
     }
-
     table {
       width: 100%;
-      border-top: 1px solid #ccc;
-      border-left: 1px solid #ccc;
+      border: none;
       border-collapse: collapse;
       margin-bottom: 1em;
+      color: map-get($altColor, 100 );
+      text-align: left;
+      border-radius: 8px;
+      background-color: white;
+      box-shadow: $shadow-2dp;
     }
     table th,
     table td {
-      padding: 0.5em 1em;
-      border-bottom: 1px solid #ccc;
-      border-right: 1px solid #ccc;
+      padding: 0.7em 1em;
+      border-bottom: 1px solid #EDEDED;
+      border-right: 1px solid #EDEDED;
       white-space: pre;
     }
     table thead th,
     table tbody td {
-      text-align: center;
+      //text-align: center;
     }
-    table thead {
-
-      //background: #0cf;
+    table tbody th {
+      font-weight: 400;
+    }
+    table tbody tr td:last-child {
+      border-right: 0;
+    }
+    table tbody tr:last-child > * {
+      border-bottom: 0;
     }
     table thead th {
       padding: 1em;
+      font-weight: 600;
+      font-size: 26px;
     }
-    table[data-comparing=active] tbody th {
-      border-bottom: none;
-      font-size: 0.75em;
-      padding-bottom: 0;
+
+    table[data-comparing=active] {
+      th,
+      td  {
+        padding: 0.4em 1em;
+        text-overflow: ellipsis;
+        white-space: inherit;
+      }
+      tbody tr {
+        display: flex;
+        &:not(:last-child) {
+          border-bottom: 1px solid #EDEDED;
+        }
+        > th {
+          width: 60%;
+          border-right: 0;
+          padding-left: 24px;
+        }
+        > td {
+          border: 0;
+          width: 40%;
+          //padding-right: 40px;
+        }
+      }
+      tbody th {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      tbody * {
+        font-size: 14px;
+      }
     }
   }
 }
@@ -238,17 +275,17 @@ span {
     margin-bottom: $step * 2;
     &:before {
       content: '';
-      background-color: map_get($greenColor, 400);
+      background-color: map_get($altColor, 200);
       -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
       mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
       display: block;
-      width: 22px;
-      height: 22px;
-      background-repeat: no-repeat;
+      width: 32px;
+      height: 32px;
       background-position: center;
       mask-size: contain;
-      margin-right: $step;
+      margin-right: $step * 2;
       margin-top: 3px;
+      mask-repeat: no-repeat;
     }
   }
 }

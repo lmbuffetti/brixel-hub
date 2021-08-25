@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
+import checkBlue from '../images/Upgrade/check-blue.svg';
+import checkRed from '../images/Upgrade/check-red.svg';
+import checkBlack from '../images/Upgrade/check-black.svg';
 
 export const PackagesComparePlans = (props) => {
   const {
@@ -12,7 +15,7 @@ export const PackagesComparePlans = (props) => {
     // CONFIGS
     const tableSelector = 'table';
     const targetBreakpoint = 768;
-    let currentVisibleColumn = 2;
+    let currentVisibleColumn = 1;
     const nextButtonText = 'Compare Next';
 
     // SETUP/SELECT REUSABLE ELEMENTS
@@ -62,7 +65,7 @@ export const PackagesComparePlans = (props) => {
 
       const updateTable = () => {
         // Get the Table's Width. Might as well go FULL Container Query over here.
-        const tableWidth = table.getBoundingClientRect().width;
+        //        const tableWidth = table.getBoundingClientRect().width;
 
         // If the table explodes off the viewport or is wider than the target breakpoint
         // if (tableWidth > windowDimensions.width || tableWidth < targetBreakpoint) {
@@ -84,14 +87,14 @@ export const PackagesComparePlans = (props) => {
           // Hide the next button
           nextButton.style.display = 'none';
           // Remove styles from all cells, ergo, show all the cells
-          for (var i = 0; i < allCells.length; i++) {
-            allCells[i].style.display = '';
-          }
+          allCells.forEach((cell) => {
+            cell.style.display = '';
+          });
 
           // Remove styles from all row headers
-          for (var i = 0; i < rowHeaders.length; i++) {
-            rowHeaders[i].style.display = '';
-          }
+          rowHeaders.forEach((row) => {
+            row.style.display = '';
+          });
         }
       };
       createButtons();
@@ -109,89 +112,98 @@ export const PackagesComparePlans = (props) => {
         <thead>
           <tr>
             <td />
-            <th>Private <span>CHF 950 inc VAT</span></th>
-            <th>Premium <span>CHF 3&apos;900 inc VAT</span></th>
-            <th>One <span>CHF 9&apos;900 inc VAT</span></th>
+            <th>
+              <span className="txtAltColor900">Private</span>
+              <span className="fsize-500 dis-b fweight-400">CHF 950 <span className="fsize-300 dis-ib pt-small-3">inc VAT</span></span>
+            </th>
+            <th>
+              <span className="txtAltColor400">Premium</span>
+              <span className="fsize-500 dis-b fweight-400">CHF 3&apos;900 <span className="fsize-300 dis-ib pt-small-3">inc VAT</span></span>
+            </th>
+            <th className="no-right-border">
+              <span className="txtAltColor100">One</span>
+              <span className="fsize-500 dis-b fweight-400">CHF 9&apos;900 <span className="fsize-300 dis-ib pt-small-3">inc VAT</span></span>
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <th>Brixel Hub</th>
-            <td>✔</td>
-            <td>✔</td>
-            <td>✔</td>
+            <td> <img className="pt-small-6" src={checkBlue} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>Pre-market</th>
-            <td>❌</td>
-            <td>✔</td>
-            <td>✔</td>
+            <td> <img className="pt-small-6" src={checkBlue} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>Brixel Page</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>✔</td>
+            <td> <img className="pt-small-6" src={checkBlue} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>Listings</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td> <img className="pt-small-6" src={checkBlue} alt="" /> <span className="pl-1">3 months listings</span> </td>
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> <span className="pl-1">6 months listings</span> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> <span className="pl-1">12 months listings</span></td>
           </tr>
           <tr>
             <th>Support</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td> <img className="pt-small-6" src={checkBlue} alt="" /> <span className="pl-1">Online</span> </td>
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> <span className="pl-1">Backoffice</span> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> <span className="pl-1">Expert</span></td>
           </tr>
           <tr>
             <th>Full estimation</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td />
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>Property scan</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td />
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>3D tour</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td />
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>PDF factsheet</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td />
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>Prospects management</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td />
+            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>Negotiating support</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td />
+            <td />
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>Contract handling</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td />
+            <td />
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
           <tr>
             <th>Support up to the notary</th>
-            <td>❌</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td />
+            <td />
+            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
           </tr>
         </tbody>
       </table>

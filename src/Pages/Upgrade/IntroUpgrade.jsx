@@ -156,31 +156,23 @@ const IntroUpgrade = (props) => {
   }, []);
 
   return (
-    <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700">
+    <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtAltColor100">
 
-      <section className="compairePlans bgAltColor2100 py-8" id="comparePlan">
-        <div className="container">
-          <h3 className="ta-c mb-8">Compare all plans</h3>
-          <PackagesComparePlans />
-        </div>
+      <section className="intro container">
 
-      </section>
-
-      <section className="container">
-
-        <h2 className="mb-0 mb-lg-5 fweight-600">
+        <h2 className="mb-3 mb-lg-5 fsize-600 fsize-md-800 fweight-600">
           Boost your private sale with an upgrade.
         </h2>
 
-        <div className="dis-f mb-8">
-          <h4 className="mr-5 w-perc-100 max-w-fix-384">
+        <div className="dis-fl-col dis-fl-row-sm">
+          <h4 className="fsize-500 fsize-md-600 w-perc-100 max-w-fix-392">
             <span>Your current plan</span>
             <span className={`dis-b ${packageName.type} fweight-600`}>{packageName.name}</span>
           </h4>
 
           {
             packageName.type === 'basic' && (
-              <ul className="fullGreenList">
+              <ul className="fullGreenList w-perc-100 pt-2 pt-sm-0">
                 <li>
                   <div>
                     <b>Brixel Hub</b>
@@ -208,7 +200,7 @@ const IntroUpgrade = (props) => {
         </div>
       </section>
 
-      <section className="container packages">
+      <section className="container packages py-6">
         <div className="dis-f">
           {
             filteredPackages.map((pkg, i) => (
@@ -256,7 +248,7 @@ const IntroUpgrade = (props) => {
         </div>
       </section>
 
-      <section className="container contact-section mt-10">
+      <section className="container contact-section py-6">
         <h3 className="ta-c">Do you want to upgrade or change plans?</h3>
 
         <div className="dis-f a-fs jc-sa mt-8">
@@ -298,9 +290,9 @@ const IntroUpgrade = (props) => {
         </div>
       </section>
 
-      <hr className="mt-10 mb-6" />
+      <hr className="lighter" />
 
-      <section className="container testimonial">
+      <section className="container testimonial py-6">
         <h3 className="ta-c mb-8">You’re in good company</h3>
 
         <div className="w-perc-100 ml-a mr-a testimonialsSlide">
@@ -361,6 +353,14 @@ const IntroUpgrade = (props) => {
             )
           }
 
+        </div>
+
+      </section>
+
+      <section className="compairePlans bgAltColor2100 py-9" id="comparePlan">
+        <div className="container">
+          <h3 className="ta-c mb-7 fweight-600">Compare all plans</h3>
+          <PackagesComparePlans />
         </div>
 
       </section>
