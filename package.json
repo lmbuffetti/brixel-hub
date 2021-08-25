@@ -42,6 +42,7 @@
     "redux-actions": "^2.6.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "sanitize-html": "^2.4.0",
     "slick-carousel": "^1.8.1",
     "sortablejs": "^1.14.0",
     "universal-cookie": "^4.0.4"
