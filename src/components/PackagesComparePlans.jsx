@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { Helpers } from '@brixel/brixel-components';
 import { PackagesComparePlansTable } from '../resources/PackagesComparePlans';
@@ -8,7 +6,6 @@ import { PackagesComparePlansTable } from '../resources/PackagesComparePlans';
 export const PackagesComparePlans = (props) => {
   const {
     packages,
-    windowDimensions,
   } = props;
 
   const tableMobile = () => {
@@ -17,10 +14,8 @@ export const PackagesComparePlans = (props) => {
     const targetBreakpoint = 768;
     let currentVisibleColumn = 1;
     const nextButtonText = 'Compare Next';
-
     // SETUP/SELECT REUSABLE ELEMENTS
     const table = document.querySelector(tableSelector);
-
     if (table) {
       const allCells = table.querySelectorAll('th, td');
       const columnHeaders = table.querySelectorAll('thead th:not(:empty)');
@@ -36,15 +31,15 @@ export const PackagesComparePlans = (props) => {
         allCells.forEach((cell) => {
           cell.style.display = 'none';
         });
+        if (currentlyVisibleColHeader) {
+          // Show Currently Visible Col Header
+          currentlyVisibleColHeader.style.display = 'block';
 
-        // Show Currently Visible Col Header
-        currentlyVisibleColHeader.style.display = 'block';
-
-        // Show Currently Visible Cells
-        currentlyVisibleCells.forEach((cell) => {
-          cell.style.display = 'block';
-        });
-
+          // Show Currently Visible Cells
+          currentlyVisibleCells.forEach((cell) => {
+            cell.style.display = 'block';
+          });
+        }
         // Show Row Headers
         rowHeaders.forEach((head) => {
           head.style.display = 'block';
@@ -56,7 +51,7 @@ export const PackagesComparePlans = (props) => {
         nextButton.style.display = 'none';
 
         table.parentNode.insertBefore(nextButton, table.nextSibling);
-
+        nextButton.setAttribute('type', 'button');
         nextButton.addEventListener('click', () => {
           currentVisibleColumn = currentVisibleColumn + 1 > columnHeaders.length ? 1 : currentVisibleColumn + 1;
           showCurrentlyVisible();
@@ -69,7 +64,7 @@ export const PackagesComparePlans = (props) => {
 
         // If the table explodes off the viewport or is wider than the target breakpoint
         // if (tableWidth > windowDimensions.width || tableWidth < targetBreakpoint) {
-        if (windowDimensions.width < targetBreakpoint) {
+        if (window.innerWidth < targetBreakpoint) {
           if (table.getAttribute('data-comparing') !== 'active') {
             // Set the comparison state to "Active"
             table.setAttribute('data-comparing', 'active');
@@ -101,10 +96,13 @@ export const PackagesComparePlans = (props) => {
       updateTable();
     }
   };
+
   useEffect(() => {
-    tableMobile();
-    // window.addEventListener('resize', tableMobile);
-  }, []);
+    if (packages.length > 0) {
+      tableMobile();
+      window.addEventListener('resize', () => tableMobile());
+    }
+  }, [packages]);
 
   const extractTable = (pack) => packages.filter((pkg) => pkg.type === pack);
 
@@ -219,12 +217,6 @@ export const PackagesComparePlans = (props) => {
 
 PackagesComparePlans.propTypes = {
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  packages: get(state, 'companies.activeSingleCompany.servicePackages', []),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
-});
-
-export default connect(mapStateToProps, null)(PackagesComparePlans);
+export default PackagesComparePlans;

@@ -62,7 +62,7 @@ const Upgrade = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
-    if (questions[currentIndex].history) {
+    if (questions[currentIndex] && questions[currentIndex].history) {
       const { hash } = history.location;
       if (hash) setScrollHash(hash);
       history.push(`/${propID}/upgrade/${questions[currentIndex].history}`);
@@ -187,7 +187,7 @@ const Upgrade = (props) => {
       let newQuest = {
         ...questions[defId],
       };
-      if (questions[defId].effect === 'slideUp') {
+      if (questions[defId] && questions[defId].effect === 'slideUp') {
         newQuest = {
           ...questions[defId - 1],
         };
@@ -207,7 +207,7 @@ const Upgrade = (props) => {
           getCurStep.querySelector('input[type="text"]').focus();
         }
       }, 100);
-      if (questions[defId].history) {
+      if (questions[defId] && questions[defId].history) {
         history.push({
           pathname: `/${propID}/upgrade/${questions[defId].history}`,
           state: get(history, 'location.state', {}),
@@ -287,7 +287,7 @@ const Upgrade = (props) => {
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex] && questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
@@ -364,7 +364,7 @@ const Upgrade = (props) => {
           {
             get(quest, 'history', null) !== 'createProfile' && (
               <div
-                className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                className={`footerAction flowFooter ${questions[currentIndex] && questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
               >
                 <div className="pos-r">
                   <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
