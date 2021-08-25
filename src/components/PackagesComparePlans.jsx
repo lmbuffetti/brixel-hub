@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import checkBlue from '../images/Upgrade/check-blue.svg';
-import checkRed from '../images/Upgrade/check-red.svg';
-import checkBlack from '../images/Upgrade/check-black.svg';
+import { Helpers } from '@brixel/brixel-components';
+import { PackagesComparePlansTable } from '../resources/PackagesComparePlans';
 
 export const PackagesComparePlans = (props) => {
   const {
+    packages,
     windowDimensions,
   } = props;
 
@@ -106,105 +106,111 @@ export const PackagesComparePlans = (props) => {
     // window.addEventListener('resize', tableMobile);
   }, []);
 
+  const extractTable = (pack) => packages.filter((pkg) => pkg.type === pack);
+
   return (
     <div className="comparePlans">
       <table>
         <thead>
           <tr>
             <td />
-            <th>
-              <span className="txtAltColor900">Private</span>
-              <span className="fsize-500 dis-b fweight-400">CHF 950 <span className="fsize-300 dis-ib pt-small-3">inc VAT</span></span>
-            </th>
-            <th>
-              <span className="txtAltColor400">Premium</span>
-              <span className="fsize-500 dis-b fweight-400">CHF 3&apos;900 <span className="fsize-300 dis-ib pt-small-3">inc VAT</span></span>
-            </th>
-            <th className="no-right-border">
-              <span className="txtAltColor100">One</span>
-              <span className="fsize-500 dis-b fweight-400">CHF 9&apos;900 <span className="fsize-300 dis-ib pt-small-3">inc VAT</span></span>
-            </th>
+            {
+              extractTable('private').map((pkg, i) => (
+                <th key={i.toString()}>
+                  <span className="txtAltColor900">{pkg.name}</span>
+                  <span className="fsize-500 dis-f a-b fweight-400">
+                    <span>
+                      {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
+                    </span>
+                    <span className="fsize-300 ml-1">inc VAT</span>
+                  </span>
+                </th>
+              ))
+            }
+            {
+              extractTable('premium').map((pkg, i) => (
+                <th key={i.toString()}>
+                  <span className="txtAltColor400">{pkg.name}</span>
+                  <span className="fsize-500 dis-f a-b fweight-400">
+                    <span>
+                      {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
+                    </span>
+                    <span className="fsize-300 ml-1">inc VAT</span>
+                  </span>
+                </th>
+              ))
+            }
+            {
+              extractTable('one').map((pkg, i) => (
+                <th key={i.toString()}>
+                  <span className="txtAltColor100">{pkg.name}</span>
+                  <span className="fsize-500 dis-f a-b fweight-400">
+                    <span>
+                      {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
+                    </span>
+                    <span className="fsize-300 ml-1">inc VAT</span>
+                  </span>
+                </th>
+              ))
+            }
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>Brixel Hub</th>
-            <td> <img className="pt-small-6" src={checkBlue} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>Pre-market</th>
-            <td> <img className="pt-small-6" src={checkBlue} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>Brixel Page</th>
-            <td> <img className="pt-small-6" src={checkBlue} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>Listings</th>
-            <td> <img className="pt-small-6" src={checkBlue} alt="" /> <span className="pl-1">3 months listings</span> </td>
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> <span className="pl-1">6 months listings</span> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> <span className="pl-1">12 months listings</span></td>
-          </tr>
-          <tr>
-            <th>Support</th>
-            <td> <img className="pt-small-6" src={checkBlue} alt="" /> <span className="pl-1">Online</span> </td>
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> <span className="pl-1">Backoffice</span> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> <span className="pl-1">Expert</span></td>
-          </tr>
-          <tr>
-            <th>Full estimation</th>
-            <td />
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>Property scan</th>
-            <td />
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>3D tour</th>
-            <td />
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>PDF factsheet</th>
-            <td />
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>Prospects management</th>
-            <td />
-            <td> <img className="pt-small-6" src={checkRed} alt="" /> </td>
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>Negotiating support</th>
-            <td />
-            <td />
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>Contract handling</th>
-            <td />
-            <td />
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
-          <tr>
-            <th>Support up to the notary</th>
-            <td />
-            <td />
-            <td> <img className="pt-small-6" src={checkBlack} alt="" /> </td>
-          </tr>
+          {
+            PackagesComparePlansTable.map((table, i) => (
+              <tr key={i.toString()}>
+                <th>{table.title}</th>
+                {
+                  extractTable('private').map((pkg, f) => (
+                    <td key={f.toString()}>
+                      {
+                        table.td.private && (
+                          <>
+                            <img className="pt-small-6" src={table.td.private.img} alt="" />
+                            {table.td.private.desc && (
+                              <span className="pl-1">{table.td.private.desc}</span>
+                            )}
+                          </>
+                        )
+                      }
+                    </td>
+                  ))
+                }
+                {
+                  extractTable('premium').map((pkg, f) => (
+                    <td key={f.toString()}>
+                      {
+                        table.td.premium && (
+                          <>
+                            <img className="pt-small-6" src={table.td.premium.img} alt="" />
+                            {table.td.premium.desc && (
+                              <span className="pl-1">{table.td.premium.desc}</span>
+                            )}
+                          </>
+                        )
+                      }
+                    </td>
+                  ))
+                }
+                {
+                  extractTable('one').map((pkg, f) => (
+                    <td key={f.toString()}>
+                      {
+                        table.td.one && (
+                          <>
+                            <img className="pt-small-6" src={table.td.one.img} alt="" />
+                            {table.td.one.desc && (
+                              <span className="pl-1">{table.td.one.desc}</span>
+                            )}
+                          </>
+                        )
+                      }
+                    </td>
+                  ))
+                }
+              </tr>
+            ))
+          }
         </tbody>
       </table>
     </div>
@@ -212,10 +218,12 @@ export const PackagesComparePlans = (props) => {
 };
 
 PackagesComparePlans.propTypes = {
+  packages: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  packages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
