@@ -43,10 +43,10 @@ const clientConfig = {
   },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
-    compress: devMode,
+    compress: !devMode,
     port: 5000,
     historyApiFallback: true,
-    open: true,
+    open: devMode,
   },
   output: {
     publicPath: '/',
