@@ -375,7 +375,9 @@ const IntroUpgrade = (props) => {
       <section className="compairePlans bgAltColor2100 py-9" id="comparePlan">
         <div className="container">
           <h3 className="ta-c mb-7 fweight-600">Compare all plans</h3>
-          <PackagesComparePlans />
+          <PackagesComparePlans
+            packages={filteredPackages}
+          />
         </div>
 
       </section>
