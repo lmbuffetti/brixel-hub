@@ -11,8 +11,8 @@ export const PackagesComparePlans = (props) => {
   const tableMobile = () => {
     // CONFIGS
     const tableSelector = 'table';
-    const targetBreakpoint = 500;
-    let currentVisibleColumn = 1;
+    const targetBreakpoint = 768;
+    let currentVisibleColumn = 2;
     const nextButtonText = 'Compare Next';
 
     // SETUP/SELECT REUSABLE ELEMENTS
@@ -23,28 +23,29 @@ export const PackagesComparePlans = (props) => {
       const columnHeaders = table.querySelectorAll('thead th:not(:empty)');
       const rowHeaders = table.querySelectorAll('tbody th');
       const nextButton = document.createElement('button');
+
       const showCurrentlyVisible = () => {
         // Get the Items we're going to show. The :not(:empty) query here is because sometimes you have empty <th>s in <thead>
         const currentlyVisibleColHeader = document.querySelector(`thead th:not(:empty):nth-of-type( ${currentVisibleColumn})`);
         const currentlyVisibleCells = document.querySelectorAll(`tbody td:nth-of-type(${currentVisibleColumn})`);
 
         // Hide All The Cells
-        for (var i = 0; i < allCells.length; i++) {
-          allCells[i].style.display = 'none';
-        }
+        allCells.forEach((cell) => {
+          cell.style.display = 'none';
+        });
 
         // Show Currently Visible Col Header
         currentlyVisibleColHeader.style.display = 'block';
 
         // Show Currently Visible Cells
-        for (var i = 0; i < currentlyVisibleCells.length; i++) {
-          currentlyVisibleCells[i].style.display = 'block';
-        }
+        currentlyVisibleCells.forEach((cell) => {
+          cell.style.display = 'block';
+        });
 
         // Show Row Headers
-        for (var i = 0; i < rowHeaders.length; i++) {
-          rowHeaders[i].style.display = 'block';
-        }
+        rowHeaders.forEach((head) => {
+          head.style.display = 'block';
+        });
       };
 
       const createButtons = () => {
@@ -64,7 +65,8 @@ export const PackagesComparePlans = (props) => {
         const tableWidth = table.getBoundingClientRect().width;
 
         // If the table explodes off the viewport or is wider than the target breakpoint
-        if (tableWidth > window.innerWidth || tableWidth < targetBreakpoint) {
+        // if (tableWidth > windowDimensions.width || tableWidth < targetBreakpoint) {
+        if (windowDimensions.width < targetBreakpoint) {
           if (table.getAttribute('data-comparing') !== 'active') {
             // Set the comparison state to "Active"
             table.setAttribute('data-comparing', 'active');
@@ -97,10 +99,8 @@ export const PackagesComparePlans = (props) => {
     }
   };
   useEffect(() => {
-    if (windowDimensions.width <= 600) {
-      tableMobile();
-      window.addEventListener('resize', tableMobile);
-    }
+    tableMobile();
+    // window.addEventListener('resize', tableMobile);
   }, []);
 
   return (
@@ -109,16 +109,14 @@ export const PackagesComparePlans = (props) => {
         <thead>
           <tr>
             <td />
-            <th>Basic</th>
-            <th>Premium</th>
-            <th>Deluxe</th>
-            <th>Business</th>
+            <th>Private <span>CHF 950 inc VAT</span></th>
+            <th>Premium <span>CHF 3'900 inc VAT</span></th>
+            <th>One <span>CHF 9'900 inc VAT</span></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <th>Feature 1</th>
-            <td>✔</td>
             <td>✔</td>
             <td>✔</td>
             <td>✔</td>
@@ -128,13 +126,11 @@ export const PackagesComparePlans = (props) => {
             <td>❌</td>
             <td>✔</td>
             <td>✔</td>
-            <td>✔</td>
           </tr>
           <tr>
             <th>Feature 3</th>
             <td>❌</td>
             <td>❌</td>
-            <td>✔</td>
             <td>✔</td>
           </tr>
           <tr>
@@ -142,7 +138,6 @@ export const PackagesComparePlans = (props) => {
             <td>❌</td>
             <td>❌</td>
             <td>❌</td>
-            <td>✔</td>
           </tr>
         </tbody>
       </table>
