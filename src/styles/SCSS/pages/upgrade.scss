@@ -90,33 +90,42 @@
   border-radius: $brd-radius-small;
 
   &:nth-child(1) {
-    margin-right: $step;
+    @media (min-width: $responsive-medium) {
+      margin-right: $step;
+    }
   }
   &:nth-child(2) {
-    margin-left: $step;
-    margin-right: $step;
+    @media (min-width: $responsive-medium) {
+      margin-left: $step;
+      margin-right: $step;
+    }
   }
   &:nth-child(3) {
-    margin-left: $step;
+    @media (min-width: $responsive-medium) {
+      margin-left: $step;
+    }
   }
 
   ul.checked {
-    margin-top: $step * 4;
     padding: 0;
 
     li {
       display: flex;
+      align-items: center;
 
       &:before {
         content: '';
-        -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg');
-        mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg');
+        -webkit-mask-image: url('../../../images/Upgrade/check-blue.svg');
+        mask-image: url('../../../images/Upgrade/check-blue.svg');
         display: block;
+        mask-repeat: no-repeat;
         width: 22px;
         height: 22px;
         background-repeat: no-repeat;
         background-position: center;
-        margin-right: $step;
+        margin-right: $step * 2;
+        top: 4px;
+        position: relative;
       }
 
       list-style: none;

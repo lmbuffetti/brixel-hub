@@ -201,25 +201,25 @@ const IntroUpgrade = (props) => {
       </section>
 
       <section className="container packages py-6">
-        <div className="dis-f">
+        <div className="dis-fl-col dis-fl-row-md pb-3">
           {
             filteredPackages.map((pkg, i) => (
               <div
-                className={`packageBox w-perc-100 ${pkg.type} dis-fl-col jc-b`}
+                className={`packageBox mb-2 mb-md-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
                 key={i.toString()}
               >
                 <div className="p-4">
-                  <h5 className="fweight-600">{pkg.name}</h5>
+                  <h5 className="fweight-600 fsize-700">{pkg.name}</h5>
                   <p className="mt-2">
                     {pkg.description}
                   </p>
 
-                  <ul className="checked">
+                  <ul className="checked mt-3">
                     {
                       pkg.details && get(pkg, 'details', []).map((detail, f) => (
                         <li
                           key={f.toString()}
-                          className={i > 0 && f === 0 ? 'fweight-700' : ''}
+                          className={i > 0 && f === 0 ? 'fweight-600' : ''}
                         >
                           {detail.description}
                         </li>
@@ -227,12 +227,15 @@ const IntroUpgrade = (props) => {
                     }
                   </ul>
                 </div>
-                <h6
-                  className="px-4 py-2"
-                >
+                <h6 className="px-4 py-2">
                   <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
                   <small>inc VAT</small>
                 </h6>
+                {
+                  pkg.type === 'one' && (
+                    <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-4-neg ta-c">Let us handle all showings for additional CHF 4&apos;000.</span>
+                  )
+                }
               </div>
             ))
           }
@@ -249,51 +252,63 @@ const IntroUpgrade = (props) => {
       </section>
 
       <section className="container contact-section py-6">
-        <h3 className="ta-c">Do you want to upgrade or change plans?</h3>
+        <h3 className="ta-c fweight-600">Do you want to upgrade or change plans?</h3>
 
-        <div className="dis-f a-fs jc-sa mt-8">
-          <div className="ta-c">
-            <img src={BookOnlineImg} alt="Book Online" />
-            <h6>Book online</h6>
-            <BrixelButtonText
-              className="ml-a mr-a"
-              label="Request now"
-            />
+        <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+            <img className="w-fix-56 w-fix-lg-104" src={BookOnlineImg} alt="Book Online" />
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+
+              <h6>Book online</h6>
+              <BrixelButtonText
+                className="ml-a mr-a"
+                label="Request now"
+              />
+            </div>
           </div>
-          <div className="ta-c">
-            <img src={CallUsImg} alt="Call Us" />
-            <h6>Call Us</h6>
-            <BrixelButtonText
-              onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
-              className="ml-a mr-a"
-              label={Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''))}
-            />
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+            <img className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+
+              <h6>Call Us</h6>
+              <BrixelButtonText
+                onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
+                className="ml-a mr-a"
+                label={Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''))}
+              />
+            </div>
           </div>
-          <div className="ta-c">
-            <img src={WrireUsImg} alt="Call Us" />
-            <h6>Call Us</h6>
-            <BrixelButtonText
-              onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
-              className="ml-a mr-a"
-              label={get(activeSingleCompany, 'contact.email', '')}
-            />
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+            <img className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+
+              <h6>Call Us</h6>
+              <BrixelButtonText
+                onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
+                className="ml-a mr-a"
+                label={get(activeSingleCompany, 'contact.email', '')}
+              />
+            </div>
           </div>
-          <div className="ta-c">
-            <img src={NotNowImg} alt="Call Us" />
-            <h6>Not Sure</h6>
-            <BrixelButtonText
-              onClick={() => openNewFlow(`/${activeSingleProperty.id}/trialRequest`)}
-              className="ml-a mr-a"
-              label="Test drive our service"
-            />
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+            <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+
+              <h6>Not Sure</h6>
+              <BrixelButtonText
+                onClick={() => openNewFlow(`/${activeSingleProperty.id}/trialRequest`)}
+                className="ml-a mr-a"
+                label="Test drive our service"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      <hr className="lighter" />
+      <hr className="lighter my-5" />
 
       <section className="container testimonial py-6">
-        <h3 className="ta-c mb-8">You’re in good company</h3>
+        <h3 className="ta-c fweight-600 mb-8">You’re in good company</h3>
 
         <div className="w-perc-100 ml-a mr-a testimonialsSlide">
 
@@ -304,7 +319,7 @@ const IntroUpgrade = (props) => {
                   <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and uncomplicated&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor200">M. Hardegger</h5>
+                  <h5 className="ta-c txtAltColor200 fweight-600">M. Hardegger</h5>
                   <p className="ta-c txtAltColor200 fsize-500">House sold</p>
                 </div>
 
@@ -312,7 +327,7 @@ const IntroUpgrade = (props) => {
                   <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor200">F. Pfiffner</h5>
+                  <h5 className="ta-c txtAltColor200 fweight-600">F. Pfiffner</h5>
                   <p className="ta-c txtAltColor200 fsize-500">Saved CHF 30&apos;700</p>
                 </div>
 
@@ -320,7 +335,7 @@ const IntroUpgrade = (props) => {
                   <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Excellent service with flexible fees.&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor200">M. Callaghan</h5>
+                  <h5 className="ta-c txtAltColor200 fweight-600">M. Callaghan</h5>
                   <p className="ta-c txtAltColor200 fsize-500">Saved CHF 44&apos;050</p>
                 </div>
               </Slider>
@@ -330,7 +345,7 @@ const IntroUpgrade = (props) => {
                   <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Always quick in responding, friendly, professional.&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor200">Katrien Willems</h5>
+                  <h5 className="ta-c txtAltColor200 fweight-600">Katrien Willems</h5>
                   <p className="ta-c txtAltColor200 fsize-500" />
                 </div>
 
@@ -338,7 +353,7 @@ const IntroUpgrade = (props) => {
                   <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Everything went incredibly well, it doesn&apos;t even seem real!&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor200">Luca Benussi</h5>
+                  <h5 className="ta-c txtAltColor200 fweight-600">Luca Benussi</h5>
                   <p className="ta-c txtAltColor200 fsize-500">Saved 18.400€</p>
                 </div>
 
@@ -346,7 +361,7 @@ const IntroUpgrade = (props) => {
                   <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;The sale was done even faster than expected.&quot;</h2>
 
-                  <h5 className="ta-c txtAltColor200">Márcia Traça</h5>
+                  <h5 className="ta-c txtAltColor200 fweight-600">Márcia Traça</h5>
                   <p className="ta-c txtAltColor200 fsize-500">Saved 13.000€</p>
                 </div>
               </Slider>
