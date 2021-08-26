@@ -94,10 +94,11 @@ const IntroUpgrade = (props) => {
     setTimeout(() => {
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
       const scrollEl = document.getElementById(id);
+      console.log(scrollEl.getBoundingClientRect().top, scrollPage.scrollTop);
       if (checkBrowser() > 0) {
-        scrollPage.scrollTop = 0;
+        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop;
       } else {
-        scrollPage.scrollTo({ top: scrollEl.getBoundingClientRect().top, behavior: 'smooth' });
+        scrollPage.scrollTo({ top: scrollEl.getBoundingClientRect().top + scrollPage.scrollTop, behavior: 'smooth' });
       }
     }, 100);
   };
@@ -175,7 +176,7 @@ const IntroUpgrade = (props) => {
             packageName.type === 'basic' && (
               <ul className="fullGreenList w-perc-100 pt-2 pt-sm-0">
                 <li>
-                  <BrixelIcon className="dis-b" color="AltColor" saturationTxt="200" iconWidth="w-fix-32" icon="check-small-fill" />
+                  <BrixelIcon className="dis-b" color="AltColor" saturationTxt={200} iconWidth="w-fix-32" icon="check-small-fill" />
                   <div className="pl-2">
                     <b>Brixel Hub</b>
                     <p>Your client portal to digitalize your property</p>
@@ -183,7 +184,7 @@ const IntroUpgrade = (props) => {
                 </li>
 
                 <li>
-                  <BrixelIcon className="dis-b" color="AltColor" saturationTxt="200" iconWidth="w-fix-32" icon="check-small-fill" />
+                  <BrixelIcon className="dis-b" color="AltColor" saturationTxt={200} iconWidth="w-fix-32" icon="check-small-fill" />
                   <div className="pl-2">
                     <b>Pre-market</b>
                     <p>Test your demand anonymously</p>
@@ -191,7 +192,7 @@ const IntroUpgrade = (props) => {
                 </li>
 
                 <li>
-                  <BrixelIcon className="dis-b" color="AltColor" saturationTxt="200" iconWidth="w-fix-32" icon="check-small-fill" />
+                  <BrixelIcon className="dis-b" color="AltColor" saturationTxt={200} iconWidth="w-fix-32" icon="check-small-fill" />
                   <div className="pl-2">
                     <b>Brixel Page</b>
                     <p>Your property website to share in your network</p>
