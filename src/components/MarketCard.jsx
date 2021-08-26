@@ -513,7 +513,7 @@ const MarketCard = (props) => {
               <span className="hr mt-3 lighter mb-1" />
 
               <div
-                className={`dis-fl-col dis-fl-row-sm a-c jc-b ${has(item, 'published') && item.published === false ? '' : ''}`}
+                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm ${has(item, 'published') && item.published === false ? '' : ''}`}
               >
 
                 {
@@ -553,7 +553,7 @@ const MarketCard = (props) => {
                     </div>
                   ) : (
                     <div
-                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
+                      className="dis-fl-col dis-fl-row-sm ta-l"
                     >
                       <div className="dis-fl-row-sm">
                         <p className="pl-1 body2 txtDark700">
@@ -563,7 +563,7 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-                <div className="pt-1 ml-a">
+                <div className="pt-1 pt-sm-0 ml-a">
                   <BrixelButtonPrimary
                     rounded
                     label="Edit"
