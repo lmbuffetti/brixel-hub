@@ -36,19 +36,11 @@ const OfferDetail = (props) => {
 
   return (
     <>
-      <div className={`single-offer-container secondLevel ${isBuyer && windowDimensions.width <= 1024 ? 'secondLevel p-2' : ''} dis-fl-col pb-4 pl-sm-1 pr-sm-2 dealsListings`}>
+      <div className={`single-offer-container ${isBuyer && windowDimensions.width <= 1024 ? 'secondLevel p-2' : ''} dis-fl-col pb-4 pl-sm-1 pr-sm-2 dealsListings`}>
         <div className="hideStyle">
           {
             !isBuyer ? (
               <>
-                <BrixelButtonIcon
-                  icon="arrow-left-small"
-                  theme="dark"
-                  ghost
-                  bgTransparent
-                  className="mb-1 mb-md-3 mt-md-0"
-                  onClick={() => history.push(`/${activeSingleProperty.id}/closing`)}
-                />
                 <div className="offer-info dis-f a-c mb-1">
                   <h5>{get(activeSingleDeal, 'user.name', 'No Name')}</h5>
                   {

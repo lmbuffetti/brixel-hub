@@ -405,7 +405,7 @@ function PageHeaderDashboard(props) {
             <div className="dis-f a-c">
               {
                 propID !== 'buy' && (activeSingleProperty.id || activeSingleProperty.customID) && (
-                  <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pr-4">
+                  <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                     <span className="hide dis-b-md">Your Plan:&nbsp;</span>
                     <span
                       className="fweight-600 td-u-colored dis-f cur-poi"
@@ -613,7 +613,7 @@ function PageHeaderDashboard(props) {
         </div>
       </header>
       {
-        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && (
+        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && !history.location.pathname.includes('closing/') && (
           <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
             {
               getCurrentRoute().title && (
