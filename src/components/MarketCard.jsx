@@ -513,7 +513,7 @@ const MarketCard = (props) => {
               <span className="hr mt-3 lighter mb-1" />
 
               <div
-                className={`dis-fl-col dis-fl-row-sm a-c jc-b ${has(item, 'published') && item.published === false ? '' : ''}`}
+                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm ${has(item, 'published') && item.published === false ? '' : ''}`}
               >
 
                 {
