@@ -21,8 +21,8 @@ module.exports = {
       desc: 'Read the story about Luca and why he chose Brixel.',
     },
     {
-      img: 'https://brixel.pt/content/uploads/sites/2/2021/07/1-2-950x550.png?x24073',
-      url: 'https://brixel.pt/revista/expert/porque-cobramos-500euros/',
+      img: 'https://brixel.pt/content/uploads/sites/2/2019/08/SEO.jpg',
+      url: 'https://brixel.pt/revista/expert/porque-cobramos-500euros',
       title: 'Do you want to sell independently?',
       desc: 'Read why we charge a small fee upfront.',
     },
