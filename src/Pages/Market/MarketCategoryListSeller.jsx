@@ -496,8 +496,9 @@ const MarketCategoryListSeller = (props) => {
             {
               filteredPackages.map((pkg, i) => (
                 <div
+                  onClick={() => history.push(`/${propertyId}/upgrade`)}
                   key={i.toString()}
-                  className={`${pkg.type} bgWhite txtAltColor100 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248`}
+                  className={`${pkg.type} bgWhite txtAltColor100 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
                 >
                   <h4 className="fweight-600 txtAltColor100">{pkg.name}</h4>
                   <p className="mt-1 mb-3 fsize-500 dis-f a-b txtAltColor100">
