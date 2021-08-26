@@ -68,19 +68,18 @@
           border-bottom: 1px solid #EDEDED;
         }
         > th {
-          width: 60%;
+          width: 68%;
           border-right: 0;
           padding-left: 24px;
         }
         > td {
           border: 0;
-          width: 40%;
-          //padding-right: 40px;
+          width: 30%;
+          padding-left: 0px;
         }
       }
       tbody th {
         border-bottom: none;
-        //padding-bottom: 0;
       }
       tbody * {
         font-size: 14px;
