@@ -545,7 +545,9 @@ const MarketCategoryListSeller = (props) => {
                   key={i.toString()}
                   className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
                 >
-                  <img src={article.img} alt={`Article ${i}`} />
+                  <a className="txtAltColor100 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">
+                    <img src={article.img} alt={`Article ${i}`} />
+                  </a>
                   <p className="fweight-600 mt-3 mb-2 txtAltColor100">{article.desc}</p>
                   <a className="txtAltColor100 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
                 </div>
