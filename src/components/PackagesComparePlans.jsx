@@ -127,7 +127,7 @@ export const PackagesComparePlans = (props) => {
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                     </span>
-                    <span className="fsize-300 ml-1">inc VAT</span>
+                    <span className="fsize-300 ml-1">incl. VAT</span>
                   </span>
                 </th>
               ))
@@ -140,7 +140,7 @@ export const PackagesComparePlans = (props) => {
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                     </span>
-                    <span className="fsize-300 ml-1">inc VAT</span>
+                    <span className="fsize-300 ml-1">incl. VAT</span>
                   </span>
                 </th>
               ))
@@ -153,7 +153,7 @@ export const PackagesComparePlans = (props) => {
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                     </span>
-                    <span className="fsize-300 ml-1">inc VAT</span>
+                    <span className="fsize-300 ml-1">incl. VAT</span>
                   </span>
                 </th>
               ))
