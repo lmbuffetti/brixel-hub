@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
+import { Helpers } from '@brixel/brixel-components';
 import { setSplashType } from '../../actions/CommonActions';
 import BrixelClosingTree from '../../components/BrixelClosingTree';
 import { getActiveSingleDeal, setActiveSingleDeal } from '../../actions/DealActions';
@@ -14,7 +14,6 @@ const OfferDetail = (props) => {
     activeSingleDeal,
     activeSingleProperty,
     handleGetActiveSingleDeal,
-    history,
     isBuyer,
     match,
     windowDimensions,
@@ -91,7 +90,6 @@ OfferDetail.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   handleGetActiveSingleDeal: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isBuyer: PropTypes.bool,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,

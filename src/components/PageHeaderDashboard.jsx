@@ -451,7 +451,7 @@ function PageHeaderDashboard(props) {
                                 </button>
                               </>
                             ) : (
-                              <div className="">
+                              <div className="dis-f">
                                 <button
                                   className="w-fix-32 h-fix-32"
                                   type="button"
