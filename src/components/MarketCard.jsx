@@ -320,6 +320,7 @@ const MarketCard = (props) => {
                       ) : (
                         <div className="dis-f pt-sm-2 a-t">
                           <BrixelIcon
+                            className="dis-b-sm hide mr-2"
                             background="AltColor"
                             saturation={1000}
                             color="AltColor"
@@ -328,7 +329,6 @@ const MarketCard = (props) => {
                             icon="chart"
                             rounded
                             iconSize="large"
-                            className="hide dis-fl-row-sm"
                           />
                           <div className="dis-fl-col pl-sm-2 mr-1">
                             <span className="txtLight600 fsize-300">Your Bestimate</span>
@@ -365,20 +365,22 @@ const MarketCard = (props) => {
                             className="dis-fl-row a-c ml-2"
                           >
                             <div className="hide dis-fl-row-sm">
-                              <ProgressRing
-                                customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
-                                iconColor={{
-                                  color: 'altColor',
-                                  sat: 2000,
-                                }}
-                                progress={calcPercentageProEstimation('', item).realPerc}
-                                size={48}
-                                strokeWidth={10}
-                                circleOneStroke="#D7F0F1"
-                                circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#1E1491'}
-                                showIcon={false}
-                                showIconComplete={calcPercentageProEstimation('', item).realPerc === 100}
-                              />
+                              <div className="pos-r h-fix-48 w-fix-48">
+                                <ProgressRing
+                                  customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
+                                  iconColor={{
+                                    color: 'altColor',
+                                    sat: 2000,
+                                  }}
+                                  progress={calcPercentageProEstimation('', item).realPerc}
+                                  size={48}
+                                  strokeWidth={10}
+                                  circleOneStroke="#D7F0F1"
+                                  circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#1E1491'}
+                                  showIcon={false}
+                                  showIconComplete={calcPercentageProEstimation('', item).realPerc === 100}
+                                />
+                              </div>
                             </div>
                             <div className="pl-2">
                               <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>

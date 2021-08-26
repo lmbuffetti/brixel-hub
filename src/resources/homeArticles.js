@@ -6,8 +6,8 @@ module.exports = {
       desc: 'What do our customers think? Read the story about the family Schmid and why they chose Brixel.',
     },
     {
-      img: 'https://brixel.ch/content/uploads/2019/07/Schmid_Blog_Foto-1-950x550.png?x54730',
-      url: 'https://brixel.ch/magazin/menschen/immobilienverkauf-erfahrungsbericht-schmids',
+      img: 'https://brixel.ch/content/uploads/2020/12/makler-vertrag-950x550.png?x16148',
+      url: 'https://brixel.ch/magazin/ratgeber/die-mythen-der-immobilienmakler/',
       desc: 'Are you thinking about selling with an agent? We heard many stories. Read about false promises and disappointed customers.',
     },
   ],
