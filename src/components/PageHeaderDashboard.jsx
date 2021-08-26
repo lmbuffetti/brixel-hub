@@ -191,8 +191,9 @@ function PageHeaderDashboard(props) {
 
   // WHEN CLICK ON UPGRADE BUTTON
   const onUpgrade = () => {
+    const propertyID = get(activeSingleProperty, 'id', get(activeSingleProperty, 'customID', ''));
     localStorage.setItem('backUrl', history.location.pathname);
-    history.push(`/${propID}/upgrade`);
+    history.push(`/${propertyID}/upgrade`);
   };
 
   // FUNCTION TO GET CURRENT URL LOCATION
