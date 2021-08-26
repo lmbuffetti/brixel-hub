@@ -19,6 +19,7 @@ import {
   reset,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import Loading from './components/Loading';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
@@ -135,6 +136,10 @@ const App = (props) => {
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
   const el = document.getElementsByClassName('thirdLevel');
+
+  useEffect(() => {
+    smoothscrollPolyfill.polyfill();
+  }, []);
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {

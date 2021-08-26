@@ -44,6 +44,7 @@
     "redux-thunk": "^2.3.0",
     "sanitize-html": "^2.4.0",
     "slick-carousel": "^1.8.1",
+    "smoothscroll-polyfill": "^0.4.4",
     "sortablejs": "^1.14.0",
     "universal-cookie": "^4.0.4"
   },
