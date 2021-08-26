@@ -413,18 +413,7 @@ const MarketCategoryListSeller = (props) => {
           </div>
         ) : (
           <div className="mb-5 mb-sm-3 mt-4-neg mt-sm-10-neg">
-            <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
-              <BrixelButtonText
-                className="fsize-300 show-all pos-r mr-1"
-                label={`<span>View all properties</span> <span class="ml-1">(${get(ownerProperties, 'total', '-')})</span>`}
-                onClick={() => history.push('/sell/own')}
-              />
-              <BrixelButtonText
-                className="fsize-300 show-all pos-r"
-                label="+ Add new"
-                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
-              />
-            </div>
+
             <div className="marketSellBanner dis-fl-col dis-fl-row-sm a-c jc-c pb-2 mt-2-neg mt-sm-0">
               <div className="max-w-fix-144 min-h-fix-200 min-h-fix-sm-360 max-w-fix-sm-264 w-perc-100">
                 <img src={testdrive} alt="testdrive" />
@@ -456,6 +445,18 @@ const MarketCategoryListSeller = (props) => {
 
               </div>
 
+            </div>
+            <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
+              <BrixelButtonText
+                className="fsize-300 show-all pos-r mr-1"
+                label={`<span>View all properties</span> <span class="ml-1">(${get(ownerProperties, 'total', '-')})</span>`}
+                onClick={() => history.push('/sell/own')}
+              />
+              <BrixelButtonText
+                className="fsize-300 show-all pos-r"
+                label="+ Add new"
+                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
+              />
             </div>
             {
               ownerProperties.total > 0 && (
