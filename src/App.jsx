@@ -189,6 +189,8 @@ const App = (props) => {
     if (splittedURL[1] === 'sell' || splittedURL[1] === 'buy') {
       handleSetActiveSingleProperty({});
     }
+    const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
+    if (scrollFlow) scrollFlow.scrollTop = 0;
   }, [history.location]);
 
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER

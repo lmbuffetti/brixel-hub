@@ -29,7 +29,6 @@ import Testimonial3CH from '../../images/getstarted/testimonial-3_CH.jpeg';
 import Testimonial1PT from '../../images/getstarted/testimonial-1_PT.jpg';
 import Testimonial2PT from '../../images/getstarted/testimonial-2_PT.jpg';
 import Testimonial3PT from '../../images/getstarted/testimonial-3_PT.jpg';
-import { checkBrowser } from '../../utils/helpers';
 
 const PackagesComparePlans = lazy(() => import('../../components/PackagesComparePlans'));
 const BoxTrialTestDirve = lazy(() => import('../../components/BoxTrialTestDirve'));
@@ -97,11 +96,7 @@ const IntroUpgrade = (props) => {
       const scrollEl = document.getElementById(id);
       const headerHeight = flowHeader.offsetHeight / 2;
       if (flowHeader && scrollPage) {
-        if (checkBrowser() > 0) {
-          scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - headerHeight;
-        } else {
-          scrollPage.scrollTo({ top: scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - headerHeight, behavior: 'smooth' });
-        }
+        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - headerHeight;
       }
     }, 100);
   };
