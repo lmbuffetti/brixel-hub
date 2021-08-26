@@ -94,7 +94,6 @@ const IntroUpgrade = (props) => {
     setTimeout(() => {
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
       const scrollEl = document.getElementById(id);
-      console.log(scrollEl.getBoundingClientRect().top, scrollPage.scrollTop);
       if (checkBrowser() > 0) {
         scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop;
       } else {
