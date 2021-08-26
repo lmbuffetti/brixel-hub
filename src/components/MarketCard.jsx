@@ -563,7 +563,7 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-                <div className="pt-1 ml-a">
+                <div className="pt-1 pt-sm-0 ml-a">
                   <BrixelButtonPrimary
                     rounded
                     label="Edit"
