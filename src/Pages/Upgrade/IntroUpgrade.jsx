@@ -125,10 +125,17 @@ const IntroUpgrade = (props) => {
         }
       } else if (sortedPackage[0]) {
         const filtPackage = packages.find((item) => sortedPackage[0].servicePackage === item.id);
-        setPackageName({
-          name: filtPackage.name,
-          type: filtPackage.type,
-        });
+        if (filtPackage) {
+          setPackageName({
+            name: filtPackage.name,
+            type: filtPackage.type,
+          });
+        } else {
+          setPackageName({
+            name: 'Basic',
+            type: 'basic',
+          });
+        }
       } else {
         setPackageName({
           name: 'Basic',
@@ -240,8 +247,13 @@ const IntroUpgrade = (props) => {
                   <small>incl. VAT</small>
                 </h6>
                 {
-                  pkg.type === 'one' && (
-                    <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg mb-sm-4-neg ta-c">Let us handle all showings for additional CHF 4&apos;000.</span>
+                  pkg.type === 'one' && get(activeSingleCompany, 'meta.additionalPackage.price', 0) > 0 && (
+                    <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg mb-sm-4-neg ta-c">
+                      <span>Let us handle all showings for additional</span>
+                      <span className="ml-small-4">
+                        {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.additionalPackage.price', 0), get(activeSingleCompany, 'country.currency', ''))}.
+                      </span>
+                    </span>
                   )
                 }
               </div>
