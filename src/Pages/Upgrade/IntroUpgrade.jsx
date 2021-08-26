@@ -95,9 +95,9 @@ const IntroUpgrade = (props) => {
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
       const scrollEl = document.getElementById(id);
       if (checkBrowser() > 0) {
-        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop;
+        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - 48;
       } else {
-        scrollPage.scrollTo({ top: scrollEl.getBoundingClientRect().top + scrollPage.scrollTop, behavior: 'smooth' });
+        scrollPage.scrollTo({ top: scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - 48, behavior: 'smooth' });
       }
     }, 100);
   };
