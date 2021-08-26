@@ -521,7 +521,7 @@ const MarketCategoryListSeller = (props) => {
               theme="altColor"
               themeSat={200}
             />
-            <span className="mx-1">or</span>
+            <span className="mx-1 hide dis-fl-row-sm">or</span>
             <BrixelButtonText
               rounded
               label="compare all plans"
