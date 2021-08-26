@@ -553,7 +553,7 @@ const MarketCard = (props) => {
                     </div>
                   ) : (
                     <div
-                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
+                      className="dis-fl-col dis-fl-row-sm ta-l a-c"
                     >
                       <div className="dis-fl-row-sm">
                         <p className="pl-1 body2 txtDark700">
