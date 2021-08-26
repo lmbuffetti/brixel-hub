@@ -438,7 +438,7 @@ const MarketCard = (props) => {
                       }
                     </span>
                   </div>
-                  <div className="bottom a-c txtDark700 px-3 mt-3 mb-2">
+                  <div className="bottom a-c txtDark700 px-3 mt-2 mb-2">
 
                     {
                       get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
