@@ -21,7 +21,9 @@ import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg'
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { getCompanyListing } from '../../actions/CompanyActions';
-import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
+import {
+  setEstimation, getEstimation, setActiveMarketOverlayProperty, setActiveSingleProperty,
+} from '../../actions/PropertyActions';
 import ArticlesList from '../../resources/homeArticles';
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
@@ -44,6 +46,7 @@ const MarketCategoryListSeller = (props) => {
     handleGetEstimation,
     handleSetHistory,
     handleGetCompanyListing,
+    handleSetActiveSingleProperty,
     history,
     loggedInUser,
     notification,
@@ -70,6 +73,11 @@ const MarketCategoryListSeller = (props) => {
   useEffect(() => {
     handleGetCompanyListing();
   }, []);
+
+  useEffect(() => {
+    if (propertyId) handleSetActiveSingleProperty({ customID: propertyId });
+    else handleSetActiveSingleProperty({});
+  }, [propertyId]);
 
   useEffect(() => {
     const packages = get(companyDetail, 'servicePackages', null);
@@ -575,6 +583,7 @@ MarketCategoryListSeller.propTypes = {
   estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -608,9 +617,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
-  handleSetHistory: bindActionCreators(setHistory, dispatch),
   handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleSetHistory: bindActionCreators(setHistory, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

@@ -76,9 +76,10 @@ function PageHeaderDashboard(props) {
   }, [history]);
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    const propertyID = get(activeSingleProperty, 'id', get(activeSingleProperty, 'customID', ''));
+    if (propertyID) {
       const payloadPackage = {
-        id: activeSingleProperty.id,
+        id: propertyID,
         limit: 20,
         offset: 0,
         direction: 'ASC',
@@ -88,7 +89,7 @@ function PageHeaderDashboard(props) {
       handleGetPackageProperty(payloadPackage);
       handleGetPackagesProperty({ smallLoader: 'loadPackages' });
     }
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, activeSingleProperty.customID]);
 
   useEffect(() => {
     if (activeSinglePropertyPackage && packagesProperty.length > 0) {
@@ -403,9 +404,9 @@ function PageHeaderDashboard(props) {
             }
             <div className="dis-f a-c">
               {
-                propID && windowDimensions.width > 1024 && userType === 'seller' && propID !== 'sell' && propID !== 'buy' && (
+                propID !== 'buy' && (activeSingleProperty.id || activeSingleProperty.customID) && (
                   <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pr-4">
-                    <span>Your Plan:&nbsp;</span>
+                    <span className="hide dis-b-md">Your Plan:&nbsp;</span>
                     <span
                       className="fweight-600 td-u-colored dis-f cur-poi"
                       onClick={() => onUpgrade()}
