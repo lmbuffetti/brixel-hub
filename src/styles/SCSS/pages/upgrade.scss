@@ -3,6 +3,9 @@
   .upgradePackages {
     .flowHeader {
       background-color: white;
+      z-index: 3;
+      position: sticky;
+      top: 0;
     }
     #bodyModalWrapper.getStarted .bodyModal {
        #multiStepForm .multiStepSlides .singleStep {
