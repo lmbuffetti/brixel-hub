@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { lazy, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import get from 'lodash/get';
@@ -20,17 +20,18 @@ import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsCo
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
-import testDrive from '../../../images/dashboard/testDrive.png';
+
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
+
+const BoxTrialTestDirve = lazy(() => import('../../../components/BoxTrialTestDirve'));
 
 const { factsOptions } = FactsOptions;
 
 const DashboardHome = (props) => {
   // PROPS
   const {
-    activeSingleCompany,
     activeSingleProperty,
     estimation,
     formValue,
@@ -77,13 +78,6 @@ const DashboardHome = (props) => {
     return count;
   };
 
-  const bookNow = () => {
-    if (activeSingleProperty.id) {
-      localStorage.setItem('backUrl', `/${activeSingleProperty.id}/home`);
-      history.push(`/${activeSingleProperty.id}/trialRequest`);
-    }
-  };
-
   const openBrixelPage = () => {
     if (progressState.id > 0) {
       if (activeSingleProperty.published) {
@@ -114,7 +108,10 @@ const DashboardHome = (props) => {
       <div className="max-w-fix-760 dis-fl-col">
         <div className="shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
           <div>
-            <Link to={`/${activeSingleProperty.id}/property/photos`} className="dis-b w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
+            <div
+              onClick={() => history.push(`/${activeSingleProperty.id}/property/photos`)}
+              className="dis-b w-perc-100 w-fix-sm-232 h-fix-152 pos-r"
+            >
               <CoverPropertyImage
                 className="cover w-perc-100 h-perc-100"
                 coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
@@ -126,7 +123,7 @@ const DashboardHome = (props) => {
               >
                 Edit
               </Link>
-            </Link>
+            </div>
           </div>
           <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
             <div className="">
@@ -463,53 +460,30 @@ const DashboardHome = (props) => {
             </div>
           </div>
         </div>
-        <div onClick={() => bookNow()} className="testDrive cur-poi dis-f-md a-c brdRadius bgWhite shadow-2dp p-2">
-          <img
-            className={windowDimensions.width <= 590 ? 'dis-b mx-a' : ''}
-            width={windowDimensions.width <= 590 ? 300 : 300}
-            src={testDrive}
-            alt=""
-          />
-          <div className="div ta-c ta-l-md">
-            <h3 className="txtDark700 fweight-600 fsize-500">Test drive our service. <br /> No strings attached.</h3>
-            <p className="txtDark700">
-              <span>Get the full Brixel experience worth</span>
-              <span className="ml-small-4">{get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
-            </p>
-            <div className="dis-f jc-c jc-fs-md">
-              <BrixelButtonPrimary
-                onClick={() => bookNow()}
-                rounded
-                theme="AltColor"
-                themeSat={400}
-                label="Book Now"
-                className="mt-3"
-              />
-            </div>
-          </div>
 
-        </div>
+        <BoxTrialTestDirve
+          className="shadow-2dp"
+        />
+
       </div>
     </div>
   );
 };
 
 DashboardHome.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  proEstimation: PropTypes.object.isRequired,
+  proEstimation: PropTypes.object,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 DashboardHome.defaultProps = {
-/*   gameGroup: [],
-  gameHistory: {}, */
+  proEstimation: {},
   userTypes: 'user',
 };
 

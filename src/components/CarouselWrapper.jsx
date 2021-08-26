@@ -40,7 +40,7 @@ const CarouselWrapper = (props) => {
   const sliderInstance = useRef(null);
   let slideToShow = 1;
   if (windowDimensions.width > 767) slideToShow = type === 'own' ? 1 : 2;
-  if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 1 : 4;
+  if (windowDimensions.width > 1024) slideToShow = type === 'own' ? 1 : 3;
   const numCard = [...Array(slideToShow)];
 
   const settingSlider = useCallback(() => ({
@@ -49,7 +49,7 @@ const CarouselWrapper = (props) => {
     speed: 500,
     slidesToShow: slideToShow,
     arrows: false,
-    slidesToScroll: type === 'own' ? 1 : 4,
+    slidesToScroll: type === 'own' ? 1 : 3,
     responsive: [
       {
         breakpoint: 1024,
@@ -73,6 +73,7 @@ const CarouselWrapper = (props) => {
       },
     ],
     draggable: false,
+    adaptiveHeight: true,
     centerPadding: '8px',
     className,
     onSwipe: () => setPreventClick(true),
@@ -135,10 +136,10 @@ const CarouselWrapper = (props) => {
 
   if (layout === 'singleOwnCard') {
     return (
-      <div className={`${className} carousel-wrapper pos-r ${has(items[activeSlide], 'published') && items[activeSlide].published === false ? 'mb-neg-58' : ''}`}>
+      <div className={`${className} carousel-wrapper pos-r`}>
 
         <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
-          <div className="p-2 py-sm-3 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
+          <div className="py-2 px-0 pt-sm-3 pb-sm-1 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
             <Slider ref={sliderInstance} {...settingSlider()}>
               {
                 !items && numCard.map((card, i) => (
@@ -191,56 +192,18 @@ const CarouselWrapper = (props) => {
           </div>
           <div className={`mt-1 dis-fl-col-sm a-c jc-c ${has(items[activeSlide], 'published') && items[activeSlide].published === false ? '' : ''}`}>
 
-            {
-              has(items[activeSlide], 'published') && items[activeSlide].published === false && (
-                <div
-                  className="my-2 dis-fl-col dis-fl-row-sm jc-c a-c"
-                >
-                  <span
-                    className="premarket-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 as-c cur-poi"
-                    onClick={() => history.push(`/${items[activeSlide].id}/marketing/portals`)}
-                  >
-                    Pre-market
-                  </span>
-                  <div className="dis-fl-row-sm pt-1 pt-sm-0 ta-c">
-
-                    {
-                      items[activeSlide].tags && items[activeSlide].tags[0].indexOf('pre-market') !== -1 ? (
-                        <>
-                          <p className="pl-1 body2 txtDark700"><span>Your property is visible on our pre-market.</span></p>
-                          <a
-                            href={`/${items[activeSlide].id}/marketing/portals`}
-                            className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
-                          >
-                            Learn more.
-                          </a>
-                        </>
-                      ) : (
-                        <>
-                          <p className="pl-1 body2 txtDark700"> <span>Your property is <strong className="lh-in fweight-600">not</strong> visible to any buyers.</span> </p>
-                          <a
-                            href={`/${items[activeSlide].id}/marketing/portals`}
-                            className="fsize-300 fweight-500 txtPrimary400 cur-poi ml-1 td-u p-0 btnInline"
-                          >
-                            Change it here.
-                          </a>
-                        </>
-                      )
-                    }
-
-                  </div>
-                </div>
-              )
-            }
-
-            <div className="dis-fl-row-sm hide a-c jc-c">
+            <div className="dis-fl-row-sm hide a-c jc-c pt-1">
               <BrixelButtonText
-                className="fsize-300 show-all pos-r"
+                className="fsize-300 show-all pos-r mr-1"
                 label="+ Add new"
+                theme="AltColor"
+                themeSat={700}
                 onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
               />
               <BrixelButtonText
-                className="fsize-300 show-all pos-r mr-1"
+                theme="AltColor"
+                themeSat={700}
+                className="fsize-300 show-all pos-r"
                 label={`<span>View all</span> <span class="ml-1">(${total})</span>`}
                 onClick={() => showAll()}
               />

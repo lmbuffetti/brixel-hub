@@ -11,6 +11,7 @@ import {
   BrixelIcon,
   FactsOptions,
 } from '@brixel/brixel-components';
+import sanitizeHtml from 'sanitize-html';
 import { DateTime } from 'luxon';
 import { feedMessage } from '../../../resources/dashboardHistory';
 import { getHistoryFeed } from '../../../actions/HistoryActions';
@@ -103,6 +104,17 @@ const SellerSidebar = (props) => {
     return data.default[type];
   };
 
+  const parseNote = (text) => {
+    let textConverted = sanitizeHtml(text);
+    textConverted = textConverted.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+    const expMatch = /(\b(https?|):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/ig;
+    const elementContent = textConverted.replace(expMatch, '<a target="_blank" href="$1">$1</a>');
+    const newExpMatch = /(^|[^\\/])(www\.[\S]+(\b|$))/gim;
+    const newContent = elementContent.replace(newExpMatch, '$1<a target="_blank" href="http://$2">$2</a>');
+    return newContent;
+  };
+
   return (
     <div className="seller-sidebar w-perc-100 max-w-fix-368 p-3">
       <span className="txtDark700"><span>Your Progress:</span> <span className="ml-1 fweight-600">{stepProgrss.label}</span></span>
@@ -137,7 +149,7 @@ const SellerSidebar = (props) => {
                 iconSize="large"
               />
               <div className="pl-2 desc">
-                <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: convertFeedMessage(history.actionStub, 'message', history) }} />
+                <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history)) }} />
                 {
                   !isNaN(get(history, 'createdAt', null)) && (
                     <p className="fsize-200 pt-small-4 txtLight400">
@@ -170,7 +182,7 @@ SellerSidebar.propTypes = {
   handleGetNoteListings: PropTypes.func.isRequired,
   historyFeed: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.object.isRequired,
+  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 SellerSidebar.defaultProps = {

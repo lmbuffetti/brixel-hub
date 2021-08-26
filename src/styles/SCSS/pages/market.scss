@@ -22,7 +22,7 @@ $lightColorNew2: #F0F0F2;
       }
       &.sellerPage {
         .actionTop {
-          border-bottom: 1px solid $lightColorNew2;
+          border-top: 1px solid $lightColorNew2;
         }
         .container {
           padding-top: 0;
@@ -74,8 +74,13 @@ $lightColorNew2: #F0F0F2;
 
       .carousel-wrapper {
 
-        .slick-list {
-
+        &.type-own {
+          .slick-slide {
+            @media (max-width: $responsive-small) {
+              padding-left: 16px;
+              padding-right: 16px;
+            }
+          }
         }
         &:not(.type-own) .slick-list {
           margin-left: -8px;
@@ -180,6 +185,8 @@ $lightColorNew2: #F0F0F2;
       .slick-slider .slick-track {
         margin-left: 0;
       }
+
+
     }
   }
 }
@@ -353,8 +360,4 @@ $lightColorNew2: #F0F0F2;
   .market-card .cover.pre-market:not(.premium) {
     filter: initial;
   }
-}
-
-.mb-neg-58 {
-  margin-bottom: -58px;
 }
