@@ -237,7 +237,7 @@ const IntroUpgrade = (props) => {
                 </div>
                 <h6 className="px-4 py-2">
                   <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                  <small>inc VAT</small>
+                  <small>incl. VAT</small>
                 </h6>
                 {
                   pkg.type === 'one' && (

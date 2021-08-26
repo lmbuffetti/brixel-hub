@@ -504,7 +504,7 @@ const MarketCategoryListSeller = (props) => {
                   <h4 className="fweight-600 txtAltColor100">{pkg.name}</h4>
                   <p className="mt-1 mb-3 fsize-500 dis-f a-b txtAltColor100">
                     <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                    <small className="ml-1 fsize-300 txtAltColor100">inc VAT</small>
+                    <small className="ml-1 fsize-300 txtAltColor100">incl. VAT</small>
                   </p>
                   <p className="txtAltColor100">{pkg.description}</p>
                 </div>
