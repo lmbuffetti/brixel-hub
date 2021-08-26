@@ -209,8 +209,8 @@
 }
 
 .private {
-  border-color: map_get($altColor, 1000);
-  h5 {
+  border-color: map_get($altColor, 900);
+  h4 {
     color: map_get($altColor, 900);
   }
   h6:not([class*=bg]) {
@@ -227,8 +227,8 @@
 }
 
 .premium {
-  border-color: map_get($altColor, 600);
-  h5 {
+  border-color: map_get($altColor, 400);
+  h4 {
     color: map_get($altColor, 400);
   }
   h6:not([class*=bg]) {
@@ -245,8 +245,8 @@
 }
 
 .one {
-  border-color: #CFD2D3;
-  h5 {
+  border-color: map_get($altColor, 100);
+  h4 {
     color: map_get($altColor, 100);
   }
   h6:not([class*=bg]) {
