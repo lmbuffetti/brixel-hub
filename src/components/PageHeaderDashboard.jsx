@@ -15,6 +15,7 @@ import {
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
+import orderBy from 'lodash/orderBy';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -91,14 +92,7 @@ function PageHeaderDashboard(props) {
 
   useEffect(() => {
     if (activeSinglePropertyPackage && packagesProperty.length > 0) {
-      const sortedPackage = {};
-
-      Object.keys(activeSinglePropertyPackage).sort((a, b) => (
-        activeSinglePropertyPackage[b].price.total - activeSinglePropertyPackage[a].price.total
-      ))
-        .forEach((key) => {
-          sortedPackage[key] = activeSinglePropertyPackage[key];
-        });
+      const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
       if (activePackage) {
         const filtPackages = packagesProperty.find((item) => activePackage.servicePackage === item.id);

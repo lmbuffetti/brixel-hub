@@ -104,7 +104,7 @@ const IntroUpgrade = (props) => {
 
   useEffect(() => {
     if (activeSinglePropertyPackage && packages.length > 0) {
-      const sortedPackage = {};
+      const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
       if (activePackage) {
         const filtPackages = packages.find((item) => activePackage.servicePackage === item.id);
