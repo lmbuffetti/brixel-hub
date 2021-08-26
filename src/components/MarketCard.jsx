@@ -318,7 +318,7 @@ const MarketCard = (props) => {
                           </div>
                         </div>
                       ) : (
-                        <div className="dis-f pt-2 a-t">
+                        <div className="dis-f pt-sm-2 a-t">
                           <BrixelIcon
                             background="AltColor"
                             saturation={1000}
@@ -328,8 +328,9 @@ const MarketCard = (props) => {
                             icon="chart"
                             rounded
                             iconSize="large"
+                            className="hide dis-fl-row-sm"
                           />
-                          <div className="dis-fl-col pl-2 mr-1">
+                          <div className="dis-fl-col pl-sm-2 mr-1">
                             <span className="txtLight600 fsize-300">Your Bestimate</span>
                             {
                               !completedBestimate(item) && get(item, 'estimation.status', '') !== 'processed' && (
@@ -361,22 +362,24 @@ const MarketCard = (props) => {
                           </div>
                           <div
                             onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
-                            className="dis-fl-row-sm hide a-c ml-2"
+                            className="dis-fl-row a-c ml-2"
                           >
-                            <ProgressRing
-                              customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
-                              iconColor={{
-                                color: 'altColor',
-                                sat: 2000,
-                              }}
-                              progress={calcPercentageProEstimation('', item).realPerc}
-                              size={48}
-                              strokeWidth={10}
-                              circleOneStroke="#D7F0F1"
-                              circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#1E1491'}
-                              showIcon={false}
-                              showIconComplete={calcPercentageProEstimation('', item).realPerc === 100}
-                            />
+                            <div className="hide dis-fl-row-sm">
+                              <ProgressRing
+                                customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
+                                iconColor={{
+                                  color: 'altColor',
+                                  sat: 2000,
+                                }}
+                                progress={calcPercentageProEstimation('', item).realPerc}
+                                size={48}
+                                strokeWidth={10}
+                                circleOneStroke="#D7F0F1"
+                                circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#1E1491'}
+                                showIcon={false}
+                                showIconComplete={calcPercentageProEstimation('', item).realPerc === 100}
+                              />
+                            </div>
                             <div className="pl-2">
                               <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>
                               <span className="txtAltColor700 fweight-600 dis-b">
@@ -516,7 +519,7 @@ const MarketCard = (props) => {
                     <div
                       className="dis-fl-col dis-fl-row-sm jc-c a-c"
                     >
-                      <div className="dis-fl-row-sm ta-c">
+                      <div className="dis-fl-row-sm">
 
                         {
                           item.tags && item.tags[0].indexOf('pre-market') !== -1 ? (
@@ -550,7 +553,7 @@ const MarketCard = (props) => {
                     <div
                       className="dis-fl-col dis-fl-row-sm jc-c a-c"
                     >
-                      <div className="dis-fl-row-sm ta-c">
+                      <div className="dis-fl-row-sm">
                         <p className="pl-1 body2 txtDark700">
                           <span>Your property is visible on our market.</span>
                         </p>
@@ -558,7 +561,7 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-                <div className="pt-1">
+                <div className="pt-1 ml-a">
                   <BrixelButtonPrimary
                     rounded
                     label="Edit"
