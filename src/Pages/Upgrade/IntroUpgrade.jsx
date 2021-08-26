@@ -92,12 +92,16 @@ const IntroUpgrade = (props) => {
 
   const scrollTo = (id) => {
     setTimeout(() => {
+      const flowHeader = document.getElementsByClassName('flowHeader')[0];
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
       const scrollEl = document.getElementById(id);
-      if (checkBrowser() > 0) {
-        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - 48;
-      } else {
-        scrollPage.scrollTo({ top: scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - 48, behavior: 'smooth' });
+      const headerHeight = flowHeader.offsetHeight / 2;
+      if (flowHeader && scrollPage) {
+        if (checkBrowser() > 0) {
+          scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - headerHeight;
+        } else {
+          scrollPage.scrollTo({ top: scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - headerHeight, behavior: 'smooth' });
+        }
       }
     }, 100);
   };
