@@ -18,13 +18,13 @@ module.exports = {
       img: 'https://brixel.pt/content/uploads/sites/2/2021/07/Sold-1o-photo-950x550.png?x24073',
       url: 'https://brixel.pt/revista/mercado/vender-com-brixel-nem-parece-realidade/',
       title: 'What do our customer think?',
-      desc: 'Read the story about the family Schmid and why they chose Brixel.',
+      desc: 'Read the story about Luca and why he chose Brixel.',
     },
     {
       img: 'https://brixel.pt/content/uploads/sites/2/2021/07/1-2-950x550.png?x24073',
       url: 'https://brixel.pt/revista/expert/porque-cobramos-500euros/',
-      title: 'Are you thinking about selling with an agent?',
-      desc: 'We heard many stories. Read about false promises and disappointed customers.',
+      title: 'Do you want to sell independently?',
+      desc: 'Read why we charge a small fee upfront.',
     },
   ],
 };
