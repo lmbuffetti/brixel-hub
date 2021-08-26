@@ -143,8 +143,13 @@ function PageHeader(props) {
     if (history.location.pathname.toLowerCase().includes('getstartedbuyer')) {
       history.push('/buy');
     } else {
-      const url = localStorage.getItem('backUrl');
-      localStorage.removeItem('backUrl');
+      let url = localStorage.getItem('backUrlBis');
+      if (url) {
+        localStorage.removeItem('backUrlBis');
+      } else {
+        url = localStorage.getItem('backUrl');
+        localStorage.removeItem('backUrl');
+      }
       history.push(url || '/sell');
     }
   };

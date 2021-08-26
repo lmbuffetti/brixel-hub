@@ -182,7 +182,7 @@ SellerSidebar.propTypes = {
   handleGetNoteListings: PropTypes.func.isRequired,
   historyFeed: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.object.isRequired,
+  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 SellerSidebar.defaultProps = {

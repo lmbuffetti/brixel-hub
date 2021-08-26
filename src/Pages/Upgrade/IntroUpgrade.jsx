@@ -19,7 +19,7 @@ import Slider from 'react-slick';
 import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 import { getPackageProperty } from '../../actions/PropertyActions';
 
-import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
+// import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
 import CallUsImg from '../../images/Upgrade/callUs.svg';
 import NotNowImg from '../../images/Upgrade/notNow.svg';
 import WrireUsImg from '../../images/Upgrade/writeUs.svg';
@@ -144,7 +144,7 @@ const IntroUpgrade = (props) => {
   }, [packages]);
 
   const openNewFlow = (url) => {
-    localStorage.setItem('backUrl', `/${activeSingleProperty.id}/upgrade`);
+    localStorage.setItem('backUrlBis', `/${activeSingleProperty.id}/upgrade`);
     history.push(url);
   };
 
@@ -259,7 +259,7 @@ const IntroUpgrade = (props) => {
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">Do you want to upgrade or change plans?</h3>
 
         <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+          {/* <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
             <img className="w-fix-56 w-fix-lg-104" src={BookOnlineImg} alt="Book Online" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
@@ -269,7 +269,7 @@ const IntroUpgrade = (props) => {
                 label="Request now"
               />
             </div>
-          </div>
+          </div> */}
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
             <img className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
@@ -286,7 +286,7 @@ const IntroUpgrade = (props) => {
             <img className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
-              <h6>Call Us</h6>
+              <h6>Write Us</h6>
               <BrixelButtonText
                 onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
                 className="ml-a mr-a"
