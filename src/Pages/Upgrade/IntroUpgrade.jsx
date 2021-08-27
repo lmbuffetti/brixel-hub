@@ -90,6 +90,7 @@ const IntroUpgrade = (props) => {
   }, [activeSingleProperty]);
 
   const scrollTo = (id) => {
+    document.body.classList.add('scrollSmooth');
     setTimeout(() => {
       const flowHeader = document.getElementsByClassName('flowHeader')[0];
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
