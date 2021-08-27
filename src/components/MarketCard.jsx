@@ -79,17 +79,10 @@ const MarketCard = (props) => {
     if (e) e.preventDefault();
     if (!preventClick) {
       if (type === 'own') {
-        if (get(windowDimensions, 'width', 0) <= 1024) {
-          history.push({
-            pathname: `/${item.id}/home`,
-            state: { section: 'Market' },
-          });
-        } else {
-          history.push({
-            pathname: `/${item.id}/home`,
-            state: { section: 'Market' },
-          });
-        }
+        history.push({
+          pathname: `/${item.id}/home`,
+          state: { section: 'Market' },
+        });
       } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
         ((
           type === 'premium' || get(item, 'tags', []).includes('premium') ||
