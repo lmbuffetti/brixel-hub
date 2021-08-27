@@ -523,6 +523,7 @@ const MarketCategoryListSeller = (props) => {
             />
             <span className="mx-1 hide dis-fl-row-sm">or</span>
             <BrixelButtonText
+              className="mt-2 mt-sm-0"
               rounded
               label="compare all plans"
               onClick={() => history.push(`/${propertyId}/upgrade#comparePlan`)}

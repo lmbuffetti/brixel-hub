@@ -301,6 +301,7 @@ const MarketCard = (props) => {
                               padding="p-small-12"
                               icon="price"
                               rounded
+                              className="mr-0"
                               iconSize="large"
                             />
                             <div className="ml-2 dis-fl-col">
@@ -325,7 +326,7 @@ const MarketCard = (props) => {
                             rounded
                             iconSize="large"
                           />
-                          <div className="dis-fl-col pl-sm-2 mr-1">
+                          <div className="dis-fl-col">
                             <span className="txtLight600 fsize-300">Your Bestimate</span>
                             {
                               !completedBestimate(item) && get(item, 'estimation.status', '') !== 'processed' && (
