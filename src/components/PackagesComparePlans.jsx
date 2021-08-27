@@ -67,11 +67,11 @@ export const PackagesComparePlans = (props) => {
 
       const updateTable = () => {
         // Get the Table's Width. Might as well go FULL Container Query over here.
-        //        const tableWidth = table.getBoundingClientRect().width;
+        const tableWidth = table.getBoundingClientRect().width;
 
         // If the table explodes off the viewport or is wider than the target breakpoint
-        // if (tableWidth > windowDimensions.width || tableWidth < targetBreakpoint) {
-        if (window.innerWidth < targetBreakpoint) {
+        if (tableWidth > window.innerWidth || tableWidth < targetBreakpoint) {
+        // if (window.innerWidth < targetBreakpoint) {
           if (table.getAttribute('data-comparing') !== 'active') {
             // Set the comparison state to "Active"
             table.setAttribute('data-comparing', 'active');
@@ -225,5 +225,4 @@ export const PackagesComparePlans = (props) => {
 PackagesComparePlans.propTypes = {
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
-
 export default PackagesComparePlans;
