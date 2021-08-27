@@ -497,7 +497,7 @@ const MarketCategoryListSeller = (props) => {
             {
               filteredPackages.map((pkg, i) => (
                 <div
-                  onClick={() => history.push(`/${propertyId}/upgrade`)}
+                  onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
                   key={i.toString()}
                   className={`${pkg.type} bgWhite txtAltColor100 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
                 >
@@ -517,7 +517,7 @@ const MarketCategoryListSeller = (props) => {
             <BrixelButtonPrimary
               rounded
               label="Upgrade your plan"
-              onClick={() => history.push(`/${propertyId}/upgrade`)}
+              onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
               theme="altColor"
               themeSat={200}
             />
@@ -526,7 +526,7 @@ const MarketCategoryListSeller = (props) => {
               className="mt-2 mt-sm-0"
               rounded
               label="compare all plans"
-              onClick={() => history.push(`/${propertyId}/upgrade#comparePlan`)}
+              onClick={() => window.location.assign(`/${propertyId}/upgrade#comparePlan`)}
               transparent
               theme="altColor"
               themeSat={100}
