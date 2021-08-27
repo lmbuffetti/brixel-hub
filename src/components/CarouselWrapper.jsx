@@ -76,7 +76,10 @@ const CarouselWrapper = (props) => {
     adaptiveHeight: true,
     centerPadding: '8px',
     className,
-    onSwipe: () => setPreventClick(true),
+    onSwipe: () => {
+      setPreventClick(true);
+      setTimeout(() => setPreventClick(false), 1000);
+    },
     afterChange: () => setPreventClick(false),
     beforeChange: (prev, next) => {
       setActiveSlide(next);
