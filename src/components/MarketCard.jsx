@@ -8,16 +8,17 @@ import cloneDeep from 'lodash/cloneDeep';
 import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
 import {
-  Helpers, BrixelIcon, FormatValue,
+  Helpers, BrixelIcon, FormatValue, ProgressRing, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import ProgressRing from './ProgressRing';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
-import { calcPercentageFacts, setCookie } from '../utils/helpers';
+import {
+  calcPercentageProEstimation, setCookie, completedBestimate,
+} from '../utils/helpers';
 import { setSplashType } from '../actions/CommonActions';
 import { generateEstimation } from '../actions/EstimationActions';
 import {
@@ -79,17 +80,10 @@ const MarketCard = (props) => {
     if (e) e.preventDefault();
     if (!preventClick) {
       if (type === 'own') {
-        if (get(windowDimensions, 'width', 0) <= 1024) {
-          history.push({
-            pathname: `/${item.id}/home`,
-            state: { section: 'Market' },
-          });
-        } else {
-          history.push({
-            pathname: `/${item.id}/home`,
-            state: { section: 'Market' },
-          });
-        }
+        history.push({
+          pathname: `/${item.id}/home`,
+          state: { section: 'Market' },
+        });
       } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
         ((
           type === 'premium' || get(item, 'tags', []).includes('premium') ||
@@ -206,187 +200,203 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 ${layout === 'singleOwnCard' ? 'px-0' : 'px-1'} ${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} brdRadius pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
+        className={`market-card ov-h cur-poi h-perc-100 brdRadius pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
         onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
-        {
-          type === 'own' ? (
-            <>
+        <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} ${layout === 'singleOwnCard' ? 'px-0' : 'px-1'}`}>
+          {
+            type === 'own' ? (
               <>
-                <CoverPropertyImage
-                  loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius h-fix-208 w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-304 mb-1 mb-sm-0' : 'w-fix-sm-208 mb-1'}`}
-                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-                  propertyType={get(item, 'properties.propertyType', undefined)}
-                  onClick={(e) => openCard(e)}
-                />
-                {
-                  get(item, 'tags', []).length > 0 && (
-                    <div className="tag-container pos-a dis-fl-row a-c jc-b">
-                      {
-                        get(item, 'tags', []).filter((tag) => tag !== 'new').map((tag, i) => (
-                          <p
-                            key={i.toString()}
-                            className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
-                            onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
-                          >
-                            <span className="type">{getTypeText(tag)}</span>
-                          </p>
-                        ))
-                      }
-                    </div>
-                  )
-                }
-              </>
-              <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
-                <div className="top dis-fl-col notranslate" onClick={(e) => openCard(e)}>
-                  <h6 className="fweight-700 fsize-400 mb-small-4 txtDark700 ellipsis one w-perc-100 max-w-fix-496 ta-l">{get(item, 'title', '')}</h6>
-                  <span className="fsize-300 txtDark700 mb-1 ta-l">
-                    {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
-                    {
-                      get(item, 'location.countryCode', 'CH') === 'CH' && (
-                        <>
-                          {` (${get(item, 'location.stateCode', '')})`}
-                        </>
-                      )
-                    }
-                  </span>
-                </div>
-                <div
-                  className="mid dis-fl-row fsize-300 txtDark400 mb-2"
-                  onClick={(e) => openCard(e)}
-                >
-                  <div className="dis-f a-c flex-wrap">
-                    <div className="div pt-small-2">
-                      <span>
-                        {get(item, 'properties.propertyType', '')}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="px-1 notranslate"> &middot; </span>
-                      <span>
-                        <span className="notranslate">
-                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                        </span>
-                        <span>
-                          {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-                        </span>
-                      </span>
-                      {
-                        get(item, 'properties.typology.bedrooms') > 0 && (
-                          <span className="px-1 notranslate"> &middot; </span>
-                        )
-                      }
-                      {
-                        get(item, 'properties.typology.livingArea.value', 0) > 0 && (
-                          <span>
-                            <span>
-                              {get(item, 'properties.typology.livingArea.value', 0)}
-                            </span>
-                            <span> m2</span>
-                          </span>
-                        )
-                      }
-                    </div>
-                  </div>
-                </div>
-                {/* <div className="dis-f py-1 " onClick={(e) => openCard(e)}>
-                  <BrixelIcon className="fsize-200 txtDark700" icon="favorite-fill" /> <span className="fsize-200 txtDark700">&nbsp;  17</span>
-                </div> */}
-                <div
-                  className="bottom bestimateFact dis-f fsize-300 w-perc-100"
-                >
+                <>
+                  <CoverPropertyImage
+                    loadedImg={(val) => setCoverImgLoaded(val)}
+                    className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius h-fix-208 w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-304 mb-1 mb-sm-0' : 'w-fix-sm-208 mb-1'}`}
+                    coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                    propertyType={get(item, 'properties.propertyType', undefined)}
+                    onClick={(e) => openCard(e)}
+                  />
                   {
-                    get(item, 'location.countryCode', null) === 'PT' && !has(item, 'properties.parking') && !has(item, 'properties.building.conditionStatus') && !has(item, 'estimation.result.value') ? (
-                      <div
-                        className="p-2 mr-1 brdRadius bgLight100"
-                        onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'new')}
-                      >
-                        <span className="fweight-500 txtDark100">Bestimate<sup>&reg;</sup></span>
-                        <span className="dis-b fweight-600 txtPrimary400 ">
-                          {
-                            has(item, 'estimation.result.value') ? (
-                              <>
-                                <span className="notranslate">&le; {' '}
-                                  {get(item, 'estimation.result.currency', '')}
-                                  {' '}
-                                  {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                {
-                                  get(item, 'location.countryCode', null) === 'PT' && !has(item, 'properties.parking') && !has(item, 'properties.building.conditionStatus') ? (
-                                    <span>Get Estimation</span>
-                                  ) : (
-                                    <span>Pending</span>
-                                  )
-                                }
-                              </>
-                            )
-                          }
-                        </span>
-                      </div>
-                    ) : (
-                      <div
-                        className="p-2 mr-1 brdRadius bgLight100"
-                        onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'exists')}
-                      >
-                        <span className="fweight-500 txtDark100">Bestimate<sup>&reg;</sup></span>
-                        <span className="dis-b fweight-600 txtPrimary400 ">
-                          {
-                            has(item, 'estimation.result.value') ? (
-                              <>
-                                <span className="notranslate">&le; {' '}
-                                  {get(item, 'estimation.result.currency', '')}
-                                  {' '}
-                                  {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', 0).toFixed(0), get(item, 'estimation.result.currency', ''))}
-                                </span>
-                              </>
-                            ) : (
-                              <>
-                                <span>Pending</span>
-                              </>
-                            )
-                          }
-                        </span>
+                    get(item, 'tags', []).length > 0 && (
+                      <div className="tag-container pos-a dis-fl-row a-c jc-b">
+                        {
+                          get(item, 'tags', []).filter((tag) => tag !== 'new').map((tag, i) => (
+                            <p
+                              key={i.toString()}
+                              className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
+                              onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
+                            >
+                              <span className="type">{getTypeText(tag)}</span>
+                            </p>
+                          ))
+                        }
                       </div>
                     )
                   }
-                  <div
-                    className="p-2 brdRadius bgLight100 dis-f a-c"
-                    onClick={() => history.push({
-                      pathname: `/${item.id}/singleFlow/achievement/facts`,
-                      search: '',
-                      state: { hideBackPage: true },
-                    })}
-                  >
-                    <div className="w-fix-48 hide dis-b-sm">
-                      <ProgressRing
-                        progress={calcPercentageFacts(null, item).realPerc}
-                        size={45}
-                        strokeWidth={2}
-                        circleOneStroke="#DCDDDE"
-                        circleTwoStroke="#387AFF"
-                      />
-                    </div>
-                    <div className="ml-2 total-completed dis-fl-col">
-                      <span className="fweight-500 txtDark100">Facts</span>
-                      <span className="dis-fl-row a-c fweight-500 txtDark400">
-                        <span className="notranslate">{get(item, 'inputSheet.totalComplete', 0)}%&nbsp;</span>
-                        <span className=""> completed</span>
+                </>
+
+                <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100 jc-b">
+                  <div>
+                    <div className="top dis-fl-col notranslate" onClick={(e) => openCard(e)}>
+                      <h6 className="fweight-600 fsize-600 mb-small-4 txtDark700 ellipsis two w-perc-100 max-w-fix-496 ta-l">{get(item, 'title', '')}</h6>
+                      <span className="fsize-300 txtDark700 mb-1 ta-l">
+                        {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
+                        {
+                          get(item, 'location.countryCode', 'CH') === 'CH' && (
+                            <>
+                              {` (${get(item, 'location.stateCode', '')})`}
+                            </>
+                          )
+                        }
                       </span>
                     </div>
+                    <div
+                      className="mid dis-fl-row fsize-300 txtDark400 mb-2"
+                      onClick={(e) => openCard(e)}
+                    >
+                      <div className="dis-f a-c flex-wrap">
+                        <div className="div pt-small-2">
+                          <span>
+                            {get(item, 'properties.propertyType', '')}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="px-1 notranslate"> &middot; </span>
+                          <span>
+                            <span className="notranslate">
+                              {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                            </span>
+                            <span>
+                              {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                            </span>
+                          </span>
+                          {
+                            get(item, 'properties.typology.bedrooms') > 0 && (
+                              <span className="px-1 notranslate"> &middot; </span>
+                            )
+                          }
+                          {
+                            get(item, 'properties.typology.livingArea.value', 0) > 0 && (
+                              <span>
+                                <span>
+                                  {get(item, 'properties.typology.livingArea.value', 0)}
+                                </span>
+                                <span> m2</span>
+                              </span>
+                            )
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="">
+                    {
+                      get(item, 'price.total', 0) > 0 ? (
+                        <div className="dis-fl-col">
+                          <div className="dis-f a-c">
+                            <BrixelIcon
+                              background="AltColor"
+                              saturation={1000}
+                              color="AltColor"
+                              saturationTxt={700}
+                              padding="p-small-12"
+                              icon="price"
+                              rounded
+                              className="mr-0"
+                              iconSize="large"
+                            />
+                            <div className="ml-2 dis-fl-col">
+                              <span className="txtLight600 fsize-300"> Your Price</span>
+                              <Link to={`/${item.id}/property/price`} className="txtAltColor700 fweight-600">
+                                <span>{get(item, 'price.currency', 0)}</span>
+                                <span className="ml-1">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', 0))}</span>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="dis-f pt-sm-2 a-t">
+                          <BrixelIcon
+                            className="dis-b-sm hide mr-2"
+                            background="AltColor"
+                            saturation={1000}
+                            color="AltColor"
+                            saturationTxt={700}
+                            padding="p-small-12"
+                            icon="chart"
+                            rounded
+                            iconSize="large"
+                          />
+                          <div className="dis-fl-col">
+                            <span className="txtLight600 fsize-300">Your Bestimate</span>
+                            {
+                              !completedBestimate(item) && get(item, 'estimation.status', '') !== 'processed' && (
+                                <Link
+                                  to={`/${item.id}/singleFlow/achievement/bestimate/step1`}
+                                  className="txtAltColor700 fweight-600"
+                                >
+                                  Get Estimation
+                                </Link>
+                              )
+                            }
+                            {
+                              get(item, '.estimation.status', '') === 'pending' && completedBestimate(item) && (
+                                <span className="txtAltColor700 fweight-600">
+                                  Pending
+                                </span>
+                              )
+                            }
+                            {
+                              get(item, 'estimation.status', '') === 'processed' && (
+                                <div
+                                  onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'exists')}
+                                  className="txtAltColor700 no-state fweight-600"
+                                >
+                                  {get(item, 'estimation.result.currency', '')} {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', ''), get(item, 'estimation.currency', ''))}
+                                </div>
+                              )
+                            }
+                          </div>
+                          <div
+                            onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
+                            className="dis-fl-row a-c ml-2"
+                          >
+                            <div className="hide dis-fl-row-sm">
+                              <div className="pos-r h-fix-48 w-fix-48">
+                                <ProgressRing
+                                  customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
+                                  iconColor={{
+                                    color: 'altColor',
+                                    sat: 2000,
+                                  }}
+                                  progress={calcPercentageProEstimation('', item).realPerc}
+                                  size={48}
+                                  strokeWidth={10}
+                                  circleOneStroke="#D7F0F1"
+                                  circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#1E1491'}
+                                  showIcon={false}
+                                  showIconComplete={calcPercentageProEstimation('', item).realPerc === 100}
+                                />
+                              </div>
+                            </div>
+                            <div className="pl-2">
+                              <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>
+                              <span className="txtAltColor700 fweight-600 dis-b">
+                                <span>{calcPercentageProEstimation('', item).realPerc}% </span>
+                                <span> complete</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    }
                   </div>
                 </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <>
+              </>
+            ) : (
+              <div className="brdSmall brdRadius brdAltColor2100 ov-h">
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
+                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                 />
@@ -417,69 +427,146 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-              </>
-              <div className="info dis-fl-col jc-b">
-                <div className="top dis-fl-col notranslate">
-                  <span className="fweight-600 fsize-300 txtDark700 ellipsis one notranslate">{get(item, 'title', '')}</span>
-                  <span className="fsize-300 txtDark700 notranslate">
-                    {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
+                <div className="info dis-fl-col jc-b">
+                  <div className="top dis-fl-col notranslate px-3 pt-3">
+                    <span className="fweight-600 fsize-500 txtAltColor100 ellipsis one notranslate">
+                      {get(item, 'title', '')}
+                    </span>
+                    <span className="fsize-300 txtAltColor100 mt-1 notranslate">
+                      {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
+                      {
+                        get(item, 'location.countryCode', 'CH') === 'CH' && (
+                          <>
+                            {` (${get(item, 'location.stateCode', '')})`}
+                          </>
+                        )
+                      }
+                    </span>
+                  </div>
+                  <div className="bottom a-c txtDark700 px-3 mt-2 mb-2">
+
                     {
-                      get(item, 'location.countryCode', 'CH') === 'CH' && (
-                        <>
-                          {` (${get(item, 'location.stateCode', '')})`}
-                        </>
+                      get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
+                        <div className="txtGreen400 dis-f a-b">
+                          <span className="fsize-300 ff-mono notranslate">
+                            {get(item, 'price.currency', '')}
+                          </span>
+                          <span className="fsize-500 ff-mono notranslate ml-1">
+                            {Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="txtGreen400 fsize-500">On Request</span>
                       )
                     }
-                  </span>
-                </div>
-                <div className="mid dis-fl-row a-c fsize-300 pt-1 txtDark400">
-                  <div className="dis-f a-c flex-wrap">
-                    <div className="div pt-small-2">
-                      <span>
-                        {get(item, 'properties.propertyType', '')}
-                      </span>
-                    </div>
-                    <div className="notranslate">
-                      <span className="px-1 notranslate"> &middot; </span>
-                      <span>
-                        <span className="notranslate">
-                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+
+                  </div>
+                  <span className="hr lighter" />
+                  <div className="mid dis-fl-row a-c fsize-300 px-3 pt-1 txtDark400 pb-2">
+                    <div className="dis-f a-c flex-wrap">
+                      <div className="div pt-small-2">
+                        <span>
+                          {get(item, 'properties.propertyType', '')}
                         </span>
-                        <span className="notranslate">
-                          {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-                        </span>
-                      </span>
-                      {
-                        get(item, 'properties.typology.bedrooms') > 0 && (
-                          <span className="px-1 notranslate"> &middot; </span>
-                        )
-                      }
-                      {
-                        get(item, 'properties.typology.livingArea.value', 0) && (
+                      </div>
+                      <div className="notranslate">
+                        <span className="px-1 notranslate"> &middot; </span>
+                        <span>
                           <span className="notranslate">
-                            <span className="notranslate">
-                              {get(item, 'properties.typology.livingArea.value', 0)}
-                            </span>
-                            <span className="notranslate"> m2</span>
+                            {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                           </span>
-                        )
-                      }
+                          <span className="notranslate">
+                            {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                          </span>
+                        </span>
+                        {
+                          get(item, 'properties.typology.bedrooms') > 0 && (
+                            <span className="px-1 notranslate"> &middot; </span>
+                          )
+                        }
+                        {
+                          get(item, 'properties.typology.livingArea.value', 0) && (
+                            <span className="notranslate">
+                              <span className="notranslate">
+                                {get(item, 'properties.typology.livingArea.value', 0)}
+                              </span>
+                              <span className="notranslate"> m2</span>
+                            </span>
+                          )
+                        }
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="bottom a-c txtDark700 pt-1">
+              </div>
+            )
+          }
+        </div>
 
-                  {
-                    get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
-                      <>
-                        <span className="fsize-300 fweight-600 notranslate">{get(item, 'price.currency', '')} &nbsp; </span>
-                        <span className="fsize-300 fweight-600 notranslate">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
-                      </>
-                    ) : (
-                      <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
-                    )
-                  }
+        {
+          type === 'own' && (
+            <>
+              <span className="hr mt-3 lighter mb-1" />
 
+              <div
+                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm ${has(item, 'published') && item.published === false ? '' : ''}`}
+              >
+
+                {
+                  has(item, 'published') && item.published === false ? (
+                    <div
+                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
+                    >
+                      <div className="dis-fl-row-sm">
+
+                        {
+                          item.tags && item.tags[0].indexOf('pre-market') !== -1 ? (
+                            <>
+                              <p className="pl-1 body2 txtDark700">
+                                <span>Your property is visible on our pre-market.</span>
+                                <a
+                                  href={`/${item.id}/marketing/portals`}
+                                  className="fsize-300 fweight-500 txtAltColor700 cur-poi ml-1 td-u lh-in btnInline"
+                                >
+                                  Learn more.
+                                </a>
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <p className="pl-1 body2 txtDark700"><span>Your property is <strong className="lh-in fweight-600">not</strong> visible to any buyers.</span></p>
+                              <a
+                                href={`/${item.id}/marketing/portals`}
+                                className="fsize-300 fweight-500 txtAltColor700 cur-poi ml-1 td-u p-0 btnInline"
+                              >
+                                Change it here.
+                              </a>
+                            </>
+                          )
+                        }
+
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="dis-fl-col dis-fl-row-sm ta-l"
+                    >
+                      <div className="dis-fl-row-sm">
+                        <p className="pl-1 body2 txtDark700">
+                          <span>Your property is visible on our market.</span>
+                        </p>
+                      </div>
+                    </div>
+                  )
+                }
+                <div className="pt-1 pt-sm-0 ml-a">
+                  <BrixelButtonPrimary
+                    rounded
+                    label="Edit"
+                    onClick={() => history.push(`/${item.id}/home`)}
+                    theme="altColor"
+                    themeSat={200}
+                  />
                 </div>
               </div>
             </>

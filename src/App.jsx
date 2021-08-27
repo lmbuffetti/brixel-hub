@@ -19,6 +19,7 @@ import {
   reset,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import Loading from './components/Loading';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
@@ -136,6 +137,10 @@ const App = (props) => {
   const dashWrapperEl = dashWrapperRef.current;
   const el = document.getElementsByClassName('thirdLevel');
 
+  useEffect(() => {
+    smoothscrollPolyfill.polyfill();
+  }, []);
+
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
     if (loggedInUser.user && localTransifex) {
@@ -184,6 +189,8 @@ const App = (props) => {
     if (splittedURL[1] === 'sell' || splittedURL[1] === 'buy') {
       handleSetActiveSingleProperty({});
     }
+    const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
+    if (scrollFlow) scrollFlow.scrollTop = 0;
   }, [history.location]);
 
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
@@ -211,7 +218,8 @@ const App = (props) => {
       history.location.pathname.includes('packageFlow') ||
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
-      history.location.pathname.includes('trialRequest')
+      history.location.pathname.includes('trialRequest') ||
+      history.location.pathname.includes('upgrade')
     ) {
       if (history.location.pathname.includes('packageFlow')) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -366,7 +374,7 @@ const App = (props) => {
   return (
     <>
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b`}
+        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />
@@ -378,7 +386,7 @@ const App = (props) => {
                 style={contentLayout()}
               >
                 {
-                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest')) && (
+                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) && (
                     <>
                       <PageHeader />
                     </>
@@ -589,6 +597,7 @@ const App = (props) => {
             !history.location.pathname.includes('packageFlow') &&
             !history.location.pathname.includes('upgrade') &&
             !history.location.pathname.includes('trialRequest') &&
+            !history.location.pathname.includes('upgrade') &&
             !history.location.pathname.includes('docubox') &&
             (
               <div className="brixel-notifications">

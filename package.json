@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "2.4.47",
+    "@brixel/brixel-components": "2.4.51",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^1.2.2",
     "css-split-webpack-plugin": "^0.2.6",
@@ -14,7 +14,7 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-webpack": "^0.13.1",
-    "eslint-plugin-import": "^2.24.0",
+    "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.24.0",
     "google-maps-react": "^2.0.6",
@@ -42,7 +42,9 @@
     "redux-actions": "^2.6.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "sanitize-html": "^2.4.0",
     "slick-carousel": "^1.8.1",
+    "smoothscroll-polyfill": "^0.4.4",
     "sortablejs": "^1.14.0",
     "universal-cookie": "^4.0.4"
   },
@@ -63,8 +65,8 @@
     "test-stage": "NODE_ENV=page-stag npm run sellerFlowTest && NODE_ENV=page-stag npm run estimationFlowTest && NODE_ENV=page-stag npm run buyerFlowTest && NODE_ENV=page-stag npm run allTests",
     "test-prod": "NODE_ENV=page-prod npm run sellerFlowTest && NODE_ENV=page-prod npm run estimationFlowTest && NODE_ENV=page-prod npm run buyerFlowTest && NODE_ENV=page-prod npm run allTests",
     "eject": "react-scripts eject",
-    "ncu": "ncu -x 'autoprefixer postcss-loader node-sass webpack webpack-cli copy-webpack-plugin html-webpack-plugin sass-loader cssnano @testing-library/user-event mini-css-extract-plugin css-loader'",
-    "ncu-u": "ncu -x 'autoprefixer postcss-loader node-sass webpack webpack-cli copy-webpack-plugin html-webpack-plugin sass-loader cssnano @testing-library/user-event mini-css-extract-plugin css-loader' -u"
+    "ncu": "ncu -x 'autoprefixer postcss-loader node-sass webpack webpack-cli copy-webpack-plugin html-webpack-plugin sass-loader cssnano @testing-library/user-event mini-css-extract-plugin css-loader webpack-dev-server'",
+    "ncu-u": "ncu -x 'autoprefixer postcss-loader node-sass webpack webpack-cli copy-webpack-plugin html-webpack-plugin sass-loader cssnano @testing-library/user-event mini-css-extract-plugin css-loader webpack-dev-server' -u"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -104,6 +106,7 @@
     "@svgr/webpack": "^5.5.0",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^11.4.2",
+    "@webpack-cli/serve": "^1.5.2",
     "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
     "babel-plugin-require-context-hook": "^1.0.0",

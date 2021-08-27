@@ -15,6 +15,7 @@ import {
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
+import orderBy from 'lodash/orderBy';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -75,9 +76,10 @@ function PageHeaderDashboard(props) {
   }, [history]);
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    const propertyID = get(activeSingleProperty, 'id', get(activeSingleProperty, 'customID', ''));
+    if (propertyID) {
       const payloadPackage = {
-        id: activeSingleProperty.id,
+        id: propertyID,
         limit: 20,
         offset: 0,
         direction: 'ASC',
@@ -87,18 +89,11 @@ function PageHeaderDashboard(props) {
       handleGetPackageProperty(payloadPackage);
       handleGetPackagesProperty({ smallLoader: 'loadPackages' });
     }
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, activeSingleProperty.customID]);
 
   useEffect(() => {
     if (activeSinglePropertyPackage && packagesProperty.length > 0) {
-      const sortedPackage = {};
-
-      Object.keys(activeSinglePropertyPackage).sort((a, b) => (
-        activeSinglePropertyPackage[b].price.total - activeSinglePropertyPackage[a].price.total
-      ))
-        .forEach((key) => {
-          sortedPackage[key] = activeSinglePropertyPackage[key];
-        });
+      const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
       if (activePackage) {
         const filtPackages = packagesProperty.find((item) => activePackage.servicePackage === item.id);
@@ -196,8 +191,9 @@ function PageHeaderDashboard(props) {
 
   // WHEN CLICK ON UPGRADE BUTTON
   const onUpgrade = () => {
+    const propertyID = get(activeSingleProperty, 'id', get(activeSingleProperty, 'customID', ''));
     localStorage.setItem('backUrl', history.location.pathname);
-    history.push(`/${propID}/upgrade`);
+    history.push(`/${propertyID}/upgrade`);
   };
 
   // FUNCTION TO GET CURRENT URL LOCATION
@@ -319,7 +315,7 @@ function PageHeaderDashboard(props) {
             {
               windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name ? (
                 <div className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}>
-                  <div className="dis-f a-c pl-0 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256 w-perc-100">
+                  <div className="dis-f a-c pl-0 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256  min-w-fix-40 w-perc-sm-100">
                     {
                       windowDimensions.width <= 590 ? (
                         <img
@@ -370,7 +366,7 @@ function PageHeaderDashboard(props) {
                       ) : (
                         <>
                           <span
-                            className={`pr-3 cur-poi ${history.location.pathname.includes('/sell') ? 'fweight-600 txtDark600' : ''}`}
+                            className={`pr-1 pr-sm-3 cur-poi ${history.location.pathname.includes('/sell') ? 'fweight-600 txtDark600' : ''}`}
                             onClick={() => {
                               handleSetUserTypes('seller');
                               handleSetActiveSingleProperty({});
@@ -409,9 +405,9 @@ function PageHeaderDashboard(props) {
             }
             <div className="dis-f a-c">
               {
-                propID && windowDimensions.width > 1024 && userType === 'seller' && propID !== 'sell' && propID !== 'buy' && (
-                  <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pr-4">
-                    <span>Your Plan:&nbsp;</span>
+                propID !== 'buy' && (activeSingleProperty.id || activeSingleProperty.customID) && (
+                  <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
+                    <span className="hide dis-b-md">Your Plan:&nbsp;</span>
                     <span
                       className="fweight-600 td-u-colored dis-f cur-poi"
                       onClick={() => onUpgrade()}
@@ -438,7 +434,7 @@ function PageHeaderDashboard(props) {
               { /* SECTION SIDEBAR MENU MOBILE */ }
               {
                 windowDimensions.width <= 1024 && (
-                  <div className="ml-2">
+                  <div className="ml-1 ml-sm-2">
                     {
                       (propID === 'sell' || propID === 'buy') ? (
                         <>
@@ -456,7 +452,7 @@ function PageHeaderDashboard(props) {
                                 </button>
                               </>
                             ) : (
-                              <div className="">
+                              <div className="dis-f">
                                 <button
                                   className="w-fix-32 h-fix-32"
                                   type="button"
@@ -618,7 +614,7 @@ function PageHeaderDashboard(props) {
         </div>
       </header>
       {
-        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && (
+        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && !history.location.pathname.includes('closing/') && (
           <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
             {
               getCurrentRoute().title && (

@@ -116,8 +116,10 @@
           // overflow-y: auto;
           overflow-x: hidden;
           flex: 0 0 100%;
-          padding: $step * 3;
           position: relative;
+          &:not([class*=p-]) {
+            padding: $step * 3;
+          }
 
           @media (min-width: $responsive-medium) {
             display: flex;
