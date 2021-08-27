@@ -53,14 +53,14 @@ const IntroUpgrade = (props) => {
   const settingSlider = {
     dots: false,
     infinite: true,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 4000,
     speed: 500,
     slidesToShow: 3,
     arrows: false,
     slidesToScroll: 3,
     draggable: false,
-    centerPadding: '28px',
+    centerPadding: '8px',
     responsive: [
       {
         breakpoint: 1024,
