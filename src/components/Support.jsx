@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelIcon, BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { checkBrowser } from '../utils/helpers';
 
 const Support = (props) => {
   const {
@@ -27,17 +26,16 @@ const Support = (props) => {
 
   const [openDetail, setOpenDetail] = useState(expanded);
 
+  useEffect(() => () => document.body.classList.remove('scrollSmooth'));
+
   // FUCNTION TO OPEN/CLOSE THE SUPPORT DETAIL AND SCROLL DOWN
   const onclickOne = () => {
     setOpenDetail(!openDetail);
     if (!openDetail) {
+      document.body.classList.add('scrollSmooth');
       setTimeout(() => {
         const scrollPage = document.getElementsByClassName('singleStep')[0];
-        if (checkBrowser() > 0) {
-          scrollPage.scrollTop = 0;
-        } else {
-          scrollPage.scrollTo({ top: scrollPage.offsetHeight, behavior: 'smooth' });
-        }
+        if (scrollPage) scrollPage.scrollTop = scrollPage.offsetHeight;
       }, 100);
     }
   };

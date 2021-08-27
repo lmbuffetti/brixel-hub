@@ -56,7 +56,10 @@ const Upgrade = (props) => {
 
   useEffect(() => {
     localStorage.setItem('brixelRegField', JSON.stringify({}));
-    return () => destroyForm();
+    return () => {
+      document.body.classList.remove('scrollSmooth');
+      destroyForm();
+    };
   }, []);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT
