@@ -114,7 +114,7 @@
 
     li {
       display: flex;
-      align-items: center;
+      position: relative;
 
       &:before {
         content: '';
@@ -126,14 +126,15 @@
         height: 22px;
         background-repeat: no-repeat;
         background-position: center;
-        margin-right: $step * 2;
-        top: 4px;
-        position: relative;
+        position: absolute;
+        left: 0;
+        top: $step;
       }
 
       list-style: none;
       margin: 0;
       padding: 0;
+      padding-left: $step * 4;
       display: flex;
       margin-top: $step;
 
