@@ -28,6 +28,7 @@ const CarouselWrapper = (props) => {
     onSetActiveProperty,
     setActiveSingleCompany,
     setPropertyId,
+    slideToGo,
     title,
     total,
     type,
@@ -128,9 +129,15 @@ const CarouselWrapper = (props) => {
   }, [type]);
 
   useEffect(() => {
+    if (slideToGo > -1 && sliderInstance.current) {
+      sliderInstance.current.slickGoTo(+slideToGo);
+    }
+  }, [sliderInstance.current, slideToGo]);
+
+  useEffect(() => {
     if (layout === 'singleOwnCard') {
       const activeCompanyId = items[activeSlide].company;
-      if (activeCompanyId) {
+      if (activeCompanyId && (activeSlide > 0 || slideToGo < 0)) {
         setActiveSingleCompany(activeCompanyId);
         setPropertyId(items[activeSlide].id);
       }
@@ -317,6 +324,7 @@ CarouselWrapper.propTypes = {
   onSetActiveProperty: PropTypes.func,
   setActiveSingleCompany: PropTypes.func,
   setPropertyId: PropTypes.func,
+  slideToGo: PropTypes.number,
   title: PropTypes.string,
   total: PropTypes.number,
   type: PropTypes.string,
@@ -330,6 +338,7 @@ CarouselWrapper.defaultProps = {
   onSetActiveProperty: () => '',
   setActiveSingleCompany: () => '',
   setPropertyId: () => '',
+  slideToGo: 0,
   title: '',
   total: 0,
   type: '',
