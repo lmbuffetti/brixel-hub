@@ -8,6 +8,7 @@ import {
 
 export const {
   getActiveSingleCompany,
+  setActiveSingleCompany,
   getCompanyListing,
   setCompanyListing,
 } = createActions({

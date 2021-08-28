@@ -20,6 +20,7 @@ export default {
     getCompanyById: (id) => `/company/${id}`,
     getCompanyByStub: (stub) => `/company/company-by-stub/${stub}`,
     getDefaultCompany: () => '/company/default',
+    getPackagesCompany: (id) => `/company/${id}/packages`,
   },
   deal: {
     buyerDeal: (id) => `/page/${id}/deal/buyer`,

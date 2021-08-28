@@ -20,7 +20,7 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
-import { getCompanyListing } from '../../actions/CompanyActions';
+import { getCompanyListing, setActiveSingleCompany } from '../../actions/CompanyActions';
 import {
   setEstimation, getEstimation, setActiveMarketOverlayProperty, setActiveSingleProperty,
 } from '../../actions/PropertyActions';
@@ -40,21 +40,23 @@ const MarketCategoryListSeller = (props) => {
   // PROPS
   const {
     activeMarketOverlayProperty,
+    activeSingleProperty,
     bestimate,
     companyListings,
     estimation,
-    handleGetEstimation,
-    handleSetHistory,
     handleGetCompanyListing,
+    handleGetEstimation,
     handleSetActiveSingleProperty,
+    handleSetActiveSingleCompany,
+    handleSetHistory,
     history,
     loggedInUser,
     notification,
     ownerProperties,
     premiumProperties,
+    setMarketOverlayProperty,
     setPropertyEstimation,
     setSplashScreen,
-    setMarketOverlayProperty,
     splashScreenType,
   } = props;
 
@@ -75,9 +77,15 @@ const MarketCategoryListSeller = (props) => {
   }, []);
 
   useEffect(() => {
-    if (propertyId) handleSetActiveSingleProperty({ customID: propertyId });
-    else handleSetActiveSingleProperty({});
-  }, [propertyId]);
+    if (companyListings.length > 0) {
+      if (propertyId) {
+        const indexOwn = ownerProperties.data.findIndex((page) => page.id === propertyId);
+        handleSetActiveSingleProperty({ customID: propertyId, setID: indexOwn });
+        const singleCmp = companyListings.find((cmp) => cmp.id === ownerProperties.data[indexOwn].company);
+        handleSetActiveSingleCompany(singleCmp);
+      } else handleSetActiveSingleProperty({});
+    }
+  }, [propertyId, companyListings]);
 
   useEffect(() => {
     const packages = get(companyDetail, 'servicePackages', null);
@@ -468,6 +476,7 @@ const MarketCategoryListSeller = (props) => {
                   total={ownerProperties.total}
                   setPropertyId={(id) => setPropertyId(id)}
                   setActiveSingleCompany={(id) => setActiveCompanyId(id)}
+                  slideToGo={ownerProperties.data.findIndex((page) => page.id === activeSingleProperty.customID)}
                 />
               )
             }
@@ -584,12 +593,14 @@ const MarketCategoryListSeller = (props) => {
 
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  handleSetActiveSingleCompany: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -605,6 +616,7 @@ MarketCategoryListSeller.propTypes = {
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   bestimate: get(state, 'property.estimation.result', {}),
   companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
@@ -626,6 +638,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),

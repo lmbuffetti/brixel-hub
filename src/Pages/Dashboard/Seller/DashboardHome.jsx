@@ -32,6 +32,7 @@ const { factsOptions } = FactsOptions;
 const DashboardHome = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     estimation,
     formValue,
@@ -364,12 +365,13 @@ const DashboardHome = (props) => {
                 </div>
                 <div className="px-3">
                   {
-                    Object.keys(get(activeSingleProperty, 'portals', {})).map((portal, i) => (
+                    Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
                       <React.Fragment key={i.toString()}>
                         {
-                          !portal.includes('Url') && i < 2 && (
+                          get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
                             <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
-                              <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.portals[portal] ? 'green' : 'grey'}`} />
+                              <span>{portal}</span>
+                              <span className={`activeDot ${get(activeSingleProperty, `portals[${portal}]`, null) ? 'green' : 'grey'}`} />
                             </span>
                           )
                         }
@@ -471,6 +473,7 @@ const DashboardHome = (props) => {
 };
 
 DashboardHome.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,

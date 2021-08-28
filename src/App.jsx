@@ -186,8 +186,13 @@ const App = (props) => {
       ga('send', 'pageview', history.location.pathname);
     }
     const splittedURL = get(history, 'location.pathname', '').split('/');
-    if (splittedURL[1] === 'sell' || splittedURL[1] === 'buy') {
-      handleSetActiveSingleProperty({});
+    if (splittedURL[1] === 'sell') {
+      const customID = get(activeSingleProperty, 'id', null);
+      if (customID) handleSetActiveSingleProperty({ customID });
+      else handleSetActiveSingleProperty({});
+    }
+    if (splittedURL[1] === 'buy') {
+      handleSetActiveSingleProperty({ });
     }
     const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
     if (scrollFlow) scrollFlow.scrollTop = 0;
