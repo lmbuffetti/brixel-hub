@@ -32,12 +32,11 @@ import MenuSidebar from './MenuSidebar';
 function PageHeaderDashboard(props) {
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
-    activeSinglePropertyPackage,
     changeZIndex,
     destroyForm,
     formValue,
-    handleGetPackageProperty,
     handleGetPackagesProperty,
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
@@ -46,9 +45,10 @@ function PageHeaderDashboard(props) {
     history,
     lang,
     loggedInUser,
+    ownerProperties,
+    packagesProperty,
     userType,
     windowDimensions,
-    packagesProperty,
   } = props;
   // STATE
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -76,37 +76,36 @@ function PageHeaderDashboard(props) {
   }, [history]);
 
   useEffect(() => {
-    const propertyID = get(activeSingleProperty, 'id', get(activeSingleProperty, 'customID', ''));
-    if (propertyID) {
-      const payloadPackage = {
-        id: propertyID,
-        limit: 20,
-        offset: 0,
-        direction: 'ASC',
-        order: 'name',
-        smallLoader: 'getPackage',
-      };
-      handleGetPackageProperty(payloadPackage);
-      handleGetPackagesProperty({ smallLoader: 'loadPackages' });
+    if (activeSingleCompany.id) {
+      handleGetPackagesProperty({ id: activeSingleCompany.id, smallLoader: 'loadPackages' });
     }
-  }, [activeSingleProperty.id, activeSingleProperty.customID]);
+  }, [activeSingleCompany]);
 
   useEffect(() => {
+    let activeSinglePropertyPackage = get(activeSingleProperty, 'servicePackages', []);
+    if (activeSingleProperty.customID && ownerProperties.data) {
+      const prop = ownerProperties.data.find((page) => page.id === activeSingleProperty.customID);
+      if (prop) activeSinglePropertyPackage = get(prop, 'servicePackages', []);
+    }
     if (activeSinglePropertyPackage && packagesProperty.length > 0) {
+      activeSinglePropertyPackage.forEach((pkg, i) => {
+        const filtSortPackage = packagesProperty.find((item) => pkg.id === item.id);
+        activeSinglePropertyPackage[i].price = filtSortPackage.price;
+      });
       const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
       if (activePackage) {
-        const filtPackages = packagesProperty.find((item) => activePackage.servicePackage === item.id);
+        const filtPackages = packagesProperty.find((item) => activePackage.id === item.id);
         if (filtPackages) setPackageName(filtPackages.name);
         else setPackageName('Basic');
       } else if (sortedPackage[0]) {
-        const filtPackage = packagesProperty.find((item) => sortedPackage[0].servicePackage === item.id);
+        const filtPackage = packagesProperty.find((item) => sortedPackage[0].id === item.id);
         setPackageName(filtPackage.name);
       } else {
         setPackageName('Basic');
       }
     }
-  }, [activeSinglePropertyPackage, packagesProperty]);
+  }, [activeSingleProperty.id, activeSingleProperty.customID, ownerProperties, packagesProperty, activeSingleCompany.id]);
 
   // GET LANGUAGE LISTS
   useEffect(() => {
@@ -405,7 +404,12 @@ function PageHeaderDashboard(props) {
             }
             <div className="dis-f a-c">
               {
-                propID !== 'buy' && (activeSingleProperty.id || activeSingleProperty.customID) && (
+                (
+                  propID !== 'buy' &&
+                  (activeSingleProperty.id || activeSingleProperty.customID) &&
+                  activeSingleProperty.id !== 0 &&
+                  activeSingleProperty.customID !== 0
+                ) && (
                   <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                     <span className="hide dis-b-md">Your Plan:&nbsp;</span>
                     <span
@@ -633,13 +637,12 @@ function PageHeaderDashboard(props) {
 }
 
 PageHeaderDashboard.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   changeZIndex: PropTypes.func,
   destroyForm: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetPackageProperty: PropTypes.func.isRequired,
   handleGetPackagesProperty: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
@@ -648,6 +651,7 @@ PageHeaderDashboard.propTypes = {
   history: PropTypes.object.isRequired,
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
+  ownerProperties: PropTypes.object.isRequired,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -659,9 +663,9 @@ PageHeaderDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
-  activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   awards: get(state, 'user.awards', 0),
   brixelPoints: get(state, 'user.brixelPoints', 0),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
@@ -670,8 +674,9 @@ const mapStateToProps = (state) => ({
   lang: get(state, 'common.language', []),
   languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  ownerProperties: get(state, 'market.ownerProperties', {}),
   property: get(state, 'property.activeSingleProperty', {}),
-  packagesProperty: get(state, 'property.packagesProperty.data', []),
+  packagesProperty: get(state, 'property.packagesProperty', []),
   userType: get(state, 'user.userTypes', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
