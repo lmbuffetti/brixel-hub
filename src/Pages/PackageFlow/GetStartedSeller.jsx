@@ -117,7 +117,7 @@ const GetStartedSeller = (props) => {
         metaUser: metaUserData,
       },
       ownerType: 'seller',
-      purposeType: 'seller',
+      purpose: 'seller',
       preMarketVisible: true,
       language: lang || 'en',
       title: formValue.pageTitle,

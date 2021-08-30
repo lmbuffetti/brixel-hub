@@ -163,7 +163,7 @@ const GetStartedEstimation = (props) => {
       ownerType: get(dataFormAnswer, 'estimationType', '') === 'buyer' ? 'buyer' : 'seller',
       language: lang || 'en',
       title: formValue.pageTitle,
-      purposeType: get(dataFormAnswer, 'estimationType', ''),
+      purpose: get(dataFormAnswer, 'estimationType', ''),
       status: 'on-request',
       listed: false,
       active: true,
