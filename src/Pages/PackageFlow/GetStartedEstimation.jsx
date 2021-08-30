@@ -351,31 +351,32 @@ const GetStartedEstimation = (props) => {
             setQuest(newQuest);
             setCurrentIndex(defId);
           }
-
-          if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
-            const fakeInput = document.createElement('input');
-            fakeInput.setAttribute('type', 'text');
-            fakeInput.setAttribute('id', 'fakeInput');
-            fakeInput.style.position = 'absolute';
-            fakeInput.style.opacity = 0;
-            fakeInput.style.height = 0;
-            fakeInput.style.fontSize = '16px'; // disable auto zoom
-            // zoom/scroll behavior
-            document.body.prepend(fakeInput);
-            fakeInput.focus();
-          }
-
-          setTimeout(() => {
-            const fakeInput = document.getElementById('fakeInput');
-            const getCurStep = document.getElementById(`step-${defId}`);
-            if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-              getCurStep.querySelector('input[type="number"]').focus();
-            } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-              getCurStep.querySelector('input[type="text"]').focus();
+          if (newQuest.history !== 'createProfile') {
+            if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
+              const fakeInput = document.createElement('input');
+              fakeInput.setAttribute('type', 'text');
+              fakeInput.setAttribute('id', 'fakeInput');
+              fakeInput.style.position = 'absolute';
+              fakeInput.style.opacity = 0;
+              fakeInput.style.height = 0;
+              fakeInput.style.fontSize = '16px'; // disable auto zoom
+              // zoom/scroll behavior
+              document.body.prepend(fakeInput);
+              fakeInput.focus();
             }
-            // cleanup
-            fakeInput.remove();
-          }, 500);
+
+            setTimeout(() => {
+              const fakeInput = document.getElementById('fakeInput');
+              const getCurStep = document.getElementById(`step-${defId}`);
+              if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+                getCurStep.querySelector('input[type="number"]').focus();
+              } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+                getCurStep.querySelector('input[type="text"]').focus();
+              }
+              // cleanup
+              if (fakeInput) fakeInput.remove();
+            }, 500);
+          }
           if (questions[defId].history) {
             history.push({
               pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
@@ -636,7 +637,7 @@ const GetStartedEstimation = (props) => {
                           onSubmit={() => changeStep()}
                           showSendButton={quest.showSendButton}
                           showErrors={showError}
-                          disableDelay
+                          disableDelay={quest.history !== 'createProfile'}
                         />
                       </div>
 
