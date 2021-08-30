@@ -116,6 +116,8 @@ const GetStartedSeller = (props) => {
         rewardScreenData: {},
         metaUser: metaUserData,
       },
+      ownerType: 'seller',
+      purposeType: 'seller',
       preMarketVisible: true,
       language: lang || 'en',
       title: formValue.pageTitle,
