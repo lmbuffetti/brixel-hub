@@ -150,7 +150,7 @@ const Dashboard = (props) => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
       if (propID && propID !== 'home') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
-        handleGetActiveSinglePropertyEstimation(propID);
+        handleGetActiveSinglePropertyEstimation({ id: propID, smallLoader: 'getEstimation' });
       } else if (!propID) {
         // history.push('/home');
         loadDefaultProperty();
@@ -209,7 +209,7 @@ const Dashboard = (props) => {
     localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'company', null);
     if (activeLeads && activeLeads !== activeSingleCompany.id) {
-      handleGetActiveSingleCompany({ id: activeLeads });
+      handleGetActiveSingleCompany({ id: activeLeads, smallLoader: 'singleCompany' });
     }
   }, [activeSingleProperty]);
 

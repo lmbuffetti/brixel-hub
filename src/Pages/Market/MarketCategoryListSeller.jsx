@@ -9,7 +9,9 @@ import has from 'lodash/has';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  Helpers, BrixelButtonText,
+  Helpers,
+  BrixelButtonText,
+  SkeletonPackages,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -50,6 +52,7 @@ const MarketCategoryListSeller = (props) => {
     handleSetActiveSingleCompany,
     handleSetHistory,
     history,
+    isSmallLoading,
     loggedInUser,
     notification,
     ownerProperties,
@@ -57,6 +60,7 @@ const MarketCategoryListSeller = (props) => {
     setMarketOverlayProperty,
     setPropertyEstimation,
     setSplashScreen,
+    skeleton,
     splashScreenType,
   } = props;
 
@@ -85,7 +89,7 @@ const MarketCategoryListSeller = (props) => {
         handleSetActiveSingleCompany(singleCmp);
       } else handleSetActiveSingleProperty({});
     }
-  }, [propertyId, companyListings]);
+  }, [propertyId, companyListings.length]);
 
   useEffect(() => {
     const packages = get(companyDetail, 'servicePackages', null);
@@ -504,20 +508,32 @@ const MarketCategoryListSeller = (props) => {
 
           <div className="dis-fl-col dis-fl-row-md">
             {
-              filteredPackages.map((pkg, i) => (
-                <div
-                  onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
-                  key={i.toString()}
-                  className={`${pkg.type} bgWhite txtAltColor100 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
-                >
-                  <h4 className="fweight-600 txtAltColor100">{pkg.name}</h4>
-                  <p className="mt-1 mb-3 fsize-500 dis-f a-b txtAltColor100">
-                    <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                    <small className="ml-1 fsize-300 txtAltColor100">incl. VAT</small>
-                  </p>
-                  <p className="txtAltColor100">{pkg.description}</p>
-                </div>
-              ))
+              (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
+                <>
+                  <SkeletonPackages className="mx-lg-2 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-lg-2 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-lg-2 w-perc-100" type="small" />
+                </>
+              ) : (
+                <>
+                  {
+                    filteredPackages.map((pkg, i) => (
+                      <div
+                        onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
+                        key={i.toString()}
+                        className={`${pkg.type} bgWhite txtAltColor100 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
+                      >
+                        <h4 className="fweight-600 txtAltColor100">{pkg.name}</h4>
+                        <p className="mt-1 mb-3 fsize-500 dis-f a-b txtAltColor100">
+                          <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                          <small className="ml-1 fsize-300 txtAltColor100">incl. VAT</small>
+                        </p>
+                        <p className="txtAltColor100">{pkg.description}</p>
+                      </div>
+                    ))
+                  }
+                </>
+              )
             }
           </div>
 
@@ -603,6 +619,7 @@ MarketCategoryListSeller.propTypes = {
   handleSetActiveSingleCompany: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   ownerProperties: PropTypes.object.isRequired,
@@ -610,6 +627,7 @@ MarketCategoryListSeller.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
+  skeleton: PropTypes.object.isRequired,
   splashScreenType: PropTypes.string.isRequired,
 };
 
@@ -621,6 +639,7 @@ const mapStateToProps = (state) => ({
   companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
@@ -629,6 +648,7 @@ const mapStateToProps = (state) => ({
   ownerProperties: get(state, 'market.ownerProperties', {}),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
+  skeleton: get(state, 'common.skeleton', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
