@@ -410,9 +410,9 @@ const Deals = (props) => {
             </div>
             <div className="dealsContainer">
               <DragDropContext
-                onDragEnd={onDragEnd}
-                onDragStart={onDragStart}
-                onDragUpdate={onDragUpdate}
+                onDragEnd={() => onDragEnd()}
+                onDragStart={() => onDragStart()}
+                onDragUpdate={() => onDragUpdate()}
               >
                 {
                   filteredDeals && Object.keys(filteredDeals).map((key, o) => (

@@ -14,6 +14,7 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   Helpers,
+  SkeletonPackages,
 } from '@brixel/brixel-components';
 import Slider from 'react-slick';
 import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
@@ -45,7 +46,7 @@ const IntroUpgrade = (props) => {
   } = props;
   // STATE
   const [filteredPackages, setFilteredPackages] = useState([]);
-  const [packageName, setPackageName] = useState({ type: '', name: '' });
+  const [packageName, setPackageName] = useState({ });
 
   // SLIDER
   const sliderInstance = useRef(null);
@@ -160,7 +161,13 @@ const IntroUpgrade = (props) => {
         <div className="dis-fl-col dis-fl-row-sm">
           <h4 className="fsize-500 fsize-md-600 w-perc-100 max-w-fix-392">
             <span>Your current plan</span>
-            <span className={`dis-b ${packageName.type} fweight-600`}>{packageName.name}</span>
+            {
+              packageName.name ? (
+                <span className={`dis-b ${packageName.type} fweight-600`}>{packageName.name}</span>
+              ) : (
+                <span className="dis-b bgLight400 txtLight400 fweight-600">Loading...</span>
+              )
+            }
           </h4>
 
           {
@@ -199,46 +206,58 @@ const IntroUpgrade = (props) => {
       <section className="container packages py-6">
         <div className="dis-fl-col dis-fl-row-md pb-3">
           {
-            filteredPackages.map((pkg, i) => (
-              <div
-                className={`packageBox mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
-                key={i.toString()}
-              >
-                <div className="p-4">
-                  <h5 className="fweight-600 fsize-700">{pkg.name}</h5>
-                  <p className="mt-2">
-                    {pkg.description}
-                  </p>
-
-                  <ul className="checked mt-3">
-                    {
-                      pkg.details && get(pkg, 'details', []).map((detail, f) => (
-                        <li
-                          key={f.toString()}
-                          className={i > 0 && f === 0 ? 'fweight-600' : ''}
-                        >
-                          {detail.description}
-                        </li>
-                      ))
-                    }
-                  </ul>
-                </div>
-                <h6 className="px-4 py-2">
-                  <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                  <small>incl. VAT</small>
-                </h6>
+            filteredPackages.length === 0 ? (
+              <>
+                <SkeletonPackages className="w-perc-100" type="big" />
+                <SkeletonPackages className="mx-lg-2 w-perc-100" type="big" />
+                <SkeletonPackages className="w-perc-100" type="big" />
+              </>
+            ) : (
+              <>
                 {
-                  pkg.type === 'one' && get(activeSingleCompany, 'meta.additionalPackage.price', 0) > 0 && (
-                    <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg mb-sm-4-neg ta-c">
-                      <span>Let us handle all showings for additional</span>
-                      <span className="ml-small-4">
-                        {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.additionalPackage.price', 0), get(activeSingleCompany, 'country.currency', ''))}.
-                      </span>
-                    </span>
-                  )
+                  filteredPackages.map((pkg, i) => (
+                    <div
+                      className={`packageBox mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
+                      key={i.toString()}
+                    >
+                      <div className="p-4">
+                        <h5 className="fweight-600 fsize-700">{pkg.name}</h5>
+                        <p className="mt-2">
+                          {pkg.description}
+                        </p>
+
+                        <ul className="checked mt-3">
+                          {
+                            pkg.details && get(pkg, 'details', []).map((detail, f) => (
+                              <li
+                                key={f.toString()}
+                                className={i > 0 && f === 0 ? 'fweight-600' : ''}
+                              >
+                                {detail.description}
+                              </li>
+                            ))
+                          }
+                        </ul>
+                      </div>
+                      <h6 className="px-4 py-2">
+                        <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                        <small>incl. VAT</small>
+                      </h6>
+                      {
+                        pkg.type === 'one' && get(activeSingleCompany, 'meta.additionalPackage.price', 0) > 0 && (
+                          <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg mb-sm-4-neg ta-c">
+                            <span>Let us handle all showings for additional</span>
+                            <span className="ml-small-4">
+                              {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.additionalPackage.price', 0), get(activeSingleCompany, 'country.currency', ''))}.
+                            </span>
+                          </span>
+                        )
+                      }
+                    </div>
+                  ))
                 }
-              </div>
-            ))
+              </>
+            )
           }
         </div>
         <div className="dis-f jc-c mt-5">
@@ -399,6 +418,7 @@ IntroUpgrade.propTypes = {
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
   scrollHash: PropTypes.string,
 };
@@ -411,6 +431,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSingleProperty.servicePackages', []),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   packages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
