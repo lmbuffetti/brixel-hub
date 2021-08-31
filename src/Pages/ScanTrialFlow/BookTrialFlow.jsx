@@ -26,6 +26,7 @@ const BookTrialFlow = (props) => {
     changeFieldValue,
     formValue,
     lang,
+    loggedInUser,
     onClick,
     showError,
     syncErrors,
@@ -54,7 +55,7 @@ const BookTrialFlow = (props) => {
     if (openAccordion === 'online' || openAccordion === 'schedule') {
       updateError('dateBook', 'Required');
       updateError('hourBook', 'Required');
-      updateError('phone', 'Required');
+      if (loggedInUser.id) updateError('phone', 'Required');
     }
   }, [openAccordion]);
 
@@ -63,8 +64,10 @@ const BookTrialFlow = (props) => {
     else updateError('dateBook', 'Required');
     if (get(formValue, 'hourBook', null)) updateError('hourBook', true);
     else updateError('hourBook', 'Required');
-    if (get(formValue, 'phone', { }).number) updateError('phone', true);
-    else updateError('phone', 'Required');
+    if (loggedInUser.id) {
+      if (get(formValue, 'phone', {}).number) updateError('phone', true);
+      else updateError('phone', 'Required');
+    }
   }, [formValue]);
 
   const handleChangeDate = (day) => {
@@ -74,7 +77,8 @@ const BookTrialFlow = (props) => {
   };
 
   useEffect(() => {
-    const hourBook = get(formValue, 'hourBook', '').replace(':', '');
+    let hourBook = get(formValue, 'hourBook', '');
+    if (get(formValue, 'hourBook', null)) hourBook = get(formValue, 'hourBook', '').replace(':', '');
     if (get(formValue, 'fullDate', null) && get(formValue, 'hourBook', null) && +hourBook > 1000) {
       const splitDate = (get(formValue, 'fullDate', '')).toString().split(' ');
       splitDate[4] = `${get(formValue, 'hourBook', null)}:00`;
@@ -410,32 +414,37 @@ const BookTrialFlow = (props) => {
                       />
                     </div>
                   </div>
-                  <div>
-                    <ReduxField
-                      ReduxFieldClass="inputPhone"
-                      form="scanFlow"
-                      component={BrixelInputText}
-                      design={{
-                        className: 'mb-1 mt-1',
-                      }}
-                      input={{
-                        name: 'phone',
-                        type: 'text',
-                        placeholder: '',
-                      }}
-                      inputFormat={{
-                        formatType: 'tel',
-                      }}
-                      meta={{
-                        invalid: get(syncErrors, 'phone', '') !== true,
-                        dirty: get(syncErrors, 'phone', '') !== true,
-                        showErrors: showError,
-                        message: {
-                          error: 'Please insert a valid phone',
-                        },
-                      }}
-                    />
-                  </div>
+                  {
+                    loggedInUser.id && (
+                      <div>
+                        <ReduxField
+                          ReduxFieldClass="inputPhone"
+                          form="scanFlow"
+                          component={BrixelInputText}
+                          design={{
+                            className: 'mb-1 mt-1',
+                          }}
+                          input={{
+                            name: 'phone',
+                            type: 'text',
+                            placeholder: '',
+                          }}
+                          inputFormat={{
+                            formatType: 'tel',
+                          }}
+                          meta={{
+                            invalid: get(syncErrors, 'phone', '') !== true,
+                            dirty: get(syncErrors, 'phone', '') !== true,
+                            showErrors: showError,
+                            message: {
+                              error: 'Please insert a valid phone',
+                            },
+                          }}
+                        />
+                      </div>
+                    )
+                  }
+
                 </Accordion>
               </div>
             </div>
@@ -451,6 +460,7 @@ BookTrialFlow.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
@@ -461,6 +471,7 @@ BookTrialFlow.propTypes = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.scanFlow.values', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   syncErrors: get(state, 'brixelForm.scanFlow.syncErrors', {}),
   lang: get(state, 'user.loggedInUser.user.language', 'en'),
 });
