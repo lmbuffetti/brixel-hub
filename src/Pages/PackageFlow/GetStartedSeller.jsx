@@ -41,7 +41,6 @@ const GetStartedSeller = (props) => {
     handleCreateActiveSingleProperty,
     handleDoLogin,
     handleGetActiveSingleCompany,
-    handleGetGamegroup,
     handleSetLanguage,
     handleSpinnerOff,
     handleValidateUser,
@@ -188,7 +187,7 @@ const GetStartedSeller = (props) => {
       let checkCond = true;
       questions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
-        if (val !== cond.value && checkCond) {
+        if (has(cond, 'value') && val !== cond.value && checkCond) {
           if (act === 'back') newIndex -= 1;
           else newIndex += 1;
           checkCond = false;
@@ -354,7 +353,6 @@ const GetStartedSeller = (props) => {
 
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
-    handleGetGamegroup();
     // GET THE COMPANY BY URL OR COOKIE
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
@@ -510,7 +508,7 @@ const GetStartedSeller = (props) => {
         if (item.conditions) {
           item.conditions.forEach((cond) => {
             const val = get(formValue, cond.name, null);
-            if (cond.value && val === cond.value) {
+            if (has(cond, 'value') && val === cond.value) {
               num += 1;
             } else if (cond.noValue && val !== cond.noValue) {
               num += 1;
@@ -679,7 +677,6 @@ GetStartedSeller.propTypes = {
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,

@@ -19,22 +19,26 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
-import { checkBrowser } from '../../utils/helpers';
+import queryString from 'query-string';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
 import { spinnerOff } from '../../actions/CommonActions';
+import { getCookie, setCookie } from '../../utils/helpers';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
 const ScanTrialFlow = (props) => {
   // PROPS
   const {
+    // handleSendScanTrial,
     activeSingleCompany,
-    activeSingleProperty,
+    changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
-    handleSendScanTrial,
+    handleGetActiveSingleCompany,
     handleSpinnerOff,
     history,
     initForm,
@@ -62,6 +66,15 @@ const ScanTrialFlow = (props) => {
   useEffect(() => {
     localStorage.setItem('brixelRegField', JSON.stringify({}));
     handleSpinnerOff();
+    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
+    const companyCookie = getCookie('brixelStubCompany') || null;
+    if (get(companyByUrl, 'company', companyCookie)) {
+      const defComp = get(companyByUrl, 'company', companyCookie);
+      handleGetActiveSingleCompany({ stub: defComp });
+      setCookie('brixelStubCompany', defComp);
+    } else {
+      handleGetActiveSingleCompany({ stub: 'default' });
+    }
     return () => destroyForm();
   }, []);
 
@@ -83,7 +96,7 @@ const ScanTrialFlow = (props) => {
 
   useEffect(() => {
     initForm(initialValues);
-  }, [activeSingleProperty]);
+  }, [loggedInUser.id]);
 
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
@@ -120,6 +133,7 @@ const ScanTrialFlow = (props) => {
         page: propID,
         smallLoader: 'sendData',
         data: {
+          companyID: activeSingleCompany.id,
           user: loggedInUser.id,
           meta: {
             ...obj,
@@ -132,7 +146,8 @@ const ScanTrialFlow = (props) => {
           userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
         },
       };
-      handleSendScanTrial(data);
+      changeFieldValue('data', data);
+      // handleSendScanTrial(data);
     }
   };
 
@@ -164,7 +179,7 @@ const ScanTrialFlow = (props) => {
       let checkCond = true;
       questions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
-        if (cond.value && val !== cond.value && checkCond) {
+        if (has(cond, 'value') && val !== cond.value && checkCond) {
           if (act === 'back') newIndex -= 1;
           else newIndex += 1;
           checkCond = false;
@@ -198,20 +213,8 @@ const ScanTrialFlow = (props) => {
               if (err !== true && err !== false && isValid) isValid = false;
             }
           });
-        } else if (input.validation) {
-          // const getRegField = get(registeredFields
-          let field;
-          if (input.name === 'profileUser') {
-            const page = get(formValue, 'signupScreen', null);
-            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
-            if (page === 'login') {
-              field = ['login.email', 'login.password'];
-            }
-            field.forEach((item) => {
-              const err = get(errorValue, item, true);
-              if (err !== true && err !== false && isValid) isValid = false;
-            });
-          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
+        } else {
+          isValid = get(errorValue, input.name, null) === true || get(errorValue, input.name, 'ayc') === 'ayc';
         }
       });
     }
@@ -221,6 +224,7 @@ const ScanTrialFlow = (props) => {
 
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
+
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
@@ -229,9 +233,6 @@ const ScanTrialFlow = (props) => {
     if (act === 'back') {
       newIndex -= step;
     } else {
-      if (get(questions, `[${currentIndex}].history`, null) === 'resume' && get(activeSingleCompany, 'contact.whereby', null) && get(formValue, 'bookType', '') === 'whereby') {
-        window.open(get(activeSingleCompany, 'contact.whereby', ''), '_blank');
-      }
       if (!checkValidateField() && !skipValidation) {
         setShowError(true);
         return false;
@@ -239,49 +240,65 @@ const ScanTrialFlow = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow/testDrive/');
+      history.push('/packageFlow');
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
+      if (questions[defId]) {
+        // setPosition(newIndex);
+        if (questions[defId].toSave) {
+          saveData(get(questions[defId], 'action', null));
+        } else {
+          let newQuest = {
+            ...questions[defId],
+          };
+          if (questions[defId].effect === 'slideUp') {
+            newQuest = {
+              ...questions[defId - 1],
+            };
+          }
+          if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+            setQuest(newQuest);
+            setCurrentIndex(defId);
+          } else {
+            setQuest(newQuest);
+            setCurrentIndex(defId);
+          }
+          if (newQuest.history !== 'createProfile') {
+            if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
+              const fakeInput = document.createElement('input');
+              fakeInput.setAttribute('type', 'text');
+              fakeInput.setAttribute('id', 'fakeInput');
+              fakeInput.style.position = 'absolute';
+              fakeInput.style.opacity = 0;
+              fakeInput.style.height = 0;
+              fakeInput.style.fontSize = '16px'; // disable auto zoom
+              // zoom/scroll behavior
+              document.body.prepend(fakeInput);
+              fakeInput.focus();
+            }
 
-      // setPosition(newIndex);
-      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
-
-      let newQuest = {
-        ...questions[defId],
-      };
-      if (questions[defId].effect === 'slideUp') {
-        newQuest = {
-          ...questions[defId - 1],
-        };
-      }
-      if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
-        setQuest(newQuest);
-        setCurrentIndex(defId);
-      } else {
-        setQuest(newQuest);
-        setCurrentIndex(defId);
-      }
-      setTimeout(() => {
-        const getCurStep = document.getElementById(`step-${defId}`);
-        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-          getCurStep.querySelector('input[type="number"]').focus();
-        } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-          getCurStep.querySelector('input[type="text"]').focus();
+            setTimeout(() => {
+              const fakeInput = document.getElementById('fakeInput');
+              const getCurStep = document.getElementById(`step-${defId}`);
+              if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+                getCurStep.querySelector('input[type="number"]').focus();
+              } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+                getCurStep.querySelector('input[type="text"]').focus();
+              }
+              // cleanup
+              if (fakeInput) fakeInput.remove();
+            }, 500);
+          }
+          if (questions[defId].history) {
+            history.push({
+              pathname: `/packageFlow/testDrive/${questions[defId].history}`,
+              state: get(history, 'location.state', {}),
+            });
+          }
+          if (singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+          if (multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
         }
-      }, 100);
-      if (questions[defId].history) {
-        history.push({
-          pathname: `/packageFlow/testDrive/${questions[defId].history}`,
-          state: get(history, 'location.state', {}),
-        });
-      }
-      if (checkBrowser() > 0) {
-        if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
-        if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
-      } else {
-        if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-        if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
     return null;
@@ -362,10 +379,6 @@ const ScanTrialFlow = (props) => {
                           <h2 className={`fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
-                      {/*                       {
-                        quest.subtitle && (
-                          <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
-                      } */}
                       <div className={`${quest.className} w-perc-100`}>
                         <MultiFileldsReduxForm
                           form="scanFlow"
@@ -511,12 +524,13 @@ const ScanTrialFlow = (props) => {
 };
 
 ScanTrialFlow.propTypes = {
+  // handleSendScanTrial: PropTypes.func.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleSendScanTrial: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -539,6 +553,7 @@ const mapStateToProps = (state) => {
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     initialValues: {
       ...get(state, 'brixelForm.scanFlow.values', {}),
+      userID: get(state, 'user.loggedInUser.user.id', null),
       name: get(state, 'user.loggedInUser.user.name', null),
       phone: {
         prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,
@@ -562,6 +577,7 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)));
   },
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

@@ -254,7 +254,7 @@ const GetStartedEstimation = (props) => {
       let checkCond = true;
       questions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
-        if (val !== cond.value && checkCond) {
+        if (has(cond, 'value') && val !== cond.value && checkCond) {
           if (act === 'back') newIndex -= 1;
           else newIndex += 1;
           checkCond = false;
