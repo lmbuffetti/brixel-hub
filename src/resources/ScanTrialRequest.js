@@ -24,11 +24,11 @@ export const ScanTrialQuestions = () => [
     }],
     title: 'Contact Info',
     history: 'contactInfo',
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
     inputs: [
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        ReduxFieldClass: '',
         label: 'Name',
         name: 'name',
         validation: [Validation.required],
@@ -37,16 +37,14 @@ export const ScanTrialQuestions = () => [
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        ReduxFieldClass: '',
         label: 'Email',
         name: 'email',
-        validation: [Validation.required],
+        validation: [Validation.isEmail, Validation.required],
         pdClass: 'py-3 py-md-5',
       },
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        ReduxFieldClass: '',
         label: 'Phone',
         name: 'phone',
         pdClass: 'py-3 py-md-5',

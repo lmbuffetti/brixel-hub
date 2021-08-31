@@ -22,6 +22,7 @@ import {
   VALIDATE_USER,
   ADD_NOT_INTERESTED,
   REMOVE_NOT_INTERESTED,
+  SEND_USER_SCAN_TRIAL,
 } from './types/UserTypes';
 
 export const {
@@ -47,6 +48,7 @@ export const {
   validateUser,
   addNotInterested,
   removeNotInterested,
+  sendUserScanTrial,
 } = createActions({
   [CHECK_TOKEN]: (payload) => payload,
   [CREATE_USER]: (payload) => payload,
@@ -71,4 +73,5 @@ export const {
   [ADD_NOT_INTERESTED]: (payload) => payload,
   [REMOVE_NOT_INTERESTED]: (payload) => payload,
   [RECOVER_PASSWORD]: (payload) => payload,
+  [SEND_USER_SCAN_TRIAL]: (payload) => payload,
 });

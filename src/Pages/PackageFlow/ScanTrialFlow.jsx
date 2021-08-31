@@ -24,26 +24,28 @@ import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import queryString from 'query-string';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
-import { sendScanTrialRequest } from '../../actions/PropertyActions';
-import { spinnerOff } from '../../actions/CommonActions';
+import { sendUserScanTrial } from '../../actions/UserActions';
+import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { getCookie, setCookie } from '../../utils/helpers';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
 const ScanTrialFlow = (props) => {
   // PROPS
   const {
-    // handleSendScanTrial,
     activeSingleCompany,
     changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
     handleGetActiveSingleCompany,
+    handleSendScanTrial,
+    handleSetLanguage,
     handleSpinnerOff,
     history,
     initForm,
     initialValues,
     isSmallLoading,
+    lang,
     loggedInUser,
     match,
     reset,
@@ -77,6 +79,25 @@ const ScanTrialFlow = (props) => {
     }
     return () => destroyForm();
   }, []);
+
+  // SET DATA BY COMPANY
+  useEffect(() => {
+    if (get(activeSingleCompany, 'stub', null)) {
+      const getLang = getCookie('brixelLang');
+      if (get(activeSingleCompany, 'language.code', null) && !getLang && currentIndex < 2) {
+        const companyLang = get(activeSingleCompany, 'language.code', 'en');
+        handleSetLanguage(companyLang.toLowerCase());
+        if (!loggedInUser.id) {
+          const companyPhone = {
+            prefix: get(activeSingleCompany, 'contact.phone.prefix', ''),
+            number: '',
+          };
+          changeFieldValue('phone', companyPhone);
+        }
+      }
+      setCookie('brixelStubCompany', activeSingleCompany.stub);
+    }
+  }, [activeSingleCompany.id]);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
@@ -130,24 +151,25 @@ const ScanTrialFlow = (props) => {
         delete formValue.date;
       }
       const data = {
-        page: propID,
         smallLoader: 'sendData',
         data: {
           companyID: activeSingleCompany.id,
-          user: loggedInUser.id,
+          user: {
+            language: lang,
+            userName: get(formValue, 'name', ''),
+            userEmail: get(formValue, 'email', ''),
+            userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
+          },
           meta: {
             ...obj,
             analysis: obj.analysis || 'on-site',
             bookType: obj.bookType || 'online',
             answers: formValue,
           },
-          userName: get(formValue, 'name', ''),
-          userEmail: get(formValue, 'email', ''),
-          userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
         },
       };
-      changeFieldValue('data', data);
-      // handleSendScanTrial(data);
+      if (loggedInUser.id) data.data.user.id = loggedInUser.id;
+      handleSendScanTrial(data);
     }
   };
 
@@ -213,7 +235,7 @@ const ScanTrialFlow = (props) => {
               if (err !== true && err !== false && isValid) isValid = false;
             }
           });
-        } else {
+        } else if (isValid) {
           isValid = get(errorValue, input.name, null) === true || get(errorValue, input.name, 'ayc') === 'ayc';
         }
       });
@@ -342,7 +364,7 @@ const ScanTrialFlow = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
 
       <div className="pos-r">
         {
@@ -524,18 +546,20 @@ const ScanTrialFlow = (props) => {
 };
 
 ScanTrialFlow.propTypes = {
-  // handleSendScanTrial: PropTypes.func.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleSendScanTrial: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
@@ -550,6 +574,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'brixelForm.scanFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.scanFlow.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
+    lang: get(state, 'common.language', ''),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     initialValues: {
       ...get(state, 'brixelForm.scanFlow.values', {}),
@@ -578,7 +603,8 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form)));
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),
+  handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
