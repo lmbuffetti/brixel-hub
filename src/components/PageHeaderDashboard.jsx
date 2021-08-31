@@ -405,19 +405,26 @@ function PageHeaderDashboard(props) {
             <div className="dis-f a-c">
               {
                 (
-                  propID !== 'buy' &&
-                  (activeSingleProperty.id || activeSingleProperty.customID) &&
-                  activeSingleProperty.id !== 0 &&
-                  activeSingleProperty.customID !== 0
+                  propID !== 'buy'
                 ) && (
                   <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                     <span className="hide dis-b-md">Your Plan:&nbsp;</span>
-                    <span
-                      className="fweight-600 td-u-colored dis-f cur-poi"
-                      onClick={() => onUpgrade()}
-                    >
-                      {packageName}
-                    </span>
+                    {
+                      (activeSingleProperty.id || activeSingleProperty.customID) && activeSingleProperty.id !== 0 && activeSingleProperty.customID !== 0 ? (
+                        <span
+                          className="fweight-600 td-u-colored dis-f cur-poi"
+                        >
+                          {packageName}
+                        </span>
+                      ) : (
+                        <span
+                          className="fweight-600 dis-f cur-poi txtLight400 bgLight400"
+                          onClick={() => onUpgrade()}
+                        >
+                          Loading...
+                        </span>
+                      )
+                    }
                   </div>
                 )
               }

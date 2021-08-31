@@ -495,7 +495,7 @@ const checkCommon = (store) => (next) => (action) => {
         id = action.payload.id;
       } else {
         type = false;
-        id = action.payload;
+        id = get(action.payload, 'id', action.payload);
       }
       api.property.getEstimation(id)
         .then((res) => {
