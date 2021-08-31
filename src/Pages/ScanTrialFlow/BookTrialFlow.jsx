@@ -79,7 +79,7 @@ const BookTrialFlow = (props) => {
   useEffect(() => {
     let hourBook = get(formValue, 'hourBook', '');
     if (get(formValue, 'hourBook', null)) hourBook = get(formValue, 'hourBook', '').replace(':', '');
-    if (get(formValue, 'fullDate', null) && get(formValue, 'hourBook', null) && +hourBook > 1000) {
+    if (get(formValue, 'fullDate', null) && get(formValue, 'hourBook', null) && +hourBook > 100) {
       const splitDate = (get(formValue, 'fullDate', '')).toString().split(' ');
       splitDate[4] = `${get(formValue, 'hourBook', null)}:00`;
       const defDate = new Date(splitDate.join(' '));
@@ -195,35 +195,39 @@ const BookTrialFlow = (props) => {
                     />
                   </div>
                 </div>
-                <div>
-                  <ReduxField
-                    form="scanFlow"
-                    component={BrixelInputText}
-                    ReduxFieldClass="inputPhone"
-                    design={{
-                      className: 'mt-3',
-                    }}
-                    input={{
-                      name: 'phone',
-                      type: 'text',
-                      placeholder: '',
-                    }}
-                    inputFormat={{
-                      formatType: 'tel',
-                    }}
-                    labels={{
-                      label: '',
-                    }}
-                    meta={{
-                      invalid: get(syncErrors, 'phone', '') !== true,
-                      dirty: get(syncErrors, 'phone', '') !== true,
-                      showErrors: showError,
-                      message: {
-                        error: 'Please insert a valid phone',
-                      },
-                    }}
-                  />
-                </div>
+                {
+                  loggedInUser.id && (
+                    <div>
+                      <ReduxField
+                        form="scanFlow"
+                        component={BrixelInputText}
+                        ReduxFieldClass="inputPhone"
+                        design={{
+                          className: 'mt-3',
+                        }}
+                        input={{
+                          name: 'phone',
+                          type: 'text',
+                          placeholder: '',
+                        }}
+                        inputFormat={{
+                          formatType: 'tel',
+                        }}
+                        labels={{
+                          label: '',
+                        }}
+                        meta={{
+                          invalid: get(syncErrors, 'phone', '') !== true,
+                          dirty: get(syncErrors, 'phone', '') !== true,
+                          showErrors: showError,
+                          message: {
+                            error: 'Please insert a valid phone',
+                          },
+                        }}
+                      />
+                    </div>
+                  )
+                }
                 <p className="mt-2">
                   <span>Alternatively you can call us on</span>
                   {

@@ -108,7 +108,7 @@ const ScanTrialFlow = (props) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    if (!isSmallLoading.sendData && (questions[currentIndex + 1] && questions[currentIndex + 1].history === 'success')) {
+    if (isSmallLoading.sendData === false && questions[currentIndex + 1] && saved) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setQuest(questions[newIndex]);
@@ -229,7 +229,7 @@ const ScanTrialFlow = (props) => {
         if (input.condition) {
           input.condition.forEach((item) => {
             if (item.value && get(formValue, item.name, null) === item.value) {
-              if (err !== true && err !== false && isValid) isValid = false;
+              if (err !== true && err !== false && err !== null && isValid) isValid = false;
             }
             if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
               if (err !== true && err !== false && isValid) isValid = false;
@@ -463,6 +463,7 @@ const ScanTrialFlow = (props) => {
                         themeSat={600}
                         label={buttonLabel()}
                         disabled={!checkValidateField()}
+                        isLoading={isSmallLoading.sendData}
                         rightIcon="arrow-right-small"
                         onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                       />

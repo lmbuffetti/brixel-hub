@@ -105,7 +105,6 @@ export const ScanTrialQuestions = () => [
           value: 'schedule',
         }],
         name: 'phone',
-        validation: [Validation.required],
       },
       {
         condition: [{
