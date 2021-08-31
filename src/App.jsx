@@ -35,12 +35,10 @@ import Support from './components/Support';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
-
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
-
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
-
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
+const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 
 // GENERAL COMPONENTS
 const PageHeaderDashboard = lazy(() => import('./components/PageHeaderDashboard'));
@@ -448,6 +446,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
                       <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
+                      <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
 
                       { /* SECTION: INSERT TOKEN */ }
                       <Route path="/tokeninput" component={InsertToken} />
