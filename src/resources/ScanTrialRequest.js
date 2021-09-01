@@ -22,7 +22,7 @@ export const ScanTrialQuestions = () => [
       name: 'userID',
       value: null,
     }],
-    title: 'Contact Info',
+    title: 'Nice to meet you. Who are you?',
     history: 'contactInfo',
     className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
     inputs: [
@@ -50,6 +50,7 @@ export const ScanTrialQuestions = () => [
         pdClass: 'py-3 py-md-5',
         type: 'text',
         formatType: 'tel',
+        validation: [Validation.phoneIfNotEmptyLength, Validation.required],
       },
     ],
   },

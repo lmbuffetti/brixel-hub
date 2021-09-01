@@ -29,7 +29,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
 
 $sidebarWidth: 176px;
 $sidebarWidthCollapsed: 70px;
-// Color array to be used with randomizer for avatar background
+/* Color array to be used with randomizer for avatar background*/
 $avatarColors: map-get($primaryColor, 300),
 map-get($darkColor, 300),
 map-get($redColor, 300),
@@ -95,7 +95,7 @@ body {
       .mobile-menu {
 
         a:hover {
-          //color: map-get($lightColor, 100);
+          /*color: map-get($lightColor, 100);*/
         }
       }
 
@@ -253,7 +253,7 @@ header {
 }
 
 
-// Map iFrame styles
+/* Map iFrame styles*/
 .gm-style {
   .gm-style-cc { display: none}
   .gm-bundled-control {
@@ -346,7 +346,7 @@ img {
   line-height: initial;
 }
 
-// hide notification bar
+/* hide notification bar*/
 #bodyModalWrapper,
 .rewardsTop {
   ~ .brixel-notification {
@@ -355,7 +355,7 @@ img {
 }
 
 
-//  custom label styles
+/* custom label styles*/
 
 .flowBody {
   .inputStepDisplay {
@@ -424,7 +424,7 @@ img {
   margin-bottom: $step * 2 !important;
 }
 
-// todo
+/* todo*/
 .brixel-quality-container  {
   > div {
     flex-wrap: wrap;
@@ -444,13 +444,13 @@ img {
 }
 
 
-// CUSTOM SCROLLBAR WITHOUT FORGROUND LAYER
+/* CUSTOM SCROLLBAR WITHOUT FORGROUND LAYER*/
 main > div ::-webkit-scrollbar {
   width: $step;
   height: $step;
 }
 main > div ::-webkit-scrollbar-thumb {
-  // manage scrollbar thumb background color here
+  /* manage scrollbar thumb background color here*/
   border-radius: $step;
   background:rgba(0, 0, 0, 0.2) !important;
 }
@@ -600,7 +600,7 @@ button.minimum-w-210 {
   span.brixelIcon.activity-calendar {
     right: 30px;
     top: 18px;
-    //transform: translateY(-50%);
+    /*transform: translateY(-50%);*/
     @media (max-width: $responsive-small) {
       right: 22px;
     }
@@ -611,7 +611,6 @@ button.minimum-w-210 {
   span.brixelIcon.hour-book {
     right: 24px;
     top: 18px;
-    //transform: translateY(-50%);
     @media (max-width: $responsive-small) {
       right: 16px;
     }
@@ -708,7 +707,6 @@ button.minimum-w-210 {
     }
   }
   &:hover {
-    //.text { left: -5px; }
     .arrow-symbol { left: 5px; }
   }
 }

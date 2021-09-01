@@ -4,7 +4,7 @@
   }
   .hubTopWrapper {
     @media (min-width: $responsive-medium) {
-      //background-color: map-get($lightColor, 100);
+      /* background-color: map-get($lightColor, 100); */
       min-height: 100vh;
     }
   }
@@ -24,8 +24,7 @@
 
   .hubDasContent {
     @media (min-width: $responsive-medium) {
-      // padding-left: $sidebarWidth;
-      //top: 64px;
+      /* padding-left: $sidebarWidth; */
       position: relative;
     }
     .property-container,
@@ -33,7 +32,6 @@
       .brixelPageWrapper:not(.cardInfoBox),
       .showingsWrapper,
       .portalsWrapper:not(.cardInfoBox) {
-        // min height for  secondlevel container
         @media (min-width: $responsive-medium) {
           min-height: 50vh;
         }
@@ -50,13 +48,6 @@
       }
     }
 
-    .sectionTitle {
-      /* @media (max-width: $responsive-medium) {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-      } */
-    }
     .backPanel {
       @media (min-width: $responsive-large) {
         .fixedIcon {
@@ -92,13 +83,6 @@
       }
     }
   }
-  .withTopBar {
-    .hubDasContent {
-      @media (min-width: $responsive-medium) {
-       // top: 72px;
-      }
-    }
-  }
   .rewards-container {
     .rewardsSplash {
       #rewards {
@@ -115,10 +99,7 @@
         .rewardsSplash {
           height: 100%;
           width: 100%;
-          //min-height: 450px;
           max-width: 100%;
-          //overflow-y: auto;
-          //overflow-x: hidden;
           margin: auto;
         }
       }
@@ -154,27 +135,26 @@
     }
     .hubDasContent {
       @media (max-width: $responsive-medium) {
-        //top: 108px;
         position: relative;
       }
     }
   }
 
-  // IPAD AND DESKTOP VERSION
+  /* IPAD AND DESKTOP VERSION*/
   @media (max-width: $responsive-medium) {
   }
 
-  // IPAD PRO AND DESKTOP VERSION
+  /* IPAD PRO AND DESKTOP VERSION*/
   @media (min-width: $responsive-medium) {
   }
 
-  // FLUID LAYOUT BETWEEN IPAD AND IPAD PRO
+  /* FLUID LAYOUT BETWEEN IPAD AND IPAD PRO*/
   @media only screen
   and (min-width : $responsive-small)
   and (max-width : $responsive-large) {
   }
 
-  // DESKTOP SCREEN
+  /* DESKTOP SCREEN*/
   @media screen and(max-width: map-get($grid-breakpoints, xl)) {
   }
 

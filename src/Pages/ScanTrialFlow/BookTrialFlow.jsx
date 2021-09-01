@@ -236,6 +236,7 @@ const BookTrialFlow = (props) => {
                     )
                   }
                 </p>
+                <p>We are reachable Mo - Fr, 09:00 to 18:00.</p>
               </Accordion>
               {/* <hr className="lighter" />
               <Accordion
