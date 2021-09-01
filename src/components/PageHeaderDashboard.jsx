@@ -595,7 +595,7 @@ function PageHeaderDashboard(props) {
                                     className="link txtDark700 fweight-500 fsize-300 mb-2"
                                     href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                                   >
-                                    Password
+                                    Passwords
                                   </a>
                                   <a
                                     className="link txtDark700 fweight-500 fsize-300 mb-2"
