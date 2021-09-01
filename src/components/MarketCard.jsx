@@ -518,7 +518,7 @@ const MarketCard = (props) => {
                       <div className="dis-fl-row-sm">
 
                         {
-                          item.tags && item.tags[0].indexOf('pre-market') !== -1 ? (
+                          get(item, 'tags[0]', null) && item.tags[0].indexOf('pre-market') !== -1 ? (
                             <>
                               <p className="pl-1 body2 txtDark700">
                                 <span>Your property is visible on our pre-market.</span>
