@@ -112,8 +112,8 @@ const BookTrialFlow = (props) => {
                 titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
                 contentClass="pb-3"
                 paddingContent="px-2 px-sm-5"
+                singleItem
                 onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
-                smallRightIcon
                 isExpanded={openAccordion === 'online'}
               >
                 <div className="dis-f a-t jc-b w-perc-100">

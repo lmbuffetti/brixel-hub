@@ -59,7 +59,7 @@ export const ScanTrialQuestions = () => [
     history: 'analysis',
     inputs: [{
       component: BrixelRadioButton,
-      className: 'radioBtnImg',
+      className: '',
       classNameBox: 'max-w-fix-816 ml-a mr-a',
       ReduxFieldClass: '',
       label: '',
