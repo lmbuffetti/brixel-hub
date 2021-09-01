@@ -28,6 +28,7 @@ const CarouselWrapper = (props) => {
     onSetActiveProperty,
     setActiveSingleCompany,
     setPropertyId,
+    slideToGo,
     title,
     total,
     type,
@@ -73,9 +74,13 @@ const CarouselWrapper = (props) => {
       },
     ],
     draggable: false,
+    adaptiveHeight: true,
     centerPadding: '8px',
     className,
-    onSwipe: () => setPreventClick(true),
+    onSwipe: () => {
+      setPreventClick(true);
+      setTimeout(() => setPreventClick(false), 1000);
+    },
     afterChange: () => setPreventClick(false),
     beforeChange: (prev, next) => {
       setActiveSlide(next);
@@ -124,9 +129,15 @@ const CarouselWrapper = (props) => {
   }, [type]);
 
   useEffect(() => {
+    if (slideToGo > -1 && sliderInstance.current) {
+      sliderInstance.current.slickGoTo(+slideToGo);
+    }
+  }, [sliderInstance.current, slideToGo]);
+
+  useEffect(() => {
     if (layout === 'singleOwnCard') {
       const activeCompanyId = items[activeSlide].company;
-      if (activeCompanyId) {
+      if (activeCompanyId && (activeSlide > 0 || slideToGo < 0)) {
         setActiveSingleCompany(activeCompanyId);
         setPropertyId(items[activeSlide].id);
       }
@@ -138,7 +149,7 @@ const CarouselWrapper = (props) => {
       <div className={`${className} carousel-wrapper pos-r`}>
 
         <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
-          <div className="p-2 pt-sm-3 pb-sm-1 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
+          <div className="py-2 px-0 pt-sm-3 pb-sm-1 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
             <Slider ref={sliderInstance} {...settingSlider()}>
               {
                 !items && numCard.map((card, i) => (
@@ -313,6 +324,7 @@ CarouselWrapper.propTypes = {
   onSetActiveProperty: PropTypes.func,
   setActiveSingleCompany: PropTypes.func,
   setPropertyId: PropTypes.func,
+  slideToGo: PropTypes.number,
   title: PropTypes.string,
   total: PropTypes.number,
   type: PropTypes.string,
@@ -326,6 +338,7 @@ CarouselWrapper.defaultProps = {
   onSetActiveProperty: () => '',
   setActiveSingleCompany: () => '',
   setPropertyId: () => '',
+  slideToGo: 0,
   title: '',
   total: 0,
   type: '',

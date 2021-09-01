@@ -495,7 +495,7 @@ const checkCommon = (store) => (next) => (action) => {
         id = action.payload.id;
       } else {
         type = false;
-        id = action.payload;
+        id = get(action.payload, 'id', action.payload);
       }
       api.property.getEstimation(id)
         .then((res) => {
@@ -1001,7 +1001,7 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO GET PACKAGE FO PROPERTY - by PROPERTY ID
     case GET_PACKAGES_PROPERTY: {
       next(action);
-      const { smallLoader } = action.payload;
+      const { id, smallLoader } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -1014,7 +1014,7 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      api.property.getPackageList(20, 0)
+      api.company.getPackagesCompany(id)
         .then((res) => {
           store.dispatch({ type: SET_PACKAGES_PROPERTY, payload: res.data });
           if (smallLoader) {

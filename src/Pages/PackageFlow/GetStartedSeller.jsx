@@ -41,7 +41,6 @@ const GetStartedSeller = (props) => {
     handleCreateActiveSingleProperty,
     handleDoLogin,
     handleGetActiveSingleCompany,
-    handleGetGamegroup,
     handleSetLanguage,
     handleSpinnerOff,
     handleValidateUser,
@@ -116,6 +115,8 @@ const GetStartedSeller = (props) => {
         rewardScreenData: {},
         metaUser: metaUserData,
       },
+      ownerType: 'seller',
+      purpose: 'seller',
       preMarketVisible: true,
       language: lang || 'en',
       title: formValue.pageTitle,
@@ -186,7 +187,7 @@ const GetStartedSeller = (props) => {
       let checkCond = true;
       questions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
-        if (val !== cond.value && checkCond) {
+        if (has(cond, 'value') && val !== cond.value && checkCond) {
           if (act === 'back') newIndex -= 1;
           else newIndex += 1;
           checkCond = false;
@@ -284,32 +285,32 @@ const GetStartedSeller = (props) => {
             setQuest(newQuest);
             setCurrentIndex(defId);
           }
-          // const getCurStep = document.getElementById(`step-${defId}`);
-          // create invisible dummy input to receive the focus first
-          if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
-            const fakeInput = document.createElement('input');
-            fakeInput.setAttribute('type', 'text');
-            fakeInput.setAttribute('id', 'fakeInput');
-            fakeInput.style.position = 'absolute';
-            fakeInput.style.opacity = 0;
-            fakeInput.style.height = 0;
-            fakeInput.style.fontSize = '16px'; // disable auto zoom
-            // zoom/scroll behavior
-            document.body.prepend(fakeInput);
-            fakeInput.focus();
-          }
-
-          setTimeout(() => {
-            const fakeInput = document.getElementById('fakeInput');
-            const getCurStep = document.getElementById(`step-${defId}`);
-            if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-              getCurStep.querySelector('input[type="number"]').focus();
-            } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-              getCurStep.querySelector('input[type="text"]').focus();
+          if (newQuest.history !== 'createProfile') {
+            if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
+              const fakeInput = document.createElement('input');
+              fakeInput.setAttribute('type', 'text');
+              fakeInput.setAttribute('id', 'fakeInput');
+              fakeInput.style.position = 'absolute';
+              fakeInput.style.opacity = 0;
+              fakeInput.style.height = 0;
+              fakeInput.style.fontSize = '16px'; // disable auto zoom
+              // zoom/scroll behavior
+              document.body.prepend(fakeInput);
+              fakeInput.focus();
             }
-            // cleanup
-            if (fakeInput) fakeInput.remove();
-          }, 500);
+
+            setTimeout(() => {
+              const fakeInput = document.getElementById('fakeInput');
+              const getCurStep = document.getElementById(`step-${defId}`);
+              if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+                getCurStep.querySelector('input[type="number"]').focus();
+              } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+                getCurStep.querySelector('input[type="text"]').focus();
+              }
+              // cleanup
+              if (fakeInput) fakeInput.remove();
+            }, 500);
+          }
           if (questions[defId].history) {
             history.push({
               pathname: `/packageFlow/getStarted/${questions[defId].history}`,
@@ -352,7 +353,6 @@ const GetStartedSeller = (props) => {
 
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
-    handleGetGamegroup();
     // GET THE COMPANY BY URL OR COOKIE
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
@@ -508,7 +508,7 @@ const GetStartedSeller = (props) => {
         if (item.conditions) {
           item.conditions.forEach((cond) => {
             const val = get(formValue, cond.name, null);
-            if (cond.value && val === cond.value) {
+            if (has(cond, 'value') && val === cond.value) {
               num += 1;
             } else if (cond.noValue && val !== cond.noValue) {
               num += 1;
@@ -584,7 +584,7 @@ const GetStartedSeller = (props) => {
                         onSubmit={() => changeStep()}
                         showSendButton={quest.showSendButton}
                         showErrors={showError}
-                        disableDelay
+                        disableDelay={quest.history !== 'createProfile'}
                       />
                     </div>
 
@@ -677,7 +677,6 @@ GetStartedSeller.propTypes = {
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,

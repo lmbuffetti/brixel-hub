@@ -9,7 +9,9 @@ import has from 'lodash/has';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  Helpers, BrixelButtonText,
+  Helpers,
+  BrixelButtonText,
+  SkeletonPackages,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -20,8 +22,10 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
-import { getCompanyListing } from '../../actions/CompanyActions';
-import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
+import { getCompanyListing, setActiveSingleCompany } from '../../actions/CompanyActions';
+import {
+  setEstimation, getEstimation, setActiveMarketOverlayProperty, setActiveSingleProperty,
+} from '../../actions/PropertyActions';
 import ArticlesList from '../../resources/homeArticles';
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
@@ -38,20 +42,25 @@ const MarketCategoryListSeller = (props) => {
   // PROPS
   const {
     activeMarketOverlayProperty,
+    activeSingleProperty,
     bestimate,
     companyListings,
     estimation,
-    handleGetEstimation,
-    handleSetHistory,
     handleGetCompanyListing,
+    handleGetEstimation,
+    handleSetActiveSingleProperty,
+    handleSetActiveSingleCompany,
+    handleSetHistory,
     history,
+    isSmallLoading,
     loggedInUser,
     notification,
     ownerProperties,
     premiumProperties,
+    setMarketOverlayProperty,
     setPropertyEstimation,
     setSplashScreen,
-    setMarketOverlayProperty,
+    skeleton,
     splashScreenType,
   } = props;
 
@@ -70,6 +79,17 @@ const MarketCategoryListSeller = (props) => {
   useEffect(() => {
     handleGetCompanyListing();
   }, []);
+
+  useEffect(() => {
+    if (companyListings.length > 0) {
+      if (propertyId) {
+        const indexOwn = ownerProperties.data.findIndex((page) => page.id === propertyId);
+        handleSetActiveSingleProperty({ customID: propertyId, setID: indexOwn });
+        const singleCmp = companyListings.find((cmp) => cmp.id === ownerProperties.data[indexOwn].company);
+        handleSetActiveSingleCompany(singleCmp);
+      } else handleSetActiveSingleProperty({});
+    }
+  }, [propertyId, companyListings.length]);
 
   useEffect(() => {
     const packages = get(companyDetail, 'servicePackages', null);
@@ -405,18 +425,7 @@ const MarketCategoryListSeller = (props) => {
           </div>
         ) : (
           <div className="mb-5 mb-sm-3 mt-4-neg mt-sm-10-neg">
-            <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
-              <BrixelButtonText
-                className="fsize-300 show-all pos-r mr-1"
-                label={`<span>View all properties</span> <span class="ml-1">(${get(ownerProperties, 'total', '-')})</span>`}
-                onClick={() => history.push('/sell/own')}
-              />
-              <BrixelButtonText
-                className="fsize-300 show-all pos-r"
-                label="+ Add new"
-                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
-              />
-            </div>
+
             <div className="marketSellBanner dis-fl-col dis-fl-row-sm a-c jc-c pb-2 mt-2-neg mt-sm-0">
               <div className="max-w-fix-144 min-h-fix-200 min-h-fix-sm-360 max-w-fix-sm-264 w-perc-100">
                 <img src={testdrive} alt="testdrive" />
@@ -449,6 +458,18 @@ const MarketCategoryListSeller = (props) => {
               </div>
 
             </div>
+            <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
+              <BrixelButtonText
+                className="fsize-300 show-all pos-r mr-1"
+                label={`<span>View all properties</span> <span class="ml-1">(${get(ownerProperties, 'total', '-')})</span>`}
+                onClick={() => history.push('/sell/own')}
+              />
+              <BrixelButtonText
+                className="fsize-300 show-all pos-r"
+                label="+ Add new"
+                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
+              />
+            </div>
             {
               ownerProperties.total > 0 && (
                 <CarouselWrapper
@@ -459,6 +480,7 @@ const MarketCategoryListSeller = (props) => {
                   total={ownerProperties.total}
                   setPropertyId={(id) => setPropertyId(id)}
                   setActiveSingleCompany={(id) => setActiveCompanyId(id)}
+                  slideToGo={ownerProperties.data.findIndex((page) => page.id === activeSingleProperty.customID)}
                 />
               )
             }
@@ -478,46 +500,58 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="bgAltColor2100 pt-8 pb-7">
+      <div className="bgAltColor2100 pt-6 pt-sm-8 pb-4 pb-sm-7">
         <div className="container">
-          <h3 className="ta-c mb-7 max-w-fix-416 fsize-800 fweight-600 m-a">
+          <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
             Boost your private sale with an upgrade.
           </h3>
 
-          <div className="dis-f">
+          <div className="dis-fl-col dis-fl-row-md">
             {
-              filteredPackages.map((pkg, i) => (
-                <div
-                  key={i.toString()}
-                  className={`${pkg.type} bgWhite mx-2 w-perc-100 brdSmall brdRadius p-3`}
-                >
-                  <h5 className="fweight-600">{pkg.name}</h5>
-                  <p
-                    className="mt-1 mb-3 fsize-500 dis-f a-b"
-                  >
-                    <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                    <small className="ml-1 fsize-300">inc VAT</small>
-                  </p>
-                  <p>{pkg.description}</p>
-                </div>
-              ))
+              (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
+                <>
+                  <SkeletonPackages className="mx-lg-2 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-lg-2 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-lg-2 w-perc-100" type="small" />
+                </>
+              ) : (
+                <>
+                  {
+                    filteredPackages.map((pkg, i) => (
+                      <div
+                        onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
+                        key={i.toString()}
+                        className={`${pkg.type} bgWhite txtAltColor100 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
+                      >
+                        <h4 className="fweight-600 txtAltColor100">{pkg.name}</h4>
+                        <p className="mt-1 mb-3 fsize-500 dis-f a-b txtAltColor100">
+                          <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                          <small className="ml-1 fsize-300 txtAltColor100">incl. VAT</small>
+                        </p>
+                        <p className="txtAltColor100">{pkg.description}</p>
+                      </div>
+                    ))
+                  }
+                </>
+              )
             }
           </div>
 
-          <div className="dis-f jc-c a-c mt-4">
+          <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
 
             <BrixelButtonPrimary
               rounded
               label="Upgrade your plan"
-              onClick={() => history.push(`/${propertyId}/upgrade`)}
+              onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
               theme="altColor"
               themeSat={200}
             />
-            <span className="mx-1">or</span>
+            <span className="mx-1 hide dis-fl-row-sm">or</span>
             <BrixelButtonText
+              className="mt-2 mt-sm-0"
               rounded
               label="compare all plans"
-              onClick={() => history.push(`/${propertyId}/upgrade#comparePlan`)}
+              onClick={() => window.location.assign(`/${propertyId}/upgrade#comparePlan`)}
               transparent
               theme="altColor"
               themeSat={100}
@@ -527,20 +561,23 @@ const MarketCategoryListSeller = (props) => {
         </div>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-6 mt-sm-10">
         <div className="container">
-          <h3 className="mb-7">This may interest you</h3>
+          <h4 className="mb-4 fweight-600 txtAltColor100">This may interest you</h4>
 
-          <div className="dis-f a-t flex-wrap">
+          <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
             {
               artByCountry.map((article, i) => (
                 <div
                   key={i.toString()}
-                  className={`dis-fl-col jc-b a-t w-perc-50 ${i % 2 === 0 ? 'pr-2' : 'pl-2'}`}
+                  className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
                 >
-                  <img src={article.img} alt={`Article ${i}`} />
-                  <p className="fweight-600 mt-3 mb-2">{article.desc}</p>
-                  <a href={article.url} target="_blank" rel="noreferrer">Read more</a>
+                  <a className="txtAltColor100 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
+                    <img src={article.img} alt={`Article ${i}`} />
+                  </a>
+                  {article.title && (<h5 className=" fweight-600 mb-1">{article.title}</h5>)}
+                  <p className="mb-2 txtAltColor100">{article.desc}</p>
+                  <a className="txtAltColor100 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
                 </div>
               ))
             }
@@ -549,9 +586,9 @@ const MarketCategoryListSeller = (props) => {
         </div>
       </div>
 
-      <span className="my-6 hr lighter" />
+      <span className="mt-4 mb-6 hr lighter" />
 
-      <div className="mb-10">
+      <div className="mb-5 mb-sm-10">
         <div className="container">
           {
             premiumProperties.total > 0 && (
@@ -572,13 +609,17 @@ const MarketCategoryListSeller = (props) => {
 
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   bestimate: PropTypes.object.isRequired,
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  handleSetActiveSingleCompany: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   ownerProperties: PropTypes.object.isRequired,
@@ -586,16 +627,19 @@ MarketCategoryListSeller.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
+  skeleton: PropTypes.object.isRequired,
   splashScreenType: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   bestimate: get(state, 'property.estimation.result', {}),
   companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
@@ -604,15 +648,18 @@ const mapStateToProps = (state) => ({
   ownerProperties: get(state, 'market.ownerProperties', {}),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
+  skeleton: get(state, 'common.skeleton', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
-  handleSetHistory: bindActionCreators(setHistory, dispatch),
   handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),
+  handleSetHistory: bindActionCreators(setHistory, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

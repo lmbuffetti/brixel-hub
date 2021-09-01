@@ -79,17 +79,10 @@ const MarketCard = (props) => {
     if (e) e.preventDefault();
     if (!preventClick) {
       if (type === 'own') {
-        if (get(windowDimensions, 'width', 0) <= 1024) {
-          history.push({
-            pathname: `/${item.id}/home`,
-            state: { section: 'Market' },
-          });
-        } else {
-          history.push({
-            pathname: `/${item.id}/home`,
-            state: { section: 'Market' },
-          });
-        }
+        history.push({
+          pathname: `/${item.id}/home`,
+          state: { section: 'Market' },
+        });
       } else if (type === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
         ((
           type === 'premium' || get(item, 'tags', []).includes('premium') ||
@@ -239,152 +232,162 @@ const MarketCard = (props) => {
                   }
                 </>
 
-                <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100">
-                  <div className="top dis-fl-col notranslate" onClick={(e) => openCard(e)}>
-                    <h6 className="fweight-600 fsize-600 mb-small-4 txtDark700 ellipsis two w-perc-100 max-w-fix-496 ta-l">{get(item, 'title', '')}</h6>
-                    <span className="fsize-300 txtDark700 mb-1 ta-l">
-                      {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
-                      {
-                        get(item, 'location.countryCode', 'CH') === 'CH' && (
-                          <>
-                            {` (${get(item, 'location.stateCode', '')})`}
-                          </>
-                        )
-                      }
-                    </span>
-                  </div>
-                  <div
-                    className="mid dis-fl-row fsize-300 txtDark400 mb-2"
-                    onClick={(e) => openCard(e)}
-                  >
-                    <div className="dis-f a-c flex-wrap">
-                      <div className="div pt-small-2">
-                        <span>
-                          {get(item, 'properties.propertyType', '')}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="px-1 notranslate"> &middot; </span>
-                        <span>
-                          <span className="notranslate">
-                            {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                          </span>
+                <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100 jc-b">
+                  <div>
+                    <div className="top dis-fl-col notranslate" onClick={(e) => openCard(e)}>
+                      <h6 className="fweight-600 fsize-600 mb-small-4 txtDark700 ellipsis two w-perc-100 max-w-fix-496 ta-l">{get(item, 'title', '')}</h6>
+                      <span className="fsize-300 txtDark700 mb-1 ta-l">
+                        {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
+                        {
+                          get(item, 'location.countryCode', 'CH') === 'CH' && (
+                            <>
+                              {` (${get(item, 'location.stateCode', '')})`}
+                            </>
+                          )
+                        }
+                      </span>
+                    </div>
+                    <div
+                      className="mid dis-fl-row fsize-300 txtDark400 mb-2"
+                      onClick={(e) => openCard(e)}
+                    >
+                      <div className="dis-f a-c flex-wrap">
+                        <div className="div pt-small-2">
                           <span>
-                            {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                            {get(item, 'properties.propertyType', '')}
                           </span>
-                        </span>
-                        {
-                          get(item, 'properties.typology.bedrooms') > 0 && (
-                            <span className="px-1 notranslate"> &middot; </span>
-                          )
-                        }
-                        {
-                          get(item, 'properties.typology.livingArea.value', 0) > 0 && (
-                            <span>
-                              <span>
-                                {get(item, 'properties.typology.livingArea.value', 0)}
-                              </span>
-                              <span> m2</span>
+                        </div>
+                        <div>
+                          <span className="px-1 notranslate"> &middot; </span>
+                          <span>
+                            <span className="notranslate">
+                              {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                             </span>
-                          )
-                        }
+                            <span>
+                              {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                            </span>
+                          </span>
+                          {
+                            get(item, 'properties.typology.bedrooms') > 0 && (
+                              <span className="px-1 notranslate"> &middot; </span>
+                            )
+                          }
+                          {
+                            get(item, 'properties.typology.livingArea.value', 0) > 0 && (
+                              <span>
+                                <span>
+                                  {get(item, 'properties.typology.livingArea.value', 0)}
+                                </span>
+                                <span> m2</span>
+                              </span>
+                            )
+                          }
+                        </div>
                       </div>
                     </div>
                   </div>
-                  {
-                    get(item, 'price.total', 0) > 0 ? (
-                      <div className="dis-fl-col">
-                        <div className="dis-f a-c">
+                  <div className="">
+                    {
+                      get(item, 'price.total', 0) > 0 ? (
+                        <div className="dis-fl-col">
+                          <div className="dis-f a-c">
+                            <BrixelIcon
+                              background="AltColor"
+                              saturation={1000}
+                              color="AltColor"
+                              saturationTxt={700}
+                              padding="p-small-12"
+                              icon="price"
+                              rounded
+                              className="mr-0"
+                              iconSize="large"
+                            />
+                            <div className="ml-2 dis-fl-col">
+                              <span className="txtLight600 fsize-300"> Your Price</span>
+                              <Link to={`/${item.id}/property/price`} className="txtAltColor700 fweight-600">
+                                <span>{get(item, 'price.currency', 0)}</span>
+                                <span className="ml-1">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', 0))}</span>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="dis-f pt-sm-2 a-t">
                           <BrixelIcon
+                            className="dis-b-sm hide mr-2"
                             background="AltColor"
                             saturation={1000}
                             color="AltColor"
                             saturationTxt={700}
                             padding="p-small-12"
-                            icon="price"
+                            icon="chart"
                             rounded
                             iconSize="large"
                           />
-                          <div className="ml-2 dis-fl-col">
-                            <span className="txtLight600 fsize-300"> Your Price</span>
-                            <Link to={`/${item.id}/property/price`} className="txtAltColor700 fweight-600">
-                              <span>{get(item, 'price.currency', 0)}</span>
-                              <span className="ml-1">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', 0))}</span>
-                            </Link>
+                          <div className="dis-fl-col">
+                            <span className="txtLight600 fsize-300">Your Bestimate</span>
+                            {
+                              !completedBestimate(item) && get(item, 'estimation.status', '') !== 'processed' && (
+                                <Link
+                                  to={`/${item.id}/singleFlow/achievement/bestimate/step1`}
+                                  className="txtAltColor700 fweight-600"
+                                >
+                                  Get Estimation
+                                </Link>
+                              )
+                            }
+                            {
+                              get(item, '.estimation.status', '') === 'pending' && completedBestimate(item) && (
+                                <span className="txtAltColor700 fweight-600">
+                                  Pending
+                                </span>
+                              )
+                            }
+                            {
+                              get(item, 'estimation.status', '') === 'processed' && (
+                                <div
+                                  onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'exists')}
+                                  className="txtAltColor700 no-state fweight-600"
+                                >
+                                  {get(item, 'estimation.result.currency', '')} {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', ''), get(item, 'estimation.currency', ''))}
+                                </div>
+                              )
+                            }
                           </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="dis-f pt-2 a-t">
-                        <BrixelIcon
-                          background="AltColor"
-                          saturation={1000}
-                          color="AltColor"
-                          saturationTxt={700}
-                          padding="p-small-12"
-                          icon="chart"
-                          rounded
-                          iconSize="large"
-                        />
-                        <div className="dis-fl-col pl-2 mr-1">
-                          <span className="txtLight600 fsize-300">Your Bestimate</span>
-                          {
-                            !completedBestimate(item) && (
-                              <Link
-                                to={`/${item.id}/singleFlow/achievement/bestimate/step1`}
-                                className="txtAltColor700 fweight-600"
-                              >
-                                Get Estimation
-                              </Link>
-                            )
-                          }
-                          {
-                            get(item, '.estimation.status', '') === 'pending' && completedBestimate(item) && (
-                              <span className="txtAltColor700 fweight-600">
-                                Pending
-                              </span>
-                            )
-                          }
-                          {
-                            get(item, 'estimation.status', '') === 'processed' && (
-                              <div
-                                onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'exists')}
-                                className="txtAltColor700 no-state fweight-600"
-                              >
-                                {get(item, 'estimation.result.currency', '')} {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', ''), get(item, 'estimation.currency', ''))}
+                          <div
+                            onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
+                            className="dis-fl-row a-c ml-2"
+                          >
+                            <div className="hide dis-fl-row-sm">
+                              <div className="pos-r h-fix-48 w-fix-48">
+                                <ProgressRing
+                                  customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
+                                  iconColor={{
+                                    color: 'altColor',
+                                    sat: 2000,
+                                  }}
+                                  progress={calcPercentageProEstimation('', item).realPerc}
+                                  size={48}
+                                  strokeWidth={10}
+                                  circleOneStroke="#D7F0F1"
+                                  circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#1E1491'}
+                                  showIcon={false}
+                                  showIconComplete={calcPercentageProEstimation('', item).realPerc === 100}
+                                />
                               </div>
-                            )
-                          }
-                        </div>
-                        <div
-                          onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
-                          className="dis-fl-row-sm hide a-c ml-2"
-                        >
-                          <ProgressRing
-                            customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : null}
-                            iconColor={{
-                              color: 'altColor',
-                              sat: 2000,
-                            }}
-                            progress={calcPercentageProEstimation().realPerc}
-                            size={48}
-                            strokeWidth={10}
-                            circleOneStroke="#D7F0F1"
-                            circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
-                            showIcon={false}
-                            showIconComplete={calcPercentageProEstimation().realPerc === 100}
-                          />
-                          <div className="pl-2">
-                            <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>
-                            <span className="txtAltColor700 fweight-600 dis-b">
-                              <span>{calcPercentageProEstimation().realPerc}% </span>
-                              <span> complete</span>
-                            </span>
+                            </div>
+                            <div className="pl-2">
+                              <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>
+                              <span className="txtAltColor700 fweight-600 dis-b">
+                                <span>{calcPercentageProEstimation('', item).realPerc}% </span>
+                                <span> complete</span>
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )
-                  }
+                      )
+                    }
+                  </div>
                 </div>
               </>
             ) : (
@@ -438,7 +441,7 @@ const MarketCard = (props) => {
                       }
                     </span>
                   </div>
-                  <div className="bottom a-c txtDark700 px-3 mt-3 mb-2">
+                  <div className="bottom a-c txtDark700 px-3 mt-2 mb-2">
 
                     {
                       get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
@@ -501,10 +504,10 @@ const MarketCard = (props) => {
         {
           type === 'own' && (
             <>
-              <span className="hr mt-3 lighter" />
+              <span className="hr mt-3 lighter mb-1" />
 
               <div
-                className={`dis-fl-col dis-fl-row-md a-c jc-b ${has(item, 'published') && item.published === false ? '' : ''}`}
+                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm ${has(item, 'published') && item.published === false ? '' : ''}`}
               >
 
                 {
@@ -512,7 +515,7 @@ const MarketCard = (props) => {
                     <div
                       className="dis-fl-col dis-fl-row-sm jc-c a-c"
                     >
-                      <div className="dis-fl-row-sm ta-c">
+                      <div className="dis-fl-row-sm">
 
                         {
                           item.tags && item.tags[0].indexOf('pre-market') !== -1 ? (
@@ -544,9 +547,9 @@ const MarketCard = (props) => {
                     </div>
                   ) : (
                     <div
-                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
+                      className="dis-fl-col dis-fl-row-sm ta-l"
                     >
-                      <div className="dis-fl-row-sm ta-c">
+                      <div className="dis-fl-row-sm">
                         <p className="pl-1 body2 txtDark700">
                           <span>Your property is visible on our market.</span>
                         </p>
@@ -554,7 +557,7 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-                <div className="pt-1">
+                <div className="pt-1 pt-sm-0 ml-a">
                   <BrixelButtonPrimary
                     rounded
                     label="Edit"

@@ -71,6 +71,15 @@ html {
   }
 }
 
+.scrollSmooth {
+  .flowScrollWrap {
+    --scroll-behavior: smooth;
+
+    /* Normal CSS property for browsers with native support */
+    scroll-behavior: smooth;
+  }
+}
+
 .txlive { display: none; }
 
 body {

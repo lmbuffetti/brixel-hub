@@ -22,7 +22,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
 import { deleteImg, uploadImg, multiUploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';
-import { Truncate, tobase64Handler, checkBrowser } from '../../../utils/helpers';
+import { Truncate, tobase64Handler } from '../../../utils/helpers';
 import uploadPhotosEmpty from '../../../images/Upload/upload_photos_empty.svg';
 import OutsideElement from '../../../components/OutsideElement';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
@@ -54,6 +54,8 @@ const Photos = (props) => {
   // eslint-disable-next-line no-unused-vars
   const arrayImg = [...Array(photos ? photos.length : 0)].map((_, index) => React.createRef());
   const wrappImg = useRef(arrayImg);
+
+  useEffect(() => () => document.body.classList.remove('scrollSmooth'));
 
   // COMPARE IMAGES AND fixPhotos TO ADD THE PREVIEW IMAGES ON UPLOADING
   useEffect(() => {
@@ -148,10 +150,11 @@ const Photos = (props) => {
 
   const scrollToTopEdit = () => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
-    if (checkBrowser() > 0 && scrollEl) {
-      scrollEl.scrollTop = 0;
-    } else if (scrollEl) {
-      scrollEl.scrollTo({ top: 10, behavior: 'smooth' });
+    if (scrollEl) {
+      document.body.classList.add('scrollSmooth');
+      setTimeout(() => {
+        scrollEl.scrollTop = 10;
+      }, 100);
     }
   };
 

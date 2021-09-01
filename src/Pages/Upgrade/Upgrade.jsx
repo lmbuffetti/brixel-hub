@@ -56,7 +56,10 @@ const Upgrade = (props) => {
 
   useEffect(() => {
     localStorage.setItem('brixelRegField', JSON.stringify({}));
-    return () => destroyForm();
+    return () => {
+      document.body.classList.remove('scrollSmooth');
+      destroyForm();
+    };
   }, []);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT
@@ -260,6 +263,21 @@ const Upgrade = (props) => {
     else label = 'Continue';
     return label;
   };
+
+  useEffect(() => {
+    const headerEl = document.getElementsByClassName('flowHeader')[0];
+    const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
+
+    if (scrollPage) {
+      scrollPage.addEventListener('scroll', () => {
+        if (scrollPage.scrollTop > 2) {
+          headerEl.classList.add('shadow-1dp');
+        } else {
+          headerEl.classList.remove('shadow-1dp');
+        }
+      });
+    }
+  }, [history.location]);
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>

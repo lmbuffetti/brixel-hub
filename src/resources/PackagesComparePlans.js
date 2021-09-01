@@ -87,7 +87,7 @@ export const PackagesComparePlansTable = [
     title: 'Negotiating support',
     td: {
       private: null,
-      premium: { img: checkRed },
+      premium: null,
       one: { img: checkBlack },
     },
   },

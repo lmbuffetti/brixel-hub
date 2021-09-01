@@ -19,6 +19,7 @@ import {
   reset,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import Loading from './components/Loading';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
@@ -34,12 +35,10 @@ import Support from './components/Support';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
-
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
-
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
-
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
+const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 
 // GENERAL COMPONENTS
 const PageHeaderDashboard = lazy(() => import('./components/PageHeaderDashboard'));
@@ -136,6 +135,10 @@ const App = (props) => {
   const dashWrapperEl = dashWrapperRef.current;
   const el = document.getElementsByClassName('thirdLevel');
 
+  useEffect(() => {
+    smoothscrollPolyfill.polyfill();
+  }, []);
+
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
     if (loggedInUser.user && localTransifex) {
@@ -181,9 +184,16 @@ const App = (props) => {
       ga('send', 'pageview', history.location.pathname);
     }
     const splittedURL = get(history, 'location.pathname', '').split('/');
-    if (splittedURL[1] === 'sell' || splittedURL[1] === 'buy') {
-      handleSetActiveSingleProperty({});
+    if (splittedURL[1] === 'sell') {
+      const customID = get(activeSingleProperty, 'id', null);
+      if (customID) handleSetActiveSingleProperty({ customID });
+      else handleSetActiveSingleProperty({});
     }
+    if (splittedURL[1] === 'buy') {
+      handleSetActiveSingleProperty({ });
+    }
+    const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
+    if (scrollFlow) scrollFlow.scrollTop = 0;
   }, [history.location]);
 
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
@@ -436,6 +446,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
                       <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
+                      <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
 
                       { /* SECTION: INSERT TOKEN */ }
                       <Route path="/tokeninput" component={InsertToken} />

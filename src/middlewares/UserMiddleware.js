@@ -20,6 +20,7 @@ import {
   ADD_NOT_INTERESTED,
   REMOVE_NOT_INTERESTED,
   RECOVER_PASSWORD,
+  SEND_USER_SCAN_TRIAL,
 } from '../actions/types/UserTypes';
 
 import {
@@ -353,6 +354,23 @@ const checkUser = (store) => (next) => (action) => {
         .then(() => {
           // console.log(res);
           // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+        });
+      break;
+    }
+    case SEND_USER_SCAN_TRIAL: {
+      next(action);
+      const {
+        smallLoader,
+        data,
+      } = action.payload;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
+      else store.dispatch({ type: SPINNER_ON });
+      api.user.userScanTrial(data)
+        .then(() => {
+          // console.log(res);
+          // store.dispatch({ type: GET_FAVORITES_PROPERTIES, payload: favParams });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: false } });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }

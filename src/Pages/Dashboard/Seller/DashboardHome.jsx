@@ -32,6 +32,7 @@ const { factsOptions } = FactsOptions;
 const DashboardHome = (props) => {
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     estimation,
     formValue,
@@ -108,7 +109,10 @@ const DashboardHome = (props) => {
       <div className="max-w-fix-760 dis-fl-col">
         <div className="shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
           <div>
-            <Link to={`/${activeSingleProperty.id}/property/photos`} className="dis-b w-perc-100 w-fix-sm-232 h-fix-152 pos-r">
+            <div
+              onClick={() => history.push(`/${activeSingleProperty.id}/property/photos`)}
+              className="dis-b w-perc-100 w-fix-sm-232 h-fix-152 pos-r"
+            >
               <CoverPropertyImage
                 className="cover w-perc-100 h-perc-100"
                 coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
@@ -120,7 +124,7 @@ const DashboardHome = (props) => {
               >
                 Edit
               </Link>
-            </Link>
+            </div>
           </div>
           <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
             <div className="">
@@ -361,12 +365,13 @@ const DashboardHome = (props) => {
                 </div>
                 <div className="px-3">
                   {
-                    Object.keys(get(activeSingleProperty, 'portals', {})).map((portal, i) => (
+                    Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
                       <React.Fragment key={i.toString()}>
                         {
-                          !portal.includes('Url') && i < 2 && (
+                          get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
                             <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
-                              <span>{portal}</span> <span className={`activeDot ${activeSingleProperty.portals[portal] ? 'green' : 'grey'}`} />
+                              <span>{portal}</span>
+                              <span className={`activeDot ${get(activeSingleProperty, `portals[${portal}]`, null) ? 'green' : 'grey'}`} />
                             </span>
                           )
                         }
@@ -468,20 +473,20 @@ const DashboardHome = (props) => {
 };
 
 DashboardHome.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  proEstimation: PropTypes.object.isRequired,
+  proEstimation: PropTypes.object,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 DashboardHome.defaultProps = {
-/*   gameGroup: [],
-  gameHistory: {}, */
+  proEstimation: {},
   userTypes: 'user',
 };
 

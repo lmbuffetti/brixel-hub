@@ -42,7 +42,7 @@
 .supportBtn {
   position: relative;
   @media (max-width: $responsive-medium) {
-    background-color: #fbfbfb;
+    background-color: transparent;
     padding-right: 16px;
     padding-top: 24px;
     padding-bottom: 24px;
@@ -73,7 +73,7 @@
   .supportBtn {
     @media (max-width: $responsive-medium) {
       padding-top: 0px;
-      background-color: #F7F6F5;
+      //background-color: #F7F6F5;
     }
   }
   .map-view,

@@ -1,6 +1,9 @@
+/* eslint-disable max-len */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Helpers } from '@brixel/brixel-components';
+import {
+  Helpers,
+} from '@brixel/brixel-components';
 import { PackagesComparePlansTable } from '../resources/PackagesComparePlans';
 
 export const PackagesComparePlans = (props) => {
@@ -13,7 +16,6 @@ export const PackagesComparePlans = (props) => {
     const tableSelector = 'table';
     const targetBreakpoint = 768;
     let currentVisibleColumn = 1;
-    const nextButtonText = 'Compare Next';
     // SETUP/SELECT REUSABLE ELEMENTS
     const table = document.querySelector(tableSelector);
     if (table) {
@@ -37,7 +39,8 @@ export const PackagesComparePlans = (props) => {
 
           // Show Currently Visible Cells
           currentlyVisibleCells.forEach((cell) => {
-            cell.style.display = 'block';
+            cell.style.display = 'flex';
+            cell.style.alignItems = 'flex-start';
           });
         }
         // Show Row Headers
@@ -47,10 +50,14 @@ export const PackagesComparePlans = (props) => {
       };
 
       const createButtons = () => {
-        nextButton.textContent = nextButtonText;
         nextButton.style.display = 'none';
+        nextButton.setAttribute('class', 'iconBtn txtLight400  icnLight400  brdLight400 brdSmall txtLight500 icnLight500 brdLight500 secondary small  secondary dis-f pos-a-fix x-r-2 mt-2 compare-btn-mobile');
 
-        table.parentNode.insertBefore(nextButton, table.nextSibling);
+        nextButton.innerHTML = `
+            <span class="brixelIcon  normal leftIcon  brdRadius  "><i class="icon-arrow-simple-right  "><svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Icons/arrow-simple-right" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M6.30073008,21.3108287 C5.92317843,21.6737117 5.89767292,22.2888045 6.24376194,22.6846769 C6.58985095,23.0805494 7.17647762,23.1072925 7.55402928,22.7444095 L17.4954809,13.1892027 C17.8149636,12.8825699 18,12.4536403 18,12 C18,11.5463597 17.8149636,11.1174301 17.4949958,10.8103314 L7.55402928,1.25559052 C7.17647762,0.892707483 6.58985095,0.919450649 6.24376194,1.31532305 C5.89767292,1.71119545 5.92317843,2.32628827 6.30073008,2.6891713 L15.9879254,12 L6.30073008,21.3108287 Z" id="🎨-icon-color" fill="#32373C" transform="translate(12.000000, 12.000000) rotate(-360.000000) translate(-12.000000, -12.000000) "></path></g></svg></i></span>
+          `;
+
+        table.parentNode.insertBefore(nextButton, table);
         nextButton.setAttribute('type', 'button');
         nextButton.addEventListener('click', () => {
           currentVisibleColumn = currentVisibleColumn + 1 > columnHeaders.length ? 1 : currentVisibleColumn + 1;
@@ -60,17 +67,17 @@ export const PackagesComparePlans = (props) => {
 
       const updateTable = () => {
         // Get the Table's Width. Might as well go FULL Container Query over here.
-        //        const tableWidth = table.getBoundingClientRect().width;
+        const tableWidth = table.getBoundingClientRect().width;
 
         // If the table explodes off the viewport or is wider than the target breakpoint
-        // if (tableWidth > windowDimensions.width || tableWidth < targetBreakpoint) {
-        if (window.innerWidth < targetBreakpoint) {
+        if (tableWidth > window.innerWidth || tableWidth < targetBreakpoint) {
+        // if (window.innerWidth < targetBreakpoint) {
           if (table.getAttribute('data-comparing') !== 'active') {
             // Set the comparison state to "Active"
             table.setAttribute('data-comparing', 'active');
 
             // Show Next Button
-            nextButton.style.display = 'block';
+            nextButton.style.display = 'flex';
 
             // Show the currently visible column
             showCurrentlyVisible();
@@ -107,7 +114,7 @@ export const PackagesComparePlans = (props) => {
   const extractTable = (pack) => packages.filter((pkg) => pkg.type === pack);
 
   return (
-    <div className="comparePlans">
+    <div className="comparePlans pos-r">
       <table>
         <thead>
           <tr>
@@ -120,7 +127,7 @@ export const PackagesComparePlans = (props) => {
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                     </span>
-                    <span className="fsize-300 ml-1">inc VAT</span>
+                    <span className="fsize-300 ml-1">incl. VAT</span>
                   </span>
                 </th>
               ))
@@ -133,7 +140,7 @@ export const PackagesComparePlans = (props) => {
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                     </span>
-                    <span className="fsize-300 ml-1">inc VAT</span>
+                    <span className="fsize-300 ml-1">incl. VAT</span>
                   </span>
                 </th>
               ))
@@ -146,7 +153,7 @@ export const PackagesComparePlans = (props) => {
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                     </span>
-                    <span className="fsize-300 ml-1">inc VAT</span>
+                    <span className="fsize-300 ml-1">incl. VAT</span>
                   </span>
                 </th>
               ))
@@ -218,5 +225,4 @@ export const PackagesComparePlans = (props) => {
 PackagesComparePlans.propTypes = {
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
-
 export default PackagesComparePlans;
