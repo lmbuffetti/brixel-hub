@@ -129,7 +129,7 @@ const ScanTrialFlow = (props) => {
 
   const goToFacts = () => {
     reset('scanFlow');
-    history.push(`/${propID}/property/facts/propertyType`);
+    history.push(`/packageFlow/getStarted?company=${activeSingleCompany.stub}`);
   };
 
   // FUNCTION TO SAVE DATA
@@ -524,18 +524,6 @@ const ScanTrialFlow = (props) => {
                       )
                     }
                   </div>
-                  {
-                    get(quest, 'showExitText', null) && (
-                      <div className="w-perc-100 a-c dis-fl-row m-a jc-c mt-2">
-                        <BrixelButtonText
-                          label="Not now"
-                          theme="dark"
-                          saturation={200}
-                          onClick={() => closeWindow()}
-                        />
-                      </div>
-                    )
-                  }
                 </div>
               </div>
             )

@@ -50,6 +50,7 @@ export const ScanTrialQuestions = () => [
         pdClass: 'py-3 py-md-5',
         type: 'text',
         formatType: 'tel',
+        validation: [Validation.phoneIfNotEmptyLength, Validation.required],
       },
     ],
   },
