@@ -47,20 +47,20 @@ const clientConfig = {
     ],
   },
   devServer: {
+    static: {
+      directory: path.join(__dirname, 'src'),
+    },
+    liveReload: true,
     compress: !devMode,
     port: 5000,
     historyApiFallback: true,
     open: devMode,
-    liveReload: true,
-    static: {
-      directory: path.join(__dirname, 'dist'),
-    },
   },
   output: {
     publicPath: '/',
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
-    chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[chunkhash].js',
+    chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[fullhash].js',
     globalObject: 'this',
   },
   stats: {
@@ -178,6 +178,7 @@ const clientConfig = {
     ],
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
