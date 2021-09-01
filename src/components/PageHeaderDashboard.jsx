@@ -105,7 +105,7 @@ function PageHeaderDashboard(props) {
         setPackageName('Basic');
       }
     }
-  }, [activeSingleProperty.id, activeSingleProperty.customID, ownerProperties, packagesProperty, activeSingleCompany.id]);
+  }, [activeSingleProperty.id, activeSingleProperty.customID, get(ownerProperties, 'data', []).length, packagesProperty.length, activeSingleCompany.id]);
 
   // GET LANGUAGE LISTS
   useEffect(() => {

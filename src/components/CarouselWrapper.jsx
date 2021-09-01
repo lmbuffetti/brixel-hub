@@ -74,7 +74,6 @@ const CarouselWrapper = (props) => {
       },
     ],
     draggable: false,
-    adaptiveHeight: true,
     centerPadding: '8px',
     className,
     onSwipe: () => {
