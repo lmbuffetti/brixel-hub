@@ -19,7 +19,6 @@
   max-width: 370px;
   margin-left: auto;
   margin-right: auto;
-  // height: 190px;
   display: block;
 
   .axis {
@@ -36,10 +35,6 @@
   .orange-bar {
     rx: 4;
     ry: 4;
-
-    &.active {
-      // fill: $brx-purple-dark !important;
-    }
   }
 
   .gray-bar {
@@ -104,7 +99,6 @@
     font-family: $font-family-secondary;
     font-weight: 600;
     letter-spacing: 1px;
-    // fill: $darker-grey;
   }
 
   .range-label {
@@ -112,13 +106,8 @@
     position: relative;
 
     .range-paragraph {
-      // color: $grey;
       position: relative;
       margin: 0;
-
-      .custom-value {
-        // color: $darker-grey;
-      }
     }
 
   }
@@ -130,7 +119,7 @@
     height: 0;
     vertical-align: top;
     overflow: hidden;
-    // svg content
+    /* svg content*/
     .svg-content-responsive {
       position: absolute;
       top: 0;
@@ -200,7 +189,6 @@
         width: 9px !important;
         height: 7px !important;
         background-color: transparent !important;
-        // background: url('../images/market-data-up-icon.svg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -213,7 +201,7 @@
       position: absolute;
       overflow: hidden;
       left: 50%;
-      top: calc(100% - 1px); // Prevent visual separation of the triangle base
+      top: calc(100% - 1px); /* Prevent visual separation of the triangle base*/
       transform: translateX(-50%);
 
       &:after {
@@ -233,7 +221,6 @@
   }
 
   .range-tip {
-    // color: $darker-grey;
     font-weight: 600;
     text-align: center;
     z-index: 100;
@@ -244,9 +231,7 @@
     white-space: nowrap;
     top: 80px;
     box-shadow: $shadow-2dp;
-    //border: 1px solid map_get($lightColor, 400);
     border-radius: $brd-radius-small;
-    // border-radius: $brd-radius-small;
     p {
       font-size: 14px;
       font-weight: 600;
@@ -284,7 +269,6 @@
         width: 9px !important;
         height: 7px !important;
         background-color: transparent !important;
-        // background: url('../images/market-data-up-icon.svg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -293,13 +277,11 @@
     }
 
     .avg-decrease {
-      // color: $red;
 
       i {
         width: 9px !important;
         height: 7px !important;
         background-color: transparent !important;
-        // background: url('../images/market-data-down-icon.svg');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -313,7 +295,7 @@
       position: absolute;
       overflow: hidden;
       left: 50%;
-      top: calc(100% - 1px); // Prevent visual separation of the triangle base
+      top: calc(100% - 1px); /* Prevent visual separation of the triangle base*/
       transform: translateX(-50%);
 
       &:after {

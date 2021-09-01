@@ -35,7 +35,6 @@
     > div {
       @media (min-width: $responsive-medium) {
         .secondLevel {
-          // margin-left: $step * 3;
           margin-right: $step * 1.5;
         }
         .thirdLevel {
@@ -103,7 +102,7 @@
  }
 }
 
-// fix broken layout of extra feature on estimation flow
+/* fix broken layout of extra feature on estimation flow*/
 .extraFeatureWrap {
   .withCheckMark {
     display: initial !important;

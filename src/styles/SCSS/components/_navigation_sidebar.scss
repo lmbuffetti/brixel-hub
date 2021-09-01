@@ -45,7 +45,6 @@
           margin-bottom: $step * 2;
         }
         padding: 4px 12px;
-        //border-left: 1px solid map_get($lightColor, 200);
         a {
           color: map_get($altColor, 100);
           .dot {
@@ -58,7 +57,6 @@
             top: $step;
             border-radius: 50%;
           }
-          //color: map_get($darkColor, 200);
         }
       }
       .submenuActive {

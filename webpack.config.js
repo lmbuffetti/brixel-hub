@@ -2,6 +2,7 @@ process.env.NODE_ENV = process.argv[process.argv.length - 1];
 process.env.BABEL_ENV = process.argv[process.argv.length - 1];
 const path = require('path');
 const webpack = require('webpack');
+const glob = require('glob');
 const baseByData = require('@brixel/brixel-configuration-partner/src/SettingsWebpack');
 const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInfo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -9,13 +10,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-// const CSSNano = require('cssnano');
+const PurgecssPlugin = require('purgecss-webpack-plugin');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
+
+const PATHS = {
+  src: path.join(__dirname, 'src'),
+};
 
 const clientConfig = {
   mode: 'development',
@@ -42,19 +47,20 @@ const clientConfig = {
     ],
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
     compress: !devMode,
     port: 5000,
     historyApiFallback: true,
     open: devMode,
+    liveReload: true,
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
   },
   output: {
     publicPath: '/',
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
     chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[chunkhash].js',
-    hotUpdateChunkFilename: devMode ? 'hot/hot-update.js' : 'hot/hot-update.[chunkhash].js',
-    hotUpdateMainFilename: devMode ? 'hot/hot-update.json' : 'hot/hot-update.[chunkhash].js',
     globalObject: 'this',
   },
   stats: {
@@ -132,40 +138,29 @@ const clientConfig = {
           },
         ],
       },
+      // Svg loader
       {
         test: /\.svg$/,
-        use: [
-          {
-            loader: '@svgr/webpack',
-          },
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'images/',
-            },
-          },
-        ],
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext][query]',
+        },
       },
+      // Fonts loader
       {
         test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: '[name].[fullhash].[ext]',
-            outputPath: 'fonts/',
-
-          },
-        }],
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext][query]',
+        },
       },
+      // Images loader
       {
-        test: /\.(jpe?g|png|gif)$/i,
-        use: [{
-          loader: 'file-loader?name=images/[name].[ext]',
-          options: {
-            esModule: false,
-          },
-        }],
+        test: /\.(jpeg|png|gif|jpg)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'images/[name][ext][query]',
+        },
       },
       {
         type: 'javascript/auto',
@@ -230,6 +225,24 @@ const clientConfig = {
         NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
       },
     }),
+    new PurgecssPlugin({
+      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+      safelist: [
+        'dropdown',
+        'primaryBtn',
+        'secondaryBtn',
+        'tertiaryBtn',
+        'selElement',
+        'hiddentext',
+        /^slick/,
+        /^brixel/,
+        /^icon/,
+        /^icn/,
+        /^bg/,
+        /^txt/,
+        /^brd/,
+      ],
+    }),
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -239,12 +252,27 @@ const clientConfig = {
     minimize: !devMode,
     splitChunks: {
       chunks: 'all',
-      minSize: 20000,
       minRemainingSize: 0,
       minChunks: 1,
       maxAsyncRequests: 30,
       maxInitialRequests: 30,
       enforceSizeThreshold: 50000,
+      maxSize: 200000,
+      cacheGroups: {
+        default: false, // disable the built-in groups, default & vendors (vendors is overwritten below)
+        reactDom: {
+          test: /[\\/]node_modules[\\/]react-dom[\\/]/,
+          name: 'vendor.react-dom',
+          enforce: !devMode,
+          maxSize: 200000,
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          enforce: !devMode, // create chunk regardless of the size of the chunk
+          maxSize: 200000,
+        },
+      },
     },
   },
 };

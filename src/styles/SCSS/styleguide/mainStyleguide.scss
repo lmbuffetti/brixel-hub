@@ -1,8 +1,8 @@
-// CUSTOM VARIABLES
+/* CUSTOM VARIABLES*/
 $sidebarWidth: 236px;
 $iphone5: 320px;
 
-// GENERAL
+/* GENERAL*/
 $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
 $imgRootpath: "~@brixel/brixel-components/dist/";
@@ -24,9 +24,8 @@ $fontpath: "~@brixel/brixel-components/dist/styles/";
 $imgpath: "~@brixel/brixel-components/dist/styles/";
 @import 'node_modules/@brixel/brixel-components/dist/styles/SCSS/general/main';
 
-//$sidebarWidth: 210px;
 $sidebarWidthCollapsed: 70px;
-// Color array to be used with randomizer for avatar background
+/* Color array to be used with randomizer for avatar background*/
 $avatarColors: map-get($primaryColor, 300),
 map-get($darkColor, 300),
 map-get($redColor, 300),

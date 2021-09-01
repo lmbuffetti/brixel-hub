@@ -1,5 +1,5 @@
 $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
-// Carousel overwrite
+/* Carousel overwrite*/
  .carousel-wrapper {
   .slick-slider {
     .slick-prev {
@@ -133,14 +133,10 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
    .active.slick-current {
      z-index: 10;
-     .market-card {
-       //overflow-y: auto;
-     }
    }
 
    @for $i from 0 through 1 {
      .space-#{$i} {
-       // margin-top: -#{($i + 1) * 5}px;
        z-index: -#{($i + 1)};
        @if $i == 0 {
          transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-50%);
@@ -159,7 +155,6 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      $calc: (($id + 1) / 4) * 10;
      $def: (50 + $calc) / 100;
      .space-#{$i} {
-       // margin-top: -#{($i + 1) * 5}px;
        z-index: -#{($id + 1)};
        transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-60%);
        margin-top: -40px;
@@ -187,7 +182,6 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    &.animateCard {
      .active.slick-current {
        opacity: 0 !important;
-       // transition: 0s !important;
      }
    }
 
@@ -209,16 +203,10 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
 
      &.favorite {
-
         animation: yay 650ms $trans_func forwards;
-       //transform-origin: bottom left;
-       //position: relative;
-       //left: -20px;
      }
      &.discard {
         animation: nope 650ms $trans_func forwards;
-       //transform-origin: bottom right;
-       //right: -20px;
      }
      &.fadeOut {
        animation: fadeDown 650ms $trans_func forwards;

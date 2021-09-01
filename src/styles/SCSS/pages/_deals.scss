@@ -28,7 +28,6 @@ body .dashboardContainer.prospects {
     }
   }
   .listings-header {
-    //background-color: map-get($lightColor, 100);
     position: sticky;
     top: 0;
     z-index: 4;
@@ -169,9 +168,6 @@ body .dashboardContainer.prospects {
 
       .dealsCard {
         transition: box-shadow $default-time-long $default-easing;
-        &:hover {
-          //box-shadow: $shadow-3dp;
-        }
       }
       &.archived {
         .dealsCard {

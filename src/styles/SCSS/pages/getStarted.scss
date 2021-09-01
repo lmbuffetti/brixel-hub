@@ -22,12 +22,6 @@
     }
   }
 
-
-
-  &.flowProfile,
-  &.flowResume {
-  //  background-color: $cardGreen;
-  }
   &.flowResume {
     .content .container {
       @media (max-width: $responsive-small) {
@@ -51,21 +45,13 @@
     padding-left: 0;
     padding-right: 0;
     max-width: 100%;
-
-    .vCentered .singleStep {
-      //padding-top: 0 !important;
-    }
   }
   #bodyScroll {
     flex: 1;
-    //min-height: calc(100vh - 136px) !important;
-    @media (max-width: $responsive-small) {
-      //min-height: calc(100vh - 96px) !important;
-    }
   }
 }
 
-//on boarding custom styles
+/* on boarding custom styles*/
 .flowWrapper {
   min-height: 100%;
   .packageFlow {
@@ -75,13 +61,7 @@
       .brixel-checkbox-icon.radioBtnImg,
       .brixel-radio-button-icon.radioBtnImg {
         /*todo styleguide*/
-        label {
-          @media (max-width: $responsive-small) {
-            //padding: $step + 2;
-          }
-        }
         label .textLabel {
-          //margin-left: $step * 2;
           @include fontStyle(500);
         }
       }
@@ -145,7 +125,6 @@
 
             @media (min-width: $responsive-small) {
               padding-left: 12px;
-              //padding-left: 6px;
             }
           }
           .textLabel {
@@ -156,7 +135,6 @@
               padding-right: 8px;
               font-weight: 500;
               overflow-wrap: anywhere;
-              //font-size: 12px;
             }
           }
           .leftExtraIcon {
@@ -201,16 +179,6 @@
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      /* padding-right: 16px;
-      padding-left: 16px; */
-      //max-width: 100%;
-      //max-width: calc(100% - 32px);
-    }
-    .fixedWidthBar {
-      #progressBar {
-        //left: 16px;
-        //max-width: calc(100% - 32px);
-      }
     }
 
     .analysis.container,
@@ -345,10 +313,6 @@
           }
           .stengthPassword {
             margin-bottom: 40px;
-
-            .passContent > p {
-              //color: $brx-white;
-            }
           }
         }
         .footerActionLogin {
@@ -391,10 +355,9 @@
 }
 
 
-// overwrite inner scroll
+/* overwrite inner scroll*/
 #bodyModalWrapper {
   &.getStarted {
-    /* overflow-x: hidden; */
     .bodyModal {
       overflow: inherit;
       #multiStepForm {

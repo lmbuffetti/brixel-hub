@@ -113,7 +113,6 @@
 
         .singleStep {
           height: 100%;
-          // overflow-y: auto;
           overflow-x: hidden;
           flex: 0 0 100%;
           position: relative;
@@ -183,7 +182,6 @@
         margin-left: auto;
         margin-right: auto;
       }
-      //transition: background $default-time $default-easing;
 
       &.staticFooter {
         left: 0;
