@@ -12,7 +12,6 @@ install_dependencies:
     - develop
     - staging
     - master
-    - feature/update-webpack
   script:
     - npm install
   artifacts:
@@ -30,7 +29,6 @@ build site:
     - develop
     - staging
     - master
-    - feature/update-webpack
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   before_script:
@@ -55,8 +53,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - feature/update-webpack
-    - feature/update-webpack
+    - develop
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
