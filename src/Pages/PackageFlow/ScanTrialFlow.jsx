@@ -11,7 +11,6 @@ import {
   destroy,
   reset,
   initializeForm,
-  BrixelButtonText,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
