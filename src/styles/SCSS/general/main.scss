@@ -739,13 +739,3 @@ button.minimum-w-210 {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
-
-.financingCalculator #progressBar {
-  //todo temporary solution
-  > span:nth-child(2) {
-    position: absolute;
-    top: -25px;
-    left: 0;
-    transform: translate(-50%, 0);
-  }
-}
