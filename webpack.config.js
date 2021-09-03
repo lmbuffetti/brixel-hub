@@ -309,6 +309,7 @@ const clientConfig = (env) => {
           'checkmark',
           'mt-7',
           'px-md-7',
+          'rangeslider',
         ],
       }),
     );
