@@ -98,12 +98,19 @@ export const sidebarNavigationBuyer = [
         name: 'showings',
         path: '/buyer/:propID/property/showings',
       },
-      {
-        title: 'Docubox',
-        name: 'docubox',
-        path: '/buyer/:propID/property/docubox',
-      },
     ],
+  },
+  {
+    title: 'Docubox',
+    name: 'docubox',
+    icon: 'docs',
+    path: '/buyer/:propID/docubox',
+  },
+  {
+    title: 'Financing',
+    name: 'financing',
+    icon: 'docs',
+    path: '/buyer/:propID/financing',
   },
   {
     title: 'Closing',

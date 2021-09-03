@@ -41,7 +41,7 @@ const ContactBuyer = (props) => {
           </div>
           <div className="boxCard">
             <div className="dis-f jc-b">
-              <div className="dis-f">
+              <div className="dis-f a-t">
                 <BrixelAvatar
                   baseURL={get(baseByData, 'shortPath', '')}
                   avatarImg={get(contacts, 'avatar.thumbnailPath', null) ? `${baseByData.shortPath}${get(contacts, 'avatar.thumbnailPath', '')}` : null}
