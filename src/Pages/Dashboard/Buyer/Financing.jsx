@@ -32,7 +32,7 @@ const Financing = (props) => {
               activeSingleProperty.id && (
                 <FinancingCalculator
                   country={get(activeSingleProperty, 'location.countryCode', '')}
-                  propertyPrice={get(activeSingleProperty, 'price.total', 0)}
+                  propertyPrice={get(activeSingleProperty, 'status', null) === 'on-sale' ? get(activeSingleProperty, 'price.total', 0) : null}
                   currency={get(activeSingleProperty, 'price.currency', 0)}
                   project="hub"
                   offerURL={`/buyer/${activeSingleProperty.id}/closing`}
