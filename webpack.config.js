@@ -310,6 +310,7 @@ const clientConfig = (env) => {
           'mt-7',
           'px-md-7',
           'rangeslider',
+          'progressVal',
         ],
       }),
     );
