@@ -11,6 +11,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
+const safelistClass = require('./webapckSafelistClass');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -265,53 +266,7 @@ const clientConfig = (env) => {
     config.plugins.push(
       new PurgecssPlugin({
         paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
-        safelist: [
-          'dropdown',
-          'primaryBtn',
-          'secondaryBtn',
-          'tertiaryBtn',
-          'selElement',
-          'hiddentext',
-          'textLabel',
-          /^slick/,
-          /^brixel/,
-          /^icon/,
-          /^icn/,
-          /^bg/,
-          /^txt/,
-          /^brd/,
-          /^iti__/,
-          /^react-datepicker/,
-          /^wrap-brixel/,
-          /^input/,
-          /^checkmark__/,
-          'hide-desktop',
-          'mr-small-sm-12',
-          'ml-small-sm-12',
-          'pl-small-10',
-          'px-small-10',
-          'w-fix-64',
-          'h-fix-56',
-          'inputStepDisplay',
-          'fullWidth',
-          'left-icon',
-          'validation-icon',
-          'flags',
-          'mobile-version',
-          'fixedDatePicker',
-          'inputPhone',
-          'alignLeft',
-          'initStatus',
-          'fixedStep',
-          'svg-wrapper',
-          'financingCalculator',
-          'grey',
-          'checkmark',
-          'mt-7',
-          'px-md-7',
-          'rangeslider',
-          'progressVal',
-        ],
+        safelist: safelistClass,
       }),
     );
   }
