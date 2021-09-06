@@ -109,7 +109,7 @@ export const sidebarNavigationBuyer = [
   {
     title: 'Financing',
     name: 'financing',
-    icon: 'docs',
+    icon: 'financing',
     path: '/buyer/:propID/financing',
   },
   {
