@@ -47,4 +47,7 @@ module.exports = [
   'w-fix-sm-376',
   'w-fix-sm-480',
   'w-fix-md-640',
+  'dropdownMini',
+  'menuDropdown',
+  'alignedRight',
 ];

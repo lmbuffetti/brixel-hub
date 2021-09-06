@@ -245,7 +245,6 @@ const clientConfig = (env) => {
         enforceSizeThreshold: 50000,
         maxSize: 200000,
         cacheGroups: {
-          default: false, // disable the built-in groups, default & vendors (vendors is overwritten below)
           reactDom: {
             test: /[\\/]node_modules[\\/]react-dom[\\/]/,
             name: 'vendor.react-dom',
