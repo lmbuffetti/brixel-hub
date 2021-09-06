@@ -12,12 +12,12 @@ import {
   reset,
   FinancingCalculator,
 } from '@brixel/brixel-components';
-import { updatePublishedReview } from '../../../actions/PropertyActions';
-import { addGameHistory } from '../../../actions/GamificationActions';
+import { setModal } from '../../../actions/CommonActions';
 
 const Financing = (props) => {
   const {
     activeSingleProperty,
+    handleSetModal,
   } = props;
   return (
     <>
@@ -36,6 +36,8 @@ const Financing = (props) => {
                   currency={get(activeSingleProperty, 'price.currency', 0)}
                   project="hub"
                   offerURL={`/buyer/${activeSingleProperty.id}/closing`}
+                  onOpenModal={(text) => handleSetModal(text)}
+                  openParentModal
                 />
               )
             }
@@ -48,6 +50,7 @@ const Financing = (props) => {
 
 Financing.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
 };
 
 Financing.defaultProps = {
@@ -65,8 +68,7 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form, data) {
     (dispatch(reset(form, data)));
   },
-  handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
 });
 
 export default compose(

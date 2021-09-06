@@ -15,6 +15,7 @@ import Cookies from 'universal-cookie';
 // COMPONENTS
 import {
   BrixelIcon,
+  BrixelModal,
   BrixelNotification,
   reset,
 } from '@brixel/brixel-components';
@@ -554,7 +555,7 @@ const App = (props) => {
             )
           }
           {
-            modal.state && !modal.type && (
+            modal.state && !modal.type && !modal.small && (
               <BrixelModalFullScreen
                 title={modal.title}
                 onClose={() => {
@@ -563,6 +564,18 @@ const App = (props) => {
               >
                 {modal.body}
               </BrixelModalFullScreen>
+            )
+          }
+          {
+            modal.state && !modal.type && modal.small && (
+              <BrixelModal
+                title={modal.title}
+                onClose={() => {
+                  handleSetModal({ state: false });
+                }}
+              >
+                {modal.body}
+              </BrixelModal>
             )
           }
 
