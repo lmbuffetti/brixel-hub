@@ -194,7 +194,6 @@ const DealsCard = (props) => {
           e.preventDefault();
           archOnClick();
         }}
-        label={archived ? 'Unarchive' : 'Archive'}
       />
     </>
   );
