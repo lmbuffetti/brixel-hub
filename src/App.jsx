@@ -569,12 +569,13 @@ const App = (props) => {
           {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
+                className="max-w-fix-400"
                 title={modal.title}
                 onClose={() => {
                   handleSetModal({ state: false });
                 }}
               >
-                {modal.body}
+                <div dangerouslySetInnerHTML={{ __html: modal.body }} />
               </BrixelModal>
             )
           }
