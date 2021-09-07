@@ -1,26 +1,5 @@
-.flowContainer {
-  //background-color: #F7F6F5;
-  //min-height: 100vh;
-}
-
-
 .box-al-top {
   > .a-c {
     align-items: flex-start;
-  }
-}
-
-#bodyModalWrapper {
-  &.getStarted {
-    .bodyModal {
-      #multiStepForm {
-        &.overlayOpen {
-          //transform: none;
-          @media (min-width: $responsive-small) {
-           // transform: translate(0);
-          }
-        }
-      }
-    }
   }
 }

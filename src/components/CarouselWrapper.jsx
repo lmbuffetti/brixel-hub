@@ -74,7 +74,6 @@ const CarouselWrapper = (props) => {
       },
     ],
     draggable: false,
-    adaptiveHeight: true,
     centerPadding: '8px',
     className,
     onSwipe: () => {
@@ -136,6 +135,8 @@ const CarouselWrapper = (props) => {
 
   useEffect(() => {
     if (layout === 'singleOwnCard') {
+      // eslint-disable-next-line no-console
+      console.log(slideToGo);
       const activeCompanyId = items[activeSlide].company;
       if (activeCompanyId && (activeSlide > 0 || slideToGo < 0)) {
         setActiveSingleCompany(activeCompanyId);

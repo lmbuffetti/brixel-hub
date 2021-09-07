@@ -22,8 +22,6 @@ const ShowingsBuyer = lazy(() => import('./ShowingsBuyer'));
 
 const ContactBuyer = lazy(() => import('./ContactBuyer'));
 
-const Documents = lazy(() => import('../../EditProperty/Documents'));
-
 const PropertyBuyerDashboard = (props) => {
   // PROPS
   const {
@@ -42,8 +40,8 @@ const PropertyBuyerDashboard = (props) => {
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
-    if (windowDimensions && windowDimensions.width > 1024 && getFact() === propID) {
-      history.push({ pathname: `/buyer/property/${propID}/page` });
+    if (windowDimensions && windowDimensions.width > 1024 && (getFact() === propID || getFact() === 'property')) {
+      history.push({ pathname: `/buyer/${propID}/property/contact` });
     }
   }, [windowDimensions, getFact()]);
 
@@ -172,7 +170,6 @@ const PropertyBuyerDashboard = (props) => {
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
                 <Route path="/buyer/:propId/property/page" component={PageBuyer} />
-                <Route path="/buyer/:propId/property/docubox" exact component={() => <Documents isBuyer />} />
                 <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
                 <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
               </Suspense>

@@ -15,6 +15,7 @@ const Accordion = (props) => {
     smallRightIcon,
     title,
     titleClass,
+    singleItem,
   } = props;
 
   const [open, setOpen] = useState(isExpanded);
@@ -37,11 +38,13 @@ const Accordion = (props) => {
     >
       <button
         type="button"
-        className={`title cur-poi ${titleClass} dis-f a-t`}
-        onClick={() => onClickExpand(!open)}
+        className={`title ${singleItem ? 'cur-def' : 'cur-poi'} ${titleClass} dis-f a-t`}
+        onClick={() => {
+          if (!singleItem) onClickExpand(!open);
+        }}
       >
         {
-          !smallRightIcon && (
+          !smallRightIcon && !singleItem && (
             <BrixelIcon
               color="green"
               saturationTxt={200}
@@ -53,7 +56,7 @@ const Accordion = (props) => {
         }
         <span>{title}</span>
         {
-          smallRightIcon && (
+          smallRightIcon && !singleItem && (
             <BrixelIcon
               color={color}
               saturationTxt={saturationTxt}
@@ -85,6 +88,7 @@ Accordion.defaultProps = {
   paddingContent: 'pl-4',
   saturationTxt: 200,
   smallRightIcon: false,
+  singleItem: false,
   title: '',
   titleClass: '',
 };
@@ -99,6 +103,7 @@ Accordion.propTypes = {
   paddingContent: PropTypes.string,
   saturationTxt: PropTypes.number,
   smallRightIcon: PropTypes.bool,
+  singleItem: PropTypes.bool,
   title: PropTypes.string,
   titleClass: PropTypes.string,
 };

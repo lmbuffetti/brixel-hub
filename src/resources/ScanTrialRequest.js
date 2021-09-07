@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import {
   BrixelRadioButton,
+  BrixelInputText,
   Validation,
 } from '@brixel/brixel-components';
 import IntroScanFlow from '../Pages/ScanTrialFlow/IntroScanFlow';
@@ -17,11 +18,48 @@ export const ScanTrialQuestions = () => [
     hideProgress: true,
   },
   {
+    conditions: [{
+      name: 'userID',
+      value: null,
+    }],
+    title: 'Nice to meet you. Who are you?',
+    history: 'contactInfo',
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+    inputs: [
+      {
+        component: BrixelInputText,
+        classNameBox: 'max-w-fix-816 ml-a mr-a',
+        label: 'Name',
+        name: 'name',
+        validation: [Validation.required],
+        pdClass: 'py-3 py-md-5',
+      },
+      {
+        component: BrixelInputText,
+        classNameBox: 'max-w-fix-816 ml-a mr-a',
+        label: 'Email',
+        name: 'email',
+        validation: [Validation.isEmail, Validation.required],
+        pdClass: 'py-3 py-md-5',
+      },
+      {
+        component: BrixelInputText,
+        classNameBox: 'max-w-fix-816 ml-a mr-a',
+        label: 'Phone',
+        name: 'phone',
+        pdClass: 'py-3 py-md-5',
+        type: 'text',
+        formatType: 'tel',
+        validation: [Validation.phoneIfNotEmptyLength, Validation.required],
+      },
+    ],
+  },
+  {
     title: 'How do you want to do the analysis?',
     history: 'analysis',
     inputs: [{
       component: BrixelRadioButton,
-      className: 'radioBtnImg',
+      className: '',
       classNameBox: 'max-w-fix-816 ml-a mr-a',
       ReduxFieldClass: '',
       label: '',
@@ -68,7 +106,6 @@ export const ScanTrialQuestions = () => [
           value: 'schedule',
         }],
         name: 'phone',
-        validation: [Validation.required],
       },
       {
         condition: [{
