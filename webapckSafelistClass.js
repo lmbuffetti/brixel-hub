@@ -1,7 +1,4 @@
 module.exports = {
-  standard: [
-    /^brixel/,
-  ],
   deep: [
     /^bg/,
     /^iti__/,
