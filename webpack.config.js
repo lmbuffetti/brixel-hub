@@ -2,7 +2,7 @@ process.env.NODE_ENV = process.argv[process.argv.length - 1];
 process.env.BABEL_ENV = process.argv[process.argv.length - 1];
 const path = require('path');
 const webpack = require('webpack');
-const glob = require('glob');
+const glob = require('glob-all');
 const baseByData = require('@brixel/brixel-configuration-partner/src/SettingsWebpack');
 const companyData = require('@brixel/brixel-configuration-partner/src/CompanyInfo');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -21,10 +21,13 @@ const getEnvBuild = process.argv[process.argv.length - 3];
 
 const PATHS = {
   src: path.join(__dirname, 'src'),
+  modules: path.join(__dirname, 'node_modules/@brixel/brixel-components'),
+  dist: path.join(__dirname, 'dist'),
 };
 
 const clientConfig = (env) => {
   const localDev = env.DEV_LOCAL;
+  console.log(PATHS);
   const config = ({
     mode: 'development',
     devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
@@ -44,9 +47,6 @@ const clientConfig = (env) => {
         './src/styles/SCSS/styleguide/fontStyle.scss',
         './src/styles/SCSS/styleguide/spacing.scss',
         './src/styles/SCSS/styleguide/boxModel.scss',
-      ],
-      primary: [
-        './src/styles/SCSS/general/componentsLoad.scss',
       ],
     },
     devServer: {
@@ -197,7 +197,6 @@ const clientConfig = (env) => {
       new CopyPlugin({
         patterns: [
           { from: './public/favicon.png', to: './' },
-          { from: './src/images/location/icon_location.png', to: './images' },
         ],
       }),
       // new webpack.HotModuleReplacementPlugin(),
@@ -233,41 +232,43 @@ const clientConfig = (env) => {
     resolve: {
       extensions: ['.js', '.jsx'],
     },
-    optimization: {
-      nodeEnv: devMode ? 'development' : 'production',
-      minimize: !devMode,
+  });
+  if (!localDev) {
+    config.plugins.push(
+      new PurgecssPlugin({
+        paths: glob.sync([
+          `${PATHS.src}/**/*`,
+          `${PATHS.modules}/**/*`,
+          `${PATHS.dist}/**/*`,
+        ], { nodir: true }),
+        safelist: safelistClass,
+      }),
+    );
+  }
+  if (!devMode) {
+    config.optimization = {
       splitChunks: {
-        chunks: 'all',
+        chunks: 'async',
+        minSize: 20000,
         minRemainingSize: 0,
         minChunks: 1,
         maxAsyncRequests: 30,
         maxInitialRequests: 30,
         enforceSizeThreshold: 50000,
-        maxSize: 200000,
         cacheGroups: {
-          reactDom: {
-            test: /[\\/]node_modules[\\/]react-dom[\\/]/,
-            name: 'vendor.react-dom',
-            enforce: !devMode,
-            maxSize: 200000,
-          },
-          vendors: {
+          defaultVendors: {
             test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            enforce: !devMode, // create chunk regardless of the size of the chunk
-            maxSize: 200000,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
           },
         },
       },
-    },
-  });
-  if (!localDev) {
-    config.plugins.push(
-      new PurgecssPlugin({
-        paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
-        safelist: safelistClass,
-      }),
-    );
+    };
   }
   return config;
 };
