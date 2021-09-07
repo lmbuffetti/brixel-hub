@@ -27,6 +27,7 @@ const PATHS = {
 
 const clientConfig = (env) => {
   const localDev = env.DEV_LOCAL;
+  console.log(PATHS);
   const config = ({
     mode: 'development',
     devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
@@ -46,6 +47,9 @@ const clientConfig = (env) => {
         './src/styles/SCSS/styleguide/fontStyle.scss',
         './src/styles/SCSS/styleguide/spacing.scss',
         './src/styles/SCSS/styleguide/boxModel.scss',
+      ],
+      primary: [
+        './src/styles/SCSS/general/componentsLoad.scss',
       ],
     },
     devServer: {

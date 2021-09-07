@@ -1,7 +1,11 @@
-module.exports = [
-  /^bg/,
-  /^iti__/,
-  /^brd/,
-  /^icn/,
-  /^txt/,
-];
+module.exports = {
+  standard: [
+  ],
+  deep: [
+    /^bg/,
+    /^iti__/,
+    /^brd/,
+    /^icn/,
+    /^txt/,
+  ],
+};
