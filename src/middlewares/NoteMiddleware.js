@@ -51,7 +51,7 @@ const checkNote = (store) => (next) => (action) => {
         });
       }
       // eslint-disable-next-line no-case-declarations
-      const privacy = type === 'deal' ? 'private=true&onlyLoggedUser=true' : 'private=true';
+      const privacy = type === 'deal' ? 'onlyLoggedUser=true' : 'private=true';
       const queryParams = `?search=${text}&order=${order}&direction=${direction}&company=${company}&${privacy}`;
       api.note.getNotesList(type, object, resultsPerPage, offset, queryParams)
         .then((response) => {
