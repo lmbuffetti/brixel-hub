@@ -1,4 +1,5 @@
 module.exports = {
+  standard: ['brixel-checkbox-icon'],
   deep: [
     /^bg/,
     /^iti__/,
@@ -6,6 +7,5 @@ module.exports = {
     /^icn/,
     /^txt/,
     /^brixel/,
-    'brixel-checkbox-icon',
   ],
 };
