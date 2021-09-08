@@ -51,7 +51,7 @@ const checkNote = (store) => (next) => (action) => {
         });
       }
       // eslint-disable-next-line no-case-declarations
-      const queryParams = `?search=${text}&order=${order}&direction=${direction}&company=${company}`;
+      const queryParams = `?search=${text}&order=${order}&direction=${direction}&company=${company}&public=true`;
       api.note.getNotesList(type, object, resultsPerPage, offset, queryParams)
         .then((response) => {
           if (response.data.length >= 0) {
