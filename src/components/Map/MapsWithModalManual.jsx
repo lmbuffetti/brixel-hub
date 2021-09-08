@@ -757,10 +757,11 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  GoogleApiWrapper({
+  GoogleApiWrapper(() => ({
     apiKey: (baseByData.googleMaps),
+    // language: props.lang,
     libraries: ['geometry', 'drawing', 'places'],
-  }),
+  })),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MapsWithModalManual);
