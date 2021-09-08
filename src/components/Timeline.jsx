@@ -123,13 +123,11 @@ const Timeline = (props) => {
       }
 
       forEach(activeDealNotes, (note) => {
-        if (get(note, 'private', true) === false) {
-          set(note, 'timestamp', note.createdAt);
-          if (note.type === 'page') set(note, 'parent', note.page);
-          if (note.type === 'user') set(note, 'parent', note.user);
-          if (note.type === 'deal') set(note, 'parent', note.deal);
-          array.push(note);
-        }
+        set(note, 'timestamp', note.createdAt);
+        if (note.type === 'page') set(note, 'parent', note.page);
+        if (note.type === 'user') set(note, 'parent', note.user);
+        if (note.type === 'deal') set(note, 'parent', note.deal);
+        array.push(note);
       });
     } else {
       if (activePropertyHistoryList.total > 0 && activePropertyHistoryList.data.length > 0) {
