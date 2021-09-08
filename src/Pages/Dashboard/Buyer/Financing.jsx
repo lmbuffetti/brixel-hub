@@ -38,6 +38,7 @@ const Financing = (props) => {
                   offerURL={`/buyer/${activeSingleProperty.id}/closing`}
                   onOpenModal={(text) => handleSetModal(text)}
                   openParentModal
+                  className="max-w-fix-912"
                 />
               )
             }
