@@ -1,12 +1,12 @@
-// Blues/Purples
+/* Blues/Purples*/
 $color1: #1E1491;
 $color2: #6E5BFF;
 $color3: #96BEF0;
 
-// Red Green Blue
-//$color1: #F03C50;
-//$color2: #82D1FA;
-//$color3: #50B482;
+/* Red Green Blue
+$color1: #F03C50;
+$color2: #82D1FA;
+$color3: #50B482; */
 
 .elem-loader {
   top: 0;
@@ -39,7 +39,7 @@ $color3: #96BEF0;
     display: table !important;
   }
 
-  //Modifiers
+  /*Modifiers*/
   &.elem-overlay {
 
     &::after {

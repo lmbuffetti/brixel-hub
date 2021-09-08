@@ -146,7 +146,6 @@ const Support = (props) => {
                   color="altColor"
                   saturationTxt={700}
                   icon="phone"
-                  iconSize="large"
                 />
                 <p className="ml-2">
                   <span className={` ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(phone)}</span>
@@ -161,7 +160,6 @@ const Support = (props) => {
                   color="altColor"
                   saturationTxt={400}
                   icon="mail"
-                  iconSize="large"
                 />
                 <p className="ml-2">
                   <span className={colorLinkTextInfo}>{email}</span>
@@ -181,7 +179,6 @@ const Support = (props) => {
                   color="altColor"
                   saturationTxt={200}
                   icon="whatsapp"
-                  iconSize="large"
                 />
                 <p className="ml-2">
                   <span className={` ${colorLinkTextInfo}`}>{Helpers.telephoneFormat(whatsapp)}</span>

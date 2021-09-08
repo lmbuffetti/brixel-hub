@@ -243,14 +243,12 @@ export const MapsWithModalManual = (props) => {
             if (predictions) {
               const defPredition = predictions;
               if (type === 'zip') {
-                // setZiplist(predictions);
                 setLoclist([]);
                 if (defPredition) {
                   changeFieldValue(formName, 'locationsList', defPredition);
                   geoCode(defPredition[0].description);
                 }
               } else {
-                // setZiplist([]);
                 setLoclist(defPredition);
                 changeFieldValue(formName, 'locationsList', defPredition);
               }
@@ -602,7 +600,7 @@ export const MapsWithModalManual = (props) => {
                     iconLeft="location-pin-simple"
                   />
                   {
-                    !selectedAddress && locList.length > 1 && !disabled && (
+                    !selectedAddress && locList.length > 0 && !disabled && (
                       <ul className="resultAutoComplete notranslate" ref={addressRef}>
                         {
                           locList.map((loc, i) => (
@@ -759,10 +757,11 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  GoogleApiWrapper({
+  GoogleApiWrapper(() => ({
     apiKey: (baseByData.googleMaps),
+    // language: props.lang,
     libraries: ['geometry', 'drawing', 'places'],
-  }),
+  })),
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MapsWithModalManual);

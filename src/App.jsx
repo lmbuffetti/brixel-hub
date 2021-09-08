@@ -15,6 +15,7 @@ import Cookies from 'universal-cookie';
 // COMPONENTS
 import {
   BrixelIcon,
+  BrixelModal,
   BrixelNotification,
   reset,
 } from '@brixel/brixel-components';
@@ -35,12 +36,10 @@ import Support from './components/Support';
 
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
-
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
-
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
-
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
+const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 
 // GENERAL COMPONENTS
 const PageHeaderDashboard = lazy(() => import('./components/PageHeaderDashboard'));
@@ -236,7 +235,7 @@ const App = (props) => {
     } else {
       if (history.location.pathname.includes('home')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('closing') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects')) {
+      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('closing') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects') || history.location.pathname.includes('financing')) {
         if (history.location.pathname.includes('buyer')) {
           setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
         } else {
@@ -448,6 +447,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
                       <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
+                      <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
 
                       { /* SECTION: INSERT TOKEN */ }
                       <Route path="/tokeninput" component={InsertToken} />
@@ -555,7 +555,7 @@ const App = (props) => {
             )
           }
           {
-            modal.state && !modal.type && (
+            modal.state && !modal.type && !modal.small && (
               <BrixelModalFullScreen
                 title={modal.title}
                 onClose={() => {
@@ -564,6 +564,18 @@ const App = (props) => {
               >
                 {modal.body}
               </BrixelModalFullScreen>
+            )
+          }
+          {
+            modal.state && !modal.type && modal.small && (
+              <BrixelModal
+                title={modal.title}
+                onClose={() => {
+                  handleSetModal({ state: false });
+                }}
+              >
+                <div dangerouslySetInnerHTML={{ __html: modal.body }} />
+              </BrixelModal>
             )
           }
 

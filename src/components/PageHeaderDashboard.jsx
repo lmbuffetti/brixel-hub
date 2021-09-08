@@ -105,7 +105,7 @@ function PageHeaderDashboard(props) {
         setPackageName('Basic');
       }
     }
-  }, [activeSingleProperty.id, activeSingleProperty.customID, ownerProperties, packagesProperty, activeSingleCompany.id]);
+  }, [activeSingleProperty.id, activeSingleProperty.customID, get(ownerProperties, 'data', []).length, packagesProperty.length, activeSingleCompany.id]);
 
   // GET LANGUAGE LISTS
   useEffect(() => {
@@ -413,13 +413,13 @@ function PageHeaderDashboard(props) {
                       (activeSingleProperty.id || activeSingleProperty.customID) && activeSingleProperty.id !== 0 && activeSingleProperty.customID !== 0 ? (
                         <span
                           className="fweight-600 td-u-colored dis-f cur-poi"
+                          onClick={() => onUpgrade()}
                         >
                           {packageName}
                         </span>
                       ) : (
                         <span
                           className="fweight-600 dis-f cur-poi txtLight400 bgLight400"
-                          onClick={() => onUpgrade()}
                         >
                           Loading...
                         </span>

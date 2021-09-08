@@ -51,7 +51,7 @@
     }
     .middle-part {
 
-      // CUSTOM SCROLLBAR WITHOUT FORGROUND LAYER
+      /* CUSTOM SCROLLBAR WITHOUT FORGROUND LAYER*/
       div ::-webkit-scrollbar {
         width: 0;
         height: 0;
@@ -69,7 +69,6 @@
   &.manageOffer {
     .container {
       max-width: 600px;
-      //max-height: 806px;
       height: auto;
       overflow-y: auto;
       top: 50%;
@@ -99,7 +98,7 @@
       border-radius: 0 !important;
     }
 
-    // Media edit styles
+    /* Media edit styles*/
     .image-detail {
       height: 100%;
       background-color: white;
@@ -128,7 +127,7 @@
       }
     }
 
-    // Packages styles
+    /* Packages styles*/
     .service-packages {
 
       .container {

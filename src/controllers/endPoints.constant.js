@@ -112,6 +112,7 @@ export default {
     singleImage: (id) => `/image/${id}`,
   },
   user: {
+    addAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/add`,
     addFavorite: (id) => `/user/favorite/page/${id}/add`,
     createUser: () => '/user/register',
     favoritePages: () => '/user/favoritePages',
@@ -121,11 +122,11 @@ export default {
     leadsByUser: (id) => `/user/${id}/userLeads`,
     pageDealByUser: (id) => `/user/${id}/pageDeals`,
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
+    removeAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/remove`,
     removeFavorite: (id) => `/user/favorite/page/${id}/remove`,
+    scanTrial: () => '/user/scanTrial',
     tokenValidationWithUser: () => '/authentication/getTokenWithUser',
     userById: (userId) => `/user/${userId}`,
     validateUser: (email) => `/user/validate/${email}`,
-    addAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/add`,
-    removeAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/remove`,
   },
 };

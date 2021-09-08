@@ -15,7 +15,6 @@ $lightColorNew2: #F0F0F2;
     padding-top: 0;
 
     #market {
-      //padding-bottom: $step * 4;
       padding-top: $step * 8;
       @media (max-width: $responsive-small) {
         padding-top: $step * 4;
@@ -110,8 +109,6 @@ $lightColorNew2: #F0F0F2;
           }
 
           @media (max-width: $responsive-small) {
-           // flex-direction: column;
-            //align-items: baseline;
             > div {
               padding: $step;
             }
@@ -181,7 +178,7 @@ $lightColorNew2: #F0F0F2;
       .market-card {
         overflow: hidden;
       }
-      // slick carousel custom css
+      /* slick carousel custom css*/
       .slick-slider .slick-track {
         margin-left: 0;
       }
@@ -194,15 +191,10 @@ $lightColorNew2: #F0F0F2;
   .map-wrapper {
     @media (max-width: $responsive-large) {
       top: 0;
-      .map-inner {
-        .full-h-map-wrapper {
-          //height: calc(100vh - 6);
-        }
-      }
     }
   }
 }
-// for welcome screen
+/* for welcome screen */
 .category-tag {
   padding: 4px;
   padding-left: $step;
@@ -211,7 +203,7 @@ $lightColorNew2: #F0F0F2;
   color: white;
   border-radius: 4px;
 }
-// for market card
+/* for market card*/
 .cardMap {
   .tag-container {
     top: $step;
@@ -278,7 +270,7 @@ $lightColorNew2: #F0F0F2;
     background-color: map-get($primaryColor, 700);
   }
 }
-// slick customize
+/* slick customize*/
 .slick-prev:hover,
 .slick-prev:focus,
 .slick-next:hover,
@@ -289,14 +281,6 @@ $lightColorNew2: #F0F0F2;
   background: inherit;
   svg path {
     fill: currentColor;
-  }
-}
-.slick-disabled {
-  //cursor: default;
-  &:focus,
-  &:active,
-  &:hover {
-    // background: white;
   }
 }
 

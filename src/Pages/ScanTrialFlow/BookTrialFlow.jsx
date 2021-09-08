@@ -26,6 +26,7 @@ const BookTrialFlow = (props) => {
     changeFieldValue,
     formValue,
     lang,
+    loggedInUser,
     onClick,
     showError,
     syncErrors,
@@ -54,7 +55,7 @@ const BookTrialFlow = (props) => {
     if (openAccordion === 'online' || openAccordion === 'schedule') {
       updateError('dateBook', 'Required');
       updateError('hourBook', 'Required');
-      updateError('phone', 'Required');
+      if (loggedInUser.id) updateError('phone', 'Required');
     }
   }, [openAccordion]);
 
@@ -63,8 +64,10 @@ const BookTrialFlow = (props) => {
     else updateError('dateBook', 'Required');
     if (get(formValue, 'hourBook', null)) updateError('hourBook', true);
     else updateError('hourBook', 'Required');
-    if (get(formValue, 'phone', { }).number) updateError('phone', true);
-    else updateError('phone', 'Required');
+    if (loggedInUser.id) {
+      if (get(formValue, 'phone', {}).number) updateError('phone', true);
+      else updateError('phone', 'Required');
+    }
   }, [formValue]);
 
   const handleChangeDate = (day) => {
@@ -109,8 +112,8 @@ const BookTrialFlow = (props) => {
                 titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
                 contentClass="pb-3"
                 paddingContent="px-2 px-sm-5"
+                singleItem
                 onExpand={(val) => setOpenAccordion(val === true ? 'online' : '')}
-                smallRightIcon
                 isExpanded={openAccordion === 'online'}
               >
                 <div className="dis-f a-t jc-b w-perc-100">
@@ -192,35 +195,39 @@ const BookTrialFlow = (props) => {
                     />
                   </div>
                 </div>
-                <div>
-                  <ReduxField
-                    form="scanFlow"
-                    component={BrixelInputText}
-                    ReduxFieldClass="inputPhone"
-                    design={{
-                      className: 'mt-3',
-                    }}
-                    input={{
-                      name: 'phone',
-                      type: 'text',
-                      placeholder: '',
-                    }}
-                    inputFormat={{
-                      formatType: 'tel',
-                    }}
-                    labels={{
-                      label: '',
-                    }}
-                    meta={{
-                      invalid: get(syncErrors, 'phone', '') !== true,
-                      dirty: get(syncErrors, 'phone', '') !== true,
-                      showErrors: showError,
-                      message: {
-                        error: 'Please insert a valid phone',
-                      },
-                    }}
-                  />
-                </div>
+                {
+                  loggedInUser.id && (
+                    <div>
+                      <ReduxField
+                        form="scanFlow"
+                        component={BrixelInputText}
+                        ReduxFieldClass="inputPhone"
+                        design={{
+                          className: 'mt-3',
+                        }}
+                        input={{
+                          name: 'phone',
+                          type: 'text',
+                          placeholder: '',
+                        }}
+                        inputFormat={{
+                          formatType: 'tel',
+                        }}
+                        labels={{
+                          label: '',
+                        }}
+                        meta={{
+                          invalid: get(syncErrors, 'phone', '') !== true,
+                          dirty: get(syncErrors, 'phone', '') !== true,
+                          showErrors: showError,
+                          message: {
+                            error: 'Please insert a valid phone',
+                          },
+                        }}
+                      />
+                    </div>
+                  )
+                }
                 <p className="mt-2">
                   <span>Alternatively you can call us on</span>
                   {
@@ -229,6 +236,7 @@ const BookTrialFlow = (props) => {
                     )
                   }
                 </p>
+                <p>We are reachable Mo - Fr, 09:00 to 18:00.</p>
               </Accordion>
               {/* <hr className="lighter" />
               <Accordion
@@ -411,32 +419,37 @@ const BookTrialFlow = (props) => {
                       />
                     </div>
                   </div>
-                  <div>
-                    <ReduxField
-                      ReduxFieldClass="inputPhone"
-                      form="scanFlow"
-                      component={BrixelInputText}
-                      design={{
-                        className: 'mb-1 mt-1',
-                      }}
-                      input={{
-                        name: 'phone',
-                        type: 'text',
-                        placeholder: '',
-                      }}
-                      inputFormat={{
-                        formatType: 'tel',
-                      }}
-                      meta={{
-                        invalid: get(syncErrors, 'phone', '') !== true,
-                        dirty: get(syncErrors, 'phone', '') !== true,
-                        showErrors: showError,
-                        message: {
-                          error: 'Please insert a valid phone',
-                        },
-                      }}
-                    />
-                  </div>
+                  {
+                    loggedInUser.id && (
+                      <div>
+                        <ReduxField
+                          ReduxFieldClass="inputPhone"
+                          form="scanFlow"
+                          component={BrixelInputText}
+                          design={{
+                            className: 'mb-1 mt-1',
+                          }}
+                          input={{
+                            name: 'phone',
+                            type: 'text',
+                            placeholder: '',
+                          }}
+                          inputFormat={{
+                            formatType: 'tel',
+                          }}
+                          meta={{
+                            invalid: get(syncErrors, 'phone', '') !== true,
+                            dirty: get(syncErrors, 'phone', '') !== true,
+                            showErrors: showError,
+                            message: {
+                              error: 'Please insert a valid phone',
+                            },
+                          }}
+                        />
+                      </div>
+                    )
+                  }
+
                 </Accordion>
               </div>
             </div>
@@ -452,6 +465,7 @@ BookTrialFlow.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
@@ -462,6 +476,7 @@ BookTrialFlow.propTypes = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.scanFlow.values', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   syncErrors: get(state, 'brixelForm.scanFlow.syncErrors', {}),
   lang: get(state, 'user.loggedInUser.user.language', 'en'),
 });

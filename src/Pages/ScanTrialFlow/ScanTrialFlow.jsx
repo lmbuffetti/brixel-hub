@@ -19,6 +19,7 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { checkBrowser } from '../../utils/helpers';
@@ -161,7 +162,7 @@ const ScanTrialFlow = (props) => {
       let checkCond = true;
       questions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
-        if (cond.value && val !== cond.value && checkCond) {
+        if (has(cond, 'value') && val !== cond.value && checkCond) {
           if (act === 'back') newIndex -= 1;
           else newIndex += 1;
           checkCond = false;
@@ -541,6 +542,7 @@ const mapStateToProps = (state) => {
         number: get(state, 'user.loggedInUser.user.phone.number', ''),
       },
       email: get(state, 'user.loggedInUser.user.email', null),
+      userID: get(state, 'user.loggedInUser.user.id', null),
     },
   });
 };
