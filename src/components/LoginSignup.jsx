@@ -215,7 +215,7 @@ const LoginSignup = (props) => {
 
   return (
     <div className="signUpScreen pos-r dis-f flex-wrap">
-      <div className="w-perc-100 max-w-fix-600 m-a mt-0 w-perc-md-50">
+      <div className="w-perc-100 max-w-fix-600 m-a mt-0">
         <div className="mr-a ml-a onBoardingSignUp">
           {/* {
             (loginPage === 'register' || loginPage === 'login') && (
