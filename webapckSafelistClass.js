@@ -1,5 +1,5 @@
 module.exports = {
-  standard: ['brixel-checkbox-icon'],
+  standard: [],
   deep: [
     /^bg/,
     /^iti__/,
@@ -7,5 +7,7 @@ module.exports = {
     /^icn/,
     /^txt/,
     /^brixel/,
+    /^slick/,
+    /^ProEstimationFlow/,
   ],
 };
