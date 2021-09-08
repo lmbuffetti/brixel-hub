@@ -23,7 +23,7 @@ const Financing = (props) => {
     <>
       <h3 className="mb-3 hide dis-b-lg">Financing</h3>
       <div className="dis-f h-perc-lg-100">
-        <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
+        <div className="dis-fl-col w-perc-100 h-perc-lg-100">
           <div className="dis-fl-col backPanel hide-lg">
             <h5 className="sectionTitle">Financing</h5>
           </div>
@@ -38,6 +38,7 @@ const Financing = (props) => {
                   offerURL={`/buyer/${activeSingleProperty.id}/closing`}
                   onOpenModal={(text) => handleSetModal(text)}
                   openParentModal
+                  className="max-w-fix-912"
                 />
               )
             }
