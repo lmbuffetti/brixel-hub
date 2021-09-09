@@ -404,6 +404,13 @@ export const MapsWithModalManual = (props) => {
     setShowManualInput(false);
   };
 
+  const clearField = () => {
+    inputSearch.current.value = '';
+    changeFieldValue(formName, 'location', {
+      countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude, searchAddress: '',
+    });
+  };
+
   return (
     // Important! Always set the container height explicitly
     <>
@@ -583,7 +590,7 @@ export const MapsWithModalManual = (props) => {
                   <BrixelInputText
                     disableAutocomplete
                     className="search-box"
-                    type="text"
+                    type="search"
                     ref={inputSearch}
                     label="Address"
                     disabled={disabled}
@@ -596,7 +603,7 @@ export const MapsWithModalManual = (props) => {
                       name: 'location.searchAddress',
                     }}
                     onKeyDown={(e) => (disabled ? '' : keyUpInput(e))}
-                    onClear={() => (disabled ? '' : changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude }))}
+                    onClear={() => (disabled ? '' : clearField())}
                     message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
                     iconLeft="location-pin-simple"
                   />
