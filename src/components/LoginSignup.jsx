@@ -288,7 +288,7 @@ const LoginSignup = (props) => {
                   }
                   {
                     loginPage === 'reset' && (
-                      <div className="mb-3">
+                      <div className="mb-2">
                         {
                           get(formError, 'state', false) && (
                             <p className="txtRed400">

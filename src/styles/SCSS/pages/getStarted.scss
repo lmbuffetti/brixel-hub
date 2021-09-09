@@ -449,6 +449,9 @@ body:not(.overlayOpen).locationInputResume {
       }
     }
   }
+  .supportBtn {
+    background-color: map-get($altColor, 300);
+  }
 }
 
 .testimonialsSlide {
