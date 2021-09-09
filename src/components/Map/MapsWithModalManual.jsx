@@ -342,7 +342,7 @@ export const MapsWithModalManual = (props) => {
       if (val === stringToSplit.charAt(i)) end = i;
       if (start === -1 && val === stringToSplit.charAt(i).toLowerCase()) start = i;
     });
-    return `<span>${container.substring(0, start)}</span><span class='highlight'>${container.substring(start, end + 1)}</span><span>${container.substring(end + 1, content.length)}</span>`;
+    return `<span class="txtDark200 fweight-300">${container.substring(0, start)}</span><span class='highlight'>${container.substring(start, end + 1)}</span><span class="txtDark200 fweight-300">${container.substring(end + 1, content.length)}</span>`;
   };
 
   // FUNCTION TO MANAGE THE CLICK OUTSIDE OF DROPDOWN ADDRESS LISTS
@@ -581,6 +581,7 @@ export const MapsWithModalManual = (props) => {
               <div className="dis-f jc-b flex-wrap">
                 <div className="w-perc-100 pos-r">
                   <BrixelInputText
+                    disableAutocomplete
                     className="search-box"
                     type="text"
                     ref={inputSearch}
@@ -611,11 +612,12 @@ export const MapsWithModalManual = (props) => {
                               onClick={() => geoCode(loc.description, 'submit')}
                             >
                               <BrixelIcon
-                                color={i === selLocAuto ? 'dark' : 'light'}
+                                // color={i === selLocAuto ? 'dark' : 'light'}
+                                color="dark"
                                 saturationTxt={700}
                                 icon="location-pin-simple"
                               />
-                              <div className="singleLoc" dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }} />
+                              <div className="singleLoc" dangerouslySetInnerHTML={{ __html: highlight(`${get(loc, 'terms[0].value', '')}, ${get(loc, 'terms[1].value', '')}`) }} />
                             </li>
                           ))
                         }
