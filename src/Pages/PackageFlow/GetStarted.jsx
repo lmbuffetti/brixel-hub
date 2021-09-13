@@ -179,6 +179,8 @@ const GetStarted = (props) => {
           getCurStep.querySelector('input[type="number"]').focus();
         } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
           getCurStep.querySelector('input[type="text"]').focus();
+        } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
+          getCurStep.querySelector('input[type="search"]').focus();
         }
       }, 100);
       if (reloadQuestions[defId].history) {
