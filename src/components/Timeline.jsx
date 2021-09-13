@@ -71,6 +71,7 @@ const Timeline = (props) => {
     handleSaveNote,
     history,
     isDeal,
+    isSmallLoading,
     loggedInUser,
     match,
     userLang,
@@ -193,6 +194,7 @@ const Timeline = (props) => {
         parent: isDeal === true ? activeDeal.id : activeProperty.id,
         content,
       },
+      smallLoader: 'saveNote',
     };
     handleCreateNote(data);
     if (notBtnEl) notBtnEl.classList.remove('clicked');
@@ -210,6 +212,13 @@ const Timeline = (props) => {
     };
     handleSaveNote(payload);
   };
+
+  useEffect(() => {
+    if (isSmallLoading.saveNote === false) {
+      setNewNote('');
+      setEditNoteText('');
+    }
+  }, [isSmallLoading]);
 
   const handlePinNote = (e, event) => {
     if (e) e.preventDefault();
@@ -233,6 +242,7 @@ const Timeline = (props) => {
       data: {
         content: editNoteText,
       },
+      isSmallLoading: 'saveNote',
     };
     handleSaveNote(payload);
   };
@@ -325,6 +335,7 @@ const Timeline = (props) => {
               label="Add"
               disabled={!newNote}
               onClick={() => addNewNote(newNote)}
+              isLoading={isSmallLoading.saveNote}
             />
           </div>
         </div>
@@ -591,6 +602,7 @@ Timeline.propTypes = {
   handleSaveNote: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isDeal: PropTypes.bool,
+  isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
@@ -612,6 +624,7 @@ const mapStateToProps = (state) => ({
   activePropertyNotes: get(state, 'property.activeSinglePropertyNotes', []),
   activePropertyOwnerHistoryList: get(state, 'property.activeSinglePropertyOwnerHistory', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', []),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
