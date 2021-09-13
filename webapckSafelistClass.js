@@ -9,5 +9,6 @@ module.exports = {
     /^brixel/,
     /^slick/,
     /^ProEstimationFlow/,
+    /^gm-style/,
   ],
 };
