@@ -373,7 +373,7 @@ const GetStartedEstimation = (props) => {
               } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
                 getCurStep.querySelector('input[type="text"]').focus();
               } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
-                getCurStep.querySelector('input[type="seach"]').focus();
+                getCurStep.querySelector('input[type="search"]').focus();
               }
               // cleanup
               if (fakeInput) fakeInput.remove();
