@@ -434,7 +434,7 @@ const MarketCategoryListSeller = (props) => {
                 <h3 className="fweight-600 fsize-600 fsize-sm-800 mb-1 pt-2 pt-sm-5">Test drive our service. <br /> No strings attached.</h3>
                 <h5 className="fSizePx18 min-h-fix-56 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0">
                   {
-                    get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
+                    companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
                       <>
                         <span>Get the full Brixel experience <br /> worth</span>
                         <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
@@ -443,7 +443,7 @@ const MarketCategoryListSeller = (props) => {
                       <span>Get the full Brixel experience</span>
                     )
                   }
-                  { get(companyDetail, 'meta.teaserPackage.price', 0) === 0 && (
+                  { companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) === 0 && (
                     <span className="dis-b"> worth . . . </span>
                   )}
                 </h5>
