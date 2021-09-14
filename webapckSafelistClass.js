@@ -1,5 +1,5 @@
 module.exports = {
-  standard: [],
+  standard: [/^brixel/],
   deep: [
     /^bg/,
     /^iti__/,
@@ -10,5 +10,7 @@ module.exports = {
     /^slick/,
     /^ProEstimationFlow/,
     /^gm-style/,
+    /^reduxFieldWrap/,
+    /^input-range/,
   ],
 };
