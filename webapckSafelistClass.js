@@ -12,5 +12,6 @@ module.exports = {
     /^gm-style/,
     /^reduxFieldWrap/,
     /^input-range/,
+    /^react-datepicker/,
   ],
 };
