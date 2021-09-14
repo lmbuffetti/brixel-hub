@@ -37,7 +37,6 @@ function PageHeaderDashboard(props) {
     changeZIndex,
     destroyForm,
     formValue,
-    handleGetPackagesProperty,
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
     handleSetLanguage,
@@ -74,12 +73,6 @@ function PageHeaderDashboard(props) {
   useEffect(() => {
     setShowMobileMenu(false);
   }, [history]);
-
-  useEffect(() => {
-    if (activeSingleCompany.id) {
-      handleGetPackagesProperty({ id: activeSingleCompany.id, smallLoader: 'loadPackages' });
-    }
-  }, [activeSingleCompany]);
 
   useEffect(() => {
     let activeSinglePropertyPackage = get(activeSingleProperty, 'servicePackages', []);
@@ -650,7 +643,6 @@ PageHeaderDashboard.propTypes = {
   changeZIndex: PropTypes.func,
   destroyForm: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetPackagesProperty: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,

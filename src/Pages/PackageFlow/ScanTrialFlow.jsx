@@ -347,7 +347,7 @@ const ScanTrialFlow = (props) => {
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
-    if (get(quest, 'inputs', []).length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+    if (get(quest, 'inputs', []).length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);

@@ -405,7 +405,7 @@ const GetStartedEstimation = (props) => {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
     }
-    if (quest.inputs && quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
+    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
