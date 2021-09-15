@@ -99,9 +99,9 @@ const Deals = (props) => {
   const processDeals = (list) => {
     if (activeSinglePropertyDeals) {
       const deals = {
-        interested: get(list, 'right.interested', []),
-        visits: get(list, 'right.visits', []),
-        offers: get(list, 'right.offers', []),
+        interested: get(list, '[0].Interested.data', []),
+        visits: get(list, '[1].Visit.data', []),
+        offers: get(list, '[2].Offer.data', []),
       };
       if (!get(list, 'right', null)) {
         forEach(list, (deal) => {

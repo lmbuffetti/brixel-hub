@@ -90,7 +90,7 @@ export default {
     packagePage: (id, limit, offset, data) => `/pageServicePackage/${limit}/${offset}?pageID=${id}&${data}`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
     pageById: (id) => `/page/${id}`,
-    pageDeals: (id) => `/page/${id}/deals`,
+    pageDeals: (id, data) => `/page/${id}/deals${data}`,
     pageDealsCount: (id) => `/page/${id}/dealsCount?countDealsBy=newSeller`,
     portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,
     propertyVisitById: (id) => `/scheduleVisit/${id}`,

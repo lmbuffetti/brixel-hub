@@ -1143,7 +1143,12 @@ const checkCommon = (store) => (next) => (action) => {
     // GET DEALS BY PAGE
     case GET_PAGE_DEALS: {
       next(action);
-      const smallLoader = get(action.payload, 'smallLoader', false);
+      const {
+        id,
+        order,
+        direction,
+        smallLoader,
+      } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -1156,8 +1161,8 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_OFF,
         });
       }
-      const id = get(action.payload, 'id', action.payload);
-      api.property.getPageDeals(id)
+      const queryParams = `?order=${order || 'updatedAt'}&direction=${direction || 'DESC'}`;
+      api.property.getPageDeals(id, queryParams)
         .then((response) => {
           const calls = [];
           const deals = response.data;
@@ -1166,8 +1171,8 @@ const checkCommon = (store) => (next) => (action) => {
             if (deal.stage === 'Interested') {
               // if get user push
               if (has(deal, 'user.id')) {
-                const queryParams = `?parent=${deal.user.id}&order=updatedAt&direction=DESC`;
-                calls.push(api.history.getHistoryList(50, 0, queryParams));
+                const queryParams2 = `?parent=${deal.user.id}&order=updatedAt&direction=DESC`;
+                calls.push(api.history.getHistoryList(50, 0, queryParams2));
               }
             }
           });
