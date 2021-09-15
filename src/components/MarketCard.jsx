@@ -327,20 +327,23 @@ const MarketCard = (props) => {
                           <div className="dis-fl-col">
                             <span className="txtLight600 fsize-300">Your Bestimate</span>
                             {
-                              !completedBestimate(item) && get(item, 'estimation.status', '') !== 'processed' && (
-                                <Link
-                                  to={`/${item.id}/singleFlow/achievement/bestimate/step1`}
-                                  className="txtAltColor700 fweight-600"
-                                >
-                                  Get Estimation
-                                </Link>
-                              )
-                            }
-                            {
-                              get(item, '.estimation.status', '') === 'pending' && completedBestimate(item) && (
+                              get(item, '.estimation.status', '') === 'pending' && completedBestimate(item) ? (
                                 <span className="txtAltColor700 fweight-600">
                                   Pending
                                 </span>
+                              ) : (
+                                <>
+                                  {
+                                    get(item, 'estimation.status', '') !== 'processed' && (
+                                      <Link
+                                        to={`/${item.id}/singleFlow/achievement/bestimate/step1`}
+                                        className="txtAltColor700 fweight-600"
+                                      >
+                                        Get Estimation
+                                      </Link>
+                                    )
+                                  }
+                                </>
                               )
                             }
                             {
