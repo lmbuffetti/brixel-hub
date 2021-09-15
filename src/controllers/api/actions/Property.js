@@ -167,8 +167,8 @@ class Property extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
-  getPageDeals(id) {
-    const url = ep.property.pageDeals(id);
+  getPageDeals(id, data) {
+    const url = ep.property.pageDeals(id, data);
     return this.apiClient.get(url, {});
   }
 
