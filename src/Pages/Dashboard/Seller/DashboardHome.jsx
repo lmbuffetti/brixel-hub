@@ -69,7 +69,7 @@ const DashboardHome = (props) => {
 
   const countMandatoryDocuments = () => {
     let count = 0;
-    if (documents) {
+    if (documents && mandatoryDocuments) {
       documents.forEach((doc) => {
         mandatoryDocuments.forEach((el) => {
           if (el === doc.type) count += 1;
@@ -297,7 +297,7 @@ const DashboardHome = (props) => {
               <span className="fsize-600 fweight-600 txtAltColor2000">
                 <span>{countMandatoryDocuments()}</span>
                 <span className="mx-small-4">of</span>
-                <span>{mandatoryDocuments.length} </span>
+                <span>{mandatoryDocuments ? mandatoryDocuments.length : 0} </span>
                 <span className="ml-small-1"> uploaded</span>
               </span>
               <BrixelButtonPrimary

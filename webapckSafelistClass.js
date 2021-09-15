@@ -13,5 +13,7 @@ module.exports = {
     /^reduxFieldWrap/,
     /^input-range/,
     /^react-datepicker/,
+    /^ProEstimationFlow/,
+    /^reduxField/,
   ],
 };
