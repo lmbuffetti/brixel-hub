@@ -1,5 +1,5 @@
 module.exports = {
-  standard: [],
+  standard: [/^brixel/, 'h-fix-56', 'w-fix-56'],
   deep: [
     /^bg/,
     /^iti__/,
@@ -9,5 +9,11 @@ module.exports = {
     /^brixel/,
     /^slick/,
     /^ProEstimationFlow/,
+    /^gm-style/,
+    /^reduxFieldWrap/,
+    /^input-range/,
+    /^react-datepicker/,
+    /^ProEstimationFlow/,
+    /^reduxField/,
   ],
 };

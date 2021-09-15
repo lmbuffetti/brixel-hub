@@ -37,7 +37,6 @@ function PageHeaderDashboard(props) {
     changeZIndex,
     destroyForm,
     formValue,
-    handleGetPackagesProperty,
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
     handleSetLanguage,
@@ -74,12 +73,6 @@ function PageHeaderDashboard(props) {
   useEffect(() => {
     setShowMobileMenu(false);
   }, [history]);
-
-  useEffect(() => {
-    if (activeSingleCompany.id) {
-      handleGetPackagesProperty({ id: activeSingleCompany.id, smallLoader: 'loadPackages' });
-    }
-  }, [activeSingleCompany]);
 
   useEffect(() => {
     let activeSinglePropertyPackage = get(activeSingleProperty, 'servicePackages', []);
@@ -405,7 +398,7 @@ function PageHeaderDashboard(props) {
             <div className="dis-f a-c">
               {
                 (
-                  propID !== 'buy'
+                  propID !== 'buy' && !get(history, 'location.pathname', null).includes('sell/')
                 ) && (
                   <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                     <span className="hide dis-b-md">Your Plan:&nbsp;</span>
@@ -650,7 +643,6 @@ PageHeaderDashboard.propTypes = {
   changeZIndex: PropTypes.func,
   destroyForm: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetPackagesProperty: PropTypes.func.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,

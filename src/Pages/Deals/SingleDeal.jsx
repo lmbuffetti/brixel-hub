@@ -79,7 +79,7 @@ const SingleDeal = (props) => {
 
   useEffect(() => {
     const dealID = get(match, 'params.dealID', null);
-    if (dealID) {
+    if (activeSingleDeal) {
       const payloadNote = {
         object: dealID,
         type: 'deal',
@@ -89,7 +89,7 @@ const SingleDeal = (props) => {
         order: '',
         direction: 'DESC',
         company: '',
-        smallLoader: 'getDealHistory',
+        smallLoader: 'dealNote',
       };
       const payloadDealHistory = {
         parent: dealID,
@@ -104,7 +104,7 @@ const SingleDeal = (props) => {
       getDealNotes(payloadNote);
       getHistoryList(payloadDealHistory);
     }
-  }, []);
+  }, [activeSingleDeal.id]);
 
   useEffect(() => {
     forEach(activeSinglePropertyDeals, (el) => {

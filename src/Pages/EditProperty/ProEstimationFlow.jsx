@@ -346,10 +346,10 @@ const mapStateToProps = (state) => ({
     properties: {
       ...get(state, 'brixelForm.Property.values.properties', {}),
       parking: {
-        ...get(state, 'brixelForm.Property.values.properties.parking', {}),
-        garage: get(state, 'brixelForm.Property.values.properties.parking.garage', 0),
-        outside: get(state, 'brixelForm.Property.values.properties.parking.garage', 0),
-        underground: get(state, 'brixelForm.Property.values.properties.parking.garage', 0),
+        ...get(state, 'property.activeSingleProperty.properties.parking', {}),
+        garage: get(state, 'property.activeSingleProperty.properties.parking.garage', 0),
+        outside: get(state, 'property.activeSingleProperty.properties.parking.garage', 0),
+        underground: get(state, 'property.activeSingleProperty.properties.parking.garage', 0),
       },
       typology: {
         ...get(state, 'brixelForm.Property.values.properties.typology', {}),

@@ -53,6 +53,7 @@ const Timeline = (props) => {
     active: false,
   });
   const [editNoteText, setEditNoteText] = useState();
+  const [newNote, setNewNote] = useState('');
 
   const {
     activeDeal,
@@ -64,11 +65,14 @@ const Timeline = (props) => {
     activePropertyHistoryList,
     activePropertyNotes,
     activePropertyOwnerHistoryList,
+    activeSingleCompany,
     className,
-    // handleCreateNote,
+    handleCreateNote,
     handleSaveNote,
     history,
     isDeal,
+    isSmallLoading,
+    loggedInUser,
     match,
     userLang,
   } = props;
@@ -120,13 +124,11 @@ const Timeline = (props) => {
       }
 
       forEach(activeDealNotes, (note) => {
-        if (get(note, 'private', true) === false) {
-          set(note, 'timestamp', note.createdAt);
-          if (note.type === 'page') set(note, 'parent', note.page);
-          if (note.type === 'user') set(note, 'parent', note.user);
-          if (note.type === 'deal') set(note, 'parent', note.deal);
-          array.push(note);
-        }
+        set(note, 'timestamp', note.createdAt);
+        if (note.type === 'page') set(note, 'parent', note.page);
+        if (note.type === 'user') set(note, 'parent', note.user);
+        if (note.type === 'deal') set(note, 'parent', note.deal);
+        array.push(note);
       });
     } else {
       if (activePropertyHistoryList.total > 0 && activePropertyHistoryList.data.length > 0) {
@@ -184,17 +186,19 @@ const Timeline = (props) => {
     activePropertyNotes, activePropertyHistoryList, activePropertyOwnerHistoryList,
     activePropertyGameHistory]);
 
-  /* const addNewNote = (content) => {
+  const addNewNote = (content) => {
     const data = {
       type: isDeal === true ? 'deal' : 'page',
       content: {
+        company: activeSingleCompany.id,
         parent: isDeal === true ? activeDeal.id : activeProperty.id,
         content,
       },
+      smallLoader: 'saveNote',
     };
     handleCreateNote(data);
     if (notBtnEl) notBtnEl.classList.remove('clicked');
-  }; */
+  };
 
   const deleteNote = (e, event) => {
     if (e) e.preventDefault();
@@ -208,6 +212,13 @@ const Timeline = (props) => {
     };
     handleSaveNote(payload);
   };
+
+  useEffect(() => {
+    if (isSmallLoading.saveNote === false) {
+      setNewNote('');
+      setEditNoteText('');
+    }
+  }, [isSmallLoading]);
 
   const handlePinNote = (e, event) => {
     if (e) e.preventDefault();
@@ -231,6 +242,7 @@ const Timeline = (props) => {
       data: {
         content: editNoteText,
       },
+      isSmallLoading: 'saveNote',
     };
     handleSaveNote(payload);
   };
@@ -262,9 +274,9 @@ const Timeline = (props) => {
     },
   });
 
-  /* const collapseNote = () => {
+  const collapseNote = () => {
     if (notBtnEl) notBtnEl.classList.add('clicked');
-  }; */
+  };
 
   const getEventColor = (icon) => {
     if (icon === 'question') return 'red';
@@ -293,7 +305,7 @@ const Timeline = (props) => {
     <div className={`timeline dis-fl-col ${className}`}>
       <span className="title overline tt-up mb-3">History</span>
       <div className="events-container w-perc-100 dis-fl-col a-c">
-        {/* <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-1 md-lg-4">
+        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-1 md-lg-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
               avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
@@ -323,9 +335,10 @@ const Timeline = (props) => {
               label="Add"
               disabled={!newNote}
               onClick={() => addNewNote(newNote)}
+              isLoading={isSmallLoading.saveNote}
             />
           </div>
-        </div> */}
+        </div>
         {
           chronologicalData && chronologicalData.map((event, i) => (
             <div
@@ -583,12 +596,14 @@ Timeline.propTypes = {
   activePropertyHistoryList: PropTypes.object.isRequired,
   activePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activePropertyOwnerHistoryList: PropTypes.object.isRequired,
+  activeSingleCompany: PropTypes.object.isRequired,
   className: PropTypes.string,
-  // handleCreateNote: PropTypes.func.isRequired,
+  handleCreateNote: PropTypes.func.isRequired,
   handleSaveNote: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isDeal: PropTypes.bool,
-  // loggedInUser: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
 };
@@ -599,15 +614,17 @@ Timeline.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeProperty: get(state, 'property.activeSingleProperty', {}),
   activeDeal: get(state, 'deal.activeSingleDeal', {}),
+  activeDealHistoryList: get(state, 'deal.activeSingleDealHistory', {}),
+  activeDealNotes: get(state, 'deal.activeSingleDealNotes', []),
+  activeDealOwnerHistoryList: get(state, 'deal.activeSingleDealOwnerHistory', {}),
+  activeProperty: get(state, 'property.activeSingleProperty', {}),
   activePropertyGameHistory: get(state, 'property.activePropertyGameHistory', []),
   activePropertyHistoryList: get(state, 'property.activeSinglePropertyHistory', {}),
-  activeDealHistoryList: get(state, 'deal.activeSingleDealHistory', {}),
-  activePropertyOwnerHistoryList: get(state, 'property.activeSinglePropertyOwnerHistory', {}),
-  activeDealOwnerHistoryList: get(state, 'deal.activeSingleDealOwnerHistory', {}),
   activePropertyNotes: get(state, 'property.activeSinglePropertyNotes', []),
-  activeDealNotes: get(state, 'deal.activeSingleDealNotes', []),
+  activePropertyOwnerHistoryList: get(state, 'property.activeSinglePropertyOwnerHistory', {}),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', []),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
 });

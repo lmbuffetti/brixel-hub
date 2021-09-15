@@ -306,6 +306,8 @@ const GetStartedSeller = (props) => {
                 getCurStep.querySelector('input[type="number"]').focus();
               } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
                 getCurStep.querySelector('input[type="text"]').focus();
+              } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
+                getCurStep.querySelector('input[type="search"]').focus();
               }
               // cleanup
               if (fakeInput) fakeInput.remove();
@@ -332,13 +334,13 @@ const GetStartedSeller = (props) => {
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
+    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+      changeStep('next', null, 1, true);
+    }
     const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
     if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
-    }
-    if (quest.inputs && quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
-      changeStep('next', null, 1, true);
     }
   }, [formValue]);
 

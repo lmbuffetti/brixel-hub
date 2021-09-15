@@ -51,7 +51,7 @@ const BoxTrialTestDirve = (props) => {
         <h3 className={`${isLarge ? 'fsize-700 pb-2' : 'fsize-500 pb-1'} txtDark700 fweight-600 `}>Test drive our service. <br /> No strings attached.</h3>
         <p className={`txtDark700 ${isLarge ? 'fSizePx18 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0' : ''}`}>
           <span>Get the full Brixel experience</span>
-          <span className="dis-b">worth {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
+          <span className="dis-b">worth {activeSingleCompany && get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
         </p>
         <div className="dis-f jc-c jc-fs-md">
           <BrixelButtonPrimary

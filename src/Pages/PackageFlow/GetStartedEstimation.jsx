@@ -372,6 +372,8 @@ const GetStartedEstimation = (props) => {
                 getCurStep.querySelector('input[type="number"]').focus();
               } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
                 getCurStep.querySelector('input[type="text"]').focus();
+              } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
+                getCurStep.querySelector('input[type="search"]').focus();
               }
               // cleanup
               if (fakeInput) fakeInput.remove();
@@ -403,7 +405,7 @@ const GetStartedEstimation = (props) => {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
     }
-    if (quest.inputs && quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
+    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);

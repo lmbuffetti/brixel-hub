@@ -290,7 +290,7 @@ const MarketCard = (props) => {
                   </div>
                   <div className="">
                     {
-                      get(item, 'price.total', 0) > 0 ? (
+                      item && get(item, 'price.total', 0) > 0 ? (
                         <div className="dis-fl-col">
                           <div className="dis-f a-c">
                             <BrixelIcon
@@ -329,20 +329,23 @@ const MarketCard = (props) => {
                           <div className="dis-fl-col">
                             <span className="txtLight600 fsize-300">Your Bestimate</span>
                             {
-                              !completedBestimate(item) && get(item, 'estimation.status', '') !== 'processed' && (
-                                <Link
-                                  to={`/${item.id}/singleFlow/achievement/bestimate/step1`}
-                                  className="txtAltColor700 fweight-600"
-                                >
-                                  Get Estimation
-                                </Link>
-                              )
-                            }
-                            {
-                              get(item, '.estimation.status', '') === 'pending' && completedBestimate(item) && (
+                              get(item, '.estimation.status', '') === 'pending' && completedBestimate(item) ? (
                                 <span className="txtAltColor700 fweight-600">
                                   Pending
                                 </span>
+                              ) : (
+                                <>
+                                  {
+                                    get(item, 'estimation.status', '') !== 'processed' && (
+                                      <Link
+                                        to={`/${item.id}/singleFlow/achievement/bestimate/step1`}
+                                        className="txtAltColor700 fweight-600"
+                                      >
+                                        Get Estimation
+                                      </Link>
+                                    )
+                                  }
+                                </>
                               )
                             }
                             {
@@ -446,7 +449,7 @@ const MarketCard = (props) => {
                   <div className="bottom a-c txtDark700 px-3 mt-2 mb-2">
 
                     {
-                      get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
+                      item && get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
                         <div className="txtGreen400 dis-f a-b">
                           <span className="fsize-300 ff-mono notranslate">
                             {get(item, 'price.currency', '')}

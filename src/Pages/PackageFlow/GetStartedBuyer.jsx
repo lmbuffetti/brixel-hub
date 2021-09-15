@@ -279,6 +279,8 @@ const GetStartedBuyer = (props) => {
               getCurStep.querySelector('input[type="number"]').focus();
             } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
               getCurStep.querySelector('input[type="text"]').focus();
+            } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
+              getCurStep.querySelector('input[type="search"]').focus();
             }
             // cleanup
             if (fakeInput) fakeInput.remove();
@@ -420,7 +422,7 @@ const GetStartedBuyer = (props) => {
       });
       setQuestions(newQuest);
     }
-    if (quest.inputs.length === 1 && get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+    if (quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
