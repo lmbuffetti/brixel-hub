@@ -184,7 +184,6 @@ const GetStartedSeller = (props) => {
   const checkCondition = (id, act) => {
     let newIndex = id;
     const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
-    console.log(newQuestions);
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       newQuestions[newIndex].conditions.map((cond) => {
@@ -197,7 +196,6 @@ const GetStartedSeller = (props) => {
         return null;
       });
     }
-    console.log(newIndex);
     return newIndex;
   };
 
@@ -560,7 +558,7 @@ const GetStartedSeller = (props) => {
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
             <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
-              <div className="subcontainer m-a">{currentIndex}
+              <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && (
                     <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">

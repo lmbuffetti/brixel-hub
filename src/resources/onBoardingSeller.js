@@ -6,6 +6,7 @@ import {
   Validation,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
+import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import MapsWithModalManual from '../components/Map/MapsWithModalManual';
 import LoginSignup from '../components/LoginSignup';
 // import ResumeCard from '../components/ResumeCard';
@@ -127,10 +128,6 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         showSendButton: false,
         inputs: [
           {
-            condition: [{
-              name: 'properties.propertyType',
-              noValue: 'Commercial',
-            }],
             component: BrixelInputText,
             classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
             className: '',
@@ -140,22 +137,6 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
             unit: 'm2',
             placeholder: '117',
-            maxLengthNum: 9999,
-          },
-          {
-            condition: [{
-              name: 'properties.propertyType',
-              value: 'Commercial',
-            }],
-            component: BrixelInputText,
-            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
-            className: '',
-            label: 'Floor space',
-            name: 'properties.typology.floorSpace.value',
-            type: 'number',
-            validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
-            unit: 'm2',
-            placeholder: translateTo(lang, 'e.g. 120'),
             maxLengthNum: 9999,
           },
         ],
@@ -180,6 +161,116 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
           },
         ],
         successMessage: translateTo(lang, 'A good year for real estate.'),
+      },
+    );
+  }
+  if (propertyType === 'Building land') {
+    question.push(
+      {
+        title: 'What is the lot size of the building land?',
+        history: 'lotSize',
+        cardType: 'lotSize',
+        footerWidth: 'max-w-fix-384',
+        showSendButton: false,
+        inputs: [
+          {
+            component: BrixelInputText,
+            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+            className: '',
+            label: 'Lot size',
+            name: 'properties.typology.lotArea.value',
+            type: 'number',
+            validation: [Validation.required],
+            unit: 'm2',
+            placeholder: '117',
+            maxLengthNum: 999999,
+          },
+        ],
+        successMessage: translateTo(lang, 'Great living space.'),
+      },
+      {
+        title: 'What is the Usable lot size?',
+        history: 'lotSize',
+        cardType: 'lotSize',
+        footerWidth: 'max-w-fix-384',
+        showSendButton: false,
+        inputs: [
+          {
+            component: BrixelInputText,
+            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+            className: '',
+            label: 'Usable lot size',
+            name: 'properties.typology.lotAreaUsable.value',
+            type: 'number',
+            unit: 'm2',
+            placeholder: '117',
+            maxLengthNum: 999999,
+          },
+        ],
+        successMessage: translateTo(lang, 'Great living space.'),
+      },
+      {
+        title: translateTo(lang, 'What is the construction year?'),
+        history: 'constructionYear',
+        cardType: 'constructionYear',
+        footerWidth: 'max-w-fix-384',
+        inputs: [
+          {
+            component: BrixelInputText,
+            label: 'Construction year',
+            name: 'properties.building.built',
+            type: 'number',
+            classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+            placeholder: translateTo(lang, 'e.g. 1990'),
+            validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
+            maxLengthNum: 9999,
+            minLengthNum: 999,
+          },
+        ],
+        successMessage: translateTo(lang, 'A good year for real estate.'),
+      },
+    );
+  }
+  if (propertyType === 'Commercial') {
+    question.push(
+      {
+        title: 'Do you already have a price estimation?',
+        history: 'lotSize',
+        cardType: 'lotSize',
+        footerWidth: 'max-w-fix-384',
+        showSendButton: false,
+        inputs: [
+          {
+            component: BrixelRadioButton,
+            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+            className: '',
+            name: 'properties.building.typeCommercialCode',
+            options: factsOptions.typeCommercialCode,
+            validation: [Validation.required],
+          },
+        ],
+        successMessage: translateTo(lang, 'Great living space.'),
+      },
+      {
+        label: 'What\'s the floor space of the property?',
+        history: 'lotSize',
+        cardType: 'lotSize',
+        footerWidth: 'max-w-fix-384',
+        showSendButton: false,
+        inputs: [
+          {
+            component: BrixelInputText,
+            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+            className: '',
+            label: 'Floor space',
+            name: 'properties.typology.floorSpace.value',
+            type: 'number',
+            unit: 'm2',
+            placeholder: '117',
+            maxLengthNum: 999999,
+          },
+        ],
+        successMessage: translateTo(lang, 'Great living space.'),
       },
     );
   }
@@ -232,14 +323,39 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         },
       ],
     },
-    /* {
-      title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
-      history: 'resume',
-      cardType: 'loadComponent',
-      component: ResumeCard,
-      btnLabel: 'Continue',
-      background: 'bgCardGreenDark',
-    }, */
+  );
+  if (propertyType === 'Building land' || propertyType === 'Commercial') {
+    question.push(
+      {
+        title: 'Do you already have a price estimation?',
+        history: 'lotSize',
+        cardType: 'lotSize',
+        footerWidth: 'max-w-fix-384',
+        showSendButton: false,
+        inputs: [
+          {
+            component: BrixelRadioButton,
+            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+            className: '',
+            name: 'properties.typology.lotArea.value',
+            validation: [Validation.required],
+            options: [
+              {
+                label: 'Yes',
+                value: true,
+              },
+              {
+                label: 'No',
+                value: false,
+              },
+            ],
+          },
+        ],
+        successMessage: translateTo(lang, 'Great living space.'),
+      },
+    );
+  }
+  question.push(
     {
       conditions: [{
         name: 'owner',
