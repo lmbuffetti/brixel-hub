@@ -36,14 +36,14 @@ const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
 const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 // QUESTION LISTS
-export const QuestionsList = (lang, country = 'CH') => {
-  let propertyType = '';
-  if (configureStore) {
+export const QuestionsList = (lang, country = 'CH', propType) => {
+  let propertyType = propType;
+  if (configureStore && !propType) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
   let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
   if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
-  return [
+  const question = [
     {
       title: translateTo(lang, 'What type of property do you have?'),
       subtitle: translateTo(lang, 'Choose between apartment, house and commercial.'),
@@ -83,95 +83,107 @@ export const QuestionsList = (lang, country = 'CH') => {
             img: svgIcons.commercial,
             color: 'blue',
           },
+          {
+            label: translateTo(lang, 'Building Land'),
+            value: 'Building land',
+            img: svgIcons.commercial,
+            color: 'blue',
+          },
         ],
       }],
       successMessage: translateTo(lang, 'Ok. Got it.'),
     },
-    {
-      title: translateTo(lang, 'How many rooms?'),
-      history: 'allRooms',
-      cardType: 'allRooms',
-      footerWidth: 'max-w-fix-384',
-      inputs: [
-        {
-          component: BrixelInputStepNumber,
-          classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius py-6 px-5 m-a',
-          label: 'Number of rooms',
-          name: 'properties.typology.bedrooms',
-          validation: [maxLengthNumRooms, Validation.required],
-          step: 0.5,
-          placeholder: country === 'PT' ? 'T3' : '3',
-          formatType: country === 'PT' ? 'rooms-pt' : '',
-          min: 0,
-          max: 30,
-          fluid: true,
-          startFrom: 3,
-        },
-      ],
-      successMessage: translateTo(lang, 'This is a nice number.'),
-    },
-    {
-      title: livingAreaTitle,
-      history: 'livingSpace',
-      cardType: 'livingSpace',
-      footerWidth: 'max-w-fix-384',
-      showSendButton: false,
-      inputs: [
-        {
-          condition: [{
-            name: 'properties.propertyType',
-            noValue: 'Commercial',
-          }],
-          component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
-          className: '',
-          label: country === 'PT' ? 'Gross area' : 'Net living space',
-          name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
-          type: 'number',
-          validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
-          unit: 'm2',
-          placeholder: '117',
-          maxLengthNum: 9999,
-        },
-        {
-          condition: [{
-            name: 'properties.propertyType',
-            value: 'Commercial',
-          }],
-          component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
-          className: '',
-          label: 'Floor space',
-          name: 'properties.typology.floorSpace.value',
-          type: 'number',
-          validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
-          unit: 'm2',
-          placeholder: translateTo(lang, 'e.g. 120'),
-          maxLengthNum: 9999,
-        },
-      ],
-      successMessage: translateTo(lang, 'Great living space.'),
-    },
-    {
-      title: translateTo(lang, 'What is the construction year?'),
-      history: 'constructionYear',
-      cardType: 'constructionYear',
-      footerWidth: 'max-w-fix-384',
-      inputs: [
-        {
-          component: BrixelInputText,
-          label: 'Construction year',
-          name: 'properties.building.built',
-          type: 'number',
-          classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-          placeholder: translateTo(lang, 'e.g. 1990'),
-          validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
-          maxLengthNum: 9999,
-          minLengthNum: 999,
-        },
-      ],
-      successMessage: translateTo(lang, 'A good year for real estate.'),
-    },
+  ];
+  if (propertyType === 'Apartment' || propertyType === 'House') {
+    question.push(
+      {
+        title: translateTo(lang, 'How many rooms?'),
+        history: 'allRooms',
+        cardType: 'allRooms',
+        footerWidth: 'max-w-fix-384',
+        inputs: [
+          {
+            component: BrixelInputStepNumber,
+            classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius py-6 px-5 m-a',
+            label: 'Number of rooms',
+            name: 'properties.typology.bedrooms',
+            validation: [maxLengthNumRooms, Validation.required],
+            step: 0.5,
+            placeholder: country === 'PT' ? 'T3' : '3',
+            formatType: country === 'PT' ? 'rooms-pt' : '',
+            min: 0,
+            max: 30,
+            fluid: true,
+            startFrom: 3,
+          },
+        ],
+        successMessage: translateTo(lang, 'This is a nice number.'),
+      },
+      {
+        title: livingAreaTitle,
+        history: 'livingSpace',
+        cardType: 'livingSpace',
+        footerWidth: 'max-w-fix-384',
+        showSendButton: false,
+        inputs: [
+          {
+            condition: [{
+              name: 'properties.propertyType',
+              noValue: 'Commercial',
+            }],
+            component: BrixelInputText,
+            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+            className: '',
+            label: country === 'PT' ? 'Gross area' : 'Net living space',
+            name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
+            type: 'number',
+            validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
+            unit: 'm2',
+            placeholder: '117',
+            maxLengthNum: 9999,
+          },
+          {
+            condition: [{
+              name: 'properties.propertyType',
+              value: 'Commercial',
+            }],
+            component: BrixelInputText,
+            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+            className: '',
+            label: 'Floor space',
+            name: 'properties.typology.floorSpace.value',
+            type: 'number',
+            validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
+            unit: 'm2',
+            placeholder: translateTo(lang, 'e.g. 120'),
+            maxLengthNum: 9999,
+          },
+        ],
+        successMessage: translateTo(lang, 'Great living space.'),
+      },
+      {
+        title: translateTo(lang, 'What is the construction year?'),
+        history: 'constructionYear',
+        cardType: 'constructionYear',
+        footerWidth: 'max-w-fix-384',
+        inputs: [
+          {
+            component: BrixelInputText,
+            label: 'Construction year',
+            name: 'properties.building.built',
+            type: 'number',
+            classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+            placeholder: translateTo(lang, 'e.g. 1990'),
+            validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
+            maxLengthNum: 9999,
+            minLengthNum: 999,
+          },
+        ],
+        successMessage: translateTo(lang, 'A good year for real estate.'),
+      },
+    );
+  }
+  question.push(
     {
       title: translateTo(lang, 'What is the location?'),
       history: 'locationInput',
@@ -251,5 +263,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       cardType: 'createProfile',
       toSave: true,
     },
-  ];
+  );
+  return question;
 };

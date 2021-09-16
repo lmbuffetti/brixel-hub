@@ -183,9 +183,11 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    if (get(questions, `[${newIndex}].conditions`, null)) {
+    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    console.log(newQuestions);
+    if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
-      questions[newIndex].conditions.map((cond) => {
+      newQuestions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
         if (has(cond, 'value') && val !== cond.value && checkCond) {
           if (act === 'back') newIndex -= 1;
@@ -195,6 +197,7 @@ const GetStartedSeller = (props) => {
         return null;
       });
     }
+    console.log(newIndex);
     return newIndex;
   };
 
@@ -249,6 +252,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
+    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
     setShowError(false);
     if (act === 'back') {
@@ -265,20 +269,20 @@ const GetStartedSeller = (props) => {
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
-      if (questions[defId]) {
+      if (newQuestions[defId]) {
         // setPosition(newIndex);
-        if (questions[defId].toSave) {
-          saveData(get(questions[defId], 'action', null));
+        if (newQuestions[defId].toSave) {
+          saveData(get(newQuestions[defId], 'action', null));
         } else {
           let newQuest = {
-            ...questions[defId],
+            ...newQuestions[defId],
           };
-          if (questions[defId].effect === 'slideUp') {
+          if (newQuestions[defId].effect === 'slideUp') {
             newQuest = {
-              ...questions[defId - 1],
+              ...newQuestions[defId - 1],
             };
           }
-          if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+          if (act === 'back' && newQuestions[defId + 1].effect === 'slideUp') {
             setQuest(newQuest);
             setCurrentIndex(defId);
           } else {
@@ -313,9 +317,9 @@ const GetStartedSeller = (props) => {
               if (fakeInput) fakeInput.remove();
             }, 500);
           }
-          if (questions[defId].history) {
+          if (newQuestions[defId].history) {
             history.push({
-              pathname: `/packageFlow/getStarted/${questions[defId].history}`,
+              pathname: `/packageFlow/getStarted/${newQuestions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -556,7 +560,7 @@ const GetStartedSeller = (props) => {
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
             <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
-              <div className="subcontainer m-a">
+              <div className="subcontainer m-a">{currentIndex}
                 {
                   get(quest, 'inputs', null) && (
                     <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
