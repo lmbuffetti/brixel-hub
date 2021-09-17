@@ -7,6 +7,7 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelIcon,
+  BrixelButtonIcon,
   BrixelProgressBar,
   BrixelButtonText,
   change,
@@ -33,6 +34,7 @@ const Facts = (props) => {
     handleSaveData,
     history,
     match,
+    windowDimensions,
   } = props;
 
   // STATE
@@ -133,7 +135,9 @@ const Facts = (props) => {
     <>
       <h3 className="mb-3 hide dis-b-lg">Facts</h3>
       <div className="dis-f h-perc-lg-100">
-        <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
+        <div
+          className={`secondLevel w-perc-100 h-perc-lg-100 ${getFact() !== 'facts' && windowDimensions.width >= 1024 ? 'hide' : 'dis-fl-col'}`}
+        >
           <div className="dis-fl-col backPanel hide-lg">
             <h5 className="sectionTitle">Facts</h5>
           </div>
@@ -192,20 +196,29 @@ const Facts = (props) => {
         </div>
         {
           selectedQuest && getFact() !== 'facts' && (
-            <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-lg-2" id="factsQuestion">
-              <div className="boxCard">
-                <div className="">
-                  <FactsQuestion quest={selectedQuest} />
-                  <div className="dis-f jc-fe mb-1">
-                    {
-                      onNextSection('label') && (
-                        <BrixelButtonText
-                          rightIcon="arrow-right"
-                          onClick={() => onNextSection('click')}
-                          label={onNextSection('label')}
-                        />
-                      )
-                    }
+            <div className="dis-f w-perc-100">
+              <BrixelButtonIcon
+                className="hide dis-b-md"
+                icon="arrow-left-small"
+                ghost
+                theme="dark"
+                onClick={() => history.push(`/${propID}/property/facts`)}
+              />
+              <div className="thirdLevel inputSheet dis-fl-col w-perc-100 ml-lg-2" id="factsQuestion">
+                <div className="boxCard">
+                  <div className="">
+                    <FactsQuestion quest={selectedQuest} />
+                    <div className="dis-f jc-fe mb-1">
+                      {
+                        onNextSection('label') && (
+                          <BrixelButtonText
+                            rightIcon="arrow-right"
+                            onClick={() => onNextSection('click')}
+                            label={onNextSection('label')}
+                          />
+                        )
+                      }
+                    </div>
                   </div>
                 </div>
               </div>
@@ -219,10 +232,11 @@ const Facts = (props) => {
 
 Facts.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
+  formValue: PropTypes.object.isRequired,
   handleSaveData: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 Facts.defaultProps = {
