@@ -108,6 +108,9 @@ const GetStartedSeller = (props) => {
     for (const key in navigator) {
       metaUserData[key] = navigator[key];
     }
+    if (dataFormAnswer.properties.propertyType === 'Building land' || dataFormAnswer.properties.propertyType === 'Commercial') {
+      dataFormAnswer.properties.typology.bedrooms = 0;
+    }
     // PROPERTY DATA
     delete dataFormAnswer.login;
     const data = {
@@ -478,11 +481,6 @@ const GetStartedSeller = (props) => {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
-    }
-    if (get(formValue, 'properties.propertyType', null) === 'Commercial' || get(formValue, 'properties.propertyType', null) === 'Building land') {
-      changeFieldValue('properties.typology.bedrooms', 0);
-    } else {
-      changeFieldValue('properties.typology.bedrooms', 3);
     }
   }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
 
