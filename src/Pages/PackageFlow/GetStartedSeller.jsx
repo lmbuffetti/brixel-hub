@@ -60,6 +60,7 @@ const GetStartedSeller = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [oldIndex, setOldIndex] = useState(0);
   const [showError, setShowError] = useState(false);
+  const [action, setAction] = useState('next');
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
@@ -255,6 +256,7 @@ const GetStartedSeller = (props) => {
     let newIndex = currentIndex;
     setOldIndex(currentIndex);
     setShowError(false);
+    setAction(act);
     if (act === 'back') {
       newIndex -= step;
     } else {
@@ -659,7 +661,7 @@ const GetStartedSeller = (props) => {
                       )
                     }
                     {
-                      get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
+                      get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
                         <BrixelButtonPrimary
                           className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
                           disabled={!checkValidateField()}

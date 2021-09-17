@@ -101,12 +101,6 @@ export const QuestionsList = (lang, country = 'CH') => {
             img: svgIcons.house,
             color: 'blue',
           },
-          {
-            label: translateTo(lang, 'Commercial'),
-            value: 'Commercial',
-            img: svgIcons.commercial,
-            color: 'blue',
-          },
         ],
       }],
       successMessage: translateTo(lang, 'Ok. Got it.'),
