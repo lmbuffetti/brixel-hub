@@ -87,7 +87,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
           {
             label: translateTo(lang, 'Building Land'),
             value: 'Building land',
-            img: svgIcons.commercial,
+            img: svgIcons.land,
             color: 'blue',
           },
         ],
