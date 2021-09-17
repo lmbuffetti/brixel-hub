@@ -47,7 +47,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   const question = [
     {
       title: translateTo(lang, 'What type of property do you have?'),
-      subtitle: translateTo(lang, 'Choose between apartment, house and commercial.'),
+      subtitle: translateTo(lang, 'Choose between apartment, house, building land and commercial.'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-992',
       inputs: [{
@@ -79,15 +79,15 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             color: 'blue',
           },
           {
-            label: translateTo(lang, 'Commercial'),
-            value: 'Commercial',
-            img: svgIcons.commercial,
-            color: 'blue',
-          },
-          {
             label: translateTo(lang, 'Building Land'),
             value: 'Building land',
             img: svgIcons.land,
+            color: 'blue',
+          },
+          {
+            label: translateTo(lang, 'Commercial'),
+            value: 'Commercial',
+            img: svgIcons.commercial,
             color: 'blue',
           },
         ],

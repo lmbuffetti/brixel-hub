@@ -266,7 +266,9 @@ const MarketCardMap = (props) => {
                     <span className="notranslate fsize-400 txtDark700 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
                   </>
                 ) : (
-                  <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
+                  <span className="txtGreen400 fsize-300 fweight-500">
+                    {get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request'}
+                  </span>
                 )
               }
             </div>
