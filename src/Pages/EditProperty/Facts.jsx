@@ -196,7 +196,7 @@ const Facts = (props) => {
         </div>
         {
           selectedQuest && getFact() !== 'facts' && (
-            <div className="dis-f">
+            <div className="dis-f w-perc-100">
               <BrixelButtonIcon
                 className="hide dis-b-md"
                 icon="arrow-left-small"
