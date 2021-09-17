@@ -457,7 +457,9 @@ const MarketCard = (props) => {
                           </span>
                         </div>
                       ) : (
-                        <span className="txtGreen400 fsize-500">On Request</span>
+                        <span className="txtGreen400 fsize-500">
+                          {get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request'}
+                        </span>
                       )
                     }
 

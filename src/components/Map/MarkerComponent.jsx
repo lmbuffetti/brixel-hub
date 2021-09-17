@@ -136,7 +136,7 @@ const MarkerComponent = (props) => {
               }
             });
           }
-          if (get(item, 'tags', []).includes('pre-market')) {
+          if (get(item, 'tags', []).includes('pre-market') || item.status === 'sold') {
             markers[item.id] = new MarkerWithLabel({
               page: item,
               id: item.id,
@@ -178,7 +178,7 @@ const MarkerComponent = (props) => {
             });
           }
           const window = infowindow;
-          if (!get(item, 'tags', []).includes('pre-market')) {
+          if (!get(item, 'tags', []).includes('pre-market') && item.status !== 'sold') {
             markers[item.id].addListener('click', () => {
               if (selMarker !== item.id) setSelMarker(item.id);
               Object.keys(window).forEach((key) => {
