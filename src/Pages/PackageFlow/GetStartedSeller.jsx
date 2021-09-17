@@ -58,6 +58,7 @@ const GetStartedSeller = (props) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [oldIndex, setOldIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
@@ -183,9 +184,10 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    if (get(questions, `[${newIndex}].conditions`, null)) {
+    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
-      questions[newIndex].conditions.map((cond) => {
+      newQuestions[newIndex].conditions.map((cond) => {
         const val = get(formValue, cond.name, null);
         if (has(cond, 'value') && val !== cond.value && checkCond) {
           if (act === 'back') newIndex -= 1;
@@ -249,7 +251,9 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
+    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
+    setOldIndex(currentIndex);
     setShowError(false);
     if (act === 'back') {
       newIndex -= step;
@@ -265,20 +269,20 @@ const GetStartedSeller = (props) => {
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
-      if (questions[defId]) {
+      if (newQuestions[defId]) {
         // setPosition(newIndex);
-        if (questions[defId].toSave) {
-          saveData(get(questions[defId], 'action', null));
+        if (newQuestions[defId].toSave) {
+          saveData(get(newQuestions[defId], 'action', null));
         } else {
           let newQuest = {
-            ...questions[defId],
+            ...newQuestions[defId],
           };
-          if (questions[defId].effect === 'slideUp') {
+          if (newQuestions[defId].effect === 'slideUp') {
             newQuest = {
-              ...questions[defId - 1],
+              ...newQuestions[defId - 1],
             };
           }
-          if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+          if (act === 'back' && newQuestions[defId + 1].effect === 'slideUp') {
             setQuest(newQuest);
             setCurrentIndex(defId);
           } else {
@@ -313,9 +317,9 @@ const GetStartedSeller = (props) => {
               if (fakeInput) fakeInput.remove();
             }, 500);
           }
-          if (questions[defId].history) {
+          if (newQuestions[defId].history) {
             history.push({
-              pathname: `/packageFlow/getStarted/${questions[defId].history}`,
+              pathname: `/packageFlow/getStarted/${newQuestions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -334,7 +338,8 @@ const GetStartedSeller = (props) => {
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
-    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+    setOldIndex(currentIndex);
+    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
     const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
@@ -426,7 +431,10 @@ const GetStartedSeller = (props) => {
     if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
       changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
     }
-  }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
+    if (get(formValue, 'properties.typology.lotArea.value', 0) > 0) {
+      changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.lotArea.value', 0));
+    }
+  }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0), get(formValue, 'properties.typology.lotArea.value', 0)]);
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -468,6 +476,11 @@ const GetStartedSeller = (props) => {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+    }
+    if (get(formValue, 'properties.propertyType', null) === 'Commercial' || get(formValue, 'properties.propertyType', null) === 'Building land') {
+      changeFieldValue('properties.typology.bedrooms', 0);
+    } else {
+      changeFieldValue('properties.typology.bedrooms', 3);
     }
   }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
 
