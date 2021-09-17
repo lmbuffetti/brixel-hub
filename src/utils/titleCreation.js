@@ -137,6 +137,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
     const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));
+
     const curLocation = get(formValue, 'location', null);
     if (bedrooms >= 0 && livingSpace && curLocation) {
       const typology = FormatValue.formatRooms(bedrooms, 'pt');

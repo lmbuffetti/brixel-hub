@@ -58,6 +58,7 @@ const GetStartedSeller = (props) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [oldIndex, setOldIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
@@ -252,6 +253,7 @@ const GetStartedSeller = (props) => {
     if (e) e.preventDefault();
     const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
+    setOldIndex(currentIndex);
     setShowError(false);
     if (act === 'back') {
       newIndex -= step;
@@ -336,7 +338,8 @@ const GetStartedSeller = (props) => {
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
-    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+    setOldIndex(currentIndex);
+    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
     const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
@@ -428,7 +431,10 @@ const GetStartedSeller = (props) => {
     if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
       changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
     }
-  }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
+    if (get(formValue, 'properties.typology.lotArea.value', 0) > 0) {
+      changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.lotArea.value', 0));
+    }
+  }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0), get(formValue, 'properties.typology.lotArea.value', 0)]);
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -470,6 +476,11 @@ const GetStartedSeller = (props) => {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+    }
+    if (get(formValue, 'properties.propertyType', null) === 'Commercial' || get(formValue, 'properties.propertyType', null) === 'Building land') {
+      changeFieldValue('properties.typology.bedrooms', 0);
+    } else {
+      changeFieldValue('properties.typology.bedrooms', 3);
     }
   }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
 
