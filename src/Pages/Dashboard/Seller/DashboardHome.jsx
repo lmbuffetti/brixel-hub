@@ -128,7 +128,7 @@ const DashboardHome = (props) => {
           </div>
           <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
             <div className="">
-              <h4 className="txtAltColor100 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
+              <h4 className="txtAltGrey400 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
               <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
             </div>
@@ -137,10 +137,10 @@ const DashboardHome = (props) => {
                 <div className="dis-fl-col">
                   <div className="dis-f a-c">
                     <BrixelIcon
-                      background="AltColor"
-                      saturation={1000}
-                      color="AltColor"
-                      saturationTxt={700}
+                      background="AltBlue"
+                      saturation={100}
+                      color="AltBlue"
+                      saturationTxt={400}
                       padding="p-small-12"
                       icon="price"
                       rounded
@@ -148,7 +148,7 @@ const DashboardHome = (props) => {
                     />
                     <div className="ml-2 dis-fl-col">
                       <span className="txtLight600 fsize-300"> Your Price</span>
-                      <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 fweight-600">
+                      <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltBlue400 fweight-600">
                         <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
                         <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
                       </Link>
@@ -158,10 +158,10 @@ const DashboardHome = (props) => {
               ) : (
                 <div className="dis-f pt-2 a-t">
                   <BrixelIcon
-                    background="AltColor"
-                    saturation={1000}
-                    color="AltColor"
-                    saturationTxt={700}
+                    background="AltBlue"
+                    saturation={100}
+                    color="AltBlue"
+                    saturationTxt={400}
                     padding="p-small-12"
                     icon="chart"
                     rounded
@@ -171,21 +171,21 @@ const DashboardHome = (props) => {
                     <span className="txtLight600 fsize-300">Your Bestimate</span>
                     {
                       !get(estimation, 'status', null) && (
-                        <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltColor700 fweight-600">
+                        <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltBlue400 fweight-600">
                           Get Estimation
                         </Link>
                       )
                     }
                     {
                       get(estimation, 'status', '') === 'pending' && (
-                        <span className="txtAltColor700 fweight-600">
+                        <span className="txtAltBlue400 fweight-600">
                           Pending
                         </span>
                       )
                     }
                     {
                       get(estimation, 'status', '') === 'processed' && (
-                        <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltColor700 no-state fweight-600">
+                        <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltBlue400 no-state fweight-600">
                           {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
                         </Link>
                       )
@@ -193,7 +193,7 @@ const DashboardHome = (props) => {
                   </div>
                   <div className="tagBg dis-fl-row-sm hide a-c">
                     <span className="activeDot" />
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtAltColor700"> Set your price </Link>
+                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtAltBlue400"> Set your price </Link>
                   </div>
                 </div>
               )
@@ -203,16 +203,16 @@ const DashboardHome = (props) => {
         <div className="dis-fl-col dis-fl-row-sm">
           <div
             onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-            className="shadow-2dp bgAltColor1000 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+            className="shadow-2dp bgAltBlue100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
           >
             {
               get(proEstimation, 'value', null) ? (
                 <div className="dis-fl-col max-w-perc-100">
-                  <span className="fsize-400 txtAltColor900">Pro estimation</span>
+                  <span className="fsize-400 txtAltBlue300">Pro estimation</span>
                   {
                     get(proEstimation, 'value', 0) > 0 && (
                       <>
-                        <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600 txtAltColor700">
+                        <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600 txtAltBlue400">
                           <span>
                             {get(estimation, 'result.currency', '')}
                           </span>
@@ -225,8 +225,8 @@ const DashboardHome = (props) => {
                           bgTransparent
                           onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
                           className="mt-2 as-fs"
-                          theme="AltColor"
-                          themeSat={700}
+                          theme="AltBlue"
+                          themeSat={400}
                           rounded
                           ghost
                           label="View"
@@ -238,9 +238,9 @@ const DashboardHome = (props) => {
               ) : (
                 <>
                   <div className="dis-fl-col">
-                    <span className="fsize-400 txtAltColor900">Pro estimation</span>
+                    <span className="fsize-400 txtAltBlue300">Pro estimation</span>
 
-                    <span className="fsize-600 fweight-600 txtAltColor700">
+                    <span className="fsize-600 fweight-600 txtAltBlue400">
                       <span>{calcPercentageProEstimation().realPerc}%</span>
                       <span className="ml-small-4"> Complete</span>
                     </span>
@@ -249,8 +249,8 @@ const DashboardHome = (props) => {
                         <BrixelButtonPrimary
                           onClick={() => window.location.assign(`/${activeSingleProperty.id}/property/price/formFlow`)}
                           label="Next step"
-                          theme="AltColor"
-                          themeSat={700}
+                          theme="AltBlue"
+                          themeSat={400}
                           className="mt-2 as-fs"
                           rounded
                         />
@@ -259,8 +259,8 @@ const DashboardHome = (props) => {
                           bgTransparent
                           onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
                           className="mt-2"
-                          theme="AltColor"
-                          themeSat={700}
+                          theme="AltBlue"
+                          themeSat={400}
                           rounded
                           ghost
                           label="Pending"
@@ -272,8 +272,8 @@ const DashboardHome = (props) => {
                     <ProgressRing
                       customIcon={get(proEstimation, 'value', 0) <= 0 && calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : null}
                       iconColor={{
-                        color: 'altColor',
-                        sat: 2000,
+                        color: 'altGreen',
+                        sat: 400,
                       }}
                       progress={calcPercentageProEstimation().realPerc}
                       size={windowDimensions.width <= 590 ? 80 : 100}
@@ -289,12 +289,12 @@ const DashboardHome = (props) => {
             }
           </div>
           <div
-            className="shadow-2dp bgAltColor300 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 ml-sm-1 w-perc-100  w-perc-sm-50 cur-poi"
+            className="shadow-2dp bgAltGreen200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 ml-sm-1 w-perc-100  w-perc-sm-50 cur-poi"
             onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
           >
             <div className="dis-fl-col">
-              <span className="fsize-400 txtAltColor200">Docubox</span>
-              <span className="fsize-600 fweight-600 txtAltColor2000">
+              <span className="fsize-400 txtAltGreen300">Docubox</span>
+              <span className="fsize-600 fweight-600 txtAltGreen400">
                 <span>{countMandatoryDocuments()}</span>
                 <span className="mx-small-4">of</span>
                 <span>{mandatoryDocuments ? mandatoryDocuments.length : 0} </span>
@@ -303,8 +303,8 @@ const DashboardHome = (props) => {
               <BrixelButtonPrimary
                 onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                 label="Upload"
-                theme="AltColor"
-                themeSat={2000}
+                theme="AltGreen"
+                themeSat={400}
                 className="mt-2 as-fs"
                 rounded
               />
@@ -326,16 +326,16 @@ const DashboardHome = (props) => {
                 <div className="dis-f px-3">
                   <BrixelIcon
                     icon="property-new"
-                    color="AltColor"
-                    saturationTxt={700}
+                    color="AltBlue"
+                    saturationTxt={400}
                   />
                   <span className="txtDark700 fweight-600 pl-1">Facts</span>
                 </div>
                 <div className="px-3 pb-2">
                   <BrixelProgressBar
                     progressValue={calcPercentageFacts().realPerc}
-                    saturation={200}
-                    color="AltColor"
+                    saturation={300}
+                    color="AltGreen"
                   />
                   <span className="txtDark700 fsize-300 fsize-sm-400 pt-small-4 dis-b">
                     <span>{calcPercentageFacts().realPerc}%</span>
@@ -358,8 +358,8 @@ const DashboardHome = (props) => {
                 <div className="dis-f px-3">
                   <BrixelIcon
                     icon="mike"
-                    color="AltColor"
-                    saturationTxt={700}
+                    color="AltBlue"
+                    saturationTxt={400}
                   />
                   <span className="txtDark700 fweight-600 pl-1">Marketing</span>
                 </div>
