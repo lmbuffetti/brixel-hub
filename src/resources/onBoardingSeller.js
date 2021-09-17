@@ -49,11 +49,11 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       title: translateTo(lang, 'What type of property do you have?'),
       subtitle: translateTo(lang, 'Choose between apartment, house and commercial.'),
       history: 'propertyType',
-      footerWidth: 'max-w-fix-880',
+      footerWidth: 'max-w-fix-992',
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
-        classNameBox: 'max-w-fix-880 ml-a mr-a',
+        classNameBox: 'max-w-fix-992 ml-a mr-a',
         ReduxFieldClass: '',
         label: '',
         name: 'properties.propertyType',
