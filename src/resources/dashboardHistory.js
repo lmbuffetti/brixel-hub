@@ -7,6 +7,7 @@ export const feedMessage = (user, history, packages) => {
     'page-create': {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: 'Property created',
@@ -15,6 +16,7 @@ export const feedMessage = (user, history, packages) => {
     'page-listed': {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: 'Page published to the Portal',
@@ -23,6 +25,7 @@ export const feedMessage = (user, history, packages) => {
     'page-published': {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: 'Page Published',
@@ -31,6 +34,7 @@ export const feedMessage = (user, history, packages) => {
     'page-scan-trial': {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: 'Test drive request (Trial)',
@@ -39,6 +43,7 @@ export const feedMessage = (user, history, packages) => {
     'page-start-service-package': {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: `<span>${get(filtPackages, 'name', '')}</span> <span>started</span>`,
@@ -47,6 +52,7 @@ export const feedMessage = (user, history, packages) => {
     'page-stop-service-package': {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: `<span>${get(filtPackages, 'name', '')}</span> <span>stopped</span>`,
@@ -55,6 +61,7 @@ export const feedMessage = (user, history, packages) => {
     'page-unlisted': {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: 'Page unpublished to the Portal',
@@ -63,23 +70,26 @@ export const feedMessage = (user, history, packages) => {
     'page-unpublished': {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: 'Page Unpublished',
       icon: 'tag',
     },
     'pro-estimation-complete': {
-      className: 'brdAltBlue100',
-      colorIcon: 'AltBluer',
-      colorIconSat: 100,
+      className: 'brdAltMist200',
+      colorBgIcon: 'AltMist',
       colorBgIconSat: 400,
+      colorIcon: 'AltBlue',
+      colorIconSat: 200,
       message: 'Pro Estimation completed',
       icon: 'chart',
     },
     'user-create-estimation': {
-      className: 'brdAltBlue100',
+      className: 'brdAltMist200',
+      colorBgIcon: 'AltMist',
+      colorIconSat: 200,
       colorIcon: 'AltBlue',
-      colorIconSat: 100,
       colorBgIconSat: 400,
       message: 'Bestimate®️ calculated',
       icon: 'chart',
@@ -87,6 +97,7 @@ export const feedMessage = (user, history, packages) => {
     'user-register': {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: `${user.email} just signed up`,
@@ -95,6 +106,7 @@ export const feedMessage = (user, history, packages) => {
     note: {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: history.content,
@@ -103,6 +115,7 @@ export const feedMessage = (user, history, packages) => {
     default: {
       className: 'brdAltGreen200',
       colorIcon: 'altGreen',
+      colorBgIcon: 'altGreen',
       colorIconSat: 200,
       colorBgIconSat: 300,
       message: `${user.email} just signed up`,

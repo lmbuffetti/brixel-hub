@@ -652,7 +652,7 @@ button.minimum-w-210 {
 
 .tagBg {
   color: white;
-  background: map-get($altBlueColor, 100);
+  background: map-get($altMistColor, 200);
   position: relative;
   float: left;
   position: relative;
@@ -666,7 +666,7 @@ button.minimum-w-210 {
     height: 0;
     border-top: 24px solid transparent;
     border-bottom: 24px solid transparent;
-    border-right: 16px solid map-get($altBlueColor, 100);
+    border-right: 16px solid map-get($altMistColor, 200);
     position: absolute;
     top: 50%;
     margin-top: -24px;

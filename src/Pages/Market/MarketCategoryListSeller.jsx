@@ -543,7 +543,7 @@ const MarketCategoryListSeller = (props) => {
               rounded
               label="Upgrade your plan"
               onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
-              theme="altGreen"
+              theme="AltGreen"
               themeSat={300}
             />
             <span className="mx-1 hide dis-fl-row-sm">or</span>
@@ -552,9 +552,7 @@ const MarketCategoryListSeller = (props) => {
               rounded
               label="compare all plans"
               onClick={() => window.location.assign(`/${propertyId}/upgrade#comparePlan`)}
-              transparent
               theme="AltGrey"
-              themeSat={400}
             />
 
           </div>

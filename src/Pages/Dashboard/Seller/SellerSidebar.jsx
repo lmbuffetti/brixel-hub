@@ -138,7 +138,7 @@ const SellerSidebar = (props) => {
               key={i.toString()}
             >
               <BrixelIcon
-                background={convertFeedMessage(history.actionStub, 'colorIcon', history)}
+                background={convertFeedMessage(history.actionStub, 'colorBgIcon', history)}
                 saturation={convertFeedMessage(history.actionStub, 'colorIconSat', history)}
                 color={convertFeedMessage(history.actionStub, 'colorIcon', history)}
                 saturationTxt={convertFeedMessage(history.actionStub, 'colorBgIconSat', history)}

@@ -137,8 +137,8 @@ const DashboardHome = (props) => {
                 <div className="dis-fl-col">
                   <div className="dis-f a-c">
                     <BrixelIcon
-                      background="AltBlue"
-                      saturation={100}
+                      background="AltMist"
+                      saturation={200}
                       color="AltBlue"
                       saturationTxt={400}
                       padding="p-small-12"
@@ -158,8 +158,8 @@ const DashboardHome = (props) => {
               ) : (
                 <div className="dis-f pt-2 a-t">
                   <BrixelIcon
-                    background="AltBlue"
-                    saturation={100}
+                    background="AltMist"
+                    saturation={200}
                     color="AltBlue"
                     saturationTxt={400}
                     padding="p-small-12"
@@ -203,12 +203,12 @@ const DashboardHome = (props) => {
         <div className="dis-fl-col dis-fl-row-sm">
           <div
             onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-            className="shadow-2dp bgAltBlue100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+            className="shadow-2dp bgAltMist200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
           >
             {
               get(proEstimation, 'value', null) ? (
                 <div className="dis-fl-col max-w-perc-100">
-                  <span className="fsize-400 txtAltBlue300">Pro estimation</span>
+                  <span className="fsize-400 txtAltMist400">Pro estimation</span>
                   {
                     get(proEstimation, 'value', 0) > 0 && (
                       <>
@@ -238,7 +238,7 @@ const DashboardHome = (props) => {
               ) : (
                 <>
                   <div className="dis-fl-col">
-                    <span className="fsize-400 txtAltBlue300">Pro estimation</span>
+                    <span className="fsize-400 txtAltMist400">Pro estimation</span>
 
                     <span className="fsize-600 fweight-600 txtAltBlue400">
                       <span>{calcPercentageProEstimation().realPerc}%</span>
