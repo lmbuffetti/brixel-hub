@@ -13,6 +13,8 @@ const MarketMap = (props) => {
   const {
     activeProperty,
     onActiveProperty,
+    onMarker,
+    parentMarker,
     properties,
     type,
   } = props;
@@ -24,10 +26,12 @@ const MarketMap = (props) => {
           <MarketMapComponent
             activeProperty={activeProperty}
             onActiveProperty={(val) => onActiveProperty(val)}
+            onMarker={(val) => onMarker(val)}
+            parentMarker={parentMarker || []}
             properties={properties}
+            subMinHeight="full-h-map-wrapper"
             type={type}
             visible
-            subMinHeight="full-h-map-wrapper"
           />
         )
       }
@@ -38,7 +42,9 @@ const MarketMap = (props) => {
 MarketMap.propTypes = {
   activeProperty: PropTypes.string,
   onActiveProperty: PropTypes.func.isRequired,
+  onMarker: PropTypes.func.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  parentMarker: PropTypes.arrayOf(PropTypes.string).isRequired,
   type: PropTypes.string,
 };
 

@@ -22,10 +22,12 @@ const MarkerComponent = (props) => {
     google,
     history,
     onClick,
+    onMarker,
     optMap,
-    type,
-    setSplashScreen,
+    parentMarker,
     setMarketOverlayProperty,
+    setSplashScreen,
+    type,
   } = props;
   // STATE
   const [infowindow, setInfowindow] = useState({});
@@ -121,10 +123,14 @@ const MarkerComponent = (props) => {
   };
 
   useEffect(() => {
+    const markers = [];
     if (optMap.zoom && data.length > 0) {
-      const markers = [];
       data.forEach((item) => {
-        if (get(item, 'location.latitude', null) && get(item, 'location.longitude', null)) {
+        let valid = true;
+        parentMarker.forEach((mark) => {
+          if (mark === item.id && valid) valid = false;
+        });
+        if (get(item, 'location.latitude', null) && get(item, 'location.longitude', null) && valid) {
           let price = get(item, 'price.total', 0);
           if (price > 0) price = cutValue(get(item, 'price.total', 0));
           else price = 'On request';
@@ -226,6 +232,7 @@ const MarkerComponent = (props) => {
           }
         }
       });
+      if (Object.keys(markers).length > 0) onMarker(Object.keys(markers));
     }
   }, [optMap, data, activeProperty]);
 
@@ -237,11 +244,13 @@ const MarkerComponent = (props) => {
 MarkerComponent.propTypes = {
   activeProperty: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  parentMarker: PropTypes.arrayOf(PropTypes.string).isRequired,
   google: PropTypes.object.isRequired,
   optMap: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   // icon: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  onMarker: PropTypes.func.isRequired,
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   type: PropTypes.string,

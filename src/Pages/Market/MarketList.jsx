@@ -61,6 +61,7 @@ const MarketList = (props) => {
   const [activeProperty, setActiveProperty] = useState(propID);
   const [propertyListings, setPropertyListings] = useState([]);
   const [openMap, setOpenMap] = useState(false);
+  const [marker, setMarker] = useState([]);
 
   useEffect(() => {
     if (windowDimensions.width <= 1024) {
@@ -397,6 +398,8 @@ const MarketList = (props) => {
               activeProperty={activeProperty}
               onActiveProperty={(val) => setActiveProperty(val)}
               properties={propertyListings}
+              onMarker={(val) => setMarker(val)}
+              parentMarker={marker}
             />
           </Suspense>
         </div>
