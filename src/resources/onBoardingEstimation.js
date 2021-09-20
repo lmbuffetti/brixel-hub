@@ -70,7 +70,7 @@ export const QuestionsList = (lang, country = 'CH') => {
     },
     {
       title: translateTo(lang, 'What type of property do you want to estimate?'),
-      subtitle: translateTo(lang, 'Choose between apartment, house and commercial.'),
+      subtitle: translateTo(lang, 'Choose between apartment and house.'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
       inputs: [{
@@ -99,12 +99,6 @@ export const QuestionsList = (lang, country = 'CH') => {
             label: translateTo(lang, 'House'),
             value: 'House',
             img: svgIcons.house,
-            color: 'blue',
-          },
-          {
-            label: translateTo(lang, 'Commercial'),
-            value: 'Commercial',
-            img: svgIcons.commercial,
             color: 'blue',
           },
         ],

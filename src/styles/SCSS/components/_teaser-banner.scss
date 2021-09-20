@@ -231,7 +231,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: $newBlueMist;
+    background: map-get($altMistColor, 400);
     color: #FFF;
     font-family: $font-family-secondary;
     font-size: 18px;

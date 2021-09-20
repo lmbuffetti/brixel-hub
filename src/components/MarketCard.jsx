@@ -294,10 +294,10 @@ const MarketCard = (props) => {
                         <div className="dis-fl-col">
                           <div className="dis-f a-c">
                             <BrixelIcon
-                              background="AltColor"
-                              saturation={1000}
-                              color="AltColor"
-                              saturationTxt={700}
+                              background="AltMist"
+                              saturation={200}
+                              color="AltBlue"
+                              saturationTxt={400}
                               padding="p-small-12"
                               icon="price"
                               rounded
@@ -306,7 +306,7 @@ const MarketCard = (props) => {
                             />
                             <div className="ml-2 dis-fl-col">
                               <span className="txtLight600 fsize-300"> Your Price</span>
-                              <Link to={`/${item.id}/property/price`} className="txtAltColor700 fweight-600">
+                              <Link to={`/${item.id}/property/price`} className="txtAltBlue400 fweight-600">
                                 <span>{get(item, 'price.currency', 0)}</span>
                                 <span className="ml-1">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', 0))}</span>
                               </Link>
@@ -317,10 +317,10 @@ const MarketCard = (props) => {
                         <div className="dis-f pt-sm-2 a-t">
                           <BrixelIcon
                             className="dis-b-sm hide mr-2"
-                            background="AltColor"
-                            saturation={1000}
-                            color="AltColor"
-                            saturationTxt={700}
+                            background="AltMist"
+                            saturation={200}
+                            color="AltBlue"
+                            saturationTxt={400}
                             padding="p-small-12"
                             icon="chart"
                             rounded
@@ -330,7 +330,7 @@ const MarketCard = (props) => {
                             <span className="txtLight600 fsize-300">Your Bestimate</span>
                             {
                               get(item, '.estimation.status', '') === 'pending' && completedBestimate(item) ? (
-                                <span className="txtAltColor700 fweight-600">
+                                <span className="txtAltBlue400 fweight-600">
                                   Pending
                                 </span>
                               ) : (
@@ -339,7 +339,7 @@ const MarketCard = (props) => {
                                     get(item, 'estimation.status', '') !== 'processed' && (
                                       <Link
                                         to={`/${item.id}/singleFlow/achievement/bestimate/step1`}
-                                        className="txtAltColor700 fweight-600"
+                                        className="txtAltBlue400 fweight-600"
                                       >
                                         Get Estimation
                                       </Link>
@@ -352,7 +352,7 @@ const MarketCard = (props) => {
                               get(item, 'estimation.status', '') === 'processed' && (
                                 <div
                                   onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'exists')}
-                                  className="txtAltColor700 no-state fweight-600"
+                                  className="txtAltBlue400 no-state fweight-600"
                                 >
                                   {get(item, 'estimation.result.currency', '')} {Helpers.formatNumberValue(get(item, 'estimation.result.higherValue', ''), get(item, 'estimation.currency', ''))}
                                 </div>
@@ -368,8 +368,8 @@ const MarketCard = (props) => {
                                 <ProgressRing
                                   customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
                                   iconColor={{
-                                    color: 'altColor',
-                                    sat: 2000,
+                                    color: 'altGreen',
+                                    sat: 400,
                                   }}
                                   progress={calcPercentageProEstimation('', item).realPerc}
                                   size={48}
@@ -383,7 +383,7 @@ const MarketCard = (props) => {
                             </div>
                             <div className="pl-2">
                               <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>
-                              <span className="txtAltColor700 fweight-600 dis-b">
+                              <span className="txtAltBlue400 fweight-600 dis-b">
                                 <span>{calcPercentageProEstimation('', item).realPerc}% </span>
                                 <span> complete</span>
                               </span>
@@ -396,7 +396,7 @@ const MarketCard = (props) => {
                 </div>
               </>
             ) : (
-              <div className="brdSmall brdRadius brdAltColor2100 ov-h">
+              <div className="brdSmall brdRadius brdAltGrey100 ov-h">
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
                   className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
@@ -432,10 +432,10 @@ const MarketCard = (props) => {
                 }
                 <div className="info dis-fl-col jc-b">
                   <div className="top dis-fl-col notranslate px-3 pt-3">
-                    <span className="fweight-600 fsize-500 txtAltColor100 ellipsis one notranslate">
+                    <span className="fweight-600 fsize-500 txtAltGrey400 ellipsis one notranslate">
                       {get(item, 'title', '')}
                     </span>
-                    <span className="fsize-300 txtAltColor100 mt-1 notranslate">
+                    <span className="fsize-300 txtAltGrey400 mt-1 notranslate">
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                       {
                         get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -459,7 +459,9 @@ const MarketCard = (props) => {
                           </span>
                         </div>
                       ) : (
-                        <span className="txtGreen400 fsize-500">On Request</span>
+                        <span className="txtGreen400 fsize-500">
+                          {get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request'}
+                        </span>
                       )
                     }
 
@@ -529,7 +531,7 @@ const MarketCard = (props) => {
                                 <span>Your property is visible on our pre-market.</span>
                                 <a
                                   href={`/${item.id}/marketing/portals`}
-                                  className="fsize-300 fweight-500 txtAltColor700 cur-poi ml-1 td-u lh-in btnInline"
+                                  className="fsize-300 fweight-500 txtAltBlue400 cur-poi ml-1 td-u lh-in btnInline"
                                 >
                                   Learn more.
                                 </a>
@@ -540,7 +542,7 @@ const MarketCard = (props) => {
                               <p className="pl-1 body2 txtDark700"><span>Your property is <strong className="lh-in fweight-600">not</strong> visible to any buyers.</span></p>
                               <a
                                 href={`/${item.id}/marketing/portals`}
-                                className="fsize-300 fweight-500 txtAltColor700 cur-poi ml-1 td-u p-0 btnInline"
+                                className="fsize-300 fweight-500 txtAltBlue400 cur-poi ml-1 td-u p-0 btnInline"
                               >
                                 Change it here.
                               </a>
@@ -567,8 +569,8 @@ const MarketCard = (props) => {
                     rounded
                     label="Edit"
                     onClick={() => history.push(`/${item.id}/home`)}
-                    theme="altColor"
-                    themeSat={200}
+                    theme="altGreen"
+                    themeSat={300}
                   />
                 </div>
               </div>

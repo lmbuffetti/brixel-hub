@@ -15,5 +15,6 @@ module.exports = {
     /^react-datepicker/,
     /^ProEstimationFlow/,
     /^reduxField/,
+    /^gm-style/,
   ],
 };

@@ -122,7 +122,7 @@ export const PackagesComparePlans = (props) => {
             {
               extractTable('private').map((pkg, i) => (
                 <th key={i.toString()}>
-                  <span className="txtAltColor900">{pkg.name}</span>
+                  <span className="txtAltMist400">{pkg.name}</span>
                   <span className="fsize-500 dis-f a-b fweight-400">
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
@@ -135,7 +135,7 @@ export const PackagesComparePlans = (props) => {
             {
               extractTable('premium').map((pkg, i) => (
                 <th key={i.toString()}>
-                  <span className="txtAltColor400">{pkg.name}</span>
+                  <span className="txtAltRed400">{pkg.name}</span>
                   <span className="fsize-500 dis-f a-b fweight-400">
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
@@ -148,7 +148,7 @@ export const PackagesComparePlans = (props) => {
             {
               extractTable('one').map((pkg, i) => (
                 <th key={i.toString()}>
-                  <span className="txtAltColor100">{pkg.name}</span>
+                  <span className="txtAltGrey400">{pkg.name}</span>
                   <span className="fsize-500 dis-f a-b fweight-400">
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
