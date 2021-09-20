@@ -57,7 +57,7 @@ const BoxTrialTestDirve = (props) => {
           <BrixelButtonPrimary
             onClick={() => bookNow()}
             rounded
-            theme="AltColor"
+            theme="AltRed"
             themeSat={400}
             label="Book Now"
             className={`${isLarge ? 'mt-1' : 'mt-3'}`}

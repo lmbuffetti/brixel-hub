@@ -22,7 +22,7 @@
       border: none;
       border-collapse: collapse;
       margin-bottom: 1em;
-      color: map-get($altColor, 100 );
+      color: map-get($altGreyColor, 400 );
       text-align: left;
       border-radius: 8px;
       background-color: white;
@@ -155,54 +155,54 @@
   }
 
   &.private {
-    border-color: map_get($altColor, 900);
+    border-color: map_get($altMistColor, 400);
     h5 {
-      color: map_get($altColor, 900);
+      color: map_get($altMistColor, 400);
     }
     h6 {
-      background-color: map_get($altColor, 900);
+      background-color: map_get($altMistColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($altColor, 900);
+          background-color: map_get($altMistColor, 400);
         }
       }
     }
   }
 
   &.premium {
-    border-color: map_get($altColor, 400);
+    border-color: map_get($altRedColor, 400);
     h5 {
-      color: map_get($altColor, 400);
+      color: map_get($altRedColor, 400);
     }
     h6 {
-      background-color: map_get($altColor, 400);
+      background-color: map_get($altRedColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($altColor, 400);
+          background-color: map_get($altRedColor, 400);
         }
       }
     }
   }
 
   &.one {
-    border-color: map_get($altColor, 100);
+    border-color: map_get($altGreyColor, 400);
     h5 {
-      color: map_get($altColor, 100);
+      color: map_get($altGreyColor, 400);
     }
     h6 {
-      background-color: map_get($altColor, 100);
+      background-color: map_get($altGreyColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($altColor, 100);
+          background-color: map_get($altGreyColor, 400);
         }
       }
     }
@@ -210,54 +210,54 @@
 }
 
 .private {
-  border-color: map_get($altColor, 900);
+  border-color: map_get($altMistColor, 400);
   h4 {
-    color: map_get($altColor, 900);
+    color: map_get($altMistColor, 400);
   }
   h6:not([class*=bg]) {
-    background-color: map_get($altColor, 900);
+    background-color: map_get($altMistColor, 400);
   }
 
   ul.checked {
     li {
       &:before {
-        background-color: map_get($altColor, 900);
+        background-color: map_get($altMistColor, 400);
       }
     }
   }
 }
 
 .premium {
-  border-color: map_get($altColor, 400);
+  border-color: map_get($altRedColor, 400);
   h4 {
-    color: map_get($altColor, 400);
+    color: map_get($altRedColor, 400);
   }
   h6:not([class*=bg]) {
-    background-color: map_get($altColor, 400);
+    background-color: map_get($altRedColor, 400);
   }
 
   ul.checked {
     li {
       &:before {
-        background-color: map_get($altColor, 400);
+        background-color: map_get($altRedColor, 400);
       }
     }
   }
 }
 
 .one {
-  border-color: map_get($altColor, 100);
+  border-color: map_get($altGreyColor, 400);
   h4 {
-    color: map_get($altColor, 100);
+    color: map_get($altGreyColor, 400);
   }
   h6:not([class*=bg]) {
-    background-color: map_get($altColor, 100);
+    background-color: map_get($altGreyColor, 400);
   }
 
   ul.checked {
     li {
       &:before {
-        background-color: map_get($altColor, 100);
+        background-color: map_get($altGreyColor, 400);
       }
     }
   }
@@ -265,16 +265,16 @@
 
 span {
   &.basic {
-    color: map_get($altColor, 2000);
+    color: map_get($altGreenColor, 400);
   }
   &.private {
-    color: map_get($altColor, 900);
+    color: map_get($altMistColor, 400);
   }
   &.premium {
-    color: map_get($altColor, 400);
+    color: map_get($altRedColor, 400);
   }
   &.one {
-    color: map_get($altColor, 100);
+    color: map_get($altGreyColor, 400);
   }
 }
 
@@ -284,7 +284,7 @@ span {
     display: flex;
     margin-bottom: $step * 2;
     &:before {
-      background-color: map_get($altColor, 200);
+      background-color: map_get($altGreenColor, 300);
       -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
       mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
       display: block;

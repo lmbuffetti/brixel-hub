@@ -500,7 +500,7 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="bgAltColor2100 pt-6 pt-sm-8 pb-4 pb-sm-7">
+      <div className="bgAltGrey100 pt-6 pt-sm-8 pb-4 pb-sm-7">
         <div className="container">
           <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
             Boost your private sale with an upgrade.
@@ -521,14 +521,14 @@ const MarketCategoryListSeller = (props) => {
                       <div
                         onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
                         key={i.toString()}
-                        className={`${pkg.type} bgWhite txtAltColor100 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
+                        className={`${pkg.type} bgWhite txtAltGrey400 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
                       >
-                        <h4 className="fweight-600 txtAltColor100">{pkg.name}</h4>
-                        <p className="mt-1 mb-3 fsize-500 dis-f a-b txtAltColor100">
+                        <h4 className="fweight-600 txtAltGrey400">{pkg.name}</h4>
+                        <p className="mt-1 mb-3 fsize-500 dis-f a-b txtAltGrey400">
                           <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                          <small className="ml-1 fsize-300 txtAltColor100">incl. VAT</small>
+                          <small className="ml-1 fsize-300 txtAltGrey400">incl. VAT</small>
                         </p>
-                        <p className="txtAltColor100">{pkg.description}</p>
+                        <p className="txtAltGrey400">{pkg.description}</p>
                       </div>
                     ))
                   }
@@ -543,8 +543,8 @@ const MarketCategoryListSeller = (props) => {
               rounded
               label="Upgrade your plan"
               onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
-              theme="altColor"
-              themeSat={200}
+              theme="AltGreen"
+              themeSat={300}
             />
             <span className="mx-1 hide dis-fl-row-sm">or</span>
             <BrixelButtonText
@@ -552,9 +552,7 @@ const MarketCategoryListSeller = (props) => {
               rounded
               label="compare all plans"
               onClick={() => window.location.assign(`/${propertyId}/upgrade#comparePlan`)}
-              transparent
-              theme="altColor"
-              themeSat={100}
+              theme="AltGrey"
             />
 
           </div>
@@ -563,7 +561,7 @@ const MarketCategoryListSeller = (props) => {
 
       <div className="mt-6 mt-sm-10">
         <div className="container">
-          <h4 className="mb-4 fweight-600 txtAltColor100">This may interest you</h4>
+          <h4 className="mb-4 fweight-600 txtAltGrey400">This may interest you</h4>
 
           <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
             {
@@ -572,12 +570,12 @@ const MarketCategoryListSeller = (props) => {
                   key={i.toString()}
                   className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
                 >
-                  <a className="txtAltColor100 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
+                  <a className="txtAltGrey400 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
                     <img src={article.img} alt={`Article ${i}`} />
                   </a>
                   {article.title && (<h5 className=" fweight-600 mb-1">{article.title}</h5>)}
-                  <p className="mb-2 txtAltColor100">{article.desc}</p>
-                  <a className="txtAltColor100 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
+                  <p className="mb-2 txtAltGrey400">{article.desc}</p>
+                  <a className="txtAltGrey400 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
                 </div>
               ))
             }
