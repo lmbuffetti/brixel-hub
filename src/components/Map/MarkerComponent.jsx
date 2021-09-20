@@ -144,8 +144,8 @@ const MarkerComponent = (props) => {
               icon: {
                 path: google.maps.SymbolPath.CIRCLE,
                 scale: 10,
-                fillColor: '#F00',
-                fillOpacity: 0.1,
+                fillColor: '#F9B1B9',
+                fillOpacity: 0.6,
                 strokeWeight: 0,
               },
               labelContent: '',
@@ -217,8 +217,8 @@ const MarkerComponent = (props) => {
                 markers[key].setIcon({
                   path: google.maps.SymbolPath.CIRCLE,
                   scale,
-                  fillColor: '#F00',
-                  fillOpacity: 0.2,
+                  fillColor: '#F9B1B9',
+                  fillOpacity: 0.6,
                   strokeWeight: 0,
                 });
               });
