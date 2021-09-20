@@ -207,7 +207,12 @@ const MarkerComponent = (props) => {
             });
           } else {
             optMap.addListener('zoom_changed', () => {
-              const scale = optMap.zoom > 14 ? optMap.zoom * (20 - optMap.zoom) : 10;
+              let scale = 10;
+              if (optMap.zoom > 12) scale = 20;
+              if (optMap.zoom > 14) scale = 40;
+              if (optMap.zoom > 16) scale = 200;
+              if (optMap.zoom > 18) scale = 1000;
+              if (optMap.zoom > 20) scale = 1200;
               Object.keys(markers).forEach((key) => {
                 markers[key].setIcon({
                   path: google.maps.SymbolPath.CIRCLE,
