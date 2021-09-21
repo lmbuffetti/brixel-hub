@@ -87,7 +87,6 @@ const GetStartedEstimation = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log(get(formValue, 'properties.extraFeaturesBestimatePT', null));
     if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
       if (get(formValue, 'properties.extraFeatures.equippedKitchen') !== get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equippedKitchen')) {
         changeFieldValue('properties.extraFeatures.equippedKitchen', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equippedKitchen'));
