@@ -141,11 +141,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
     const curLocation = get(formValue, 'location', null);
     if (bedrooms >= 0 && livingSpace && curLocation) {
       const typology = FormatValue.formatRooms(bedrooms, 'pt');
-      if (curLocation.name && curLocation.city) {
-        pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.city ? `, ${curLocation.city}` : ''}`;
-      } else {
-        pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.city}`;
-      }
+      pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.city}`;
     }
   } else if (getCountry && propertyType) {
     const randomNumber = Math.floor(Math.random() * adjective[lang].length);

@@ -68,6 +68,7 @@ const GetStartedEstimation = (props) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [oldIndex, setOldIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [showError, setShowError] = useState(false);
@@ -317,6 +318,7 @@ const GetStartedEstimation = (props) => {
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
+    setOldIndex(currentIndex);
     setShowError(false);
     if (act === 'back') {
       newIndex -= step;
@@ -400,12 +402,13 @@ const GetStartedEstimation = (props) => {
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
+    setOldIndex(currentIndex);
     const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
     if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
     }
-    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other')) {
+    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other') && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
@@ -526,7 +529,7 @@ const GetStartedEstimation = (props) => {
     if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
       const propertyType = get(formValue, 'properties.propertyType', null);
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-      if (pageTitle) changeFieldValue('pageTitle', pageTitle);
+      if (pageTitle && ((formValue.pageTitle && formValue.pageTitle.includes('undefined')) || !formValue.pageTitle)) changeFieldValue('pageTitle', pageTitle);
     }
   }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
 

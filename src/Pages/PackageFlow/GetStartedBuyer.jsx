@@ -65,6 +65,7 @@ const GetStartedBuyer = (props) => {
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
   const [progressBar, setProgressBar] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [oldIndex, setOldIndex] = useState(0);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
@@ -222,6 +223,7 @@ const GetStartedBuyer = (props) => {
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
+    setOldIndex(currentIndex);
     setShowError(false);
     if (act === 'back') {
       newIndex -= step;
@@ -403,6 +405,7 @@ const GetStartedBuyer = (props) => {
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
+    setOldIndex(currentIndex);
     if (formValue) {
       const newQuest = [];
       QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
@@ -422,7 +425,7 @@ const GetStartedBuyer = (props) => {
       });
       setQuestions(newQuest);
     }
-    if (quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+    if (quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
