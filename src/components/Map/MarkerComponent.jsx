@@ -22,10 +22,12 @@ const MarkerComponent = (props) => {
     google,
     history,
     onClick,
+    onMarker,
     optMap,
-    type,
-    setSplashScreen,
+    parentMarker,
     setMarketOverlayProperty,
+    setSplashScreen,
+    type,
   } = props;
   // STATE
   const [infowindow, setInfowindow] = useState({});
@@ -121,10 +123,14 @@ const MarkerComponent = (props) => {
   };
 
   useEffect(() => {
+    const markers = [];
     if (optMap.zoom && data.length > 0) {
-      const markers = [];
       data.forEach((item) => {
-        if (get(item, 'location.latitude', null) && get(item, 'location.longitude', null)) {
+        let valid = true;
+        parentMarker.forEach((mark) => {
+          if (mark === item.id && valid) valid = false;
+        });
+        if (get(item, 'location.latitude', null) && get(item, 'location.longitude', null) && valid) {
           let price = get(item, 'price.total', 0);
           if (price > 0) price = cutValue(get(item, 'price.total', 0));
           else price = 'On request';
@@ -136,52 +142,97 @@ const MarkerComponent = (props) => {
               }
             });
           }
-          markers[item.id] = new MarkerWithLabel({
-            page: item,
-            id: item.id,
-            map: optMap,
-            icon: {
-              url: 'empty',
-            },
-            labelContent: `<p>${price.toString()}</p>`,
-            // the CSS class for the label
-            labelClass: `${activeProperty === item.id || selMarker === item.id ? 'labelMarker active' : 'labelMarker'} ${item.id}`,
-            labelInBackground: true,
-            // labelAnchor: new google.maps.Point(-75, -45),
-            position: {
-              lat: get(item, 'location.latitude', 200),
-              lng: get(item, 'location.longitude', 200),
-            },
-          });
+          if (get(item, 'tags', []).includes('pre-market') || item.status === 'sold') {
+            markers[item.id] = new MarkerWithLabel({
+              page: item,
+              id: item.id,
+              map: optMap,
+              icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: '#F9B1B9',
+                fillOpacity: 0.6,
+                strokeWeight: 0,
+              },
+              labelContent: '',
+              // the CSS class for the label
+              labelClass: `${activeProperty === item.id || selMarker === item.id ? 'labelMarker active' : 'labelMarker'} ${item.id}`,
+              labelInBackground: true,
+              // labelAnchor: new google.maps.Point(-75, -45),
+              position: {
+                lat: get(item, 'location.latitude', 200),
+                lng: get(item, 'location.longitude', 200),
+              },
+            });
+          } else {
+            markers[item.id] = new MarkerWithLabel({
+              page: item,
+              id: item.id,
+              map: optMap,
+              icon: {
+                url: 'empty',
+              },
+              labelContent: `<p>${price.toString()}</p>`,
+              // the CSS class for the label
+              labelClass: `${activeProperty === item.id || selMarker === item.id ? 'labelMarker active' : 'labelMarker'} ${item.id}`,
+              labelInBackground: true,
+              // labelAnchor: new google.maps.Point(-75, -45),
+              position: {
+                lat: get(item, 'location.latitude', 200),
+                lng: get(item, 'location.longitude', 200),
+              },
+            });
+          }
           const window = infowindow;
-          markers[item.id].addListener('click', () => {
-            if (selMarker !== item.id) setSelMarker(item.id);
-            Object.keys(window).forEach((key) => {
-              infowindow[key].close();
-              const menu = document.querySelector('body');
-              menu.classList.toggle('hidden-phone');
+          if (!get(item, 'tags', []).includes('pre-market') && item.status !== 'sold') {
+            markers[item.id].addListener('click', () => {
+              if (selMarker !== item.id) setSelMarker(item.id);
+              Object.keys(window).forEach((key) => {
+                infowindow[key].close();
+                const menu = document.querySelector('body');
+                menu.classList.toggle('hidden-phone');
+              });
+              const contentWrapper = document.createElement('div');
+              ReactDOM.render(
+                React.Children.only(InfoWindowContent(item, history)),
+                contentWrapper,
+              );
+              window[item.id] = new google.maps.InfoWindow({
+                class: 'test',
+                pixelOffset: new google.maps.Size(0, -45),
+                maxWidth: 308,
+              });
+              google.maps.event.addListener(window[item.id], 'closeclick', () => {
+                onClick(null);
+                setSelMarker(null);
+              });
+              window[item.id].setContent(contentWrapper);
+              window[item.id].open(optMap, markers[item.id]);
+              setInfowindow(window);
+              onClick(item.id);
             });
-            const contentWrapper = document.createElement('div');
-            ReactDOM.render(
-              React.Children.only(InfoWindowContent(item, history)),
-              contentWrapper,
-            );
-            window[item.id] = new google.maps.InfoWindow({
-              class: 'test',
-              pixelOffset: new google.maps.Size(0, -45),
-              maxWidth: 308,
+          } else {
+            optMap.addListener('zoom_changed', () => {
+              let scale = 10;
+              if (optMap.zoom > 12) scale = 20;
+              if (optMap.zoom > 14) scale = 40;
+              if (optMap.zoom > 16) scale = 200;
+              if (optMap.zoom > 18) scale = 1000;
+              if (optMap.zoom > 20) scale = 1200;
+              Object.keys(markers).forEach((key) => {
+                markers[key].setIcon({
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale,
+                  fillColor: '#F9B1B9',
+                  fillOpacity: 0.6,
+                  strokeWeight: 0,
+                });
+              });
             });
-            google.maps.event.addListener(window[item.id], 'closeclick', () => {
-              onClick(null);
-              setSelMarker(null);
-            });
-            window[item.id].setContent(contentWrapper);
-            window[item.id].open(optMap, markers[item.id]);
-            setInfowindow(window);
-            onClick(item.id);
-          });
+          }
         }
       });
+      if (Object.keys(markers).length > 0) onMarker(Object.keys(markers));
     }
   }, [optMap, data, activeProperty]);
 
@@ -193,11 +244,13 @@ const MarkerComponent = (props) => {
 MarkerComponent.propTypes = {
   activeProperty: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  parentMarker: PropTypes.arrayOf(PropTypes.string).isRequired,
   google: PropTypes.object.isRequired,
   optMap: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   // icon: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  onMarker: PropTypes.func.isRequired,
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   type: PropTypes.string,

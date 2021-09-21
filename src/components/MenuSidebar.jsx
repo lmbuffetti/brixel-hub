@@ -98,10 +98,9 @@ const MenuSidebar = (props) => {
                       <Link to={linkMenu(nav.path)}>
 
                         <BrixelIcon
-                          color="altColor"
-                          saturationTxt={700}
+                          color="altBlue"
+                          saturationTxt={400}
                           icon={nav.icon}
-
                         />
 
                         <span className="pl-3">{nav.title}</span>
@@ -118,7 +117,7 @@ const MenuSidebar = (props) => {
                                 >
                                   <Link
                                     to={linkMenu(submenu.path)}
-                                    className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtAltColor700' : 'txtAltColor100'}`}
+                                    className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtAltBlue400' : 'txtAltGrey400'}`}
                                   >
                                     <span className="dot" />
                                     <span className="pl-4">{submenu.title}</span>

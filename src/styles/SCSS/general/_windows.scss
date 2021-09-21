@@ -101,7 +101,8 @@
       margin-bottom: $step * 3;
 
       &.inputSheet {
-        max-width: 478px;
+        //max-width: 478px;
+        animation: slideInSec $default-time-long cubic-bezier(.39,.575,.565,1) forwards !important;
         width: 100%;
       }
 

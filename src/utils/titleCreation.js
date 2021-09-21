@@ -137,13 +137,14 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
     const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));
+
     const curLocation = get(formValue, 'location', null);
     if (bedrooms >= 0 && livingSpace && curLocation) {
       const typology = FormatValue.formatRooms(bedrooms, 'pt');
       if (curLocation.name && curLocation.city) {
-        pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.name}${curLocation.city ? `, ${curLocation.city}` : ''}`;
+        pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.city ? `, ${curLocation.city}` : ''}`;
       } else {
-        pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.searchAddress}`;
+        pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.city}`;
       }
     }
   } else if (getCountry && propertyType) {

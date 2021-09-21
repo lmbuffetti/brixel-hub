@@ -32,6 +32,7 @@ export const MarketMapComponent = (props) => {
     zoom,
   } = props;
   // STATE
+  const [marker, setMarker] = useState([]);
   const [showInfoWindow, setShowInfoWindow] = useState(false);
   const [modalInfo] = useState({});
   const mapRef = useRef(null);
@@ -129,6 +130,8 @@ export const MarketMapComponent = (props) => {
             optMap={optMap}
             google={google}
             data={properties}
+            onMarker={(val) => setMarker(val)}
+            parentMarker={marker || []}
             type={type}
             onClick={(val) => onSelProperty('click', val)}
 
