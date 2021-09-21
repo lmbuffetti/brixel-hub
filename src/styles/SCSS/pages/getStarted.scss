@@ -7,8 +7,13 @@
 
 .flowBody {
   background-color: #F7F6F5;
-
   overflow: hidden;
+
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
+
   .flowScrollWrap {
     overflow-y: auto;
   }
