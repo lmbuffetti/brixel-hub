@@ -219,7 +219,7 @@ const MarketCategoryListBuyer = (props) => {
 
         {/* WHISHLIST */}
         <div className="container">
-          <h5>Wishlist</h5>
+          <h5 className="fweight-600 mb-3 txtAltGrey400">Wishlist</h5>
           <div className="dis-f jc-b">
             <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
               {
@@ -256,50 +256,37 @@ const MarketCategoryListBuyer = (props) => {
         <div className="bgAltMist200 mt-5 pt-3">
           {/* SEARCH PROFILE */}
           <div className="container">
-            <h5>Search Profile</h5>
-            <div className="bgWhite brdRadius">
+            <h5 className="fweight-600 mb-3 txtAltGrey400">Search Profile</h5>
+            <div className="bgWhite brdRadius dis-f p-3">
               {
                 has(userSearchProfiles, 'id') ? (
                   <div
-                    className="searchProfileArea py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3 cur-poi"
+                    className="cur-poi"
                     onClick={() => setShowSearchProfileForm(!showSearchProfileForm)}
                   >
                     <div className="dis-f">
                       {
                         get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
-                          <React.Fragment key={i.toString()}>
+                          <div key={i.toString()} className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2">
                             <span className="" key={i.toString()}>{item}</span>
-                            <span className="px-1"> &middot; </span>
-                          </React.Fragment>
+                          </div>
                         ))
                       }
                       {
                         get(userSearchProfiles, 'location', []).length > 0 &&
                         get(userSearchProfiles, 'location', []).map((item, i) => (
-                          <React.Fragment key={i.toString()}>
+                          <div key={i.toString()} className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2">
                             <span className="">{item.name}</span>
                             {
                               i !== userSearchProfiles.location.length - 1 && (
                                 <span>,&nbsp;</span>
                               )
                             }
-                          </React.Fragment>
+                          </div>
                         ))
                       }
-                      <span className="px-1"> &middot; </span>
-                    </div>
-                    <div className="dis-f">
-                      <div className="dis-fl-row a-c ">
-                        <span>
-                          {get(userSearchProfiles, 'characteristics.bedrooms.min', 0)} - {get(userSearchProfiles, 'characteristics.bedrooms.max', 0)}
-                        </span>
-                        <span>&nbsp;Rooms</span>
-                      </div>
-                      <span className="px-1"> &middot; </span>
-                      <div className="dis-fl-row a-c mr-2 ">
-                        <span>
-                          {get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}
-                        </span>
+                      <div className="brdFullRadius brdSmall brdLight200 dis-f ws-nw py-1 px-3">
+                        <span>{get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}</span>
                         <span>&nbsp;m2</span>
                       </div>
                     </div>
@@ -335,18 +322,19 @@ const MarketCategoryListBuyer = (props) => {
             </div>
           </div>
 
-          <div className="dis-f jc-fe container">
-            <div>
-              <h3 className="max-w-fix-320">
+          <div className="dis-f jc-fe container mt-6 pb-8">
+            <div className="w-perc-md-50">
+              <h3 className="max-w-fix-320 fweight-600 fsize-700">
                 <span>There are</span>
-                <span className="mx-small-4">{preMarketProperties.total}</span>
-                <span className="mx-small-4">new properties</span>
+                <span className="mx-small-4 txtAltBlue400">{preMarketProperties.total}</span>
+                <span className="mx-small-4 txtAltBlue400">new properties</span>
                 <span>on our Pre-Market</span>.
               </h3>
-              <h4>
+              <h5 className="fweight-400 mt-3">
                 Be ahead of the market.
-              </h4>
+              </h5>
               <BrixelButtonPrimary
+                className="mt-5"
                 rounded
                 theme="altGreen"
                 themeSat={300}
