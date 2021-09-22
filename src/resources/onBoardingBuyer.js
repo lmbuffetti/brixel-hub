@@ -64,9 +64,9 @@ export const QuestionsList = (lang) => {
           cardLayout: true,
           cardSmall: true,
           svgSupport: true,
-          svgWidth: 'max-w-fix-200',
           isHorizontal: true,
-          pdClass: 'py-3 py-md-5',
+          svgWidth: 'max-w-fix-120 max-w-fix-md-200',
+          pdClass: 'py-md-5',
           options: [
             {
               label: 'Apartment',
