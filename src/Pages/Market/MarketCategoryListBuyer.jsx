@@ -17,6 +17,7 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import cloneDeep from 'lodash/cloneDeep';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
@@ -24,6 +25,7 @@ import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '..
 import NoPropertiesImg from '../../images/searchProfile/no-found-properties.svg';
 import MarketCardSmall from '../../components/MarketCardSmall';
 import { QuestionsList } from '../../resources/onBoardingBuyer';
+import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
 
 const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
@@ -32,9 +34,11 @@ const MarketCategoryListBuyer = (props) => {
   const {
     favoritesProperties,
     formValue,
+    handleUpdateSearchProfile,
     history,
     initialValues,
     initForm,
+    isSmallLoading,
     lang,
     loggedInUser,
     match,
@@ -48,29 +52,29 @@ const MarketCategoryListBuyer = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [numWhishProp, setWhishProp] = useState(4);
+  const [numWishProp, setWishProp] = useState(4);
   const [showSearchProfileForm, setShowSearchProfileForm] = useState(false);
   const [fullForm, setFullForm] = useState([]);
 
   useEffect(() => {
-    if (get(userSearchProfiles, '[0].id', null)) initForm(initialValues);
-  }, [get(userSearchProfiles, '[0].id', null)]);
+    if (get(userSearchProfiles, 'id', null)) initForm(initialValues);
+  }, [get(userSearchProfiles, 'id', null)]);
 
   // Update data by user screen
   useEffect(() => {
-    if (windowDimensions.width < 768) setWhishProp(1);
-    else if (windowDimensions.width < 1024) setWhishProp(2);
-    else if (windowDimensions.width < 1440) setWhishProp(3);
-    else setWhishProp(4);
+    if (windowDimensions.width < 768) setWishProp(1);
+    else if (windowDimensions.width < 1024) setWishProp(2);
+    else if (windowDimensions.width < 1440) setWishProp(3);
+    else setWishProp(4);
   }, [windowDimensions.width]);
 
   useEffect(() => {
     const inputform = [];
-    QuestionsList(lang, 'CH').forEach((form) => {
-      inputform.push(form);
+    QuestionsList(lang, 'searchProfile').forEach((form) => {
+      if (!form.hideSearchProfile) inputform.push(form);
     });
     setFullForm(inputform);
-  }, []);
+  }, [userSearchProfiles]);
 
   // Update market card when bestimate changes
   useEffect(() => {
@@ -88,6 +92,25 @@ const MarketCategoryListBuyer = (props) => {
   const scrollToTopEdit = () => {
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
     if (scrollEl) scrollEl.scrollTop = 0;
+  };
+
+  // FUNCTION TO SAVE DATA
+  const saveData = async () => {
+    const dataFormAnswer = cloneDeep(formValue);
+    const dataSearchProfile = {
+      characteristics: get(dataFormAnswer, 'characteristics', {}),
+      location: get(dataFormAnswer, 'locations', []),
+      profile: get(dataFormAnswer, 'profile', {}),
+      finance: get(dataFormAnswer, 'finance', {}),
+    };
+    // PROPERTY DATA
+    const data = {
+      dataSearchProfile,
+      smallLoader: 'saveData',
+    };
+    data.dataSearchProfile.user = loggedInUser.id;
+    data.owner = loggedInUser.id;
+    await handleUpdateSearchProfile(data);
   };
 
   useEffect(() => {
@@ -138,7 +161,7 @@ const MarketCategoryListBuyer = (props) => {
 
   return (
     <Suspense fallback="">
-      <div>
+      <div className="buyerMarket">
         {/* SECTION: buyer welcome message  */}
         {
           splashScreenType === 'buyerWelcome' && (
@@ -196,14 +219,14 @@ const MarketCategoryListBuyer = (props) => {
 
         {/* WHISHLIST */}
         <div className="container">
-          <h5>Whishlist</h5>
+          <h5>Wishlist</h5>
           <div className="dis-f jc-b">
-            <div className={`row-cols-${numWhishProp}-gut-4 w-perc-100`}>
+            <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
               {
                 get(favoritesProperties, 'data', []).map((fav, i) => (
                   <React.Fragment key={i.toString()}>
                     {
-                      i < numWhishProp && (
+                      i < numWishProp && (
                         <MarketCardSmall
                           type="fav"
                           key={i.toString()}
@@ -216,10 +239,13 @@ const MarketCategoryListBuyer = (props) => {
               }
             </div>
             {
-              get(favoritesProperties, 'data', []).length > numWhishProp && (
-                <div className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen400 min-w-fix-80 h-fix-80 ml-4">
+              get(favoritesProperties, 'data', []).length > numWishProp && (
+                <div
+                  className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen400 min-w-fix-80 h-fix-80 ml-4 cur-poi"
+                  onClick={() => history.push('/buy/wishlist')}
+                >
                   <span className="txtGreen400 fweight-600 fsize-500">
-                    + {get(favoritesProperties, 'data', []).length - numWhishProp}
+                    + {get(favoritesProperties, 'data', []).length - numWishProp}
                   </span>
                 </div>
               )
@@ -233,14 +259,14 @@ const MarketCategoryListBuyer = (props) => {
             <h5>Search Profile</h5>
             <div className="bgWhite brdRadius">
               {
-                has(userSearchProfiles, '[0].id') ? (
+                has(userSearchProfiles, 'id') ? (
                   <div
                     className="searchProfileArea py-1 px-sm-2 pr-5 pl-2 shadow-1dp dis-fl-row a-c fweight-500 txtDark500 fsize-300 flex-wrap pos-r as-b mb-3 cur-poi"
                     onClick={() => setShowSearchProfileForm(!showSearchProfileForm)}
                   >
                     <div className="dis-f">
                       {
-                        get(userSearchProfiles[0], 'characteristics.propertyType', []).map((item, i) => (
+                        get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
                           <React.Fragment key={i.toString()}>
                             <span className="" key={i.toString()}>{item}</span>
                             <span className="px-1"> &middot; </span>
@@ -248,12 +274,12 @@ const MarketCategoryListBuyer = (props) => {
                         ))
                       }
                       {
-                        get(userSearchProfiles[0], 'location', []).length > 0 &&
-                        get(userSearchProfiles[0], 'location', []).map((item, i) => (
+                        get(userSearchProfiles, 'location', []).length > 0 &&
+                        get(userSearchProfiles, 'location', []).map((item, i) => (
                           <React.Fragment key={i.toString()}>
                             <span className="">{item.name}</span>
                             {
-                              i !== userSearchProfiles[0].location.length - 1 && (
+                              i !== userSearchProfiles.location.length - 1 && (
                                 <span>,&nbsp;</span>
                               )
                             }
@@ -265,14 +291,14 @@ const MarketCategoryListBuyer = (props) => {
                     <div className="dis-f">
                       <div className="dis-fl-row a-c ">
                         <span>
-                          {get(userSearchProfiles[0], 'characteristics.bedrooms.min', 0)} - {get(userSearchProfiles[0], 'characteristics.bedrooms.max', 0)}
+                          {get(userSearchProfiles, 'characteristics.bedrooms.min', 0)} - {get(userSearchProfiles, 'characteristics.bedrooms.max', 0)}
                         </span>
                         <span>&nbsp;Rooms</span>
                       </div>
                       <span className="px-1"> &middot; </span>
                       <div className="dis-fl-row a-c mr-2 ">
                         <span>
-                          {get(userSearchProfiles[0], 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles[0], 'characteristics.livingArea.max', 0)}
+                          {get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}
                         </span>
                         <span>&nbsp;m2</span>
                       </div>
@@ -290,21 +316,46 @@ const MarketCategoryListBuyer = (props) => {
                   </div>
                 )
               }
-              {
-                showSearchProfileForm && (
-                  <div className="row-cols-2-gut-4">
-                    <MultiFileldsReduxForm
-                      form="GetStarted"
-                      disableNextBtn={false}
-                      formValue={formValue}
-                      nestedInputs={fullForm}
-                      showSendButton
-                    />
-                  </div>
-                )
-              }
+              <div className={`slideOpen ${showSearchProfileForm ? 'open' : 'close'}`}>
+                <div className="row-cols-1-gut-1 row-cols-md-2-gut-4 max-w-fix-1030 px-2 mx-a">
+                  <MultiFileldsReduxForm
+                    form="GetStarted"
+                    disableNextBtn={false}
+                    formValue={formValue}
+                    nestedInputs={fullForm}
+                    showSendButton
+                  />
+                </div>
+                <BrixelButtonPrimary
+                  label="Save"
+                  onClick={() => saveData()}
+                  isLoading={isSmallLoading.saveData}
+                />
+              </div>
             </div>
           </div>
+
+          <div className="dis-f jc-fe container">
+            <div>
+              <h3 className="max-w-fix-320">
+                <span>There are</span>
+                <span className="mx-small-4">{preMarketProperties.total}</span>
+                <span className="mx-small-4">new properties</span>
+                <span>on our Pre-Market</span>.
+              </h3>
+              <h4>
+                Be ahead of the market.
+              </h4>
+              <BrixelButtonPrimary
+                rounded
+                theme="altGreen"
+                themeSat={300}
+                label="Rate them now"
+              />
+            </div>
+
+          </div>
+
         </div>
 
         <div className="dis-fl-col pb-8">
@@ -540,8 +591,11 @@ const MarketCategoryListBuyer = (props) => {
 MarketCategoryListBuyer.propTypes = {
   favoritesProperties: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleUpdateSearchProfile: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -549,7 +603,6 @@ MarketCategoryListBuyer.propTypes = {
   preMarketProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
-  initForm: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
@@ -560,21 +613,35 @@ MarketCategoryListBuyer.defaultProps = {
   userSearchProfiles: null,
 };
 
-const mapStateToProps = (state) => ({
-  favoritesProperties: get(state, 'market.favoritesProperties', {}),
-  formValue: get(state, 'brixelForm.GetStarted.values', {}),
-  initialValues: get(state, 'user.userSearchProfiles[0]', []),
-  lang: get(state, 'user.loggedInUser.user.language', 'en'),
-  loggedInUser: get(state, 'user.loggedInUser.user', {}),
-  newProperties: get(state, 'market.newProperties', {}),
-  ownerEstimations: get(state, 'market.ownerEstimations', {}),
-  preMarketProperties: get(state, 'market.preMarketProperties', {}),
-  premiumProperties: get(state, 'market.premiumProperties', {}),
-  splashScreenType: get(state, 'common.splashScreenType', ''),
-  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
-  wishlistProperties: get(state, 'market.wishlistProperties', {}),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
-});
+const mapStateToProps = (state) => {
+  const searchProfile = get(state, 'user.userSearchProfiles', []);
+  const initVal = searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile;
+  const userCompany = get(state, 'user.loggedInUser.user.comapny', {});
+  return ({
+    favoritesProperties: get(state, 'market.favoritesProperties', {}),
+    formValue: get(state, 'brixelForm.GetStarted.values', {}),
+    initialValues: {
+      ...initVal,
+      countryCode: get(initVal, 'location[0].countryCode', get(userCompany, 'country.code', 'CH')),
+      finance: {
+        ...get(initVal, 'finance', {}),
+        currency: get(initVal, 'finance.currency', get(userCompany, 'country.currency', 'CHF')),
+      },
+      locations: get(state, 'user.userSearchProfiles[0].location', []),
+    },
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
+    lang: get(state, 'user.loggedInUser.user.language', 'en'),
+    loggedInUser: get(state, 'user.loggedInUser.user', {}),
+    newProperties: get(state, 'market.newProperties', {}),
+    ownerEstimations: get(state, 'market.ownerEstimations', {}),
+    preMarketProperties: get(state, 'market.preMarketProperties', {}),
+    premiumProperties: get(state, 'market.premiumProperties', {}),
+    splashScreenType: get(state, 'common.splashScreenType', ''),
+    userSearchProfiles: searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile,
+    windowDimensions: get(state, 'common.windowDimensions', {}),
+    wishlistProperties: get(state, 'market.wishlistProperties', {}),
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
@@ -582,6 +649,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
+  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

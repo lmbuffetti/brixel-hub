@@ -36,7 +36,7 @@ export const minLengthNum = (val, name) => (value) => {
 };
 
 // QUESTION LISTS
-export const QuestionsList = (lang) => {
+export const QuestionsList = (lang, type) => {
   let countryList = [];
   let formValue = {};
   if (configureStore) {
@@ -47,7 +47,7 @@ export const QuestionsList = (lang) => {
 
   return [
     {
-      title: translateTo(lang, 'What kind of property would you like to buy?'),
+      title: type === 'searchProfile' ? 'Property Type' : 'What kind of property would you like to buy?',
       subtitle: translateTo(lang, 'Choose between apartment, house and building land.'),
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
@@ -92,7 +92,7 @@ export const QuestionsList = (lang) => {
       successMessage: translateTo(lang, 'Ok. Got it.'),
     },
     {
-      title: translateTo(lang, 'How big should it be?'),
+      title: type === 'searchProfile' ? 'Size' : 'How big should it be?',
       history: 'tipology',
       vCentered: true,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a pl-2 pr-0 px-sm-5 py-5',
@@ -139,15 +139,17 @@ export const QuestionsList = (lang) => {
           extraFeatureCustomList: factsOptions.extraFeatureShort,
         },
       ],
+      hideSearchProfile: true,
       successMessage: translateTo(lang, 'Ok. Got it.'),
     },
     {
-      title: translateTo(lang, 'Where would your dream home be located?'),
+      title: type === 'searchProfile' ? 'Location' : 'Where would your dream home be located?',
       subtitle: translateTo(lang, 'You can add multiple addresses.'),
       history: 'locationInput',
       cardType: 'locationInput',
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 w-perc-100 m-a px-2 px-sm-5 py-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
+      classQuest: 'dis-f',
       inputs: [
         {
           className: 'pos-r zIndex6 compact',
@@ -155,7 +157,7 @@ export const QuestionsList = (lang) => {
           component: BrixelSelect,
           label: 'Country',
           labelType: 'onlyFlag',
-          name: 'location.countryCode',
+          name: type === 'searchProfile' ? 'countryCode' : 'location.countryCode',
           options: countryList,
           validation: [Validation.required],
         },
@@ -179,17 +181,18 @@ export const QuestionsList = (lang) => {
       successMessage: translateTo(lang, 'That is an interesting location.'),
     },
     {
-      title: translateTo(lang, 'What is your budget?'),
+      title: type === 'searchProfile' ? `Max selling price in ${get(formValue, 'finance.currency', 'CHF')}` : 'What is your budget?',
       history: 'price',
       cardType: 'Price',
-      className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a',
+      className: `fieldHolder bgWhite brdRadius ${type === 'searchProfile' ? 'max-w-fix-320' : 'max-w-fix-600 m-a'}`,
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
+          currency: type === 'searchProfile' ? get(formValue, 'finance.currency', 'CHF') : null,
           component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-600 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+          classNameBox: `brdRadius fieldHolder bgWhite ${type === 'searchProfile' ? 'max-w-fix-320' : 'max-w-fix-600 px-2 px-sm-5 py-5 m-a'}`,
           className: '',
-          label: `Max. selling price in ${get(formValue, 'finance.currency', 'CHF')}`,
+          label: type === 'searchProfile' ? null : `Max. selling price in ${get(formValue, 'finance.currency', 'CHF')}`,
           placeholder: get(formValue, 'finance.currency', 'CHF') === 'CHF' ? '800’000' : '800.000',
           name: 'finance.price.totalMax',
           formatType: 'price',
@@ -214,6 +217,7 @@ export const QuestionsList = (lang) => {
           options: factsOptions.buyerLivingSituation,
         },
       ],
+      hideSearchProfile: true,
       successMessage: translateTo(lang, 'This is a nice number.'),
     },
     {
@@ -232,11 +236,13 @@ export const QuestionsList = (lang) => {
         name: 'register.name',
         validation: [Validation.required],
       }],
+      hideSearchProfile: true,
     },
     {
       history: 'savingData',
       cardType: 'createProfile',
       toSave: true,
+      hideSearchProfile: true,
     },
   ];
 };

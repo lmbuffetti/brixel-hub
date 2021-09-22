@@ -310,3 +310,15 @@
     transform: scale(1);
   }
 }
+
+.slideOpen {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height $default-time-long $default-easing;
+  &.open {
+    max-height: 100%;
+  }
+  &.close {
+    max-height: 0;
+  }
+}
