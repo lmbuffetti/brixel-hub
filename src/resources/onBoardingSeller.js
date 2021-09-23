@@ -62,8 +62,8 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         cardLayout: true,
         cardSmall: true,
         svgSupport: true,
-        svgWidth: 'max-w-fix-120 max-w-fix-md-200',
-        pdClass: 'py-md-5',
+        svgWidth: 'max-w-fix-120 max-w-fix-sm-200',
+        pdClass: 'py-sm-5',
         isHorizontal: true,
         options: [
           {
