@@ -82,6 +82,8 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'user-send-message') return `"${item.meta.message}"`;
       if (item.actionStub === 'user-portal-create-message') return `<span>Sent new message on </span><span>${item.meta.portal}</span></br></br><span>${item.meta.message}</span>`;
 
+      if (item.actionStub === 'deal-make-offer') return `<span>Prospect made an offer: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span></br></br><span>${item.meta.offer.noteByBuyer}</span>`;
+
       // DEAL HISTORY ENTRY
       if (item.actionStub === 'update-deal') {
         if (has(item, 'meta.stageBefore')) {
@@ -151,6 +153,7 @@ export const createTimelineEntry = (item, userLang) => {
           return 'question';
         }
       }
+      if (item.actionStub === 'deal-make-offer') return 'money';
     }
     return 'info';
   };
