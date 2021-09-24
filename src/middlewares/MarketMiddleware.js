@@ -213,18 +213,38 @@ const checkLead = (store) => (next) => (action) => {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.favorite = 'CardImageTextVertical';
+      const {
+        direction,
+        offset,
+        order,
+        overlayCard,
+        resultsPerPage,
+        searchProfileId,
+      } = action.payload;
       store.dispatch({
         type: SKELETON_ON,
         payload: {
           ...loadSkeleton,
         },
       });
-      let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
-      if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
-      api.market.getPreMarketProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
+      let queryParams = `?order=${order}&direction=${direction}`;
+      if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
+      console.log(resultsPerPage, offset, queryParams);
+      api.market.getPreMarketProperties(resultsPerPage, offset, queryParams)
         .then((res) => {
+          console.log(res.meta.status);
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMARKET_PROPERTIES, payload: res.data });
+            const propertyList = cloneDeep(get(store.getState(), 'property.activeMarketOverlayPropertyLists', [])) || [];
+            propertyList.push(...res.data.data);
+            console.log('TEST', propertyList, res.data.data);
+            store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
+          }
+          if (res.meta.status === 200 && overlayCard) {
+            const propertyList = cloneDeep(get(store.getState(), 'property.activeMarketOverlayPropertyLists', []));
+            propertyList.push(...res.data.data);
+            console.log('TEST', propertyList, res.data.data);
+            store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.favorite = false;

@@ -57,8 +57,14 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    .slick-slide, .cloneElement {
      position: absolute !important;
      left: 0 !important;
-     top: 0 !important;
+     top: 10px !important;
      width: 100% !important;
+     opacity: 1 !important;
+     transform: translate(0px, -0px);
+     transition: all $default-time-long $default-easing !important;
+     &.active {
+       z-index: 10;
+     }
    }
 
    .slick-slider {
@@ -87,6 +93,12 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    .mapsImage {
      background-size: cover;
      background-position: center;
+   }
+
+   .space-0, .space-1 {
+     filter: blur(1px);
+     -webkit-filter: blur(1px);
+     transform: translate(10px, -10px);
    }
 
    .cloneElement {

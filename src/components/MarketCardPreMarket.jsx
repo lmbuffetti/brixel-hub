@@ -72,7 +72,7 @@ const MarketCardPreMarket = (props) => {
             backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=15&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
           }}
         >
-          <div className="redCircleMap" />
+          <div className="redCircleMapPreMarket" />
         </div>
 
         <div className="w-perc-50 p-4">

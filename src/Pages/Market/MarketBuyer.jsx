@@ -66,7 +66,7 @@ const MarketBuyer = (props) => {
   }, [loggedInUser.id]);
 
   useEffect(() => {
-    handleSetActiveMarketOverlayPropertyLists(preMarketProperties);
+    // handleSetActiveMarketOverlayPropertyLists(preMarketProperties);
   }, [preMarketProperties]);
 
   useEffect(() => {
@@ -78,6 +78,7 @@ const MarketBuyer = (props) => {
         direction: 'DESC',
         setAsSingle: true,
         multiLoader: true,
+        overlayCard: true,
         searchProfileId: get(userSearchProfiles, '[0].id', null),
       };
       handleGetPreMarketProperties(data);

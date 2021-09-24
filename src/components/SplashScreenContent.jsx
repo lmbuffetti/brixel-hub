@@ -78,22 +78,6 @@ const SplashScreen = (props) => {
         }
       }
       if (activeIndex !== activeSlide) {
-        const id = activeIndex;
-        const page = Math.floor(id / 10);
-        if (activeIndex >= getAllslides.length - 3 && getAllslides.length < preMarketProperties.total) {
-          const profileID = get(userSearchProfiles, '[0].id', null);
-          const data = {
-            overlayCard: true,
-            resultsPerPage: 10,
-            offset: (page + 1) * 10,
-            order: 'updatedAt',
-            direction: 'DESC',
-            setAsSingle: true,
-            multiLoader: true,
-          };
-          if (profileID) set(data, 'searchProfileId', profileID);
-          handleGetNewProperties(data);
-        }
         let inactiveNum = 0;
         for (let num = 0; num < getAllslides.length; num += 1) {
           if (getAllslides[num]) {
@@ -143,13 +127,17 @@ const SplashScreen = (props) => {
       wrapCarousel.classList.add('animate');
       if (next > prev) {
         const itmFadeOut = wrapCarousel.getElementsByClassName('slick-current')[0];
-        const clnFadeOut = itmFadeOut.cloneNode(true);
-        wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeOut';
+        if (itmFadeOut) {
+          const clnFadeOut = itmFadeOut.cloneNode(true);
+          wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeOut';
+        }
       } else {
         wrapCarousel.classList.add('animateCard');
         const itmFadeIn = wrapCarousel.getElementsByClassName('slick-slide')[activeSlide - 1];
-        const clnFadeOut = itmFadeIn.cloneNode(true);
-        wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeIn';
+        if (itmFadeIn) {
+          const clnFadeOut = itmFadeIn.cloneNode(true);
+          wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeIn';
+        }
       }
     },
     afterChange: () => {
@@ -163,6 +151,24 @@ const SplashScreen = (props) => {
       setShowContent(true);
     }, 500);
   }, []);
+
+  useEffect(() => {
+    console.log(activeSlide, preMarketProperties, activeMarketOverlayPropertyLists.length);
+    if (activeMarketOverlayPropertyLists.length - 3 === activeSlide) {
+      const profileID = get(userSearchProfiles, '[0].id', null);
+      const data = {
+        overlayCard: true,
+        resultsPerPage: preMarketProperties.quantity,
+        offset: preMarketProperties.offset + preMarketProperties.quantity,
+        order: 'updatedAt',
+        direction: 'DESC',
+        setAsSingle: true,
+        multiLoader: true,
+      };
+      if (profileID) set(data, 'searchProfileId', profileID);
+      handleGetPreMarketProperties(data);
+    }
+  }, [activeSlide]);
 
   // console.log(activeSlide);
   // Function to close the drawer menus when we click outside
@@ -225,7 +231,7 @@ const SplashScreen = (props) => {
       wrapCarousel.appendChild(cln).className = 'cloneElement favorite';
       const listProp = cloneDeep(activeMarketOverlayPropertyLists);
       listProp.splice(activeSlide, 1);
-      handleSetActiveMarketOverlayPropertyLists(listProp);
+      // handleSetActiveMarketOverlayPropertyLists(listProp);
       // setActiveSlide(activeSlide + 1);
       updateData();
       setTimeout(() => {
@@ -251,7 +257,7 @@ const SplashScreen = (props) => {
       wrapCarousel.appendChild(cln).className = 'cloneElement discard';
       const listProp = cloneDeep(activeMarketOverlayPropertyLists);
       listProp.splice(activeSlide, 1);
-      handleSetActiveMarketOverlayPropertyLists(listProp);
+      // handleSetActiveMarketOverlayPropertyLists(listProp);
       // setActiveSlide(activeSlide + 1);
       updateData();
       setTimeout(() => {
@@ -291,7 +297,7 @@ const SplashScreen = (props) => {
       <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard || !activeMarketOverlayPropertyLists ? '' : 'pos-r zIndex1'}`}>
         {
           activeMarketOverlayPropertyLists && (
-            <>
+            <div className="container">
               <SearchProfileBanner
                 title="Pre-Market"
                 subtitle="Watch properties which are not even on the market yet. How it works"
@@ -362,7 +368,7 @@ const SplashScreen = (props) => {
                   )
                 }
               </div>
-            </>
+            </div>
           )
         }
         {
@@ -487,7 +493,7 @@ const mapStateToProps = (state) => ({
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
-  preMarketProperties: get(state, 'market.wishlistProperties', {}),
+  preMarketProperties: get(state, 'market.preMarketProperties', {}),
   preMarketStats: get(state, 'market.preMarketStats', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
 });
