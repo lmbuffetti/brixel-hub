@@ -166,33 +166,37 @@ const MarketCategoryListBuyer = (props) => {
           </div>
         </div>
 
-        <div className="bgAltMist200 mt-5 pt-3">
-          {/* SEARCH PROFILE */}
-          <div className="container">
-            <SearchProfileBanner preMarketStats={preMarketStats} />
-          </div>
+        <div className="bgAltMist200 mt-5 pt-3 ov-h">
 
-          <div className="dis-f jc-fe container pt-6 pb-8 infoBannerMarketBuyer">
-            <div className="w-perc-md-50">
-              <h3 className="max-w-fix-320 fweight-600 fsize-700">
-                <span>There are</span>
-                <span className="mx-small-4 txtAltBlue400">{preMarketStats.total}</span>
-                <span className="mx-small-4 txtAltBlue400">new properties</span>
-                <span>on our Pre-Market</span>.
-              </h3>
-              <h5 className="fweight-400 mt-3">
-                Be ahead of the market.
-              </h5>
-              <BrixelButtonPrimary
-                onClick={() => setSplashScreen('marketOverlayCarousel')}
-                className="mt-5"
-                rounded
-                theme="altGreen"
-                themeSat={300}
-                label="Rate them now"
-              />
+          <div className="container bgSvg">
+
+            {/* SEARCH PROFILE */}
+            <div className="">
+              <SearchProfileBanner preMarketStats={preMarketStats} />
             </div>
 
+            <div className="dis-f jc-fe pt-6 pb-8 infoBannerMarketBuyer">
+              <div className="w-perc-md-50">
+                <h3 className="max-w-fix-320 fweight-600 fsize-700">
+                  <span>There are</span>
+                  <span className="mx-small-4 txtAltBlue400">{preMarketStats.total}</span>
+                  <span className="mx-small-4 txtAltBlue400">new properties</span>
+                  <span>on our Pre-Market</span>.
+                </h3>
+                <h5 className="fweight-400 mt-3">
+                  Be ahead of the market.
+                </h5>
+                <BrixelButtonPrimary
+                  onClick={() => setSplashScreen('marketOverlayCarousel')}
+                  className="mt-5"
+                  rounded
+                  theme="altGreen"
+                  themeSat={300}
+                  label="Rate them now"
+                />
+              </div>
+
+            </div>
           </div>
 
         </div>
