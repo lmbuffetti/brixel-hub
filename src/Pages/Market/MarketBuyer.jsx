@@ -29,7 +29,7 @@ const MarketBuyer = (props) => {
   const {
     destroyForm,
     handleGetFavoritesProperties,
-    handleSetActiveMarketOverlayPropertyLists,
+    // handleSetActiveMarketOverlayPropertyLists,
     handleGetPreMarketProperties,
     handleGetPremarketStats,
     handleGetPremiumProperties,
@@ -61,7 +61,6 @@ const MarketBuyer = (props) => {
       handleGetWishlistProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
       handleSpinnerOff();
-      handleGetPremarketStats();
     }
   }, [loggedInUser.id]);
 
@@ -84,6 +83,9 @@ const MarketBuyer = (props) => {
       handleGetPreMarketProperties(data);
       handleGetPremiumProperties(data);
       handleSpinnerOff();
+      handleGetPremarketStats({ id: get(userSearchProfiles, '[0].id', null) });
+    } else {
+      handleGetPremarketStats({});
     }
   }, [userSearchProfiles, get(history, 'location.pathname', null)]);
 
@@ -108,7 +110,7 @@ MarketBuyer.propTypes = {
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
-  handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
+  // handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,

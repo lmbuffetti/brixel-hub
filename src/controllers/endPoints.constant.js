@@ -71,7 +71,7 @@ export default {
     ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedPages/${paginationLimit}/${paginationSkip}${data}`,
     preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
     premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
-    preMarketStats: () => '/market/list/preMarketStats',
+    preMarketStats: (query) => `/market/list/preMarketStats${query}`,
   },
   note: {
     singleNote: (id) => `/note/${id}`,

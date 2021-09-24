@@ -48,8 +48,8 @@ class Market extends Base {
     return this.apiClient.get(url);
   }
 
-  preMarketStats() {
-    const url = ep.market.preMarketStats();
+  preMarketStats(query) {
+    const url = ep.market.preMarketStats(query);
     return this.apiClient.get(url);
   }
 }

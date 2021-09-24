@@ -229,21 +229,17 @@ const checkLead = (store) => (next) => (action) => {
       });
       let queryParams = `?order=${order}&direction=${direction}`;
       if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
-      console.log(resultsPerPage, offset, queryParams);
       api.market.getPreMarketProperties(resultsPerPage, offset, queryParams)
         .then((res) => {
-          console.log(res.meta.status);
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMARKET_PROPERTIES, payload: res.data });
             const propertyList = cloneDeep(get(store.getState(), 'property.activeMarketOverlayPropertyLists', [])) || [];
             propertyList.push(...res.data.data);
-            console.log('TEST', propertyList, res.data.data);
             store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
           }
           if (res.meta.status === 200 && overlayCard) {
             const propertyList = cloneDeep(get(store.getState(), 'property.activeMarketOverlayPropertyLists', []));
             propertyList.push(...res.data.data);
-            console.log('TEST', propertyList, res.data.data);
             store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
@@ -317,7 +313,12 @@ const checkLead = (store) => (next) => (action) => {
     }
     case GET_PREMARKET_STATS: {
       next(action);
-      api.market.preMarketStats()
+      const {
+        id,
+      } = action.payload;
+      let query = '';
+      if (id) query = `?searchprofileid=${id}`;
+      api.market.preMarketStats(query)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMARKET_STATS, payload: res.data });

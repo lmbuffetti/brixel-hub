@@ -26,7 +26,6 @@ const SearchProfileBanner = (props) => {
     formValue,
     handleCreateSearchProfile,
     handleUpdateSearchProfile,
-    history,
     isSmallLoading,
     lang,
     loggedInUser,
@@ -141,14 +140,30 @@ const SearchProfileBanner = (props) => {
                   </div>
                 </div>
               ) : (
-                <div className="py-3">
-                  <BrixelButtonPrimary
-                    rounded
-                    leftIcon="edit"
-                    className="fsize-300"
-                    label="Add search profile"
-                    onClick={() => history.push(`/packageFlow/getStartedBuyer?company=${get(loggedInUser, 'company.stub', '')}`)}
-                  />
+                <div
+                  onClick={() => setShowSearchProfileForm(!showSearchProfileForm)}
+                  className="py-3 dis-f a-c"
+                >
+                  <div
+                    className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
+                  >
+                    <span>Type</span>
+                  </div>
+                  <div
+                    className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
+                  >
+                    <span>Location</span>
+                  </div>
+                  <div
+                    className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
+                  >
+                    <span>Size</span>
+                  </div>
+                  <div
+                    className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
+                  >
+                    <span>Price</span>
+                  </div>
                 </div>
               )
             }
@@ -250,7 +265,6 @@ SearchProfileBanner.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleCreateSearchProfile: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,

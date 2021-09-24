@@ -35,7 +35,6 @@ const MarketCardPreMarket = (props) => {
     let style = '';
     mapStyles.map((mapitem) => {
       Object.keys(mapitem).map((subitem) => {
-        // console.log(item, subitem);
         if (mapitem.featureType) {
           if (subitem === 'featureType') {
             style += `&style=feature:${mapitem[subitem]}`;
