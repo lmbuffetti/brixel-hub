@@ -74,7 +74,7 @@ const MarketCard = (props) => {
       return null;
     });
     let imgLocation = 'https://generator.brixel.io/images/icon_location.png';
-    let marker = `&markers=icon:${imgLocation}|${item.location.latitude},${item.location.longitude}`;
+    let marker = `&markers=icon:${imgLocation}|${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}`;
     if (get(item, 'tags', []).includes('pre-market')) {
       imgLocation = 'https://generator.brixel.io/images/circle_map.png';
       marker = '';

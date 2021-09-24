@@ -12,12 +12,13 @@ import { diff } from 'deep-object-diff';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,
   getPremiumProperties, getPremarketProperties, getLastViewedProperties,
-  getWishlistProperties,
+  getWishlistProperties, getPremarketStats,
 } from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import { updateFavorite } from '../../actions/UserActions';
+import { setActiveMarketOverlayPropertyLists } from '../../actions/PropertyActions';
 
 const MarketCategoryListBuyer = lazy(() => import('./MarketCategoryListBuyer'));
 
@@ -28,8 +29,9 @@ const MarketBuyer = (props) => {
   const {
     destroyForm,
     handleGetFavoritesProperties,
-    handleGetNewProperties,
+    handleSetActiveMarketOverlayPropertyLists,
     handleGetPreMarketProperties,
+    handleGetPremarketStats,
     handleGetPremiumProperties,
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
@@ -37,6 +39,7 @@ const MarketBuyer = (props) => {
     history,
     loggedInUser,
     match,
+    preMarketProperties,
     userSearchProfiles,
   } = props;
   // URL PARAMS
@@ -58,8 +61,13 @@ const MarketBuyer = (props) => {
       handleGetWishlistProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
       handleSpinnerOff();
+      handleGetPremarketStats();
     }
   }, [loggedInUser.id]);
+
+  useEffect(() => {
+    handleSetActiveMarketOverlayPropertyLists(preMarketProperties);
+  }, [preMarketProperties]);
 
   useEffect(() => {
     if (userSearchProfiles !== null) {
@@ -72,7 +80,6 @@ const MarketBuyer = (props) => {
         multiLoader: true,
         searchProfileId: get(userSearchProfiles, '[0].id', null),
       };
-      handleGetNewProperties(data);
       handleGetPreMarketProperties(data);
       handleGetPremiumProperties(data);
       handleSpinnerOff();
@@ -95,15 +102,17 @@ const MarketBuyer = (props) => {
 MarketBuyer.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
-  handleGetNewProperties: PropTypes.func.isRequired,
   handleGetPreMarketProperties: PropTypes.func.isRequired,
+  handleGetPremarketStats: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
+  handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -115,6 +124,7 @@ const mapStateToProps = (state) => ({
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
+  preMarketProperties: get(state, 'market.preMarketProperties.data', []),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   userSearchProfiles: get(state, 'user.userSearchProfiles', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
@@ -131,7 +141,9 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
+  handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),
+  handleGetPremarketStats: bindActionCreators(getPremarketStats, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

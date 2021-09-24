@@ -20,6 +20,8 @@ import {
   SET_FAVORITES_PROPERTIES,
   GET_WISHLIST_PROPERTIES,
   SET_WISHLIST_PROPERTIES,
+  GET_PREMARKET_STATS,
+  SET_PREMARKET_STATS,
 } from '../actions/types/MarketTypes';
 
 import {
@@ -290,6 +292,16 @@ const checkLead = (store) => (next) => (action) => {
         })
         .catch(() => {
           store.dispatch({ type: SKELETON_OFF });
+        });
+      break;
+    }
+    case GET_PREMARKET_STATS: {
+      next(action);
+      api.market.preMarketStats()
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({ type: SET_PREMARKET_STATS, payload: res.data });
+          }
         });
       break;
     }

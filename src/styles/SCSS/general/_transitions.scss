@@ -312,13 +312,17 @@
 }
 
 .slideOpen {
-  max-height: 0;
   overflow: hidden;
-  transition: max-height $default-time-long $default-easing;
+  transition: height $default-time-long $default-easing;
+  &.pos-a {
+    top: 100%;
+    z-index: 5;
+  }
   &.open {
-    max-height: 100%;
+   height: auto;
+    box-shadow: $shadow-3dp;
   }
   &.close {
-    max-height: 0;
+    height: 92px;
   }
 }

@@ -592,11 +592,11 @@ const App = (props) => {
 
           { /* SPLASH SCREEN */ }
           {
-            splashScreenType === 'marketOverlay' && (
+            (splashScreenType === 'marketOverlay' || splashScreenType === 'marketOverlayCarousel') && (
               <SplashScreen
                 className="result-market-overlay"
                 closeOutside={false}
-                type="marketOverlay"
+                type={splashScreenType}
               />
             )
           }

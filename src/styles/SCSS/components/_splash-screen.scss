@@ -26,6 +26,14 @@
   }
 
   &.result-market-overlay {
+    &.marketOverlayCarousel {
+      .container {
+        height: auto;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+      }
+    }
     .container {
       height: calc(100% - 40px);
       max-width: 808px;

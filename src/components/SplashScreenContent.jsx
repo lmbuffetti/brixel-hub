@@ -14,6 +14,7 @@ import {
 } from 'react-redux';
 import {
   BrixelButtonIcon,
+  BrixelButtonText,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import Slider from 'react-slick';
@@ -24,13 +25,15 @@ import { setSplashType } from '../actions/CommonActions';
 import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } from '../actions/PropertyActions';
 import { updateFavorite, addNotInterested } from '../actions/UserActions';
 import MarketCardOverlay from './MarketCardOverlay';
+import MarketCardPreMarket from './MarketCardPreMarket';
 import {
   getFavoritesProperties,
   getLastViewedProperties,
   getNewProperties,
   getPremarketProperties,
 } from '../actions/MarketActions';
-import NoMorePropertiesImg from '../images/searchProfile/no-more-properties.svg';
+import NoMorePropertiesImg from '../images/searchProfile/no-properties.svg';
+import SearchProfileBanner from './SearchProfileBanner';
 
 const SplashScreen = (props) => {
   const {
@@ -47,9 +50,10 @@ const SplashScreen = (props) => {
     handleGetPreMarketProperties,
     handleGetPremiumProperties,
     history,
-    newProperties,
+    preMarketProperties,
     isSmallLoading,
     loggedInUser,
+    preMarketStats,
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
@@ -60,7 +64,7 @@ const SplashScreen = (props) => {
   const [activeSlide, setActiveSlide] = useState(-1);
   const [showContent, setShowContent] = useState(false);
   const [fullScreenCard, setFullScreenCard] = useState(false);
-  const [totalSlide, setTotalSlide] = useState(newProperties.total);
+  const [totalSlide, setTotalSlide] = useState(preMarketProperties.total);
 
   const updateData = useCallback(() => {
     const wrapCarousel = document.getElementById('overlayCarousel');
@@ -76,7 +80,7 @@ const SplashScreen = (props) => {
       if (activeIndex !== activeSlide) {
         const id = activeIndex;
         const page = Math.floor(id / 10);
-        if (activeIndex >= getAllslides.length - 3 && getAllslides.length < newProperties.total) {
+        if (activeIndex >= getAllslides.length - 3 && getAllslides.length < preMarketProperties.total) {
           const profileID = get(userSearchProfiles, '[0].id', null);
           const data = {
             overlayCard: true,
@@ -120,7 +124,7 @@ const SplashScreen = (props) => {
       }
     }
     return null;
-  }, [activeSlide, newProperties]);
+  }, [activeSlide, preMarketProperties]);
 
   const settingSlider = useCallback(() => ({
     fade: true,
@@ -266,24 +270,15 @@ const SplashScreen = (props) => {
     if (sliderInstance.current) {
       const slider = sliderInstance.current;
       if (act === 'back' && activeSlide > 0) slider.slickPrev();
-      if (act === 'forward' && activeSlide < newProperties.total - 1) {
+      if (act === 'forward' && activeSlide < preMarketProperties.total - 1) {
         slider.slickNext();
       }
     }
-  }, [sliderInstance, newProperties, activeSlide]);
+  }, [sliderInstance, preMarketProperties, activeSlide]);
 
   return (
     <>
-      <div className={`dis-f p-2 a-c ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard ? 'jc-b' : 'jc-fe'}`}>
-        {
-          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
-            <div className="pl-2">
-              <span className="fSizePx14 notranslate txtDark700 ff-mono">{activeSlide + 1}</span>
-              <span className="fSizePx14 mx-small-4 txtDark100">of</span>
-              <span className="fSizePx14 notranslate txtDark700 ff-mono">{totalSlide}</span>
-            </div>
-          )
-        }
+      <div className="dis-f p-2 a-c jc-fe">
         <BrixelButtonIcon
           className="pos-r zIndex10"
           ghost
@@ -295,38 +290,79 @@ const SplashScreen = (props) => {
 
       <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard || !activeMarketOverlayPropertyLists ? '' : 'pos-r zIndex1'}`}>
         {
-          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && (
-            <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
-              <Slider ref={sliderInstance} {...settingSlider()}>
+          activeMarketOverlayPropertyLists && (
+            <>
+              <SearchProfileBanner
+                title="Pre-Market"
+                subtitle="Watch properties which are not even on the market yet. How it works"
+                preMarketStats={preMarketStats}
+              />
+              <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
                 {
-                  activeMarketOverlayPropertyLists.map((item, i) => (
-                    <MarketCardOverlay
-                      key={i.toString()}
-                      item={item}
-                      activeIndex={activeSlide}
-                      propertyList={activeMarketOverlayPropertyLists}
-                      onToggleCard={(val) => setFullScreenCard(val)}
-                    />
-                  ))
+                  activeMarketOverlayPropertyLists.length === 0 ? (
+                    <>
+                      <div className="w-fix-424 brdRadius ov-h dis-fl-col jc-c a-c noMatchProperty m-a pb-5 mb-10">
+                        <div className="bgAltMist400 pt-6 w-perc-100 ta-c">
+                          <img src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
+                        </div>
+                        <div className="p-2">
+                          <h4 className="fweight-600 mb-1 mt-3">That’s it.</h4>
+                          <p className="mt-2 fsize-500">There are no more properties right now. Come back later to find new ones.</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Slider ref={sliderInstance} {...settingSlider()}>
+                        {
+                          activeMarketOverlayPropertyLists.map((item, i) => (
+                            <MarketCardPreMarket
+                              key={i.toString()}
+                              item={item}
+                              activeIndex={activeSlide}
+                              propertyList={activeMarketOverlayPropertyLists}
+                            />
+                          ))
+                        }
+                      </Slider>
+                      <div className="dis-fl-row a-c w-perc-100 p-3 jc-c pos-r zIndex2">
+                        <div className="dis-fl-row jc-c a-c ml-a">
+                          <BrixelButtonIcon
+                            rounded
+                            secondary
+                            className="mr-4"
+                            theme="red"
+                            onClick={() => notInterested()}
+                            icon="close-small"
+                            isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
+                          />
+                          <BrixelButtonIcon
+                            rounded
+                            secondary
+                            theme="green"
+                            onClick={() => saveFavorite()}
+                            icon="favorite"
+                            isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
+                          />
+                        </div>
+                        {
+                          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
+                            <BrixelButtonText
+                              className="ml-a"
+                              ghost
+                              theme="dark"
+                              onClick={() => changeProperty('forward')}
+                              label="Skip"
+                              disabled={activeSlide >= preMarketProperties.total}
+                            />
+                          )
+                        }
+                      </div>
+                    </>
+                  )
                 }
-              </Slider>
-            </div>
-          )
-        }
-        {
-          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === 0 && (
-            <div className="carousel3d close" id="overlayCarousel">
-              <h4 className="ta-c mb-3">Pick your favorites</h4>
-              <div className="w-fix-320 brdRadius dis-fl-col jc-c a-c noMatchProperty m-a">
-                <div className="bgLight100 pt-12 w-perc-100 ta-c pt-10 pb-2">
-                  <img src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
-                </div>
-                <div className="p-2">
-                  <p className="fweight-700 mb-1 mt-3 ta-c">That’s it.</p>
-                  <p className="ta-c">There are no more properties right now. Come back later to find new ones.</p>
-                </div>
               </div>
-            </div>
+            </>
           )
         }
         {
@@ -342,57 +378,61 @@ const SplashScreen = (props) => {
         }
 
       </div>
-      <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard ? 'jc-b' : 'jc-c'} pos-r zIndex2`}>
-        {
-          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
-            <BrixelButtonIcon
-              rounded
-              ghost
-              theme="dark"
-              onClick={() => changeProperty('back')}
-              icon="arrow-left-small"
-              disabled={activeSlide <= 0}
-              className={activeMarketOverlayPropertyLists.length <= 1 ? 'opacity0' : ''}
-            />
-          )
-        }
-        <div className="dis-fl-row jc-c a-c">
-          {
-            (activeMarketOverlayPropertyLists || !get(activeMarketOverlayProperty, 'tags', []).includes('premium')) && (
+      {
+        !activeMarketOverlayPropertyLists && (
+          <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${!fullScreenCard ? 'jc-b' : 'jc-c'} pos-r zIndex2`}>
+            {
+              activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
+                <BrixelButtonIcon
+                  rounded
+                  ghost
+                  theme="dark"
+                  onClick={() => changeProperty('back')}
+                  icon="arrow-left-small"
+                  disabled={activeSlide <= 0}
+                  className={activeMarketOverlayPropertyLists.length <= 1 ? 'opacity0' : ''}
+                />
+              )
+            }
+            <div className="dis-fl-row jc-c a-c">
+              {
+                (activeMarketOverlayPropertyLists || !get(activeMarketOverlayProperty, 'tags', []).includes('premium')) && (
+                  <BrixelButtonIcon
+                    rounded
+                    secondary
+                    className="mr-4"
+                    theme="red"
+                    onClick={() => notInterested()}
+                    icon="close-small"
+                    isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
+                  />
+                )
+              }
               <BrixelButtonIcon
                 rounded
                 secondary
-                className="mr-4"
-                theme="red"
-                onClick={() => notInterested()}
-                icon="close-small"
-                isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
+                theme="green"
+                onClick={() => saveFavorite()}
+                icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
+                isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
               />
-            )
-          }
-          <BrixelButtonIcon
-            rounded
-            secondary
-            theme="green"
-            onClick={() => saveFavorite()}
-            icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
-            isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
-          />
-        </div>
-        {
-          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
-            <BrixelButtonIcon
-              rounded
-              ghost
-              theme="dark"
-              onClick={() => changeProperty('forward')}
-              icon="arrow-right-small"
-              disabled={activeSlide >= newProperties.total}
-              className={activeMarketOverlayPropertyLists.length <= 1 ? 'opacity0' : ''}
-            />
-          )
-        }
-      </div>
+            </div>
+            {
+              activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
+                <BrixelButtonIcon
+                  rounded
+                  ghost
+                  theme="dark"
+                  onClick={() => changeProperty('forward')}
+                  icon="arrow-right-small"
+                  disabled={activeSlide >= preMarketProperties.total}
+                  className={activeMarketOverlayPropertyLists.length <= 1 ? 'opacity0' : ''}
+                />
+              )
+            }
+          </div>
+        )
+      }
     </>
   );
 };
@@ -408,9 +448,10 @@ SplashScreen.propTypes = {
   handleSetActiveMarketOverlayPropertyLists: PropTypes.func,
   handleUpdateFavorites: PropTypes.func,
   history: PropTypes.object.isRequired,
-  newProperties: PropTypes.object,
+  preMarketProperties: PropTypes.object,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object,
+  preMarketStats: PropTypes.object.isRequired,
   setMarketOverlayProperty: PropTypes.func,
   setSplashScreen: PropTypes.func,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
@@ -430,7 +471,7 @@ SplashScreen.defaultProps = {
   handleSetActiveMarketOverlayPropertyLists: () => '',
   handleUpdateFavorites: () => '',
   loggedInUser: {},
-  newProperties: {},
+  preMarketProperties: {},
   setMarketOverlayProperty: () => '',
   setSplashScreen: () => '',
   userSearchProfiles: null,
@@ -442,10 +483,12 @@ SplashScreen.defaultProps = {
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeMarketOverlayPropertyLists: get(state, 'property.activeMarketOverlayPropertyLists', null),
+  // activeMarketOverlayPropertyLists: get(state, 'market.wishlistProperties.data', null),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
-  newProperties: get(state, 'market.newProperties', {}),
+  preMarketProperties: get(state, 'market.wishlistProperties', {}),
+  preMarketStats: get(state, 'market.preMarketStats', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
 });
 
