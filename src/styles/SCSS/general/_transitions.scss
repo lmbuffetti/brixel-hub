@@ -313,16 +313,16 @@
 
 .slideOpen {
   overflow: hidden;
-  transition: height $default-time-long $default-easing;
+  transition: max-height $default-time-long $default-easing;
   &.pos-a {
     top: 100%;
     z-index: 5;
   }
   &.open {
-   height: auto;
+    max-height: 1000px;
     box-shadow: $shadow-3dp;
   }
   &.close {
-    height: 92px;
+    max-height: 92px;
   }
 }
