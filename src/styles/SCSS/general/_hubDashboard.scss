@@ -183,13 +183,12 @@
 }
 
 .bgOverlay {
-  .bgSvg::after {
-    background: none;
-  }
-  .buyerMarket {
+  #market {
+    position: relative;
+    .bgSvg::before,
     &:after {
       content: '';
-      background: rgba(0,0,0,0.7);
+      background-color: rgba(0,0,0,0.7);
       position: absolute;
       top: 0;
       left: 0;
@@ -197,7 +196,7 @@
       height: 100%;
       z-index: 0;
       display: block;
-      transition: background $default-time-long $default-easing;
+      transition: background-color $default-time-long $default-easing;
     }
   }
 }

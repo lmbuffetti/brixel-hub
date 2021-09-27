@@ -166,9 +166,9 @@ const MarketCategoryListBuyer = (props) => {
           </div>
         </div>
 
-        <div className="bgAltMist200 mt-5">
+        <div className="bgAltMist200 mt-5 bgSvg">
 
-          <div className="container bgSvg pt-3">
+          <div className="container pt-3">
 
             {/* SEARCH PROFILE */}
             <div className="">
