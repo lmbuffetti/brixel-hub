@@ -16,5 +16,6 @@ module.exports = {
     /^ProEstimationFlow/,
     /^reduxField/,
     /^gm-style/,
+    /^row-cols/,
   ],
 };

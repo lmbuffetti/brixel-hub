@@ -39,6 +39,11 @@ const SearchProfileBanner = (props) => {
   const [fullForm, setFullForm] = useState([]);
 
   useEffect(() => {
+    if (showSearchProfileForm) document.body.classList.add('bgOverlay');
+    else document.body.classList.remove('bgOverlay');
+  }, [showSearchProfileForm]);
+
+  useEffect(() => {
     const inputform = [];
     QuestionsList(lang, 'searchProfile').forEach((form) => {
       if (!form.hideSearchProfile) inputform.push(form);
