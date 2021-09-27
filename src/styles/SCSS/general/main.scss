@@ -331,6 +331,9 @@ header {
   &.two {
     -webkit-line-clamp: 2; /* number of lines to show */
   }
+  &.three {
+    -webkit-line-clamp: 3; /* number of lines to show */
+  }
 }
 
 img {

@@ -57,8 +57,8 @@ const MarketCardSmall = (props) => {
               propertyType={get(item, 'properties.propertyType', undefined)}
             />
             <div className="info dis-fl-col jc-b">
-              <div className="top dis-fl-col notranslate px-3">
-                <span className="fweight-600 fsize-300 txtAltGrey400 notranslate">
+              <div className="top dis-fl-col notranslate pl-2 pt-1 pr-1 ov-h">
+                <span className="fweight-600 fsize-400 ellipsis three txtAltGrey400 notranslate">
                   {get(item, 'title', '')}
                 </span>
               </div>

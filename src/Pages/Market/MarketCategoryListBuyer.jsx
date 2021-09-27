@@ -135,7 +135,7 @@ const MarketCategoryListBuyer = (props) => {
         <div className="container">
           <h5 className="fweight-600 mb-3 txtAltGrey400">Wishlist</h5>
           <div className="dis-f jc-b">
-            <div className={`row-cols-${numWishProp}-gut-2 w-perc-100`}>
+            <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
               {
                 get(wishlistProperties, 'data', []).map((fav, i) => (
                   <React.Fragment key={i.toString()}>
@@ -154,7 +154,7 @@ const MarketCategoryListBuyer = (props) => {
             {
               get(wishlistProperties, 'data', []).length > numWishProp && (
                 <div
-                  className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen400 min-w-fix-80 h-fix-80 ml-2 cur-poi"
+                  className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen300 min-w-fix-80 h-fix-80 ml-4 cur-poi"
                   onClick={() => history.push('/buy/wishlist')}
                 >
                   <span className="txtGreen400 fweight-600 fsize-500">
@@ -177,13 +177,13 @@ const MarketCategoryListBuyer = (props) => {
 
             <div className="dis-f jc-fe pt-6 pb-8 infoBannerMarketBuyer">
               <div className="w-perc-md-50">
-                <h3 className="max-w-fix-320 fweight-600 fsize-700">
+                <h3 className="max-w-fix-320 fweight-600 fsize-800">
                   <span>There are</span>
                   <span className="mx-small-4 txtAltBlue400">{preMarketStats.total}</span>
                   <span className="mx-small-4 txtAltBlue400">new properties</span>
                   <span>on our Pre-Market</span>.
                 </h3>
-                <h5 className="fweight-400 mt-3">
+                <h5 className="fweight-400 mt-3 txtAltGrey400">
                   Be ahead of the market.
                 </h5>
                 <BrixelButtonPrimary

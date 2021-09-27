@@ -80,8 +80,8 @@ const SearchProfileBanner = (props) => {
       <h5 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-3'} txtAltGrey400`}>{title}</h5>
       {subtitle && (<p className="mb-4">{subtitle}</p>)}
       <div className="pos-r headerFormMarketBuyer">
-        <div className={`bgWhite brdSmall brdLight200 brdRadius px-3 pos-a-fix x-t-0  w-perc-100 zIndex3 slideOpen ${showSearchProfileForm ? 'open' : 'close'}`}>
-          <div className="dis-f jc-b">
+        <div className={`bgWhite brdSmall brdLight200 brdRadius pos-a-fix x-t-0  w-perc-100 zIndex3 slideOpen ${showSearchProfileForm ? 'open' : 'close'}`}>
+          <div className="dis-f jc-b px-3">
             {
               has(userSearchProfiles, 'id') ? (
                 <div
@@ -201,7 +201,7 @@ const SearchProfileBanner = (props) => {
                   icon="close-small"
                 />
                 <div className="ml-1">
-                  <p className="fsize-600 fweight-600 txtAltRed400">
+                  <p className="fsize-600 fweight-600 txtAltRed700">
                     <span>{preMarketStats.dislikedTotal}</span>
                     <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
                       Don&apos;t like
@@ -229,8 +229,8 @@ const SearchProfileBanner = (props) => {
               </div>
             </div>
           </div>
-          <div className="mt-4">
-            <div className=" max-w-fix-1030 px-2 pb-5 mx-a">
+          <div className="pt-4 brdSmallTop brdLight200">
+            <div className="px-3 max-w-fix-1030 px-2 pb-5 mx-a">
               <div className="row-cols-1-gut-1 row-cols-md-2-gut-4">
                 <MultiFileldsReduxForm
                   form="GetStarted"
