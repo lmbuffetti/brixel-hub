@@ -33,6 +33,12 @@
         max-width: 100%;
         border-radius: 0;
       }
+      .slider-card {
+        &.middle-part {
+          height: auto;
+          overflow: initial;
+        }
+      }
     }
     > .container {
       height: calc(100% - 40px);
