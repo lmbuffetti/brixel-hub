@@ -95,9 +95,9 @@ export const QuestionsList = (lang, type) => {
       title: type === 'searchProfile' ? 'Size' : 'How big should it be?',
       history: 'tipology',
       vCentered: true,
+      classWrap: 'inputRangeWrap',
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a pl-2 pr-0 px-sm-5 py-5',
       footerWidth: 'max-w-fix-600',
-      classWrap: 'classWrap',
       inputs: [
         {
           component: BrixelInputMultiRange,
