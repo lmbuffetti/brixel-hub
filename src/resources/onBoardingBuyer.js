@@ -56,7 +56,7 @@ export const QuestionsList = (lang, type) => {
           component: BrixelCheckbox,
           className: 'radioBtnImg',
           ReduxFieldClass: '',
-          classNameBox: 'max-w-fix-880 ml-a mr-a',
+          classNameBox: type === 'searchProfile' ? 'w-perc-100 ml-a mr-a' : 'max-w-fix-880 ml-a mr-a',
           label: '',
           name: 'characteristics.propertyType',
           validation: [Validation.required],
@@ -66,7 +66,7 @@ export const QuestionsList = (lang, type) => {
           svgSupport: true,
           isHorizontal: true,
           svgWidth: 'max-w-fix-120 max-w-fix-sm-200',
-          pdClass: 'py-sm-5',
+          pdClass: type === 'searchProfile' ? 'pt-sm-2 pb-sm-3' : 'py-sm-5',
           options: [
             {
               label: 'Apartment',

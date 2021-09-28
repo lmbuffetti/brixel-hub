@@ -230,7 +230,7 @@ const SearchProfileBanner = (props) => {
             </div>
           </div>
           <div className="pt-4 brdSmallTop brdLight200">
-            <div className="px-3 max-w-fix-1030 px-2 pb-5 mx-a">
+            <div className="px-3 max-w-fix-1200 px-2 pb-5 mx-a">
               <div className="row-cols-1-gut-1 row-cols-md-2-gut-4">
                 <MultiFileldsReduxForm
                   form="GetStarted"
