@@ -56,7 +56,7 @@ export const QuestionsList = (lang, type) => {
           component: BrixelCheckbox,
           className: 'radioBtnImg',
           ReduxFieldClass: '',
-          classNameBox: type === 'searchProfile' ? 'w-perc-100 ml-a mr-a' : 'max-w-fix-880 ml-a mr-a',
+          classNameBox: 'max-w-fix-880 ml-a mr-a',
           label: '',
           name: 'characteristics.propertyType',
           validation: [Validation.required],
@@ -97,6 +97,7 @@ export const QuestionsList = (lang, type) => {
       vCentered: true,
       className: 'fieldHolder bgWhite brdRadius max-w-fix-600 m-a pl-2 pr-0 px-sm-5 py-5',
       footerWidth: 'max-w-fix-600',
+      classWrap: 'classWrap',
       inputs: [
         {
           component: BrixelInputMultiRange,

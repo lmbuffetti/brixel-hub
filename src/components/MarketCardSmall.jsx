@@ -58,7 +58,7 @@ const MarketCardSmall = (props) => {
             />
             <div className="info dis-fl-col jc-b">
               <div className="top dis-fl-col notranslate pl-2 pt-1 pr-1 ov-h">
-                <span className="fweight-600 fsize-400 ellipsis three txtAltGrey400 notranslate">
+                <span className="fweight-600 fsize-400 ellipsis three txtAltGrey700 notranslate">
                   {get(item, 'title', '')}
                 </span>
               </div>

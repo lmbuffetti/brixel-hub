@@ -150,7 +150,7 @@ const IntroUpgrade = (props) => {
   }, []);
 
   return (
-    <main id="rewards" className="introScanFlow pt-2 pb-2 pb-sm-4 h-perc-100 txtAltGrey400">
+    <main id="rewards" className="introScanFlow pt-2 pb-2 pb-sm-4 h-perc-100 txtAltGrey700">
 
       <section className="intro container">
 

@@ -78,7 +78,7 @@ const SearchProfileBanner = (props) => {
 
   return (
     <>
-      <h5 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-3'} txtAltGrey400`}>{title}</h5>
+      <h5 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-3'} txtAltGrey700`}>{title}</h5>
       {subtitle && (<p className="mb-4">{subtitle}</p>)}
       <div className="pos-r headerFormMarketBuyer">
         {
@@ -365,8 +365,8 @@ const SearchProfileBanner = (props) => {
               )
             }
             <div className="pt-4 brdSmallTop brdLight200">
-              <div className="px-3 max-w-fix-1024 px-2 pb-5 mx-a">
-                <div className="row-cols-1-gut-1 row-cols-md-2-gut-4">
+              <div className="px-3 max-w-fix-1200 px-2 pb-5 mx-a">
+                <div className="searchProfileGrid">
                   <MultiFileldsReduxForm
                     form="GetStarted"
                     disableNextBtn={false}

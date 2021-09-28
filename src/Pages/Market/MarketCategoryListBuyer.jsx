@@ -133,7 +133,7 @@ const MarketCategoryListBuyer = (props) => {
 
         {/* WHISHLIST */}
         <div className="container">
-          <h5 className="fweight-600 mb-3 txtAltGrey400">Wishlist</h5>
+          <h5 className="fweight-600 mb-3 txtAltGrey700">Wishlist</h5>
           <div className="dis-f jc-b">
             <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
               {
@@ -183,7 +183,7 @@ const MarketCategoryListBuyer = (props) => {
                   <span className="mx-small-4 txtAltBlue400">new properties</span>
                   <span>on our Pre-Market</span>.
                 </h3>
-                <h5 className="fweight-400 mt-3 txtAltGrey400">
+                <h5 className="fweight-400 mt-3 txtAltGrey700">
                   Be ahead of the market.
                 </h5>
                 <BrixelButtonPrimary
