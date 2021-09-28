@@ -72,7 +72,12 @@
       }
     }
     .slick-slide {
-      height: calc(100% - 40px);
+      height: auto;
+    }
+    @media (min-width: $responsive-medium) {
+      .slick-slide {
+        height: calc(100% - 40px);
+      }
     }
     .fixed-footer {
       background-color: white;

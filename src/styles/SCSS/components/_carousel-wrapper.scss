@@ -79,7 +79,10 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    }
 
    .slick-list {
-     height: 360px;
+     height: 500px;
+     @media (min-width: $responsive-medium) {
+       height: 360px;
+     }
      overflow: hidden;
    }
 

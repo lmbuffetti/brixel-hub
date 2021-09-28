@@ -64,9 +64,9 @@ const MarketCardPreMarket = (props) => {
     <div
       className={`${className} brdRadius max-w-fix-760 mx-a bgWhite brdSmall brdLight200 ov-h`}
     >
-      <div className="dis-f">
+      <div className="dis-fl-row-md dis-fl-col">
         <div
-          className="mapsImage w-perc-50 pos-r min-h-fix-344"
+          className="mapsImage w-perc-100 w-perc-md-50 pos-r min-h-fix-md-344 min-h-fix-216"
           style={{
             backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=15&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
           }}
@@ -74,27 +74,27 @@ const MarketCardPreMarket = (props) => {
           <div className="redCircleMapPreMarket" />
         </div>
 
-        <div className="w-perc-50 p-4">
-          <h4>{item.title}</h4>
+        <div className="w-perc-100 w-perc-md-50 p-2 p-md-4">
+          <h4 className="fsize-500 fsize-md-600">{item.title}</h4>
 
-          <div className="dis-f mt-5">
+          <div className="dis-f mt-2 mt-md-5">
             <div>
-              <h4>{get(item, 'properties.typology.bedrooms', 0)}</h4>
-              <p className="fsize-200 mt-1">Rooms</p>
+              <h4 className="fsize-500 fsize-md-600">{get(item, 'properties.typology.bedrooms', 0)}</h4>
+              <p className="fsize-200 mt-small-4 mt-md-1">Rooms</p>
             </div>
             <div className="ml-3">
-              <h4>{get(item, 'properties.typology.livingArea.value', 0)}m2</h4>
-              <p className="fsize-200 mt-1">Living space</p>
+              <h4 className="fsize-500 fsize-md-600">{get(item, 'properties.typology.livingArea.value', 0)}m2</h4>
+              <p className="fsize-200 mt-small-4 mt-md-1">Living space</p>
             </div>
             <div className="ml-3">
-              <h4>{get(item, 'properties.building.built', 0)}</h4>
-              <p className="fsize-200 mt-1">Year</p>
+              <h4 className="fsize-500 fsize-md-600">{get(item, 'properties.building.built', 0)}</h4>
+              <p className="fsize-200 mt-small-4 mt-md-1">Year</p>
             </div>
           </div>
 
-          <div className="mt-3">
-            <h4>{get(item, 'location.zip', 0)} {get(item, 'location.city', 0)}</h4>
-            <p className="fsize-200 mt-1">Location</p>
+          <div className="mt-2 mt-md-3">
+            <h4 className="fsize-500 fsize-md-600">{get(item, 'location.zip', 0)} {get(item, 'location.city', 0)}</h4>
+            <p className="fsize-200 mt-small-4 mt-md-1">Location</p>
           </div>
         </div>
 
