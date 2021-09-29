@@ -17,6 +17,7 @@ const MarketCardPreMarket = (props) => {
   const {
     className,
     item,
+    loadMapImg,
     // skeleton,
     // type,
   } = props;
@@ -65,14 +66,18 @@ const MarketCardPreMarket = (props) => {
       className={`${className} brdRadius max-w-fix-760 mx-a bgWhite brdSmall brdLight200 ov-h`}
     >
       <div className="dis-fl-row-md dis-fl-col">
-        <div
-          className="mapsImage w-perc-100 w-perc-md-50 pos-r min-h-fix-md-344 min-h-fix-216"
-          style={{
-            backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=750x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=15&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
-          }}
-        >
-          <div className="redCircleMapPreMarket" />
-        </div>
+        {
+          loadMapImg && (
+            <div
+              className="mapsImage w-perc-100 w-perc-md-50 pos-r min-h-fix-md-344 min-h-fix-216"
+              style={{
+                backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?size=350x400&scale=2&center=${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}&maptype=satellite&zoom=15&${mapFormatStyle.style}${mapFormatStyle.markers}&key=${baseByData.googleMapsGenerator})`,
+              }}
+            >
+              <div className="redCircleMapPreMarket" />
+            </div>
+          )
+        }
 
         <div className="w-perc-100 w-perc-md-50 p-2 p-md-4">
           <h4 className="fsize-500 fsize-md-600">{item.title}</h4>
@@ -115,11 +120,13 @@ const MarketCardPreMarket = (props) => {
 MarketCardPreMarket.propTypes = {
   className: PropTypes.string,
   item: PropTypes.object,
+  loadMapImg: PropTypes.bool,
 };
 
 MarketCardPreMarket.defaultProps = {
   className: '',
   item: null,
+  loadMapImg: true,
 };
 
 const mapStateToProps = (state) => ({
