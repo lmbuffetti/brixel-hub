@@ -175,14 +175,25 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
 
   &.open {
     max-height: 1500px;
+
     @media (max-width: $responsive-medium) {
-      position: fixed;
+
       width: 100%;
       height: 100%;
       left: 0;
       top: 0;
-      max-height: 100vh;
       overflow-y: auto;
+      max-height: 100vh;
+      position: fixed;
+
+      /* animation: animateSection 1s ease forwards;
+      @keyframes animateSection {
+        from {
+          transform: scale(0.5);
+        } to {
+          transform: scale(1);
+        }
+      } */
 
       .topPanel {
         padding-left: $step * 2;
