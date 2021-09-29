@@ -326,6 +326,7 @@ const SplashScreen = (props) => {
                               item={item}
                               activeIndex={activeSlide}
                               propertyList={activeMarketOverlayPropertyLists}
+                              loadMapImg={activeSlide < i + 2}
                             />
                           ))
                         }
