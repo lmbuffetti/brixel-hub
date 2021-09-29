@@ -78,7 +78,7 @@ const SearchProfileBanner = (props) => {
 
   return (
     <>
-      <h5 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-3'} txtAltGrey700`}>{title}</h5>
+      <h5 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtAltGrey700`}>{title}</h5>
       {subtitle && (<p className="mb-4">{subtitle}</p>)}
       <div className="pos-r headerFormMarketBuyer">
         {
@@ -87,7 +87,7 @@ const SearchProfileBanner = (props) => {
               {
                 has(userSearchProfiles, 'id') && (
                   <div>
-                    <div className="dis-f py-3">
+                    <div className="dis-f py-0 fsize-300 txtDark200">
                       {
                         /* PROPERRTY TYPE */
                         get(userSearchProfiles, 'characteristics.propertyType', []).length > 0 && (
@@ -149,17 +149,17 @@ const SearchProfileBanner = (props) => {
           )
         }
         <div className="pos-r">
-          <div className={`bgWhite brdSmall brdLight200 brdRadius-md pos-a-fix x-t-0  w-perc-100 zIndex3 slideOpen ${showSearchProfileForm ? 'open' : 'close'}`}>
+          <div className={`bgWhite brdSmall-lg brdLight200 brdRadius-lg x-t-0 w-perc-100 zIndex3 slideOpen ${showSearchProfileForm ? 'open' : 'close'}`}>
             {
               windowDimensions.width < 1025 ? (
                 <>
-                  <div className="dis-f jc-b px-1">
+                  <div className="topPanel dis-f jc-b px-0 py-2">
                     <BrixelButtonSecondary
-                      ghost
                       theme="dark"
-                      themeSat={400}
+                      themeSat={700}
                       rounded
                       label="Edit"
+                      className="noMinWidth"
                       leftIcon="edit-setting"
                       onClick={() => setShowSearchProfileForm(!showSearchProfileForm)}
                     />
@@ -167,7 +167,7 @@ const SearchProfileBanner = (props) => {
                     <div className="dis-f a-c">
                       <div className="bgAltMist200 brdFullRadius dis-f a-c brdSmallLeft brdLight200 h-perc-100 pr-1 ml-1">
                         <BrixelIcon
-                          iconWidth="w-fix-16"
+                          iconWidth="w-fix-24"
                           background="altMist"
                           saturation={200}
                           color="altMist"
@@ -182,7 +182,7 @@ const SearchProfileBanner = (props) => {
                       </div>
                       <div className="bgAltRed200 brdFullRadius dis-f a-c brdSmallLeft brdLight200 h-perc-100 pr-1 ml-1">
                         <BrixelIcon
-                          iconWidth="w-fix-16"
+                          iconWidth="w-fix-24"
                           background="altRed"
                           saturation={200}
                           color="altRed"
@@ -197,7 +197,7 @@ const SearchProfileBanner = (props) => {
                       </div>
                       <div className="bgAltGreen200 brdFullRadius dis-f a-c brdSmallLeft brdLight200 h-perc-100 pr-1 ml-1">
                         <BrixelIcon
-                          iconWidth="w-fix-16"
+                          iconWidth="w-fix-24"
                           background="altGreen"
                           saturation={200}
                           color="altGreen"

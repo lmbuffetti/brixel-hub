@@ -112,7 +112,7 @@ export const QuestionsList = (lang, type) => {
         },
         {
           component: BrixelInputMultiRange,
-          className: 'mt-2',
+          className: type === 'searchProfile' ? '' : 'mt-2',
           classNameInput: 'pl-5',
           label: 'Living Space in m2',
           name: 'characteristics.livingArea',

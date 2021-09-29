@@ -553,6 +553,7 @@ const MarketCategoryListSeller = (props) => {
               label="compare all plans"
               onClick={() => window.location.assign(`/${propertyId}/upgrade#comparePlan`)}
               theme="AltGrey"
+              themeSat={700}
             />
 
           </div>

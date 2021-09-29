@@ -222,11 +222,11 @@ const IntroUpgrade = (props) => {
                     >
                       <div className="p-4">
                         <h5 className="fweight-600 fsize-700">{pkg.name}</h5>
-                        <p className="mt-2">
+                        <p className="mt-2 altGrey700">
                           {pkg.description}
                         </p>
 
-                        <ul className="checked mt-3">
+                        <ul className="checked mt-3 altGrey700">
                           {
                             pkg.details && get(pkg, 'details', []).map((detail, f) => (
                               <li

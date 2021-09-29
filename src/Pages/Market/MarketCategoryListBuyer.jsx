@@ -19,6 +19,7 @@ import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 import MarketCardSmall from '../../components/MarketCardSmall';
 import SearchProfileBanner from '../../components/SearchProfileBanner';
+import teaserAnimation from '../../images/Market/teaserAnimate.svg';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 
 const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
@@ -166,17 +167,17 @@ const MarketCategoryListBuyer = (props) => {
           </div>
         </div>
 
-        <div className="bgAltMist200 mt-5 bgSvg">
+        <div className="mt-5 bgSvg">
 
-          <div className="container pt-3">
+          <div className="container pt-3 pb-4 pb-lg-8">
 
             {/* SEARCH PROFILE */}
             <div className="">
               <SearchProfileBanner preMarketStats={preMarketStats} />
             </div>
 
-            <div className="dis-f jc-fe pt-6 pb-8 infoBannerMarketBuyer">
-              <div className="w-perc-md-50">
+            <div className="dis-f jc-fe-lg pt-1 pt-lg-8 infoBannerMarketBuyer">
+              <div className="w-perc-md-50 w-perc-100">
                 <h3 className="max-w-fix-320 fweight-600 fsize-800">
                   <span>There are</span>
                   <span className="mx-small-4 txtAltBlue400">{preMarketStats.total}</span>
@@ -188,7 +189,7 @@ const MarketCategoryListBuyer = (props) => {
                 </h5>
                 <BrixelButtonPrimary
                   onClick={() => setSplashScreen('marketOverlayCarousel')}
-                  className="mt-5"
+                  className="mt-3 mt-lg-5"
                   rounded
                   theme="altGreen"
                   themeSat={300}
@@ -200,6 +201,13 @@ const MarketCategoryListBuyer = (props) => {
           </div>
 
         </div>
+        {
+          windowDimensions.width < 1025 && (
+            <div className="bgAltMist200">
+              <object width="100%" data={teaserAnimation}> </object>
+            </div>
+          )
+        }
 
         <div className="mt-7 pb-8 container">
           {

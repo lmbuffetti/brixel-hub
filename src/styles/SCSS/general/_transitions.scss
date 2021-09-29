@@ -311,18 +311,3 @@
   }
 }
 
-.slideOpen {
-  overflow: hidden;
-  transition: max-height $default-time-long $default-easing;
-  &.pos-a {
-    top: 100%;
-    z-index: 5;
-  }
-  &.open {
-    max-height: 1000px;
-    box-shadow: $shadow-3dp;
-  }
-  &.close {
-    max-height: 92px;
-  }
-}
