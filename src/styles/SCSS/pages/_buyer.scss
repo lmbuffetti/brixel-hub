@@ -137,7 +137,9 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
 .bgSvg {
   position: relative;
   z-index: 1;
-  background-color: map-get($altMistColor, 200 );
+  @media (min-width: $responsive-medium) {
+    background-color: map-get($altMistColor, 200 );
+  }
 
   &::after {
     top: 0;
