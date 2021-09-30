@@ -285,7 +285,7 @@ const SplashScreen = (props) => {
     <>
       <div className="dis-f p-2 a-c jc-fe">
         <BrixelButtonIcon
-          className="pos-r zIndex10"
+          className="pos-r zIndex1"
           ghost
           theme="dark"
           icon="close-small"

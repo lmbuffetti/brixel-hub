@@ -8,6 +8,7 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   Helpers,
+  BrixelButtonIcon,
   MultiFileldsReduxForm,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
@@ -41,7 +42,7 @@ const SearchProfileBanner = (props) => {
     if (showSearchProfileForm) document.body.classList.add('bgOverlay');
     else {
       setTimeout(() => setStyleMobileProfile(null), 500);
-      document.body.classList.remove('bgOverlay');
+      setTimeout(() => document.body.classList.remove('bgOverlay'), 350);
     }
   }, [showSearchProfileForm]);
 
@@ -83,7 +84,7 @@ const SearchProfileBanner = (props) => {
       if (profileRef.current.getBoundingClientRect().top > 50) setStyleMobileProfile(profileRef.current.getBoundingClientRect().top);
       setTimeout(() => {
         setShowSearchProfileForm(!showSearchProfileForm);
-      }, 10);
+      }, 0);
     } else {
       setShowSearchProfileForm(!showSearchProfileForm);
     }
@@ -170,10 +171,24 @@ const SearchProfileBanner = (props) => {
             {
               windowDimensions.width < 1025 ? (
                 <>
-                  <div className="topPanel dis-f jc-b px-0 py-2">
+                  <div
+                    className="closePanel dis-f jc-b px-2 a-c py-1"
+                    style={styleMobileProfile ? {} : {}}
+                  >
+                    <h5 className="fweight-600 txtAltGrey700">{title}</h5>
+                    <BrixelButtonIcon
+                      ghost
+                      theme="dark"
+                      icon="close-small"
+                      onClick={() => openForm('mobile')}
+                    />
+                  </div>
+                  <div
+                    className="topPanel dis-f jc-b px-0 py-2"
+                    style={styleMobileProfile ? { paddingLeft: '16px', paddingRight: '16px' } : {}}
+                  >
                     <BrixelButtonSecondary
                       theme="dark"
-                      themeSat={700}
                       rounded
                       label="Edit"
                       className="noMinWidth"
@@ -401,7 +416,7 @@ const SearchProfileBanner = (props) => {
                     label="cancel"
                   />
                   <BrixelButtonPrimary
-                    className="mr-a"
+                    className="mr-a-lg"
                     rounded
                     theme="altGreen"
                     themeSat={300}
