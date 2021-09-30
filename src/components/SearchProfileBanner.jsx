@@ -1,19 +1,14 @@
-import React, {
-  useState, useEffect,
-} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
 import {
-  withRouter,
-} from 'react-router-dom';
-import {
-  bindActionCreators,
-  compose,
-} from 'redux';
-import {
-  connect,
-} from 'react-redux';
-import {
-  BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon, Helpers, MultiFileldsReduxForm,
+  BrixelButtonPrimary,
+  BrixelButtonSecondary,
+  BrixelIcon,
+  Helpers,
+  MultiFileldsReduxForm,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -38,10 +33,16 @@ const SearchProfileBanner = (props) => {
   // STATE
   const [showSearchProfileForm, setShowSearchProfileForm] = useState(false);
   const [fullForm, setFullForm] = useState([]);
+  const [styleMobileProfile, setStyleMobileProfile] = useState(null);
+  // REF
+  const profileRef = useRef(null);
 
   useEffect(() => {
     if (showSearchProfileForm) document.body.classList.add('bgOverlay');
-    else document.body.classList.remove('bgOverlay');
+    else {
+      setStyleMobileProfile(null);
+      document.body.classList.remove('bgOverlay');
+    }
   }, [showSearchProfileForm]);
 
   useEffect(() => {
@@ -73,6 +74,18 @@ const SearchProfileBanner = (props) => {
       handleUpdateSearchProfile(data);
     } else {
       await handleCreateSearchProfile(data);
+    }
+  };
+
+  // FUNCTION TO SHOW SEARCH PROFILE FORM
+  const openForm = (action) => {
+    if (action === 'mobile') {
+      setStyleMobileProfile(profileRef.current.getBoundingClientRect().top);
+      setTimeout(() => {
+        setShowSearchProfileForm(!showSearchProfileForm);
+      }, 100);
+    } else {
+      setShowSearchProfileForm(!showSearchProfileForm);
     }
   };
 
@@ -149,7 +162,11 @@ const SearchProfileBanner = (props) => {
           )
         }
         <div className="pos-r">
-          <div className={`bgWhite brdSmall-lg brdLight200 brdRadius-lg x-t-0 w-perc-100 zIndex3 slideOpen ${showSearchProfileForm ? 'open' : 'close'}`}>
+          <div
+            className={`bgWhite brdSmall-lg brdLight200 brdRadius-lg x-t-0 w-perc-100 zIndex3 slideOpen ${showSearchProfileForm ? 'open' : 'close'}`}
+            ref={profileRef}
+            style={styleMobileProfile ? { position: 'fixed', top: styleMobileProfile } : {}}
+          >
             {
               windowDimensions.width < 1025 ? (
                 <>
@@ -161,7 +178,7 @@ const SearchProfileBanner = (props) => {
                       label="Edit"
                       className="noMinWidth"
                       leftIcon="edit-setting"
-                      onClick={() => setShowSearchProfileForm(!showSearchProfileForm)}
+                      onClick={() => openForm('mobile')}
                     />
 
                     <div className="dis-f a-c">
@@ -219,7 +236,7 @@ const SearchProfileBanner = (props) => {
                     has(userSearchProfiles, 'id') ? (
                       <div
                         className="cur-poi"
-                        onClick={() => setShowSearchProfileForm(!showSearchProfileForm)}
+                        onClick={() => openForm('desk')}
                       >
                         <div className="dis-f py-3">
                           {
