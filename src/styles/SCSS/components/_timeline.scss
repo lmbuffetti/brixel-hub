@@ -1,0 +1,16 @@
+.timeline {
+  .brixel-text-editor {
+    width: calc(100% - 40px - 16px - 12px);
+
+    span, p {
+      color: map-get($darkColor, 700);
+    }
+
+    .public-DraftStyleDefault-block {
+      &.public-DraftStyleDefault-ltr {
+        margin: 0px;
+        padding: 8px 0;
+      }
+    }
+  }
+}
