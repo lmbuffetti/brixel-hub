@@ -8,6 +8,7 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   Helpers,
+  reset,
   MultiFileldsReduxForm,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
@@ -87,6 +88,10 @@ const SearchProfileBanner = (props) => {
     } else {
       setShowSearchProfileForm(!showSearchProfileForm);
     }
+  };
+
+  const cancel = () => {
+    setShowSearchProfileForm(false);
   };
 
   return (
@@ -399,6 +404,7 @@ const SearchProfileBanner = (props) => {
                     theme="light"
                     themeSat={600}
                     label="cancel"
+                    onClick={() => cancel()}
                   />
                   <BrixelButtonPrimary
                     className="mr-a"
@@ -451,6 +457,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  resetForm(value) {
+    dispatch(reset('GetStarted', value));
+  },
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
 });
