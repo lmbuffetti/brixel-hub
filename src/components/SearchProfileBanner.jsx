@@ -100,7 +100,7 @@ const SearchProfileBanner = (props) => {
               {
                 has(userSearchProfiles, 'id') && (
                   <div>
-                    <div className="dis-f py-0 fsize-300 txtDark200">
+                    <div className="dis-f py-0 fsize-300 txtDark200 flex-wrap">
                       {
                         /* PROPERRTY TYPE */
                         get(userSearchProfiles, 'characteristics.propertyType', []).length > 0 && (
