@@ -40,7 +40,7 @@ const SearchProfileBanner = (props) => {
   useEffect(() => {
     if (showSearchProfileForm) document.body.classList.add('bgOverlay');
     else {
-      setStyleMobileProfile(null);
+      // setStyleMobileProfile(null);
       document.body.classList.remove('bgOverlay');
     }
   }, [showSearchProfileForm]);
@@ -80,7 +80,7 @@ const SearchProfileBanner = (props) => {
   // FUNCTION TO SHOW SEARCH PROFILE FORM
   const openForm = (action) => {
     if (action === 'mobile') {
-      setStyleMobileProfile(profileRef.current.getBoundingClientRect().top);
+      if (profileRef.current.getBoundingClientRect().top > 50) setStyleMobileProfile(profileRef.current.getBoundingClientRect().top);
       setTimeout(() => {
         setShowSearchProfileForm(!showSearchProfileForm);
       }, 100);
