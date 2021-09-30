@@ -153,7 +153,7 @@ const SplashScreen = (props) => {
   }, []);
 
   useEffect(() => {
-    if (activeMarketOverlayPropertyLists.length - 3 === activeSlide) {
+    if (activeSlide && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length - 3 === activeSlide) {
       const profileID = get(userSearchProfiles, '[0].id', null);
       const data = {
         overlayCard: true,

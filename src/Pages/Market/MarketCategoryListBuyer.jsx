@@ -40,6 +40,7 @@ const MarketCategoryListBuyer = (props) => {
   } = props;
   // STATE
   const [numWishProp, setWishProp] = useState(4);
+  const [exploreProperties, setExploreProperties] = useState([]);
 
   useEffect(() => {
     if (get(userSearchProfiles, 'id', null)) initForm(initialValues);
@@ -59,6 +60,15 @@ const MarketCategoryListBuyer = (props) => {
       setSplashScreen('buyerWelcome');
     }
   }, [getCookie('brixelSplashHome')]);
+
+  useEffect(() => {
+    if (premiumProperties.data) {
+      const n = 3;
+      const shuffled = premiumProperties.data.sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, n);
+      setExploreProperties(selected);
+    }
+  }, [premiumProperties.data]);
 
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
@@ -217,6 +227,23 @@ const MarketCategoryListBuyer = (props) => {
                 className="market-category-carousel"
                 type="premium"
                 items={premiumProperties.data}
+                total={premiumProperties.total}
+              />
+            )
+          }
+        </div>
+
+        <div className="pt-7 pb-8 container bgAltBlue400">
+          {
+            premiumProperties.total > 0 && (
+              <CarouselWrapper
+                theme="light"
+                title="Explore"
+                subtitle="Random Brixel properties all over Europe
+"
+                className="market-category-carousel"
+                type="premium"
+                items={exploreProperties}
                 total={premiumProperties.total}
               />
             )

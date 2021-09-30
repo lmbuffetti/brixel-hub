@@ -396,7 +396,7 @@ const MarketCard = (props) => {
                 </div>
               </>
             ) : (
-              <div className="brdSmall brdRadius brdAltGrey100 ov-h">
+              <div className="brdSmall brdRadius brdAltGrey100 ov-h bgWhite">
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
                   className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
