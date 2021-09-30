@@ -36,7 +36,7 @@ export const minLengthNum = (val, name) => (value) => {
 };
 
 // QUESTION LISTS
-export const QuestionsList = (lang) => {
+export const QuestionsList = (lang, type) => {
   let countryList = [];
   let formValue = {};
   if (configureStore) {
