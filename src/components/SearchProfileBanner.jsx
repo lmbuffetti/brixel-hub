@@ -83,7 +83,7 @@ const SearchProfileBanner = (props) => {
       if (profileRef.current.getBoundingClientRect().top > 50) setStyleMobileProfile(profileRef.current.getBoundingClientRect().top);
       setTimeout(() => {
         setShowSearchProfileForm(!showSearchProfileForm);
-      }, 100);
+      }, 10);
     } else {
       setShowSearchProfileForm(!showSearchProfileForm);
     }
