@@ -40,7 +40,7 @@ const SearchProfileBanner = (props) => {
   useEffect(() => {
     if (showSearchProfileForm) document.body.classList.add('bgOverlay');
     else {
-      // setStyleMobileProfile(null);
+      setTimeout(() => setStyleMobileProfile(null), 500);
       document.body.classList.remove('bgOverlay');
     }
   }, [showSearchProfileForm]);
