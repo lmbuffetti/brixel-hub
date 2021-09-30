@@ -48,7 +48,7 @@ export const QuestionsList = (lang) => {
   return [
     {
       title: translateTo(lang, 'What kind of property would you like to buy?'),
-      subtitle: translateTo(lang, 'Choose between apartment, house and building land.'),
+      /* subtitle: translateTo(lang, 'Choose between apartment, house and building land.'), */
       history: 'propertyType',
       footerWidth: 'max-w-fix-880',
       inputs: [
