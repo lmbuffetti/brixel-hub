@@ -33,7 +33,7 @@ import { QuestionsList } from '../../resources/onBoardingBuyer';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
-import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
+import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 
 const cookie = new Cookies();
 
@@ -48,7 +48,7 @@ const GetStartedBuyer = (props) => {
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleGetGamegroup,
-    handleUpdateSearchProfile,
+    handleCreateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
     handleSpinnerOn,
@@ -119,7 +119,7 @@ const GetStartedBuyer = (props) => {
       data.owner = loggedInUser.user.id;
       // DISPATCH TO SAVE THE PROPERTY
       data.dataSearchProfile.user = loggedInUser.user.id;
-      await handleUpdateSearchProfile(data);
+      await handleCreateSearchProfile(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
@@ -692,7 +692,7 @@ GetStartedBuyer.propTypes = {
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
-  handleUpdateSearchProfile: PropTypes.func.isRequired,
+  handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
@@ -777,7 +777,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
+  handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),

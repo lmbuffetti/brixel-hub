@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import {
+  CREATE_USER_SEARCH_PROFILE,
   GET_USER_SEARCH_PROFILES,
   SET_USER_SEARCH_PROFILES,
   UPDATE_USER_SEARCH_PROFILE,
@@ -7,7 +8,7 @@ import {
 
 import {
   SPINNER_ON,
-  SPINNER_OFF, SET_SCREEN_NOTIFICATION,
+  SPINNER_OFF, SET_SCREEN_NOTIFICATION, SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -40,15 +41,15 @@ const checkSearchProfile = (store) => (next) => (action) => {
         });
       break;
     }
-    case UPDATE_USER_SEARCH_PROFILE: {
+    case CREATE_USER_SEARCH_PROFILE: {
       next(action);
-      store.dispatch({ type: SPINNER_ON });
       const token = get(action, 'payload.token', null);
       const addSearchProfile = get(action, 'payload.addSearchProfile', false);
-      const extraLoading = get(action.payload, 'extraLoading', false);
-      const { redirectToUrl } = action.payload;
-      api.searchProfile.updateSearchProfile(action.payload.dataSearchProfile, token)
-        .then(() => {
+      const { redirectToUrl, smallLoader } = action.payload;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
+      else store.dispatch({ type: SPINNER_ON });
+      api.searchProfile.createSearchProfile(action.payload.dataSearchProfile, token)
+        .then((res) => {
           store.dispatch({
             type: SET_SCREEN_NOTIFICATION,
             payload: {
@@ -56,12 +57,53 @@ const checkSearchProfile = (store) => (next) => (action) => {
               type: 'done',
             },
           });
+          store.dispatch({
+            type: GET_USER_SEARCH_PROFILES,
+            payload: res.data.user,
+          });
           if (redirectToUrl) {
             window.location.assign(redirectToUrl);
           } else if (addSearchProfile) {
             // window.location.href = '/home';
             window.location.assign('/buy');
-          } else if (extraLoading) store.dispatch({ type: SPINNER_OFF });
+          }
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: false } });
+          else store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
+    case UPDATE_USER_SEARCH_PROFILE: {
+      next(action);
+      const addSearchProfile = get(action, 'payload.addSearchProfile', false);
+      const {
+        dataSearchProfile,
+        id,
+        redirectToUrl,
+        smallLoader,
+      } = action.payload;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
+      else store.dispatch({ type: SPINNER_ON });
+      api.searchProfile.updateSearchProfile(dataSearchProfile, id)
+        .then((res) => {
+          store.dispatch({
+            type: SET_SCREEN_NOTIFICATION,
+            payload: {
+              state: true,
+              type: 'done',
+            },
+          });
+          store.dispatch({
+            type: GET_USER_SEARCH_PROFILES,
+            payload: res.data.user,
+          });
+          if (redirectToUrl) {
+            window.location.assign(redirectToUrl);
+          } else if (addSearchProfile) {
+            // window.location.href = '/home';
+            window.location.assign('/buy');
+          }
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: false } });
+          else store.dispatch({ type: SPINNER_OFF });
         });
       break;
     }

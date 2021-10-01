@@ -55,9 +55,6 @@ map-get($blueColor, 300);
 "../pages/sellerSidebar",
 "../pages/seller";
 
-/* TRANSITIONS */
-@import "./transitions";
-
 
 html, body {
   position: relative;
@@ -333,6 +330,9 @@ header {
   }
   &.two {
     -webkit-line-clamp: 2; /* number of lines to show */
+  }
+  &.three {
+    -webkit-line-clamp: 3; /* number of lines to show */
   }
 }
 

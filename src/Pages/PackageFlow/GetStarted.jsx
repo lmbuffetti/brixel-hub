@@ -29,7 +29,7 @@ import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
-import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
+import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 
 const cookie = new Cookies();
 
@@ -44,7 +44,7 @@ const GetStarted = (props) => {
     // handleDoLogin,
     handleGetActiveSingleCompany,
     // handleGetGamegroup,
-    // handleUpdateSearchProfile,
+    // handleCreateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
     // handleValidateUser,
@@ -523,7 +523,7 @@ GetStarted.propTypes = {
   // handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   // handleGetGamegroup: PropTypes.func.isRequired,
-  // handleUpdateSearchProfile: PropTypes.func.isRequired,
+  // handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   // handleValidateUser: PropTypes.func.isRequired,
@@ -606,7 +606,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
+  handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),

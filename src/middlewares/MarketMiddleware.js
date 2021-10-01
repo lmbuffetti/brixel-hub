@@ -20,6 +20,8 @@ import {
   SET_FAVORITES_PROPERTIES,
   GET_WISHLIST_PROPERTIES,
   SET_WISHLIST_PROPERTIES,
+  GET_PREMARKET_STATS,
+  SET_PREMARKET_STATS,
 } from '../actions/types/MarketTypes';
 
 import {
@@ -211,18 +213,34 @@ const checkLead = (store) => (next) => (action) => {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.favorite = 'CardImageTextVertical';
+      const {
+        direction,
+        offset,
+        order,
+        overlayCard,
+        resultsPerPage,
+        searchProfileId,
+      } = action.payload;
       store.dispatch({
         type: SKELETON_ON,
         payload: {
           ...loadSkeleton,
         },
       });
-      let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
-      if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
-      api.market.getPreMarketProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
+      let queryParams = `?order=${order}&direction=${direction}`;
+      if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
+      api.market.getPreMarketProperties(resultsPerPage, offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMARKET_PROPERTIES, payload: res.data });
+            const propertyList = cloneDeep(get(store.getState(), 'property.activeMarketOverlayPropertyLists', [])) || [];
+            propertyList.push(...res.data.data);
+            store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
+          }
+          if (res.meta.status === 200 && overlayCard) {
+            const propertyList = cloneDeep(get(store.getState(), 'property.activeMarketOverlayPropertyLists', []));
+            propertyList.push(...res.data.data);
+            store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.favorite = false;
@@ -290,6 +308,21 @@ const checkLead = (store) => (next) => (action) => {
         })
         .catch(() => {
           store.dispatch({ type: SKELETON_OFF });
+        });
+      break;
+    }
+    case GET_PREMARKET_STATS: {
+      next(action);
+      const {
+        id,
+      } = action.payload;
+      let query = '';
+      if (id) query = `?searchprofileid=${id}`;
+      api.market.preMarketStats(query)
+        .then((res) => {
+          if (res.meta.status === 200) {
+            store.dispatch({ type: SET_PREMARKET_STATS, payload: res.data });
+          }
         });
       break;
     }

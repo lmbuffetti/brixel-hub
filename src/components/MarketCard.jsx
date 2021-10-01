@@ -396,7 +396,7 @@ const MarketCard = (props) => {
                 </div>
               </>
             ) : (
-              <div className="brdSmall brdRadius brdAltGrey100 ov-h">
+              <div className="brdSmall brdRadius brdAltGrey100 ov-h bgWhite">
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
                   className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
@@ -432,10 +432,10 @@ const MarketCard = (props) => {
                 }
                 <div className="info dis-fl-col jc-b">
                   <div className="top dis-fl-col notranslate px-3 pt-3">
-                    <span className="fweight-600 fsize-500 txtAltGrey400 ellipsis one notranslate">
+                    <span className="fweight-600 fsize-500 txtAltGrey700 ellipsis one notranslate">
                       {get(item, 'title', '')}
                     </span>
-                    <span className="fsize-300 txtAltGrey400 mt-1 notranslate">
+                    <span className="fsize-300 txtAltGrey700 mt-1 notranslate">
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                       {
                         get(item, 'location.countryCode', 'CH') === 'CH' && (

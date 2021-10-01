@@ -18,6 +18,8 @@ import {
   SET_PREMARKET_PROPERTIES,
   GET_WISHLIST_PROPERTIES,
   SET_WISHLIST_PROPERTIES,
+  GET_PREMARKET_STATS,
+  SET_PREMARKET_STATS,
 } from './types/MarketTypes';
 
 export const {
@@ -37,6 +39,8 @@ export const {
   setPremarketProperties,
   getWishlistProperties,
   setWishlistProperties,
+  getPremarketStats,
+  setPremarketStats,
 } = createActions({
   [GET_ALL_PROPERTIES]: (payload) => payload,
   [SET_ALL_PROPERTIES]: (payload) => payload,
@@ -54,4 +58,6 @@ export const {
   [SET_PREMARKET_PROPERTIES]: (payload) => payload,
   [GET_WISHLIST_PROPERTIES]: (payload) => payload,
   [SET_WISHLIST_PROPERTIES]: (payload) => payload,
+  [GET_PREMARKET_STATS]: (payload) => payload,
+  [SET_PREMARKET_STATS]: (payload) => payload,
 });

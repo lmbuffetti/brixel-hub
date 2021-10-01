@@ -184,7 +184,6 @@ const clientConfig = (env) => {
       ],
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin(),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional

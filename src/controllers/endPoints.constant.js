@@ -71,6 +71,7 @@ export default {
     ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedPages/${paginationLimit}/${paginationSkip}${data}`,
     preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
     premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
+    preMarketStats: (query) => `/market/list/preMarketStats${query}`,
   },
   note: {
     singleNote: (id) => `/note/${id}`,
@@ -102,6 +103,7 @@ export default {
   searchProfile: {
     searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
     singleSearchProfile: () => '/searchProfile/',
+    singleSearchProfileById: (id) => `/searchProfile/${id}`,
   },
   upload: {
     addImage: () => '/image/',
