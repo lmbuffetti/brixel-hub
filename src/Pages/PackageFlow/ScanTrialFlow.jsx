@@ -328,7 +328,7 @@ const ScanTrialFlow = (props) => {
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     const newQuest = [];
-    if (formValue.id) {
+    if (formValue) {
       ScanTrialQuestions('en').map((quests) => {
         if (quests.condition) {
           let isValid = true;
