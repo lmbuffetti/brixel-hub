@@ -63,6 +63,11 @@
         height: calc(100% - 160px);
       }
     }
+    .fullScreenCard {
+      &.middle-part {
+        height: 100%;
+      }
+    }
     .middle-part {
 
       /* CUSTOM SCROLLBAR WITHOUT FORGROUND LAYER*/

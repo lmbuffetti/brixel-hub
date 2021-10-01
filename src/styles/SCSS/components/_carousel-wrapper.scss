@@ -36,7 +36,9 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
  .carousel3d {
    max-width: 100%;
-   margin: 150px auto 0;
+   &:not([class*=m]) {
+     margin: 150px auto 0;
+   }
    // padding-top: 56px;
    position: relative;
    overflow: hidden;
@@ -45,8 +47,9 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
    &.open {
      position: static;
-     height: calc(100% - 88px);
-
+     &:not([class*=h-perc]) {
+       height: calc(100% - 88px);
+     }
      [class^="slick"] {
        position: static !important;
        transform: none !important;

@@ -283,7 +283,7 @@ const SplashScreen = (props) => {
 
   return (
     <>
-      <div className="dis-f p-2 a-c jc-fe">
+      <div className={`dis-f p-2 a-c jc-fe ${!activeMarketOverlayPropertyLists ? 'pos-a w-perc-100' : ''}`}>
         <BrixelButtonIcon
           className="pos-r zIndex1"
           ghost
@@ -293,7 +293,7 @@ const SplashScreen = (props) => {
         />
       </div>
 
-      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard || !activeMarketOverlayPropertyLists ? '' : 'pos-r zIndex1'}`}>
+      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard || !activeMarketOverlayPropertyLists ? '' : 'pos-r zIndex1'} ${!activeMarketOverlayPropertyLists ? 'fullScreenCard' : ''}`}>
         {
           activeMarketOverlayPropertyLists && (
             <div className="container">
@@ -373,7 +373,7 @@ const SplashScreen = (props) => {
         }
         {
           !activeMarketOverlayPropertyLists && (
-            <div className="carousel3d open" id="overlayCarousel">
+            <div className="carousel3d open m-0 h-perc-100" id="overlayCarousel">
               <MarketCardOverlay
                 item={activeMarketOverlayProperty}
                 onToggleCard={(val) => setFullScreenCard(val)}
@@ -386,7 +386,7 @@ const SplashScreen = (props) => {
       </div>
       {
         !activeMarketOverlayPropertyLists && (
-          <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${!fullScreenCard ? 'jc-b' : 'jc-c'} pos-r zIndex2`}>
+          <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists ? 'jc-b' : 'jc-c'} pos-r zIndex2`}>
             {
               activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
                 <BrixelButtonIcon
