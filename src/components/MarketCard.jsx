@@ -527,11 +527,11 @@ const MarketCard = (props) => {
                         {
                           get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
                             <>
-                              <p className="pl-1 body2 txtDark700" dangerouslySetInnerHTML={{ __html: `<span>Your property is visible on our pre-market.</span> <a href="/${item.id}/marketing/portals" class="fsize-300 fweight-500 txtAltBlue400 cur-poi ml-1 td-u lh-in btnInline">Learn more.</a>` }} />
+                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>Your property is visible on our pre-market.</span> <a href="/${item.id}/marketing/portals" class="fsize-300 fweight-500 txtAltBlue400 cur-poi ml-1 td-u lh-in btnInline">Learn more.</a>` }} />
                             </>
                           ) : (
                             <>
-                              <p className="pl-1 body2 txtDark700" dangerouslySetInnerHTML={{ __html: '<span>Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.</span>' }} />
+                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: '<span>Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.</span>' }} />
                               <a
                                 href={`/${item.id}/marketing/portals`}
                                 className="fsize-300 fweight-500 txtAltBlue400 cur-poi ml-1 td-u p-0 btnInline"
@@ -549,7 +549,7 @@ const MarketCard = (props) => {
                       className="dis-fl-col dis-fl-row-sm ta-l"
                     >
                       <div className="dis-fl-row-sm">
-                        <p className="pl-1 body2 txtDark700">
+                        <p className="pl-1 fsize-300 txtLight600">
                           <span>Your property is visible on our market.</span>
                         </p>
                       </div>

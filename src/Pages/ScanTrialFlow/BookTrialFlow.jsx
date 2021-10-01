@@ -397,6 +397,7 @@ const BookTrialFlow = (props) => {
                         input={{
                           name: 'hourBook',
                           placeholder: '08:00',
+                          type: 'time',
                         }}
                         inputFormat={{
                           formatType: 'date-hh:mm',
