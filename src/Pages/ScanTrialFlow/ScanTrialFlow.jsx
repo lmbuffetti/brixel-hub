@@ -22,6 +22,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import isArray from 'lodash/isArray';
 import { checkBrowser } from '../../utils/helpers';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
@@ -51,6 +52,7 @@ const ScanTrialFlow = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -224,6 +226,7 @@ const ScanTrialFlow = (props) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
     setShowError(false);
+    setOldIndex(currentIndex);
     if (act === 'back') {
       newIndex -= step;
     } else {
@@ -287,6 +290,7 @@ const ScanTrialFlow = (props) => {
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
+    setOldIndex(currentIndex);
     const newQuest = [];
     if (formValue) {
       ScanTrialQuestions('en').map((quests) => {
@@ -307,7 +311,7 @@ const ScanTrialFlow = (props) => {
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
-    if (get(newQuest[currentIndex], 'inputs', []).length === 1 && (get(newQuest[currentIndex], 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(newQuest[currentIndex], 'inputs[0].component.name', null) === 'b') && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null)) {
+    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
