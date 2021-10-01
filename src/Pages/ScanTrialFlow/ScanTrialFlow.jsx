@@ -374,7 +374,7 @@ const ScanTrialFlow = (props) => {
                           onCloseGoBack={() => changeStep('back')}
                           onClickDisabled={!checkValidateField()}
                           onSubmit={() => changeStep()}
-                          showSendButton
+                          showSendButton={false}
                           showErrors={showError}
                           disableDelay
                         />
