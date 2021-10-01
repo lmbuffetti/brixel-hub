@@ -327,8 +327,8 @@ const ScanTrialFlow = (props) => {
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
-    if (formValue.id) {
-      const newQuest = [];
+    const newQuest = [];
+    if (formValue) {
       ScanTrialQuestions('en').map((quests) => {
         if (quests.condition) {
           let isValid = true;
@@ -347,7 +347,7 @@ const ScanTrialFlow = (props) => {
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
-    if (get(quest, 'inputs', []).length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+    if (get(newQuest[currentIndex], 'inputs', []).length === 1 && (get(newQuest[currentIndex], 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(newQuest[currentIndex], 'inputs[0].component.name', null) === 'b') && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null)) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
@@ -410,7 +410,7 @@ const ScanTrialFlow = (props) => {
                           onCloseGoBack={() => changeStep('back')}
                           onClickDisabled={!checkValidateField()}
                           onSubmit={() => changeStep()}
-                          showSendButton
+                          showSendButton={false}
                           showErrors={showError}
                           disableDelay
                         />
