@@ -26,6 +26,7 @@ import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import has from 'lodash/has';
+import isArray from 'lodash/isArray';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { setCookie, checkBrowser } from '../../utils/helpers';
@@ -406,8 +407,8 @@ const GetStartedBuyer = (props) => {
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     setOldIndex(currentIndex);
+    const newQuest = [];
     if (formValue) {
-      const newQuest = [];
       QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
@@ -425,7 +426,7 @@ const GetStartedBuyer = (props) => {
       });
       setQuestions(newQuest);
     }
-    if (quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && oldIndex <= currentIndex) {
+    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
