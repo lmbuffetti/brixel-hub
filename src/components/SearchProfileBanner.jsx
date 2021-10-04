@@ -392,7 +392,7 @@ const SearchProfileBanner = (props) => {
                         <p className="fsize-600 fweight-600 txtAltGreen400">
                           <span>{preMarketStats.likedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
-                            likes
+                            Likes
                           </span>
                         </p>
                       </div>
