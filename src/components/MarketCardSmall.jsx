@@ -49,7 +49,7 @@ const MarketCardSmall = (props) => {
         onClick={(e) => openCard(e)}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'}`}>
-          <div className="brdSmall brdRadius brdAltGrey100 ov-h dis-f">
+          <div className="brdSmall brdRadius brdLight200 ov-h dis-f">
             <CoverPropertyImage
               loadedImg={(val) => setCoverImgLoaded(val)}
               className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 h-fix-80 w-fix-80 pos-r`}

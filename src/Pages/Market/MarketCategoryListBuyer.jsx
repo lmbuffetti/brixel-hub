@@ -233,19 +233,20 @@ const MarketCategoryListBuyer = (props) => {
           }
         </div>
 
-        <div className="pt-7 pb-8 container bgAltBlue400">
+        <div className="pt-7 pb-8 bgAltBlue400">
           {
             premiumProperties.total > 0 && (
-              <CarouselWrapper
-                theme="light"
-                title="Explore"
-                subtitle="Random Brixel properties all over Europe
-"
-                className="market-category-carousel"
-                type="premium"
-                items={exploreProperties}
-                total={premiumProperties.total}
-              />
+              <div className="container">
+                <CarouselWrapper
+                  theme="light"
+                  title="Explore"
+                  subtitle="Random Brixel properties all over Europe"
+                  className="market-category-carousel"
+                  type="premium"
+                  items={exploreProperties}
+                  total={premiumProperties.total}
+                />
+              </div>
             )
           }
         </div>
