@@ -15,6 +15,7 @@ import {
 import {
   BrixelButtonIcon,
   BrixelButtonText,
+  BrixelIcon,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import Slider from 'react-slick';
@@ -333,19 +334,25 @@ const SplashScreen = (props) => {
                       </Slider>
                       <div className="dis-fl-row a-c w-perc-100 p-3 jc-c pos-r zIndex2">
                         <div className="dis-fl-row jc-c a-c ml-a">
-                          <BrixelButtonIcon
+                          <BrixelIcon
                             rounded
-                            secondary
                             className="mr-4"
-                            theme="red"
+                            color="AltRed"
+                            background="AltRed"
+                            iconWidth="w-fix-32"
+                            saturation={200}
+                            saturationTxt={400}
                             onClick={() => notInterested()}
                             icon="close-small"
                             isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
                           />
-                          <BrixelButtonIcon
+                          <BrixelIcon
                             rounded
-                            secondary
-                            theme="green"
+                            color="AltGreen"
+                            background="AltGreen"
+                            iconWidth="w-fix-32"
+                            saturation={200}
+                            saturationTxt={400}
                             onClick={() => saveFavorite()}
                             icon="favorite"
                             isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
