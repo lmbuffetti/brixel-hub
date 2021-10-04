@@ -143,39 +143,43 @@ const MarketCategoryListBuyer = (props) => {
         }
 
         {/* WHISHLIST */}
-        <div className="container">
-          <h5 className="fweight-600 mb-3 txtAltGrey700">Wishlist</h5>
-          <div className="dis-f jc-b">
-            <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
-              {
-                get(wishlistProperties, 'data', []).map((fav, i) => (
-                  <React.Fragment key={i.toString()}>
-                    {
-                      i < numWishProp && (
-                        <MarketCardSmall
-                          type="fav"
-                          item={fav}
-                        />
-                      )
-                    }
-                  </React.Fragment>
-                ))
-              }
-            </div>
-            {
-              get(wishlistProperties, 'data', []).length > numWishProp && (
-                <div
-                  className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen300 min-w-fix-80 h-fix-80 ml-4 cur-poi"
-                  onClick={() => history.push('/buy/wishlist')}
-                >
-                  <span className="txtGreen400 fweight-600 fsize-500">
-                    + {get(wishlistProperties, 'data', []).length - numWishProp}
-                  </span>
+        {
+          get(wishlistProperties, 'data', []).length > 0 && (
+            <div className="container">
+              <h5 className="fweight-600 mb-3 txtAltGrey700">Wishlist</h5>
+              <div className="dis-f jc-b">
+                <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
+                  {
+                    get(wishlistProperties, 'data', []).map((fav, i) => (
+                      <React.Fragment key={i.toString()}>
+                        {
+                          i < numWishProp && (
+                            <MarketCardSmall
+                              type="fav"
+                              item={fav}
+                            />
+                          )
+                        }
+                      </React.Fragment>
+                    ))
+                  }
                 </div>
-              )
-            }
-          </div>
-        </div>
+                {
+                  get(wishlistProperties, 'data', []).length > numWishProp && (
+                    <div
+                      className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen300 min-w-fix-80 h-fix-80 ml-4 cur-poi"
+                      onClick={() => history.push('/buy/wishlist')}
+                    >
+                      <span className="txtGreen400 fweight-600 fsize-500">
+                        + {get(wishlistProperties, 'data', []).length - numWishProp}
+                      </span>
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+          )
+        }
 
         <div className="mt-5 bgSvg">
 
