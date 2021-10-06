@@ -219,7 +219,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
     .closePanel {
       display: none;
     }
-    max-height: 92px;
+    max-height: 100px;
     @media (max-width: $responsive-medium) {
       max-height: 72px;
     }

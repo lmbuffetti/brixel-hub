@@ -21,7 +21,7 @@ $grid-breakpoints: (
   xxl: 1920px,
 );
 $responsive-medium: map_get($grid-breakpoints, md);
-$responsive-desktop: map-get($grid-breakpoints, xl );
+$responsive-desktop: map-get($grid-breakpoints, xl);
 
 @import '~@brixel/brixel-components/dist/styles/SCSS/general/variables';
 @import '~@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
@@ -56,13 +56,15 @@ map-get($blueColor, 300);
 "../pages/seller";
 
 
-html, body {
+html,
+body {
   position: relative;
   height: 100%;
 }
 
 html {
   font-size: 14px;
+
   @media (min-width: $responsive-medium) {
     font-size: 16px;
   }
@@ -77,7 +79,9 @@ html {
   }
 }
 
-.txlive { display: none; }
+.txlive {
+  display: none;
+}
 
 body {
   background: $brx-white;
@@ -98,7 +102,7 @@ body {
       }
 
       @media (min-width: $responsive-medium) {
-       /*  width: calc(100% - #{$sidebarWidth});
+        /*  width: calc(100% - #{$sidebarWidth});
         left: $sidebarWidth; */
       }
 
@@ -112,6 +116,7 @@ body {
 
 a {
   text-decoration: none;
+
   &:not([class*="txt"]) {
     color: map_get($primaryColor, 400);
 
@@ -125,15 +130,18 @@ img {
   max-width: 100%;
   height: auto;
 }
+
 .hr,
 hr {
   border: none;
   display: block;
   width: 100%;
-  border-top:1px solid map_get($lightColor, 400);
+  border-top: 1px solid map_get($lightColor, 400);
+
   &.lighter {
     border-color: map_get($lightColor, 200);
   }
+
   &.white {
     border-color: white;
   }
@@ -192,14 +200,19 @@ header {
   opacity: 0;
 
   @keyframes popIn {
-    10%, 90% {
+
+    10%,
+    90% {
       opacity: 1;
       transform: translateX(0);
-    } 95% {
+    }
+
+    95% {
       opacity: 0;
       transform: translateX(50%);
     }
   }
+
   i {
     background: map_get($greenColor, 400);
     border-radius: 50%;
@@ -207,6 +220,7 @@ header {
     padding: 9px;
     margin-right: $step;
   }
+
   span {
     @include fontStyle(300);
     color: map_get($darkColor, 700);
@@ -219,15 +233,19 @@ header {
   padding-left: $step;
   padding-right: $step;
   transition: background-color 0.4s ease;
+
   &:hover {
     background-color: map_get($lightColor, 300) !important;
   }
+
   .title {
     min-width: 45px !important;
     font-weight: 400;
   }
+
   &.dropdown.open ul {
     max-height: none;
+
     li {
       font-weight: 400;
     }
@@ -246,7 +264,8 @@ header {
   display: block !important;
 }
 
-[class^="icon-"].small, [class*=" icon-"].small {
+[class^="icon-"].small,
+[class*=" icon-"].small {
   display: block;
 }
 
@@ -257,16 +276,21 @@ header {
 
 /* Map iFrame styles*/
 .gm-style {
-  .gm-style-cc { display: none}
+  .gm-style-cc {
+    display: none
+  }
+
   .gm-bundled-control {
-    > div {
+    >div {
       border-radius: 8px;
       overflow: hidden;
       transform: scale(0.8) translate(8px, 16px);
+
       button {
         img {
           display: none !important;
         }
+
         &:after {
           content: '';
           background-color: map_get($primaryColor, 400);
@@ -279,8 +303,10 @@ header {
           background-position: center;
           margin: auto;
         }
+
         &:last-child {
           border-top: 1px solid map_get($primaryColor, 100) !important;
+
           &:after {
             content: '';
             background-color: map_get($primaryColor, 400);
@@ -302,11 +328,13 @@ header {
 
 .image-ratio {
   position: relative;
+
   &:after {
     content: '';
     display: block;
     padding-bottom: 56.2%;
   }
+
   &.squared {
     &:after {
       padding-bottom: 0;
@@ -318,9 +346,11 @@ header {
 .image-ratio img {
   position: absolute;
   object-fit: contain;
+
   &.cover {
     object-fit: cover;
   }
+
   width: 100%;
   height: 100%;
 }
@@ -330,14 +360,20 @@ header {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+
   &.one {
-    -webkit-line-clamp: 1; /* number of lines to show */
+    -webkit-line-clamp: 1;
+    /* number of lines to show */
   }
+
   &.two {
-    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
   }
+
   &.three {
-    -webkit-line-clamp: 3; /* number of lines to show */
+    -webkit-line-clamp: 3;
+    /* number of lines to show */
   }
 }
 
@@ -354,7 +390,7 @@ img {
 /* hide notification bar*/
 #bodyModalWrapper,
 .rewardsTop {
-  ~ .brixel-notification {
+  ~.brixel-notification {
     display: none;
   }
 }
@@ -364,11 +400,13 @@ img {
 
 .flowBody {
   .inputStepDisplay {
-    > span {
+    >span {
       font-family: $font-family-secondary;
     }
   }
+
   .two-cols {
+
     .brixel-select-wrapper,
     .brixel-input-step,
     .brixel-checkbox-wrapper,
@@ -376,29 +414,33 @@ img {
     .brixel-quality-container {
       display: flex;
       justify-content: flex-start;
+
       .row-cols-2 {
         justify-content: flex-start;
       }
-      > .brixel-label,
-        .labelLeft {
+
+      >.brixel-label,
+      .labelLeft {
         max-width: 40%;
         width: 100%;
 
-        + div {
+        +div {
           width: 100%;
           max-width: 100%;
           justify-content: flex-start;
+
           &.input-container {
             flex: 100%;
             max-width: 200px;
-           }
+          }
         }
       }
     }
+
     .brixel-checkbox-wrapper {
       align-items: baseline;
 
-      > .dis-fl-col {
+      >.dis-fl-col {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -411,6 +453,7 @@ img {
     }
   }
 }
+
 .formFlow label.brixel-label,
 .formFlow .labelLeft,
 
@@ -430,9 +473,10 @@ img {
 }
 
 /* todo*/
-.brixel-quality-container  {
-  > div {
+.brixel-quality-container {
+  >div {
     flex-wrap: wrap;
+
     .step {
       margin-bottom: $step;
     }
@@ -444,20 +488,21 @@ img {
   margin-bottom: $step * 3;
 
   &:not(:last-child) {
-    border-bottom: 1px solid map-get($lightColor, 200 );
+    border-bottom: 1px solid map-get($lightColor, 200);
   }
 }
 
 
 /* CUSTOM SCROLLBAR WITHOUT FORGROUND LAYER*/
-main > div ::-webkit-scrollbar {
+main>div ::-webkit-scrollbar {
   width: $step;
   height: $step;
 }
-main > div ::-webkit-scrollbar-thumb {
+
+main>div ::-webkit-scrollbar-thumb {
   /* manage scrollbar thumb background color here*/
   border-radius: $step;
-  background:rgba(0, 0, 0, 0.2) !important;
+  background: rgba(0, 0, 0, 0.2) !important;
 }
 
 .scheduleGrid {
@@ -466,7 +511,7 @@ main > div ::-webkit-scrollbar-thumb {
   max-width: 550px;
   margin: auto;
 
-  > div {
+  >div {
     margin-bottom: $step;
 
     &:nth-child(odd) {
@@ -476,7 +521,8 @@ main > div ::-webkit-scrollbar-thumb {
 }
 
 
-sub, sup {
+sub,
+sup {
   /* Specified in % so that the sup/sup is the
      right size relative to the surrounding text */
 
@@ -507,11 +553,14 @@ sub {
 
 @media not all and (min-resolution:.001dpcm) {
   @supports (-webkit-appearance:none) {
-    sub, sup {
+
+    sub,
+    sup {
       /* Specified in % so that the sup/sup is the
          right size relative to the surrounding text */
       font-size: 65%;
     }
+
     sup {
       /* Move the superscripted text up */
       top: -0.7em;
@@ -528,6 +577,7 @@ sub {
 .link {
   vertical-align: text-bottom;
   font-size: 1rem;
+
   &:not([class*=txt]) {
     color: map_get($primaryColor, 400);
   }
@@ -555,27 +605,34 @@ button.minimum-w-210 {
       padding-bottom: $step !important;
     }
   }
+
   .input-container .brixel-text-input {
     min-height: 56px;
   }
+
   .inputTime .input-container .brixel-text-input,
   .inputDate .input-container .brixel-text-input {
     padding-left: 24px !important;
     padding-right: 24px !important;
+
     @media (max-width: $responsive-small) {
       padding-left: 16px !important;
       padding-right: 16px !important;
     }
   }
+
   .inputPhone .input-container .brixel-text-input {
     padding-right: 24px !important;
+
     @media (max-width: $responsive-small) {
       padding-right: 16px !important;
     }
   }
+
   .brixel-select.flags .dropdown .selElement,
-  .brixel-select.flags .dropdown> ul li {
+  .brixel-select.flags .dropdown>ul li {
     padding-left: 24px;
+
     @media (max-width: $responsive-small) {
       padding-left: 16px !important;
     }
@@ -594,47 +651,59 @@ button.minimum-w-210 {
     display: flex;
     padding-left: 24px;
     padding-right: 24px;
+
     @media (max-width: $responsive-small) {
       padding-left: 16px !important;
       padding-right: 16px !important;
     }
-    > div {
+
+    >div {
       width: 100%;
     }
   }
+
   span.brixelIcon.activity-calendar {
     right: 30px;
     top: 18px;
+
     /*transform: translateY(-50%);*/
     @media (max-width: $responsive-small) {
       right: 22px;
     }
   }
+
   .validation-icon.error {
     display: none;
   }
+
   span.brixelIcon.hour-book {
     right: 24px;
     top: 18px;
+
     @media (max-width: $responsive-small) {
       right: 16px;
     }
   }
+
   #wrapDatePicker #fixedDatePicker {
     left: 0;
     width: 100% !important;
   }
+
   #wrapDatePicker.afterInput .react-datepicker {
     padding: 4px 7px 0;
     box-shadow: $shadow-2dp;
   }
+
   button.react-datepicker__navigation--previous {
     left: 10px;
   }
+
   button.react-datepicker__navigation--next {
     right: 10px;
   }
 }
+
 .txtWhite {
   color: #fff;
 }
@@ -650,6 +719,7 @@ button.minimum-w-210 {
 .opacity-08 {
   opacity: 0.8;
   transition: opacity 450ms ease-in;
+
   &:hover {
     opacity: 1;
   }
@@ -679,6 +749,7 @@ button.minimum-w-210 {
     z-index: 2;
   }
 }
+
 .activeDot {
   line-height: inherit;
   display: inline-block;
@@ -687,13 +758,16 @@ button.minimum-w-210 {
   background-color: white;
   position: relative;
   border-radius: 50%;
+
   &.green {
     background-color: map-get($altGreenColor, 300);
   }
+
   &.grey {
     background-color: #CFD2D3;
   }
 }
+
 .brdRadiusLrg {
   border-radius: $step * 3;
 }
@@ -701,23 +775,28 @@ button.minimum-w-210 {
 .linkWrap {
   .wHover {
     display: block;
+
     span {
       transition: left 150ms ease-in;
       position: relative;
       display: inline-block;
       left: 0px;
     }
+
     .arrow-symbol {
       transition-delay: 100ms;
     }
   }
+
   &:hover {
-    .arrow-symbol { left: 5px; }
+    .arrow-symbol {
+      left: 5px;
+    }
   }
 }
 
 .icon-hourglass {
-  svg > g {
+  svg>g {
     transform: translate(6px, 0);
   }
 }
@@ -746,7 +825,7 @@ button.minimum-w-210 {
 }
 
 .ProEstimationFlow {
-  .reduxFieldWrap > .brixel-checkbox-icon {
+  .reduxFieldWrap>.brixel-checkbox-icon {
     height: auto;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
@@ -773,14 +852,26 @@ button.minimum-w-210 {
 .scroll-horz {
   max-width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
+
+  &:after,
   &:before {
     content: '';
     position: absolute;
     height: 100%;
     width: 68px;
     z-index: 1;
-    right: -1px;
-    background: rgb(255,255,255);
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 75%);
+  }
+
+  &:after {
+    left: 0;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(268deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+  }
+
+  &:before {
+    right: 0;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
   }
 }

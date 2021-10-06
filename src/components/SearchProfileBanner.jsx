@@ -266,7 +266,7 @@ const SearchProfileBanner = (props) => {
                         className="cur-poi"
                         onClick={() => openForm('desk')}
                       >
-                        <div className="dis-f py-3 a-t">
+                        <div className="dis-f pt-small-28 pb-small-18 a-t">
                           {
                           /* PROPERRTY TYPE */
                             get(userSearchProfiles, 'characteristics.propertyType', []).length > 0 && (
@@ -323,7 +323,7 @@ const SearchProfileBanner = (props) => {
                     ) : (
                       <div
                         onClick={() => setShowSearchProfileForm(!showSearchProfileForm)}
-                        className="py-3 dis-f a-c"
+                        className="pt-small-28 pb-small-18 dis-f a-c"
                       >
                         <div
                           className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
@@ -348,7 +348,7 @@ const SearchProfileBanner = (props) => {
                       </div>
                     )
                   }
-                  <div className="dis-f a-c">
+                  <div className="dis-f a-c pt-1">
                     <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
                       <BrixelIcon
                         iconWidth="w-fix-32"
@@ -370,24 +370,22 @@ const SearchProfileBanner = (props) => {
                         </p>
                       </div>
                     </div>
-                    <div className="dis-f a-t brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
-                      <div className="py-3 dis-f a-c">
-                        <BrixelIcon
-                          iconWidth="w-fix-32"
-                          background="altRed"
-                          saturation={200}
-                          color="altRed"
-                          rounded
-                          icon="close-small"
-                        />
-                        <div className="ml-1">
-                          <p className="fsize-600 fweight-600 txtAltRed700">
-                            <span>{preMarketStats.dislikedTotal}</span>
-                            <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg no-wrap">
-                              Don&apos;t like
-                            </span>
-                          </p>
-                        </div>
+                    <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
+                      <BrixelIcon
+                        iconWidth="w-fix-32"
+                        background="altRed"
+                        saturation={200}
+                        color="altRed"
+                        rounded
+                        icon="close-small"
+                      />
+                      <div className="ml-1">
+                        <p className="fsize-600 fweight-600 txtAltRed700">
+                          <span>{preMarketStats.dislikedTotal}</span>
+                          <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg no-wrap">
+                            Don&apos;t like
+                          </span>
+                        </p>
                       </div>
                     </div>
                     <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
@@ -412,7 +410,7 @@ const SearchProfileBanner = (props) => {
                 </div>
               )
             }
-            <div className="pt-4 brdSmallTop brdLight200">
+            <div className={`pt-4 ${showSearchProfileForm ? 'brdSmallTop brdLight200' : ''}`}>
               <div className="px-3 max-w-fix-1200 px-2 pb-5 mx-a">
                 <div className="searchProfileGrid">
                   <MultiFileldsReduxForm
