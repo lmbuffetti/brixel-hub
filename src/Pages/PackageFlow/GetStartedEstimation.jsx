@@ -467,7 +467,7 @@ const GetStartedEstimation = (props) => {
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
-    if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
+    if (currentIndex > 2) {
       const countryCodeLocation = get(formValue, 'location.countryCode', '');
       const countryCodeCompany = get(company, 'country.code', '');
       if (countryCodeCompany !== countryCodeLocation) {
@@ -478,7 +478,7 @@ const GetStartedEstimation = (props) => {
         handleGetActiveSingleCompany({ stub: newCountryStub });
       }
     }
-  }, [currentIndex]);
+  }, [get(formValue, 'location.countryCode', '')]);
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
