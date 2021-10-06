@@ -1,3 +1,4 @@
+/* global Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useState, useRef, useCallback, useEffect,
@@ -22,6 +23,7 @@ const CarouselWrapper = (props) => {
     className,
     history,
     items,
+    lang,
     layout,
     loggedInUser,
     match,
@@ -134,6 +136,12 @@ const CarouselWrapper = (props) => {
       sliderInstance.current.slickGoTo(+slideToGo);
     }
   }, [sliderInstance.current, slideToGo]);
+
+  useEffect(() => {
+    if (sliderInstance.current) {
+      if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
+    }
+  }, [sliderInstance.current]);
 
   useEffect(() => {
     if (layout === 'singleOwnCard') {
@@ -327,6 +335,7 @@ CarouselWrapper.propTypes = {
   className: PropTypes.string,
   history: PropTypes.object.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
+  lang: PropTypes.string.isRequired,
   layout: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -358,6 +367,7 @@ CarouselWrapper.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  lang: get(state, 'user.loggedInUser.user.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
