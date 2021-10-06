@@ -158,6 +158,10 @@ p.cutRow {
   text-overflow: ellipsis;
 }
 
+.no-wrap {
+  white-space: nowrap;
+}
+
 .brixel-modal {
   .modal-body {
     p {
@@ -756,5 +760,27 @@ button.minimum-w-210 {
     cursor: pointer;
     position: relative;
     margin-bottom: 8px;
+  }
+}
+
+.wrap-width {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scroll-horz {
+  max-width: 100%;
+  overflow-x: auto;
+  &:before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 68px;
+    z-index: 1;
+    right: -1px;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 75%);
   }
 }

@@ -142,7 +142,7 @@ const SearchProfileBanner = (props) => {
                         )
                       }
                       { /* PROPERRTY TYPE */}
-                      <div className="dis-f ws-nw mr-2">
+                      <div className="dis-f mr-2">
                         <span>{get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}</span>
                         <span>&nbsp;m2</span>
                       </div>
@@ -150,7 +150,7 @@ const SearchProfileBanner = (props) => {
                       {
                         /* PRICE */
                         get(userSearchProfiles, 'finance.price.totalMax', 0) > 0 && (
-                          <div className="dis-f ws-nw">
+                          <div className="dis-f">
                             <span>
                               {get(userSearchProfiles, 'finance.currency', 0)}
                             </span>
@@ -251,28 +251,28 @@ const SearchProfileBanner = (props) => {
                   </div>
                 </>
               ) : (
-                <div className="dis-f jc-b px-3">
+                <div className="dis-f jc-b px-3 pr-4 scroll-horz">
                   {
                     has(userSearchProfiles, 'id') ? (
                       <div
                         className="cur-poi"
                         onClick={() => openForm('desk')}
                       >
-                        <div className="dis-f py-3">
+                        <div className="dis-f py-3 a-t">
                           {
                           /* PROPERRTY TYPE */
                             get(userSearchProfiles, 'characteristics.propertyType', []).length > 0 && (
-                              <div
-                                className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
-                              >
-                                {
-                                  get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
-                                    <React.Fragment key={i.toString()}>
-                                      {i > 0 && (<span>, </span>)}
-                                      <span>{item}</span>
-                                    </React.Fragment>
-                                  ))
-                                }
+                              <div className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2 wrap-width">
+                                <div className="wrap-width">
+                                  {
+                                    get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
+                                      <React.Fragment key={i.toString()}>
+                                        {i > 0 && (<span>, </span>)}
+                                        <span>{item}</span>
+                                      </React.Fragment>
+                                    ))
+                                  }
+                                </div>
                               </div>
                             )
                           }
@@ -280,35 +280,41 @@ const SearchProfileBanner = (props) => {
                           /* PROPERRTY LOCATION */
                             get(userSearchProfiles, 'location', []).length > 0 && (
                               <div
-                                className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
+                                className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2 wrap-width"
                               >
-                                {
-                                  get(userSearchProfiles, 'location', []).map((item, i) => (
-                                    <React.Fragment key={i.toString()}>
-                                      {i > 0 && (<span>, </span>)}
-                                      <span>{item.name}</span>
-                                    </React.Fragment>
-                                  ))
-                                }
+                                <div className="wrap-width">
+                                  {
+                                    get(userSearchProfiles, 'location', []).map((item, i) => (
+                                      <React.Fragment key={i.toString()}>
+                                        {i > 0 && (<span>, </span>)}
+                                        <span>{item.name}</span>
+                                      </React.Fragment>
+                                    ))
+                                  }
+                                </div>
                               </div>
                             )
                           }
                           { /* PROPERRTY TYPE */ }
-                          <div className="brdFullRadius brdSmall brdLight200 dis-f ws-nw py-1 px-3 mr-2">
-                            <span>{get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}</span>
-                            <span>&nbsp;m2</span>
+                          <div className="brdFullRadius brdSmall brdLight200 dis-f py-1 px-3 mr-2 wrap-width">
+                            <div className="wrap-width">
+                              <span>{get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}</span>
+                              <span>&nbsp;m2</span>
+                            </div>
                           </div>
 
                           {
                           /* PRICE */
                             get(userSearchProfiles, 'finance.price.totalMax', 0) > 0 && (
-                              <div className="brdFullRadius brdSmall brdLight200 dis-f ws-nw py-1 px-3">
-                                <span>
-                                  {get(userSearchProfiles, 'finance.currency', 0)}
-                                </span>
-                                <span className="ml-1">
-                                  {Helpers.formatNumberValue(get(userSearchProfiles, 'finance.price.totalMax', 0), get(userSearchProfiles, 'finance.currency', 'CHF'))}
-                                </span>
+                              <div className="brdFullRadius brdSmall brdLight200 dis-f py-1 px-3 wrap-width">
+                                <div className="wrap-width">
+                                  <span>
+                                    {get(userSearchProfiles, 'finance.currency', 0)}
+                                  </span>
+                                  <span className="ml-1">
+                                    {Helpers.formatNumberValue(get(userSearchProfiles, 'finance.price.totalMax', 0), get(userSearchProfiles, 'finance.currency', 'CHF'))}
+                                  </span>
+                                </div>
                               </div>
                             )
                           }
@@ -342,59 +348,65 @@ const SearchProfileBanner = (props) => {
                       </div>
                     )
                   }
-                  <div className="dis-f a-c">
-                    <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
-                      <BrixelIcon
-                        iconWidth="w-fix-32"
-                        background="altMist"
-                        saturation={200}
-                        color="altMist"
-                        rounded
-                        icon="fire"
-                      />
-                      <div className="ml-1">
-                        <p className="fsize-600 fweight-600 txtAltBlue400">
-                          <span>{preMarketStats.total}</span>
-                          <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
-                            Matching
-                          </span>
-                        </p>
+                  <div className="dis-f a-t">
+                    <div className="dis-f a-t brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
+                      <div className="py-3 dis-f a-c">
+                        <BrixelIcon
+                          iconWidth="w-fix-32"
+                          background="altMist"
+                          saturation={200}
+                          color="altMist"
+                          rounded
+                          icon="fire"
+                        />
+                        <div className="ml-1">
+                          <p className="fsize-600 fweight-600 txtAltBlue400">
+                            <span>{preMarketStats.total}</span>
+                            <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
+                              Matching
+                            </span>
+                          </p>
+                        </div>
                       </div>
                     </div>
-                    <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
-                      <BrixelIcon
-                        iconWidth="w-fix-32"
-                        background="altRed"
-                        saturation={200}
-                        color="altRed"
-                        rounded
-                        icon="close-small"
-                      />
-                      <div className="ml-1">
-                        <p className="fsize-600 fweight-600 txtAltRed700">
-                          <span>{preMarketStats.dislikedTotal}</span>
-                          <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
-                            Don&apos;t like
-                          </span>
-                        </p>
+                    <div className="dis-f a-t brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
+                      <div className="py-3 dis-f a-c">
+                        <BrixelIcon
+                          iconWidth="w-fix-32"
+                          background="altRed"
+                          saturation={200}
+                          color="altRed"
+                          rounded
+                          icon="close-small"
+                        />
+                        <div className="ml-1">
+                          <p className="fsize-600 fweight-600 txtAltRed700">
+                            <span>{preMarketStats.dislikedTotal}</span>
+                            <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg no-wrap">
+                              Don&apos;t like
+                            </span>
+                          </p>
+                        </div>
                       </div>
                     </div>
-                    <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
-                      <BrixelIcon
-                        iconWidth="w-fix-32"
-                        background="altGreen"
-                        saturation={200}
-                        color="altGreen"
-                        rounded
-                        icon="favorite"
-                      />
-                      <div className="ml-1">
-                        <p className="fsize-600 fweight-600 txtAltGreen400">
-                          <span>{preMarketStats.likedTotal}</span>
-                          <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
-                            Likes
-                          </span>
-                        </p>
+                    <div className="dis-f a-t brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
+                      <div className="py-3 dis-f a-c">
+                        <BrixelIcon
+                          iconWidth="w-fix-32"
+                          background="altGreen"
+                          saturation={200}
+                          color="altGreen"
+                          rounded
+                          icon="favorite"
+                        />
+                        <div className="ml-1">
+                          <p className="fsize-600 fweight-600 txtAltGreen400">
+                            <span>{preMarketStats.likedTotal}</span>
+                            <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
+                              Likes
+                            </span>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
