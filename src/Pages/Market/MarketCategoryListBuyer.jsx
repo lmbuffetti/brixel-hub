@@ -196,7 +196,7 @@ const MarketCategoryListBuyer = (props) => {
                   <span>There are</span>
                   <span className="mx-small-4 txtAltBlue400">{preMarketStats.total}</span>
                   <span className="mx-small-4 txtAltBlue400">new properties</span>
-                  <span>on our Pre-Market</span>.
+                  <span>on our Pre-Market.</span>
                 </h3>
                 <h5 className="fweight-400 mt-3 txtAltGrey700">
                   Be ahead of the market.
