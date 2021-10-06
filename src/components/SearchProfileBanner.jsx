@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelButtonText,
   BrixelIcon,
   Helpers,
   BrixelButtonIcon,
@@ -27,8 +28,10 @@ const SearchProfileBanner = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
+    onShowWizard,
     onStatsFunc,
     preMarketStats,
+    showWizard,
     subtitle,
     title,
     userSearchProfiles,
@@ -56,6 +59,12 @@ const SearchProfileBanner = (props) => {
     });
     setFullForm(inputform);
   }, [userSearchProfiles]);
+
+  useEffect(() => {
+    if (isSmallLoading.saveData === false) {
+      setShowSearchProfileForm(false);
+    }
+  }, [isSmallLoading]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
@@ -106,7 +115,33 @@ const SearchProfileBanner = (props) => {
   return (
     <>
       <h5 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtAltGrey700`}>{title}</h5>
-      {subtitle && (<p className="mb-4">{subtitle}</p>)}
+      {
+        subtitle && (
+          <div className="mb-4 dis-f a-c">
+            {
+              !showWizard ? (
+                <>
+                  <span>Watch properties which are not even on the market yet.</span>
+                  {/* <BrixelButtonText
+                    label="How it works"
+                    theme="dark"
+                    onClick={() => onShowWizard(true)}
+                  /> */}
+                </>
+              ) : (
+                <>
+                  <span>This is a short Pre-Market explanation.</span>
+                  <BrixelButtonText
+                    label="Learn more"
+                    theme="dark"
+                    onClick={() => onShowWizard(true)}
+                  />
+                </>
+              )
+            }
+          </div>
+        )
+      }
       <div className="pos-r headerFormMarketBuyer">
         {
           windowDimensions.width < 1025 && !subtitle && (
@@ -457,8 +492,10 @@ SearchProfileBanner.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  onShowWizard: PropTypes.func.isRequired,
   onStatsFunc: PropTypes.object,
   preMarketStats: PropTypes.object.isRequired,
+  showWizard: PropTypes.number,
   subtitle: PropTypes.string,
   title: PropTypes.string,
   userSearchProfiles: PropTypes.object.isRequired,
@@ -466,6 +503,7 @@ SearchProfileBanner.propTypes = {
 };
 
 SearchProfileBanner.defaultProps = {
+  showWizard: null,
   subtitle: null,
   title: 'Search Profile',
   onStatsFunc: {},
