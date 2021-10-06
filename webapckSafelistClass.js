@@ -18,5 +18,7 @@ module.exports = {
     /^reduxField/,
     /^gm-style/,
     /^row-cols/,
+    /^space-/,
+    /^carousel/,
   ],
 };

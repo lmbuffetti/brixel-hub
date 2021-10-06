@@ -194,6 +194,7 @@ const Timeline = (props) => {
         company: activeSingleCompany.id,
         parent: isDeal === true ? activeDeal.id : activeProperty.id,
         content: content.replace(/\n$/, ''),
+        private: false,
       },
       smallLoader: 'saveNote',
     };

@@ -1,3 +1,4 @@
+/* global Transifex */
 import React, {
   useRef, useState, useEffect, useCallback,
 } from 'react';
@@ -43,23 +44,25 @@ const SplashScreen = (props) => {
     closeLink,
     closeOutside,
     favoritesProperties,
+    handleGetFavoritesProperties,
     handleGetNewProperties,
+    handleGetPreMarketProperties,
+    handleGetPremiumProperties,
     handleMarkNotInterested,
     handleSetActiveMarketOverlayPropertyLists,
     handleUpdateFavorites,
-    handleGetFavoritesProperties,
-    handleGetPreMarketProperties,
-    handleGetPremiumProperties,
     history,
-    preMarketProperties,
     isSmallLoading,
+    lang,
     loggedInUser,
+    preMarketProperties,
     preMarketStats,
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
   } = props;
 
+  const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   const drawerRef = useRef(null);
   const sliderInstance = useRef(null);
   const [activeSlide, setActiveSlide] = useState(-1);
@@ -99,7 +102,7 @@ const SplashScreen = (props) => {
         setTimeout(() => {
           wrapCarousel.classList.remove('animateCard');
         }, 1000);
-        const timeDelay = activeIndex > activeSlide ? 500 : 1500;
+        const timeDelay = activeIndex > activeSlide ? 500 : 1000;
         setTimeout(() => {
           const removeEl = document.getElementsByClassName('cloneElement');
           while (removeEl[0]) {
@@ -152,6 +155,14 @@ const SplashScreen = (props) => {
       setShowContent(true);
     }, 500);
   }, []);
+
+  useEffect(() => {
+    if (sliderInstance.current) {
+      if (typeof Transifex !== 'undefined') {
+        Transifex.live.translateTo(lang);
+      }
+    }
+  }, [sliderInstance.current, localTransifex, lang]);
 
   useEffect(() => {
     if (activeSlide && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length - 3 === activeSlide) {
@@ -456,21 +467,22 @@ SplashScreen.propTypes = {
   closeLink: PropTypes.string,
   closeOutside: PropTypes.bool,
   favoritesProperties: PropTypes.object,
+  handleGetFavoritesProperties: PropTypes.func,
   handleGetNewProperties: PropTypes.func,
+  handleGetPreMarketProperties: PropTypes.func,
+  handleGetPremiumProperties: PropTypes.func,
   handleMarkNotInterested: PropTypes.func,
   handleSetActiveMarketOverlayPropertyLists: PropTypes.func,
   handleUpdateFavorites: PropTypes.func,
   history: PropTypes.object.isRequired,
-  preMarketProperties: PropTypes.object,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object,
+  preMarketProperties: PropTypes.object,
   preMarketStats: PropTypes.object.isRequired,
   setMarketOverlayProperty: PropTypes.func,
   setSplashScreen: PropTypes.func,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-  handleGetFavoritesProperties: PropTypes.func,
-  handleGetPremiumProperties: PropTypes.func,
-  handleGetPreMarketProperties: PropTypes.func,
 };
 
 SplashScreen.defaultProps = {
@@ -499,6 +511,7 @@ const mapStateToProps = (state) => ({
   // activeMarketOverlayPropertyLists: get(state, 'market.wishlistProperties.data', null),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'user.loggedInUser.user.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   preMarketStats: get(state, 'market.preMarketStats', {}),

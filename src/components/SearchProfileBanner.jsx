@@ -10,7 +10,7 @@ import {
   Helpers,
   BrixelButtonIcon,
   reset,
-  MultiFileldsReduxForm,
+  MultiFileldsReduxForm, useOutsideAlerter,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -23,9 +23,11 @@ const SearchProfileBanner = (props) => {
     formValue,
     handleCreateSearchProfile,
     handleUpdateSearchProfile,
+    history,
     isSmallLoading,
     lang,
     loggedInUser,
+    onStatsFunc,
     preMarketStats,
     subtitle,
     title,
@@ -94,6 +96,12 @@ const SearchProfileBanner = (props) => {
   const cancel = () => {
     setShowSearchProfileForm(false);
   };
+
+  // Function to close the drawer menus when we click outside
+  useOutsideAlerter(profileRef, {
+    action: 'function',
+    func: () => cancel(),
+  });
 
   return (
     <>
@@ -263,16 +271,14 @@ const SearchProfileBanner = (props) => {
                           /* PROPERRTY TYPE */
                             get(userSearchProfiles, 'characteristics.propertyType', []).length > 0 && (
                               <div className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2 wrap-width">
-                                <div className="wrap-width">
-                                  {
-                                    get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
-                                      <React.Fragment key={i.toString()}>
-                                        {i > 0 && (<span>, </span>)}
-                                        <span>{item}</span>
-                                      </React.Fragment>
-                                    ))
-                                  }
-                                </div>
+                                {
+                                  get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
+                                    <React.Fragment key={i.toString()}>
+                                      {i > 0 && (<span>, </span>)}
+                                      <span>{item}</span>
+                                    </React.Fragment>
+                                  ))
+                                }
                               </div>
                             )
                           }
@@ -282,39 +288,33 @@ const SearchProfileBanner = (props) => {
                               <div
                                 className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2 wrap-width"
                               >
-                                <div className="wrap-width">
-                                  {
-                                    get(userSearchProfiles, 'location', []).map((item, i) => (
-                                      <React.Fragment key={i.toString()}>
-                                        {i > 0 && (<span>, </span>)}
-                                        <span>{item.name}</span>
-                                      </React.Fragment>
-                                    ))
-                                  }
-                                </div>
+                                {
+                                  get(userSearchProfiles, 'location', []).map((item, i) => (
+                                    <React.Fragment key={i.toString()}>
+                                      {i > 0 && (<span>, </span>)}
+                                      <span>{item.name}</span>
+                                    </React.Fragment>
+                                  ))
+                                }
                               </div>
                             )
                           }
                           { /* PROPERRTY TYPE */ }
                           <div className="brdFullRadius brdSmall brdLight200 dis-f py-1 px-3 mr-2 wrap-width">
-                            <div className="wrap-width">
-                              <span>{get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}</span>
-                              <span>&nbsp;m2</span>
-                            </div>
+                            <span>{get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}</span>
+                            <span>&nbsp;m2</span>
                           </div>
 
                           {
                           /* PRICE */
                             get(userSearchProfiles, 'finance.price.totalMax', 0) > 0 && (
                               <div className="brdFullRadius brdSmall brdLight200 dis-f py-1 px-3 wrap-width">
-                                <div className="wrap-width">
-                                  <span>
-                                    {get(userSearchProfiles, 'finance.currency', 0)}
-                                  </span>
-                                  <span className="ml-1">
-                                    {Helpers.formatNumberValue(get(userSearchProfiles, 'finance.price.totalMax', 0), get(userSearchProfiles, 'finance.currency', 'CHF'))}
-                                  </span>
-                                </div>
+                                <span>
+                                  {get(userSearchProfiles, 'finance.currency', 0)}
+                                </span>
+                                <span className="ml-1">
+                                  {Helpers.formatNumberValue(get(userSearchProfiles, 'finance.price.totalMax', 0), get(userSearchProfiles, 'finance.currency', 'CHF'))}
+                                </span>
                               </div>
                             )
                           }
@@ -348,25 +348,26 @@ const SearchProfileBanner = (props) => {
                       </div>
                     )
                   }
-                  <div className="dis-f a-t">
-                    <div className="dis-f a-t brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
-                      <div className="py-3 dis-f a-c">
-                        <BrixelIcon
-                          iconWidth="w-fix-32"
-                          background="altMist"
-                          saturation={200}
-                          color="altMist"
-                          rounded
-                          icon="fire"
-                        />
-                        <div className="ml-1">
-                          <p className="fsize-600 fweight-600 txtAltBlue400">
-                            <span>{preMarketStats.total}</span>
-                            <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
-                              Matching
-                            </span>
-                          </p>
-                        </div>
+                  <div className="dis-f a-c">
+                    <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
+                      <BrixelIcon
+                        iconWidth="w-fix-32"
+                        background="altMist"
+                        saturation={200}
+                        color="altMist"
+                        rounded
+                        icon="fire"
+                      />
+                      <div
+                        className={`ml-1 ${onStatsFunc.matching ? 'cur-poi' : ''}`}
+                        onClick={() => (onStatsFunc.matching ? onStatsFunc.matching() : '')}
+                      >
+                        <p className="fsize-600 fweight-600 txtAltBlue400">
+                          <span>{preMarketStats.total}</span>
+                          <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
+                            Matching
+                          </span>
+                        </p>
                       </div>
                     </div>
                     <div className="dis-f a-t brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
@@ -389,24 +390,22 @@ const SearchProfileBanner = (props) => {
                         </div>
                       </div>
                     </div>
-                    <div className="dis-f a-t brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
-                      <div className="py-3 dis-f a-c">
-                        <BrixelIcon
-                          iconWidth="w-fix-32"
-                          background="altGreen"
-                          saturation={200}
-                          color="altGreen"
-                          rounded
-                          icon="favorite"
-                        />
-                        <div className="ml-1">
-                          <p className="fsize-600 fweight-600 txtAltGreen400">
-                            <span>{preMarketStats.likedTotal}</span>
-                            <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
-                              Likes
-                            </span>
-                          </p>
-                        </div>
+                    <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
+                      <BrixelIcon
+                        iconWidth="w-fix-32"
+                        background="altGreen"
+                        saturation={200}
+                        color="altGreen"
+                        rounded
+                        icon="favorite"
+                      />
+                      <div className="ml-1 cur-poi" onClick={() => history.push('/buy/wishlist')}>
+                        <p className="fsize-600 fweight-600 txtAltGreen400">
+                          <span>{preMarketStats.likedTotal}</span>
+                          <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
+                            Likes
+                          </span>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -438,7 +437,7 @@ const SearchProfileBanner = (props) => {
                     rounded
                     theme="altGreen"
                     themeSat={300}
-                    label="Save profile"
+                    label="Save and close filters"
                     onClick={() => saveData()}
                     isLoading={isSmallLoading.saveData}
                   />
@@ -456,9 +455,11 @@ SearchProfileBanner.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleCreateSearchProfile: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  onStatsFunc: PropTypes.object,
   preMarketStats: PropTypes.object.isRequired,
   subtitle: PropTypes.string,
   title: PropTypes.string,
@@ -469,6 +470,7 @@ SearchProfileBanner.propTypes = {
 SearchProfileBanner.defaultProps = {
   subtitle: null,
   title: 'Search Profile',
+  onStatsFunc: {},
 };
 
 const mapStateToProps = (state) => {
