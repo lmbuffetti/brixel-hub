@@ -23,6 +23,7 @@ const SearchProfileBanner = (props) => {
     formValue,
     handleCreateSearchProfile,
     handleUpdateSearchProfile,
+    history,
     isSmallLoading,
     lang,
     loggedInUser,
@@ -352,7 +353,7 @@ const SearchProfileBanner = (props) => {
                         rounded
                         icon="fire"
                       />
-                      <div className="ml-1">
+                      <div className="ml-1" onClick={() => history.push('/')}>
                         <p className="fsize-600 fweight-600 txtAltBlue400">
                           <span>{preMarketStats.total}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
@@ -388,7 +389,7 @@ const SearchProfileBanner = (props) => {
                         rounded
                         icon="favorite"
                       />
-                      <div className="ml-1">
+                      <div className="ml-1 cur-poi" onClick={() => history.push('/buy/whishlist')}>
                         <p className="fsize-600 fweight-600 txtAltGreen400">
                           <span>{preMarketStats.likedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
@@ -444,6 +445,7 @@ SearchProfileBanner.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleCreateSearchProfile: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
