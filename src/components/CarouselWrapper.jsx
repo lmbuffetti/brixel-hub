@@ -1,3 +1,4 @@
+/* global Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useState, useRef, useCallback, useEffect,
@@ -22,6 +23,7 @@ const CarouselWrapper = (props) => {
     className,
     history,
     items,
+    lang,
     layout,
     loggedInUser,
     match,
@@ -29,6 +31,8 @@ const CarouselWrapper = (props) => {
     setActiveSingleCompany,
     setPropertyId,
     slideToGo,
+    subtitle,
+    theme,
     title,
     total,
     type,
@@ -132,6 +136,12 @@ const CarouselWrapper = (props) => {
       sliderInstance.current.slickGoTo(+slideToGo);
     }
   }, [sliderInstance.current, slideToGo]);
+
+  useEffect(() => {
+    if (sliderInstance.current) {
+      if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
+    }
+  }, [sliderInstance.current]);
 
   useEffect(() => {
     if (layout === 'singleOwnCard') {
@@ -252,13 +262,15 @@ const CarouselWrapper = (props) => {
   }
   return (
     <div className={`${className} carousel-wrapper pos-r`}>
-      <div className="mb-3 dis-fl-col dis-fl-row-sm a-c-sm jc-b">
-        <h4 className="title fweight-600 fsize-600">{title}</h4>
+      <div className={`${subtitle ? '' : 'mb-3'} dis-fl-col dis-fl-row-sm a-c-sm jc-b`}>
+        <h4 className={`title fweight-600 fsize-600 ${theme === 'light' ? 'txtWhite' : ''}`}>{title}</h4>
         <div className="mt-1 mt-sm-0 dis-f a-c">
           <BrixelButtonText
             className="fsize-300 show-all pos-r mr-1"
             label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
             onClick={() => showAll()}
+            theme={theme === 'light' ? 'white' : null}
+            themeSat={0}
           />
           {
             items && items.length > slideToShow && (
@@ -283,8 +295,14 @@ const CarouselWrapper = (props) => {
             )
           }
         </div>
-
       </div>
+      {
+        subtitle && (
+          <h6 className={`${theme === 'light' ? 'txtWhite' : ''} mb-3`}>
+            {subtitle}
+          </h6>
+        )
+      }
       <Slider ref={sliderInstance} {...settingSlider()}>
         {
           !items && numCard.map((card, i) => (
@@ -317,6 +335,7 @@ CarouselWrapper.propTypes = {
   className: PropTypes.string,
   history: PropTypes.object.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
+  lang: PropTypes.string.isRequired,
   layout: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -324,6 +343,8 @@ CarouselWrapper.propTypes = {
   setActiveSingleCompany: PropTypes.func,
   setPropertyId: PropTypes.func,
   slideToGo: PropTypes.number,
+  subtitle: PropTypes.string,
+  theme: PropTypes.string,
   title: PropTypes.string,
   total: PropTypes.number,
   type: PropTypes.string,
@@ -338,12 +359,15 @@ CarouselWrapper.defaultProps = {
   setActiveSingleCompany: () => '',
   setPropertyId: () => '',
   slideToGo: 0,
+  subtitle: null,
+  theme: null,
   title: '',
   total: 0,
   type: '',
 };
 
 const mapStateToProps = (state) => ({
+  lang: get(state, 'user.loggedInUser.user.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

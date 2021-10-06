@@ -74,7 +74,7 @@ const MarketCard = (props) => {
       return null;
     });
     let imgLocation = 'https://generator.brixel.io/images/icon_location.png';
-    let marker = `&markers=icon:${imgLocation}|${item.location.latitude},${item.location.longitude}`;
+    let marker = `&markers=icon:${imgLocation}|${get(item, 'location.latitude', 0)},${get(item, 'location.longitude', 0)}`;
     if (get(item, 'tags', []).includes('pre-market')) {
       imgLocation = 'https://generator.brixel.io/images/circle_map.png';
       marker = '';
@@ -155,7 +155,7 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card w-fix-376 ov-h h-perc-100 dis-fl-col brdRadius shadow-3dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite m-a ${fullScreenCard ? 'market-card-fullscreen' : ''}`}
+        className={`market-card w-fix-376 ov-a pb-6 h-perc-100 dis-fl-col brdRadius shadow-3dp pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} bgWhite m-a ${fullScreenCard ? 'market-card-fullscreen' : ''}`}
         // onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <>

@@ -36,22 +36,38 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
 
  .carousel3d {
    max-width: 100%;
-   margin: 0 auto;
+   &:not([class^=m]) {
+     margin: 150px auto 0;
+   }
+   // padding-top: 56px;
    position: relative;
-   overflow-x: hidden;
-   height: 100%;
+   overflow: hidden;
    display: flex;
    flex-direction: column;
 
    &.open {
      position: static;
-     height: calc(100% - 88px);
-
+     &:not([class*=h-perc]) {
+       height: calc(100% - 88px);
+     }
      [class^="slick"] {
        position: static !important;
        transform: none !important;
      }
 
+   }
+
+   .slick-slide, .cloneElement {
+     position: absolute !important;
+     left: 0 !important;
+     top: 10px !important;
+     width: 100% !important;
+     opacity: 1 !important;
+     transform: translate(0px, -0px);
+     transition: all $default-time-long $default-easing !important;
+     &.active {
+       z-index: 10;
+     }
    }
 
    .slick-slider {
@@ -66,8 +82,10 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    }
 
    .slick-list {
-     padding-top: 40px;
-     height: 515px;
+     height: 500px;
+     @media (min-width: $responsive-medium) {
+       height: 360px;
+     }
      overflow: hidden;
    }
 
@@ -78,135 +96,24 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      transition: all 0.4s $trans_func !important;
    }
 
-   .slick-slide {
-     position: absolute !important;
-     transition: scale 0.4s, opacity 0.4s, margin 0.4s !important;
-     height: calc(100% - 40px);
-     left: 0 !important;
-     width: 100% !important;
-     transform: translateX(0) translateY(-50%);
-     top: 50%;
-
-     > div {
-       height: 100%;
-     }
-   }
-
-   .done {
-     opacity: 0 !important;
-     transition: all 0s !important;
-   }
-
-   .toDo {
-     z-index: 5;
-   }
-
    .mapsImage {
      background-size: cover;
      background-position: center;
    }
 
-   &.open {
-     .market-card {
-        height: calc(100% - 88px);
-        padding-bottom: $step * 3;
-        overflow-y: auto;
-        top: calc(50% - 44px);
-     }
-     .slick-slide {
-       display: none !important;
-     }
-     .active.slick-current {
-       display: block !important;
-     }
-   }
-
-   .market-card {
-     overflow: hidden;
-     left: 50%;
-     top: 50%;
-     height: 444px;
-     transform: translate(-50%, -50%);
-     position: absolute;
-     transition: all 0.5s $trans_func;
-   }
-
-   .active.slick-current {
-     z-index: 10;
-   }
-
-   @for $i from 0 through 1 {
-     .space-#{$i} {
-       z-index: -#{($i + 1)};
-       @if $i == 0 {
-         transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-50%);
-         margin-top: -40px;
-       } @else {
-         transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-60%);
-         margin-top: -40px;
-       }
-       filter: blur(1px);
-       -webkit-filter: blur(1px);
-     }
-   }
-
-   @for $i from 2 through 5 {
-     $id: 2;
-     $calc: (($id + 1) / 4) * 10;
-     $def: (50 + $calc) / 100;
-     .space-#{$i} {
-       z-index: -#{($id + 1)};
-       transform: scale(#{1 - ((($i + 1) * 4) / 100)}) translateX(0) translateY(-60%);
-       margin-top: -40px;
-       filter: blur(1px);
-       -webkit-filter: blur(1px);
-     }
-   }
-
-   @for $i from 0 through 1 {
-     .space-#{$i} {
-       opacity: 1 !important;
-     }
-   }
-
-   &.animate {
-     .active.slick-current {
-       transition: 0s !important;
-       opacity: 0 !important;
-     }
-     .space-2 {
-       opacity: 1 !important;
-     }
-   }
-
-   &.animateCard {
-     .active.slick-current {
-       opacity: 0 !important;
-     }
+   .space-0, .space-1 {
+     filter: blur(1px);
+     -webkit-filter: blur(1px);
+     transform: translate(10px, -10px);
    }
 
    .cloneElement {
-     outline: none;
-     width: 227px;
-     position: fixed !important;
-     z-index: 10000;
-     top: 0;
-     display: block !important;
-     left: 0 !important;
-     bottom: 0 !important;
-     margin-top: 65px;
-
-     img.cover {
-       position: relative;
-       top: -1px;
-     }
-
 
      &.favorite {
-        animation: yay 650ms $trans_func forwards;
+       animation: yay 650ms $trans_func forwards;
      }
      &.discard {
-        animation: nope 650ms $trans_func forwards;
+       animation: nope 650ms $trans_func forwards;
      }
      &.fadeOut {
        animation: fadeDown 650ms $trans_func forwards;
@@ -218,6 +125,7 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
        margin-top: 25px;
      }
    }
+
  }
 
  @keyframes fadeOut {

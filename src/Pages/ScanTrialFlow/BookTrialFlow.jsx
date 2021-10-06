@@ -98,12 +98,12 @@ const BookTrialFlow = (props) => {
 
   return (
     <main id="rewards" className="BookTrialFlow pb-4 h-perc-100 txtDark700">
-      <h2 className="ta-c fweight-600">We are ready 🚀.</h2>
+      <h2 className="ta-c fweight-600 fsize-600 fsize-sm-800">We are ready 🚀.</h2>
 
       {
         get(formValue, 'analysis', '') === 'on-site' ? (
           <>
-            <h2 className="mb-3 mb-sm-6 ta-c fweight-600">When do you want us to visit?</h2>
+            <h2 className="mb-3 mb-sm-6 ta-c fweight-600 fsize-600 fsize-sm-800">When do you want us to visit?</h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
               <Accordion
                 color="dark"
@@ -397,6 +397,7 @@ const BookTrialFlow = (props) => {
                         input={{
                           name: 'hourBook',
                           placeholder: '08:00',
+                          type: 'time',
                         }}
                         inputFormat={{
                           formatType: 'date-hh:mm',

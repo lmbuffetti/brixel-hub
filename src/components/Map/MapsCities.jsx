@@ -296,7 +296,7 @@ export const MapsCities = (props) => {
               <div className="w-perc-100 pos-r">
                 <BrixelInputText
                   className="search-box"
-                  type="text"
+                  type="search"
                   ref={inputSearch}
                   label="Zip / City"
                   disabled={disabled}

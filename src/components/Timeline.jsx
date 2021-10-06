@@ -13,7 +13,7 @@ import {
   compose, bindActionCreators,
 } from 'redux';
 import {
-  BrixelIcon, BrixelTextArea, BrixelButtonPrimary, BrixelDropdownMini,
+  BrixelIcon, BrixelTextEditor, BrixelButtonPrimary, BrixelDropdownMini,
   BrixelButtonIcon, useOutsideAlerter, BrixelAvatar,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
@@ -54,6 +54,7 @@ const Timeline = (props) => {
   });
   const [editNoteText, setEditNoteText] = useState();
   const [newNote, setNewNote] = useState('');
+  const [currentInitialValue, setCurrentInitialValue] = useState('');
 
   const {
     activeDeal,
@@ -192,7 +193,8 @@ const Timeline = (props) => {
       content: {
         company: activeSingleCompany.id,
         parent: isDeal === true ? activeDeal.id : activeProperty.id,
-        content,
+        content: content.replace(/\n$/, ''),
+        private: false,
       },
       smallLoader: 'saveNote',
     };
@@ -217,6 +219,7 @@ const Timeline = (props) => {
     if (isSmallLoading.saveNote === false) {
       setNewNote('');
       setEditNoteText('');
+      setCurrentInitialValue('');
     }
   }, [isSmallLoading]);
 
@@ -240,7 +243,7 @@ const Timeline = (props) => {
       type: isDeal === true ? 'deal' : 'page',
       object: isDeal === true ? activeDeal.id : activeProperty.id,
       data: {
-        content: editNoteText,
+        content: editNoteText.replace(/\n$/, ''),
       },
       isSmallLoading: 'saveNote',
     };
@@ -312,17 +315,15 @@ const Timeline = (props) => {
               name={get(loggedInUser, 'user.name', loggedInUser.user.email)}
               profileId={get(loggedInUser, 'user.id', '')}
             />
-            <BrixelTextArea
-              isSmall
-              className="w-perc-100 ml-2"
+            <BrixelTextEditor
+              wrapperClassName="ml-2 dis-fl-col"
+              editorClassName="bgWhite"
               input={{
                 onChange: (val) => setNewNote(val),
-                onFocus: () => collapseNote(),
-                // onBlur: (val) => setNewNote(val),
                 value: newNote,
               }}
-              type="text"
-              placeholder="Add a note..."
+              currentInitialValue={currentInitialValue}
+              onFocus={() => collapseNote()}
             />
           </div>
           <div
@@ -390,15 +391,14 @@ const Timeline = (props) => {
                               profileId={get(find(event.history, (el) => (el.type === 'create')), 'author.user_id', '')}
                               /* avatarImg={get(find(event.history, (el) => (el.type === 'create')), 'author.avatar[0]', '') ? getConfigEnv.shortPath + get(find(event.history, (el) => (el.type === 'create')), 'author.avatar[0]', '').thumbnailPath : null} */
                             />
-                            <BrixelTextArea
-                              className="zIndex1 ml-2 w-perc-100"
+                            <BrixelTextEditor
+                              wrapperClassName="ml-2 dis-fl-col"
+                              editorClassName="bgWhite"
+                              currentInitialValue={currentInitialValue}
                               input={{
                                 onChange: (val) => setEditNoteText(val),
-                                onFocus: () => '',
                                 value: editNoteText,
                               }}
-                              type="text"
-                              placeholder="Edit this note"
                             />
                           </div>
                         ) :
@@ -457,6 +457,7 @@ const Timeline = (props) => {
                                 label="Cancel"
                                 onClick={() => {
                                   setEditNoteText();
+                                  setCurrentInitialValue('');
                                   setEditNote({
                                     id: null,
                                     active: false,
@@ -542,6 +543,7 @@ const Timeline = (props) => {
                                               label: 'Edit',
                                               clickFunc: () => {
                                                 setEditNoteText(event.content);
+                                                setCurrentInitialValue(event.content);
                                                 setEditNote({
                                                   id: event.id,
                                                   active: !editNote.active,

@@ -22,6 +22,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import isArray from 'lodash/isArray';
 import { checkBrowser } from '../../utils/helpers';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
@@ -51,6 +52,7 @@ const ScanTrialFlow = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
   const propID = get(match, 'params.propId', null);
 
@@ -224,6 +226,7 @@ const ScanTrialFlow = (props) => {
     if (e) e.preventDefault();
     let newIndex = currentIndex;
     setShowError(false);
+    setOldIndex(currentIndex);
     if (act === 'back') {
       newIndex -= step;
     } else {
@@ -287,8 +290,9 @@ const ScanTrialFlow = (props) => {
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
-    if (formValue.id) {
-      const newQuest = [];
+    setOldIndex(currentIndex);
+    const newQuest = [];
+    if (formValue) {
       ScanTrialQuestions('en').map((quests) => {
         if (quests.condition) {
           let isValid = true;
@@ -307,7 +311,7 @@ const ScanTrialFlow = (props) => {
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
-    if (get(quest, 'inputs', []).length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null)) {
+    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
@@ -357,7 +361,7 @@ const ScanTrialFlow = (props) => {
                     <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.title && (
-                          <h2 className={`fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h2 className={`fsize-600 fsize-sm-800 fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
                       {/*                       {
@@ -374,7 +378,7 @@ const ScanTrialFlow = (props) => {
                           onCloseGoBack={() => changeStep('back')}
                           onClickDisabled={!checkValidateField()}
                           onSubmit={() => changeStep()}
-                          showSendButton
+                          showSendButton={false}
                           showErrors={showError}
                           disableDelay
                         />

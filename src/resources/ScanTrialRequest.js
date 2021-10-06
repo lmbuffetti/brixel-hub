@@ -67,9 +67,9 @@ export const ScanTrialQuestions = () => [
       validation: [Validation.required],
       icons: true,
       cardLayout: true,
-      svgWidth: 'max-w-fix-192',
+      svgWidth: 'max-w-fix-96 max-w-fix-sm-192',
       stretched: true,
-      pdClass: 'py-3 py-md-5',
+      pdClass: 'py-2 py-sm-5',
       svgSupport: true,
       isHorizontal: true,
       options: [
