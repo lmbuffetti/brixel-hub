@@ -150,7 +150,7 @@ const SearchProfileBanner = (props) => {
                         )
                       }
                       { /* PROPERRTY TYPE */}
-                      <div className="dis-f ws-nw mr-2">
+                      <div className="dis-f mr-2">
                         <span>{get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}</span>
                         <span>&nbsp;m2</span>
                       </div>
@@ -158,7 +158,7 @@ const SearchProfileBanner = (props) => {
                       {
                         /* PRICE */
                         get(userSearchProfiles, 'finance.price.totalMax', 0) > 0 && (
-                          <div className="dis-f ws-nw">
+                          <div className="dis-f">
                             <span>
                               {get(userSearchProfiles, 'finance.currency', 0)}
                             </span>
@@ -259,20 +259,18 @@ const SearchProfileBanner = (props) => {
                   </div>
                 </>
               ) : (
-                <div className="dis-f jc-b px-3">
+                <div className="dis-f jc-b px-3 pr-4 scroll-horz">
                   {
                     has(userSearchProfiles, 'id') ? (
                       <div
                         className="cur-poi"
                         onClick={() => openForm('desk')}
                       >
-                        <div className="dis-f py-3">
+                        <div className="dis-f pt-small-28 pb-small-18 a-t">
                           {
                           /* PROPERRTY TYPE */
                             get(userSearchProfiles, 'characteristics.propertyType', []).length > 0 && (
-                              <div
-                                className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
-                              >
+                              <div className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2 wrap-width">
                                 {
                                   get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
                                     <React.Fragment key={i.toString()}>
@@ -288,7 +286,7 @@ const SearchProfileBanner = (props) => {
                           /* PROPERRTY LOCATION */
                             get(userSearchProfiles, 'location', []).length > 0 && (
                               <div
-                                className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
+                                className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2 wrap-width"
                               >
                                 {
                                   get(userSearchProfiles, 'location', []).map((item, i) => (
@@ -302,7 +300,7 @@ const SearchProfileBanner = (props) => {
                             )
                           }
                           { /* PROPERRTY TYPE */ }
-                          <div className="brdFullRadius brdSmall brdLight200 dis-f ws-nw py-1 px-3 mr-2">
+                          <div className="brdFullRadius brdSmall brdLight200 dis-f py-1 px-3 mr-2 wrap-width">
                             <span>{get(userSearchProfiles, 'characteristics.livingArea.min', 0)} - {get(userSearchProfiles, 'characteristics.livingArea.max', 0)}</span>
                             <span>&nbsp;m2</span>
                           </div>
@@ -310,7 +308,7 @@ const SearchProfileBanner = (props) => {
                           {
                           /* PRICE */
                             get(userSearchProfiles, 'finance.price.totalMax', 0) > 0 && (
-                              <div className="brdFullRadius brdSmall brdLight200 dis-f ws-nw py-1 px-3">
+                              <div className="brdFullRadius brdSmall brdLight200 dis-f py-1 px-3 wrap-width">
                                 <span>
                                   {get(userSearchProfiles, 'finance.currency', 0)}
                                 </span>
@@ -325,7 +323,7 @@ const SearchProfileBanner = (props) => {
                     ) : (
                       <div
                         onClick={() => setShowSearchProfileForm(!showSearchProfileForm)}
-                        className="py-3 dis-f a-c"
+                        className="pt-small-28 pb-small-18 dis-f a-c"
                       >
                         <div
                           className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
@@ -350,7 +348,7 @@ const SearchProfileBanner = (props) => {
                       </div>
                     )
                   }
-                  <div className="dis-f a-c">
+                  <div className="dis-f a-c pt-1">
                     <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
                       <BrixelIcon
                         iconWidth="w-fix-32"
@@ -384,7 +382,7 @@ const SearchProfileBanner = (props) => {
                       <div className="ml-1">
                         <p className="fsize-600 fweight-600 txtAltRed700">
                           <span>{preMarketStats.dislikedTotal}</span>
-                          <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
+                          <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg no-wrap">
                             Don&apos;t like
                           </span>
                         </p>
@@ -412,7 +410,7 @@ const SearchProfileBanner = (props) => {
                 </div>
               )
             }
-            <div className="pt-4 brdSmallTop brdLight200">
+            <div className={`pt-4 ${showSearchProfileForm ? 'brdSmallTop brdLight200' : ''}`}>
               <div className="px-3 max-w-fix-1200 px-2 pb-5 mx-a">
                 <div className="searchProfileGrid">
                   <MultiFileldsReduxForm
