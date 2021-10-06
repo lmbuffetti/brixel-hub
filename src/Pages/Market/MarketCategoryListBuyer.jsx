@@ -187,7 +187,10 @@ const MarketCategoryListBuyer = (props) => {
 
             {/* SEARCH PROFILE */}
             <div className="">
-              <SearchProfileBanner preMarketStats={preMarketStats} />
+              <SearchProfileBanner
+                preMarketStats={preMarketStats}
+                onStatsFunc={{ matching: () => setSplashScreen('marketOverlayCarousel') }}
+              />
             </div>
 
             <div className="dis-f jc-fe-lg pt-1 pt-lg-8 infoBannerMarketBuyer">

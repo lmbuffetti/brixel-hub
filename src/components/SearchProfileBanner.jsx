@@ -10,7 +10,7 @@ import {
   Helpers,
   BrixelButtonIcon,
   reset,
-  MultiFileldsReduxForm,
+  MultiFileldsReduxForm, useOutsideAlerter,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -27,6 +27,7 @@ const SearchProfileBanner = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
+    onStatsFunc,
     preMarketStats,
     subtitle,
     title,
@@ -95,6 +96,12 @@ const SearchProfileBanner = (props) => {
   const cancel = () => {
     setShowSearchProfileForm(false);
   };
+
+  // Function to close the drawer menus when we click outside
+  useOutsideAlerter(profileRef, {
+    action: 'function',
+    func: () => cancel(),
+  });
 
   return (
     <>
@@ -353,7 +360,10 @@ const SearchProfileBanner = (props) => {
                         rounded
                         icon="fire"
                       />
-                      <div className="ml-1" onClick={() => history.push('/')}>
+                      <div
+                        className={`ml-1 ${onStatsFunc.matching ? 'cur-poi' : ''}`}
+                        onClick={() => (onStatsFunc.matching ? onStatsFunc.matching() : '')}
+                      >
                         <p className="fsize-600 fweight-600 txtAltBlue400">
                           <span>{preMarketStats.total}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
@@ -389,7 +399,7 @@ const SearchProfileBanner = (props) => {
                         rounded
                         icon="favorite"
                       />
-                      <div className="ml-1 cur-poi" onClick={() => history.push('/buy/whishlist')}>
+                      <div className="ml-1 cur-poi" onClick={() => history.push('/buy/wishlist')}>
                         <p className="fsize-600 fweight-600 txtAltGreen400">
                           <span>{preMarketStats.likedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
@@ -427,7 +437,7 @@ const SearchProfileBanner = (props) => {
                     rounded
                     theme="altGreen"
                     themeSat={300}
-                    label="Save profile"
+                    label="Save and close filters"
                     onClick={() => saveData()}
                     isLoading={isSmallLoading.saveData}
                   />
@@ -449,6 +459,7 @@ SearchProfileBanner.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  onStatsFunc: PropTypes.object,
   preMarketStats: PropTypes.object.isRequired,
   subtitle: PropTypes.string,
   title: PropTypes.string,
@@ -459,6 +470,7 @@ SearchProfileBanner.propTypes = {
 SearchProfileBanner.defaultProps = {
   subtitle: null,
   title: 'Search Profile',
+  onStatsFunc: {},
 };
 
 const mapStateToProps = (state) => {
