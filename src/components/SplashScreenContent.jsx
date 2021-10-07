@@ -23,7 +23,7 @@ import Slider from 'react-slick';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
-import { setSplashType } from '../actions/CommonActions';
+import { setSplashType, setWizard } from '../actions/CommonActions';
 import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } from '../actions/PropertyActions';
 import { updateFavorite, addNotInterested } from '../actions/UserActions';
 import MarketCardOverlay from './MarketCardOverlay';
@@ -37,6 +37,7 @@ import {
 import NoMorePropertiesImg from '../images/searchProfile/no-properties.svg';
 import SearchProfileBanner from './SearchProfileBanner';
 import WizardCard from './WizardCard';
+import { getCookie } from '../utils/helpers';
 
 const SplashScreen = (props) => {
   const {
@@ -51,6 +52,7 @@ const SplashScreen = (props) => {
     handleGetPremiumProperties,
     handleMarkNotInterested,
     handleSetActiveMarketOverlayPropertyLists,
+    handleSetWizard,
     handleUpdateFavorites,
     history,
     isSmallLoading,
@@ -150,6 +152,15 @@ const SplashScreen = (props) => {
       updateData();
     },
   }), [activeSlide]);
+
+  useEffect(() => {
+    const cookieWizardPreMarket = getCookie('wizardPreMarket');
+    if (activeMarketOverlayPropertyLists && !cookieWizardPreMarket) {
+      setTimeout(() => {
+        handleSetWizard({ type: 'preMarketOverlay', step: 1 });
+      }, 500);
+    }
+  }, [activeMarketOverlayPropertyLists]);
 
   useEffect(() => {
     updateData();
@@ -309,7 +320,7 @@ const SplashScreen = (props) => {
 
       <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard || !activeMarketOverlayPropertyLists ? '' : 'pos-r zIndex1'} ${!activeMarketOverlayPropertyLists ? 'fullScreenCard' : ''}`} id="wizard-preMarketOverlay-parent">
         {
-          get(wizard, 'type', null) && (
+          get(wizard, 'type', null) && activeMarketOverlayPropertyLists && (
             <WizardCard />
           )
         }
@@ -480,6 +491,7 @@ SplashScreen.propTypes = {
   handleGetPremiumProperties: PropTypes.func,
   handleMarkNotInterested: PropTypes.func,
   handleSetActiveMarketOverlayPropertyLists: PropTypes.func,
+  handleSetWizard: PropTypes.func.isRequired,
   handleUpdateFavorites: PropTypes.func,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -528,13 +540,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
-
   handleMarkNotInterested: bindActionCreators(addNotInterested, dispatch),
   handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
+  handleSetWizard: bindActionCreators(setWizard, dispatch),
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

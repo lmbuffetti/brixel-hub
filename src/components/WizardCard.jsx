@@ -9,6 +9,7 @@ import {
 } from '@brixel/brixel-components';
 import { setWizard } from '../actions/CommonActions';
 import WizardText from '../resources/Wizard';
+import { setCookie } from '../utils/helpers';
 
 const WizardCard = (props) => {
   const {
@@ -53,6 +54,7 @@ const WizardCard = (props) => {
       handleSetWizard({});
     } else {
       handleSetWizard({ ...wizard, step: wizard.step + 1 });
+      if (wizard.type === 'preMarketOverlay') setCookie('wizardPreMarket', true);
     }
   };
 
