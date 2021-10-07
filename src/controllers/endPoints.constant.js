@@ -88,7 +88,7 @@ export default {
     getPropertyVisitListings: () => '/scheduleVisit/10/0?order=name&direction=desc',
     mapPageById: (id) => `/map/property/${id}`,
     packagesList: (limit, offset) => `/servicePackage/${limit}/${offset}`,
-    packagePage: (id, limit, offset, data) => `/pageServicePackage/${limit}/${offset}?pageID=${id}&${data}`,
+    packagePage: (id) => `/pageServicePackage/10/0?pageID=${id}&order=createdAt&direction=ASC`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
     pageById: (id) => `/page/${id}`,
     pageDeals: (id, data) => `/page/${id}/deals${data}`,

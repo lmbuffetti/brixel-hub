@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
+import forEach from 'lodash/forEach';
 import {
   BrixelAvatar,
   BrixelIcon,
@@ -33,6 +35,7 @@ function PageHeaderDashboard(props) {
   // PROPS
   const {
     activeSingleCompany,
+    activeCompanyPackages,
     activeSingleProperty,
     changeZIndex,
     destroyForm,
@@ -60,6 +63,8 @@ function PageHeaderDashboard(props) {
   const [linkSection, setLinkSection] = useState('Sell');
   const [packageName, setPackageName] = useState('Basic');
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
+  const [activeCompanyPackageIDArray, setActiveCompanyPackageIDArray] = useState([]);
+
   // REF
   const profileMenu = useRef(null);
   const currentPathName = get(history, 'location.pathname', '').split('/')[get(history, 'location.pathname', '').split('/').length - 1];
@@ -69,36 +74,49 @@ function PageHeaderDashboard(props) {
   if (propID === 'buyer') propID = history.location.pathname.split('/')[3];
   if (propID === 'home' || propID === 'seller') propID = null;
 
+  useEffect(() => {
+    const array = [];
+    if (activeCompanyPackages.length > 0) {
+      forEach(activeCompanyPackages, (el) => {
+        array.push(el.id);
+      });
+      setActiveCompanyPackageIDArray(array);
+    }
+  }, [activeCompanyPackages]);
+
   // ON CHANGE HISTORY THE MOBILE MENU IS CLOSED
   useEffect(() => {
     setShowMobileMenu(false);
   }, [history]);
 
   useEffect(() => {
-    let activeSinglePropertyPackage = get(activeSingleProperty, 'servicePackages', []);
-    if (activeSingleProperty.customID && ownerProperties.data) {
-      const prop = ownerProperties.data.find((page) => page.id === activeSingleProperty.customID);
-      if (prop) activeSinglePropertyPackage = get(prop, 'servicePackages', []);
-    }
-    if (activeSinglePropertyPackage && packagesProperty.length > 0) {
-      activeSinglePropertyPackage.forEach((pkg, i) => {
-        const filtSortPackage = packagesProperty.find((item) => pkg.id === item.id);
-        activeSinglePropertyPackage[i].price = filtSortPackage.price;
-      });
-      const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
-      const activePackage = activeSinglePropertyPackage.find((item) => item.started);
-      if (activePackage) {
-        const filtPackages = packagesProperty.find((item) => activePackage.id === item.id);
-        if (filtPackages) setPackageName(filtPackages.name);
-        else setPackageName('Basic');
-      } else if (sortedPackage[0]) {
-        const filtPackage = packagesProperty.find((item) => sortedPackage[0].id === item.id);
-        setPackageName(filtPackage.name);
-      } else {
-        setPackageName('Basic');
+    let activeSinglePropertyPackage = packagesProperty;
+    if (activeCompanyPackageIDArray.length > 0) {
+      if (activeSingleProperty.customID && ownerProperties.data) {
+        const prop = ownerProperties.data.find((page) => page.id === activeSingleProperty.customID);
+        if (prop) activeSinglePropertyPackage = get(prop, 'servicePackages', []);
+      }
+      if (activeSinglePropertyPackage && packagesProperty.length > 0) {
+        activeSinglePropertyPackage.forEach((pkg, i) => {
+          const filtSortPackage = packagesProperty.find((item) => pkg.id === item.id);
+          activeSinglePropertyPackage[i].price = filtSortPackage.price;
+        });
+        const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
+        const activePackage = activeSinglePropertyPackage.find((item) => item.started);
+        if (has(activePackage, 'id')) {
+          const filtPackages = packagesProperty.find((item) => activePackage.id === item.id);
+          if (filtPackages) setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackages.servicePackage)].name);
+          else setPackageName('Basic');
+        } else if (sortedPackage[0]) {
+          const filtPackage = packagesProperty.find((item) => sortedPackage[0].id === item.id);
+          setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackage.servicePackage)].name);
+        } else {
+          setPackageName('Basic');
+        }
       }
     }
-  }, [activeSingleProperty.id, activeSingleProperty.customID, get(ownerProperties, 'data', []).length, packagesProperty.length, activeSingleCompany.id]);
+  }, [activeSingleProperty.id, activeSingleProperty.customID, get(ownerProperties, 'data', []).length,
+    packagesProperty.length, activeSingleCompany.id, activeCompanyPackageIDArray]);
 
   // GET LANGUAGE LISTS
   useEffect(() => {
@@ -653,6 +671,7 @@ PageHeaderDashboard.propTypes = {
   ownerProperties: PropTypes.object.isRequired,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -675,9 +694,10 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
   property: get(state, 'property.activeSingleProperty', {}),
-  packagesProperty: get(state, 'property.packagesProperty', []),
+  packagesProperty: get(state, 'property.activeSinglePropertyPackage', []),
   userType: get(state, 'user.userTypes', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({

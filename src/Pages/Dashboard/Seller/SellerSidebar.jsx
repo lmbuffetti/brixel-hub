@@ -29,7 +29,7 @@ const SellerSidebar = (props) => {
     handleGetNoteListings,
     historyFeed,
     loggedInUser,
-    packagesProperty,
+    activeCompanyPackages,
   } = props;
   // STATE
   const [stepProgrss, setStepProgrss] = useState({});
@@ -98,7 +98,7 @@ const SellerSidebar = (props) => {
   }, [activeSingleProperty.id]);
 
   const convertFeedMessage = (stub, type, history) => {
-    const data = feedMessage(loggedInUser, history, packagesProperty);
+    const data = feedMessage(loggedInUser, history, activeCompanyPackages);
     if (data[stub] && data[stub][type]) return data[stub][type];
     if (history.content) return data.note[type];
     return data.default[type];
@@ -182,7 +182,7 @@ SellerSidebar.propTypes = {
   handleGetNoteListings: PropTypes.func.isRequired,
   historyFeed: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 SellerSidebar.defaultProps = {
@@ -193,7 +193,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   historyFeed: get(state, 'history.historyFeed.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', null),
-  packagesProperty: get(state, 'property.packagesProperty.data', []),
+  activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({

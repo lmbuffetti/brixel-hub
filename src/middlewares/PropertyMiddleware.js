@@ -1037,10 +1037,6 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const {
         id,
-        limit,
-        offset,
-        order,
-        direction,
         smallLoader,
       } = action.payload;
       if (smallLoader) {
@@ -1055,21 +1051,24 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      const queryParams = `?order=${order}&direction=${direction}`;
-      api.property.packagePage(id, limit, offset, queryParams)
+      api.property.packagePage(id)
         .then((res) => {
-          store.dispatch({ type: SET_PACKAGE_PROPERTY, payload: res.data });
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
+          if (res.meta.status === 200) {
+            store.dispatch({ type: SET_PACKAGE_PROPERTY, payload: res.data });
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
           } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
+            // TODO: Should dispatch error state
           }
         });
       break;

@@ -28,6 +28,7 @@ import {
   createPropertyVisitSchedule,
   savePropertyVisitBooking,
   getEstimation,
+  getPackageProperty,
 } from '../../../actions/PropertyActions';
 import { deleteDocument, uploadDocument, getImageType } from '../../../actions/UploadActions';
 import {
@@ -81,6 +82,7 @@ const Dashboard = (props) => {
     // handleGetGameGroup,
     // handleGetGameHistory,
     handleGetImageType,
+    handleGetPackageProperty,
     handleSaveActiveSingleProperty,
     handleGetPropertyListings,
     handleGetActiveSinglePropertyEstimation,
@@ -150,6 +152,7 @@ const Dashboard = (props) => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
       if (propID && propID !== 'home') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
+        handleGetPackageProperty({ id: propID });
         handleGetActiveSinglePropertyEstimation({ id: propID, smallLoader: 'getEstimation' });
       } else if (!propID) {
         // history.push('/home');
@@ -409,6 +412,7 @@ Dashboard.propTypes = {
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleSetScreenNotification: PropTypes.func.isRequired,
+  handleGetPackageProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   initForm: PropTypes.func.isRequired,
@@ -530,6 +534,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
+  handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
   handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
