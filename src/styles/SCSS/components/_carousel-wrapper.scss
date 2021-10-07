@@ -39,6 +39,12 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    &:not([class^=m]) {
      margin: 150px auto 0;
    }
+   @media (min-width: 769px) {
+     .dis-fl-row-md {
+       display: flex;
+       flex-direction: row;
+     }
+   }
    // padding-top: 56px;
    position: relative;
    overflow: hidden;

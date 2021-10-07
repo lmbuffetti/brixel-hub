@@ -22,6 +22,7 @@ import {
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import Loading from './components/Loading';
+import WizardCard from './components/WizardCard';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
   setLanguage, setModal, setWindowDimensions, setScreenNotification,
@@ -116,6 +117,7 @@ const App = (props) => {
     userTypes,
     teamAvatars,
     windowDimensions,
+    wizard,
   } = props;
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
@@ -607,6 +609,12 @@ const App = (props) => {
             )
           }
 
+          {
+            get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
+              <WizardCard />
+            )
+          }
+
           { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
           {
             notification && notification.length > 0 &&
@@ -691,6 +699,7 @@ App.propTypes = {
   userTypes: PropTypes.string,
   teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  wizard: PropTypes.object.isRequired,
 };
 
 App.defaultProps = {
@@ -712,6 +721,7 @@ const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  wizard: get(state, 'common.wizard', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

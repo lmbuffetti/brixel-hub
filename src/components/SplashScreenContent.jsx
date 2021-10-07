@@ -36,6 +36,7 @@ import {
 } from '../actions/MarketActions';
 import NoMorePropertiesImg from '../images/searchProfile/no-properties.svg';
 import SearchProfileBanner from './SearchProfileBanner';
+import WizardCard from './WizardCard';
 
 const SplashScreen = (props) => {
   const {
@@ -60,6 +61,7 @@ const SplashScreen = (props) => {
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
+    wizard,
   } = props;
 
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
@@ -68,7 +70,6 @@ const SplashScreen = (props) => {
   const [activeSlide, setActiveSlide] = useState(-1);
   const [showContent, setShowContent] = useState(false);
   const [fullScreenCard, setFullScreenCard] = useState(false);
-  const [showWizard, setShowWizard] = useState(false);
   const [totalSlide, setTotalSlide] = useState(preMarketProperties.total);
 
   const updateData = useCallback(() => {
@@ -306,142 +307,88 @@ const SplashScreen = (props) => {
         />
       </div>
 
-      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard || !activeMarketOverlayPropertyLists ? '' : 'pos-r zIndex1'} ${!activeMarketOverlayPropertyLists ? 'fullScreenCard' : ''}`}>
+      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard || !activeMarketOverlayPropertyLists ? '' : 'pos-r zIndex1'} ${!activeMarketOverlayPropertyLists ? 'fullScreenCard' : ''}`} id="wizard-preMarketOverlay-parent">
+        {
+          get(wizard, 'type', null) && (
+            <WizardCard />
+          )
+        }
         {
           activeMarketOverlayPropertyLists && (
             <div className="container">
               <SearchProfileBanner
                 title="Pre-Market"
-                subtitle
+                subtitle="Watch properties which are not even on the market yet. How it works"
                 preMarketStats={preMarketStats}
-                showWizard={showWizard}
-                onShowWizard={(val) => setShowWizard(val)}
               />
               <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
                 {
-                  showWizard ? (
+                  activeMarketOverlayPropertyLists.length === 0 ? (
                     <>
-                      <>
-                        <MarketCardPreMarket
-                          item={activeMarketOverlayPropertyLists[0]}
-                          activeIndex={activeSlide}
-                          propertyList={activeMarketOverlayPropertyLists}
-                          loadMapImg
-                          showWizard={showWizard}
-                        />
-                        <div className="dis-fl-row a-c w-perc-100 p-3 jc-c pos-r zIndex2">
-                          <div className="dis-fl-row jc-c a-c ml-a">
-                            <BrixelIcon
-                              rounded
-                              className="mr-4"
-                              color="AltRed"
-                              background="AltRed"
-                              iconWidth="w-fix-32"
-                              saturation={200}
-                              saturationTxt={400}
-                              onClick={() => notInterested()}
-                              icon="close-small"
-                              isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
-                            />
-                            <BrixelIcon
-                              rounded
-                              color="AltGreen"
-                              background="AltGreen"
-                              iconWidth="w-fix-32"
-                              saturation={200}
-                              saturationTxt={400}
-                              onClick={() => saveFavorite()}
-                              icon="favorite"
-                              isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
-                            />
-                          </div>
-                          {
-                            activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
-                              <BrixelButtonText
-                                className="ml-a"
-                                ghost
-                                theme="dark"
-                                onClick={() => changeProperty('forward')}
-                                label="Skip"
-                                disabled={activeSlide >= preMarketProperties.total}
-                              />
-                            )
-                          }
+                      <div className="w-fix-424 brdRadius ov-h dis-fl-col jc-c a-c noMatchProperty m-a pb-5 mb-10">
+                        <div className="bgAltMist400 pt-6 w-perc-100 ta-c">
+                          <img src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
                         </div>
-                      </>
+                        <div className="p-2">
+                          <h4 className="fweight-600 mb-1 mt-3">That’s it.</h4>
+                          <p className="mt-2 fsize-500">There are no more properties right now. Come back later to find new ones.</p>
+                        </div>
+                      </div>
                     </>
                   ) : (
                     <>
-                      {
-                        activeMarketOverlayPropertyLists.length === 0 ? (
-                          <>
-                            <div className="w-fix-424 brdRadius ov-h dis-fl-col jc-c a-c noMatchProperty m-a pb-5 mb-10">
-                              <div className="bgAltMist400 pt-6 w-perc-100 ta-c">
-                                <img src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
-                              </div>
-                              <div className="p-2">
-                                <h4 className="fweight-600 mb-1 mt-3">That’s it.</h4>
-                                <p className="mt-2 fsize-500">There are no more properties right now. Come back later to find new ones.</p>
-                              </div>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <Slider ref={sliderInstance} {...settingSlider()}>
-                              {
-                                activeMarketOverlayPropertyLists.map((item, i) => (
-                                  <MarketCardPreMarket
-                                    key={i.toString()}
-                                    item={item}
-                                    activeIndex={activeSlide}
-                                    propertyList={activeMarketOverlayPropertyLists}
-                                    loadMapImg={activeSlide < i + 2}
-                                  />
-                                ))
-                              }
-                            </Slider>
-                            <div className="dis-fl-row a-c w-perc-100 p-3 jc-c pos-r zIndex2">
-                              <div className="dis-fl-row jc-c a-c ml-a">
-                                <BrixelIcon
-                                  rounded
-                                  className="mr-4"
-                                  color="AltRed"
-                                  background="AltRed"
-                                  iconWidth="w-fix-32"
-                                  saturation={200}
-                                  saturationTxt={400}
-                                  onClick={() => notInterested()}
-                                  icon="close-small"
-                                  isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
-                                />
-                                <BrixelIcon
-                                  rounded
-                                  color="AltGreen"
-                                  background="AltGreen"
-                                  iconWidth="w-fix-32"
-                                  saturation={200}
-                                  saturationTxt={400}
-                                  onClick={() => saveFavorite()}
-                                  icon="favorite"
-                                  isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
-                                />
-                              </div>
-                              {
-                                activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
-                                  <BrixelButtonText
-                                    className="ml-a"
-                                    ghost
-                                    theme="dark"
-                                    onClick={() => changeProperty('forward')}
-                                    label="Skip"
-                                    disabled={activeSlide >= preMarketProperties.total}
-                                  />
-                                )
-                              }
-                            </div>
-                          </>
-                        )
-                      }
+                      <Slider ref={sliderInstance} {...settingSlider()}>
+                        {
+                          activeMarketOverlayPropertyLists.map((item, i) => (
+                            <MarketCardPreMarket
+                              key={i.toString()}
+                              item={item}
+                              activeIndex={activeSlide}
+                              propertyList={activeMarketOverlayPropertyLists}
+                              loadMapImg={activeSlide < i + 2}
+                            />
+                          ))
+                        }
+                      </Slider>
+                      <div className="dis-fl-row a-c w-perc-100 p-3 jc-c pos-r zIndex2 wizardCopy-preMarketOverlay-3" id="wizard-preMarketOverlay-3">
+                        <div className="dis-fl-row jc-c a-c ml-a">
+                          <BrixelIcon
+                            rounded
+                            className="mr-4"
+                            color="AltRed"
+                            background="AltRed"
+                            iconWidth="w-fix-32"
+                            saturation={200}
+                            saturationTxt={400}
+                            onClick={() => notInterested()}
+                            icon="close-small"
+                            isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
+                          />
+                          <BrixelIcon
+                            rounded
+                            color="AltGreen"
+                            background="AltGreen"
+                            iconWidth="w-fix-32"
+                            saturation={200}
+                            saturationTxt={400}
+                            onClick={() => saveFavorite()}
+                            icon="favorite"
+                            isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
+                          />
+                        </div>
+                        {
+                          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
+                            <BrixelButtonText
+                              className="ml-a"
+                              ghost
+                              theme="dark"
+                              onClick={() => changeProperty('forward')}
+                              label="Skip"
+                              disabled={activeSlide >= preMarketProperties.total}
+                            />
+                          )
+                        }
+                      </div>
                     </>
                   )
                 }
@@ -543,6 +490,7 @@ SplashScreen.propTypes = {
   setMarketOverlayProperty: PropTypes.func,
   setSplashScreen: PropTypes.func,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
+  wizard: PropTypes.object.isRequired,
 };
 
 SplashScreen.defaultProps = {
@@ -576,6 +524,7 @@ const mapStateToProps = (state) => ({
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   preMarketStats: get(state, 'market.preMarketStats', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
+  wizard: get(state, 'common.wizard', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

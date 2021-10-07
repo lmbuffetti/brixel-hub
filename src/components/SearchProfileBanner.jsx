@@ -11,24 +11,26 @@ import {
   Helpers,
   BrixelButtonIcon,
   reset,
-  MultiFileldsReduxForm, useOutsideAlerter,
+  MultiFileldsReduxForm,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import { QuestionsList } from '../resources/onBoardingBuyer';
 import { createUserSearchProfile, updateUserSearchProfile } from '../actions/SearchProfileActions';
+import { setWizard } from '../actions/CommonActions';
 
 const SearchProfileBanner = (props) => {
   const {
     formValue,
     handleCreateSearchProfile,
+    handleSetWizard,
     handleUpdateSearchProfile,
     history,
     isSmallLoading,
     lang,
     loggedInUser,
-    onShowWizard,
     onStatsFunc,
     preMarketStats,
     showWizard,
@@ -117,16 +119,16 @@ const SearchProfileBanner = (props) => {
       <h5 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtAltGrey700`}>{title}</h5>
       {
         subtitle && (
-          <div className="mb-4 dis-f a-c">
+          <div className="mb-4 dis-f a-c flex-wrap">
             {
               !showWizard ? (
                 <>
                   <span>Watch properties which are not even on the market yet.</span>
-                  {/* <BrixelButtonText
+                  <BrixelButtonText
                     label="How it works"
                     theme="dark"
-                    onClick={() => onShowWizard(true)}
-                  /> */}
+                    onClick={() => handleSetWizard({ type: 'preMarketOverlay', step: 1 })}
+                  />
                 </>
               ) : (
                 <>
@@ -134,7 +136,7 @@ const SearchProfileBanner = (props) => {
                   <BrixelButtonText
                     label="Learn more"
                     theme="dark"
-                    onClick={() => onShowWizard(true)}
+                    onClick={() => handleSetWizard({ type: 'wizard', step: 1 })}
                   />
                 </>
               )
@@ -487,12 +489,12 @@ const SearchProfileBanner = (props) => {
 SearchProfileBanner.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleCreateSearchProfile: PropTypes.func.isRequired,
+  handleSetWizard: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  onShowWizard: PropTypes.func.isRequired,
   onStatsFunc: PropTypes.object,
   preMarketStats: PropTypes.object.isRequired,
   showWizard: PropTypes.number,
@@ -526,6 +528,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(reset('GetStarted', value));
   },
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
+  handleSetWizard: bindActionCreators(setWizard, dispatch),
   handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
 });
 
