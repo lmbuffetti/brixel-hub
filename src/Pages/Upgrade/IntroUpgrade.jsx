@@ -106,7 +106,7 @@ const IntroUpgrade = (props) => {
           });
         }
       } else if (sortedPackage[0]) {
-        const filtPackage = packages.find((item) => sortedPackage[0].id === item.id);
+        const filtPackage = packages.find((item) => sortedPackage[0].servicePackage === item.id);
         if (filtPackage) {
           setPackageName({
             name: filtPackage.name,

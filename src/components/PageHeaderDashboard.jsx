@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import forEach from 'lodash/forEach';
 import {
   BrixelAvatar,
@@ -102,7 +103,7 @@ function PageHeaderDashboard(props) {
         });
         const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
         const activePackage = activeSinglePropertyPackage.find((item) => item.started);
-        if (activePackage.id) {
+        if (has(activePackage, 'id')) {
           const filtPackages = packagesProperty.find((item) => activePackage.id === item.id);
           if (filtPackages) setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackages.servicePackage)].name);
           else setPackageName('Basic');
