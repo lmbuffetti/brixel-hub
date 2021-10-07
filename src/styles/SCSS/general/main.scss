@@ -853,25 +853,4 @@ button.minimum-w-210 {
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-
-  &:after,
-  &:before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 68px;
-    z-index: 1;
-  }
-
-  &:after {
-    left: 0;
-    background: rgb(255, 255, 255);
-    background: linear-gradient(268deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
-  }
-
-  &:before {
-    right: 0;
-    background: rgb(255, 255, 255);
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
-  }
 }
