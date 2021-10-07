@@ -61,17 +61,17 @@ const WizardCard = (props) => {
   return (
     <div id="wizard">
       <div
-        className={`${text.className} brdRadius p-2 ${text.position} hintMessage`}
+        className={`${text.className} brdRadius p-3 ${text.position} hintMessage`}
         style={{
           left: posX,
           top: posY,
         }}
       >
-        <small className="mb-2">Step {wizard.step} of {Object.keys(currentWizard).length}</small>
-        <h6 className="mb-1">{text.title}</h6>
-        <p>{text.description}</p>
+        <small className="mb-1 dis-b fsize-300 txtDark400">Step {wizard.step} of {Object.keys(currentWizard).length}</small>
+        <h5 className="mb-1 fweight-600">{text.title}</h5>
+        <p className="fsize-300 txtDark700">{text.description}</p>
         <BrixelButtonPrimary
-          className="mt-2"
+          className="mt-3"
           themeSat={300}
           rounded
           theme="altGreen"

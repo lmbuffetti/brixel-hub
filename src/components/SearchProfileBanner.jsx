@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelButtonText,
   BrixelIcon,
   Helpers,
   BrixelButtonIcon,
@@ -116,28 +115,28 @@ const SearchProfileBanner = (props) => {
 
   return (
     <>
-      <h5 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtAltGrey700`}>{title}</h5>
+      <h4 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtAltGrey700`}>{title}</h4>
       {
         subtitle && (
-          <div className="mb-4 dis-f a-c flex-wrap">
+          <div className="mb-4 txtDark700 fsize-500">
             {
               !showWizard ? (
                 <>
-                  <span>Watch properties which are not even on the market yet.</span>
-                  <BrixelButtonText
-                    label="How it works"
-                    theme="dark"
+                  <span>Watch properties which are not even on the market yet. &nbsp;</span>
+                  <a
+                    className="cur-poi link txtDark700 td-u fsize-500"
                     onClick={() => handleSetWizard({ type: 'preMarketOverlay', step: 1 })}
-                  />
+                  >How it works
+                  </a>
                 </>
               ) : (
                 <>
-                  <span>This is a short Pre-Market explanation.</span>
-                  <BrixelButtonText
-                    label="Learn more"
-                    theme="dark"
+                  <span>This is a short Pre-Market explanation. &nbsp;</span>
+                  <a
+                    className="cur-poi link txtDark700 td-u fsize-500"
                     onClick={() => handleSetWizard({ type: 'wizard', step: 1 })}
-                  />
+                  >Learn more
+                  </a>
                 </>
               )
             }
