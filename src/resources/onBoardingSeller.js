@@ -94,12 +94,6 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       }],
       successMessage: translateTo(lang, 'Ok. Got it.'),
     },
-    {
-      hideProgress: true,
-      history: 'savingData',
-      cardType: 'createProfile',
-      toSave: true,
-    },
   ];
   if (propertyType === 'Apartment' || propertyType === 'House') {
     question.push(
