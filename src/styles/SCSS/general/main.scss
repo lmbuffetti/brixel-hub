@@ -175,6 +175,11 @@ p.cutRow {
     p {
       margin-bottom: $step * 2;
     }
+    .moreInfoSupport {
+      p {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 

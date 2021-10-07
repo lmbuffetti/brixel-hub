@@ -577,6 +577,12 @@ const App = (props) => {
                 }}
               >
                 <div dangerouslySetInnerHTML={{ __html: modal.body }} />
+                <Support
+                  expanded
+                  isFixed={false}
+                  hideClose
+                  layout="onboarding"
+                />
               </BrixelModal>
             )
           }

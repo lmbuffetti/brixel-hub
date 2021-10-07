@@ -52,7 +52,7 @@ import {
   REDIRECT_TO,
   SET_SAVED_SCREEN,
   SET_SPLASH_TYPE,
-  SET_SCREEN_NOTIFICATION,
+  SET_SCREEN_NOTIFICATION, SET_MODAL,
 } from '../actions/types/CommonTypes';
 import {
   cutValue, roundFifty, roundFiveThousand,
@@ -95,74 +95,100 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.addProperty(objData, token)
         .then((res) => {
           // store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: res.data });
-          store.dispatch(change('GetStarted', 'pageID', res.data.id));
-          store.dispatch(change('GetStarted', 'pageAnswer', res.data.packageFlowProcess));
-          if (createEstimation) {
-            const data = {
-              owner: res.data.owner.id,
-              page: res.data.id,
-              generate: true,
-              redirectTo: redirectToUrl,
-            };
-            store.dispatch({ type: CREATE_ESTIMATION, payload: data });
-            if (extraLoading) store.dispatch({ type: SPINNER_OFF });
+          if (!res.data.id) {
             store.dispatch({
-              type: SET_SCREEN_NOTIFICATION,
+              type: SET_MODAL,
               payload: {
                 state: true,
-                type: 'done',
+                title: 'Ops something was wrong',
+                small: true,
+                body: '<p>Please contact our support</p>',
+                showSupport: true,
               },
             });
-          } else if (getEstimation) {
-            store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
-            if (extraLoading) store.dispatch({ type: SPINNER_OFF });
-          } else if (redirectToUrl) {
-            store.dispatch({
-              type: SET_SCREEN_NOTIFICATION,
-              payload: {
-                state: true,
-                type: 'done',
-              },
-            });
-            window.location.assign(redirectToUrl);
-          } else if (redirectToHome) {
-            store.dispatch({
-              type: SET_SCREEN_NOTIFICATION,
-              payload: {
-                state: true,
-                type: 'done',
-              },
-            });
-            window.location.assign(`/${res.data.id}/sell`);
-          } else if (redirectToRewards) {
-            store.dispatch({
-              type: SET_SCREEN_NOTIFICATION,
-              payload: {
-                state: true,
-                type: 'done',
-              },
-            });
-            window.location.assign(`/${res.data.id}/home`);
-          } else if (redirectToUserFlow) {
-            store.dispatch({
-              type: SET_SCREEN_NOTIFICATION,
-              payload: {
-                state: true,
-                type: 'done',
-              },
-            });
-            window.location.assign('/onBoarding/brixelComingInTown');
-          } else if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: true,
-              },
-            });
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+            } else {
+              store.dispatch({ type: SPINNER_OFF });
+              store.dispatch({ type: SPINNER_OFF });
+              store.dispatch({ type: SPINNER_OFF });
+              store.dispatch({ type: SPINNER_OFF });
+            }
           } else {
-            store.dispatch({
-              type: SPINNER_ON,
-            });
+            store.dispatch(change('GetStarted', 'pageID', res.data.id));
+            store.dispatch(change('GetStarted', 'pageAnswer', res.data.packageFlowProcess));
+            if (createEstimation) {
+              const data = {
+                owner: res.data.owner.id,
+                page: res.data.id,
+                generate: true,
+                redirectTo: redirectToUrl,
+              };
+              store.dispatch({ type: CREATE_ESTIMATION, payload: data });
+              if (extraLoading) store.dispatch({ type: SPINNER_OFF });
+              store.dispatch({
+                type: SET_SCREEN_NOTIFICATION,
+                payload: {
+                  state: true,
+                  type: 'done',
+                },
+              });
+            } else if (getEstimation) {
+              store.dispatch({ type: GET_ESTIMATION, payload: res.data.id });
+              if (extraLoading) store.dispatch({ type: SPINNER_OFF });
+            } else if (redirectToUrl) {
+              store.dispatch({
+                type: SET_SCREEN_NOTIFICATION,
+                payload: {
+                  state: true,
+                  type: 'done',
+                },
+              });
+              window.location.assign(redirectToUrl);
+            } else if (redirectToHome) {
+              store.dispatch({
+                type: SET_SCREEN_NOTIFICATION,
+                payload: {
+                  state: true,
+                  type: 'done',
+                },
+              });
+              window.location.assign(`/${res.data.id}/sell`);
+            } else if (redirectToRewards) {
+              store.dispatch({
+                type: SET_SCREEN_NOTIFICATION,
+                payload: {
+                  state: true,
+                  type: 'done',
+                },
+              });
+              window.location.assign(`/${res.data.id}/home`);
+            } else if (redirectToUserFlow) {
+              store.dispatch({
+                type: SET_SCREEN_NOTIFICATION,
+                payload: {
+                  state: true,
+                  type: 'done',
+                },
+              });
+              window.location.assign('/onBoarding/brixelComingInTown');
+            } else if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: true,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_ON,
+              });
+            }
           }
           // store.dispatch(reset('Property'));
         })
