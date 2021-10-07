@@ -24,6 +24,12 @@
       transform: translateX(-50%)
     }
 
+    @media (max-width: 767px) {
+      &.bottomMobile {
+        transform: translateY(-40%);
+      }
+    }
+
     &.bottom.center {
       transform: translate(-50%, -110%);
     }
