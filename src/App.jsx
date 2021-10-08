@@ -571,18 +571,23 @@ const App = (props) => {
           {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
+                classTitle={modal.classTitle}
                 title={modal.title}
                 onClose={() => {
                   handleSetModal({ state: false });
                 }}
               >
                 <div dangerouslySetInnerHTML={{ __html: modal.body }} />
-                <Support
-                  expanded
-                  isFixed={false}
-                  hideClose
-                  layout="onboarding"
-                />
+                {
+                  modal.showSupport && (
+                    <Support
+                      expanded
+                      isFixed={false}
+                      hideClose
+                      layout="onboarding"
+                    />
+                  )
+                }
               </BrixelModal>
             )
           }
