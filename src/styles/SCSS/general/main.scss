@@ -181,6 +181,12 @@ p.cutRow {
       }
     }
   }
+  ol {
+    margin-left: $step * 2;
+    li {
+      margin-bottom: $step;
+    }
+  }
 }
 
 header {
@@ -348,7 +354,7 @@ header {
   }
 }
 
-.image-ratio img {
+.image-ratio img:not(.noRatio) {
   position: absolute;
   object-fit: contain;
 

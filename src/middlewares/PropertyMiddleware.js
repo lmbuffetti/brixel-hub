@@ -1191,12 +1191,12 @@ const checkCommon = (store) => (next) => (action) => {
         .then((response) => {
           const calls = [];
           const deals = response.data;
-          deals.forEach((deal) => {
+          Object.keys(deals).forEach((key) => {
             // We only need user actions for the property on this deal when the deal is on stage 'Interested'
-            if (deal.stage === 'Interested') {
+            if (deals[key] === 'Interested') {
               // if get user push
-              if (has(deal, 'user.id')) {
-                const queryParams2 = `?parent=${deal.user.id}&order=updatedAt&direction=DESC`;
+              if (has(deals, 'user.id')) {
+                const queryParams2 = `?parent=${deals.user.id}&order=updatedAt&direction=DESC`;
                 calls.push(api.history.getHistoryList(50, 0, queryParams2));
               }
             }

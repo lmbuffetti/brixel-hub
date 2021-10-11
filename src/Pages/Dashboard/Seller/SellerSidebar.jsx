@@ -122,8 +122,19 @@ const SellerSidebar = (props) => {
         <span className="liner" />
         {
           factsOptions.progressBarOptions.map((progress, i) => (
-            <div className={`step-item ${stepIndexProgrss >= i ? 'active' : ''}`} key={i.toString()}>
-              <span>{i + 1}</span>
+            <div className={`step-item ${stepIndexProgrss === i ? 'active' : ''} ${stepIndexProgrss > i ? 'done' : ''}`} key={i.toString()}>
+              {
+                stepIndexProgrss > i ? (
+                  <BrixelIcon
+                    iconWidth="w-fix-flex-32 pos-r zIndex2"
+                    icon="check-small-fill"
+                    color="altGreen"
+                    saturationTxt={300}
+                  />
+                ) : (
+                  <span className="w-fix-40 h-fix-40">{i + 1}</span>
+                )
+              }
             </div>
           ))
         }

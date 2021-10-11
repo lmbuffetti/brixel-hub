@@ -99,7 +99,7 @@ function PageHeaderDashboard(props) {
       if (activeSinglePropertyPackage && packagesProperty.length > 0) {
         activeSinglePropertyPackage.forEach((pkg, i) => {
           const filtSortPackage = packagesProperty.find((item) => pkg.id === item.id);
-          activeSinglePropertyPackage[i].price = filtSortPackage.price;
+          activeSinglePropertyPackage[i].price = get(filtSortPackage, 'price', 0);
         });
         const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
         const activePackage = activeSinglePropertyPackage.find((item) => item.started);
@@ -109,7 +109,9 @@ function PageHeaderDashboard(props) {
           else setPackageName('Basic');
         } else if (sortedPackage[0]) {
           const filtPackage = packagesProperty.find((item) => sortedPackage[0].id === item.id);
-          setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackage.servicePackage)].name);
+          if (get(filtPackage, 'servicePackage', null)) {
+            setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(get(filtPackage, 'servicePackage', ''))].name);
+          }
         } else {
           setPackageName('Basic');
         }
