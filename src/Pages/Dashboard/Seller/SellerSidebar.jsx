@@ -126,13 +126,13 @@ const SellerSidebar = (props) => {
               {
                 stepIndexProgrss > i ? (
                   <BrixelIcon
-                    iconWidth="w-fix-32"
+                    iconWidth="w-fix-flex-32 pos-r zIndex2"
                     icon="check-small-fill"
                     color="altGreen"
                     saturationTxt={300}
                   />
                 ) : (
-                  <span>{i + 1}</span>
+                  <span className="w-fix-40 h-fix-40">{i + 1}</span>
                 )
               }
             </div>

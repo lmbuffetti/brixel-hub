@@ -10,13 +10,17 @@ import {
   BrixelAvatar,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelButtonText,
   BrixelIcon,
   BrixelProgressBar,
   FactsOptions,
   Helpers,
   ProgressRing,
 } from '@brixel/brixel-components';
+import orderBy from 'lodash/orderBy';
 import has from 'lodash/has';
+import { DateTime } from 'luxon';
+import ICalendarLink from 'react-icalendar-link';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
@@ -53,6 +57,7 @@ const DashboardHome = (props) => {
     loggedInUser,
     proEstimation,
     userTypes,
+    userLang,
     windowDimensions,
   } = props;
   // STATE
@@ -77,12 +82,13 @@ const DashboardHome = (props) => {
   }, [progressState.step]);
 
   useEffect(() => {
-    if (activeSinglePropertyDeals && activeSinglePropertyDeals.length > 0) {
-      activeSinglePropertyDeals.forEach((deal) => {
-        if (has(deal, 'Visit')) {
-          setVisitLists(deal.Visit.data.filter((visit) => get(visit, 'visit', null)));
-        }
-      });
+    if (get(activeSinglePropertyDeals, 'visit')) {
+      const mergedFeed = activeSinglePropertyDeals.visit.data.filter((visit) => get(visit, 'visit', null));
+      let mergedFeedNew = mergedFeed.filter((visit) => visit.visit > DateTime.now().toMillis()).map((arr) => ({ ...arr, past: false }));
+      let mergedFeedPast = mergedFeed.filter((visit) => visit.visit <= DateTime.now().toMillis()).map((arr) => ({ ...arr, past: true }));
+      mergedFeedNew = orderBy(mergedFeedNew, ['visit'], ['asc']);
+      mergedFeedPast = orderBy(mergedFeedPast, ['visit'], ['desc']);
+      setVisitLists([...mergedFeedNew, ...mergedFeedPast]);
     }
   }, [activeSinglePropertyDeals]);
 
@@ -132,6 +138,12 @@ const DashboardHome = (props) => {
       }
     }
     return false;
+  };
+
+  const classWidthTable = (id) => {
+    if (id === 0) return 'w-perc-100 w-perc-md-40';
+    if (id < 3) return 'w-perc-50 w-perc-md-20 mt-1 mt-md-0';
+    return 'w-perc-50 w-perc-md-10 mt-1 mt-md-0';
   };
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
@@ -594,48 +606,52 @@ const DashboardHome = (props) => {
         {
           progressState.step === 3 && (
             <>
-              <div className="dis-f jc-b">
-                <div className="w-perc-70 mr-sm-1">
+              <div className="dis-f jc-b flex-wrap">
+                <div className="w-perc-100 w-perc-md-70 pr-sm-1">
                   <DashboardPropertyCard smallLayout />
                 </div>
-                <Link
-                  to={`/${activeSingleProperty.id}/marketing`}
-                  className="w-perc-30 brdRadius bgWhite shadow-2dp shadowHover-4dp ml-sm-1 pt-2 cur-poi txtDark700"
+                <div
+                  className="w-perc-100 w-perc-md-30 pl-sm-1 mt-md-0"
                 >
-                  <div className="h-fix-184 dis-fl-col jc-b">
-                    <div className="dis-f px-3">
-                      <BrixelIcon
-                        icon="mike"
-                        color="AltBlue"
-                        saturationTxt={400}
-                      />
-                      <span className="txtDark700 fweight-600 pl-1">Marketing</span>
-                    </div>
-                    <div className="px-3">
-                      {
-                        Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
-                          <React.Fragment key={i.toString()}>
-                            {
-                              get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
-                                <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
-                                  <span>{portal}</span>
-                                  <span className={`activeDot ${get(activeSingleProperty, `portals[${portal}]`, null) ? 'green' : 'grey'}`} />
-                                </span>
-                              )
-                            }
-                          </React.Fragment>
-                        ))
-                      }
-                    </div>
-                    <div className="linkWrap">
-                      <span className="hr lighter" />
-                      <div className="px-3 py-1 txtLight700 wHover">
-                        <span className="text">View</span>
-                        <span className="arrow-symbol ml-1">&#62; </span>
+                  <Link
+                    to={`/${activeSingleProperty.id}/marketing`}
+                    className="brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 mt-2 mt-md-0 cur-poi txtDark700 dis-b"
+                  >
+                    <div className="h-fix-184 dis-fl-col jc-b">
+                      <div className="dis-f px-3">
+                        <BrixelIcon
+                          icon="mike"
+                          color="AltBlue"
+                          saturationTxt={400}
+                        />
+                        <span className="txtDark700 fweight-600 pl-1">Marketing</span>
+                      </div>
+                      <div className="px-3">
+                        {
+                          Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
+                            <React.Fragment key={i.toString()}>
+                              {
+                                get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
+                                  <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
+                                    <span>{portal}</span>
+                                    <span className={`activeDot ${get(activeSingleProperty, `portals[${portal}]`, null) ? 'green' : 'grey'}`} />
+                                  </span>
+                                )
+                              }
+                            </React.Fragment>
+                          ))
+                        }
+                      </div>
+                      <div className="linkWrap">
+                        <span className="hr lighter" />
+                        <div className="px-3 py-1 txtLight700 wHover">
+                          <span className="text">View</span>
+                          <span className="arrow-symbol ml-1">&#62; </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </div>
 
               <div className="dis-fl-col dis-fl-row-sm my-3">
@@ -651,19 +667,19 @@ const DashboardHome = (props) => {
                     {get(activeSinglePropertyDealsCount, 'Interested.total', '')}
                   </p>
                 </div>
-                <div className="w-perc-100 w-perc-sm-33 mr-sm-1 bgWhite brdRadius ta-c p-3 pb-6 shadow-2dp mx-sm-1">
+                <div className="w-perc-100 w-perc-sm-33 mr-sm-1 bgWhite brdRadius ta-c p-3 pb-6 shadow-2dp mx-sm-1 mt-2 mt-md-0">
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="visited"
                     color="altMist"
                     saturationTxt={400}
                   />
-                  <h6 className="mt-2 fweight-400">Visited</h6>
+                  <h6 className="mt-2 fweight-400">Visits</h6>
                   <p className="fSizePx64 fweight-600 txtAltBlue400 mt-3">
                     {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
                   </p>
                 </div>
-                <div className="w-perc-100 w-perc-sm-33 mr-sm-1 bgWhite brdRadius ta-c p-3 pb-6 shadow-2dp ml-sm-1">
+                <div className="w-perc-100 w-perc-sm-33 bgWhite brdRadius ta-c p-3 pb-6 shadow-2dp ml-sm-1 mt-2 mt-md-0">
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="offers"
@@ -677,24 +693,95 @@ const DashboardHome = (props) => {
                 </div>
               </div>
 
-              <div>
-                <ul>
-                  {
-                    visitLists.map((visit, i) => (
-                      <li key={i.toString()}>
-                        <BrixelAvatar
-                          baseURL={get(baseByData, 'shortPath', '')}
-                          profileId={get(visit, 'user.id', null)}
-                          name={get(visit, 'user.name', '') ? get(visit, 'user.name', '') : 'No Name'}
-                          size="large"
+              {
+                visitLists.length > 0 && (
+                  <div className="brdRadius bgWhite shadow-2dp">
+                    <div className="dis-fl-col dis-fl-row-sm jc-b a-c px-2 pt-2">
+                      <div className="dis-f a-c">
+                        <BrixelIcon
+                          iconWidth="w-fix-32"
+                          icon="visited"
+                          color="altMist"
+                          saturationTxt={400}
                         />
-                        <p>{get(visit, 'user.name', '')}</p>
-                        {JSON.stringify(visit)}
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
+                        <h5 className="ml-3">Confirmed visits</h5>
+                      </div>
+                      <BrixelButtonPrimary
+                        className="ml-a ml-sm-0 mt-2 mt-sm-0"
+                        rounded
+                        theme="altGreen"
+                        themeSat={300}
+                        label="View all"
+                        onClick={() => history.push('')}
+                      />
+                    </div>
+                    {
+                      visitLists.map((visit, i) => (
+                        <div
+                          key={i.toString()}
+                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
+                        >
+                          <div className={`dis-f a-c ${classWidthTable(0)}`}>
+                            <BrixelAvatar
+                              baseURL={get(baseByData, 'shortPath', '')}
+                              profileId={get(visit, 'user.id', null)}
+                              name={get(visit, 'user.name', '') ? get(visit, 'user.name', '') : 'No Name'}
+                              size="large"
+                            />
+                            <p className="ml-2">
+                              {get(visit, 'user.name', '')}
+                            </p>
+                          </div>
+                          <p className={`${classWidthTable(1)} ${!visit.past ? 'txtAltGreen300' : 'txtLight600'}`}>
+                            {DateTime.fromMillis(visit.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                          </p>
+                          <p className={`${classWidthTable(2)} ta-r ta-l-md`}>
+                            {
+                              visit.visit > DateTime.now().toMillis() ? (
+                                <span className="txtDark700">Upcoming</span>
+                              ) : (
+                                <span className="txtLight600">Past</span>
+                              )
+                            }
+                          </p>
+                          <p className={`${classWidthTable(3)}`}>
+                            {
+                              !visit.past && (
+                                <ICalendarLink event={{
+                                  title: 'My Title',
+                                  description: 'My Description',
+                                  startTime: DateTime.fromMillis(visit.visit).toISO(),
+                                  // endTime: '2018-10-07T12:00:00+10:00',
+                                  location: get(activeSingleProperty, 'location.address', ''),
+                                  attendees: [
+                                    `${loggedInUser.name} <${loggedInUser.email}>`,
+                                  ],
+                                }}
+                                >
+                                  <BrixelIcon
+                                    icon="calendar-add"
+                                    color="altGreen"
+                                    saturationTxt={300}
+                                  />
+                                </ICalendarLink>
+                              )
+                            }
+                          </p>
+                          <p className={`${classWidthTable(4)} ta-r ta-l-md`}>
+                            <BrixelButtonText
+                              className="ml-a ml-md-0"
+                              label={visit.visit > DateTime.now().toMillis() ? 'View' : 'Review'}
+                              onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
+                              theme="light"
+                              themeSat={600}
+                            />
+                          </p>
+                        </div>
+                      ))
+                    }
+                  </div>
+                )
+              }
             </>
           )
         }
@@ -713,9 +800,9 @@ const DashboardHome = (props) => {
 };
 
 DashboardHome.propTypes = {
-  activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyDeals: PropTypes.object,
   activeSinglePropertyDealsCount: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -726,26 +813,29 @@ DashboardHome.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   proEstimation: PropTypes.object,
+  userLang: PropTypes.string.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 DashboardHome.defaultProps = {
+  activeSinglePropertyDeals: null,
   proEstimation: {},
   userTypes: 'user',
 };
 
 const mapStateToProps = (state) => ({
-  activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
-  loggedInUser: get(state, 'user.loggedInUser.user', null),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', null),
   proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
+  userLang: get(state, 'user.loggedInUser.user.language', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

@@ -15,9 +15,9 @@
   .step-item {
     position: relative;
     > span {
+      width: 30px;
+      height: 30px;
       display: flex;
-      height: 32px;
-      width: 32px;
       background-color: white;
       border-radius: 50%;
       justify-content: center;

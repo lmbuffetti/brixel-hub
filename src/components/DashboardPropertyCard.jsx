@@ -44,7 +44,7 @@ const DashboardPropertyCard = (props) => {
             </Link>
           </div>
         </div>
-        <div className="pl-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
+        <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
           <div className="">
             <h4 className="txtAltGrey700 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
@@ -53,8 +53,8 @@ const DashboardPropertyCard = (props) => {
           <>
             {
               smallLayout ? (
-                <div className="dis-f jc-b a-c w-perc-100">
-                  <div className="dis-f a-c">
+                <div className="dis-fl-col dis-fl-row-sm jc-b a-c w-perc-100">
+                  <div className="dis-f a-c mr-a mr-sm-0">
                     <BrixelIcon
                       background="AltMist"
                       saturation={200}
@@ -74,6 +74,7 @@ const DashboardPropertyCard = (props) => {
                     </div>
                   </div>
                   <BrixelButtonPrimary
+                    className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
                     rounded
                     label="Open"
                     theme="altGreen"
