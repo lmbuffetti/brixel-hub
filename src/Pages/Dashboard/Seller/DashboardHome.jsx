@@ -143,7 +143,8 @@ const DashboardHome = (props) => {
   const classWidthTable = (id) => {
     if (id === 0) return 'w-perc-100 w-perc-md-40';
     if (id < 3) return 'w-perc-50 w-perc-md-20 mt-1 mt-md-0';
-    return 'w-perc-50 w-perc-md-10 mt-1 mt-md-0';
+    if (id === 3) return 'w-perc-50 w-perc-md-7 mt-1 mt-md-0';
+    return 'w-perc-50 w-perc-md-13 mt-1 mt-md-0';
   };
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
