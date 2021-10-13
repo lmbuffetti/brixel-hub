@@ -434,7 +434,9 @@ const GetStartedEstimation = (props) => {
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
     } else if (!isTest) {
-      handleGetActiveSingleCompany({ stub: 'default' });
+      const companyUser = get(loggedInUser, 'users.company.stub', null);
+      if (companyUser) handleGetActiveSingleCompany({ stub: companyUser });
+      else handleGetActiveSingleCompany({ stub: 'default' });
       changeFieldValue('location.countryCode', 'all');
     }
     if (get(companyByUrl, 'channel', channelCookie)) {

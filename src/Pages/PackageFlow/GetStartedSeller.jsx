@@ -376,7 +376,9 @@ const GetStartedSeller = (props) => {
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
     } else if (!isTest) {
-      handleGetActiveSingleCompany({ stub: 'default' });
+      const companyUser = get(loggedInUser, 'users.company.stub', null);
+      if (companyUser) handleGetActiveSingleCompany({ stub: companyUser });
+      else handleGetActiveSingleCompany({ stub: 'default' });
       changeFieldValue('location.countryCode', 'all');
     }
     if (get(companyByUrl, 'channel', channelCookie)) {
@@ -424,6 +426,7 @@ const GetStartedSeller = (props) => {
         if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
         if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
         if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
+        console.log(newCountryStub);
         handleGetActiveSingleCompany({ stub: newCountryStub });
       }
     }
