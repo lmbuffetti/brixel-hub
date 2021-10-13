@@ -222,7 +222,6 @@ const Price = (props) => {
                   {get(estimation, 'result.currency', '')}
                 </span>
 
-                {/* <span className="">CHF</span> */}
                 {
                   get(proEstimation, 'value', 0) <= 0 ? (
                     <>
@@ -365,9 +364,8 @@ const Price = (props) => {
                 ) : (
                   <>
                     {
-                      get(estimation, 'status', null) !== 'pending' || !bestimateflowCompleted ? (
+                      (get(estimation, 'status', null) !== 'pending' || !bestimateflowCompleted) ? (
                         <>
-                          {bestimateflowCompleted.toString()}
                           <h5 className="mb-3">Get a free price indication.</h5>
                           <p className="txtDark700">Compare your property to real transaction data to better define the pricing.</p>
                           <BrixelButtonPrimary
