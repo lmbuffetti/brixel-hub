@@ -54,7 +54,7 @@ const Accordion = (props) => {
             />
           )
         }
-        <span>{title}</span>
+        <span className="txtDark700">{title}</span>
         {
           smallRightIcon && !singleItem && (
             <BrixelIcon

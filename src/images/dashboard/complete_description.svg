@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="113px" height="99px" viewBox="0 0 113 99" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Group" transform="translate(2.000000, 2.000000)" stroke="#00615C" stroke-width="3">
+            <polyline id="Path" points="80 36.6786 80 24 20 24 20 95 80 95 80 75"></polyline>
+            <polyline id="Path" points="69.3334 23.5 69.3334 12 9.7778 12 9.7778 82 19.5 82"></polyline>
+            <polyline id="Path" points="59.5556 11 59.5556 0 0 0 0 70 9.7778 70"></polyline>
+            <path d="M107.141,46.3448 L76.7973,76.6867 L67.8079,67.6973 L97.9103,37.6055 C98.98,36.4865 100.409,35.7797 101.948,35.6088 C103.487,35.4379 105.036,35.8139 106.325,36.6709 C107.079,37.2063 107.706,37.8995 108.164,38.7022 C108.622,39.5049 108.9,40.3977 108.977,41.3186 C109.055,42.2395 108.931,43.1663 108.614,44.0343 C108.297,44.9024 107.794,45.6908 107.141,46.3448 L107.141,46.3448 Z" id="Path"></path>
+            <path d="M98.129,37.3851 C96.9344,36.2025 95.3206,35.5409 93.64,35.544882 C91.9595,35.5488 90.3488,36.2181 89.1603,37.4063 L82.4087,44.1494 M90.2835,45.2196 L99.275,54.2111 M61.3232,83.2243 L67.8078,67.6973 L76.7972,76.6867 L61.3232,83.2243 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

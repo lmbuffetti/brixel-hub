@@ -26,23 +26,20 @@ import {
   SKELETON_OFF,
   SET_SPLASH_TYPE,
   SET_HISTORY,
+  SET_WIZARD,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
 
 export const defaultState = {
-  windowDimensions: {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  },
+  configUrl: getConfigEnv,
+  country: countryList,
+  errorMsg: {},
   formError: {},
+  history: {},
   isLoading: 1,
   isSmallLoading: {},
-  requestDone: false,
-  redirectTo: null,
-  configUrl: getConfigEnv,
-  errorMsg: {},
-  history: {},
+  language: cookie.get('brixelLang') || 'en',
   languages: [
     { value: 'de', label: 'de' },
     { value: 'dk', label: 'dk' },
@@ -52,20 +49,25 @@ export const defaultState = {
     { value: 'pt', label: 'pt' },
     { value: 'se', label: 'se' },
   ],
-  country: countryList,
-  language: cookie.get('brixelLang') || 'en',
-  notification: [],
-  setPageData: null,
   modal: {
     state: false, title: '', body: '', action: {}, multiActions: [],
   },
+  notification: [],
+  percentage: 0,
   preventExitFromScreen: false,
+  redirectTo: null,
+  requestDone: false,
+  setPageData: null,
+  skeleton: { },
+  splashScreenType: '',
   unsavedChangesModal: {
     state: false, link: '',
   },
-  percentage: 0,
-  skeleton: { },
-  splashScreenType: '',
+  windowDimensions: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  },
+  wizard: {},
 };
 
 export default handleActions(
@@ -164,6 +166,10 @@ export default handleActions(
     [SET_HISTORY]: (state, action) => ({
       ...state,
       history: action.payload,
+    }),
+    [SET_WIZARD]: (state, action) => ({
+      ...state,
+      wizard: action.payload,
     }),
   },
   defaultState,

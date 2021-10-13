@@ -1,6 +1,7 @@
 {
   "extends": "airbnb",
   "rules": {
+    "ignoreImports": 0,
     "no-console": 1,
     "react-hooks/rules-of-hooks": 0,
     "indent": [
@@ -25,7 +26,7 @@
         "props": false
       }
     ],
-    "global-require": 1,
+    "global-require": 0,
     "no-debugger": "error",
     // Legacy
     "max-len": [

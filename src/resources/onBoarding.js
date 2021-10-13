@@ -17,16 +17,16 @@ export const QuestionsList = (lang) => [
     inputs: [{
       component: BrixelRadioButton,
       className: 'radioBtnImg',
-      classNameBox: 'max-w-fix-912 ml-a mr-a',
+      classNameBox: 'max-w-fix-912 ml-a mr-a px-2 px-sm-0',
       ReduxFieldClass: '',
       label: '',
       name: 'userType',
       validation: [Validation.required],
       icons: true,
       cardLayout: true,
-      svgWidth: 'max-w-fix-168',
+      svgWidth: 'max-w-fix-96 max-w-fix-md-168',
       svgSupport: true,
-      pdClass: 'py-3 pb-sm-5 pt-sm-4',
+      pdClass: 'py-1 pb-sm-5 pt-sm-4',
       isHorizontal: true,
       options: [
         {

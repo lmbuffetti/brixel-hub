@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import {
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import get from 'lodash/get';
 import Loading from './Loading';
 
 const SplashScreenContent = lazy(() => import('./SplashScreenContent'));
@@ -20,6 +21,7 @@ const SplashScreen = (props) => {
     closeOutside,
     history,
     type,
+    wizard,
   } = props;
 
   const drawerRef = useRef(null);
@@ -36,7 +38,7 @@ const SplashScreen = (props) => {
   });
 
   return (
-    <div className={`wrapSplash ${type === 'marketOverlay' ? 'fixed' : ''} ${className}`}>
+    <div className={`wrapSplash ${type === 'marketOverlay' ? 'fixed' : ''} ${className} ${type} ${wizard.type ? 'bgOverlayDark' : ''}`}>
       <div className="container brdRadius m-a bgWhite p-small-4" ref={drawerRef}>
         <div className={`h-perc-100 ov-a dis-fl-col ${type === 'marketOverlay' ? '' : 'p-lg-3 p-2 px-2'}`}>
           {
@@ -61,6 +63,7 @@ SplashScreen.propTypes = {
   closeOutside: PropTypes.bool,
   history: PropTypes.object.isRequired,
   type: PropTypes.string,
+  wizard: PropTypes.object.isRequired,
 };
 
 SplashScreen.defaultProps = {
@@ -71,7 +74,9 @@ SplashScreen.defaultProps = {
   type: null,
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  wizard: get(state, 'common.wizard', {}),
+});
 
 const mapDispatchToProps = () => ({});
 

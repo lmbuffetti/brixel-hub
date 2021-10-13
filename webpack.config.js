@@ -11,6 +11,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
 
 // const devMode = false;
@@ -38,7 +39,6 @@ const clientConfig = (env) => {
         './src/styles/SCSS/general/main.scss',
       ],
       secondary: [
-        './src/styles/SCSS/styleguide/helpers.scss',
         './src/styles/SCSS/styleguide/grid.scss',
       ],
       styleguide: [
@@ -50,6 +50,7 @@ const clientConfig = (env) => {
       ],
       primary: [
         './src/styles/SCSS/general/componentsLoad.scss',
+        './src/styles/SCSS/styleguide/helpers.scss',
       ],
     },
     devServer: {
@@ -133,15 +134,6 @@ const clientConfig = (env) => {
                 ],
               },
             },
-            {
-              loader: 'eslint-loader',
-              options: {
-                failOnError: !devMode,
-                failOnWarning: !devMode,
-                emitWarning: true,
-                fix: true,
-              },
-            },
           ],
         },
         // Svg loader
@@ -184,7 +176,12 @@ const clientConfig = (env) => {
       ],
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin(),
+      new ESLintPlugin({
+        failOnError: !devMode,
+        failOnWarning: !devMode,
+        emitWarning: true,
+        fix: true,
+      }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional

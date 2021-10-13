@@ -396,7 +396,7 @@ const MarketCard = (props) => {
                 </div>
               </>
             ) : (
-              <div className="brdSmall brdRadius brdAltGrey100 ov-h">
+              <div className="brdSmall brdRadius brdLight200 ov-h bgWhite">
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
                   className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover mb-1 w-perc-100 h-perc-100 h-fix-208 pos-r`}
@@ -432,10 +432,10 @@ const MarketCard = (props) => {
                 }
                 <div className="info dis-fl-col jc-b">
                   <div className="top dis-fl-col notranslate px-3 pt-3">
-                    <span className="fweight-600 fsize-500 txtAltGrey400 ellipsis one notranslate">
+                    <span className="fweight-600 fsize-500 txtAltGrey700 ellipsis one notranslate">
                       {get(item, 'title', '')}
                     </span>
-                    <span className="fsize-300 txtAltGrey400 mt-1 notranslate">
+                    <span className="fsize-300 txtAltGrey700 mt-1 notranslate">
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                       {
                         get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -527,11 +527,11 @@ const MarketCard = (props) => {
                         {
                           get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
                             <>
-                              <p className="pl-1 body2 txtDark700" dangerouslySetInnerHTML={{ __html: `<span>Your property is visible on our pre-market.</span> <a href="/${item.id}/marketing/portals" class="fsize-300 fweight-500 txtAltBlue400 cur-poi ml-1 td-u lh-in btnInline">Learn more.</a>` }} />
+                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>Your property is visible on our pre-market.</span> <a href="/${item.id}/marketing/portals" class="fsize-300 fweight-500 txtAltBlue400 cur-poi ml-1 td-u lh-in btnInline">Learn more.</a>` }} />
                             </>
                           ) : (
                             <>
-                              <p className="pl-1 body2 txtDark700" dangerouslySetInnerHTML={{ __html: '<span>Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.</span>' }} />
+                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: '<span>Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.</span>' }} />
                               <a
                                 href={`/${item.id}/marketing/portals`}
                                 className="fsize-300 fweight-500 txtAltBlue400 cur-poi ml-1 td-u p-0 btnInline"
@@ -549,7 +549,7 @@ const MarketCard = (props) => {
                       className="dis-fl-col dis-fl-row-sm ta-l"
                     >
                       <div className="dis-fl-row-sm">
-                        <p className="pl-1 body2 txtDark700">
+                        <p className="pl-1 fsize-300 txtLight600">
                           <span>Your property is visible on our market.</span>
                         </p>
                       </div>

@@ -28,7 +28,7 @@ const BoxTrialTestDirve = (props) => {
   return (
     <div
       onClick={() => bookNow()}
-      className={`testDrive cur-poi dis-f-md a-c brdRadius bgWhite ${isLarge ? 'w-perc-100 jc-c' : 'p-2'} ${className}`}
+      className={`testDrive cur-poi dis-f-sm a-c brdRadius bgWhite ${isLarge ? 'w-perc-100 jc-c' : 'p-2'} ${className}`}
     >
       {
         isLarge ? (

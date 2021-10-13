@@ -1,0 +1,43 @@
+#wizard {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 20;
+
+  > div {
+    background: white;
+    position: absolute;
+
+    &.hintMessage {
+      z-index: 2;
+    }
+
+    &.bottom {
+      transform: translateY(-110%);
+    }
+
+    &.center {
+      left: 50% !important;
+      transform: translateX(-50%)
+    }
+
+    @media (max-width: 767px) {
+      &.bottomMobile {
+        transform: translateY(-40%);
+      }
+    }
+
+    &.bottom.center {
+      transform: translate(-50%, -110%);
+    }
+
+    &.copyElement {
+      > div {
+        width: 100% !important;
+      }
+    }
+  }
+}

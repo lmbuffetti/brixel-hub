@@ -71,6 +71,7 @@ export default {
     ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedPages/${paginationLimit}/${paginationSkip}${data}`,
     preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
     premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
+    preMarketStats: (query) => `/market/list/preMarketStats${query}`,
   },
   note: {
     singleNote: (id) => `/note/${id}`,
@@ -87,7 +88,7 @@ export default {
     getPropertyVisitListings: () => '/scheduleVisit/10/0?order=name&direction=desc',
     mapPageById: (id) => `/map/property/${id}`,
     packagesList: (limit, offset) => `/servicePackage/${limit}/${offset}`,
-    packagePage: (id, limit, offset, data) => `/pageServicePackage/${limit}/${offset}?pageID=${id}&${data}`,
+    packagePage: (id) => `/pageServicePackage/10/0?pageID=${id}&order=createdAt&direction=ASC`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
     pageById: (id) => `/page/${id}`,
     pageDeals: (id, data) => `/page/${id}/deals${data}`,
@@ -102,6 +103,7 @@ export default {
   searchProfile: {
     searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
     singleSearchProfile: () => '/searchProfile/',
+    singleSearchProfileById: (id) => `/searchProfile/${id}`,
   },
   upload: {
     addImage: () => '/image/',

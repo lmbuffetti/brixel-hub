@@ -29,7 +29,7 @@ const SellerSidebar = (props) => {
     handleGetNoteListings,
     historyFeed,
     loggedInUser,
-    packagesProperty,
+    activeCompanyPackages,
   } = props;
   // STATE
   const [stepProgrss, setStepProgrss] = useState({});
@@ -98,7 +98,7 @@ const SellerSidebar = (props) => {
   }, [activeSingleProperty.id]);
 
   const convertFeedMessage = (stub, type, history) => {
-    const data = feedMessage(loggedInUser, history, packagesProperty);
+    const data = feedMessage(loggedInUser, history, activeCompanyPackages);
     if (data[stub] && data[stub][type]) return data[stub][type];
     if (history.content) return data.note[type];
     return data.default[type];
@@ -122,8 +122,19 @@ const SellerSidebar = (props) => {
         <span className="liner" />
         {
           factsOptions.progressBarOptions.map((progress, i) => (
-            <div className={`step-item ${stepIndexProgrss >= i ? 'active' : ''}`} key={i.toString()}>
-              <span>{i + 1}</span>
+            <div className={`step-item ${stepIndexProgrss === i ? 'active' : ''} ${stepIndexProgrss > i ? 'done' : ''}`} key={i.toString()}>
+              {
+                stepIndexProgrss > i ? (
+                  <BrixelIcon
+                    iconWidth="w-fix-flex-32 pos-r zIndex2"
+                    icon="check-small-fill"
+                    color="altGreen"
+                    saturationTxt={300}
+                  />
+                ) : (
+                  <span className="w-fix-40 h-fix-40">{i + 1}</span>
+                )
+              }
             </div>
           ))
         }
@@ -182,7 +193,7 @@ SellerSidebar.propTypes = {
   handleGetNoteListings: PropTypes.func.isRequired,
   historyFeed: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 SellerSidebar.defaultProps = {
@@ -193,7 +204,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   historyFeed: get(state, 'history.historyFeed.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', null),
-  packagesProperty: get(state, 'property.packagesProperty.data', []),
+  activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({

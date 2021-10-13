@@ -1,5 +1,5 @@
-import { InputSheetsConfig } from '@brixel/brixel-configuration-partner/src/InputSheets';
-import { ProEstimationConfig } from '@brixel/brixel-configuration-partner/src/ProEstimation';
+import { InputSheetsConfig } from '@brixel/brixel-configuration-partner/dist/InputSheets';
+import { ProEstimationConfig } from '@brixel/brixel-configuration-partner/dist/ProEstimation';
 import {
   BrixelCheckbox,
   BrixelExtraFeature, BrixelInputQuality,

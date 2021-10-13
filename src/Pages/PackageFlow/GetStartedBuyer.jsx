@@ -26,6 +26,7 @@ import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import has from 'lodash/has';
+import isArray from 'lodash/isArray';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { setCookie, checkBrowser } from '../../utils/helpers';
@@ -33,7 +34,7 @@ import { QuestionsList } from '../../resources/onBoardingBuyer';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
-import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
+import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 
 const cookie = new Cookies();
 
@@ -48,7 +49,7 @@ const GetStartedBuyer = (props) => {
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleGetGamegroup,
-    handleUpdateSearchProfile,
+    handleCreateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
     handleSpinnerOn,
@@ -119,7 +120,7 @@ const GetStartedBuyer = (props) => {
       data.owner = loggedInUser.user.id;
       // DISPATCH TO SAVE THE PROPERTY
       data.dataSearchProfile.user = loggedInUser.user.id;
-      await handleUpdateSearchProfile(data);
+      await handleCreateSearchProfile(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
@@ -406,8 +407,8 @@ const GetStartedBuyer = (props) => {
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     setOldIndex(currentIndex);
+    const newQuest = [];
     if (formValue) {
-      const newQuest = [];
       QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
@@ -425,7 +426,7 @@ const GetStartedBuyer = (props) => {
       });
       setQuestions(newQuest);
     }
-    if (quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && oldIndex <= currentIndex) {
+    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
@@ -692,7 +693,7 @@ GetStartedBuyer.propTypes = {
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetGamegroup: PropTypes.func.isRequired,
-  handleUpdateSearchProfile: PropTypes.func.isRequired,
+  handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
@@ -777,7 +778,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
+  handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),

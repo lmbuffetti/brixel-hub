@@ -93,7 +93,7 @@ const IntroUpgrade = (props) => {
       const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
       if (activePackage) {
-        const filtPackages = packages.find((item) => activePackage.id === item.id);
+        const filtPackages = packages.find((item) => activePackage.servicePackage === item.id);
         if (filtPackages) {
           setPackageName({
             name: filtPackages.name,
@@ -106,7 +106,7 @@ const IntroUpgrade = (props) => {
           });
         }
       } else if (sortedPackage[0]) {
-        const filtPackage = packages.find((item) => sortedPackage[0].id === item.id);
+        const filtPackage = packages.find((item) => sortedPackage[0].servicePackage === item.id);
         if (filtPackage) {
           setPackageName({
             name: filtPackage.name,
@@ -150,7 +150,7 @@ const IntroUpgrade = (props) => {
   }, []);
 
   return (
-    <main id="rewards" className="introScanFlow pt-2 pb-2 pb-sm-4 h-perc-100 txtAltGrey400">
+    <main id="rewards" className="introScanFlow pt-2 pb-2 pb-sm-4 h-perc-100 txtAltGrey700">
 
       <section className="intro container">
 
@@ -222,11 +222,11 @@ const IntroUpgrade = (props) => {
                     >
                       <div className="p-4">
                         <h5 className="fweight-600 fsize-700">{pkg.name}</h5>
-                        <p className="mt-2">
+                        <p className="mt-2 altGrey700">
                           {pkg.description}
                         </p>
 
-                        <ul className="checked mt-3">
+                        <ul className="checked mt-3 altGrey700">
                           {
                             pkg.details && get(pkg, 'details', []).map((detail, f) => (
                               <li
@@ -430,7 +430,7 @@ IntroUpgrade.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  activeSinglePropertyPackage: get(state, 'property.activeSingleProperty.servicePackages', []),
+  activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   packages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),

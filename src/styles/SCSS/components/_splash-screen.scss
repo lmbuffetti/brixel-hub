@@ -7,6 +7,23 @@
   z-index: 5;
   background: rgba(map_get($darkColor, 700), .7);
 
+  &.bgOverlayDark{
+    > .container {
+      &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba(0,0,0,0.7);
+      }
+    }
+    .middle-part {
+      background: white;
+    }
+  }
+
   &.edit-document {
 
     .container {
@@ -26,7 +43,21 @@
   }
 
   &.result-market-overlay {
-    .container {
+    &.marketOverlayCarousel {
+      > .container {
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+      }
+      .slider-card {
+        &.middle-part {
+          height: auto;
+          overflow: initial;
+        }
+      }
+    }
+    > .container {
       height: calc(100% - 40px);
       max-width: 808px;
       position: fixed;
@@ -49,6 +80,11 @@
         height: calc(100% - 160px);
       }
     }
+    .fullScreenCard {
+      &.middle-part {
+        height: 100%;
+      }
+    }
     .middle-part {
 
       /* CUSTOM SCROLLBAR WITHOUT FORGROUND LAYER*/
@@ -58,7 +94,12 @@
       }
     }
     .slick-slide {
-      height: calc(100% - 40px);
+      height: auto;
+    }
+    @media (min-width: $responsive-medium) {
+      .slick-slide {
+        height: calc(100% - 40px);
+      }
     }
     .fixed-footer {
       background-color: white;
@@ -80,7 +121,7 @@
     }
   }
 
-  .container {
+  > .container {
     position: relative;
     height: calc(100% - 120px);
     width: 100%;

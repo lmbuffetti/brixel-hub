@@ -29,7 +29,7 @@ import { QuestionsList } from '../../resources/onBoarding';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
-import { updateUserSearchProfile } from '../../actions/SearchProfileActions';
+import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 
 const cookie = new Cookies();
 
@@ -44,7 +44,7 @@ const GetStarted = (props) => {
     // handleDoLogin,
     handleGetActiveSingleCompany,
     // handleGetGamegroup,
-    // handleUpdateSearchProfile,
+    // handleCreateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
     // handleValidateUser,
@@ -394,7 +394,7 @@ const GetStarted = (props) => {
                       <div className="ta-c max-w-fix-456 m-a">
                         {
                           quest.title && (
-                            <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-700 fweight-600 txtDark700 px-1 px-sm-0`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-800 fweight-600 txtDark700 px-1 px-sm-0`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                           )
                         }
                       </div>
@@ -523,7 +523,7 @@ GetStarted.propTypes = {
   // handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   // handleGetGamegroup: PropTypes.func.isRequired,
-  // handleUpdateSearchProfile: PropTypes.func.isRequired,
+  // handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   // handleValidateUser: PropTypes.func.isRequired,
@@ -606,7 +606,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
+  handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),

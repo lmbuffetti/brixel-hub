@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
 import React, {
-  useState, useEffect, useRef, Fragment,
+  useState, useEffect, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -23,6 +23,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
+import isArray from 'lodash/isArray';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
@@ -48,7 +49,6 @@ const GetStartedEstimation = (props) => {
     handleCreateActiveSingleProperty,
     handleDoLogin,
     handleGetActiveSingleCompany,
-    handleGetGamegroup,
     // handleSaveActiveSingleProperty,
     // handleSaveActiveSingleUser,
     handleSetLanguage,
@@ -408,7 +408,8 @@ const GetStartedEstimation = (props) => {
       inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
       changeFieldValue('inputSheet', inputSheet);
     }
-    if (quest.inputs && quest.inputs.length === 1 && (get(quest, 'inputs[0].component.name', null) === 'BrixelRadioButton' || get(quest, 'inputs[0].component.name', null) === 'b') && get(formValue, get(quest, 'inputs[0].name', ''), null) && !get(formValue, get(quest, 'inputs[0].name', ''), null).includes('other') && oldIndex <= currentIndex) {
+    const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
@@ -424,7 +425,6 @@ const GetStartedEstimation = (props) => {
 
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
-    handleGetGamegroup();
     // GET THE COMPANY BY URL OR COOKIE
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
@@ -467,7 +467,7 @@ const GetStartedEstimation = (props) => {
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
-    if (get(questions, `[${currentIndex - 1}].history`, null) === 'locationInput') {
+    if (currentIndex > 2) {
       const countryCodeLocation = get(formValue, 'location.countryCode', '');
       const countryCodeCompany = get(company, 'country.code', '');
       if (countryCodeCompany !== countryCodeLocation) {
@@ -478,7 +478,7 @@ const GetStartedEstimation = (props) => {
         handleGetActiveSingleCompany({ stub: newCountryStub });
       }
     }
-  }, [currentIndex]);
+  }, [get(formValue, 'location.countryCode', '')]);
 
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
@@ -623,7 +623,7 @@ const GetStartedEstimation = (props) => {
                       }
                       {
                         quest.title && (
-                          <h3 className={`fweight-600 max-w-fix-408 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
                       {
@@ -759,7 +759,6 @@ GetStartedEstimation.propTypes = {
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleGetGamegroup: PropTypes.func.isRequired,
   // handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   // handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
