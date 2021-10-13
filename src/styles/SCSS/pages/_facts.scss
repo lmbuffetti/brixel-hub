@@ -44,39 +44,40 @@
     }
   }
 }
+.brixel-checkbox-wrapper {
+  .extraCols {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-.extraCols {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+    > div {
+      max-width: 50%;
+      width: 100%;
 
-  > div {
-    max-width: 50%;
-    width: 100%;
+      &.brixel-checkbox-icon,
+      &.brixel-checkbox {
 
-    &.brixel-checkbox-icon,
-    &.brixel-checkbox {
-
-      @media (min-width: $responsive-small) {
-        &:nth-child(odd) {
-          padding-right: $step;
-        }
-        &:nth-child(even) {
-          padding-left: $step;
+        @media (min-width: $responsive-small) {
+          &:nth-child(odd) {
+            padding-right: $step;
+          }
+          &:nth-child(even) {
+            padding-left: $step;
+          }
         }
       }
-    }
 
 
-    @media (max-width: $responsive-small) {
-      max-width: 100%;
-    }
-    > label {
-      padding-top: 0;
+      @media (max-width: $responsive-small) {
+        max-width: 100%;
+      }
+
+      > label {
+        padding-top: 0;
+      }
     }
   }
 }
-
 
 
 
