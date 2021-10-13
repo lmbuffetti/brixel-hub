@@ -65,7 +65,7 @@ const Portals = (props) => {
   const messageToUnlock = (key) => {
     let message = {
       title: 'Get 7 days of listings for free.',
-      description: 'We offer you a free trial of 7 days for our Premium package, including listings on the biggest portals. During this time we will publish your listing on Homegate, Immoscout24 and Newhome. After this period you can upgrade to continue being present on the biggest portals.',
+      description: 'We offer you a free trial of 7 days for our Premium package, including listings on the biggest portals. During this time we will publish your listing on Homegate, ImmoScout24 and Newhome. After this period you can upgrade to continue being present on the biggest portals.',
       btnLabel: 'Start free trial',
     };
     if (get(formValue, 'location.countryCode', null) === 'PT') {
