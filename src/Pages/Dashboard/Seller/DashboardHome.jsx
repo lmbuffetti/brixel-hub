@@ -659,7 +659,10 @@ const DashboardHome = (props) => {
               </div>
 
               <div className="dis-fl-col dis-fl-row-xs my-3 shadow-2dp-sm shadow-0dp-md brdRadius-sm brdRadiusNone-md ov-h-sm ov-v-md">
-                <div className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mr-md-1 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c">
+                <div
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mr-md-1 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c"
+                  onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                >
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="interested"
@@ -671,7 +674,10 @@ const DashboardHome = (props) => {
                     {get(activeSinglePropertyDealsCount, 'Interested.total', '')}
                   </p>
                 </div>
-                <div className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdLight200 dis-fl-row dis-fl-col-xs jc-b a-c">
+                <div
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdLight200 dis-fl-row dis-fl-col-xs jc-b a-c"
+                  onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                >
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="visited"
@@ -683,7 +689,10 @@ const DashboardHome = (props) => {
                     {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
                   </p>
                 </div>
-                <div className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 ml-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c">
+                <div
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 ml-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c"
+                  onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                >
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="offers"
