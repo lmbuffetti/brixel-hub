@@ -32,7 +32,7 @@ import {
   SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 
-import { UPDATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
+import { CREATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
 
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
 import { GET_FAVORITES_PROPERTIES, SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
@@ -94,7 +94,7 @@ const checkUser = (store) => (next) => (action) => {
               const dataProfile = action.payload;
               dataProfile.token = res.data.token;
               dataProfile.dataSearchProfile.user = res.data.user.id;
-              store.dispatch({ type: UPDATE_USER_SEARCH_PROFILE, payload: dataProfile });
+              store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
             }
           } else {
             const alertProps = {
@@ -150,7 +150,7 @@ const checkUser = (store) => (next) => (action) => {
               const dataProfile = action.payload;
               dataProfile.token = res.data.token;
               dataProfile.dataSearchProfile.user = userData.user.id;
-              store.dispatch({ type: UPDATE_USER_SEARCH_PROFILE, payload: dataProfile });
+              store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
             }
             store.dispatch({ type: SPINNER_OFF });
           } else if (res.data.statusCode === 400 && res.data.errorMessage === 'Email is invalid!') {

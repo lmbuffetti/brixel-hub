@@ -44,7 +44,7 @@ const DashboardPropertyCard = (props) => {
             </Link>
           </div>
         </div>
-        <div className="pl-3 pt-2 pt-sm-1 dis-fl-col jc-b">
+        <div className="pl-3 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
           <div className="">
             <h4 className="txtAltGrey700 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>

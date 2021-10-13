@@ -122,7 +122,7 @@ const DashboardHome = (props) => {
       if (activeSingleProperty.published) {
         window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank');
       } else {
-        window.location.assign(`${baseByData.pageUrl}${activeSingleProperty.stub}`);
+        window.location.assign(`${baseByData.pageUrl}preview/${activeSingleProperty.stub}`);
       }
     } else if (get(activeSingleProperty, 'location.countryCode', '') === 'PT') {
       window.location.assign(`https://page.brixel.io/preview/Apartamento-T2-Renovado-Bairro-dos-Actores-Lisboa?hubUrl=${get(window, 'location.href', '')}`);
