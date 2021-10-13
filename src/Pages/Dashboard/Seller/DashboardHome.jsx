@@ -63,7 +63,7 @@ const DashboardHome = (props) => {
   // STATE
   const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
   const [progressState, setProgressState] = useState({});
-  const [visitLists, setVisitLists] = useState([]);
+  const [visitLists, setVisitLists] = useState(null);
   // const [stepProgrss, setStepProgrss] = useState({});
 
   const { documents } = formValue;
@@ -141,10 +141,11 @@ const DashboardHome = (props) => {
   };
 
   const classWidthTable = (id) => {
-    if (id === 0) return 'w-perc-100 w-perc-md-40';
-    if (id < 3) return 'w-perc-50 w-perc-md-20 mt-1 mt-md-0';
-    if (id === 3) return 'w-perc-50 w-perc-md-7 mt-1 mt-md-0';
-    return 'w-perc-50 w-perc-md-13 mt-1 mt-md-0';
+    if (id === 0) return 'w-perc-50 w-perc-md-35';
+    if (id === 1) return 'w-perc-40 w-perc-md-25 mt-1 mt-md-0';
+    if (id === 2) return 'w-perc-50 w-perc-md-20';
+    if (id === 3) return 'w-perc-20 w-perc-md-7 mt-1 mt-md-0';
+    return 'w-perc-40 w-perc-md-13 mt-1 mt-md-0';
   };
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
@@ -446,7 +447,7 @@ const DashboardHome = (props) => {
                   <div className="dis-fl-col">
                     <span className="fsize-400 txtAltRed400">Facts</span>
 
-                    <span className="fsize-600 fweight-600 txtAltRed700 mb-2 mt-1">
+                    <span className="fsize-500 fsize-md-600 fweight-600 txtAltRed700 mb-2 mt-1">
                       Complete relevant facts
                     </span>
 
@@ -457,11 +458,12 @@ const DashboardHome = (props) => {
                     />
 
                   </div>
-                  <img
-                    className="ml-5"
-                    src={completeFactsImg}
-                    alt="Complete Facts"
-                  />
+                  <div className="ml-2 ml-lg-5 w-perc-100 w-fix-xl-112 dis-f a-c">
+                    <img
+                      src={completeFactsImg}
+                      alt="Complete Facts"
+                    />
+                  </div>
                 </div>
 
                 {/* DESCRIPTION */}
@@ -500,18 +502,19 @@ const DashboardHome = (props) => {
 
                     <span
                       onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
-                      className="fsize-600 fweight-600 txtAltGreen400 mb-2 mt-1"
+                      className="fsize-500 fsize-md-600 fweight-600 txtAltGreen400 mb-2 mt-1"
                     >
                       {completeDescritpion() ? 'Thanks for adding your description!\n' : 'Add your description'}
                     </span>
 
                   </div>
-                  <img
-                    onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
-                    className="ml-5"
-                    src={completeDescritpion() ? completedDescriptionImg : completeDescriptionImg}
-                    alt="Complete Facts"
-                  />
+                  <div className="ml-2 ml-lg-5 w-perc-100 w-fix-xl-112 dis-f a-c">
+                    <img
+                      onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
+                      src={completeDescritpion() ? completedDescriptionImg : completeDescriptionImg}
+                      alt="Complete Facts"
+                    />
+                  </div>
                 </div>
 
               </div>
@@ -523,7 +526,7 @@ const DashboardHome = (props) => {
                     to={`/${activeSingleProperty.id}/property/media`}
                     className="w-perc-100 brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 cur-poi txtDark700"
                   >
-                    <div className="h-fix-184 dis-fl-col jc-b">
+                    <div className="h-perc-100 min-h-fix-184 dis-fl-col jc-b">
                       <div className="dis-f px-3">
                         <BrixelIcon
                           icon="folder-open"
@@ -532,7 +535,7 @@ const DashboardHome = (props) => {
                         />
                         <span className="txtDark700 fweight-600 pl-1">Media</span>
                       </div>
-                      <div className="px-3 pb-2">
+                      <div className="px-3 py-2 h-perc-100">
                         <div>
                           <div className="dis-f jc-b a-c">
                             <span>Photos</span>
@@ -574,20 +577,20 @@ const DashboardHome = (props) => {
                   className="pos-r w-perc-100 ov-h w-perc-sm-65 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp bgAltMist200 px-2"
                   onClick={() => openBrixelPage()}
                 >
-                  <div className="dis-f h-perc-100">
-                    <div className="dis-fl-col">
+                  <div className="dis-f-md a-b h-perc-100">
+                    <div className="dis-fl-col mb-a">
                       <span className="fsize-400 txtAltMist400">Brixel Page</span>
 
-                      <span className="fsize-600 fweight-600 txtAltBlue400 mb-2 mt-1">
+                      <span className="fsize-500 fsize-md-600 fweight-600 txtAltBlue400 mb-2 mt-1">
                         Preview your property website
                       </span>
                     </div>
                     <div
-                      className=" w-perc-100 h-perc-100 image-ratio zIndex1 pos-r min-w-fix-280 brdRadiusTop ov-h"
+                      className=" w-perc-100 image-ratio zIndex1 pos-r min-w-fix-280 brdRadiusTop ov-h"
                     >
                       <div className="pos-a-fix x-l-0 x-t-0 w-perc-100 h-fix-16 bgDark400 zIndex1" />
                       <CoverPropertyImage
-                        className="cover w-perc-100 h-perc-100"
+                        className="cover w-perc-100"
                         coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
                         propertyType={get(formValue, 'properties.propertyType', undefined)}
                       />
@@ -608,11 +611,11 @@ const DashboardHome = (props) => {
           progressState.step === 3 && (
             <>
               <div className="dis-f jc-b flex-wrap">
-                <div className="w-perc-100 w-perc-md-70 pr-sm-1">
+                <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-sm-1">
                   <DashboardPropertyCard smallLayout />
                 </div>
                 <div
-                  className="w-perc-100 w-perc-md-30 pl-sm-1 mt-md-0"
+                  className="w-perc-100 w-perc-md-30 w-perc-lg-100 w-perc-xl-30 pl-sm-1 mt-md-0"
                 >
                   <Link
                     to={`/${activeSingleProperty.id}/marketing`}
@@ -655,8 +658,8 @@ const DashboardHome = (props) => {
                 </div>
               </div>
 
-              <div className="dis-fl-col dis-fl-row-sm my-3">
-                <div className="w-perc-100 w-perc-sm-33 mr-sm-1 bgWhite brdRadius ta-c p-3 pb-6 shadow-2dp mr-sm-1">
+              <div className="dis-fl-col dis-fl-row-xs my-3 shadow-2dp-sm shadow-0dp-md brdRadius-sm brdRadiusNone-md ov-h-sm ov-v-md">
+                <div className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mr-md-1 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c">
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="interested"
@@ -668,7 +671,7 @@ const DashboardHome = (props) => {
                     {get(activeSinglePropertyDealsCount, 'Interested.total', '')}
                   </p>
                 </div>
-                <div className="w-perc-100 w-perc-sm-33 mr-sm-1 bgWhite brdRadius ta-c p-3 pb-6 shadow-2dp mx-sm-1 mt-2 mt-md-0">
+                <div className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdLight200 dis-fl-row dis-fl-col-xs jc-b a-c">
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="visited"
@@ -680,7 +683,7 @@ const DashboardHome = (props) => {
                     {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
                   </p>
                 </div>
-                <div className="w-perc-100 w-perc-sm-33 bgWhite brdRadius ta-c p-3 pb-6 shadow-2dp ml-sm-1 mt-2 mt-md-0">
+                <div className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 ml-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c">
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="offers"
@@ -695,20 +698,20 @@ const DashboardHome = (props) => {
               </div>
 
               {
-                visitLists.length > 0 && (
+                visitLists && (
                   <div className="brdRadius bgWhite shadow-2dp">
-                    <div className="dis-fl-col dis-fl-row-sm jc-b a-c px-2 pt-2">
-                      <div className="dis-f a-c">
+                    <div className="dis-f jc-b a-c px-2 pt-2">
+                      <div className="dis-f a-c w-perc-100 mr-2">
                         <BrixelIcon
                           iconWidth="w-fix-32"
                           icon="visited"
                           color="altMist"
                           saturationTxt={400}
                         />
-                        <h5 className="ml-3">Confirmed visits</h5>
+                        <h5 className="ml-2 ml-sm-3 fsize-500">Confirmed visits</h5>
                       </div>
                       <BrixelButtonPrimary
-                        className="ml-a ml-sm-0 mt-2 mt-sm-0"
+                        className="ml-a ml-sm-0"
                         rounded
                         theme="altGreen"
                         themeSat={300}
@@ -717,12 +720,21 @@ const DashboardHome = (props) => {
                       />
                     </div>
                     {
+                      visitLists.length === 0 && (
+                        <div
+                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
+                        >
+                          <h5 className="ta-c mx-a">You don&apos;t have any visits</h5>
+                        </div>
+                      )
+                    }
+                    {
                       visitLists.map((visit, i) => (
                         <div
                           key={i.toString()}
                           className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
                         >
-                          <div className={`dis-f a-c ${classWidthTable(0)}`}>
+                          <div className={`dis-f a-c ${classWidthTable(0)} order-1`}>
                             <BrixelAvatar
                               baseURL={get(baseByData, 'shortPath', '')}
                               profileId={get(visit, 'user.id', null)}
@@ -733,10 +745,10 @@ const DashboardHome = (props) => {
                               {get(visit, 'user.name', '')}
                             </p>
                           </div>
-                          <p className={`${classWidthTable(1)} ${!visit.past ? 'txtAltGreen300' : 'txtLight600'}`}>
+                          <p className={`${classWidthTable(1)} ${!visit.past ? 'txtAltGreen300' : 'txtLight600'} order-3 order-md-2`}>
                             {DateTime.fromMillis(visit.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                           </p>
-                          <p className={`${classWidthTable(2)} ta-r ta-l-md`}>
+                          <p className={`${classWidthTable(2)} ta-r ta-l-md order-2 order-md-3`}>
                             {
                               visit.visit > DateTime.now().toMillis() ? (
                                 <span className="txtDark700">Upcoming</span>
@@ -745,7 +757,7 @@ const DashboardHome = (props) => {
                               )
                             }
                           </p>
-                          <p className={`${classWidthTable(3)}`}>
+                          <p className={`${classWidthTable(3)} order-4`}>
                             {
                               !visit.past && (
                                 <ICalendarLink event={{
@@ -768,7 +780,7 @@ const DashboardHome = (props) => {
                               )
                             }
                           </p>
-                          <p className={`${classWidthTable(4)} ta-r ta-l-md`}>
+                          <p className={`${classWidthTable(4)} ta-r ta-l-md order-5`}>
                             <BrixelButtonText
                               className="ml-a ml-md-0"
                               label={visit.visit > DateTime.now().toMillis() ? 'View' : 'Review'}
