@@ -522,8 +522,7 @@ const DashboardHome = (props) => {
               <div className="dis-fl-col dis-fl-row-sm my-3">
                 <div className="w-perc-100 w-perc-sm-35 dis-f pr-sm-2">
 
-                  <Link
-                    to={`/${activeSingleProperty.id}/property/media`}
+                  <div
                     className="w-perc-100 brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 cur-poi txtDark700"
                   >
                     <div className="h-perc-100 min-h-fix-184 dis-fl-col jc-b">
@@ -537,7 +536,10 @@ const DashboardHome = (props) => {
                       </div>
                       <div className="px-3 py-2 h-perc-100">
                         <div>
-                          <div className="dis-f jc-b a-c">
+                          <div
+                            className="dis-f jc-b a-c"
+                            onClick={() => history.push(`/${activeSingleProperty.id}/property/photos`)}
+                          >
                             <span>Photos</span>
                             <BrixelIcon
                               icon="check-small-fill"
@@ -545,7 +547,10 @@ const DashboardHome = (props) => {
                               saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 400 : 300}
                             />
                           </div>
-                          <div className="dis-f jc-b a-c">
+                          <div
+                            className="dis-f jc-b a-c"
+                            onClick={() => history.push(`/${activeSingleProperty.id}/property/floorplans`)}
+                          >
                             <span>Plans</span>
                             <BrixelIcon
                               icon="check-small-fill"
@@ -553,7 +558,10 @@ const DashboardHome = (props) => {
                               saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 400 : 300}
                             />
                           </div>
-                          <div className="dis-f jc-b a-c">
+                          <div
+                            className="dis-f jc-b a-c"
+                            onClick={() => history.push(`/${activeSingleProperty.id}/property/tour`)}
+                          >
                             <span>3d tour</span>
                             <BrixelIcon
                               icon="check-small-fill"
@@ -565,12 +573,15 @@ const DashboardHome = (props) => {
                       </div>
                       <div className="linkWrap">
                         <span className="hr lighter" />
-                        <div className="txtHoverDark200 txtLight700 px-3 py-1 wHover">
+                        <div
+                          className="txtHoverDark200 txtLight700 px-3 py-1 wHover"
+                          onClick={() => history.push(`/${activeSingleProperty.id}/property/photos`)}
+                        >
                           <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
                         </div>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 </div>
 
                 <div
