@@ -141,9 +141,9 @@ const DashboardHome = (props) => {
   };
 
   const classWidthTable = (id) => {
-    if (id === 0) return 'w-perc-50 w-perc-md-35';
+    if (id === 0) return 'w-perc-60 w-perc-md-35';
     if (id === 1) return 'w-perc-40 w-perc-md-25 mt-1 mt-md-0';
-    if (id === 2) return 'w-perc-50 w-perc-md-20';
+    if (id === 2) return 'w-perc-40 w-perc-md-20';
     if (id === 3) return 'w-perc-20 w-perc-md-7 mt-1 mt-md-0';
     return 'w-perc-40 w-perc-md-13 mt-1 mt-md-0';
   };
@@ -669,8 +669,8 @@ const DashboardHome = (props) => {
                     color="altRed"
                     saturationTxt={400}
                   />
-                  <h6 className="mt-2 fweight-400">Interested</h6>
-                  <p className="fSizePx64 fweight-600 txtAltRed700 mt-3">
+                  <h6 className="mt-xs-2 fweight-400">Interested</h6>
+                  <p className="fSizePx64 fweight-600 txtAltRed700 mt-xs-3">
                     {get(activeSinglePropertyDealsCount, 'Interested.total', '')}
                   </p>
                 </div>
@@ -684,8 +684,8 @@ const DashboardHome = (props) => {
                     color="altMist"
                     saturationTxt={400}
                   />
-                  <h6 className="mt-2 fweight-400">Visits</h6>
-                  <p className="fSizePx64 fweight-600 txtAltBlue400 mt-3">
+                  <h6 className="mt-xs-2 fweight-400">Visits</h6>
+                  <p className="fSizePx64 fweight-600 txtAltBlue400 mt-xs-3">
                     {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
                   </p>
                 </div>
@@ -699,8 +699,8 @@ const DashboardHome = (props) => {
                     color="altGreen"
                     saturationTxt={300}
                   />
-                  <h6 className="mt-2 fweight-400">Offers</h6>
-                  <p className="fSizePx64 fweight-600 txtAltGreen400 mt-3">
+                  <h6 className="mt-xs-2 fweight-400">Offers</h6>
+                  <p className="fSizePx64 fweight-600 txtAltGreen400 mt-xs-3">
                     {get(activeSinglePropertyDealsCount, 'Offer.total', '')}
                   </p>
                 </div>
@@ -724,7 +724,7 @@ const DashboardHome = (props) => {
                         rounded
                         theme="altGreen"
                         themeSat={300}
-                        label="View all"
+                        label="All"
                         onClick={() => history.push('')}
                       />
                     </div>
@@ -790,13 +790,13 @@ const DashboardHome = (props) => {
                             }
                           </p>
                           <p className={`${classWidthTable(4)} ta-r ta-l-md order-5`}>
-                            <BrixelButtonText
-                              className="ml-a ml-md-0"
-                              label={visit.visit > DateTime.now().toMillis() ? 'View' : 'Review'}
+                            <button
+                              type="button"
+                              className="ml-a ml-md-0 txtLight600 fsize-400"
                               onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
-                              theme="light"
-                              themeSat={600}
-                            />
+                            >
+                              {visit.visit > DateTime.now().toMillis() ? 'View' : 'Review'}
+                            </button>
                           </p>
                         </div>
                       ))
