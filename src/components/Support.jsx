@@ -40,9 +40,15 @@ const Support = (props) => {
     }
   };
 
+  const padding = () => {
+    if (layout === 'onboarding' && expanded) return '';
+    if (layout === 'rewards') return 'p-1';
+    return 'p-3';
+  };
+
   return (
     <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius min-w-fix-312' : ''}`} id="supportBox">
-      <div className={`${isFixed && layout !== 'floatable' ? 'shadow-1dp' : ''} ${layout === 'rewards' ? 'p-1' : 'p-3'}`}>
+      <div className={`${isFixed && layout !== 'floatable' ? 'shadow-1dp' : ''} ${padding()}`}>
         {
           layout !== 'rewards' && layout !== 'onboarding' && (
             <div className="dis-f jc-b a-t">
@@ -105,34 +111,38 @@ const Support = (props) => {
             </div>
           )
         }
-        <div
-          className={`dis-f a-c ${layout === 'rewards' ? 'jc-c mt-2 mb-5' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
-          onClick={() => (expanded ? '' : onclickOne())}
-        >
-          {
-            layout !== 'onboarding' && layout !== 'floatable' && (
-              <div className="dis-f jc-fs a-t">
-                {
-                  teamAvatars.map((imgTeam, i) => (
-                    <img
-                      key={i.toString()}
-                      src={`${baseByData.shortPath}${imgTeam.path}`}
-                      alt="Support Team"
-                      className={`${layout === 'rewards' ? 'w-fix-56 w-fix-sm-104 mr-2-neg' : 'w-fix-40 mr-1-neg'}  square brdLarge brdWhite brdCircle`}
-                    />
-                  ))
-                }
-              </div>
-            )
-          }
-          {
-            !expanded && (
-              <BrixelIcon
-                icon={openDetail ? 'arrow-simple-up' : 'arrow-simple-down'}
-              />
-            )
-          }
-        </div>
+        {
+          (layout === 'onboarding' || layout === 'floatable' || expanded) && (
+            <div
+              className={`dis-f a-c ${layout === 'rewards' ? 'jc-c mt-2 mb-5' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
+              onClick={() => (expanded ? '' : onclickOne())}
+            >
+              {
+                layout !== 'onboarding' && layout !== 'floatable' && (
+                  <div className="dis-f jc-fs a-t">
+                    {
+                      teamAvatars.map((imgTeam, i) => (
+                        <img
+                          key={i.toString()}
+                          src={`${baseByData.shortPath}${imgTeam.path}`}
+                          alt="Support Team"
+                          className={`${layout === 'rewards' ? 'w-fix-56 w-fix-sm-104 mr-2-neg' : 'w-fix-40 mr-1-neg'}  square brdLarge brdWhite brdCircle`}
+                        />
+                      ))
+                    }
+                  </div>
+                )
+              }
+              {
+                !expanded && (
+                  <BrixelIcon
+                    icon={openDetail ? 'arrow-simple-up' : 'arrow-simple-down'}
+                  />
+                )
+              }
+            </div>
+          )
+        }
         {
           layout !== 'rewards' && layout !== 'onboarding' && layout !== 'floatable' && (
             <hr className="my-3 lighter" />

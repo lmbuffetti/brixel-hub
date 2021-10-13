@@ -135,7 +135,7 @@ const DealsCard = (props) => {
                           icon="money"
                           noBorder
                           color="green"
-                          saturationTxt="400"
+                          saturationTxt={400}
                           className="mr-1"
                           iconWidth="w-fix-16"
                         />
@@ -147,7 +147,7 @@ const DealsCard = (props) => {
                           icon="money"
                           noBorder
                           color="dark"
-                          saturationTxt="200"
+                          saturationTxt={200}
                           className="mr-1"
                           iconWidth="w-fix-16"
                         />

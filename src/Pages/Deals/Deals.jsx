@@ -99,9 +99,9 @@ const Deals = (props) => {
   const processDeals = (list) => {
     if (activeSinglePropertyDeals) {
       const deals = {
-        interested: get(list, '[0].Interested.data', []),
-        visits: get(list, '[1].Visit.data', []),
-        offers: get(list, '[2].Offer.data', []),
+        interested: get(list, 'interested.data', []),
+        visits: get(list, 'visit.data', []),
+        offers: get(list, 'offer.data', []),
       };
       if (!get(list, 'right', null)) {
         forEach(list, (deal) => {
@@ -583,7 +583,7 @@ const Deals = (props) => {
 
 Deals.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object),
+  activeSinglePropertyDeals: PropTypes.object,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSaveDeal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,

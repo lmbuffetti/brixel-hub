@@ -7,23 +7,34 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
+  BrixelAvatar,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelButtonText,
   BrixelIcon,
   BrixelProgressBar,
   FactsOptions,
   Helpers,
   ProgressRing,
 } from '@brixel/brixel-components';
+import orderBy from 'lodash/orderBy';
 import has from 'lodash/has';
+import { DateTime } from 'luxon';
+import ICalendarLink from 'react-icalendar-link';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
+import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
+import completeDescriptionImg from '../../../images/dashboard/complete_description.svg';
+import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
+import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
 
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
+import { getActiveSinglePropertyDealsCount, getPageDeals } from '../../../actions/PropertyActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
+import DashboardPropertyCard from '../../../components/DashboardPropertyCard';
 
 const BoxTrialTestDirve = lazy(() => import('../../../components/BoxTrialTestDirve'));
 
@@ -32,20 +43,28 @@ const { factsOptions } = FactsOptions;
 const DashboardHome = (props) => {
   // PROPS
   const {
+    activeSinglePropertyDeals,
     activeSingleCompany,
     activeSingleProperty,
+    activeSinglePropertyDealsCount,
     estimation,
     formValue,
+    handleSetModal,
+    handleGetActiveSinglePropertyDealsCount,
+    handleGetPageDeals,
     history,
     isSmallLoading,
     loggedInUser,
     proEstimation,
     userTypes,
+    userLang,
     windowDimensions,
   } = props;
   // STATE
   const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
   const [progressState, setProgressState] = useState({});
+  const [visitLists, setVisitLists] = useState(null);
+  // const [stepProgrss, setStepProgrss] = useState({});
 
   const { documents } = formValue;
 
@@ -56,6 +75,24 @@ const DashboardHome = (props) => {
   }, [formValue]);
 
   useEffect(() => {
+    if (progressState.step === 3) {
+      handleGetActiveSinglePropertyDealsCount({ id: activeSingleProperty.id });
+      handleGetPageDeals({ id: activeSingleProperty.id });
+    }
+  }, [progressState.step]);
+
+  useEffect(() => {
+    if (get(activeSinglePropertyDeals, 'visit')) {
+      const mergedFeed = activeSinglePropertyDeals.visit.data.filter((visit) => get(visit, 'visit', null));
+      let mergedFeedNew = mergedFeed.filter((visit) => visit.visit > DateTime.now().toMillis()).map((arr) => ({ ...arr, past: false }));
+      let mergedFeedPast = mergedFeed.filter((visit) => visit.visit <= DateTime.now().toMillis()).map((arr) => ({ ...arr, past: true }));
+      mergedFeedNew = orderBy(mergedFeedNew, ['visit'], ['asc']);
+      mergedFeedPast = orderBy(mergedFeedPast, ['visit'], ['desc']);
+      setVisitLists([...mergedFeedNew, ...mergedFeedPast]);
+    }
+  }, [activeSinglePropertyDeals]);
+
+  useEffect(() => {
     if (activeSingleProperty.id) {
       const defState = factsOptions.progressBarOptions.find((item) => item.value === activeSingleProperty.progress.state);
       const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === activeSingleProperty.progress.state);
@@ -63,6 +100,7 @@ const DashboardHome = (props) => {
       setProgressState({
         ...defState,
         id: defIndexState,
+        step: defIndexState + 1,
       });
     }
   }, [activeSingleProperty.id]);
@@ -93,6 +131,23 @@ const DashboardHome = (props) => {
     }
   };
 
+  const completeDescritpion = () => {
+    if (get(activeSingleProperty, 'id', null)) {
+      if (get(activeSingleProperty, 'title', null) && get(activeSingleProperty, 'description.highlight', '').length >= 300 && get(activeSingleProperty, 'description.location', '').length >= 160) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const classWidthTable = (id) => {
+    if (id === 0) return 'w-perc-60 w-perc-md-35';
+    if (id === 1) return 'w-perc-40 w-perc-md-25 mt-1 mt-md-0';
+    if (id === 2) return 'w-perc-40 w-perc-md-20';
+    if (id === 3) return 'w-perc-20 w-perc-md-7 mt-1 mt-md-0';
+    return 'w-perc-40 w-perc-md-13 mt-1 mt-md-0';
+  };
+
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
   if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
     return <Loading />;
@@ -106,366 +161,660 @@ const DashboardHome = (props) => {
         <span>Welcome back</span>
         <span className="ml-small-4">{loggedInUser.firstName} 👋</span>
       </h4>
+
       <div className="max-w-fix-760 dis-fl-col">
-        <div className="shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm pt-sm-3 pb-sm-3 pl-sm-4 pt-0 ov-h pb-3 mb-3">
-          <div>
-            <div
-              onClick={() => history.push(`/${activeSingleProperty.id}/property/photos`)}
-              className="dis-b w-perc-100 w-fix-sm-232 h-fix-152 pos-r"
-            >
-              <CoverPropertyImage
-                className="cover w-perc-100 h-perc-100"
-                coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
-                propertyType={get(formValue, 'properties.propertyType', undefined)}
-              />
-              <Link
-                to={`/${activeSingleProperty.id}/property/photos`}
-                className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
-              >
-                Edit
-              </Link>
-            </div>
-          </div>
-          <div className="px-3 pl-sm-4 pt-2 pt-sm-1 dis-fl-col jc-b">
-            <div className="">
-              <h4 className="txtAltGrey700 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
-              <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
-
-            </div>
-            {
-              get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                <div className="dis-fl-col">
-                  <div className="dis-f a-c">
-                    <BrixelIcon
-                      background="AltMist"
-                      saturation={200}
-                      color="AltBlue"
-                      saturationTxt={400}
-                      padding="p-small-12"
-                      icon="price"
-                      rounded
-                      iconSize="large"
-                    />
-                    <div className="ml-2 dis-fl-col">
-                      <span className="txtLight600 fsize-300"> Your Price</span>
-                      <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltBlue400 fweight-600">
-                        <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
-                        <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="dis-f pt-2 a-t">
-                  <BrixelIcon
-                    background="AltMist"
-                    saturation={200}
-                    color="AltBlue"
-                    saturationTxt={400}
-                    padding="p-small-12"
-                    icon="chart"
-                    rounded
-                    iconSize="large"
-                  />
-                  <div className="dis-fl-col pl-2 mr-1">
-                    <span className="txtLight600 fsize-300">Your Bestimate</span>
-                    {
-                      !get(estimation, 'status', null) && (
-                        <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltBlue400 fweight-600">
-                          Get Estimation
-                        </Link>
-                      )
-                    }
-                    {
-                      get(estimation, 'status', '') === 'pending' && (
-                        <span className="txtAltBlue400 fweight-600">
-                          Pending
-                        </span>
-                      )
-                    }
-                    {
-                      get(estimation, 'status', '') === 'processed' && (
-                        <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltBlue400 no-state fweight-600">
-                          {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
-                        </Link>
-                      )
-                    }
-                  </div>
-                  <div className="tagBg dis-fl-row-sm hide a-c">
-                    <span className="activeDot" />
-                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtAltBlue400"> Set your price </Link>
-                  </div>
-                </div>
-              )
-            }
-          </div>
-        </div>
-        <div className="dis-fl-col dis-fl-row-sm">
-          <div
-            onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-            className="shadow-2dp bgAltMist200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
-          >
-            {
-              get(proEstimation, 'value', null) ? (
-                <div className="dis-fl-col max-w-perc-100">
-                  <span className="fsize-400 txtAltMist400">Pro estimation</span>
+        {
+          progressState.step === 1 && (
+            <>
+              <DashboardPropertyCard />
+              <div className="dis-fl-col dis-fl-row-sm">
+                <div
+                  onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                  className="shadow-2dp bgAltMist200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+                >
                   {
-                    get(proEstimation, 'value', 0) > 0 && (
-                      <>
-                        <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600 txtAltBlue400">
-                          <span>
-                            {get(estimation, 'result.currency', '')}
-                          </span>
-                          <span className="ml-1 notranslate">
-                            {Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}
-                          </span>
-                        </div>
+                    get(proEstimation, 'value', null) ? (
+                      <div className="dis-fl-col max-w-perc-100">
+                        <span className="fsize-400 txtAltMist400">Pro estimation</span>
+                        {
+                          get(proEstimation, 'value', 0) > 0 && (
+                            <>
+                              <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600 txtAltBlue400">
+                                <span>
+                                  {get(estimation, 'result.currency', '')}
+                                </span>
+                                <span className="ml-1 notranslate">
+                                  {Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}
+                                </span>
+                              </div>
 
-                        <BrixelButtonSecondary
-                          bgTransparent
-                          onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-                          className="mt-2 as-fs"
-                          theme="AltBlue"
-                          themeSat={400}
-                          rounded
-                          ghost
-                          label="View"
-                        />
+                              <BrixelButtonSecondary
+                                bgTransparent
+                                onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                                className="mt-2 as-fs"
+                                theme="AltBlue"
+                                themeSat={400}
+                                rounded
+                                ghost
+                                label="View"
+                              />
+                            </>
+                          )
+                        }
+                      </div>
+                    ) : (
+                      <>
+                        <div className="dis-fl-col">
+                          <span className="fsize-400 txtAltMist400">Pro estimation</span>
+
+                          <span className="fsize-600 fweight-600 txtAltBlue400">
+                            <span>{calcPercentageProEstimation().realPerc}%</span>
+                            <span className="ml-small-4"> Complete</span>
+                          </span>
+                          {
+                            calcPercentageProEstimation().realPerc < 100 ? (
+                              <BrixelButtonPrimary
+                                onClick={() => window.location.assign(`/${activeSingleProperty.id}/property/price/formFlow`)}
+                                label="Next step"
+                                theme="AltBlue"
+                                themeSat={400}
+                                className="mt-2 as-fs"
+                                rounded
+                              />
+                            ) : (
+                              <BrixelButtonSecondary
+                                bgTransparent
+                                onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                                className="mt-2"
+                                theme="AltBlue"
+                                themeSat={400}
+                                rounded
+                                ghost
+                                label="Pending"
+                              />
+                            )
+                          }
+                        </div>
+                        <div className={`div ${windowDimensions.width <= 590 ? 'min-w-fix-80' : 'min-w-fix-104'}`}>
+                          <ProgressRing
+                            customIcon={get(proEstimation, 'value', 0) <= 0 && calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : null}
+                            iconColor={{
+                              color: 'altGreen',
+                              sat: 400,
+                            }}
+                            progress={calcPercentageProEstimation().realPerc}
+                            size={windowDimensions.width <= 590 ? 80 : 100}
+                            strokeWidth={windowDimensions.width <= 590 ? 10 : 14}
+                            circleOneStroke="#fff"
+                            circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
+                            showIcon={false}
+                            showIconComplete={calcPercentageProEstimation().realPerc === 100}
+                          />
+                        </div>
                       </>
                     )
                   }
                 </div>
-              ) : (
-                <>
+                <div
+                  className="shadow-2dp bgAltGreen200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 ml-sm-1 w-perc-100  w-perc-sm-50 cur-poi"
+                  onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
+                >
                   <div className="dis-fl-col">
-                    <span className="fsize-400 txtAltMist400">Pro estimation</span>
-
-                    <span className="fsize-600 fweight-600 txtAltBlue400">
-                      <span>{calcPercentageProEstimation().realPerc}%</span>
-                      <span className="ml-small-4"> Complete</span>
+                    <span className="fsize-400 txtAltGreen300">Docubox</span>
+                    <span className="fsize-600 fweight-600 txtAltGreen400">
+                      <span>{countMandatoryDocuments()}</span>
+                      <span className="mx-small-4">of</span>
+                      <span>{mandatoryDocuments ? mandatoryDocuments.length : 0} </span>
+                      <span className="ml-small-1"> uploaded</span>
                     </span>
-                    {
-                      calcPercentageProEstimation().realPerc < 100 ? (
-                        <BrixelButtonPrimary
-                          onClick={() => window.location.assign(`/${activeSingleProperty.id}/property/price/formFlow`)}
-                          label="Next step"
-                          theme="AltBlue"
-                          themeSat={400}
-                          className="mt-2 as-fs"
-                          rounded
-                        />
-                      ) : (
-                        <BrixelButtonSecondary
-                          bgTransparent
-                          onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-                          className="mt-2"
-                          theme="AltBlue"
-                          themeSat={400}
-                          rounded
-                          ghost
-                          label="Pending"
-                        />
-                      )
-                    }
-                  </div>
-                  <div className={`div ${windowDimensions.width <= 590 ? 'min-w-fix-80' : 'min-w-fix-104'}`}>
-                    <ProgressRing
-                      customIcon={get(proEstimation, 'value', 0) <= 0 && calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : null}
-                      iconColor={{
-                        color: 'altGreen',
-                        sat: 400,
-                      }}
-                      progress={calcPercentageProEstimation().realPerc}
-                      size={windowDimensions.width <= 590 ? 80 : 100}
-                      strokeWidth={windowDimensions.width <= 590 ? 10 : 14}
-                      circleOneStroke="#fff"
-                      circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
-                      showIcon={false}
-                      showIconComplete={calcPercentageProEstimation().realPerc === 100}
+                    <BrixelButtonPrimary
+                      onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
+                      label="Upload"
+                      theme="AltGreen"
+                      themeSat={400}
+                      className="mt-2 as-fs"
+                      rounded
                     />
                   </div>
-                </>
-              )
-            }
-          </div>
-          <div
-            className="shadow-2dp bgAltGreen200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 ml-sm-1 w-perc-100  w-perc-sm-50 cur-poi"
-            onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
-          >
-            <div className="dis-fl-col">
-              <span className="fsize-400 txtAltGreen300">Docubox</span>
-              <span className="fsize-600 fweight-600 txtAltGreen400">
-                <span>{countMandatoryDocuments()}</span>
-                <span className="mx-small-4">of</span>
-                <span>{mandatoryDocuments ? mandatoryDocuments.length : 0} </span>
-                <span className="ml-small-1"> uploaded</span>
-              </span>
-              <BrixelButtonPrimary
-                onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
-                label="Upload"
-                theme="AltGreen"
-                themeSat={400}
-                className="mt-2 as-fs"
-                rounded
-              />
-            </div>
-            <div className="div">
-              <img width={windowDimensions.width <= 590 ? '80' : '92'} src={docIcon} alt="" />
-            </div>
-          </div>
-        </div>
-
-        <div className="dis-fl-col dis-fl-row-sm my-3">
-          <div className="w-perc-100 w-perc-sm-75 dis-f pr-sm-4">
-
-            <Link
-              to={`/${activeSingleProperty.id}/property/facts`}
-              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp mr-1 pt-2 cur-poi txtDark700"
-            >
-              <div className="h-fix-184 dis-fl-col jc-b">
-                <div className="dis-f px-3">
-                  <BrixelIcon
-                    icon="property-new"
-                    color="AltBlue"
-                    saturationTxt={400}
-                  />
-                  <span className="txtDark700 fweight-600 pl-1">Facts</span>
-                </div>
-                <div className="px-3 pb-2">
-                  <BrixelProgressBar
-                    progressValue={calcPercentageFacts().realPerc}
-                    saturation={300}
-                    color="AltGreen"
-                  />
-                  <span className="txtDark700 fsize-300 fsize-sm-400 pt-small-4 dis-b">
-                    <span>{calcPercentageFacts().realPerc}%</span>
-                    <span className="ml-small-4">complete</span>
-                  </span>
-                </div>
-                <div className="linkWrap">
-                  <span className="hr lighter" />
-                  <div className="txtHoverDark200 txtLight700 px-3 py-1 wHover">
-                    <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                  <div className="div">
+                    <img width={windowDimensions.width <= 590 ? '80' : '92'} src={docIcon} alt="" />
                   </div>
                 </div>
               </div>
-            </Link>
-            <Link
-              to={`/${activeSingleProperty.id}/marketing`}
-              className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp ml-1 pt-2 cur-poi txtDark700"
-            >
-              <div className="h-fix-184 dis-fl-col jc-b">
-                <div className="dis-f px-3">
-                  <BrixelIcon
-                    icon="mike"
-                    color="AltBlue"
-                    saturationTxt={400}
-                  />
-                  <span className="txtDark700 fweight-600 pl-1">Marketing</span>
-                </div>
-                <div className="px-3">
-                  {
-                    Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
-                      <React.Fragment key={i.toString()}>
+
+              <div className="dis-fl-col dis-fl-row-sm my-3">
+                <div className="w-perc-100 w-perc-sm-75 dis-f pr-sm-4">
+
+                  <Link
+                    to={`/${activeSingleProperty.id}/property/facts`}
+                    className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp mr-1 pt-2 cur-poi txtDark700"
+                  >
+                    <div className="h-fix-184 dis-fl-col jc-b">
+                      <div className="dis-f px-3">
+                        <BrixelIcon
+                          icon="property-new"
+                          color="AltBlue"
+                          saturationTxt={400}
+                        />
+                        <span className="txtDark700 fweight-600 pl-1">Facts</span>
+                      </div>
+                      <div className="px-3 pb-2">
+                        <BrixelProgressBar
+                          progressValue={calcPercentageFacts().realPerc}
+                          saturation={300}
+                          color="AltGreen"
+                        />
+                        <span className="txtDark700 fsize-300 fsize-sm-400 pt-small-4 dis-b">
+                          <span>{calcPercentageFacts().realPerc}%</span>
+                          <span className="ml-small-4">complete</span>
+                        </span>
+                      </div>
+                      <div className="linkWrap">
+                        <span className="hr lighter" />
+                        <div className="txtHoverDark200 txtLight700 px-3 py-1 wHover">
+                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                  <Link
+                    to={`/${activeSingleProperty.id}/marketing`}
+                    className="w-perc-50 brdRadius bgWhite shadow-2dp shadowHover-4dp ml-1 pt-2 cur-poi txtDark700"
+                  >
+                    <div className="h-fix-184 dis-fl-col jc-b">
+                      <div className="dis-f px-3">
+                        <BrixelIcon
+                          icon="mike"
+                          color="AltBlue"
+                          saturationTxt={400}
+                        />
+                        <span className="txtDark700 fweight-600 pl-1">Marketing</span>
+                      </div>
+                      <div className="px-3">
                         {
-                          get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
-                            <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
-                              <span>{portal}</span>
-                              <span className={`activeDot ${get(activeSingleProperty, `portals[${portal}]`, null) ? 'green' : 'grey'}`} />
-                            </span>
-                          )
+                          Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
+                            <React.Fragment key={i.toString()}>
+                              {
+                                get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
+                                  <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
+                                    <span>{portal}</span>
+                                    <span className={`activeDot ${get(activeSingleProperty, `portals[${portal}]`, null) ? 'green' : 'grey'}`} />
+                                  </span>
+                                )
+                              }
+                            </React.Fragment>
+                          ))
                         }
-                      </React.Fragment>
-                    ))
-                  }
-                  <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
-                    <span>Brixel Page</span> <span className={`activeDot ${get(activeSingleProperty, 'published', false) ? 'green' : 'grey'}`} />
-                  </span>
+                        <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100">
+                          <span>Brixel Page</span> <span className={`activeDot ${get(activeSingleProperty, 'published', false) ? 'green' : 'grey'}`} />
+                        </span>
+                      </div>
+                      <div className="linkWrap">
+                        <span className="hr lighter" />
+                        <div className="px-3 py-1 txtLight700 wHover">
+                          <span className="text">View</span>
+                          <span className="arrow-symbol ml-1">&#62; </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
                 </div>
-                <div className="linkWrap">
-                  <span className="hr lighter" />
-                  <div className="px-3 py-1 txtLight700 wHover">
-                    <span className="text">View</span>
-                    <span className="arrow-symbol ml-1">&#62; </span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
 
-          <div
-            className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp"
-            onClick={() => openBrixelPage()}
-          >
-            <div className=" w-perc-100 h-perc-100 image-ratio pos-a zIndex1">
-              {
-                progressState.id > 0 ? (
-                  <CoverPropertyImage
-                    className="cover w-perc-100 h-perc-100"
-                    coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', get(formValue, 'photos[0].galleryThumbnailPath', undefined))}
-                    propertyType={get(formValue, 'properties.propertyType', undefined)}
-                  />
-                ) : (
-                  <>
+                <div
+                  className="demoBg pos-r w-perc-100 ov-h w-perc-sm-35 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp"
+                  onClick={() => openBrixelPage()}
+                >
+                  <div className=" w-perc-100 h-perc-100 image-ratio pos-a zIndex1">
                     {
-                      get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
-                        <img
-                          className="cover w-perc-100 h-perc-100 pos-a zIndex1 imgCover"
-                          src="https://api.brixel.io/image/thumbnail/611a3b1f038a7621c297a488"
-                          alt="Preview PT"
+                      progressState.id > 0 ? (
+                        <CoverPropertyImage
+                          className="cover w-perc-100 h-perc-100"
+                          coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', get(formValue, 'photos[0].galleryThumbnailPath', undefined))}
+                          propertyType={get(formValue, 'properties.propertyType', undefined)}
                         />
                       ) : (
-                        <img
-                          className="cover w-perc-100 h-perc-100 pos-a zIndex1"
-                          src="https://api.brixel.io/image/thumbnail/5fce51745006e9175720b1c8"
-                          alt="Preview CH"
-                        />
+                        <>
+                          {
+                            get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                              <img
+                                className="cover w-perc-100 h-perc-100 pos-a zIndex1 imgCover"
+                                src="https://api.brixel.io/image/thumbnail/611a3b1f038a7621c297a488"
+                                alt="Preview PT"
+                              />
+                            ) : (
+                              <img
+                                className="cover w-perc-100 h-perc-100 pos-a zIndex1"
+                                src="https://api.brixel.io/image/thumbnail/5fce51745006e9175720b1c8"
+                                alt="Preview CH"
+                              />
+                            )
+                          }
+                        </>
                       )
                     }
-                  </>
-                )
-              }
-            </div>
-            <div className="px-3 pb-5 pos-r zIndex3">
-              <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
-                {
-                  progressState.id > 0 ? (
-                    <>
-                      {activeSingleProperty.published ? 'View your Brixel Page' : 'Preview your Brixel Page'}
-                    </>
-                  ) : (
-                    <>
-                      See how your property could look...
-                    </>
-                  )
-                }
-              </span>
-            </div>
-            <div className="linkWrap pos-r zIndex3">
-              <span className="hr white" />
-              {
-                get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
-                  <div
-                    className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
-                  >
-                    <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
                   </div>
-                ) : (
-                  <a
-                    href={`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}`}
-                    className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
+                  <div className="px-3 pb-5 pos-r zIndex3">
+                    <span className="txtWhite dis-b max-w-fix-184 fweight-600 fsize-500 fsize-sm-500">
+                      {
+                        progressState.id > 0 ? (
+                          <>
+                            {activeSingleProperty.published ? 'View your Brixel Page' : 'Preview your Brixel Page'}
+                          </>
+                        ) : (
+                          <>
+                            See how your property could look...
+                          </>
+                        )
+                      }
+                    </span>
+                  </div>
+                  <div className="linkWrap pos-r zIndex3">
+                    <span className="hr white" />
+                    {
+                      get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                        <div
+                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
+                        >
+                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                        </div>
+                      ) : (
+                        <a
+                          href={`https://page.brixel.io/preview/maisonette-staefa?hubUrl=${get(window, 'location.href', '')}`}
+                          className="cur-poi wHover no-state txtHoverLight200 txtWhite px-3 py-1"
+                        >
+                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                        </a>
+                      )
+                    }
+                  </div>
+                </div>
+              </div>
+            </>
+          )
+        }
+
+        {
+          progressState.step === 2 && (
+            <>
+              <DashboardPropertyCard />
+              <div className="dis-fl-col dis-fl-row-sm">
+
+                {/* FACTS */}
+                <div
+                  onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
+                  className="shadow-2dp bgAltRed300 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+                >
+                  <div className="dis-fl-col">
+                    <span className="fsize-400 txtAltRed400">Facts</span>
+
+                    <span className="fsize-500 fsize-md-600 fweight-600 txtAltRed700 mb-2 mt-1">
+                      Complete relevant facts
+                    </span>
+
+                    <BrixelProgressBar
+                      progressValue={(calcPercentageFacts().realPerc * 100) / 40 > 100 ? 100 : (calcPercentageFacts().realPerc * 100) / 40}
+                      saturation={400}
+                      color="AltRed"
+                    />
+
+                  </div>
+                  <div className="ml-2 ml-lg-5 w-perc-100 w-fix-xl-112 dis-f a-c">
+                    <img
+                      src={completeFactsImg}
+                      alt="Complete Facts"
+                    />
+                  </div>
+                </div>
+
+                {/* DESCRIPTION */}
+                <div
+                  className="shadow-2dp bgAltGreen200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+                >
+                  <div className="dis-fl-col">
+                    <span className="fsize-400 txtAltGreen300">
+                      <span
+                        onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
+                      >
+                        Description
+                      </span>
+                      {
+                        !completeDescritpion() && (
+                          <BrixelIcon
+                            className="ml-1"
+                            icon="info"
+                            color="altGreen"
+                            saturationTxt={300}
+                            onClick={() => handleSetModal({
+                              state: true,
+                              small: true,
+                              classTitle: 'txtAltGreen400',
+                              title: 'How to add your description',
+                              body: `<ol>
+                            <li>Add a title</li>
+                            <li>Add a description with min. 300 characters incl. spaces</li>
+                            <li>Describe location with min. 160 characters incl. spaces</li>
+                          </ol>`,
+                            })}
+                          />
+                        )
+                      }
+                    </span>
+
+                    <span
+                      onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
+                      className="fsize-500 fsize-md-600 fweight-600 txtAltGreen400 mb-2 mt-1"
+                    >
+                      {completeDescritpion() ? 'Thanks for adding your description!\n' : 'Add your description'}
+                    </span>
+
+                  </div>
+                  <div className="ml-2 ml-lg-5 w-perc-100 w-fix-xl-112 dis-f a-c">
+                    <img
+                      onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
+                      src={completeDescritpion() ? completedDescriptionImg : completeDescriptionImg}
+                      alt="Complete Facts"
+                    />
+                  </div>
+                </div>
+
+              </div>
+
+              <div className="dis-fl-col dis-fl-row-sm my-3">
+                <div className="w-perc-100 w-perc-sm-35 dis-f pr-sm-2">
+
+                  <Link
+                    to={`/${activeSingleProperty.id}/property/media`}
+                    className="w-perc-100 brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 cur-poi txtDark700"
                   >
-                    <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
-                  </a>
+                    <div className="h-perc-100 min-h-fix-184 dis-fl-col jc-b">
+                      <div className="dis-f px-3">
+                        <BrixelIcon
+                          icon="folder-open"
+                          color="AltBlue"
+                          saturationTxt={400}
+                        />
+                        <span className="txtDark700 fweight-600 pl-1">Media</span>
+                      </div>
+                      <div className="px-3 py-2 h-perc-100">
+                        <div>
+                          <div className="dis-f jc-b a-c">
+                            <span>Photos</span>
+                            <BrixelIcon
+                              icon="check-small-fill"
+                              color={get(activeSingleProperty, 'photos', []).length > 5 ? 'altMist' : 'light'}
+                              saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 400 : 300}
+                            />
+                          </div>
+                          <div className="dis-f jc-b a-c">
+                            <span>Plans</span>
+                            <BrixelIcon
+                              icon="check-small-fill"
+                              color={get(activeSingleProperty, 'floorPlans', []).length > 1 ? 'altMist' : 'light'}
+                              saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 400 : 300}
+                            />
+                          </div>
+                          <div className="dis-f jc-b a-c">
+                            <span>3d tour</span>
+                            <BrixelIcon
+                              icon="check-small-fill"
+                              color={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 'altMist' : 'light'}
+                              saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 400 : 300}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="linkWrap">
+                        <span className="hr lighter" />
+                        <div className="txtHoverDark200 txtLight700 px-3 py-1 wHover">
+                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+
+                <div
+                  className="pos-r w-perc-100 ov-h w-perc-sm-65 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp bgAltMist200 px-2"
+                  onClick={() => openBrixelPage()}
+                >
+                  <div className="dis-f-md a-b h-perc-100">
+                    <div className="dis-fl-col mb-a">
+                      <span className="fsize-400 txtAltMist400">Brixel Page</span>
+
+                      <span className="fsize-500 fsize-md-600 fweight-600 txtAltBlue400 mb-2 mt-1">
+                        Preview your property website
+                      </span>
+                    </div>
+                    <div
+                      className=" w-perc-100 image-ratio zIndex1 pos-r min-w-fix-280 brdRadiusTop ov-h"
+                    >
+                      <div className="pos-a-fix x-l-0 x-t-0 w-perc-100 h-fix-16 bgDark400 zIndex1" />
+                      <CoverPropertyImage
+                        className="cover w-perc-100"
+                        coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
+                        propertyType={get(formValue, 'properties.propertyType', undefined)}
+                      />
+                      <img
+                        className="pos-a-fix x-l-2 x-b-2 noRatio"
+                        src={placeholderTextPropertyImg}
+                        alt="placeholder property information"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )
+        }
+
+        {
+          progressState.step === 3 && (
+            <>
+              <div className="dis-f jc-b flex-wrap">
+                <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-sm-1">
+                  <DashboardPropertyCard smallLayout />
+                </div>
+                <div
+                  className="w-perc-100 w-perc-md-30 w-perc-lg-100 w-perc-xl-30 pl-sm-1 mt-md-0"
+                >
+                  <Link
+                    to={`/${activeSingleProperty.id}/marketing`}
+                    className="brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 mt-2 mt-md-0 cur-poi txtDark700 dis-b"
+                  >
+                    <div className="h-fix-184 dis-fl-col jc-b">
+                      <div className="dis-f px-3">
+                        <BrixelIcon
+                          icon="mike"
+                          color="AltBlue"
+                          saturationTxt={400}
+                        />
+                        <span className="txtDark700 fweight-600 pl-1">Marketing</span>
+                      </div>
+                      <div className="px-3">
+                        {
+                          Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
+                            <React.Fragment key={i.toString()}>
+                              {
+                                get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
+                                  <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
+                                    <span>{portal}</span>
+                                    <span className={`activeDot ${get(activeSingleProperty, `portals[${portal}]`, null) ? 'green' : 'grey'}`} />
+                                  </span>
+                                )
+                              }
+                            </React.Fragment>
+                          ))
+                        }
+                      </div>
+                      <div className="linkWrap">
+                        <span className="hr lighter" />
+                        <div className="px-3 py-1 txtLight700 wHover">
+                          <span className="text">View</span>
+                          <span className="arrow-symbol ml-1">&#62; </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="dis-fl-col dis-fl-row-xs my-3 shadow-2dp-sm shadow-0dp-md brdRadius-sm brdRadiusNone-md ov-h-sm ov-v-md">
+                <div
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mr-md-1 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c"
+                  onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                >
+                  <BrixelIcon
+                    iconWidth="w-fix-48"
+                    icon="interested"
+                    color="altRed"
+                    saturationTxt={400}
+                  />
+                  <h6 className="mt-xs-2 fweight-400">Interested</h6>
+                  <p className="fSizePx64 fweight-600 txtAltRed700 mt-xs-3">
+                    {get(activeSinglePropertyDealsCount, 'Interested.total', '')}
+                  </p>
+                </div>
+                <div
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdLight200 dis-fl-row dis-fl-col-xs jc-b a-c"
+                  onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                >
+                  <BrixelIcon
+                    iconWidth="w-fix-48"
+                    icon="visited"
+                    color="altMist"
+                    saturationTxt={400}
+                  />
+                  <h6 className="mt-xs-2 fweight-400">Visits</h6>
+                  <p className="fSizePx64 fweight-600 txtAltBlue400 mt-xs-3">
+                    {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
+                  </p>
+                </div>
+                <div
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 ml-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c"
+                  onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                >
+                  <BrixelIcon
+                    iconWidth="w-fix-48"
+                    icon="offers"
+                    color="altGreen"
+                    saturationTxt={300}
+                  />
+                  <h6 className="mt-xs-2 fweight-400">Offers</h6>
+                  <p className="fSizePx64 fweight-600 txtAltGreen400 mt-xs-3">
+                    {get(activeSinglePropertyDealsCount, 'Offer.total', '')}
+                  </p>
+                </div>
+              </div>
+
+              {
+                visitLists && (
+                  <div className="brdRadius bgWhite shadow-2dp">
+                    <div className="dis-f jc-b a-c px-2 pt-2">
+                      <div className="dis-f a-c w-perc-100 mr-2">
+                        <BrixelIcon
+                          iconWidth="w-fix-32"
+                          icon="visited"
+                          color="altMist"
+                          saturationTxt={400}
+                        />
+                        <h5 className="ml-2 ml-sm-3 fsize-500">Confirmed visits</h5>
+                      </div>
+                      <BrixelButtonPrimary
+                        className="ml-a ml-sm-0"
+                        rounded
+                        theme="altGreen"
+                        themeSat={300}
+                        label="All"
+                        onClick={() => history.push('')}
+                      />
+                    </div>
+                    {
+                      visitLists.length === 0 && (
+                        <div
+                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
+                        >
+                          <h5 className="ta-c mx-a">You don&apos;t have any visits</h5>
+                        </div>
+                      )
+                    }
+                    {
+                      visitLists.map((visit, i) => (
+                        <div
+                          key={i.toString()}
+                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
+                        >
+                          <div className={`dis-f a-c ${classWidthTable(0)} order-1`}>
+                            <BrixelAvatar
+                              baseURL={get(baseByData, 'shortPath', '')}
+                              profileId={get(visit, 'user.id', null)}
+                              name={get(visit, 'user.name', '') ? get(visit, 'user.name', '') : 'No Name'}
+                              size="large"
+                            />
+                            <p className="ml-2">
+                              {get(visit, 'user.name', '')}
+                            </p>
+                          </div>
+                          <p className={`${classWidthTable(1)} ${!visit.past ? 'txtAltGreen300' : 'txtLight600'} order-3 order-md-2`}>
+                            {DateTime.fromMillis(visit.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                          </p>
+                          <p className={`${classWidthTable(2)} ta-r ta-l-md order-2 order-md-3`}>
+                            {
+                              visit.visit > DateTime.now().toMillis() ? (
+                                <span className="txtDark700">Upcoming</span>
+                              ) : (
+                                <span className="txtLight600">Past</span>
+                              )
+                            }
+                          </p>
+                          <p className={`${classWidthTable(3)} order-4`}>
+                            {
+                              !visit.past && (
+                                <ICalendarLink event={{
+                                  title: 'My Title',
+                                  description: 'My Description',
+                                  startTime: DateTime.fromMillis(visit.visit).toISO(),
+                                  // endTime: '2018-10-07T12:00:00+10:00',
+                                  location: get(activeSingleProperty, 'location.address', ''),
+                                  attendees: [
+                                    `${loggedInUser.name} <${loggedInUser.email}>`,
+                                  ],
+                                }}
+                                >
+                                  <BrixelIcon
+                                    icon="calendar-add"
+                                    color="altGreen"
+                                    saturationTxt={300}
+                                  />
+                                </ICalendarLink>
+                              )
+                            }
+                          </p>
+                          <p className={`${classWidthTable(4)} ta-r ta-l-md order-5`}>
+                            <button
+                              type="button"
+                              className="ml-a ml-md-0 txtLight600 fsize-400"
+                              onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
+                            >
+                              {visit.visit > DateTime.now().toMillis() ? 'View' : 'Review'}
+                            </button>
+                          </p>
+                        </div>
+                      ))
+                    }
+                  </div>
                 )
               }
-            </div>
-          </div>
-        </div>
+            </>
+          )
+        }
 
-        <BoxTrialTestDirve
-          className="shadow-2dp"
-        />
+        {
+          progressState.step <= 2 && (
+            <BoxTrialTestDirve
+              className="shadow-2dp"
+            />
+          )
+        }
 
       </div>
     </div>
@@ -475,17 +824,24 @@ const DashboardHome = (props) => {
 DashboardHome.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyDeals: PropTypes.object,
+  activeSinglePropertyDealsCount: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetActiveSinglePropertyDealsCount: PropTypes.func.isRequired,
+  handleGetPageDeals: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   proEstimation: PropTypes.object,
+  userLang: PropTypes.string.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 DashboardHome.defaultProps = {
+  activeSinglePropertyDeals: null,
   proEstimation: {},
   userTypes: 'user',
 };
@@ -493,16 +849,21 @@ DashboardHome.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
+  activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
-  loggedInUser: get(state, 'user.loggedInUser.user', null),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', null),
   proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
+  userLang: get(state, 'user.loggedInUser.user.language', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleGetActiveSinglePropertyDealsCount: bindActionCreators(getActiveSinglePropertyDealsCount, dispatch),
+  handleGetPageDeals: bindActionCreators(getPageDeals, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

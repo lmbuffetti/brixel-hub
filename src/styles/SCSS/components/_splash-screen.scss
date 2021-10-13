@@ -7,6 +7,23 @@
   z-index: 5;
   background: rgba(map_get($darkColor, 700), .7);
 
+  &.bgOverlayDark{
+    > .container {
+      &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: rgba(0,0,0,0.7);
+      }
+    }
+    .middle-part {
+      background: white;
+    }
+  }
+
   &.edit-document {
 
     .container {

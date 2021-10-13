@@ -22,6 +22,7 @@ import {
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import Loading from './components/Loading';
+import WizardCard from './components/WizardCard';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
   setLanguage, setModal, setWindowDimensions, setScreenNotification,
@@ -116,6 +117,7 @@ const App = (props) => {
     userTypes,
     teamAvatars,
     windowDimensions,
+    wizard,
   } = props;
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
@@ -569,12 +571,23 @@ const App = (props) => {
           {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
+                classTitle={modal.classTitle}
                 title={modal.title}
                 onClose={() => {
                   handleSetModal({ state: false });
                 }}
               >
                 <div dangerouslySetInnerHTML={{ __html: modal.body }} />
+                {
+                  modal.showSupport && (
+                    <Support
+                      expanded
+                      isFixed={false}
+                      hideClose
+                      layout="onboarding"
+                    />
+                  )
+                }
               </BrixelModal>
             )
           }
@@ -604,6 +617,12 @@ const App = (props) => {
           {
             has(splashScreenType, 'component') && (
               React.createElement(splashScreenType.component, splashScreenType.props)
+            )
+          }
+
+          {
+            get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
+              <WizardCard />
             )
           }
 
@@ -691,6 +710,7 @@ App.propTypes = {
   userTypes: PropTypes.string,
   teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  wizard: PropTypes.object.isRequired,
 };
 
 App.defaultProps = {
@@ -712,6 +732,7 @@ const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  wizard: get(state, 'common.wizard', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -15,9 +15,9 @@
   .step-item {
     position: relative;
     > span {
+      width: 30px;
+      height: 30px;
       display: flex;
-      height: 32px;
-      width: 32px;
       background-color: white;
       border-radius: 50%;
       justify-content: center;
@@ -28,7 +28,7 @@
       font-size: 14px;
       font-weight: 600;
     }
-    &.active {
+    &.done {
       &::before {
         content: '';
         position: absolute;
@@ -37,8 +37,10 @@
         transform: translateY(-50%);
         width: 150%;
         height: 1px;
-        background-color: map-get($lightColor, 700);;
+        background-color: map-get($darkColor, 700);;
       }
+    }
+    &.active {
       > span {
         background-color: #5FD0DF;
         border-color: #5FD0DF;
@@ -48,6 +50,11 @@
     &:last-child {
       &::before {
         content: none;
+      }
+    }
+    &.done {
+      > span {
+        border: none;
       }
     }
   }

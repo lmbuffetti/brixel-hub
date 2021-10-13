@@ -46,3 +46,5 @@ export const SET_SPLASH_TYPE = 'SET_SPLASH_TYPE';
 
 export const GET_HISTORY = 'GET_HISTORY';
 export const SET_HISTORY = 'SET_HISTORY';
+
+export const SET_WIZARD = 'SET_WIZARD';
