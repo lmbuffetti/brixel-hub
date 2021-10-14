@@ -25,6 +25,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
 import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
+import completedFactsImg from '../../../images/dashboard/completed_facts.svg';
 import completeDescriptionImg from '../../../images/dashboard/complete_description.svg';
 import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
 import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
@@ -459,7 +460,7 @@ const DashboardHome = (props) => {
                   </div>
                   <div className="ml-2 ml-lg-5 w-perc-100 w-fix-xl-112 dis-f a-c">
                     <img
-                      src={completeFactsImg}
+                      src={(calcPercentageFacts().realPerc * 100) / 40 > 100 ? completedFactsImg : completeFactsImg}
                       alt="Complete Facts"
                     />
                   </div>
