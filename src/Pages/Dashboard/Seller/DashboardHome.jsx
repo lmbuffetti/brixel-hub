@@ -10,7 +10,6 @@ import {
   BrixelAvatar,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelButtonText,
   BrixelIcon,
   BrixelProgressBar,
   FactsOptions,
@@ -448,7 +447,7 @@ const DashboardHome = (props) => {
                     <span className="fsize-400 txtAltRed400">Facts</span>
 
                     <span className="fsize-500 fsize-md-600 fweight-600 txtAltRed700 mb-2 mt-1">
-                      Complete relevant facts
+                      {calcPercentageFacts().realPerc * 100 / 40 > 100 ? 'Completed relevant facts' : 'Complete relevant facts'}
                     </span>
 
                     <BrixelProgressBar
@@ -554,8 +553,8 @@ const DashboardHome = (props) => {
                             <span>Plans</span>
                             <BrixelIcon
                               icon="check-small-fill"
-                              color={get(activeSingleProperty, 'floorPlans', []).length > 1 ? 'altMist' : 'light'}
-                              saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 400 : 300}
+                              color={get(activeSingleProperty, 'floorPlans', []).length >= 1 ? 'altMist' : 'light'}
+                              saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length >= 1 ? 400 : 300}
                             />
                           </div>
                           <div
@@ -671,7 +670,7 @@ const DashboardHome = (props) => {
 
               <div className="dis-fl-col dis-fl-row-xs my-3 shadow-2dp-sm shadow-0dp-md brdRadius-sm brdRadiusNone-md ov-h-sm ov-v-md">
                 <div
-                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mr-md-1 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c"
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mr-md-1 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
                   onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                 >
                   <BrixelIcon
@@ -686,7 +685,7 @@ const DashboardHome = (props) => {
                   </p>
                 </div>
                 <div
-                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdLight200 dis-fl-row dis-fl-col-xs jc-b a-c"
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 mx-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm brdSmallRight brdSmallLeft brdSmallHideLeft-md brdSmallHideRight-md brdLight200 dis-fl-row dis-fl-col-xs jc-b a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
                   onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                 >
                   <BrixelIcon
@@ -701,7 +700,7 @@ const DashboardHome = (props) => {
                   </p>
                 </div>
                 <div
-                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 ml-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c"
+                  className="w-perc-100 w-perc-sm-33 bgWhite brdRadius-md ta-c p-3 pb-6 ml-md-1 mt-2 mt-xs-0 shadow-2dp shadow-2dp-md shadow-0dp-sm dis-fl-row dis-fl-col-xs jc-b a-c shadowHover-4dp shadowHover-4dp-md shadowHover-0dp-sm cur-poi"
                   onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
                 >
                   <BrixelIcon
@@ -730,14 +729,18 @@ const DashboardHome = (props) => {
                         />
                         <h5 className="ml-2 ml-sm-3 fsize-500">Confirmed visits</h5>
                       </div>
-                      <BrixelButtonPrimary
-                        className="ml-a ml-sm-0"
-                        rounded
-                        theme="altGreen"
-                        themeSat={300}
-                        label="All"
-                        onClick={() => history.push('')}
-                      />
+                      {
+                        visitLists.length > 0 && (
+                          <BrixelButtonPrimary
+                            className="ml-a ml-sm-0"
+                            rounded
+                            theme="altGreen"
+                            themeSat={300}
+                            label="All"
+                            onClick={() => history.push('')}
+                          />
+                        )
+                      }
                     </div>
                     {
                       visitLists.length === 0 && (
@@ -754,7 +757,10 @@ const DashboardHome = (props) => {
                           key={i.toString()}
                           className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
                         >
-                          <div className={`dis-f a-c ${classWidthTable(0)} order-1`}>
+                          <div
+                            className={`dis-f a-c ${classWidthTable(0)} order-1 cur-poi`}
+                            onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
+                          >
                             <BrixelAvatar
                               baseURL={get(baseByData, 'shortPath', '')}
                               profileId={get(visit, 'user.id', null)}
@@ -765,7 +771,10 @@ const DashboardHome = (props) => {
                               {get(visit, 'user.name', '')}
                             </p>
                           </div>
-                          <p className={`${classWidthTable(1)} ${!visit.past ? 'txtAltGreen300' : 'txtLight600'} order-3 order-md-2`}>
+                          <p
+                            className={`${classWidthTable(1)} ${!visit.past ? 'txtAltGreen300' : 'txtLight600'} order-3 order-md-2 cur-poi`}
+                            onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
+                          >
                             {DateTime.fromMillis(visit.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                           </p>
                           <p className={`${classWidthTable(2)} ta-r ta-l-md order-2 order-md-3`}>
@@ -795,6 +804,7 @@ const DashboardHome = (props) => {
                                     icon="calendar-add"
                                     color="altGreen"
                                     saturationTxt={300}
+                                    label="Add to calendar"
                                   />
                                 </ICalendarLink>
                               )
