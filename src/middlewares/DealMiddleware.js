@@ -610,14 +610,7 @@ const checkCommon = (store) => (next) => (action) => {
           } else {
             // TODO: Should dispatch error state
           }
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
+          if (!smallLoader) {
             store.dispatch({
               type: SPINNER_OFF,
             });
