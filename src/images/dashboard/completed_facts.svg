@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="84px" height="99px" viewBox="0 0 84 99" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Group-2" transform="translate(2.000000, 2.000000)" stroke="#72253D" stroke-width="3">
+            <g id="Group">
+                <polyline id="Path" points="29 52 31.5 54.5 36 50"></polyline>
+                <polyline id="Path" points="69.3334 25 69.3334 12 9.7778 12 9.7778 82 20.4445 82"></polyline>
+                <polyline id="Path" points="59.5556 11 59.5556 0 0 0 0 70 9.7778 70"></polyline>
+                <polygon id="Path" points="20.4443 25 79.9999 25 79.9999 95 20.4443 95"></polygon>
+                <line x1="41" y1="67.3999" x2="68" y2="67.3999" id="Path"></line>
+                <line x1="41" y1="53.0887" x2="68" y2="53.0887" id="Path"></line>
+                <line x1="41" y1="39" x2="68" y2="39" id="Path"></line>
+                <line x1="41" y1="81.7111" x2="68" y2="81.7111" id="Path"></line>
+                <polyline id="Path" points="29 38 31.5 40.5 36 36"></polyline>
+                <polyline id="Path" points="29 67 31.5 69.5 36 65"></polyline>
+                <polyline id="Path" points="29 81 31.5 83.5 36 79"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
