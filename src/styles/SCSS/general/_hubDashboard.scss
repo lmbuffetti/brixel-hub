@@ -182,25 +182,28 @@
   }
 }
 
-.bgOverlay {
+.bodyOverlay {
   .marketHome .hubDasHeader {
     z-index: 0;
   }
-  .hubTopWrapper {
+  #bodyScroll {
     position: relative;
       @media (min-width: $responsive-medium) {
-        .bgSvg::before,
-        &:after {
-          content: '';
-          background-color: rgba(0,0,0,0.7);
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-          display: block;
-          transition: background-color $default-time-long $default-easing;
+        .bgOverlay {
+          position: relative;
+
+          &::before {
+            content: '';
+            background-color: rgba(0, 0, 0, 0.7);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: block;
+            transition: background-color $default-time-long $default-easing;
+          }
         }
       }
       @media (max-width: $responsive-medium) {

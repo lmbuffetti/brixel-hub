@@ -321,7 +321,7 @@ function PageHeaderDashboard(props) {
         activeMenu={activeMenu}
         onClose={() => setActiveMenu(null)}
       />
-      <header className={`hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
+      <header className={`bgOverlay hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
         <div className="dasHeaderContainer">
           <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
             {
@@ -446,7 +446,7 @@ function PageHeaderDashboard(props) {
                 windowDimensions.width > 1024 && (
                   <>
                     <div
-                      className={`dis-f-md a-c cur-poi pos-r zIndex5 ${propID !== 'sell' && propID !== 'buy' ? '' : ''}`}
+                      className={`dis-f-md a-c cur-poi pos-r ${propID !== 'sell' && propID !== 'buy' ? '' : ''} zIndex0`}
                       onClick={() => setShowProfileMenu(!showProfileMenu)}
                       ref={profileMenu}
                     >
