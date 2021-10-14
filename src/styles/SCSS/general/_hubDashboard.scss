@@ -186,6 +186,9 @@
   .marketHome .hubDasHeader {
     z-index: 0;
   }
+  .supportBtn {
+    display: none;
+  }
   #bodyScroll {
     position: relative;
       @media (min-width: $responsive-medium) {
