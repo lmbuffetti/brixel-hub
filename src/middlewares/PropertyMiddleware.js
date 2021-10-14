@@ -1178,12 +1178,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: false,
+            [smallLoader]: true,
           },
         });
       } else {
         store.dispatch({
-          type: SPINNER_OFF,
+          type: SPINNER_ON,
         });
       }
       const queryParams = `?order=${order || 'updatedAt'}&direction=${direction || 'DESC'}`;
@@ -1206,15 +1206,33 @@ const checkCommon = (store) => (next) => (action) => {
             type: SET_PAGE_DEALS,
             payload: deals,
           });
-          Promise.all(calls).then((res) => {
-            // Process the user history for each deal
-            res.forEach((userHistory) => {
-              // We need the the user history filtered by the active property
-              const userHistoryFiltered = filter(userHistory.data.data, (el) => get(el, 'child.id', '') === action.payload);
-              // We need the most recent entry, which is the first position based on the direction written on the queryparams
-              const mostRecentUserHistoryFiltered = userHistoryFiltered[0];
-              const dealIndex = findIndex(deals, (d) => d.user.id === get(mostRecentUserHistoryFiltered, 'parent.id', ''));
-              set(deals[dealIndex], 'lastAction', mostRecentUserHistoryFiltered);
+          if (calls.length > 0) {
+            Promise.all(calls).then((res) => {
+              // Process the user history for each deal
+              res.forEach((userHistory) => {
+                // We need the the user history filtered by the active property
+                const userHistoryFiltered = filter(userHistory.data.data, (el) => get(el, 'child.id', '') === action.payload);
+                // We need the most recent entry, which is the first position based on the direction written on the queryparams
+                const mostRecentUserHistoryFiltered = userHistoryFiltered[0];
+                const dealIndex = findIndex(deals, (d) => d.user.id === get(mostRecentUserHistoryFiltered, 'parent.id', ''));
+                set(deals[dealIndex], 'lastAction', mostRecentUserHistoryFiltered);
+                if (smallLoader) {
+                  store.dispatch({
+                    type: SPINNER_SMALL,
+                    payload: {
+                      [smallLoader]: false,
+                    },
+                  });
+                } else {
+                  store.dispatch({
+                    type: SPINNER_OFF,
+                  });
+                }
+              });
+              store.dispatch({
+                type: SET_PAGE_DEALS,
+                payload: deals,
+              });
               if (smallLoader) {
                 store.dispatch({
                   type: SPINNER_SMALL,
@@ -1228,11 +1246,18 @@ const checkCommon = (store) => (next) => (action) => {
                 });
               }
             });
+          } else if (smallLoader) {
             store.dispatch({
-              type: SET_PAGE_DEALS,
-              payload: deals,
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+              },
             });
-          });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
         });
       break;
     }

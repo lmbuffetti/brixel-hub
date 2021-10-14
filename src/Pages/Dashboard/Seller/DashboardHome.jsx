@@ -447,7 +447,7 @@ const DashboardHome = (props) => {
                     <span className="fsize-400 txtAltRed400">Facts</span>
 
                     <span className="fsize-500 fsize-md-600 fweight-600 txtAltRed700 mb-2 mt-1">
-                      {calcPercentageFacts().realPerc * 100 / 40 > 100 ? 'Completed relevant facts' : 'Complete relevant facts'}
+                      {(calcPercentageFacts().realPerc * 100) / 40 > 100 ? 'Completed relevant facts' : 'Complete relevant facts'}
                     </span>
 
                     <BrixelProgressBar
@@ -618,7 +618,7 @@ const DashboardHome = (props) => {
         }
 
         {
-          progressState.step === 3 && (
+          progressState.step >= 3 && (
             <>
               <div className="dis-f jc-b flex-wrap">
                 <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-sm-1">
