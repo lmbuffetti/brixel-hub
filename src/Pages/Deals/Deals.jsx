@@ -70,6 +70,7 @@ const Deals = (props) => {
     saveMultipleDeals,
     setActiveSinglePropertyDeals,
     setPreventExit,
+    smallLoader,
     userLang,
     windowDimensions,
   } = props;
@@ -251,11 +252,12 @@ const Deals = (props) => {
       };
       resultArray.push(singleDeal);
     });
+    setEmptyDeals(true);
     // Adding again parent scroll due to library constaints
     const body = document.getElementById('bodyScroll');
     body.classList.remove('ov-h');
 
-    return saveMultipleDeals({ data: resultArray });
+    return saveMultipleDeals({ data: resultArray, smallLoader: 'loadDeal' });
   }
 
   const calcHeightCard = (id) => {
@@ -422,7 +424,7 @@ const Deals = (props) => {
                         <div className={`${key === 'right' ? 'rightCol parentScroll' : ''} dis-fl-col w-perc-100 h-perc-100`}>
                           <div className="scrollContent">
                             {
-                              activeSinglePropertyDeals && emptyDeals && (
+                              activeSinglePropertyDeals && emptyDeals && smallLoader.loadDeal === false && (
                                 <div className="emptyMessage dis-f w-perc-100 jc-c">
                                   <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
                                     <h5> No deals yet?</h5>
@@ -459,7 +461,7 @@ const Deals = (props) => {
                                                 ref={provided.innerRef}
                                               >
                                                 {
-                                                  emptyDeals && (
+                                                  (emptyDeals || smallLoader.loadDeal) && (
                                                     <>
                                                       <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{subkey}</span>
                                                       <img src={DealSkelton} alt="skelton deals" />
@@ -594,6 +596,7 @@ Deals.propTypes = {
   saveMultipleDeals: PropTypes.func.isRequired,
   setActiveSinglePropertyDeals: PropTypes.func.isRequired,
   setPreventExit: PropTypes.func.isRequired,
+  smallLoader: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -608,6 +611,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'property.activeSingleProperty', {}),
   notification: get(state, 'common.notification', []),
+  smallLoader: get(state, 'common.smallLoader', {}),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
