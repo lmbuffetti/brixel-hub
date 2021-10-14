@@ -593,6 +593,13 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           if (res.meta.status === 200) {
             store.dispatch({
+              type: GET_PAGE_DEALS,
+              payload: {
+                id: store.getState().property.activeSingleProperty.id,
+                smallLoader,
+              },
+            });
+            store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
               payload: {
                 state: true,

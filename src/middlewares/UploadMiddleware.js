@@ -77,36 +77,9 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO IMG TYPE
     case GET_IMAGE_TYPE: {
       next(action);
-      const {
-        smallLoader,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
       api.image.getImageType()
         .then((res) => {
           store.dispatch({ type: SET_IMAGE_TYPE, payload: res.data });
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
         });
       break;
     }
