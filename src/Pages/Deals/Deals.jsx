@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import React, {
   useEffect, useState, Fragment,
 } from 'react';
@@ -10,7 +11,7 @@ import {
 } from 'react-redux';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import orderBy from 'lodash/orderBy';
+// import orderBy from 'lodash/orderBy';
 import forEach from 'lodash/forEach';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
@@ -116,9 +117,9 @@ const Deals = (props) => {
           }
         });
       }
-      deals.interested = orderBy(deals.interested, ['active', 'updatedAt'], ['desc', 'desc']);
-      deals.visits = orderBy(deals.visits, ['active', 'updatedAt'], ['desc', 'desc']);
-      deals.offers = orderBy(deals.offers, ['active', 'updatedAt'], ['desc', 'desc']);
+      // deals.interested = orderBy(deals.interested, ['active', 'updatedAt'], ['desc', 'desc']);
+      // deals.visits = orderBy(deals.visits, ['active', 'updatedAt'], ['desc', 'desc']);
+      // deals.offers = orderBy(deals.offers, ['active', 'updatedAt'], ['desc', 'desc']);
       // TODO remove right object
       const listsDeal = {
         right: {
@@ -410,9 +411,9 @@ const Deals = (props) => {
             </div>
             <div className="dealsContainer">
               <DragDropContext
-                onDragEnd={() => onDragEnd()}
-                onDragStart={() => onDragStart()}
-                onDragUpdate={() => onDragUpdate()}
+                onDragEnd={onDragEnd}
+                onDragStart={onDragStart}
+                onDragUpdate={onDragUpdate}
               >
                 {
                   filteredDeals && Object.keys(filteredDeals).map((key, o) => (
