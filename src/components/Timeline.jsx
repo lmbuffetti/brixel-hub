@@ -279,6 +279,7 @@ const Timeline = (props) => {
 
   const collapseNote = () => {
     if (notBtnEl) notBtnEl.classList.add('clicked');
+    document.getElementsByClassName('rdw-editor-toolbar')[0].classList.remove('hide');
   };
 
   const getEventColor = (icon) => {
@@ -308,7 +309,7 @@ const Timeline = (props) => {
     <div className={`timeline dis-fl-col ${className}`}>
       <span className="title overline tt-up mb-3">History</span>
       <div className="events-container w-perc-100 dis-fl-col a-c">
-        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col p-2 mb-1 md-lg-4">
+        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col py-2 mb-1 md-lg-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
               avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
@@ -316,8 +317,9 @@ const Timeline = (props) => {
               profileId={get(loggedInUser, 'user.id', '')}
             />
             <BrixelTextEditor
+              editorClassName="new-note"
               wrapperClassName="ml-2 dis-fl-col"
-              editorClassName="bgWhite"
+              toolbarClassName="hide"
               input={{
                 onChange: (val) => setNewNote(val),
                 value: newNote,
