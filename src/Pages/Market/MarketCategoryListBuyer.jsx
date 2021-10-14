@@ -181,7 +181,7 @@ const MarketCategoryListBuyer = (props) => {
           )
         }
 
-        <div className="mt-5 bgSvg">
+        <div className="mt-5 bgSvg bgOverlay">
 
           <div className="container pt-3 pb-4 pb-lg-8">
 

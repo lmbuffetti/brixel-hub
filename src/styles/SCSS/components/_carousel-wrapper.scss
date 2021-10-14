@@ -116,9 +116,11 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
    .cloneElement {
 
      &.favorite {
+       z-index: 50;
        animation: yay 650ms $trans_func forwards;
      }
      &.discard {
+       z-index: 50;
        animation: nope 650ms $trans_func forwards;
      }
      &.fadeOut {
@@ -131,7 +133,6 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
        margin-top: 25px;
      }
    }
-
  }
 
  @keyframes fadeOut {
