@@ -90,7 +90,7 @@ const MarketBuyer = (props) => {
   }, [userSearchProfiles, get(history, 'location.pathname', null)]);
 
   return (
-    <div className="market-container buyerPage" id="market">
+    <div className="bgOverlay market-container buyerPage" id="market">
       {/* premarket overlay */}
       <Suspense fallback="">
         <Switch>

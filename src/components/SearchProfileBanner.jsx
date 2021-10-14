@@ -46,10 +46,10 @@ const SearchProfileBanner = (props) => {
   const profileRef = useRef(null);
 
   useEffect(() => {
-    if (showSearchProfileForm) document.body.classList.add('bgOverlay');
+    if (showSearchProfileForm) document.body.classList.add('bodyOverlay');
     else {
       setTimeout(() => setStyleMobileProfile(null), 500);
-      setTimeout(() => document.body.classList.remove('bgOverlay'), 350);
+      setTimeout(() => document.body.classList.remove('bodyOverlay'), 350);
     }
   }, [showSearchProfileForm]);
 

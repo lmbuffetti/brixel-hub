@@ -63,6 +63,7 @@ const SplashScreen = (props) => {
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
+    windowDimensions,
     wizard,
   } = props;
 
@@ -73,6 +74,7 @@ const SplashScreen = (props) => {
   const [showContent, setShowContent] = useState(false);
   const [fullScreenCard, setFullScreenCard] = useState(false);
   const [totalSlide, setTotalSlide] = useState(preMarketProperties.total);
+  const [newPreMarketStats, setNewPreMarketStats] = useState(preMarketStats);
 
   const updateData = useCallback(() => {
     const wrapCarousel = document.getElementById('overlayCarousel');
@@ -133,18 +135,20 @@ const SplashScreen = (props) => {
     beforeChange: (prev, next) => {
       const wrapCarousel = document.getElementById('overlayCarousel');
       wrapCarousel.classList.add('animate');
-      if (next > prev) {
-        const itmFadeOut = wrapCarousel.getElementsByClassName('slick-current')[0];
-        if (itmFadeOut) {
-          const clnFadeOut = itmFadeOut.cloneNode(true);
-          wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeOut';
-        }
-      } else {
-        wrapCarousel.classList.add('animateCard');
-        const itmFadeIn = wrapCarousel.getElementsByClassName('slick-slide')[activeSlide - 1];
-        if (itmFadeIn) {
-          const clnFadeOut = itmFadeIn.cloneNode(true);
-          wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeIn';
+      if (!wrapCarousel.classList.contains('actionActive')) {
+        if (next > prev) {
+          const itmFadeOut = wrapCarousel.getElementsByClassName('slick-current')[0];
+          if (itmFadeOut) {
+            const clnFadeOut = itmFadeOut.cloneNode(true);
+            wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeOut';
+          }
+        } else {
+          wrapCarousel.classList.add('animateCard');
+          const itmFadeIn = wrapCarousel.getElementsByClassName('slick-slide')[activeSlide - 1];
+          if (itmFadeIn) {
+            const clnFadeOut = itmFadeIn.cloneNode(true);
+            wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeIn';
+          }
         }
       }
     },
@@ -152,6 +156,11 @@ const SplashScreen = (props) => {
       updateData();
     },
   }), [activeSlide]);
+
+  useEffect(() => {
+    setNewPreMarketStats(preMarketStats)
+  }, [preMarketStats]);
+
 
   useEffect(() => {
     const cookieWizardPreMarket = getCookie('wizardPreMarket');
@@ -247,9 +256,10 @@ const SplashScreen = (props) => {
     };
     handleUpdateFavorites(data);
     if (sliderInstance.current && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
-      // const slider = sliderInstance.current;
-      // slider.slickNext();
+      const slider = sliderInstance.current;
+      slider.slickNext();
       const wrapCarousel = document.getElementById('overlayCarousel');
+      wrapCarousel.classList.add('actionActive');
       const itm = wrapCarousel.getElementsByClassName('slick-current')[0];
       const cln = itm.cloneNode(true);
       wrapCarousel.appendChild(cln).className = 'cloneElement favorite';
@@ -258,12 +268,14 @@ const SplashScreen = (props) => {
       // handleSetActiveMarketOverlayPropertyLists(listProp);
       // setActiveSlide(activeSlide + 1);
       updateData();
+      setNewPreMarketStats({ ...newPreMarketStats, likedTotal: newPreMarketStats.likedTotal + 1, total: newPreMarketStats.total - 1 });
       setTimeout(() => {
         const removeEl = document.getElementsByClassName('cloneElement');
         while (removeEl[0]) {
           removeEl[0].parentNode.removeChild(removeEl[0]);
         }
-      }, 1000);
+        wrapCarousel.classList.remove('actionActive');
+      }, 500);
       setTotalSlide(totalSlide - 1);
     }
   }, [activeMarketOverlayProperty, activeMarketOverlayPropertyLists, activeSlide]);
@@ -273,9 +285,10 @@ const SplashScreen = (props) => {
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) propID = activeMarketOverlayPropertyLists[activeSlide].id;
     handleMarkNotInterested(propID);
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
-      // const slider = sliderInstance.current;
-      // slider.slickNext();
+      const slider = sliderInstance.current;
+      slider.slickNext();
       const wrapCarousel = document.getElementById('overlayCarousel');
+      wrapCarousel.classList.add('actionActive');
       const itm = wrapCarousel.getElementsByClassName('slick-current')[0];
       const cln = itm.cloneNode(true);
       wrapCarousel.appendChild(cln).className = 'cloneElement discard';
@@ -284,12 +297,14 @@ const SplashScreen = (props) => {
       // handleSetActiveMarketOverlayPropertyLists(listProp);
       // setActiveSlide(activeSlide + 1);
       updateData();
+      setNewPreMarketStats({ ...newPreMarketStats, likedTotal: newPreMarketStats.likedTotal + 1, total: newPreMarketStats.total - 1 });
       setTimeout(() => {
         const removeEl = document.getElementsByClassName('cloneElement');
         while (removeEl[0]) {
           removeEl[0].parentNode.removeChild(removeEl[0]);
         }
-      }, 1000);
+        wrapCarousel.classList.remove('actionActive');
+      }, 500);
       setTotalSlide(totalSlide - 1);
     } else {
       closeOverlay();
@@ -330,7 +345,7 @@ const SplashScreen = (props) => {
               <SearchProfileBanner
                 title="Pre-Market"
                 subtitle="Watch properties which are not even on the market yet. How it works"
-                preMarketStats={preMarketStats}
+                preMarketStats={newPreMarketStats}
               />
               <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
                 {
@@ -362,7 +377,7 @@ const SplashScreen = (props) => {
                         }
                       </Slider>
                       <div className="dis-fl-row a-c w-perc-100 p-3 jc-c pos-r zIndex2 wizardCopy-preMarketOverlay-3" id="wizard-preMarketOverlay-3">
-                        <div className="dis-fl-row jc-c a-c ml-a">
+                        <div className="dis-fl-row jc-c a-c">
                           <BrixelIcon
                             rounded
                             className="mr-4"
@@ -390,7 +405,7 @@ const SplashScreen = (props) => {
                         {
                           activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
                             <BrixelButtonText
-                              className="ml-a"
+                              className={windowDimensions.width > 490 ? 'pos-a-fix x-r-0' : 'ml-a'}
                               ghost
                               theme="dark"
                               onClick={() => changeProperty('forward')}
@@ -502,6 +517,7 @@ SplashScreen.propTypes = {
   setMarketOverlayProperty: PropTypes.func,
   setSplashScreen: PropTypes.func,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
+  windowDimensions: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
 };
 
@@ -537,6 +553,7 @@ const mapStateToProps = (state) => ({
   preMarketStats: get(state, 'market.preMarketStats', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
   wizard: get(state, 'common.wizard', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
