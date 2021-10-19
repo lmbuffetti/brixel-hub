@@ -233,6 +233,11 @@ const clientConfig = (env) => {
       extensions: ['.js', '.jsx'],
     },
   });
+  if (localDev) {
+    config.plugins.push(
+      new webpack.HotModuleReplacementPlugin(),
+    );
+  }
   if (!localDev) {
     config.plugins.push(
       new PurgecssPlugin({
