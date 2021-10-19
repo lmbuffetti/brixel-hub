@@ -493,7 +493,7 @@ body:not(.overlayOpen).locationInputResume {
     }
   }
   .supportBtn {
-    background-color: map_get($altGreenColor, 200);
+    background-color: transparent;
   }
 }
 

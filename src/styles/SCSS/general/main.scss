@@ -869,3 +869,11 @@ button.minimum-w-210 {
 .zIndex0 {
   z-index: 0;
 }
+
+.two-col-grid {
+  @media (min-width: $responsive-small) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: $step * 6;
+  }
+}
