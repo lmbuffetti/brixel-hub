@@ -158,11 +158,11 @@ function PageHeader(props) {
     <>
       <header className="flowHeader">
         <div className="container">
-          <div className={`dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-3' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
+          <div className={`dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-3' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
             <div className="dis-f a-c w-fix-104 min-h-fix-56 h-perc-100">
 
               <img
-                className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'hide-md'}`}
+                className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'hide-md'}`}
                 src={`${window.innerWidth <= 600 ? logoColorIcon : logoColor}`}
                 alt="Brixel Logo"
                 id="header-logo"
@@ -179,50 +179,6 @@ function PageHeader(props) {
               } */}
             </div>
             <div className="dis-f a-c">
-              {
-                !history.location.pathname.includes('packageFlow') &&
-                !history.location.pathname.includes('onBoarding') &&
-                !history.location.pathname.includes('trialRequest') &&
-                !history.location.pathname.includes('upgrade') && (
-                  <>
-                    {
-                      userAwards >= 0 && (
-                        <div className={`cur-poi ${userAwards >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('awards')}>
-                          <img src={awards} alt="icon awards" className="mr-1" />
-                          <span className="ff-mono txtGreen600">{userAwards}</span>
-                        </div>
-                      )
-                    }
-
-                    {
-                      brixelPoints >= 0 && (
-                        <div className={`cur-poi ml-2 ${brixelPoints >= 1 ? 'scaleUp' : ''}`} onClick={() => setModal('brixelPoints')}>
-                          <img src={brixels} alt="icon awards" className="mr-1" />
-                          <span className="ff-mono txtRed600">{brixelPoints}</span>
-                        </div>
-                      )
-                    }
-
-                    {
-                      Object.keys(userAwards).length > 0 && (
-                        <div className="cur-poi" onClick={() => setModal('awards')}>
-                          <img src={awards} alt="icon awards" className="mr-1" />
-                          <span className="ff-mono txtGreen600">{Object.keys(userAwards).length}</span>
-                        </div>
-                      )
-                    }
-
-                    {
-                      Object.keys(brixelPoints).length > 0 && (
-                        <div className="cur-poi ml-2" onClick={() => setModal('brixelPoints')}>
-                          <img src={brixels} alt="icon awards" className="mr-1" />
-                          <span className="ff-mono txtRed600">{brixelPoints.reduce((prev, next) => prev + next.point, 0)}</span>
-                        </div>
-                      )
-                    }
-                  </>
-                )
-              }
               {
                 !loggedInUser.token ? (
                   <div className="">
@@ -244,7 +200,8 @@ function PageHeader(props) {
                     {
                       !history.location.pathname.includes('packageFlow') &&
                       !history.location.pathname.includes('trialRequest') &&
-                      !history.location.pathname.includes('upgrade') && (
+                      !history.location.pathname.includes('upgrade') &&
+                      !history.location.pathname.includes('signup') && (
                         <Suspense fallback="">
                           <AvatarImage
                             avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
@@ -256,7 +213,7 @@ function PageHeader(props) {
                       )
                     }
                     {
-                      (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) &&
+                      (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade') || history.location.pathname.includes('signup')) &&
                       !(get(history, 'location.state.hideClose', null)) && (
                         <BrixelButtonIcon
                           ghost
@@ -275,58 +232,6 @@ function PageHeader(props) {
         </div>
       </header>
 
-      {
-        modal && (
-          <>
-            {
-              modal === 'awards' && (
-                <BrixelModal
-                  saturationTxt={600}
-                  onClose={() => setModal(false)}
-                >
-                  <div className="modal-title">
-                    <div className="title-container dis-f a-c">
-                      <div className="w-fix-48 h-fix-48 brdRadius dis-f a-c jc-c p-1 mr-2">
-                        <img
-                          src={awards}
-                          className="title-img w-perc-100"
-                          alt="Awards Icon"
-                        />
-                      </div>
-                      <span className="heading3">{translateTo(lang, 'Awards')}</span>
-                    </div>
-                  </div>
-                  <p>{translateTo(lang, 'Who does not like awards? To honor your effort and endurance we award you for specific achievements.')}</p>
-                  <p>{translateTo(lang, 'Keep on going to collect more and enjoy the ride.')}</p>
-                </BrixelModal>
-              )
-            }
-            {
-              modal === 'brixelPoints' && (
-                <BrixelModal
-                  onClose={() => setModal(false)}
-                >
-                  <div className="modal-title">
-                    <div className="title-container dis-f a-c">
-                      <div className="w-fix-48 h-fix-48 brdRadius dis-f a-c jc-c p-1 mr-2">
-                        <img
-                          src={brixels}
-                          className="title-img w-perc-100"
-                          alt="Brixels Point Icon"
-                        />
-                      </div>
-                      <span className="heading3">{translateTo(lang, 'Brixels')}</span>
-                    </div>
-                  </div>
-                  <p>{translateTo(lang, 'This is our currency you can earn by fullfilling tasks along the way.')}</p>
-                  <p>{translateTo(lang, 'During your journey you can use Brixels to unlock additional features and gifts.')}</p>
-                  <p>{translateTo(lang, 'So keep collecting your Brixels.')}</p>
-                </BrixelModal>
-              )
-            }
-          </>
-        )
-      }
       {
         showMobileMenu && (
           <div className="mobile-menu bgGreen700 w-perc-100 h-perc-100 pos-a dis-fl-col a-c p-1 zIndex5">

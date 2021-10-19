@@ -1,0 +1,222 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
+import React, {
+  useEffect, useRef,
+} from 'react';
+import PropTypes from 'prop-types';
+import {
+  initializeForm,
+  change,
+  reset,
+  destroy,
+} from '@brixel/brixel-components';
+import { bindActionCreators, compose } from 'redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
+import queryString from 'query-string';
+import Cookies from 'universal-cookie';
+import { diff } from 'deep-object-diff';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import { setCookie } from '../../utils/helpers';
+import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
+import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
+import LoginSignup from '../../components/LoginSignup';
+
+const cookie = new Cookies();
+
+const Signup = (props) => {
+  // PROPS
+  const {
+    changeFieldValue,
+    company,
+    destroyForm,
+    formValue,
+    handleDoLogin,
+    handleGetActiveSingleCompany,
+    handleSetLanguage,
+    handleSpinnerOff,
+    handleValidateUser,
+    history,
+    isTest,
+    lang,
+    loggedInUser,
+  } = props;
+
+  const singleStepRef = useRef(null);
+  const multiStepSlidesRef = useRef(null);
+
+  // DESTROY FORM ON EXIT
+  useEffect(() => {
+    handleSpinnerOff();
+    return () => destroyForm();
+  }, []);
+
+  // FUNCTION TO SAVE DATA
+  const saveData = async (page) => {
+    const dataForm = cloneDeep(formValue);
+    const { login, register, company } = dataForm;
+    const data = {};
+    if (page === 'login') {
+      data.user = {
+        username: login.email,
+        password: login.password,
+      };
+      // DISPATCH TO DO LOGIN
+      await handleDoLogin(data);
+    }
+    if (page === 'register') {
+      delete register.password;
+      data.user = {
+        ...register,
+        acceptTerms: get(register, 'privacy[0]', true),
+        acceptMarketing: get(register, 'acceptMarketing[0]', false),
+        name: get(formValue, 'register.name', ''),
+        userType: 'seller',
+        signupAccept: true,
+        signupChannel: get(formValue, 'channel', 'default'),
+        signupProduct: null,
+        language: lang || 'en',
+        createUser: true,
+        company,
+        ignoreEmail: false,
+        seller: true,
+        redirectTo: {
+          pathname: '/signup/success',
+          state: { hideClose: true },
+        },
+      };
+      await handleValidateUser(data);
+    }
+  };
+
+  // ON DID MOUNT I GET THE COMPANY DATA
+  useEffect(() => {
+    // GET THE COMPANY BY URL OR COOKIE
+    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
+    const companyCookie = cookie.get('brixelStubCompany') || null;
+    const channelCookie = cookie.get('brixelChannelSignup') || null;
+    if (get(companyByUrl, 'company', companyCookie)) {
+      const defComp = get(companyByUrl, 'company', companyCookie);
+      handleGetActiveSingleCompany({ stub: defComp });
+      setCookie('brixelStubCompany', defComp);
+    } else if (!isTest) {
+      const companyUser = get(loggedInUser, 'users.company.stub', null);
+      if (companyUser) handleGetActiveSingleCompany({ stub: companyUser });
+      else handleGetActiveSingleCompany({ stub: 'default' });
+      changeFieldValue('location.countryCode', 'all');
+    }
+    if (get(companyByUrl, 'channel', channelCookie)) {
+      const defChan = get(companyByUrl, 'channel', channelCookie);
+      changeFieldValue('channel', defChan);
+      setCookie('brixelChannelSignup', defChan);
+    } else {
+      changeFieldValue('channel', channelCookie);
+    }
+  }, []);
+
+  // SET DATA BY COMPANY
+  useEffect(() => {
+    if (get(company, 'stub', null)) {
+      if (get(company, 'language.code', null)) {
+        const companyLang = get(company, 'language.code', 'en');
+        handleSetLanguage(companyLang.toLowerCase());
+      }
+      changeFieldValue('company', company.stub);
+    }
+  }, [company]);
+
+  return (
+    <div id="bodyModalWrapper" className="withHeader getStarted bgCardGreen createProfile">
+      <div
+        className="bodyModal container"
+      >
+        <form
+          id="multiStepForm"
+          autoComplete="off"
+          className="interactive dis-fl-col jc-b"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
+              <div className="subcontainer m-a">
+                <div id="step-0" className="dis-fl-col a-c flex-wrap">
+                  <LoginSignup
+                    formName="GetStarted"
+                    onSubmit={(page) => saveData(page)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+Signup.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
+  company: PropTypes.object.isRequired,
+  destroyForm: PropTypes.func.isRequired,
+  formValue: PropTypes.object.isRequired,
+  handleDoLogin: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
+  handleValidateUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  isTest: PropTypes.bool,
+  lang: PropTypes.string,
+  loggedInUser: PropTypes.object.isRequired,
+};
+
+Signup.defaultProps = {
+  isTest: false,
+  lang: 'en',
+};
+
+const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+  company: get(state, 'companies.activeSingleCompany', {}),
+  errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
+  formValue: get(state, 'brixelForm.GetStarted.values', {}),
+  lang: get(state, 'common.language', 'en'),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('GetStarted', field, value));
+  },
+  destroyForm() {
+    dispatch(destroy('GetStarted'));
+  },
+  initForm(value) {
+    dispatch(initializeForm('GetStarted', value));
+  },
+  reset(form) {
+    (dispatch(reset(form)));
+  },
+  handleDoLogin: bindActionCreators(doLogin, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleValidateUser: bindActionCreators(validateUser, dispatch),
+});
+
+export const SignupMemo = React.memo(Signup, (prevProps, nextProps) => {
+  const diffProps = diff(prevProps, nextProps);
+  return (
+    Object.keys(diffProps).length === 0
+  );
+});
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(SignupMemo);

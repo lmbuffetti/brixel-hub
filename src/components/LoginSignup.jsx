@@ -116,7 +116,7 @@ const LoginSignup = (props) => {
       }
     } else if (isValid) {
       setShowErrors(false);
-      onSubmit();
+      onSubmit(loginPage);
     }
   };
 
@@ -126,27 +126,6 @@ const LoginSignup = (props) => {
     setLoginPage(page);
     handleSetFormError({});
   };
-
-  // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF TERTIARY BUTTON (bottom left)
-  // const TertiaryButton = () => {
-  //   switch (loginPage) {
-  //     case 'not_sure':
-  //       return {
-  //         action: () => changeScreen('support'),
-  //         label: 'Still, not convinced',
-  //       };
-  //     case 'support':
-  //       return {
-  //         action: () => changeScreen('register'),
-  //         label: 'Cancel',
-  //       };
-  //     default:
-  //       return {
-  //         action: () => changeScreen('not_sure'),
-  //         label: 'I am not sure',
-  //       };
-  //   }
-  // };
 
   useEffect(() => {
     if (disabledButton) {
@@ -322,7 +301,7 @@ const LoginSignup = (props) => {
                     rounded
                     className="ml-a mr-a mt-2 mb-2 minimum-w-210"
                     label={PrimaryButton().label}
-                    onClick={!disabledButton ? PrimaryButton().action : ''}
+                    onClick={!disabledButton ? PrimaryButton().action : () => ''}
                     isLoading={isSmallLoading === 'recoverPassword'}
                   />
                 </div>
