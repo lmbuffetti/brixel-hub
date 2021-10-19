@@ -193,8 +193,8 @@ const LoginSignup = (props) => {
   }
 
   return (
-    <div className="signUpScreen pos-r dis-f flex-wrap">
-      <div className="w-perc-100 max-w-fix-600 m-a mt-0">
+    <div className="signUpScreen pos-r dis-f flex-wrap w-perc-100">
+      <div className="m-a mt-0 max-w-fix-600 w-perc-100">
         <div className="mr-a ml-a onBoardingSignUp">
           {/* {
             (loginPage === 'register' || loginPage === 'login') && (
@@ -227,7 +227,11 @@ const LoginSignup = (props) => {
                             </p>
                           )
                         }
-                        <BrixelLogin company={company} formName="GetStarted" showErrors={showErrors} />
+                        <BrixelLogin
+                          company={company}
+                          formName="GetStarted"
+                          showErrors={showErrors}
+                        />
                         <p className="mt-1">
                           <BrixelButtonText
                             label="Forgot password?"

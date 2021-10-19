@@ -142,11 +142,16 @@ const Signup = (props) => {
           <div ref={multiStepSlidesRef} className="multiStepSlides">
             <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
               <div className="subcontainer m-a">
-                <div id="step-0" className="dis-fl-col a-c flex-wrap">
-                  <LoginSignup
-                    formName="GetStarted"
-                    onSubmit={(page) => saveData(page)}
-                  />
+                <div id="step-0" className="dis-f a-c flex-wrap">
+                  <div className="dis-f w-perc-100 w-perc-md-50">
+                    hello
+                  </div>
+                  <div className="w-perc-100 w-perc-md-50">
+                    <LoginSignup
+                      formName="GetStarted"
+                      onSubmit={(page) => saveData(page)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

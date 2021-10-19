@@ -630,9 +630,9 @@ const DashboardHome = (props) => {
                 >
                   <Link
                     to={`/${activeSingleProperty.id}/marketing`}
-                    className="brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 mt-2 mt-md-0 cur-poi txtDark700 dis-b"
+                    className="brdRadius bgWhite shadow-2dp shadowHover-4dp pt-2 mt-2 mt-md-0 cur-poi txtDark700 dis-b h-perc-100"
                   >
-                    <div className="h-fix-184 dis-fl-col jc-b">
+                    <div className="h-perc-100 dis-fl-col jc-b">
                       <div className="dis-f px-3">
                         <BrixelIcon
                           icon="mike"
