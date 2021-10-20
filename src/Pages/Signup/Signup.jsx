@@ -56,15 +56,15 @@ const Signup = (props) => {
 
   const sliderInstance = useRef(null);
   const settingSlider = {
-    dots: true,
-    infinite: true,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    speed: 500,
+    centerMode: true,
     slidesToShow: 1,
-    arrows: false,
-    slidesToScroll: 1,
-    draggable: false,
+    speed: 500,
+    autoPlay: true,
+    focusOnSelect: false,
+    dots: false,
+    infinite: true,
+    variableWidth: true,
+    draggable: true,
     centerPadding: '8px',
   };
 
@@ -150,30 +150,30 @@ const Signup = (props) => {
 
   const SignupDescription = () => (
     [
-      <div className="icon-wrap dis-fl-col a-c jc-c">
-        <div className="icon-circle bgWhite brdCircle as-fc dis-f">
+      <div className="icon-wrap dis-fl-col">
+        <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconDocs} alt="Icon Docs" />
         </div>
         <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Easy access to all documents</p>
       </div>,
-      <div className="icon-wrap dis-fl-col a-c jc-c">
-        <div className="icon-circle bgWhite brdCircle as-fc dis-f">
+      <div className="icon-wrap dis-fl-col">
+        <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconCalendar} alt="Icon Calendar" />
         </div>
         <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Book an onsite visit</p>
       </div>,
-      <div className="icon-wrap dis-fl-col a-c jc-c">
-        <div className="icon-circle bgWhite brdCircle as-fc dis-f">
+      <div className="icon-wrap dis-fl-col">
+        <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconOffer} alt="Icon offer" />
         </div>
         <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Make an offer to the seller</p>
       </div>,
-      <div className="icon-wrap dis-fl-col a-c jc-c">
-        <div className="icon-circle bgWhite brdCircle as-fc dis-f">
+      <div className="icon-wrap dis-fl-col">
+        <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconFinance} alt="Finance" />
         </div>
         <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Apply directly for proof of financing</p>
-      </div>
+      </div>,
     ]
   );
 
@@ -195,14 +195,16 @@ const Signup = (props) => {
                   <div className="dis-fl-col w-perc-100 w-perc-md-50 px-0 px-sm-5 a-c">
                     <h3 className="fweight-600 mb-6 max-w-fix-304 mx-a ta-c">Sign up for free and get full access.</h3>
                     {
-                      windowDimensions.width > 767 ? (
+                      windowDimensions.width > 590 ? (
                         <div className="two-col-grid w-perc-100">
                           {SignupDescription()}
                         </div>
                       ) : (
-                        <Slider ref={sliderInstance} {...settingSlider}>
-                          {SignupDescription()}
-                        </Slider>
+                        <div className="centerSlider">
+                          <Slider ref={sliderInstance} {...settingSlider}>
+                            {SignupDescription()}
+                          </Slider>
+                        </div>
                       )
                     }
                   </div>
