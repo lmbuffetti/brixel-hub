@@ -4,13 +4,13 @@ import {
   BrixelInputText,
   BrixelInputTextStep,
   Validation,
+  BrixelInputDatePicker,
   // FactsOptions,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import BookTrialFlow from '../Pages/ScanTrialFlow/BookTrialFlow';
 import ResumeTrialFlow from '../Pages/ScanTrialFlow/ResumeTrialFlow';
 import ClipboardImg from '../images/scanTrial/clipboard.png';
-import { svgIcons } from './svgIcons';
 import { configureStore } from '../store';
 
 // const { factsOptions } = FactsOptions;
@@ -65,39 +65,20 @@ export const MakeOfferQuestions = () => {
       ],
     },
     {
-      title: 'How do you want to do the analysis?',
+      condition: [{
+        name: 'financeCertificate',
+        value: 1,
+      }],
+      title: 'Please tell us some more details',
       history: 'analysis',
       inputs: [{
-        component: BrixelRadioButton,
+        component: BrixelInputDatePicker,
         className: '',
         classNameBox: 'max-w-fix-816 ml-a mr-a',
         ReduxFieldClass: '',
         label: '',
-        name: 'analysis',
+        name: 'buyer.dateBirth',
         validation: [Validation.required],
-        icons: true,
-        cardLayout: true,
-        svgWidth: 'max-w-fix-96 max-w-fix-sm-192',
-        stretched: true,
-        pdClass: 'py-2 py-sm-5',
-        svgSupport: true,
-        isHorizontal: true,
-        options: [
-          {
-            title: 'On-site',
-            label: 'We visit you to evaluate your property.\n',
-            value: 'on-site',
-            img: svgIcons.onSite,
-            color: 'blue',
-          },
-          {
-            title: 'Remote',
-            label: 'We get to know you and your property in a call.',
-            value: 'remote',
-            img: svgIcons.remote,
-            color: 'green',
-          },
-        ],
       }],
     },
     {

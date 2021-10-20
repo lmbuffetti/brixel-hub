@@ -43,6 +43,7 @@ const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
+const MakeOffer = lazy(() => import('./Pages/Offers/MakeOffer'));
 
 // GENERAL COMPONENTS
 const PageHeaderDashboard = lazy(() => import('./components/PageHeaderDashboard'));
@@ -455,6 +456,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
                       <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
+                      <ProtectedRoute path="/packageFlow/:id/makeOffer" component={MakeOffer} />
 
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" component={Signup} />
