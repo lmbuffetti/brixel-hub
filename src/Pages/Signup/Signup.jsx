@@ -150,25 +150,25 @@ const Signup = (props) => {
 
   const SignupDescription = () => (
     [
-      <div className="icon-wrap dis-fl-col">
+      <div className="icon-wrap dis-fl-col a-c">
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconDocs} alt="Icon Docs" />
         </div>
         <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Easy access to all documents</p>
       </div>,
-      <div className="icon-wrap dis-fl-col">
+      <div className="icon-wrap dis-fl-col a-c">
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconCalendar} alt="Icon Calendar" />
         </div>
         <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Book an onsite visit</p>
       </div>,
-      <div className="icon-wrap dis-fl-col">
+      <div className="icon-wrap dis-fl-col a-c">
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconOffer} alt="Icon offer" />
         </div>
         <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Make an offer to the seller</p>
       </div>,
-      <div className="icon-wrap dis-fl-col">
+      <div className="icon-wrap dis-fl-col a-c">
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconFinance} alt="Finance" />
         </div>
@@ -178,7 +178,7 @@ const Signup = (props) => {
   );
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted bgCardGreen createProfile">
+    <div id="bodyModalWrapper" className="withHeader getStarted bgCardGreen createProfile offerSignup">
       <div
         className="bodyModal container"
       >
@@ -195,12 +195,12 @@ const Signup = (props) => {
                   <div className="dis-fl-col w-perc-100 w-perc-md-50 px-0 px-sm-5 a-c">
                     <h3 className="fweight-600 mb-6 max-w-fix-304 mx-a ta-c">Sign up for free and get full access.</h3>
                     {
-                      windowDimensions.width > 590 ? (
+                      windowDimensions.width > 768 ? (
                         <div className="two-col-grid w-perc-100">
                           {SignupDescription()}
                         </div>
                       ) : (
-                        <div className="centerSlider w-perc-100">
+                        <div className="centerSlider w-perc-100 mb-4">
                           <Slider ref={sliderInstance} {...settingSlider}>
                             {SignupDescription()}
                           </Slider>

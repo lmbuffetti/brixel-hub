@@ -871,18 +871,24 @@ button.minimum-w-210 {
 }
 
 .two-col-grid {
-  @media (min-width: $responsive-small) {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-row-gap: $step * 6;
-  }
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-row-gap: $step * 6;
 }
 
 .centerSlider {
   .icon-wrap {
+    transition: opacity 0.5s ease;
+    @media (max-width: 769px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
     .icon-circle {
       height: 148px;
       width: 148px;
+    }
+    p {
+      transition: opacity 0.5s ease;
     }
   }
   .slick-active.slick-center.slick-current {
@@ -893,9 +899,15 @@ button.minimum-w-210 {
     }
   }
   .slick-slide:not(.slick-center) {
+    .icon-wrap {
+      opacity: 0.4;
+    }
     .icon-circle,
     .icon-wrap {
       margin-left: auto;
+    }
+    p {
+      opacity: 0;
     }
   }
   .slick-center + .slick-slide {
@@ -903,6 +915,21 @@ button.minimum-w-210 {
     .icon-circle {
       margin-right: auto;
       margin-left: 0;
+    }
+  }
+}
+
+.offerSignup {
+  @media (max-width: 600px) {
+    .container {
+      padding-left: 0;
+      padding-right: 0;
+      .topBar,
+      .innerBox {
+        border-radius: 0 !important;
+        padding-left: $step * 3;
+        padding-right: $step * 3;
+      }
     }
   }
 }
