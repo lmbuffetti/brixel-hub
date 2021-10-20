@@ -200,7 +200,7 @@ const Signup = (props) => {
                           {SignupDescription()}
                         </div>
                       ) : (
-                        <div className="centerSlider">
+                        <div className="centerSlider w-perc-100">
                           <Slider ref={sliderInstance} {...settingSlider}>
                             {SignupDescription()}
                           </Slider>
