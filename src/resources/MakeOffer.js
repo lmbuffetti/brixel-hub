@@ -74,10 +74,6 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           pdClass: 'py-3 py-md-5',
         },
         {
-          condition: [{
-            name: 'propertyLocation.countryCode',
-            value: 'CH',
-          }],
           component: BrixelRadioButton,
           label: 'Do you already have a financing certificate?',
           name: 'financeCertificate',
@@ -211,10 +207,16 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       ],
     },
     {
-      condition: [{
-        name: 'financeCertificate',
-        value: 1,
-      }],
+      condition: [
+        {
+          name: 'financeCertificate',
+          value: 1,
+        },
+        {
+          name: 'noDocument',
+          value: 0,
+        },
+      ],
       title: 'Add a proof of financing by a Swiss financial institution',
       history: 'financingProof',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 dis-f flex-wrap',

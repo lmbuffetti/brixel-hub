@@ -65,7 +65,6 @@ const MakeOffer = (props) => {
   const [questions, setQuestions] = useState(MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id), (data) => handleSetModal(data)));
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
-  const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
   const propID = get(match, 'params.id', null);
@@ -95,7 +94,8 @@ const MakeOffer = (props) => {
   }, []);
 
   useEffect(() => {
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected') {
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status', null) && (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected')) {
+      console.log('redirect', activeSingleDeal);
       history.push({ pathname: `/buyer/${propID}/closing/${dealID}` });
     }
   }, [activeSingleDeal.id]);
@@ -576,9 +576,10 @@ const mapStateToProps = (state) => ({
     ...get(state, 'brixelForm.offerFlow.values', {}),
     financeCertificate: get(state, 'property.activeSingleProperty.location.countryCode', '') !== 'CH' ? 1 : null,
     propertyLocation: get(state, 'property.activeSingleProperty.location', {}),
-    amount: get(state, 'property.activeSingleProperty.price.total', ''),
-    propertyPrice: get(state, 'property.activeSingleProperty.price.total', ''),
+    amount: get(state, 'property.activeSingleProperty.price.total', 0) || 0,
+    propertyPrice: get(state, 'property.activeSingleProperty.price.total', 0) || 0,
     propertyPriceCurrency: get(state, 'property.activeSingleProperty.price.currency', ''),
+    noDocument: 0,
   },
 });
 
