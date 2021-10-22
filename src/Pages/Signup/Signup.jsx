@@ -60,7 +60,7 @@ const Signup = (props) => {
     slidesToShow: 1,
     speed: 500,
     autoPlay: true,
-    focusOnSelect: false,
+    focusOnSelect: true,
     dots: false,
     infinite: true,
     variableWidth: true,
