@@ -13,7 +13,6 @@ import {
   initializeForm,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -23,17 +22,20 @@ import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import queryString from 'query-string';
 import isArray from 'lodash/isArray';
-import { MakeOfferQuestions } from '../../resources/MakeOffer';
-import { sendUserScanTrial } from '../../actions/UserActions';
-import { setLanguage, spinnerOff } from '../../actions/CommonActions';
-import { getCookie, setCookie } from '../../utils/helpers';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { getActiveSingleProperty } from '../../actions/PropertyActions';
+import { MakeOfferQuestions } from '../../../resources/MakeOffer';
+import { sendUserScanTrial } from '../../../actions/UserActions';
+import { setLanguage, setModal, spinnerOff } from '../../../actions/CommonActions';
+import { getCookie, setCookie } from '../../../utils/helpers';
+import { getActiveSingleCompany } from '../../../actions/CompanyActions';
+import { getActiveSingleProperty } from '../../../actions/PropertyActions';
+import { saveMakeOffer, getActiveSingleDeal } from '../../../actions/DealActions';
+import { multiUploadDocument } from '../../../actions/UploadActions';
 
 const MakeOffer = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    activeSingleDeal,
     activeSingleCompany,
     changeFieldValue,
     destroyForm,
@@ -41,6 +43,9 @@ const MakeOffer = (props) => {
     formValue,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
+    handleGetActiveDeal,
+    handleMultiUploadDocument,
+    handleSetModal,
     handleSendScanTrial,
     handleSetLanguage,
     handleSpinnerOff,
@@ -54,16 +59,17 @@ const MakeOffer = (props) => {
     reset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(MakeOfferQuestions());
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(MakeOfferQuestions()[0]);
+  const [quest, setQuest] = useState(MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id))[0], (data) => handleSetModal(data));
+  const [questions, setQuestions] = useState(MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id), (data) => handleSetModal(data)));
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
   const propID = get(match, 'params.id', null);
+  const dealID = get(match, 'params.dealID', null);
 
   // REF
   const singleStepRef = useRef(null);
@@ -84,8 +90,16 @@ const MakeOffer = (props) => {
     if (activeSingleProperty.id !== propID) {
       handleGetActiveSingleProperty({ id: propID });
     }
+    handleGetActiveDeal({ id: dealID, smallLoader: 'getDeal' });
     return () => destroyForm();
   }, []);
+
+  useEffect(() => {
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected') {
+      history.push({ pathname: `/buyer/${propID}/closing/${dealID}` });
+    }
+  }, [activeSingleDeal.id]);
+
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -110,12 +124,12 @@ const MakeOffer = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (questions[currentIndex].history) {
-      history.push(`/packageFlow/${propID}/makeOffer/${questions[currentIndex].history}`);
+      history.push(`/packageFlow/${propID}/${dealID}/makeOffer/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
 
   useEffect(() => {
-    if (isSmallLoading.sendData === false && questions[currentIndex + 1] && saved) {
+    if (isSmallLoading.sendData === false && questions[currentIndex + 1]) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setQuest(questions[newIndex]);
@@ -131,53 +145,36 @@ const MakeOffer = (props) => {
     reset('offerFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
-    history.push(url || `/${propID}/home`);
-  };
-
-  const goToFacts = () => {
-    reset('offerFlow');
-    history.push(`/packageFlow/getStarted?company=${activeSingleCompany.stub}`);
+    history.push(url || `/buyer/${propID}/closing/${dealID}`);
   };
 
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-    if (!saved) {
-      setSaved(true);
-      const obj = cloneDeep(formValue);
-      delete obj.hourBook;
-      delete obj.dateBook;
-      delete obj.fullDate;
-      delete obj.name;
-      delete obj.phone;
-      delete obj.email;
-      if (obj.bookType === 'phone' || obj.bookType === 'whereby') {
-        delete obj.date;
-        delete formValue.hourBook;
-        delete formValue.dateBook;
-        delete formValue.fullDate;
-        delete formValue.date;
-      }
-      const data = {
-        smallLoader: 'sendData',
-        data: {
-          companyID: activeSingleCompany.id,
-          user: {
-            language: lang,
-            userName: get(formValue, 'name', ''),
-            userEmail: get(formValue, 'email', ''),
-            userPhone: get(formValue, 'phone', { prefix: '', number: '' }),
-          },
-          meta: {
-            ...obj,
-            analysis: obj.analysis || 'on-site',
-            bookType: obj.bookType || 'online',
-            answers: formValue,
-          },
-        },
-      };
-      if (loggedInUser.id) data.data.user.id = loggedInUser.id;
-      handleSendScanTrial(data);
-    }
+    const docs = get(formValue, 'document', []);
+    docs.forEach((item, i) => docs[i].user = get(loggedInUser, 'id', null));
+    const dataDocuments = {
+      allImgs: docs,
+      actions: 'documents',
+      pageID: activeSingleProperty.id || propID,
+      smallLoader: 'sendData',
+      user: get(loggedInUser, 'id', null),
+    };
+    const dataForm = cloneDeep(formValue);
+    dataForm.id = dealID;
+    dataForm.smallLoader = 'sendData';
+    dataForm.saveAction = 'makeOffer';
+    dataForm.currency = dataForm.propertyPriceCurrency;
+    delete dataForm.financeBuyer;
+    delete dataForm.propertyLocation;
+    delete dataForm.propertyPrice;
+    delete dataForm.propertyPriceCurrency;
+    delete dataForm.propertyLocation;
+    const data = {
+      ...dataForm,
+      ...dataDocuments,
+    };
+    handleMultiUploadDocument(data);
+    // handleSaveMakeOffer()
   };
 
   const progressBarCalc = () => {
@@ -322,7 +319,7 @@ const MakeOffer = (props) => {
           }
           if (questions[defId].history) {
             history.push({
-              pathname: `/packageFlow/${propID}/makeOffer/${questions[defId].history}`,
+              pathname: `/packageFlow/${propID}/${dealID}/makeOffer/${questions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -339,7 +336,7 @@ const MakeOffer = (props) => {
     const newQuest = [];
     setOldIndex(currentIndex);
     if (formValue) {
-      MakeOfferQuestions('en').map((quests) => {
+      MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id), (data) => handleSetModal(data)).map((quests) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
@@ -357,7 +354,7 @@ const MakeOffer = (props) => {
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
-    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
+    if (newQuest[currentIndex] && newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
@@ -365,14 +362,14 @@ const MakeOffer = (props) => {
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    if (currentIndex === questions.length - 1) label = 'Save';
+    if (currentIndex === questions.length - 2) label = 'Save';
+    else if (currentIndex === questions.length - 1) label = 'Close';
     else label = 'Continue';
     return label;
   };
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
-
       <div className="pos-r">
         {
           get(quest, 'hideProgress', false) !== true && (
@@ -394,11 +391,11 @@ const MakeOffer = (props) => {
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex] && questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+            <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter || (questions[currentIndex] && questions[currentIndex].effect) ? 'fade-enter-active' : 'fade-enter' : ''}`}>
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && !get(quest, 'cardType', null) && (
@@ -481,9 +478,9 @@ const MakeOffer = (props) => {
             </div>
           </div>
           {
-            get(quest, 'history', null) !== 'createProfile' && (
+            get(quest, 'history', null) !== 'createProfile' && !get(quest, 'hideActionsButton', false) && (
               <div
-                className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                className={`footerAction flowFooter ${questions[currentIndex] && questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
               >
                 <div className="pos-r">
                   <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
@@ -522,7 +519,7 @@ const MakeOffer = (props) => {
                                 themeSat={600}
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"
-                                onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
+                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                 onShowError={() => setShowError(true)}
                               />
                             )
@@ -542,16 +539,20 @@ const MakeOffer = (props) => {
 };
 
 MakeOffer.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
+  activeSingleDeal: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleGetActiveDeal: PropTypes.func.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
+  handleMultiUploadDocument: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -563,6 +564,7 @@ MakeOffer.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', { }),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
   errorValue: get(state, 'brixelForm.offerFlow.syncErrors', {}),
@@ -572,6 +574,8 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValues: {
     ...get(state, 'brixelForm.offerFlow.values', {}),
+    financeCertificate: get(state, 'property.activeSingleProperty.location.countryCode', '') !== 'CH' ? 1 : null,
+    propertyLocation: get(state, 'property.activeSingleProperty.location', {}),
     amount: get(state, 'property.activeSingleProperty.price.total', ''),
     propertyPrice: get(state, 'property.activeSingleProperty.price.total', ''),
     propertyPriceCurrency: get(state, 'property.activeSingleProperty.price.currency', ''),
@@ -591,11 +595,15 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)));
   },
-  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSaveMakeOffer: bindActionCreators(saveMakeOffer, dispatch),
   handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
+  handleGetActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),
 });
 
 export default compose(
