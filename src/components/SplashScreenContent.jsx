@@ -62,6 +62,7 @@ const SplashScreen = (props) => {
     preMarketStats,
     setMarketOverlayProperty,
     setSplashScreen,
+    type,
     userSearchProfiles,
     windowDimensions,
     wizard,
@@ -235,9 +236,12 @@ const SplashScreen = (props) => {
   }, []);
 
   const checkFavorite = useCallback(() => {
-    let findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
-    if (activeMarketOverlayPropertyLists && activeSlide >= 0) {
-      findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayPropertyLists[activeSlide].id);
+    let findIndex = -1;
+    if (favoritesProperties.data) {
+      findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
+      if (activeMarketOverlayPropertyLists && activeSlide >= 0) {
+        findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayPropertyLists[activeSlide].id);
+      }
     }
     return findIndex > -1;
   }, [favoritesProperties.data]);
@@ -323,7 +327,7 @@ const SplashScreen = (props) => {
 
   return (
     <>
-      <div className={`dis-f p-2 a-c jc-fe ${!activeMarketOverlayPropertyLists ? 'pos-a w-perc-100' : ''}`}>
+      <div className={`dis-f p-2 a-c jc-fe ${type !== 'marketOverlayCarousel' ? 'pos-a w-perc-100' : ''}`}>
         <BrixelButtonIcon
           className="pos-r zIndex1"
           ghost
@@ -333,14 +337,14 @@ const SplashScreen = (props) => {
         />
       </div>
 
-      <div className={`middle-part ${activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${fullScreenCard || !activeMarketOverlayPropertyLists ? '' : 'pos-r zIndex1'} ${!activeMarketOverlayPropertyLists ? 'fullScreenCard' : ''}`} id="wizard-preMarketOverlay-parent">
+      <div className={`middle-part ${type === 'marketOverlayCarousel' ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${type !== 'marketOverlayCarousel' ? '' : 'pos-r zIndex1'} ${type !== 'marketOverlayCarousel' ? 'fullScreenCard' : ''}`} id="wizard-preMarketOverlay-parent">
         {
           get(wizard, 'type', null) && activeMarketOverlayPropertyLists && (
             <WizardCard />
           )
         }
         {
-          activeMarketOverlayPropertyLists && (
+          type === 'marketOverlayCarousel' && (
             <div className="container">
               <SearchProfileBanner
                 title="Pre-Market"
@@ -423,7 +427,7 @@ const SplashScreen = (props) => {
           )
         }
         {
-          !activeMarketOverlayPropertyLists && (
+          type !== 'marketOverlayCarousel' && (
             <div className="carousel3d open m-0 h-perc-100" id="overlayCarousel">
               <MarketCardOverlay
                 item={activeMarketOverlayProperty}
@@ -436,7 +440,7 @@ const SplashScreen = (props) => {
 
       </div>
       {
-        !activeMarketOverlayPropertyLists && (
+        type !== 'marketOverlayCarousel' && (
           <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists ? 'jc-b' : 'jc-c'} pos-r zIndex2`}>
             {
               activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
@@ -516,6 +520,7 @@ SplashScreen.propTypes = {
   preMarketStats: PropTypes.object.isRequired,
   setMarketOverlayProperty: PropTypes.func,
   setSplashScreen: PropTypes.func,
+  type: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
