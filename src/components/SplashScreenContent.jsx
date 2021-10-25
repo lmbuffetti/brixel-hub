@@ -520,7 +520,7 @@ SplashScreen.propTypes = {
   preMarketStats: PropTypes.object.isRequired,
   setMarketOverlayProperty: PropTypes.func,
   setSplashScreen: PropTypes.func,
-  type: PropTypes.string,
+  type: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
