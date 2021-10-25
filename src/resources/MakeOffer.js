@@ -23,10 +23,13 @@ const { factsOptions } = FactsOptions;
 export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
   let formValue = {};
   let isPT;
+  let countryName = '';
   if (configureStore) {
     formValue = get(configureStore.getState(), 'brixelForm.offerFlow.values', []);
     const countryCode = get(formValue, 'propertyLocation.countryCode', '');
     isPT = countryCode === 'PT';
+    if (isPT) countryName = 'a Portuguese';
+    if (countryCode === 'CH') countryName = 'a Swiss';
   }
 
   const TextForm = () => {
@@ -217,7 +220,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           value: 0,
         },
       ],
-      title: 'Add a proof of financing by a Swiss financial institution',
+      title: 'Upload your proof of financing',
       history: 'financingProof',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 dis-f flex-wrap',
       inputs: [
@@ -226,7 +229,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           classNameBox: 'max-w-fix-816 ml-a mr-a',
           classBoxWrapper: 'pr-2',
           ReduxFieldClass: '',
-          label: 'Add a proof of financing by a Swiss financial institution\n',
+          label: `Add a proof of financing by ${countryName} financial institution`,
           name: 'document',
           validation: [Validation.required],
         },
@@ -235,7 +238,6 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           classNameBox: 'max-w-fix-816 ml-a mr-a',
           classBoxWrapper: 'pr-2',
           ReduxFieldClass: '',
-          label: 'Add a proof of financing by a Swiss financial institution\n',
           name: 'document',
         },
       ],

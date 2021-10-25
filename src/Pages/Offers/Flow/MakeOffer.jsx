@@ -574,7 +574,6 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValues: {
     ...get(state, 'brixelForm.offerFlow.values', {}),
-    financeCertificate: get(state, 'property.activeSingleProperty.location.countryCode', '') !== 'CH' ? 1 : null,
     propertyLocation: get(state, 'property.activeSingleProperty.location', {}),
     amount: get(state, 'property.activeSingleProperty.price.total', 0) || 0,
     propertyPrice: get(state, 'property.activeSingleProperty.price.total', 0) || 0,
