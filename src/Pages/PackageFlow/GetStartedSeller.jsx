@@ -88,7 +88,6 @@ const GetStartedSeller = (props) => {
     return result;
   };
 
-  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     getCurrency();
   }, [get(history, 'location.countryCode', null)]);
@@ -355,15 +354,6 @@ const GetStartedSeller = (props) => {
       changeFieldValue('inputSheet', inputSheet);
     }
   }, [formValue]);
-
-  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
-  useEffect(() => {
-    if (get(history, 'location.pathname', '').includes('success') && questions[currentIndex + 1]) {
-      setTimeout(() => {
-        changeStep('next', null, 2);
-      }, 500);
-    }
-  }, [get(history, 'location', null)]);
 
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {

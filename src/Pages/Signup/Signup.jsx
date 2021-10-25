@@ -1,9 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
-import React, {
-  useEffect, useRef,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   initializeForm,
@@ -50,6 +48,8 @@ const Signup = (props) => {
     loggedInUser,
     windowDimensions,
   } = props;
+  // STATE
+  const [urlData, setUrlData] = useState({ });
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -73,6 +73,21 @@ const Signup = (props) => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
+
+  useEffect(() => {
+    const url = queryString.parse(get(history, 'location.search', ''));
+    if (url.url || url.company) {
+      setUrlData(url);
+      history.push('/signup');
+    }
+  }, [get(history, 'location', '')]);
+
+  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
+  useEffect(() => {
+    if (get(history, 'location.pathname', '').includes('success') && urlData.url) {
+      window.location.assign(urlData.url);
+    }
+  }, [get(history, 'location', null)]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async (page) => {
