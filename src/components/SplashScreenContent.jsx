@@ -301,7 +301,7 @@ const SplashScreen = (props) => {
       // handleSetActiveMarketOverlayPropertyLists(listProp);
       // setActiveSlide(activeSlide + 1);
       updateData();
-      setNewPreMarketStats({ ...newPreMarketStats, likedTotal: newPreMarketStats.likedTotal + 1, total: newPreMarketStats.total - 1 });
+      setNewPreMarketStats({ ...newPreMarketStats, dislikedTotal: newPreMarketStats.dislikedTotal + 1, total: newPreMarketStats.total - 1 });
       setTimeout(() => {
         const removeEl = document.getElementsByClassName('cloneElement');
         while (removeEl[0]) {
