@@ -1,9 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
-import React, {
-  useEffect, useRef,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   initializeForm,
@@ -14,6 +12,7 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Slider from 'react-slick';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import queryString from 'query-string';
@@ -24,6 +23,10 @@ import { setCookie } from '../../utils/helpers';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 import LoginSignup from '../../components/LoginSignup';
+import iconCalendar from '../../images/offer-flow/Brixel-Icons-calendar.png';
+import iconDocs from '../../images/offer-flow/Brixel-Icons-docs.png';
+import iconFinance from '../../images/offer-flow/Brixel-Icons-finance.png';
+import iconOffer from '../../images/offer-flow/Brixel-Icons-offer.png';
 
 const cookie = new Cookies();
 
@@ -43,16 +46,48 @@ const Signup = (props) => {
     isTest,
     lang,
     loggedInUser,
+    windowDimensions,
   } = props;
+  // STATE
+  const [urlData, setUrlData] = useState({ });
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
+
+  const sliderInstance = useRef(null);
+  const settingSlider = {
+    centerMode: true,
+    slidesToShow: 1,
+    speed: 500,
+    autoPlay: true,
+    focusOnSelect: true,
+    dots: false,
+    infinite: true,
+    variableWidth: true,
+    draggable: true,
+    centerPadding: '8px',
+  };
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
+
+  useEffect(() => {
+    const url = queryString.parse(get(history, 'location.search', ''));
+    if (url.url || url.company) {
+      setUrlData(url);
+      history.push('/signup');
+    }
+  }, [get(history, 'location', '')]);
+
+  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
+  useEffect(() => {
+    if (get(history, 'location.pathname', '').includes('success') && urlData.url) {
+      window.location.assign(urlData.url);
+    }
+  }, [get(history, 'location', null)]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async (page) => {
@@ -128,8 +163,37 @@ const Signup = (props) => {
     }
   }, [company]);
 
+  const SignupDescription = () => (
+    [
+      <div className="icon-wrap dis-fl-col a-c">
+        <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
+          <img width="135" src={iconDocs} alt="Icon Docs" />
+        </div>
+        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Easy access to all documents</p>
+      </div>,
+      <div className="icon-wrap dis-fl-col a-c">
+        <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
+          <img width="135" src={iconCalendar} alt="Icon Calendar" />
+        </div>
+        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Book an onsite visit</p>
+      </div>,
+      <div className="icon-wrap dis-fl-col a-c">
+        <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
+          <img width="135" src={iconOffer} alt="Icon offer" />
+        </div>
+        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Make an offer to the seller</p>
+      </div>,
+      <div className="icon-wrap dis-fl-col a-c">
+        <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
+          <img width="135" src={iconFinance} alt="Finance" />
+        </div>
+        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Apply directly for proof of financing</p>
+      </div>,
+    ]
+  );
+
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted bgCardGreen createProfile">
+    <div id="bodyModalWrapper" className="withHeader getStarted bgCardGreen createProfile offerSignup">
       <div
         className="bodyModal container"
       >
@@ -142,11 +206,29 @@ const Signup = (props) => {
           <div ref={multiStepSlidesRef} className="multiStepSlides">
             <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
               <div className="subcontainer m-a">
-                <div id="step-0" className="dis-fl-col a-c flex-wrap">
-                  <LoginSignup
-                    formName="GetStarted"
-                    onSubmit={(page) => saveData(page)}
-                  />
+                <div id="step-0" className="dis-f flex-wrap pt-3 pt-sm-8">
+                  <div className="dis-fl-col w-perc-100 w-perc-md-50 px-0 px-sm-5 a-c">
+                    <h3 className="fweight-600 mb-6 max-w-fix-304 mx-a ta-c">Sign up for free and get full access.</h3>
+                    {
+                      windowDimensions.width > 768 ? (
+                        <div className="two-col-grid w-perc-100">
+                          {SignupDescription()}
+                        </div>
+                      ) : (
+                        <div className="centerSlider w-perc-100 mb-4">
+                          <Slider ref={sliderInstance} {...settingSlider}>
+                            {SignupDescription()}
+                          </Slider>
+                        </div>
+                      )
+                    }
+                  </div>
+                  <div className="w-perc-100 w-perc-md-50">
+                    <LoginSignup
+                      formName="GetStarted"
+                      onSubmit={(page) => saveData(page)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -171,6 +253,7 @@ Signup.propTypes = {
   isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 Signup.defaultProps = {
@@ -185,6 +268,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.GetStarted.values', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
