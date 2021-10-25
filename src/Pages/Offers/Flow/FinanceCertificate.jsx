@@ -91,7 +91,7 @@ const FinanceCertificate = (props) => {
                 We suggest checking your financing as soon as possible.
               </p>
               <p className="mt-1">
-                A pre-approved mortgage gets you ahead of unqualified buyers. That's how you can get one:
+                A pre-approved mortgage gets you ahead of unqualified buyers. That&apos;s how you can get one:
               </p>
 
               <div className="dis-f jc-b a-t mt-3">
