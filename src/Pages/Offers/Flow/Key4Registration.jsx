@@ -35,7 +35,7 @@ const Key4Registration = (props) => {
     const city = get(activeSingleProperty, 'location.city', '');
     const streetName = get(activeSingleProperty, 'location.name', '');
     const streetNumber = get(activeSingleProperty, 'location.streetNumber', '');
-    const objectType= get(activeSingleProperty, 'properties.propertyType', '') === 'Home' ? 'SINGLE_FAMILY_HOME' : 'APARTMENT';
+    const objectType = get(activeSingleProperty, 'properties.propertyType', '') === 'Home' ? 'SINGLE_FAMILY_HOME' : 'APARTMENT';
     const grossAnnualIncome = get(formValue, 'financeBuyer.income', 0);
     const Equity = get(formValue, 'financeBuyer.equity', 0);
     // eslint-disable-next-line max-len
@@ -53,55 +53,56 @@ const Key4Registration = (props) => {
 
   return (
     <div>
-      <h2 className="fweight-600 max-w-fix-464 ta-c m-a">
+      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
         Learn within 48 hours if you can afford your desired home.
       </h2>
       <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
         <div className="p-5">
-          <h5>Please prepare the following documents to apply for your certificate:</h5>
+          <p className="fsize-500 txtAltGrey700">Please prepare the following documents to apply for your certificate:</p>
 
           <div className="mt-3">
             <div className="dis-f a-c">
               <BrixelIcon
                 className="mr-2"
-                iconWidth="w-fix-24"
+                iconWidth="w-fix-32"
                 icon="tax-declaration"
                 color="altGreen"
                 saturationTxt={300}
               />
-              <p className="fsize-300">Latest tax declaration</p>
+              <p className="txtAltGrey700">Latest tax declaration</p>
             </div>
             <div className="dis-f a-c mt-2">
               <BrixelIcon
                 className="mr-2"
-                iconWidth="w-fix-24"
+                iconWidth="w-fix-32"
                 icon="proof-income"
                 color="altGreen"
                 saturationTxt={300}
               />
-              <p className="fsize-300">Latest proof of income, incl. proof of bonus if applicable</p>
+              <p className="txtAltGrey700">Latest proof of income, incl. proof of bonus if applicable</p>
             </div>
             <div className="dis-f a-c mt-2">
               <BrixelIcon
                 className="mr-2"
-                iconWidth="w-fix-24"
+                iconWidth="w-fix-32"
                 icon="pension"
                 color="altGreen"
                 saturationTxt={300}
               />
-              <p className="fsize-300">Pension fund statement</p>
+              <p className="txtAltGrey700">Pension fund statement</p>
             </div>
+
             {
               getSellerBrochure() && (
                 <div className="dis-f a-c mt-2">
                   <BrixelIcon
                     className="mr-2"
-                    iconWidth="w-fix-24"
+                    iconWidth="w-fix-32"
                     icon="property-expose"
                     color="altGreen"
                     saturationTxt={300}
                   />
-                  <p className="fsize-300 dis-f flex-wrap a-c">
+                  <p className="dis-f flex-wrap a-c txtAltGrey700">
                     <span>Property exposé</span>
                     <a
                       className="ml-small-4 txtDark700 td-u"
@@ -119,15 +120,15 @@ const Key4Registration = (props) => {
         </div>
       </div>
       <div className="max-w-fix-600 mx-a mt-3">
-        <p className="fsize-300">
+        <p className="fsize-300 txtDark700">
           <span>By clicking the button you allow us to send the following data to key4: your offer price, property type, property address, type of residence (main type of residence), your equity capital, and your gross annual income.</span>
           <a
             href={linkInfoKey4()}
             target="_blank"
             rel="noreferrer"
-            className="ml-small-4 txtDark400 td-u mt-small-4-neg"
+            className="ml-small-4 txtDark400 td-u mt-small-4-neg dis-ib"
           >
-            <span>Read more</span>
+            <p className="fsize-300 txtDark700">Read more</p>
           </a>
         </p>
         <BrixelButtonPrimary
@@ -140,7 +141,7 @@ const Key4Registration = (props) => {
           onClick={() => onRegisterKey4()}
         />
 
-        <p className="mt-3 fs-i fsize-200">
+        <p className="mt-3 fs-i txtDark400 fsize-200">
           Please note that Brixel will be compensated for your referral when you conclude a mortgage with key4.
         </p>
       </div>

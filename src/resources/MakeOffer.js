@@ -38,12 +38,15 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       changeIndex(1);
     };
     return (
-      <p>
-        <span>You don&apos;t have a proof of financing yet?</span>
-        <button type="button" onClick={() => sendData()}>
-          <span>Apply now on key4</span>
-        </button>
-      </p>
+      <>
+        <hr className="bgAltGrey200" />
+        <p className="txtAltGrey700 fsize-500 p-5">
+          <span>You don&apos;t have a proof of financing yet?</span>
+          <span className="cur-poi dis-b td-u" type="button" onClick={() => sendData()}>
+            <span>Apply now on key4</span>
+          </span>
+        </p>
+      </>
     );
   };
 
@@ -59,7 +62,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           formatType: 'price',
           disabled: true,
           component: BrixelInputText,
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classNameBox: 'ml-a mr-a',
           label: 'Listing price',
           name: 'propertyPrice',
           validation: [Validation.required],
@@ -71,7 +74,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           unit: get(formValue, 'propertyPriceCurrency', 'CHF'),
           formatType: 'price',
           component: BrixelInputTextStep,
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classNameBox: 'ml-a mr-a',
           label: 'Your offer',
           name: 'amount',
           validation: [Validation.required],
@@ -106,7 +109,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       inputs: [
         {
           component: BrixelInputText,
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classNameBox: 'ml-a mr-a',
           label: 'Your place of origin',
           name: 'buyer.placeOfOrigin',
           pdClass: 'py-3 py-md-5',
@@ -115,7 +118,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         {
           component: BrixelInputDatePicker,
           className: '',
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           label: 'Your date of birth',
           name: 'buyer.dateBirth',
@@ -123,7 +126,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           large: true,
         },
         {
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
           label: 'Your marital status',
           name: 'buyer.maritialStatus',
@@ -139,7 +142,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
             name: 'buyer.maritialStatus',
             value: 'partnership',
           }],
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
           label: 'Your matrimonial property regime',
           name: 'buyer.matrimonialPropertyRegime',
@@ -148,7 +151,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           large: true,
         },
         {
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
           label: 'Type of purchase',
           name: 'buyer.typeOfPurchase',
@@ -157,7 +160,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           large: true,
         },
         {
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classNameBox: 'ml-a mr-a',
           component: BrixelTextArea,
           label: 'Comment',
           placeholder: 'Add an amount of your down payment and the date you would like to sign the contract and deed.',
@@ -179,9 +182,9 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       inputs: [
         {
           component: BrixelInputText,
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
-          classWidthBox: 'w-perc-100 w-perc-md-90',
-          classBoxWrapper: 'pr-2',
+          classNameBox: 'ml-a mr-a',
+          classWidthBox: 'w-perc-100 w-perc-sm-80',
+          classBoxWrapper: 'pr-0 pr-sm-2',
           ReduxFieldClass: '',
           label: 'Street',
           name: 'location.street',
@@ -190,9 +193,9 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         },
         {
           component: BrixelInputText,
-          classBoxWrapper: 'mt-0 w-perc-10',
-          classWidthBox: 'w-perc-100 w-perc-md-10',
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classBoxWrapper: 'mt-3 pr-2 pr-sm-0 mt-sm-0',
+          classWidthBox: 'w-perc-40 w-perc-sm-20',
+          classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           label: 'Nr',
           name: 'location.streetNumber',
@@ -201,9 +204,9 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         {
           component: BrixelInputText,
           className: '',
-          classWidthBox: 'w-perc-100 w-perc-md-40',
-          classBoxWrapper: 'pr-1 mt-5',
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classWidthBox: 'w-perc-60 w-perc-sm-40',
+          classBoxWrapper: 'pr-0 pr-sm-2 mt-3',
+          classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           label: 'Zip',
           name: 'location.zipCode',
@@ -213,9 +216,9 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         {
           component: BrixelInputText,
           className: '',
-          classWidthBox: 'w-perc-100 w-perc-md-60',
-          classBoxWrapper: 'pl-1 mt-5',
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classWidthBox: 'w-perc-100 w-perc-sm-60',
+          classBoxWrapper: 'mt-3',
+          classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           label: 'City',
           name: 'location.City',
@@ -237,22 +240,23 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       ],
       title: 'Upload your proof of financing',
       history: 'financingProof',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelMultiUploadFile,
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
-          classBoxWrapper: 'pr-2',
+          classNameBox: 'max-w-fix-600 ml-a mr-a',
+          classBoxWrapper: 'p-5',
           ReduxFieldClass: '',
           label: `Add a proof of financing by ${countryName} financial institution`,
           name: 'document',
+          theme: 'simple',
           validation: [Validation.required],
         },
         {
           customComponent: isPT ? null : TextForm,
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
-          classBoxWrapper: 'pr-2',
+          classNameBox: 'max-w-fix-600 ml-a mr-a',
+          classBoxWrapper: 'py-5 ',
           ReduxFieldClass: '',
           name: 'document',
         },
@@ -281,14 +285,14 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
-          customHTML: 'These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.',
+          customHTML: '<p class="fsize-300 txtAltGrey700">These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.</p>',
         },
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
           unit: get(formValue, 'propertyPriceCurrency', 'CHF'),
           formatType: 'price',
           component: BrixelInputText,
-          classNameBox: 'max-w-fix-816 ml-a mr-a',
+          classNameBox: 'ml-a mr-a',
           label: 'Your equity capital',
           name: 'financeBuyer.equity',
           validation: [Validation.required],

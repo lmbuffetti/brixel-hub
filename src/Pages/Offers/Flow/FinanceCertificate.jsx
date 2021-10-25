@@ -44,20 +44,20 @@ const FinanceCertificate = (props) => {
             <div className=" p-5">
               <p className="fsize-500 txtAltGrey700">The financing certificate is a quick, non-binding assessment of your financial situation and proof that you can afford the property you want provided by our partner key4 by UBS.</p>
 
-              <div className="dis-f jc-b a-t mt-3">
-                <div className="dis-f-col flex-1 a-c jc-fs ta-c">
+              <div className="dis-fl-col dis-fl-row-sm jc-b a-t mt-3">
+                <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs ta-c">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
                   <p className="txtAltGrey700 fsize-300 fweight-600 ta-c">Answer questions about financing</p>
                 </div>
-                <div className="dis-f-col flex-1 a-c jc-fs">
+                <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs my-2 my-sm-0">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={RegisterKey4Img} alt="Register on key4" />
                   </div>
                   <p className="txtAltGrey700 fsize-300 fweight-600 ta-c">Register on key4</p>
                 </div>
-                <div className="dis-f-col flex-1 a-c jc-fs">
+                <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
@@ -94,8 +94,8 @@ const FinanceCertificate = (props) => {
                 A pre-approved mortgage gets you ahead of unqualified buyers. That&apos;s how you can get one:
               </p>
 
-              <div className="dis-f jc-b a-t mt-3">
-                <div className="flex-1 dis-f-col a-c jc-fs ta-c">
+              <div className="dis-fl-col dis-fl-row-sm jc-b a-t mt-3">
+                <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs ta-c">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
@@ -103,7 +103,7 @@ const FinanceCertificate = (props) => {
                     Prepare your documents
                   </p>
                 </div>
-                <div className="flex-1 dis-f-col a-c jc-fs">
+                <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs my-2 my-sm-0">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={RegisterKey4Img} alt="Register on key4" />
                   </div>
@@ -111,7 +111,7 @@ const FinanceCertificate = (props) => {
                     Contact a financial provider
                   </p>
                 </div>
-                <div className="flex-1 dis-f-col a-c jc-fs">
+                <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
