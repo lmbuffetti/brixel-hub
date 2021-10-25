@@ -102,6 +102,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       title: 'Please tell us some more details',
       history: 'analysis',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelInputText,
@@ -174,6 +175,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       title: 'Where do you currently live?',
       history: 'location',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 dis-f flex-wrap',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelInputText,
@@ -236,6 +238,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       title: 'Upload your proof of financing',
       history: 'financingProof',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 dis-f flex-wrap',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelMultiUploadFile,
@@ -255,7 +258,6 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         },
       ],
     },
-
     {
       condition: [{
         name: 'financeCertificate',
@@ -265,6 +267,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       cardType: 'loadComponent',
       history: 'financeCertificate',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+      footerWidth: 'max-w-fix-600',
       component: FinanceCertificate,
     },
     {
@@ -275,6 +278,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       title: 'Please enter your financial data',
       history: 'financialData',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+      footerWidth: 'max-w-fix-600',
       inputs: [
         {
           customHTML: 'These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.',
@@ -334,6 +338,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       cardType: 'loadComponent',
       history: 'key4Registration',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+      footerWidth: 'max-w-fix-600',
       component: Key4Registration,
     },
     {

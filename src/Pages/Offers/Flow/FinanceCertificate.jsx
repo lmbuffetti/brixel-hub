@@ -34,7 +34,7 @@ const FinanceCertificate = (props) => {
 
   return (
     <div>
-      <h2 className="fweight-600 max-w-fix-464 ta-c m-a">
+      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
         Apply for a financing certificate
       </h2>
       <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
@@ -42,34 +42,34 @@ const FinanceCertificate = (props) => {
         {
           get(activeSingleProperty, 'location.countryCode', '') === 'CH' ? (
             <div className=" p-5">
-              <p>The financing certificate is a quick, non-binding assessment of your financial situation and proof that you can afford the property you want provided by our partner key4 by UBS.</p>
+              <p className="fsize-500 txtAltGrey700">The financing certificate is a quick, non-binding assessment of your financial situation and proof that you can afford the property you want provided by our partner key4 by UBS.</p>
 
               <div className="dis-f jc-b a-t mt-3">
-                <div className="max-w-fix-136 dis-f-col a-c jc-fs ta-c">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c">
+                <div className="dis-f-col flex-1 a-c jc-fs ta-c">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
-                  <p className="fsize-300 fweight-600 ta-c">Answer questions about financing</p>
+                  <p className="txtAltGrey700 fsize-300 fweight-600 ta-c">Answer questions about financing</p>
                 </div>
-                <div className="max-w-fix-136 dis-f-col a-c jc-fs">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c">
+                <div className="dis-f-col flex-1 a-c jc-fs">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={RegisterKey4Img} alt="Register on key4" />
                   </div>
-                  <p className="fsize-300 fweight-600 ta-c">Register on key4</p>
+                  <p className="txtAltGrey700 fsize-300 fweight-600 ta-c">Register on key4</p>
                 </div>
-                <div className="max-w-fix-136 dis-f-col a-c jc-fs">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c">
+                <div className="dis-f-col flex-1 a-c jc-fs">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
-                  <p className="fsize-300 fweight-600 ta-c">Upload documents on key4</p>
+                  <p className="txtAltGrey700 fsize-300 fweight-600 ta-c">Upload documents on key4</p>
                 </div>
               </div>
 
               <div className="mt-3">
-                <p className="fsize-300">
+                <p className="fsize-300 txtAltGrey700 pb-2">
                   Please be aware that key4 offers are only valid for persons with residency in Switzerland.
                 </p>
-                <p className="fsize-300 mt-1">
+                <p className="fsize-300 txtAltGrey700">
                   The non-binding certificate is issued by our partner key4 by UBS, the real estate financing platform of UBS.
                 </p>
               </div>
@@ -77,7 +77,7 @@ const FinanceCertificate = (props) => {
               <BrixelButtonPrimary
                 onClick={() => onClick()}
                 rounded
-                className="mx-a mt-3"
+                className="mx-a mt-4"
                 label="Apply now"
                 rightIcon="arrow-right"
                 theme="altGreen"
@@ -85,44 +85,44 @@ const FinanceCertificate = (props) => {
               />
             </div>
           ) : (
-            <div className=" p-5">
-              <p>
+            <div className="p-5">
+              <p className="txtAltGrey700">
                 No problem.<br />
                 We suggest checking your financing as soon as possible.
               </p>
-              <p className="mt-1">
+              <p className="txtAltGrey700 pt-2">
                 A pre-approved mortgage gets you ahead of unqualified buyers. That&apos;s how you can get one:
               </p>
 
               <div className="dis-f jc-b a-t mt-3">
-                <div className="max-w-fix-136 dis-f-col a-c jc-fs ta-c">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c">
+                <div className="flex-1 dis-f-col a-c jc-fs ta-c">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
-                  <p className="fsize-300 fweight-600 ta-c">
+                  <p className="txtAltGrey700 fsize-300 fweight-600 ta-c">
                     Prepare your documents
                   </p>
                 </div>
-                <div className="max-w-fix-136 dis-f-col a-c jc-fs">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c">
+                <div className="flex-1 dis-f-col a-c jc-fs">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={RegisterKey4Img} alt="Register on key4" />
                   </div>
-                  <p className="fsize-300 fweight-600 ta-c">
+                  <p className="txtAltGrey700 fsize-300 fweight-600 ta-c">
                     Contact a financial provider
                   </p>
                 </div>
-                <div className="max-w-fix-136 dis-f-col a-c jc-fs">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c">
+                <div className="flex-1 dis-f-col a-c jc-fs">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
-                  <p className="fsize-300 fweight-600 ta-c">
+                  <p className="txtAltGrey700 fsize-300 fweight-600 ta-c">
                     Attach the approval to your offer
                   </p>
                 </div>
               </div>
 
               <div className="mt-3">
-                <p className="fsize-300">
+                <p className="fsize-300 txtAltGrey700">
                   Be aware Brixel is not in charge of the mortgage process.
                 </p>
               </div>
@@ -130,12 +130,12 @@ const FinanceCertificate = (props) => {
           )
         }
 
-        <hr className="bgLight200" />
+        <hr className="bgAltGrey200" />
 
         <div className="p-5">
-          <h6>
+          <span className="dis-b pb-2 fsize-500 txtAltGrey700">
             Continue without financing certificate.
-          </h6>
+          </span>
 
           <BrixelCheckbox
             input={{
@@ -148,6 +148,7 @@ const FinanceCertificate = (props) => {
           />
 
           <BrixelButtonText
+            className="mt-1"
             label="Continue"
             rightIcon="arrow-right"
             onClick={() => continueWithoutCert()}
