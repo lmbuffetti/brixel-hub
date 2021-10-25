@@ -161,6 +161,7 @@ export const QuestionsList = (lang, type) => {
           name: type === 'searchProfile' ? 'countryCode' : 'location.countryCode',
           options: countryList,
           validation: [Validation.required],
+          large: true,
         },
         {
           component: MapsCities,
@@ -198,6 +199,7 @@ export const QuestionsList = (lang, type) => {
           name: 'finance.price.totalMax',
           formatType: 'price',
           unit: get(formValue, 'finance.currency', 'CHF'),
+          large: true,
         },
       ],
       successMessage: translateTo(lang, 'This is a nice number.'),

@@ -464,7 +464,7 @@ img {
     }
   }
 }
-
+/*
 .formFlow label.brixel-label,
 .formFlow .labelLeft,
 
@@ -473,10 +473,10 @@ img {
 .flowBody label.txtDark200,
 .singleInput label.txtDark200,
 .singleInput label.brixel-label {
-  color: map-get($darkColor, 500) !important;
-  @include fontStyle(400);
-  font-weight: 500;
-}
+  // color: map-get($darkColor, 500) !important;
+  // @include fontStyle(400);
+  // font-weight: 500;
+} */
 
 .singleInput label.txtDark200,
 .singleInput label.brixel-label {

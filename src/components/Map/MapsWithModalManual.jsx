@@ -441,6 +441,7 @@ export const MapsWithModalManual = (props) => {
                       design={{
                         className: 'mb-2 zIndex1',
                         showIconValidation: false,
+                        large: true,
                       }}
                       input={{
                         name: 'location.name',
@@ -464,6 +465,7 @@ export const MapsWithModalManual = (props) => {
                       design={{
                         className: 'mb-2 zIndex1',
                         showIconValidation: false,
+                        large: true,
                       }}
                       input={{
                         name: 'location.streetNumber',
@@ -485,6 +487,7 @@ export const MapsWithModalManual = (props) => {
                       design={{
                         className: 'mb-2 zIndex1',
                         showIconValidation: false,
+                        large: true,
                       }}
                       input={{
                         name: 'location.zip',
@@ -513,6 +516,7 @@ export const MapsWithModalManual = (props) => {
                       design={{
                         className: 'mb-2 zIndex1',
                         showIconValidation: false,
+                        large: true,
                       }}
                       input={{
                         name: 'location.city',
@@ -530,6 +534,7 @@ export const MapsWithModalManual = (props) => {
                       wrapClass: 'w-perc-60',
                       className: 'mb-2 zIndex1',
                       showIconValidation: false,
+                      large: true,
                     }}
                     input={{
                       name: 'location.countryCode',
@@ -606,6 +611,7 @@ export const MapsWithModalManual = (props) => {
                     onClear={() => (disabled ? '' : clearField())}
                     message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
                     iconLeft="location-pin-simple"
+                    large
                   />
                   {
                     !selectedAddress && locList.length > 0 && !disabled && (

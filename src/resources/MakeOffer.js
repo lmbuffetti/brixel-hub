@@ -64,6 +64,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'propertyPrice',
           validation: [Validation.required],
           pdClass: 'py-3 py-md-5',
+          large: true,
         },
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -75,11 +76,13 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'amount',
           validation: [Validation.required],
           pdClass: 'py-3 py-md-5',
+          large: true,
         },
         {
           component: BrixelRadioButton,
           label: 'Do you already have a financing certificate?',
           name: 'financeCertificate',
+          large: true,
           validation: [Validation.required],
           options: [{
             value: 1,
@@ -106,6 +109,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'Your place of origin',
           name: 'buyer.placeOfOrigin',
           pdClass: 'py-3 py-md-5',
+          large: true,
         },
         {
           component: BrixelInputDatePicker,
@@ -115,6 +119,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'Your date of birth',
           name: 'buyer.dateBirth',
           showFullSelectDate: true,
+          large: true,
         },
         {
           classNameBox: 'max-w-fix-816 ml-a mr-a',
@@ -123,6 +128,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'buyer.maritialStatus',
           options: factsOptions.martialStatus,
           pdClass: 'py-3 py-md-5',
+          large: true,
         },
         {
           conditionsOr: [{
@@ -138,6 +144,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'buyer.matrimonialPropertyRegime',
           options: isPT ? factsOptions.matrimonialPropertyRegimePT : factsOptions.matrimonialPropertyRegime,
           pdClass: 'py-3 py-md-5',
+          large: true,
         },
         {
           classNameBox: 'max-w-fix-816 ml-a mr-a',
@@ -146,6 +153,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'buyer.typeOfPurchase',
           options: isPT ? factsOptions.purchaseTypePT : factsOptions.purchaseType,
           pdClass: 'py-3 py-md-5',
+          large: true,
         },
         {
           classNameBox: 'max-w-fix-816 ml-a mr-a',
@@ -154,6 +162,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           placeholder: 'Add an amount of your down payment and the date you would like to sign the contract and deed.',
           name: 'noteByBuyer',
           pdClass: 'py-3 py-md-5',
+          large: true,
         },
       ],
     },
@@ -175,6 +184,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'Street',
           name: 'location.street',
           validation: [Validation.required],
+          large: true,
         },
         {
           component: BrixelInputText,
@@ -184,6 +194,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           ReduxFieldClass: '',
           label: 'Nr',
           name: 'location.streetNumber',
+          large: true,
         },
         {
           component: BrixelInputText,
@@ -195,6 +206,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'Zip',
           name: 'location.zipCode',
           validation: [Validation.required],
+          large: true,
         },
         {
           component: BrixelInputText,
@@ -206,6 +218,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'City',
           name: 'location.City',
           validation: [Validation.required],
+          large: true,
         },
       ],
     },
@@ -276,6 +289,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'financeBuyer.equity',
           validation: [Validation.required],
           pdClass: 'py-3 py-md-5',
+          large: true,
           modal: {
             message: 'info',
             info: true,
@@ -292,6 +306,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           unit: get(formValue, 'propertyPriceCurrency', 'CHF'),
           formatType: 'price',
           component: BrixelInputText,
+          large: true,
           classNameBox: 'max-w-fix-816 ml-a mr-a',
           label: 'Your gross annual income',
           name: 'financeBuyer.income',
