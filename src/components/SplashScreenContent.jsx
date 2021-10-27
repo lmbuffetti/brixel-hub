@@ -159,9 +159,8 @@ const SplashScreen = (props) => {
   }), [activeSlide]);
 
   useEffect(() => {
-    setNewPreMarketStats(preMarketStats)
+    setNewPreMarketStats(preMarketStats);
   }, [preMarketStats]);
-
 
   useEffect(() => {
     const cookieWizardPreMarket = getCookie('wizardPreMarket');
@@ -339,7 +338,7 @@ const SplashScreen = (props) => {
 
       <div className={`middle-part ${type === 'marketOverlayCarousel' ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${type !== 'marketOverlayCarousel' ? '' : 'pos-r zIndex1'} ${type !== 'marketOverlayCarousel' ? 'fullScreenCard' : ''}`} id="wizard-preMarketOverlay-parent">
         {
-          get(wizard, 'type', null) && activeMarketOverlayPropertyLists && (
+          get(wizard, 'type', null) && type === 'marketOverlayCarousel' && (
             <WizardCard />
           )
         }

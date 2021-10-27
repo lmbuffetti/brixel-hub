@@ -46,7 +46,6 @@ const MakeOffer = (props) => {
     handleGetActiveDeal,
     handleMultiUploadDocument,
     handleSetModal,
-    handleSendScanTrial,
     handleSetLanguage,
     handleSpinnerOff,
     history,
@@ -100,7 +99,6 @@ const MakeOffer = (props) => {
     }
   }, [activeSingleDeal.id]);
 
-
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(activeSingleCompany, 'stub', null)) {
@@ -151,6 +149,7 @@ const MakeOffer = (props) => {
   // FUNCTION TO SAVE DATA
   const saveData = () => {
     const docs = get(formValue, 'document', []);
+    // eslint-disable-next-line no-return-assign
     docs.forEach((item, i) => docs[i].user = get(loggedInUser, 'id', null));
     const dataDocuments = {
       allImgs: docs,
@@ -173,7 +172,9 @@ const MakeOffer = (props) => {
       ...dataForm,
       ...dataDocuments,
     };
-    handleMultiUploadDocument(data);
+    if (get(formValue, 'financeCertificate', null) === 1) {
+      handleMultiUploadDocument(data);
+    }
     // handleSaveMakeOffer()
   };
 
