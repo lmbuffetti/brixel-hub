@@ -18,6 +18,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { diff } from 'deep-object-diff';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { setCookie } from '../../utils/helpers';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
@@ -86,6 +87,8 @@ const Signup = (props) => {
   useEffect(() => {
     if (get(history, 'location.pathname', '').includes('success') && urlData.url) {
       window.location.assign(urlData.url);
+    } else if (get(history, 'location.pathname', '').includes('success')) {
+      window.location.assign(baseByData.hubUrl);
     }
   }, [get(history, 'location', null)]);
 

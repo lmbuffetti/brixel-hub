@@ -148,6 +148,7 @@ const FinanceCertificate = (props) => {
           />
 
           <BrixelButtonText
+            disabled={!checkedBox}
             className="mt-1"
             label="Continue"
             rightIcon="arrow-right"
