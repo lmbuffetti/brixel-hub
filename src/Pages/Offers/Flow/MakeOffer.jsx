@@ -28,7 +28,7 @@ import { setLanguage, setModal, spinnerOff } from '../../../actions/CommonAction
 import { getCookie, setCookie } from '../../../utils/helpers';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
-import { saveMakeOffer, getActiveSingleDeal } from '../../../actions/DealActions';
+import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../actions/DealActions';
 import { multiUploadDocument } from '../../../actions/UploadActions';
 
 const MakeOffer = (props) => {
@@ -52,7 +52,7 @@ const MakeOffer = (props) => {
     initForm,
     initialValues,
     isSmallLoading,
-    lang,
+    handleGetBuyerDeal,
     loggedInUser,
     match,
     reset,
@@ -88,16 +88,18 @@ const MakeOffer = (props) => {
     if (activeSingleProperty.id !== propID) {
       handleGetActiveSingleProperty({ id: propID });
     }
-    handleGetActiveDeal({ id: dealID, smallLoader: 'getDeal' });
     return () => destroyForm();
   }, []);
 
   useEffect(() => {
     if (get(activeSingleDeal, 'closing.stageOffer.offer.status', null) && (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected')) {
-      console.log('redirect', activeSingleDeal);
       history.push({ pathname: `/buyer/${propID}/closing/${dealID}` });
     }
   }, [activeSingleDeal.id]);
+
+  useEffect(() => {
+    if (activeSingleProperty.id && !activeSingleDeal.id) handleGetBuyerDeal({ id: activeSingleProperty.id });
+  }, [activeSingleProperty.id]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -122,7 +124,7 @@ const MakeOffer = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (questions[currentIndex].history) {
-      history.push(`/packageFlow/${propID}/${dealID}/makeOffer/${questions[currentIndex].history}`);
+      history.push(`/packageFlow/${propID}/makeOffer/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
 
@@ -320,7 +322,7 @@ const MakeOffer = (props) => {
           }
           if (questions[defId].history) {
             history.push({
-              pathname: `/packageFlow/${propID}/${dealID}/makeOffer/${questions[defId].history}`,
+              pathname: `/packageFlow/${propID}/makeOffer/${questions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -549,7 +551,7 @@ MakeOffer.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveDeal: PropTypes.func.isRequired,
-  handleSendScanTrial: PropTypes.func.isRequired,
+  handleGetBuyerDeal: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
@@ -558,7 +560,6 @@ MakeOffer.propTypes = {
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
@@ -596,15 +597,16 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)));
   },
+  handleGetActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
+  handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveMakeOffer: bindActionCreators(saveMakeOffer, dispatch),
   handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
-  handleGetActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),
 });
 
 export default compose(

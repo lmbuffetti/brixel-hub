@@ -456,7 +456,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
                       <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
-                      <ProtectedRoute path="/packageFlow/:id/:dealID/makeOffer" component={MakeOffer} />
+                      <ProtectedRoute path="/packageFlow/:id/makeOffer" component={MakeOffer} />
 
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" component={Signup} />
