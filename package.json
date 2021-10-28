@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^2.6.17",
+    "@brixel/brixel-components": "^2.6.24",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^1.3.1",
     "css-split-webpack-plugin": "^0.2.6",
@@ -99,7 +99,7 @@
     "@svgr/webpack": "^5.5.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
-    "autoprefixer": "^10.3.7",
+    "autoprefixer": "^10.4.0",
     "axios": "^0.24.0",
     "babel-plugin-require-context-hook": "^1.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
