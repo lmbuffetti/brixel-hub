@@ -41,10 +41,8 @@ const FinanceCertificate = (props) => {
 
         {
           get(activeSingleProperty, 'location.countryCode', '') === 'CH' ? (
-            <div className=" p-5">
-              <p className="fsize-500 txtAltGrey700">The financing certificate is a quick, non-binding assessment of your financial situation and proof that you can afford the property you want provided by our partner key4 by UBS.</p>
-
-              <div className="dis-fl-col dis-fl-row-sm jc-b a-t mt-3">
+            <div className="p-5">
+              <div className="dis-fl-col dis-fl-row-sm jc-b a-t">
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs ta-c">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
                     <img src={FinancingQuestionImg} alt="Answer questions about financing" />
@@ -65,7 +63,10 @@ const FinanceCertificate = (props) => {
                 </div>
               </div>
 
-              <div className="mt-3">
+              <div className="mt-4">
+                <p className="fsize-300 txtAltGrey700 pb-2">
+                  The financing certificate is a quick, non-binding assessment of your financial situation and proof that you can afford the property you want provided by our partner key4 by UBS.
+                </p>
                 <p className="fsize-300 txtAltGrey700 pb-2">
                   Please be aware that key4 offers are only valid for persons with residency in Switzerland.
                 </p>
