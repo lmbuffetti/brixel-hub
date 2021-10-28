@@ -257,12 +257,10 @@ const MarketList = (props) => {
         pathname: `/${item.id}/home/market-checker`,
         state: { section: 'Market' },
       });
-    } else if (catName === 'preMarket' || get(item, 'tags', []).includes('pre-market') ||
-                catName === 'premium' || get(item, 'tags', []).includes('premium') ||
-                catName === 'new' || get(item, 'tags', []).includes('new')) {
+    } else if (catName === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {
       setSplashScreen('marketOverlay');
       setMarketOverlayProperty(item);
-    } else if (catName === 'favorite') {
+    } else if (catName === 'favorite' || catName === 'wishlist') {
       history.push({
         pathname: `/buyer/${item.id}/property/page`,
         state: { section: 'Market' },

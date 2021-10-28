@@ -21,7 +21,7 @@ import { diff } from 'deep-object-diff';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { setCookie } from '../../utils/helpers';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
-import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
+import { doLogin, validateUser } from '../../actions/UserActions';
 import LoginSignup from '../../components/LoginSignup';
 import iconCalendar from '../../images/offer-flow/Brixel-Icons-calendar.png';
 import iconDocs from '../../images/offer-flow/Brixel-Icons-docs.png';
@@ -286,7 +286,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
