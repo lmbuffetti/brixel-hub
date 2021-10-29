@@ -92,8 +92,8 @@ const MakeOffer = (props) => {
   }, []);
 
   useEffect(() => {
-    if (get(activeSingleDeal, 'closing.stageOffer.offer.status', null) && (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected')) {
-      history.push({ pathname: `/buyer/${propID}/closing/${dealID}` });
+    if (activeSingleDeal.id && (get(activeSingleDeal, 'closing.stageOffer.offer.status', null) && (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected'))) {
+      history.push({ pathname: `/buyer/${propID}/closing/${activeSingleDeal.id}` });
     }
   }, [activeSingleDeal.id]);
 
@@ -488,7 +488,7 @@ const MakeOffer = (props) => {
                 <div className="pos-r">
                   <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
                     {
-                      (get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0) && (
+                      ((get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0)) && (
                         <BrixelButtonIcon
                           className="backBtn ml-0 mr-a"
                           icon="arrow-left-small"
@@ -499,7 +499,7 @@ const MakeOffer = (props) => {
                       )
                     }
                     {
-                      (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                      ((get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && get(quest, 'hideContinueBtn', '') !== true) && (
                         <>
                           {
                             buttonLabel().toLowerCase() === 'skip' ? (

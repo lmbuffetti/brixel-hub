@@ -267,12 +267,12 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         name: 'financeCertificate',
         value: 0,
       }],
-      hideActionsButton: true,
       cardType: 'loadComponent',
       history: 'financeCertificate',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
       footerWidth: 'max-w-fix-600',
       component: FinanceCertificate,
+      hideContinueBtn: true,
     },
     {
       condition: [{

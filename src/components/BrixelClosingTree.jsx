@@ -156,7 +156,7 @@ const BrixelClosingTree = (props) => {
                   isBuyer ? (
                     <>
                       {
-                        (!get(activeSingleOffer, 'offer.amount', null) || get(activeSingleOffer, 'offer.status', null) === 'rejected') && activeSingleDeal.id && (
+                        (((!get(activeSingleOffer, 'offer.amount', null) || get(activeSingleOffer, 'offer.status', null) === 'rejected')) && activeSingleDeal.id && get(activeSingleOffer, 'offer.status', null) !== 'pending') && (
                           <BrixelButtonPrimary
                             theme="primary"
                             rounded
