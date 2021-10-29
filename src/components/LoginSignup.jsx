@@ -110,7 +110,7 @@ const LoginSignup = (props) => {
       const email = get(formValue, 'login.email', null);
       if (Validation.isEmail(email) === true && Validation.required(email) === true) {
         handleRecoverPassword({
-          email,
+          email: email.toLowerCase(),
           smallLoader: 'recoverPassword',
         });
       }

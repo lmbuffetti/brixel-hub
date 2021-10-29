@@ -126,7 +126,7 @@ const GetStartedBuyer = (props) => {
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
       data.user = {
-        username: login.email,
+        username: login.email.toLowerCase(),
         password: login.password,
       };
       // DISPATCH TO DO LOGIN

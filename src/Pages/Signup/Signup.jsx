@@ -99,7 +99,7 @@ const Signup = (props) => {
     const data = {};
     if (page === 'login') {
       data.user = {
-        username: login.email,
+        username: login.email.toLowerCase(),
         password: login.password,
       };
       // DISPATCH TO DO LOGIN
