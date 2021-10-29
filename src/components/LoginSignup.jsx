@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, useState,
+  useEffect, useState, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -11,16 +11,16 @@ import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-// import Slider from 'react-slick';
+import Slider from 'react-slick';
 import { setFormError } from '../actions/CommonActions';
 import { recoverPassword } from '../actions/UserActions';
 import { checkBrowser } from '../utils/helpers';
-/* import Testimonial1CH from '../images/getstarted/testimonial-1_CH.jpeg';
+import Testimonial1CH from '../images/getstarted/testimonial-1_CH.jpeg';
 import Testimonial2CH from '../images/getstarted/testimonial-2_CH.jpeg';
 import Testimonial3CH from '../images/getstarted/testimonial-3_CH.jpeg';
 import Testimonial1PT from '../images/getstarted/testimonial-1_PT.jpg';
 import Testimonial2PT from '../images/getstarted/testimonial-2_PT.jpg';
-import Testimonial3PT from '../images/getstarted/testimonial-3_PT.jpg'; */
+import Testimonial3PT from '../images/getstarted/testimonial-3_PT.jpg';
 
 // COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {
@@ -46,7 +46,7 @@ const LoginSignup = (props) => {
   const [showErrors, setShowErrors] = useState(false);
   const [disabledButton, setDisabledButton] = useState(false);
 
-  /* const sliderInstance = useRef(null);
+  const sliderInstance = useRef(null);
   const settingSlider = {
     dots: true,
     infinite: true,
@@ -58,7 +58,7 @@ const LoginSignup = (props) => {
     slidesToScroll: 1,
     draggable: false,
     centerPadding: '8px',
-  }; */
+  };
 
   useEffect(() => {
     onDisableValidation(true);
@@ -374,7 +374,7 @@ const LoginSignup = (props) => {
           </div>
         </div>
       </div>
-      {/* <div className="w-perc-100 w-perc-md-50 dis-f a-c py-2 pt-md-0 pb-md-10">
+      <div className="w-perc-100 w-perc-md-50 dis-f a-c py-2 pt-md-0 pb-md-10">
         <div className="max-w-fix-304 w-perc-100 ml-a mr-a testimonialsSlide">
 
           {
@@ -434,7 +434,7 @@ const LoginSignup = (props) => {
           }
 
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };
