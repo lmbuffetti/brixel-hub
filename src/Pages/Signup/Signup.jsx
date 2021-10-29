@@ -106,6 +106,7 @@ const Signup = (props) => {
       delete register.password;
       data.user = {
         ...register,
+        email: register.email.toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
         name: get(formValue, 'register.name', ''),
