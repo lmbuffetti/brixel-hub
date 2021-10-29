@@ -62,7 +62,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           formatType: 'price',
           disabled: true,
           component: BrixelInputText,
-          classNameBox: 'ml-a mr-a',
+          classNameBox: 'ml-0 mr-a pr-10',
           label: 'Listing price',
           name: 'propertyPrice',
           validation: [Validation.required],

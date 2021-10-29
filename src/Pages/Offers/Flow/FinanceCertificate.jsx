@@ -131,7 +131,7 @@ const FinanceCertificate = (props) => {
           )
         }
 
-        <hr className="bgAltGrey200" />
+        <hr className="brdAltGrey100" />
 
         <div className="p-5">
           <span className="dis-b pb-2 fsize-500 txtAltGrey700">
