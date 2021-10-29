@@ -92,18 +92,18 @@ const Key4Registration = (props) => {
               <p className="txtAltGrey700">Pension fund statement</p>
             </div>
 
-            {
-              getSellerBrochure() && (
-                <div className="dis-f a-c mt-2">
-                  <BrixelIcon
-                    className="mr-2"
-                    iconWidth="w-fix-32"
-                    icon="property-expose"
-                    color="altGreen"
-                    saturationTxt={300}
-                  />
-                  <p className="dis-f flex-wrap a-c txtAltGrey700">
-                    <span>Property exposé</span>
+            <div className="dis-f a-c mt-2">
+              <BrixelIcon
+                className="mr-2"
+                iconWidth="w-fix-32"
+                icon="property-expose"
+                color="altGreen"
+                saturationTxt={300}
+              />
+              <p className="dis-f flex-wrap a-c txtAltGrey700">
+                <span>Property exposé</span>
+                {
+                  getSellerBrochure() && (
                     <a
                       className="ml-small-4 txtDark700 td-u"
                       href={`${baseByData.shortPath}${getSellerBrochure().path}`}
@@ -112,10 +112,11 @@ const Key4Registration = (props) => {
                     >
                       download here
                     </a>
-                  </p>
-                </div>
-              )
-            }
+                  )
+                }
+              </p>
+            </div>
+
           </div>
         </div>
       </div>

@@ -18,9 +18,6 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
-import { translateTo } from '../utils/translation';
-import awards from '../images/BrxielComingTown/awards.svg';
-import brixels from '../images/BrxielComingTown/brixels.svg';
 
 const AvatarImage = lazy(() => import('./AvatarImage'));
 
