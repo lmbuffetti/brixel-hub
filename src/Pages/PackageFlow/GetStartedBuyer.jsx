@@ -137,6 +137,7 @@ const GetStartedBuyer = (props) => {
       // USER DATA
       data.user = {
         ...register,
+        email: register.email.toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
         name: `${register.firstName} ${get(register, 'lastName', '')}`,
