@@ -40,4 +40,10 @@
       }
     }
   }
+  .copyElement {
+    &.bottomBar {
+      background: transparent;
+      filter: grayscale(1);
+    }
+  }
 }
