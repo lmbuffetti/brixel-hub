@@ -113,6 +113,11 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
     margin-bottom: -2px;
   }
 
+
+  .cardLayout .brixel-checkbox-icon .textLabel {
+    font-size: 1rem !important;
+  }
+
   .inputRangeWrap {
     .multiFieldWrap {
       margin-top: 0;
