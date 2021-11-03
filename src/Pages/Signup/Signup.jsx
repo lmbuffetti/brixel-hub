@@ -96,7 +96,12 @@ const Signup = (props) => {
   const saveData = async (page) => {
     const dataForm = cloneDeep(formValue);
     const { login, register, company } = dataForm;
-    const data = {};
+    const data = {
+      redirectTo: {
+        pathname: '/signup/success',
+        state: { hideClose: true },
+      },
+    };
     if (page === 'login') {
       data.user = {
         username: login.email.toLowerCase(),

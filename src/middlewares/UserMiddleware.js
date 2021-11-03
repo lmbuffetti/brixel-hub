@@ -74,12 +74,15 @@ const checkUser = (store) => (next) => (action) => {
     // DISPATCH TO DO THE USER LOGIN - username - password
     case DO_LOGIN: {
       next(action);
-      // store.dispatch({ type: SPINNER_ON });
+      const {
+        redirectTo,
+      } = action.payload;
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
       const addSearchProfile = action.payload.addSearchProfile || false;
       delete action.payload.user;
       delete action.payload.addProperty;
+      delete action.payload.redirectTo;
       api.user.getToken(data, { rememberMe: true })
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
@@ -89,12 +92,13 @@ const checkUser = (store) => (next) => (action) => {
               dataProperty.token = res.data.token;
               dataProperty.owner = res.data.user.id;
               store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
-            }
-            if (addSearchProfile) {
+            } else if (addSearchProfile) {
               const dataProfile = action.payload;
               dataProfile.token = res.data.token;
               dataProfile.dataSearchProfile.user = res.data.user.id;
               store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
+            } else if (redirectTo) {
+              store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             }
           } else {
             const alertProps = {
@@ -137,20 +141,18 @@ const checkUser = (store) => (next) => (action) => {
               store.dispatch(change('GetStarted', 'owner', userData.user.id));
             }
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: userData });
-            if (redirectTo) {
-              store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
-            }
             if (addProperty) {
               const dataProperty = cloneDeep(action.payload);
               dataProperty.token = userData.token;
               dataProperty.owner = userData.user.id;
               store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
-            }
-            if (addSearchProfile) {
+            } else if (addSearchProfile) {
               const dataProfile = action.payload;
               dataProfile.token = res.data.token;
               dataProfile.dataSearchProfile.user = userData.user.id;
               store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
+            } else if (redirectTo) {
+              store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             }
             store.dispatch({ type: SPINNER_OFF });
           } else if (res.data.statusCode === 400 && res.data.errorMessage === 'Email is invalid!') {
