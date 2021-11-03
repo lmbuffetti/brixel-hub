@@ -87,7 +87,12 @@ const MakeOffer = (props) => {
       handleGetActiveSingleCompany({ stub: 'default' });
     }
     if (activeSingleProperty.id !== propID) {
-      handleGetActiveSingleProperty({ id: propID });
+      const data = {
+        fullVersion: false,
+        smallLoader: 'property',
+        id: propID,
+      };
+      handleGetActiveSingleProperty(data);
     }
     return () => destroyForm();
   }, []);
