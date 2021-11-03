@@ -196,7 +196,7 @@ const Signup = (props) => {
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconFinance} alt="Finance" />
         </div>
-        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Apply directly for proof of financing</p>
+        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Apply directly for financing certificate</p>
       </div>,
     ]
   );
