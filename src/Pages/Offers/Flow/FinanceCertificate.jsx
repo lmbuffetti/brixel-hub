@@ -150,7 +150,7 @@ const FinanceCertificate = (props) => {
 
           <BrixelButtonText
             disabled={!checkedBox}
-            className="mt-1"
+            className="mt-1 ml-a mr-a"
             label="Continue"
             rightIcon="arrow-right"
             onClick={() => continueWithoutCert()}
