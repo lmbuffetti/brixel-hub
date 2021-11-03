@@ -65,7 +65,6 @@ const MakeOffer = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
-  const [isInvalidButton, setIsInvalidButton] = useState(false);
   // GET URL PARAMS
   const propID = get(match, 'params.id', null);
   const dealID = get(match, 'params.dealID', null);
@@ -87,7 +86,12 @@ const MakeOffer = (props) => {
       handleGetActiveSingleCompany({ stub: 'default' });
     }
     if (activeSingleProperty.id !== propID) {
-      handleGetActiveSingleProperty({ id: propID });
+      const data = {
+        fullVersion: false,
+        smallLoader: 'property',
+        id: propID,
+      };
+      handleGetActiveSingleProperty(data);
     }
     return () => destroyForm();
   }, []);
@@ -268,7 +272,6 @@ const MakeOffer = (props) => {
         }
       });
     }
-    if (isInvalidButton) isValid = false;
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
@@ -510,7 +513,7 @@ const MakeOffer = (props) => {
                 <div className="pos-r">
                   <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
                     {
-                      ((get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0)) && (
+                      ((get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0) || (get(questions, `[${currentIndex}].showBackButton`, null))) && (
                         <BrixelButtonIcon
                           className="backBtn ml-0 mr-a"
                           icon="arrow-left-small"
