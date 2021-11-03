@@ -338,7 +338,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         name: 'financeCertificate',
         value: 0,
       }],
-      hideActionsButton: true,
+      hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'key4Registration',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',

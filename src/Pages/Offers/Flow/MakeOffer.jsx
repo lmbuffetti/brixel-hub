@@ -20,6 +20,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import { FinancialCalculator } from '@brixel/brixel-configuration-partner/dist/FinancialFormulas';
 import queryString from 'query-string';
 import isArray from 'lodash/isArray';
 import { MakeOfferQuestions } from '../../../resources/MakeOffer';
@@ -43,7 +44,6 @@ const MakeOffer = (props) => {
     formValue,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
-    handleGetActiveDeal,
     handleMultiUploadDocument,
     handleSetModal,
     handleSetLanguage,
@@ -65,6 +65,7 @@ const MakeOffer = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
+  const [isInvalidButton, setIsInvalidButton] = useState(false);
   // GET URL PARAMS
   const propID = get(match, 'params.id', null);
   const dealID = get(match, 'params.dealID', null);
@@ -100,6 +101,26 @@ const MakeOffer = (props) => {
   useEffect(() => {
     if (activeSingleProperty.id && !activeSingleDeal.id) handleGetBuyerDeal({ id: activeSingleProperty.id });
   }, [activeSingleProperty.id]);
+
+  useEffect(() => {
+    const cost = {
+      equityCapital: get(formValue, 'financeBuyer.equity', null),
+      grossIncome: get(formValue, 'financeBuyer.income', null),
+      fixedCost: 0,
+    };
+    let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
+    lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
+    const price = get(formValue, 'propertyPrice', 0);
+    const financeCalc = FinancialCalculator(lowCountry, price, cost);
+    if (financeCalc) {
+      const {
+        affordability,
+        loanToValueRatio,
+      } = financeCalc;
+      changeFieldValue('affordability', affordability);
+      changeFieldValue('loanToValueRatio', loanToValueRatio);
+    }
+  }, [get(formValue, 'financeBuyer.equity', null), get(formValue, 'financeBuyer.income', null)]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -247,6 +268,7 @@ const MakeOffer = (props) => {
         }
       });
     }
+    if (isInvalidButton) isValid = false;
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
@@ -542,20 +564,20 @@ const MakeOffer = (props) => {
 };
 
 MakeOffer.propTypes = {
-  activeSingleDeal: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
+  activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleGetActiveDeal: PropTypes.func.isRequired,
+  handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
+  handleMultiUploadDocument: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  handleMultiUploadDocument: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,

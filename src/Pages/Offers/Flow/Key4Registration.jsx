@@ -18,6 +18,12 @@ const Key4Registration = (props) => {
     onClick,
     loggedInUser,
   } = props;
+  // COUNTRY
+  let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
+  lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
+  const maxLoanRatio = lowCountry === 'pt' ? 90 : 80;
+  const affordability = get(formValue, 'affordability', 0);
+  const loanToValueRatio = get(formValue, 'loanToValueRatio', 0);
 
   const getSellerBrochure = () => activeSinglePropertyDocs.find((itm) => itm.isBrochure);
 
@@ -28,8 +34,8 @@ const Key4Registration = (props) => {
     const lang = loggedInUser.language;
     const campID = `Brixel-FinancialCertificate-CH-${lang}-BrixelPage-${activeSingleProperty.id}-${loggedInUser.id}`;
     const objectUsage = 'MAIN_RESIDENCE';
-    const riskProfile = 'BALANCED';
-    const startDate = '2021-02';
+    // const riskProfile = 'BALANCED';
+    // const startDate = '2021-02';
     const marketValue = formValue.amount;
     const postalCode = get(activeSingleProperty, 'location.zip', '');
     const city = get(activeSingleProperty, 'location.city', '');
@@ -39,7 +45,7 @@ const Key4Registration = (props) => {
     const grossAnnualIncome = get(formValue, 'financeBuyer.income', 0);
     const Equity = get(formValue, 'financeBuyer.equity', 0);
     // eslint-disable-next-line max-len
-    const url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&riskProfile=${riskProfile}&startDate=${startDate}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}`;
+    const url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}`;
     window.location.assign(url);
     setTimeout(() => onClick(), 500);
   };
@@ -146,6 +152,112 @@ const Key4Registration = (props) => {
           Please note that Brixel will be compensated for your referral when you conclude a mortgage with key4.
         </p>
       </div>
+      {/*
+        affordability < 33 && loanToValueRatio < maxLoanRatio ? (
+          <>
+            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
+              <div className="p-5">
+                <p className="fsize-500 txtAltGrey700">Please prepare the following documents to apply for your certificate:</p>
+
+                <div className="mt-3">
+                  <div className="dis-f a-c">
+                    <BrixelIcon
+                      className="mr-2"
+                      iconWidth="w-fix-32"
+                      icon="tax-declaration"
+                      color="altGreen"
+                      saturationTxt={300}
+                    />
+                    <p className="txtAltGrey700">Latest tax declaration</p>
+                  </div>
+                  <div className="dis-f a-c mt-2">
+                    <BrixelIcon
+                      className="mr-2"
+                      iconWidth="w-fix-32"
+                      icon="proof-income"
+                      color="altGreen"
+                      saturationTxt={300}
+                    />
+                    <p className="txtAltGrey700">Latest proof of income, incl. proof of bonus if applicable</p>
+                  </div>
+                  <div className="dis-f a-c mt-2">
+                    <BrixelIcon
+                      className="mr-2"
+                      iconWidth="w-fix-32"
+                      icon="pension"
+                      color="altGreen"
+                      saturationTxt={300}
+                    />
+                    <p className="txtAltGrey700">Pension fund statement</p>
+                  </div>
+
+                  <div className="dis-f a-c mt-2">
+                    <BrixelIcon
+                      className="mr-2"
+                      iconWidth="w-fix-32"
+                      icon="property-expose"
+                      color="altGreen"
+                      saturationTxt={300}
+                    />
+                    <p className="dis-f flex-wrap a-c txtAltGrey700">
+                      <span>Property exposé</span>
+                      {
+                        getSellerBrochure() && (
+                          <a
+                            className="ml-small-4 txtDark700 td-u"
+                            href={`${baseByData.shortPath}${getSellerBrochure().path}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            download here
+                          </a>
+                        )
+                      }
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div className="max-w-fix-600 mx-a mt-3">
+              <p className="fsize-300 txtDark700">
+                <span>By clicking the button you allow us to send the following data to key4: your offer price, property type, property address, type of residence (main type of residence), your equity capital, and your gross annual income.</span>
+                <a
+                  href={linkInfoKey4()}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ml-small-4 txtDark400 td-u mt-small-4-neg dis-ib"
+                >
+                  <p className="fsize-300 txtDark700">Read more</p>
+                </a>
+              </p>
+              <BrixelButtonPrimary
+                className="mx-a mt-3"
+                rounded
+                themeSat={300}
+                theme="altGreen"
+                label="Register on key4"
+                rightIcon="arrow-right"
+                onClick={() => onRegisterKey4()}
+              />
+
+              <p className="mt-3 fs-i txtDark400 fsize-200">
+                Please note that Brixel will be compensated for your referral when you conclude a mortgage with key4.
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
+              <div className="p-5">
+                <h5>
+                  According to your inputs the price slightly exceeds your budget.
+                </h5>
+              </div>
+            </div>
+          </>
+        )
+      */}
     </div>
   );
 };
