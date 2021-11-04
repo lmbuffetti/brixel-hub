@@ -33,6 +33,7 @@ const SearchProfileBanner = (props) => {
     onStatsFunc,
     preMarketStats,
     showWizard,
+    splashScreenType,
     subtitle,
     title,
     userSearchProfiles,
@@ -52,6 +53,10 @@ const SearchProfileBanner = (props) => {
       setTimeout(() => document.body.classList.remove('bodyOverlay'), 350);
     }
   }, [showSearchProfileForm]);
+
+  useEffect(() => {
+    if (profileRef && profileRef.current) profileRef.current.scrollTo(0, 0);
+  }, [profileRef.current, splashScreenType]);
 
   useEffect(() => {
     const inputform = [];
@@ -498,6 +503,7 @@ SearchProfileBanner.propTypes = {
   onStatsFunc: PropTypes.object,
   preMarketStats: PropTypes.object.isRequired,
   showWizard: PropTypes.number,
+  splashScreenType: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
   userSearchProfiles: PropTypes.object.isRequired,
@@ -506,6 +512,7 @@ SearchProfileBanner.propTypes = {
 
 SearchProfileBanner.defaultProps = {
   showWizard: null,
+  splashScreenType: null,
   subtitle: null,
   title: 'Search Profile',
   onStatsFunc: {},
@@ -519,6 +526,7 @@ const mapStateToProps = (state) => {
     lang: get(state, 'user.loggedInUser.user.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     userSearchProfiles: searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile,
+    splashScreenType: get(state, 'common.splashScreenType', ''),
     windowDimensions: get(state, 'common.windowDimensions', {}),
   });
 };
