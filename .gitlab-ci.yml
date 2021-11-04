@@ -55,6 +55,7 @@ deploy_staging:
   image: alpine
   stage: deploy
   only:
+    - staging
     - feature/new-offer-flow
   script:
     - apk add --no-cache rsync openssh
@@ -87,7 +88,7 @@ test integration:
       - node_modules/
   only:
     - develop
-    - feature/new-offer-flow
+    - staging
     - master
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
