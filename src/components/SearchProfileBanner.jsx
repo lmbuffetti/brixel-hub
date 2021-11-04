@@ -59,6 +59,7 @@ const SearchProfileBanner = (props) => {
       if (!form.hideSearchProfile) inputform.push(form);
     });
     setFullForm(inputform);
+    if (profileRef && profileRef.current) profileRef.current.scrollTo(0, 0);
   }, [userSearchProfiles]);
 
   useEffect(() => {
@@ -295,7 +296,7 @@ const SearchProfileBanner = (props) => {
                   </div>
                 </>
               ) : (
-                <div className="dis-f jc-b px-3 pr-4 scroll-horz">
+                <div className="dis-f jc-b px-3 pr-4 scroll-horz min-h-fix-96">
                   {
                     has(userSearchProfiles, 'id') ? (
                       <div
