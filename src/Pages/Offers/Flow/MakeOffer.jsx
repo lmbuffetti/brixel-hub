@@ -57,6 +57,11 @@ const MakeOffer = (props) => {
     match,
     reset,
   } = props;
+  let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
+  lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
+  const maxLoanRatio = lowCountry === 'pt' ? 90 : 80;
+  const affordability = get(formValue, 'affordability', 0);
+  const loanToValueRatio = get(formValue, 'loanToValueRatio', 0);
   // STATE
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -390,10 +395,17 @@ const MakeOffer = (props) => {
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    if (currentIndex === questions.length - 2) label = 'Save';
+    if ((affordability > 33 || loanToValueRatio > maxLoanRatio) && questions[currentIndex].history === 'key4Registration') label = 'Close';
+    else if (currentIndex === questions.length - 2) label = 'Save';
     else if (currentIndex === questions.length - 1) label = 'Close';
     else label = 'Continue';
     return label;
+  };
+
+  const buttonContinueClick = () => {
+    if ((affordability > 33 || loanToValueRatio > maxLoanRatio) && questions[currentIndex].history === 'key4Registration') closeWindow();
+    else if (questions[currentIndex + 1]) changeStep();
+    else closeWindow();
   };
 
   return (
@@ -524,7 +536,7 @@ const MakeOffer = (props) => {
                       )
                     }
                     {
-                      ((get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && get(quest, 'hideContinueBtn', '') !== true) && (
+                      ((get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (get(quest, 'hideContinueBtn', '') !== true) || ((affordability > 33 || loanToValueRatio > maxLoanRatio) && questions[currentIndex].history === 'key4Registration')) && (
                         <>
                           {
                             buttonLabel().toLowerCase() === 'skip' ? (
@@ -536,7 +548,7 @@ const MakeOffer = (props) => {
                                 rounded
                                 label={buttonLabel()}
                                 rightIcon="arrow-right-small"
-                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                onClick={() => buttonContinueClick()}
                               />
                             ) : (
                               <BrixelButtonPrimary

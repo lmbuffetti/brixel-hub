@@ -59,12 +59,12 @@ const Key4Registration = (props) => {
 
   return (
     <div>
-      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
-        Learn within 48 hours if you can afford your desired home.
-      </h2>
       {
         affordability < 33 && loanToValueRatio < maxLoanRatio ? (
           <>
+            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+              Learn within 48 hours if you can afford your desired home.
+            </h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
               <div className="p-5">
                 <p className="fsize-500 txtAltGrey700">Please prepare the following documents to apply for your certificate:</p>
@@ -158,10 +158,13 @@ const Key4Registration = (props) => {
           </>
         ) : (
           <>
+            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+              Unfortunately, your budget is not sufficient
+            </h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
               <div className="p-5">
                 <h5>
-                  According to your inputs the price slightly exceeds your budget.
+                  Based on the details you have provided, financing your dream home is not quite possible yet.
                 </h5>
               </div>
             </div>
