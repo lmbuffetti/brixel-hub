@@ -39,7 +39,7 @@ const SearchProfileBanner = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [showSearchProfileForm, setShowSearchProfileForm] = useState(false);
+  const [showSearchProfileForm, setShowSearchProfileForm] = useState(true);
   const [fullForm, setFullForm] = useState([]);
   const [styleMobileProfile, setStyleMobileProfile] = useState(null);
   // REF
@@ -59,6 +59,7 @@ const SearchProfileBanner = (props) => {
       if (!form.hideSearchProfile) inputform.push(form);
     });
     setFullForm(inputform);
+    setShowSearchProfileForm(false);
   }, [userSearchProfiles]);
 
   useEffect(() => {
