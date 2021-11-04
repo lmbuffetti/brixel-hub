@@ -35,6 +35,8 @@ import { getImageType } from './actions/UploadActions';
 import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 
+// SIGNUP
+const Signup = lazy(() => import('./Pages/Signup/Signup'));
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
@@ -225,9 +227,10 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('trialRequest') ||
-      history.location.pathname.includes('upgrade')
+      history.location.pathname.includes('upgrade') ||
+      history.location.pathname.includes('signup')
     ) {
-      if (history.location.pathname.includes('packageFlow')) {
+      if (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('signup')) {
         setClassMain('flowContainer packageFlow w-perc-100');
       } else {
         setClassMain('flowContainer w-perc-100');
@@ -315,7 +318,7 @@ const App = (props) => {
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
       let data = {};
-      if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding')) data = { hideLoad: true };
+      if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && !history.location.pathname.includes('signup')) data = { hideLoad: true };
       handleCheckToken(data);
     }
     handleGetImageType({ smallLoader: 'imgType' });
@@ -392,7 +395,7 @@ const App = (props) => {
                 style={contentLayout()}
               >
                 {
-                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) && (
+                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade') || history.location.pathname.includes('signup')) && (
                     <>
                       <PageHeader />
                     </>
@@ -408,7 +411,8 @@ const App = (props) => {
                   {
                     (
                       !history.location.pathname.includes('packageFlow') &&
-                      !history.location.pathname.includes('onBoarding')
+                      !history.location.pathname.includes('onBoarding') &&
+                      !history.location.pathname.includes('signup')
                     ) &&
                     !history.location.pathname.includes('upgrade') &&
                     !history.location.pathname.includes('trialRequest') &&
@@ -420,6 +424,7 @@ const App = (props) => {
                   }
                   {
                     !history.location.pathname.includes('packageFlow') &&
+                    !history.location.pathname.includes('signup') &&
                     (!history.location.pathname.includes('sell') || history.location.pathname.includes('homebase')) &&
                     (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
                     !history.location.pathname.includes('onBoarding') &&
@@ -451,6 +456,9 @@ const App = (props) => {
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
                       <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
 
+                      {/* SECTION: SIGNUP */}
+                      <Route path="/signup" component={Signup} />
+
                       { /* SECTION: INSERT TOKEN */ }
                       <Route path="/tokeninput" component={InsertToken} />
 
@@ -459,6 +467,7 @@ const App = (props) => {
                         !history.location.pathname.includes('packageFlow') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
+                        !history.location.pathname.includes('signup') &&
                         (
                           <>
                             <ProtectedRoute path="/sell" component={MarketSeller} />
@@ -483,6 +492,7 @@ const App = (props) => {
                       {
                         !history.location.pathname.includes('packageFlow') &&
                         !history.location.pathname.includes('onBoarding') &&
+                        !history.location.pathname.includes('signup') &&
                         (
                           <>
                             <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
@@ -635,6 +645,7 @@ const App = (props) => {
             !history.location.pathname.includes('trialRequest') &&
             !history.location.pathname.includes('upgrade') &&
             !history.location.pathname.includes('docubox') &&
+            !history.location.pathname.includes('signup') &&
             (
               <div className="brixel-notifications">
                 {

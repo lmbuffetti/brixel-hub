@@ -88,7 +88,6 @@ const GetStartedSeller = (props) => {
     return result;
   };
 
-  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     getCurrency();
   }, [get(history, 'location.countryCode', null)]);
@@ -149,7 +148,7 @@ const GetStartedSeller = (props) => {
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
       data.user = {
-        username: login.email,
+        username: login.email.toLowerCase(),
         password: login.password,
       };
       // DISPATCH TO DO LOGIN
@@ -160,6 +159,7 @@ const GetStartedSeller = (props) => {
       // USER DATA
       data.user = {
         ...register,
+        email: register.email.toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
         name: get(formValue, 'register.name', ''),
@@ -355,15 +355,6 @@ const GetStartedSeller = (props) => {
       changeFieldValue('inputSheet', inputSheet);
     }
   }, [formValue]);
-
-  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
-  useEffect(() => {
-    if (get(history, 'location.pathname', '').includes('success') && questions[currentIndex + 1]) {
-      setTimeout(() => {
-        changeStep('next', null, 2);
-      }, 500);
-    }
-  }, [get(history, 'location', null)]);
 
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {

@@ -75,6 +75,7 @@ const checkUser = (store) => (next) => (action) => {
     case DO_LOGIN: {
       next(action);
       // store.dispatch({ type: SPINNER_ON });
+      const { redirectTo } = action.payload;
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
       const addSearchProfile = action.payload.addSearchProfile || false;
@@ -89,12 +90,13 @@ const checkUser = (store) => (next) => (action) => {
               dataProperty.token = res.data.token;
               dataProperty.owner = res.data.user.id;
               store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
-            }
-            if (addSearchProfile) {
+            } else if (addSearchProfile) {
               const dataProfile = action.payload;
               dataProfile.token = res.data.token;
               dataProfile.dataSearchProfile.user = res.data.user.id;
               store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
+            } else if (redirectTo) {
+              store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             }
           } else {
             const alertProps = {
