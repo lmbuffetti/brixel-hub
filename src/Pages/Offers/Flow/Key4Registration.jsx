@@ -131,14 +131,14 @@ const Key4Registration = (props) => {
             </div>
             <div className="max-w-fix-600 mx-a mt-3">
               <p className="fsize-300 txtDark700">
-                <span>By clicking the button you allow us to send the following data to key4: your offer price, property type, property address, type of residence (main type of residence), your equity capital, and your gross annual income.</span>
+                <span>By clicking the button you allow us to send the following data to key4: your offer price, property type, property address, type of residence (main type of residence), your equity capital, and your gross annual income. The Privacy Statement applicable to key4 can be found on the</span>
                 <a
                   href={linkInfoKey4()}
                   target="_blank"
                   rel="noreferrer"
                   className="ml-small-4 txtDark400 td-u mt-small-4-neg dis-ib"
                 >
-                  <p className="fsize-300 txtDark700">Read more</p>
+                  <p className="fsize-300 txtDark700">key4 website</p>
                 </a>
               </p>
               <BrixelButtonPrimary
