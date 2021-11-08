@@ -48,10 +48,7 @@
 }
 
 .searchMapCountry {
-  width: 75px;
-  @media (max-width: $responsive-small) {
-    width: 84px;
-  }
+  width: 84px;
 
   .dropdown .selElement .title {
     text-overflow: clip;

@@ -324,12 +324,13 @@ const checkCommon = (store) => (next) => (action) => {
     case MULTI_UPLOAD_DOCUMENT: {
       next(action);
       const {
-        allImgs, actions, pageID, smallLoader,
+        allImgs, actions, pageID, smallLoader, saveAction,
       } = action.payload;
       delete action.payload.allImgs;
       delete action.payload.actions;
       delete action.payload.pageID;
       delete action.payload.smallLoader;
+      delete action.payload.saveAction;
       const calls = [];
       allImgs.forEach((img) => {
         calls.push(api.image.uploadDocument(img));
@@ -347,19 +348,34 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       Promise.all(calls).then((res) => {
-        const data = {};
-        const filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
-        res.forEach((resImg) => {
-          filesArray.push(resImg.data);
-        });
-        set(data, actions, filesArray);
-        data.id = pageID;
-        data.smallLoader = smallLoader;
-        store.dispatch({
-          type: SAVE_ACTIVE_SINGLE_PROPERTY,
-          payload: data,
-          setSuccessNotification: true,
-        });
+        if (saveAction === 'makeOffer') {
+          const dataOffer = action.payload;
+          delete dataOffer.document;
+          const document = [];
+          res.forEach((doc) => {
+            document.push(doc.data);
+          });
+          const data = {
+            ...dataOffer,
+            documents: document,
+          };
+          data.smallLoader = smallLoader;
+          store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
+        } else {
+          const data = {};
+          const filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
+          res.forEach((resImg) => {
+            filesArray.push(resImg.data);
+          });
+          set(data, actions, filesArray);
+          data.id = pageID;
+          data.smallLoader = smallLoader;
+          store.dispatch({
+            type: SAVE_ACTIVE_SINGLE_PROPERTY,
+            payload: data,
+            setSuccessNotification: true,
+          });
+        }
         if (smallLoader) {
           store.dispatch({
             type: SPINNER_SMALL,

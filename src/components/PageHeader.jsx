@@ -18,31 +18,29 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import { getGameHistory } from '../actions/GamificationActions';
-import { translateTo } from '../utils/translation';
-import awards from '../images/BrxielComingTown/awards.svg';
-import brixels from '../images/BrxielComingTown/brixels.svg';
 
 const AvatarImage = lazy(() => import('./AvatarImage'));
 
 function PageHeader(props) {
   // PROPS
   const {
-    brixelPoints,
     handleSetLanguage,
     history,
     lang,
     languages,
     loggedInUser,
     property,
-    userAwards,
   } = props;
 
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
+  // GET URL PARAMS
+  const fullURL = get(history, 'location.pathname', '').split('/');
+  const propID = fullURL[2];
+  const dealID = fullURL[3];
 
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
   const [dropLang, setDropLang] = useState([]);
-  const [modal, setModal] = useState(false);
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
@@ -142,6 +140,8 @@ function PageHeader(props) {
   const closeOverlay = () => {
     if (history.location.pathname.toLowerCase().includes('getstartedbuyer')) {
       history.push('/buy');
+    } else if (history.location.pathname.toLowerCase().includes('makeoffer')) {
+      history.push(`/buyer/${propID}/closing/${dealID}`);
     } else {
       let url = localStorage.getItem('backUrlBis');
       if (url) {
@@ -284,21 +284,18 @@ function PageHeader(props) {
 
 PageHeader.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
-  languages: PropTypes.arrayOf(PropTypes.object),
-  lang: PropTypes.string,
-  loggedInUser: PropTypes.object,
   history: PropTypes.object.isRequired,
+  lang: PropTypes.string,
+  languages: PropTypes.arrayOf(PropTypes.object),
+  loggedInUser: PropTypes.object,
+  match: PropTypes.object.isRequired,
   property: PropTypes.object.isRequired,
-  userAwards: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
-  brixelPoints: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.number]),
 };
 
 PageHeader.defaultProps = {
   languages: [],
   lang: 'en',
   loggedInUser: {},
-  userAwards: [],
-  brixelPoints: [],
 };
 
 const mapStateToProps = (state) => ({
@@ -308,8 +305,6 @@ const mapStateToProps = (state) => ({
   lang: get(state, 'common.language', ''),
   userAwards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),
-  brixelPoints: get(state, 'user.brixelPoints', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

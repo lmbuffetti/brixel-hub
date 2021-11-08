@@ -113,31 +113,15 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
     margin-bottom: -2px;
   }
 
+
+  .cardLayout .brixel-checkbox-icon .textLabel {
+    font-size: 1rem !important;
+  }
+
   .inputRangeWrap {
     .multiFieldWrap {
       margin-top: 0;
     }
-  }
-  .brixel-select .dropdown {
-    height: 46px;
-    .selElement {
-      span {
-        font-weight: 500;
-        color: map_get($darkColor, 200);
-      }
-    }
-  }
-  .brixel-select {
-    .mobile-version {
-      select {
-        @include fontStyle(500);
-      }
-    }
-  }
-  .brixel-select .mobile-version,
-  .brixel-text-input {
-    @include fontStyle(500);
-    height: 48px;
   }
 }
 
