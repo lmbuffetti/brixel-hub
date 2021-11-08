@@ -40,11 +40,13 @@ const LoginSignup = (props) => {
     loggedInUser,
     notification,
     onSubmit,
+    skipPhone,
   } = props;
   // STATE
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
   const [disabledButton, setDisabledButton] = useState(false);
+  console.log(skipPhone);
 
   const sliderInstance = useRef(null);
   const settingSlider = {
@@ -265,6 +267,7 @@ const LoginSignup = (props) => {
                           formName="GetStarted"
                           showErrors={showErrors}
                           // validateEmail
+                          skipPhone={skipPhone}
                         />
                       </>
                     )
@@ -437,12 +440,14 @@ LoginSignup.propTypes = {
   onChangeLogin: PropTypes.func,
   onDisableValidation: PropTypes.func,
   onSubmit: PropTypes.func,
+  skipPhone: PropTypes.bool,
 };
 
 LoginSignup.defaultProps = {
   onChangeLogin: () => '',
   onDisableValidation: () => '',
   onSubmit: () => '',
+  skipPhone: false,
 };
 
 const mapStateToProps = (state, props) => ({

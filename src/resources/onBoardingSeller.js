@@ -344,6 +344,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
       cardType: 'createProfile',
       inputs: [{
+        skipPhone: true,
         component: LoginSignup,
         name: 'register.name',
         validation: [Validation.required],
