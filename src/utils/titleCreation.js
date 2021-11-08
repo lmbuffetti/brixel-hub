@@ -127,6 +127,49 @@ const houseAdjective = {
   ],
 };
 
+const builadingLandAdjective = {
+  de: [
+    'Schönes',
+    'Einzigartiges',
+    'Prächtiges',
+    'Wunderbares',
+    'Hübsches',
+    'Stattliches',
+    'Tolles',
+    'Umwerfendes',
+    'Schickes',
+    'Traumhaftes',
+  ],
+  en: [
+    'Beautiful',
+    'Prestigious',
+    'One-of-a-kind',
+    'Exquisite',
+    'Spacious',
+    'Lovely',
+    'Superb',
+    'Amazing',
+    'Stunning',
+  ],
+  it: [
+    'Luminoso',
+    'Confortevole',
+    'Prestigioso',
+    'Spazioso',
+    'Superbo',
+    'Splendido',
+    'Signorile',
+  ],
+  pt: [
+    'Charmosa',
+    'Elegante',
+    'Confortável',
+    'Aconchegante',
+    'Acolhedora',
+    'Luminosa',
+  ],
+};
+
 export const titleProperty = (location, propertyType, lang, formValue) => {
   const getCountry = get(location, 'countryCode', null);
   let adjective = aptAdjective;
@@ -134,6 +177,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   let translatedPropertyType = translateTo(lang, propertyType);
   translatedPropertyType = (typeof Transifex !== 'undefined') ? Transifex.live.translateText(translatedPropertyType) : translatedPropertyType;
   if (propertyType === 'House' || propertyType === 'Commercial') adjective = houseAdjective;
+  if (propertyType === 'Building land') adjective = builadingLandAdjective;
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
     const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));

@@ -18,6 +18,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { diff } from 'deep-object-diff';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { setCookie } from '../../utils/helpers';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
@@ -86,6 +87,8 @@ const Signup = (props) => {
   useEffect(() => {
     if (get(history, 'location.pathname', '').includes('success') && urlData.url) {
       window.location.assign(urlData.url);
+    } else if (get(history, 'location.pathname', '').includes('success')) {
+      window.location.assign(baseByData.hubUrl);
     }
   }, [get(history, 'location', null)]);
 
@@ -93,7 +96,12 @@ const Signup = (props) => {
   const saveData = async (page) => {
     const dataForm = cloneDeep(formValue);
     const { login, register, company } = dataForm;
-    const data = {};
+    const data = {
+      redirectTo: {
+        pathname: '/signup/success',
+        state: { hideClose: true },
+      },
+    };
     if (page === 'login') {
       data.user = {
         username: login.email.toLowerCase(),
@@ -188,7 +196,7 @@ const Signup = (props) => {
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconFinance} alt="Finance" />
         </div>
-        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Apply directly for proof of financing</p>
+        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Apply directly for financing certificate</p>
       </div>,
     ]
   );
