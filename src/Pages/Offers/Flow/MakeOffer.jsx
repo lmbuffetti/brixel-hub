@@ -72,7 +72,7 @@ const MakeOffer = (props) => {
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
   const propID = get(match, 'params.id', null);
-  const dealID = get(match, 'params.dealID', null);
+  const dealID = get(activeSingleDeal, 'id', null);
 
   // REF
   const singleStepRef = useRef(null);

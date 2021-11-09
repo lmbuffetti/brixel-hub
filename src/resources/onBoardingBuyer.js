@@ -235,6 +235,7 @@ export const QuestionsList = (lang, type) => {
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
       cardType: 'createProfile',
       inputs: [{
+        skipPhone: true,
         component: LoginSignup,
         name: 'register.name',
         validation: [Validation.required],
