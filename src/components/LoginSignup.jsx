@@ -40,11 +40,13 @@ const LoginSignup = (props) => {
     loggedInUser,
     notification,
     onSubmit,
+    skipPhone,
   } = props;
   // STATE
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
   const [disabledButton, setDisabledButton] = useState(false);
+  console.log(skipPhone);
 
   const sliderInstance = useRef(null);
   const settingSlider = {
@@ -110,13 +112,13 @@ const LoginSignup = (props) => {
       const email = get(formValue, 'login.email', null);
       if (Validation.isEmail(email) === true && Validation.required(email) === true) {
         handleRecoverPassword({
-          email,
+          email: email.toLowerCase(),
           smallLoader: 'recoverPassword',
         });
       }
     } else if (isValid) {
       setShowErrors(false);
-      onSubmit();
+      onSubmit(loginPage);
     }
   };
 
@@ -126,27 +128,6 @@ const LoginSignup = (props) => {
     setLoginPage(page);
     handleSetFormError({});
   };
-
-  // FUNCTION TO MANAGE THE ONLCIK FUNCTION AND LABEL OF TERTIARY BUTTON (bottom left)
-  // const TertiaryButton = () => {
-  //   switch (loginPage) {
-  //     case 'not_sure':
-  //       return {
-  //         action: () => changeScreen('support'),
-  //         label: 'Still, not convinced',
-  //       };
-  //     case 'support':
-  //       return {
-  //         action: () => changeScreen('register'),
-  //         label: 'Cancel',
-  //       };
-  //     default:
-  //       return {
-  //         action: () => changeScreen('not_sure'),
-  //         label: 'I am not sure',
-  //       };
-  //   }
-  // };
 
   useEffect(() => {
     if (disabledButton) {
@@ -214,8 +195,8 @@ const LoginSignup = (props) => {
   }
 
   return (
-    <div className="signUpScreen pos-r dis-f flex-wrap">
-      <div className="w-perc-100 max-w-fix-600 m-a mt-0">
+    <div className="signUpScreen pos-r dis-f flex-wrap w-perc-100">
+      <div className="m-a mt-0 max-w-fix-600 w-perc-100">
         <div className="mr-a ml-a onBoardingSignUp">
           {/* {
             (loginPage === 'register' || loginPage === 'login') && (
@@ -248,7 +229,11 @@ const LoginSignup = (props) => {
                             </p>
                           )
                         }
-                        <BrixelLogin company={company} formName="GetStarted" showErrors={showErrors} />
+                        <BrixelLogin
+                          company={company}
+                          formName="GetStarted"
+                          showErrors={showErrors}
+                        />
                         <p className="mt-1">
                           <BrixelButtonText
                             label="Forgot password?"
@@ -282,6 +267,7 @@ const LoginSignup = (props) => {
                           formName="GetStarted"
                           showErrors={showErrors}
                           // validateEmail
+                          skipPhone={skipPhone}
                         />
                       </>
                     )
@@ -322,7 +308,7 @@ const LoginSignup = (props) => {
                     rounded
                     className="ml-a mr-a mt-2 mb-2 minimum-w-210"
                     label={PrimaryButton().label}
-                    onClick={!disabledButton ? PrimaryButton().action : ''}
+                    onClick={!disabledButton ? PrimaryButton().action : () => ''}
                     isLoading={isSmallLoading === 'recoverPassword'}
                   />
                 </div>
@@ -454,12 +440,14 @@ LoginSignup.propTypes = {
   onChangeLogin: PropTypes.func,
   onDisableValidation: PropTypes.func,
   onSubmit: PropTypes.func,
+  skipPhone: PropTypes.bool,
 };
 
 LoginSignup.defaultProps = {
   onChangeLogin: () => '',
   onDisableValidation: () => '',
   onSubmit: () => '',
+  skipPhone: false,
 };
 
 const mapStateToProps = (state, props) => ({

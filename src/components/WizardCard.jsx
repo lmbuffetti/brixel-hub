@@ -82,7 +82,7 @@ const WizardCard = (props) => {
       {
         el && (
           <div
-            className="copyElement"
+            className={`copyElement ${wizard.step === 3 ? 'bottomBar' : ''}`}
             style={{
               left: el.posX,
               top: el.posY,

@@ -68,39 +68,39 @@
         /*todo styleguide*/
         label .textLabel {
           @media (min-width: $responsive-small) {
-            @include fontStyle(500);
+            // @include fontStyle(500);
           }
         }
       }
 
       .brixel-input-step input {
-        @include fontStyle(600);
+        // @include fontStyle(600);
       }
 
       .brixel-text-input-container .password-trigger,
       .brixel-text-input-container .validation-icon {
-        top: 14px;
+        // top: 14px;
       }
       .brixel-select .dropdown {
-        height: 46px;
+        // height: 46px;
         .selElement {
           span {
-            font-weight: 500;
-            color: map_get($darkColor, 200);
+           // font-weight: 500;
+           // color: map_get($darkColor, 200);
           }
         }
       }
       .brixel-select {
         .mobile-version {
           select {
-            @include fontStyle(500);
+           // @include fontStyle(500);
           }
         }
       }
       .brixel-select .mobile-version,
       .brixel-text-input {
-        @include fontStyle(500);
-        height: 48px;
+       // @include fontStyle(500);
+       // height: 48px;
       }
       .extraFeature {
         flex-wrap: wrap;
@@ -494,6 +494,9 @@ body:not(.overlayOpen).locationInputResume {
   }
   .supportBtn {
     background-color: map_get($altGreenColor, 200);
+    @media (min-width: $responsive-medium) {
+      background-color: transparent;
+    }
   }
 }
 

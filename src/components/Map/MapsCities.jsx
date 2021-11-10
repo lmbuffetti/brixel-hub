@@ -312,6 +312,7 @@ export const MapsCities = (props) => {
                   onClear={() => (disabled ? '' : changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude }))}
                   message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
                   iconLeft="location-pin-simple"
+                  large
                 />
                 {
                   !selectedAddress && locList.length > 0 && !disabled && (

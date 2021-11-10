@@ -192,7 +192,7 @@ const GetStartedEstimation = (props) => {
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
       data.user = {
-        username: login.email,
+        username: login.email.toLowerCase(),
         password: login.password,
       };
       // DISPATCH TO DO LOGIN
@@ -205,6 +205,7 @@ const GetStartedEstimation = (props) => {
       data.redirectToRewards = true;
       data.user = {
         ...register,
+        email: register.email.toLowerCase(),
         acceptTerms: get(register, 'privacy[0]', true),
         acceptMarketing: get(register, 'acceptMarketing[0]', false),
         name: get(formValue, 'register.name', ''),

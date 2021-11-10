@@ -90,18 +90,7 @@ const MarketCard = (props) => {
           type === 'new' || get(item, 'tags', []).includes('new')
         ) && type !== 'favorite' && type !== 'wishlist' && !history.location.pathname.includes('sell'))
       ) {
-        setSplashScreen('marketOverlay');
-        setMarketOverlayProperty(item);
-        let property = null;
-
-        if (type === 'new') {
-          property = cloneDeep(newProperties);
-          const indexCurrentProperty = property.findIndex((prop) => prop.id === item.id);
-          const element = property[indexCurrentProperty];
-          property.splice(indexCurrentProperty, 1);
-          property.splice(0, 0, element);
-        }
-        handleSetActiveMarketOverlayPropertyLists(property);
+        window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
       } else if (type === 'favorite' || type === 'wishlist') {
         if (get(windowDimensions, 'width', 0) <= 1024) {
           history.push({

@@ -13,7 +13,6 @@ import {
   BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon, Helpers,
 } from '@brixel/brixel-components';
 import ReviewOffer from '../Pages/Offers/ReviewOffer';
-import AddNewOffer from '../Pages/Offers/AddNewOffer';
 import { setSplashType } from '../actions/CommonActions';
 import ClosingTree from './Skeleton/ClosingTree';
 
@@ -24,7 +23,9 @@ const BrixelClosingTree = (props) => {
     activeSingleClosing,
     activeSingleDeal,
     activeSingleOffer,
+    activeSingleProperty,
     className,
+    history,
     isBuyer,
     setSplashScreen,
     userLang,
@@ -35,9 +36,7 @@ const BrixelClosingTree = (props) => {
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
     if (action === 'add') {
-      setSplashScreen({
-        component: AddNewOffer,
-      });
+      history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`);
     } else {
       setSplashScreen({
         component: ReviewOffer,
@@ -157,7 +156,7 @@ const BrixelClosingTree = (props) => {
                   isBuyer ? (
                     <>
                       {
-                        (!get(activeSingleOffer, 'offer.amount', null) || get(activeSingleOffer, 'offer.status', null) === 'rejected') && activeSingleDeal.id && (
+                        (((!get(activeSingleOffer, 'offer.amount', null) || get(activeSingleOffer, 'offer.status', null) === 'rejected')) && activeSingleDeal.id && get(activeSingleOffer, 'offer.status', null) !== 'pending') && (
                           <BrixelButtonPrimary
                             theme="primary"
                             rounded
@@ -655,10 +654,12 @@ const BrixelClosingTree = (props) => {
 };
 
 BrixelClosingTree.propTypes = {
+  activeSingleClosing: PropTypes.object.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleOffer: PropTypes.object.isRequired,
-  activeSingleClosing: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   className: PropTypes.string,
+  history: PropTypes.object.isRequired,
   isBuyer: PropTypes.bool,
   setSplashScreen: PropTypes.func.isRequired,
   userLang: PropTypes.string.isRequired,
@@ -670,6 +671,7 @@ BrixelClosingTree.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleOffer: get(state, 'deal.activeSingleDeal.closing.stageOffer', {}),
   activeSingleClosing: get(state, 'deal.activeSingleDeal.closing', {}),

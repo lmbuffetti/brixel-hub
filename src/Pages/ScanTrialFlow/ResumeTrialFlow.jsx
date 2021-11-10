@@ -41,6 +41,7 @@ const ResumeTrialFlow = (props) => {
               <spam className="ml-small-4 mr-small-4">at</spam>
               <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('hh:mm')}</span>
             </h4>
+            <p className="ta-c mt-2">This is just a request. We will contact you to confirm your appointment.</p>
             <p className="ta-c mt-2">You also got an e-mail with a confirmation and more details.</p>
           </div>
         )

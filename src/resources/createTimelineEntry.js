@@ -81,6 +81,7 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'user-phone-call') return 'Made a phone call';
       if (item.actionStub === 'user-send-message') return `"${item.meta.message}"`;
       if (item.actionStub === 'user-portal-create-message') return `<span>Sent new message on </span><span>${item.meta.portal}</span></br></br><span>${item.meta.message}</span>`;
+      if (item.actionStub === 'deal-confirm-visit-email') return 'Visit confirmation email sent';
 
       if (item.actionStub === 'deal-make-offer') return `<span>Prospect made an offer: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span></br></br><span>${item.meta.offer.noteByBuyer}</span>`;
 
@@ -187,6 +188,20 @@ export const createTimelineEntry = (item, userLang) => {
       formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
       timestamp: item.createdAt, // Unix timestamp for sorting purposes
       pinned: false, // Flag for sorting purposes
+    };
+  }
+
+  // Return Update Deal entry
+  if (has(item, 'actionStub') && item.actionStub === 'deal-confirm-visit-email') {
+    return {
+      description: getHTMLDescription(), // Content of the event
+      icon: 'mail', // Defines the type of icon on the event
+      formattedDate: DateTime.fromMillis(item.createdAt, {
+        locale: userLang,
+      }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
+      timestamp: item.createdAt, // Unix timestamp for sorting purposes
+      pinned: false, // Flag for sorting purposes
+      style: 'default',
     };
   }
 

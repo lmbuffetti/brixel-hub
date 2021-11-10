@@ -63,6 +63,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         ReduxFieldClass: 'max-w-fix-464 m-a',
         name: 'estimationType',
         validation: [Validation.required],
+        large: true,
         icons: true,
         options: factsOptions.userTypeEstimation,
       }],
@@ -124,6 +125,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           max: 30,
           fluid: true,
           startFrom: 3,
+          large: true,
         },
       ],
       successMessage: translateTo(lang, 'This is a nice number.'),
@@ -148,6 +150,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           unit: 'm2',
           placeholder: '117',
           maxLengthNum: 9999,
+          large: true,
         },
         {
           condition: [{
@@ -163,6 +166,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           unit: 'm2',
           placeholder: translateTo(lang, 'e.g. 120'),
           maxLengthNum: 9999,
+          large: true,
         },
       ],
       successMessage: translateTo(lang, 'Great living space.'),
@@ -183,6 +187,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLengthNum: 9999,
           minLengthNum: 999,
+          large: true,
         },
       ],
       successMessage: translateTo(lang, 'A good year for real estate.'),
@@ -257,6 +262,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
       cardType: 'createProfile',
       inputs: [{
+        skipPhone: true,
         component: LoginSignup,
         name: 'register.name',
         validation: [Validation.required],
