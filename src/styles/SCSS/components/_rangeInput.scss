@@ -3,6 +3,14 @@
     display: none;
   }
 
+  #chooseDate {
+    .input-range {
+      .input-range__label {
+        display: none !important;
+      }
+    }
+  }
+
   .input-range__label--value {
     display: block;
   }
@@ -15,7 +23,7 @@
     }
 
     .input-range__label {
-      display: none !important;
+      // display: none !important;
     }
 
     .input-range__label-container {
