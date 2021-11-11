@@ -84,6 +84,8 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'deal-confirm-visit-email') return 'Visit confirmation email sent';
 
       if (item.actionStub === 'deal-make-offer') return `<span>Prospect made an offer: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span></br></br><span>${item.meta.offer.noteByBuyer}</span>`;
+      if (item.actionStub === 'deal-delete-offer') return `<span>Deleted an offer: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span>`;
+      if (item.actionStub === 'deal-review-offer') return `<span>Offer</span> <span>${get(item, 'meta.offer.status', '')}</span>: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span>`;
 
       // DEAL HISTORY ENTRY
       if (item.actionStub === 'update-deal') {
@@ -143,6 +145,7 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'user-schedule') return 'calendar';
       if (item.actionStub === 'user-send-message') return 'message';
       if (item.actionStub === 'user-add-favorite') return 'favorite-fill';
+      if (item.actionStub === 'deal-review-offer') return 'info';
       if (item.actionStub.includes('document')) return 'document';
       if (item.actionStub.includes('review') ||
           item.actionStub.includes('request')) return 'question';
@@ -180,18 +183,6 @@ export const createTimelineEntry = (item, userLang) => {
   }
 
   // Return Update Deal entry
-  if (has(item, 'actionStub') && item.actionStub === 'update-deal') {
-    return {
-      description: getHTMLDescription(), // Content of the event
-      icon: getIcon(), // Defines the type of icon on the event
-      user: get(item, 'child.name', 'No Name'),
-      formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
-      timestamp: item.createdAt, // Unix timestamp for sorting purposes
-      pinned: false, // Flag for sorting purposes
-    };
-  }
-
-  // Return Update Deal entry
   if (has(item, 'actionStub') && item.actionStub === 'deal-confirm-visit-email') {
     return {
       description: getHTMLDescription(), // Content of the event
@@ -202,6 +193,18 @@ export const createTimelineEntry = (item, userLang) => {
       timestamp: item.createdAt, // Unix timestamp for sorting purposes
       pinned: false, // Flag for sorting purposes
       style: 'default',
+    };
+  }
+
+  // Return Update Deal entry
+  if (has(item, 'actionStub') && item.actionStub.includes('deal')) {
+    return {
+      description: getHTMLDescription(), // Content of the event
+      icon: getIcon(), // Defines the type of icon on the event
+      user: get(item, 'child.name', 'No Name'),
+      formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
+      timestamp: item.createdAt, // Unix timestamp for sorting purposes
+      pinned: false, // Flag for sorting purposes
     };
   }
 
