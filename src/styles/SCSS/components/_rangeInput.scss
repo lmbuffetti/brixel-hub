@@ -27,7 +27,7 @@
     }
 
     .input-range__label-container {
-      top: -16px;
+      // top: -16px;
       font-size: 1rem;
     }
 
@@ -44,12 +44,12 @@
     }
 
     .input-range__track--active {
-      background: map_get($primaryColor, 600) !important;
+      // background: map_get($primaryColor, 600) !important;
     }
 
     &:not(.input-range--disabled) {
       .input-range__slider {
-        background: map_get($primaryColor, 400) !important;
+        background: map_get($altBlueColor, 400) !important;
       }
     }
 
