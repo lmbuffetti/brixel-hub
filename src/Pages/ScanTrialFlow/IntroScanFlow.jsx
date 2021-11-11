@@ -20,6 +20,7 @@ import { setWindowDimensions } from '../../actions/CommonActions';
 const IntroScanFlow = (props) => {
   // PROPS
   const { windowDimensions } = props;
+
   const sliderInstance = useRef(null);
 
   const settingSlider = () => ({
@@ -50,8 +51,67 @@ const IntroScanFlow = (props) => {
       <h2 className="mb-0 mb-lg-5 ta-c fweight-600">
         How it works
       </h2>
+      { windowDimensions.width < 1024 && (
+        <Slider ref={sliderInstance} {...settingSlider()}>
+          <div className="">
+            <div className="brdRadius ov-h ta-c">
+              <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={AnalyseImg} alt="text-1" />
+              <div className="pos-r my-1">
+                <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-r-0" />
+                <div className="roundNumber ml-a mr-a">1</div>
+              </div>
+              <h4 className="fweight-600 my-3 mb-1">We analyse</h4>
+              <p className="max-w-fix-280 m-a">
+                We estimate your property and define the sales process with you.
+              </p>
+            </div>
+          </div>
+
+          <div className="">
+            <div className="brdRadius ov-h ta-c">
+              <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DeliverImg} alt="text-1" />
+              <div className="pos-r my-1">
+                <hr className="divider-line-mobile" />
+                <div className="roundNumber ml-a mr-a">2</div>
+              </div>
+              <h4 className="fweight-600 my-3 mb-1">We deliver</h4>
+              <p className="max-w-fix-280 m-a">
+                We capture your property and create your personal Brixel Page.
+              </p>
+            </div>
+          </div>
+
+          <div className="">
+            <div className="brdRadius ov-h ta-c">
+              <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={YourTestImg} alt="text-1" />
+              <div className="pos-r my-1">
+                <hr className="divider-line-mobile" />
+                <div className="roundNumber ml-a mr-a">3</div>
+              </div>
+              <h4 className="fweight-600 my-3 mb-1">You test</h4>
+              <p className="max-w-fix-280 m-a">
+                You review our work and can test our full service on the market.
+              </p>
+            </div>
+          </div>
+
+          <div className="">
+            <div className="brdRadius ov-h ta-c">
+              <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DecideImg} alt="text-1" />
+              <div className="pos-r my-1">
+                <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-l-0" />
+                <div className="roundNumber ml-a mr-a">4</div>
+              </div>
+              <h4 className="fweight-600 my-3 mb-1">You decide</h4>
+              <p className="max-w-fix-280 m-a">
+                If you are happy, you book one of our service packages or withdraw without any costs.
+              </p>
+            </div>
+          </div>
+        </Slider>
+      )}
       {
-        windowDimensions.width >= 1024 ? (
+        windowDimensions.width >= 1024 && (
           <>
             <div className="trailFlow">
               <div className="row">
@@ -132,66 +192,6 @@ const IntroScanFlow = (props) => {
 
             </div>
           </>
-        ) : (
-          <div className="row">
-            <Slider ref={sliderInstance} {...settingSlider()}>
-              <div className="">
-                <div className="brdRadius ov-h ta-c">
-                  <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={AnalyseImg} alt="text-1" />
-                  <div className="pos-r my-1">
-                    <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-r-0" />
-                    <div className="roundNumber ml-a mr-a">1</div>
-                  </div>
-                  <h4 className="fweight-600 my-3 mb-1">We analyse</h4>
-                  <p className="max-w-fix-280 m-a">
-                    We estimate your property and define the sales process with you.
-                  </p>
-                </div>
-              </div>
-
-              <div className="">
-                <div className="brdRadius ov-h ta-c">
-                  <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DeliverImg} alt="text-1" />
-                  <div className="pos-r my-1">
-                    <hr className="divider-line-mobile" />
-                    <div className="roundNumber ml-a mr-a">2</div>
-                  </div>
-                  <h4 className="fweight-600 my-3 mb-1">We deliver</h4>
-                  <p className="max-w-fix-280 m-a">
-                    We capture your property and create your personal Brixel Page.
-                  </p>
-                </div>
-              </div>
-
-              <div className="">
-                <div className="brdRadius ov-h ta-c">
-                  <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={YourTestImg} alt="text-1" />
-                  <div className="pos-r my-1">
-                    <hr className="divider-line-mobile" />
-                    <div className="roundNumber ml-a mr-a">3</div>
-                  </div>
-                  <h4 className="fweight-600 my-3 mb-1">You test</h4>
-                  <p className="max-w-fix-280 m-a">
-                    You review our work and can test our full service on the market.
-                  </p>
-                </div>
-              </div>
-
-              <div className="">
-                <div className="brdRadius ov-h ta-c">
-                  <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DecideImg} alt="text-1" />
-                  <div className="pos-r my-1">
-                    <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-l-0" />
-                    <div className="roundNumber ml-a mr-a">4</div>
-                  </div>
-                  <h4 className="fweight-600 my-3 mb-1">You decide</h4>
-                  <p className="max-w-fix-280 m-a">
-                    If you are happy, you book one of our service packages or withdraw without any costs.
-                  </p>
-                </div>
-              </div>
-            </Slider>
-          </div>
         )
       }
 
