@@ -452,7 +452,7 @@ const SearchProfileBanner = (props) => {
                 </div>
               )
             }
-            <div className={`pt-4 ${showSearchProfileForm ? 'brdSmallTop brdLight200' : ''}`}>
+            <div className={`pt-4 ${showSearchProfileForm ? 'brdSmallTop brdLight200' : 'hide'}`}>
               <div className="px-3 max-w-fix-1200 px-2 pb-5 mx-a">
                 <div className="searchProfileGrid">
                   <MultiFileldsReduxForm
@@ -461,6 +461,7 @@ const SearchProfileBanner = (props) => {
                     formValue={formValue}
                     nestedInputs={fullForm}
                     showSendButton
+                    autofocus={false}
                   />
                 </div>
                 <div className="dis-f a-c">
