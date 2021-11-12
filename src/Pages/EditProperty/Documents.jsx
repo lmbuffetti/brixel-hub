@@ -59,7 +59,11 @@ const Documents = (props) => {
 
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
-      setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')]);
+      if (documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')]) {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(formValue, 'location.countryCode')][get(formValue, 'properties.propertyType')]);
+      } else {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(formValue, 'properties.propertyType')]);
+      }
     }
   }, [formValue]);
 
