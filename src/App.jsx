@@ -225,13 +225,18 @@ const App = (props) => {
   useEffect(() => {
     if (
       history.location.pathname.includes('packageFlow') ||
+      history.location.pathname.includes('visitFeedback') ||
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('trialRequest') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('signup')
     ) {
-      if (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('signup')) {
+      if (
+        history.location.pathname.includes('packageFlow') ||
+        history.location.pathname.includes('visitFeedback') ||
+        history.location.pathname.includes('signup')
+      ) {
         setClassMain('flowContainer packageFlow w-perc-100');
       } else {
         setClassMain('flowContainer w-perc-100');
@@ -319,7 +324,12 @@ const App = (props) => {
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
       let data = {};
-      if (!history.location.pathname.includes('packageFlow') && !history.location.pathname.includes('onBoarding') && !history.location.pathname.includes('signup')) data = { hideLoad: true };
+      if (
+        !history.location.pathname.includes('packageFlow') &&
+        !history.location.pathname.includes('visitFeedback') &&
+        !history.location.pathname.includes('onBoarding') &&
+        !history.location.pathname.includes('signup')
+      ) data = { hideLoad: true };
       handleCheckToken(data);
     }
     handleGetImageType({ smallLoader: 'imgType' });
@@ -396,7 +406,14 @@ const App = (props) => {
                 style={contentLayout()}
               >
                 {
-                  (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('onBoarding') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade') || history.location.pathname.includes('signup')) && (
+                  (
+                    history.location.pathname.includes('packageFlow') ||
+                    history.location.pathname.includes('visitFeedback') ||
+                    history.location.pathname.includes('onBoarding') ||
+                    history.location.pathname.includes('trialRequest') ||
+                    history.location.pathname.includes('upgrade') ||
+                    history.location.pathname.includes('signup')
+                  ) && (
                     <>
                       <PageHeader />
                     </>
@@ -412,6 +429,7 @@ const App = (props) => {
                   {
                     (
                       !history.location.pathname.includes('packageFlow') &&
+                      !history.location.pathname.includes('visitFeedback') &&
                       !history.location.pathname.includes('onBoarding') &&
                       !history.location.pathname.includes('signup')
                     ) &&
@@ -457,6 +475,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
                       <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
                       <ProtectedRoute path="/packageFlow/:id/makeOffer" component={MakeOffer} />
+                      <ProtectedRoute path="/visitFeedback/:dealID" component={MakeOffer} />
 
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" component={Signup} />
@@ -467,6 +486,7 @@ const App = (props) => {
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
                         !history.location.pathname.includes('signup') &&
@@ -493,6 +513,7 @@ const App = (props) => {
                       }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('signup') &&
                         (
@@ -643,6 +664,7 @@ const App = (props) => {
             notification && notification.length > 0 &&
             !history.location.pathname.includes('home') &&
             !history.location.pathname.includes('packageFlow') &&
+            !history.location.pathname.includes('visitFeedback') &&
             !history.location.pathname.includes('upgrade') &&
             !history.location.pathname.includes('trialRequest') &&
             !history.location.pathname.includes('upgrade') &&

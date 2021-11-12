@@ -1,6 +1,11 @@
 {
   "extends": "airbnb",
   "rules": {
+    "react/function-component-definition": 0,
+    "react/no-unstable-nested-components": [
+      "off",
+      { "allowAsProps": true }
+    ],
     "ignoreImports": 0,
     "no-console": 1,
     "react-hooks/rules-of-hooks": 0,
