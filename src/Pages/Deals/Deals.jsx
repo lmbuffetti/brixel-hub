@@ -513,6 +513,7 @@ const Deals = (props) => {
                                                                 isWinner={get(item, 'winner')}
                                                                 isNew={get(item, 'newSeller')}
                                                                 lastAction={has(item, 'lastAction') ? item.lastAction : {}}
+                                                                offer={has(item, 'closing.stageOffer') ? item.closing.stageOffer : {}}
                                                               />
                                                             </div>
                                                           )

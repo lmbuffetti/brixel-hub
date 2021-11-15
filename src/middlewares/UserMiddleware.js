@@ -151,7 +151,8 @@ const checkUser = (store) => (next) => (action) => {
               dataProfile.token = res.data.token;
               dataProfile.dataSearchProfile.user = userData.user.id;
               store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
-            } else if (redirectTo) {
+            }
+            if (redirectTo) {
               store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
             }
             store.dispatch({ type: SPINNER_OFF });
