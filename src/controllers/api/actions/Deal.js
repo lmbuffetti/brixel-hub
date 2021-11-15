@@ -58,9 +58,9 @@ class Deal extends Base {
     return this.apiClient.get(url);
   }
 
-  sendVisitFeedback(id, data) {
-    const url = ep.deal.visitFeedback(id);
-    return this.apiClient.post(url, {}, data);
+  sendVisitFeedback(id, sendSlack, data) {
+    const url = ep.deal.visitFeedback(id, sendSlack);
+    return this.apiClient.put(url, {}, data);
   }
 }
 

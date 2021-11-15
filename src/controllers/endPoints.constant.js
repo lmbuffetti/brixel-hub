@@ -32,7 +32,7 @@ export default {
     reviewOffer: (id) => `/deal/${id}/closing/reviewOffer`,
     singleDeal: (id) => `/deal/${id}`,
     updateMultipleDeals: () => '/deal/updateGroup',
-    visitFeedback: (id) => `/deal/${id}/visitFeedback`,
+    visitFeedback: (id, sendSlack) => `/deal/${id}/feedbackVisit?sendSlackMessage=${sendSlack}`,
   },
   estimation: {
     createEstimation: () => '/estimation/',

@@ -862,9 +862,11 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         smallLoader,
         id,
+        sendSlack,
       } = objData;
       delete objData.smallLoader;
       delete objData.id;
+      delete objData.sendSlack;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -877,10 +879,11 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      api.deal.sendVisitFeedback(id, objData)
+      api.deal.sendVisitFeedback(id, sendSlack, objData)
         .then((res) => {
           if (!get(res.data, 'statusCode', null)) {
             const { data } = res;
+            // eslint-disable-next-line no-console
             console.log(data);
           }
           if (smallLoader) {
@@ -888,6 +891,7 @@ const checkCommon = (store) => (next) => (action) => {
               type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
+                [`${smallLoader}Sent`]: true,
               },
             });
           } else {
