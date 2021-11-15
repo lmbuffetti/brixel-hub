@@ -32,6 +32,7 @@ export default {
     reviewOffer: (id) => `/deal/${id}/closing/reviewOffer`,
     singleDeal: (id) => `/deal/${id}`,
     updateMultipleDeals: () => '/deal/updateGroup',
+    visitFeedback: (id) => `/deal/${id}/visitFeedback`,
   },
   estimation: {
     createEstimation: () => '/estimation/',

@@ -81,6 +81,7 @@ const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScr
 const SingleDocument = lazy(() => import('./Pages/EditProperty/SingleDocument'));
 
 const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
+const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
 
 const AddShowingsBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddShowingsBuyer'));
 
@@ -443,6 +444,7 @@ const App = (props) => {
                   }
                   {
                     !history.location.pathname.includes('packageFlow') &&
+                    !history.location.pathname.includes('visitFeedback') &&
                     !history.location.pathname.includes('signup') &&
                     (!history.location.pathname.includes('sell') || history.location.pathname.includes('homebase')) &&
                     (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
@@ -475,7 +477,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
                       <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
                       <ProtectedRoute path="/packageFlow/:id/makeOffer" component={MakeOffer} />
-                      <ProtectedRoute path="/visitFeedback/:dealID" component={MakeOffer} />
+                      <ProtectedRoute path="/visitFeedback/:dealID" component={VisitFeedback} />
 
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" component={Signup} />
