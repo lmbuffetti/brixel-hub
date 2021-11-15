@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { spinnerOff } from '../../actions/CommonActions';
 import { sendVisitFeedback } from '../../actions/DealActions';
+import { getActiveSingleProperty } from '../../actions/PropertyActions';
 
 const VisitFeedback = (props) => {
   // PROPS
@@ -25,12 +26,14 @@ const VisitFeedback = (props) => {
     formValue,
     handleUpdateError,
     handleSendVisitFeedback,
+    handleGetActiveSingleProperty,
     history,
     handleSpinnerOff,
     match,
   } = props;
   // GET URL PARAMS
   const dealID = get(match, 'params.dealID', null);
+  const pageID = get(match, 'params.pageID', null);
   const [disabledSend, setDisabledSend] = useState(true);
   const urlParams = queryString.parse(get(history, 'location.search', ''));
   const status = urlParams.status === 'true';
@@ -54,7 +57,12 @@ const VisitFeedback = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    handleSpinnerOff();
+    const data = {
+      fullVersion: false,
+      smallLoader: 'property',
+      id: pageID,
+    };
+    handleGetActiveSingleProperty(data);
     onUpdateError();
   }, []);
 
@@ -192,6 +200,7 @@ const VisitFeedback = (props) => {
 VisitFeedback.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleSendVisitFeedback: PropTypes.func.isRequired,
+  handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleUpdateError: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
@@ -207,6 +216,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(changeSyncError('visitFeedback', name, value));
   },
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSendVisitFeedback: bindActionCreators(sendVisitFeedback, dispatch),
 });
 
