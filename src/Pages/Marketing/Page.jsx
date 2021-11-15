@@ -13,6 +13,7 @@ import {
   BrixelIcon,
   Helpers,
   FormatValue,
+  BrixelSwitchButton,
   change,
   reset,
 } from '@brixel/brixel-components';
@@ -25,6 +26,7 @@ import { addGameHistory } from '../../actions/GamificationActions';
 const Page = (props) => {
   // PROPS
   const {
+    changeFieldValue,
     company,
     formValue,
     handleUpdatePublishedReview,
@@ -213,65 +215,79 @@ const Page = (props) => {
                   }
                   {
                     formValue.published && (
-                      <div className="ta-c mt-4">
-                        <h5 className="mb-1">Share for free.</h5>
-                        <p className="fsize-300 txtDark200">Use the power of social media.</p>
+                      <>
+                        <div className="ta-c mt-4">
+                          <h5 className="mb-1">Share for free.</h5>
+                          <p className="fsize-300 txtDark200">Use the power of social media.</p>
 
-                        <div className="dis-f jc-c a-c max-w-fix-344 m-a mt-3">
-                          <a
-                            href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData.pageUrl}${formValue.stub}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="dis-b mr-4"
-                          >
-                            <BrixelIcon
-                              icon="facebook"
-                              color="primary"
-                              saturationTxt={700}
-                            />
-                            <span className="dis-b ta-c txtDark700 fsize-300">Facebook</span>
-                          </a>
-                          <a
-                            href={`https://twitter.com/share?url=${baseByData.pageUrl}${formValue.stub}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="dis-b mr-4"
-                          >
-                            <BrixelIcon
-                              icon="twitter"
-                              color="primary"
-                              saturationTxt={700}
-                            />
-                            <span className="dis-b ta-c txtDark700 fsize-300">Twitter</span>
-                          </a>
-                          <a
-                            href={`https://www.linkedin.com/shareArticle?url=${baseByData.pageUrl}${formValue.stub}&title=${formValue.title}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="dis-b"
-                          >
-                            <BrixelIcon
-                              icon="linkedin"
-                              color="primary"
-                              saturationTxt={700}
-                            />
-                            <span className="dis-b ta-c txtDark700 fsize-300">Linkedin</span>
-                          </a>
+                          <div className="dis-f jc-c a-c max-w-fix-344 m-a mt-3">
+                            <a
+                              href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData.pageUrl}${formValue.stub}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="dis-b mr-4"
+                            >
+                              <BrixelIcon
+                                icon="facebook"
+                                color="primary"
+                                saturationTxt={700}
+                              />
+                              <span className="dis-b ta-c txtDark700 fsize-300">Facebook</span>
+                            </a>
+                            <a
+                              href={`https://twitter.com/share?url=${baseByData.pageUrl}${formValue.stub}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="dis-b mr-4"
+                            >
+                              <BrixelIcon
+                                icon="twitter"
+                                color="primary"
+                                saturationTxt={700}
+                              />
+                              <span className="dis-b ta-c txtDark700 fsize-300">Twitter</span>
+                            </a>
+                            <a
+                              href={`https://www.linkedin.com/shareArticle?url=${baseByData.pageUrl}${formValue.stub}&title=${formValue.title}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="dis-b"
+                            >
+                              <BrixelIcon
+                                icon="linkedin"
+                                color="primary"
+                                saturationTxt={700}
+                              />
+                              <span className="dis-b ta-c txtDark700 fsize-300">Linkedin</span>
+                            </a>
+                          </div>
+
+                          <hr className="my-3" />
+
+                          <p className="fsize-300 txtDark200 w-fix-200 m-a">Your property should not be visible anymore?</p>
+
+                          <BrixelButtonPrimary
+                            className="m-a mt-3"
+                            label="Take Page offline"
+                            theme="dark"
+                            rounded
+                            onClick={() => changeReviewStatus('offline')}
+                            isLoading={isSmallLoading.pageReview}
+                          />
                         </div>
-
-                        <hr className="my-3" />
-
-                        <p className="fsize-300 txtDark200 w-fix-200 m-a">Your property should not be visible anymore?</p>
-
-                        <BrixelButtonPrimary
-                          className="m-a mt-3"
-                          label="Take Page offline"
-                          theme="dark"
-                          rounded
-                          onClick={() => changeReviewStatus('offline')}
-                          isLoading={isSmallLoading.pageReview}
-                        />
-                      </div>
+                        <div className="pos-r w-perc-100 zIndex1 p-3 my-5 brdRadius shadow-1dp">
+                          <h4 className="mb-3">Request visits</h4>
+                          <BrixelSwitchButton
+                            className="body2 row-reverse jc-b mt-2"
+                            label="Allow people to request visits on Brixel Page"
+                            input={{
+                              onChange: () => changeFieldValue('allowVisits', !formValue.allowVisits),
+                              name: 'allowVisits',
+                              value: formValue.allowVisits,
+                            }}
+                          />
+                        </div>
+                      </>
                     )
                   }
                 </>
@@ -306,6 +322,7 @@ Page.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

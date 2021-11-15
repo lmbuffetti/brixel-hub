@@ -503,6 +503,21 @@ img {
   }
 }
 
+.row-reverse {
+  flex-direction: row-reverse;
+  .react-switch-checkbox {
+    position: absolute;
+  }
+  &.brixel-switch-button {
+
+    .labelText {
+      color: map-get($darkColor, 700);
+      max-width: 400px;
+      margin-left: 0;
+      padding-right: $step * 2;
+    }
+  }
+}
 
 /* CUSTOM SCROLLBAR WITHOUT FORGROUND LAYER*/
 main>div ::-webkit-scrollbar {

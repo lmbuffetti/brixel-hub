@@ -71,6 +71,13 @@ const DealsCard = (props) => {
     return DateTime.fromMillis(visit, { locale: lang }).toFormat('d LLL yyyy, H:mm');
   };
 
+  const getOfferColor = () => {
+    if (offer.offer.status === 'pending') return 'Yellow';
+    if (offer.offer.status === 'accepted') return 'Green';
+    if (offer.offer.status === 'rejected') return 'Red';
+    return 'Dark';
+  };
+
   return (
     <>
       <div
@@ -134,12 +141,12 @@ const DealsCard = (props) => {
                         <BrixelIcon
                           icon="money"
                           noBorder
-                          color="green"
+                          color={getOfferColor()}
                           saturationTxt={400}
                           className="mr-1"
                           iconWidth="w-fix-16"
                         />
-                        <span className="txtGreen400 fsize-300">{get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', 0))}</span>
+                        <span className={`txt${getOfferColor()}400 fsize-300`}>{get(offer, 'offer.currency', '')} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', 0))}</span>
                       </>
                     ) : (
                       <>

@@ -129,14 +129,18 @@ const ShowingsBuyer = (props) => {
               ) : (
                 <div className="dis-fl-col a-c min-h-fix-336">
                   <img src={showingsEmpty} alt="Showing Buyer" />
-                  <h5 className="my-3">Request your showing</h5>
-                  <BrixelButtonPrimary
-                    rounded
-                    label="Add dates"
-                    rightIcon="calendar-add"
-                    onClick={() => history.push(`/buyer/${propID}/property/showings/add`)}
-                    className="mb-3"
-                  />
+                  <h5 className="my-3">{formValue.allowVisits === false ? 'Right now there are no showings available' : 'Request your showing'}</h5>
+                  {
+                    formValue.allowVisits && (
+                      <BrixelButtonPrimary
+                        rounded
+                        label="Add dates"
+                        rightIcon="calendar-add"
+                        onClick={() => history.push(`/buyer/${propID}/property/showings/add`)}
+                        className="mb-3"
+                      />
+                    )
+                  }
                 </div>
               )
             }
