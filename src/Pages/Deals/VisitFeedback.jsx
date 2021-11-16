@@ -187,7 +187,7 @@ const VisitFeedback = (props) => {
                       </div>
 
                       <BrixelButtonPrimary
-                        onClick={() => history.push(`/packageFlow/${pageID}/makeOffer`)}
+                        onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
                         rounded
                         theme="altGreen"
                         themeSat={300}

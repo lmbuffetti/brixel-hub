@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^2.6.41",
+    "@brixel/brixel-components": "^2.6.44",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^1.3.3",
     "css-split-webpack-plugin": "^0.2.6",
@@ -105,7 +105,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "clean-webpack-plugin": "^4.0.0",
     "compression": "^1.7.4",
-    "concurrently": "^6.3.0",
+    "concurrently": "^6.4.0",
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "^6.5.1",
     "cssnano": "^5.0.10",
@@ -138,9 +138,9 @@
     "resolve-url-loader": "^4.0.0",
     "sass-loader": "^12.3.0",
     "svg-inline-loader": "^0.8.2",
-    "webpack": "5.64.0",
+    "webpack": "5.64.1",
     "webpack-cli": "4.9.1",
-    "webpack-dev-server": "^4.4.0",
+    "webpack-dev-server": "^4.5.0",
     "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0"
   }
