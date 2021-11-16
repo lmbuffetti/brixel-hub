@@ -138,7 +138,10 @@ function PageHeader(props) {
   }, []);
 
   const closeOverlay = () => {
-    if (history.location.pathname.toLowerCase().includes('getstartedbuyer')) {
+    if (
+      history.location.pathname.toLowerCase().includes('getstartedbuyer') ||
+      history.location.pathname.toLowerCase().includes('visitfeedback')
+    ) {
       history.push('/buy');
     } else if (history.location.pathname.toLowerCase().includes('makeoffer')) {
       history.push(`/buyer/${propID}/closing/${dealID}`);

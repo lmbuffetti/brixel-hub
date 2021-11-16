@@ -92,6 +92,7 @@ export default {
     packagePage: (id) => `/pageServicePackage/10/0?pageID=${id}&order=createdAt&direction=ASC`,
     page: (limit, offset) => `/page/${limit}/${offset}`,
     pageById: (id) => `/page/${id}`,
+    pageByStub: (stub) => `/page/stub/${stub}`,
     pageDeals: (id, data) => `/page/${id}/deals${data}`,
     pageDealsCount: (id) => `/page/${id}/dealsCount?countDealsBy=newSeller`,
     portalsReview: (id, status) => `/page/${id}/portalsReview?status=${status}`,

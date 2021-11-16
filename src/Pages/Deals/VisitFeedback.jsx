@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-shadow */
+/* global Transifex */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -10,25 +11,30 @@ import {
   BrixelButtonPrimary,
   Validation,
   changeSyncError,
-  initializeForm,
+  initializeForm, Helpers, BrixelIcon,
 } from '@brixel/brixel-components';
 import queryString from 'query-string';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import { spinnerOff } from '../../actions/CommonActions';
 import { sendVisitFeedback } from '../../actions/DealActions';
 import { getActiveSingleProperty } from '../../actions/PropertyActions';
+import { setActiveSingleCompany } from '../../actions/CompanyActions';
+import { setCookie } from '../../utils/helpers';
 
 const VisitFeedback = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    contacts,
     formValue,
     handleUpdateError,
     handleSendVisitFeedback,
     handleGetActiveSingleProperty,
+    handleSetActiveSingleCompany,
     history,
     handleInitForm,
     initialValues,
@@ -39,11 +45,17 @@ const VisitFeedback = (props) => {
   const dealID = get(match, 'params.dealID', null);
   const pageID = get(match, 'params.pageID', null);
   const [disabledSend, setDisabledSend] = useState(true);
-  const [successMessage, setSuccessMessage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(true);
   const urlParams = queryString.parse(get(history, 'location.search', ''));
   const status = urlParams.status === 'true';
+  const { lang } = urlParams;
 
   const checkPriceReason = get(formValue, 'reasons', null) && get(formValue, 'reasons', []).findIndex((val) => val === 'price') > -1;
+
+  useEffect(() => {
+    setCookie('brixelLang', lang);
+    if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
+  }, [lang]);
 
   const onUpdateError = () => {
     const validateField = ['reasons'];
@@ -70,10 +82,18 @@ const VisitFeedback = (props) => {
 
   useEffect(() => {
     if (activeSingleProperty.id) {
-      handleInitForm(initialValues);
-      saveData();
+      const data = {
+        ...initialValues,
+        status,
+      };
+      handleInitForm(data);
+      handleSetActiveSingleCompany(activeSingleProperty.company);
     }
   }, [activeSingleProperty]);
+
+  useEffect(() => {
+    if (has(formValue, 'status')) saveData();
+  }, [formValue.status]);
 
   useEffect(() => {
     onUpdateError();
@@ -89,7 +109,7 @@ const VisitFeedback = (props) => {
     const data = {
       fullVersion: false,
       smallLoader: 'property',
-      id: pageID,
+      stub: pageID,
     };
     handleGetActiveSingleProperty(data);
     onUpdateError();
@@ -112,7 +132,7 @@ const VisitFeedback = (props) => {
             <div ref={singleStepRef} className="singleStep zIndex1 pt-5 jc-c fade-enter-active fade-enter">
               <div className="subcontainer m-a">
                 {
-                  (status || successMessage) ? (
+                  status ? (
                     <div id="step-0" className="dis-fl-col flex-wrap">
                       <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
                         Visit Feedback
@@ -124,16 +144,48 @@ const VisitFeedback = (props) => {
                               <p>
                                 We are happy to hear that you are still interested in the property.
                               </p>
-                              <p>
+                              <p className="mt-1">
                                 You can contact us if you have any specific questions to the owner.
                               </p>
 
-                              <h6>Do you want to make an offer?</h6>
+                              <div className="mt-3">
+                                {
+                                  contacts.phone && (
+                                    <a href={`tel:${Helpers.telephoneFormat(contacts.phone)}`} className="dis-f a-c mb-2">
+                                      <BrixelIcon
+                                        color="altBlue"
+                                        saturationTxt={400}
+                                        icon="phone"
+                                      />
+                                      <p className="ml-2">
+                                        <span className="txtDark700">{Helpers.telephoneFormat(contacts.phone)}</span>
+                                      </p>
+                                    </a>
+                                  )
+                                }
+                                {
+                                  contacts.email && (
+                                    <a href={`mailto: ${contacts.email}`} className="dis-f a-c mb-2">
+                                      <BrixelIcon
+                                        color="altRed"
+                                        saturationTxt={400}
+                                        icon="mail"
+                                      />
+                                      <p className="ml-2">
+                                        <span className="txtDark700">{contacts.email}</span>
+                                      </p>
+                                    </a>
+                                  )
+                                }
+                              </div>
+
+                              <h6 className="mt-5">Do you want to make an offer?</h6>
                               <p>Make your offer online and have a proof of financing ready.</p>
                             </div>
                           </div>
                         </div>
                       </div>
+
                       <BrixelButtonPrimary
                         onClick={() => history.push(`/packageFlow/${pageID}/makeOffer`)}
                         rounded
@@ -158,9 +210,40 @@ const VisitFeedback = (props) => {
                                     <p>
                                       Thank you for your feedback.
                                     </p>
-                                    <p>
+                                    <p className="mt-1">
                                       Do you want to share any specific reasons or a comment to the owner?
                                     </p>
+
+                                    <div className="mt-3">
+                                      {
+                                        contacts.phone && (
+                                          <a href={`tel:${Helpers.telephoneFormat(contacts.phone)}`} className="dis-f a-c mb-2">
+                                            <BrixelIcon
+                                              color="altBlue"
+                                              saturationTxt={400}
+                                              icon="phone"
+                                            />
+                                            <p className="ml-2">
+                                              <span className="txtDark700">{Helpers.telephoneFormat(contacts.phone)}</span>
+                                            </p>
+                                          </a>
+                                        )
+                                      }
+                                      {
+                                        contacts.email && (
+                                          <a href={`mailto: ${contacts.email}`} className="dis-f a-c mb-2">
+                                            <BrixelIcon
+                                              color="altRed"
+                                              saturationTxt={400}
+                                              icon="mail"
+                                            />
+                                            <p className="ml-2">
+                                              <span className="txtDark700">{contacts.email}</span>
+                                            </p>
+                                          </a>
+                                        )
+                                      }
+                                    </div>
 
                                     <h6>Still looking for your dream home?</h6>
                                     <p>Check your Brixel market to find other properties.</p>
@@ -206,6 +289,9 @@ const VisitFeedback = (props) => {
                                     />
 
                                     <ReduxField
+                                      design={{
+                                        className: 'mt-2',
+                                      }}
                                       component={BrixelInputText}
                                       form="visitFeedback"
                                       labels={{
@@ -220,6 +306,9 @@ const VisitFeedback = (props) => {
                                       checkPriceReason && (
                                         <ReduxField
                                           component={BrixelRadioButton}
+                                          design={{
+                                            className: 'mt-3',
+                                          }}
                                           form="visitFeedback"
                                           labels={{
                                             label: 'Do you want to get noticed if the price changes?',
@@ -264,10 +353,12 @@ const VisitFeedback = (props) => {
 
 VisitFeedback.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  contacts: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   handleInitForm: PropTypes.func.isRequired,
+  handleSetActiveSingleCompany: PropTypes.func.isRequired,
   handleSendVisitFeedback: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleUpdateError: PropTypes.func.isRequired,
@@ -277,6 +368,7 @@ VisitFeedback.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
   formValue: get(state, 'brixelForm.visitFeedback.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   initialValues: {
@@ -293,6 +385,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleInitForm(value) {
     dispatch(initializeForm('visitFeedback', value));
   },
+  handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSendVisitFeedback: bindActionCreators(sendVisitFeedback, dispatch),
