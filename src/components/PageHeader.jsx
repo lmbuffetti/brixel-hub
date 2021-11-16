@@ -138,7 +138,10 @@ function PageHeader(props) {
   }, []);
 
   const closeOverlay = () => {
-    if (history.location.pathname.toLowerCase().includes('getstartedbuyer')) {
+    if (
+      history.location.pathname.toLowerCase().includes('getstartedbuyer') ||
+      history.location.pathname.toLowerCase().includes('visitfeedback')
+    ) {
       history.push('/buy');
     } else if (history.location.pathname.toLowerCase().includes('makeoffer')) {
       history.push(`/buyer/${propID}/closing/${dealID}`);
@@ -158,11 +161,11 @@ function PageHeader(props) {
     <>
       <header className="flowHeader">
         <div className="container">
-          <div className={`dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-3' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
+          <div className={`dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-3' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
             <div className="dis-f a-c w-fix-104 min-h-fix-56 h-perc-100">
 
               <img
-                className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'hide-md'}`}
+                className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'hide-md'}`}
                 src={`${window.innerWidth <= 600 ? logoColorIcon : logoColor}`}
                 alt="Brixel Logo"
                 id="header-logo"
@@ -199,6 +202,7 @@ function PageHeader(props) {
                   <div className="ml-2">
                     {
                       !history.location.pathname.includes('packageFlow') &&
+                      !history.location.pathname.includes('visitFeedback') &&
                       !history.location.pathname.includes('trialRequest') &&
                       !history.location.pathname.includes('upgrade') &&
                       !history.location.pathname.includes('signup') && (
@@ -213,7 +217,12 @@ function PageHeader(props) {
                       )
                     }
                     {
-                      (history.location.pathname.includes('packageFlow') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade') || history.location.pathname.includes('signup')) &&
+                      (
+                        history.location.pathname.includes('packageFlow') ||
+                        history.location.pathname.includes('visitFeedback') ||
+                        history.location.pathname.includes('trialRequest') ||
+                        history.location.pathname.includes('upgrade') ||
+                        history.location.pathname.includes('signup')) &&
                       !(get(history, 'location.state.hideClose', null)) && (
                         <BrixelButtonIcon
                           ghost

@@ -7,7 +7,8 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   REDIRECT_TO,
-  SET_SCREEN_NOTIFICATION, SPINNER_SMALL,
+  SET_SCREEN_NOTIFICATION,
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import {
@@ -26,6 +27,7 @@ import {
   SAVE_REVIEW_OFFER,
   SET_OFFER_LISTINGS,
   GET_OFFER_LISTINGS,
+  SEND_VISIT_FEEDBACK,
 } from '../actions/types/DealTypes';
 
 import {
@@ -840,6 +842,56 @@ const checkCommon = (store) => (next) => (action) => {
               type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
+      break;
+    }
+    case SEND_VISIT_FEEDBACK: {
+      next(action);
+      const objData = cloneDeep(action.payload);
+      const {
+        smallLoader,
+        id,
+        sendSlack,
+      } = objData;
+      delete objData.smallLoader;
+      delete objData.id;
+      delete objData.sendSlack;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.deal.sendVisitFeedback(id, sendSlack, objData)
+        .then((res) => {
+          if (!get(res.data, 'statusCode', null)) {
+            const { data } = res;
+            // eslint-disable-next-line no-console
+            console.log(data);
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+                [`${smallLoader}Sent`]: true,
               },
             });
           } else {
