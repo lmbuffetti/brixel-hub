@@ -45,7 +45,7 @@ const VisitFeedback = (props) => {
   const dealID = get(match, 'params.dealID', null);
   const pageID = get(match, 'params.pageID', null);
   const [disabledSend, setDisabledSend] = useState(true);
-  const [successMessage, setSuccessMessage] = useState(true);
+  const [successMessage, setSuccessMessage] = useState(false);
   const urlParams = queryString.parse(get(history, 'location.search', ''));
   const status = urlParams.status === 'true';
   const { lang } = urlParams;
