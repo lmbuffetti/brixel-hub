@@ -531,6 +531,7 @@ const GetStartedBuyer = (props) => {
                           showSendButton
                           showErrors={showError}
                           disableDelay={quest.history !== 'createProfile'}
+                          skipPhone
                         />
                       </div>
 

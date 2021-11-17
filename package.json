@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^2.6.44",
+    "@brixel/brixel-components": "^2.6.47",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^1.3.3",
     "css-split-webpack-plugin": "^0.2.6",
@@ -108,7 +108,7 @@
     "concurrently": "^6.4.0",
     "copy-webpack-plugin": "^9.1.0",
     "css-loader": "^6.5.1",
-    "cssnano": "^5.0.10",
+    "cssnano": "^5.0.11",
     "eslint": "^7.32.0",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-react-hooks": "^4.3.0",
