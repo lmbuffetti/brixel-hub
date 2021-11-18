@@ -867,6 +867,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.smallLoader;
       delete objData.id;
       delete objData.sendSlack;
+      delete objData.status;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
