@@ -84,8 +84,6 @@ const MarketBuyer = (props) => {
       handleGetPremiumProperties(data);
       handleSpinnerOff();
       handleGetPremarketStats({ id: get(userSearchProfiles, '[0].id', null) });
-    } else {
-      handleGetPremarketStats({});
     }
   }, [userSearchProfiles, get(history, 'location.pathname', null)]);
 

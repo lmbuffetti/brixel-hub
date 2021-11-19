@@ -187,6 +187,7 @@ const SplashScreen = (props) => {
   }, [sliderInstance.current, localTransifex, lang]);
 
   useEffect(() => {
+    console.log(activeSlide, activeMarketOverlayPropertyLists.length)
     if (activeSlide && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length - 3 === activeSlide) {
       const profileID = get(userSearchProfiles, '[0].id', null);
       const data = {

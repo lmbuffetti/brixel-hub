@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -9,6 +9,7 @@ import {
   BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { FinancialCalculator } from '@brixel/brixel-configuration-partner/dist/FinancialFormulas';
 
 const Key4Registration = (props) => {
   const {
@@ -21,9 +22,24 @@ const Key4Registration = (props) => {
   // COUNTRY
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
   lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
-  const maxLoanRatio = lowCountry === 'pt' ? 90 : 80;
+  const [maxLoanRatio, setMaxLoanRatio] = useState(null);
+  const [maxAffordability, setMaxAffordability] = useState(null);
   const affordability = get(formValue, 'affordability', 0);
   const loanToValueRatio = get(formValue, 'loanToValueRatio', 0);
+
+  useEffect(() => {
+    const equityCapital = get(formValue, 'financeBuyer.equity', 0);
+    const grossIncome = get(formValue, 'financeBuyer.income', 0);
+    const fixedCost = 0;
+    const cost = {
+      equityCapital,
+      grossIncome,
+      fixedCost,
+    };
+    const price = get(formValue, 'propertyPrice', 0);
+    setMaxLoanRatio(FinancialCalculator(lowCountry, price, cost).maxLoanRatio);
+    setMaxAffordability(FinancialCalculator(lowCountry, price, cost).maxAffordability);
+  }, []);
 
   const getSellerBrochure = () => activeSinglePropertyDocs.find((itm) => itm.isBrochure);
 
@@ -60,7 +76,7 @@ const Key4Registration = (props) => {
   return (
     <div>
       {
-        affordability < 33 && loanToValueRatio < maxLoanRatio ? (
+        affordability < maxAffordability && loanToValueRatio < maxLoanRatio ? (
           <>
             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
               Learn within 48 hours if you can afford your desired home.
