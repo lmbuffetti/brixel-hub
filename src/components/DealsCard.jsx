@@ -18,6 +18,7 @@ const DealsCard = (props) => {
     parentOnClick,
     archOnClick,
     date,
+    feedback,
     offer,
     profileId,
     archived,
@@ -78,6 +79,12 @@ const DealsCard = (props) => {
     return 'Dark';
   };
 
+  const getFeedback = () => {
+    if (feedback.isInterested === true) return 'Still interested 👍';
+    if (feedback.isInterested === false) return 'Not interested anymore 👎';
+    return 'Visited';
+  };
+
   return (
     <>
       <div
@@ -107,6 +114,7 @@ const DealsCard = (props) => {
             }
             {
               stage === 'Visit' && (
+                // eslint-disable-next-line no-nested-ternary
                 visit === null || visit.length === 0 ? (
                   <div className="dis-fl-row a-c">
                     <BrixelIcon
@@ -118,17 +126,21 @@ const DealsCard = (props) => {
                     <span className="fsize-300 txtDark700">No date</span>
                   </div>
                 ) : (
-                  <div className="dis-fl-row a-c">
-                    <BrixelIcon
-                      icon={getIcon()}
-                      noBorder
-                      color={getColor()}
-                      saturationTxt={getSaturation()}
-                      className="mr-1"
-                      iconWidth="w-fix-16"
-                    />
-                    <span className={`txt${getTextColor()} fsize-300`}>{getVisit()}</span>
-                  </div>
+                  (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
+                    <span className="fsize-300 txtDark700">{getFeedback()}</span>
+                  ) : (
+                    <div className="dis-fl-row a-c">
+                      <BrixelIcon
+                        icon={getIcon()}
+                        noBorder
+                        color={getColor()}
+                        saturationTxt={getSaturation()}
+                        className="mr-1"
+                        iconWidth="w-fix-16"
+                      />
+                      <span className={`txt${getTextColor()} fsize-300`}>{getVisit()}</span>
+                    </div>
+                  )
                 )
               )
             }
@@ -214,6 +226,7 @@ DealsCard.propTypes = {
   isNew: PropTypes.bool,
   isWinner: PropTypes.bool,
   lastAction: PropTypes.object,
+  feedback: PropTypes.object,
   name: PropTypes.string,
   offer: PropTypes.object,
   parentOnClick: PropTypes.func,
@@ -231,6 +244,7 @@ DealsCard.defaultProps = {
   isNew: false,
   isWinner: false,
   lastAction: {},
+  feedback: {},
   name: '',
   offer: {},
   parentOnClick: () => '',
