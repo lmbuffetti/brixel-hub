@@ -25,6 +25,7 @@ import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   BrixelAvatar, BrixelButtonIcon, BrixelButtonSecondary, Helpers,
   FactsOptions, useOutsideAlerter, change, BrixelDropdownMini,
+  BrixelIcon,
 } from '@brixel/brixel-components';
 import {
   getActiveSingleDeal, saveActiveSingleDeal, updateMultipleDeals,
@@ -220,6 +221,31 @@ const SingleDeal = (props) => {
     return null;
   };
 
+  const getIcon = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'calendar-check';
+    return 'calendar';
+  };
+
+  const getColor = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'dark';
+    return 'green';
+  };
+
+  const getBackground = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'light';
+    return 'green';
+  };
+
+  const getSaturation = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 200;
+    return 100;
+  };
+
+  const getTextColor = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'Dark700';
+    return 'Green400';
+  };
+
   // FUNCTION TO MANAGE THE CLICK OUTSIDE OF ELEMENT
   useOutsideAlerter(optionsRef, {
     action: 'function',
@@ -381,13 +407,28 @@ const SingleDeal = (props) => {
                   isDeal
                   className="w-perc-100 col-7 p-0 min-w-perc-100 min-w-perc-lg-0"
                 />
-                <div className="dis-fl-col-md col-5 pl-4 pr-0 right-container hide">
-                  {/* <div className="showings">
-                    <span className="title overline tt-up mb-3">Showings</span>
-                  </div>
-                  <div className="offers">
-                    <span className="title overline tt-up mb-3">Offers</span>
-                  </div> */}
+                <div className="dis-fl-col-md col-5 pl-4 pr-0 right-container">
+                  {
+                    (get(activeSingleDeal, 'visit', null) !== null || get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
+                      <>
+                        <span className="overline mb-3">Visit</span>
+                        <div className="visit-container brdRadius shadow-1dp dis-fl-col p-small-12">
+                          <div className="dis-f a-c">
+                            <BrixelIcon
+                              icon={getIcon()}
+                              noBorder
+                              background={getBackground()}
+                              saturation={getSaturation()}
+                              color={getColor()}
+                              saturationTxt={700}
+                              className="mr-2"
+                            />
+                            <span className={`txt${getTextColor()}`}>{DateTime.fromMillis(activeSingleDeal.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}</span>
+                          </div>
+                        </div>
+                      </>
+                    )
+                  }
                 </div>
               </div>
             </div>
