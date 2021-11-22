@@ -135,16 +135,27 @@ const VisitFeedback = (props) => {
                   status ? (
                     <div id="step-0" className="dis-fl-col flex-wrap">
                       <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
-                        Visit Feedback
+                        We&apos;re glad you are still interested.
                       </h2>
                       <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 w-perc-100 mb-5">
                         <div className=" multiFieldWrap w-perc-100 ">
                           <div className="dis-f jc-b h-perc-100 a-t">
-                            <div className="ml-0 mr-a pr-10 dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
-                              <p>
-                                We are happy to hear that you are still interested in the property.
-                              </p>
-                              <p className="mt-1">
+                            <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
+
+                              <div>
+                                <h6>Do you want to make an offer?</h6>
+                                <p>Make your offer online and have a proof of financing ready.</p>
+                                <BrixelButtonPrimary
+                                  onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
+                                  rounded
+                                  theme="altGreen"
+                                  themeSat={300}
+                                  className="w-fit mx-a mt-3"
+                                  label="Make an offer"
+                                />
+                              </div>
+
+                              <p className="mt-5">
                                 You can contact us if you have any specific questions to the owner.
                               </p>
 
@@ -179,21 +190,10 @@ const VisitFeedback = (props) => {
                                 }
                               </div>
 
-                              <h6 className="mt-5">Do you want to make an offer?</h6>
-                              <p>Make your offer online and have a proof of financing ready.</p>
                             </div>
                           </div>
                         </div>
                       </div>
-
-                      <BrixelButtonPrimary
-                        onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
-                        rounded
-                        theme="altGreen"
-                        themeSat={300}
-                        className="w-fit m-a"
-                        label="Make an offer"
-                      />
                     </div>
                   ) : (
                     <div id="step-0" className="dis-fl-col flex-wrap">
