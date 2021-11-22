@@ -100,7 +100,7 @@ const VisitFeedback = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    if (!disabledSend && isSmallLoading.sendDataSent === true) {
+    if (!disabledSend && isSmallLoading.sendVisitSent === true) {
       setSuccessMessage(true);
     }
   }, [isSmallLoading]);
@@ -330,6 +330,7 @@ const VisitFeedback = (props) => {
                             <BrixelButtonPrimary
                               onClick={() => saveData()}
                               disabled={disabledSend}
+                              isLoading={isSmallLoading.sendVisit}
                               rounded
                               theme="altGreen"
                               themeSat={300}
