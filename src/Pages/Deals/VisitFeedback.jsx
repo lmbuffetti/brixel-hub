@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {
   BrixelCheckbox,
   BrixelInputText,
+  BrixelTextArea,
   BrixelRadioButton,
   ReduxField,
   BrixelButtonPrimary,
@@ -292,7 +293,7 @@ const VisitFeedback = (props) => {
                                       design={{
                                         className: 'mt-2',
                                       }}
-                                      component={BrixelInputText}
+                                      component={BrixelTextArea}
                                       form="visitFeedback"
                                       labels={{
                                         label: 'Do you want to add anything (Optional)',
