@@ -67,7 +67,7 @@ const WizardCard = (props) => {
           top: posY,
         }}
       >
-        <small className="mb-1 dis-b fsize-300 txtDark400">Step {wizard.step} of {Object.keys(currentWizard).length}</small>
+        <small className="mb-1 dis-b fsize-300 txtDark400"><span>Step</span> <span>{wizard.step}</span> <span>of</span> <span>{Object.keys(currentWizard).length}</span></small>
         <h5 className="mb-1 fweight-600">{text.title}</h5>
         <p className="fsize-300 txtDark700">{text.description}</p>
         <BrixelButtonPrimary
