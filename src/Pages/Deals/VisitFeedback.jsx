@@ -201,7 +201,7 @@ const VisitFeedback = (props) => {
                         successMessage ? (
                           <div id="step-0" className="dis-fl-col flex-wrap">
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
-                              Visit Feedback
+                              Thank you for your feedback.
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
@@ -263,7 +263,7 @@ const VisitFeedback = (props) => {
                         ) : (
                           <>
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
-                              Visit Feedback
+                              Thank you for your feedback.
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
@@ -273,7 +273,7 @@ const VisitFeedback = (props) => {
                                       component={BrixelCheckbox}
                                       form="visitFeedback"
                                       labels={{
-                                        label: 'What was the main reason?',
+                                        label: 'What is the main reason for your refusal?',
                                       }}
                                       input={{
                                         name: 'reasons',
