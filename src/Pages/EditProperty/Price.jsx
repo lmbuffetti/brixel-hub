@@ -150,7 +150,6 @@ const Price = (props) => {
                   placeholder: '700\'000',
                   name: 'price.total',
                   unit: get(formValue, 'price.currency', ''),
-                  onChange: (val) => onChangePrice(val),
                 }}
                 inputFormat={{
                   currency: get(formValue, 'price.currency', ''),
