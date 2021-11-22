@@ -215,6 +215,7 @@ const SplashScreen = (props) => {
       }
     },
   });
+  console.log(activeSlide, activeMarketOverlayPropertyLists.length)
 
   const closeOverlay = useCallback(() => {
     setSplashScreen('');
@@ -249,17 +250,19 @@ const SplashScreen = (props) => {
   const saveFavorite = useCallback(() => {
     let property = activeMarketOverlayProperty;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
-    const data = {
-      act: checkFavorite() ? 'remove' : 'add',
-      id: property.id,
-      property,
-      data: {
-        email: get(loggedInUser, 'email', ''),
-        language: loggedInUser.lang,
-      },
-    };
-    handleUpdateFavorites(data);
-    if (sliderInstance.current && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
+    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === activeSlide + 1) {
+      handleSetActiveMarketOverlayPropertyLists([]);
+    } else if (sliderInstance.current && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
+      const data = {
+        act: checkFavorite() ? 'remove' : 'add',
+        id: property.id,
+        property,
+        data: {
+          email: get(loggedInUser, 'email', ''),
+          language: loggedInUser.lang,
+        },
+      };
+      handleUpdateFavorites(data);
       const slider = sliderInstance.current;
       slider.slickNext();
       const wrapCarousel = document.getElementById('overlayCarousel');
@@ -287,8 +290,10 @@ const SplashScreen = (props) => {
   const notInterested = useCallback(() => {
     let propID = activeMarketOverlayProperty.id;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) propID = activeMarketOverlayPropertyLists[activeSlide].id;
-    handleMarkNotInterested(propID);
-    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
+    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === activeSlide + 1) {
+      handleSetActiveMarketOverlayPropertyLists([]);
+    } else if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
+      handleMarkNotInterested(propID);
       const slider = sliderInstance.current;
       slider.slickNext();
       const wrapCarousel = document.getElementById('overlayCarousel');
@@ -532,7 +537,10 @@ SplashScreen.defaultProps = {
   closeLink: null,
   closeOutside: false,
   favoritesProperties: {},
+  handleGetFavoritesProperties: () => '',
   handleGetNewProperties: () => '',
+  handleGetPreMarketProperties: () => '',
+  handleGetPremiumProperties: () => '',
   handleMarkNotInterested: () => '',
   handleSetActiveMarketOverlayPropertyLists: () => '',
   handleUpdateFavorites: () => '',
@@ -541,15 +549,11 @@ SplashScreen.defaultProps = {
   setMarketOverlayProperty: () => '',
   setSplashScreen: () => '',
   userSearchProfiles: null,
-  handleGetFavoritesProperties: () => '',
-  handleGetPremiumProperties: () => '',
-  handleGetPreMarketProperties: () => '',
 };
 
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeMarketOverlayPropertyLists: get(state, 'property.activeMarketOverlayPropertyLists', null),
-  // activeMarketOverlayPropertyLists: get(state, 'market.wishlistProperties.data', null),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'user.loggedInUser.user.language', 'en'),
@@ -562,7 +566,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
