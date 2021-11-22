@@ -202,7 +202,7 @@ const VisitFeedback = (props) => {
                         successMessage ? (
                           <div id="step-0" className="dis-fl-col flex-wrap">
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
-                              Thank you for your feedback.
+                              Thank you. Your feedback has been sent.
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
@@ -264,7 +264,7 @@ const VisitFeedback = (props) => {
                         ) : (
                           <>
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
-                              Thank you. Your feedback has been sent.
+                              Thank you for your feedback.
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">

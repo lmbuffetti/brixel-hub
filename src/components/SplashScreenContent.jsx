@@ -187,7 +187,6 @@ const SplashScreen = (props) => {
   }, [sliderInstance.current, localTransifex, lang]);
 
   useEffect(() => {
-    console.log(activeSlide, activeMarketOverlayPropertyLists.length)
     if (activeSlide && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length - 3 === activeSlide) {
       const profileID = get(userSearchProfiles, '[0].id', null);
       const data = {
@@ -215,7 +214,6 @@ const SplashScreen = (props) => {
       }
     },
   });
-  console.log(activeSlide, activeMarketOverlayPropertyLists.length)
 
   const closeOverlay = useCallback(() => {
     setSplashScreen('');
@@ -249,9 +247,11 @@ const SplashScreen = (props) => {
 
   const saveFavorite = useCallback(() => {
     let property = activeMarketOverlayProperty;
+    const slider = sliderInstance.current;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === activeSlide + 1) {
-      handleSetActiveMarketOverlayPropertyLists([]);
+      setActiveSlide(0);
+      slider.slickGoTo(0);
     } else if (sliderInstance.current && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
       const data = {
         act: checkFavorite() ? 'remove' : 'add',
@@ -263,7 +263,6 @@ const SplashScreen = (props) => {
         },
       };
       handleUpdateFavorites(data);
-      const slider = sliderInstance.current;
       slider.slickNext();
       const wrapCarousel = document.getElementById('overlayCarousel');
       wrapCarousel.classList.add('actionActive');
@@ -289,12 +288,13 @@ const SplashScreen = (props) => {
 
   const notInterested = useCallback(() => {
     let propID = activeMarketOverlayProperty.id;
+    const slider = sliderInstance.current;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) propID = activeMarketOverlayPropertyLists[activeSlide].id;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === activeSlide + 1) {
-      handleSetActiveMarketOverlayPropertyLists([]);
+      setActiveSlide(0);
+      slider.slickGoTo(0);
     } else if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
       handleMarkNotInterested(propID);
-      const slider = sliderInstance.current;
       slider.slickNext();
       const wrapCarousel = document.getElementById('overlayCarousel');
       wrapCarousel.classList.add('actionActive');
@@ -326,6 +326,10 @@ const SplashScreen = (props) => {
       if (act === 'back' && activeSlide > 0) slider.slickPrev();
       if (act === 'forward' && activeSlide < preMarketProperties.total - 1) {
         slider.slickNext();
+      }
+      if (act === 'forward' && activeSlide === preMarketProperties.total - 1) {
+        slider.slickGoTo(0);
+        setActiveSlide(0);
       }
     }
   }, [sliderInstance, preMarketProperties, activeSlide]);
