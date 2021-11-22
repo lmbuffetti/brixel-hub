@@ -83,25 +83,6 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'user-portal-create-message') return `<span>Sent new message on </span><span>${item.meta.portal}</span></br></br><span>${item.meta.message}</span>`;
       if (item.actionStub === 'deal-confirm-visit-email') return 'Visit confirmation email sent';
       if (item.actionStub === 'deal-feedback-visit-email') return `<span>${item.meta.action.charAt(0).toUpperCase() + item.meta.action.slice(1)}</span> <span>visit feedback email sent</span>`;
-      if (item.actionStub === 'deal-feedback-visit') {
-        if (get(item, 'meta.visitFeedback.isInterested') === true) return '<span>Still interested 👍</span>';
-        if (get(item, 'meta.visitFeedback.isInterested') === false) {
-          let answerText = 'Not interested anymore 👎';
-          if (get(item, 'meta.visitFeedback.reasons', []) && item.meta.visitFeedback.reasons.length > 0) {
-            answerText += '</br> Main reason: ';
-            item.meta.visitFeedback.reasons.forEach((answer, key) => {
-              answerText += `<span>${answer}${key !== (item.meta.visitFeedback.reasons.length - 1) ? ', ' : ''} </span>`;
-            });
-          }
-          if (get(item, 'meta.visitFeedback.otherReason', '') && item.meta.visitFeedback.otherReason.length > 0) {
-            answerText += `</br><span>Additional note: </br></span><span>${item.meta.visitFeedback.otherReason} </span>`;
-          }
-          if (get(item, 'meta.visitFeedback.priceChangeAlert') === true || get(item, 'meta.visitFeedback.priceChangeAlert') === false) {
-            answerText += `</br><span>Price update: </span><span>${item.meta.visitFeedback.priceChangeAlert === true ? 'Yes' : 'No'} </span>`;
-          }
-          return answerText;
-        }
-      }
 
       if (item.actionStub === 'deal-make-offer') return `<span>Prospect made an offer: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span></br></br><span>${item.meta.offer.noteByBuyer}</span>`;
       if (item.actionStub === 'deal-delete-offer') return `<span>Deleted an offer: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span>`;
