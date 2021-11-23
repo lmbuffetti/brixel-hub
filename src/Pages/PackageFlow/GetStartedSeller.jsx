@@ -417,7 +417,6 @@ const GetStartedSeller = (props) => {
         if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
         if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
         if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
-        console.log(newCountryStub);
         handleGetActiveSingleCompany({ stub: newCountryStub });
       }
     }
@@ -596,6 +595,7 @@ const GetStartedSeller = (props) => {
                         showSendButton={quest.showSendButton}
                         showErrors={showError}
                         disableDelay={quest.history !== 'createProfile'}
+                        skipPhone
                       />
                     </div>
 

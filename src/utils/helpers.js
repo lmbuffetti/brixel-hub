@@ -686,6 +686,7 @@ export const checkBrowser = () => {
 
   if (navigator.appName === 'Microsoft Internet Explorer') {
     const ua = navigator.userAgent;
+    // eslint-disable-next-line prefer-regex-literals
     const re = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
 
     if (re.exec(ua) !== null) {

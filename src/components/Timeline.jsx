@@ -120,6 +120,7 @@ const Timeline = (props) => {
             if (item.actionStub === 'update-deal' && Object.keys(item.meta).length === 0) return null;
             if (item.actionStub === 'update-deal' && item.meta.name === 'new') return null;
             if (item.actionStub === 'portal-create-deal') return null;
+            if (item.actionStub === 'deal-feedback-visit') return null;
             array.push(createTimelineEntry(item, userLang));
           }
         });

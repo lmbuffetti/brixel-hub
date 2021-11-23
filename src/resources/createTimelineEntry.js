@@ -82,6 +82,7 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'user-send-message') return `"${item.meta.message}"`;
       if (item.actionStub === 'user-portal-create-message') return `<span>Sent new message on </span><span>${item.meta.portal}</span></br></br><span>${item.meta.message}</span>`;
       if (item.actionStub === 'deal-confirm-visit-email') return 'Visit confirmation email sent';
+      if (item.actionStub === 'deal-feedback-visit-email') return `<span>${item.meta.action.charAt(0).toUpperCase() + item.meta.action.slice(1)}</span> <span>visit feedback email sent</span>`;
 
       if (item.actionStub === 'deal-make-offer') return `<span>Prospect made an offer: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span></br></br><span>${item.meta.offer.noteByBuyer}</span>`;
       if (item.actionStub === 'deal-delete-offer') return `<span>Deleted an offer: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span>`;
@@ -144,6 +145,7 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'user-register' || item.actionStub === 'user-recover-password') return 'mail';
       if (item.actionStub === 'user-schedule') return 'calendar';
       if (item.actionStub === 'user-send-message') return 'message';
+      if (item.actionStub === 'deal-feedback-visit') return 'message';
       if (item.actionStub === 'user-add-favorite') return 'favorite-fill';
       if (item.actionStub === 'deal-review-offer') return 'info';
       if (item.actionStub.includes('document')) return 'document';

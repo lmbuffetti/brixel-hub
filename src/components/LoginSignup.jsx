@@ -46,8 +46,6 @@ const LoginSignup = (props) => {
   const [loginPage, setLoginPage] = useState('register');
   const [showErrors, setShowErrors] = useState(false);
   const [disabledButton, setDisabledButton] = useState(false);
-  console.log(skipPhone);
-
   const sliderInstance = useRef(null);
   const settingSlider = {
     dots: true,

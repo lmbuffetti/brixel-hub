@@ -61,16 +61,6 @@ const FactsQuestion = (props) => {
         });
       });
     });
-    if (formValue.id && initValues.id) {
-      const val = get(formValue, 'price.total', 0);
-      const initVal = get(initValues, 'price.total', 0);
-      if (val && +(val.toString().replace(/\./g, '')) > 0 && initVal <= 0) {
-        changeFieldValue('status', 'on-sale');
-      }
-      if (((val && +(val.toString().replace(/\./g, '')) === 0) || !val) && get(initValues, 'status', null) === 'on-sale') {
-        changeFieldValue('status', 'on-request');
-      }
-    }
   }, [formValue]);
 
   // FUNCTIONS TO SKIP SECTION
@@ -142,6 +132,7 @@ const FactsQuestion = (props) => {
       </div>
 
       <MultiFileldsReduxForm
+        autofocus={false}
         classNameBox={quest.classNameBox}
         className="singleInput"
         form="Property"

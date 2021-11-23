@@ -217,7 +217,6 @@ const checkLead = (store) => (next) => (action) => {
         direction,
         offset,
         order,
-        overlayCard,
         resultsPerPage,
         searchProfileId,
       } = action.payload;
@@ -234,12 +233,10 @@ const checkLead = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             store.dispatch({ type: SET_PREMARKET_PROPERTIES, payload: res.data });
             const propertyList = cloneDeep(get(store.getState(), 'property.activeMarketOverlayPropertyLists', [])) || [];
-            propertyList.push(...res.data.data);
-            store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
-          }
-          if (res.meta.status === 200 && overlayCard) {
-            const propertyList = cloneDeep(get(store.getState(), 'property.activeMarketOverlayPropertyLists', []));
-            propertyList.push(...res.data.data);
+            res.data.data.forEach((property) => {
+              const checkProp = propertyList.findIndex((prop) => prop.id === property.id);
+              if (checkProp === -1) propertyList.push(property);
+            });
             store.dispatch({ type: SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS, payload: propertyList });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));

@@ -57,6 +57,11 @@ class Deal extends Base {
     const url = ep.deal.offerListings(id);
     return this.apiClient.get(url);
   }
+
+  sendVisitFeedback(id, sendSlack, data) {
+    const url = ep.deal.visitFeedback(id, sendSlack);
+    return this.apiClient.put(url, {}, data);
+  }
 }
 
 export default Deal;

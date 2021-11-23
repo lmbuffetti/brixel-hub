@@ -67,9 +67,6 @@ const FinanceCertificate = (props) => {
                 <p className="fsize-300 txtAltGrey700 pb-2">
                   The financing certificate is a quick, non-binding assessment of your financial situation and proof that you can afford the property you want provided by our partner key4 by UBS.
                 </p>
-                <p className="fsize-300 txtAltGrey700 pb-2">
-                  Please be aware that key4 offers are only valid for persons with residency in Switzerland.
-                </p>
                 <p className="fsize-300 txtAltGrey700">
                   The non-binding certificate is issued by our partner key4 by UBS, the real estate financing platform of UBS.
                 </p>
@@ -84,6 +81,12 @@ const FinanceCertificate = (props) => {
                 theme="altGreen"
                 themeSat={400}
               />
+
+              <div className="mt-4 mx-a ta-c w-fix-md-504">
+                <p className="fsize-300 txtAltGrey500 fs-i">
+                  Please be aware that key4 offers are only valid for persons with residency in Switzerland.
+                </p>
+              </div>
             </div>
           ) : (
             <div className="p-5">

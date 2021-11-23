@@ -363,10 +363,16 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO GET SINGLE PROPERTY - by PROPERTY ID
     case GET_ACTIVE_SINGLE_PROPERTY: {
       next(action);
-      const { smallLoader, setSuccessNotification, multiLoader } = action.payload;
+      const {
+        smallLoader,
+        setSuccessNotification,
+        multiLoader,
+        stub,
+      } = action.payload;
       delete action.payload.smallLoader;
       delete action.payload.setSuccessNotification;
       delete action.payload.multiLoader;
+      delete action.payload.stub;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -379,9 +385,11 @@ const checkCommon = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
+      const id = stub || action.payload.id;
       const fullVersion = get(action, 'payload.fullVersion', true);
-      const apiEndPoint = (data) => (fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data));
-      apiEndPoint(action.payload.id)
+      let apiEndPoint = (data) => (fullVersion ? api.property.getProperty(data) : api.property.getPropertySimplified(data));
+      if (stub) apiEndPoint = (data) => api.property.getPropertyByStub(data);
+      apiEndPoint(id)
         .then((res) => {
           if (get(res, 'data.statusCode', null)) {
             window.location.assign('/sell');
