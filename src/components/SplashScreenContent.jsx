@@ -249,7 +249,7 @@ const SplashScreen = (props) => {
     let property = activeMarketOverlayProperty;
     const slider = sliderInstance.current;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
-    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === activeSlide + 1) {
+    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 1 && activeMarketOverlayPropertyLists.length === activeSlide + 1) {
       setActiveSlide(0);
       slider.slickGoTo(0);
     } else if (sliderInstance.current && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
@@ -271,7 +271,7 @@ const SplashScreen = (props) => {
       wrapCarousel.appendChild(cln).className = 'cloneElement favorite';
       const listProp = cloneDeep(activeMarketOverlayPropertyLists);
       listProp.splice(activeSlide, 1);
-      // handleSetActiveMarketOverlayPropertyLists(listProp);
+      handleSetActiveMarketOverlayPropertyLists(listProp);
       // setActiveSlide(activeSlide + 1);
       updateData();
       setNewPreMarketStats({ ...newPreMarketStats, likedTotal: newPreMarketStats.likedTotal + 1, total: newPreMarketStats.total - 1 });
@@ -290,7 +290,7 @@ const SplashScreen = (props) => {
     let propID = activeMarketOverlayProperty.id;
     const slider = sliderInstance.current;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) propID = activeMarketOverlayPropertyLists[activeSlide].id;
-    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === activeSlide + 1) {
+    if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 1 && activeMarketOverlayPropertyLists.length === activeSlide + 1) {
       setActiveSlide(0);
       slider.slickGoTo(0);
     } else if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
@@ -303,7 +303,7 @@ const SplashScreen = (props) => {
       wrapCarousel.appendChild(cln).className = 'cloneElement discard';
       const listProp = cloneDeep(activeMarketOverlayPropertyLists);
       listProp.splice(activeSlide, 1);
-      // handleSetActiveMarketOverlayPropertyLists(listProp);
+      handleSetActiveMarketOverlayPropertyLists(listProp);
       // setActiveSlide(activeSlide + 1);
       updateData();
       setNewPreMarketStats({ ...newPreMarketStats, dislikedTotal: newPreMarketStats.dislikedTotal + 1, total: newPreMarketStats.total - 1 });
