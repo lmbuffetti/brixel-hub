@@ -132,6 +132,7 @@ const FactsQuestion = (props) => {
       </div>
 
       <MultiFileldsReduxForm
+        autofocus={false}
         classNameBox={quest.classNameBox}
         className="singleInput"
         form="Property"
