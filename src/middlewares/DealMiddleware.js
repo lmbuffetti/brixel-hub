@@ -881,12 +881,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       api.deal.sendVisitFeedback(id, sendSlack, objData)
-        .then((res) => {
-          if (!get(res.data, 'statusCode', null)) {
-            const { data } = res;
-            // eslint-disable-next-line no-console
-            console.log(data);
-          }
+        .then(() => {
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
