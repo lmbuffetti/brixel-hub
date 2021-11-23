@@ -167,7 +167,7 @@ const SplashScreen = (props) => {
     if (activeMarketOverlayPropertyLists && !cookieWizardPreMarket) {
       setTimeout(() => {
         handleSetWizard({ type: 'preMarketOverlay', step: 1 });
-      }, 500);
+      }, 1500);
     }
   }, [activeMarketOverlayPropertyLists]);
 
@@ -337,13 +337,17 @@ const SplashScreen = (props) => {
   return (
     <>
       <div className={`dis-f p-2 a-c jc-fe ${type !== 'marketOverlayCarousel' ? 'pos-a w-perc-100' : ''}`}>
-        <BrixelButtonIcon
-          className="pos-r zIndex1"
-          ghost
-          theme="dark"
-          icon="close-small"
-          onClick={() => closeOverlay()}
-        />
+        {
+          !get(wizard, 'type', null) && (
+            <BrixelButtonIcon
+              className="pos-r zIndex1"
+              ghost
+              theme="dark"
+              icon="close-small"
+              onClick={() => closeOverlay()}
+            />
+          )
+        }
       </div>
 
       <div className={`middle-part ${type === 'marketOverlayCarousel' ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${type !== 'marketOverlayCarousel' ? '' : 'pos-r zIndex1'} ${type !== 'marketOverlayCarousel' ? 'fullScreenCard' : ''}`} id="wizard-preMarketOverlay-parent">
@@ -362,7 +366,7 @@ const SplashScreen = (props) => {
               />
               <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
                 {
-                  activeMarketOverlayPropertyLists.length === 0 ? (
+                  activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === 0 ? (
                     <>
                       <div className="w-fix-424 brdRadius ov-h dis-fl-col jc-c a-c noMatchProperty m-a pb-5 mb-10">
                         <div className="bgAltMist400 pt-6 w-perc-100 ta-c">
