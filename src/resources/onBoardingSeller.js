@@ -37,6 +37,7 @@ const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
 const maxLengthNumYear = maxLengthNum(2031, 'year');
 
 // QUESTION LISTS
+// eslint-disable-next-line default-param-last
 export const QuestionsList = (lang, country = 'CH', propType) => {
   let propertyType = propType;
   if (configureStore && !propType) {

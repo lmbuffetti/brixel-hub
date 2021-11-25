@@ -46,7 +46,7 @@ const PageBuyer = (props) => {
         <div className="">
           <BrixelButtonPrimary
             leftIcon="eye"
-            label="Preview"
+            label={formValue.published ? 'Open' : 'Preview'}
             rounded
             onClick={() => onClickPreview()}
           />

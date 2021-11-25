@@ -514,6 +514,7 @@ const Deals = (props) => {
                                                                 isNew={get(item, 'newSeller')}
                                                                 lastAction={has(item, 'lastAction') ? item.lastAction : {}}
                                                                 offer={has(item, 'closing.stageOffer') ? item.closing.stageOffer : {}}
+                                                                feedback={get(item, 'visitFeedback')}
                                                               />
                                                             </div>
                                                           )

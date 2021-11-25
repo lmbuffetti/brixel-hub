@@ -646,6 +646,7 @@ const GetStartedEstimation = (props) => {
                           showSendButton={quest.showSendButton}
                           showErrors={showError}
                           disableDelay={quest.history !== 'createProfile'}
+                          skipPhone
                         />
                       </div>
 

@@ -14,6 +14,7 @@ import find from 'lodash/find';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import forEach from 'lodash/forEach';
+import filter from 'lodash/filter';
 import { DateTime } from 'luxon';
 import {
   bindActionCreators, compose,
@@ -25,6 +26,7 @@ import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   BrixelAvatar, BrixelButtonIcon, BrixelButtonSecondary, Helpers,
   FactsOptions, useOutsideAlerter, change, BrixelDropdownMini,
+  BrixelIcon,
 } from '@brixel/brixel-components';
 import {
   getActiveSingleDeal, saveActiveSingleDeal, updateMultipleDeals,
@@ -45,6 +47,7 @@ import Timeline from '../../components/Timeline';
 const SingleDeal = (props) => {
   const {
     activeSingleDeal,
+    activeDealHistoryList,
     activeSingleProperty,
     activeSinglePropertyDeals,
     getActiveDeal,
@@ -64,6 +67,9 @@ const SingleDeal = (props) => {
 
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [winnerId, setWinnerId] = useState('');
+  const [activeDealFeedback, setActiveDealFeedback] = useState({});
+  const [showFullFeedback, setShowFullFeedback] = useState(false);
+
   const {
     factsOptions,
   } = FactsOptions;
@@ -111,6 +117,18 @@ const SingleDeal = (props) => {
       if (has(el, 'winner') && el.winner === true) setWinnerId(el.id);
     });
   }, [activeSinglePropertyDeals]);
+
+  useEffect(() => {
+    if (activeDealHistoryList.total > 0 && activeDealHistoryList.data.length > 0) {
+      // Process deal feedback visit to use on visit container (outside of timeline)
+      const feedbackArray = filter(activeDealHistoryList.data, (item) => (item.actionStub === 'deal-feedback-visit' && item.meta.visit === activeSingleDeal.visit));
+      if (feedbackArray.length > 0) {
+        const mostRecentFeedbackTime = Math.max(...feedbackArray.map((o) => o.createdAt));
+        const mostRecentFeedback = find(feedbackArray, (obj) => obj.createdAt === mostRecentFeedbackTime);
+        setActiveDealFeedback(mostRecentFeedback);
+      }
+    }
+  }, [activeDealHistoryList]);
 
   const saveData = () => {
     const deal = cloneDeep(activeSingleDeal);
@@ -218,6 +236,48 @@ const SingleDeal = (props) => {
       );
     }
     return null;
+  };
+
+  const getIcon = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'calendar-check';
+    return 'calendar';
+  };
+
+  const getColor = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'dark';
+    return 'green';
+  };
+
+  const getBackground = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'light';
+    return 'green';
+  };
+
+  const getSaturation = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 200;
+    return 100;
+  };
+
+  const getTextColor = () => {
+    if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'Dark700';
+    return 'Green400';
+  };
+
+  const getCompleteFeedback = () => {
+    let answerText = '';
+    if (get(activeDealFeedback, 'meta.visitFeedback.reasons', []) && activeDealFeedback.meta.visitFeedback.reasons.length > 0) {
+      answerText += 'Main reason: ';
+      activeDealFeedback.meta.visitFeedback.reasons.forEach((answer, key) => {
+        answerText += `<span>${answer}${key !== (activeDealFeedback.meta.visitFeedback.reasons.length - 1) ? ', ' : ''} </span>`;
+      });
+    }
+    if (get(activeDealFeedback, 'meta.visitFeedback.otherReason', '') && activeDealFeedback.meta.visitFeedback.otherReason.length > 0) {
+      answerText += `</br><span>Additional note: </br></span><span>${activeDealFeedback.meta.visitFeedback.otherReason} </span>`;
+    }
+    if (get(activeDealFeedback, 'meta.visitFeedback.priceChangeAlert') === true || get(activeDealFeedback, 'meta.visitFeedback.priceChangeAlert') === false) {
+      answerText += `</br><span>Price update: </span><span>${activeDealFeedback.meta.visitFeedback.priceChangeAlert === true ? 'Yes' : 'No'} </span>`;
+    }
+    return answerText;
   };
 
   // FUNCTION TO MANAGE THE CLICK OUTSIDE OF ELEMENT
@@ -381,13 +441,59 @@ const SingleDeal = (props) => {
                   isDeal
                   className="w-perc-100 col-7 p-0 min-w-perc-100 min-w-perc-lg-0"
                 />
-                <div className="dis-fl-col-md col-5 pl-4 pr-0 right-container hide">
-                  {/* <div className="showings">
-                    <span className="title overline tt-up mb-3">Showings</span>
-                  </div>
-                  <div className="offers">
-                    <span className="title overline tt-up mb-3">Offers</span>
-                  </div> */}
+                <div className="dis-fl-col-md col-5 pl-4 pr-0 right-container">
+                  {
+                    (get(activeSingleDeal, 'visit', null) !== null || get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
+                      <>
+                        <span className="overline mb-3">Visit</span>
+                        <div className="visit-container brdRadius shadow-1dp dis-fl-col p-small-12">
+                          <div className="dis-f a-c">
+                            <BrixelIcon
+                              icon={getIcon()}
+                              noBorder
+                              background={getBackground()}
+                              saturation={getSaturation()}
+                              color={getColor()}
+                              saturationTxt={700}
+                              className="mr-2"
+                            />
+                            <span className={`txt${getTextColor()}`}>{DateTime.fromMillis(activeSingleDeal.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}</span>
+                          </div>
+                          {
+                            activeDealFeedback.createdAt && (
+                              <div className="dis-fl-col">
+                                <div className={`mt-1 dis-fl-row jc-b ${showFullFeedback === true ? 'mb-2' : ''}`}>
+                                  {
+                                    activeDealFeedback.meta.visitFeedback.isInterested === true ? (
+                                      <span className="txtDark700 fsize-300">Still interested 👍</span>
+                                    ) : (
+                                      <span className="txtDark700 fsize-300">Not interested anymore 👎</span>
+                                    )
+                                  }
+                                  <BrixelIcon
+                                    fontSize={8}
+                                    icon={`${showFullFeedback === true ? 'arrow-simple-up' : 'dropdown'}`}
+                                    className="txtDark700 cur-poi"
+                                    onClick={() => setShowFullFeedback(!showFullFeedback)}
+                                  />
+                                </div>
+                                {
+                                  showFullFeedback && (
+                                    <div
+                                      className="txtDark700 fsize-300"
+                                      dangerouslySetInnerHTML={{
+                                        __html: getCompleteFeedback(),
+                                      }}
+                                    />
+                                  )
+                                }
+                              </div>
+                            )
+                          }
+                        </div>
+                      </>
+                    )
+                  }
                 </div>
               </div>
             </div>
@@ -400,6 +506,7 @@ const SingleDeal = (props) => {
 
 SingleDeal.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
+  activeDealHistoryList: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object).isRequired,
   getActiveDeal: PropTypes.func.isRequired,
@@ -423,6 +530,7 @@ const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
+  activeDealHistoryList: get(state, 'deal.activeSingleDealHistory', {}),
   isSuperAdmin: get(state, 'common.superAdmin', false),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),

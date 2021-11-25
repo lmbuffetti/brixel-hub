@@ -275,6 +275,18 @@ const Page = (props) => {
                             isLoading={isSmallLoading.pageReview}
                           />
                         </div>
+                        <div className="pos-r w-perc-100 zIndex1 p-3 my-5 brdRadius shadow-1dp">
+                          <h4 className="mb-3">Request visits</h4>
+                          <BrixelSwitchButton
+                            className="body2 row-reverse jc-b mt-2"
+                            label="Allow people to request visits on Brixel Page"
+                            input={{
+                              onChange: () => changeFieldValue('allowVisits', !formValue.allowVisits),
+                              name: 'allowVisits',
+                              value: formValue.allowVisits,
+                            }}
+                          />
+                        </div>
                       </>
                     )
                   }

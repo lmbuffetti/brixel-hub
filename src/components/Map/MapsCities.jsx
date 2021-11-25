@@ -187,7 +187,7 @@ export const MapsCities = (props) => {
         // getWrapStreetNumber.querySelector('input').focus();
         // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
         // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
-        // changeFieldValue(formName, 'location.searchAddress', formattedPlace.name);
+        changeFieldValue(formName, 'location.searchAddress', '');
         setLoclist([]);
         // setZiplist([]);
       });
