@@ -11,6 +11,7 @@ import {
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
 import {
+  BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonText,
   Helpers,
@@ -19,6 +20,7 @@ import {
 import Slider from 'react-slick';
 import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 import { getPackageProperty } from '../../actions/PropertyActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
 // import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
 import CallUsImg from '../../images/Upgrade/callUs.svg';
@@ -30,6 +32,7 @@ import Testimonial3CH from '../../images/getstarted/testimonial-3_CH.jpeg';
 import Testimonial1PT from '../../images/getstarted/testimonial-1_PT.jpg';
 import Testimonial2PT from '../../images/getstarted/testimonial-2_PT.jpg';
 import Testimonial3PT from '../../images/getstarted/testimonial-3_PT.jpg';
+import EmptyHubImg from '../../images/emptyHub.svg';
 
 const PackagesComparePlans = lazy(() => import('../../components/PackagesComparePlans'));
 const BoxTrialTestDirve = lazy(() => import('../../components/BoxTrialTestDirve'));
@@ -40,13 +43,19 @@ const IntroUpgrade = (props) => {
     activeSingleCompany,
     activeSingleProperty,
     activeSinglePropertyPackage,
+    handleGetActiveSingleCompany,
     history,
+    loggedInUser,
+    match,
     packages,
     scrollHash,
   } = props;
   // STATE
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [packageName, setPackageName] = useState({ });
+  const propID = get(match, 'params.propId', null);
+
+  console.log(propID);
 
   // SLIDER
   const sliderInstance = useRef(null);
@@ -87,6 +96,12 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
+
+  useEffect(() => {
+    if (propID === 'company' && loggedInUser.id) {
+      handleGetActiveSingleCompany({ id: loggedInUser.company.id });
+    }
+  }, [propID, loggedInUser]);
 
   useEffect(() => {
     if (activeSinglePropertyPackage && packages.length > 0) {
@@ -310,18 +325,22 @@ const IntroUpgrade = (props) => {
               />
             </div>
           </div>
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
-            <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
-            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+          {
+            propID !== 'company' && (
+              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+                <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
+                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
-              <h6>Not Sure</h6>
-              <BrixelButtonText
-                onClick={() => openNewFlow(`/${activeSingleProperty.id}/trialRequest`)}
-                className="ml-a mr-a"
-                label="Test drive our service"
-              />
-            </div>
-          </div>
+                  <h6>Not Sure</h6>
+                  <BrixelButtonText
+                    onClick={() => openNewFlow(`/${activeSingleProperty.id}/trialRequest`)}
+                    className="ml-a mr-a"
+                    label="Test drive our service"
+                  />
+                </div>
+              </div>
+            )
+          }
         </div>
       </section>
 
@@ -404,7 +423,25 @@ const IntroUpgrade = (props) => {
 
       <section className="container testdrive-teaser dis-f jc-c bgWhite">
 
-        <BoxTrialTestDirve isLarge />
+        {
+          propID === 'company' ? (
+            <div className="px-2 px-md-0 mt-5 mt-sm-3">
+              <div className="p-2 px-sm-3 bgWhite min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
+                <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
+                <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">Anybody home?</h4>
+                <h5 className="ta-c fSizePx18 mb-2 m-a">For using the Brixel Hub you need at least one property.</h5>
+                <BrixelButtonPrimary
+                  rounded
+                  className="m-a mt-3"
+                  label="+ Add new"
+                  onClick={() => history.push(`/packageFlow/getStarted?company==${get(loggedInUser, 'company.stub', '')}`)}
+                />
+              </div>
+            </div>
+          ) : (
+            <BoxTrialTestDirve isLarge />
+          )
+        }
 
       </section>
 
@@ -416,9 +453,12 @@ IntroUpgrade.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
   scrollHash: PropTypes.string,
 };
@@ -432,12 +472,14 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   packages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
 });
 
 export default compose(

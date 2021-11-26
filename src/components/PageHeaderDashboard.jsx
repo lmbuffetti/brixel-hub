@@ -91,6 +91,10 @@ function PageHeaderDashboard(props) {
 
   useEffect(() => {
     let activeSinglePropertyPackage = packagesProperty;
+    console.log('HEAD', ownerProperties, activeCompanyPackageIDArray);
+    if (ownerProperties.total === 0) {
+      setPackageName('Basic');
+    }
     if (activeCompanyPackageIDArray.length > 0) {
       if (activeSingleProperty.customID && ownerProperties.data) {
         const prop = ownerProperties.data.find((page) => page.id === activeSingleProperty.customID);
@@ -117,7 +121,7 @@ function PageHeaderDashboard(props) {
         }
       }
     }
-  }, [activeSingleProperty.id, activeSingleProperty.customID, get(ownerProperties, 'data', []).length,
+  }, [activeSingleProperty.id, activeSingleProperty.customID, ownerProperties,
     packagesProperty.length, activeSingleCompany.id, activeCompanyPackageIDArray]);
 
   // GET LANGUAGE LISTS
@@ -205,7 +209,7 @@ function PageHeaderDashboard(props) {
   const onUpgrade = () => {
     const propertyID = get(activeSingleProperty, 'id', get(activeSingleProperty, 'customID', ''));
     localStorage.setItem('backUrl', history.location.pathname);
-    history.push(`/${propertyID}/upgrade`);
+    history.push(`/${propertyID || 'company'}/upgrade`);
   };
 
   // FUNCTION TO GET CURRENT URL LOCATION
@@ -423,7 +427,7 @@ function PageHeaderDashboard(props) {
                   <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                     <span className="hide dis-b-md">Your Plan:&nbsp;</span>
                     {
-                      (activeSingleProperty.id || activeSingleProperty.customID) && activeSingleProperty.id !== 0 && activeSingleProperty.customID !== 0 ? (
+                      has(ownerProperties, 'total') ? (
                         <span
                           className="fweight-600 td-u-colored dis-f cur-poi"
                           onClick={() => onUpgrade()}
