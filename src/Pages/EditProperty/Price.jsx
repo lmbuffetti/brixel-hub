@@ -78,7 +78,7 @@ const Price = (props) => {
           generate: bestimateflowCompleted,
         };
         handleGetEstimation(payload);
-      } else if (has(estimation, 'result') && !has(estimation, 'result.value') && (get(estimation, 'status', '') !== 'pending' || bestimateflowCompleted) && estimation.id) {
+      } else if (has(estimation, 'result') && !has(estimation, 'result.value') && (get(estimation, 'status', '') !== 'pending' || bestimateflowCompleted) && estimation.id && (get(activeSingleProperty, 'location.countryCode', '') === 'CH') || get(activeSingleProperty, 'location.countryCode', '') === 'PT') {
         handleGenerateBestimate(estimation.id);
       }
     }

@@ -443,7 +443,7 @@ const SingleDeal = (props) => {
                 />
                 <div className="dis-fl-col-md col-5 pl-4 pr-0 right-container">
                   {
-                    (get(activeSingleDeal, 'visit', null) !== null || get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
+                    (get(activeSingleDeal, 'visit', null) && get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
                       <>
                         <span className="overline mb-3">Visit</span>
                         <div className="visit-container brdRadius shadow-1dp dis-fl-col p-small-12">
