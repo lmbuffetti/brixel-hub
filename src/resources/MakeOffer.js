@@ -6,7 +6,6 @@ import {
   BrixelInputText,
   BrixelInputTextStep,
   Validation,
-  BrixelInputDatePicker,
   FactsOptions,
   BrixelSelect,
   BrixelTextArea,
@@ -126,7 +125,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           large: true,
         },
         {
-          component: BrixelInputDatePicker,
+          component: BrixelInputText,
           className: '',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
@@ -134,6 +133,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'buyer.dateBirth',
           showFullSelectDate: true,
           large: true,
+          type: 'date',
         },
         {
           classNameBox: 'ml-a mr-a',
