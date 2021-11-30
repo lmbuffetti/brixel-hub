@@ -72,7 +72,7 @@ const BookTrialFlow = (props) => {
 
   const handleChangeDate = (day) => {
     setDate(day);
-    changeFieldValue('dateBook', DateTime.fromISO(day).toFormat('dd-LL-yyyy'));
+    changeFieldValue('dateBook', day);
     changeFieldValue('fullDate', day);
   };
 
