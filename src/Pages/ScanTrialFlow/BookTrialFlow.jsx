@@ -72,7 +72,7 @@ const BookTrialFlow = (props) => {
 
   const handleChangeDate = (day) => {
     setDate(day);
-    changeFieldValue('dateBook', DateTime.fromJSDate(day).toFormat('dd-LL-yyyy'));
+    changeFieldValue('dateBook', DateTime.fromISO(day).toFormat('dd-LL-yyyy'));
     changeFieldValue('fullDate', day);
   };
 
@@ -118,7 +118,7 @@ const BookTrialFlow = (props) => {
               >
                 <div className="dis-f a-t jc-b w-perc-100">
                   <div className="pos-r pr-1 w-perc-50">
-                    <ReduxField
+                    {/* <ReduxField
                       form="scanFlow"
                       ReduxFieldClass="inputDate"
                       component={BrixelInputText}
@@ -162,7 +162,28 @@ const BookTrialFlow = (props) => {
                           lang={lang}
                         />
                       )
-                    }
+                    } */}
+                    <ReduxField
+                      form="scanFlow"
+                      ReduxFieldClass="inputDate"
+                      component={BrixelInputText}
+                      design={{
+                        showIconValidation: false,
+                      }}
+                      input={{
+                        name: 'dateBook',
+                        type: 'date',
+                        onChange: (val) => handleChangeDate(val, 'new'),
+                      }}
+                      meta={{
+                        invalid: get(syncErrors, 'dateBook', '') !== true,
+                        dirty: get(syncErrors, 'dateBook', '') !== true,
+                        showErrors: showError,
+                        message: {
+                          error: 'Please select a date',
+                        },
+                      }}
+                    />
                   </div>
                   <div className="pos-r pl-1 w-perc-50">
                     <ReduxField
