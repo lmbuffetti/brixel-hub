@@ -177,6 +177,8 @@ const BookTrialFlow = (props) => {
                       input={{
                         name: 'dateBook',
                         type: 'date',
+                        maxDate: `${DateTime.now().year + 1}-12-31`,
+                        minDate: DateTime.now().toFormat('yyyy-LL-dd'),
                         onChange: (val) => handleChangeDate(val, 'new'),
                       }}
                       meta={{
@@ -423,6 +425,8 @@ const BookTrialFlow = (props) => {
                         input={{
                           name: 'dateBook',
                           type: 'date',
+                          maxDate: `${DateTime.now().year + 1}-12-31`,
+                          minDate: DateTime.now().toFormat('yyyy-LL-dd'),
                           onChange: (val) => handleChangeDate(val, 'new'),
                         }}
                         meta={{
