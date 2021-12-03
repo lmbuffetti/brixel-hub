@@ -64,7 +64,6 @@ const MarketCategoryListBuyer = (props) => {
   // PROPS
   const {
     bestimate,
-    estimation,
     history,
     initialValues,
     initForm,
@@ -78,10 +77,9 @@ const MarketCategoryListBuyer = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [bestimateMessage, setBestimateMessage] = useState(true);
   const [numWishProp, setWishProp] = useState(4);
   const [exploreProperties, setExploreProperties] = useState([]);
-  const [activeTopTab, setActiveTopTab] = useState('estimations');
+  const [activeTopTab, setActiveTopTab] = useState('wishlist');
   const [topTab, setTopTab] = useState([]);
 
   useEffect(() => {
@@ -159,7 +157,6 @@ const MarketCategoryListBuyer = (props) => {
       {
         splashScreenType === 'bestimateResult' && has(bestimate, 'higherValue') && (
           <BestimateCardOverlay
-            setBestimateMessage={(val) => setBestimateMessage(val)}
             clearEstimation
           />
         )

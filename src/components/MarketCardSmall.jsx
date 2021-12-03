@@ -104,11 +104,11 @@ const MarketCardSmall = (props) => {
                 type === 'estimation' && (
                   <div className="px-2">
                     {
-                      estimation.value ? (
+                      estimation.higherValue ? (
                         <p className="txtLight400">
                           <span>{estimation.currency}</span>
                           <span className="ml-1">
-                            {Helpers.formatNumberValue(Math.round(estimation.value), estimation.currency)}
+                            {Helpers.formatNumberValue(Math.round(estimation.higherValue), estimation.currency)}
                           </span>
                         </p>
                       ) : (
