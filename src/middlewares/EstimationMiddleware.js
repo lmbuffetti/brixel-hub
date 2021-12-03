@@ -1,5 +1,6 @@
 import set from 'lodash/set';
-
+import has from 'lodash/has';
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import {
   CREATE_ESTIMATION,
@@ -30,7 +31,11 @@ const checkEstimation = (store) => (next) => (action) => {
   switch (action.type) {
     case CREATE_ESTIMATION: {
       next(action);
-      const { generate, redirectTo, smallLoader } = action.payload;
+      const {
+        generate, redirectTo, smallLoader,
+      } = action.payload;
+      let dataToSend = cloneDeep(action.payload);
+      const token = get(action, 'payload.token', null);
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -43,9 +48,18 @@ const checkEstimation = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      delete action.payload.generate;
-      delete action.payload.smallLoader;
-      api.estimation.createEstimation(action.payload)
+      if (has(action, 'payload.data')) {
+        dataToSend = {
+          data: action.payload.data,
+          owner: action.payload.owner,
+          generate,
+          redirectTo,
+        };
+      }
+      delete dataToSend.generate;
+      delete dataToSend.smallLoader;
+      delete dataToSend.token;
+      api.estimation.createEstimation(dataToSend, token)
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
             if (generate === true) {
@@ -54,8 +68,9 @@ const checkEstimation = (store) => (next) => (action) => {
                 payload: {
                   id: response.data.id,
                   page: action.payload.page,
+                  token,
                   redirectTo,
-                  reloadOnwProperties: get(action.payload, 'reloadOnwProperties', false),
+                  reloadOnwProperties: get(dataToSend, 'reloadOnwProperties', false),
                 },
               });
             } else if (redirectTo) {
@@ -99,7 +114,9 @@ const checkEstimation = (store) => (next) => (action) => {
     }
     case GENERATE_ESTIMATION: {
       next(action);
-      const { page, redirectTo, smallLoader } = action.payload;
+      const {
+        page, redirectTo, smallLoader,
+      } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -112,7 +129,9 @@ const checkEstimation = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      api.estimation.generateEstimation(action.payload.id || action.payload)
+      const token = get(action, 'payload.token', null);
+      if (get(action, 'payload.token', null)) delete action.payload.token;
+      api.estimation.generateEstimation(action.payload.id || action.payload, token)
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
             store.dispatch({

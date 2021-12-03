@@ -37,6 +37,8 @@ import { CREATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes'
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
 import { GET_FAVORITES_PROPERTIES, SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
 
+import { CREATE_ESTIMATION } from '../actions/types/EstimationTypes';
+
 import api from '../controllers/api/config';
 
 import { setCookie, removeCookie } from '../utils/helpers';
@@ -80,6 +82,7 @@ const checkUser = (store) => (next) => (action) => {
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
       const addSearchProfile = action.payload.addSearchProfile || false;
+      const createEstimation = action.payload.createEstimation || false;
       delete action.payload.user;
       delete action.payload.addProperty;
       delete action.payload.redirectTo;
@@ -99,6 +102,11 @@ const checkUser = (store) => (next) => (action) => {
               store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
             } else if (redirectTo) {
               store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+            } else if (createEstimation) {
+              const dataProperty = action.payload;
+              dataProperty.token = res.data.token;
+              dataProperty.owner = res.data.user.id;
+              store.dispatch({ type: CREATE_ESTIMATION, payload: dataProperty });
             }
           } else {
             const alertProps = {
@@ -122,9 +130,11 @@ const checkUser = (store) => (next) => (action) => {
       const addProperty = action.payload.addProperty || false;
       const addSearchProfile = action.payload.addSearchProfile || false;
       const extraLoading = action.payload.user.extraLoading || false;
+      const createEstimation = action.payload.createEstimation || false;
       const { redirectTo, setOwner } = action.payload.user;
       delete action.payload.user;
       delete action.payload.addProperty;
+      delete action.payload.createEstimation;
       delete data.redirectTo;
       api.user.createUser(data)
         .then((res) => {
@@ -151,6 +161,11 @@ const checkUser = (store) => (next) => (action) => {
               dataProfile.token = res.data.token;
               dataProfile.dataSearchProfile.user = userData.user.id;
               store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
+            } else if (createEstimation) {
+              const dataProperty = action.payload;
+              dataProperty.token = userData.token;
+              dataProperty.owner = userData.user.id;
+              store.dispatch({ type: CREATE_ESTIMATION, payload: dataProperty });
             }
             if (redirectTo) {
               store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });

@@ -20,7 +20,7 @@ const CardImageText = (props) => {
   return (
     <>
       {
-        type === 'fav' ? (
+        (type === 'fav' || type === 'estimation') ? (
           <img alt="card loading" src={SkeletonFav} />
         ) : (
           <>

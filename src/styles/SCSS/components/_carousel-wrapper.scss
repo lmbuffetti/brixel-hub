@@ -224,3 +224,18 @@ $trans_func: cubic-bezier(0.39, 0.575, 0.565, 1);
      }
    }
  }
+
+ .slide-with-arrow {
+   width: calc(100% - 100px);
+   flex: 0 0 calc(100% - 100px);
+   .slick-slide {
+     padding: 0 16px;
+   }
+   .slick-list {
+     margin: 0 -16px;
+   }
+ }
+
+.slide-without-arrow {
+  width: 100%;
+}
