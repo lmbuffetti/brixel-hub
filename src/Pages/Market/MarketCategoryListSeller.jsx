@@ -138,7 +138,7 @@ const MarketCategoryListSeller = (props) => {
       if (ownerProperties.total === 0) {
         setActiveCompanyId(loggedInUser.company.id);
       } else {
-        setActiveCompanyId(ownerProperties.data[0].company.id);
+        setActiveCompanyId(ownerProperties.data[0].company.id || ownerProperties.data[0].company);
       }
     }
   }, [ownerProperties, loggedInUser]);
