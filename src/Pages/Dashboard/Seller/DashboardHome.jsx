@@ -172,95 +172,99 @@ const DashboardHome = (props) => {
             <>
               <DashboardPropertyCard />
               <div className="dis-fl-col dis-fl-row-sm">
-                <div
-                  onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-                  className="shadow-2dp bgAltMist200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
-                >
-                  {
-                    get(proEstimation, 'value', null) ? (
-                      <div className="dis-fl-col max-w-perc-100">
-                        <span className="fsize-400 txtAltMist400">Pro estimation</span>
-                        {
-                          get(proEstimation, 'value', 0) > 0 && (
-                            <>
-                              <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600 txtAltBlue400">
-                                <span>
-                                  {get(estimation, 'result.currency', '')}
-                                </span>
-                                <span className="ml-1 notranslate">
-                                  {Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}
-                                </span>
-                              </div>
+                {
+                  (get(activeSingleProperty, 'properties.pro[propertyType', '') === 'House' || get(activeSingleProperty, 'properties.pro[propertyType', '') === 'Apartment') && (
+                    <div
+                      onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                      className="shadow-2dp bgAltMist200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+                    >
+                      {
+                        get(proEstimation, 'value', null) ? (
+                          <div className="dis-fl-col max-w-perc-100">
+                            <span className="fsize-400 txtAltMist400">Pro estimation</span>
+                            {
+                              get(proEstimation, 'value', 0) > 0 && (
+                                <>
+                                  <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600 txtAltBlue400">
+                                    <span>
+                                      {get(estimation, 'result.currency', '')}
+                                    </span>
+                                    <span className="ml-1 notranslate">
+                                     {Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}
+                                    </span>
+                                  </div>
 
-                              <BrixelButtonSecondary
-                                bgTransparent
-                                onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-                                className="mt-2 as-fs"
-                                theme="AltBlue"
-                                themeSat={400}
-                                rounded
-                                ghost
-                                label="View"
-                              />
-                            </>
-                          )
-                        }
-                      </div>
-                    ) : (
-                      <>
-                        <div className="dis-fl-col">
-                          <span className="fsize-400 txtAltMist400">Pro estimation</span>
+                                  <BrixelButtonSecondary
+                                    bgTransparent
+                                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                                    className="mt-2 as-fs"
+                                    theme="AltBlue"
+                                    themeSat={400}
+                                    rounded
+                                    ghost
+                                    label="View"
+                                  />
+                                </>
+                              )
+                            }
+                          </div>
+                        ) : (
+                          <>
+                            <div className="dis-fl-col">
+                              <span className="fsize-400 txtAltMist400">Pro estimation</span>
 
-                          <span className="fsize-600 fweight-600 txtAltBlue400">
-                            <span>{calcPercentageProEstimation().realPerc}%</span>
-                            <span className="ml-small-4"> Complete</span>
+                              <span className="fsize-600 fweight-600 txtAltBlue400">
+                                <span>{calcPercentageProEstimation().realPerc}%</span>
+                                <span className="ml-small-4"> Complete</span>
                           </span>
-                          {
-                            calcPercentageProEstimation().realPerc < 100 ? (
-                              <BrixelButtonPrimary
-                                onClick={() => window.location.assign(`/${activeSingleProperty.id}/property/price/formFlow`)}
-                                label="Next step"
-                                theme="AltBlue"
-                                themeSat={400}
-                                className="mt-2 as-fs"
-                                rounded
+                              {
+                                calcPercentageProEstimation().realPerc < 100 ? (
+                                  <BrixelButtonPrimary
+                                    onClick={() => window.location.assign(`/${activeSingleProperty.id}/property/price/formFlow`)}
+                                    label="Next step"
+                                    theme="AltBlue"
+                                    themeSat={400}
+                                    className="mt-2 as-fs"
+                                    rounded
+                                  />
+                                ) : (
+                                  <BrixelButtonSecondary
+                                    bgTransparent
+                                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                                    className="mt-2"
+                                    theme="AltBlue"
+                                    themeSat={400}
+                                    rounded
+                                    ghost
+                                    label="Pending"
+                                  />
+                                )
+                              }
+                            </div>
+                            <div className={`div ${windowDimensions.width <= 590 ? 'min-w-fix-80' : 'min-w-fix-104'}`}>
+                              <ProgressRing
+                                customIcon={get(proEstimation, 'value', 0) <= 0 && calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : null}
+                                iconColor={{
+                                  color: 'altGreen',
+                                  sat: 400,
+                                }}
+                                progress={calcPercentageProEstimation().realPerc}
+                                size={windowDimensions.width <= 590 ? 80 : 100}
+                                strokeWidth={windowDimensions.width <= 590 ? 10 : 14}
+                                circleOneStroke="#fff"
+                                circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
+                                showIcon={false}
+                                showIconComplete={calcPercentageProEstimation().realPerc === 100}
                               />
-                            ) : (
-                              <BrixelButtonSecondary
-                                bgTransparent
-                                onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-                                className="mt-2"
-                                theme="AltBlue"
-                                themeSat={400}
-                                rounded
-                                ghost
-                                label="Pending"
-                              />
-                            )
-                          }
-                        </div>
-                        <div className={`div ${windowDimensions.width <= 590 ? 'min-w-fix-80' : 'min-w-fix-104'}`}>
-                          <ProgressRing
-                            customIcon={get(proEstimation, 'value', 0) <= 0 && calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : null}
-                            iconColor={{
-                              color: 'altGreen',
-                              sat: 400,
-                            }}
-                            progress={calcPercentageProEstimation().realPerc}
-                            size={windowDimensions.width <= 590 ? 80 : 100}
-                            strokeWidth={windowDimensions.width <= 590 ? 10 : 14}
-                            circleOneStroke="#fff"
-                            circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
-                            showIcon={false}
-                            showIconComplete={calcPercentageProEstimation().realPerc === 100}
-                          />
-                        </div>
-                      </>
-                    )
-                  }
-                </div>
+                            </div>
+                          </>
+                        )
+                      }
+                    </div>
+                  )
+                }
                 <div
-                  className="shadow-2dp bgAltGreen200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 ml-sm-1 w-perc-100  w-perc-sm-50 cur-poi"
+                  className={`shadow-2dp bgAltGreen200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 ${(get(activeSingleProperty, 'properties.pro[propertyType', '') === 'House' || get(activeSingleProperty, 'properties.pro[propertyType', '') === 'Apartment') ? 'w-perc-sm-50 ml-sm-1' : 'w-perc-sm-100'} cur-poi`}
                   onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                 >
                   <div className="dis-fl-col">
