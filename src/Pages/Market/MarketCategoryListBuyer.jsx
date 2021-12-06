@@ -33,7 +33,7 @@ const MarketCategoryListBuyer = (props) => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     arrows: false,
     slidesToScroll: 1,
     responsive: [
@@ -107,8 +107,8 @@ const MarketCategoryListBuyer = (props) => {
   // Update data by user screen
   useEffect(() => {
     if (windowDimensions.width < 768) setWishProp(1);
-    else if (windowDimensions.width < 1024) setWishProp(2);
-    else if (windowDimensions.width < 1440) setWishProp(3);
+    else if (windowDimensions.width < 1024) setWishProp(3);
+    else if (windowDimensions.width < 1440) setWishProp(4);
     else setWishProp(4);
   }, [windowDimensions.width]);
 
@@ -284,7 +284,7 @@ const MarketCategoryListBuyer = (props) => {
                                 key={i.toString()}
                                 type="estimation"
                                 estimation={fav.result}
-                                item={fav.data}
+                                item={fav.page}
                               />
                             ))
                           }
@@ -297,7 +297,7 @@ const MarketCategoryListBuyer = (props) => {
                                 key={i.toString()}
                                 type="estimation"
                                 estimation={fav.result}
-                                item={fav.data}
+                                item={fav.page}
                               />
                             ))
                           }

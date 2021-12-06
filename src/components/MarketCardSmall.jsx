@@ -73,7 +73,7 @@ const MarketCardSmall = (props) => {
         onClick={(e) => openCard(e)}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'}`}>
-          <div className="brdSmall brdRadius brdLight200 ov-h dis-f">
+          <div className="brdSmall brdLight200 ov-h dis-f h-fix-80">
             {
               type === 'estimation' ? (
                 <BrixelIcon
@@ -83,7 +83,7 @@ const MarketCardSmall = (props) => {
                   background="green"
                   saturation={200}
                   saturationTxt={700}
-                  iconWidth="w-fix-40"
+                  iconWidth="w-fix-32"
                 />
               ) : (
                 <CoverPropertyImage
@@ -94,12 +94,13 @@ const MarketCardSmall = (props) => {
                 />
               )
             }
-            <div className="info dis-fl-col jc-b">
-              <div className="top dis-fl-col notranslate pl-2 pt-1 pr-1 ov-h">
-                <span className="fweight-600 fsize-400 ellipsis three txtAltGrey700 notranslate">
+            <div className={`info dis-fl-col ${type === 'estimation' ? 'jc-c' : 'py-1'}`}>
+              <div className="top dis-fl-col notranslate pl-2 pr-1 ov-h">
+                <span className={`fweight-600 fsize-400 ellipsis txtAltGrey700 notranslate ${type === 'estimation' ? 'two' : 'three'}`}>
                   {get(item, 'title', '')}
                 </span>
               </div>
+
               {
                 type === 'estimation' && (
                   <div className="px-2">
@@ -112,7 +113,7 @@ const MarketCardSmall = (props) => {
                           </span>
                         </p>
                       ) : (
-                        <p>
+                        <p className="txtLight400">
                           Pending
                         </p>
                       )
@@ -153,7 +154,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetSplashType: bindActionCreators(setSplashType, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetEstimation: bindActionCreators(setEstimation, dispatch),
-})
+});
 
 export default compose(
   withRouter,

@@ -366,6 +366,11 @@ header {
   height: 100%;
 }
 
+.brixelIcon {
+  &.square {
+    border-radius: 0;
+  }
+}
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
