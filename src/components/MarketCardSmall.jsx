@@ -3,14 +3,21 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import { BrixelIcon, Helpers } from '@brixel/brixel-components';
 import CoverPropertyImage from './CoverPropertyImage';
 import CardImageText from './Skeleton/CardImageText';
+import { setActiveSingleProperty, setEstimation } from '../actions/PropertyActions';
+import { setSplashType } from '../actions/CommonActions';
 
 const MarketCardSmall = (props) => {
   // PROPS
   const {
+    estimation,
+    handleSetActiveSingleProperty,
+    handleSetEstimation,
+    handleSetSplashType,
     history,
     item,
     skeleton,
@@ -22,7 +29,7 @@ const MarketCardSmall = (props) => {
 
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
-    if (!skeleton[type] && coverImgLoaded) {
+    if (!skeleton[type] && (coverImgLoaded || type === 'estimation')) {
       setRemoveSkeleton(true);
     }
   }, [skeleton, coverImgLoaded]);
@@ -31,10 +38,27 @@ const MarketCardSmall = (props) => {
 
   const openCard = (e) => {
     if (e) e.preventDefault();
-    history.push({
-      pathname: `/buyer/${item.id}/property/page`,
-      state: { section: 'Market' },
-    });
+    if (type !== 'estimation') {
+      history.push({
+        pathname: `/buyer/${item.id}/property/page`,
+        state: { section: 'Market' },
+      });
+    } else {
+      const data = {
+        ...item,
+        estimation: {
+          result: estimation,
+        },
+      };
+      handleSetEstimation({
+        result: {
+          ...estimation,
+          higherValue: estimation.higherValue || 0,
+        },
+      });
+      handleSetActiveSingleProperty(data);
+      handleSetSplashType('bestimateResult');
+    }
   };
 
   return (
@@ -50,18 +74,52 @@ const MarketCardSmall = (props) => {
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'}`}>
           <div className="brdSmall brdRadius brdLight200 ov-h dis-f">
-            <CoverPropertyImage
-              loadedImg={(val) => setCoverImgLoaded(val)}
-              className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 h-fix-80 w-fix-80 pos-r`}
-              coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-              propertyType={get(item, 'properties.propertyType', undefined)}
-            />
+            {
+              type === 'estimation' ? (
+                <BrixelIcon
+                  className="min-w-fix-80 square"
+                  icon="pro-estimation"
+                  color="green"
+                  background="green"
+                  saturation={200}
+                  saturationTxt={700}
+                  iconWidth="w-fix-40"
+                />
+              ) : (
+                <CoverPropertyImage
+                  loadedImg={(val) => setCoverImgLoaded(val)}
+                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 h-perc-100 h-fix-80 w-fix-80 pos-r`}
+                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                  propertyType={get(item, 'properties.propertyType', undefined)}
+                />
+              )
+            }
             <div className="info dis-fl-col jc-b">
               <div className="top dis-fl-col notranslate pl-2 pt-1 pr-1 ov-h">
                 <span className="fweight-600 fsize-400 ellipsis three txtAltGrey700 notranslate">
                   {get(item, 'title', '')}
                 </span>
               </div>
+              {
+                type === 'estimation' && (
+                  <div className="px-2">
+                    {
+                      estimation.higherValue ? (
+                        <p className="txtLight400">
+                          <span>{estimation.currency}</span>
+                          <span className="ml-1">
+                            {Helpers.formatNumberValue(Math.round(estimation.higherValue), estimation.currency)}
+                          </span>
+                        </p>
+                      ) : (
+                        <p>
+                          Pending
+                        </p>
+                      )
+                    }
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
@@ -71,6 +129,10 @@ const MarketCardSmall = (props) => {
 };
 
 MarketCardSmall.propTypes = {
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  handleSetSplashType: PropTypes.func.isRequired,
+  handleSetEstimation: PropTypes.func.isRequired,
+  estimation: PropTypes.object,
   history: PropTypes.object.isRequired,
   item: PropTypes.object,
   skeleton: PropTypes.object.isRequired,
@@ -78,6 +140,7 @@ MarketCardSmall.propTypes = {
 };
 
 MarketCardSmall.defaultProps = {
+  estimation: {},
   item: null,
   type: '',
 };
@@ -86,7 +149,13 @@ const mapStateToProps = (state) => ({
   skeleton: get(state, 'common.skeleton', {}),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  handleSetSplashType: bindActionCreators(setSplashType, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleSetEstimation: bindActionCreators(setEstimation, dispatch),
+})
+
 export default compose(
   withRouter,
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
 )(MarketCardSmall);
