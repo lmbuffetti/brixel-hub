@@ -88,8 +88,9 @@ const MarketCategoryListBuyer = (props) => {
 
   const showArrow = () => {
     const selectResponsive = settingSlider.responsive.filter((itm) => windowDimensions.width < itm.breakpoint);
+    console.log(selectResponsive);
     if (selectResponsive[selectResponsive.length - 1]) {
-      return ownerEstimations.total > selectResponsive[selectResponsive.length - 1];
+      return ownerEstimations.total > selectResponsive[selectResponsive.length - 1].settings.slidesToShow;
     }
     return ownerEstimations.total > settingSlider.slidesToShow;
   };
