@@ -55,7 +55,7 @@ const checkLead = (store) => (next) => (action) => {
             // Means it is the category list page, we need to get the bestimate
             if (action.payload.resultsPerPage === 10) {
               res.data.data.forEach((prop) => {
-                calls.push(api.property.getEstimation(prop.id));
+                if (prop.properties.propertyType === 'Apartment' || prop.properties.propertyType === 'House') calls.push(api.property.getEstimation(prop.id));
               });
               Promise.all(calls).then((response) => {
                 response.forEach((resEst, key) => {
