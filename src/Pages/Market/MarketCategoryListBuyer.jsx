@@ -308,20 +308,23 @@ const MarketCategoryListBuyer = (props) => {
                   </div>
                   {
                     showArrow() && (
-                      <div className="dis-f a-c jc-b w-perc-100 pl-2">
+                      <div className="dis-f a-c jc-c w-perc-100 pl-2">
                         <BrixelButtonIcon
                           onClick={() => moveSlide('prev')}
                           icon="arrow-simple-left"
-                          theme="altGreen"
+                          theme="light"
                           saturation={400}
                           secondary
+                          small
                         />
                         <BrixelButtonIcon
+                          className="ml-1"
                           onClick={() => moveSlide('next')}
                           icon="arrow-simple-right"
-                          theme="altGreen"
+                          theme="light"
                           saturation={400}
                           secondary
+                          small
                         />
                       </div>
                     )

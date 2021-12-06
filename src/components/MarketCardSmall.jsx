@@ -73,7 +73,7 @@ const MarketCardSmall = (props) => {
         onClick={(e) => openCard(e)}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'}`}>
-          <div className="brdSmall brdLight200 ov-h dis-f h-fix-80">
+          <div className="brdSmall brdRadius brdLight200 ov-h dis-f h-fix-80">
             {
               type === 'estimation' ? (
                 <BrixelIcon
@@ -96,7 +96,7 @@ const MarketCardSmall = (props) => {
             }
             <div className={`info dis-fl-col ${type === 'estimation' ? 'jc-c' : 'py-1'}`}>
               <div className="top dis-fl-col notranslate pl-2 pr-1 ov-h">
-                <span className={`fweight-600 fsize-400 ellipsis txtAltGrey700 notranslate ${type === 'estimation' ? 'two' : 'three'}`}>
+                <span className="fweight-600 fsize-400 ellipsis txtAltGrey700 notranslate two">
                   {get(item, 'title', '')}
                 </span>
               </div>
