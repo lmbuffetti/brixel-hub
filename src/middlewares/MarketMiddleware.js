@@ -177,7 +177,7 @@ const checkLead = (store) => (next) => (action) => {
         },
       });
       let queryParams = `?order=${order}&direction=${direction}`;
-      if (isBuyer) queryParams += '&buyer=true';
+      if (isBuyer) queryParams += '&buyerOnly=true';
       api.estimation.getEstimationsList(resultsPerPage, offset, ownerId, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
