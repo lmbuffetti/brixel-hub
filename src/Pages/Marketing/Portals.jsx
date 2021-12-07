@@ -8,8 +8,8 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonPrimary,
-  BrixelIcon, Helpers,
+  BrixelButtonPrimary, ReduxField,
+  BrixelIcon, Helpers, BrixelTextArea,
   change, reset, BrixelButtonText, BrixelSwitchButton,
 } from '@brixel/brixel-components';
 import has from 'lodash/has';
@@ -253,6 +253,7 @@ const Portals = (props) => {
                             <img className="h-fix-120" src={portalStart} alt="Portals" />
                             <h5 className="mb-2 mt-3">Your property on the biggest portals.</h5>
 
+
                             <div className="ta-l max-w-fix-344 m-a">
                               <div className="mb-1 pos-r dis-f">
                                 <BrixelIcon className="pos-a" icon="check" color="green" />
@@ -285,6 +286,28 @@ const Portals = (props) => {
             </div>
           </div>
         </div>
+
+        {
+          has(formValue, 'description') && !checkPortalsOnline() && !formValue.portalsReview && (
+            <>
+              <div>
+                <p className="fweight-500 txtDark700 mb-1">Portals description</p>
+                <span className="txtDark200">Add a description text which is shown on portals only.</span>
+              </div>
+              <ReduxField
+                form="Property"
+                input={{
+                  name: 'description.portalHighlight',
+                  placeholder: 'Add text',
+                }}
+                design={{
+                  className: 'col-sm-7 p-sm-0 mb-5 mt-1',
+                }}
+                component={BrixelTextArea}
+              />
+            </>
+          )
+        }
 
         {
           !checkPortalsOnline() && !formValue.portalsReview && (
