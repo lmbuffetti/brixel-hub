@@ -37,6 +37,11 @@ class Estimation extends Base {
     const url = ep.estimation.proEstimationNotification(id);
     return this.apiClient.post(url, {}, {});
   }
+
+  getEstimationsList(paginationLimit, paginationSkip, ownerId, data) {
+    const url = ep.estimation.getEstimationsList(paginationLimit, paginationSkip, ownerId, data);
+    return this.apiClient.get(url);
+  }
 }
 
 export default Estimation;

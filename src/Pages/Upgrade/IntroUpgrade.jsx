@@ -55,8 +55,6 @@ const IntroUpgrade = (props) => {
   const [packageName, setPackageName] = useState({ });
   const propID = get(match, 'params.propId', null);
 
-  console.log(propID);
-
   // SLIDER
   const sliderInstance = useRef(null);
   const settingSlider = {

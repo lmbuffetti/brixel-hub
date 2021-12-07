@@ -91,7 +91,6 @@ function PageHeaderDashboard(props) {
 
   useEffect(() => {
     let activeSinglePropertyPackage = packagesProperty;
-    console.log('HEAD', ownerProperties, activeCompanyPackageIDArray);
     if (ownerProperties.total === 0) {
       setPackageName('Basic');
     }

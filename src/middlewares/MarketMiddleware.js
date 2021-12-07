@@ -161,21 +161,29 @@ const checkLead = (store) => (next) => (action) => {
     case GET_OWNED_ESTIMATIONS: {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
+      loadSkeleton.estimation = 'CardImageTextVertical';
+      const {
+        direction,
+        offset,
+        order,
+        ownerId,
+        resultsPerPage,
+      } = action.payload;
       store.dispatch({
         type: SKELETON_ON,
         payload: {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
-      api.market.getOwnedEstimations(action.payload.resultsPerPage, action.payload.offset, queryParams)
+      const queryParams = `?order=${order}&direction=${direction}&buyer=true`;
+      api.estimation.getEstimationsList(resultsPerPage, offset, ownerId, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
-            store.dispatch({ type: SET_OWNED_ESTIMATIONS, payload: res.data });
+            const redData = (res.data.data).filter((item) => get(item, 'data.title', null) !== null);
+            store.dispatch({ type: SET_OWNED_ESTIMATIONS, payload: { ...res.data, data: redData } });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
+          loadSkeleton.estimation = false;
           store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
         })
         .catch(() => {

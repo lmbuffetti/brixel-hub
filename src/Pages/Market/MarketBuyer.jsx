@@ -57,6 +57,7 @@ const MarketBuyer = (props) => {
         direction: 'DESC',
         setAsSingle: true,
         multiLoader: true,
+        ownerId: loggedInUser.id,
       };
       if (!catName) handleGetFavoritesProperties(data);
       handleGetWishlistProperties(data);
