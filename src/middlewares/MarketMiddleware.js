@@ -165,6 +165,7 @@ const checkLead = (store) => (next) => (action) => {
       const {
         direction,
         offset,
+        isBuyer,
         order,
         ownerId,
         resultsPerPage,
@@ -175,7 +176,8 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?order=${order}&direction=${direction}&buyer=true`;
+      let queryParams = `?order=${order}&direction=${direction}`;
+      if (isBuyer) queryParams += '&buyer=true';
       api.estimation.getEstimationsList(resultsPerPage, offset, ownerId, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {

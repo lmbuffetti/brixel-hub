@@ -58,6 +58,7 @@ const MarketBuyer = (props) => {
         setAsSingle: true,
         multiLoader: true,
         ownerId: loggedInUser.id,
+        isBuyer: true,
       };
       if (!catName) handleGetFavoritesProperties(data);
       handleGetWishlistProperties(data);

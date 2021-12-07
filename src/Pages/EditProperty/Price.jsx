@@ -209,7 +209,8 @@ const Price = (props) => {
           <div className="ml-md-1 w-perc-100">
             {
               (get(activeSingleProperty, 'properties.propertyType', '') === 'House' ||
-              get(activeSingleProperty, 'properties.propertyType', '') === 'Apartment') && (
+              get(activeSingleProperty, 'properties.propertyType', '') === 'Apartment' ||
+                get(proEstimation, 'value', 0) > 0) && (
                 <div className="dis-fl-col boxCard mb-5 pb-5">
                   <h5 className="mb-3">Pro Estimation</h5>
 
