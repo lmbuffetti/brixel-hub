@@ -248,7 +248,7 @@ const DashboardHome = (props) => {
                               </>
                             ) : (
                               <p className="fsize-600 fweight-600 txtAltBlue400">
-                                For this typ currently not avaiable
+                                For this type currently not available
                               </p>
                             )
                           }
