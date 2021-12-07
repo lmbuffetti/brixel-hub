@@ -439,6 +439,9 @@ img {
       .labelLeft {
         max-width: 40%;
         width: 100%;
+        @include fontStyle(400);
+        font-weight: 400;
+        color: map-get($darkColor, 700);
 
         +div {
           width: 100%;
