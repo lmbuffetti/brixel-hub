@@ -82,6 +82,7 @@ const MarketBuyer = (props) => {
         setAsSingle: true,
         multiLoader: true,
         overlayCard: true,
+        resultType: 'buyer',
         searchProfileId: get(userSearchProfiles, '[0].id', null),
       };
       handleGetPreMarketProperties(data);

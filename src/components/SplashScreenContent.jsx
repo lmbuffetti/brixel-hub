@@ -227,6 +227,7 @@ const SplashScreen = (props) => {
       setAsSingle: true,
       multiLoader: true,
       searchProfileId: get(userSearchProfiles[0], 'id', null),
+      resultType: get(history, 'location.pathname', '').includes('buy') ? 'buyer' : 'seller',
     };
     handleGetNewProperties(data);
     handleGetPreMarketProperties(data);

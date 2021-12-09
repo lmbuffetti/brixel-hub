@@ -266,6 +266,7 @@ const checkLead = (store) => (next) => (action) => {
         offset,
         order,
         resultsPerPage,
+        resultType,
         searchProfileId,
       } = action.payload;
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
@@ -279,6 +280,7 @@ const checkLead = (store) => (next) => (action) => {
       let queryParams = `?order=${order}&direction=${direction}`;
       if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
       if (allCountry) queryParams += '&allCountry=true';
+      if (resultType) queryParams += `&resultType=${resultType}`;
       api.market.getPremiumProperties(resultsPerPage, offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
