@@ -55,7 +55,7 @@ const checkLead = (store) => (next) => (action) => {
             // Means it is the category list page, we need to get the bestimate
             if (action.payload.resultsPerPage === 10) {
               res.data.data.forEach((prop) => {
-                calls.push(api.property.getEstimation(prop.id));
+                if (prop.properties.propertyType === 'Apartment' || prop.properties.propertyType === 'House') calls.push(api.property.getEstimation(prop.id));
               });
               Promise.all(calls).then((response) => {
                 response.forEach((resEst, key) => {
@@ -161,21 +161,31 @@ const checkLead = (store) => (next) => (action) => {
     case GET_OWNED_ESTIMATIONS: {
       next(action);
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-      loadSkeleton.favorite = 'CardImageTextVertical';
+      loadSkeleton.estimation = 'CardImageTextVertical';
+      const {
+        direction,
+        offset,
+        isBuyer,
+        order,
+        ownerId,
+        resultsPerPage,
+      } = action.payload;
       store.dispatch({
         type: SKELETON_ON,
         payload: {
           ...loadSkeleton,
         },
       });
-      const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
-      api.market.getOwnedEstimations(action.payload.resultsPerPage, action.payload.offset, queryParams)
+      let queryParams = `?order=${order}&direction=${direction}`;
+      if (isBuyer) queryParams += '&buyerOnly=true';
+      api.estimation.getEstimationsList(resultsPerPage, offset, ownerId, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
-            store.dispatch({ type: SET_OWNED_ESTIMATIONS, payload: res.data });
+            const redData = (res.data.data).filter((item) => get(item, 'data.title', null) !== null);
+            store.dispatch({ type: SET_OWNED_ESTIMATIONS, payload: { ...res.data, data: redData } });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
-          loadSkeleton.favorite = false;
+          loadSkeleton.estimation = false;
           store.dispatch({ type: SKELETON_OFF, payload: loadSkeleton });
         })
         .catch(() => {
@@ -256,6 +266,7 @@ const checkLead = (store) => (next) => (action) => {
         offset,
         order,
         resultsPerPage,
+        resultType,
         searchProfileId,
       } = action.payload;
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
@@ -269,6 +280,7 @@ const checkLead = (store) => (next) => (action) => {
       let queryParams = `?order=${order}&direction=${direction}`;
       if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
       if (allCountry) queryParams += '&allCountry=true';
+      if (resultType) queryParams += `&resultType=${resultType}`;
       api.market.getPremiumProperties(resultsPerPage, offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {

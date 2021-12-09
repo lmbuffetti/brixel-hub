@@ -20,7 +20,7 @@ const CardImageText = (props) => {
   return (
     <>
       {
-        type === 'fav' ? (
+        (type === 'fav' || type === 'estimation') ? (
           <img alt="card loading" src={SkeletonFav} />
         ) : (
           <>
@@ -28,7 +28,7 @@ const CardImageText = (props) => {
               alt="Sckeleton Card Loading"
               id="cartello"
               src={type === 'own' ? windowDimensions.width < 590 ? SkeletonCardOwnMobile : SkeletonOwnCard : type === 'map-view' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonMapCard : SkeletonCard}
-              className={`notranslate ${type === 'map-view' ? '' : 'ml-1'} ${type === 'own' || type === 'map-view' ? windowDimensions.width < 590 ? 'w-perc-100 pr-2' : 'h-fix-208' : 'w-perc-100 pr-2'} ${className}`}
+              className={`notranslate ${type === 'map-view' ? '' : type === 'own' ? '' : 'ml-1'} ${type === 'own' || type === 'map-view' ? windowDimensions.width < 590 ? 'w-perc-100 pr-2' : type === 'own' ? '' : 'h-fix-208' : 'w-perc-100 pr-2'} ${className}`}
             />
             {
               type === 'map-view' && (

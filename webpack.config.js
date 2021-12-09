@@ -28,7 +28,6 @@ const PATHS = {
 
 const clientConfig = (env) => {
   const localDev = env.DEV_LOCAL;
-  console.log(PATHS);
   const config = ({
     mode: 'development',
     devtool: devMode ? 'inline-source-map' : 'cheap-source-map',

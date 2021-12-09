@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
-  BrixelDatePicker,
   BrixelIcon,
   BrixelInputText,
   change,
@@ -25,7 +24,7 @@ const BookTrialFlow = (props) => {
     activeSingleCompany,
     changeFieldValue,
     formValue,
-    lang,
+    // lang,
     loggedInUser,
     onClick,
     showError,
@@ -33,10 +32,10 @@ const BookTrialFlow = (props) => {
     updateError,
   } = props;
   // STATE
-  const [date, setDate] = useState('');
+  const [, setDate] = useState('');
   const [datePickerModal, setDatePickerModal] = useState(false);
   // REF
-  const calendarRef = useRef(null);
+  // const calendarRef = useRef(null);
   const datePicker = useRef(null);
   // COMPANY DATA
   const phone = get(activeSingleCompany, 'contact.phone', null);
@@ -72,8 +71,8 @@ const BookTrialFlow = (props) => {
 
   const handleChangeDate = (day) => {
     setDate(day);
-    changeFieldValue('dateBook', DateTime.fromJSDate(day).toFormat('dd-LL-yyyy'));
-    changeFieldValue('fullDate', day);
+    changeFieldValue('dateBook', day);
+    changeFieldValue('fullDate', DateTime.fromFormat(day, 'yyyy-LL-dd').toISO());
   };
 
   useEffect(() => {
@@ -81,9 +80,14 @@ const BookTrialFlow = (props) => {
     if (get(formValue, 'hourBook', null)) hourBook = get(formValue, 'hourBook', '').replace(':', '');
     if (get(formValue, 'fullDate', null) && get(formValue, 'hourBook', null) && +hourBook > 100) {
       const splitDate = (get(formValue, 'fullDate', '')).toString().split(' ');
-      splitDate[4] = `${get(formValue, 'hourBook', null)}:00`;
-      const defDate = new Date(splitDate.join(' '));
-      changeFieldValue('date', (DateTime.fromJSDate(defDate).toMillis()));
+      splitDate[4] = `${get(formValue, 'hourBook', null)}`;
+      const calendarDate = DateTime.fromISO(splitDate[0]).valueOf();
+      let dateHour = DateTime.fromFormat(splitDate[4], 'H:mm').get('hour');
+      let dateMinutes = DateTime.fromFormat(splitDate[4], 'H:mm').get('minute');
+      dateHour *= 3600000;
+      dateMinutes *= 60000;
+      const defDate = calendarDate + dateHour + dateMinutes;
+      changeFieldValue('date', defDate);
     }
   }, [get(formValue, 'fullDate', null), get(formValue, 'hourBook', null)]);
 
@@ -118,7 +122,7 @@ const BookTrialFlow = (props) => {
               >
                 <div className="dis-f a-t jc-b w-perc-100">
                   <div className="pos-r pr-1 w-perc-50">
-                    <ReduxField
+                    {/* <ReduxField
                       form="scanFlow"
                       ReduxFieldClass="inputDate"
                       component={BrixelInputText}
@@ -162,7 +166,30 @@ const BookTrialFlow = (props) => {
                           lang={lang}
                         />
                       )
-                    }
+                    } */}
+                    <ReduxField
+                      form="scanFlow"
+                      ReduxFieldClass="inputDate"
+                      component={BrixelInputText}
+                      design={{
+                        showIconValidation: false,
+                      }}
+                      input={{
+                        name: 'dateBook',
+                        type: 'date',
+                        maxDate: `${DateTime.now().year + 1}-12-31`,
+                        minDate: DateTime.now().toFormat('yyyy-LL-dd'),
+                        onChange: (val) => handleChangeDate(val, 'new'),
+                      }}
+                      meta={{
+                        invalid: get(syncErrors, 'dateBook', '') !== true,
+                        dirty: get(syncErrors, 'dateBook', '') !== true,
+                        showErrors: showError,
+                        message: {
+                          error: 'Please select a date',
+                        },
+                      }}
+                    />
                   </div>
                   <div className="pos-r pl-1 w-perc-50">
                     <ReduxField
@@ -343,7 +370,7 @@ const BookTrialFlow = (props) => {
                 >
                   <div className="dis-f a-t jc-b w-perc-100">
                     <div className="pos-r pr-1 w-perc-50">
-                      <ReduxField
+                      {/* <ReduxField
                         form="scanFlow"
                         ReduxFieldClass="inputDate"
                         component={BrixelInputText}
@@ -387,7 +414,30 @@ const BookTrialFlow = (props) => {
                             lang={lang}
                           />
                         )
-                      }
+                      } */}
+                      <ReduxField
+                        form="scanFlow"
+                        ReduxFieldClass="inputDate"
+                        component={BrixelInputText}
+                        design={{
+                          showIconValidation: false,
+                        }}
+                        input={{
+                          name: 'dateBook',
+                          type: 'date',
+                          maxDate: `${DateTime.now().year + 1}-12-31`,
+                          minDate: DateTime.now().toFormat('yyyy-LL-dd'),
+                          onChange: (val) => handleChangeDate(val, 'new'),
+                        }}
+                        meta={{
+                          invalid: get(syncErrors, 'dateBook', '') !== true,
+                          dirty: get(syncErrors, 'dateBook', '') !== true,
+                          showErrors: showError,
+                          message: {
+                            error: 'Please select a date',
+                          },
+                        }}
+                      />
                     </div>
                     <div className="pos-r pl-1 w-perc-50">
                       <ReduxField
@@ -468,7 +518,7 @@ BookTrialFlow.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
+  // lang: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   syncErrors: PropTypes.object.isRequired,

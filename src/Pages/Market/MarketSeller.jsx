@@ -44,6 +44,7 @@ const MarketSeller = (props) => {
         direction: 'DESC',
         setAsSingle: true,
         multiLoader: true,
+        resultType: 'seller',
       };
       handleGetFavoritesProperties(data);
       handleGetSellerProperties(data);

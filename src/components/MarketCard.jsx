@@ -318,7 +318,7 @@ const MarketCard = (props) => {
                           <div className="dis-fl-col">
                             <span className="txtLight600 fsize-300">Your Bestimate</span>
                             {
-                              get(item, '.estimation.status', '') === 'pending' && completedBestimate(item) ? (
+                              ((get(item, 'estimation.status', '') === 'pending' && completedBestimate(item)) || (get(item, 'properties.propertyType', null) === 'Commercial' || get(item, 'properties.propertyType', null) === 'Building land')) ? (
                                 <span className="txtAltBlue400 fweight-600">
                                   Pending
                                 </span>
@@ -338,7 +338,7 @@ const MarketCard = (props) => {
                               )
                             }
                             {
-                              get(item, 'estimation.status', '') === 'processed' && (
+                              get(item, 'estimation.status', '') === 'processed' && (get(item, 'properties.propertyType', null) === 'House' || get(item, 'properties.propertyType', null) === 'Apartment') && (
                                 <div
                                   onClick={(e) => openBestimateOverlay(e, item.location, item.estimation, item, 'exists')}
                                   className="txtAltBlue400 no-state fweight-600"
@@ -348,36 +348,40 @@ const MarketCard = (props) => {
                               )
                             }
                           </div>
-                          <div
-                            onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
-                            className="dis-fl-row a-c ml-2"
-                          >
-                            <div className="hide dis-fl-row-sm">
-                              <div className="pos-r h-fix-48 w-fix-48">
-                                <ProgressRing
-                                  customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
-                                  iconColor={{
-                                    color: 'altGreen',
-                                    sat: 400,
-                                  }}
-                                  progress={calcPercentageProEstimation('', item).realPerc}
-                                  size={48}
-                                  strokeWidth={10}
-                                  circleOneStroke="#D7F0F1"
-                                  circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#1E1491'}
-                                  showIcon={false}
-                                  showIconComplete={calcPercentageProEstimation('', item).realPerc === 100}
-                                />
+                          {
+                            (get(item, 'properties.propertyType', '') === 'House' || get(item, 'properties.propertyType', '') === 'Apartment') && (
+                              <div
+                                onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
+                                className="dis-fl-row a-c ml-2"
+                              >
+                                <div className="hide dis-fl-row-sm">
+                                  <div className="pos-r h-fix-48 w-fix-48">
+                                    <ProgressRing
+                                      customIcon={get(item, 'proEstimation.value', 0) <= 0 && calcPercentageProEstimation(item).realPerc === 100 ? 'hourglass' : null}
+                                      iconColor={{
+                                        color: 'altGreen',
+                                        sat: 400,
+                                      }}
+                                      progress={calcPercentageProEstimation('', item).realPerc}
+                                      size={48}
+                                      strokeWidth={10}
+                                      circleOneStroke="#D7F0F1"
+                                      circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#1E1491'}
+                                      showIcon={false}
+                                      showIconComplete={calcPercentageProEstimation('', item).realPerc === 100}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="pl-2">
+                                  <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>
+                                  <span className="txtAltBlue400 fweight-600 dis-b">
+                                    <span>{calcPercentageProEstimation('', item).realPerc}% </span>
+                                    <span> complete</span>
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                            <div className="pl-2">
-                              <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>
-                              <span className="txtAltBlue400 fweight-600 dis-b">
-                                <span>{calcPercentageProEstimation('', item).realPerc}% </span>
-                                <span> complete</span>
-                              </span>
-                            </div>
-                          </div>
+                            )
+                          }
                         </div>
                       )
                     }

@@ -12,7 +12,7 @@ import { diff } from 'deep-object-diff';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,
   getPremiumProperties, getPremarketProperties, getLastViewedProperties,
-  getWishlistProperties, getPremarketStats,
+  getWishlistProperties, getPremarketStats, getOwnedEstimations,
 } from '../../actions/MarketActions';
 import '../../styles/SCSS/pages/market.scss';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
@@ -30,6 +30,7 @@ const MarketBuyer = (props) => {
     destroyForm,
     handleGetFavoritesProperties,
     // handleSetActiveMarketOverlayPropertyLists,
+    handleGetOwnedEstimations,
     handleGetPreMarketProperties,
     handleGetPremarketStats,
     handleGetPremiumProperties,
@@ -56,10 +57,13 @@ const MarketBuyer = (props) => {
         direction: 'DESC',
         setAsSingle: true,
         multiLoader: true,
+        ownerId: loggedInUser.id,
+        isBuyer: true,
       };
       if (!catName) handleGetFavoritesProperties(data);
       handleGetWishlistProperties(data);
       handleGetUserSearchProfiles(loggedInUser.id);
+      handleGetOwnedEstimations(data);
       handleSpinnerOff();
     }
   }, [loggedInUser.id]);
@@ -78,6 +82,7 @@ const MarketBuyer = (props) => {
         setAsSingle: true,
         multiLoader: true,
         overlayCard: true,
+        resultType: 'buyer',
         searchProfileId: get(userSearchProfiles, '[0].id', null),
       };
       handleGetPreMarketProperties(data);
@@ -103,6 +108,7 @@ const MarketBuyer = (props) => {
 MarketBuyer.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
+  handleGetOwnedEstimations: PropTypes.func.isRequired,
   handleGetPreMarketProperties: PropTypes.func.isRequired,
   handleGetPremarketStats: PropTypes.func.isRequired,
   handleGetPremiumProperties: PropTypes.func.isRequired,
@@ -138,13 +144,14 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
+  handleGetOwnedEstimations: bindActionCreators(getOwnedEstimations, dispatch),
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
+  handleGetPremarketStats: bindActionCreators(getPremarketStats, dispatch),
   handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
   handleGetSellerProperties: bindActionCreators(getOwnedProperties, dispatch),
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
-  handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),
-  handleGetPremarketStats: bindActionCreators(getPremarketStats, dispatch),
+  handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleUpdateFavorites: bindActionCreators(updateFavorite, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),

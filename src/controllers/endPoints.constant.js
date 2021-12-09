@@ -38,8 +38,8 @@ export default {
     createEstimation: () => '/estimation/',
     estimationById: (id) => `/estimation/${id}`,
     generateEstimation: (id) => `/estimation/${id}/generate`,
-    getEstimationList: (paginationLimit, paginationSkip, data) => `/estimation/${paginationLimit}/${paginationSkip}${data}`,
     proEstimationNotification: (id) => `/estimation/${id}/completeProEstimation`,
+    getEstimationsList: (paginationLimit, paginationSkip, ownerId, data) => `/estimation/${paginationLimit}/${paginationSkip}?owner=${ownerId}${data}`,
   },
   gamification: {
     gameAchievement: () => '/gameAchievement',

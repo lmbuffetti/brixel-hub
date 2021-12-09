@@ -35,6 +35,7 @@ import { QuestionsList } from '../../resources/onBoardingEstimation';
 import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
+import { createEstimation } from '../../actions/EstimationActions';
 
 const cookie = new Cookies();
 
@@ -49,6 +50,7 @@ const GetStartedEstimation = (props) => {
     handleCreateActiveSingleProperty,
     handleDoLogin,
     handleGetActiveSingleCompany,
+    handleCreateEstimation,
     // handleSaveActiveSingleProperty,
     // handleSaveActiveSingleUser,
     handleSetLanguage,
@@ -153,7 +155,7 @@ const GetStartedEstimation = (props) => {
     }
     // PROPERTY DATA
     delete dataFormAnswer.login;
-    const data = {
+    let data = {
       ...dataFormAnswer,
       packageFlowProcess: {
         answers: dataFormAnswer,
@@ -169,7 +171,7 @@ const GetStartedEstimation = (props) => {
       listed: false,
       active: true,
       published: false,
-      addProperty: true,
+      addProperty: get(dataFormAnswer, 'estimationType', '') !== 'buyer',
       price: getCurrency(),
       redirectToUserFlow: false,
       createEstimation: true,
@@ -177,8 +179,24 @@ const GetStartedEstimation = (props) => {
       redirectToUrl: '/sell',
       extraLoading: true,
     };
+    if (get(dataFormAnswer, 'estimationType', '') === 'buyer') {
+      data = {
+        data,
+        createEstimation: data.createEstimation,
+        addProperty: data.addProperty,
+        extraLoading: data.extraLoading,
+        generate: true,
+        redirectTo: '/buy',
+      };
+    }
     if (formValue.pageID) data.id = formValue.pageID;
-    data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');
+    if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') data.packageFlowProcess.answers.userType = get(dataFormAnswer, 'estimationType', '');
+    else {
+      data.data = {
+        ...data.data,
+        answers: get(dataFormAnswer, 'estimationType', ''),
+      };
+    }
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
@@ -186,7 +204,8 @@ const GetStartedEstimation = (props) => {
       data.owner = loggedInUser.user.id;
       // DISPATCH TO SAVE THE PROPERTY
       data.redirectToRewards = true;
-      await handleCreateActiveSingleProperty(data);
+      if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') await handleCreateActiveSingleProperty(data);
+      else handleCreateEstimation(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
@@ -865,6 +884,7 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
+  handleCreateEstimation: bindActionCreators(createEstimation, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),

@@ -507,7 +507,7 @@ SearchProfileBanner.propTypes = {
   splashScreenType: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
-  userSearchProfiles: PropTypes.object.isRequired,
+  userSearchProfiles: PropTypes.object,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -517,6 +517,7 @@ SearchProfileBanner.defaultProps = {
   subtitle: null,
   title: 'Search Profile',
   onStatsFunc: {},
+  userSearchProfiles: null,
 };
 
 const mapStateToProps = (state) => {
