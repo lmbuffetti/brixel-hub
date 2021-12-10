@@ -9,6 +9,7 @@ import {
   SET_NEW_PROPERTIES,
   SET_LAST_VIEWED_PROPERTIES,
   SET_PREMIUM_PROPERTIES,
+  SET_PREMIUM_EUROPE_PROPERTIES,
   SET_PREMARKET_PROPERTIES,
   SET_WISHLIST_PROPERTIES,
   SET_PREMARKET_STATS,
@@ -21,6 +22,7 @@ export const defaultState = {
   favoritesProperties: {},
   newProperties: {},
   lastViewedProperties: {},
+  premiumEuropeProperties: {},
   premiumProperties: {},
   preMarketProperties: {},
   preMarketStats: {},
@@ -64,6 +66,10 @@ export default handleActions(
     [SET_PREMIUM_PROPERTIES]: (state, action) => ({
       ...state,
       premiumProperties: action.payload,
+    }),
+    [SET_PREMIUM_EUROPE_PROPERTIES]: (state, action) => ({
+      ...state,
+      premiumEuropeProperties: action.payload,
     }),
     [SET_PREMARKET_PROPERTIES]: (state, action) => ({
       ...state,

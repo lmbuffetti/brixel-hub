@@ -74,6 +74,7 @@ const MarketBuyer = (props) => {
 
   useEffect(() => {
     if (userSearchProfiles !== null) {
+      handleGetPremarketStats({ id: get(userSearchProfiles, '[0].id', null) });
       const data = {
         resultsPerPage: 10,
         offset: 0,
@@ -87,8 +88,9 @@ const MarketBuyer = (props) => {
       };
       handleGetPreMarketProperties(data);
       handleGetPremiumProperties(data);
+      data.resultType = 'europe';
+      handleGetPremiumProperties(data);
       handleSpinnerOff();
-      handleGetPremarketStats({ id: get(userSearchProfiles, '[0].id', null) });
     }
   }, [userSearchProfiles, get(history, 'location.pathname', null)]);
 

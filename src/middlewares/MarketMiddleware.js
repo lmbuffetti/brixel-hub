@@ -16,6 +16,7 @@ import {
   SET_PREMARKET_PROPERTIES,
   GET_PREMIUM_PROPERTIES,
   SET_PREMIUM_PROPERTIES,
+  SET_PREMIUM_EUROPE_PROPERTIES,
   GET_FAVORITES_PROPERTIES,
   SET_FAVORITES_PROPERTIES,
   GET_WISHLIST_PROPERTIES,
@@ -284,7 +285,8 @@ const checkLead = (store) => (next) => (action) => {
       api.market.getPremiumProperties(resultsPerPage, offset, queryParams)
         .then((res) => {
           if (res.meta.status === 200) {
-            store.dispatch({ type: SET_PREMIUM_PROPERTIES, payload: res.data });
+            if (resultType === 'europe') store.dispatch({ type: SET_PREMIUM_EUROPE_PROPERTIES, payload: res.data });
+            else store.dispatch({ type: SET_PREMIUM_PROPERTIES, payload: res.data });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.favorite = false;

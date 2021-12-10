@@ -69,6 +69,7 @@ const MarketCategoryListBuyer = (props) => {
     initForm,
     ownerEstimations,
     preMarketStats,
+    premiumEuropeProperties,
     premiumProperties,
     setSplashScreen,
     splashScreenType,
@@ -396,7 +397,7 @@ const MarketCategoryListBuyer = (props) => {
 
         <div className="pt-7 pb-8 bgAltBlue400">
           {
-            premiumProperties.total > 0 && (
+            premiumEuropeProperties.total > 0 && (
               <div className="container">
                 <CarouselWrapper
                   theme="light"
@@ -404,8 +405,8 @@ const MarketCategoryListBuyer = (props) => {
                   subtitle="Random Brixel properties all over Europe"
                   className="market-category-carousel"
                   type="premium"
-                  items={exploreProperties}
-                  total={premiumProperties.total}
+                  items={premiumEuropeProperties.data}
+                  total={premiumEuropeProperties.total}
                 />
               </div>
             )
@@ -424,6 +425,7 @@ MarketCategoryListBuyer.propTypes = {
   initialValues: PropTypes.object.isRequired,
   ownerEstimations: PropTypes.object.isRequired,
   preMarketStats: PropTypes.object.isRequired,
+  premiumEuropeProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
@@ -462,6 +464,7 @@ const mapStateToProps = (state) => {
     ownerEstimations: get(state, 'market.ownerEstimations', {}),
     preMarketProperties: get(state, 'market.preMarketProperties', {}),
     preMarketStats: get(state, 'market.preMarketStats', {}),
+    premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
     premiumProperties: get(state, 'market.premiumProperties', {}),
     splashScreenType: get(state, 'common.splashScreenType', ''),
     userSearchProfiles: searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile,
