@@ -38,6 +38,9 @@ import {
 import {
   getHistoryListings, setDealHistoryListings, setDealOwnerHistoryListings,
 } from '../../actions/HistoryActions';
+import {
+  formatPrice,
+} from '../../utils/helpers';
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';
@@ -69,6 +72,7 @@ const SingleDeal = (props) => {
   const [winnerId, setWinnerId] = useState('');
   const [activeDealFeedback, setActiveDealFeedback] = useState({});
   const [showFullFeedback, setShowFullFeedback] = useState(false);
+  const [showFullOffer, setShowFullOffer] = useState(false);
 
   const {
     factsOptions,
@@ -261,6 +265,60 @@ const SingleDeal = (props) => {
   const getTextColor = () => {
     if (activeSingleDeal.visit < +new Date().setHours(0, 0, 0, 0)) return 'Dark700';
     return 'Green400';
+  };
+
+  const getOfferBackground = () => {
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'accepted') return 'green';
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'pending') return 'yellow';
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'rejected') return 'red';
+    return 'light';
+  };
+
+  const getOfferColor = () => {
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'accepted') return 'green';
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'pending') return 'yellow';
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'rejected') return 'red';
+    return 'dark';
+  };
+
+  const getOfferSaturation = () => {
+    if (has(activeSingleDeal, 'closing.stageOffer.offer.status')) return 100;
+    return 200;
+  };
+
+  const getOfferTextColor = () => {
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'accepted') return 'Green400';
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'pending') return 'Yellow400';
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.status') === 'rejected') return 'Red400';
+    return 'Dark700';
+  };
+
+  const getOfferText = () => {
+    if (has(activeSingleDeal, 'closing.stageOffer.offer.status')) return `${get(activeSingleDeal, 'closing.stageOffer.offer.currency', '')} ${formatPrice(get(activeSingleDeal, 'closing.stageOffer.offer.amount'), userLang)}`;
+    return 'No offer';
+  };
+
+  const getCompleteOffer = () => {
+    let answerText = '';
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.buyer') && Object.keys(activeSingleDeal.closing.stageOffer.offer.buyer).length > 0) {
+      answerText += `<span>Buyer details: </br></span>
+      <span>Date of birth: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '')} </span>
+      </br><span>Marital status: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', '')} </span>
+      </br><span>Place of origin: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.placeOfOrigin', '')} </span>
+      </br><span>Type of purchase: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', '')} </span>`;
+    }
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.location') && Object.keys(activeSingleDeal.closing.stageOffer.offer.location).length > 0) {
+      answerText += `</br></br><span>Buyer location: </br></span>
+      <span>${get(activeSingleDeal, 'closing.stageOffer.offer.location.street', '')} </span>
+      <span>${get(activeSingleDeal, 'closing.stageOffer.offer.location.streetNumber', '')} </span>
+      <span>, ${get(activeSingleDeal, 'closing.stageOffer.offer.location.zipCode', '')} </span>
+      <span>${get(activeSingleDeal, 'closing.stageOffer.offer.location.City', '')} </span>`;
+    }
+
+    if (get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 1) {
+      answerText += `</br></br><span>Financial certificate: </span><span>${activeSingleDeal.closing.stageOffer.offer.financeCertificate === 1 ? 'Yes' : 'No'} </span>`;
+    }
+    return answerText;
   };
 
   const getCompleteFeedback = () => {
@@ -494,6 +552,49 @@ const SingleDeal = (props) => {
                       </>
                     )
                   }
+
+                  <span className="overline mb-3 mt-5">Offer</span>
+                  <div className="brdRadius shadow-1dp pos-r dis-fl-col p-small-12 w-perc-100">
+                    <div className="dis-fl-row jc-b">
+                      <div className="dis-f a-c">
+                        <BrixelIcon
+                          icon="money"
+                          noBorder
+                          background={getOfferBackground()}
+                          saturation={getOfferSaturation()}
+                          color={getOfferColor()}
+                          saturationTxt={700}
+                          className="mr-2"
+                        />
+                        <span className={`txt${getOfferTextColor()}`}>{getOfferText()}</span>
+                      </div>
+                    </div>
+                    {
+                      has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
+                        <div className="dis-fl-col">
+                          <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
+                            <span className="txtDark700 fsize-300">Offer details: </span>
+                            <BrixelIcon
+                              fontSize={8}
+                              icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
+                              className="txtDark700 cur-poi pr-1"
+                              onClick={() => setShowFullOffer(!showFullOffer)}
+                            />
+                          </div>
+                          {
+                            showFullOffer && (
+                              <div
+                                className="txtDark700 fsize-300"
+                                dangerouslySetInnerHTML={{
+                                  __html: getCompleteOffer(),
+                                }}
+                              />
+                            )
+                          }
+                        </div>
+                      )
+                    }
+                  </div>
                 </div>
               </div>
             </div>
