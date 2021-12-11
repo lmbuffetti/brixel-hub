@@ -114,7 +114,7 @@ const PropertyBuyerDashboard = (props) => {
                       className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'docubox' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                       colorIcon="primary700"
                       backIcon="primary100"
-                      onClick={() => history.push(`/buyer/${propID}/property/docubox`)}
+                      onClick={() => history.push(`/buyer/${propID}/docubox`)}
                     />
                   </div>
 
