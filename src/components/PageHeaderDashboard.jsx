@@ -303,7 +303,9 @@ function PageHeaderDashboard(props) {
 
   const urlBackAction = () => {
     if (get(history, 'location.pathname', '').includes('buyer')) {
-      if (currentPathName === getCurrentRoute().name) {
+      if (get(history, 'location.pathname', '').includes('docubox')) {
+        history.push(`/buyer/${activeSingleProperty.id}/property`);
+      } else if (currentPathName === getCurrentRoute().name) {
         history.push('/buy');
       } else if (get(history, 'location.pathname', '').includes('closing')) {
         history.push(`/buyer/${activeSingleProperty.id}/property`);

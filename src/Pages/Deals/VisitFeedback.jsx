@@ -5,7 +5,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelCheckbox,
-  BrixelInputText,
   BrixelTextArea,
   BrixelRadioButton,
   ReduxField,
