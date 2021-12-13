@@ -4,6 +4,7 @@ import React from 'react';
 import {
   BrixelRadioButton,
   BrixelInputText,
+  BrixelInputDatePicker,
   BrixelInputTextStep,
   Validation,
   FactsOptions,
@@ -125,7 +126,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           large: true,
         },
         {
-          component: BrixelInputText,
+          component: BrixelInputDatePicker,
           className: '',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
@@ -133,7 +134,6 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'buyer.dateBirth',
           showFullSelectDate: true,
           large: true,
-          type: 'date',
         },
         {
           classNameBox: 'ml-a mr-a',
