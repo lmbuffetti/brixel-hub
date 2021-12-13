@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import {
   BrixelIcon,
   BrixelInputText,
+  BrixelInputDatePicker,
   change,
   Helpers,
   changeSyncError,
@@ -170,7 +171,7 @@ const BookTrialFlow = (props) => {
                     <ReduxField
                       form="scanFlow"
                       ReduxFieldClass="inputDate"
-                      component={BrixelInputText}
+                      component={BrixelInputDatePicker}
                       design={{
                         showIconValidation: false,
                       }}
