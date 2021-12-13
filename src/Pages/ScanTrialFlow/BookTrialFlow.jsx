@@ -419,7 +419,7 @@ const BookTrialFlow = (props) => {
                       <ReduxField
                         form="scanFlow"
                         ReduxFieldClass="inputDate"
-                        component={BrixelInputText}
+                        component={BrixelInputDatePicker}
                         design={{
                           showIconValidation: false,
                         }}
