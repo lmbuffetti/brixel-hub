@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { BrixelDropdown, BrixelModal } from '@brixel/brixel-components';
+import { BrixelDropdown } from '@brixel/brixel-components';
 // import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colors_new.svg';
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
@@ -297,7 +297,6 @@ PageHeader.propTypes = {
   lang: PropTypes.string,
   languages: PropTypes.arrayOf(PropTypes.object),
   loggedInUser: PropTypes.object,
-  match: PropTypes.object.isRequired,
   property: PropTypes.object.isRequired,
 };
 

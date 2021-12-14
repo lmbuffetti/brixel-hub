@@ -24,6 +24,7 @@ import startBestimate from '../images/Bestimate/startBestimate.svg';
 const BestimateCardOverlay = (props) => {
   const {
     bestimate,
+    history,
     clearEstimation,
     setBestimateMessage,
     setPropertyEstimation,
@@ -35,6 +36,11 @@ const BestimateCardOverlay = (props) => {
     if (setBestimateMessage) setBestimateMessage(true);
     if (clearEstimation) setPropertyEstimation({});
     setSplashScreen('');
+  };
+
+  const openSupport = (e) => {
+    e.preventDefault();
+    history.push({ state: { showSupport: true } });
   };
 
   return (
@@ -104,15 +110,15 @@ const BestimateCardOverlay = (props) => {
                 {
                   get(bestimate, 'alfredo', false) === true && (
                     <span className="txtDark200 max-w-fix-480 mb-5">
-                Bestimate<sup>&reg;</sup> is a first price indication calculated with a few inputs. It is based on real property transactions, as well as an average of current market values. For a more accurate and complete estimation, we suggest booking an on-site appointment with one of our experts (limited to specific areas).
-              </span>
+                      Bestimate<sup>&reg;</sup> is a first price indication calculated with a few inputs. It is based on real property transactions, as well as an average of current market values. For a more accurate and complete estimation, we suggest booking an on-site appointment with one of our experts (limited to specific areas).
+                    </span>
                   )
                 }
                 {
                   get(bestimate, 'iazi', false) === true && (
                     <span className="txtDark200 max-w-fix-480 mb-5">
-                Bestimate<sup>&reg;</sup> is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.
-              </span>
+                      Bestimate<sup>&reg;</sup> is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.
+                    </span>
                   )
                 }
                 <BrixelButtonPrimary
@@ -133,6 +139,7 @@ const BestimateCardOverlay = (props) => {
 BestimateCardOverlay.propTypes = {
   bestimate: PropTypes.object.isRequired,
   clearEstimation: PropTypes.bool,
+  history: PropTypes.object.isRequired,
   setBestimateMessage: PropTypes.func,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,

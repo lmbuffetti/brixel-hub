@@ -774,16 +774,17 @@ const GetStartedEstimation = (props) => {
 };
 
 GetStartedEstimation.propTypes = {
+  // handleSaveActiveSingleProperty: PropTypes.func.isRequired,
+  // handleSaveActiveSingleUser: PropTypes.func.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
+  handleCreateEstimation: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  // handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  // handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
