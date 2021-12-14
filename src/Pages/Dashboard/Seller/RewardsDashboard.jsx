@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
@@ -30,6 +30,7 @@ import Support from '../../../components/Support';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const RewardsDashboard = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
@@ -37,7 +38,6 @@ const RewardsDashboard = (props) => {
     gameGroup,
     gameHistory,
     handleAddGameHistory,
-    history,
     isLoading,
     isSmallLoading,
     match,
@@ -382,7 +382,6 @@ RewardsDashboard.propTypes = {
   gameHistory: PropTypes.object,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   match: PropTypes.object.isRequired,
@@ -418,6 +417,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(RewardsDashboard);

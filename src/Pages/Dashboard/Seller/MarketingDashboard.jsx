@@ -1,10 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
-import {
-  Route,
-  Redirect,
-  withRouter,
-} from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -22,10 +18,10 @@ const Page = lazy(() => import('../../Marketing/Page'));
 const Portals = lazy(() => import('../../Marketing/Portals'));
 
 const MarketingDashboard = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     formValue,
-    history,
     match,
     windowDimensions,
   } = props;
@@ -227,7 +223,7 @@ const MarketingDashboard = (props) => {
                     <Route path="/:propId/marketing/portals" exact component={Portals} />
                   </Suspense>
                 ) : (
-                  <Redirect from="/:propId/marketing/*" to={`/${propID}/marketing/page`} />
+                  <></>
                 )
             }
 
@@ -240,7 +236,6 @@ const MarketingDashboard = (props) => {
 
 MarketingDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -255,6 +250,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(MarketingDashboard);

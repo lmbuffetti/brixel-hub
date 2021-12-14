@@ -3,7 +3,7 @@
 import React, {
   useState, createRef, useEffect, useRef,
 } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   GoogleApiWrapper,
 } from 'google-maps-react';
@@ -31,6 +31,7 @@ import Map from './Map';
 import { setCountryList } from '../../actions/CommonActions';
 
 export const MapsWithModalManual = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleCompany,
@@ -43,7 +44,6 @@ export const MapsWithModalManual = (props) => {
     formValue,
     google,
     handleUpdateCountry,
-    history,
     init,
     latitude,
     longitude,
@@ -777,6 +777,5 @@ export default compose(
     language: props.lang,
     libraries: ['geometry', 'drawing', 'places'],
   })),
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MapsWithModalManual);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -9,11 +9,11 @@ import defaultCover from '../images/3d-tour-placeholder.jpg';
 import { isEligible } from '../utils/helpers';
 
 const BrixelUpgradeMessage = (props) => {
+  const history = useNavigate();
   const {
     activeSingleProperty,
     btnLabel,
     className,
-    history,
     title,
     description,
     titleConfirm,
@@ -157,7 +157,6 @@ BrixelUpgradeMessage.propTypes = {
   className: PropTypes.string,
   description: PropTypes.string,
   descriptionConfirm: PropTypes.string,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   onClose: PropTypes.func,
   onClick: PropTypes.func,
@@ -192,6 +191,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(BrixelUpgradeMessage);

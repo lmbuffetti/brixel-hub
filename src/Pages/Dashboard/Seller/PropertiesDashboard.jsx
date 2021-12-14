@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter, Link,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary, FormatValue,
@@ -17,11 +15,11 @@ import { getUserProperties } from '../../../actions/UserActions';
 import { spinnerOff } from '../../../actions/CommonActions';
 
 const HomeDashboard = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     form,
     handleGetUserProperties,
-    history,
     handleSpinnerOff,
     loggedInUser,
     match,
@@ -202,7 +200,6 @@ HomeDashboard.propTypes = {
   form: PropTypes.object.isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   // isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -226,6 +223,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(HomeDashboard);

@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BrixelButtonPrimary, Helpers } from '@brixel/brixel-components';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newBestimate from '../../../images/Bestimate/newBestimate.svg';
@@ -19,6 +17,7 @@ import Loading from '../../../components/Loading';
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
 function SuccessBestimate(props) {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
@@ -27,7 +26,6 @@ function SuccessBestimate(props) {
     gameStub,
     groupdAchievement,
     handleGetMarketCheck,
-    history,
     marketData,
     match,
   } = props;
@@ -239,7 +237,6 @@ SuccessBestimate.propTypes = {
   gameStub: PropTypes.string,
   groupdAchievement: PropTypes.object,
   handleGetMarketCheck: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -262,6 +259,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SuccessBestimate);

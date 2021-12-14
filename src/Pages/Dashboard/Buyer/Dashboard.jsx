@@ -3,9 +3,7 @@ import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -36,6 +34,7 @@ const Documents = lazy(() => import('../../EditProperty/Documents'));
 const Financing = lazy(() => import('./Financing'));
 
 const Dashboard = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleCompany,
@@ -47,7 +46,6 @@ const Dashboard = (props) => {
     handleSpinnerOff,
     handleGetBuyerDeal,
     handleSetUserTypes,
-    history,
     loggedInUser,
     match,
     favoritesProperties,
@@ -170,6 +168,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Dashboard);

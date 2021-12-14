@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import Proptypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
@@ -12,9 +12,9 @@ import pagePublishedReviewImg from '../../../images/secondLevel/pagePublishedRev
 import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PagePublishedRewards = (props) => {
+  const history = useNavigate();
   const {
     gameHistory,
-    history,
     match,
     pagePublished,
     pageReview,
@@ -111,7 +111,6 @@ const PagePublishedRewards = (props) => {
 };
 
 PagePublishedRewards.propTypes = {
-  history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
   gameHistory: Proptypes.arrayOf(Proptypes.object).isRequired,
   pageReview: Proptypes.bool.isRequired,
@@ -132,6 +131,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(PagePublishedRewards);

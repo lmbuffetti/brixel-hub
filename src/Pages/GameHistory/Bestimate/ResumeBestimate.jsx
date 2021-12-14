@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
-import {
-  withRouter,
-} from 'react-router-dom';
 import { Helpers } from '@brixel/brixel-components';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { createEstimation, generateEstimation } from '../../../actions/EstimationActions';
@@ -207,6 +204,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ResumeBestimate);

@@ -5,7 +5,7 @@ import {
   BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonText, initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -16,6 +16,7 @@ import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
 const Assessor = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
@@ -25,7 +26,6 @@ const Assessor = (props) => {
     gameHistory,
     handleAddGameHistory,
     handleSaveActiveSingleProperty,
-    history,
     initForm,
     initialValues,
     match,
@@ -315,7 +315,6 @@ Assessor.propTypes = {
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -342,6 +341,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Assessor);

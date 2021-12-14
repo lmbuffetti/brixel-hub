@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
@@ -32,6 +32,12 @@ import AccountDropdown from './AccountDropdown';
 import MenuSidebar from './MenuSidebar';
 
 function PageHeaderDashboard(props) {
+  const history = {
+    push: useNavigate(),
+    location: {
+      pathname: window.location.href,
+    },
+  };
   // PROPS
   const {
     activeSingleCompany,
@@ -44,7 +50,6 @@ function PageHeaderDashboard(props) {
     handleSetActiveSingleProperty,
     handleSetLanguage,
     handleSetUserTypes,
-    history,
     lang,
     loggedInUser,
     ownerProperties,
@@ -672,7 +677,6 @@ PageHeaderDashboard.propTypes = {
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   ownerProperties: PropTypes.object.isRequired,
@@ -719,4 +723,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard));
+export default connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard);

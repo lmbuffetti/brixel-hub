@@ -3,7 +3,6 @@
 import React, {
   useState, createRef, useEffect, useRef,
 } from 'react';
-import { withRouter } from 'react-router-dom';
 import {
   GoogleApiWrapper,
 } from 'google-maps-react';
@@ -471,6 +470,5 @@ export default compose(
     apiKey: (baseByData.googleMaps),
     libraries: ['geometry', 'drawing', 'places'],
   }),
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MapsCities);

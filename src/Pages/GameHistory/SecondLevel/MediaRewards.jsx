@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import get from 'lodash/get';
@@ -8,10 +8,10 @@ import { BrixelButtonPrimary, BrixelButtonBox } from '@brixel/brixel-components'
 import uploadMedia from '../../../images/secondLevel/uploadMedia.svg';
 
 const MediaRewards = (props) => {
+  const history = useNavigate();
   const {
     documents,
     floorPlans,
-    history,
     match,
     photos,
   } = props;
@@ -126,7 +126,6 @@ const MediaRewards = (props) => {
 MediaRewards.propTypes = {
   documents: PropTypes.arrayOf(PropTypes.object).isRequired,
   floorPlans: PropTypes.arrayOf(PropTypes.object).isRequired,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   photos: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
@@ -141,6 +140,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(MediaRewards);

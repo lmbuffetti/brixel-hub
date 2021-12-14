@@ -11,7 +11,7 @@ import {
   initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { FactsApartment } from '../../../resources/Facts';
@@ -22,6 +22,7 @@ import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 import { calcPercentageFacts } from '../../../utils/helpers';
 
 const MarketCheck = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
@@ -31,7 +32,6 @@ const MarketCheck = (props) => {
     gameHistory,
     handleSaveActiveSingleProperty,
     handleAddGameHistory,
-    history,
     initForm,
     initialValuesPage,
     initialValues,
@@ -340,7 +340,6 @@ MarketCheck.propTypes = {
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -377,6 +376,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCheck);

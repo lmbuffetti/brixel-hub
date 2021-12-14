@@ -5,7 +5,7 @@ import React, {
   useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
@@ -22,13 +22,13 @@ import showingsEmpty from '../../../images/Listings/showing_placeholder.svg';
 // COMPONENTS
 
 const ShowingsBuyer = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSinglePropertyBooking,
     formValue,
     handleGetActiveSinglePropertyBookings,
     handleSetActiveSinglePropertyBookings,
-    history,
     isSmallLoading,
     loggedInUser,
     match,
@@ -157,7 +157,6 @@ ShowingsBuyer.propTypes = {
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
@@ -182,6 +181,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ShowingsBuyer);

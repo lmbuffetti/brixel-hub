@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import {
-  Route, withRouter,
+  Route, Routes, useNavigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import { compose } from 'redux';
@@ -14,18 +14,22 @@ const cookie = new Cookies();
 
 // COMPONENT TO ENABLE ROUTES TO ONLY LOGGED IN USER
 const ProtectedRoute = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: {
+      pathname: window.location.href,
+    },
+  };
   const {
     allowAccess,
     userTypes,
     component,
     exact,
-    history,
     isTest,
     loggedInUser,
     path,
     render,
   } = props;
-
   useEffect(() => {
     if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168')) && typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
       history.push('/tokeninput');
@@ -35,27 +39,10 @@ const ProtectedRoute = (props) => {
       // history.push('/');
     }
   }, [loggedInUser]);
-
-  if (allowAccess && userTypes && allowAccess !== userTypes) {
-    return (<div />);
-  }
+  console.log('test', component, path);
 
   return (
-    <>
-      {
-        loggedInUser.token && (
-          <>
-            {
-              render ? (
-                <Route path={path} exact={exact} render={() => render} />
-              ) : (
-                <Route path={path} exact={exact} component={component} />
-              )
-            }
-          </>
-        )
-      }
-    </>
+    <Route path={path} exact={exact} component={component} />
   );
 };
 
@@ -63,7 +50,6 @@ ProtectedRoute.propTypes = {
   allowAccess: PropTypes.bool,
   component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   exact: PropTypes.bool,
-  history: PropTypes.object.isRequired,
   isTest: PropTypes.bool.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
@@ -88,4 +74,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = () => ({
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(ProtectedRoute);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(ProtectedRoute);

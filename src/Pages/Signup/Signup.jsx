@@ -10,7 +10,7 @@ import {
   destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
 import get from 'lodash/get';
@@ -32,6 +32,7 @@ import iconOffer from '../../images/offer-flow/Brixel-Icons-offer.png';
 const cookie = new Cookies();
 
 const Signup = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     changeFieldValue,
@@ -43,7 +44,6 @@ const Signup = (props) => {
     handleSetLanguage,
     handleSpinnerOff,
     handleValidateUser,
-    history,
     isTest,
     lang,
     loggedInUser,
@@ -309,6 +309,5 @@ export const SignupMemo = React.memo(Signup, (prevProps, nextProps) => {
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SignupMemo);

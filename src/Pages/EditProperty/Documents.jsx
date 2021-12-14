@@ -4,7 +4,7 @@
 import React, {
   useState, useRef, useCallback, useEffect,
 } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
@@ -34,13 +34,13 @@ import { tobase64Handler } from '../../utils/helpers';
 // COMPONENTS
 
 const Documents = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     formValue,
     handleMultiUploadDocument,
     loggedInUser,
     handleDeleteDocument,
-    history,
     isBuyer,
     isSmallLoading,
     match,
@@ -632,6 +632,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Documents);

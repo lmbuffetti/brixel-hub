@@ -14,7 +14,7 @@ import {
   destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -34,6 +34,7 @@ import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 const cookie = new Cookies();
 
 const GetStarted = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     changeFieldValue,
@@ -41,14 +42,9 @@ const GetStarted = (props) => {
     destroyForm,
     errorValue,
     formValue,
-    // handleDoLogin,
     handleGetActiveSingleCompany,
-    // handleGetGamegroup,
-    // handleCreateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
-    // handleValidateUser,
-    history,
     initForm,
     initialValues,
     lang,
@@ -520,14 +516,9 @@ GetStarted.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  // handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  // handleGetGamegroup: PropTypes.func.isRequired,
-  // handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  // handleValidateUser: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
@@ -613,6 +604,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(GetStarted);

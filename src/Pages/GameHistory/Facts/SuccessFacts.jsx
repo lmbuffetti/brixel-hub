@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
@@ -17,10 +17,10 @@ import {
 import { calcPercentageFacts } from '../../../utils/helpers';
 
 const FactsRewards = (props) => {
+  const history = useNavigate();
   const {
     formValue,
     handleAddGameHistory,
-    history,
     match,
     totalComplete,
   } = props;
@@ -149,7 +149,6 @@ const FactsRewards = (props) => {
 FactsRewards.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   totalComplete: PropTypes.number,
 };
@@ -168,6 +167,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(FactsRewards);

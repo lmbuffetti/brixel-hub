@@ -4,7 +4,7 @@ import React, {
   useEffect, useState, useRef, useCallback, Fragment, lazy, Suspense,
 } from 'react';
 import {
-  Switch, Route, withRouter,
+  Routes, Route, useNavigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -54,6 +54,7 @@ const MenuSidebar = lazy(() => import('./components/MenuSidebar'));
 
 // ADMIN ROUTES
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
+const AuthProvider = lazy(() => import('./components/AuthProvider'));
 
 const InsertToken = lazy(() => import('./Pages/InsertToken'));
 
@@ -89,7 +90,8 @@ const AddContactBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddContactBuy
 
 const SingleDeal = lazy(() => import('./Pages/Deals/SingleDeal'));
 
-const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
+// const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
+import MarketSeller from './Pages/Market/MarketSeller';
 
 const MarketBuyer = lazy(() => import('./Pages/Market/MarketBuyer'));
 
@@ -98,6 +100,13 @@ const WarningScreen = lazy(() => import('./components/WarningScreen'));
 const cookies = new Cookies();
 
 const App = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: {
+      pathname: window.location.href,
+    },
+  };
+  console.log(history);
   // PROPS
   const {
     activeSingleProperty,
@@ -110,7 +119,6 @@ const App = (props) => {
     handleSetNotification,
     handleSetUserTypes,
     handleSetWindowsDimension,
-    history,
     isLoading,
     isSmallLoading,
     loggedInUser,
@@ -292,7 +300,7 @@ const App = (props) => {
         dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
-  }, [history.location.pathname, dashWrapperEl, [...el].length]);
+  }, [get(history, 'location.pathname', null), dashWrapperEl, [...el].length]);
 
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');
@@ -470,14 +478,14 @@ const App = (props) => {
                       // <TeaserBanner />
                     )
                   } */}
-                    <Switch>
+                    <Routes>
                       { /* SECTION: ONBOARDING */ }
+                      <Route exact path="/packageFlow/" component={GetStarted} />
                       <Route exact path="/packageFlow/" component={GetStarted} />
                       <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
                       <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
                       <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
-                      <ProtectedRoute path="/packageFlow/:id/makeOffer" component={MakeOffer} />
                       <Route path="/visitFeedback/:dealID/:pageID" component={VisitFeedback} />
 
                       {/* SECTION: SIGNUP */}
@@ -485,16 +493,29 @@ const App = (props) => {
 
                       { /* SECTION: INSERT TOKEN */ }
                       <Route path="/tokeninput" component={InsertToken} />
+                    </Routes>
+
+                    <AuthProvider>
+                      <Routes>
+                        <Route path="/packageFlow/:id/makeOffer" element={MakeOffer} />
+                        <Route path="/sell" element={MarketSeller} />
+                      </Routes>
+                    </AuthProvider>
+
+                    <Routes>
+                      <Route path="/packageFlow/:id/makeOffer" element={MakeOffer} />
+                      <Route path="/sell" element={MarketSeller} />
+                    </Routes>
 
                       { /* SECTION: HUB DASHBOARD */ }
-                      {
+                     {/* {
                         !history.location.pathname.includes('packageFlow') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
                         !history.location.pathname.includes('signup') &&
                         (
-                          <>
+                          <React.Fragment>
                             <ProtectedRoute path="/sell" component={MarketSeller} />
                             <ProtectedRoute path="/buy/:cat?/:id?" component={MarketBuyer} />
                             <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
@@ -511,7 +532,7 @@ const App = (props) => {
                             <ProtectedRoute path="/:propId?/deal" component={DashboardSeller} />
                             <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
                             <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
-                          </>
+                          </React.Fragment>
                         )
                       }
                       {
@@ -526,8 +547,7 @@ const App = (props) => {
                             <ProtectedRoute path="/buyer/:propID/:act" component={DashboardBuyer} />
                           </>
                         )
-                      }
-                    </Switch>
+                      }*/}
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
                       style={{
@@ -571,8 +591,8 @@ const App = (props) => {
           </div>
 
           { /* SECTION: ACHIVEMENT FLOW */ }
-          {
-            <Switch>
+          {/*
+            <Routes>
               <ProtectedRoute path="/:propId?/singleFlow/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
               <ProtectedRoute path="/:propId?/singleFlow/achievement/assessor" component={Assessor} userTypes="seller" />
               <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" component={Bestimate} userTypes="seller" />
@@ -583,8 +603,8 @@ const App = (props) => {
               <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
               <ProtectedRoute exact path="/:propID/prospects/newDeal" component={CreateDeal} />
               <ProtectedRoute path="/:propID/property/price/formFlow" component={ProEstimationFlow} />
-            </Switch>
-          }
+            </Routes>
+          /*}
 
           { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
           {
@@ -712,14 +732,14 @@ const App = (props) => {
           }
 
           {/* Splash screens for single deal, create new deal and edit document */}
-          <Switch>
-            <Route
-              exact
-              path="/:propID/docubox/:docID/editDocument"
-              component={SingleDocument}
-            />
-            <Route exact path="/:propID/prospects/newDeal" component={CreateDeal} />
-          </Switch>
+          {/*<Routes>*/}
+          {/*  <Route*/}
+          {/*    exact*/}
+          {/*    path="/:propID/docubox/:docID/editDocument"*/}
+          {/*    component={SingleDocument}*/}
+          {/*  />*/}
+          {/*  <Route exact path="/:propID/prospects/newDeal" component={CreateDeal} />*/}
+          {/*</Routes>*/}
         </Suspense>
       </main>
     </>
@@ -737,7 +757,6 @@ App.propTypes = {
   handleSetNotification: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   handleSetWindowsDimension: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -787,4 +806,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(App);

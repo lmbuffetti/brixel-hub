@@ -4,9 +4,6 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter,
-} from 'react-router-dom';
-import {
   bindActionCreators,
   compose,
 } from 'redux';
@@ -40,6 +37,7 @@ import WizardCard from './WizardCard';
 import { getCookie } from '../utils/helpers';
 
 const SplashScreen = (props) => {
+  const history = useNavigate();
   const {
     activeMarketOverlayProperty,
     activeMarketOverlayPropertyLists,
@@ -54,7 +52,6 @@ const SplashScreen = (props) => {
     handleSetActiveMarketOverlayPropertyLists,
     handleSetWizard,
     handleUpdateFavorites,
-    history,
     isSmallLoading,
     lang,
     loggedInUser,
@@ -526,7 +523,6 @@ SplashScreen.propTypes = {
   handleSetActiveMarketOverlayPropertyLists: PropTypes.func,
   handleSetWizard: PropTypes.func.isRequired,
   handleUpdateFavorites: PropTypes.func,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object,
@@ -588,6 +584,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SplashScreen);

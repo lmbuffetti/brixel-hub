@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  withRouter,
+  useNavigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
@@ -38,13 +38,13 @@ const PackagesComparePlans = lazy(() => import('../../components/PackagesCompare
 const BoxTrialTestDirve = lazy(() => import('../../components/BoxTrialTestDirve'));
 
 const IntroUpgrade = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleCompany,
     activeSingleProperty,
     activeSinglePropertyPackage,
     handleGetActiveSingleCompany,
-    history,
     loggedInUser,
     match,
     packages,
@@ -453,7 +453,6 @@ IntroUpgrade.propTypes = {
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -481,6 +480,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(IntroUpgrade);

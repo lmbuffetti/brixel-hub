@@ -3,7 +3,7 @@ import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -39,6 +39,7 @@ import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListSeller = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeMarketOverlayProperty,
@@ -51,7 +52,6 @@ const MarketCategoryListSeller = (props) => {
     handleSetActiveSingleProperty,
     handleSetActiveSingleCompany,
     handleSetHistory,
-    history,
     isSmallLoading,
     loggedInUser,
     notification,
@@ -675,6 +675,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCategoryListSeller);

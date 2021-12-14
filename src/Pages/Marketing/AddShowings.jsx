@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -22,11 +22,11 @@ import {
 } from '../../actions/PropertyActions';
 
 const Showings = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     errorValue,
     formValue,
-    history,
     handleCreatePropertyVisitBooking,
     isSmallLoading,
     lang,
@@ -200,7 +200,6 @@ const Showings = (props) => {
 
 Showings.propTypes = {
   errorValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -235,6 +234,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Showings);

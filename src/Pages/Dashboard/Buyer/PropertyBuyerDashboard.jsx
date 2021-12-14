@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Route,
-  withRouter,
-} from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import {
   BrixelButtonBox,
@@ -23,12 +20,11 @@ const ShowingsBuyer = lazy(() => import('./ShowingsBuyer'));
 const ContactBuyer = lazy(() => import('./ContactBuyer'));
 
 const PropertyBuyerDashboard = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleDeal,
     formValue,
-    history,
-    // loggedInUser,
     match,
     windowDimensions,
   } = props;
@@ -202,6 +198,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(PropertyBuyerDashboard);

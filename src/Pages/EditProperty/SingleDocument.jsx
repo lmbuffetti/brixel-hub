@@ -4,9 +4,7 @@
 import React, {
   useEffect, useState,
 } from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -36,12 +34,12 @@ import {
 import SplashScreen from '../../components/SplashScreen';
 
 const SingleDocument = (props) => {
+  const history = useNavigate();
   const {
     activeSingleProperty,
     changeFieldValue,
     formValue,
     handleUpdateDocument,
-    history,
     initialValues,
     isSmallLoading,
     match,
@@ -341,7 +339,6 @@ SingleDocument.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUpdateDocument: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -366,6 +363,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SingleDocument);

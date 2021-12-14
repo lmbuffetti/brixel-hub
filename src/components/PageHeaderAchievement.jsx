@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BrixelButtonIcon, BrixelIcon } from '@brixel/brixel-components';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -9,10 +9,10 @@ import { connect } from 'react-redux';
 import { setHistory } from '../actions/CommonActions';
 
 function PageHeaderAchievement(props) {
+  const history = useNavigate();
   // PROPS
   const {
     handleSetHistory,
-    history,
     historyUrl,
     icon,
     match,
@@ -68,7 +68,6 @@ function PageHeaderAchievement(props) {
 
 PageHeaderAchievement.propTypes = {
   handleSetHistory: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   historyUrl: PropTypes.object,
   icon: PropTypes.string,
   match: PropTypes.object.isRequired,
@@ -94,6 +93,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(PageHeaderAchievement);

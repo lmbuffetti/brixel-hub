@@ -1,7 +1,4 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -51,6 +48,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(DashboardOffer);

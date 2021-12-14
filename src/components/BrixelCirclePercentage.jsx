@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const BrixelCirclePercentage = (props) => {
-  const {
-    percentage,
-  } = props;
-
+const BrixelCirclePercentage = () => {
   return (
     <svg width="100%" height="100%" viewBox="0 0 40 40" className="donut">
       <circle className="donut-hole" cx="20" cy="20" r="15.91549430918954" fill="#fff" />
@@ -38,14 +34,6 @@ const BrixelCirclePercentage = (props) => {
       </g>
     </svg>
   );
-};
-
-BrixelCirclePercentage.propTypes = {
-  percentage: PropTypes.number.isRequired,
-};
-
-BrixelCirclePercentage.defaultProps = {
-  percentage: 0,
 };
 
 export default BrixelCirclePercentage;

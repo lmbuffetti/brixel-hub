@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
 import { getGamegroup } from '../../../actions/GamificationActions';
 import newAssessor from '../../../images/Assessor/newAssessor.svg';
@@ -14,11 +12,11 @@ import startAssessor from '../../../images/Assessor/startAssessor.svg';
 import ChartDonuts from '../../../components/Charts/ChartDonuts';
 
 function SuccessAssessor(props) {
+  const history = useNavigate();
   // PROPS
   const {
     formValue,
     gameGroup,
-    history,
     gameStub,
     groupdAchievement,
     match,
@@ -136,7 +134,6 @@ SuccessAssessor.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   groupdAchievement: PropTypes.object,
   gameStub: PropTypes.string,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -156,6 +153,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SuccessAssessor);

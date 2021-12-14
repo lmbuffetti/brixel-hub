@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -22,10 +22,10 @@ import { updatePublishedReview } from '../../../actions/PropertyActions';
 import { addGameHistory } from '../../../actions/GamificationActions';
 
 const ContactBuyer = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     contacts,
-    history,
     match,
   } = props;
   // URL PARAMS
@@ -123,7 +123,6 @@ const ContactBuyer = (props) => {
 };
 
 ContactBuyer.propTypes = {
-  history: PropTypes.object.isRequired,
   contacts: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -148,6 +147,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ContactBuyer);

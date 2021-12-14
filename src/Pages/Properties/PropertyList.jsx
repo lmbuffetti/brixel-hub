@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
@@ -12,12 +12,12 @@ import { sortObject } from '../../utils/helpers';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
 
 const PropertyList = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSection,
     activeSingleCompany,
     favoritesProperties,
-    history,
     userProperties,
     user,
     className,
@@ -136,7 +136,6 @@ const PropertyList = (props) => {
 PropertyList.propTypes = {
   activeSection: PropTypes.string,
   className: PropTypes.string,
-  history: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -162,6 +161,5 @@ const mapDispatchToProps = () => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(PropertyList);

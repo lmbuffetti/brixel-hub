@@ -3,7 +3,7 @@ import React, {
   useEffect, lazy, Suspense, useState, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -29,6 +29,7 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListBuyer = (props) => {
+  const history = useNavigate();
   const settingSlider = {
     dots: false,
     infinite: true,
@@ -64,7 +65,6 @@ const MarketCategoryListBuyer = (props) => {
   // PROPS
   const {
     bestimate,
-    history,
     initialValues,
     initForm,
     ownerEstimations,
@@ -410,7 +410,6 @@ const MarketCategoryListBuyer = (props) => {
 MarketCategoryListBuyer.propTypes = {
   bestimate: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   ownerEstimations: PropTypes.object.isRequired,
@@ -476,6 +475,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCategoryListBuyer);

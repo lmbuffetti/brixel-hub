@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import { bindActionCreators, compose } from 'redux';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
 import { getGamegroup } from '../../../actions/GamificationActions';
@@ -17,10 +15,10 @@ import simillarMarketCheck from '../../../images/MarketCheck/simillarMarketCheck
 import emptyHouseImg from '../../../images/emptyHub.svg';
 
 function SuccessMarketCheck(props) {
+  const history = useNavigate();
   // PROPS
   const {
     gameGroup,
-    history,
     gameStub,
     groupdAchievement,
     match,
@@ -157,7 +155,6 @@ SuccessMarketCheck.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   groupdAchievement: PropTypes.object,
   gameStub: PropTypes.string,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
@@ -180,6 +177,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SuccessMarketCheck);

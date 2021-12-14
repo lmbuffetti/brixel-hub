@@ -4,7 +4,7 @@
 import React, {
   useState, useEffect, lazy, Suspense,
 } from 'react';
-import { withRouter, Route } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
@@ -33,6 +33,7 @@ import ShowingPlaceholder from '../../images/Listings/showing_placeholder.svg';
 const AddShowings = lazy(() => import('./AddShowings'));
 
 const Showings = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     changeFieldValue,
@@ -40,7 +41,6 @@ const Showings = (props) => {
     initialValues,
     handleSavePropertyVisitBooking,
     handleGetActiveSinglePropertyBookings,
-    history,
     lang,
     match,
     resetForm,
@@ -263,10 +263,9 @@ const Showings = (props) => {
 
 Showings.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
-  formValue: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
@@ -300,6 +299,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Showings);

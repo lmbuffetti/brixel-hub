@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -8,11 +9,10 @@ import EmptyHubImg from '../../../images/emptyHub.svg';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 
 const EmptyProperty = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     handleGetActiveSingleCompany,
-    history,
-
   } = props;
 
   // REDIRECT TO NO-PROPERTY AND LOAD brixel_zurich AS DEFAULT COMPANY
@@ -39,7 +39,6 @@ const EmptyProperty = (props) => {
 
 EmptyProperty.propTypes = {
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

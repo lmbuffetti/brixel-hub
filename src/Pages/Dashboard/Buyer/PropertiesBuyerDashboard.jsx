@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -27,12 +25,12 @@ import { setActiveMarketOverlayProperty } from '../../../actions/PropertyActions
 const { factsOptions } = FactsOptions;
 
 const PropertiesBuyerDashboard = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     favoritesProperties,
     handleGetUserSearchProfiles,
     handleUpdateFavorites,
-    history,
     isSmallLoading,
     loggedInUser,
     setMarketOverlayProperty,
@@ -349,7 +347,6 @@ PropertiesBuyerDashboard.propTypes = {
   favoritesProperties: PropTypes.object.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   handleUpdateFavorites: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   setMarketOverlayProperty: PropTypes.func.isRequired,
@@ -381,6 +378,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(PropertiesBuyerDashboard);

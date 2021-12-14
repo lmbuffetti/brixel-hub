@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -23,12 +23,12 @@ import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActi
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 
 const DetailMedia = (props) => {
+  const history = useNavigate();
   const {
     formValue,
     handleRotateImg,
     changeFieldValue,
     handleDeleteImg,
-    history,
     isSmallLoading,
     match,
   } = props;
@@ -238,7 +238,6 @@ DetailMedia.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleRotateImg: PropTypes.func.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -264,6 +263,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(DetailMedia);

@@ -15,7 +15,7 @@ import {
 } from '@brixel/brixel-components';
 import queryString from 'query-string';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -26,6 +26,7 @@ import { setActiveSingleCompany } from '../../actions/CompanyActions';
 import { setCookie } from '../../utils/helpers';
 
 const VisitFeedback = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
@@ -35,7 +36,6 @@ const VisitFeedback = (props) => {
     handleSendVisitFeedback,
     handleGetActiveSingleProperty,
     handleSetActiveSingleCompany,
-    history,
     handleInitForm,
     initialValues,
     isSmallLoading,
@@ -356,14 +356,13 @@ VisitFeedback.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   contacts: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
-  handleInitForm: PropTypes.func.isRequired,
-  handleSetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSendVisitFeedback: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleInitForm: PropTypes.func.isRequired,
+  handleSendVisitFeedback: PropTypes.func.isRequired,
+  handleSetActiveSingleCompany: PropTypes.func.isRequired,
   handleUpdateError: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
@@ -393,6 +392,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(VisitFeedback);

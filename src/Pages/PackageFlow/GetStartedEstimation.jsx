@@ -17,7 +17,7 @@ import {
   DataByCountry,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -40,6 +40,7 @@ import { createEstimation } from '../../actions/EstimationActions';
 const cookie = new Cookies();
 
 const GetStartedEstimation = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     changeFieldValue,
@@ -57,7 +58,6 @@ const GetStartedEstimation = (props) => {
     handleSpinnerOn,
     handleSpinnerOff,
     handleValidateUser,
-    history,
     initForm,
     initialValues,
     isTest,
@@ -789,7 +789,6 @@ GetStartedEstimation.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isTest: PropTypes.bool,
@@ -898,6 +897,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(GetStartedEstimation);

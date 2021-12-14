@@ -9,7 +9,7 @@ import {
   BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy, DataByCountry,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -32,6 +32,7 @@ import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserA
 const cookie = new Cookies();
 
 const GetStartedSeller = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     changeFieldValue,
@@ -46,7 +47,6 @@ const GetStartedSeller = (props) => {
     handleSpinnerOff,
     handleValidateUser,
     handleSpinnerOn,
-    history,
     initForm,
     initialValues,
     isTest,
@@ -692,7 +692,6 @@ GetStartedSeller.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isTest: PropTypes.bool,
@@ -799,6 +798,5 @@ export const GetStartedSellerMemo = React.memo(GetStartedSeller, (prevProps, nex
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(GetStartedSellerMemo);

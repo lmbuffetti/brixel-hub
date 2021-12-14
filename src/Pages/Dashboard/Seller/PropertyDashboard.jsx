@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Route,
-  withRouter,
-} from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 // import has from 'lodash/has';
 import {
@@ -27,10 +24,10 @@ const Plans = lazy(() => import('../../EditProperty/Media/Plans'));
 const Tour = lazy(() => import('../../EditProperty/Media/Tour'));
 
 const HomeDashboard = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     formValue,
-    history,
     // loggedInUser,
     match,
     // property,
@@ -173,10 +170,7 @@ const HomeDashboard = (props) => {
 
 HomeDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  // loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
-  // property: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -187,11 +181,9 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  // property: get(state, 'property.activeSingleProperty', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(HomeDashboard);

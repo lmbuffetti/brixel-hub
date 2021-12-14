@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
@@ -11,12 +11,12 @@ import { addGameHistory } from '../../../actions/GamificationActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 
 const PageReviewRewards = (props) => {
+  const history = useNavigate();
   const {
     activeSingleProperty,
     formValue,
     gameHistory,
     handleAddGameHistory,
-    history,
     isSmallLoading,
     match,
   } = props;
@@ -182,7 +182,6 @@ PageReviewRewards.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   gameHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
@@ -199,6 +198,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(PageReviewRewards);

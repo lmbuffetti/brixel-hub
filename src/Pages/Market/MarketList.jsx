@@ -3,7 +3,7 @@ import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
@@ -24,6 +24,7 @@ import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 const MarketMap = lazy(() => import('./MarketMap'));
 
 const MarketList = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     allProperties,
@@ -36,7 +37,6 @@ const MarketList = (props) => {
     handleGetPremiumProperties,
     handleGetSellerProperties,
     handleGetWishlistProperties,
-    history,
     lastViewedProperties,
     loggedInUser,
     match,
@@ -417,7 +417,6 @@ MarketList.propTypes = {
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   lastViewedProperties: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -473,6 +472,5 @@ export const MarketListMemo = React.memo(MarketList, (prevProps, nextProps) => {
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketListMemo);

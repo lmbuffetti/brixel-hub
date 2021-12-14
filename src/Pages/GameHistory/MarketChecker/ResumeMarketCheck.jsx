@@ -2,9 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import {
-  withRouter,
-} from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
@@ -274,6 +271,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ResumeMarketCheck);

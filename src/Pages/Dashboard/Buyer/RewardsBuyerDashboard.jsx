@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -17,10 +17,10 @@ import { setModal } from '../../../actions/CommonActions';
 // import Support from '../../../components/Support';
 
 const RewardsBuyerDashboard = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
-    history,
     match,
     userTypes,
     windowDimensions,
@@ -139,7 +139,6 @@ const RewardsBuyerDashboard = (props) => {
 RewardsBuyerDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   userTypes: PropTypes.string,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -166,6 +165,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(RewardsBuyerDashboard);

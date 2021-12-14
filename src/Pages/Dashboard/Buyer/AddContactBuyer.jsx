@@ -5,7 +5,7 @@ import React, {
   useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
@@ -23,10 +23,10 @@ import 'react-input-range/lib/css/index.css';
 // COMPONENTS
 
 const AddContactBuyer = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
-    history,
     isSmallLoading,
   } = props;
   const [currentStep, setCurrentStep] = useState('message');
@@ -128,7 +128,6 @@ const AddContactBuyer = (props) => {
 
 AddContactBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
 };
 
@@ -153,6 +152,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(AddContactBuyer);

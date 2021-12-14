@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
@@ -117,6 +116,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Tour);

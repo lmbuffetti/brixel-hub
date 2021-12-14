@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon, Helpers } from '@brixel/brixel-components';
@@ -12,13 +12,13 @@ import { setActiveSingleProperty, setEstimation } from '../actions/PropertyActio
 import { setSplashType } from '../actions/CommonActions';
 
 const MarketCardSmall = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     estimation,
     handleSetActiveSingleProperty,
     handleSetEstimation,
     handleSetSplashType,
-    history,
     item,
     skeleton,
     type,
@@ -134,7 +134,6 @@ MarketCardSmall.propTypes = {
   handleSetSplashType: PropTypes.func.isRequired,
   handleSetEstimation: PropTypes.func.isRequired,
   estimation: PropTypes.object,
-  history: PropTypes.object.isRequired,
   item: PropTypes.object,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
@@ -157,6 +156,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCardSmall);

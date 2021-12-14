@@ -3,9 +3,6 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-  withRouter,
-} from 'react-router-dom';
 import Slider from 'react-slick';
 import {
   BrixelButtonIcon,
@@ -212,6 +209,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(IntroScanFlow);

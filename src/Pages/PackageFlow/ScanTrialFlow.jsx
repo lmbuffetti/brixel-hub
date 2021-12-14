@@ -15,7 +15,7 @@ import {
 } from '@brixel/brixel-components';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -30,6 +30,7 @@ import { getCookie, setCookie } from '../../utils/helpers';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
 const ScanTrialFlow = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleCompany,
@@ -41,7 +42,6 @@ const ScanTrialFlow = (props) => {
     handleSendScanTrial,
     handleSetLanguage,
     handleSpinnerOff,
-    history,
     initForm,
     initialValues,
     isSmallLoading,
@@ -547,7 +547,6 @@ ScanTrialFlow.propTypes = {
   handleSendScanTrial: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -601,6 +600,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ScanTrialFlow);

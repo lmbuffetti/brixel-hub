@@ -2,7 +2,7 @@ import React, {
   useRef, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -14,12 +14,12 @@ import Loading from './Loading';
 const SplashScreenContent = lazy(() => import('./SplashScreenContent'));
 
 const SplashScreen = (props) => {
+  const history = useNavigate();
   const {
     children,
     className,
     closeLink,
     closeOutside,
-    history,
     type,
     wizard,
   } = props;
@@ -61,7 +61,6 @@ SplashScreen.propTypes = {
   className: PropTypes.string,
   closeLink: PropTypes.string,
   closeOutside: PropTypes.bool,
-  history: PropTypes.object.isRequired,
   type: PropTypes.string,
   wizard: PropTypes.object.isRequired,
 };
@@ -81,6 +80,5 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = () => ({});
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SplashScreen);

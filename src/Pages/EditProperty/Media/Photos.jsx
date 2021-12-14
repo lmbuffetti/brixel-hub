@@ -2,7 +2,7 @@
 import React, {
   useCallback, useEffect, useState, useRef,
 } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -28,6 +28,7 @@ import OutsideElement from '../../../components/OutsideElement';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
@@ -35,7 +36,6 @@ const Photos = (props) => {
     formValue,
     handleMultiUploadImg,
     handleDeleteImg,
-    history,
     imageType,
     isSmallLoading,
     loggedInUser,
@@ -323,7 +323,6 @@ Photos.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   handleMultiUploadImg: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -351,6 +350,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Photos);

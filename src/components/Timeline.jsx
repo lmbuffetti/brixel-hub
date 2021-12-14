@@ -3,7 +3,7 @@ import React, {
   useEffect, useState, useRef,
 } from 'react';
 import {
-  withRouter,
+  useNavigate,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -40,6 +40,7 @@ import {
 } from '../utils/helpers';
 
 const Timeline = (props) => {
+  const history = useNavigate();
   const [chronologicalData, setChronologicalData] = useState([]);
   const [noteOptionsOpen, setNoteOptionsOpen] = useState({
     id: null,
@@ -71,7 +72,6 @@ const Timeline = (props) => {
     className,
     handleCreateNote,
     handleSaveNote,
-    history,
     isDeal,
     isSmallLoading,
     loggedInUser,
@@ -606,7 +606,6 @@ Timeline.propTypes = {
   className: PropTypes.string,
   handleCreateNote: PropTypes.func.isRequired,
   handleSaveNote: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isDeal: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -641,6 +640,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Timeline);

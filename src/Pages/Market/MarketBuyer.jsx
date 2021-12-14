@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Route, Switch } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -25,6 +25,7 @@ const MarketCategoryListBuyer = lazy(() => import('./MarketCategoryListBuyer'));
 const MarketList = lazy(() => import('./MarketList'));
 
 const MarketBuyer = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     destroyForm,
@@ -37,7 +38,6 @@ const MarketBuyer = (props) => {
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
     handleSpinnerOff,
-    history,
     loggedInUser,
     match,
     preMarketProperties,
@@ -98,10 +98,10 @@ const MarketBuyer = (props) => {
     <div className="bgOverlay market-container buyerPage" id="market">
       {/* premarket overlay */}
       <Suspense fallback="">
-        <Switch>
+        <Routes>
           <Route exact path="/buy" component={MarketCategoryListBuyer} />
           <Route exact path="/buy/:cat/:id?" component={() => <MarketList isBuyer />} />
-        </Switch>
+        </Routes>
       </Suspense>
     </div>
   );
@@ -169,6 +169,5 @@ export const MarketBuyerMemo = React.memo(MarketBuyer, (prevProps, nextProps) =>
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketBuyerMemo);

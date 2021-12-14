@@ -3,10 +3,8 @@
 import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-} from 'react-router-dom';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
 import omit from 'lodash/omit';
@@ -64,30 +62,32 @@ const ScanTrialFlow = lazy(() => import('../../ScanTrialFlow/ScanTrialFlow'));
 const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
 const Dashboard = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
+    // gameAchievement,
+    // handleGetAchievement,
+    // handleGetGameGroup,
+    // handleGetGameHistory,
     activeSingleCompany,
     activeSingleProperty,
     errorValue,
     formValue,
-    // gameAchievement,
     gameHistory,
     handleAddGameHistory,
     handleCreatePropertyVisitSchedule,
-    // handleGetAchievement,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
-    // handleGetGameGroup,
-    // handleGetGameHistory,
+    handleGetActiveSinglePropertyEstimation,
     handleGetImageType,
     handleGetPackageProperty,
-    handleSaveActiveSingleProperty,
     handleGetPropertyListings,
-    handleGetActiveSinglePropertyEstimation,
+    handleSaveActiveSingleProperty,
     handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
-    history,
+    handleSpinnerOff,
+    handleSpinnerOn,
     imageType,
     initForm,
     initValues,
@@ -99,8 +99,6 @@ const Dashboard = (props) => {
     notification,
     resetForm,
     userTypes,
-    handleSpinnerOn,
-    handleSpinnerOff,
   } = props;
   const [userType, setUserType] = useState(null);
   const [loadedProp, setLoadedProp] = useState(false);
@@ -402,7 +400,6 @@ Dashboard.propTypes = {
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleSetScreenNotification: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   initForm: PropTypes.func.isRequired,
   initValues: PropTypes.object.isRequired,
@@ -536,6 +533,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Dashboard);

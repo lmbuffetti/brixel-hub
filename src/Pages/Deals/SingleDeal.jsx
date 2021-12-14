@@ -4,9 +4,7 @@
 import React, {
   useEffect, useState, useRef,
 } from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -48,6 +46,7 @@ import ProgressBar from '../../components/ProgressBar';
 import Timeline from '../../components/Timeline';
 
 const SingleDeal = (props) => {
+  const history = useNavigate();
   const {
     activeSingleDeal,
     activeDealHistoryList,
@@ -58,7 +57,6 @@ const SingleDeal = (props) => {
     getHistoryList,
     handleSaveDeal,
     handleSaveMultipleDeal,
-    history,
     match,
     setActiveSingleDealHistory,
     setActiveSingleDealOwnerHistory,
@@ -615,7 +613,6 @@ SingleDeal.propTypes = {
   getHistoryList: PropTypes.func.isRequired,
   handleSaveDeal: PropTypes.func.isRequired,
   handleSaveMultipleDeal: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   setActiveSingleDealHistory: PropTypes.func.isRequired,
   setActiveSingleDealOwnerHistory: PropTypes.func.isRequired,
@@ -653,6 +650,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SingleDeal);

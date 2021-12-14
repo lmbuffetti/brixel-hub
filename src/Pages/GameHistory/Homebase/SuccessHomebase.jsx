@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -11,10 +9,10 @@ import { BrixelIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixe
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 
 function SuccessHomebase(props) {
+  const history = useNavigate();
   // PROPS
   const {
     formValue,
-    history,
     loggedInUser,
     match,
   } = props;
@@ -87,7 +85,6 @@ function SuccessHomebase(props) {
 
 SuccessHomebase.propTypes = {
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
@@ -99,6 +96,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(SuccessHomebase);

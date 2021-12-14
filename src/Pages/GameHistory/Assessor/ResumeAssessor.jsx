@@ -6,9 +6,6 @@ import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import isObject from 'lodash/isObject';
 import { compose } from 'redux';
-import {
-  withRouter,
-} from 'react-router-dom';
 import { BrixelSelect, FactsOptions } from '@brixel/brixel-components';
 // eslint-disable-next-line import/no-cycle
 import { AssessorAvgLifespan, AssessorLabel } from '../../../resources/Assessor';
@@ -234,6 +231,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(ResumeAssessor);

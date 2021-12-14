@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -21,13 +21,13 @@ import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
 import { addGameHistory } from '../../actions/GamificationActions';
 
 const Portals = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     company,
     customPortals,
     formValue,
     handleUpdatePortalsReview,
-    history,
     isSmallLoading,
     match,
     portals,
@@ -331,7 +331,6 @@ Portals.propTypes = {
   customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
@@ -361,6 +360,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Portals);

@@ -7,7 +7,7 @@ import React, {
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import subDays from 'date-fns/subDays';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
@@ -31,10 +31,10 @@ import 'react-input-range/lib/css/index.css';
 // COMPONENTS
 
 const AddShowingsBuyer = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
-    history,
     lang,
     isSmallLoading,
     userLang,
@@ -344,7 +344,6 @@ const AddShowingsBuyer = (props) => {
 
 AddShowingsBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
@@ -372,6 +371,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(AddShowingsBuyer);

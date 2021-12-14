@@ -14,7 +14,7 @@ import {
   BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -33,6 +33,7 @@ import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../actio
 import { multiUploadDocument } from '../../../actions/UploadActions';
 
 const MakeOffer = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
@@ -48,7 +49,6 @@ const MakeOffer = (props) => {
     handleSetModal,
     handleSetLanguage,
     handleSpinnerOff,
-    history,
     initForm,
     initialValues,
     isSmallLoading,
@@ -595,7 +595,6 @@ MakeOffer.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -649,6 +648,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MakeOffer);

@@ -4,7 +4,7 @@ import React, {
   useState, useRef, useCallback, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import Slider from 'react-slick';
@@ -18,10 +18,10 @@ import { setWindowDimensions } from '../actions/CommonActions';
 import MarketCard from './MarketCard';
 
 const CarouselWrapper = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     className,
-    history,
     items,
     lang,
     layout,
@@ -333,7 +333,6 @@ const CarouselWrapper = (props) => {
 
 CarouselWrapper.propTypes = {
   className: PropTypes.string,
-  history: PropTypes.object.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string.isRequired,
   layout: PropTypes.string,
@@ -377,6 +376,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(CarouselWrapper);

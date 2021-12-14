@@ -4,7 +4,7 @@ import React, {
   useState, useEffect, useCallback, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
@@ -22,10 +22,10 @@ import { getGameHistory } from '../actions/GamificationActions';
 const AvatarImage = lazy(() => import('./AvatarImage'));
 
 function PageHeader(props) {
+  const history = useNavigate();
   // PROPS
   const {
     handleSetLanguage,
-    history,
     lang,
     languages,
     loggedInUser,
@@ -293,7 +293,6 @@ function PageHeader(props) {
 
 PageHeader.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   languages: PropTypes.arrayOf(PropTypes.object),
   loggedInUser: PropTypes.object,
@@ -320,4 +319,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetGame: bindActionCreators(getGameHistory, dispatch),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeader));
+export default connect(mapStateToProps, mapDispatchToProps)(PageHeader);

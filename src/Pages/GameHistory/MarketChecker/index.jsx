@@ -5,7 +5,7 @@ import {
   BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonText, reset, initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { MarketCheckQuestions } from '../../../resources/MarketCheck';
@@ -14,6 +14,7 @@ import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
 const MarketCheck = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
@@ -22,7 +23,6 @@ const MarketCheck = (props) => {
     gameGroup,
     gameHistory,
     handleAddGameHistory,
-    history,
     initForm,
     initialValues,
     match,
@@ -298,7 +298,6 @@ MarketCheck.propTypes = {
   gameHistory: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
@@ -328,6 +327,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCheck);

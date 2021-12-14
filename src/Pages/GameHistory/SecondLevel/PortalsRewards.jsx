@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import Proptypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
@@ -14,9 +14,9 @@ import portalPublished from '../../../images/Listings/portals_published.svg';
 import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PortalsRewards = (props) => {
+  const history = useNavigate();
   const {
     gameHistory,
-    history,
     match,
     portalsPublished,
     portalsReview,
@@ -116,7 +116,6 @@ const PortalsRewards = (props) => {
 };
 
 PortalsRewards.propTypes = {
-  history: Proptypes.object.isRequired,
   match: Proptypes.object.isRequired,
   gameHistory: Proptypes.arrayOf(Proptypes.object).isRequired,
   portalsReview: Proptypes.bool.isRequired,
@@ -137,6 +136,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(PortalsRewards);

@@ -8,9 +8,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
@@ -20,10 +18,10 @@ import { MediaQuestions } from '../../../resources/MediaExplanation';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
 function MediaExplanation(props) {
+  const history = useNavigate();
   // PROPS
   const {
     gameGroup,
-    history,
     lang,
     match,
   } = props;
@@ -137,7 +135,6 @@ function MediaExplanation(props) {
 
 MediaExplanation.propTypes = {
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
-  history: PropTypes.object.isRequired,
   lang: PropTypes.string,
   match: PropTypes.object.isRequired,
 };
@@ -151,6 +148,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(MediaExplanation);

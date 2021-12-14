@@ -11,7 +11,7 @@ import {
   initializeForm, change,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -21,6 +21,7 @@ import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
 const Bestimate = (props) => {
+  const history = useNavigate();
   // PROPS
   const {
     activeSingleProperty,
@@ -31,7 +32,6 @@ const Bestimate = (props) => {
     gameHistory,
     handleAddGameHistory,
     handleSaveActiveSingleProperty,
-    history,
     initForm,
     initialValues,
     initialValuesPage,
@@ -372,7 +372,6 @@ Bestimate.propTypes = {
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   initialValuesPage: PropTypes.object.isRequired,
@@ -429,6 +428,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Bestimate);

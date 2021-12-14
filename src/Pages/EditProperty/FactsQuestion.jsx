@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import unset from 'lodash/unset';
@@ -16,9 +16,9 @@ import { keyify } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
 
 const FactsQuestion = (props) => {
+  const history = useNavigate();
   const {
     formValue,
-    history,
     initValues,
     match,
     quest,
@@ -148,7 +148,6 @@ const FactsQuestion = (props) => {
 FactsQuestion.propTypes = {
   formValue: PropTypes.object.isRequired,
   initValues: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   quest: PropTypes.object,
 };
@@ -174,6 +173,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(FactsQuestion);

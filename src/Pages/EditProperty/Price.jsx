@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -34,6 +34,7 @@ import { getEstimation } from '../../actions/PropertyActions';
 import { generateEstimation } from '../../actions/EstimationActions';
 
 const Price = (props) => {
+  const history = useNavigate();
   const {
     activeSingleProperty,
     estimation,
@@ -41,7 +42,6 @@ const Price = (props) => {
     handleGetEstimation,
     handleGenerateBestimate,
     handleSetHistory,
-    history,
     match,
     proEstimation,
     setSplashScreen,
@@ -418,7 +418,6 @@ Price.propTypes = {
   handleGenerateBestimate: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   proEstimation: PropTypes.object,
   setSplashScreen: PropTypes.func.isRequired,
@@ -451,6 +450,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Price);

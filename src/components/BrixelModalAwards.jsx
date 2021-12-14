@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { BrixelIcon } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import BrixelModalFullScreen from './BrixelModalFullScreen';
@@ -124,6 +123,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(BrixelModalAwards);
