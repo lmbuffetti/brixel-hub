@@ -79,7 +79,6 @@ const MarketCategoryListBuyer = (props) => {
   } = props;
   // STATE
   const [numWishProp, setWishProp] = useState(4);
-  const [exploreProperties, setExploreProperties] = useState([]);
   const [activeTopTab, setActiveTopTab] = useState('wishlist');
   const [topTab, setTopTab] = useState([]);
 
@@ -119,15 +118,6 @@ const MarketCategoryListBuyer = (props) => {
       setSplashScreen('buyerWelcome');
     }
   }, [getCookie('brixelSplashHome')]);
-
-  useEffect(() => {
-    if (premiumProperties.data) {
-      const n = 3;
-      const shuffled = premiumProperties.data.sort(() => 0.5 - Math.random());
-      const selected = shuffled.slice(0, n);
-      setExploreProperties(selected);
-    }
-  }, [premiumProperties.data]);
 
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
@@ -281,12 +271,14 @@ const MarketCategoryListBuyer = (props) => {
                         <Slider ref={sliderInstance} {...settingSlider}>
                           {
                             get(ownerEstimations, 'data', []).map((fav, i) => (
-                              <MarketCardSmall
-                                key={i.toString()}
-                                type="estimation"
-                                estimation={fav.result}
-                                item={fav.data}
-                              />
+                              <div className="max-w-fix-sm-304">
+                                <MarketCardSmall
+                                  key={i.toString()}
+                                  type="estimation"
+                                  estimation={fav.result}
+                                  item={fav.data}
+                                />
+                              </div>
                             ))
                           }
                         </Slider>

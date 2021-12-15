@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import set from 'lodash/set';
-import cloneDeep from 'lodash/cloneDeep';
 import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
 import {
@@ -35,11 +34,9 @@ const MarketCard = (props) => {
     favoritesProperties,
     handleGenerateBestimate,
     handleGetEstimation,
-    handleSetActiveMarketOverlayPropertyLists,
     history,
     item,
     layout,
-    newProperties,
     onSetActiveProperty,
     preventClick,
     setMarketOverlayProperty,
@@ -571,11 +568,9 @@ MarketCard.propTypes = {
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
-  handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   item: PropTypes.object,
   layout: PropTypes.string,
-  newProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,
   setMarketOverlayProperty: PropTypes.func.isRequired,

@@ -255,6 +255,7 @@ const App = (props) => {
         }
       } else if (history.location.pathname.includes('marketing')) {
         setClassMain('w-perc-100 pos-r hubContainer marketingTop withTopBar sellerHub');
+        // eslint-disable-next-line no-dupe-else-if
       } else if (history.location.pathname.includes('prospects') || history.location.pathname.includes('closing')) {
         setClassMain('w-perc-100 pos-r hubContainer dealsTop withTopBar sellerHub');
       } else if (history.location.pathname.includes('/sell') || history.location.pathname.includes('/buy')) {

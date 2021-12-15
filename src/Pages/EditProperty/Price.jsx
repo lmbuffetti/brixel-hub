@@ -36,7 +36,6 @@ import { generateEstimation } from '../../actions/EstimationActions';
 const Price = (props) => {
   const {
     activeSingleProperty,
-    changeFieldValue,
     estimation,
     formValue,
     handleGetEstimation,
@@ -226,9 +225,9 @@ const Price = (props) => {
                     }
                   </div>
                   <div className="dis-f a-c w-perc-100 my-3">
-                <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
-                  {get(estimation, 'result.currency', '')}
-                </span>
+                    <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
+                      {get(estimation, 'result.currency', '')}
+                    </span>
 
                     {
                       get(proEstimation, 'value', 0) <= 0 ? (
@@ -414,7 +413,6 @@ const Price = (props) => {
 
 Price.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGenerateBestimate: PropTypes.func.isRequired,

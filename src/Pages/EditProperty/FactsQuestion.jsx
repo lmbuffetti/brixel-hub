@@ -17,7 +17,6 @@ import { InputSheets } from '../../resources/inputSheets';
 
 const FactsQuestion = (props) => {
   const {
-    changeFieldValue,
     formValue,
     history,
     initValues,
@@ -147,7 +146,6 @@ const FactsQuestion = (props) => {
 };
 
 FactsQuestion.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   initValues: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
