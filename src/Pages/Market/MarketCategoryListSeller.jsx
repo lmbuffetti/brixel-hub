@@ -133,6 +133,16 @@ const MarketCategoryListSeller = (props) => {
     }
   }, [getCookie('brixelSplashHome'), ownerProperties, notification]);
 
+  useEffect(() => {
+    if (has(ownerProperties, 'total')) {
+      if (ownerProperties.total === 0) {
+        setActiveCompanyId(loggedInUser.company.id);
+      } else {
+        setActiveCompanyId(ownerProperties.data[0].company.id || ownerProperties.data[0].company);
+      }
+    }
+  }, [ownerProperties, loggedInUser]);
+
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
     setCookie('brixelSplashHome', null);
@@ -519,7 +529,7 @@ const MarketCategoryListSeller = (props) => {
                   {
                     filteredPackages.map((pkg, i) => (
                       <div
-                        onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
+                        onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
                         key={i.toString()}
                         className={`${pkg.type} bgWhite txtAltGrey700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
                       >
@@ -542,7 +552,7 @@ const MarketCategoryListSeller = (props) => {
             <BrixelButtonPrimary
               rounded
               label="Upgrade your plan"
-              onClick={() => window.location.assign(`/${propertyId}/upgrade`)}
+              onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
               theme="AltGreen"
               themeSat={300}
             />
@@ -551,7 +561,7 @@ const MarketCategoryListSeller = (props) => {
               className="mt-2 mt-sm-0"
               rounded
               label="compare all plans"
-              onClick={() => window.location.assign(`/${propertyId}/upgrade#comparePlan`)}
+              onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade#comparePlan`)}
               theme="AltGrey"
               themeSat={700}
             />

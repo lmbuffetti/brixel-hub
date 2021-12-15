@@ -4,9 +4,9 @@ import React from 'react';
 import {
   BrixelRadioButton,
   BrixelInputText,
+  BrixelInputDatePicker,
   BrixelInputTextStep,
   Validation,
-  BrixelInputDatePicker,
   FactsOptions,
   BrixelSelect,
   BrixelTextArea,

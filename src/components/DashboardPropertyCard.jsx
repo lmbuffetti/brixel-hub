@@ -157,8 +157,8 @@ const DashboardPropertyCard = (props) => {
                                 {
                                   get(estimation, 'status', '') === 'pending' && (
                                     <span className="txtAltBlue400 fweight-600">
-                                Pending
-                              </span>
+                                      Pending
+                                    </span>
                                   )
                                 }
                                 {

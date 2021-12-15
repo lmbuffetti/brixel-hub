@@ -5,7 +5,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelCheckbox,
-  BrixelInputText,
   BrixelTextArea,
   BrixelRadioButton,
   ReduxField,
@@ -160,7 +159,7 @@ const VisitFeedback = (props) => {
                                 You can contact us if you have any specific questions to the owner.
                               </p>
 
-                              <div className="mt-3">
+                              <div className="my-3">
                                 {
                                   contacts.phone && (
                                     <a href={`tel:${Helpers.telephoneFormat(contacts.phone)}`} className="dis-f a-c mb-2">
@@ -269,7 +268,7 @@ const VisitFeedback = (props) => {
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
                                 <div className="dis-f jc-b h-perc-100 a-t">
-                                  <div className="ml-0 mr-a pr-10 dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
+                                  <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
                                     <ReduxField
                                       component={BrixelCheckbox}
                                       form="visitFeedback"

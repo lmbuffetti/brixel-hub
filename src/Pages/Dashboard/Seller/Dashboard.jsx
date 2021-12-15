@@ -71,7 +71,6 @@ const Dashboard = (props) => {
     errorValue,
     formValue,
     // gameAchievement,
-    gameGroup,
     gameHistory,
     handleAddGameHistory,
     handleCreatePropertyVisitSchedule,
@@ -150,7 +149,7 @@ const Dashboard = (props) => {
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
-      if (propID && propID !== 'home') {
+      if (propID && propID !== 'home' && propID !== 'company') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetPackageProperty({ id: propID });
         handleGetActiveSinglePropertyEstimation({ id: propID, smallLoader: 'getEstimation' });
@@ -160,15 +159,6 @@ const Dashboard = (props) => {
       } else {
         handleSpinnerOff();
       }
-    }
-    // if (gameAchievement.length === 0) handleGetAchievement();
-    if (gameGroup.length === 0) {
-      // if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-      // handleGetGameGroup();
-    }
-    if (gameHistory.length === 0) {
-      if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-      // handleGetGameHistory();
     }
     setLoadedProp(true);
   }, [userTypes, propID]);
@@ -396,7 +386,6 @@ Dashboard.propTypes = {
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
   // gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleAddGameHistory: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,

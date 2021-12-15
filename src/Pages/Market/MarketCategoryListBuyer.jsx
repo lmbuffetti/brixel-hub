@@ -1,18 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, lazy, Suspense, useState,
+  useEffect, lazy, Suspense, useState, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
+import has from 'lodash/has';
 import {
   BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonIcon,
   initializeForm,
+  BrixelTabs,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import Slider from 'react-slick';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
@@ -21,16 +24,52 @@ import MarketCardSmall from '../../components/MarketCardSmall';
 import SearchProfileBanner from '../../components/SearchProfileBanner';
 import teaserAnimation from '../../images/Market/teaserAnimate.svg';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
+import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 
 const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListBuyer = (props) => {
+  const settingSlider = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    arrows: false,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          swipeToSlide: true,
+          draggable: true,
+        },
+      },
+      {
+        breakpoint: 590,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          swipeToSlide: true,
+          draggable: true,
+        },
+      },
+    ],
+    draggable: false,
+  };
+
+  const sliderInstance = useRef(null);
+
   // PROPS
   const {
+    bestimate,
     history,
     initialValues,
     initForm,
+    ownerEstimations,
     preMarketStats,
+    premiumEuropeProperties,
     premiumProperties,
     setSplashScreen,
     splashScreenType,
@@ -40,17 +79,36 @@ const MarketCategoryListBuyer = (props) => {
   } = props;
   // STATE
   const [numWishProp, setWishProp] = useState(4);
-  const [exploreProperties, setExploreProperties] = useState([]);
+  const [activeTopTab, setActiveTopTab] = useState('wishlist');
+  const [topTab, setTopTab] = useState([]);
 
   useEffect(() => {
     if (get(userSearchProfiles, 'id', null)) initForm(initialValues);
   }, [get(userSearchProfiles, 'id', null)]);
 
+  const showArrow = () => {
+    const selectResponsive = settingSlider.responsive.filter((itm) => windowDimensions.width < itm.breakpoint);
+    if (selectResponsive[selectResponsive.length - 1]) {
+      return ownerEstimations.total > selectResponsive[selectResponsive.length - 1].settings.slidesToShow;
+    }
+    return ownerEstimations.total > settingSlider.slidesToShow;
+  };
+
+  useEffect(() => {
+    if (has(ownerEstimations, 'total') && has(wishlistProperties, 'total')) {
+      const tabMenu = [];
+      if (wishlistProperties.total > 0) tabMenu.push({ label: 'Wishlist', value: 'wishlist' });
+      if (ownerEstimations.total > 0) tabMenu.push({ label: 'Estimations', value: 'estimations' });
+      if (ownerEstimations.total > 0 && wishlistProperties.total === 0) setActiveTopTab('estimations');
+      setTopTab(tabMenu);
+    }
+  }, [ownerEstimations.total, wishlistProperties.total]);
+
   // Update data by user screen
   useEffect(() => {
     if (windowDimensions.width < 768) setWishProp(1);
-    else if (windowDimensions.width < 1024) setWishProp(2);
-    else if (windowDimensions.width < 1440) setWishProp(3);
+    else if (windowDimensions.width < 1024) setWishProp(3);
+    else if (windowDimensions.width < 1440) setWishProp(4);
     else setWishProp(4);
   }, [windowDimensions.width]);
 
@@ -60,15 +118,6 @@ const MarketCategoryListBuyer = (props) => {
       setSplashScreen('buyerWelcome');
     }
   }, [getCookie('brixelSplashHome')]);
-
-  useEffect(() => {
-    if (premiumProperties.data) {
-      const n = 3;
-      const shuffled = premiumProperties.data.sort(() => 0.5 - Math.random());
-      const selected = shuffled.slice(0, n);
-      setExploreProperties(selected);
-    }
-  }, [premiumProperties.data]);
 
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
@@ -84,8 +133,26 @@ const MarketCategoryListBuyer = (props) => {
     };
   }, []);
 
+  const moveSlide = (action) => {
+    const slider = sliderInstance.current;
+    if (slider) {
+      if (action === 'next') slider.slickNext();
+      else slider.slickPrev();
+    }
+  };
+
   return (
     <Suspense fallback="">
+
+      {/* SECTION: bestimate result */}
+      {
+        splashScreenType === 'bestimateResult' && has(bestimate, 'higherValue') && (
+          <BestimateCardOverlay
+            clearEstimation
+          />
+        )
+      }
+
       <div className="buyerMarket">
         {/* SECTION: buyer welcome message  */}
         {
@@ -142,44 +209,124 @@ const MarketCategoryListBuyer = (props) => {
           )
         }
 
-        {/* WHISHLIST */}
-        {
-          get(wishlistProperties, 'data', []).length > 0 && (
-            <div className="container">
-              <h5 className="fweight-600 mb-3 txtAltGrey700">Wishlist</h5>
-              <div className="dis-f jc-b">
-                <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
+        <div className="container">
+          {
+            topTab.length > 0 && (
+              <BrixelTabs
+                className="mb-2"
+                clicksList={topTab.map((item) => item.value)}
+                labels={topTab.map((item) => item.label)}
+                activeTab={activeTopTab}
+                onClick={(tab) => setActiveTopTab(tab)}
+              />
+            )
+          }
+
+          {/* WHISHLIST */}
+          {
+            get(wishlistProperties, 'data', []).length > 0 && activeTopTab === 'wishlist' && (
+              <div>
+                <div className="dis-f jc-b">
+                  <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
+                    {
+                      get(wishlistProperties, 'data', []).map((fav, i) => (
+                        <React.Fragment key={i.toString()}>
+                          {
+                            i < numWishProp && (
+                              <MarketCardSmall
+                                type="fav"
+                                item={fav}
+                              />
+                            )
+                          }
+                        </React.Fragment>
+                      ))
+                    }
+                  </div>
                   {
-                    get(wishlistProperties, 'data', []).map((fav, i) => (
-                      <React.Fragment key={i.toString()}>
-                        {
-                          i < numWishProp && (
-                            <MarketCardSmall
-                              type="fav"
-                              item={fav}
-                            />
-                          )
-                        }
-                      </React.Fragment>
-                    ))
+                    get(wishlistProperties, 'data', []).length > numWishProp && (
+                      <div
+                        className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen300 min-w-fix-80 h-fix-80 ml-4 cur-poi"
+                        onClick={() => history.push('/buy/wishlist')}
+                      >
+                        <span className="txtGreen400 fweight-600 fsize-500">
+                          + {get(wishlistProperties, 'data', []).length - numWishProp}
+                        </span>
+                      </div>
+                    )
                   }
                 </div>
-                {
-                  get(wishlistProperties, 'data', []).length > numWishProp && (
-                    <div
-                      className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen300 min-w-fix-80 h-fix-80 ml-4 cur-poi"
-                      onClick={() => history.push('/buy/wishlist')}
-                    >
-                      <span className="txtGreen400 fweight-600 fsize-500">
-                        + {get(wishlistProperties, 'data', []).length - numWishProp}
-                      </span>
-                    </div>
-                  )
-                }
               </div>
-            </div>
-          )
-        }
+            )
+          }
+
+          {/* ESTIMATIONS */}
+          {
+            get(ownerEstimations, 'data', []).length > 0 && activeTopTab === 'estimations' && (
+              <div>
+                <div className="dis-f a-c jc-b">
+                  <div className={showArrow() ? 'slide-with-arrow' : 'slide-without-arrow'}>
+                    {
+                      showArrow() ? (
+                        <Slider ref={sliderInstance} {...settingSlider}>
+                          {
+                            get(ownerEstimations, 'data', []).map((fav, i) => (
+                              <div className="max-w-fix-sm-304">
+                                <MarketCardSmall
+                                  key={i.toString()}
+                                  type="estimation"
+                                  estimation={fav.result}
+                                  item={fav.data}
+                                />
+                              </div>
+                            ))
+                          }
+                        </Slider>
+                      ) : (
+                        <div className={`row-cols-${ownerEstimations.total}-gut-4`}>
+                          {
+                            get(ownerEstimations, 'data', []).map((fav, i) => (
+                              <MarketCardSmall
+                                key={i.toString()}
+                                type="estimation"
+                                estimation={fav.result}
+                                item={fav.data}
+                              />
+                            ))
+                          }
+                        </div>
+                      )
+                    }
+                  </div>
+                  {
+                    showArrow() && (
+                      <div className="dis-f a-c jc-c w-perc-100 pl-2">
+                        <BrixelButtonIcon
+                          onClick={() => moveSlide('prev')}
+                          icon="arrow-simple-left"
+                          theme="light"
+                          saturation={400}
+                          secondary
+                          small
+                        />
+                        <BrixelButtonIcon
+                          className="ml-1"
+                          onClick={() => moveSlide('next')}
+                          icon="arrow-simple-right"
+                          theme="light"
+                          saturation={400}
+                          secondary
+                          small
+                        />
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
+            )
+          }
+
+        </div>
 
         <div className="mt-5 bgSvg bgOverlay">
 
@@ -242,7 +389,7 @@ const MarketCategoryListBuyer = (props) => {
 
         <div className="pt-7 pb-8 bgAltBlue400">
           {
-            premiumProperties.total > 0 && (
+            premiumEuropeProperties.total > 0 && (
               <div className="container">
                 <CarouselWrapper
                   theme="light"
@@ -250,8 +397,8 @@ const MarketCategoryListBuyer = (props) => {
                   subtitle="Random Brixel properties all over Europe"
                   className="market-category-carousel"
                   type="premium"
-                  items={exploreProperties}
-                  total={premiumProperties.total}
+                  items={premiumEuropeProperties.data}
+                  total={premiumEuropeProperties.total}
                 />
               </div>
             )
@@ -263,10 +410,14 @@ const MarketCategoryListBuyer = (props) => {
 };
 
 MarketCategoryListBuyer.propTypes = {
+  bestimate: PropTypes.object.isRequired,
+  estimation: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  ownerEstimations: PropTypes.object.isRequired,
   preMarketStats: PropTypes.object.isRequired,
+  premiumEuropeProperties: PropTypes.object.isRequired,
   premiumProperties: PropTypes.object.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
@@ -284,6 +435,8 @@ const mapStateToProps = (state) => {
   const initVal = searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile;
   const userCompany = get(state, 'user.loggedInUser.user.comapny', {});
   return ({
+    bestimate: get(state, 'property.estimation.result', {}),
+    estimation: get(state, 'property.estimation', {}),
     favoritesProperties: get(state, 'market.favoritesProperties', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
     initialValues: {
@@ -303,6 +456,7 @@ const mapStateToProps = (state) => {
     ownerEstimations: get(state, 'market.ownerEstimations', {}),
     preMarketProperties: get(state, 'market.preMarketProperties', {}),
     preMarketStats: get(state, 'market.preMarketStats', {}),
+    premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
     premiumProperties: get(state, 'market.premiumProperties', {}),
     splashScreenType: get(state, 'common.splashScreenType', ''),
     userSearchProfiles: searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile,

@@ -325,6 +325,7 @@ const Upgrade = (props) => {
                       } */}
                       <div className={`${quest.className} w-perc-100`}>
                         <MultiFileldsReduxForm
+                          autofocus={false}
                           form="scanFlow"
                           disableNextBtn={false}
                           formValue={formValue}
