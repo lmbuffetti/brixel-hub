@@ -123,51 +123,6 @@ const BookTrialFlow = (props) => {
               >
                 <div className="dis-f a-t jc-b w-perc-100">
                   <div className="pos-r pr-1 w-perc-50">
-                    {/* <ReduxField
-                      form="scanFlow"
-                      ReduxFieldClass="inputDate"
-                      component={BrixelInputText}
-                      design={{
-                        showIconValidation: false,
-                      }}
-                      input={{
-                        disabled: datePickerModal,
-                        placeholder: 'DD-MM-YYYY',
-                        name: 'dateBook',
-                        onChange: (val) => setDate(val),
-                        onFocus: () => setDatePickerModal(!datePickerModal),
-                      }}
-                      meta={{
-                        invalid: get(syncErrors, 'dateBook', '') !== true,
-                        dirty: get(syncErrors, 'dateBook', '') !== true,
-                        showErrors: showError,
-                        message: {
-                          error: 'Please select a date',
-                        },
-                      }}
-                    />
-                    <BrixelIcon
-                      className="pos-a-fix x-r-2 activity-calendar cur-poi x-t-1"
-                      icon="calendar"
-                      color="dark"
-                      onClick={() => setDatePickerModal(!datePickerModal)}
-                    />
-                    {
-                      datePickerModal && (
-                        <BrixelDatePicker
-                          ref1={datePicker}
-                          ref2={calendarRef}
-                          inline
-                          className="afterInput"
-                          selected={date}
-                          onChange={(day) => {
-                            handleChangeDate(day, 'new');
-                            closeModal();
-                          }}
-                          lang={lang}
-                        />
-                      )
-                    } */}
                     <ReduxField
                       form="scanFlow"
                       ReduxFieldClass="inputDate"
@@ -267,51 +222,6 @@ const BookTrialFlow = (props) => {
                 </p>
                 <p>We are reachable Mo - Fr, 09:00 to 18:00.</p>
               </Accordion>
-              {/* <hr className="lighter" />
-              <Accordion
-                color="dark"
-                saturationTxt={400}
-                title="Book via phone"
-                titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
-                contentClass="pb-5"
-                paddingContent="px-2 px-sm-5"
-                onExpand={(val) => setOpenAccordion(val === true ? 'phone' : '')}
-                smallRightIcon
-                isExpanded={openAccordion === 'phone'}
-              >
-                {
-                  phone && (
-                    <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-small-12">
-                      <BrixelIcon
-                        color="white"
-                        saturation={0}
-                        icon="phone"
-                        iconWidth="w-fix-24"
-                      />
-                      <p className="ml-2">{Helpers.telephoneFormat(phone)}</p>
-                    </a>
-                  )
-                }
-                {
-                  whatsapp && (
-                    <a
-                      href={`https://wa.me/${Helpers.telephoneFormat(whatsapp, false, false, false, true)}`}
-                      className="dis-f a-c"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <BrixelIcon
-                        color="white"
-                        saturation={0}
-                        icon="whatsapp"
-                        iconWidth="w-fix-24"
-                      />
-                      <p className="ml-2 td-u">Whatsapp</p>
-                    </a>
-                  )
-                }
-                <p className="mt-3 txtDark100">You can reach us Monday to Friday, 09:00 to 18:00.</p>
-              </Accordion> */}
             </div>
           </>
         ) : (
@@ -371,51 +281,8 @@ const BookTrialFlow = (props) => {
                 >
                   <div className="dis-f a-t jc-b w-perc-100">
                     <div className="pos-r pr-1 w-perc-50">
-                      {/* <ReduxField
-                        form="scanFlow"
-                        ReduxFieldClass="inputDate"
-                        component={BrixelInputText}
-                        design={{
-                          showIconValidation: false,
-                        }}
-                        input={{
-                          disabled: datePickerModal,
-                          placeholder: 'DD-MM-YYYY',
-                          name: 'dateBook',
-                          onChange: (val) => setDate(val),
-                          onFocus: () => setDatePickerModal(!datePickerModal),
-                        }}
-                        meta={{
-                          invalid: get(syncErrors, 'dateBook', '') !== true,
-                          dirty: get(syncErrors, 'dateBook', '') !== true,
-                          showErrors: showError,
-                          message: {
-                            error: 'Please select a date',
-                          },
-                        }}
-                      />
-                      <BrixelIcon
-                        className="pos-a-fix x-r-2 activity-calendar cur-poi x-t-1"
-                        icon="calendar"
-                        color="dark"
-                        onClick={() => setDatePickerModal(!datePickerModal)}
-                      />
-                      {
-                        datePickerModal && (
-                          <BrixelDatePicker
-                            ref1={datePicker}
-                            ref2={calendarRef}
-                            inline
-                            className="afterInput"
-                            selected={date}
-                            onChange={(day) => {
-                              handleChangeDate(day, 'new');
-                              closeModal();
-                            }}
-                            lang={lang}
-                          />
-                        )
-                      } */}
+                      {`${DateTime.now().year + 1}-12-31`}
+                      {DateTime.now().toFormat('yyyy-LL-dd')}
                       <ReduxField
                         form="scanFlow"
                         ReduxFieldClass="inputDate"
