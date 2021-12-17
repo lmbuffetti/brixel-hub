@@ -328,7 +328,7 @@ const MarketCategoryListBuyer = (props) => {
 
         </div>
 
-        <div className="mt-5 bgSvg bgOverlay">
+        <div className={`${get(wishlistProperties, 'data', []).length <= 0 && get(ownerEstimations, 'data', []).length <= 0 ? 'mt-3-neg pt-3' : 'mt-5'} bgSvg bgOverlay`}>
 
           <div className="container pt-3 pb-4 pb-lg-8">
 
