@@ -520,9 +520,9 @@ const MarketCategoryListSeller = (props) => {
             {
               (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
                 <>
-                  <SkeletonPackages className="mx-lg-2 w-perc-100" type="small" />
-                  <SkeletonPackages className="mx-lg-2 w-perc-100" type="small" />
-                  <SkeletonPackages className="mx-lg-2 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-sm-2 w-perc-100" type="small" />
+                  <SkeletonPackages className="my-2 my-sm-0 mx-sm-2 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-sm-2 w-perc-100" type="small" />
                 </>
               ) : (
                 <>

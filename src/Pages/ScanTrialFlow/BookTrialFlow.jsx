@@ -136,6 +136,7 @@ const BookTrialFlow = (props) => {
                       component={BrixelInputDatePicker}
                       design={{
                         showIconValidation: false,
+                        large: true,
                       }}
                       input={{
                         name: 'dateBook',
@@ -163,6 +164,9 @@ const BookTrialFlow = (props) => {
                         name: 'hourBook',
                         placeholder: '08:00',
                         type: 'time',
+                      }}
+                      design={{
+                        large: true,
                       }}
                       inputFormat={{
                         formatType: 'date-hh:mm',
@@ -195,6 +199,7 @@ const BookTrialFlow = (props) => {
                         ReduxFieldClass="inputPhone"
                         design={{
                           className: 'mt-3',
+                          large: true,
                         }}
                         input={{
                           name: 'phone',
@@ -297,6 +302,7 @@ const BookTrialFlow = (props) => {
                         component={BrixelInputDatePicker}
                         design={{
                           showIconValidation: false,
+                          large: true,
                         }}
                         input={{
                           name: 'dateBook',
@@ -324,6 +330,9 @@ const BookTrialFlow = (props) => {
                           name: 'hourBook',
                           placeholder: '08:00',
                           type: 'time',
+                        }}
+                        design={{
+                          large: true,
                         }}
                         inputFormat={{
                           formatType: 'date-hh:mm',
@@ -356,6 +365,7 @@ const BookTrialFlow = (props) => {
                           component={BrixelInputText}
                           design={{
                             className: 'mb-1 mt-1',
+                            large: true,
                           }}
                           input={{
                             name: 'phone',
