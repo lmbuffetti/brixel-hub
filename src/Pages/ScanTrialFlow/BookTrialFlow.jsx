@@ -25,7 +25,7 @@ const BookTrialFlow = (props) => {
     activeSingleCompany,
     changeFieldValue,
     formValue,
-    // lang,
+    lang,
     loggedInUser,
     onClick,
     showError,
@@ -36,7 +36,7 @@ const BookTrialFlow = (props) => {
   const [, setDate] = useState('');
   const [datePickerModal, setDatePickerModal] = useState(false);
   // REF
-  // const calendarRef = useRef(null);
+  const calendarRef = useRef(null);
   const datePicker = useRef(null);
   // COMPANY DATA
   const phone = get(activeSingleCompany, 'contact.phone', null);
@@ -72,8 +72,12 @@ const BookTrialFlow = (props) => {
 
   const handleChangeDate = (day) => {
     setDate(day);
-    changeFieldValue('dateBook', day);
-    changeFieldValue('fullDate', DateTime.fromFormat(day, 'yyyy-LL-dd').toISO());
+    changeFieldValue('dateBook', DateTime.fromMillis(day, {
+      locale: lang,
+    }).toFormat('dd-LL-yyyy'));
+    changeFieldValue('fullDate', DateTime.fromMillis(day, {
+      locale: lang,
+    }).toISO());
   };
 
   useEffect(() => {
@@ -126,6 +130,9 @@ const BookTrialFlow = (props) => {
                     <ReduxField
                       form="scanFlow"
                       ReduxFieldClass="inputDate"
+                      ref1={datePicker}
+                      ref2={calendarRef}
+                      lang={lang.value || lang}
                       component={BrixelInputDatePicker}
                       design={{
                         showIconValidation: false,
@@ -281,11 +288,12 @@ const BookTrialFlow = (props) => {
                 >
                   <div className="dis-f a-t jc-b w-perc-100">
                     <div className="pos-r pr-1 w-perc-50">
-                      {`${DateTime.now().year + 1}-12-31`}
-                      {DateTime.now().toFormat('yyyy-LL-dd')}
                       <ReduxField
                         form="scanFlow"
                         ReduxFieldClass="inputDate"
+                        ref1={datePicker}
+                        ref2={calendarRef}
+                        lang={lang.value || lang}
                         component={BrixelInputDatePicker}
                         design={{
                           showIconValidation: false,
@@ -386,7 +394,7 @@ BookTrialFlow.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  // lang: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   syncErrors: PropTypes.object.isRequired,
