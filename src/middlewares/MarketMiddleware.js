@@ -177,7 +177,7 @@ const checkLead = (store) => (next) => (action) => {
           ...loadSkeleton,
         },
       });
-      let queryParams = `?order=${order}&direction=${direction}`;
+      let queryParams = `&order=${order}&direction=${direction}`;
       if (isBuyer) queryParams += '&buyerOnly=true';
       api.estimation.getEstimationsList(resultsPerPage, offset, ownerId, queryParams)
         .then((res) => {
