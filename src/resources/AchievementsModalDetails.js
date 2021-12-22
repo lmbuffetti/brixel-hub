@@ -1,8 +1,7 @@
 /* eslint-disable max-len */
-export const AchievementsModalDetails = () => {
-  return {
-    title: "Your achievements",
-    body: `<div>
+export const AchievementsModalDetails = () => ({
+  title: 'Your achievements',
+  body: `<div>
         <div className="bgGreen100 brdRadius p-2">
           <div className="dis-f w-perc-100 a-c">
             <BrixelIcon iconSize="fsize-900" icon="cup-awards" color="green" />
@@ -46,6 +45,5 @@ export const AchievementsModalDetails = () => {
             <span className="txtRed700 fweight-500 dis-b mt-4">Coming soon: During your journey you can use Brixels to unlock additional features and gifts.</span></p>
 
         </div>
-      </div>`
-  }
-};
+      </div>`,
+});

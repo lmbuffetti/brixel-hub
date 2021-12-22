@@ -57,8 +57,6 @@ import {
 import {
   cutValue, roundFifty, roundFiveThousand,
 } from '../utils/helpers';
-import { properties } from '../resources/localData/properties';
-
 // import { pageContent } from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {
@@ -479,8 +477,6 @@ const checkCommon = (store) => (next) => (action) => {
           if (get(window, 'location.href', '').includes('localhost')) {
             if (setAsSingle) {
               store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: {} });
-            } else {
-              store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
             }
           }
           if (setAsSingle) {

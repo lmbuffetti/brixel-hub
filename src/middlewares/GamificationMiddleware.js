@@ -16,9 +16,6 @@ import {
 } from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
-import { gameAchievement } from '../resources/localData/gameAchievement';
-import { gameGroupDataLocal } from '../resources/localData/gameGroup';
-import { gameHistoryDataLocal } from '../resources/localData/gameHistory';
 import {
   SPINNER_ON,
   SPINNER_OFF,
@@ -35,9 +32,7 @@ const checkGamification = (store) => (next) => (action) => {
           store.dispatch({ type: SET_ACHIEVEMENT, payload: res.data });
         })
         .catch(() => {
-          if (get(window, 'location.href', '').includes('localhost')) {
-            store.dispatch({ type: SET_ACHIEVEMENT, payload: gameAchievement });
-          }
+          store.dispatch({ type: SET_ACHIEVEMENT, payload: {} });
         });
       break;
     }
@@ -49,9 +44,7 @@ const checkGamification = (store) => (next) => (action) => {
           store.dispatch({ type: SET_GAMEGROUP, payload: res.data });
         })
         .catch(() => {
-          if (get(window, 'location.href', '').includes('localhost')) {
-            store.dispatch({ type: SET_GAMEGROUP, payload: gameGroupDataLocal });
-          }
+          store.dispatch({ type: SET_GAMEGROUP, payload: {} });
         });
       break;
     }
@@ -69,7 +62,7 @@ const checkGamification = (store) => (next) => (action) => {
         })
         .catch(() => {
           if (get(window, 'location.href', '').includes('localhost')) {
-            store.dispatch({ type: SET_GAME_HISTORY, payload: gameHistoryDataLocal });
+            store.dispatch({ type: SET_GAME_HISTORY, payload: {} });
             store.dispatch({ type: SET_AWARDS, payload: 2 });
             store.dispatch({ type: SET_BRIXEL_POINTS, payload: 1000 });
           }

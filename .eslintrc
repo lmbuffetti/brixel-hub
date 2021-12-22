@@ -1,5 +1,4 @@
 {
-  "extends": "airbnb",
   "rules": {
     "prefer-regex-literals": "off",
     "default-param-last": "off",
@@ -66,6 +65,7 @@
       }
     ],
     "react/jsx-props-no-spreading": 0,
+    "no-shadow": 1,
     "prefer-destructuring": ["error", {"object": true, "array": false}],
     "react/no-danger": 0,
     "import/prefer-default-export": 0,
@@ -86,6 +86,9 @@
     "jsx-a11y/anchor-is-valid": 0,
     "no-underscore-dangle": 0,
     "react/jsx-one-expression-per-line": 0,
+    "react/no-unused-prop-types": 2,
+    "react-redux/no-unused-prop-types": 2,
+    "react-redux/connect-prefer-named-arguments": 2,
     "react/forbid-prop-types": [
       "error",
       {
@@ -105,8 +108,13 @@
   "parser": "babel-eslint",
   "plugins": [
     "react",
+    "react-redux",
     "jsx-a11y",
     "react-hooks"
+  ],
+  "extends": [
+    "plugin:react-redux/recommended",
+    "airbnb"
   ],
   "parserOptions": {
     "ecmaFeatures": {
