@@ -41,7 +41,13 @@ const checkHistory = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      const queryParams = `?parent=${parent}&order=${order}&direction=${direction}`;
+
+      const getType = () => {
+        if (action.payload.type === 'owner') return 'user';
+        return action.payload.type;
+      };
+
+      const queryParams = `?parent=${parent}&order=${order}&direction=${direction}&historyType=${getType()}`;
       api.history.getHistoryList(resultsPerPage, offset, queryParams)
         .then((response) => {
           if (response.data.total > 0) {

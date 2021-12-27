@@ -1204,7 +1204,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (deals[key] === 'Interested') {
               // if get user push
               if (has(deals, 'user.id')) {
-                const queryParams2 = `?parent=${deals.user.id}&order=updatedAt&direction=DESC`;
+                const queryParams2 = `?parent=${deals.user.id}&order=updatedAt&direction=DESC&historyType=user`;
                 calls.push(api.history.getHistoryList(50, 0, queryParams2));
               }
             }
