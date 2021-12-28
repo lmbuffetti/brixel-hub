@@ -27,6 +27,7 @@ const checkHistory = (store) => (next) => (action) => {
         order,
         parent,
         resultsPerPage,
+        actionStubs,
         smallLoader,
       } = action.payload;
       if (smallLoader) {
@@ -48,7 +49,7 @@ const checkHistory = (store) => (next) => (action) => {
       };
 
       const queryParams = `?parent=${parent}&order=${order}&direction=${direction}&historyType=${getType()}`;
-      api.history.getHistoryList(resultsPerPage, offset, queryParams)
+      api.history.getHistoryList(resultsPerPage, offset, queryParams, actionStubs)
         .then((response) => {
           if (response.data.total > 0) {
             if (action.payload.type === 'page') {
