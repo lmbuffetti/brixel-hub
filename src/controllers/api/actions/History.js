@@ -15,7 +15,7 @@ class History extends Base {
 
   getHistoryList(paginationLimit, paginationSkip, query, data) {
     const url = ep.history.getHistoryListOfParent(paginationLimit, paginationSkip, query);
-    return this.apiClient.put(url, {}, data);
+    return this.apiClient.post(url, {}, data);
   }
 
   createHistory(data) {
