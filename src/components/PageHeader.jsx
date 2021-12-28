@@ -17,7 +17,6 @@ import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelBu
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
-import { getGameHistory } from '../actions/GamificationActions';
 
 const AvatarImage = lazy(() => import('./AvatarImage'));
 
@@ -317,7 +316,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleGetGame: bindActionCreators(getGameHistory, dispatch),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeader));

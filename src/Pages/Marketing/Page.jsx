@@ -21,7 +21,6 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../actions/PropertyActions';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
-import { addGameHistory } from '../../actions/GamificationActions';
 
 const Page = (props) => {
   // PROPS
@@ -44,7 +43,6 @@ const Page = (props) => {
       status,
     };
     handleUpdatePublishedReview(data);
-    // if (status === 'online') handleAddGameHistory({stub: 'page-published'});
   };
 
   // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
@@ -339,7 +337,6 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form, data)));
   },
   handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
 export default compose(

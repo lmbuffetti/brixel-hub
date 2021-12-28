@@ -18,7 +18,6 @@ import portalStart from '../../images/Listings/portals_start.svg';
 import portalReview from '../../images/Listings/portals_review.svg';
 import portalPublished from '../../images/Listings/portals_published.svg';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
-import { addGameHistory } from '../../actions/GamificationActions';
 
 const Portals = (props) => {
   // PROPS
@@ -58,7 +57,6 @@ const Portals = (props) => {
       status,
     };
     handleUpdatePortalsReview(data);
-    // if (status === 'online') handleAddGameHistory({stub: 'portals'});
   };
 
   // MESSAGE TO UNLOCK
@@ -357,7 +355,6 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form, data)));
   },
   handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
 export default compose(

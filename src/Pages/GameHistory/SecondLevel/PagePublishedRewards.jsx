@@ -3,13 +3,12 @@ import React, { useState, useEffect } from 'react';
 import Proptypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import get from 'lodash/get';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import pagePublishedCheckImg from '../../../images/secondLevel/pagePublishedCheck.svg';
 import pagePublishedDoneImg from '../../../images/secondLevel/pagePublishedDone.svg';
 import pagePublishedReviewImg from '../../../images/secondLevel/pagePublishedReview.svg';
-import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PagePublishedRewards = (props) => {
   const {
@@ -127,8 +126,7 @@ const mapStateToProps = (state) => ({
   pagePublished: get(state, 'brixelForm.Property.values.published', false),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+const mapDispatchToProps = () => ({
 });
 
 export default compose(

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Proptypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import get from 'lodash/get';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import portalsPublishedCheckImg from '../../../images/secondLevel/portalsPublishedCheck.svg';
@@ -11,7 +11,6 @@ import portalReview from '../../../images/Listings/portals_review.svg';
 import portalPublished from '../../../images/Listings/portals_published.svg';
 
 // import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PortalsRewards = (props) => {
   const {
@@ -38,7 +37,6 @@ const PortalsRewards = (props) => {
 
   // FUNCTION TO GO TO /LISTINGS/PORTALS
   const openPreview = () => {
-    // if (!done) handleAddGameHistory({stub: gameStub});
     history.push(`/${propID}/marketing/portals`);
     // window.open(`${baseByData.pageUrl}preview/${propID}`, '_blank');
   };
@@ -132,8 +130,7 @@ const mapStateToProps = (state) => ({
   portalsPublished: get(state, 'brixelForm.Property.values.portals', {}),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+const mapDispatchToProps = () => ({
 });
 
 export default compose(

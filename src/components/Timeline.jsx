@@ -63,7 +63,6 @@ const Timeline = (props) => {
     activeDealNotes,
     activeDealOwnerHistoryList,
     activeProperty,
-    activePropertyGameHistory,
     activePropertyHistoryList,
     activePropertyNotes,
     activePropertyOwnerHistoryList,
@@ -106,23 +105,14 @@ const Timeline = (props) => {
     if (isDeal === true && has(activeDeal, 'user.id')) {
       if (activeDealOwnerHistoryList.total > 0 && activeDealOwnerHistoryList.data.length > 0) {
         forEach(activeDealOwnerHistoryList.data, (item) => {
-          // For deal timeline we only want user register
-          if (item.actionStub === 'user-register' || item.actionStub === 'user-portal-create-message') {
-            array.push(createTimelineEntry(item, userLang));
-          }
+          array.push(createTimelineEntry(item, userLang));
         });
       }
 
       if (activeDealHistoryList.total > 0 && activeDealHistoryList.data.length > 0) {
         // eslint-disable-next-line consistent-return
         forEach(activeDealHistoryList.data, (item) => {
-          if (item.actionStub !== 'create-deal') {
-            if (item.actionStub === 'update-deal' && Object.keys(item.meta).length === 0) return null;
-            if (item.actionStub === 'update-deal' && item.meta.name === 'new') return null;
-            if (item.actionStub === 'portal-create-deal') return null;
-            if (item.actionStub === 'deal-feedback-visit') return null;
-            array.push(createTimelineEntry(item, userLang));
-          }
+          array.push(createTimelineEntry(item, userLang));
         });
       }
 
@@ -137,39 +127,16 @@ const Timeline = (props) => {
       if (activePropertyHistoryList.total > 0 && activePropertyHistoryList.data.length > 0) {
         forEach(activePropertyHistoryList.data, (item) => {
           // We ignore page object updates (besides the price), document updates, favorites, schedules and adding packages
-          if (item.actionStub !== 'page-update' &&
-              item.actionStub !== 'page-game-achievement' &&
-              item.actionStub !== 'page-update-documents' &&
-              item.actionStub !== 'page-update-facts' &&
-              item.actionStub !== 'page-update-photos' &&
-              item.actionStub !== 'page-schedule' &&
-              item.actionStub !== 'page-add-favorite' &&
-              item.actionStub !== 'page-add-package' &&
-              item.actionStub !== 'page-remove-package' &&
-              item.actionStub !== 'page-get-document' &&
-              item.actionStub !== 'page-receive-message') {
-            array.push(createTimelineEntry(item, userLang));
-          }
+          array.push(createTimelineEntry(item, userLang));
         });
       }
 
       if (activePropertyOwnerHistoryList.total > 0 && activePropertyOwnerHistoryList.data.length > 0) {
         forEach(activePropertyOwnerHistoryList.data, (item) => {
           // We want to get the user recovery and welcome to Brixel messages
-          if (item.actionStub === 'user-recover-password' ||
-              item.actionStub === 'user-register') {
-            array.push(createTimelineEntry(item, userLang));
-          }
+          array.push(createTimelineEntry(item, userLang));
         });
       }
-
-      forEach(activePropertyGameHistory, (reward) => {
-        // We don't consider the Homebase and Brixel Page published rewards for creating a property
-        if (reward.title !== 'Homebase' &&
-            reward.title !== 'Brixel Page') {
-          array.push(createTimelineEntry(reward, userLang));
-        }
-      });
 
       forEach(activePropertyNotes, (note) => {
         set(note, 'timestamp', note.createdAt);
@@ -186,8 +153,7 @@ const Timeline = (props) => {
     // Sets the processed data to be shown
     setChronologicalData(array);
   }, [activeDeal, activeDealNotes, activeDealHistoryList, activeDealOwnerHistoryList,
-    activePropertyNotes, activePropertyHistoryList, activePropertyOwnerHistoryList,
-    activePropertyGameHistory]);
+    activePropertyNotes, activePropertyHistoryList, activePropertyOwnerHistoryList]);
 
   const addNewNote = (content) => {
     const data = {
@@ -598,7 +564,6 @@ Timeline.propTypes = {
   activeDealNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeDealOwnerHistoryList: PropTypes.object.isRequired,
   activeProperty: PropTypes.object.isRequired,
-  activePropertyGameHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activePropertyHistoryList: PropTypes.object.isRequired,
   activePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activePropertyOwnerHistoryList: PropTypes.object.isRequired,
@@ -625,7 +590,6 @@ const mapStateToProps = (state) => ({
   activeDealNotes: get(state, 'deal.activeSingleDealNotes', []),
   activeDealOwnerHistoryList: get(state, 'deal.activeSingleDealOwnerHistory', {}),
   activeProperty: get(state, 'property.activeSingleProperty', {}),
-  activePropertyGameHistory: get(state, 'property.activePropertyGameHistory', []),
   activePropertyHistoryList: get(state, 'property.activeSinglePropertyHistory', {}),
   activePropertyNotes: get(state, 'property.activeSinglePropertyNotes', []),
   activePropertyOwnerHistoryList: get(state, 'property.activeSinglePropertyOwnerHistory', {}),

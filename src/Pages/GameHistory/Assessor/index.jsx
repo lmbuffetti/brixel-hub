@@ -12,7 +12,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import { extractAssessorCondition, calculateAgeByYear } from '../../../utils/helpers';
 import { AssessorQuestions } from '../../../resources/Assessor';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
 const Assessor = (props) => {
@@ -23,7 +22,6 @@ const Assessor = (props) => {
     formValue,
     gameGroup,
     gameHistory,
-    handleAddGameHistory,
     handleSaveActiveSingleProperty,
     history,
     initForm,
@@ -124,7 +122,6 @@ const Assessor = (props) => {
     // UPDATE PROPERTY
     history.push({ state: {} });
     // ADD THE ACHIEVEMENT
-    handleAddGameHistory({ stub: getAchievement() });
     handleSaveActiveSingleProperty(dataProp);
   };
 
@@ -313,7 +310,6 @@ Assessor.propTypes = {
   errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -337,7 +333,6 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GamingFlow', value));
   },
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 

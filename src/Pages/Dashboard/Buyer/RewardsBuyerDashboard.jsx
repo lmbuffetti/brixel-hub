@@ -7,7 +7,6 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelButtonIcon } from '@brixel/brixel-components';
 import Sticker from 'react-stickyfill';
-import { addGameHistory } from '../../../actions/GamificationActions';
 import Loading from '../../../components/Loading';
 import { GameGroupConfig } from '../../../constants/global';
 import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
@@ -161,7 +160,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
 });
 

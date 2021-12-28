@@ -32,7 +32,6 @@ import { createActiveSingleProperty, saveActiveSingleProperty } from '../../acti
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingEstimation';
-import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 import { createEstimation } from '../../actions/EstimationActions';
@@ -888,7 +887,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreateEstimation: bindActionCreators(createEstimation, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),

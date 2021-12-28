@@ -3,12 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
 import { BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
-import { getGamegroup } from '../../../actions/GamificationActions';
 import newAssessor from '../../../images/Assessor/newAssessor.svg';
 import startAssessor from '../../../images/Assessor/startAssessor.svg';
 import ChartDonuts from '../../../components/Charts/ChartDonuts';
@@ -151,8 +150,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+const mapDispatchToProps = () => ({
 });
 
 export default compose(

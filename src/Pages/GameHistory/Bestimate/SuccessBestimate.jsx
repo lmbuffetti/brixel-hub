@@ -9,7 +9,6 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { BrixelButtonPrimary, Helpers } from '@brixel/brixel-components';
-import { getGamegroup } from '../../../actions/GamificationActions';
 import newBestimate from '../../../images/Bestimate/newBestimate.svg';
 import startBestimate from '../../../images/Bestimate/startBestimate.svg';
 import generatingBestimate from '../../../images/Bestimate/generatingBestimate.svg';
@@ -37,10 +36,6 @@ function SuccessBestimate(props) {
   const getParams = gameStub;
   const propID = get(match, 'params.propId', null);
   const getDoneFirstTime = () => last(history.location.pathname.split('/'));
-
-  // useEffect(() => {
-  // handleGetGamegroup();
-  // }, [propID]);
 
   // LOAD MARKET DATA
   useEffect(() => {
@@ -257,7 +252,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleGetMarketCheck: bindActionCreators(getMarketCheck, dispatch),
 });
 

@@ -2,24 +2,19 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import get from 'lodash/get';
 import {
   BrixelProgressBar, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
-import infoImg from '../../../images/Upgrade/info.svg';
 import addFacts from '../../../images/secondLevel/addFacts.svg';
 import addMoreFacts from '../../../images/secondLevel/addMoreFacts.svg';
 import factsWellDone from '../../../images/secondLevel/factsWellDone.svg';
-import {
-  addGameHistory,
-} from '../../../actions/GamificationActions';
 import { calcPercentageFacts } from '../../../utils/helpers';
 
 const FactsRewards = (props) => {
   const {
     formValue,
-    handleAddGameHistory,
     history,
     match,
     totalComplete,
@@ -35,12 +30,6 @@ const FactsRewards = (props) => {
       setTotal(calcPercentageFacts('Property', formValue).calcPerc);
     }
   }, [formValue, totalComplete]);
-
-  useEffect(() => {
-    if (total >= perc) {
-      handleAddGameHistory({ stub: 'facts' });
-    }
-  }, [total]);
 
   return (
     <main id="rewards" className="w-perc-100 h-perc-100 dis-fl-col a-c">
@@ -135,7 +124,7 @@ const FactsRewards = (props) => {
       <div className="dis-fl-col px-2 px-lg-4 pt-8">
         <hr className="mb-3 lighter" />
         <div className="dis-f a-t">
-          <img src={infoImg} alt="Info Lamp" />
+          <img alt="Info Lamp" />
           <p className="ml-2 mb-3 mb-lg-0">
             <span className="fweight-500 txtDark700 fsize-300 dis-b">Note</span>
             <span className="txtDark700 fsize-300">It is proven that more information and higher transparency increase the selling price. Try to complete as much as possible to get the best result.</span>
@@ -148,7 +137,6 @@ const FactsRewards = (props) => {
 
 FactsRewards.propTypes = {
   formValue: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
   totalComplete: PropTypes.number,
@@ -163,8 +151,7 @@ const mapStateToProps = (state) => ({
   totalComplete: get(state, 'brixelForm.Property.values.inputSheet.totalComplete', 9),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+const mapDispatchToProps = () => ({
 });
 
 export default compose(

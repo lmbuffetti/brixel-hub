@@ -10,7 +10,6 @@ import {
   BrixelButtonIcon, BrixelButtonBox,
 } from '@brixel/brixel-components';
 import Sticker from 'react-stickyfill';
-import { addGameHistory } from '../../../actions/GamificationActions';
 import Loading from '../../../components/Loading';
 import { GameGroupConfig } from '../../../constants/global';
 // import helloImg from '../../../images/hello.svg';
@@ -36,7 +35,6 @@ const RewardsDashboard = (props) => {
     formValue,
     gameGroup,
     gameHistory,
-    handleAddGameHistory,
     history,
     isLoading,
     isSmallLoading,
@@ -106,16 +104,6 @@ const RewardsDashboard = (props) => {
     }
   }, [windowDimensions, gameHistory, usrGroups]);
 
-  // FUNCTION TO ADD MEDIA TO GAME HISTORY
-  useEffect(() => {
-    const getFloorPlans = get(formValue, 'floorPlans', []);
-    const getPhotos = get(formValue, 'photos', []);
-    const getDocuments = get(formValue, 'documents', []);
-    if (getDocuments.length > 0 && getPhotos.length > 0 && getFloorPlans.length > 0) {
-      handleAddGameHistory({ stub: 'media' });
-    }
-  }, [get(formValue, 'floorPlans', []), get(formValue, 'photos', []), get(formValue, 'documents', [])]);
-
   // FUNCTION TO ADD PAGE OR PORTALS TO GAME HISTORY
   useEffect(() => {
     let filtUsrGroup = cloneDeep(gameGroup);
@@ -139,7 +127,6 @@ const RewardsDashboard = (props) => {
                   return null;
                 });
                 if (isOnline) {
-                  handleAddGameHistory({ stub: 'portals' });
                   filtUsrGroup[f].achievements[idGroupPortals].done = true;
                 }
               }
@@ -150,7 +137,6 @@ const RewardsDashboard = (props) => {
               if (!filtUsrGroup[f].achievements[idGroupPage].done) {
                 const pageIsOnline = get(formValue, 'published', false);
                 if (pageIsOnline) {
-                  handleAddGameHistory({ stub: 'page-published' });
                   filtUsrGroup[f].achievements[idGroupPage].done = true;
                 }
               }
@@ -380,7 +366,6 @@ RewardsDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object),
   gameHistory: PropTypes.object,
-  handleAddGameHistory: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -412,7 +397,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

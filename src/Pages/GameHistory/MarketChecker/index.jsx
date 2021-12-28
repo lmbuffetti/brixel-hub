@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { MarketCheckQuestions } from '../../../resources/MarketCheck';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
 const MarketCheck = (props) => {
@@ -21,7 +20,6 @@ const MarketCheck = (props) => {
     formValue,
     gameGroup,
     gameHistory,
-    handleAddGameHistory,
     history,
     initForm,
     initialValues,
@@ -47,21 +45,6 @@ const MarketCheck = (props) => {
       setCurrentIndex(lastID);
       setQuest(questions[lastID]);
       setLoaded(true);
-
-      const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
-      if (typeof checkGameExist === 'undefined') {
-        // handleAddGameHistory({ stub: 'market-checker' });
-      }
-      /* if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
-        setFinishedFlow(true);
-        if (lastID) {
-          setCurrentIndex(lastID);
-          setQuest(questions[lastID]);
-        }
-      } else {
-        setFinishedFlow(false);
-      }
-      setLoaded(true); */
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
@@ -104,7 +87,6 @@ const MarketCheck = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-    handleAddGameHistory({ stub: getAchievement() });
     // resetForm('Property');
   };
 
@@ -297,7 +279,6 @@ MarketCheck.propTypes = {
   errorValue: PropTypes.object.isRequired,
   gameHistory: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
@@ -323,7 +304,6 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm(data) {
     (dispatch(reset('GamingFlow', data)));
   },
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 

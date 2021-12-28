@@ -4,13 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import {
   withRouter,
 } from 'react-router-dom';
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
-import { getGamegroup } from '../../../actions/GamificationActions';
 import newMarketCheck from '../../../images/MarketCheck/newMarketCheck.svg';
 import startMarketCheck from '../../../images/MarketCheck/startMarketCheck.svg';
 import simillarMarketCheck from '../../../images/MarketCheck/simillarMarketCheck.svg';
@@ -175,8 +174,7 @@ const mapStateToProps = (state) => ({
   userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
+const mapDispatchToProps = () => ({
 });
 
 export default compose(

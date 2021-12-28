@@ -3,11 +3,10 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import get from 'lodash/get';
 import { BrixelButtonPrimary, BrixelIcon, FormatValue } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { addGameHistory } from '../../../actions/GamificationActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 
 const PageReviewRewards = (props) => {
@@ -15,7 +14,6 @@ const PageReviewRewards = (props) => {
     activeSingleProperty,
     formValue,
     gameHistory,
-    handleAddGameHistory,
     history,
     isSmallLoading,
     match,
@@ -35,7 +33,6 @@ const PageReviewRewards = (props) => {
   // FUNCTION TO OPEN THE PAGE PREVIEW AND ADD TO GAME HISTORY
   const openPreview = () => {
     const redirectUrl = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
-    handleAddGameHistory({ stub: gameStub, redirectTo: redirectUrl, smallLoader: 'preview' });
   };
 
   return (
@@ -180,7 +177,6 @@ const PageReviewRewards = (props) => {
 PageReviewRewards.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -194,8 +190,7 @@ const mapStateToProps = (state) => ({
   gameHistory: get(state, 'gamification.gameHistory.data', []),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
+const mapDispatchToProps = () => ({
 });
 
 export default compose(

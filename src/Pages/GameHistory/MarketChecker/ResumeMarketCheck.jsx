@@ -12,7 +12,6 @@ import { DateTime } from 'luxon';
 import { BrixelIcon } from '@brixel/brixel-components';
 import { getActiveSingleProperty, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { sendGenericMail } from '../../../actions/CommonActions';
-import { addGameHistory } from '../../../actions/GamificationActions';
 import Maps from '../../../components/Map/Maps';
 import RangePriceChart from '../../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../../images/emptyHub.svg';
@@ -27,7 +26,6 @@ function ResumeMarketCheck(props) {
     marketData,
     activeSingleProperty,
     gameHistory,
-    handleAddGameHistory,
     isSmallLoading,
     match,
   } = props;
@@ -63,7 +61,6 @@ function ResumeMarketCheck(props) {
     if (get(gameHistory, 'data', null)) {
       const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === 'market-checker' && item.page === activeSingleProperty.id);
       if (typeof checkGameExist === 'undefined' && !isMarketCheckDone) {
-        handleAddGameHistory({ stub: 'market-checker' });
         setIsMarketCheckDone(true);
       }
     }
@@ -242,7 +239,6 @@ ResumeMarketCheck.propTypes = {
   activeSingleProperty: PropTypes.object,
   formValue: PropTypes.object,
   gameHistory: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   handleGetMarketData: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -266,7 +262,6 @@ const mapStateToProps = (state, props) => ({
   marketData: get(state, 'property.marketCheck', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleGetMarketData: bindActionCreators(getMarketCheck, dispatch),
   handleGetPage: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),

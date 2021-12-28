@@ -16,10 +16,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { FactsApartment } from '../../../resources/Facts';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
-
-import { calcPercentageFacts } from '../../../utils/helpers';
 
 const MarketCheck = (props) => {
   // PROPS
@@ -30,7 +27,6 @@ const MarketCheck = (props) => {
     gameGroup,
     gameHistory,
     handleSaveActiveSingleProperty,
-    handleAddGameHistory,
     history,
     initForm,
     initialValuesPage,
@@ -108,16 +104,12 @@ const MarketCheck = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-    // handleAddGameHistory({stub: getAchievement()});
     const data = {
       id: propID,
       smallLoader: 'saveData',
       redirectTo: `/${propID}/home/${getAchievement()}`,
       ...formValue,
     };
-    if (calcPercentageFacts('GamingFlow').calcPerc >= 20) {
-      handleAddGameHistory({ stub: 'facts', smallLoader: 'saveData' });
-    }
     handleSaveActiveSingleProperty(data);
   };
 
@@ -338,7 +330,6 @@ MarketCheck.propTypes = {
   errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
@@ -372,7 +363,6 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm(form, data) {
     (dispatch(reset(form, data)));
   },
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 

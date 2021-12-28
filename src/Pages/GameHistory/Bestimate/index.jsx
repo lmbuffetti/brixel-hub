@@ -17,7 +17,6 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import { BestimateQuestions } from '../../../resources/Bestimate';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import { addGameHistory } from '../../../actions/GamificationActions';
 import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
 
 const Bestimate = (props) => {
@@ -29,7 +28,6 @@ const Bestimate = (props) => {
     formValue,
     gameGroup,
     gameHistory,
-    handleAddGameHistory,
     handleSaveActiveSingleProperty,
     history,
     initForm,
@@ -158,7 +156,6 @@ const Bestimate = (props) => {
       // redirectTo: `/${propID}/rewards/${getAchievement()}`,
     };
     handleSaveActiveSingleProperty(data);
-    handleAddGameHistory({ stub: getAchievement() });
     resetForm('Property', initialValuesPage);
   };
 
@@ -370,7 +367,6 @@ Bestimate.propTypes = {
   formValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -424,7 +420,6 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GamingFlow', value));
   },
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 

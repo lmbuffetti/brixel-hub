@@ -1,0 +1,42 @@
+// List of action stubs used by each type of timeline (user, page or deal) sent as payload to the history endpoint
+
+module.exports = {
+  User: [
+    'user-register',
+    'user-recover-password',
+  ],
+  Page: [
+    'page-create',
+    'page-published',
+    'page-unpublished',
+    'page-message',
+    'page-upgrade',
+    'page-listed',
+    'page-unlisted',
+    'page-unarchive',
+    'page-archive',
+    'page-portal-publish',
+    'page-portal-unpublish',
+    'page-update-price',
+    'page-upgrade-plan-request',
+    'page-publish-review',
+    'page-unpublish-review',
+    'page-portals-review',
+    'page-portals-unpublish-review',
+    'page-scan-trial',
+    'page-start-service-package',
+    'page-stop-service-package',
+    'page-premarket-publish',
+    'page-premarket-unpublish',
+    'pro-estimation-complete',
+  ],
+  Deal: [
+    'update-deal',
+    'portal-create-deal',
+    'deal-feedback-visit',
+  ],
+  DealOwner: [
+    'user-register',
+    'user-portal-create-message',
+  ],
+};
