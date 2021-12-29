@@ -30,7 +30,6 @@ import {
 import { setActiveSingleProperty } from './actions/PropertyActions';
 
 import { getImageType } from './actions/UploadActions';
-// import TeaserBanner from './components/TeaserBanner';
 import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 
@@ -453,14 +452,6 @@ const App = (props) => {
                     )
                   }
                   <div className="w-perc-100 innerWrap">
-                    {/*  {
-                    !history.location.pathname.includes('packageFlow') &&
-                  !history.location.pathname.includes('onBoarding') &&
-                  !history.location.pathname.includes('buyer') &&
-                    (
-                      // <TeaserBanner />
-                    )
-                  } */}
                     <Switch>
                       { /* SECTION: ONBOARDING */ }
                       <Route exact path="/packageFlow/" component={GetStarted} />
