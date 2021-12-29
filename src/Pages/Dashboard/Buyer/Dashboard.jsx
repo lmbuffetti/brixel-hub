@@ -60,7 +60,7 @@ const Dashboard = (props) => {
   const [sortOrderType] = useState('updatedAt');
   const [sortDirection] = useState('DESC');
 
-  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
+  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
     const data = {
       resultsPerPage: itemsPerPage,

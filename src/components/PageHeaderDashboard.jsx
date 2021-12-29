@@ -162,7 +162,7 @@ function PageHeaderDashboard(props) {
     }
   };
 
-  // CHECK IF USER IS LOGGED IN AND LOAD GAME HISTORY IF NO DATA
+  // CHECK IF USER IS LOGGED IN
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
       const langUsr = loggedInUser.user.language;

@@ -127,7 +127,7 @@ const Dashboard = (props) => {
     }
   };
 
-  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
+  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
       if (propID && propID !== 'home' && propID !== 'company') {
@@ -180,7 +180,6 @@ const Dashboard = (props) => {
         history.push('/sell');
       }
     }
-    localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'company.id', get(activeSingleProperty, 'company', null));
     if (activeLeads && activeLeads !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads, smallLoader: 'singleCompany' });
