@@ -94,7 +94,6 @@ SuccessHomebase.propTypes = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
-  gameGroup: get(state, 'gamification.gameGroup', []),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 

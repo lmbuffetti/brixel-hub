@@ -100,27 +100,6 @@ const RewardsBuyerDashboard = (props) => {
                             )
                           }
                         </div>
-                        {/* {
-                          activeAchievement.points && (
-                            <div
-                              className="cur-poi ml-2"
-                              onClick={() => handleSetModal({
-                                showAwardsInfo: true,
-                              })}
-                            >
-                              {
-                                activeAchievement.achievementType === 'award' && (
-                                  <BrixelIcon
-                                    icon="cup-awards"
-                                    color="green"
-                                    className="mr-1"
-                                  />
-                                )
-                              }
-                              <span className="ff-mono txtDark700">{activeAchievement.points}</span>
-                            </div>
-                          )
-                        } */}
                       </div>
                     )
                   }
@@ -149,12 +128,9 @@ RewardsBuyerDashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
-  gameGroup: get(state, 'gamification.gameGroup', []),
   formValue: get(state, 'brixelForm.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  awards: get(state, 'user.awards', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  brixelPoints: get(state, 'user.brixelPoints', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

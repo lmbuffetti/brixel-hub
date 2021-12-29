@@ -5,7 +5,6 @@ import ApiClient from './ApiClient';
 import Common from '../actions/Common';
 import Company from '../actions/Company';
 import Deal from '../actions/Deal';
-import Gamification from '../actions/Gamification';
 import History from '../actions/History';
 import Lead from '../actions/Lead';
 import Note from '../actions/Note';
@@ -29,7 +28,6 @@ function apiFactory(
     common: new Common({ apiClient: api }),
     company: new Company({ apiClient: api }),
     deal: new Deal({ apiClient: api }),
-    gamification: new Gamification({ apiClient: api }),
     history: new History({ apiClient: api }),
     image: new Upload({ apiClient: api }),
     lead: new Lead({ apiClient: api }),

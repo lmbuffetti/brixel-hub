@@ -50,7 +50,6 @@ function PageHeader(props) {
       setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
-      // if (!gameHistory.data && !history.location.pathname.includes('getStarted')) handleGetGame();
     }
   }, [loggedInUser, lang]);
 
@@ -310,7 +309,6 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser', {}),
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', ''),
-  userAwards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),
 });
 

@@ -194,7 +194,6 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   condition: get(state, 'property.estimation.result', {}),
   estimation: get(state, 'property.estimation', {}),
-  gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.marketCheck', {}),
 });
 

@@ -65,7 +65,6 @@ const GetStartedSeller = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
 
   const singleStepRef = useRef(null);
@@ -438,11 +437,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/home`);
-    } else {
-      history.push(`/${propID}/home/${getAchievement()}`);
-    }
+    history.push(`/${propID}/home`);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER

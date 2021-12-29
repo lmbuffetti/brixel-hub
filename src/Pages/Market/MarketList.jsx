@@ -254,7 +254,7 @@ const MarketList = (props) => {
   const openCard = (item) => {
     if (catName === 'own') {
       history.push({
-        pathname: `/${item.id}/home/market-checker`,
+        pathname: `/${item.id}/home`,
         state: { section: 'Market' },
       });
     } else if (catName === 'preMarket' || get(item, 'tags', []).includes('pre-market')) {

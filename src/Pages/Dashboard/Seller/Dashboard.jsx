@@ -422,7 +422,6 @@ const mapStateToProps = (state) => {
     imageType: get(state, 'images.imageType', []),
     initValues: get(state, 'brixelForm.Property.initialValues', {}),
     initialValues: {
-      assessor: get(state, 'property.activeSingleProperty.assessor', {}),
       booking: get(state, 'property.activeSinglePropertyBooking', []),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),

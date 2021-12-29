@@ -8,7 +8,6 @@ import { rootReducer } from '../reducers';
 import CommonMiddleware from '../middlewares/CommonMiddleware';
 import CompanyMiddleware from '../middlewares/CompanyMiddleware';
 import DealMiddleware from '../middlewares/DealMiddleware';
-import GamificationMiddleware from '../middlewares/GamificationMiddleware';
 import HistoryMiddleware from '../middlewares/HistoryMiddleware';
 import ImageMiddleware from '../middlewares/UploadMiddleware';
 import LeadMiddleware from '../middlewares/LeadMiddleware';
@@ -34,7 +33,6 @@ const composedEnhancers = compose(
     CommonMiddleware,
     CompanyMiddleware,
     DealMiddleware,
-    GamificationMiddleware,
     HistoryMiddleware,
     ImageMiddleware,
     LeadMiddleware,

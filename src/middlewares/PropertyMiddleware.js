@@ -57,11 +57,8 @@ import {
 import {
   cutValue, roundFifty, roundFiveThousand,
 } from '../utils/helpers';
-import { properties } from '../resources/localData/properties';
 
 const ActionStubs = require('../resources/timelineActionStubs');
-
-// import { pageContent } from '../resources/localData/page';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -482,7 +479,7 @@ const checkCommon = (store) => (next) => (action) => {
             if (setAsSingle) {
               store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: {} });
             } else {
-              store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: properties });
+              store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
             }
           }
           if (setAsSingle) {
