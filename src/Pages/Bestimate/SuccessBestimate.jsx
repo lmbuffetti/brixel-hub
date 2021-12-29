@@ -9,13 +9,13 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { BrixelButtonPrimary, Helpers } from '@brixel/brixel-components';
-import newBestimate from '../../../images/Bestimate/newBestimate.svg';
-import startBestimate from '../../../images/Bestimate/startBestimate.svg';
-import generatingBestimate from '../../../images/Bestimate/generatingBestimate.svg';
-import { getMarketCheck } from '../../../actions/PropertyActions';
-import RangePriceChart from '../../../components/Charts/RangePriceChart';
-import Loading from '../../../components/Loading';
-import emptyHouseImg from '../../../images/emptyHub.svg';
+import newBestimate from '../../images/Bestimate/newBestimate.svg';
+import startBestimate from '../../images/Bestimate/startBestimate.svg';
+import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
+import { getMarketCheck } from '../../actions/PropertyActions';
+import RangePriceChart from '../../components/Charts/RangePriceChart';
+import Loading from '../../components/Loading';
+import emptyHouseImg from '../../images/emptyHub.svg';
 
 function SuccessBestimate(props) {
   // PROPS

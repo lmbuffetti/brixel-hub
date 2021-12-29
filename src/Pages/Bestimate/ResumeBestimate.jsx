@@ -9,11 +9,11 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { Helpers } from '@brixel/brixel-components';
-import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import { createEstimation, generateEstimation } from '../../../actions/EstimationActions';
-import RangePriceChart from '../../../components/Charts/RangePriceChart';
-import emptyHouseImg from '../../../images/emptyHub.svg';
-import Loading from '../../../components/Loading';
+import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { createEstimation, generateEstimation } from '../../actions/EstimationActions';
+import RangePriceChart from '../../components/Charts/RangePriceChart';
+import emptyHouseImg from '../../images/emptyHub.svg';
+import Loading from '../../components/Loading';
 
 function ResumeBestimate(props) {
   // PROPS

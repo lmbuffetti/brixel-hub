@@ -8,9 +8,9 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
-import newAssessor from '../../../images/Assessor/newAssessor.svg';
-import startAssessor from '../../../images/Assessor/startAssessor.svg';
-import ChartDonuts from '../../../components/Charts/ChartDonuts';
+import newAssessor from '../../images/Assessor/newAssessor.svg';
+import startAssessor from '../../images/Assessor/startAssessor.svg';
+import ChartDonuts from '../../components/Charts/ChartDonuts';
 
 function SuccessAssessor(props) {
   // PROPS

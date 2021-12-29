@@ -694,8 +694,6 @@ const mapStateToProps = (state) => ({
   awards: get(state, 'user.awards', 0),
   brixelPoints: get(state, 'user.brixelPoints', 0),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
-  gameGroup: get(state, 'gamification.gameGroup', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
   lang: get(state, 'common.language', []),
   languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),

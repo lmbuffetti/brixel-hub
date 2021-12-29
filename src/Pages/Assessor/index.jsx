@@ -2,23 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon,
-  MultiFileldsReduxForm,
-  BrixelButtonPrimary,
-  BrixelButtonText,
-  BrixelProgressLineDots,
-  reset,
-  initializeForm,
+  BrixelButtonIcon, MultiFileldsReduxForm, BrixelButtonPrimary, BrixelButtonText, initializeForm,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { FactsApartment } from '../../../resources/Facts';
-import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
+import cloneDeep from 'lodash/cloneDeep';
+import { extractAssessorCondition, calculateAgeByYear } from '../../utils/helpers';
+import { AssessorQuestions } from '../../resources/Assessor';
+import { saveActiveSingleProperty } from '../../actions/PropertyActions';
+import PageHeaderAchievement from '../../components/PageHeaderAchievement';
 
-const MarketCheck = (props) => {
+const Assessor = (props) => {
   // PROPS
   const {
     activeSingleProperty,
@@ -29,22 +25,18 @@ const MarketCheck = (props) => {
     handleSaveActiveSingleProperty,
     history,
     initForm,
-    initialValuesPage,
     initialValues,
     match,
-    resetForm,
-    isSmallLoader,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(FactsApartment('en'));
+  const [questions, setQuestions] = useState(AssessorQuestions('en'));
   const [loaded, setLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(FactsApartment('en')[0]);
+  const [quest, setQuest] = useState(AssessorQuestions('en')[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [selGameGroup, setSelGameGroup] = useState({});
   const [finishedFlow, setFinishedFlow] = useState(false);
   const [lastID, setLastID] = useState(0);
-  const [numberQuestions, setNumberQuestions] = useState(0);
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
@@ -53,10 +45,11 @@ const MarketCheck = (props) => {
   useEffect(() => {
     if (gameHistory && gameHistory.data && activeSingleProperty.id) {
       const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
-      if (typeof checkGameExist !== 'undefined' && activeSingleProperty.ownerType) {
+      if (typeof checkGameExist !== 'undefined') {
         setFinishedFlow(true);
-        if (lastID) {
-          history.push(`/${propID}/property/facts`);
+        if (lastID && get(history, 'location.state.redo', false) !== true) {
+          setCurrentIndex(lastID);
+          setQuest(questions[lastID]);
         }
       } else {
         setFinishedFlow(false);
@@ -65,15 +58,17 @@ const MarketCheck = (props) => {
     }
   }, [gameHistory, activeSingleProperty, lastID]);
 
+  // INITIALIZE FORM
   useEffect(() => {
-    initForm(initialValues);
+    initForm(cloneDeep(initialValues));
   }, [activeSingleProperty]);
 
   // LOAD THE CURRENT GAME GROUP
   useEffect(() => {
     if (gameGroup.length > 0) {
       const group = gameGroup.find((game) => game.achievements.some((item) => item.stub === getAchievement()));
-      const defGroup = group.achievements.find((item) => item.stub === getAchievement());
+      const achievements = get(group, 'achievements', []);
+      const defGroup = achievements.find((item) => item.stub === getAchievement());
       setSelGameGroup(defGroup);
     }
   }, [gameGroup]);
@@ -81,10 +76,10 @@ const MarketCheck = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT AND IF HAS TO REDO
   useEffect(() => {
     setIsEnter(true);
-    if (get(questions, `[${currentIndex}].history`, null) && loaded) {
+    if (questions[currentIndex].history && loaded) {
       const redo = get(history, 'location.state.redo', false);
       history.push({
-        pathname: `/${propID}/home/achievement/${getAchievement()}/${questions[currentIndex].history}`,
+        pathname: `/${propID}/singleFlow/achievement/${getAchievement()}/${questions[currentIndex].history}`,
         state: {
           redo,
         },
@@ -94,7 +89,6 @@ const MarketCheck = (props) => {
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
-    resetForm('Property', initialValuesPage);
     if (typeof window !== 'undefined' && window.innerWidth < 1024) {
       history.push(`/${propID}/home`);
     } else {
@@ -102,19 +96,38 @@ const MarketCheck = (props) => {
     }
   };
 
-  // FUNCTION TO SAVE DATA
+  // FUNCTION TO SAVE DATA AND DO ALL CALC OF ASSESSOR BY AGE
   const saveData = () => {
-    const data = {
-      id: propID,
-      smallLoader: 'saveData',
-      redirectTo: `/${propID}/home/${getAchievement()}`,
-      ...formValue,
+    const dataProp = {};
+    dataProp.properties = get(formValue, 'properties', {});
+    dataProp.id = get(formValue, 'id', 0);
+    // CALC THE PROPERTY CONDITION
+    const yearBuilt = get(formValue, 'properties.building.built', null);
+    const yearRenovate = get(formValue, 'properties.building.renovated', null);
+    const age = calculateAgeByYear(yearBuilt);
+    const valueConstruction = get(formValue, 'properties.building.constructionMaterials', null);
+    const valueRoof = get(formValue, 'properties.building.roofType', null);
+    const valueFacade = get(formValue, 'properties.building.facade', null);
+    const valueHeating = get(formValue, 'properties.energy.heating', null);
+    const countryCode = get(formValue, 'location.countryCode', 'CH');
+    dataProp.assessor = {
+      date: new Date(),
+      construction: extractAssessorCondition(age, valueConstruction, valueRoof, valueFacade, valueHeating, countryCode),
     };
-    handleSaveActiveSingleProperty(data);
+    if (yearRenovate) {
+      const ageRenovation = calculateAgeByYear(yearRenovate);
+      dataProp.assessor.renovation = extractAssessorCondition(ageRenovation, valueConstruction, valueRoof, valueFacade, valueHeating, countryCode);
+      dataProp.properties.building.isPropertyRenovated = 1;
+    }
+    // UPDATE PROPERTY
+    history.push({ state: {} });
+    // ADD THE ACHIEVEMENT
+    handleSaveActiveSingleProperty(dataProp);
   };
 
   // FUNCTION TO CHANGE STEP - BACK-FORWARD
   const changeStep = (act) => {
+    setIsEnter(false);
     let newIndex = currentIndex;
     if (act === 'back') {
       newIndex -= 1;
@@ -122,28 +135,18 @@ const MarketCheck = (props) => {
       newIndex += 1;
     }
     if (questions[newIndex].toSave) {
-      history.push(`/${propID}/singleFlow/achievement/${getAchievement()}/${questions[newIndex].history}`);
       saveData();
     }
+    setCurrentIndex(newIndex);
     // setPosition(newIndex);
-    if (typeof questions[newIndex].title !== 'undefined') {
-      setIsEnter(false);
-      setQuest(questions[newIndex]);
-      setCurrentIndex(newIndex);
-      document.getElementsByClassName('singleStep')[0].scroll({
-        behavior: 'smooth',
-        left: 0,
-        top: 0,
-      });
-    }
+    setQuest(questions[newIndex]);
   };
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     if (formValue.id) {
       const newQuest = [];
-      const originalQuests = FactsApartment('en');
-      originalQuests.map((questData) => {
+      AssessorQuestions('en').map((questData) => {
         if (questData.condition) {
           let isValid = true;
           questData.condition.map((item) => {
@@ -159,11 +162,9 @@ const MarketCheck = (props) => {
         return null;
       });
       setLastID(newQuest.length - 1);
-      setNumberQuestions(originalQuests.filter((item) => typeof item.inputs !== 'undefined').length);
       setQuestions(newQuest);
-      setQuest(FactsApartment('en')[currentIndex]);
     }
-  }, [formValue, initialValues]);
+  }, [formValue]);
 
   // CHECK IF FIELD IS VALID
   const checkValidateField = (act) => {
@@ -174,15 +175,15 @@ const MarketCheck = (props) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
         if (noEmpty !== 'ayc') isNotEmpty = true;
-        if (get(input, 'condition', null)) {
+        if (input.condition) {
           input.condition.map((item) => {
             if (get(formValue, item.name, null) === item.value) {
-              if (err !== true && err !== false && err !== null && isValid) isValid = false;
+              if (err !== true && err !== false && isValid) isValid = false;
             }
             return null;
           });
         } else if (input.validation) {
-          if (err !== true && err !== false && err !== null && isValid) isValid = false;
+          if (err !== true && err !== false && isValid && err !== null) isValid = false;
         }
         return null;
       });
@@ -194,22 +195,15 @@ const MarketCheck = (props) => {
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    // const inputName = get(quest, 'inputs[0].name', null);
+    const inputName = get(quest, 'inputs[0].name', null);
+    let validation = get(quest, 'inputs[0].validation', null);
+    if (validation) {
+      validation = validation[validation.length - 1]();
+    }
     if (currentIndex === questions.length - 1) label = 'Back to Hub';
-    else if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Finish';
-    else if (get(quest, 'inputs', []).length > 0) {
-      get(quest, 'inputs', []).forEach((item) => {
-        if (label !== 'Next') {
-          if (
-            get(formValue, item.name, null) === null
-          ) {
-            label = 'Skip';
-          } else {
-            label = 'Next';
-          }
-        }
-      });
-    } else label = 'Next';
+    else if (validation === null && get(formValue, inputName, null) === null) label = 'Skip';
+    else if (currentIndex === 0) label = 'Next';
+    else label = 'Next';
     return label;
   };
 
@@ -236,28 +230,16 @@ const MarketCheck = (props) => {
         >
           <div className="multiStepSlides">
             <div
-              className={`singleStep jc-c a-t ${get(quest, 'background', '')} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
+              className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}
             >
-              <div className="subcontainer m-a mt-0 rewardsFacts">
-                <div className="mt-2 mb-5">
-                  <BrixelProgressLineDots
-                    color="Primary"
-                    backgroundSaturation={100}
-                    saturation={600}
-                    activeStep={currentIndex}
-                    steps={numberQuestions}
-                  />
-                </div>
+              <div className="subcontainer m-a">
                 {
-                  get(quest, 'inputs', null) && (
+                  quest.inputs && (
                     <div>
-                      <h5 className={`${quest.subtitle ? 'mb-1' : 'mb-3'}`}>{quest.title}</h5>
-                      {
-                        quest.subtitle && (
-                          <p className="mb-3 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
-                      }
+                      <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'}`}>{quest.title}</h3>
+                      {quest.subtitle && (
+                        <p className="mb-5 txtDark200" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)}
                       <MultiFileldsReduxForm
-                        className="singleInput"
                         disableNextBtn={false}
                         formValue={formValue}
                         form="GamingFlow"
@@ -268,7 +250,7 @@ const MarketCheck = (props) => {
                   )
                 }
                 {
-                  get(quest, 'cardType', null) === 'loadComponent' && get(quest, 'history', 'a') === get(questions, `[${currentIndex}].history`, 'b') && (
+                  quest && quest.cardType === 'loadComponent' && quest.history === questions[currentIndex].history && (
                     React.createElement(quest.component, { formName: 'GamingFlow', finishedFlow, initialValue: formValue })
                   )
                 }
@@ -279,11 +261,11 @@ const MarketCheck = (props) => {
             className={`footerAction p-1 p-lg-2 shadow-1dp-top ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
           >
             <div className="container pos-r">
-              <div className={`w-perc-100 a-c dis-fl-row jc-b m-a ${currentIndex === lastID ? 'jc-c' : 'jc-b'}`}>
+              <div className={`w-perc-100 a-c dis-fl-row jc-b m-a ${currentIndex === questions.length - 1 ? 'jc-c' : 'jc-b'}`}>
                 {
                   questions[currentIndex] && questions[currentIndex].inputs && (
                     <BrixelButtonIcon
-                      className={`backBtn ${currentIndex === 0 ? 'hide' : ''}`}
+                      className={`shadow-2dp backBtn ${currentIndex === 0 ? 'hide' : ''}`}
                       icon="arrow-simple-left"
                       onClick={() => changeStep('back')}
                       ghost
@@ -295,11 +277,11 @@ const MarketCheck = (props) => {
                     <BrixelButtonText
                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
-                      theme="light"
+                      saturation={400}
+                      color="light"
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      isLoading={isSmallLoader.saveData}
                     />
                   ) : (
                     <BrixelButtonPrimary
@@ -309,7 +291,6 @@ const MarketCheck = (props) => {
                       label={buttonLabel()}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      isLoading={isSmallLoader.saveData}
                     />
                   )
                 }
@@ -322,20 +303,17 @@ const MarketCheck = (props) => {
   );
 };
 
-MarketCheck.propTypes = {
+Assessor.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  initialValuesPage: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
   gameHistory: PropTypes.object.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  resetForm: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
-  isSmallLoader: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -344,15 +322,10 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.GamingFlow.values', {}),
   gameGroup: get(state, 'gamification.gameGroup', []),
   gameHistory: get(state, 'gamification.gameHistory', {}),
-  isSmallLoader: get(state, 'common.isSmallLoading', { }),
   packagesProperty: get(state, 'property.packagesProperty', []),
-  initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
   initialValues: {
     id: get(state, 'property.activeSingleProperty.id', null),
     properties: get(state, 'property.activeSingleProperty.properties', null),
-    description: get(state, 'property.activeSingleProperty.description', null),
-    price: get(state, 'property.activeSingleProperty.price', null),
-    title: get(state, 'property.activeSingleProperty.title', null),
   },
 });
 
@@ -360,13 +333,10 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GamingFlow', value));
   },
-  resetForm(form, data) {
-    (dispatch(reset(form, data)));
-  },
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-)(MarketCheck);
+)(Assessor);

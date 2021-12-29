@@ -15,9 +15,9 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import { BestimateQuestions } from '../../../resources/Bestimate';
-import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
+import { BestimateQuestions } from '../../resources/Bestimate';
+import { saveActiveSingleProperty } from '../../actions/PropertyActions';
+import PageHeaderAchievement from '../../components/PageHeaderAchievement';
 
 const Bestimate = (props) => {
   // PROPS

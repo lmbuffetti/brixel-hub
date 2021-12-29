@@ -8,7 +8,7 @@ import get from 'lodash/get';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
-import CoverPropertyImage from '../../../components/CoverPropertyImage';
+import CoverPropertyImage from '../../components/CoverPropertyImage';
 
 function SuccessHomebase(props) {
   // PROPS

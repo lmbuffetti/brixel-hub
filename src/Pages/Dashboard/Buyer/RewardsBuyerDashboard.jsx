@@ -11,7 +11,7 @@ import Loading from '../../../components/Loading';
 import { GameGroupConfig } from '../../../constants/global';
 import BrixelButtonAchievement from '../../../components/BrixelButtonAchievement';
 
-import SuccessHomebase from '../../GameHistory/Homebase/SuccessHomebase';
+import SuccessHomebase from '../../Homebase/SuccessHomebase';
 import { setModal } from '../../../actions/CommonActions';
 // import Support from '../../../components/Support';
 
@@ -150,7 +150,6 @@ RewardsBuyerDashboard.defaultProps = {
 const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
   gameGroup: get(state, 'gamification.gameGroup', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   awards: get(state, 'user.awards', []),

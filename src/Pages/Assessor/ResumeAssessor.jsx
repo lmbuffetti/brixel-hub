@@ -11,8 +11,8 @@ import {
 } from 'react-router-dom';
 import { BrixelSelect, FactsOptions } from '@brixel/brixel-components';
 // eslint-disable-next-line import/no-cycle
-import { AssessorAvgLifespan, AssessorLabel } from '../../../resources/Assessor';
-import ChartDonuts from '../../../components/Charts/ChartDonuts';
+import { AssessorAvgLifespan, AssessorLabel } from '../../resources/Assessor';
+import ChartDonuts from '../../components/Charts/ChartDonuts';
 
 const { factsOptions } = FactsOptions;
 

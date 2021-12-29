@@ -718,8 +718,6 @@ const mapStateToProps = (state, props) => {
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     initialValues: {
       ...get(state, 'brixelForm.GetStarted.initialValues', {}),
       channel,

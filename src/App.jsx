@@ -29,7 +29,6 @@ import {
 } from './actions/CommonActions';
 import { setActiveSingleProperty } from './actions/PropertyActions';
 
-import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
 // import TeaserBanner from './components/TeaserBanner';
 import SplashScreen from './components/SplashScreen';
@@ -64,17 +63,9 @@ const DashboardSeller = lazy(() => import('./Pages/Dashboard/Seller/Dashboard'))
 const DashboardBuyer = lazy(() => import('./Pages/Dashboard/Buyer/Dashboard'));
 
 // FLOW SELLER
-const MarketChecker = lazy(() => import('./Pages/GameHistory/MarketChecker'));
-
-const Assessor = lazy(() => import('./Pages/GameHistory/Assessor'));
-
-const Bestimate = lazy(() => import('./Pages/GameHistory/Bestimate'));
+const Bestimate = lazy(() => import('./Pages/Bestimate'));
 
 const ProEstimationFlow = lazy(() => import('./Pages/EditProperty/ProEstimationFlow'));
-
-const Facts = lazy(() => import('./Pages/GameHistory/Facts'));
-
-const MediaExplanation = lazy(() => import('./Pages/GameHistory/SecondLevel/MediaExplanation'));
 
 const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScreen'));
 
@@ -573,11 +564,7 @@ const App = (props) => {
           { /* SECTION: ACHIVEMENT FLOW */ }
           {
             <Switch>
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/assessor" component={Assessor} userTypes="seller" />
               <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" component={Bestimate} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/media" component={MediaExplanation} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/facts" component={Facts} userTypes="seller" />
               <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
               <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
               <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
@@ -586,12 +573,6 @@ const App = (props) => {
             </Switch>
           }
 
-          { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
-          {
-            modal.showAwardsInfo && (
-              <BrixelModalAwards />
-            )
-          }
           {
             modal.state && !modal.type && !modal.small && (
               <BrixelModalFullScreen

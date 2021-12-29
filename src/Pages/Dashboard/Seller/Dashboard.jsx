@@ -419,9 +419,6 @@ const mapStateToProps = (state) => {
     activeSingleProperty: has(state, 'property.activeSingleProperty.id') ? get(state, 'property.activeSingleProperty', { }) : undefined,
     errorValue: get(state, 'brixelForm.Property.syncErrors', null),
     formValue: get(state, 'brixelForm.Property.values', {}),
-    gameAchievement: get(state, 'gamification.achievement', []),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     imageType: get(state, 'images.imageType', []),
     initValues: get(state, 'brixelForm.Property.initialValues', {}),
     initialValues: {

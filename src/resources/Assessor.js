@@ -7,7 +7,7 @@ import {
   FactsOptions,
   Validation,
 } from '@brixel/brixel-components';
-import ResumeAssessor from '../Pages/GameHistory/Assessor/ResumeAssessor';
+import ResumeAssessor from '../Pages/Assessor/ResumeAssessor';
 import { translateTo } from '../utils/translation';
 
 const { factsOptions } = FactsOptions;
