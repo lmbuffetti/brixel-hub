@@ -162,7 +162,7 @@ function PageHeaderDashboard(props) {
     }
   };
 
-  // CHECK IF USER IS LOGGED IN AND LOAD GAME HISTORY IF NO DATA
+  // CHECK IF USER IS LOGGED IN
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
       const langUsr = loggedInUser.user.language;
@@ -691,11 +691,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
-  awards: get(state, 'user.awards', 0),
-  brixelPoints: get(state, 'user.brixelPoints', 0),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
-  gameGroup: get(state, 'gamification.gameGroup', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
   lang: get(state, 'common.language', []),
   languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),

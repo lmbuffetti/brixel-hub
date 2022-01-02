@@ -5,7 +5,6 @@ import isArray from 'lodash/isArray';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 import has from 'lodash/has';
 import { translateTo } from './translation';
-import { AssessorAvgLifespan } from '../resources/Assessor';
 import { configureStore } from '../store';
 import { InputSheets } from '../resources/inputSheets';
 import { BestimateQuestions } from '../resources/Bestimate';
@@ -514,58 +513,6 @@ export const calculateAge = (date) => { // birthday is a date
 export const calculateAgeByYear = (year) => { // birthday is a date
   const today = new Date();
   return today.getFullYear() - year;
-};
-
-export const calcConditionAssessor = (age, group, name = null, countryCode = 'CH') => {
-  let condition;
-  const getAssessorAvgLifespan = AssessorAvgLifespan[countryCode.toLowerCase()] ? AssessorAvgLifespan[countryCode.toLowerCase()] : AssessorAvgLifespan.ch;
-  if (name) {
-    if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.25)) condition = 4;
-    else if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.5)) condition = 3;
-    else if (age <= Math.round(getAssessorAvgLifespan[group][name] * 0.75)) condition = 2;
-    else condition = 1;
-  } else if (!isObject(getAssessorAvgLifespan[group])) {
-    if (age <= Math.round(getAssessorAvgLifespan[group] * 0.25)) condition = 4;
-    else if (age <= Math.round(getAssessorAvgLifespan[group] * 0.5)) condition = 3;
-    else if (age <= Math.round(getAssessorAvgLifespan[group] * 0.75)) condition = 2;
-    else condition = 1;
-  }
-  return condition;
-};
-
-export const extractAssessorCondition = (age, construction, roof, facade, heating, countryCode) => {
-  const assessor = {
-    constructor: null,
-    roof: null,
-    facade: null,
-    heating: null,
-    kitchen: calcConditionAssessor(age, 'kitchen', null, countryCode) || null,
-    wetCells: calcConditionAssessor(age, 'wetCells', null, countryCode) || null,
-    electricalSystems: calcConditionAssessor(age, 'electricalSystems', null, countryCode) || null,
-  };
-  if (construction) {
-    assessor.construction = {
-      [construction]: calcConditionAssessor(age, 'construction', construction, countryCode) || null,
-    };
-  }
-  if (roof) {
-    assessor.roof = {
-      [roof]: calcConditionAssessor(age, 'roof', roof, countryCode) || null,
-    };
-  }
-  if (facade) {
-    assessor.facade = {
-      [facade]: calcConditionAssessor(age, 'facade', facade, countryCode) || null,
-    };
-  }
-  if (heating && heating.length > 0) {
-    assessor.heating = {};
-    heating.map((val) => {
-      assessor.heating[val] = calcConditionAssessor(age, 'heating', val, countryCode) || null;
-      return null;
-    });
-  }
-  return assessor;
 };
 
 export const sortObject = (key, order = 'asc') => function innerSort(a, b) {

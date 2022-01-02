@@ -66,7 +66,7 @@ const ProEstimationFlow = (props) => {
     }
   }, [isSmallLoading.saveData]);
 
-  // FUNCTION TO SAVE DATA AND DO ALL CALC OF ASSESSOR BY AGE
+  // FUNCTION TO SAVE DATA
   const saveData = () => {
     const changeObj = diff(initialValues, formValue);
     const objToSave = {};

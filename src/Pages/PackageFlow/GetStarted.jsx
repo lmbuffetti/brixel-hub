@@ -26,7 +26,6 @@ import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoarding';
-import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
@@ -43,7 +42,6 @@ const GetStarted = (props) => {
     formValue,
     // handleDoLogin,
     handleGetActiveSingleCompany,
-    // handleGetGamegroup,
     // handleCreateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
@@ -522,7 +520,6 @@ GetStarted.propTypes = {
   formValue: PropTypes.object.isRequired,
   // handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  // handleGetGamegroup: PropTypes.func.isRequired,
   // handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
@@ -549,8 +546,6 @@ const mapStateToProps = (state, props) => {
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     initialValues: {
       channel,
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
@@ -604,7 +599,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),

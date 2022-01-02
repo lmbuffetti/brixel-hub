@@ -27,6 +27,7 @@ const checkHistory = (store) => (next) => (action) => {
         order,
         parent,
         resultsPerPage,
+        actionStubs,
         smallLoader,
       } = action.payload;
       if (smallLoader) {
@@ -41,8 +42,14 @@ const checkHistory = (store) => (next) => (action) => {
           type: SPINNER_ON,
         });
       }
-      const queryParams = `?parent=${parent}&order=${order}&direction=${direction}`;
-      api.history.getHistoryList(resultsPerPage, offset, queryParams)
+
+      const getType = () => {
+        if (action.payload.type === 'owner') return 'user';
+        return action.payload.type;
+      };
+
+      const queryParams = `?parent=${parent}&order=${order}&direction=${direction}&historyType=${getType()}`;
+      api.history.getHistoryList(resultsPerPage, offset, queryParams, actionStubs)
         .then((response) => {
           if (response.data.total > 0) {
             if (action.payload.type === 'page') {

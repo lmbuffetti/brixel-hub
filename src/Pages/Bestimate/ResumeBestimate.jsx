@@ -9,11 +9,11 @@ import {
   withRouter,
 } from 'react-router-dom';
 import { Helpers } from '@brixel/brixel-components';
-import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import { createEstimation, generateEstimation } from '../../../actions/EstimationActions';
-import RangePriceChart from '../../../components/Charts/RangePriceChart';
-import emptyHouseImg from '../../../images/emptyHub.svg';
-import Loading from '../../../components/Loading';
+import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { createEstimation, generateEstimation } from '../../actions/EstimationActions';
+import RangePriceChart from '../../components/Charts/RangePriceChart';
+import emptyHouseImg from '../../images/emptyHub.svg';
+import Loading from '../../components/Loading';
 
 function ResumeBestimate(props) {
   // PROPS
@@ -194,7 +194,6 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   condition: get(state, 'property.estimation.result', {}),
   estimation: get(state, 'property.estimation', {}),
-  gameGroup: get(state, 'gamification.gameGroup', []),
   marketData: get(state, 'property.marketCheck', {}),
 });
 

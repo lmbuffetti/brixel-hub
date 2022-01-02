@@ -8,7 +8,7 @@ import {
   Validation,
   BrixelSelect,
 } from '@brixel/brixel-components';
-import ResumeBestimate from '../Pages/GameHistory/Bestimate/ResumeBestimate';
+import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
 import homesSvg from '../images/getstarted/svgs/homes.svg';
 
 const { factsOptions } = FactsOptions;

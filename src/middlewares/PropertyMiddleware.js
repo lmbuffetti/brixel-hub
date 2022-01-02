@@ -57,7 +57,8 @@ import {
 import {
   cutValue, roundFifty, roundFiveThousand,
 } from '../utils/helpers';
-// import { pageContent } from '../resources/localData/page';
+
+const ActionStubs = require('../resources/timelineActionStubs');
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -477,6 +478,8 @@ const checkCommon = (store) => (next) => (action) => {
           if (get(window, 'location.href', '').includes('localhost')) {
             if (setAsSingle) {
               store.dispatch({ type: SET_ACTIVE_SINGLE_PROPERTY, payload: {} });
+            } else {
+              store.dispatch({ type: SET_PROPERTY_LISTINGS, payload: [] });
             }
           }
           if (setAsSingle) {
@@ -1200,8 +1203,8 @@ const checkCommon = (store) => (next) => (action) => {
             if (deals[key] === 'Interested') {
               // if get user push
               if (has(deals, 'user.id')) {
-                const queryParams2 = `?parent=${deals.user.id}&order=updatedAt&direction=DESC`;
-                calls.push(api.history.getHistoryList(50, 0, queryParams2));
+                const queryParams2 = `?parent=${deals.user.id}&order=updatedAt&direction=DESC&historyType=user`;
+                calls.push(api.history.getHistoryList(50, 0, queryParams2, ActionStubs.DealOwner));
               }
             }
           });

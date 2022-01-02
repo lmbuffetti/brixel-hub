@@ -25,7 +25,6 @@ import { createActiveSingleProperty, saveActiveSingleProperty } from '../../acti
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingSeller';
-import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 
@@ -66,7 +65,6 @@ const GetStartedSeller = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
 
   const singleStepRef = useRef(null);
@@ -439,11 +437,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/home`);
-    } else {
-      history.push(`/${propID}/home/${getAchievement()}`);
-    }
+    history.push(`/${propID}/home`);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -719,8 +713,6 @@ const mapStateToProps = (state, props) => {
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     initialValues: {
       ...get(state, 'brixelForm.GetStarted.initialValues', {}),
       channel,
@@ -782,7 +774,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),

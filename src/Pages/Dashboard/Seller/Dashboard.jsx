@@ -32,9 +32,6 @@ import {
 } from '../../../actions/PropertyActions';
 import { deleteDocument, uploadDocument, getImageType } from '../../../actions/UploadActions';
 import {
-  addGameHistory, getAchievement, getGamegroup, getGameHistory,
-} from '../../../actions/GamificationActions';
-import {
   setModal, setPageData, setScreenNotification, spinnerOff, spinnerOn,
 } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
@@ -70,16 +67,10 @@ const Dashboard = (props) => {
     activeSingleProperty,
     errorValue,
     formValue,
-    // gameAchievement,
-    gameHistory,
-    handleAddGameHistory,
     handleCreatePropertyVisitSchedule,
-    // handleGetAchievement,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
-    // handleGetGameGroup,
-    // handleGetGameHistory,
     handleGetImageType,
     handleGetPackageProperty,
     handleSaveActiveSingleProperty,
@@ -99,7 +90,7 @@ const Dashboard = (props) => {
     notification,
     resetForm,
     userTypes,
-    handleSpinnerOn,
+    // handleSpinnerOn,
     handleSpinnerOff,
   } = props;
   const [userType, setUserType] = useState(null);
@@ -123,16 +114,6 @@ const Dashboard = (props) => {
     }
   }, [history.location.pathname]);
 
-  // CHECK IF USER IS LOGGED IN AND LOAD GAME HISTORY IF NO DATA
-  useEffect(() => {
-    if (loggedInUser && loggedInUser.user) {
-      if (!gameHistory.data) {
-        if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-        // handleGetGameHistory();
-      }
-    }
-  }, [loggedInUser]);
-
   // FUNCTION TO LOAD DEFAULT USER PROPERTY IF NO ID
   const loadDefaultProperty = () => {
     if (!get(formValue, 'id', null)) {
@@ -146,7 +127,7 @@ const Dashboard = (props) => {
     }
   };
 
-  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
+  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
     if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
       if (propID && propID !== 'home' && propID !== 'company') {
@@ -199,7 +180,6 @@ const Dashboard = (props) => {
         history.push('/sell');
       }
     }
-    localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'company.id', get(activeSingleProperty, 'company', null));
     if (activeLeads && activeLeads !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads, smallLoader: 'singleCompany' });
@@ -246,13 +226,7 @@ const Dashboard = (props) => {
           ...objToSave,
         };
         handleSaveActiveSingleProperty(data);
-        const inputSheet = get(formValue, 'inputSheet', {}) || {};
-        if (inputSheet.totalComplete >= 24) {
-          handleAddGameHistory({ stub: 'facts' });
-        }
-        if (get(formValue, 'photos', []).length > 0 && get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
-          // handleAddGameHistory({ stub: 'media' });
-        }
+        // const inputSheet = get(formValue, 'inputSheet', {}) || {};
       }
     }
   };
@@ -385,17 +359,11 @@ Dashboard.propTypes = {
   activeSingleProperty: PropTypes.object,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
-  // gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
-  gameHistory: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
-  // handleGetAchievement: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
-  // handleGetGameGroup: PropTypes.func.isRequired,
-  // handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
@@ -414,7 +382,7 @@ Dashboard.propTypes = {
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetForm: PropTypes.func.isRequired,
   userTypes: PropTypes.string,
-  handleSpinnerOn: PropTypes.func.isRequired,
+  // handleSpinnerOn: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
 };
 
@@ -450,13 +418,9 @@ const mapStateToProps = (state) => {
     activeSingleProperty: has(state, 'property.activeSingleProperty.id') ? get(state, 'property.activeSingleProperty', { }) : undefined,
     errorValue: get(state, 'brixelForm.Property.syncErrors', null),
     formValue: get(state, 'brixelForm.Property.values', {}),
-    gameAchievement: get(state, 'gamification.achievement', []),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     imageType: get(state, 'images.imageType', []),
     initValues: get(state, 'brixelForm.Property.initialValues', {}),
     initialValues: {
-      assessor: get(state, 'property.activeSingleProperty.assessor', {}),
       booking: get(state, 'property.activeSinglePropertyBooking', []),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
@@ -511,16 +475,12 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm(data) {
     (dispatch(reset('Property', data)));
   },
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
-  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
-  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),

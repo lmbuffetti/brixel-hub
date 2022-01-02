@@ -15,10 +15,8 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import { BestimateQuestions } from '../../../resources/Bestimate';
-import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
-import { addGameHistory } from '../../../actions/GamificationActions';
-import PageHeaderAchievement from '../../../components/PageHeaderAchievement';
+import { BestimateQuestions } from '../../resources/Bestimate';
+import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 
 const Bestimate = (props) => {
   // PROPS
@@ -27,9 +25,6 @@ const Bestimate = (props) => {
     changeFieldValue,
     errorValue,
     formValue,
-    gameGroup,
-    gameHistory,
-    handleAddGameHistory,
     handleSaveActiveSingleProperty,
     history,
     initForm,
@@ -40,34 +35,13 @@ const Bestimate = (props) => {
   } = props;
   // STATE
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [finishedFlow, setFinishedFlow] = useState(false);
   const [isEnter, setIsEnter] = useState(true);
-  const [lastID, setLastID] = useState(0);
-  const [loaded, setLoaded] = useState(false);
   const [numberQuestions, setNumberQuestions] = useState(0);
   const [quest, setQuest] = useState(BestimateQuestions('en')[0]);
   const [questions, setQuestions] = useState(BestimateQuestions('en'));
-  const [selGameGroup, setSelGameGroup] = useState({});
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
   const propID = get(match, 'params.propId', null);
-
-  // CHECK IF THE ACHIEVEMENT IS DONE
-  useEffect(() => {
-    if (gameHistory && gameHistory.data && activeSingleProperty.id) {
-      const checkGameExist = gameHistory.data.find((item) => item.achievement.stub === getAchievement() && item.page === activeSingleProperty.id);
-      if (typeof checkGameExist !== 'undefined') {
-        setFinishedFlow(true);
-        if (lastID) {
-          setCurrentIndex(lastID);
-          setQuest(questions[lastID]);
-        }
-      } else {
-        setFinishedFlow(false);
-      }
-      setLoaded(true);
-    }
-  }, [gameHistory, activeSingleProperty, lastID]);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -82,19 +56,10 @@ const Bestimate = (props) => {
     }
   }, [activeSingleProperty]);
 
-  // LOAD THE CURRENT GAME GROUP
-  useEffect(() => {
-    if (gameGroup.length > 0) {
-      const group = gameGroup.find((game) => game.achievements.some((item) => item.stub === getAchievement()));
-      const defGroup = group.achievements.find((item) => item.stub === getAchievement());
-      setSelGameGroup(defGroup);
-    }
-  }, [gameGroup]);
-
   // ON CHANGE STEP LOAD THE ENTER EFFECT AND IF HAS TO REDO
   useEffect(() => {
     setIsEnter(true);
-    if (questions[currentIndex].history && loaded) {
+    if (questions[currentIndex].history) {
       const redo = get(history, 'location.state.redo', false);
       if (getAchievement()) {
         history.push({
@@ -105,7 +70,7 @@ const Bestimate = (props) => {
         });
       }
     }
-  }, [currentIndex, loaded]);
+  }, [currentIndex]);
 
   useEffect(() => {
     if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
@@ -155,10 +120,8 @@ const Bestimate = (props) => {
     const data = {
       id: propID,
       properties: get(formValue, 'properties', {}),
-      // redirectTo: `/${propID}/rewards/${getAchievement()}`,
     };
     handleSaveActiveSingleProperty(data);
-    handleAddGameHistory({ stub: getAchievement() });
     resetForm('Property', initialValuesPage);
   };
 
@@ -203,7 +166,6 @@ const Bestimate = (props) => {
         }
         return null;
       });
-      setLastID(newQuest.length - 1);
       setNumberQuestions(numQuest);
       setQuestions(newQuest);
     }
@@ -246,7 +208,7 @@ const Bestimate = (props) => {
     return label;
   };
 
-  if (!formValue.id && !loaded) {
+  if (!formValue.id) {
     return (
       <div />
     );
@@ -255,12 +217,6 @@ const Bestimate = (props) => {
   return (
     <div id="bodyModalWrapper" className="achievementFlow">
       <div className="bodyModal">
-        <PageHeaderAchievement
-          icon={selGameGroup.icon}
-          title={selGameGroup.description}
-          isFree
-          subtitle={selGameGroup.name}
-        />
         <form
           id="multiStepForm"
           onSubmit={(e) => e.preventDefault()}
@@ -296,19 +252,6 @@ const Bestimate = (props) => {
                           onClick={() => ''}
                         />
                       </div>
-                    </>
-                  )
-                }
-                {
-                  get(quest, 'cardType', null) === 'loadComponent' && quest.history === get(questions[currentIndex], 'history', null) && (
-                    <>
-                      {
-                        React.createElement(quest.component, {
-                          formName: 'GamingFlow',
-                          finishedFlow,
-                          initialValue: formValue,
-                        })
-                      }
                     </>
                   )
                 }
@@ -368,9 +311,6 @@ Bestimate.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  gameGroup: PropTypes.arrayOf(PropTypes.object).isRequired,
-  gameHistory: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -387,8 +327,6 @@ const mapStateToProps = (state) => {
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.GamingFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.GamingFlow.values', {}),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
     initialValues: {
@@ -424,7 +362,6 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GamingFlow', value));
   },
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
 });
 

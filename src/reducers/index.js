@@ -3,7 +3,6 @@ import { formReduxer } from '@brixel/brixel-components';
 import common from './CommonReducer';
 import companies from './CompanyReducer';
 import deal from './DealReducer';
-import gamification from './GamificationReducer';
 import history from './HistoryReducer';
 import market from './MarketReducer';
 import image from './UploadReducer';
@@ -17,7 +16,6 @@ export const rootReducer = combineReducers({
   common,
   companies,
   deal,
-  gamification,
   history,
   images: image,
   lead,
