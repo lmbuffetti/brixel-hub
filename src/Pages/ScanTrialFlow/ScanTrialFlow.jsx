@@ -187,6 +187,7 @@ const ScanTrialFlow = (props) => {
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
+    if (get(formValue, 'date') < +new Date()) isValid = false;
     if (get(quest, 'inputs', null)) {
       quest.inputs.forEach((input) => {
         const err = get(errorValue, input.name, null);

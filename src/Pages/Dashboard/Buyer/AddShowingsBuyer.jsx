@@ -13,7 +13,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelDatePicker,
+  BrixelInputDatePicker,
   BrixelIcon,
   BrixelModal,
   BrixelSwitchButton,
@@ -157,7 +157,7 @@ const AddShowingsBuyer = (props) => {
                             icon="calendar"
                             className="mr-1"
                           />
-                          {DateTime.fromJSDate(val.date, { locale: userLang }).toFormat('cccc, dd LLLL yyyy')}
+                          {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('cccc, dd LLLL yyyy')}
                         </div>
                         <div className="time">
                           <BrixelIcon
@@ -215,68 +215,69 @@ const AddShowingsBuyer = (props) => {
                           }}
                         />
                       </div>
-                      <div id="chooseDate">
-                        <div id="wrapDatePicker">
-                          {
-                            showDate && (
-                              <BrixelDatePicker
-                                ref1={datePicker}
-                                ref2={calendarRef}
-                                inline
-                                selected={date}
-                                onChange={(day) => handleChangeDate(day)}
-                                minDate={subDays(new Date(), 0)}
-                                lang={lang.value || lang}
-                                hasButtonChoice
-                                onClick={() => {
-                                  setShowDate(false);
-                                  setShowResizer(true);
-                                }}
-                              />
-                            )
-                          }
-                        </div>
-                        <div>
-                          {
-                            showResizer && (
-                              <div className="overlay">
-                                <div id="rzSlider" className="modalWindow" ref={hoursRef}>
-                                  <h5>Choose the time </h5>
-                                  <p
-                                    className="mt-4 mb-2 mb-lg-0 mt-lg-0x"
-                                  >
-                                    {hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
-                                  </p>
-                                  <InputRange
-                                    maxValue={20}
-                                    minValue={8}
-                                    value={hours}
-                                    step={0.5}
-                                    formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
-                                    onChange={(value) => setHours(value)}
-                                    disabled={allDay}
+
+                      {
+                        showDate && (
+                          <BrixelInputDatePicker
+                            ref1={datePicker}
+                            ref2={calendarRef}
+                            inline
+                            selected={date}
+                            input={{
+                              onChange: (day) => handleChangeDate(day),
+                              onClick: () => {
+                                setShowDate(false);
+                                setShowResizer(true);
+                              },
+                              value: date,
+                            }}
+                            minDate={subDays(new Date(), 0)}
+                            lang={lang.value || lang}
+                            hasButtonChoice
+                          />
+                        )
+                      }
+
+                      <div>
+                        {
+                          showResizer && (
+                            <div className="overlay">
+                              <div id="rzSlider" className="modalWindow" ref={hoursRef}>
+                                <h5>Choose the time </h5>
+                                <p
+                                  className="mt-4 mb-2 mb-lg-0 mt-lg-0x"
+                                >
+                                  {hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
+                                </p>
+                                <InputRange
+                                  maxValue={20}
+                                  minValue={8}
+                                  value={hours}
+                                  step={0.5}
+                                  formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
+                                  onChange={(value) => setHours(value)}
+                                  disabled={allDay}
+                                />
+                                <div className="dis-f a-c mb-1 mb-lg-0">
+                                  <BrixelSwitchButton
+                                    label="All day"
+                                    input={{
+                                      onChange: (e) => handleChange(e),
+                                    }}
                                   />
-                                  <div className="dis-f a-c mb-1 mb-lg-0">
-                                    <BrixelSwitchButton
-                                      label="All day"
-                                      input={{
-                                        onChange: (e) => handleChange(e),
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="dis-f jc-c">
-                                    <BrixelButtonPrimary
-                                      onClick={(e) => saveDate(e)}
-                                      rounded
-                                      label="Save"
-                                      className="mt-4"
-                                    />
-                                  </div>
+                                </div>
+                                <div className="dis-f jc-c">
+                                  <BrixelButtonPrimary
+                                    onClick={(e) => saveDate(e)}
+                                    rounded
+                                    label="Save"
+                                    className="mt-4"
+                                  />
                                 </div>
                               </div>
-                            )
-                          }
-                        </div>
+                            </div>
+                          )
+                        }
                       </div>
                     </>
                   )
