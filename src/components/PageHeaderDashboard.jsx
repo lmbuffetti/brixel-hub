@@ -431,7 +431,7 @@ function PageHeaderDashboard(props) {
                   <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                     <span className="hide dis-b-md">Your Plan:&nbsp;</span>
                     {
-                      has(ownerProperties, 'total') ? (
+                      has(ownerProperties, 'total') || get(activeSingleProperty, 'id', null) ? (
                         <span
                           className="fweight-600 td-u-colored dis-f cur-poi"
                           onClick={() => onUpgrade()}
