@@ -29,9 +29,7 @@ import {
 } from './actions/CommonActions';
 import { setActiveSingleProperty } from './actions/PropertyActions';
 
-import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
-// import TeaserBanner from './components/TeaserBanner';
 import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 
@@ -65,17 +63,9 @@ const DashboardSeller = lazy(() => import('./Pages/Dashboard/Seller/Dashboard'))
 const DashboardBuyer = lazy(() => import('./Pages/Dashboard/Buyer/Dashboard'));
 
 // FLOW SELLER
-const MarketChecker = lazy(() => import('./Pages/GameHistory/MarketChecker'));
-
-const Assessor = lazy(() => import('./Pages/GameHistory/Assessor'));
-
-const Bestimate = lazy(() => import('./Pages/GameHistory/Bestimate'));
+const Bestimate = lazy(() => import('./Pages/Bestimate'));
 
 const ProEstimationFlow = lazy(() => import('./Pages/EditProperty/ProEstimationFlow'));
-
-const Facts = lazy(() => import('./Pages/GameHistory/Facts'));
-
-const MediaExplanation = lazy(() => import('./Pages/GameHistory/SecondLevel/MediaExplanation'));
 
 const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScreen'));
 
@@ -300,7 +290,7 @@ const App = (props) => {
         dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
-  }, [get(history, 'location.pathname', null), dashWrapperEl, [...el].length]);
+  }, [history.location.pathname, dashWrapperEl, [...el].length]);
 
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');
@@ -481,7 +471,6 @@ const App = (props) => {
                     <Routes>
                       { /* SECTION: ONBOARDING */ }
                       <Route exact path="/packageFlow/" component={GetStarted} />
-                      <Route exact path="/packageFlow/" component={GetStarted} />
                       <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
                       <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
                       <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
@@ -604,14 +593,8 @@ const App = (props) => {
               <ProtectedRoute exact path="/:propID/prospects/newDeal" component={CreateDeal} />
               <ProtectedRoute path="/:propID/property/price/formFlow" component={ProEstimationFlow} />
             </Routes>
-          /*}
+          */}
 
-          { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
-          {
-            modal.showAwardsInfo && (
-              <BrixelModalAwards />
-            )
-          }
           {
             modal.state && !modal.type && !modal.small && (
               <BrixelModalFullScreen

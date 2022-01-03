@@ -271,12 +271,14 @@ const MarketCategoryListBuyer = (props) => {
                         <Slider ref={sliderInstance} {...settingSlider}>
                           {
                             get(ownerEstimations, 'data', []).map((fav, i) => (
-                              <MarketCardSmall
-                                key={i.toString()}
-                                type="estimation"
-                                estimation={fav.result}
-                                item={fav.data}
-                              />
+                              <div className="max-w-fix-sm-304">
+                                <MarketCardSmall
+                                  key={i.toString()}
+                                  type="estimation"
+                                  estimation={fav.result}
+                                  item={fav.data}
+                                />
+                              </div>
                             ))
                           }
                         </Slider>
@@ -326,7 +328,7 @@ const MarketCategoryListBuyer = (props) => {
 
         </div>
 
-        <div className="mt-5 bgSvg bgOverlay">
+        <div className={`${get(wishlistProperties, 'data', []).length <= 0 && get(ownerEstimations, 'data', []).length <= 0 ? 'mt-3-neg pt-3' : 'mt-5'} bgSvg bgOverlay`}>
 
           <div className="container pt-3 pb-4 pb-lg-8">
 

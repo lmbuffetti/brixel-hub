@@ -23,8 +23,6 @@ const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
 const PropertiesBuyerDashboard = lazy(() => import('./PropertiesBuyerDashboard'));
 
-const RewardsBuyerDashboard = lazy(() => import('./RewardsBuyerDashboard'));
-
 const PropertyBuyerDashboard = lazy(() => import('./PropertyBuyerDashboard'));
 
 const DealsDashboardBuyer = lazy(() => import('./DealsDashboardBuyer'));
@@ -60,7 +58,7 @@ const Dashboard = (props) => {
   const [sortOrderType] = useState('updatedAt');
   const [sortDirection] = useState('DESC');
 
-  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
+  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
     const data = {
       resultsPerPage: itemsPerPage,
@@ -111,7 +109,6 @@ const Dashboard = (props) => {
         <Suspense fallback="">
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
           <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
-          <ProtectedRoute path="/buyer/:propID/home" component={RewardsBuyerDashboard} />
           <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
           <ProtectedRoute path="/buyer/:propID/docubox" component={Documents} />
           <ProtectedRoute path="/buyer/:propID/financing" component={Financing} />

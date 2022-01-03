@@ -32,6 +32,7 @@ export function imageBgPreload(onComplete) {
           images[i].classList.add('preBg');
           imageBank.appendChild(images[i]);
         } else {
+          // eslint-disable-next-line no-console
           console.error(`#${preloads[i].id} does not contain a background image`);
         }
       }

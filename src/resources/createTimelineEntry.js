@@ -11,16 +11,6 @@ import {
 
 export const createTimelineEntry = (item, userLang) => {
   const getHTMLDescription = () => {
-    // ITEM IS REWARD
-    if (has(item, 'title')) {
-      if (item.title === 'Market Checker') return 'Market check completed';
-      if (item.title === 'Bestimate®️') return '<a class="txtDark700" href=rewardDetail?bestimate>Estimation completed</a>';
-      if (item.title === 'Assessor') return '<a class="txtDark700" href=rewardDetail?condition>Condition check</a> <span>completed</span>';
-      if (item.title === 'Checklist for documentation') return '<span>Filled out</span> <a class="txtDark700" href=rewardDetail?facts>25% facts</a>';
-      if (item.title === 'Brixel Page Preview') return 'Previewed Page';
-      if (item.title === 'Multimedia manager') return 'Uploaded media';
-      if (item.title === 'Listings') return 'Listed on the market';
-    }
     // ITEM IS HISTORY ENTRY
     if (has(item, 'actionStub')) {
       // PROPERTY HISTORY ENTRY
@@ -125,8 +115,6 @@ export const createTimelineEntry = (item, userLang) => {
   };
 
   const getIcon = () => {
-    // ITEM IS REWARD
-    if (has(item, 'title')) return 'check';
     // ITEM IS FAVORITE
     if (has(item, 'favorite')) return 'favorite-fill';
     // ITEM IS HISTORY ENTRY

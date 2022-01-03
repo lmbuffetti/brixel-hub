@@ -2,7 +2,6 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { change } from '@brixel/brixel-components';
-import { user } from '../resources/localData/user';
 import {
   CHECK_TOKEN,
   CREATE_USER,
@@ -67,7 +66,7 @@ const checkUser = (store) => (next) => (action) => {
         })
         .catch(() => {
           if (get(window, 'location.href', '').includes('localhost')) {
-            store.dispatch({ type: SET_LOGGED_IN_USER, payload: user });
+            store.dispatch({ type: SET_LOGGED_IN_USER, payload: {} });
           }
           store.dispatch({ type: SPINNER_OFF });
         });

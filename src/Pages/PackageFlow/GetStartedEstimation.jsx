@@ -32,7 +32,6 @@ import { createActiveSingleProperty, saveActiveSingleProperty } from '../../acti
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingEstimation';
-import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 import { createEstimation } from '../../actions/EstimationActions';
@@ -76,7 +75,6 @@ const GetStartedEstimation = (props) => {
   const [showError, setShowError] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
   const propID = get(match, 'params.propId', null);
 
   const singleStepRef = useRef(null);
@@ -516,11 +514,7 @@ const GetStartedEstimation = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/home`);
-    } else {
-      history.push(`/${propID}/home/${getAchievement()}`);
-    }
+    history.push(`/${propID}/home`);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -803,8 +797,8 @@ GetStartedEstimation.defaultProps = {
   lang: 'en',
 };
 
-const mapStateToProps = (state, props) => {
-  const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
+const mapStateToProps = (state, ownProps) => {
+  const urlSearch = queryString.parse(get(ownProps.history, 'location.search', ''));
   const channelCookie = cookie.get('brixelChannelSignup') || null;
   const channel = get(urlSearch, 'channel', channelCookie);
   const propertyType = get(state, 'brixelForm.GetStarted.values.properties.propertyType', get(urlSearch, 'propertyType', null));
@@ -816,8 +810,6 @@ const mapStateToProps = (state, props) => {
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     initialValues: {
       channel,
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
@@ -887,7 +879,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreateEstimation: bindActionCreators(createEstimation, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),

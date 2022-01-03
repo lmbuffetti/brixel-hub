@@ -19,7 +19,6 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../../actions/PropertyActions';
-import { addGameHistory } from '../../../actions/GamificationActions';
 
 const ContactBuyer = (props) => {
   const history = useNavigate();
@@ -143,7 +142,6 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form, data)));
   },
   handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
 export default compose(

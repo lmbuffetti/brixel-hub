@@ -1,9 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useState, useRef, useEffect,
-} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import subDays from 'date-fns/subDays';
@@ -12,13 +10,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
-  BrixelModal,
+  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelDatePicker,
-  BrixelSwitchButton,
-  BrixelButtonIcon,
   BrixelIcon,
+  BrixelModal,
+  BrixelSwitchButton,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
@@ -241,7 +239,11 @@ const AddShowingsBuyer = (props) => {
                               <div className="overlay">
                                 <div id="rzSlider" className="modalWindow" ref={hoursRef}>
                                   <h5>Choose the time </h5>
-                                  <p className="mt-4 mb-2 mb-lg-0 mt-lg-0x">{hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}</p>
+                                  <p
+                                    className="mt-4 mb-2 mb-lg-0 mt-lg-0x"
+                                  >
+                                    {hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
+                                  </p>
                                   <InputRange
                                     maxValue={20}
                                     minValue={8}
@@ -309,7 +311,9 @@ const AddShowingsBuyer = (props) => {
               <h4 className="mb-2 txtDark700">Thank you</h4>
               <h5 className="heading6 txtDark700">We will contact you as soon as possible.</h5>
             </section>
-            <section className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg">
+            <section
+              className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg"
+            >
               <p className="mb-2"><b>Here are 3 tips for a smooth process</b></p>
 
               <ul>
@@ -326,7 +330,13 @@ const AddShowingsBuyer = (props) => {
                   </div>
                 </li>
                 <li className="redIcon">
-                  <BrixelIcon icon="favorite-house" color="green" background="green" saturation={200} saturationTxt={700} />
+                  <BrixelIcon
+                    icon="favorite-house"
+                    color="green"
+                    background="green"
+                    saturation={200}
+                    saturationTxt={700}
+                  />
                   Do not forget to favorite the property to keep all the information in one place
                 </li>
                 <li className="redIcon">
@@ -360,7 +370,7 @@ const mapStateToProps = (state) => {
     formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
     lang: get(state, 'user.loggedInUser.user.language', ''),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', { }),
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };

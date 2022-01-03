@@ -45,6 +45,8 @@ import SplashScreen from '../../components/SplashScreen';
 import ProgressBar from '../../components/ProgressBar';
 import Timeline from '../../components/Timeline';
 
+const ActionStubs = require('../../resources/timelineActionStubs');
+
 const SingleDeal = (props) => {
   const history = useNavigate();
   const {
@@ -106,6 +108,7 @@ const SingleDeal = (props) => {
         offset: 0,
         order: '',
         direction: 'DESC',
+        actionStubs: ActionStubs.Deal,
         smallLoader: 'getDealHistory',
       };
       getActiveDeal({ id: dealID, smallLoader: 'getDeal' });

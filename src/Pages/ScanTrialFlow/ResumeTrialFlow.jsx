@@ -37,8 +37,8 @@ const ResumeTrialFlow = (props) => {
             <h4 className="fweight-400 ta-c mt-3">Great. Your on-site appointment will be on:</h4>
             <h4 className="fweight-700 mt-2">
               <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('EEE, d MMMM yyyy')}</span>
-              <spam className="ml-small-4 mr-small-4">at</spam>
-              <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('hh:mm')}</span>
+              <span className="ml-small-4 mr-small-4">at</span>
+              <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('HH:mm')}</span>
             </h4>
             <p className="ta-c mt-2">This is just a request. We will contact you to confirm your appointment.</p>
             <p className="ta-c mt-2">You also got an e-mail with a confirmation and more details.</p>
@@ -55,8 +55,8 @@ const ResumeTrialFlow = (props) => {
               get(formValue, 'date', null) && (
                 <h4 className="fweight-700 mt-2">
                   <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('EEE, d MMMM yyyy')}</span>
-                  <spam className="ml-small-4 mr-small-4">at</spam>
-                  <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('hh:mm')}</span>
+                  <span className="ml-small-4 mr-small-4">at</span>
+                  <span>{DateTime.fromMillis(get(formValue, 'date', 1624618800000), { locale: userLang }).toFormat('HH:mm')}</span>
                 </h4>
               )
             }

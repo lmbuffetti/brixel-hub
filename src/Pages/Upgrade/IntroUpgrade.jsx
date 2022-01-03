@@ -26,6 +26,7 @@ import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import CallUsImg from '../../images/Upgrade/callUs.svg';
 import NotNowImg from '../../images/Upgrade/notNow.svg';
 import WrireUsImg from '../../images/Upgrade/writeUs.svg';
+import skeltonList from '../../images/Upgrade/top-list-skelton.svg';
 import Testimonial1CH from '../../images/getstarted/testimonial-1_CH.jpeg';
 import Testimonial2CH from '../../images/getstarted/testimonial-2_CH.jpeg';
 import Testimonial3CH from '../../images/getstarted/testimonial-3_CH.jpeg';
@@ -178,13 +179,13 @@ const IntroUpgrade = (props) => {
               packageName.name ? (
                 <span className={`dis-b ${packageName.type} fweight-600`}>{packageName.name}</span>
               ) : (
-                <span className="dis-b bgLight400 txtLight400 fweight-600">Loading...</span>
+                <span className="dis-b max-w-fix-104 bgLight400 txtLight400 fweight-600">Loading</span>
               )
             }
           </h4>
 
           {
-            packageName.type === 'basic' && (
+            packageName.type === 'basic' ? (
               <ul className="fullGreenList w-perc-100 pt-2 pt-sm-0">
                 <li>
                   <BrixelIcon className="dis-b" color="AltGreen" saturationTxt={300} iconWidth="w-fix-32" icon="check-small-fill" />
@@ -211,6 +212,8 @@ const IntroUpgrade = (props) => {
                 </li>
 
               </ul>
+            ) : (
+              <img alt="skelton" className="max-w-fix-384 mt-2 mt-sm-0" src={skeltonList} />
             )
           }
         </div>

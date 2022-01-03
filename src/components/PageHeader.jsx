@@ -17,7 +17,6 @@ import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelBu
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
-import { getGameHistory } from '../actions/GamificationActions';
 
 const AvatarImage = lazy(() => import('./AvatarImage'));
 
@@ -51,7 +50,6 @@ function PageHeader(props) {
       setCurrentLang(lang);
       handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
-      // if (!gameHistory.data && !history.location.pathname.includes('getStarted')) handleGetGame();
     }
   }, [loggedInUser, lang]);
 
@@ -310,13 +308,11 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser', {}),
   languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', ''),
-  userAwards: get(state, 'user.awards', []),
   property: get(state, 'property.activeSingleProperty', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
-  handleGetGame: bindActionCreators(getGameHistory, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageHeader);

@@ -16,7 +16,6 @@ import {
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../../actions/PropertyActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
-import { addGameHistory } from '../../../actions/GamificationActions';
 
 const PageBuyer = (props) => {
   // PROPS
@@ -151,7 +150,6 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form, data)));
   },
   handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
 });
 
 export default compose(

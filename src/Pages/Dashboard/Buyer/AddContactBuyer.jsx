@@ -1,18 +1,13 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useState, useEffect,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
-import {
-  BrixelModal,
-  BrixelIcon,
-} from '@brixel/brixel-components';
+import { BrixelIcon, BrixelModal } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
@@ -93,7 +88,9 @@ const AddContactBuyer = (props) => {
               <h4 className="mb-2 txtDark700">Thank you</h4>
               <h5 className="heading6 txtDark700">We will contact you as soon as possible.</h5>
             </section>
-            <section className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg">
+            <section
+              className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg"
+            >
               <p className="mb-2"><b>Here are 3 tips for a smooth process</b></p>
 
               <ul>
@@ -110,7 +107,13 @@ const AddContactBuyer = (props) => {
                   </div>
                 </li>
                 <li className="redIcon">
-                  <BrixelIcon icon="favorite-house" color="green" background="green" saturation={200} saturationTxt={700} />
+                  <BrixelIcon
+                    icon="favorite-house"
+                    color="green"
+                    background="green"
+                    saturation={200}
+                    saturationTxt={700}
+                  />
                   Do not forget to favorite the property to keep all the information in one place
                 </li>
                 <li className="redIcon">
@@ -141,7 +144,7 @@ const mapStateToProps = (state) => {
     activeSingleCompany,
     formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', { }),
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };

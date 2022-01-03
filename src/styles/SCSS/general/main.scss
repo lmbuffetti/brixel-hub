@@ -641,10 +641,10 @@ button.minimum-w-210 {
   }
 
   .input-container .brixel-text-input {
-    min-height: 56px;
+    /* min-height: 56px; */
   }
 
-  .inputTime .input-container .brixel-text-input,
+  /* .inputTime .input-container .brixel-text-input,
   .inputDate .input-container .brixel-text-input {
     padding-left: 24px !important;
     padding-right: 24px !important;
@@ -653,17 +653,17 @@ button.minimum-w-210 {
       padding-left: 16px !important;
       padding-right: 16px !important;
     }
-  }
+  } */
 
-  .inputPhone .input-container .brixel-text-input {
+  /* .inputPhone .input-container .brixel-text-input {
     padding-right: 24px !important;
 
     @media (max-width: $responsive-small) {
       padding-right: 16px !important;
     }
-  }
+  } */
 
-  .brixel-select.flags .dropdown .selElement,
+ /*  .brixel-select.flags .dropdown .selElement,
   .brixel-select.flags .dropdown>ul li {
     padding-left: 24px;
 
@@ -678,9 +678,9 @@ button.minimum-w-210 {
 
   .brixel-select .mobile-version {
     min-height: 56px;
-  }
+  } */
 
-  .brixel-select:not(.flags) .dropdown .selElement {
+ /*  .brixel-select:not(.flags) .dropdown .selElement {
     min-height: 54px;
     display: flex;
     padding-left: 24px;
@@ -694,7 +694,7 @@ button.minimum-w-210 {
     >div {
       width: 100%;
     }
-  }
+  } */
 
   span.brixelIcon.activity-calendar {
     right: 30px;
@@ -716,6 +716,7 @@ button.minimum-w-210 {
 
     @media (max-width: $responsive-small) {
       right: 16px;
+      top: 14px;
     }
   }
 

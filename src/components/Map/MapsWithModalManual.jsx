@@ -743,10 +743,10 @@ MapsWithModalManual.defaultProps = {
   subMinHeight: '',
 };
 
-const mapStateToProps = (state, props) => {
-  const formName = get(props, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
-  const propsLat = get(props, 'latitude', 0);
-  const propsLng = get(props, 'longitude', 0);
+const mapStateToProps = (state, ownProps) => {
+  const formName = get(ownProps, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
+  const propsLat = get(ownProps, 'latitude', 0);
+  const propsLng = get(ownProps, 'longitude', 0);
   const lat = get(state, 'property.activeSingleProperty.location.latitude', propsLat);
   const lng = get(state, 'property.activeSingleProperty.location.longitude', propsLng);
   return ({

@@ -157,9 +157,6 @@ const mapStateToProps = (state) => ({
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
-const mapDispatchToProps = () => ({
-});
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(PropertyList);
