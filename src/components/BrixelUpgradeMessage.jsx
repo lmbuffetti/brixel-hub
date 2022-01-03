@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -9,7 +9,10 @@ import defaultCover from '../images/3d-tour-placeholder.jpg';
 import { isEligible } from '../utils/helpers';
 
 const BrixelUpgradeMessage = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleProperty,
     btnLabel,

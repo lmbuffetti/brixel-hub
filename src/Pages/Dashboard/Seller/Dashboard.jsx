@@ -3,7 +3,7 @@
 import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
@@ -59,7 +59,11 @@ const ScanTrialFlow = lazy(() => import('../../ScanTrialFlow/ScanTrialFlow'));
 const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
 const Dashboard = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     // gameAchievement,
@@ -92,7 +96,6 @@ const Dashboard = (props) => {
     isLoading,
     isSmallLoading,
     loggedInUser,
-    match,
     notification,
     resetForm,
     userTypes,
@@ -102,7 +105,7 @@ const Dashboard = (props) => {
   // const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
@@ -336,15 +339,15 @@ const Dashboard = (props) => {
         <Suspense fallback={<Loading isLoading />}>
           {/* teaserScreens && isEligible(activeSingleProperty) && () */}
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-          <ProtectedRoute path="/:propId?/home" component={DashboardHome} />
-          <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-          <ProtectedRoute path="/:propId?/docubox" component={Documents} />
-          <ProtectedRoute path="/:propId?/marketing" component={MarketingDashboard} />
-          <ProtectedRoute path="/:propId?/prospects" component={Deals} />
-          <ProtectedRoute path="/:propId/closing" component={DashboardOffer} />
-          <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-          <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
-          <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
+          <ProtectedRoute path="/home" element={<DashboardHome />} />
+          <ProtectedRoute path="/property/*" element={<PropertyDashboard />} />
+          <ProtectedRoute path="/docubox" element={<Documents />} />
+          <ProtectedRoute path="/marketing" element={<MarketingDashboard />} />
+          <ProtectedRoute path="/prospects" element={<Deals />} />
+          <ProtectedRoute path="/closing" element={<DashboardOffer />} />
+          <ProtectedRoute path="/upgrade" element={<Upgrade />} />
+          <ProtectedRoute path="/trialRequest" element={<ScanTrialFlow />} />
+          <ProtectedRoute path="/no-property" exact element={<EmptyProperty />} />
         </Suspense>
       </div>
       {
@@ -381,7 +384,6 @@ Dashboard.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetForm: PropTypes.func.isRequired,
   userTypes: PropTypes.string,

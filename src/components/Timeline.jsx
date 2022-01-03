@@ -3,6 +3,7 @@ import React, {
   useEffect, useState, useRef,
 } from 'react';
 import {
+  useLocation,
   useNavigate,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -40,7 +41,10 @@ import {
 } from '../utils/helpers';
 
 const Timeline = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const [chronologicalData, setChronologicalData] = useState([]);
   const [noteOptionsOpen, setNoteOptionsOpen] = useState({
     id: null,
@@ -74,7 +78,6 @@ const Timeline = (props) => {
     isDeal,
     isSmallLoading,
     loggedInUser,
-    match,
     userLang,
   } = props;
 
@@ -92,7 +95,7 @@ const Timeline = (props) => {
     const newPath = last(targetLink.href.split('/'));
 
     if (newPath.includes('rewardDetail')) {
-      history.push(`${match.url}/${newPath}`);
+      history.push(`${history.location.pathname}/${newPath}`);
     } else if (targetLink.href.includes('#')) {
       history.push('#');
     } else {
@@ -574,7 +577,6 @@ Timeline.propTypes = {
   isDeal: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
 };
 

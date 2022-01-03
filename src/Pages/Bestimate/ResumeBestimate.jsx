@@ -11,8 +11,10 @@ import { createEstimation, generateEstimation } from '../../actions/EstimationAc
 import RangePriceChart from '../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../images/emptyHub.svg';
 import Loading from '../../components/Loading';
+import { useParams } from 'react-router-dom';
 
 function ResumeBestimate(props) {
+  const match = useParams();
   // PROPS
   const {
     activeSingleCompany,
@@ -25,10 +27,9 @@ function ResumeBestimate(props) {
     handleGetMarketCheck,
     history,
     marketData,
-    match,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // LOAD THE MARKET DATA
   useEffect(() => {
@@ -180,7 +181,6 @@ ResumeBestimate.propTypes = {
   handleGetMarketCheck: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 ResumeBestimate.defaultProps = {

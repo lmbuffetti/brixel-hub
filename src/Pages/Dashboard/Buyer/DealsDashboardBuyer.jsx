@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
-import { Route, useNavigate } from 'react-router-dom';
+import { Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -11,14 +11,17 @@ import isNumber from 'lodash/isNumber';
 const OfferDetail = lazy(() => import('../../Offers/OfferDetail'));
 
 const DealsDashboardBuyer = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleDeal,
-    match,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propID', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
   const link = get(history, 'location.pathname', '').split('/');
 
@@ -55,7 +58,6 @@ const DealsDashboardBuyer = (props) => {
 
 DealsDashboardBuyer.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

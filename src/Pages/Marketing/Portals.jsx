@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -20,7 +20,11 @@ import portalPublished from '../../images/Listings/portals_published.svg';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
 
 const Portals = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     company,
@@ -28,12 +32,11 @@ const Portals = (props) => {
     formValue,
     handleUpdatePortalsReview,
     isSmallLoading,
-    match,
     portals,
     changeFieldValue,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {
@@ -330,7 +333,6 @@ Portals.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
 };

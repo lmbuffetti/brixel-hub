@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,7 +14,10 @@ import { createPropertyVisitBooking } from '../actions/PropertyActions';
 import { sendMessage, spinnerSmall } from '../actions/CommonActions';
 
 function ContactForm(props) {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     action,

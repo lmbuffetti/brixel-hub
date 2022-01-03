@@ -4,7 +4,7 @@ import React, {
   useEffect, useState, useRef, useCallback, Fragment, lazy, Suspense,
 } from 'react';
 import {
-  Routes, Route, useNavigate,
+  Routes, Route, useNavigate, useLocation,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -80,8 +80,7 @@ const AddContactBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddContactBuy
 
 const SingleDeal = lazy(() => import('./Pages/Deals/SingleDeal'));
 
-// const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
-import MarketSeller from './Pages/Market/MarketSeller';
+const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
 
 const MarketBuyer = lazy(() => import('./Pages/Market/MarketBuyer'));
 
@@ -92,11 +91,8 @@ const cookies = new Cookies();
 const App = (props) => {
   const history = {
     push: useNavigate(),
-    location: {
-      pathname: window.location.href,
-    },
+    location: useLocation(),
   };
-  console.log(history);
   // PROPS
   const {
     activeSingleProperty,
@@ -470,73 +466,65 @@ const App = (props) => {
                   } */}
                     <Routes>
                       { /* SECTION: ONBOARDING */ }
-                      <Route exact path="/packageFlow/" component={GetStarted} />
-                      <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
-                      <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
-                      <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
-                      <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
-                      <Route path="/visitFeedback/:dealID/:pageID" component={VisitFeedback} />
+                      <Route exact path="/packageFlow/" element={GetStarted} />
+                      <Route path="/packageFlow/getstarted/" element={GetStartedSeller} />
+                      <Route path="/packageFlow/getstartedBuyer/" element={GetStartedBuyer} />
+                      <Route path="/packageFlow/getstartedEstimation/" element={GetStartedEstimation} />
+                      <Route path="/packageFlow/testDrive/" element={ScanTrialFlow} />
+                      <Route path="/visitFeedback/:dealID/:pageID" element={VisitFeedback} />
 
                       {/* SECTION: SIGNUP */}
-                      <Route path="/signup" component={Signup} />
+                      <Route path="/signup" element={Signup} />
 
                       { /* SECTION: INSERT TOKEN */ }
-                      <Route path="/tokeninput" component={InsertToken} />
+                      <Route path="/tokeninput" element={InsertToken} />
                     </Routes>
-
-                    <AuthProvider>
-                      <Routes>
-                        <Route path="/packageFlow/:id/makeOffer" element={MakeOffer} />
-                        <Route path="/sell" element={MarketSeller} />
-                      </Routes>
-                    </AuthProvider>
 
                     <Routes>
-                      <Route path="/packageFlow/:id/makeOffer" element={MakeOffer} />
-                      <Route path="/sell" element={MarketSeller} />
+                      <Route path="/packageFlow/:id/makeOffer" element={<MakeOffer />} />
                     </Routes>
 
-                      { /* SECTION: HUB DASHBOARD */ }
-                     {/* {
-                        !history.location.pathname.includes('packageFlow') &&
-                        !history.location.pathname.includes('visitFeedback') &&
-                        !history.location.pathname.includes('onBoarding') &&
-                        !history.location.pathname.includes('buyer') &&
-                        !history.location.pathname.includes('signup') &&
-                        (
-                          <React.Fragment>
-                            <ProtectedRoute path="/sell" component={MarketSeller} />
-                            <ProtectedRoute path="/buy/:cat?/:id?" component={MarketBuyer} />
-                            <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
-                            <ProtectedRoute path="/" exact component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/home" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/singleFlow" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/docubox" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/closing" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/marketing" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/prospects" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/offers" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/deal" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
-                          </React.Fragment>
-                        )
-                      }
-                      {
-                        !history.location.pathname.includes('packageFlow') &&
-                        !history.location.pathname.includes('visitFeedback') &&
-                        !history.location.pathname.includes('onBoarding') &&
-                        !history.location.pathname.includes('signup') &&
-                        (
-                          <>
-                            <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
-                            <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
-                            <ProtectedRoute path="/buyer/:propID/:act" component={DashboardBuyer} />
-                          </>
-                        )
-                      }*/}
+                    { /* SECTION: HUB DASHBOARD */ }
+                    {
+                      !history.location.pathname.includes('packageFlow') &&
+                      !history.location.pathname.includes('visitFeedback') &&
+                      !history.location.pathname.includes('onBoarding') &&
+                      !history.location.pathname.includes('buyer') &&
+                      !history.location.pathname.includes('signup') &&
+                      (
+                        <Fragment>
+                          <ProtectedRoute path="/sell" element={<MarketSeller />} />
+                          <ProtectedRoute path="/buy/:cat?/:id?" element={<MarketBuyer />} />
+                          <ProtectedRoute path="/seller/pageLists" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/" exact element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId/*" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/singleFlow" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/docubox" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/closing" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/property" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/marketing" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/support" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/prospects" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/offers" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/deal" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/upgrade" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/:propId?/trialRequest" element={<DashboardSeller />} />
+                        </Fragment>
+                      )
+                    }
+                    {
+                      !history.location.pathname.includes('packageFlow') &&
+                      !history.location.pathname.includes('visitFeedback') &&
+                      !history.location.pathname.includes('onBoarding') &&
+                      !history.location.pathname.includes('signup') &&
+                      (
+                        <>
+                          <ProtectedRoute path="/buyer" exact element={DashboardBuyer} />
+                          <ProtectedRoute path="/buyer/propertyLists" exact element={DashboardBuyer} />
+                          <ProtectedRoute path="/buyer/:propID/:act" element={DashboardBuyer} />
+                        </>
+                      )
+                    }
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
                       style={{
@@ -582,16 +570,16 @@ const App = (props) => {
           { /* SECTION: ACHIVEMENT FLOW */ }
           {/*
             <Routes>
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/assessor" component={Assessor} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" component={Bestimate} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/media" component={MediaExplanation} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/facts" component={Facts} userTypes="seller" />
-              <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
-              <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
-              <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
-              <ProtectedRoute exact path="/:propID/prospects/newDeal" component={CreateDeal} />
-              <ProtectedRoute path="/:propID/property/price/formFlow" component={ProEstimationFlow} />
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/market-checker" element={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/assessor" element={Assessor} userTypes="seller" />
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" element={Bestimate} userTypes="seller" />
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/media" element={MediaExplanation} userTypes="seller" />
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/facts" element={Facts} userTypes="seller" />
+              <ProtectedRoute path="/buyer/:act/:propID/showings/add" element={AddShowingsBuyer} />
+              <ProtectedRoute path="/buyer/:act/:propID/contact/add" element={AddContactBuyer} />
+              <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" element={SingleDeal} />
+              <ProtectedRoute exact path="/:propID/prospects/newDeal" element={CreateDeal} />
+              <ProtectedRoute path="/:propID/property/price/formFlow" element={ProEstimationFlow} />
             </Routes>
           */}
 
@@ -715,14 +703,14 @@ const App = (props) => {
           }
 
           {/* Splash screens for single deal, create new deal and edit document */}
-          {/*<Routes>*/}
-          {/*  <Route*/}
-          {/*    exact*/}
-          {/*    path="/:propID/docubox/:docID/editDocument"*/}
-          {/*    component={SingleDocument}*/}
-          {/*  />*/}
-          {/*  <Route exact path="/:propID/prospects/newDeal" component={CreateDeal} />*/}
-          {/*</Routes>*/}
+          <Routes>
+            <Route
+              exact
+              path="/:propID/docubox/:docID/editDocument"
+              element={<SingleDocument />}
+            />
+            <Route exact path="/:propID/prospects/newDeal" element={<CreateDeal />} />
+          </Routes>
         </Suspense>
       </main>
     </>

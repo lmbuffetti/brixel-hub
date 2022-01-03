@@ -17,10 +17,13 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';
 import { setCountryList } from '../../actions/CommonActions';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const ComponentMap = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     className,

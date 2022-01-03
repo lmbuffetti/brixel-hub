@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import subDays from 'date-fns/subDays';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
@@ -29,7 +29,10 @@ import 'react-input-range/lib/css/index.css';
 // COMPONENTS
 
 const AddShowingsBuyer = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleProperty,

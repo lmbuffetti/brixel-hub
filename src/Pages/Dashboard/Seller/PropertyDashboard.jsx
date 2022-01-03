@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Route, useNavigate } from 'react-router-dom';
+import { Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 // import has from 'lodash/has';
 import {
@@ -12,6 +12,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import Loading from '../../../components/Loading';
+
+const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
 const Price = lazy(() => import('../../EditProperty/Price'));
 
@@ -24,19 +26,22 @@ const Plans = lazy(() => import('../../EditProperty/Media/Plans'));
 const Tour = lazy(() => import('../../EditProperty/Media/Tour'));
 
 const HomeDashboard = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     formValue,
     // loggedInUser,
-    match,
     // property,
     windowDimensions,
   } = props;
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
@@ -154,11 +159,11 @@ const HomeDashboard = (props) => {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
-                <Route path="/:propId?/property/facts" component={Facts} />
-                <Route path="/:propId?/property/price" component={Price} />
-                <Route path="/:propId?/property/photos" component={Photos} />
-                <Route path="/:propId?/property/floorPlans" component={Plans} />
-                <Route path="/:propId?/property/tour" exact component={Tour} />
+                <ProtectedRoute path="/facts/*" element={<Facts />} />
+                <ProtectedRoute path="/price" element={<Price />} />
+                <ProtectedRoute path="/photos/*" element={<Photos />} />
+                <ProtectedRoute path="/floorPlans/*" element={<Plans />} />
+                <ProtectedRoute path="/tour" element={<Tour />} />
               </Suspense>
             </div>
           )
@@ -170,7 +175,6 @@ const HomeDashboard = (props) => {
 
 HomeDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 

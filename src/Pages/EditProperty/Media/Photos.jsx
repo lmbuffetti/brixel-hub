@@ -2,7 +2,9 @@
 import React, {
   useCallback, useEffect, useState, useRef,
 } from 'react';
-import { Route, useNavigate } from 'react-router-dom';
+import {
+  Routes, Route, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -28,7 +30,11 @@ import OutsideElement from '../../../components/OutsideElement';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
@@ -39,7 +45,6 @@ const Photos = (props) => {
     imageType,
     isSmallLoading,
     loggedInUser,
-    match,
     windowDimensions,
   } = props;
   const { photos } = formValue;
@@ -49,7 +54,7 @@ const Photos = (props) => {
   const [btnActive, setBtnActive] = useState(null);
   const [newImages, setNewImages] = useState([]);
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   // REF
   // eslint-disable-next-line no-unused-vars
   const arrayImg = [...Array(photos ? photos.length : 0)].map((_, index) => React.createRef());
@@ -311,7 +316,12 @@ const Photos = (props) => {
           />
 
         </div>
-        <Route path="/:propId?/property/photos/:imgId/edit/:editType" exact component={DetailMedia} />
+        <Routes>
+          <Route
+            path="/:imgId/edit/:editType"
+            element={<DetailMedia />}
+          />
+        </Routes>
       </div>
     </>
   );
@@ -326,7 +336,6 @@ Photos.propTypes = {
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 

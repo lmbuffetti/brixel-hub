@@ -14,7 +14,7 @@ import {
   BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -33,7 +33,11 @@ import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../actio
 import { multiUploadDocument } from '../../../actions/UploadActions';
 
 const MakeOffer = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
@@ -54,7 +58,6 @@ const MakeOffer = (props) => {
     isSmallLoading,
     handleGetBuyerDeal,
     loggedInUser,
-    match,
     reset,
   } = props;
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
@@ -71,7 +74,7 @@ const MakeOffer = (props) => {
   const [showError, setShowError] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
-  const propID = get(match, 'params.id', null);
+  const propID = get(match, 'id', null);
   const dealID = get(activeSingleDeal, 'id', null);
 
   // REF
@@ -599,7 +602,6 @@ MakeOffer.propTypes = {
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 

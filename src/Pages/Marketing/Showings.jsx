@@ -4,7 +4,7 @@
 import React, {
   useState, useEffect, lazy, Suspense,
 } from 'react';
-import { Route, useNavigate } from 'react-router-dom';
+import { Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';
@@ -33,7 +33,11 @@ import ShowingPlaceholder from '../../images/Listings/showing_placeholder.svg';
 const AddShowings = lazy(() => import('./AddShowings'));
 
 const Showings = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -42,7 +46,6 @@ const Showings = (props) => {
     handleSavePropertyVisitBooking,
     handleGetActiveSinglePropertyBookings,
     lang,
-    match,
     resetForm,
   } = props;
   // STATE
@@ -51,7 +54,7 @@ const Showings = (props) => {
   const [unavailableSlots, setUnavailableSlots] = useState([]);
   const [bookingSlot, setBookingSlot] = useState([]);
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // GET BOOKING
@@ -268,7 +271,6 @@ Showings.propTypes = {
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
 };
 

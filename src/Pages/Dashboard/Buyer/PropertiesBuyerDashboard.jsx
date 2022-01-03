@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -25,7 +25,10 @@ import { setActiveMarketOverlayProperty } from '../../../actions/PropertyActions
 const { factsOptions } = FactsOptions;
 
 const PropertiesBuyerDashboard = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     favoritesProperties,

@@ -16,7 +16,7 @@ import {
   destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -38,7 +38,10 @@ import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 const cookie = new Cookies();
 
 const GetStartedBuyer = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     changeFieldValue,

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -28,12 +28,15 @@ import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import FactsQuestion from './FactsQuestion';
 
 const Facts = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   const {
     changeFieldValue,
     formValue,
     handleSaveData,
-    match,
     windowDimensions,
   } = props;
 
@@ -41,7 +44,7 @@ const Facts = (props) => {
   const [Questions, setQuestions] = useState(InputSheets(formValue));
   const [selectedQuest, setSelectedQuest] = useState(null);
   // PARAMS URL
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // FUNCTION TO CHECK IF MAIN SECTION IS FINISH OR NOT
@@ -234,7 +237,6 @@ Facts.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSaveData: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 

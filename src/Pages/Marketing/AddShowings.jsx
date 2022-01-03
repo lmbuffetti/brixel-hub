@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -22,7 +22,11 @@ import {
 } from '../../actions/PropertyActions';
 
 const Showings = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     errorValue,
@@ -30,13 +34,12 @@ const Showings = (props) => {
     handleCreatePropertyVisitBooking,
     isSmallLoading,
     lang,
-    match,
     schedule,
     userLang,
   } = props;
   // PARAMS URL
-  const propID = get(match, 'params.propId', null);
-  const idShowing = get(match, 'params.idShowing', null);
+  const propID = get(match, 'propId', null);
+  const idShowing = get(match, 'idShowing', null);
 
   const saveData = () => {
     const data = {
@@ -204,7 +207,6 @@ Showings.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  match: PropTypes.object.isRequired,
   schedule: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
 };

@@ -3,7 +3,7 @@ import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -39,7 +39,10 @@ import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListSeller = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeMarketOverlayProperty,

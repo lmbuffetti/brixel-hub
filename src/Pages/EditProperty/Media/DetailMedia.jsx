@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -23,14 +23,17 @@ import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActi
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
 
 const DetailMedia = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   const {
     formValue,
     handleRotateImg,
     changeFieldValue,
     handleDeleteImg,
     isSmallLoading,
-    match,
   } = props;
   // STATE
   const [rotation, setRotation] = useState(0);
@@ -38,9 +41,9 @@ const DetailMedia = (props) => {
   const [changeSection] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   // PARAMS URL
-  const mediaID = get(match, 'params.imgId', null);
-  const propID = get(match, 'params.propId', null);
-  const mediaType = get(match, 'params.editType', null);
+  const mediaID = get(match, 'imgId', null);
+  const propID = get(match, 'propId', null);
+  const mediaType = get(match, 'editType', null);
   // REF
   const wrapImg = useRef(null);
 
@@ -239,7 +242,6 @@ DetailMedia.propTypes = {
   handleRotateImg: PropTypes.func.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

@@ -15,7 +15,7 @@ import {
 } from '@brixel/brixel-components';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -30,7 +30,11 @@ import { getCookie, setCookie } from '../../utils/helpers';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
 const ScanTrialFlow = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleCompany,
@@ -47,7 +51,6 @@ const ScanTrialFlow = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
-    match,
     reset,
   } = props;
   // STATE
@@ -60,7 +63,7 @@ const ScanTrialFlow = (props) => {
   const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // REF
   const singleStepRef = useRef(null);
@@ -552,7 +555,6 @@ ScanTrialFlow.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 

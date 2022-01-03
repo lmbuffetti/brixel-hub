@@ -3,7 +3,7 @@ import React, {
   useEffect, lazy, Suspense, useState, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -29,7 +29,10 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListBuyer = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const settingSlider = {
     dots: false,
     infinite: true,

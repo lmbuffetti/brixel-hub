@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Route, useNavigate } from 'react-router-dom';
+import { Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import {
   BrixelButtonBox,
@@ -20,18 +20,21 @@ const ShowingsBuyer = lazy(() => import('./ShowingsBuyer'));
 const ContactBuyer = lazy(() => import('./ContactBuyer'));
 
 const PropertyBuyerDashboard = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleDeal,
     formValue,
-    match,
     windowDimensions,
   } = props;
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
-  const propID = get(match, 'params.propID', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
@@ -180,8 +183,6 @@ const PropertyBuyerDashboard = (props) => {
 PropertyBuyerDashboard.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 

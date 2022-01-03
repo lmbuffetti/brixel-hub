@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -22,7 +22,10 @@ const MarketCategoryListSeller = lazy(() => import('./MarketCategoryListSeller')
 const MarketList = lazy(() => import('./MarketList'));
 
 const MarketSeller = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     destroyForm,
@@ -53,14 +56,14 @@ const MarketSeller = (props) => {
       handleSpinnerOff();
     }
   }, [loggedInUser]);
-  console.log('eh')
+
   return (
     <Suspense fallback="">
       <div className="market-container sellerPage" id="market">
         {/* premarket overlay */}
         <Routes>
-          <Route exact path="/sell" element={MarketCategoryListSeller} />
-          <Route exact path="/sell/:cat/:id?" element={() => <MarketList isSeller />} />
+          <Route path="/" element={<MarketCategoryListSeller />} />
+          <Route path="/:cat/:id?" element={<MarketList isSeller />} />
         </Routes>
       </div>
     </Suspense>

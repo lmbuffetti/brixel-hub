@@ -2,7 +2,7 @@
 import React, {
   useEffect, useState, Fragment,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   connect,
@@ -44,7 +44,10 @@ import {
 import DealSkelton from '../../images/deals-skelton.svg';
 
 const Deals = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const [processedDeals, setProcessedDeals] = useState(null);
   const [activeDestColumn, setActiveDestColumn] = useState(null);
   const [activeIndexDeal, setActiveIndexDeal] = useState(-1);
@@ -589,7 +592,6 @@ Deals.propTypes = {
   activeSinglePropertyDeals: PropTypes.object,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSaveDeal: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetSingleDeal: PropTypes.func.isRequired,
   saveMultipleDeals: PropTypes.func.isRequired,

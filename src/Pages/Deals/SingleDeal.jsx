@@ -4,7 +4,7 @@
 import React, {
   useEffect, useState, useRef,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -48,7 +48,11 @@ import Timeline from '../../components/Timeline';
 const ActionStubs = require('../../resources/timelineActionStubs');
 
 const SingleDeal = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   const {
     activeSingleDeal,
     activeDealHistoryList,
@@ -59,7 +63,6 @@ const SingleDeal = (props) => {
     getHistoryList,
     handleSaveDeal,
     handleSaveMultipleDeal,
-    match,
     setActiveSingleDealHistory,
     setActiveSingleDealOwnerHistory,
     setDeal,
@@ -88,7 +91,7 @@ const SingleDeal = (props) => {
   }, []);
 
   useEffect(() => {
-    const dealID = get(match, 'params.dealID', null);
+    const dealID = get(match, 'dealID', null);
     if (activeSingleDeal) {
       const payloadNote = {
         object: dealID,
@@ -616,7 +619,6 @@ SingleDeal.propTypes = {
   getHistoryList: PropTypes.func.isRequired,
   handleSaveDeal: PropTypes.func.isRequired,
   handleSaveMultipleDeal: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
   setActiveSingleDealHistory: PropTypes.func.isRequired,
   setActiveSingleDealOwnerHistory: PropTypes.func.isRequired,
   setDeal: PropTypes.func.isRequired,

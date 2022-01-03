@@ -13,7 +13,7 @@ import {
 } from '@brixel/brixel-components';
 import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import unset from 'lodash/unset';
@@ -29,7 +29,10 @@ import {
 } from '../../actions/CommonActions';
 
 const ProEstimationFlow = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleProperty,

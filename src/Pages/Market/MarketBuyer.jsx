@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -25,7 +25,11 @@ const MarketCategoryListBuyer = lazy(() => import('./MarketCategoryListBuyer'));
 const MarketList = lazy(() => import('./MarketList'));
 
 const MarketBuyer = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     destroyForm,
@@ -39,12 +43,11 @@ const MarketBuyer = (props) => {
     handleGetWishlistProperties,
     handleSpinnerOff,
     loggedInUser,
-    match,
     preMarketProperties,
     userSearchProfiles,
   } = props;
   // URL PARAMS
-  const catName = get(match, 'params.cat', null);
+  const catName = get(match, 'cat', null);
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
@@ -118,9 +121,7 @@ MarketBuyer.propTypes = {
   handleGetWishlistProperties: PropTypes.func.isRequired,
   // handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };

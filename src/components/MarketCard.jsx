@@ -10,7 +10,7 @@ import {
   Helpers, BrixelIcon, FormatValue, ProgressRing, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import CoverPropertyImage from './CoverPropertyImage';
@@ -29,7 +29,10 @@ import {
 } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     favoritesProperties,

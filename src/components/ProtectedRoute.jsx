@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import {
-  Route, Routes, useNavigate,
+  Route, Routes, useLocation, useNavigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import { compose } from 'redux';
@@ -16,14 +16,12 @@ const cookie = new Cookies();
 const ProtectedRoute = (props) => {
   const history = {
     push: useNavigate(),
-    location: {
-      pathname: window.location.href,
-    },
+    location: useLocation(),
   };
   const {
     allowAccess,
     userTypes,
-    component,
+    element,
     exact,
     isTest,
     loggedInUser,
@@ -39,16 +37,17 @@ const ProtectedRoute = (props) => {
       // history.push('/');
     }
   }, [loggedInUser]);
-  console.log('test', component, path);
 
   return (
-    <Route path={path} exact={exact} component={component} />
+    <Routes>
+      <Route path={path} element={element} />
+    </Routes>
   );
 };
 
 ProtectedRoute.propTypes = {
   allowAccess: PropTypes.bool,
-  component: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  element: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   exact: PropTypes.bool,
   isTest: PropTypes.bool.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -59,7 +58,7 @@ ProtectedRoute.propTypes = {
 
 ProtectedRoute.defaultProps = {
   allowAccess: false,
-  component: null,
+  element: null,
   userTypes: null,
   exact: false,
   render: null,

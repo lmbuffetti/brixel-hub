@@ -4,7 +4,7 @@ import React, {
   useState, useEffect, useCallback, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
@@ -21,7 +21,10 @@ import { setLanguage } from '../actions/CommonActions';
 const AvatarImage = lazy(() => import('./AvatarImage'));
 
 function PageHeader(props) {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     handleSetLanguage,

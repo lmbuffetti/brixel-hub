@@ -10,7 +10,7 @@ import {
   destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
 import get from 'lodash/get';
@@ -32,7 +32,10 @@ import iconOffer from '../../images/offer-flow/Brixel-Icons-offer.png';
 const cookie = new Cookies();
 
 const Signup = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     changeFieldValue,

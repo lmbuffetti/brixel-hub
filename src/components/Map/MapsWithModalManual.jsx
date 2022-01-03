@@ -3,7 +3,7 @@
 import React, {
   useState, createRef, useEffect, useRef,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   GoogleApiWrapper,
 } from 'google-maps-react';
@@ -31,7 +31,10 @@ import Map from './Map';
 import { setCountryList } from '../../actions/CommonActions';
 
 export const MapsWithModalManual = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleCompany,

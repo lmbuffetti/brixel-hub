@@ -15,7 +15,7 @@ import {
 } from '@brixel/brixel-components';
 import queryString from 'query-string';
 import { bindActionCreators, compose } from 'redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -26,7 +26,11 @@ import { setActiveSingleCompany } from '../../actions/CompanyActions';
 import { setCookie } from '../../utils/helpers';
 
 const VisitFeedback = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
@@ -39,11 +43,10 @@ const VisitFeedback = (props) => {
     handleInitForm,
     initialValues,
     isSmallLoading,
-    match,
   } = props;
   // GET URL PARAMS
-  const dealID = get(match, 'params.dealID', null);
-  const pageID = get(match, 'params.pageID', null);
+  const dealID = get(match, 'dealID', null);
+  const pageID = get(match, 'pageID', null);
   const [disabledSend, setDisabledSend] = useState(true);
   const [successMessage, setSuccessMessage] = useState(false);
   const urlParams = queryString.parse(get(history, 'location.search', ''));
@@ -363,7 +366,6 @@ VisitFeedback.propTypes = {
   handleUpdateError: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {

@@ -20,8 +20,10 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../actions/PropertyActions';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
+import { useParams } from 'react-router-dom';
 
 const Page = (props) => {
+  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -29,10 +31,9 @@ const Page = (props) => {
     formValue,
     handleUpdatePublishedReview,
     isSmallLoading,
-    match,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // GET PAGE STATUS
   const changeReviewStatus = (status) => {
@@ -318,7 +319,6 @@ Page.propTypes = {
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
 };
 

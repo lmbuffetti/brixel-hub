@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
@@ -17,7 +17,10 @@ import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions
 
 // COMPONENTS
 const OfferList = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleProperty,
     // handleGetOfferListings,

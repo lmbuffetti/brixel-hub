@@ -3,13 +3,16 @@ import { BrixelButtonPrimary, Helpers } from '@brixel/brixel-components';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import testdriveLarge from '../images/Market/testdrive.jpeg';
 import testDrive from '../images/dashboard/testDrive.png';
 
 const BoxTrialTestDirve = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleProperty,
     activeSingleCompany,

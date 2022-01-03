@@ -3,7 +3,7 @@ import React, {
   useState, useRef, useEffect, useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
@@ -22,9 +22,7 @@ import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 const MenuSidebar = (props) => {
   const history = {
     push: useNavigate(),
-    location: {
-      pathname: window.location.href,
-    },
+    location: useLocation(),
   };
   const {
     activeSingleDeal,

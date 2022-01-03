@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  useNavigate,
+  useLocation,
+  useNavigate, useParams,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
@@ -39,7 +40,11 @@ const PackagesComparePlans = lazy(() => import('../../components/PackagesCompare
 const BoxTrialTestDirve = lazy(() => import('../../components/BoxTrialTestDirve'));
 
 const IntroUpgrade = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleCompany,
@@ -47,14 +52,13 @@ const IntroUpgrade = (props) => {
     activeSinglePropertyPackage,
     handleGetActiveSingleCompany,
     loggedInUser,
-    match,
     packages,
     scrollHash,
   } = props;
   // STATE
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [packageName, setPackageName] = useState({ });
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // SLIDER
   const sliderInstance = useRef(null);
@@ -458,7 +462,6 @@ IntroUpgrade.propTypes = {
   handleGetPackageProperty: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
   scrollHash: PropTypes.string,
 };

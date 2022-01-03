@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -21,7 +21,10 @@ import { createUserSearchProfile, updateUserSearchProfile } from '../actions/Sea
 import { setWizard } from '../actions/CommonActions';
 
 const SearchProfileBanner = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     formValue,
     handleCreateSearchProfile,

@@ -9,7 +9,7 @@ import {
   BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy, DataByCountry,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -31,7 +31,11 @@ import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserA
 const cookie = new Cookies();
 
 const GetStartedSeller = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -51,7 +55,6 @@ const GetStartedSeller = (props) => {
     isTest,
     lang,
     loggedInUser,
-    match,
     reset,
   } = props;
   // STATE
@@ -65,7 +68,7 @@ const GetStartedSeller = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -691,7 +694,6 @@ GetStartedSeller.propTypes = {
   isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 

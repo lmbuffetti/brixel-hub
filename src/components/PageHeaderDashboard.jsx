@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
@@ -34,9 +34,7 @@ import MenuSidebar from './MenuSidebar';
 function PageHeaderDashboard(props) {
   const history = {
     push: useNavigate(),
-    location: {
-      pathname: window.location.href,
-    },
+    location: useLocation(),
   };
   // PROPS
   const {

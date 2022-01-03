@@ -35,9 +35,13 @@ import NoMorePropertiesImg from '../images/searchProfile/no-properties.svg';
 import SearchProfileBanner from './SearchProfileBanner';
 import WizardCard from './WizardCard';
 import { getCookie } from '../utils/helpers';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SplashScreen = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeMarketOverlayProperty,
     activeMarketOverlayPropertyLists,

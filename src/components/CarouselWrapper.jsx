@@ -4,7 +4,7 @@ import React, {
   useState, useRef, useCallback, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import Slider from 'react-slick';
@@ -18,7 +18,10 @@ import { setWindowDimensions } from '../actions/CommonActions';
 import MarketCard from './MarketCard';
 
 const CarouselWrapper = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     className,
@@ -26,7 +29,6 @@ const CarouselWrapper = (props) => {
     lang,
     layout,
     loggedInUser,
-    match,
     onSetActiveProperty,
     setActiveSingleCompany,
     setPropertyId,
@@ -100,7 +102,7 @@ const CarouselWrapper = (props) => {
 
   // eslint-disable-next-line consistent-return
   const showAll = useCallback(() => {
-    const baseUrl = match.url.includes('sell') ? 'sell' : 'buy';
+    const baseUrl = history.location.pathname.includes('sell') ? 'sell' : 'buy';
     switch (type) {
       case 'own': {
         history.push(`/${baseUrl}/own`);
@@ -337,7 +339,6 @@ CarouselWrapper.propTypes = {
   lang: PropTypes.string.isRequired,
   layout: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   onSetActiveProperty: PropTypes.func,
   setActiveSingleCompany: PropTypes.func,
   setPropertyId: PropTypes.func,

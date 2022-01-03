@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon, Helpers } from '@brixel/brixel-components';
@@ -12,7 +12,10 @@ import { setActiveSingleProperty, setEstimation } from '../actions/PropertyActio
 import { setSplashType } from '../actions/CommonActions';
 
 const MarketCardSmall = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     estimation,

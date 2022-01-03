@@ -2,7 +2,7 @@ import React, {
   useRef, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -14,7 +14,10 @@ import Loading from './Loading';
 const SplashScreenContent = lazy(() => import('./SplashScreenContent'));
 
 const SplashScreen = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     children,
     className,

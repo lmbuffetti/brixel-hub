@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
@@ -20,7 +20,10 @@ import { setEstimation } from '../actions/PropertyActions';
 import startBestimate from '../images/Bestimate/startBestimate.svg';
 
 const BestimateCardOverlay = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     bestimate,
     clearEstimation,

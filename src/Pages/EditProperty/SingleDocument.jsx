@@ -4,7 +4,7 @@
 import React, {
   useEffect, useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -34,7 +34,11 @@ import {
 import SplashScreen from '../../components/SplashScreen';
 
 const SingleDocument = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   const {
     activeSingleProperty,
     changeFieldValue,
@@ -42,7 +46,6 @@ const SingleDocument = (props) => {
     handleUpdateDocument,
     initialValues,
     isSmallLoading,
-    match,
   } = props;
 
   const [activeDocument, setActiveDocument] = useState({});
@@ -69,7 +72,7 @@ const SingleDocument = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    const docID = get(match, 'params.docID', null);
+    const docID = get(match, 'docID', null);
     const folderArrayAux = [];
     if (docID) {
       find(activeSingleProperty.documents, (el, key) => {
@@ -341,7 +344,6 @@ SingleDocument.propTypes = {
   handleUpdateDocument: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 SingleDocument.defaultProps = {};

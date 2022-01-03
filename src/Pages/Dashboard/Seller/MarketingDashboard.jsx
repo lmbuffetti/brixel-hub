@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
-import { Route, useNavigate } from 'react-router-dom';
+import { Route, useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -18,15 +18,18 @@ const Page = lazy(() => import('../../Marketing/Page'));
 const Portals = lazy(() => import('../../Marketing/Portals'));
 
 const MarketingDashboard = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     formValue,
-    match,
     windowDimensions,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
@@ -236,7 +239,6 @@ const MarketingDashboard = (props) => {
 
 MarketingDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 

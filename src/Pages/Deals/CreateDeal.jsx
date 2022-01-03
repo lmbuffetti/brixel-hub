@@ -4,7 +4,7 @@
 import React, {
   useEffect,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
@@ -30,7 +30,10 @@ import SplashScreen from '../../components/SplashScreen';
 import ProgressBar from '../../components/ProgressBar';
 
 const CreateDeal = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleProperty,
     handleCreateDeal,

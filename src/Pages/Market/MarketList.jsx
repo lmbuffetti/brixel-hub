@@ -3,7 +3,7 @@ import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
@@ -24,7 +24,11 @@ import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 const MarketMap = lazy(() => import('./MarketMap'));
 
 const MarketList = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     allProperties,
@@ -39,7 +43,6 @@ const MarketList = (props) => {
     handleGetWishlistProperties,
     lastViewedProperties,
     loggedInUser,
-    match,
     newProperties,
     ownerProperties,
     preMarketProperties,
@@ -51,8 +54,8 @@ const MarketList = (props) => {
     windowDimensions,
   } = props;
   // URL PARAMS
-  const catName = get(match, 'params.cat', null);
-  const propID = get(match, 'params.id', null);
+  const catName = get(match, 'cat', null);
+  const propID = get(match, 'id', null);
   // STATE
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
@@ -419,7 +422,6 @@ MarketList.propTypes = {
   handleGetWishlistProperties: PropTypes.func.isRequired,
   lastViewedProperties: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   newProperties: PropTypes.object.isRequired,
   ownerProperties: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.object.isRequired,

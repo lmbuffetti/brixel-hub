@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { lazy, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
@@ -41,7 +41,10 @@ const BoxTrialTestDirve = lazy(() => import('../../../components/BoxTrialTestDir
 const { factsOptions } = FactsOptions;
 
 const DashboardHome = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSinglePropertyDeals,

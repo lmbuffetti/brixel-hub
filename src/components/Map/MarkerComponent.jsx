@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import { FormatValue, Helpers } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -17,7 +17,10 @@ import {
 import { setSplashType } from '../../actions/CommonActions';
 
 const MarkerComponent = (props) => {
-  const history = useNavigate();
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeProperty,
     data,
