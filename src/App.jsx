@@ -468,18 +468,18 @@ const App = (props) => {
                   } */}
                     <Routes>
                       { /* SECTION: ONBOARDING */ }
-                      <Route path="/packageFlow/" element={GetStarted} />
-                      <Route path="/packageFlow/getstarted/" element={GetStartedSeller} />
-                      <Route path="/packageFlow/getstartedBuyer/" element={GetStartedBuyer} />
-                      <Route path="/packageFlow/getstartedEstimation/" element={GetStartedEstimation} />
-                      <Route path="/packageFlow/testDrive/" element={ScanTrialFlow} />
-                      <Route path="/visitFeedback/:dealID/:pageID" element={VisitFeedback} />
+                      <Route path="/packageFlow/" element={<GetStarted />} />
+                      <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
+                      <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
+                      <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
+                      <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
+                      <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
 
                       {/* SECTION: SIGNUP */}
-                      <Route path="/signup" element={Signup} />
+                      <Route path="/signup" element={<Signup />} />
 
                       { /* SECTION: INSERT TOKEN */ }
-                      <Route path="/tokeninput" element={InsertToken} />
+                      <Route path="/tokeninput" element={<InsertToken />} />
                       <Route index element={<div>Default Page Content</div>} />
                     </Routes>
 
