@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
-import { Route, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Routes, Route, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -221,9 +223,11 @@ const MarketingDashboard = (props) => {
               )
                 ? (
                   <Suspense fallback={<Loading isLoading />}>
-                    <Route path="/:propId/marketing/showings" component={Showings} />
-                    <Route path="/:propId/marketing/page" exact component={Page} />
-                    <Route path="/:propId/marketing/portals" exact component={Portals} />
+                    <Routes>
+                      <Route path="/showings" element={<Showings />} />
+                      <Route path="/page" element={<Page />} />
+                      <Route path="/portals" element={<Portals />} />
+                    </Routes>
                   </Suspense>
                 ) : (
                   <></>

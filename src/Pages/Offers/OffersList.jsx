@@ -49,9 +49,7 @@ const OfferList = (props) => {
 
 OfferList.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  // handleGetOfferListings: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   offerListings: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 

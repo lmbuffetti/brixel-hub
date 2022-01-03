@@ -24,11 +24,11 @@ const DashboardOffer = (props) => {
     };
     if (activeSingleProperty.id) handleGetOfferListings(data);
   }, [activeSingleProperty]);
-
+  console.log('sadas')
   return (
     <Suspense fallback={<Loading isLoading />}>
-      <ProtectedRoute exact path="/:propId?/closing" component={OffersList} />
-      <ProtectedRoute exact path="/:propId?/closing/:dealID" component={OfferDetail} />
+      <ProtectedRoute path="/" element={<OffersList />} />
+      <ProtectedRoute path="/:dealID" element={<OfferDetail />} />
     </Suspense>
   );
 };

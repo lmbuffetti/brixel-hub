@@ -111,7 +111,8 @@ const Documents = (props) => {
       id: null,
       active: false,
     });
-    history.push(`${match.url}/${id}/editDocument`);
+    const path = get(history, 'location.pathname', '').replace(/\/$/, '');
+    history.push(`${path}/${id}/editDocument`);
   };
 
   const openDocument = (e, id) => {

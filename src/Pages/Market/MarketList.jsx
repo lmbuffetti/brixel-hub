@@ -185,10 +185,10 @@ const MarketList = (props) => {
       if (openMap) {
         setOpenMap(false);
       } else {
-        history.push('./');
+        history.push('../');
       }
     } else {
-      history.push('./');
+      history.push('../');
     }
   };
 

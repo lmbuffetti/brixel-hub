@@ -136,7 +136,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
+    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null)) && propID !== 'sell') {
       if (propID && propID !== 'home' && propID !== 'company') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetPackageProperty({ id: propID });
@@ -169,7 +169,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && loadedProp) {
+    if (!history.location.pathname.includes('pageLists') && loadedProp && propID !== 'sell') {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
           const isSellerUser = get(loggedInUser, 'user.seller', false);
@@ -341,12 +341,12 @@ const Dashboard = (props) => {
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
           <ProtectedRoute path="/home" element={<DashboardHome />} />
           <ProtectedRoute path="/property/*" element={<PropertyDashboard />} />
-          <ProtectedRoute path="/docubox" element={<Documents />} />
-          <ProtectedRoute path="/marketing" element={<MarketingDashboard />} />
-          <ProtectedRoute path="/prospects" element={<Deals />} />
-          <ProtectedRoute path="/closing" element={<DashboardOffer />} />
-          <ProtectedRoute path="/upgrade" element={<Upgrade />} />
-          <ProtectedRoute path="/trialRequest" element={<ScanTrialFlow />} />
+          <ProtectedRoute path="/docubox/*" element={<Documents />} />
+          <ProtectedRoute path="/marketing/*" element={<MarketingDashboard />} />
+          <ProtectedRoute path="/prospects/*" element={<Deals />} />
+          <ProtectedRoute path="/closing/*" element={<DashboardOffer />} />
+          <ProtectedRoute path="/upgrade/*" element={<Upgrade />} />
+          <ProtectedRoute path="/trialRequest/*" element={<ScanTrialFlow />} />
           <ProtectedRoute path="/no-property" exact element={<EmptyProperty />} />
         </Suspense>
       </div>

@@ -63,7 +63,7 @@ const MarketSeller = (props) => {
         {/* premarket overlay */}
         <Routes>
           <Route path="/" element={<MarketCategoryListSeller />} />
-          <Route path="/:cat/:id?" element={<MarketList isSeller />} />
+          <Route path="/:cat" element={<MarketList isSeller />} />
         </Routes>
       </div>
     </Suspense>

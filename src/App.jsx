@@ -493,22 +493,28 @@ const App = (props) => {
                       !history.location.pathname.includes('signup') &&
                       (
                         <Fragment>
-                          <ProtectedRoute path="/sell" element={<MarketSeller />} />
-                          <ProtectedRoute path="/buy/:cat?/:id?" element={<MarketBuyer />} />
-                          <ProtectedRoute path="/seller/pageLists" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/" exact element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId/*" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/singleFlow" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/docubox" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/closing" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/property" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/marketing" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/support" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/prospects" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/offers" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/deal" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/upgrade" element={<DashboardSeller />} />
-                          <ProtectedRoute path="/:propId?/trialRequest" element={<DashboardSeller />} />
+                          <ProtectedRoute path="/sell/*" element={<MarketSeller />} />
+                          <ProtectedRoute path="/buy/*" element={<MarketBuyer />} />
+                          {
+                            get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
+                            get(history, 'location.pathname', '').split('/')[1] !== 'buy' && (
+                              <Fragment>
+                                <ProtectedRoute path="/seller/pageLists" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId/*" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/singleFlow" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/docubox/*" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/closing/*" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/property" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/marketing" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/support" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/prospects" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/offers" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/deal/*" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/upgrade" element={<DashboardSeller />} />
+                                <ProtectedRoute path="/:propId?/trialRequest" element={<DashboardSeller />} />
+                              </Fragment>
+                            )
+                          }
                         </Fragment>
                       )
                     }
@@ -568,20 +574,16 @@ const App = (props) => {
           </div>
 
           { /* SECTION: ACHIVEMENT FLOW */ }
-          {/*
-            <Routes>
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/market-checker" element={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/assessor" element={Assessor} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" element={Bestimate} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/media" element={MediaExplanation} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/facts" element={Facts} userTypes="seller" />
-              <ProtectedRoute path="/buyer/:act/:propID/showings/add" element={AddShowingsBuyer} />
-              <ProtectedRoute path="/buyer/:act/:propID/contact/add" element={AddContactBuyer} />
-              <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" element={SingleDeal} />
-              <ProtectedRoute exact path="/:propID/prospects/newDeal" element={CreateDeal} />
-              <ProtectedRoute path="/:propID/property/price/formFlow" element={ProEstimationFlow} />
-            </Routes>
-          */}
+          {
+            <Fragment>
+              <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" element={<Bestimate />} userTypes="seller" />
+              <ProtectedRoute path="/buyer/:act/:propID/showings/add" element={<AddShowingsBuyer />} />
+              <ProtectedRoute path="/buyer/:act/:propID/contact/add" element={<AddContactBuyer />} />
+              <ProtectedRoute path="/:propID/prospects/:dealID/deal" element={<SingleDeal />} />
+              <ProtectedRoute path="/:propID/prospects/newDeal" element={<CreateDeal />} />
+              <ProtectedRoute path="/:propID/property/price/formFlow" element={<ProEstimationFlow />} />
+            </Fragment>
+          }
 
           {
             modal.state && !modal.type && !modal.small && (

@@ -65,7 +65,6 @@ const Deals = (props) => {
     activeSinglePropertyDeals,
     handleGetPageDeals,
     handleSaveDeal,
-    match,
     notification,
     resetSingleDeal,
     saveMultipleDeals,
@@ -156,12 +155,13 @@ const Deals = (props) => {
 
   const openDeal = (id) => {
     resetSingleDeal({});
-    history.push(`${match.url}/${id}/deal`);
+    const path = get(history, 'location.pathname', '').replace(/\/$/, '');
+    history.push(`${path}/${id}/deal`);
   };
 
   const createNewDeal = () => {
     resetSingleDeal({});
-    history.push(`${match.url}/newDeal`);
+    history.push(`/${activeSingleProperty.id}/prospects/newDeal`);
   };
 
   const saveDeal = (deal, type = '') => {

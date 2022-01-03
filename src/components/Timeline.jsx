@@ -95,7 +95,8 @@ const Timeline = (props) => {
     const newPath = last(targetLink.href.split('/'));
 
     if (newPath.includes('rewardDetail')) {
-      history.push(`${history.location.pathname}/${newPath}`);
+      const path = get(history, 'location.pathname', '').replace(/\/$/, '');
+      history.push(`${path}/${newPath}`);
     } else if (targetLink.href.includes('#')) {
       history.push('#');
     } else {

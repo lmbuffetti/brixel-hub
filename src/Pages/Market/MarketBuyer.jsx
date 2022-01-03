@@ -102,8 +102,8 @@ const MarketBuyer = (props) => {
       {/* premarket overlay */}
       <Suspense fallback="">
         <Routes>
-          <Route exact path="/buy" component={MarketCategoryListBuyer} />
-          <Route exact path="/buy/:cat/:id?" component={() => <MarketList isBuyer />} />
+          <Route path="/" element={<MarketCategoryListBuyer />} />
+          <Route path="/:cat" element={<MarketList isBuyer />} />
         </Routes>
       </Suspense>
     </div>
