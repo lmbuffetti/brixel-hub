@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Route, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import get from 'lodash/get';
 // import has from 'lodash/has';
 import {

@@ -17,10 +17,10 @@ import {
   reset,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { useParams } from 'react-router-dom';
 import { updatePublishedReview } from '../../actions/PropertyActions';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
-import { useParams } from 'react-router-dom';
 
 const Page = (props) => {
   const match = useParams();

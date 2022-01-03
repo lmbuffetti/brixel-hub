@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { Helpers } from '@brixel/brixel-components';
+import { useParams } from 'react-router-dom';
 import { setSplashType } from '../../actions/CommonActions';
 import BrixelClosingTree from '../../components/BrixelClosingTree';
 import { getActiveSingleDeal, setActiveSingleDeal } from '../../actions/DealActions';
-import { useParams } from 'react-router-dom';
 
 const OfferDetail = (props) => {
   const match = useParams();

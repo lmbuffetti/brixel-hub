@@ -6,12 +6,12 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
 import { Helpers } from '@brixel/brixel-components';
+import { useParams } from 'react-router-dom';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { createEstimation, generateEstimation } from '../../actions/EstimationActions';
 import RangePriceChart from '../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../images/emptyHub.svg';
 import Loading from '../../components/Loading';
-import { useParams } from 'react-router-dom';
 
 function ResumeBestimate(props) {
   const match = useParams();

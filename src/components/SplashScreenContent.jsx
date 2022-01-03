@@ -20,6 +20,7 @@ import Slider from 'react-slick';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { setSplashType, setWizard } from '../actions/CommonActions';
 import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } from '../actions/PropertyActions';
 import { updateFavorite, addNotInterested } from '../actions/UserActions';
@@ -35,7 +36,6 @@ import NoMorePropertiesImg from '../images/searchProfile/no-properties.svg';
 import SearchProfileBanner from './SearchProfileBanner';
 import WizardCard from './WizardCard';
 import { getCookie } from '../utils/helpers';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 const SplashScreen = (props) => {
   const history = {

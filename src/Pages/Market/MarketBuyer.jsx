@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Route, Routes, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

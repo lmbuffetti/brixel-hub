@@ -83,14 +83,12 @@ const Dashboard = (props) => {
     } else if (activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
-    console.log(activeSingleProperty, activeSingleDeal, dealID);
     if (activeSingleProperty.id && (dealID !== activeSingleDeal.id || !dealID)) {
       handleGetBuyerDeal({ id: activeSingleProperty.id });
     }
   }, [activeSingleProperty]);
 
   useEffect(() => {
-    console.log(propID);
     if (propID && propID !== 'propertyLists') {
       const data = {
         fullVersion: false,

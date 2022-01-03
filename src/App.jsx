@@ -52,7 +52,6 @@ const MenuSidebar = lazy(() => import('./components/MenuSidebar'));
 
 // ADMIN ROUTES
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
-const AuthProvider = lazy(() => import('./components/AuthProvider'));
 
 const InsertToken = lazy(() => import('./Pages/InsertToken'));
 
@@ -497,13 +496,13 @@ const App = (props) => {
                       !history.location.pathname.includes('buyer') &&
                       !history.location.pathname.includes('signup') &&
                       (
-                        <Fragment>
+                        <>
                           <ProtectedRoute path="/sell/*" element={<MarketSeller />} />
                           <ProtectedRoute path="/buy/*" element={<MarketBuyer />} />
                           {
                             get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
                             get(history, 'location.pathname', '').split('/')[1] !== 'buy' && (
-                              <Fragment>
+                              <>
                                 <ProtectedRoute path="/seller/pageLists" element={<DashboardSeller />} />
                                 <ProtectedRoute path="/:propId/*" element={<DashboardSeller />} />
                                 <ProtectedRoute path="/:propId?/singleFlow" element={<DashboardSeller />} />
@@ -517,10 +516,10 @@ const App = (props) => {
                                 <ProtectedRoute path="/:propId?/deal/*" element={<DashboardSeller />} />
                                 <ProtectedRoute path="/:propId?/upgrade" element={<DashboardSeller />} />
                                 <ProtectedRoute path="/:propId?/trialRequest" element={<DashboardSeller />} />
-                              </Fragment>
+                              </>
                             )
                           }
-                        </Fragment>
+                        </>
                       )
                     }
                     {
@@ -579,14 +578,14 @@ const App = (props) => {
 
           { /* SECTION: ACHIVEMENT FLOW */ }
           {
-            <Fragment>
+            <>
               <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" element={<Bestimate />} userTypes="seller" />
               <ProtectedRoute path="/buyer/:act/:propID/showings/add" element={<AddShowingsBuyer />} />
               <ProtectedRoute path="/buyer/:act/:propID/contact/add" element={<AddContactBuyer />} />
               <ProtectedRoute path="/:propID/prospects/:dealID/deal" element={<SingleDeal />} />
               <ProtectedRoute path="/:propID/prospects/newDeal" element={<CreateDeal />} />
               <ProtectedRoute path="/:propID/property/price/formFlow" element={<ProEstimationFlow />} />
-            </Fragment>
+            </>
           }
 
           {

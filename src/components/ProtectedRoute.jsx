@@ -57,8 +57,6 @@ ProtectedRoute.defaultProps = {
   allowAccess: false,
   element: null,
   userTypes: null,
-  exact: false,
-  render: null,
 };
 
 const mapStateToProps = (state) => ({

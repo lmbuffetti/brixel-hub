@@ -294,7 +294,6 @@ ContactForm.propTypes = {
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
   handleSendMessage: PropTypes.func.isRequired,
   handleSpinnerSmall: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,

@@ -4,7 +4,9 @@
 import React, {
   useState, useEffect, lazy, Suspense,
 } from 'react';
-import { Route, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Route, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import last from 'lodash/last';

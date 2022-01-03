@@ -630,7 +630,6 @@ MarketCategoryListSeller.propTypes = {
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetActiveSingleCompany: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,

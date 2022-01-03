@@ -24,7 +24,7 @@ const DashboardOffer = (props) => {
     };
     if (activeSingleProperty.id) handleGetOfferListings(data);
   }, [activeSingleProperty]);
-  console.log('sadas')
+
   return (
     <Suspense fallback={<Loading isLoading />}>
       <ProtectedRoute path="/" element={<OffersList />} />

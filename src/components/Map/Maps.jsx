@@ -14,10 +14,10 @@ import { BrixelInputText, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';
 import { setCountryList } from '../../actions/CommonActions';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 export const ComponentMap = (props) => {
   const history = {
