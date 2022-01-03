@@ -329,7 +329,7 @@ const mapStateToProps = (state) => {
   });
 };
 
-const mapPropsToState = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('ContactForm'));
   },
@@ -344,4 +344,4 @@ const mapPropsToState = (dispatch) => ({
   handleSendMessage: bindActionCreators(sendMessage, dispatch),
 });
 
-export default compose(connect(mapStateToProps, mapPropsToState), withRouter)(ContactForm);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(ContactForm);

@@ -367,17 +367,20 @@ VisitFeedback.propTypes = {
   match: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
-  formValue: get(state, 'brixelForm.visitFeedback.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  initialValues: {
+const mapStateToProps = (state) => {
+  const initialValues = {
     reasons: null,
     otherReason: '',
     priceChangeAlert: null,
-  },
-});
+  };
+  return ({
+    activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+    contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
+    formValue: get(state, 'brixelForm.visitFeedback.values', {}),
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
+    initialValues,
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
   handleUpdateError(name, value) {

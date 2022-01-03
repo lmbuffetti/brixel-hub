@@ -448,11 +448,11 @@ LoginSignup.defaultProps = {
   skipPhone: false,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state, ownProps) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
   formError: get(state, 'common.formError', {}),
-  errorValue: get(state, `brixelForm.${props.formName}.syncErrors`, {}),
-  formValue: get(state, `brixelForm.${props.formName}.values`, {}),
+  errorValue: get(state, `brixelForm.${ownProps.formName}.syncErrors`, {}),
+  formValue: get(state, `brixelForm.${ownProps.formName}.values`, {}),
   isSmallLoading: get(state, 'common.isSmallLoading', ''),
   lang: get(state, 'common.language', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),

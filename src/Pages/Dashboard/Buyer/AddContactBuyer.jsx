@@ -89,12 +89,13 @@ const AddContactBuyer = (props) => {
               <h5 className="heading6 txtDark700">We will contact you as soon as possible.</h5>
             </section>
             <section
-              className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg">
+              className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg"
+            >
               <p className="mb-2"><b>Here are 3 tips for a smooth process</b></p>
 
               <ul>
                 <li>
-                  <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700}/>
+                  <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700} />
                   <div>
                     <span>Make sure you visited the</span>&nbsp;
                     <span
@@ -106,12 +107,17 @@ const AddContactBuyer = (props) => {
                   </div>
                 </li>
                 <li className="redIcon">
-                  <BrixelIcon icon="favorite-house" color="green" background="green" saturation={200}
-                              saturationTxt={700}/>
+                  <BrixelIcon
+                    icon="favorite-house"
+                    color="green"
+                    background="green"
+                    saturation={200}
+                    saturationTxt={700}
+                  />
                   Do not forget to favorite the property to keep all the information in one place
                 </li>
                 <li className="redIcon">
-                  <BrixelIcon icon="money" color="green" background="green" saturation={200} saturationTxt={700}/>
+                  <BrixelIcon icon="money" color="green" background="green" saturation={200} saturationTxt={700} />
                   Get in touch with your bank about financing before you visit
                 </li>
               </ul>

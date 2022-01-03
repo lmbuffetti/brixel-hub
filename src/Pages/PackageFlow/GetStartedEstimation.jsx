@@ -798,8 +798,8 @@ GetStartedEstimation.defaultProps = {
   lang: 'en',
 };
 
-const mapStateToProps = (state, props) => {
-  const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
+const mapStateToProps = (state, ownProps) => {
+  const urlSearch = queryString.parse(get(ownProps.history, 'location.search', ''));
   const channelCookie = cookie.get('brixelChannelSignup') || null;
   const channel = get(urlSearch, 'channel', channelCookie);
   const propertyType = get(state, 'brixelForm.GetStarted.values.properties.propertyType', get(urlSearch, 'propertyType', null));

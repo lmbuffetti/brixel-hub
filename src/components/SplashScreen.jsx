@@ -78,9 +78,7 @@ const mapStateToProps = (state) => ({
   wizard: get(state, 'common.wizard', {}),
 });
 
-const mapDispatchToProps = () => ({});
-
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(SplashScreen);

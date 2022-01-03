@@ -85,7 +85,4 @@ const mapStateToProps = (state) => ({
   userTypes: get(state, 'user.userTypes', null),
 });
 
-const mapDispatchToProps = () => ({
-});
-
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(ProtectedRoute);
+export default compose(withRouter, connect(mapStateToProps, null))(ProtectedRoute);

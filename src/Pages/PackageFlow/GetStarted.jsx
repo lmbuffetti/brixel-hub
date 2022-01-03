@@ -536,8 +536,8 @@ GetStarted.defaultProps = {
   lang: 'en',
 };
 
-const mapStateToProps = (state, props) => {
-  const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
+const mapStateToProps = (state, ownProps) => {
+  const urlSearch = queryString.parse(get(ownProps.history, 'location.search', ''));
   const channel = get(urlSearch, 'channel', 'default');
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);

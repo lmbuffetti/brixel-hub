@@ -443,8 +443,8 @@ MapsCities.defaultProps = {
   subMinHeight: '',
 };
 
-const mapStateToProps = (state, props) => {
-  const formName = get(props, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
+const mapStateToProps = (state, ownProps) => {
+  const formName = get(ownProps, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
   const lat = get(state, 'property.activeSingleProperty.location.latitude', 10);
   const lng = get(state, 'property.activeSingleProperty.location.longitude', 10);
   return ({

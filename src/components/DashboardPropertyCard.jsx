@@ -208,9 +208,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
 });
 
-const mapDispatchToProps = () => ({});
-
 export default compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(DashboardPropertyCard);
