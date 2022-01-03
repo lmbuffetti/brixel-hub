@@ -7,19 +7,22 @@ import {
   BrixelIcon,
   Helpers,
 } from '@brixel/brixel-components';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import CoverPropertyImage from './CoverPropertyImage';
 
 const DashboardPropertyCard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleProperty,
     estimation,
     formValue,
-    history,
     smallLayout,
   } = props;
 
@@ -194,7 +197,6 @@ DashboardPropertyCard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   smallLayout: PropTypes.bool,
 };
 
@@ -209,6 +211,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(DashboardPropertyCard);

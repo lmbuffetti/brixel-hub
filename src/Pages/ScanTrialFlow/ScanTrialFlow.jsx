@@ -16,7 +16,7 @@ import {
 } from '@brixel/brixel-components';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -28,6 +28,11 @@ import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
 
 const ScanTrialFlow = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleCompany,
@@ -36,12 +41,10 @@ const ScanTrialFlow = (props) => {
     errorValue,
     formValue,
     handleSendScanTrial,
-    history,
     initForm,
     initialValues,
     isSmallLoading,
     loggedInUser,
-    match,
     reset,
   } = props;
   // STATE
@@ -54,7 +57,7 @@ const ScanTrialFlow = (props) => {
   const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // REF
   const singleStepRef = useRef(null);
@@ -519,12 +522,10 @@ ScanTrialFlow.propTypes = {
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 
@@ -569,6 +570,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ScanTrialFlow);

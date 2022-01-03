@@ -4,7 +4,7 @@
 import React, {
   useState, useRef, useCallback, useEffect,
 } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
@@ -34,16 +34,19 @@ import { tobase64Handler } from '../../utils/helpers';
 // COMPONENTS
 
 const Documents = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     formValue,
     handleMultiUploadDocument,
     loggedInUser,
     handleDeleteDocument,
-    history,
     isBuyer,
     isSmallLoading,
-    match,
     userLang,
     userType,
   } = props;
@@ -108,7 +111,8 @@ const Documents = (props) => {
       id: null,
       active: false,
     });
-    history.push(`${match.url}/${id}/editDocument`);
+    const path = get(history, 'location.pathname', '').replace(/\/$/, '');
+    history.push(`${path}/${id}/editDocument`);
   };
 
   const openDocument = (e, id) => {
@@ -119,7 +123,7 @@ const Documents = (props) => {
   const index = (key) => findIndex(showFullFolder, (el) => el === key);
 
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // REF
   const documentRef = useRef(null);
@@ -600,14 +604,12 @@ const Documents = (props) => {
 };
 
 Documents.propTypes = {
-  history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleDeleteDocument: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
   isBuyer: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  handleDeleteDocument: PropTypes.func.isRequired,
-  match: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
   userType: PropTypes.string.isRequired,
 };
@@ -632,6 +634,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Documents);

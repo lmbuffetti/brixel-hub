@@ -11,7 +11,7 @@ import {
   initializeForm, change,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -19,6 +19,11 @@ import { BestimateQuestions } from '../../resources/Bestimate';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 
 const Bestimate = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
@@ -26,11 +31,9 @@ const Bestimate = (props) => {
     errorValue,
     formValue,
     handleSaveActiveSingleProperty,
-    history,
     initForm,
     initialValues,
     initialValuesPage,
-    match,
     resetForm,
   } = props;
   // STATE
@@ -41,7 +44,7 @@ const Bestimate = (props) => {
   const [questions, setQuestions] = useState(BestimateQuestions('en'));
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -312,11 +315,9 @@ Bestimate.propTypes = {
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   initialValuesPage: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
 };
 
@@ -366,6 +367,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Bestimate);

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators } from 'redux';
@@ -75,4 +74,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TokenInput));
+export default connect(mapStateToProps, mapDispatchToProps)(TokenInput);

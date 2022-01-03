@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { lazy, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
@@ -41,6 +41,10 @@ const BoxTrialTestDirve = lazy(() => import('../../../components/BoxTrialTestDir
 const { factsOptions } = FactsOptions;
 
 const DashboardHome = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSinglePropertyDeals,
@@ -52,7 +56,6 @@ const DashboardHome = (props) => {
     handleSetModal,
     handleGetActiveSinglePropertyDealsCount,
     handleGetPageDeals,
-    history,
     isSmallLoading,
     loggedInUser,
     proEstimation,
@@ -875,7 +878,6 @@ DashboardHome.propTypes = {
   handleGetActiveSinglePropertyDealsCount: PropTypes.func.isRequired,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   proEstimation: PropTypes.object,
@@ -913,6 +915,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(DashboardHome);

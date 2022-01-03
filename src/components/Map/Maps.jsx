@@ -3,7 +3,6 @@
 import React, {
   useState, createRef, useEffect, useRef,
 } from 'react';
-import { withRouter } from 'react-router-dom';
 import {
   GoogleApiWrapper,
 } from 'google-maps-react';
@@ -15,11 +14,16 @@ import { BrixelInputText, change } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';
 import { setCountryList } from '../../actions/CommonActions';
 
 export const ComponentMap = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     className,
@@ -32,7 +36,6 @@ export const ComponentMap = (props) => {
     formValue,
     google,
     handleUpdateCountry,
-    history,
     init,
     input,
     latitude,
@@ -402,7 +405,6 @@ ComponentMap.propTypes = {
   init: PropTypes.object.isRequired,
   multipleFieldSearch: PropTypes.bool,
   handleUpdateCountry: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   input: PropTypes.object,
   longitude: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
@@ -467,6 +469,5 @@ export default compose(
     apiKey: (baseByData.googleMaps),
     libraries: ['geometry', 'drawing', 'places'],
   }),
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ComponentMap);

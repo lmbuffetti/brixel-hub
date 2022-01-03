@@ -2,10 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { useLocation, useNavigate } from 'react-router-dom';
 import MarkerWithLabel from '@googlemaps/markerwithlabel';
 import { FormatValue, Helpers } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -17,11 +17,14 @@ import {
 import { setSplashType } from '../../actions/CommonActions';
 
 const MarkerComponent = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeProperty,
     data,
     google,
-    history,
     onClick,
     onMarker,
     optMap,
@@ -248,7 +251,6 @@ MarkerComponent.propTypes = {
   parentMarker: PropTypes.arrayOf(PropTypes.string).isRequired,
   google: PropTypes.object.isRequired,
   optMap: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   // icon: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   onMarker: PropTypes.func.isRequired,
@@ -268,6 +270,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(null, mapDispatchToProps),
 )(MarkerComponent);

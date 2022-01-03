@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -21,14 +21,17 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../../actions/PropertyActions';
 
 const ContactBuyer = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     contacts,
-    history,
-    match,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   return (
     <>
@@ -122,9 +125,7 @@ const ContactBuyer = (props) => {
 };
 
 ContactBuyer.propTypes = {
-  history: PropTypes.object.isRequired,
   contacts: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 ContactBuyer.defaultProps = {
@@ -146,6 +147,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ContactBuyer);

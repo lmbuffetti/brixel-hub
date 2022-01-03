@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import unset from 'lodash/unset';
@@ -16,15 +16,18 @@ import { keyify } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
 
 const FactsQuestion = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   const {
     formValue,
-    history,
     initValues,
-    match,
     quest,
   } = props;
   // PARAMS URL
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
 
   useEffect(() => {
@@ -148,8 +151,6 @@ const FactsQuestion = (props) => {
 FactsQuestion.propTypes = {
   formValue: PropTypes.object.isRequired,
   initValues: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   quest: PropTypes.object,
 };
 
@@ -174,6 +175,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(FactsQuestion);

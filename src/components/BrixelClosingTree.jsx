@@ -1,8 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
@@ -18,14 +16,16 @@ import ClosingTree from './Skeleton/ClosingTree';
 
 const BrixelClosingTree = (props) => {
   const sectionNumber = new Array(5).fill('');
-
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleClosing,
     activeSingleDeal,
     activeSingleOffer,
     activeSingleProperty,
     className,
-    history,
     isBuyer,
     setSplashScreen,
     userLang,
@@ -659,7 +659,6 @@ BrixelClosingTree.propTypes = {
   activeSingleOffer: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   className: PropTypes.string,
-  history: PropTypes.object.isRequired,
   isBuyer: PropTypes.bool,
   setSplashScreen: PropTypes.func.isRequired,
   userLang: PropTypes.string.isRequired,
@@ -683,6 +682,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(BrixelClosingTree);

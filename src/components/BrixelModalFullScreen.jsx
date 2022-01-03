@@ -2,14 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
-import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
-
-// SIMPLE COMPONENT TO MANAGE THE FULLSCREEN MODAL
-// PROPS
-// children: HTML
-// title: STRING
-// onClose: FUNCTION
 
 const BrixelModalFullScreen = (props) => {
   // PROPS
@@ -83,6 +75,4 @@ BrixelModalFullScreen.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default compose(
-  withRouter,
-)(BrixelModalFullScreen);
+export default BrixelModalFullScreen;

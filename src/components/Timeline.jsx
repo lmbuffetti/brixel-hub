@@ -3,7 +3,8 @@ import React, {
   useEffect, useState, useRef,
 } from 'react';
 import {
-  withRouter,
+  useLocation,
+  useNavigate,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -40,6 +41,10 @@ import {
 } from '../utils/helpers';
 
 const Timeline = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const [chronologicalData, setChronologicalData] = useState([]);
   const [noteOptionsOpen, setNoteOptionsOpen] = useState({
     id: null,
@@ -70,11 +75,9 @@ const Timeline = (props) => {
     className,
     handleCreateNote,
     handleSaveNote,
-    history,
     isDeal,
     isSmallLoading,
     loggedInUser,
-    match,
     userLang,
   } = props;
 
@@ -92,7 +95,8 @@ const Timeline = (props) => {
     const newPath = last(targetLink.href.split('/'));
 
     if (newPath.includes('rewardDetail')) {
-      history.push(`${match.url}/${newPath}`);
+      const path = get(history, 'location.pathname', '').replace(/\/$/, '');
+      history.push(`${path}/${newPath}`);
     } else if (targetLink.href.includes('#')) {
       history.push('#');
     } else {
@@ -571,11 +575,9 @@ Timeline.propTypes = {
   className: PropTypes.string,
   handleCreateNote: PropTypes.func.isRequired,
   handleSaveNote: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isDeal: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
 };
 
@@ -605,6 +607,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Timeline);

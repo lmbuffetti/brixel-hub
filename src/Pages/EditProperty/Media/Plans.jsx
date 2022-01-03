@@ -3,7 +3,9 @@
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import {
+  Routes, Route, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -24,6 +26,11 @@ import { tobase64Handler, Truncate, checkBrowser } from '../../../utils/helpers'
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 
 const Photos = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
@@ -31,11 +38,9 @@ const Photos = (props) => {
     formValue,
     handleMultiUploadImg,
     handleDeleteImg,
-    history,
     imageType,
     isSmallLoading,
     loggedInUser,
-    match,
     windowDimensions,
   } = props;
   const { floorPlans } = formValue;
@@ -45,7 +50,7 @@ const Photos = (props) => {
   const [btnActive, setBtnActive] = useState(null);
   const [newImages, setNewImages] = useState([]);
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   // REF
   // eslint-disable-next-line no-unused-vars
   const arrayImg = [...Array(floorPlans ? floorPlans.length : 0)].map((_, index) => React.createRef());
@@ -288,7 +293,13 @@ const Photos = (props) => {
             )
           }
         </div>
-        <Route path="/:propId?/property/floorPlans/:imgId/edit/:editType" exact component={DetailMedia} />
+        <Routes>
+          <Route
+            path="/:imgId/edit/:editType"
+            element={<DetailMedia />}
+          />
+          <Route index element={<div>Default Page Content</div>} />
+        </Routes>
       </div>
     </>
   );
@@ -300,11 +311,9 @@ Photos.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
   handleMultiUploadImg: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -327,6 +336,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Photos);

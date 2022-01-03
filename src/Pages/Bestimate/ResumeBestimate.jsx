@@ -5,10 +5,8 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
-import {
-  withRouter,
-} from 'react-router-dom';
 import { Helpers } from '@brixel/brixel-components';
+import { useParams } from 'react-router-dom';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { createEstimation, generateEstimation } from '../../actions/EstimationActions';
 import RangePriceChart from '../../components/Charts/RangePriceChart';
@@ -16,6 +14,7 @@ import emptyHouseImg from '../../images/emptyHub.svg';
 import Loading from '../../components/Loading';
 
 function ResumeBestimate(props) {
+  const match = useParams();
   // PROPS
   const {
     activeSingleCompany,
@@ -28,10 +27,9 @@ function ResumeBestimate(props) {
     handleGetMarketCheck,
     history,
     marketData,
-    match,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // LOAD THE MARKET DATA
   useEffect(() => {
@@ -183,7 +181,6 @@ ResumeBestimate.propTypes = {
   handleGetMarketCheck: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   marketData: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 ResumeBestimate.defaultProps = {
@@ -206,6 +203,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ResumeBestimate);

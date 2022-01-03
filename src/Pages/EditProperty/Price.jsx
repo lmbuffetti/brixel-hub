@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -34,6 +34,11 @@ import { getEstimation } from '../../actions/PropertyActions';
 import { generateEstimation } from '../../actions/EstimationActions';
 
 const Price = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   const {
     activeSingleProperty,
     estimation,
@@ -41,8 +46,6 @@ const Price = (props) => {
     handleGetEstimation,
     handleGenerateBestimate,
     handleSetHistory,
-    history,
-    match,
     proEstimation,
     setSplashScreen,
     windowDimensions,
@@ -54,7 +57,7 @@ const Price = (props) => {
   const [allSettings, setAllSettings] = useState(false);
   const [percComplete, setPercComplete] = useState(0);
   // PARAMS URL
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   const bestimateflowCompleted = completedBestimate(formValue);
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
@@ -418,8 +421,6 @@ Price.propTypes = {
   handleGenerateBestimate: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   proEstimation: PropTypes.object,
   setSplashScreen: PropTypes.func.isRequired,
   windowDimensions: PropTypes.object.isRequired,
@@ -451,6 +452,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Price);

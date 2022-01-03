@@ -2,7 +2,6 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -18,11 +17,13 @@ import {
   reset,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { useParams } from 'react-router-dom';
 import { updatePublishedReview } from '../../actions/PropertyActions';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
 import BrixelUpgradeMessage from '../../components/BrixelUpgradeMessage';
 
 const Page = (props) => {
+  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -30,10 +31,9 @@ const Page = (props) => {
     formValue,
     handleUpdatePublishedReview,
     isSmallLoading,
-    match,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // GET PAGE STATUS
   const changeReviewStatus = (status) => {
@@ -319,7 +319,6 @@ Page.propTypes = {
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
 };
 
@@ -340,6 +339,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Page);

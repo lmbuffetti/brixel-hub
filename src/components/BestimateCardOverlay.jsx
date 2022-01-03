@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
@@ -22,9 +20,12 @@ import { setEstimation } from '../actions/PropertyActions';
 import startBestimate from '../images/Bestimate/startBestimate.svg';
 
 const BestimateCardOverlay = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     bestimate,
-    history,
     clearEstimation,
     setBestimateMessage,
     setPropertyEstimation,
@@ -139,7 +140,6 @@ const BestimateCardOverlay = (props) => {
 BestimateCardOverlay.propTypes = {
   bestimate: PropTypes.object.isRequired,
   clearEstimation: PropTypes.bool,
-  history: PropTypes.object.isRequired,
   setBestimateMessage: PropTypes.func,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
@@ -160,6 +160,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(BestimateCardOverlay);

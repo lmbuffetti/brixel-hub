@@ -13,7 +13,7 @@ import {
 } from '@brixel/brixel-components';
 import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import unset from 'lodash/unset';
@@ -29,6 +29,10 @@ import {
 } from '../../actions/CommonActions';
 
 const ProEstimationFlow = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleProperty,
@@ -39,7 +43,6 @@ const ProEstimationFlow = (props) => {
     handleReset,
     handleSaveActiveSingleProperty,
     handleSetModal,
-    history,
     initForm,
     initialValues,
     isSmallLoading,
@@ -329,7 +332,6 @@ ProEstimationFlow.propTypes = {
   handleReset: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -379,6 +381,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ProEstimationFlow);

@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
@@ -32,6 +32,10 @@ import AccountDropdown from './AccountDropdown';
 import MenuSidebar from './MenuSidebar';
 
 function PageHeaderDashboard(props) {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleCompany,
@@ -44,7 +48,6 @@ function PageHeaderDashboard(props) {
     handleSetActiveSingleProperty,
     handleSetLanguage,
     handleSetUserTypes,
-    history,
     lang,
     loggedInUser,
     ownerProperties,
@@ -428,7 +431,7 @@ function PageHeaderDashboard(props) {
                   <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                     <span className="hide dis-b-md">Your Plan:&nbsp;</span>
                     {
-                      has(ownerProperties, 'total') ? (
+                      has(ownerProperties, 'total') || get(activeSingleProperty, 'id', null) ? (
                         <span
                           className="fweight-600 td-u-colored dis-f cur-poi"
                           onClick={() => onUpgrade()}
@@ -672,7 +675,6 @@ PageHeaderDashboard.propTypes = {
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   ownerProperties: PropTypes.object.isRequired,
@@ -715,4 +717,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard));
+export default connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard);

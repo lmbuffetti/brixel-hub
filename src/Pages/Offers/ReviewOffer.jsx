@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -28,11 +27,11 @@ const ReviewOffer = (props) => {
     activeSingleOffer,
     activeSingleProperty,
     destroyForm,
-    handleReviewOffer,
-    handleSmallSpinner,
-    handleSetActiveSingleDeal,
-    isSmallLoading,
     formValue,
+    handleReviewOffer,
+    handleSetActiveSingleDeal,
+    handleSmallSpinner,
+    isSmallLoading,
     setSplashScreen,
   } = props;
   // STATE
@@ -419,6 +418,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ReviewOffer);

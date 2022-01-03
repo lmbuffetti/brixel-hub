@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -21,12 +21,15 @@ import { createUserSearchProfile, updateUserSearchProfile } from '../actions/Sea
 import { setWizard } from '../actions/CommonActions';
 
 const SearchProfileBanner = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     formValue,
     handleCreateSearchProfile,
     handleSetWizard,
     handleUpdateSearchProfile,
-    history,
     isSmallLoading,
     lang,
     loggedInUser,
@@ -497,7 +500,6 @@ SearchProfileBanner.propTypes = {
   handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetWizard: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -543,6 +545,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SearchProfileBanner);

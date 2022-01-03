@@ -142,6 +142,7 @@ const clientConfig = (env) => {
                 fix: true,
               },
             },
+
           ],
         },
         // Svg loader

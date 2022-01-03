@@ -3,7 +3,7 @@ import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -39,6 +39,10 @@ import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListSeller = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeMarketOverlayProperty,
@@ -51,7 +55,6 @@ const MarketCategoryListSeller = (props) => {
     handleSetActiveSingleProperty,
     handleSetActiveSingleCompany,
     handleSetHistory,
-    history,
     isSmallLoading,
     loggedInUser,
     notification,
@@ -627,7 +630,6 @@ MarketCategoryListSeller.propTypes = {
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetActiveSingleCompany: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -675,6 +677,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCategoryListSeller);

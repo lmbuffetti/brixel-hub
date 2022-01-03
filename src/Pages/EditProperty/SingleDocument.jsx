@@ -4,9 +4,7 @@
 import React, {
   useEffect, useState,
 } from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -36,15 +34,18 @@ import {
 import SplashScreen from '../../components/SplashScreen';
 
 const SingleDocument = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   const {
     activeSingleProperty,
     changeFieldValue,
     formValue,
     handleUpdateDocument,
-    history,
     initialValues,
     isSmallLoading,
-    match,
   } = props;
 
   const [activeDocument, setActiveDocument] = useState({});
@@ -71,7 +72,7 @@ const SingleDocument = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    const docID = get(match, 'params.docID', null);
+    const docID = get(match, 'docID', null);
     const folderArrayAux = [];
     if (docID) {
       find(activeSingleProperty.documents, (el, key) => {
@@ -341,10 +342,8 @@ SingleDocument.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUpdateDocument: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 SingleDocument.defaultProps = {};
@@ -366,6 +365,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SingleDocument);

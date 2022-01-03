@@ -5,7 +5,7 @@ import React, {
   useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
@@ -22,22 +22,25 @@ import showingsEmpty from '../../../images/Listings/showing_placeholder.svg';
 // COMPONENTS
 
 const ShowingsBuyer = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSinglePropertyBooking,
     formValue,
     handleGetActiveSinglePropertyBookings,
     handleSetActiveSinglePropertyBookings,
-    history,
     isSmallLoading,
     loggedInUser,
-    match,
     userLang,
   } = props;
   // STATE
   const [bookingSlot, setBookingSlot] = useState([]);
 
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   useEffect(() => () => handleSetActiveSinglePropertyBookings([]), []);
 
@@ -157,9 +160,7 @@ ShowingsBuyer.propTypes = {
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
 };
 
@@ -182,6 +183,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ShowingsBuyer);

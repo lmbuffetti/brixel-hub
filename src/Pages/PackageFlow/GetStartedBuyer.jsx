@@ -16,7 +16,7 @@ import {
   destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -38,6 +38,10 @@ import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 const cookie = new Cookies();
 
 const GetStartedBuyer = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     changeFieldValue,
@@ -52,7 +56,6 @@ const GetStartedBuyer = (props) => {
     handleSpinnerOff,
     handleSpinnerOn,
     handleValidateUser,
-    history,
     initForm,
     initialValues,
     lang,
@@ -696,7 +699,6 @@ GetStartedBuyer.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
@@ -781,6 +783,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(GetStartedBuyer);

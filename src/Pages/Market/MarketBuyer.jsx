@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Route, Switch } from 'react-router-dom';
+import {
+  Route, Routes, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -25,6 +27,11 @@ const MarketCategoryListBuyer = lazy(() => import('./MarketCategoryListBuyer'));
 const MarketList = lazy(() => import('./MarketList'));
 
 const MarketBuyer = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     destroyForm,
@@ -37,14 +44,12 @@ const MarketBuyer = (props) => {
     handleGetUserSearchProfiles,
     handleGetWishlistProperties,
     handleSpinnerOff,
-    history,
     loggedInUser,
-    match,
     preMarketProperties,
     userSearchProfiles,
   } = props;
   // URL PARAMS
-  const catName = get(match, 'params.cat', null);
+  const catName = get(match, 'cat', null);
 
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
@@ -98,10 +103,11 @@ const MarketBuyer = (props) => {
     <div className="bgOverlay market-container buyerPage" id="market">
       {/* premarket overlay */}
       <Suspense fallback="">
-        <Switch>
-          <Route exact path="/buy" component={MarketCategoryListBuyer} />
-          <Route exact path="/buy/:cat/:id?" component={() => <MarketList isBuyer />} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<MarketCategoryListBuyer />} />
+          <Route path="/:cat" element={<MarketList isBuyer />} />
+          <Route index element={<div>Default Page Content</div>} />
+        </Routes>
       </Suspense>
     </div>
   );
@@ -118,9 +124,7 @@ MarketBuyer.propTypes = {
   handleGetWishlistProperties: PropTypes.func.isRequired,
   // handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   preMarketProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
 };
@@ -169,6 +173,5 @@ export const MarketBuyerMemo = React.memo(MarketBuyer, (prevProps, nextProps) =>
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketBuyerMemo);

@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import {
-  Route,
-  Redirect,
-  withRouter,
+  Routes, Route, useLocation, useNavigate, useParams,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -22,15 +20,18 @@ const Page = lazy(() => import('../../Marketing/Page'));
 const Portals = lazy(() => import('../../Marketing/Portals'));
 
 const MarketingDashboard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     formValue,
-    history,
-    match,
     windowDimensions,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
@@ -222,12 +223,15 @@ const MarketingDashboard = (props) => {
               )
                 ? (
                   <Suspense fallback={<Loading isLoading />}>
-                    <Route path="/:propId/marketing/showings" component={Showings} />
-                    <Route path="/:propId/marketing/page" exact component={Page} />
-                    <Route path="/:propId/marketing/portals" exact component={Portals} />
+                    <Routes>
+                      <Route path="/showings" element={<Showings />} />
+                      <Route path="/page" element={<Page />} />
+                      <Route path="/portals" element={<Portals />} />
+                      <Route index element={<div>Default Page Content</div>} />
+                    </Routes>
                   </Suspense>
                 ) : (
-                  <Redirect from="/:propId/marketing/*" to={`/${propID}/marketing/page`} />
+                  <></>
                 )
             }
 
@@ -240,8 +244,6 @@ const MarketingDashboard = (props) => {
 
 MarketingDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -255,6 +257,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(MarketingDashboard);

@@ -19,6 +19,7 @@
     "lodash": "^4.17.21",
     "luxon": "^2.3.0",
     "prop-types": "^15.8.0",
+    "node-js-marker-clusterer": "^1.0.0",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
@@ -30,7 +31,7 @@
     "react-icalendar-link": "^3.0.2",
     "react-input-range": "^1.3.0",
     "react-redux": "^7.2.6",
-    "react-router-dom": "^5.3.0",
+    "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "react-slick": "^0.28.1",
     "react-sortablejs": "^6.0.0",
@@ -63,8 +64,8 @@
     "test-stage": "NODE_ENV=page-stag npm run sellerFlowTest && NODE_ENV=page-stag npm run estimationFlowTest && NODE_ENV=page-stag npm run buyerFlowTest && NODE_ENV=page-stag npm run allTests",
     "test-prod": "NODE_ENV=page-prod npm run sellerFlowTest && NODE_ENV=page-prod npm run estimationFlowTest && NODE_ENV=page-prod npm run buyerFlowTest && NODE_ENV=page-prod npm run allTests",
     "eject": "react-scripts eject",
-    "ncu": "ncu -x 'eslint react-router-dom'",
-    "ncu-u": "ncu -x 'eslint react-router-dom' -u"
+    "ncu": "ncu -x 'eslint'",
+    "ncu-u": "ncu -x 'eslint' -u"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -103,7 +104,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.0",
     "css-loader": "^6.5.1",
-    "eslint": "^7.32.0",
+    "eslint": "7.32.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-react-hooks": "^4.3.0",

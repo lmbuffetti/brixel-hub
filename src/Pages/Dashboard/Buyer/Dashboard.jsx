@@ -3,9 +3,7 @@ import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -34,6 +32,11 @@ const Documents = lazy(() => import('../../EditProperty/Documents'));
 const Financing = lazy(() => import('./Financing'));
 
 const Dashboard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleCompany,
@@ -45,15 +48,13 @@ const Dashboard = (props) => {
     handleSpinnerOff,
     handleGetBuyerDeal,
     handleSetUserTypes,
-    history,
     loggedInUser,
-    match,
     favoritesProperties,
   } = props;
 
   // GET URL PARAMS
-  const propID = get(match, 'params.propID', null);
-  const dealID = get(match, 'params.dealID', null);
+  const propID = get(match, 'propID', null);
+  const dealID = get(match, 'dealID', null);
   // STATE
   const [itemsPerPage] = useState(20);
   const [currentPage] = useState(0);
@@ -110,11 +111,11 @@ const Dashboard = (props) => {
       <div className="w-perc-100 pt-0 pt-lg-3">
         <Suspense fallback="">
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-          <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
-          <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
-          <ProtectedRoute path="/buyer/:propID/docubox" component={Documents} />
-          <ProtectedRoute path="/buyer/:propID/financing" component={Financing} />
-          <ProtectedRoute path="/buyer/:propID/closing" component={DealsDashboardBuyer} />
+          <ProtectedRoute path="/" element={<PropertiesBuyerDashboard />} />
+          <ProtectedRoute path="/property/*" element={<PropertyBuyerDashboard />} />
+          <ProtectedRoute path="/docubox" element={<Documents />} />
+          <ProtectedRoute path="/financing" element={<Financing />} />
+          <ProtectedRoute path="/closing/*" element={<DealsDashboardBuyer />} />
         </Suspense>
       </div>
     </div>
@@ -131,9 +132,7 @@ Dashboard.propTypes = {
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,
 };
 
@@ -167,6 +166,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Dashboard);

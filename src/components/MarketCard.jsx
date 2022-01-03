@@ -10,7 +10,7 @@ import {
   Helpers, BrixelIcon, FormatValue, ProgressRing, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import CoverPropertyImage from './CoverPropertyImage';
@@ -29,12 +29,15 @@ import {
 } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     favoritesProperties,
     handleGenerateBestimate,
     handleGetEstimation,
-    history,
     item,
     layout,
     onSetActiveProperty,
@@ -568,7 +571,6 @@ MarketCard.propTypes = {
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   item: PropTypes.object,
   layout: PropTypes.string,
   onSetActiveProperty: PropTypes.func,
@@ -614,6 +616,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCard);

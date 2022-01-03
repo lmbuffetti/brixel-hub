@@ -3,10 +3,8 @@
 import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {
-  withRouter,
-} from 'react-router-dom';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
 import omit from 'lodash/omit';
@@ -61,8 +59,17 @@ const ScanTrialFlow = lazy(() => import('../../ScanTrialFlow/ScanTrialFlow'));
 const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
 const Dashboard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
+    // gameAchievement,
+    // handleGetAchievement,
+    // handleGetGameGroup,
+    // handleGetGameHistory,
     activeSingleCompany,
     activeSingleProperty,
     errorValue,
@@ -71,14 +78,14 @@ const Dashboard = (props) => {
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
+    handleGetActiveSinglePropertyEstimation,
     handleGetImageType,
     handleGetPackageProperty,
-    handleSaveActiveSingleProperty,
     handleGetPropertyListings,
-    handleGetActiveSinglePropertyEstimation,
+    handleSaveActiveSingleProperty,
     handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
-    history,
+    handleSpinnerOff,
     imageType,
     initForm,
     initValues,
@@ -86,19 +93,16 @@ const Dashboard = (props) => {
     isLoading,
     isSmallLoading,
     loggedInUser,
-    match,
     notification,
     resetForm,
     userTypes,
-    // handleSpinnerOn,
-    handleSpinnerOff,
   } = props;
   const [userType, setUserType] = useState(null);
   const [loadedProp, setLoadedProp] = useState(false);
   // const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
@@ -129,7 +133,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
+    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null)) && propID !== 'sell') {
       if (propID && propID !== 'home' && propID !== 'company') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetPackageProperty({ id: propID });
@@ -162,7 +166,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && loadedProp) {
+    if (!history.location.pathname.includes('pageLists') && loadedProp && propID !== 'sell') {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
           const isSellerUser = get(loggedInUser, 'user.seller', false);
@@ -332,15 +336,15 @@ const Dashboard = (props) => {
         <Suspense fallback={<Loading isLoading />}>
           {/* teaserScreens && isEligible(activeSingleProperty) && () */}
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-          <ProtectedRoute path="/:propId?/home" component={DashboardHome} />
-          <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-          <ProtectedRoute path="/:propId?/docubox" component={Documents} />
-          <ProtectedRoute path="/:propId?/marketing" component={MarketingDashboard} />
-          <ProtectedRoute path="/:propId?/prospects" component={Deals} />
-          <ProtectedRoute path="/:propId/closing" component={DashboardOffer} />
-          <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-          <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
-          <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
+          <ProtectedRoute path="/home" element={<DashboardHome />} />
+          <ProtectedRoute path="/property/*" element={<PropertyDashboard />} />
+          <ProtectedRoute path="/docubox/*" element={<Documents />} />
+          <ProtectedRoute path="/marketing/*" element={<MarketingDashboard />} />
+          <ProtectedRoute path="/prospects/*" element={<Deals />} />
+          <ProtectedRoute path="/closing/*" element={<DashboardOffer />} />
+          <ProtectedRoute path="/upgrade/*" element={<Upgrade />} />
+          <ProtectedRoute path="/trialRequest/*" element={<ScanTrialFlow />} />
+          <ProtectedRoute path="/no-property" element={<EmptyProperty />} />
         </Suspense>
       </div>
       {
@@ -370,7 +374,6 @@ Dashboard.propTypes = {
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleSetScreenNotification: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   initForm: PropTypes.func.isRequired,
   initValues: PropTypes.object.isRequired,
@@ -378,7 +381,6 @@ Dashboard.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetForm: PropTypes.func.isRequired,
   userTypes: PropTypes.string,
@@ -496,6 +498,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Dashboard);
