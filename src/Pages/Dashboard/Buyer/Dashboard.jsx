@@ -27,7 +27,7 @@ const PropertyBuyerDashboard = lazy(() => import('./PropertyBuyerDashboard'));
 
 const DealsDashboardBuyer = lazy(() => import('./DealsDashboardBuyer'));
 
-const Documents = lazy(() => import('../../EditProperty/Documents'));
+const Documents = lazy(() => import('../../SingleProperty/Documents'));
 
 const Financing = lazy(() => import('./Financing'));
 

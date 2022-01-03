@@ -321,7 +321,6 @@ const Photos = (props) => {
             path="/:imgId/edit/:editType"
             element={<DetailMedia />}
           />
-          <Route index element={<div>Default Page Content</div>} />
         </Routes>
       </div>
     </>

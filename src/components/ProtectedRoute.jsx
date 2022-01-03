@@ -39,7 +39,6 @@ const ProtectedRoute = (props) => {
   return (
     <Routes>
       <Route path={path} element={element} />
-      <Route index element={<div>Default Page Content</div>} />
     </Routes>
   );
 };

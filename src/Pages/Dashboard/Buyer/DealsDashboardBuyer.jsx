@@ -49,7 +49,6 @@ const DealsDashboardBuyer = (props) => {
               <Suspense fallback="">
                 <Routes>
                   <Route path="/:dealID" element={<OfferDetail isBuyer />} />
-                  <Route index element={<div>Default Page Content</div>} />
                 </Routes>
               </Suspense>
             ) : (

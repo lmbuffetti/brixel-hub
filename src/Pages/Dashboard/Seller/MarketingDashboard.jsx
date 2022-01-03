@@ -227,7 +227,6 @@ const MarketingDashboard = (props) => {
                       <Route path="/showings" element={<Showings />} />
                       <Route path="/page" element={<Page />} />
                       <Route path="/portals" element={<Portals />} />
-                      <Route index element={<div>Default Page Content</div>} />
                     </Routes>
                   </Suspense>
                 ) : (

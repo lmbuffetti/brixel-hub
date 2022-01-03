@@ -17,15 +17,15 @@ import Loading from '../../../components/Loading';
 
 const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
-const Price = lazy(() => import('../../EditProperty/Price'));
+const Price = lazy(() => import('../../SingleProperty/Price'));
 
-const Facts = lazy(() => import('../../EditProperty/Facts'));
+const Facts = lazy(() => import('../../SingleProperty/Facts'));
 
-const Photos = lazy(() => import('../../EditProperty/Media/Photos'));
+const Photos = lazy(() => import('../../SingleProperty/Media/Photos'));
 
-const Plans = lazy(() => import('../../EditProperty/Media/Plans'));
+const Plans = lazy(() => import('../../SingleProperty/Media/Plans'));
 
-const Tour = lazy(() => import('../../EditProperty/Media/Tour'));
+const Tour = lazy(() => import('../../SingleProperty/Media/Tour'));
 
 const HomeDashboard = (props) => {
   const history = {

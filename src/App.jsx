@@ -64,11 +64,11 @@ const DashboardBuyer = lazy(() => import('./Pages/Dashboard/Buyer/Dashboard'));
 // FLOW SELLER
 const Bestimate = lazy(() => import('./Pages/Bestimate'));
 
-const ProEstimationFlow = lazy(() => import('./Pages/EditProperty/ProEstimationFlow'));
+const ProEstimationFlow = lazy(() => import('./Pages/SingleProperty/ProEstimationFlow'));
 
 const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScreen'));
 
-const SingleDocument = lazy(() => import('./Pages/EditProperty/SingleDocument'));
+const SingleDocument = lazy(() => import('./Pages/SingleProperty/SingleDocument'));
 
 const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
 const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
@@ -480,12 +480,10 @@ const App = (props) => {
 
                       { /* SECTION: INSERT TOKEN */ }
                       <Route path="/tokeninput" element={<InsertToken />} />
-                      <Route index element={<div>Default Page Content</div>} />
                     </Routes>
 
                     <Routes>
                       <Route path="/packageFlow/:id/makeOffer" element={<MakeOffer />} />
-                      <Route index element={<div>Default Page Content</div>} />
                     </Routes>
 
                     { /* SECTION: HUB DASHBOARD */ }
@@ -714,7 +712,6 @@ const App = (props) => {
               element={<SingleDocument />}
             />
             <Route path="/:propID/prospects/newDeal" element={<CreateDeal />} />
-            <Route index element={<div>Default Page Content</div>} />
           </Routes>
         </Suspense>
       </main>
