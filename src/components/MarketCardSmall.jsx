@@ -18,12 +18,14 @@ const MarketCardSmall = (props) => {
   };
   // PROPS
   const {
+    className,
     estimation,
     handleSetActiveSingleProperty,
     handleSetEstimation,
     handleSetSplashType,
     item,
     skeleton,
+    showAddess,
     type,
   } = props;
   // STATE
@@ -76,7 +78,7 @@ const MarketCardSmall = (props) => {
         onClick={(e) => openCard(e)}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'}`}>
-          <div className="brdSmall brdRadius brdLight200 ov-h dis-f h-fix-80">
+          <div className={`brdSmall brdRadius brdLight200 ov-h dis-f h-fix-80 ${className}`}>
             {
               type === 'estimation' ? (
                 <BrixelIcon
@@ -98,10 +100,17 @@ const MarketCardSmall = (props) => {
               )
             }
             <div className={`info dis-fl-col ${type === 'estimation' ? 'jc-c' : 'py-1'}`}>
-              <div className="top dis-fl-col notranslate pl-2 pr-1 ov-h">
+              <div className="top dis-fl-col notranslate pl-2 pr-1 ov-h a-t jc-fs">
                 <span className="fweight-600 fsize-400 ellipsis txtAltGrey700 notranslate two">
                   {get(item, 'title', '')}
                 </span>
+                {
+                  showAddess && (
+                    <span className="fweight-600 fsize-200 ellipsis txtAltGrey700 notranslate two">
+                      {get(item, 'location.name', '')}, {get(item, 'location.city', '')}
+                    </span>
+                  )
+                }
               </div>
 
               {
@@ -133,18 +142,22 @@ const MarketCardSmall = (props) => {
 };
 
 MarketCardSmall.propTypes = {
-  handleSetActiveSingleProperty: PropTypes.func.isRequired,
-  handleSetSplashType: PropTypes.func.isRequired,
-  handleSetEstimation: PropTypes.func.isRequired,
+  className: PropTypes.string,
   estimation: PropTypes.object,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  handleSetEstimation: PropTypes.func.isRequired,
+  handleSetSplashType: PropTypes.func.isRequired,
   item: PropTypes.object,
+  showAddess: PropTypes.bool,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
 };
 
 MarketCardSmall.defaultProps = {
+  className: '',
   estimation: {},
   item: null,
+  showAddess: false,
   type: '',
 };
 

@@ -40,6 +40,7 @@ const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
+const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazy(() => import('./Pages/Offers/Flow/MakeOffer'));
 
@@ -482,6 +483,8 @@ const App = (props) => {
                       <Route path="/tokeninput" element={<InsertToken />} />
                     </Routes>
 
+                    <ProtectedRoute path="/packageFlow/:propID/WelcomeSeller/*" element={<WelcomeSeller />} />
+
                     <Routes>
                       <Route path="/packageFlow/:id/makeOffer" element={<MakeOffer />} />
                     </Routes>
@@ -499,6 +502,7 @@ const App = (props) => {
                           <ProtectedRoute path="/buy/*" element={<MarketBuyer />} />
                           {
                             get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
+                            get(history, 'location.pathname', '').split('/')[1] !== 'packageFlow' &&
                             get(history, 'location.pathname', '').split('/')[1] !== 'buy' && (
                               <>
                                 <ProtectedRoute path="/seller/pageLists" element={<DashboardSeller />} />
