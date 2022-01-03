@@ -181,6 +181,9 @@ const App = (props) => {
 
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
+    if (get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) {
+      history.push('/sell');
+    }
     if (get(history, 'location', null) && typeof ga !== 'undefined') {
       ga('send', 'pageview', history.location.pathname);
     }
@@ -466,7 +469,7 @@ const App = (props) => {
                   } */}
                     <Routes>
                       { /* SECTION: ONBOARDING */ }
-                      <Route exact path="/packageFlow/" element={GetStarted} />
+                      <Route path="/packageFlow/" element={GetStarted} />
                       <Route path="/packageFlow/getstarted/" element={GetStartedSeller} />
                       <Route path="/packageFlow/getstartedBuyer/" element={GetStartedBuyer} />
                       <Route path="/packageFlow/getstartedEstimation/" element={GetStartedEstimation} />
@@ -478,10 +481,12 @@ const App = (props) => {
 
                       { /* SECTION: INSERT TOKEN */ }
                       <Route path="/tokeninput" element={InsertToken} />
+                      <Route index element={<div>Default Page Content</div>} />
                     </Routes>
 
                     <Routes>
                       <Route path="/packageFlow/:id/makeOffer" element={<MakeOffer />} />
+                      <Route index element={<div>Default Page Content</div>} />
                     </Routes>
 
                     { /* SECTION: HUB DASHBOARD */ }
@@ -525,9 +530,8 @@ const App = (props) => {
                       !history.location.pathname.includes('signup') &&
                       (
                         <>
-                          <ProtectedRoute path="/buyer" exact element={DashboardBuyer} />
-                          <ProtectedRoute path="/buyer/propertyLists" exact element={DashboardBuyer} />
-                          <ProtectedRoute path="/buyer/:propID/:act" element={DashboardBuyer} />
+                          <ProtectedRoute path="/buyer/:propID/*" element={<DashboardBuyer />} />
+                          <ProtectedRoute path="/buyer/propertyList" element={<DashboardBuyer />} />
                         </>
                       )
                     }
@@ -707,11 +711,11 @@ const App = (props) => {
           {/* Splash screens for single deal, create new deal and edit document */}
           <Routes>
             <Route
-              exact
               path="/:propID/docubox/:docID/editDocument"
               element={<SingleDocument />}
             />
-            <Route exact path="/:propID/prospects/newDeal" element={<CreateDeal />} />
+            <Route path="/:propID/prospects/newDeal" element={<CreateDeal />} />
+            <Route index element={<div>Default Page Content</div>} />
           </Routes>
         </Suspense>
       </main>

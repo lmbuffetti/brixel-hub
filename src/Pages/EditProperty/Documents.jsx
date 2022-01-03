@@ -604,13 +604,12 @@ const Documents = (props) => {
 };
 
 Documents.propTypes = {
-  history: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleDeleteDocument: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
   isBuyer: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  handleDeleteDocument: PropTypes.func.isRequired,
   userLang: PropTypes.string.isRequired,
   userType: PropTypes.string.isRequired,
 };

@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { Route, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Routes, Route, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import get from 'lodash/get';
 import {
   BrixelButtonBox,
@@ -168,9 +170,12 @@ const PropertyBuyerDashboard = (props) => {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
-                <Route path="/buyer/:propId/property/page" component={PageBuyer} />
-                <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
-                <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
+                <Routes>
+                  <Route path="/page" element={<PageBuyer />} />
+                  <Route path="/contact" element={<ContactBuyer />} />
+                  <Route path="/showings" element={<ShowingsBuyer />} />
+                  <Route index element={<div>Default Page Content</div>} />
+                </Routes>
               </Suspense>
             </div>
           )

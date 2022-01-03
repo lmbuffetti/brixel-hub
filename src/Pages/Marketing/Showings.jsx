@@ -254,8 +254,7 @@ const Showings = (props) => {
           <Suspense fallback={<Loading isLoading />}>
             <Route
               path="/:propId/marketing/showings/addBooking/:idShowing"
-              exact
-              component={AddShowings}
+              element={<AddShowings />}
             />
           </Suspense>
         )

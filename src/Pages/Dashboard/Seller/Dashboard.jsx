@@ -347,7 +347,7 @@ const Dashboard = (props) => {
           <ProtectedRoute path="/closing/*" element={<DashboardOffer />} />
           <ProtectedRoute path="/upgrade/*" element={<Upgrade />} />
           <ProtectedRoute path="/trialRequest/*" element={<ScanTrialFlow />} />
-          <ProtectedRoute path="/no-property" exact element={<EmptyProperty />} />
+          <ProtectedRoute path="/no-property" element={<EmptyProperty />} />
         </Suspense>
       </div>
       {

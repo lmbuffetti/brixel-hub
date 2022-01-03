@@ -22,11 +22,9 @@ const ProtectedRoute = (props) => {
     allowAccess,
     userTypes,
     element,
-    exact,
     isTest,
     loggedInUser,
     path,
-    render,
   } = props;
   useEffect(() => {
     if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168')) && typeof cookie.get('brixelToken') === 'undefined' && !window.localStorage.getItem('brixelToken')) {
@@ -41,6 +39,7 @@ const ProtectedRoute = (props) => {
   return (
     <Routes>
       <Route path={path} element={element} />
+      <Route index element={<div>Default Page Content</div>} />
     </Routes>
   );
 };
@@ -48,11 +47,9 @@ const ProtectedRoute = (props) => {
 ProtectedRoute.propTypes = {
   allowAccess: PropTypes.bool,
   element: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  exact: PropTypes.bool,
   isTest: PropTypes.bool.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   path: PropTypes.string.isRequired,
-  render: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   userTypes: PropTypes.string,
 };
 

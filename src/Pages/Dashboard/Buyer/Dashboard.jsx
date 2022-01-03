@@ -83,12 +83,14 @@ const Dashboard = (props) => {
     } else if (activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
+    console.log(activeSingleProperty, activeSingleDeal, dealID);
     if (activeSingleProperty.id && (dealID !== activeSingleDeal.id || !dealID)) {
       handleGetBuyerDeal({ id: activeSingleProperty.id });
     }
   }, [activeSingleProperty]);
 
   useEffect(() => {
+    console.log(propID);
     if (propID && propID !== 'propertyLists') {
       const data = {
         fullVersion: false,
@@ -111,11 +113,11 @@ const Dashboard = (props) => {
       <div className="w-perc-100 pt-0 pt-lg-3">
         <Suspense fallback="">
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-          <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
-          <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
-          <ProtectedRoute path="/buyer/:propID/docubox" component={Documents} />
-          <ProtectedRoute path="/buyer/:propID/financing" component={Financing} />
-          <ProtectedRoute path="/buyer/:propID/closing" component={DealsDashboardBuyer} />
+          <ProtectedRoute path="/" element={<PropertiesBuyerDashboard />} />
+          <ProtectedRoute path="/property/*" element={<PropertyBuyerDashboard />} />
+          <ProtectedRoute path="/docubox" element={<Documents />} />
+          <ProtectedRoute path="/financing" element={<Financing />} />
+          <ProtectedRoute path="/closing/*" element={<DealsDashboardBuyer />} />
         </Suspense>
       </div>
     </div>
