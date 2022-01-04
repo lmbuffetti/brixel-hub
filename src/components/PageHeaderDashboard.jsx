@@ -87,11 +87,6 @@ function PageHeaderDashboard(props) {
     }
   }, [activeCompanyPackages]);
 
-  // ON CHANGE HISTORY THE MOBILE MENU IS CLOSED
-  useEffect(() => {
-    setShowMobileMenu(false);
-  }, [history]);
-
   useEffect(() => {
     let activeSinglePropertyPackage = packagesProperty;
     if (ownerProperties.total === 0) {
@@ -203,7 +198,7 @@ function PageHeaderDashboard(props) {
   };
 
   useEffect(() => {
-    setShowMobileMenu(false);
+    // setShowMobileMenu(false);
     setShowAccountMenu(false);
   }, [get(history, 'location.pathname', null)]);
 
