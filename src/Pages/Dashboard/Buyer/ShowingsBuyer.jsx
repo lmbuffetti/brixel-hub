@@ -40,7 +40,7 @@ const ShowingsBuyer = (props) => {
   // STATE
   const [bookingSlot, setBookingSlot] = useState([]);
 
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   useEffect(() => () => handleSetActiveSinglePropertyBookings([]), []);
 

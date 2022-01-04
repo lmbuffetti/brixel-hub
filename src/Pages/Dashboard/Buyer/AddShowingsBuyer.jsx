@@ -157,7 +157,7 @@ const AddShowingsBuyer = (props) => {
                             icon="calendar"
                             className="mr-1"
                           />
-                          {DateTime.fromJSDate(val.date, { locale: userLang }).toFormat('cccc, dd LLLL yyyy')}
+                          {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('cccc, dd LLLL yyyy')}
                         </div>
                         <div className="time">
                           <BrixelIcon
@@ -220,6 +220,7 @@ const AddShowingsBuyer = (props) => {
                           {
                             showDate && (
                               <BrixelDatePicker
+                                hideInput
                                 ref1={datePicker}
                                 ref2={calendarRef}
                                 inline

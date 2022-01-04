@@ -503,7 +503,8 @@ const App = (props) => {
                           {
                             get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
                             get(history, 'location.pathname', '').split('/')[1] !== 'packageFlow' &&
-                            get(history, 'location.pathname', '').split('/')[1] !== 'buy' && (
+                            get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
+                            get(history, 'location.pathname', '').split('/')[1] !== 'buyer' && (
                               <>
                                 <ProtectedRoute path="/seller/pageLists" element={<DashboardSeller />} />
                                 <ProtectedRoute path="/:propId/*" element={<DashboardSeller />} />
@@ -582,7 +583,7 @@ const App = (props) => {
           {
             <>
               <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" element={<Bestimate />} userTypes="seller" />
-              <ProtectedRoute path="/buyer/:act/:propID/showings/add" element={<AddShowingsBuyer />} />
+              <ProtectedRoute path="/buyer/:propID/property/showings/add" element={<AddShowingsBuyer />} />
               <ProtectedRoute path="/buyer/:act/:propID/contact/add" element={<AddContactBuyer />} />
               <ProtectedRoute path="/:propID/prospects/:dealID/deal" element={<SingleDeal />} />
               <ProtectedRoute path="/:propID/prospects/newDeal" element={<CreateDeal />} />
