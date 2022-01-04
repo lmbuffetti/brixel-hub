@@ -13,7 +13,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelInputDatePicker,
+  BrixelDatePicker,
   BrixelIcon,
   BrixelModal,
   BrixelSwitchButton,
@@ -218,17 +218,18 @@ const AddShowingsBuyer = (props) => {
 
                       {
                         showDate && (
-                          <BrixelInputDatePicker
+                          <BrixelDatePicker
+                            hideInput
                             ref1={datePicker}
                             ref2={calendarRef}
                             inline
                             selected={date}
+                            onChange={(day) => handleChangeDate(day)}
+                            onClick={() => {
+                              setShowDate(false);
+                              setShowResizer(true);
+                            }}
                             input={{
-                              onChange: (day) => handleChangeDate(day),
-                              onClick: () => {
-                                setShowDate(false);
-                                setShowResizer(true);
-                              },
                               value: date,
                             }}
                             minDate={subDays(new Date(), 0)}

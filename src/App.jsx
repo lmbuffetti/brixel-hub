@@ -578,7 +578,7 @@ const App = (props) => {
           {
             <>
               <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" element={<Bestimate />} userTypes="seller" />
-              <ProtectedRoute path="/buyer/:act/:propID/showings/add" element={<AddShowingsBuyer />} />
+              <ProtectedRoute path="/buyer/:propID/property/showings/add" element={<AddShowingsBuyer />} />
               <ProtectedRoute path="/buyer/:act/:propID/contact/add" element={<AddContactBuyer />} />
               <ProtectedRoute path="/:propID/prospects/:dealID/deal" element={<SingleDeal />} />
               <ProtectedRoute path="/:propID/prospects/newDeal" element={<CreateDeal />} />
