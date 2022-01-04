@@ -19,6 +19,7 @@ const MarketCardSmall = (props) => {
   // PROPS
   const {
     className,
+    disableClick,
     estimation,
     handleSetActiveSingleProperty,
     handleSetEstimation,
@@ -74,8 +75,8 @@ const MarketCardSmall = (props) => {
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 w-perc-100 brdRadius pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
-        onClick={(e) => openCard(e)}
+        className={`market-card ov- h-perc-100 w-perc-100 brdRadius pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} ${disableClick ? '' : 'cur-poi'}`}
+        onClick={(e) => (disableClick ? '' : openCard(e))}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'}`}>
           <div className={`brdSmall brdRadius brdLight200 ov-h dis-f h-fix-80 ${className}`}>
@@ -143,6 +144,7 @@ const MarketCardSmall = (props) => {
 
 MarketCardSmall.propTypes = {
   className: PropTypes.string,
+  disableClick: PropTypes.bool,
   estimation: PropTypes.object,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetEstimation: PropTypes.func.isRequired,
@@ -155,6 +157,7 @@ MarketCardSmall.propTypes = {
 
 MarketCardSmall.defaultProps = {
   className: '',
+  disableClick: false,
   estimation: {},
   item: null,
   showAddess: false,

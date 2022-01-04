@@ -7,9 +7,12 @@ import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { get } from 'lodash';
+import { FactsOptions } from '@brixel/brixel-components';
 import { getActiveSingleProperty } from '../../actions/PropertyActions';
-import { spinnerOff } from '../../actions/CommonActions';
+import { spinnerOff, setPageData } from '../../actions/CommonActions';
 import WelecomeOnboardingStage from './WelecomeOnboardingStage';
+
+const { factsOptions } = FactsOptions;
 
 const WelcomeSeller = (props) => {
   const history = {
@@ -20,6 +23,7 @@ const WelcomeSeller = (props) => {
   // PROPS
   const {
     handleGetActiveSingleProperty,
+    handleSetPageData,
     handleSpinnerOff,
   } = props;
   // GET URL PARAMS
@@ -31,11 +35,17 @@ const WelcomeSeller = (props) => {
 
   useEffect(() => {
     // eslint-disable-next-line no-console
-    console.log(history);
+    const path = get(history, 'location.pathname', '').replace(/\/$/, '');
+    const currentStep = path.split('/')[path.split('/').length - 1];
     handleSpinnerOff();
+    handleSetPageData({ stage: factsOptions.progressBarOptions[0].value });
     if (propID) {
       handleGetActiveSingleProperty({ id: propID });
     }
+    if (factsOptions.progressBarOptions[0].value !== currentStep) history.push(`/packageFlow/${propID}/welcomeSeller/${factsOptions.progressBarOptions[0].value}/step1`);
+    return () => {
+      handleSetPageData(null);
+    };
   }, []);
 
   return (
@@ -53,7 +63,7 @@ const WelcomeSeller = (props) => {
             <div className="singleStep pt-6 jc-c">
               <div className="subcontainer m-a">
                 <div id="step-1" className="dis-f flex-wrap">
-                  <div className="ta-c max-w-fix-456 m-a">
+                  <div className="ta-c m-a">
                     <WelecomeOnboardingStage />
                   </div>
                 </div>
@@ -68,6 +78,7 @@ const WelcomeSeller = (props) => {
 
 WelcomeSeller.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
+  handleSetPageData: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
 };
 
@@ -77,6 +88,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
+  handleSetPageData: bindActionCreators(setPageData, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 

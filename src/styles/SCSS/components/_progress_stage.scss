@@ -1,0 +1,56 @@
+.progress-stage {
+  .step-item{
+    position: relative;
+    z-index: 1;
+    padding-right: $step * 2;
+    &:last-child {
+      padding-right: 0;
+    }
+    &:before {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 100%;
+      background:map_get($altGreyColor, 300);
+      position: absolute;
+      z-index: -1;
+      left: 0;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+    .wrap-step {
+      display: flex;
+      align-items: center;
+      border-radius: $brd-radius-circle;
+      border: 1px solid map_get($altGreyColor, 300);
+      background: map_get($altGreyColor, 100);
+      > span {
+        padding-left: $step;
+        padding-right: $step * 2;
+      }
+    }
+    &.active {
+      &:before {
+        background:map_get($altGreenColor, 100);
+      }
+      .wrap-step {
+        border: 1px solid map_get($altGreenColor, 100);
+        background: map_get($altGreyColor, 100);
+      }
+      .circle {
+        background: map_get($altGreenColor, 300);
+        color: $brx-white;
+      }
+    }
+    .circle {
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: $brx-white;
+      color: map_get($altGreyColor, 300);
+    }
+  }
+}
