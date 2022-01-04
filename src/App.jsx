@@ -486,7 +486,7 @@ const App = (props) => {
                     <ProtectedRoute path="/packageFlow/:propID/WelcomeSeller/*" element={<WelcomeSeller />} />
 
                     <Routes>
-                      <Route path="/packageFlow/:id/makeOffer" element={<MakeOffer />} />
+                      <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
                     </Routes>
 
                     { /* SECTION: HUB DASHBOARD */ }
