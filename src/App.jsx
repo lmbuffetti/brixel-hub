@@ -483,7 +483,7 @@ const App = (props) => {
                     </Routes>
 
                     <Routes>
-                      <Route path="/packageFlow/:id/makeOffer" element={<MakeOffer />} />
+                      <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
                     </Routes>
 
                     { /* SECTION: HUB DASHBOARD */ }
