@@ -152,7 +152,6 @@ const VisitFeedback = (props) => {
                                   onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
                                   rounded
                                   theme="altGreen"
-                                  themeSat={300}
                                   className="w-fit mx-a mt-3"
                                   label="Make an offer"
                                 />
@@ -258,7 +257,6 @@ const VisitFeedback = (props) => {
                               onClick={() => history.push('/buy')}
                               rounded
                               theme="altGreen"
-                              themeSat={300}
                               className="w-fit m-a"
                               label="Login to your market"
                             />
@@ -336,7 +334,6 @@ const VisitFeedback = (props) => {
                               isLoading={isSmallLoading.sendVisit}
                               rounded
                               theme="altGreen"
-                              themeSat={300}
                               className="w-fit m-a"
                               label="Send"
                             />

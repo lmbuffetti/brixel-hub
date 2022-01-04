@@ -168,7 +168,7 @@ const IntroUpgrade = (props) => {
   }, []);
 
   return (
-    <main id="rewards" className="introScanFlow pt-2 pb-2 pb-sm-4 h-perc-100 txtAltGrey700">
+    <main id="rewards" className="introScanFlow pt-2 pb-2 pb-sm-4 h-perc-100 txtDark700">
 
       <section className="intro container">
 
@@ -363,24 +363,24 @@ const IntroUpgrade = (props) => {
                   <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;Absolutely perfect and uncomplicated&quot;</i></h2>
 
-                  <h5 className="ta-c txtAltGreen300 fweight-600">M. Hardegger</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">House sold</p>
+                  <h5 className="ta-c txtAltGreen400 fweight-600">M. Hardegger</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">House sold</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;We would sell with Brixel again anytime.&quot;</i></h2>
 
-                  <h5 className="ta-c txtAltGreen300 fweight-600">F. Pfiffner</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">Saved CHF 30&apos;700</p>
+                  <h5 className="ta-c txtAltGreen400 fweight-600">F. Pfiffner</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">Saved CHF 30&apos;700</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;Excellent service with flexible fees.&quot;</i></h2>
 
-                  <h5 className="ta-c txtAltGreen300 fweight-600">M. Callaghan</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">Saved CHF 44&apos;050</p>
+                  <h5 className="ta-c txtAltGreen400 fweight-600">M. Callaghan</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">Saved CHF 44&apos;050</p>
                 </div>
               </Slider>
             ) : (
@@ -389,24 +389,24 @@ const IntroUpgrade = (props) => {
                   <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;Always quick in responding, friendly, professional.&quot;</i></h2>
 
-                  <h5 className="ta-c txtAltGreen300 fweight-600">Katrien Willems</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500" />
+                  <h5 className="ta-c txtAltGreen400 fweight-600">Katrien Willems</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500" />
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;Everything went incredibly well, it doesn&apos;t even seem real!&quot;</i></h2>
 
-                  <h5 className="ta-c txtAltGreen300 fweight-600">Luca Benussi</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">Saved 18.400€</p>
+                  <h5 className="ta-c txtAltGreen400 fweight-600">Luca Benussi</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">Saved 18.400€</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;The sale was done even faster than expected.&quot;</i></h2>
 
-                  <h5 className="ta-c txtAltGreen300 fweight-600">Márcia Traça</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">Saved 13.000€</p>
+                  <h5 className="ta-c txtAltGreen400 fweight-600">Márcia Traça</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">Saved 13.000€</p>
                 </div>
               </Slider>
             )

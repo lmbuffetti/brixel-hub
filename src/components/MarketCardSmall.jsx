@@ -99,7 +99,7 @@ const MarketCardSmall = (props) => {
             }
             <div className={`info dis-fl-col ${type === 'estimation' ? 'jc-c' : 'py-1'}`}>
               <div className="top dis-fl-col notranslate pl-2 pr-1 ov-h">
-                <span className="fweight-600 fsize-400 ellipsis txtAltGrey700 notranslate two">
+                <span className="fweight-600 fsize-400 ellipsis txtDark700 notranslate two">
                   {get(item, 'title', '')}
                 </span>
               </div>

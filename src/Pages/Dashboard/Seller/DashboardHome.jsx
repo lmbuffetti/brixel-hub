@@ -285,7 +285,7 @@ const DashboardHome = (props) => {
                   onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                 >
                   <div className="dis-fl-col">
-                    <span className="fsize-400 txtAltGreen300">Docubox</span>
+                    <span className="fsize-400 txtAltGreen400">Docubox</span>
                     <span className="fsize-600 fweight-600 txtAltGreen400">
                       <span>{countMandatoryDocuments()}</span>
                       <span className="mx-small-4">of</span>
@@ -296,7 +296,6 @@ const DashboardHome = (props) => {
                       onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                       label="Upload"
                       theme="AltGreen"
-                      themeSat={400}
                       className="mt-2 as-fs"
                       rounded
                     />
@@ -496,7 +495,7 @@ const DashboardHome = (props) => {
                   className="shadow-2dp bgAltGreen200 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
                 >
                   <div className="dis-fl-col">
-                    <span className="fsize-400 txtAltGreen300">
+                    <span className="fsize-400 txtAltGreen400">
                       <span
                         onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
                       >
@@ -761,7 +760,6 @@ const DashboardHome = (props) => {
                             className="ml-a ml-sm-0"
                             rounded
                             theme="altGreen"
-                            themeSat={300}
                             label="All"
                             onClick={() => history.push('')}
                           />
@@ -798,7 +796,7 @@ const DashboardHome = (props) => {
                             </p>
                           </div>
                           <p
-                            className={`${classWidthTable(1)} ${!visit.past ? 'txtAltGreen300' : 'txtLight600'} order-3 order-md-2 cur-poi`}
+                            className={`${classWidthTable(1)} ${!visit.past ? 'txtAltGreen400' : 'txtLight600'} order-3 order-md-2 cur-poi`}
                             onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
                           >
                             {DateTime.fromMillis(visit.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}

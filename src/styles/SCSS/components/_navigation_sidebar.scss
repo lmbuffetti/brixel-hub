@@ -7,7 +7,7 @@
       }
       > a {
         display: block;
-        color: map_get($altGreyColor, 700);
+        color: map_get($darkColor, 700);
         margin: 0;
         padding-left: $step * 5;
         padding-right: $step * 2;

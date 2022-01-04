@@ -534,14 +534,14 @@ const MarketCategoryListSeller = (props) => {
                       <div
                         onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
                         key={i.toString()}
-                        className={`${pkg.type} bgWhite txtAltGrey700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
+                        className={`${pkg.type} bgWhite txtDark700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
                       >
-                        <h4 className="fweight-600 txtAltGrey700">{pkg.name}</h4>
-                        <p className="mt-1 mb-3 fsize-500 dis-f a-b txtAltGrey700">
+                        <h4 className="fweight-600 txtDark700">{pkg.name}</h4>
+                        <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
                           <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                          <small className="ml-1 fsize-300 txtAltGrey700">incl. VAT</small>
+                          <small className="ml-1 fsize-300 txtDark700">incl. VAT</small>
                         </p>
-                        <p className="txtAltGrey700">{pkg.description}</p>
+                        <p className="txtDark700">{pkg.description}</p>
                       </div>
                     ))
                   }
@@ -557,7 +557,6 @@ const MarketCategoryListSeller = (props) => {
               label="Upgrade your plan"
               onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
               theme="AltGreen"
-              themeSat={300}
             />
             <span className="mx-1 hide dis-fl-row-sm">or</span>
             <BrixelButtonText
@@ -575,7 +574,7 @@ const MarketCategoryListSeller = (props) => {
 
       <div className="mt-6 mt-sm-10">
         <div className="container">
-          <h4 className="mb-4 fweight-600 txtAltGrey700">This may interest you</h4>
+          <h4 className="mb-4 fweight-600 txtDark700">This may interest you</h4>
 
           <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
             {
@@ -584,12 +583,12 @@ const MarketCategoryListSeller = (props) => {
                   key={i.toString()}
                   className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
                 >
-                  <a className="txtAltGrey700 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
+                  <a className="txtDark700 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
                     <img src={article.img} alt={`Article ${i}`} />
                   </a>
                   {article.title && (<h5 className=" fweight-600 mb-1">{article.title}</h5>)}
-                  <p className="mb-2 txtAltGrey700">{article.desc}</p>
-                  <a className="txtAltGrey700 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
+                  <p className="mb-2 txtDark700">{article.desc}</p>
+                  <a className="txtDark700 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
                 </div>
               ))
             }

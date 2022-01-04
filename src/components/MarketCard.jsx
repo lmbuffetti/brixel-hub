@@ -425,10 +425,10 @@ const MarketCard = (props) => {
                 }
                 <div className="info dis-fl-col jc-b">
                   <div className="top dis-fl-col notranslate px-3 pt-3">
-                    <span className="fweight-600 fsize-500 txtAltGrey700 ellipsis one notranslate">
+                    <span className="fweight-600 fsize-500 txtDark700 ellipsis one notranslate">
                       {get(item, 'title', '')}
                     </span>
-                    <span className="fsize-300 txtAltGrey700 mt-1 notranslate">
+                    <span className="fsize-300 txtDark700 mt-1 notranslate">
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                       {
                         get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -555,7 +555,6 @@ const MarketCard = (props) => {
                     label="Edit"
                     onClick={() => history.push(`/${item.id}/home`)}
                     theme="altGreen"
-                    themeSat={300}
                   />
                 </div>
               </div>
