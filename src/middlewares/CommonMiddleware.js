@@ -8,7 +8,7 @@ import {
   SET_NOTIFICATION,
   SET_SCREEN_NOTIFICATION,
   SEND_MESSAGE,
-  SPINNER_SMALL,
+  SPINNER_SMALL, SEND_SLACK_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -158,6 +158,20 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SET_NOTIFICATION, payload: notification });
         }, delaySetState);
       }
+      break;
+    }
+    // SEND SLACK NOTIFICATION
+    case SEND_SLACK_NOTIFICATION: {
+      next(action);
+      const {
+        data,
+        channel,
+      } = action.payload;
+      api.common.sendSlackNotification(data, channel)
+        .then((res) => {
+          // eslint-disable-next-line no-console
+          console.log(res);
+        });
       break;
     }
     default:

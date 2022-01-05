@@ -14,6 +14,7 @@ export default {
     sendMessage: () => '/message',
     sendGenericMessage: () => '/email/sendTemplateEmail',
     sendScheduleVisit: () => '/email/sendScheduleVisitEmail',
+    sendSlackNotification: (channel) => `/utils/sendCustomSlackMessage?channel=${channel}`,
   },
   company: {
     companyList: (data) => `company/${data}`,
