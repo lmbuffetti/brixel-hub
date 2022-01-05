@@ -3,7 +3,9 @@
 import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
@@ -56,8 +58,6 @@ const Upgrade = lazy(() => import('../../Upgrade/Upgrade'));
 
 const ScanTrialFlow = lazy(() => import('../../ScanTrialFlow/ScanTrialFlow'));
 
-const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
-
 const Dashboard = (props) => {
   const history = {
     push: useNavigate(),
@@ -103,6 +103,14 @@ const Dashboard = (props) => {
 
   // GET URL PARAMS
   const propID = get(match, 'propId', null);
+
+  useEffect(() => {
+    if (get(loggedInUser, 'user.id', null) && activeSingleProperty.id) {
+      if (loggedInUser.user.id !== activeSingleProperty.owner.id) {
+        history.push(`/buyer/${activeSingleProperty.id}/property`);
+      }
+    }
+  }, [loggedInUser, activeSingleProperty]);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
@@ -336,15 +344,18 @@ const Dashboard = (props) => {
         <Suspense fallback={<Loading isLoading />}>
           {/* teaserScreens && isEligible(activeSingleProperty) && () */}
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-          <ProtectedRoute path="/home" element={<DashboardHome />} />
-          <ProtectedRoute path="/property/*" element={<PropertyDashboard />} />
-          <ProtectedRoute path="/docubox/*" element={<Documents />} />
-          <ProtectedRoute path="/marketing/*" element={<MarketingDashboard />} />
-          <ProtectedRoute path="/prospects/*" element={<Deals />} />
-          <ProtectedRoute path="/closing/*" element={<DashboardOffer />} />
-          <ProtectedRoute path="/upgrade/*" element={<Upgrade />} />
-          <ProtectedRoute path="/trialRequest/*" element={<ScanTrialFlow />} />
-          <ProtectedRoute path="/no-property" element={<EmptyProperty />} />
+          <Routes>
+            <Route path="/home" element={<DashboardHome />} />
+            <Route path="/property/*" element={<PropertyDashboard />} />
+            <Route path="/docubox/*" element={<Documents />} />
+            <Route path="/marketing/*" element={<MarketingDashboard />} />
+            <Route path="/prospects/*" element={<Deals />} />
+            <Route path="/closing/*" element={<DashboardOffer />} />
+            <Route path="/upgrade/*" element={<Upgrade />} />
+            <Route path="/trialRequest/*" element={<ScanTrialFlow />} />
+            <Route path="/no-property" element={<EmptyProperty />} />
+            <Route path="*" element={<Navigate to={`/${propID}/home`} />} />
+          </Routes>
         </Suspense>
       </div>
       {

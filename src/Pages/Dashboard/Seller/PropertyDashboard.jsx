@@ -2,7 +2,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
-  useLocation, useNavigate, useParams,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 // import has from 'lodash/has';
@@ -14,8 +14,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import Loading from '../../../components/Loading';
-
-const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
 const Price = lazy(() => import('../../SingleProperty/Price'));
 
@@ -161,11 +159,14 @@ const HomeDashboard = (props) => {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
-                <ProtectedRoute path="/facts/*" element={<Facts />} />
-                <ProtectedRoute path="/price" element={<Price />} />
-                <ProtectedRoute path="/photos/*" element={<Photos />} />
-                <ProtectedRoute path="/floorPlans/*" element={<Plans />} />
-                <ProtectedRoute path="/tour" element={<Tour />} />
+                <Routes>
+                  <Route path="/facts/*" element={<Facts />} />
+                  <Route path="/price" element={<Price />} />
+                  <Route path="/photos/*" element={<Photos />} />
+                  <Route path="/floorPlans/*" element={<Plans />} />
+                  <Route path="/tour" element={<Tour />} />
+                  <Route path="*" element={<Navigate to="/facts" />} />
+                </Routes>
               </Suspense>
             </div>
           )

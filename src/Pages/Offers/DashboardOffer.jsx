@@ -1,12 +1,12 @@
 import React, { lazy, Suspense, useEffect } from 'react';
-import { bindActionCreators, compose } from 'redux';
+import { bindActionCreators, compose } from 'redux'; import {
+  Routes, Route,
+} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import Loading from '../../components/Loading';
 import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions';
-
-const ProtectedRoute = lazy(() => import('../../components/ProtectedRoute'));
 
 const OffersList = lazy(() => import('./OffersList'));
 
@@ -27,8 +27,10 @@ const DashboardOffer = (props) => {
 
   return (
     <Suspense fallback={<Loading isLoading />}>
-      <ProtectedRoute path="/" element={<OffersList />} />
-      <ProtectedRoute path="/:dealID" element={<OfferDetail />} />
+      <Routes>
+        <Route path="/" element={<OffersList />} />
+        <Route path="/:dealID" element={<OfferDetail />} />
+      </Routes>
     </Suspense>
   );
 };

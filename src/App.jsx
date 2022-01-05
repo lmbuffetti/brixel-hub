@@ -4,7 +4,7 @@ import React, {
   useEffect, useState, useRef, useCallback, Fragment, lazy, Suspense,
 } from 'react';
 import {
-  Routes, Route, useNavigate, useLocation,
+  Routes, Route, useNavigate, useLocation, Navigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -481,59 +481,58 @@ const App = (props) => {
                       { /* SECTION: INSERT TOKEN */ }
                       <Route path="/tokeninput" element={<InsertToken />} />
                       <Route path="*" element={null} />
-                    </Routes>
 
-                    <Routes>
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
                       <Route path="*" element={null} />
-                    </Routes>
 
-                    { /* SECTION: HUB DASHBOARD */ }
-                    {
-                      !history.location.pathname.includes('packageFlow') &&
-                      !history.location.pathname.includes('visitFeedback') &&
-                      !history.location.pathname.includes('onBoarding') &&
-                      !history.location.pathname.includes('buyer') &&
-                      !history.location.pathname.includes('signup') &&
-                      (
-                        <>
-                          <ProtectedRoute path="/sell/*" element={<MarketSeller />} />
-                          <ProtectedRoute path="/buy/*" element={<MarketBuyer />} />
-                          {
-                            get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
-                            get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
-                            get(history, 'location.pathname', '').split('/')[1].length > 18 && (
-                              <>
-                                <ProtectedRoute path="/:propId/*" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/singleFlow" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/docubox/*" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/closing/*" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/property" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/marketing" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/support" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/prospects" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/offers" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/deal/*" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/upgrade" element={<DashboardSeller />} />
-                                <ProtectedRoute path="/:propId?/trialRequest" element={<DashboardSeller />} />
-                              </>
-                            )
-                          }
-                        </>
-                      )
-                    }
-                    {
-                      !history.location.pathname.includes('packageFlow') &&
-                      !history.location.pathname.includes('visitFeedback') &&
-                      !history.location.pathname.includes('onBoarding') &&
-                      !history.location.pathname.includes('signup') &&
-                      (
-                        <>
-                          <ProtectedRoute path="/buyer/:propID/*" element={<DashboardBuyer />} />
-                          <ProtectedRoute path="/buyer/propertyList" element={<DashboardBuyer />} />
-                        </>
-                      )
-                    }
+                      { /* SECTION: HUB DASHBOARD */ }
+                      {
+                        !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('visitFeedback') &&
+                        !history.location.pathname.includes('onBoarding') &&
+                        !history.location.pathname.includes('buyer') &&
+                        !history.location.pathname.includes('signup') &&
+                        (
+                          <>
+                            <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
+                            <Route path="/buy/*" element={<ProtectedRoute><MarketBuyer /></ProtectedRoute>} />
+                            {
+                              get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
+                              get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
+                              get(history, 'location.pathname', '').split('/')[1].length > 18 && (
+                                <>
+                                  <Route path="/:propId/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/docubox/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/closing/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/property" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/marketing" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                </>
+                              )
+                            }
+                          </>
+                        )
+                      }
+                      {
+                        !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('visitFeedback') &&
+                        !history.location.pathname.includes('onBoarding') &&
+                        !history.location.pathname.includes('signup') &&
+                        (
+                          <>
+                            <Route path="/buyer/:propID/*" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
+                            <Route path="/buyer/propertyList" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
+                          </>
+                        )
+                      }
+                      <Route path="*" element={<Navigate to="/sell" />} />
+                    </Routes>
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
                       style={{
@@ -578,14 +577,15 @@ const App = (props) => {
 
           { /* SECTION: ACHIVEMENT FLOW */ }
           {
-            <>
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" element={<Bestimate />} userTypes="seller" />
-              <ProtectedRoute path="/buyer/:propID/property/showings/add" element={<AddShowingsBuyer />} />
-              <ProtectedRoute path="/buyer/:act/:propID/contact/add" element={<AddContactBuyer />} />
-              <ProtectedRoute path="/:propID/prospects/:dealID/deal" element={<SingleDeal />} />
-              <ProtectedRoute path="/:propID/prospects/newDeal" element={<CreateDeal />} />
-              <ProtectedRoute path="/:propID/property/price/formFlow" element={<ProEstimationFlow />} />
-            </>
+            <Routes>
+              <Route path="/:propId?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
+              <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
+              <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
+              <Route path="/:propID/prospects/:dealID/deal" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
+              <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
+              <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
+              <Route path="*" element={null} />
+            </Routes>
           }
 
           {
