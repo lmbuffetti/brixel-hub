@@ -499,9 +499,9 @@ const App = (props) => {
                           <ProtectedRoute path="/buy/*" element={<MarketBuyer />} />
                           {
                             get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
-                            get(history, 'location.pathname', '').split('/')[1] !== 'buy' && (
+                            get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
+                            get(history, 'location.pathname', '').split('/')[1].length > 18 && (
                               <>
-                                <ProtectedRoute path="/seller/pageLists" element={<DashboardSeller />} />
                                 <ProtectedRoute path="/:propId/*" element={<DashboardSeller />} />
                                 <ProtectedRoute path="/:propId?/singleFlow" element={<DashboardSeller />} />
                                 <ProtectedRoute path="/:propId?/docubox/*" element={<DashboardSeller />} />
