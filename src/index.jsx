@@ -4,7 +4,6 @@ import {
   BrowserRouter,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import RouterHistory from './store/history';
 import App from './App';
 import { configureStore } from './store';
 import * as serviceWorker from './serviceWorker';
@@ -17,13 +16,8 @@ const root = document.getElementById('root');
 // INITILAIZE THE REACT DOM APP
 const AppDOM = () => (
   <Provider store={store}>
-    <BrowserRouter history={RouterHistory}>
-      <ErrorBoundary
-        FallbackComponent={() => <div>Error</div>}
-        onReset={() => {
-          // reset the state of your app so the error doesn't happen again
-        }}
-      >
+    <BrowserRouter>
+      <ErrorBoundary>
         <App />
       </ErrorBoundary>
     </BrowserRouter>
