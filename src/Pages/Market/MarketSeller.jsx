@@ -66,6 +66,7 @@ const MarketSeller = (props) => {
         <Routes>
           <Route path="/" element={<MarketCategoryListSeller />} />
           <Route path="/:cat" element={<MarketList isSeller />} />
+          <Route path="*" element={null} />
         </Routes>
       </div>
     </Suspense>
