@@ -40,7 +40,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
     return (
       <>
         <hr className="bgAltGrey200" />
-        <p className="txtAltGrey700 fsize-500 p-5">
+        <p className="txtDark700 fsize-500 p-5">
           <span>You don&apos;t have a proof of financing yet?</span>
           <span className="cur-poi dis-b td-u" type="button" onClick={() => sendData()}>
             <span>Apply now on key4</span>
@@ -296,7 +296,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
-          customHTML: '<p class="fsize-300 txtAltGrey700">These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.</p>',
+          customHTML: '<p class="fsize-300 txtDark700">These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.</p>',
         },
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),

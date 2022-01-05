@@ -181,25 +181,25 @@ const Signup = (props) => {
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconDocs} alt="Icon Docs" />
         </div>
-        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Easy access to all documents</p>
+        <p className="pt-2 fsize-500 txtDark700 max-w-fix-192 ta-c">Easy access to all documents</p>
       </div>,
       <div className="icon-wrap dis-fl-col a-c">
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconCalendar} alt="Icon Calendar" />
         </div>
-        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Book an onsite visit</p>
+        <p className="pt-2 fsize-500 txtDark700 max-w-fix-192 ta-c">Book an onsite visit</p>
       </div>,
       <div className="icon-wrap dis-fl-col a-c">
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconOffer} alt="Icon offer" />
         </div>
-        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Make an offer to the seller</p>
+        <p className="pt-2 fsize-500 txtDark700 max-w-fix-192 ta-c">Make an offer to the seller</p>
       </div>,
       <div className="icon-wrap dis-fl-col a-c">
         <div className="icon-circle bgWhite brdCircle as-fc dis-f jc-c">
           <img width="135" src={iconFinance} alt="Finance" />
         </div>
-        <p className="pt-2 fsize-500 txtAltGrey700 max-w-fix-192 ta-c">Apply directly for financing certificate</p>
+        <p className="pt-2 fsize-500 txtDark700 max-w-fix-192 ta-c">Apply directly for financing certificate</p>
       </div>,
     ]
   );

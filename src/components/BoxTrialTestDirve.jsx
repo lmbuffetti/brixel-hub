@@ -61,7 +61,6 @@ const BoxTrialTestDirve = (props) => {
             onClick={() => bookNow()}
             rounded
             theme="AltRed"
-            themeSat={400}
             label="Book Now"
             className={`${isLarge ? 'mt-1' : 'mt-3'}`}
           />

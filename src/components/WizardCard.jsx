@@ -71,7 +71,6 @@ const WizardCard = (props) => {
         <p className="fsize-300 txtDark700">{text.description}</p>
         <BrixelButtonPrimary
           className="mt-3"
-          themeSat={300}
           rounded
           theme="altGreen"
           onClick={() => onClickNext()}
