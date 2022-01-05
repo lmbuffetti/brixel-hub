@@ -12,8 +12,9 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, info) {
     // logging the error details
+    const bodyErrorMessage = `URL: ${window.location.href}\nCause: ${error}.\nStackTrace: ${info.componentStack}`;
     // eslint-disable-next-line no-console
-    console.log(`Cause: ${error}.\nStackTrace: ${info.componentStack}`);
+    console.log(bodyErrorMessage);
   }
 
   render() {
