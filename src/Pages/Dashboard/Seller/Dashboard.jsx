@@ -104,6 +104,14 @@ const Dashboard = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'propId', null);
 
+  useEffect(() => {
+    if (get(loggedInUser, 'user.id', null) && activeSingleProperty.id) {
+      if (loggedInUser.user.id !== activeSingleProperty.owner.id) {
+        history.push(`/buyer/${activeSingleProperty.id}/property`);
+      }
+    }
+  }, [loggedInUser, activeSingleProperty]);
+
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
     if (

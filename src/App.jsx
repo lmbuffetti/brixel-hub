@@ -389,7 +389,6 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     );
   }
-
   return (
     <>
       <main
@@ -398,7 +397,9 @@ const App = (props) => {
       >
         <Loading isLoading={isLoading} />
         <Suspense fallback={<Loading isLoading />}>
-          <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
+          <div
+            className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}
+          >
             <div className="dis-f">
               <div
                 className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : 'flowScrollWrap'}`}
@@ -468,7 +469,7 @@ const App = (props) => {
                     )
                   } */}
                     <Routes>
-                      { /* SECTION: ONBOARDING */ }
+                      { /* SECTION: ONBOARDING */}
                       <Route path="/packageFlow/" element={<GetStarted />} />
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
@@ -479,7 +480,7 @@ const App = (props) => {
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" element={<Signup />} />
 
-                      { /* SECTION: INSERT TOKEN */ }
+                      { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
                     </Routes>
 
@@ -489,7 +490,7 @@ const App = (props) => {
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
                     </Routes>
 
-                    { /* SECTION: HUB DASHBOARD */ }
+                    { /* SECTION: HUB DASHBOARD */}
                     {
                       !history.location.pathname.includes('packageFlow') &&
                       !history.location.pathname.includes('visitFeedback') &&
@@ -539,9 +540,7 @@ const App = (props) => {
                     }
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
-                      style={{
-
-                      }}
+                      style={{}}
                     >
                       {
                         showSupport && (
@@ -579,10 +578,14 @@ const App = (props) => {
             </div>
           </div>
 
-          { /* SECTION: ACHIVEMENT FLOW */ }
+          { /* SECTION: ACHIVEMENT FLOW */}
           {
             <>
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" element={<Bestimate />} userTypes="seller" />
+              <ProtectedRoute
+                path="/:propId?/singleFlow/achievement/bestimate"
+                element={<Bestimate />}
+                userTypes="seller"
+              />
               <ProtectedRoute path="/buyer/:propID/property/showings/add" element={<AddShowingsBuyer />} />
               <ProtectedRoute path="/buyer/:act/:propID/contact/add" element={<AddContactBuyer />} />
               <ProtectedRoute path="/:propID/prospects/:dealID/deal" element={<SingleDeal />} />
@@ -638,7 +641,7 @@ const App = (props) => {
             )
           }
 
-          { /* SPLASH SCREEN */ }
+          { /* SPLASH SCREEN */}
           {
             (splashScreenType === 'marketOverlay' || splashScreenType === 'marketOverlayCarousel') && (
               <SplashScreen
@@ -661,7 +664,7 @@ const App = (props) => {
             )
           }
 
-          { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+          { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */}
           {
             notification && notification.length > 0 &&
             !history.location.pathname.includes('home') &&
