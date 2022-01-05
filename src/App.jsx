@@ -480,10 +480,12 @@ const App = (props) => {
 
                       { /* SECTION: INSERT TOKEN */ }
                       <Route path="/tokeninput" element={<InsertToken />} />
+                      <Route path="*" element={null} />
                     </Routes>
 
                     <Routes>
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
+                      <Route path="*" element={null} />
                     </Routes>
 
                     { /* SECTION: HUB DASHBOARD */ }
@@ -712,6 +714,7 @@ const App = (props) => {
               element={<SingleDocument />}
             />
             <Route path="/:propID/prospects/newDeal" element={<CreateDeal />} />
+            <Route path="*" element={null} />
           </Routes>
         </Suspense>
       </main>
