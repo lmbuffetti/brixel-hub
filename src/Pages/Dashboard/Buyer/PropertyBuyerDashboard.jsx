@@ -174,6 +174,7 @@ const PropertyBuyerDashboard = (props) => {
                   <Route path="/page" element={<PageBuyer />} />
                   <Route path="/contact" element={<ContactBuyer />} />
                   <Route path="/showings/*" element={<ShowingsBuyer />} />
+                  <Route path="*" element={null} />
                 </Routes>
               </Suspense>
             </div>

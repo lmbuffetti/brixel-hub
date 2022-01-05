@@ -39,6 +39,7 @@ const ProtectedRoute = (props) => {
   return (
     <Routes>
       <Route path={path} element={element} />
+      <Route path="*" element={null} />
     </Routes>
   );
 };
