@@ -505,7 +505,7 @@ const App = (props) => {
                             get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
                             get(history, 'location.pathname', '').split('/')[1] !== 'packageFlow' &&
                             get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
-                            get(history, 'location.pathname', '').split('/')[1] !== 'buyer' && (
+                            get(history, 'location.pathname', '').split('/')[1].length > 18 && (
                               <>
                                 <ProtectedRoute path="/seller/pageLists" element={<DashboardSeller />} />
                                 <ProtectedRoute path="/:propId/*" element={<DashboardSeller />} />
@@ -540,7 +540,6 @@ const App = (props) => {
                     }
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
-                      style={{}}
                     >
                       {
                         showSupport && (
