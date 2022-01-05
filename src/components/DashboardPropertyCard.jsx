@@ -60,7 +60,7 @@ const DashboardPropertyCard = (props) => {
                   <div className="dis-f a-c mr-a mr-sm-0">
                     <BrixelIcon
                       background="AltMist"
-                      saturation={200}
+                      saturation={100}
                       color="AltBlue"
                       saturationTxt={400}
                       padding="p-small-12"
@@ -92,7 +92,7 @@ const DashboardPropertyCard = (props) => {
                         <div className="dis-f a-c">
                           <BrixelIcon
                             background="AltMist"
-                            saturation={200}
+                            saturation={100}
                             color="AltBlue"
                             saturationTxt={400}
                             padding="p-small-12"
@@ -116,7 +116,7 @@ const DashboardPropertyCard = (props) => {
                             <div className="dis-f pt-2 a-t">
                               <BrixelIcon
                                 background="AltMist"
-                                saturation={200}
+                                saturation={100}
                                 color="AltBlue"
                                 saturationTxt={400}
                                 padding="p-small-12"
@@ -139,7 +139,7 @@ const DashboardPropertyCard = (props) => {
                             <div className="dis-f pt-2 a-t">
                               <BrixelIcon
                                 background="AltMist"
-                                saturation={200}
+                                saturation={100}
                                 color="AltBlue"
                                 saturationTxt={400}
                                 padding="p-small-12"

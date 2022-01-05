@@ -192,7 +192,7 @@ const IntroUpgrade = (props) => {
             packageName.type === 'basic' ? (
               <ul className="fullGreenList w-perc-100 pt-2 pt-sm-0">
                 <li>
-                  <BrixelIcon className="dis-b" color="AltGreen" saturationTxt={300} iconWidth="w-fix-32" icon="check-small-fill" />
+                  <BrixelIcon className="dis-b" color="AltGreen" iconWidth="w-fix-32" icon="check-small-fill" />
                   <div className="pl-2">
                     <b>Brixel Hub</b>
                     <p>Your client portal to digitalize your property</p>
@@ -200,7 +200,7 @@ const IntroUpgrade = (props) => {
                 </li>
 
                 <li>
-                  <BrixelIcon className="dis-b" color="AltGreen" saturationTxt={300} iconWidth="w-fix-32" icon="check-small-fill" />
+                  <BrixelIcon className="dis-b" color="AltGreen" iconWidth="w-fix-32" icon="check-small-fill" />
                   <div className="pl-2">
                     <b>Pre-market</b>
                     <p>Test your demand anonymously</p>
@@ -208,7 +208,7 @@ const IntroUpgrade = (props) => {
                 </li>
 
                 <li>
-                  <BrixelIcon className="dis-b" color="AltGreen" saturationTxt={300} iconWidth="w-fix-32" icon="check-small-fill" />
+                  <BrixelIcon className="dis-b" color="AltGreen" iconWidth="w-fix-32" icon="check-small-fill" />
                   <div className="pl-2">
                     <b>Brixel Page</b>
                     <p>Your property website to share in your network</p>
@@ -242,11 +242,11 @@ const IntroUpgrade = (props) => {
                     >
                       <div className="p-4">
                         <h5 className="fweight-600 fsize-700">{pkg.name}</h5>
-                        <p className="mt-2 altGrey700">
+                        <p className="mt-2 txtDark700">
                           {pkg.description}
                         </p>
 
-                        <ul className="checked mt-3 altGrey700">
+                        <ul className="checked mt-3 txtDark700">
                           {
                             pkg.details && get(pkg, 'details', []).map((detail, f) => (
                               <li
@@ -416,7 +416,7 @@ const IntroUpgrade = (props) => {
 
       </section>
 
-      <section className="compairePlans bgAltGrey100 py-9" id="comparePlan">
+      <section className="compairePlans bgLight100 py-9" id="comparePlan">
         <div className="container">
           <h3 className="ta-c mb-7 fweight-600 fsize-600 fsize-sm-700">Compare all plans</h3>
           <PackagesComparePlans

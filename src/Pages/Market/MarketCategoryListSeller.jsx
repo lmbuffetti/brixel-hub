@@ -513,7 +513,7 @@ const MarketCategoryListSeller = (props) => {
         )
       }
 
-      <div className="bgAltGrey100 pt-6 pt-sm-8 pb-4 pb-sm-7">
+      <div className="bgLight100 pt-6 pt-sm-8 pb-4 pb-sm-7">
         <div className="container">
           <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
             Boost your private sale with an upgrade.

@@ -284,7 +284,7 @@ const MarketCard = (props) => {
                           <div className="dis-f a-c">
                             <BrixelIcon
                               background="AltMist"
-                              saturation={200}
+                              saturation={100}
                               color="AltBlue"
                               saturationTxt={400}
                               padding="p-small-12"
@@ -307,7 +307,7 @@ const MarketCard = (props) => {
                           <BrixelIcon
                             className="dis-b-sm hide mr-2"
                             background="AltMist"
-                            saturation={200}
+                            saturation={100}
                             color="AltBlue"
                             saturationTxt={400}
                             padding="p-small-12"

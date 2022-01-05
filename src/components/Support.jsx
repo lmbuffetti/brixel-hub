@@ -187,7 +187,7 @@ const Support = (props) => {
               >
                 <BrixelIcon
                   color="altGreen"
-                  saturationTxt={300}
+                  saturationTxt={400}
                   icon="whatsapp"
                 />
                 <p className="ml-2">
