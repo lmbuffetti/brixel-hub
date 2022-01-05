@@ -18,6 +18,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import orderBy from 'lodash/orderBy';
+import ErrorBoundary from './ErrorBoundering';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -318,7 +319,12 @@ function PageHeaderDashboard(props) {
   };
 
   return (
-    <>
+    <ErrorBoundary
+      FallbackComponent={() => <div>Error</div>}
+      onReset={() => {
+        // reset the state of your app so the error doesn't happen again
+      }}
+    >
       <MenuNavigationSubmenu
         windowDimensions={windowDimensions}
         activeMenu={activeMenu}
@@ -655,7 +661,7 @@ function PageHeaderDashboard(props) {
           </div>
         )
       }
-    </>
+    </ErrorBoundary>
   );
 }
 
