@@ -117,7 +117,7 @@ const Dashboard = (props) => {
             <Route path="/docubox" element={<Documents />} />
             <Route path="/financing" element={<Financing />} />
             <Route path="/closing/*" element={<DealsDashboardBuyer />} />
-            <Route path="*" element={<Navigate to="/property" />} />
+            <Route path="*" element={<Navigate to={`/buyer/${propID}/property`} />} />
           </Routes>
         </Suspense>
       </div>

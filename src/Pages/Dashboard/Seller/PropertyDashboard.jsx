@@ -165,7 +165,7 @@ const HomeDashboard = (props) => {
                   <Route path="/photos/*" element={<Photos />} />
                   <Route path="/floorPlans/*" element={<Plans />} />
                   <Route path="/tour" element={<Tour />} />
-                  <Route path="*" element={<Navigate to="/facts" />} />
+                  <Route path="*" element={<Navigate to={`/${propID}/property/facts`} />} />
                 </Routes>
               </Suspense>
             </div>

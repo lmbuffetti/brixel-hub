@@ -1,6 +1,6 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { bindActionCreators, compose } from 'redux'; import {
-  Routes, Route,
+  Routes, Route, Navigate, useParams,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -17,6 +17,9 @@ const DashboardOffer = (props) => {
     activeSingleProperty,
     handleGetOfferListings,
   } = props;
+  const match = useParams();
+  // URL PARAMS
+  const propID = get(match, 'propId', null);
 
   useEffect(() => {
     const data = {
@@ -30,6 +33,7 @@ const DashboardOffer = (props) => {
       <Routes>
         <Route path="/" element={<OffersList />} />
         <Route path="/:dealID" element={<OfferDetail />} />
+        <Route path="*" element={<Navigate to={`/${propID}/closing`} />} />
       </Routes>
     </Suspense>
   );
