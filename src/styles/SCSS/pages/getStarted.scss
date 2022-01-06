@@ -42,6 +42,13 @@
 
   .flowHeader {
     background-color: #F7F6F5;
+    &.welcomeSeller {
+      background-color: #fff;
+       .wcInnerWrap {
+        padding-top: $step;
+        padding-bottom: $step;
+      }
+    }
   }
 }
 .flowBody {
