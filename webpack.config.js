@@ -133,16 +133,6 @@ const clientConfig = (env) => {
                 ],
               },
             },
-            {
-              loader: 'eslint-loader',
-              options: {
-                failOnError: !devMode,
-                failOnWarning: !devMode,
-                emitWarning: true,
-                fix: true,
-              },
-            },
-
           ],
         },
         // Svg loader
