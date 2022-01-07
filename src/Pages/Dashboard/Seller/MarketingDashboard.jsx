@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import {
-  Routes, Route, useLocation, useNavigate, useParams,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -227,6 +227,7 @@ const MarketingDashboard = (props) => {
                       <Route path="/showings" element={<Showings />} />
                       <Route path="/page" element={<Page />} />
                       <Route path="/portals" element={<Portals />} />
+                      <Route path="*" element={<Navigate to={`/buyer/${propID}/property/page`} />} />
                     </Routes>
                   </Suspense>
                 ) : (

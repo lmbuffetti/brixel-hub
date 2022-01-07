@@ -2,6 +2,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Navigate,
   Route, Routes, useLocation, useNavigate, useParams,
 } from 'react-router-dom';
 import get from 'lodash/get';
@@ -106,6 +107,7 @@ const MarketBuyer = (props) => {
         <Routes>
           <Route path="/" element={<MarketCategoryListBuyer />} />
           <Route path="/:cat" element={<MarketList isBuyer />} />
+          <Route path="*" element={<Navigate to="/buy" />} />
         </Routes>
       </Suspense>
     </div>
