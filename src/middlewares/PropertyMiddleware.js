@@ -148,7 +148,8 @@ const checkCommon = (store) => (next) => (action) => {
                   type: 'done'
                 }
               });
-              window.location.assign(redirectToUrl);
+              const defURL = redirectToUrl.replace(':pageID', res.data.id);
+              window.location.assign(defURL);
             } else if (redirectToHome) {
               store.dispatch({
                 type: SET_SCREEN_NOTIFICATION,

@@ -40,6 +40,7 @@ const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
+const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazy(() => import('./Pages/Offers/Flow/MakeOffer'));
 
@@ -397,7 +398,9 @@ const App = (props) => {
       >
         <Loading isLoading={isLoading} />
         <Suspense fallback={<Loading isLoading />}>
-          <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
+          <div
+            className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}
+          >
             <div className="dis-f">
               <div
                 className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : 'flowScrollWrap'}`}
@@ -467,23 +470,22 @@ const App = (props) => {
                     )
                   } */}
                     <Routes>
-                      { /* SECTION: ONBOARDING */ }
+                      { /* SECTION: ONBOARDING */}
                       <Route path="/packageFlow/" element={<GetStarted />} />
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
+                      <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
 
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" element={<Signup />} />
 
-                      { /* SECTION: INSERT TOKEN */ }
+                      { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
-                      <Route path="*" element={null} />
-
+                      
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
-                      <Route path="*" element={null} />
 
                       { /* SECTION: HUB DASHBOARD */ }
                       {
@@ -535,9 +537,6 @@ const App = (props) => {
                     </Routes>
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
-                      style={{
-
-                      }}
                     >
                       {
                         showSupport && (
@@ -635,7 +634,7 @@ const App = (props) => {
             )
           }
 
-          { /* SPLASH SCREEN */ }
+          { /* SPLASH SCREEN */}
           {
             (splashScreenType === 'marketOverlay' || splashScreenType === 'marketOverlayCarousel') && (
               <SplashScreen
@@ -658,7 +657,7 @@ const App = (props) => {
             )
           }
 
-          { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+          { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */}
           {
             notification && notification.length > 0 &&
             !history.location.pathname.includes('home') &&
