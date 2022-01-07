@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import {
-  Routes, Route, useLocation, useNavigate, useParams,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -204,13 +204,6 @@ const MarketingDashboard = (props) => {
           )
         }
       </Sticker>
-      {/* <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
-        <BrixelButtonIcon
-          ghost
-          icon="arrow-simple-left"
-          onClick={() => history.push(`${propID}/listings/showings`)}
-        />
-      </div> */}
       {
         getFact() !== 'marketing' && (
           <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'closed' : 'opened'}`}>
@@ -227,7 +220,7 @@ const MarketingDashboard = (props) => {
                       <Route path="/showings" element={<Showings />} />
                       <Route path="/page" element={<Page />} />
                       <Route path="/portals" element={<Portals />} />
-                      <Route path="*" element={null} />
+                      <Route path="*" element={<Navigate to={`/buyer/${propID}/property/page`} />} />
                     </Routes>
                   </Suspense>
                 ) : (

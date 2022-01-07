@@ -3,7 +3,9 @@ import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
+} from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -18,8 +20,6 @@ import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { spinnerOff } from '../../../actions/CommonActions';
 import { getFavoritesProperties } from '../../../actions/MarketActions';
 import { getBuyerDeal } from '../../../actions/DealActions';
-
-const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
 
 const PropertiesBuyerDashboard = lazy(() => import('./PropertiesBuyerDashboard'));
 
@@ -110,12 +110,15 @@ const Dashboard = (props) => {
     <div className="dashboardContainer" id="dashboard">
       <div className="w-perc-100 pt-0 pt-lg-3">
         <Suspense fallback="">
-          { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-          <ProtectedRoute path="/" element={<PropertiesBuyerDashboard />} />
-          <ProtectedRoute path="/property/*" element={<PropertyBuyerDashboard />} />
-          <ProtectedRoute path="/docubox" element={<Documents />} />
-          <ProtectedRoute path="/financing" element={<Financing />} />
-          <ProtectedRoute path="/closing/*" element={<DealsDashboardBuyer />} />
+          <Routes>
+            { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+            <Route path="/" element={<PropertiesBuyerDashboard />} />
+            <Route path="/property/*" element={<PropertyBuyerDashboard />} />
+            <Route path="/docubox" element={<Documents />} />
+            <Route path="/financing" element={<Financing />} />
+            <Route path="/closing/*" element={<DealsDashboardBuyer />} />
+            <Route path="*" element={<Navigate to={`/buyer/${propID}/property`} />} />
+          </Routes>
         </Suspense>
       </div>
     </div>

@@ -335,8 +335,12 @@ function PageHeaderDashboard(props) {
           <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
             {
               windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name ? (
-                <div className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}>
-                  <div className="dis-f a-c pl-0 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256  min-w-fix-40 w-perc-sm-100">
+                <div
+                  className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
+                >
+                  <div
+                    className="dis-f a-c pl-0 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256  min-w-fix-40 w-perc-sm-100"
+                  >
                     {
                       windowDimensions.width <= 590 ? (
                         <img
@@ -464,7 +468,7 @@ function PageHeaderDashboard(props) {
                   </>
                 )
               }
-              { /* SECTION SIDEBAR MENU MOBILE */ }
+              { /* SECTION SIDEBAR MENU MOBILE */}
               {
                 windowDimensions.width <= 1024 && (
                   <div className="ml-1 ml-sm-2">
@@ -566,7 +570,9 @@ function PageHeaderDashboard(props) {
                           propID !== 'sell' && propID !== 'buy' && (
                             <div className={`bottomMenu ${showMobileMenu ? 'bottomMenuOn' : ''}`}>
                               <hr className="lighter" />
-                              <div className={`account-menu pb-2 dis-fl-col px-2 ${showAccountMenu ? 'opened' : 'closed'}`}>
+                              <div
+                                className={`account-menu pb-2 dis-fl-col px-2 ${showAccountMenu ? 'opened' : 'closed'}`}
+                              >
                                 <div className={`dis-f a-c py-1 ${userType === 'seller' ? 'jc-b' : 'jc-fe'}  w-perc-100`}>
                                   {
                                     propID && userType === 'seller' && (

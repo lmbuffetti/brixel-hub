@@ -7,7 +7,7 @@ import {
   BrixelInputText,
   BrixelRadioButton, BrixelSelect, BrixelTextArea,
   FactsOptions,
-  Validation,
+  Validation
 } from '@brixel/brixel-components';
 import Maps from '../components/Map/Maps';
 import { configureStore } from '../store';
@@ -23,7 +23,7 @@ const componentsList = {
   BrixelSelect,
   BrixelTextArea,
   FactsOptions,
-  Validation,
+  Validation
 };
 
 export const InputSheets = (type = 'facts') => {

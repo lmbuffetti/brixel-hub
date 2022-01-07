@@ -6,7 +6,7 @@ import {
   BrixelInputQuality,
   FactsOptions,
   Validation,
-  BrixelSelect,
+  BrixelSelect
 } from '@brixel/brixel-components';
 import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
 import homesSvg from '../images/getstarted/svgs/homes.svg';
@@ -30,7 +30,7 @@ export const BestimatePT = (type = null) => {
           label: type === 'getStarted' ? 'Condition' : 'Property condition',
           name: 'properties.building.conditionStatus',
           options: factsOptions.conditionStatus,
-          validation: [Validation.required],
+          validation: [Validation.required]
         },
         {
           component: BrixelInputText,
@@ -44,13 +44,13 @@ export const BestimatePT = (type = null) => {
           maxLengthNum: 5000,
           name: 'properties.typology.grossArea.value',
           type: 'number',
-          validation: [Validation.markRequired],
+          validation: [Validation.markRequired]
         },
         {
           component: BrixelInputText,
           condition: [{
             name: 'properties.propertyType',
-            noValue: 'Apartment',
+            noValue: 'Apartment'
           }],
           classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? null : 'What\'s the lot size?',
@@ -61,9 +61,9 @@ export const BestimatePT = (type = null) => {
           maxLengthNum: 99999,
           labelLeft: 'Lot Size',
           placeholder: 'e.g. 140',
-          validation: [Validation.required],
-        },
-      ],
+          validation: [Validation.required]
+        }
+      ]
     },
     {
       title: type === 'getStarted' ? 'Any secondary room?' : 'Step 2',
@@ -82,7 +82,7 @@ export const BestimatePT = (type = null) => {
           min: 0,
           max: 15,
           placeholder: '0',
-          validation: [Validation.maxLengthNumRooms, Validation.markRequired],
+          validation: [Validation.maxLengthNumRooms, Validation.markRequired]
         },
         {
           component: BrixelInputText,
@@ -94,7 +94,7 @@ export const BestimatePT = (type = null) => {
           minLengthNum: 1,
           maxLengthNum: 9999,
           labelLeft: 'Balcony',
-          placeholder: 'e.g. 140',
+          placeholder: 'e.g. 140'
         },
         {
           component: BrixelInputText,
@@ -107,7 +107,7 @@ export const BestimatePT = (type = null) => {
           minLengthNum: 1,
           maxLengthNum: 9999,
           labelLeft: 'Terrace',
-          placeholder: 'e.g. 140',
+          placeholder: 'e.g. 140'
         },
         {
           component: BrixelInputText,
@@ -120,9 +120,9 @@ export const BestimatePT = (type = null) => {
           minLengthNum: 1,
           maxLengthNum: 9999,
           labelLeft: 'Garden',
-          placeholder: 'e.g. 140',
-        },
-      ],
+          placeholder: 'e.g. 140'
+        }
+      ]
     },
     {
       title: type === 'getStarted' ? 'Only a few inputs left.' : 'Step 3',
@@ -144,7 +144,7 @@ export const BestimatePT = (type = null) => {
           min: 0,
           max: 99,
           placeholder: '0',
-          validation: [Validation.markRequired],
+          validation: [Validation.markRequired]
         },
         {
           component: BrixelInputStepNumber,
@@ -156,23 +156,23 @@ export const BestimatePT = (type = null) => {
           min: 0,
           max: 99,
           placeholder: '0',
-          validation: [Validation.markRequired],
+          validation: [Validation.markRequired]
         },
         {
           component: BrixelInputQuality,
           classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? 'Energy efficiency' : 'What\'s the energy efficiency of the property?',
           name: 'properties.energy.efficiency',
-          options: factsOptions.energyEfficiencyOptions,
+          options: factsOptions.energyEfficiencyOptions
         },
         {
           component: BrixelCheckbox,
           classBoxWrapper: 'two-cols mt-5',
           label: type === 'getStarted' ? 'Solar orientation' : 'What is the solar orientation?',
           name: 'properties.building.solarOrientarion',
-          options: factsOptions.solarOrientation,
-        },
-      ],
+          options: factsOptions.solarOrientation
+        }
+      ]
     },
     {
       title: 'Which extra features do you have?',
@@ -191,10 +191,10 @@ export const BestimatePT = (type = null) => {
           name: 'properties.extraFeaturesBestimatePT',
           pdClass: 'p-1',
           iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
-          options: factsOptions.extraFeatureBestimatePT,
-        },
-      ],
-    },
+          options: factsOptions.extraFeatureBestimatePT
+        }
+      ]
+    }
   ];
   if (type !== 'getStarted') {
     bestimate.push(
@@ -205,8 +205,8 @@ export const BestimatePT = (type = null) => {
         subtitle: 'Sales strategy & price',
         history: 'resumeFlow',
         cardType: 'loadComponent',
-        component: ResumeBestimate,
-      },
+        component: ResumeBestimate
+      }
     );
   }
   return bestimate;

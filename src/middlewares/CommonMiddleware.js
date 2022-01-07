@@ -8,7 +8,8 @@ import {
   SET_NOTIFICATION,
   SET_SCREEN_NOTIFICATION,
   SEND_MESSAGE,
-  SPINNER_SMALL, SEND_SLACK_NOTIFICATION,
+  SPINNER_SMALL,
+  SEND_SLACK_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';

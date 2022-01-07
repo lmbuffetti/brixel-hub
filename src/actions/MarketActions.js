@@ -1,5 +1,5 @@
 import {
-  createActions,
+  createActions
 } from 'redux-actions';
 import {
   GET_ALL_PROPERTIES,
@@ -22,7 +22,7 @@ import {
   GET_PREMARKET_STATS,
   SET_PREMARKET_STATS,
   GET_OWNED_ESTIMATIONS,
-  SET_OWNED_ESTIMATIONS,
+  SET_OWNED_ESTIMATIONS
 } from './types/MarketTypes';
 
 export const {
@@ -46,7 +46,7 @@ export const {
   getPremarketStats,
   setPremarketStats,
   getOwnedEstimations,
-  setOwnedEstimations,
+  setOwnedEstimations
 } = createActions({
   [GET_ALL_PROPERTIES]: (payload) => payload,
   [SET_ALL_PROPERTIES]: (payload) => payload,
@@ -68,5 +68,5 @@ export const {
   [GET_PREMARKET_STATS]: (payload) => payload,
   [SET_PREMARKET_STATS]: (payload) => payload,
   [GET_OWNED_ESTIMATIONS]: (payload) => payload,
-  [SET_OWNED_ESTIMATIONS]: (payload) => payload,
+  [SET_OWNED_ESTIMATIONS]: (payload) => payload
 });

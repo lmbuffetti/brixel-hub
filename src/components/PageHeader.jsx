@@ -15,6 +15,7 @@ import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colo
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import ProgressSellerStage from './ProgressSellerStage';
 import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 
@@ -31,6 +32,7 @@ function PageHeader(props) {
     lang,
     languages,
     loggedInUser,
+    pageState,
     property,
   } = props;
 
@@ -160,10 +162,10 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className="flowHeader">
+      <header className={`flowHeader ${get(pageState, 'stage', null) ? 'welcomeSellerHeader' : ''}`}>
         <div className="container">
-          <div className={`dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-3' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
-            <div className="dis-f a-c w-fix-104 min-h-fix-56 h-perc-100">
+          <div className={`wcInnerWrap dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-3' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
+            <div className={`dis-f a-c min-h-fix-56 h-perc-100 ${get(pageState, 'stage', null) ? 'w-fix-48 w-fix-sm-80' : 'w-fix-104'}`}>
 
               <img
                 className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'hide-md'}`}
@@ -171,17 +173,14 @@ function PageHeader(props) {
                 alt="Brixel Logo"
                 id="header-logo"
               />
-              {/* {
-                supportPhone && (
-                  <div className="support dis-f a-c ml-2 ml-sm-4 notranslate">
-                    <a className="fweight-500 dis-f a-c ff-mono" href={`tel:${Helpers.telephoneFormat(supportPhone)}`}>
-                      <img className="w-fix-24 w-fix-sm-32 mr-1" src={CallUsImg} alt="Call Us" />
-                      <span className="body2 txtPrimary600 fweight-500">{Helpers.telephoneFormat(supportPhone)}</span>
-                    </a>
-                  </div>
-                )
-              } */}
             </div>
+            {
+              get(pageState, 'stage', null) && (
+                <div>
+                  <ProgressSellerStage stepIndexProgress={0} />
+                </div>
+              )
+            }
             <div className="dis-f a-c">
               {
                 !loggedInUser.token ? (
@@ -297,6 +296,7 @@ PageHeader.propTypes = {
   lang: PropTypes.string,
   languages: PropTypes.arrayOf(PropTypes.object),
   loggedInUser: PropTypes.object,
+  pageState: PropTypes.object,
   property: PropTypes.object.isRequired,
 };
 
@@ -304,13 +304,15 @@ PageHeader.defaultProps = {
   languages: [],
   lang: 'en',
   loggedInUser: {},
+  pageState: null,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
-  languages: get(state, 'common.languages', []),
   lang: get(state, 'common.language', ''),
+  languages: get(state, 'common.languages', []),
+  loggedInUser: get(state, 'user.loggedInUser', {}),
+  pageState: get(state, 'common.setPageData', {}),
   property: get(state, 'property.activeSingleProperty', {}),
 });
 

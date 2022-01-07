@@ -12,13 +12,13 @@ import {
   SET_ACTIVE_SINGLE_NOTE,
   SAVE_ACTIVE_SINGLE_NOTE,
   GET_ACTIVITY_LISTINGS,
-  SET_ACTIVITY_LISTINGS,
+  SET_ACTIVITY_LISTINGS
 } from '../actions/types/NoteTypes';
 
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SET_SCREEN_NOTIFICATION, SPINNER_SMALL,
+  SET_SCREEN_NOTIFICATION, SPINNER_SMALL
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -36,18 +36,18 @@ const checkNote = (store) => (next) => (action) => {
         resultsPerPage,
         smallLoader,
         text,
-        type,
+        type
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       // eslint-disable-next-line no-case-declarations
@@ -60,19 +60,19 @@ const checkNote = (store) => (next) => (action) => {
             if (action.payload.type === 'page') {
               store.dispatch({
                 type: SET_PROPERTY_NOTE_LISTINGS,
-                payload: response.data,
+                payload: response.data
               });
             }
             if (action.payload.type === 'user') {
               store.dispatch({
                 type: SET_USER_NOTE_LISTINGS,
-                payload: response.data,
+                payload: response.data
               });
             }
             if (action.payload.type === 'deal') {
               store.dispatch({
                 type: SET_DEAL_NOTE_LISTINGS,
-                payload: response.data,
+                payload: response.data
               });
             }
           } else {
@@ -84,12 +84,12 @@ const checkNote = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -100,18 +100,18 @@ const checkNote = (store) => (next) => (action) => {
       const {
         content,
         smallLoader,
-        type,
+        type
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.note.createSingleNote(content, type)
@@ -122,8 +122,8 @@ const checkNote = (store) => (next) => (action) => {
               payload: {
                 state: true,
                 label: 'Note created',
-                type: 'done',
-              },
+                type: 'done'
+              }
             });
             store.dispatch({
               type: GET_NOTE_LISTINGS,
@@ -135,8 +135,8 @@ const checkNote = (store) => (next) => (action) => {
                 direction: 'DESC',
                 resultsPerPage: 50,
                 offset: 0,
-                smallLoader,
-              },
+                smallLoader
+              }
             });
           } else {
             // TODO: Should dispatch error state
@@ -145,12 +145,12 @@ const checkNote = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -160,18 +160,18 @@ const checkNote = (store) => (next) => (action) => {
       next(action);
       const {
         id,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       delete action.payload.data.user;
@@ -180,7 +180,7 @@ const checkNote = (store) => (next) => (action) => {
           if (response.meta.status === 200) {
             store.dispatch({
               type: SET_ACTIVE_SINGLE_NOTE,
-              payload: {},
+              payload: {}
             });
           } else {
             // TODO: Should dispatch error state
@@ -189,12 +189,12 @@ const checkNote = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -204,18 +204,18 @@ const checkNote = (store) => (next) => (action) => {
       next(action);
       const {
         id,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.note.getSingleNote(id)
@@ -223,7 +223,7 @@ const checkNote = (store) => (next) => (action) => {
           if (response.meta.status === 200) {
             store.dispatch({
               type: SET_ACTIVE_SINGLE_NOTE,
-              payload: response.data,
+              payload: response.data
             });
           } else {
             // TODO: Should dispatch error state
@@ -232,12 +232,12 @@ const checkNote = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: true,
-              },
+                [smallLoader]: true
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_ON,
+              type: SPINNER_ON
             });
           }
         });
@@ -249,18 +249,18 @@ const checkNote = (store) => (next) => (action) => {
         data,
         id,
         isActivity,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       const obj = cloneDeep(data);
@@ -278,8 +278,8 @@ const checkNote = (store) => (next) => (action) => {
                   direction: 'DESC',
                   resultsPerPage: 50,
                   offset: 0,
-                  smallLoader,
-                },
+                  smallLoader
+                }
               });
             }
             store.dispatch({
@@ -287,20 +287,20 @@ const checkNote = (store) => (next) => (action) => {
               payload: {
                 state: true,
                 label: 'Your changes were saved',
-                type: 'done',
-              },
+                type: 'done'
+              }
             });
           }
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -314,18 +314,18 @@ const checkNote = (store) => (next) => (action) => {
         offset,
         resultsPerPage,
         smallLoader,
-        text,
+        text
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       const filterData = get(action, 'payload.filterData', '') ? `&${get(action, 'payload.filterData', '')}` : '&complete=false';
@@ -336,19 +336,19 @@ const checkNote = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             store.dispatch({
               type: SET_ACTIVITY_LISTINGS,
-              payload: res.data,
+              payload: res.data
             });
           }
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });

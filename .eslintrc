@@ -37,6 +37,8 @@
       }
     ],
     "global-require": 0,
+    "requireConfigFile": 0,
+    "ecmaVersion": 0,
     "no-debugger": "error",
     // Legacy
     "max-len": [
@@ -135,7 +137,7 @@
     "mocha": true,
     "es6": true
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "plugins": [
     "react",
     "react-redux",

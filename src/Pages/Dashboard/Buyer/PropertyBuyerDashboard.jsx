@@ -2,7 +2,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Routes, Route, useLocation, useNavigate, useParams,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
@@ -174,7 +174,7 @@ const PropertyBuyerDashboard = (props) => {
                   <Route path="/page" element={<PageBuyer />} />
                   <Route path="/contact" element={<ContactBuyer />} />
                   <Route path="/showings/*" element={<ShowingsBuyer />} />
-                  <Route path="*" element={null} />
+                  <Route path="*" element={<Navigate to={`/buyer/${propID}/property/page`} />} />
                 </Routes>
               </Suspense>
             </div>

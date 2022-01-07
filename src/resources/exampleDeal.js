@@ -21,72 +21,72 @@ export const exampleDeal = (country) => ({
         status: 'pending',
         noteByBuyer: 'I agree to take over the renovation costs and pay extra for the parking space',
         noteBySeller: 'Great looking forward to do business with you.',
-        documents: [],
+        documents: []
       },
       offerHistory: [],
       createdAt: 1596621256672,
-      updatedAt: 1615824223247,
+      updatedAt: 1615824223247
     },
     stageIdentification: {
       active: false,
       completedBySeller: {
         status: false,
         completedAt: null,
-        completedBy: null,
+        completedBy: null
       },
       completedByBuyer: {
         status: false,
         completedAt: null,
-        completedBy: null,
+        completedBy: null
       },
       createdAt: 1596621256672,
-      updatedAt: 1596621256672,
+      updatedAt: 1596621256672
     },
     stageLock: {
       active: false,
       completedBySeller: {
         status: false,
         completedAt: null,
-        completedBy: null,
+        completedBy: null
       },
       completedByBuyer: {
         status: false,
         completedAt: null,
-        completedBy: null,
+        completedBy: null
       },
       createdAt: 1596621256672,
-      updatedAt: 1596621256672,
+      updatedAt: 1596621256672
     },
     stageContract: {
       active: false,
       completedBySeller: {
         status: false,
         completedAt: null,
-        completedBy: null,
+        completedBy: null
       },
       completedByBuyer: {
         status: false,
         completedAt: null,
-        completedBy: null,
+        completedBy: null
       },
       createdAt: 1596621256672,
-      updatedAt: 1596621256672,
+      updatedAt: 1596621256672
     },
     stageNotary: {
       active: false,
       completedBySeller: {
         status: false,
         completedAt: null,
-        completedBy: null,
+        completedBy: null
       },
       completedByBuyer: {
         status: false,
         completedAt: null,
-        completedBy: null,
+        completedBy: null
       },
       createdAt: 1596621256672,
-      updatedAt: 1596621256672,
-    },
+      updatedAt: 1596621256672
+    }
   },
   page: '5e676f444285565def1626fa',
   user: {
@@ -100,10 +100,10 @@ export const exampleDeal = (country) => ({
     role: '5af3221f812afaef6a490070',
     phone: {
       prefix: country === 'CH' ? '+41' : '+351',
-      number: country === 'CH' ? '445525730' : '910834311',
+      number: country === 'CH' ? '445525730' : '910834311'
     },
     language: 'en',
     createdAt: 1563866088897,
-    updatedAt: 1615897120275,
-  },
+    updatedAt: 1615897120275
+  }
 });

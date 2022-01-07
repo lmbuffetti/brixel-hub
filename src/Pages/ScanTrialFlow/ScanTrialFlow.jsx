@@ -23,6 +23,7 @@ import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import isArray from 'lodash/isArray';
+import queryString from 'query-string';
 import { checkBrowser } from '../../utils/helpers';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
@@ -71,6 +72,12 @@ const ScanTrialFlow = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
+    const urlParams = queryString.parse(get(history, 'location.search', ''));
+    if (urlParams && urlParams.action) {
+      if (urlParams.action === 'remote' || urlParams.action === 'on-site') {
+        setCurrentIndex(3);
+      }
+    }
     if (questions[currentIndex].history) {
       history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
     }

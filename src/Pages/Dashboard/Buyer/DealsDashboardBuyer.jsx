@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import {
-  Routes, Route, useLocation, useNavigate, useParams,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -49,7 +49,7 @@ const DealsDashboardBuyer = (props) => {
               <Suspense fallback="">
                 <Routes>
                   <Route path="/:dealID" element={<OfferDetail isBuyer />} />
-                  <Route path="*" element={null} />
+                  <Route path="*" element={<Navigate to={`/buyer/${propID}/closing`} />} />
                 </Routes>
               </Suspense>
             ) : (

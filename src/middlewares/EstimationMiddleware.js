@@ -5,24 +5,24 @@ import get from 'lodash/get';
 import {
   CREATE_ESTIMATION,
   GENERATE_ESTIMATION,
-  SEND_PROESTIMATION_NOTIFICATION,
+  SEND_PROESTIMATION_NOTIFICATION
   // SAVE_ACTIVE_SINGLE_ESTIMATION,
   // DELETE_ACTIVE_SINGLE_ESTIMATION,
 } from '../actions/types/EstimationTypes';
 
 import {
-  SET_ESTIMATION,
+  SET_ESTIMATION
 } from '../actions/types/PropertyTypes';
 
 import {
-  SET_OWNED_PROPERTIES,
+  SET_OWNED_PROPERTIES
 } from '../actions/types/MarketTypes';
 
 import {
   SPINNER_ON,
   SPINNER_OFF,
   SET_SCREEN_NOTIFICATION,
-  SPINNER_SMALL,
+  SPINNER_SMALL
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -32,7 +32,7 @@ const checkEstimation = (store) => (next) => (action) => {
     case CREATE_ESTIMATION: {
       next(action);
       const {
-        generate, redirectTo, smallLoader,
+        generate, redirectTo, smallLoader
       } = action.payload;
       let dataToSend = cloneDeep(action.payload);
       const token = get(action, 'payload.token', null);
@@ -40,12 +40,12 @@ const checkEstimation = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       if (has(action, 'payload.data')) {
@@ -53,7 +53,7 @@ const checkEstimation = (store) => (next) => (action) => {
           data: action.payload.data,
           owner: action.payload.owner,
           generate,
-          redirectTo,
+          redirectTo
         };
       }
       delete dataToSend.generate;
@@ -70,16 +70,16 @@ const checkEstimation = (store) => (next) => (action) => {
                   page: action.payload.page,
                   token,
                   redirectTo,
-                  reloadOnwProperties: get(dataToSend, 'reloadOnwProperties', false),
-                },
+                  reloadOnwProperties: get(dataToSend, 'reloadOnwProperties', false)
+                }
               });
             } else if (redirectTo) {
               store.dispatch({
                 type: SET_SCREEN_NOTIFICATION,
                 payload: {
                   state: true,
-                  type: 'done',
-                },
+                  type: 'done'
+                }
               });
               window.location.assign(redirectTo);
             }
@@ -89,24 +89,24 @@ const checkEstimation = (store) => (next) => (action) => {
               payload: {
                 state: true,
                 label: response.data.errorMessage,
-                type: 'alert',
-              },
+                type: 'alert'
+              }
             });
           }
           store.dispatch({
             type: SET_ESTIMATION,
-            payload: response.data,
+            payload: response.data
           });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -115,18 +115,18 @@ const checkEstimation = (store) => (next) => (action) => {
     case GENERATE_ESTIMATION: {
       next(action);
       const {
-        page, redirectTo, smallLoader,
+        page, redirectTo, smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       const token = get(action, 'payload.token', null);
@@ -136,7 +136,7 @@ const checkEstimation = (store) => (next) => (action) => {
           if (response.meta.normalizedStatus === 200) {
             store.dispatch({
               type: SET_ESTIMATION,
-              payload: response.data,
+              payload: response.data
             });
             set(store.getState().property.activeSingleProperty, 'estimation', response.data);
             if (get(action.payload, 'reloadOnwProperties', false)) {
@@ -150,8 +150,8 @@ const checkEstimation = (store) => (next) => (action) => {
                 type: SET_SCREEN_NOTIFICATION,
                 payload: {
                   state: true,
-                  type: 'done',
-                },
+                  type: 'done'
+                }
               });
               window.location.assign(redirectTo);
             }
@@ -161,12 +161,12 @@ const checkEstimation = (store) => (next) => (action) => {
               payload: {
                 state: true,
                 label: response.data.errorMessage,
-                type: 'alert',
-              },
+                type: 'alert'
+              }
             });
             store.dispatch({
               type: SET_ESTIMATION,
-              payload: { status: 'pending' },
+              payload: { status: 'pending' }
             });
             if (redirectTo) {
               window.location.assign(redirectTo);
@@ -176,12 +176,12 @@ const checkEstimation = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -190,7 +190,7 @@ const checkEstimation = (store) => (next) => (action) => {
     case SEND_PROESTIMATION_NOTIFICATION: {
       next(action);
       const {
-        id,
+        id
       } = action.payload;
       api.estimation.proEstimationNotification(id)
         .then(() => {

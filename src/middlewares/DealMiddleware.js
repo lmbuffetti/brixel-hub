@@ -8,7 +8,7 @@ import {
   SPINNER_OFF,
   REDIRECT_TO,
   SET_SCREEN_NOTIFICATION,
-  SPINNER_SMALL,
+  SPINNER_SMALL
 } from '../actions/types/CommonTypes';
 
 import {
@@ -27,15 +27,15 @@ import {
   SAVE_REVIEW_OFFER,
   SET_OFFER_LISTINGS,
   GET_OFFER_LISTINGS,
-  SEND_VISIT_FEEDBACK,
+  SEND_VISIT_FEEDBACK
 } from '../actions/types/DealTypes';
 
 import {
-  SET_DEAL_OWNER_HISTORY_LISTINGS, GET_HISTORY_LISTINGS,
+  SET_DEAL_OWNER_HISTORY_LISTINGS, GET_HISTORY_LISTINGS
 } from '../actions/types/HistoryTypes';
 
 import {
-  GET_PAGE_DEALS,
+  GET_PAGE_DEALS
 } from '../actions/types/PropertyTypes';
 
 import { exampleDeal } from '../resources/exampleDeal';
@@ -50,18 +50,18 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const {
         id,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.user.getPagesByDealByUser(id)
@@ -71,12 +71,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -91,18 +91,18 @@ const checkCommon = (store) => (next) => (action) => {
         order,
         resultsPerPage,
         smallLoader,
-        text,
+        text
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       // eslint-disable-next-line no-case-declarations
@@ -112,31 +112,31 @@ const checkCommon = (store) => (next) => (action) => {
           if (response.data.length > 0) {
             const data = {
               packages: response.data,
-              total: response.data.length,
+              total: response.data.length
             };
             store.dispatch({
               type: SET_DEAL_LISTINGS,
-              payload: data,
+              payload: data
             });
           } else {
             // Should dispatch error state
             store.dispatch({
               type: REDIRECT_TO,
               payload: {
-                url: '/properties',
-              },
+                url: '/properties'
+              }
             });
           }
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -146,19 +146,19 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const {
         link,
-        smallLoader,
+        smallLoader
       } = action.payload;
       delete action.payload.link;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.user.getUserByEmail(action.payload.leadEmail)
@@ -173,7 +173,7 @@ const checkCommon = (store) => (next) => (action) => {
                     page: action.payload.page,
                     user: res.data.id,
                     stage: action.payload.stage,
-                    actionStub: action.payload.actionStub,
+                    actionStub: action.payload.actionStub
                   };
                   api.deal.createSingleDeal(deal)
                     .then((response1) => {
@@ -183,21 +183,21 @@ const checkCommon = (store) => (next) => (action) => {
                           payload: {
                             state: true,
                             label: 'Deal created',
-                            type: 'done',
-                          },
+                            type: 'done'
+                          }
                         });
                         store.dispatch({
                           type: GET_PAGE_DEALS,
                           payload: {
                             id: action.payload.page,
-                            smallLoader,
-                          },
+                            smallLoader
+                          }
                         });
                         store.dispatch({
                           type: REDIRECT_TO,
                           payload: {
-                            history: link,
-                          },
+                            history: link
+                          }
                         });
                       } else {
                         // TODO: Should dispatch error state
@@ -206,20 +206,20 @@ const checkCommon = (store) => (next) => (action) => {
                           payload: {
                             state: true,
                             label: response.data.errorMessage,
-                            type: 'alert',
-                          },
+                            type: 'alert'
+                          }
                         });
                       }
                       if (smallLoader) {
                         store.dispatch({
                           type: SPINNER_SMALL,
                           payload: {
-                            [smallLoader]: false,
-                          },
+                            [smallLoader]: false
+                          }
                         });
                       } else {
                         store.dispatch({
-                          type: SPINNER_OFF,
+                          type: SPINNER_OFF
                         });
                       }
                     });
@@ -231,7 +231,7 @@ const checkCommon = (store) => (next) => (action) => {
               page: action.payload.page,
               user: response.data.id,
               stage: action.payload.stage,
-              actionStub: action.payload.actionStub,
+              actionStub: action.payload.actionStub
             };
             api.deal.createSingleDeal(deal)
               .then((response1) => {
@@ -241,24 +241,24 @@ const checkCommon = (store) => (next) => (action) => {
                     payload: {
                       state: true,
                       label: 'Deal created',
-                      type: 'done',
-                    },
+                      type: 'done'
+                    }
                   });
                   store.dispatch({
                     type: GET_PAGE_DEALS,
                     payload: {
                       id: action.payload.page,
-                      smallLoader,
-                    },
+                      smallLoader
+                    }
                   });
                   store.dispatch({
                     type: REDIRECT_TO,
                     payload: {
-                      history: link,
-                    },
+                      history: link
+                    }
                   });
                   store.dispatch({
-                    type: SPINNER_OFF,
+                    type: SPINNER_OFF
                   });
                 } else {
                   // TODO: Should dispatch error state
@@ -267,11 +267,11 @@ const checkCommon = (store) => (next) => (action) => {
                     payload: {
                       state: true,
                       label: response1.data.errorMessage,
-                      type: 'alert',
-                    },
+                      type: 'alert'
+                    }
                   });
                   store.dispatch({
-                    type: SPINNER_OFF,
+                    type: SPINNER_OFF
                   });
                 }
               });
@@ -283,18 +283,18 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const {
         id,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       delete action.payload.data.user;
@@ -303,7 +303,7 @@ const checkCommon = (store) => (next) => (action) => {
           if (response.meta.status === 200) {
             store.dispatch({
               type: SET_ACTIVE_SINGLE_DEAL,
-              payload: {},
+              payload: {}
             });
           } else {
             // TODO: Should dispatch error state
@@ -312,12 +312,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -327,25 +327,25 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const {
         id,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       if (id === 'sample') {
         const country = get(store.getState(), 'property.activeSingleProperty.location.countryCode', 'CH');
         store.dispatch({
           type: SET_ACTIVE_SINGLE_DEAL,
-          payload: exampleDeal(country),
+          payload: exampleDeal(country)
         });
       } else {
         api.deal.getSingleDeal(id)
@@ -371,7 +371,7 @@ const checkCommon = (store) => (next) => (action) => {
                       updatedDeal = res2.data;
                       store.dispatch({
                         type: GET_PAGE_DEALS,
-                        payload: store.getState().property.activeSingleProperty.id,
+                        payload: store.getState().property.activeSingleProperty.id
                       });
                     } else {
                       // eslint-disable-next-line no-console
@@ -382,22 +382,22 @@ const checkCommon = (store) => (next) => (action) => {
               Promise.all([call2, call3]).then(() => {
                 store.dispatch({
                   type: SET_ACTIVE_SINGLE_DEAL,
-                  payload: has(updatedDeal, 'id') ? updatedDeal : response.data,
+                  payload: has(updatedDeal, 'id') ? updatedDeal : response.data
                 });
                 store.dispatch({
                   type: SET_DEAL_OWNER_HISTORY_LISTINGS,
-                  payload: dealUserHistory,
+                  payload: dealUserHistory
                 });
                 if (smallLoader) {
                   store.dispatch({
                     type: SPINNER_SMALL,
                     payload: {
-                      [smallLoader]: false,
-                    },
+                      [smallLoader]: false
+                    }
                   });
                 } else {
                   store.dispatch({
-                    type: SPINNER_OFF,
+                    type: SPINNER_OFF
                   });
                 }
               });
@@ -406,12 +406,12 @@ const checkCommon = (store) => (next) => (action) => {
                 store.dispatch({
                   type: SPINNER_SMALL,
                   payload: {
-                    [smallLoader]: false,
-                  },
+                    [smallLoader]: false
+                  }
                 });
               } else {
                 store.dispatch({
-                  type: SPINNER_OFF,
+                  type: SPINNER_OFF
                 });
               }
             }
@@ -423,18 +423,18 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const {
         id,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.deal.getBuyerDeal(id)
@@ -444,44 +444,44 @@ const checkCommon = (store) => (next) => (action) => {
               page: get(store.getState(), 'property.activeSingleProperty.id', ''),
               user: get(store.getState(), 'user.loggedInUser.user.id', ''),
               stage: 'Interested',
-              actionStub: 'add-favorite',
+              actionStub: 'add-favorite'
             };
             api.deal.createSingleDeal(deal)
               .then((response1) => {
                 if (response1.meta.normalizedStatus === 200) {
                   store.dispatch({
                     type: SET_ACTIVE_SINGLE_DEAL,
-                    payload: response1.data,
+                    payload: response1.data
                   });
                 }
                 if (smallLoader) {
                   store.dispatch({
                     type: SPINNER_SMALL,
                     payload: {
-                      [smallLoader]: false,
-                    },
+                      [smallLoader]: false
+                    }
                   });
                 } else {
                   store.dispatch({
-                    type: SPINNER_OFF,
+                    type: SPINNER_OFF
                   });
                 }
               });
           } else {
             store.dispatch({
               type: SET_ACTIVE_SINGLE_DEAL,
-              payload: res.data,
+              payload: res.data
             });
             if (smallLoader) {
               store.dispatch({
                 type: SPINNER_SMALL,
                 payload: {
-                  [smallLoader]: false,
-                },
+                  [smallLoader]: false
+                }
               });
             } else {
               store.dispatch({
-                type: SPINNER_OFF,
+                type: SPINNER_OFF
               });
             }
           }
@@ -494,19 +494,19 @@ const checkCommon = (store) => (next) => (action) => {
         data,
         id,
         smallLoader,
-        type,
+        type
       } = action.payload;
       if (type !== 'archive') {
         if (smallLoader) {
           store.dispatch({
             type: SPINNER_SMALL,
             payload: {
-              [smallLoader]: true,
-            },
+              [smallLoader]: true
+            }
           });
         } else {
           store.dispatch({
-            type: SPINNER_ON,
+            type: SPINNER_ON
           });
         }
       }
@@ -518,14 +518,14 @@ const checkCommon = (store) => (next) => (action) => {
           if (res.meta.status === 200) {
             store.dispatch({
               type: SET_ACTIVE_SINGLE_DEAL,
-              payload: res.data,
+              payload: res.data
             });
             store.dispatch({
               type: GET_PAGE_DEALS,
               payload: {
                 id: store.getState().property.activeSingleProperty.id,
-                smallLoader,
-              },
+                smallLoader
+              }
             });
             store.dispatch({
               type: GET_HISTORY_LISTINGS,
@@ -535,16 +535,16 @@ const checkCommon = (store) => (next) => (action) => {
                 resultsPerPage: 50,
                 offset: 0,
                 order: '',
-                direction: 'DESC',
-              },
+                direction: 'DESC'
+              }
             });
             store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
               payload: {
                 state: true,
                 label: 'Your changes were saved',
-                type: 'done',
-              },
+                type: 'done'
+              }
             });
 
             if (action.payload.type !== 'archive') {
@@ -552,12 +552,12 @@ const checkCommon = (store) => (next) => (action) => {
                 store.dispatch({
                   type: SPINNER_SMALL,
                   payload: {
-                    [smallLoader]: false,
-                  },
+                    [smallLoader]: false
+                  }
                 });
               } else {
                 store.dispatch({
-                  type: SPINNER_OFF,
+                  type: SPINNER_OFF
                 });
               }
             }
@@ -567,8 +567,8 @@ const checkCommon = (store) => (next) => (action) => {
               payload: {
                 state: true,
                 label: 'Error archiving the deal',
-                type: 'alert',
-              },
+                type: 'alert'
+              }
             });
           }
         });
@@ -578,18 +578,18 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const {
         data,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       const arr = cloneDeep(data);
@@ -600,23 +600,23 @@ const checkCommon = (store) => (next) => (action) => {
               type: GET_PAGE_DEALS,
               payload: {
                 id: store.getState().property.activeSingleProperty.id,
-                smallLoader,
-              },
+                smallLoader
+              }
             });
             store.dispatch({
               type: SET_SCREEN_NOTIFICATION,
               payload: {
                 state: true,
                 label: 'Deals updated',
-                type: 'done',
-              },
+                type: 'done'
+              }
             });
           } else {
             // TODO: Should dispatch error state
           }
           if (!smallLoader) {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -626,18 +626,18 @@ const checkCommon = (store) => (next) => (action) => {
       next(action);
       const {
         deals,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: false,
-          },
+            [smallLoader]: false
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_OFF,
+          type: SPINNER_OFF
         });
       }
       const arrDeals = cloneDeep(deals);
@@ -659,34 +659,34 @@ const checkCommon = (store) => (next) => (action) => {
             resultsPerPage: 50,
             offset: 0,
             order: '',
-            direction: 'DESC',
-          },
+            direction: 'DESC'
+          }
         });
         store.dispatch({
           type: GET_PAGE_DEALS,
           payload: {
             id: store.getState().property.activeSingleProperty.id,
-            smallLoader,
-          },
+            smallLoader
+          }
         });
         store.dispatch({
           type: SET_SCREEN_NOTIFICATION,
           payload: {
             state: true,
             label: 'Your changes were saved',
-            type: 'done',
-          },
+            type: 'done'
+          }
         });
         if (smallLoader) {
           store.dispatch({
             type: SPINNER_SMALL,
             payload: {
-              [smallLoader]: false,
-            },
+              [smallLoader]: false
+            }
           });
         } else {
           store.dispatch({
-            type: SPINNER_OFF,
+            type: SPINNER_OFF
           });
         }
       });
@@ -698,7 +698,7 @@ const checkCommon = (store) => (next) => (action) => {
       const objData = cloneDeep(action.payload);
       const {
         smallLoader,
-        id,
+        id
       } = objData;
       delete objData.smallLoader;
       delete objData.id;
@@ -706,12 +706,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.deal.makeOffer(id, objData)
@@ -724,12 +724,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: 'done',
-              },
+                [smallLoader]: 'done'
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         })
@@ -745,7 +745,7 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         act,
         smallLoader,
-        id,
+        id
       } = objData;
       delete objData.smallLoader;
       delete objData.id;
@@ -754,12 +754,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.deal.reviewOffer(id, objData)
@@ -769,15 +769,15 @@ const checkCommon = (store) => (next) => (action) => {
               store.dispatch({
                 type: SPINNER_SMALL,
                 payload: {
-                  [smallLoader]: 'close',
-                },
+                  [smallLoader]: 'close'
+                }
               });
             } else if (smallLoader) {
               store.dispatch({
                 type: SPINNER_SMALL,
                 payload: {
-                  [smallLoader]: 'done',
-                },
+                  [smallLoader]: 'done'
+                }
               });
             }
             store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: res.data });
@@ -785,13 +785,13 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           }
           if (!smallLoader) {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         })
@@ -806,7 +806,7 @@ const checkCommon = (store) => (next) => (action) => {
       const objData = cloneDeep(action.payload);
       const {
         smallLoader,
-        id,
+        id
       } = objData;
       delete objData.smallLoader;
       delete objData.id;
@@ -814,12 +814,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.deal.getOfferListings(id)
@@ -833,8 +833,8 @@ const checkCommon = (store) => (next) => (action) => {
                 {
                   deal: 'sample',
                   offer: sampleData.closing.stageOffer.offer,
-                  user: sampleData.user,
-                },
+                  user: sampleData.user
+                }
               ];
             }
             store.dispatch({ type: SET_OFFER_LISTINGS, payload: data });
@@ -843,12 +843,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         })
@@ -864,7 +864,7 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         smallLoader,
         id,
-        sendSlack,
+        sendSlack
       } = objData;
       delete objData.smallLoader;
       delete objData.id;
@@ -874,12 +874,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.deal.sendVisitFeedback(id, sendSlack, objData)
@@ -889,12 +889,12 @@ const checkCommon = (store) => (next) => (action) => {
               type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
-                [`${smallLoader}Sent`]: true,
-              },
+                [`${smallLoader}Sent`]: true
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         })

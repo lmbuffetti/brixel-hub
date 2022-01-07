@@ -52,7 +52,7 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
     calcPerc: calPerc,
     savedPerc,
     countTotal,
-    countDone,
+    countDone
   };
 };
 
@@ -122,7 +122,7 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
     calcPerc: calPerc,
     savedPerc,
     countTotal,
-    countDone,
+    countDone
   };
 };
 
@@ -231,7 +231,7 @@ export const convertColorToHue = (hex) => {
   const colorInHSL = `hsl(${h},${s}%,${l}%)`;
   return {
     hex: newVal,
-    hsl: colorInHSL,
+    hsl: colorInHSL
   };
 };
 
@@ -404,7 +404,7 @@ export const setCookie = (key, val) => {
     domain,
     path: '/',
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
-    sameSite: 'strict',
+    sameSite: 'strict'
   };
   cookies.set(key, val, options);
 };
@@ -426,7 +426,7 @@ export const getCookie = (key) => {
     domain,
     path: '/',
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
-    sameSite: 'strict',
+    sameSite: 'strict'
   };
   return cookies.get(key, options);
 };
@@ -448,7 +448,7 @@ export const removeCookie = (key) => {
     domain,
     path: '/',
     expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
-    sameSite: 'strict',
+    sameSite: 'strict'
   };
   cookies.remove(key, options);
 };
@@ -497,8 +497,8 @@ export const getCalcSectionInputSheets = (Questions, initialValues, accordion, a
         sectionComplete: getSectionDone,
         total,
         totalComplete: newTotalDone.length,
-        totalUncomplete: total - newTotalDone.length,
-      },
+        totalUncomplete: total - newTotalDone.length
+      }
     });
   }
   return {};
@@ -553,7 +553,7 @@ export const toBase64 = (file) => new Promise((resolve, reject) => {
   reader.readAsDataURL(file);
   reader.onload = () => resolve({
     file: reader.result,
-    name: file.name,
+    name: file.name
   });
   reader.onerror = (error) => reject(error);
 });
@@ -575,7 +575,7 @@ export const tobase64Handler = async (files, user, action, pageID, imgType, docT
         isBrochure: false,
         file: base64File.file,
         pageID,
-        smallLoader: 'upload',
+        smallLoader: 'upload'
       };
     }
     return {
@@ -585,7 +585,7 @@ export const tobase64Handler = async (files, user, action, pageID, imgType, docT
       imageType: imgType,
       pageID,
       uploadAction: action,
-      smallLoader: 'upload',
+      smallLoader: 'upload'
     };
   });
   return mappedFiles;

@@ -6,7 +6,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { useLocation, useNavigate } from 'react-router-dom';
-import MarkerWithLabel from '@googlemaps/markerwithlabel';
+import { MarkerWithLabel } from '@googlemaps/markerwithlabel';
 import { FormatValue, Helpers } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { cutValue } from '../../utils/helpers';
