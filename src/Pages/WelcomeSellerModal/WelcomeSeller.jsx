@@ -49,9 +49,9 @@ const WelcomeSeller = (props) => {
   }, []);
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
+    <div id="bodyModalWrapper" className="withHeader getStarted ">
       <div
-        className="bodyModal bgAltGreen200"
+        className="bodyModal bgAltGreen100 welcomeSellerBody"
       >
         <form
           id="multiStepForm"
@@ -63,7 +63,7 @@ const WelcomeSeller = (props) => {
             <div className="singleStep pt-6 jc-c">
               <div className="subcontainer m-a">
                 <div id="step-1" className="dis-f flex-wrap">
-                  <div className="ta-c m-a">
+                  <div className="ta-c m-a max-w-fix-880 w-perc-100">
                     <WelecomeOnboardingStage />
                   </div>
                 </div>

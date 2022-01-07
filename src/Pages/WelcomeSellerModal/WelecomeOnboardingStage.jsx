@@ -55,30 +55,27 @@ const WelecomeOnboardingStage = (props) => {
       return (
         <div className="multiFieldWrap w-perc-100">
           <div className="dis-f jc-b h-perc-100 a-c">
-            <div
-              className="dis-f-col jc-c a-c w-perc-100 pos-r"
-            >
+            <div className="dis-f-col jc-c a-c w-perc-100 pos-r pt-2">
               <MarketCardSmall
-                disableClick
+                readOnly
                 className="bgWhite"
                 type="fav"
                 showAddess
                 item={activeSingleProperty}
               />
 
-              <h3 className="mt-5">
+              <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-500 fsize-sm-600">
                 Congratulations 🎉
-              </h3>
+              </p>
 
-              <h4 className="mt-3">
+              <p className="mt-3 txtDark400 max-w-fix-448 m-a fweight-400 fsize-500 fsize-sm-600">
                 Your property was successfully created. Let’s move on.
-              </h4>
+              </p>
 
               <BrixelButtonPrimary
                 className="mx-a mt-5"
                 rounded
                 theme="altGreen"
-                themeSat={300}
                 label="Progress sale"
                 rightIcon="arrow-right-small"
                 onClick={() => onChangeStep()}

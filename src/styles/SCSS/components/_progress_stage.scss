@@ -1,10 +1,24 @@
 .progress-stage {
-  .step-item{
+  @media (max-width: $responsive-medium) {
+    flex-direction: column;
+  }
+  .step-item {
     position: relative;
     z-index: 1;
     padding-right: $step * 2;
+    @media (max-width: $responsive-medium) {
+      padding-right: 0;
+    }
     &:last-child {
       padding-right: 0;
+      &:before {
+        @media (max-width: $responsive-medium) {
+          content: none;
+        }
+      }
+      .wrap-step {
+        margin-bottom: 0;
+      }
     }
     &:before {
       content: '';
@@ -17,40 +31,76 @@
       left: 0;
       top: 50%;
       transform: translate(0, -50%);
+
+      @media (max-width: $responsive-medium) {
+        height: 100%;
+        width: 1px;
+        top: 50%;
+        left: 50%;
+      }
     }
     .wrap-step {
       display: flex;
       align-items: center;
       border-radius: $brd-radius-circle;
-      border: 1px solid map_get($altGreyColor, 300);
-      background: map_get($altGreyColor, 100);
+      border: 1px solid map_get($altGreyColor, 100);
+      background: lighten(map_get($altGreyColor, 100), $amount: 5);
+
+      @media (max-width: $responsive-medium) {
+        margin-bottom: $step;
+      }
+
       > span {
         padding-left: $step;
         padding-right: $step * 2;
+        @media (max-width: $responsive-medium) {
+          padding-right: $step;
+        }
+      }
+      .circle {
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $brx-white;
+        color: map_get($altGreyColor, 400);
+        border: 1px solid map_get($altGreyColor, 100);
+        position: relative;
+        left: -1px;
+        @media (max-width: $responsive-medium) {
+          width: 24px;
+          height: 24px;
+        }
+      }
+      .stepNumber {
+        color: map_get($altGreyColor, 400);
+        font-family: $font-family-secondary;
+      }
+      .stepLabel {
+        color: map_get($altGreyColor, 400);
       }
     }
     &.active {
       &:before {
-        background:map_get($altGreenColor, 100);
+        background: map_get($altGreenColor, 100);
       }
       .wrap-step {
         border: 1px solid map_get($altGreenColor, 100);
-        background: map_get($altGreyColor, 100);
       }
       .circle {
-        background: map_get($altGreenColor, 300);
+        background: map_get($altGreenColor, 400);
+        border: 1px solid map_get($altGreenColor, 100);
+      }
+      .stepNumber {
         color: $brx-white;
       }
+      .stepLabel {
+        color: map_get($altGreenColor, 400);
+      }
     }
-    .circle {
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: $brx-white;
-      color: map_get($altGreyColor, 300);
-    }
+
   }
+
 }

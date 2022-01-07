@@ -35,14 +35,13 @@ const ProgressSellerStage = (props) => {
                       iconWidth="w-fix-flex-32 pos-r zIndex2"
                       icon="check-small-fill"
                       color="altGreen"
-                      saturationTxt={300}
                     />
                   ) : (
-                    <span>{i + 1}</span>
+                    <span className="stepNumber fsize-300">{i + 1}</span>
                   )
                 }
               </div>
-              <span>{convertLabel(progress)}</span>
+              <span className="fsize-300 stepLabel">{convertLabel(progress)}</span>
             </div>
           </div>
         ))
