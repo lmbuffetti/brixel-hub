@@ -7,7 +7,7 @@ import {
   BrixelInputText,
   BrixelSelect,
   Validation,
-  FactsOptions,
+  FactsOptions
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import MapsCities from '../components/Map/MapsCities';
@@ -72,24 +72,24 @@ export const QuestionsList = (lang, type) => {
               label: 'Apartment',
               value: 'Apartment',
               img: svgIcons.apartment,
-              color: 'blue',
+              color: 'blue'
             },
             {
               label: 'House',
               value: 'House',
               img: svgIcons.house,
-              color: 'blue',
+              color: 'blue'
             },
             {
               label: 'Building land',
               value: 'Building land',
               img: svgIcons.land,
-              color: 'blue',
-            },
-          ],
-        },
+              color: 'blue'
+            }
+          ]
+        }
       ],
-      successMessage: translateTo(lang, 'Ok. Got it.'),
+      successMessage: translateTo(lang, 'Ok. Got it.')
     },
     {
       title: type === 'searchProfile' ? 'Size' : 'How big should it be?',
@@ -108,7 +108,7 @@ export const QuestionsList = (lang, type) => {
           step: 1,
           addPlusOnLast: true,
           minLengthNum: 0,
-          maxLengthNum: 9,
+          maxLengthNum: 9
         },
         {
           component: BrixelInputMultiRange,
@@ -120,10 +120,10 @@ export const QuestionsList = (lang, type) => {
           step: 10,
           addPlusOnLast: true,
           minLengthNum: 0,
-          maxLengthNum: 300,
-        },
+          maxLengthNum: 300
+        }
       ],
-      successMessage: translateTo(lang, 'Ok. Got it.'),
+      successMessage: translateTo(lang, 'Ok. Got it.')
     },
     {
       title: 'What extras are a must for you?',
@@ -137,11 +137,11 @@ export const QuestionsList = (lang, type) => {
           className: 'extraFeature',
           component: BrixelExtraFeature,
           name: 'characteristics.extraFeatures',
-          extraFeatureCustomList: factsOptions.extraFeatureShort,
-        },
+          extraFeatureCustomList: factsOptions.extraFeatureShort
+        }
       ],
       hideSearchProfile: true,
-      successMessage: translateTo(lang, 'Ok. Got it.'),
+      successMessage: translateTo(lang, 'Ok. Got it.')
     },
     {
       title: type === 'searchProfile' ? 'Location' : 'Where would your dream home be located?',
@@ -161,7 +161,7 @@ export const QuestionsList = (lang, type) => {
           name: type === 'searchProfile' ? 'countryCode' : 'location.countryCode',
           options: countryList,
           validation: [Validation.required],
-          large: true,
+          large: true
         },
         {
           component: MapsCities,
@@ -175,12 +175,12 @@ export const QuestionsList = (lang, type) => {
             hideSearch: false,
             showSelectCountry: true,
             multipleFieldSearch: true,
-            draggable: true,
+            draggable: true
           },
-          validation: [Validation.required],
-        },
+          validation: [Validation.required]
+        }
       ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
+      successMessage: translateTo(lang, 'That is an interesting location.')
     },
     {
       title: type === 'searchProfile' ? `Max selling price in ${get(formValue, 'finance.currency', 'CHF')}` : 'What is your budget?',
@@ -199,10 +199,10 @@ export const QuestionsList = (lang, type) => {
           name: 'finance.price.totalMax',
           formatType: 'price',
           unit: get(formValue, 'finance.currency', 'CHF'),
-          large: true,
-        },
+          large: true
+        }
       ],
-      successMessage: translateTo(lang, 'This is a nice number.'),
+      successMessage: translateTo(lang, 'This is a nice number.')
     },
     {
       title: translateTo(lang, 'What is your current living situation?'),
@@ -217,16 +217,16 @@ export const QuestionsList = (lang, type) => {
           icons: true,
           label: '',
           name: 'profile.livingSituation',
-          options: factsOptions.buyerLivingSituation,
-        },
+          options: factsOptions.buyerLivingSituation
+        }
       ],
       hideSearchProfile: true,
-      successMessage: translateTo(lang, 'This is a nice number.'),
+      successMessage: translateTo(lang, 'This is a nice number.')
     },
     {
       conditions: [{
         name: 'owner',
-        value: null,
+        value: null
       }],
       background: 'bgCardGreen',
       history: 'createProfile',
@@ -238,15 +238,15 @@ export const QuestionsList = (lang, type) => {
         skipPhone: true,
         component: LoginSignup,
         name: 'register.name',
-        validation: [Validation.required],
+        validation: [Validation.required]
       }],
-      hideSearchProfile: true,
+      hideSearchProfile: true
     },
     {
       history: 'savingData',
       cardType: 'createProfile',
       toSave: true,
-      hideSearchProfile: true,
-    },
+      hideSearchProfile: true
+    }
   ];
 };

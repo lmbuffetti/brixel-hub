@@ -29,7 +29,7 @@ import {
   SET_HISTORY,
   SEND_MESSAGE,
   MESSAGE_SENT,
-  SET_WIZARD,
+  SET_WIZARD
 } from './types/CommonTypes';
 
 export const {
@@ -62,7 +62,7 @@ export const {
   setHistory,
   sendMessage,
   messageSent,
-  setWizard,
+  setWizard
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -93,5 +93,5 @@ export const {
   [SET_HISTORY]: (payload) => payload,
   [SEND_MESSAGE]: (payload) => payload,
   [MESSAGE_SENT]: (payload) => payload,
-  [SET_WIZARD]: (payload) => payload,
+  [SET_WIZARD]: (payload) => payload
 });

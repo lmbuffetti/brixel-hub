@@ -204,13 +204,6 @@ const MarketingDashboard = (props) => {
           )
         }
       </Sticker>
-      {/* <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
-        <BrixelButtonIcon
-          ghost
-          icon="arrow-simple-left"
-          onClick={() => history.push(`${propID}/listings/showings`)}
-        />
-      </div> */}
       {
         getFact() !== 'marketing' && (
           <div className={`levelsWrapper zIndex2 w-perc-100 ${openCloseColumn() === 'opened' ? 'closed' : 'opened'}`}>

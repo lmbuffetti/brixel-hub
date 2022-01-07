@@ -2,7 +2,7 @@
 import {
   BrixelInputStepNumber,
   BrixelInputText,
-  Validation,
+  Validation
 } from '@brixel/brixel-components';
 import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
 
@@ -21,7 +21,7 @@ export const BestimateCH = (type = null, propertyType) => {
           component: BrixelInputText,
           condition: [{
             name: 'properties.propertyType',
-            noValue: 'Apartment',
+            noValue: 'Apartment'
           }],
           className: '',
           classBoxWrapper: 'two-cols',
@@ -33,7 +33,7 @@ export const BestimateCH = (type = null, propertyType) => {
           maxLengthNum: 99999,
           labelLeft: 'Lot Size',
           placeholder: 'e.g. 140',
-          validation: [Validation.required],
+          validation: [Validation.required]
         },
         {
           component: BrixelInputStepNumber,
@@ -47,10 +47,10 @@ export const BestimateCH = (type = null, propertyType) => {
           max: 15,
           fluid: type === 'getStarted' ? propertyType === 'Apartment' : null,
           placeholder: '0',
-          validation: [Validation.maxLengthNumRooms, Validation.markRequired],
-        },
-      ],
-    },
+          validation: [Validation.maxLengthNumRooms, Validation.markRequired]
+        }
+      ]
+    }
   ];
   if (type !== 'getStarted') {
     bestimate.push(
@@ -61,8 +61,8 @@ export const BestimateCH = (type = null, propertyType) => {
         subtitle: 'Sales strategy & price',
         history: 'resumeFlow',
         cardType: 'loadComponent',
-        component: ResumeBestimate,
-      },
+        component: ResumeBestimate
+      }
     );
   }
   return bestimate;

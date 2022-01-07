@@ -8,7 +8,7 @@ import {
   SET_NOTIFICATION,
   SET_SCREEN_NOTIFICATION,
   SEND_MESSAGE,
-  SPINNER_SMALL,
+  SPINNER_SMALL
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -25,12 +25,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.common.sendGenericMessage(data)
@@ -39,12 +39,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         })
@@ -63,12 +63,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.common.sendMessage(data)
@@ -77,12 +77,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: 'sentMessage',
-              },
+                [smallLoader]: 'sentMessage'
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -98,8 +98,8 @@ const checkCommon = (store) => (next) => (action) => {
           label: '',
           func: () => '',
           leftIcon: 'check',
-          isLoading: null,
-        },
+          isLoading: null
+        }
       ];
       notification.label = 'Saved!';
       notification.className = 'saved';
@@ -111,8 +111,8 @@ const checkCommon = (store) => (next) => (action) => {
           type: SET_SCREEN_NOTIFICATION,
           payload: {
             ...notification,
-            state: false,
-          },
+            state: false
+          }
         });
       }, 1500);
       break;

@@ -22,7 +22,7 @@ export const rootReducer = combineReducers({
   market,
   notes,
   property,
-  user,
+  user
 });
 
 export default rootReducer;

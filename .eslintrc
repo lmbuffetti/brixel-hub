@@ -44,8 +44,8 @@
       }
     ],
     "global-require": 0,
-    "requireConfigFile": false,
-    "ecmaVersion": 8,
+    "requireConfigFile": 0,
+    "ecmaVersion": 0,
     "no-debugger": "error",
     // Legacy
     "max-len": [

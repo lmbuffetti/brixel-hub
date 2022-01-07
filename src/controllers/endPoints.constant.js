@@ -8,19 +8,19 @@ export default {
     getMerged: (data) => `/merged/list${data}`,
     getMergedBySubtype: (data) => `/merged/countBySubType${data}`,
     getPriceDistribution: (data) => `/marketData/pricesDistribution${data}`,
-    getPricePerSpace: (data) => `/marketData/pricesPerM2Distribution${data}`,
+    getPricePerSpace: (data) => `/marketData/pricesPerM2Distribution${data}`
   },
   common: {
     sendMessage: () => '/message',
     sendGenericMessage: () => '/email/sendTemplateEmail',
-    sendScheduleVisit: () => '/email/sendScheduleVisitEmail',
+    sendScheduleVisit: () => '/email/sendScheduleVisitEmail'
   },
   company: {
     companyList: (data) => `company/${data}`,
     getCompanyById: (id) => `/company/${id}`,
     getCompanyByStub: (stub) => `/company/company-by-stub/${stub}`,
     getDefaultCompany: () => '/company/default',
-    getPackagesCompany: (id) => `/company/${id}/packages`,
+    getPackagesCompany: (id) => `/company/${id}/packages`
   },
   deal: {
     buyerDeal: (id) => `/page/${id}/deal/buyer`,
@@ -32,24 +32,24 @@ export default {
     reviewOffer: (id) => `/deal/${id}/closing/reviewOffer`,
     singleDeal: (id) => `/deal/${id}`,
     updateMultipleDeals: () => '/deal/updateGroup',
-    visitFeedback: (id, sendSlack) => `/deal/${id}/feedbackVisit?sendSlackMessage=${sendSlack}`,
+    visitFeedback: (id, sendSlack) => `/deal/${id}/feedbackVisit?sendSlackMessage=${sendSlack}`
   },
   estimation: {
     createEstimation: () => '/estimation/',
     estimationById: (id) => `/estimation/${id}`,
     generateEstimation: (id) => `/estimation/${id}/generate`,
     proEstimationNotification: (id) => `/estimation/${id}/completeProEstimation`,
-    getEstimationsList: (paginationLimit, paginationSkip, ownerId, data) => `/estimation/${paginationLimit}/${paginationSkip}?owner=${ownerId}${data}`,
+    getEstimationsList: (paginationLimit, paginationSkip, ownerId, data) => `/estimation/${paginationLimit}/${paginationSkip}?owner=${ownerId}${data}`
   },
   history: {
     createHistory: () => '/history/',
     getHistoryListOfParent: (paginationLimit, paginationSkip, data) => `/history/${paginationLimit}/${paginationSkip}${data}`,
     historyById: (id) => `/history/${id}`,
-    historyFeed: (id, paginationLimit, paginationSkip, data) => `/feed/${id}/${paginationLimit}/${paginationSkip}${data}`,
+    historyFeed: (id, paginationLimit, paginationSkip, data) => `/feed/${id}/${paginationLimit}/${paginationSkip}${data}`
   },
   lead: {
     getLeadList: (leadType, paginationLimit, paginationSkip, data) => `/lead/${leadType}/${paginationLimit}/${paginationSkip}${data}`,
-    singleUserLead: () => '/lead',
+    singleUserLead: () => '/lead'
   },
   market: {
     allProperties: (paginationLimit, paginationSkip, data) => `/market/list/all/${paginationLimit}/${paginationSkip}${data}`,
@@ -61,12 +61,12 @@ export default {
     ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedPages/${paginationLimit}/${paginationSkip}${data}`,
     preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
     premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
-    preMarketStats: (query) => `/market/list/preMarketStats${query}`,
+    preMarketStats: (query) => `/market/list/preMarketStats${query}`
   },
   note: {
     singleNote: (id) => `/note/${id}`,
     createSingleNote: (type) => `/note/${type}`,
-    getListOfNotes: (type, id, paginationLimit, paginationSkip, data) => `/note/${type}/${id}/${paginationLimit}/${paginationSkip}${data}`,
+    getListOfNotes: (type, id, paginationLimit, paginationSkip, data) => `/note/${type}/${id}/${paginationLimit}/${paginationSkip}${data}`
   },
   property: {
     addPage: () => '/page/',
@@ -89,12 +89,12 @@ export default {
     propertyVisitScheduleById: (id) => `/schedule/${id}`,
     publishReview: (id, status) => `/page/${id}/publishReview?status=${status}`,
     scanTrial: (id) => `/page/${id}/scanTrial`,
-    upgradePlan: (id) => `/page/${id}/upgradePlan`,
+    upgradePlan: (id) => `/page/${id}/upgradePlan`
   },
   searchProfile: {
     searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
     singleSearchProfile: () => '/searchProfile/',
-    singleSearchProfileById: (id) => `/searchProfile/${id}`,
+    singleSearchProfileById: (id) => `/searchProfile/${id}`
   },
   upload: {
     addImage: () => '/image/',
@@ -102,7 +102,7 @@ export default {
     imageType: () => '/imagetype/0/0',
     rotate: (id, rotation) => `/image/${id}/rotate/${rotation}`,
     singleDocument: (id) => `/document/${id}`,
-    singleImage: (id) => `/image/${id}`,
+    singleImage: (id) => `/image/${id}`
   },
   user: {
     addAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/add`,
@@ -120,6 +120,6 @@ export default {
     scanTrial: () => '/user/scanTrial',
     tokenValidationWithUser: () => '/authentication/getTokenWithUser',
     userById: (userId) => `/user/${userId}`,
-    validateUser: (email) => `/user/validate/${email}`,
-  },
+    validateUser: (email) => `/user/validate/${email}`
+  }
 };
