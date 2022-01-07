@@ -1,12 +1,5 @@
 {
   "rules": {
-    "comma-dangle": ["error", {
-      "arrays": "never",
-      "objects": "never",
-      "imports": "never",
-      "exports": "never",
-      "functions": "never"
-    }],
     "prefer-regex-literals": "off",
     "default-param-last": "off",
     "react/jsx-no-useless-fragment": "off",
