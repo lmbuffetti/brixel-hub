@@ -22,16 +22,16 @@ import {
   GET_WISHLIST_PROPERTIES,
   SET_WISHLIST_PROPERTIES,
   GET_PREMARKET_STATS,
-  SET_PREMARKET_STATS,
+  SET_PREMARKET_STATS
 } from '../actions/types/MarketTypes';
 
 import {
-  SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
+  SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS
 } from '../actions/types/PropertyTypes';
 
 import {
   SKELETON_ON,
-  SKELETON_OFF,
+  SKELETON_OFF
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -45,8 +45,8 @@ const checkLead = (store) => (next) => (action) => {
       store.dispatch({
         type: SKELETON_ON,
         payload: {
-          ...loadSkeleton,
-        },
+          ...loadSkeleton
+        }
       });
       const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getOwnedProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
@@ -83,8 +83,8 @@ const checkLead = (store) => (next) => (action) => {
       store.dispatch({
         type: SKELETON_ON,
         payload: {
-          ...loadSkeleton,
-        },
+          ...loadSkeleton
+        }
       });
       const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getFavoriteProperties(action.payload.resultsPerPage, action.payload.offset, queryParams)
@@ -108,8 +108,8 @@ const checkLead = (store) => (next) => (action) => {
       store.dispatch({
         type: SKELETON_ON,
         payload: {
-          ...loadSkeleton,
-        },
+          ...loadSkeleton
+        }
       });
       let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
       if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
@@ -135,8 +135,8 @@ const checkLead = (store) => (next) => (action) => {
       store.dispatch({
         type: SKELETON_ON,
         payload: {
-          ...loadSkeleton,
-        },
+          ...loadSkeleton
+        }
       });
       let queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
       if (action.payload.searchProfileId) queryParams = `?searchprofileid=${action.payload.searchProfileId}&order=${action.payload.order}&direction=${action.payload.direction}`;
@@ -169,13 +169,13 @@ const checkLead = (store) => (next) => (action) => {
         isBuyer,
         order,
         ownerId,
-        resultsPerPage,
+        resultsPerPage
       } = action.payload;
       store.dispatch({
         type: SKELETON_ON,
         payload: {
-          ...loadSkeleton,
-        },
+          ...loadSkeleton
+        }
       });
       let queryParams = `&order=${order}&direction=${direction}`;
       if (isBuyer) queryParams += '&buyerOnly=true';
@@ -229,13 +229,13 @@ const checkLead = (store) => (next) => (action) => {
         offset,
         order,
         resultsPerPage,
-        searchProfileId,
+        searchProfileId
       } = action.payload;
       store.dispatch({
         type: SKELETON_ON,
         payload: {
-          ...loadSkeleton,
-        },
+          ...loadSkeleton
+        }
       });
       let queryParams = `?order=${order}&direction=${direction}`;
       if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
@@ -268,15 +268,15 @@ const checkLead = (store) => (next) => (action) => {
         order,
         resultsPerPage,
         resultType,
-        searchProfileId,
+        searchProfileId
       } = action.payload;
       let loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
       loadSkeleton.favorite = 'CardImageTextVertical';
       store.dispatch({
         type: SKELETON_ON,
         payload: {
-          ...loadSkeleton,
-        },
+          ...loadSkeleton
+        }
       });
       let queryParams = `?order=${order}&direction=${direction}`;
       if (searchProfileId) queryParams = `?searchprofileid=${searchProfileId}&order=${order}&direction=${direction}`;
@@ -304,8 +304,8 @@ const checkLead = (store) => (next) => (action) => {
       store.dispatch({
         type: SKELETON_ON,
         payload: {
-          ...loadSkeleton,
-        },
+          ...loadSkeleton
+        }
       });
       const queryParams = `?order=${action.payload.order}&direction=${action.payload.direction}`;
       api.market.getDeals(action.payload.resultsPerPage, action.payload.offset, queryParams)
@@ -325,7 +325,7 @@ const checkLead = (store) => (next) => (action) => {
     case GET_PREMARKET_STATS: {
       next(action);
       const {
-        id,
+        id
       } = action.payload;
       let query = '';
       if (id) query = `?searchprofileid=${id}`;

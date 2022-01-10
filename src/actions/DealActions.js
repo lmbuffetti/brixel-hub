@@ -1,5 +1,5 @@
 import {
-  createActions,
+  createActions
 } from 'redux-actions';
 import {
   CREATE_DEAL,
@@ -19,7 +19,7 @@ import {
   SAVE_MAKE_OFFER,
   SAVE_REVIEW_OFFER,
   GET_BUYER_DEAL,
-  SEND_VISIT_FEEDBACK,
+  SEND_VISIT_FEEDBACK
 } from './types/DealTypes';
 
 export const {
@@ -40,7 +40,7 @@ export const {
   saveMakeOffer,
   saveReviewOffer,
   getBuyerDeal,
-  sendVisitFeedback,
+  sendVisitFeedback
 } = createActions({
   [CREATE_DEAL]: (payload) => payload,
   [DELETE_ACTIVE_SINGLE_DEAL]: (payload) => payload,
@@ -59,5 +59,5 @@ export const {
   [SAVE_MAKE_OFFER]: (payload) => payload,
   [GET_BUYER_DEAL]: (payload) => payload,
   [SAVE_REVIEW_OFFER]: (payload) => payload,
-  [SEND_VISIT_FEEDBACK]: (payload) => payload,
+  [SEND_VISIT_FEEDBACK]: (payload) => payload
 });

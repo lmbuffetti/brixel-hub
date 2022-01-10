@@ -1,9 +1,9 @@
 import {
-  statuses,
+  statuses
 } from './httpErrors.constant';
 
 export const httpStatusNormalizer = ({
-  status = 0,
+  status = 0
 }) => {
   let normalizedStatus = status;
 
@@ -31,7 +31,7 @@ export const httpStatusNormalizer = ({
 };
 
 export const httpErrorHandler = ({
-  status = 0,
+  status = 0
 }) => {
   const unhandledStatus = 0;
   const normalizedStatus = status;
@@ -43,20 +43,20 @@ export const httpErrorHandler = ({
 
 export const successHandler = (response, id) => {
   const {
-    data, status,
+    data, status
   } = response;
   const meta = {
     status,
     normalizedStatus: httpStatusNormalizer({
-      status,
+      status
     }),
-    statusText: response.statusText,
+    statusText: response.statusText
   };
 
   return Promise.resolve({
     data,
     id,
-    meta,
+    meta
   });
 };
 
@@ -78,6 +78,6 @@ export const failureHandler = (error) => {
   // eslint-disable-next-line prefer-promise-reject-errors
   return Promise.reject({
     data,
-    meta,
+    meta
   });
 };

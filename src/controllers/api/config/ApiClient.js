@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import get from 'lodash/get';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import {
-  failureHandler, successHandler,
+  failureHandler, successHandler
 } from '../utils/api.helper';
 
 const cookies = new Cookies();
@@ -16,18 +16,18 @@ axios.defaults.adapter = httpAdapter;
 // Add a request interceptor
 axios.interceptors.request.use(
   (request) => request,
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 // Add a response interceptor
 axios.interceptors.response.use(
   (response) => response,
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 class ApiClient {
   constructor({
-    baseURL, brixelator,
+    baseURL, brixelator
   }) {
     this.baseURL = baseURL;
     this.brixelator = brixelator;
@@ -46,7 +46,7 @@ class ApiClient {
       headers,
       type,
       baseUrlType,
-      options,
+      options
     });
   }
 
@@ -61,7 +61,7 @@ class ApiClient {
       headers,
       type,
       baseUrlType,
-      options,
+      options
     });
   }
 
@@ -76,7 +76,7 @@ class ApiClient {
       headers,
       type,
       baseUrlType,
-      options,
+      options
     });
   }
 
@@ -86,7 +86,7 @@ class ApiClient {
       method: 'patch',
       data: payload,
       headers,
-      options,
+      options
     });
   }
 
@@ -101,12 +101,12 @@ class ApiClient {
       headers,
       type,
       baseUrlType,
-      options,
+      options
     });
   }
 
   request({
-    url, options, method, params = {}, headers, data, type = 'data', baseUrlType = 'baseUrl',
+    url, options, method, params = {}, headers, data, type = 'data', baseUrlType = 'baseUrl'
   }) {
     let head;
     const id = get(options, 'id', null);
@@ -115,21 +115,21 @@ class ApiClient {
       head = {
         'Content-Type': 'application/json; charset=utf-8',
         Authorization: `Basic ${auth}`,
-        ...headers,
+        ...headers
       };
     } else if (type === 'data') {
       head = {
         'x-brixel-token': this.token || '',
-        ...headers,
+        ...headers
       };
     } else if (headers['Content-Type']) {
       head = {
-        ...headers,
+        ...headers
       };
     } else {
       head = {
         'Content-Type': 'application/json; charset=utf-8',
-        ...headers,
+        ...headers
       };
     }
     let baseUrl = '';
@@ -152,12 +152,12 @@ class ApiClient {
       validateStatus: false,
       paramsSerializer(p) {
         return queryString.stringify(p, {
-          encode: true,
+          encode: true
         });
       },
       headers: head,
       withCredentials: false,
-      data,
+      data
     };
     return axios(config)
       .then((res) => successHandler(res, id))

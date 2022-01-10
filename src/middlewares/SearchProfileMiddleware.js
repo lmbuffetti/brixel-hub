@@ -3,12 +3,12 @@ import {
   CREATE_USER_SEARCH_PROFILE,
   GET_USER_SEARCH_PROFILES,
   SET_USER_SEARCH_PROFILES,
-  UPDATE_USER_SEARCH_PROFILE,
+  UPDATE_USER_SEARCH_PROFILE
 } from '../actions/types/SearchProfileTypes';
 
 import {
   SPINNER_ON,
-  SPINNER_OFF, SET_SCREEN_NOTIFICATION, SPINNER_SMALL,
+  SPINNER_OFF, SET_SCREEN_NOTIFICATION, SPINNER_SMALL
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -24,19 +24,19 @@ const checkSearchProfile = (store) => (next) => (action) => {
           if (res.meta.normalizedStatus === 200) {
             store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: res.data });
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           } else {
             store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: [{}] });
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         })
         .catch(() => {
           store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: [{}] });
           store.dispatch({
-            type: SPINNER_OFF,
+            type: SPINNER_OFF
           });
         });
       break;
@@ -54,12 +54,12 @@ const checkSearchProfile = (store) => (next) => (action) => {
             type: SET_SCREEN_NOTIFICATION,
             payload: {
               state: true,
-              type: 'done',
-            },
+              type: 'done'
+            }
           });
           store.dispatch({
             type: GET_USER_SEARCH_PROFILES,
-            payload: res.data.user,
+            payload: res.data.user
           });
           if (redirectToUrl) {
             window.location.assign(redirectToUrl);
@@ -79,7 +79,7 @@ const checkSearchProfile = (store) => (next) => (action) => {
         dataSearchProfile,
         id,
         redirectToUrl,
-        smallLoader,
+        smallLoader
       } = action.payload;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
       else store.dispatch({ type: SPINNER_ON });
@@ -89,12 +89,12 @@ const checkSearchProfile = (store) => (next) => (action) => {
             type: SET_SCREEN_NOTIFICATION,
             payload: {
               state: true,
-              type: 'done',
-            },
+              type: 'done'
+            }
           });
           store.dispatch({
             type: GET_USER_SEARCH_PROFILES,
-            payload: res.data.user,
+            payload: res.data.user
           });
           if (redirectToUrl) {
             window.location.assign(redirectToUrl);

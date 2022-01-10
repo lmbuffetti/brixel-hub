@@ -10,12 +10,12 @@ import {
   SET_PAGE_DEALS,
   SET_PROPERTY_LISTINGS,
   SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
-  SET_PACKAGE_PROPERTY,
+  SET_PACKAGE_PROPERTY
 } from '../actions/types/PropertyTypes';
 
 import {
   SET_PROPERTY_HISTORY_LISTINGS,
-  SET_PROPERTY_OWNER_HISTORY_LISTINGS,
+  SET_PROPERTY_OWNER_HISTORY_LISTINGS
 } from '../actions/types/HistoryTypes';
 
 export const defaultState = {
@@ -32,63 +32,63 @@ export const defaultState = {
   historyFeed: {},
   marketCheck: {},
   packagesProperty: [],
-  propertyListings: [],
+  propertyListings: []
 };
 
 export default handleActions(
   {
     [SET_ESTIMATION]: (state, action) => ({
       ...state,
-      estimation: action.payload,
+      estimation: action.payload
     }),
     [SET_PROPERTY_LISTINGS]: (state, action) => ({
       ...state,
-      propertyListings: action.payload,
+      propertyListings: action.payload
     }),
     [SET_ACTIVE_SINGLE_PROPERTY]: (state, action) => ({
       ...state,
-      activeSingleProperty: action.payload,
+      activeSingleProperty: action.payload
     }),
     [SET_ACTIVE_MARKET_OVERLAY_PROPERTY]: (state, action) => ({
       ...state,
-      activeMarketOverlayProperty: action.payload,
+      activeMarketOverlayProperty: action.payload
     }),
     [SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS]: (state, action) => ({
       ...state,
-      activeMarketOverlayPropertyLists: action.payload,
+      activeMarketOverlayPropertyLists: action.payload
     }),
     [SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS]: (state, action) => ({
       ...state,
-      activeSinglePropertyBooking: action.payload,
+      activeSinglePropertyBooking: action.payload
     }),
     [SET_MARKET_CHECK]: (state, action) => ({
       ...state,
-      marketCheck: action.payload,
+      marketCheck: action.payload
     }),
     [SET_PACKAGES_PROPERTY]: (state, action) => ({
       ...state,
-      packagesProperty: action.payload,
+      packagesProperty: action.payload
     }),
     [SET_PAGE_DEALS]: (state, action) => ({
       ...state,
-      activeSinglePropertyDeals: action.payload,
+      activeSinglePropertyDeals: action.payload
     }),
     [SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT]: (state, action) => ({
       ...state,
-      activeSinglePropertyDealsCount: action.payload,
+      activeSinglePropertyDealsCount: action.payload
     }),
     [SET_PROPERTY_HISTORY_LISTINGS]: (state, action) => ({
       ...state,
-      activeSinglePropertyHistory: action.payload,
+      activeSinglePropertyHistory: action.payload
     }),
     [SET_PROPERTY_OWNER_HISTORY_LISTINGS]: (state, action) => ({
       ...state,
-      activeSinglePropertyOwnerHistory: action.payload,
+      activeSinglePropertyOwnerHistory: action.payload
     }),
     [SET_PACKAGE_PROPERTY]: (state, action) => ({
       ...state,
-      activeSinglePropertyPackage: action.payload,
-    }),
+      activeSinglePropertyPackage: action.payload
+    })
   },
-  defaultState,
+  defaultState
 );

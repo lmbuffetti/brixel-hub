@@ -15,11 +15,11 @@ import {
   UPLOAD_DOCUMENT,
   DELETE_DOCUMENT,
   UPDATE_DOCUMENT,
-  MULTI_UPLOAD_IMG,
+  MULTI_UPLOAD_IMG
 } from '../actions/types/UploadTypes';
 
 import {
-  SAVE_ACTIVE_SINGLE_PROPERTY,
+  SAVE_ACTIVE_SINGLE_PROPERTY
 } from '../actions/types/PropertyTypes';
 
 import api from '../controllers/api/config';
@@ -27,7 +27,7 @@ import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SPINNER_SMALL,
+  SPINNER_SMALL
 } from '../actions/types/CommonTypes';
 import { SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
 
@@ -41,12 +41,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.image.rotateImg(action.payload.id, action.payload.rotate)
@@ -63,12 +63,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -87,7 +87,7 @@ const checkCommon = (store) => (next) => (action) => {
     case MULTI_UPLOAD_IMG: {
       next(action);
       const {
-        allImgs, actions, pageID, smallLoader,
+        allImgs, actions, pageID, smallLoader
       } = action.payload;
       delete action.payload.allImgs;
       delete action.payload.actions;
@@ -101,12 +101,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       Promise.all(calls).then((res) => {
@@ -120,7 +120,7 @@ const checkCommon = (store) => (next) => (action) => {
                 filesArray.push({
                   width: 0,
                   height: 0,
-                  ...imgPdf,
+                  ...imgPdf
                 });
               });
             } else {
@@ -136,7 +136,7 @@ const checkCommon = (store) => (next) => (action) => {
               filesArray.push({
                 width,
                 height,
-                ...resImg.data,
+                ...resImg.data
               });
             }
           }
@@ -150,18 +150,18 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SAVE_ACTIVE_SINGLE_PROPERTY,
           payload: data,
-          setSuccessNotification: true,
+          setSuccessNotification: true
         });
         if (smallLoader) {
           store.dispatch({
             type: SPINNER_SMALL,
             payload: {
-              [smallLoader]: false,
-            },
+              [smallLoader]: false
+            }
           });
         } else {
           store.dispatch({
-            type: SPINNER_OFF,
+            type: SPINNER_OFF
           });
         }
       });
@@ -175,7 +175,7 @@ const checkCommon = (store) => (next) => (action) => {
       // action.payload.user = store.getState().user.loggedInUser.user.id;
       action.payload.imageType = imgType.id;
       const {
-        pageID, userID, uploadAction, smallLoader, lastImage,
+        pageID, userID, uploadAction, smallLoader, lastImage
       } = action.payload;
       delete action.payload.pageID;
       delete action.payload.uploadAction;
@@ -184,12 +184,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.image.addImage(action.payload)
@@ -220,12 +220,12 @@ const checkCommon = (store) => (next) => (action) => {
                 coverPhoto,
                 photos: img,
                 floorPlans: plan,
-                smallLoader,
+                smallLoader
               };
               store.dispatch({
                 type: SAVE_ACTIVE_SINGLE_PROPERTY,
                 payload: data,
-                setSuccessNotification: true,
+                setSuccessNotification: true
               });
             }
           } else if (uploadAction === 'singleUserAvatar') {
@@ -238,8 +238,8 @@ const checkCommon = (store) => (next) => (action) => {
               data: {
                 avatar: userAvatar.id,
                 type: 'singleUserAvatar',
-                fullAvatar: userAvatar,
-              },
+                fullAvatar: userAvatar
+              }
             };
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: userData });
           }
@@ -247,12 +247,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         })
@@ -261,12 +261,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -283,12 +283,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.image.deleteImg(action.payload.id)
@@ -298,7 +298,7 @@ const checkCommon = (store) => (next) => (action) => {
           const data = {
             id: action.payload.pageID,
             [action.payload.type]: arrayImg,
-            smallLoader: true,
+            smallLoader: true
           };
           if (action.payload.type === 'photos') {
             data.coverPhoto = arrayImg[0] || {};
@@ -309,12 +309,12 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -324,7 +324,7 @@ const checkCommon = (store) => (next) => (action) => {
     case MULTI_UPLOAD_DOCUMENT: {
       next(action);
       const {
-        allImgs, actions, pageID, smallLoader, saveAction,
+        allImgs, actions, pageID, smallLoader, saveAction
       } = action.payload;
       delete action.payload.allImgs;
       delete action.payload.actions;
@@ -339,12 +339,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       Promise.all(calls).then((res) => {
@@ -357,7 +357,7 @@ const checkCommon = (store) => (next) => (action) => {
           });
           const data = {
             ...dataOffer,
-            documents: document,
+            documents: document
           };
           data.smallLoader = smallLoader;
           store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
@@ -373,19 +373,19 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({
             type: SAVE_ACTIVE_SINGLE_PROPERTY,
             payload: data,
-            setSuccessNotification: true,
+            setSuccessNotification: true
           });
         }
         if (smallLoader) {
           store.dispatch({
             type: SPINNER_SMALL,
             payload: {
-              [smallLoader]: false,
-            },
+              [smallLoader]: false
+            }
           });
         } else {
           store.dispatch({
-            type: SPINNER_OFF,
+            type: SPINNER_OFF
           });
         }
       });
@@ -402,12 +402,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       const docData = get(action.payload, 'docs', action.payload);
@@ -418,7 +418,7 @@ const checkCommon = (store) => (next) => (action) => {
             document.push(res.data);
             const data = {
               ...action.payload,
-              documents: document,
+              documents: document
             };
             data.smallLoader = smallLoader;
             store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
@@ -428,19 +428,19 @@ const checkCommon = (store) => (next) => (action) => {
             const data = {
               id: pageID,
               documents: docList,
-              smallLoader: true,
+              smallLoader: true
             };
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
             if (smallLoader) {
               store.dispatch({
                 type: SPINNER_SMALL,
                 payload: {
-                  [smallLoader]: false,
-                },
+                  [smallLoader]: false
+                }
               });
             } else {
               store.dispatch({
-                type: SPINNER_OFF,
+                type: SPINNER_OFF
               });
             }
           }
@@ -458,12 +458,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.image.deleteDocument(action.payload.id)
@@ -473,19 +473,19 @@ const checkCommon = (store) => (next) => (action) => {
           const data = {
             id: action.payload.pageID,
             documents: arrayImg,
-            smallLoader: true,
+            smallLoader: true
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });
@@ -501,12 +501,12 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true,
-          },
+            [smallLoader]: true
+          }
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON,
+          type: SPINNER_ON
         });
       }
       api.image.updateDocument(action.payload.id, action.payload.body)
@@ -520,19 +520,19 @@ const checkCommon = (store) => (next) => (action) => {
           const data = {
             id: pageID,
             documents: docList,
-            setSuccessNotification: true,
+            setSuccessNotification: true
           };
           store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false,
-              },
+                [smallLoader]: false
+              }
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF,
+              type: SPINNER_OFF
             });
           }
         });

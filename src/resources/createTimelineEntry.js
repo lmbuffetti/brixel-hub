@@ -2,11 +2,11 @@ import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 
 import { DateTime } from 'luxon';
 import {
-  has, get, tail, isNaN,
+  has, get, tail, isNaN
 } from 'lodash';
 
 import {
-  formatPrice,
+  formatPrice
 } from '../utils/helpers';
 
 export const createTimelineEntry = (item, userLang) => {
@@ -104,7 +104,7 @@ export const createTimelineEntry = (item, userLang) => {
             if (item.meta.state === null) return '<span>Visit deleted</span>';
             if (!isNaN(item.meta.state)) {
               return `<span>Visit scheduled: </span><span>${DateTime.fromMillis(item.meta.state, {
-                locale: userLang,
+                locale: userLang
               }).toFormat('d LLL yyyy, H:mm')}</span>`;
             }
           }
@@ -160,15 +160,15 @@ export const createTimelineEntry = (item, userLang) => {
         icon: 'account',
         formattedDate: DateTime.fromMillis(item.parent.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'),
         timestamp: item.parent.createdAt,
-        pinned: false,
+        pinned: false
       },
       {
         description: getHTMLDescription(),
         icon: getIcon(),
         formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'),
         timestamp: item.createdAt,
-        pinned: false,
-      },
+        pinned: false
+      }
     ];
   }
 
@@ -178,11 +178,11 @@ export const createTimelineEntry = (item, userLang) => {
       description: getHTMLDescription(), // Content of the event
       icon: 'mail', // Defines the type of icon on the event
       formattedDate: DateTime.fromMillis(item.createdAt, {
-        locale: userLang,
+        locale: userLang
       }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
       timestamp: item.createdAt, // Unix timestamp for sorting purposes
       pinned: false, // Flag for sorting purposes
-      style: 'default',
+      style: 'default'
     };
   }
 
@@ -194,7 +194,7 @@ export const createTimelineEntry = (item, userLang) => {
       user: get(item, 'child.name', 'No Name'),
       formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
       timestamp: item.createdAt, // Unix timestamp for sorting purposes
-      pinned: false, // Flag for sorting purposes
+      pinned: false // Flag for sorting purposes
     };
   }
 
@@ -203,6 +203,6 @@ export const createTimelineEntry = (item, userLang) => {
     icon: getIcon(), // Defines the type of icon on the event
     formattedDate: item.createdAt ? DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm') : '', // Formatted date to be shown on the event
     timestamp: item.createdAt, // Unix timestamp for sorting purposes
-    pinned: false, // Flag for sorting purposes
+    pinned: false // Flag for sorting purposes
   };
 };
