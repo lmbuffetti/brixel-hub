@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.7",
-    "@brixel/brixel-components": "^2.6.88",
+    "@brixel/brixel-components": "^2.6.90",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^2.0.0",
     "d3": "^7.3.0",
@@ -94,7 +94,7 @@
     "@babel/node": "^7.16.7",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-es2015": "^7.0.0-beta.53",
-    "@svgr/core": "^6.1.2",
+    "@svgr/core": "^6.2.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.2",
