@@ -29,6 +29,8 @@ const WelcomeSeller = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
 
+  const currentScreen = get(history, 'location.pathname', '').replace(/\/$/, '').split('/')[get(history, 'location.pathname', '').replace(/\/$/, '').split('/').length - 1];
+
   const changeStep = (e) => {
     if (e) e.preventDefault();
   };
@@ -51,8 +53,9 @@ const WelcomeSeller = (props) => {
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted ">
       <div
-        className="bodyModal bgAltGreen100 welcomeSellerBody"
+        className={`bodyModal welcomeSellerBody ${currentScreen === 'step1' ? 'bgAltGreen100' : ''}`}
       >
+        {}
         <form
           id="multiStepForm"
           autoComplete="off"
