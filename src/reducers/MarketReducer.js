@@ -1,5 +1,5 @@
 import {
-  handleActions
+  handleActions,
 } from 'redux-actions';
 import {
   SET_ALL_PROPERTIES,
@@ -12,7 +12,7 @@ import {
   SET_PREMIUM_EUROPE_PROPERTIES,
   SET_PREMARKET_PROPERTIES,
   SET_WISHLIST_PROPERTIES,
-  SET_PREMARKET_STATS
+  SET_PREMARKET_STATS,
 } from '../actions/types/MarketTypes';
 
 export const defaultState = {
@@ -26,55 +26,55 @@ export const defaultState = {
   premiumProperties: {},
   preMarketProperties: {},
   preMarketStats: {},
-  wishlistProperties: {}
+  wishlistProperties: {},
 };
 
 export default handleActions(
   {
     [SET_ALL_PROPERTIES]: (state, action) => ({
       ...state,
-      allProperties: action.payload
+      allProperties: action.payload,
     }),
     [SET_PREMARKET_STATS]: (state, action) => ({
       ...state,
-      preMarketStats: action.payload
+      preMarketStats: action.payload,
     }),
     [SET_WISHLIST_PROPERTIES]: (state, action) => ({
       ...state,
-      wishlistProperties: action.payload
+      wishlistProperties: action.payload,
     }),
     [SET_OWNED_PROPERTIES]: (state, action) => ({
       ...state,
-      ownerProperties: action.payload
+      ownerProperties: action.payload,
     }),
     [SET_OWNED_ESTIMATIONS]: (state, action) => ({
       ...state,
-      ownerEstimations: action.payload
+      ownerEstimations: action.payload,
     }),
     [SET_FAVORITES_PROPERTIES]: (state, action) => ({
       ...state,
-      favoritesProperties: action.payload
+      favoritesProperties: action.payload,
     }),
     [SET_NEW_PROPERTIES]: (state, action) => ({
       ...state,
-      newProperties: action.payload
+      newProperties: action.payload,
     }),
     [SET_LAST_VIEWED_PROPERTIES]: (state, action) => ({
       ...state,
-      lastViewedProperties: action.payload
+      lastViewedProperties: action.payload,
     }),
     [SET_PREMIUM_PROPERTIES]: (state, action) => ({
       ...state,
-      premiumProperties: action.payload
+      premiumProperties: action.payload,
     }),
     [SET_PREMIUM_EUROPE_PROPERTIES]: (state, action) => ({
       ...state,
-      premiumEuropeProperties: action.payload
+      premiumEuropeProperties: action.payload,
     }),
     [SET_PREMARKET_PROPERTIES]: (state, action) => ({
       ...state,
-      preMarketProperties: action.payload
-    })
+      preMarketProperties: action.payload,
+    }),
   },
-  defaultState
+  defaultState,
 );

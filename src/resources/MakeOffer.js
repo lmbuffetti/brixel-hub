@@ -10,7 +10,7 @@ import {
   FactsOptions,
   BrixelSelect,
   BrixelTextArea,
-  BrixelMultiUploadFile
+  BrixelMultiUploadFile,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import FinanceCertificate from '../Pages/Offers/Flow/FinanceCertificate';
@@ -67,7 +67,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'propertyPrice',
           validation: [Validation.required],
           pdClass: 'py-3 py-md-5',
-          large: true
+          large: true,
         },
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -79,7 +79,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'amount',
           validation: [Validation.required],
           pdClass: 'py-3 py-md-5',
-          large: true
+          large: true,
         },
         {
           component: BrixelRadioButton,
@@ -89,10 +89,10 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           validation: [Validation.required],
           options: [{
             value: 1,
-            label: 'Yes'
+            label: 'Yes',
           }, {
             value: 0,
-            label: 'No'
+            label: 'No',
           }],
           modal: {
             message: 'info',
@@ -101,16 +101,16 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
               state: true,
               small: true,
               title: 'What is a proof of financing?',
-              body: '<p>A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.</p>'
-            })
-          }
-        }
-      ]
+              body: '<p>A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.</p>',
+            }),
+          },
+        },
+      ],
     },
     {
       condition: [{
         name: 'financeCertificate',
-        value: 1
+        value: 1,
       }],
       title: 'Please tell us some more details',
       history: 'analysis',
@@ -123,7 +123,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'Your place of origin',
           name: 'buyer.placeOfOrigin',
           pdClass: 'py-3 py-md-5',
-          large: true
+          large: true,
         },
         {
           component: BrixelInputDatePicker,
@@ -133,7 +133,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'Your date of birth',
           name: 'buyer.dateBirth',
           showFullSelectDate: true,
-          large: true
+          large: true,
         },
         {
           classNameBox: 'ml-a mr-a',
@@ -142,15 +142,15 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'buyer.maritialStatus',
           options: factsOptions.martialStatus,
           pdClass: 'py-3 py-md-5',
-          large: true
+          large: true,
         },
         {
           conditionsOr: [{
             name: 'buyer.maritialStatus',
-            value: 'married'
+            value: 'married',
           }, {
             name: 'buyer.maritialStatus',
-            value: 'partnership'
+            value: 'partnership',
           }],
           classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
@@ -158,7 +158,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'buyer.matrimonialPropertyRegime',
           options: isPT ? factsOptions.matrimonialPropertyRegimePT : factsOptions.matrimonialPropertyRegime,
           pdClass: 'py-3 py-md-5',
-          large: true
+          large: true,
         },
         {
           classNameBox: 'ml-a mr-a',
@@ -167,7 +167,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           name: 'buyer.typeOfPurchase',
           options: isPT ? factsOptions.purchaseTypePT : factsOptions.purchaseType,
           pdClass: 'py-3 py-md-5',
-          large: true
+          large: true,
         },
         {
           classNameBox: 'ml-a mr-a',
@@ -176,14 +176,14 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           placeholder: 'Add an amount of your down payment and the date you would like to sign the contract and deed.',
           name: 'noteByBuyer',
           pdClass: 'py-3 py-md-5',
-          large: true
-        }
-      ]
+          large: true,
+        },
+      ],
     },
     {
       condition: [{
         name: 'financeCertificate',
-        value: 1
+        value: 1,
       }],
       title: 'Where do you currently live?',
       history: 'location',
@@ -199,7 +199,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'Street',
           name: 'location.street',
           validation: [Validation.required],
-          large: true
+          large: true,
         },
         {
           component: BrixelInputText,
@@ -209,7 +209,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           ReduxFieldClass: '',
           label: 'Nr',
           name: 'location.streetNumber',
-          large: true
+          large: true,
         },
         {
           component: BrixelInputText,
@@ -221,7 +221,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'Zip',
           name: 'location.zipCode',
           validation: [Validation.required],
-          large: true
+          large: true,
         },
         {
           component: BrixelInputText,
@@ -233,20 +233,20 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: 'City',
           name: 'location.City',
           validation: [Validation.required],
-          large: true
-        }
-      ]
+          large: true,
+        },
+      ],
     },
     {
       condition: [
         {
           name: 'financeCertificate',
-          value: 1
+          value: 1,
         },
         {
           name: 'noDocument',
-          value: 0
-        }
+          value: 0,
+        },
       ],
       title: 'Upload your proof of financing',
       history: 'financingProof',
@@ -261,33 +261,33 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           label: `Add a proof of financing by ${countryName} financial institution`,
           name: 'document',
           theme: 'simple',
-          validation: [Validation.required]
+          validation: [Validation.required],
         },
         {
           customComponent: isPT ? null : TextForm,
           classNameBox: 'max-w-fix-600 ml-a mr-a',
           classBoxWrapper: 'py-5 ',
           ReduxFieldClass: '',
-          name: 'document'
-        }
-      ]
+          name: 'document',
+        },
+      ],
     },
     {
       condition: [{
         name: 'financeCertificate',
-        value: 0
+        value: 0,
       }],
       cardType: 'loadComponent',
       history: 'financeCertificate',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
       footerWidth: 'max-w-fix-600',
       component: FinanceCertificate,
-      hideContinueBtn: true
+      hideContinueBtn: true,
     },
     {
       condition: [{
         name: 'financeCertificate',
-        value: 0
+        value: 0,
       }],
       showBackButton: true,
       title: 'Please enter your financial data',
@@ -296,7 +296,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
-          customHTML: '<p class="fsize-300 txtDark700">These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.</p>'
+          customHTML: '<p class="fsize-300 txtDark700">These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.</p>',
         },
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -316,9 +316,9 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
               state: true,
               small: true,
               title: 'What is the equity capital?',
-              body: '<p>This is the money you can contribute to the mortgage. It may come from savings, private pensions, occupational pension funds, inheritance etc. Lenders generally require a deposit of at least 20% of the price.</p>'
-            })
-          }
+              body: '<p>This is the money you can contribute to the mortgage. It may come from savings, private pensions, occupational pension funds, inheritance etc. Lenders generally require a deposit of at least 20% of the price.</p>',
+            }),
+          },
         },
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -338,23 +338,23 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
               state: true,
               small: true,
               title: 'What is the gross annual income?',
-              body: '<p>This is the income of your household before deduction of social contributions, including 13th month salary and other salary components (e.g. bonuses).</p>'
-            })
-          }
-        }
-      ]
+              body: '<p>This is the income of your household before deduction of social contributions, including 13th month salary and other salary components (e.g. bonuses).</p>',
+            }),
+          },
+        },
+      ],
     },
     {
       condition: [{
         name: 'financeCertificate',
-        value: 0
+        value: 0,
       }],
       hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'key4Registration',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
       footerWidth: 'max-w-fix-600',
-      component: Key4Registration
+      component: Key4Registration,
     },
     {
       background: 'bgCardGreen',
@@ -367,7 +367,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       subtitle: 'Your offer has been submitted to the seller and is currently pending. The seller will get back to you.',
       history: 'success',
       vCentered: true,
-      toSave: true
-    }
+      toSave: true,
+    },
   ];
 };

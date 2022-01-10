@@ -3,7 +3,7 @@
 module.exports = {
   User: [
     'user-register',
-    'user-recover-password'
+    'user-recover-password',
   ],
   Page: [
     'page-create',
@@ -28,15 +28,15 @@ module.exports = {
     'page-stop-service-package',
     'page-premarket-publish',
     'page-premarket-unpublish',
-    'pro-estimation-complete'
+    'pro-estimation-complete',
   ],
   Deal: [
     'update-deal',
     'portal-create-deal',
-    'deal-feedback-visit'
+    'deal-feedback-visit',
   ],
   DealOwner: [
     'user-register',
-    'user-portal-create-message'
-  ]
+    'user-portal-create-message',
+  ],
 };

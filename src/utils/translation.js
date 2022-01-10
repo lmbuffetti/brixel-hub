@@ -8,7 +8,7 @@ const configLang = [
   { value: 'en', label: 'en' },
   { value: 'nl', label: 'nl' },
   { value: 'pt', label: 'pt' },
-  { value: 'se', label: 'se' }
+  { value: 'se', label: 'se' },
 ];
 
 const dynImport = {};

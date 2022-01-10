@@ -1,5 +1,5 @@
 import {
-  createActions
+  createActions,
 } from 'redux-actions';
 import {
   CREATE_NOTE,
@@ -12,7 +12,7 @@ import {
   SET_ACTIVE_SINGLE_NOTE,
   SAVE_ACTIVE_SINGLE_NOTE,
   GET_ACTIVITY_LISTINGS,
-  SET_ACTIVITY_LISTINGS
+  SET_ACTIVITY_LISTINGS,
 } from './types/NoteTypes';
 
 export const {
@@ -26,7 +26,7 @@ export const {
   setActiveSingleNote,
   saveActiveSingleNote,
   getActivityListings,
-  setActivityListings
+  setActivityListings,
 } = createActions({
   [CREATE_NOTE]: (payload) => payload,
   [DELETE_ACTIVE_SINGLE_NOTE]: (payload) => payload,
@@ -38,5 +38,5 @@ export const {
   [SET_ACTIVE_SINGLE_NOTE]: (payload) => payload,
   [SAVE_ACTIVE_SINGLE_NOTE]: (payload) => payload,
   [GET_ACTIVITY_LISTINGS]: (payload) => payload,
-  [SET_ACTIVITY_LISTINGS]: (payload) => payload
+  [SET_ACTIVITY_LISTINGS]: (payload) => payload,
 });

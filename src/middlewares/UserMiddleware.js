@@ -19,7 +19,7 @@ import {
   ADD_NOT_INTERESTED,
   REMOVE_NOT_INTERESTED,
   RECOVER_PASSWORD,
-  SEND_USER_SCAN_TRIAL
+  SEND_USER_SCAN_TRIAL,
 } from '../actions/types/UserTypes';
 
 import {
@@ -28,7 +28,7 @@ import {
   SPINNER_SMALL,
   REDIRECT_TO,
   SET_FORM_ERROR,
-  SET_SCREEN_NOTIFICATION
+  SET_SCREEN_NOTIFICATION,
 } from '../actions/types/CommonTypes';
 
 import { CREATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
@@ -76,7 +76,7 @@ const checkUser = (store) => (next) => (action) => {
     case DO_LOGIN: {
       next(action);
       const {
-        redirectTo
+        redirectTo,
       } = action.payload;
       const data = action.payload.user;
       const addProperty = action.payload.addProperty || false;
@@ -110,7 +110,7 @@ const checkUser = (store) => (next) => (action) => {
           } else {
             const alertProps = {
               message: 'Email and password combination are invalid.',
-              state: true
+              state: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
           }
@@ -174,7 +174,7 @@ const checkUser = (store) => (next) => (action) => {
             const alertProps = {
               message: 'Please use a valid e-mail address',
               state: true,
-              noRedirect: true
+              noRedirect: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
             store.dispatch({ type: SPINNER_OFF });
@@ -192,7 +192,7 @@ const checkUser = (store) => (next) => (action) => {
       next(action);
       const {
         email,
-        smallLoader
+        smallLoader,
       } = action.payload;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
       else store.dispatch({ type: SPINNER_ON });
@@ -202,7 +202,7 @@ const checkUser = (store) => (next) => (action) => {
           const alertProps = {
             label: feedbackMessage,
             state: true,
-            type: 'done'
+            type: 'done',
           };
           store.dispatch({ type: SET_SCREEN_NOTIFICATION, payload: alertProps });
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: false } });
@@ -294,7 +294,7 @@ const checkUser = (store) => (next) => (action) => {
           if (newUser && typeof res.data.statusCode === 'undefined') {
             const alertProps = {
               message: 'You already have a profile, please do a login',
-              state: true
+              state: true,
             };
             store.dispatch({ type: SET_FORM_ERROR, payload: alertProps });
             store.dispatch({ type: SPINNER_OFF });
@@ -328,7 +328,7 @@ const checkUser = (store) => (next) => (action) => {
     case UPDATE_FAVORITE: {
       next(action);
       const {
-        id, data, act, property
+        id, data, act, property,
       } = action.payload;
       store.dispatch({ type: SPINNER_SMALL, payload: { [`favorite-${id}`]: true } });
       const favoritesData = cloneDeep(get(store.getState(), 'market.favoritesProperties', {}));
@@ -378,7 +378,7 @@ const checkUser = (store) => (next) => (action) => {
       next(action);
       const {
         smallLoader,
-        data
+        data,
       } = action.payload;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
       else store.dispatch({ type: SPINNER_ON });

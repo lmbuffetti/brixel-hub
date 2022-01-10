@@ -26,7 +26,7 @@ import {
   SKELETON_OFF,
   SET_SPLASH_TYPE,
   SET_HISTORY,
-  SET_WIZARD
+  SET_WIZARD,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -47,10 +47,10 @@ export const defaultState = {
     { value: 'it', label: 'it' },
     { value: 'nl', label: 'nl' },
     { value: 'pt', label: 'pt' },
-    { value: 'se', label: 'se' }
+    { value: 'se', label: 'se' },
   ],
   modal: {
-    state: false, title: '', body: '', action: {}, multiActions: []
+    state: false, title: '', body: '', action: {}, multiActions: [],
   },
   notification: [],
   percentage: 0,
@@ -61,116 +61,116 @@ export const defaultState = {
   skeleton: { },
   splashScreenType: '',
   unsavedChangesModal: {
-    state: false, link: ''
+    state: false, link: '',
   },
   windowDimensions: {
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
   },
-  wizard: {}
+  wizard: {},
 };
 
 export default handleActions(
   {
     [SET_WINDOW_DIMENSIONS]: (state, action) => ({
       ...state,
-      windowDimensions: action.payload
+      windowDimensions: action.payload,
     }),
     [SPINNER_ON]: (state) => ({
       ...state,
-      isLoading: state.isLoading + 1
+      isLoading: state.isLoading + 1,
     }),
     [SET_COUNTRY_LIST]: (state, action) => ({
       ...state,
-      country: action.payload
+      country: action.payload,
     }),
     [SPINNER_OFF]: (state) => ({
       ...state,
-      isLoading: state.isLoading - 1
+      isLoading: state.isLoading - 1,
     }),
     [SPINNER_SMALL]: (state, action) => ({
       ...state,
       isSmallLoading: {
         ...state.isSmallLoading,
-        ...action.payload
-      }
+        ...action.payload,
+      },
     }),
     [SPINNER_SMALL_OFF]: (state) => ({
       ...state,
-      isSmallLoading: { }
+      isSmallLoading: { },
     }),
     [REQUEST_DONE]: (state) => ({
       ...state,
-      requestDone: true
+      requestDone: true,
     }),
     [RESET_REQUEST]: (state) => ({
       ...state,
-      requestDone: false
+      requestDone: false,
     }),
     [REDIRECT_TO]: (state, action) => ({
       ...state,
-      redirectTo: action.payload
+      redirectTo: action.payload,
     }),
     [ERROR_MESSAGE]: (state, action) => ({
       ...state,
-      errorMsg: action.payload
+      errorMsg: action.payload,
     }),
     [SET_LANGUAGES]: (state, action) => ({
       ...state,
-      languages: action.payload
+      languages: action.payload,
     }),
     [SET_LANGUAGE]: (state, action) => ({
       ...state,
-      language: action.payload
+      language: action.payload,
     }),
     [SET_NOTIFICATION]: (state, action) => ({
       ...state,
-      notification: action.payload
+      notification: action.payload,
     }),
     [SET_MODAL]: (state, action) => ({
       ...state,
-      modal: action.payload
+      modal: action.payload,
     }),
     [SET_PAGE_DATA]: (state, action) => ({
       ...state,
-      setPageData: action.payload
+      setPageData: action.payload,
     }),
     [PREVENT_EXIT_FROM_SCREEN]: (state, action) => ({
       ...state,
-      preventExitFromScreen: action.payload
+      preventExitFromScreen: action.payload,
     }),
     [SET_UNSAVED_CHANGES_MODAL]: (state, action) => ({
       ...state,
-      unsavedChangesModal: action.payload
+      unsavedChangesModal: action.payload,
     }),
     [SET_UPLOADING_PERCENTAGE]: (state, action) => ({
       ...state,
-      percentage: action.payload
+      percentage: action.payload,
     }),
     [SET_FORM_ERROR]: (state, action) => ({
       ...state,
-      formError: action.payload
+      formError: action.payload,
     }),
     [SKELETON_ON]: (state, action) => ({
       ...state,
-      skeleton: action.payload
+      skeleton: action.payload,
     }),
     [SKELETON_OFF]: (state, action) => ({
       ...state,
-      skeleton: action.payload
+      skeleton: action.payload,
     }),
     [SET_SPLASH_TYPE]: (state, action) => ({
       ...state,
-      splashScreenType: action.payload
+      splashScreenType: action.payload,
     }),
     [SET_HISTORY]: (state, action) => ({
       ...state,
-      history: action.payload
+      history: action.payload,
     }),
     [SET_WIZARD]: (state, action) => ({
       ...state,
-      wizard: action.payload
-    })
+      wizard: action.payload,
+    }),
   },
-  defaultState
+  defaultState,
 );

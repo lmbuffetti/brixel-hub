@@ -20,7 +20,7 @@ const aptAdjective = {
     'Umwerfende',
     'Schicke',
     'Moderne',
-    'Traumhafte'
+    'Traumhafte',
   ],
   en: [
     'Beautiful',
@@ -38,7 +38,7 @@ const aptAdjective = {
     'Stunning',
     'Sophisticated',
     'Modern',
-    'Incredible'
+    'Incredible',
   ],
   it: [
     'Luminoso',
@@ -51,7 +51,7 @@ const aptAdjective = {
     'Signorile',
     'Sofisticato',
     'Moderno',
-    'Incredibile'
+    'Incredibile',
   ],
   pt: [
     'Charmoso',
@@ -61,8 +61,8 @@ const aptAdjective = {
     'Moderno',
     'Aconchegante',
     'Acolhedor',
-    'Luminoso'
-  ]
+    'Luminoso',
+  ],
 };
 
 const houseAdjective = {
@@ -82,7 +82,7 @@ const houseAdjective = {
     'Umwerfendes',
     'Schickes',
     'Modernes',
-    'Traumhaftes'
+    'Traumhaftes',
   ],
   en: [
     'Beautiful',
@@ -100,7 +100,7 @@ const houseAdjective = {
     'Stunning',
     'Sophisticated',
     'Modern',
-    'Incredible'
+    'Incredible',
   ],
   it: [
     'Luminosa',
@@ -113,7 +113,7 @@ const houseAdjective = {
     'Signorile',
     'Sofisticata',
     'Moderna',
-    'Incredibile'
+    'Incredibile',
   ],
   pt: [
     'Charmosa',
@@ -123,8 +123,8 @@ const houseAdjective = {
     'Moderna',
     'Aconchegante',
     'Acolhedora',
-    'Luminosa'
-  ]
+    'Luminosa',
+  ],
 };
 
 const builadingLandAdjective = {
@@ -138,7 +138,7 @@ const builadingLandAdjective = {
     'Tolles',
     'Umwerfendes',
     'Schickes',
-    'Traumhaftes'
+    'Traumhaftes',
   ],
   en: [
     'Beautiful',
@@ -149,7 +149,7 @@ const builadingLandAdjective = {
     'Lovely',
     'Superb',
     'Amazing',
-    'Stunning'
+    'Stunning',
   ],
   it: [
     'Luminoso',
@@ -158,7 +158,7 @@ const builadingLandAdjective = {
     'Spazioso',
     'Superbo',
     'Splendido',
-    'Signorile'
+    'Signorile',
   ],
   pt: [
     'Charmosa',
@@ -166,8 +166,8 @@ const builadingLandAdjective = {
     'Confortável',
     'Aconchegante',
     'Acolhedora',
-    'Luminosa'
-  ]
+    'Luminosa',
+  ],
 };
 
 export const titleProperty = (location, propertyType, lang, formValue) => {

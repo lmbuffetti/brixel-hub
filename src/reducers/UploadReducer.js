@@ -1,18 +1,18 @@
 import { handleActions } from 'redux-actions';
 import {
-  SET_IMAGE_TYPE
+  SET_IMAGE_TYPE,
 } from '../actions/types/UploadTypes';
 
 export const defaultState = {
-  imageType: []
+  imageType: [],
 };
 
 export default handleActions(
   {
     [SET_IMAGE_TYPE]: (state, action) => ({
       ...state,
-      imageType: action.payload
-    })
+      imageType: action.payload,
+    }),
   },
-  defaultState
+  defaultState,
 );

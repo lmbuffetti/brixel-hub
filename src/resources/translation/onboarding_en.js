@@ -87,5 +87,5 @@ module.exports = {
   'So keep collecting your Brixels.': '',
   Awards: '',
   'Who does not like awards? To honor your effort and endurance we award you for specific achievements.': '',
-  'Keep on going to collect more and enjoy the ride.': ''
+  'Keep on going to collect more and enjoy the ride.': '',
 };

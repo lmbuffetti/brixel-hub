@@ -8,103 +8,103 @@ export const PackagesComparePlansTable = [
     td: {
       private: { img: checkBlue },
       premium: { img: checkRed },
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: 'Pre-market',
     td: {
       private: { img: checkBlue },
       premium: { img: checkRed },
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: 'Brixel Page',
     td: {
       private: { img: checkBlue },
       premium: { img: checkRed },
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: 'Listings',
     td: {
       private: { img: checkBlue, desc: '3 months listings' },
       premium: { img: checkRed, desc: '6 months listings' },
-      one: { img: checkBlack, desc: '12 months listings' }
-    }
+      one: { img: checkBlack, desc: '12 months listings' },
+    },
   },
   {
     title: 'Support',
     td: {
       private: { img: checkBlue, desc: 'Online' },
       premium: { img: checkRed, desc: 'Backoffice' },
-      one: { img: checkBlack, desc: 'Expert' }
-    }
+      one: { img: checkBlack, desc: 'Expert' },
+    },
   },
   {
     title: 'Full estimation',
     td: {
       private: null,
       premium: { img: checkRed },
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: 'Property scan',
     td: {
       private: null,
       premium: { img: checkRed },
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: '3D tour',
     td: {
       private: null,
       premium: { img: checkRed },
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: 'PDF factsheet',
     td: {
       private: null,
       premium: { img: checkRed },
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: 'Propspects management',
     td: {
       private: null,
       premium: { img: checkRed },
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: 'Negotiating support',
     td: {
       private: null,
       premium: null,
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: 'Contract handling',
     td: {
       private: null,
       premium: null,
-      one: { img: checkBlack }
-    }
+      one: { img: checkBlack },
+    },
   },
   {
     title: 'Support up to the notary',
     td: {
       private: null,
       premium: null,
-      one: { img: checkBlack }
-    }
-  }
+      one: { img: checkBlack },
+    },
+  },
 ];

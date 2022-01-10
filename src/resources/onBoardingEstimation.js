@@ -4,7 +4,7 @@ import {
   BrixelInputStepNumber,
   BrixelInputText,
   Validation,
-  FactsOptions
+  FactsOptions,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import LoginSignup from '../components/LoginSignup';
@@ -65,9 +65,9 @@ export const QuestionsList = (lang, country = 'CH') => {
         validation: [Validation.required],
         large: true,
         icons: true,
-        options: factsOptions.userTypeEstimation
+        options: factsOptions.userTypeEstimation,
       }],
-      successMessage: translateTo(lang, 'Ok. Got it.')
+      successMessage: translateTo(lang, 'Ok. Got it.'),
     },
     {
       title: translateTo(lang, 'What type of property do you want to estimate?'),
@@ -94,17 +94,17 @@ export const QuestionsList = (lang, country = 'CH') => {
             label: translateTo(lang, 'Apartment'),
             value: 'Apartment',
             img: svgIcons.apartment,
-            color: 'blue'
+            color: 'blue',
           },
           {
             label: translateTo(lang, 'House'),
             value: 'House',
             img: svgIcons.house,
-            color: 'blue'
-          }
-        ]
+            color: 'blue',
+          },
+        ],
       }],
-      successMessage: translateTo(lang, 'Ok. Got it.')
+      successMessage: translateTo(lang, 'Ok. Got it.'),
     },
     {
       title: translateTo(lang, 'How many rooms?'),
@@ -125,10 +125,10 @@ export const QuestionsList = (lang, country = 'CH') => {
           max: 30,
           fluid: true,
           startFrom: 3,
-          large: true
-        }
+          large: true,
+        },
       ],
-      successMessage: translateTo(lang, 'This is a nice number.')
+      successMessage: translateTo(lang, 'This is a nice number.'),
     },
     {
       title: livingAreaTitle,
@@ -139,7 +139,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         {
           condition: [{
             name: 'properties.propertyType',
-            noValue: 'Commercial'
+            noValue: 'Commercial',
           }],
           component: BrixelInputText,
           classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
@@ -150,12 +150,12 @@ export const QuestionsList = (lang, country = 'CH') => {
           unit: 'm2',
           placeholder: '117',
           maxLengthNum: 9999,
-          large: true
+          large: true,
         },
         {
           condition: [{
             name: 'properties.propertyType',
-            value: 'Commercial'
+            value: 'Commercial',
           }],
           component: BrixelInputText,
           classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
@@ -166,10 +166,10 @@ export const QuestionsList = (lang, country = 'CH') => {
           unit: 'm2',
           placeholder: translateTo(lang, 'e.g. 120'),
           maxLengthNum: 9999,
-          large: true
-        }
+          large: true,
+        },
       ],
-      successMessage: translateTo(lang, 'Great living space.')
+      successMessage: translateTo(lang, 'Great living space.'),
     },
     {
       title: translateTo(lang, 'What is the construction year?'),
@@ -187,10 +187,10 @@ export const QuestionsList = (lang, country = 'CH') => {
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLengthNum: 9999,
           minLengthNum: 999,
-          large: true
-        }
+          large: true,
+        },
       ],
-      successMessage: translateTo(lang, 'A good year for real estate.')
+      successMessage: translateTo(lang, 'A good year for real estate.'),
     },
     {
       title: translateTo(lang, 'What is the location?'),
@@ -210,11 +210,11 @@ export const QuestionsList = (lang, country = 'CH') => {
             hideSearch: false,
             showSelectCountry: true,
             multipleFieldSearch: true,
-            draggable: true
-          }
-        }
+            draggable: true,
+          },
+        },
       ],
-      successMessage: translateTo(lang, 'That is an interesting location.')
+      successMessage: translateTo(lang, 'That is an interesting location.'),
     },
     {
       title: translateTo(lang, 'Is this your correct location?'),
@@ -234,11 +234,11 @@ export const QuestionsList = (lang, country = 'CH') => {
             hideSearch: true,
             showSelectCountry: false,
             multipleFieldSearch: false,
-            draggable: false
+            draggable: false,
           },
-          validation: [Validation.required]
-        }
-      ]
+          validation: [Validation.required],
+        },
+      ],
     },
     /* {
       hideProgress: true,
@@ -253,7 +253,7 @@ export const QuestionsList = (lang, country = 'CH') => {
     {
       conditions: [{
         name: 'owner',
-        value: null
+        value: null,
       }],
       history: 'createProfile',
       background: 'bgCardGreen',
@@ -265,14 +265,14 @@ export const QuestionsList = (lang, country = 'CH') => {
         skipPhone: true,
         component: LoginSignup,
         name: 'register.name',
-        validation: [Validation.required]
-      }]
+        validation: [Validation.required],
+      }],
     },
     {
       hideProgress: true,
       history: 'savingData',
       cardType: 'createProfile',
-      toSave: true
-    }
+      toSave: true,
+    },
   ];
 };

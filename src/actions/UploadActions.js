@@ -10,7 +10,7 @@ import {
   MULTI_UPLOAD_IMG,
   DELETE_DOCUMENT,
   UPDATE_DOCUMENT,
-  MULTI_UPLOAD_DOCUMENT
+  MULTI_UPLOAD_DOCUMENT,
 } from './types/UploadTypes';
 
 export const {
@@ -24,7 +24,7 @@ export const {
   deleteDocument,
   multiUploadImg,
   updateDocument,
-  multiUploadDocument
+  multiUploadDocument,
 } = createActions({
   [ROTATE_IMG]: (payload) => payload,
   [GET_IMAGE_TYPE]: (payload) => payload,
@@ -36,5 +36,5 @@ export const {
   [MULTI_UPLOAD_IMG]: (payload) => payload,
   [DELETE_DOCUMENT]: (payload) => payload,
   [UPDATE_DOCUMENT]: (payload) => payload,
-  [MULTI_UPLOAD_DOCUMENT]: (payload) => payload
+  [MULTI_UPLOAD_DOCUMENT]: (payload) => payload,
 });
