@@ -44,7 +44,12 @@ class ErrorBoundary extends Component {
     } = this.props;
     if (hasError) {
       // Return the fallback UI
-      return <h3 style={{ textAlign: 'center' }}>Unfortunately, something went wrong.</h3>;
+      return (
+        <div className="min-h-100 h-perc-100 bgAltBlue100 dis-fl-col jc-c container">
+          <h1 className="fweight-400 txtAltBlue400">Hmmm.</h1>
+          <p className="max-w-fix-400 txtAltBlue400 fsize-400">It seems that you lost in a perpetual black hole. Let us hel guide you out and get you back home.</p>
+        </div>
+      );
     }
 
     return children;
