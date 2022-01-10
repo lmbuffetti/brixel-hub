@@ -30,7 +30,6 @@ import {
   SEND_MESSAGE,
   MESSAGE_SENT,
   SET_WIZARD,
-  SEND_SLACK_NOTIFICATION,
 } from './types/CommonTypes';
 
 export const {
@@ -64,7 +63,6 @@ export const {
   sendMessage,
   messageSent,
   setWizard,
-  sendSlackNotification,
 } = createActions({
   [ERROR_MESSAGE]: (payload) => payload,
   [REDIRECT_TO]: (payload) => payload,
@@ -96,5 +94,4 @@ export const {
   [SEND_MESSAGE]: (payload) => payload,
   [MESSAGE_SENT]: (payload) => payload,
   [SET_WIZARD]: (payload) => payload,
-  [SEND_SLACK_NOTIFICATION]: (payload) => payload,
 });

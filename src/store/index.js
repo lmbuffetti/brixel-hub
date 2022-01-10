@@ -41,9 +41,9 @@ const composedEnhancers = compose(
     PropertyMiddleware,
     UserMiddleware,
     SearchProfile,
-    EstimationMiddleware
+    EstimationMiddleware,
   ),
-  ...enhancers
+  ...enhancers,
 );
 
 export const configureStore = createStore(rootReducer, {}, composedEnhancers);

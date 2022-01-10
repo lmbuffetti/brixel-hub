@@ -87,6 +87,10 @@ const WelecomeOnboardingStage = (props) => {
     case 2:
       return (
         <div>
+          <div className="ta-c mb-6">
+            <p className="txtAltMist400">Next step</p>
+            <h3 className="fweight-600 txtDark700">How do you want to proceed?</h3>
+          </div>
           <BrixelRadioButton
             design={{
               className: 'radioBtnImg',

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import {
   BrixelRadioButton,
-  Validation
+  Validation,
 } from '@brixel/brixel-components';
 import { svgIcons } from './svgIcons';
 import { translateTo } from '../utils/translation';
@@ -33,28 +33,28 @@ export const QuestionsList = (lang) => [
           label: 'I want to start <b>selling</b>',
           value: 'seller',
           img: svgIcons.selling,
-          color: 'blue'
+          color: 'blue',
         },
         {
           label: 'I want to <b>estimate</b> a property',
           value: 'estimation',
           img: svgIcons.estimate,
-          color: 'green'
+          color: 'green',
         },
         {
           label: 'I want to <b>buy</b> a property',
           value: 'buyer',
           img: svgIcons.buy,
-          color: 'red'
-        }
-      ]
+          color: 'red',
+        },
+      ],
     }],
-    successMessage: translateTo(lang, 'Ok. Got it.')
+    successMessage: translateTo(lang, 'Ok. Got it.'),
   },
   {
     history: 'savingData',
     cardType: 'updateProfile',
     toSave: true,
-    action: 'updateUser'
-  }
+    action: 'updateUser',
+  },
 ];

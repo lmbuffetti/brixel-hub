@@ -19,8 +19,8 @@ const getConfigEnvWeb = require('@brixel/brixel-configuration-partner/src/Settin
 
 function apiFactory(
   {
-    baseURL, brixelator
-  }
+    baseURL, brixelator,
+  },
 ) {
   const api = new ApiClient({ baseURL, brixelator });
 
@@ -36,7 +36,7 @@ function apiFactory(
     user: new User({ apiClient: api }),
     searchProfile: new SearchProfile({ apiClient: api }),
     estimation: new Estimation({ apiClient: api }),
-    market: new Market({ apiClient: api })
+    market: new Market({ apiClient: api }),
   };
 }
 
@@ -67,5 +67,5 @@ if (typeof window !== 'undefined') {
 export default apiFactory({
   baseURL: configUrl.apiRoot,
   // baseURL: 'http://localhost:46071/api/v3/',
-  brixelator: configUrl.brixelatorRoot
+  brixelator: configUrl.brixelatorRoot,
 });

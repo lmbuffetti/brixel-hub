@@ -3,17 +3,17 @@ import {
   GET_ACTIVE_SINGLE_COMPANY,
   SET_ACTIVE_SINGLE_COMPANY,
   GET_COMPANY_LISTING,
-  SET_COMPANY_LISTING
+  SET_COMPANY_LISTING,
 } from './types/CompanyTypes';
 
 export const {
   getActiveSingleCompany,
   setActiveSingleCompany,
   getCompanyListing,
-  setCompanyListing
+  setCompanyListing,
 } = createActions({
   [GET_ACTIVE_SINGLE_COMPANY]: (payload) => payload,
   [SET_ACTIVE_SINGLE_COMPANY]: (payload) => payload,
   [GET_COMPANY_LISTING]: (payload) => payload,
-  [SET_COMPANY_LISTING]: (payload) => payload
+  [SET_COMPANY_LISTING]: (payload) => payload,
 });

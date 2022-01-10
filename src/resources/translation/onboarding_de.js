@@ -105,5 +105,5 @@ module.exports = {
   "You don't have a profile?": 'Hast du noch kein Konto?',
   'Forgot password?': 'Passwort vergessen?',
   Login: 'Login',
-  'Enter property address': 'Objektadresse eingeben'
+  'Enter property address': 'Objektadresse eingeben',
 };

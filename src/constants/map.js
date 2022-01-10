@@ -13,27 +13,27 @@ export const mapCaptionData = {
       icon: {
         anchor: {
           x: 15,
-          y: 15
+          y: 15,
         },
         scaledSize: {
           width: 30,
-          height: 30
+          height: 30,
         },
-        url: 'location/hospital.png'
+        url: 'location/hospital.png',
       },
       activeIcon: {
         anchor: {
           x: 15,
-          y: 15
+          y: 15,
         },
         scaledSize: {
           width: 30,
-          height: 30
+          height: 30,
         },
-        url: 'location/hospital_active.png'
+        url: 'location/hospital_active.png',
       },
-      markerType: 'medicalCenter'
-    }
+      markerType: 'medicalCenter',
+    },
   },
   school: {
     category: 'school',
@@ -45,27 +45,27 @@ export const mapCaptionData = {
       icon: {
         anchor: {
           x: 15,
-          y: 15
+          y: 15,
         },
         scaledSize: {
           width: 30,
-          height: 30
+          height: 30,
         },
-        url: 'location/school.png'
+        url: 'location/school.png',
       },
       activeIcon: {
         anchor: {
           x: 15,
-          y: 15
+          y: 15,
         },
         scaledSize: {
           width: 30,
-          height: 30
+          height: 30,
         },
-        url: 'location/school_active.png'
+        url: 'location/school_active.png',
       },
-      markerType: 'school'
-    }
+      markerType: 'school',
+    },
   },
   publicTransport: {
     category: 'publicTransport',
@@ -77,27 +77,27 @@ export const mapCaptionData = {
       icon: {
         anchor: {
           x: 15,
-          y: 15
+          y: 15,
         },
         scaledSize: {
           width: 30,
-          height: 30
+          height: 30,
         },
-        url: 'location/public_transport.png'
+        url: 'location/public_transport.png',
       },
       activeIcon: {
         anchor: {
           x: 15,
-          y: 15
+          y: 15,
         },
         scaledSize: {
           width: 30,
-          height: 30
+          height: 30,
         },
-        url: 'location/public_transport_active.png'
+        url: 'location/public_transport_active.png',
       },
-      markerType: 'publicTransport'
-    }
+      markerType: 'publicTransport',
+    },
   },
   grocery: {
     category: 'grocery',
@@ -109,28 +109,28 @@ export const mapCaptionData = {
       icon: {
         anchor: {
           x: 15,
-          y: 15
+          y: 15,
         },
         scaledSize: {
           width: 30,
-          height: 30
+          height: 30,
         },
-        url: 'location/grocery.png'
+        url: 'location/grocery.png',
       },
       activeIcon: {
         anchor: {
           x: 15,
-          y: 15
+          y: 15,
         },
         scaledSize: {
           width: 30,
-          height: 30
+          height: 30,
         },
-        url: 'location/grocery_active.png'
+        url: 'location/grocery_active.png',
       },
-      markerType: 'grocery'
-    }
-  }
+      markerType: 'grocery',
+    },
+  },
 };
 
 export const mapStyles = [
@@ -138,351 +138,351 @@ export const mapStyles = [
     elementType: 'labels.icon',
     stylers: [
       {
-        visibility: 'off'
-      }
-    ]
+        visibility: 'off',
+      },
+    ],
   },
   {
     elementType: 'labels.text.fill',
     stylers: [
       {
-        color: '#616161'
-      }
-    ]
+        color: '#616161',
+      },
+    ],
   },
   {
     elementType: 'labels.text.stroke',
     stylers: [
       {
-        color: '#f5f5f5'
-      }
-    ]
+        color: '#f5f5f5',
+      },
+    ],
   },
   {
     featureType: 'administrative',
     elementType: 'geometry.stroke',
     stylers: [
       {
-        color: '#dadada'
-      }
-    ]
+        color: '#dadada',
+      },
+    ],
   },
   {
     featureType: 'administrative.land_parcel',
     elementType: 'labels.text.fill',
     stylers: [
       {
-        color: '#bdbdbd'
-      }
-    ]
+        color: '#bdbdbd',
+      },
+    ],
   },
   {
     featureType: 'administrative.locality',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'landscape.natural.landcover',
     elementType: 'geometry.stroke',
     stylers: [
       {
-        color: '#bad294'
-      }
-    ]
+        color: '#bad294',
+      },
+    ],
   },
   {
     featureType: 'poi',
     stylers: [
       {
-        visibility: 'simplified'
-      }
-    ]
+        visibility: 'simplified',
+      },
+    ],
   },
   {
     featureType: 'poi',
     elementType: 'geometry',
     stylers: [
       {
-        color: '#eeeeee'
-      }
-    ]
+        color: '#eeeeee',
+      },
+    ],
   },
   {
     featureType: 'poi',
     elementType: 'labels.text',
     stylers: [
       {
-        visibility: 'simplified'
-      }
-    ]
+        visibility: 'simplified',
+      },
+    ],
   },
   {
     featureType: 'poi',
     elementType: 'labels.text.fill',
     stylers: [
       {
-        color: '#757575'
+        color: '#757575',
       },
       {
-        visibility: 'off'
-      }
-    ]
+        visibility: 'off',
+      },
+    ],
   },
   {
     featureType: 'poi.business',
     stylers: [
       {
-        visibility: 'off'
-      }
-    ]
+        visibility: 'off',
+      },
+    ],
   },
   {
     featureType: 'poi.park',
     elementType: 'geometry',
     stylers: [
       {
-        color: '#bad294'
-      }
-    ]
+        color: '#bad294',
+      },
+    ],
   },
   {
     featureType: 'poi.park',
     elementType: 'labels.text.fill',
     stylers: [
       {
-        color: '#9e9e9e'
-      }
-    ]
+        color: '#9e9e9e',
+      },
+    ],
   },
   {
     featureType: 'poi.school',
     elementType: 'geometry',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'poi.school',
     elementType: 'geometry.fill',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'road',
     elementType: 'geometry',
     stylers: [
       {
-        color: '#ffffff'
-      }
-    ]
+        color: '#ffffff',
+      },
+    ],
   },
   {
     featureType: 'road',
     elementType: 'labels.icon',
     stylers: [
       {
-        visibility: 'off'
-      }
-    ]
+        visibility: 'off',
+      },
+    ],
   },
   {
     featureType: 'road.arterial',
     elementType: 'geometry.stroke',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'road.arterial',
     elementType: 'labels.text.fill',
     stylers: [
       {
-        color: '#757575'
-      }
-    ]
+        color: '#757575',
+      },
+    ],
   },
   {
     featureType: 'road.highway',
     elementType: 'geometry',
     stylers: [
       {
-        color: '#efebe2'
-      }
-    ]
+        color: '#efebe2',
+      },
+    ],
   },
   {
     featureType: 'road.highway',
     elementType: 'geometry.fill',
     stylers: [
       {
-        color: '#fef8a0'
+        color: '#fef8a0',
       },
       {
-        saturation: -35
-      }
-    ]
+        saturation: -35,
+      },
+    ],
   },
   {
     featureType: 'road.highway',
     elementType: 'geometry.stroke',
     stylers: [
       {
-        color: '#e8e693'
+        color: '#e8e693',
       },
       {
-        saturation: -20
+        saturation: -20,
       },
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'road.local',
     elementType: 'geometry.stroke',
     stylers: [
       {
-        color: '#e3e1e4'
+        color: '#e3e1e4',
       },
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'road.local',
     elementType: 'labels.text.fill',
     stylers: [
       {
-        color: '#9e9e9e'
-      }
-    ]
+        color: '#9e9e9e',
+      },
+    ],
   },
   {
     featureType: 'transit',
     stylers: [
       {
-        visibility: 'off'
-      }
-    ]
+        visibility: 'off',
+      },
+    ],
   },
   {
     featureType: 'transit.line',
     stylers: [
       {
-        color: '#e5e5e5'
-      }
-    ]
+        color: '#e5e5e5',
+      },
+    ],
   },
   {
     featureType: 'transit.line',
     elementType: 'geometry',
     stylers: [
       {
-        color: '#e5e5e5'
-      }
-    ]
+        color: '#e5e5e5',
+      },
+    ],
   },
   {
     featureType: 'transit.line',
     elementType: 'labels.icon',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'transit.station',
     elementType: 'geometry',
     stylers: [
       {
-        color: '#eeeeee'
-      }
-    ]
+        color: '#eeeeee',
+      },
+    ],
   },
   {
     featureType: 'transit.station',
     elementType: 'geometry.fill',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'transit.station.airport',
     elementType: 'geometry',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'transit.station.bus',
     elementType: 'geometry',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'transit.station.bus',
     elementType: 'labels.icon',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'transit.station.rail',
     elementType: 'labels.icon',
     stylers: [
       {
-        visibility: 'on'
-      }
-    ]
+        visibility: 'on',
+      },
+    ],
   },
   {
     featureType: 'water',
     elementType: 'geometry',
     stylers: [
       {
-        color: '#c9c9c9'
-      }
-    ]
+        color: '#c9c9c9',
+      },
+    ],
   },
   {
     featureType: 'water',
     elementType: 'geometry.fill',
     stylers: [
       {
-        color: '#a5d7e0'
-      }
-    ]
+        color: '#a5d7e0',
+      },
+    ],
   },
   {
     featureType: 'water',
     elementType: 'labels.text.fill',
     stylers: [
       {
-        color: '#9e9e9e'
-      }
-    ]
-  }
+        color: '#9e9e9e',
+      },
+    ],
+  },
 ];
 
 export const markerOptions = {
@@ -490,13 +490,13 @@ export const markerOptions = {
     url: 'mapIcon',
     scaledSize: {
       width: 86,
-      height: 86
+      height: 86,
     },
     anchor: {
       x: 43,
-      y: 46
-    }
-  }
+      y: 46,
+    },
+  },
 };
 
 export const clusterStyles = [
@@ -505,21 +505,21 @@ export const clusterStyles = [
     height: 36,
     width: 36,
     textColor: '#ffffff',
-    textSize: 10
+    textSize: 10,
   },
   {
     url: clusterImg,
     height: 36,
     width: 36,
     textColor: '#ffffff',
-    textSize: 10
+    textSize: 10,
   }, {
     url: clusterImg,
     height: 36,
     width: 36,
     textColor: '#ffffff',
-    textSize: 10
-  }
+    textSize: 10,
+  },
 ];
 
 const rad = (x) => (x * Math.PI) / 180;

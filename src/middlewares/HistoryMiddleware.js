@@ -5,13 +5,13 @@ import {
   SET_USER_HISTORY_LISTINGS,
   SET_DEAL_HISTORY_LISTINGS,
   GET_HISTORY_FEED,
-  SET_HISTORY_FEED
+  SET_HISTORY_FEED,
 } from '../actions/types/HistoryTypes';
 
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SPINNER_SMALL
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -28,18 +28,18 @@ const checkHistory = (store) => (next) => (action) => {
         parent,
         resultsPerPage,
         actionStubs,
-        smallLoader
+        smallLoader,
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true
-          }
+            [smallLoader]: true,
+          },
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON
+          type: SPINNER_ON,
         });
       }
 
@@ -55,25 +55,25 @@ const checkHistory = (store) => (next) => (action) => {
             if (action.payload.type === 'page') {
               store.dispatch({
                 type: SET_PROPERTY_HISTORY_LISTINGS,
-                payload: response.data
+                payload: response.data,
               });
             }
             if (action.payload.type === 'user') {
               store.dispatch({
                 type: SET_USER_HISTORY_LISTINGS,
-                payload: response.data
+                payload: response.data,
               });
             }
             if (action.payload.type === 'deal') {
               store.dispatch({
                 type: SET_DEAL_HISTORY_LISTINGS,
-                payload: response.data
+                payload: response.data,
               });
             }
             if (action.payload.type === 'owner') {
               store.dispatch({
                 type: SET_PROPERTY_OWNER_HISTORY_LISTINGS,
-                payload: response.data
+                payload: response.data,
               });
             }
           }
@@ -81,12 +81,12 @@ const checkHistory = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false
-              }
+                [smallLoader]: false,
+              },
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF
+              type: SPINNER_OFF,
             });
           }
         });
@@ -101,18 +101,18 @@ const checkHistory = (store) => (next) => (action) => {
         offset,
         order,
         resultsPerPage,
-        smallLoader
+        smallLoader,
       } = action.payload;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true
-          }
+            [smallLoader]: true,
+          },
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON
+          type: SPINNER_ON,
         });
       }
       const queryParams = `?order=${order}&direction=${direction}`;
@@ -123,12 +123,12 @@ const checkHistory = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: false
-              }
+                [smallLoader]: false,
+              },
             });
           } else {
             store.dispatch({
-              type: SPINNER_OFF
+              type: SPINNER_OFF,
             });
           }
         });

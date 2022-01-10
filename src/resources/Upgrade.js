@@ -7,6 +7,6 @@ export const UpgradeQuestions = () => [
     cardType: 'loadComponent',
     history: 'packages',
     component: IntroUpgrade,
-    hideProgress: true
-  }
+    hideProgress: true,
+  },
 ];

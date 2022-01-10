@@ -1,35 +1,35 @@
 export const statuses = {
   400: {
     status: 400,
-    statusText: 'bad request'
+    statusText: 'bad request',
   },
   401: {
     status: 401,
-    statusText: 'unauthorized'
+    statusText: 'unauthorized',
   },
   402: {
     status: 402,
-    statusText: 'payment required'
+    statusText: 'payment required',
   },
   403: {
     status: 403,
-    statusText: 'forbidden'
+    statusText: 'forbidden',
   },
   404: {
     status: 404,
-    statusText: 'not found'
+    statusText: 'not found',
   },
   405: {
     status: 405,
-    statusText: 'method not allowed'
+    statusText: 'method not allowed',
   },
   500: {
     status: 500,
-    statusText: 'internal server error'
+    statusText: 'internal server error',
   },
 
   0: {
     status: 0,
-    statusText: 'unhandled status'
-  }
+    statusText: 'unhandled status',
+  },
 };

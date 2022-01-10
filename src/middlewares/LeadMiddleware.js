@@ -3,21 +3,21 @@ import take from 'lodash/take';
 import {
   GET_LEAD_LISTINGS,
   GET_GLOBAL_LEAD_LISTINGS,
-  SET_GLOBAL_LEAD_LISTINGS
+  SET_GLOBAL_LEAD_LISTINGS,
 } from '../actions/types/LeadTypes';
 
 import {
-  SET_PROPERTY_LISTINGS
+  SET_PROPERTY_LISTINGS,
 } from '../actions/types/PropertyTypes';
 
 import {
-  SET_USER_LISTINGS
+  SET_USER_LISTINGS,
 } from '../actions/types/UserTypes';
 
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SPINNER_SMALL
+  SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -28,19 +28,19 @@ const checkLead = (store) => (next) => (action) => {
       next(action);
       // eslint-disable-next-line no-case-declarations
       const {
-        smallLoader
+        smallLoader,
       } = action.payload;
       // delete action.payload.smallLoader;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
           payload: {
-            [smallLoader]: true
-          }
+            [smallLoader]: true,
+          },
         });
       } else {
         store.dispatch({
-          type: SPINNER_ON
+          type: SPINNER_ON,
         });
       }
       const filterData = get(action, 'payload.filterData', null) ? `&${get(action, 'payload.filterData', '')}` : '';
@@ -52,32 +52,32 @@ const checkLead = (store) => (next) => (action) => {
               const data = {
                 properties: response.data.data,
                 total: response.data.total,
-                smallLoader
+                smallLoader,
               };
               store.dispatch({
                 type: SET_PROPERTY_LISTINGS,
-                payload: data
+                payload: data,
               });
             } else if (action.payload.leadType === 'user') {
               const data = {
                 users: response.data.data,
-                total: response.data.total
+                total: response.data.total,
               };
               store.dispatch({
                 type: SET_USER_LISTINGS,
-                payload: data
+                payload: data,
               });
             }
             if (smallLoader) {
               store.dispatch({
                 type: SPINNER_SMALL,
                 payload: {
-                  [smallLoader]: false
-                }
+                  [smallLoader]: false,
+                },
               });
             } else {
               store.dispatch({
-                type: SPINNER_OFF
+                type: SPINNER_OFF,
               });
             }
           } else {
@@ -85,32 +85,32 @@ const checkLead = (store) => (next) => (action) => {
             if (action.payload.leadType === 'page') {
               const data = {
                 properties: [],
-                total: 0
+                total: 0,
               };
               store.dispatch({
                 type: SET_PROPERTY_LISTINGS,
-                payload: data
+                payload: data,
               });
             } else if (action.payload.leadType === 'user') {
               const data = {
                 users: [],
-                total: 0
+                total: 0,
               };
               store.dispatch({
                 type: SET_USER_LISTINGS,
-                payload: data
+                payload: data,
               });
             }
             if (smallLoader) {
               store.dispatch({
                 type: SPINNER_SMALL,
                 payload: {
-                  [smallLoader]: false
-                }
+                  [smallLoader]: false,
+                },
               });
             } else {
               store.dispatch({
-                type: SPINNER_OFF
+                type: SPINNER_OFF,
               });
             }
           }
@@ -129,23 +129,23 @@ const checkLead = (store) => (next) => (action) => {
       Promise.all([pageQuery, userQuery]).then(() => {
         let filtUsers = {
           ...users,
-          data: take(users.data, 5)
+          data: take(users.data, 5),
         };
         let filtProperties = {
           ...properties,
-          data: take(properties.data, 5)
+          data: take(properties.data, 5),
         };
         if (properties.data.length < 5) {
           filtUsers = {
             ...users,
-            data: take(users.data, 10 - properties.data.length)
+            data: take(users.data, 10 - properties.data.length),
           };
         }
 
         if (users.data.length < 5) {
           filtProperties = {
             ...properties,
-            data: take(properties.data, 10 - users.data.length)
+            data: take(properties.data, 10 - users.data.length),
           };
         }
 
@@ -153,8 +153,8 @@ const checkLead = (store) => (next) => (action) => {
           type: SET_GLOBAL_LEAD_LISTINGS,
           payload: {
             properties: filtProperties,
-            users: filtUsers
-          }
+            users: filtUsers,
+          },
         });
       });
       break;

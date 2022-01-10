@@ -2,7 +2,7 @@
 import {
   BrixelRadioButton,
   BrixelInputText,
-  Validation
+  Validation,
 } from '@brixel/brixel-components';
 import IntroScanFlow from '../Pages/ScanTrialFlow/IntroScanFlow';
 import BookTrialFlow from '../Pages/ScanTrialFlow/BookTrialFlow';
@@ -15,12 +15,12 @@ export const ScanTrialQuestions = () => [
     cardType: 'loadComponent',
     history: 'introScanFlow',
     component: IntroScanFlow,
-    hideProgress: true
+    hideProgress: true,
   },
   {
     conditions: [{
       name: 'userID',
-      value: null
+      value: null,
     }],
     title: 'Nice to meet you. Who are you?',
     history: 'contactInfo',
@@ -32,7 +32,7 @@ export const ScanTrialQuestions = () => [
         label: 'Name',
         name: 'name',
         validation: [Validation.required],
-        pdClass: 'py-3 py-md-5'
+        pdClass: 'py-3 py-md-5',
       },
       {
         component: BrixelInputText,
@@ -40,7 +40,7 @@ export const ScanTrialQuestions = () => [
         label: 'Email',
         name: 'email',
         validation: [Validation.isEmail, Validation.required],
-        pdClass: 'py-3 py-md-5'
+        pdClass: 'py-3 py-md-5',
       },
       {
         component: BrixelInputText,
@@ -50,9 +50,9 @@ export const ScanTrialQuestions = () => [
         pdClass: 'py-3 py-md-5',
         type: 'text',
         formatType: 'tel',
-        validation: [Validation.phoneIfNotEmptyLength, Validation.required]
-      }
-    ]
+        validation: [Validation.phoneIfNotEmptyLength, Validation.required],
+      },
+    ],
   },
   {
     title: 'How do you want to do the analysis?',
@@ -78,17 +78,17 @@ export const ScanTrialQuestions = () => [
           label: 'We visit you to evaluate your property.\n',
           value: 'on-site',
           img: svgIcons.onSite,
-          color: 'blue'
+          color: 'blue',
         },
         {
           title: 'Remote',
           label: 'We get to know you and your property in a call.',
           value: 'remote',
           img: svgIcons.remote,
-          color: 'green'
-        }
-      ]
-    }]
+          color: 'green',
+        },
+      ],
+    }],
   },
   {
     cardType: 'loadComponent',
@@ -99,44 +99,44 @@ export const ScanTrialQuestions = () => [
       {
         condition: [{
           name: 'bookType',
-          value: 'online'
+          value: 'online',
         },
         {
           name: 'bookType',
-          value: 'schedule'
+          value: 'schedule',
         }],
-        name: 'phone'
+        name: 'phone',
       },
       {
         condition: [{
           name: 'bookType',
-          value: 'online'
+          value: 'online',
         },
         {
           name: 'bookType',
-          value: 'schedule'
+          value: 'schedule',
         }],
         name: 'dateBook',
-        validation: [Validation.required]
+        validation: [Validation.required],
       },
       {
         condition: [{
           name: 'bookType',
-          value: 'online'
+          value: 'online',
         },
         {
           name: 'bookType',
-          value: 'schedule'
+          value: 'schedule',
         }],
         name: 'hourBook',
-        validation: [Validation.required]
-      }
-    ]
+        validation: [Validation.required],
+      },
+    ],
   },
   {
     conditions: [{
       name: 'step',
-      noValue: 'skip'
+      noValue: 'skip',
     }],
     background: 'bgCardGreen',
     cardType: 'loadComponent',
@@ -144,13 +144,13 @@ export const ScanTrialQuestions = () => [
     history: 'resume',
     vCentered: true,
     toSave: true,
-    classWrapper: ''
+    classWrapper: '',
   },
   {
     hideProgress: true,
     conditions: [{
       name: 'bookType',
-      value: 'whereby'
+      value: 'whereby',
     }],
     step: 'wherebyResume',
     background: 'bgCardGreen',
@@ -158,7 +158,7 @@ export const ScanTrialQuestions = () => [
     component: ResumeTrialFlow,
     history: 'whereby',
     vCentered: true,
-    classWrapper: ''
+    classWrapper: '',
   },
   {
     hideProgress: true,
@@ -171,6 +171,6 @@ export const ScanTrialQuestions = () => [
     history: 'success',
     vCentered: true,
     classWrapper: '',
-    showExitText: true
-  }
+    showExitText: true,
+  },
 ];
