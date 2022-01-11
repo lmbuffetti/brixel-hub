@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { BrixelButtonPrimary, BrixelButtonSecondary } from '@brixel/brixel-components';
 import { sendSlackNotification } from '../actions/CommonActions';
 
 class ErrorBoundary extends Component {
@@ -45,9 +46,24 @@ class ErrorBoundary extends Component {
     if (hasError) {
       // Return the fallback UI
       return (
-        <div className="min-h-100 h-perc-100 bgAltBlue100 dis-fl-col jc-c container">
-          <h1 className="fweight-400 txtAltBlue400">Hmmm.</h1>
-          <p className="max-w-fix-400 txtAltBlue400 fsize-400">It seems that you lost in a perpetual black hole. Let us hel guide you out and get you back home.</p>
+        <div className="min-h-100 h-perc-100 bgAltBlue100">
+          <div className="dis-fl-col jc-c a-c container h-perc-100 ta-c">
+
+            <span className="fweight-600 txtDark700 fsize-900">Something went wrong</span>
+            <p className="fweight-500 txtDark500 fsize-400 max-w-fix-480 ml-a mr-a my-2 dis-b w-perc-100">You can either go back or report an issue to support.</p>
+            <div className="dis-f w-perc-100 max-w-fix-480 jc-c">
+              <BrixelButtonPrimary
+                label="Go Back"
+                rounded
+              />
+              <BrixelButtonSecondary
+                label="Report an issue"
+                bgTransparent
+                rounded
+                className="ml-2"
+              />
+            </div>
+          </div>
         </div>
       );
     }
