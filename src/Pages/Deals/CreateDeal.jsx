@@ -4,9 +4,7 @@
 import React, {
   useEffect,
 } from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
@@ -32,13 +30,15 @@ import SplashScreen from '../../components/SplashScreen';
 import ProgressBar from '../../components/ProgressBar';
 
 const CreateDeal = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleProperty,
     handleCreateDeal,
-    // handleGetLeads,
     formValue,
     destroyForm,
-    history,
     loggedInUser,
   } = props;
 
@@ -209,7 +209,6 @@ CreateDeal.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   handleCreateDeal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
 };
@@ -238,6 +237,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(CreateDeal);

@@ -3,17 +3,20 @@ import { BrixelButtonPrimary, Helpers } from '@brixel/brixel-components';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import testdriveLarge from '../images/Market/testdrive.jpeg';
 import testDrive from '../images/dashboard/testDrive.png';
 
 const BoxTrialTestDirve = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleProperty,
     activeSingleCompany,
     className,
-    history,
     windowDimensions,
     isLarge,
   } = props;
@@ -58,7 +61,6 @@ const BoxTrialTestDirve = (props) => {
             onClick={() => bookNow()}
             rounded
             theme="AltRed"
-            themeSat={400}
             label="Book Now"
             className={`${isLarge ? 'mt-1' : 'mt-3'}`}
           />
@@ -73,7 +75,6 @@ BoxTrialTestDirve.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   className: PropTypes.string,
-  history: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
   isLarge: PropTypes.bool,
 };
@@ -90,6 +91,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(BoxTrialTestDirve);

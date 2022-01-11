@@ -7,7 +7,6 @@ import {
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import empowerBestPersonalSupport from '../images/BrxielComingTown/empowerBestPersonalSupport.svg';
 import empowerBestMarketing from '../images/BrxielComingTown/empowerBestMarketing.svg';
@@ -139,6 +138,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(BrixelRadioCard);

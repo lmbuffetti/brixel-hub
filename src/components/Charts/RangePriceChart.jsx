@@ -1,7 +1,6 @@
 import React from 'react';
 import { Element } from 'react-faux-dom';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as d3 from 'd3';
 import PropTypes from 'prop-types';
@@ -371,6 +370,5 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(RangePriceChart);

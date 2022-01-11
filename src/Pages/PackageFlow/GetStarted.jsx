@@ -14,7 +14,7 @@ import {
   destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -26,7 +26,6 @@ import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoarding';
-import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
@@ -34,6 +33,10 @@ import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 const cookie = new Cookies();
 
 const GetStarted = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     changeFieldValue,
@@ -41,14 +44,9 @@ const GetStarted = (props) => {
     destroyForm,
     errorValue,
     formValue,
-    // handleDoLogin,
     handleGetActiveSingleCompany,
-    // handleGetGamegroup,
-    // handleCreateSearchProfile,
     handleSetLanguage,
     handleSpinnerOff,
-    // handleValidateUser,
-    history,
     initForm,
     initialValues,
     lang,
@@ -520,14 +518,9 @@ GetStarted.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  // handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  // handleGetGamegroup: PropTypes.func.isRequired,
-  // handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  // handleValidateUser: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
@@ -539,8 +532,8 @@ GetStarted.defaultProps = {
   lang: 'en',
 };
 
-const mapStateToProps = (state, props) => {
-  const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
+const mapStateToProps = (state, ownProps) => {
+  const urlSearch = queryString.parse(get(ownProps.history, 'location.search', ''));
   const channel = get(urlSearch, 'channel', 'default');
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
@@ -549,8 +542,6 @@ const mapStateToProps = (state, props) => {
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     initialValues: {
       channel,
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
@@ -604,7 +595,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
@@ -613,6 +603,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(GetStarted);

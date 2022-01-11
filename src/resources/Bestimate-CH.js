@@ -4,7 +4,7 @@ import {
   BrixelInputText,
   Validation,
 } from '@brixel/brixel-components';
-import ResumeBestimate from '../Pages/GameHistory/Bestimate/ResumeBestimate';
+import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
 
 // eslint-disable-next-line default-param-last
 export const BestimateCH = (type = null, propertyType) => {

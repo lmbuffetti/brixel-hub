@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import isNaN from 'lodash/isNaN';
 import isBoolean from 'lodash/isBoolean';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { translateTo } from '../utils/translation';
@@ -126,6 +125,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(BrixelRadioEmoji);

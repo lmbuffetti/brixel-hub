@@ -3,10 +3,10 @@
 import React, {
   useEffect, useState, lazy, Suspense,
 } from 'react';
-import PropTypes from 'prop-types';
 import {
-  withRouter,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
 import omit from 'lodash/omit';
@@ -32,9 +32,6 @@ import {
 } from '../../../actions/PropertyActions';
 import { deleteDocument, uploadDocument, getImageType } from '../../../actions/UploadActions';
 import {
-  addGameHistory, getAchievement, getGamegroup, getGameHistory,
-} from '../../../actions/GamificationActions';
-import {
   setModal, setPageData, setScreenNotification, spinnerOff, spinnerOn,
 } from '../../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
@@ -52,7 +49,7 @@ const Deals = lazy(() => import('../../Deals/Deals'));
 
 const EmptyProperty = lazy(() => import('./EmptyProperty'));
 
-const Documents = lazy(() => import('../../EditProperty/Documents'));
+const Documents = lazy(() => import('../../SingleProperty/Documents'));
 
 const DashboardOffer = lazy(() => import('../../Offers/DashboardOffer'));
 
@@ -61,33 +58,34 @@ const Upgrade = lazy(() => import('../../Upgrade/Upgrade'));
 
 const ScanTrialFlow = lazy(() => import('../../ScanTrialFlow/ScanTrialFlow'));
 
-const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
-
 const Dashboard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
+    // gameAchievement,
+    // handleGetAchievement,
+    // handleGetGameGroup,
+    // handleGetGameHistory,
     activeSingleCompany,
     activeSingleProperty,
     errorValue,
     formValue,
-    // gameAchievement,
-    gameHistory,
-    handleAddGameHistory,
     handleCreatePropertyVisitSchedule,
-    // handleGetAchievement,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleGetActiveSinglePropertyBookings,
-    // handleGetGameGroup,
-    // handleGetGameHistory,
+    handleGetActiveSinglePropertyEstimation,
     handleGetImageType,
     handleGetPackageProperty,
-    handleSaveActiveSingleProperty,
     handleGetPropertyListings,
-    handleGetActiveSinglePropertyEstimation,
+    handleSaveActiveSingleProperty,
     handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
-    history,
+    handleSpinnerOff,
     imageType,
     initForm,
     initValues,
@@ -95,19 +93,24 @@ const Dashboard = (props) => {
     isLoading,
     isSmallLoading,
     loggedInUser,
-    match,
     notification,
     resetForm,
     userTypes,
-    handleSpinnerOn,
-    handleSpinnerOff,
   } = props;
   const [userType, setUserType] = useState(null);
   const [loadedProp, setLoadedProp] = useState(false);
   // const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
+
+  useEffect(() => {
+    if (get(loggedInUser, 'user.id', null) && activeSingleProperty.id) {
+      if (loggedInUser.user.id !== activeSingleProperty.owner.id) {
+        history.push(`/buyer/${activeSingleProperty.id}/property`);
+      }
+    }
+  }, [loggedInUser, activeSingleProperty]);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
@@ -123,16 +126,6 @@ const Dashboard = (props) => {
     }
   }, [history.location.pathname]);
 
-  // CHECK IF USER IS LOGGED IN AND LOAD GAME HISTORY IF NO DATA
-  useEffect(() => {
-    if (loggedInUser && loggedInUser.user) {
-      if (!gameHistory.data) {
-        if (history.location.pathname.includes('rewards')) handleSpinnerOn();
-        // handleGetGameHistory();
-      }
-    }
-  }, [loggedInUser]);
-
   // FUNCTION TO LOAD DEFAULT USER PROPERTY IF NO ID
   const loadDefaultProperty = () => {
     if (!get(formValue, 'id', null)) {
@@ -146,9 +139,9 @@ const Dashboard = (props) => {
     }
   };
 
-  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
+  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null))) {
+    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null)) && propID !== 'sell') {
       if (propID && propID !== 'home' && propID !== 'company') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetPackageProperty({ id: propID });
@@ -181,7 +174,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && loadedProp) {
+    if (!history.location.pathname.includes('pageLists') && loadedProp && propID !== 'sell') {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
           const isSellerUser = get(loggedInUser, 'user.seller', false);
@@ -199,7 +192,6 @@ const Dashboard = (props) => {
         history.push('/sell');
       }
     }
-    localStorage.removeItem('gameGroup');
     const activeLeads = get(activeSingleProperty, 'company.id', get(activeSingleProperty, 'company', null));
     if (activeLeads && activeLeads !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads, smallLoader: 'singleCompany' });
@@ -246,13 +238,7 @@ const Dashboard = (props) => {
           ...objToSave,
         };
         handleSaveActiveSingleProperty(data);
-        const inputSheet = get(formValue, 'inputSheet', {}) || {};
-        if (inputSheet.totalComplete >= 24) {
-          handleAddGameHistory({ stub: 'facts' });
-        }
-        if (get(formValue, 'photos', []).length > 0 && get(formValue, 'floorPlans', []).length > 0 && get(formValue, 'documents', []).length > 0) {
-          // handleAddGameHistory({ stub: 'media' });
-        }
+        // const inputSheet = get(formValue, 'inputSheet', {}) || {};
       }
     }
   };
@@ -358,15 +344,18 @@ const Dashboard = (props) => {
         <Suspense fallback={<Loading isLoading />}>
           {/* teaserScreens && isEligible(activeSingleProperty) && () */}
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-          <ProtectedRoute path="/:propId?/home" component={DashboardHome} />
-          <ProtectedRoute path="/:propId?/property" component={PropertyDashboard} />
-          <ProtectedRoute path="/:propId?/docubox" component={Documents} />
-          <ProtectedRoute path="/:propId?/marketing" component={MarketingDashboard} />
-          <ProtectedRoute path="/:propId?/prospects" component={Deals} />
-          <ProtectedRoute path="/:propId/closing" component={DashboardOffer} />
-          <ProtectedRoute path="/:propId?/upgrade" component={Upgrade} />
-          <ProtectedRoute path="/:propId?/trialRequest" component={ScanTrialFlow} />
-          <ProtectedRoute path="/no-property" exact component={EmptyProperty} />
+          <Routes>
+            <Route path="/home" element={<DashboardHome />} />
+            <Route path="/property/*" element={<PropertyDashboard />} />
+            <Route path="/docubox/*" element={<Documents />} />
+            <Route path="/marketing/*" element={<MarketingDashboard />} />
+            <Route path="/prospects/*" element={<Deals />} />
+            <Route path="/closing/*" element={<DashboardOffer />} />
+            <Route path="/upgrade/*" element={<Upgrade />} />
+            <Route path="/trialRequest/*" element={<ScanTrialFlow />} />
+            <Route path="/no-property" element={<EmptyProperty />} />
+            <Route path="*" element={<Navigate to={`/${propID}/home`} />} />
+          </Routes>
         </Suspense>
       </div>
       {
@@ -385,24 +374,17 @@ Dashboard.propTypes = {
   activeSingleProperty: PropTypes.object,
   errorValue: PropTypes.object,
   formValue: PropTypes.object.isRequired,
-  // gameAchievement: PropTypes.arrayOf(PropTypes.object).isRequired,
-  gameHistory: PropTypes.object.isRequired,
-  handleAddGameHistory: PropTypes.func.isRequired,
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
-  // handleGetAchievement: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
-  // handleGetGameGroup: PropTypes.func.isRequired,
-  // handleGetGameHistory: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
   handleGetPropertyListings: PropTypes.func.isRequired,
   handleSetScreenNotification: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   initForm: PropTypes.func.isRequired,
   initValues: PropTypes.object.isRequired,
@@ -410,11 +392,10 @@ Dashboard.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetForm: PropTypes.func.isRequired,
   userTypes: PropTypes.string,
-  handleSpinnerOn: PropTypes.func.isRequired,
+  // handleSpinnerOn: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
 };
 
@@ -450,13 +431,9 @@ const mapStateToProps = (state) => {
     activeSingleProperty: has(state, 'property.activeSingleProperty.id') ? get(state, 'property.activeSingleProperty', { }) : undefined,
     errorValue: get(state, 'brixelForm.Property.syncErrors', null),
     formValue: get(state, 'brixelForm.Property.values', {}),
-    gameAchievement: get(state, 'gamification.achievement', []),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     imageType: get(state, 'images.imageType', []),
     initValues: get(state, 'brixelForm.Property.initialValues', {}),
     initialValues: {
-      assessor: get(state, 'property.activeSingleProperty.assessor', {}),
       booking: get(state, 'property.activeSinglePropertyBooking', []),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
@@ -511,16 +488,12 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm(data) {
     (dispatch(reset('Property', data)));
   },
-  handleAddGameHistory: bindActionCreators(addGameHistory, dispatch),
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  handleGetAchievement: bindActionCreators(getAchievement, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
-  handleGetGameGroup: bindActionCreators(getGamegroup, dispatch),
-  handleGetGameHistory: bindActionCreators(getGameHistory, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
@@ -536,6 +509,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Dashboard);

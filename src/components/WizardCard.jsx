@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
@@ -72,7 +71,6 @@ const WizardCard = (props) => {
         <p className="fsize-300 txtDark700">{text.description}</p>
         <BrixelButtonPrimary
           className="mt-3"
-          themeSat={300}
           rounded
           theme="altGreen"
           onClick={() => onClickNext()}
@@ -111,6 +109,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(WizardCard);

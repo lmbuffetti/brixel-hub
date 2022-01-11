@@ -13,7 +13,6 @@ import {
   FormatValue,
 } from '@brixel/brixel-components';
 // import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -418,9 +417,6 @@ MarketCard.propTypes = {
   fullCard: PropTypes.bool,
   item: PropTypes.object,
   propertyList: PropTypes.arrayOf(PropTypes.object),
-  // preventClick: PropTypes.bool,
-  // setMarketOverlayProperty: PropTypes.func.isRequired,
-  // setSplashScreen: PropTypes.func.isRequired,
   onToggleCard: PropTypes.func,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
@@ -449,6 +445,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCard);

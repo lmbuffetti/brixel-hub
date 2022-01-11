@@ -16,7 +16,7 @@ import {
 } from '@brixel/brixel-components';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
@@ -25,6 +25,11 @@ import { UpgradeQuestions } from '../../resources/Upgrade';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
 
 const Upgrade = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleCompany,
@@ -32,11 +37,9 @@ const Upgrade = (props) => {
     destroyForm,
     errorValue,
     formValue,
-    history,
     initForm,
     initialValues,
     isSmallLoading,
-    match,
     reset,
   } = props;
   // STATE
@@ -48,7 +51,7 @@ const Upgrade = (props) => {
   const [showError, setShowError] = useState(false);
   const [scrollHash, setScrollHash] = useState(null);
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // REF
   const singleStepRef = useRef(null);
@@ -459,11 +462,9 @@ Upgrade.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 
@@ -507,6 +508,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Upgrade);

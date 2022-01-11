@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import {
   Map, InfoWindow, Marker, Circle,
 } from 'google-maps-react';
@@ -443,6 +442,5 @@ export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
 });
 
 export default compose(
-  withRouter,
   connect(null, mapDispatchToProps),
 )(ComponentMap);

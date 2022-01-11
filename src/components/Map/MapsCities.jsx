@@ -3,7 +3,6 @@
 import React, {
   useState, createRef, useEffect, useRef,
 } from 'react';
-import { withRouter } from 'react-router-dom';
 import {
   GoogleApiWrapper,
 } from 'google-maps-react';
@@ -443,8 +442,8 @@ MapsCities.defaultProps = {
   subMinHeight: '',
 };
 
-const mapStateToProps = (state, props) => {
-  const formName = get(props, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
+const mapStateToProps = (state, ownProps) => {
+  const formName = get(ownProps, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
   const lat = get(state, 'property.activeSingleProperty.location.latitude', 10);
   const lng = get(state, 'property.activeSingleProperty.location.longitude', 10);
   return ({
@@ -471,6 +470,5 @@ export default compose(
     apiKey: (baseByData.googleMaps),
     libraries: ['geometry', 'drawing', 'places'],
   }),
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MapsCities);

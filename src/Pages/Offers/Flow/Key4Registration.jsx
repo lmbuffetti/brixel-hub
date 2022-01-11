@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
@@ -83,7 +82,7 @@ const Key4Registration = (props) => {
             </h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
               <div className="p-5">
-                <p className="fsize-500 txtAltGrey700">Please prepare the following documents to apply for your certificate:</p>
+                <p className="fsize-500 txtDark700">Please prepare the following documents to apply for your certificate:</p>
 
                 <div className="mt-3">
                   <div className="dis-f a-c">
@@ -94,7 +93,7 @@ const Key4Registration = (props) => {
                       color="altGreen"
                       saturationTxt={300}
                     />
-                    <p className="txtAltGrey700">Latest tax declaration</p>
+                    <p className="txtDark700">Latest tax declaration</p>
                   </div>
                   <div className="dis-f a-c mt-2">
                     <BrixelIcon
@@ -104,7 +103,7 @@ const Key4Registration = (props) => {
                       color="altGreen"
                       saturationTxt={300}
                     />
-                    <p className="txtAltGrey700">Latest proof of income, incl. proof of bonus if applicable</p>
+                    <p className="txtDark700">Latest proof of income, incl. proof of bonus if applicable</p>
                   </div>
                   <div className="dis-f a-c mt-2">
                     <BrixelIcon
@@ -114,7 +113,7 @@ const Key4Registration = (props) => {
                       color="altGreen"
                       saturationTxt={300}
                     />
-                    <p className="txtAltGrey700">Pension fund statement</p>
+                    <p className="txtDark700">Pension fund statement</p>
                   </div>
 
                   <div className="dis-f a-c mt-2">
@@ -125,7 +124,7 @@ const Key4Registration = (props) => {
                       color="altGreen"
                       saturationTxt={300}
                     />
-                    <p className="dis-f flex-wrap a-c txtAltGrey700">
+                    <p className="dis-f flex-wrap a-c txtDark700">
                       <span>Property exposé</span>
                       {
                         getSellerBrochure() && (
@@ -160,7 +159,6 @@ const Key4Registration = (props) => {
               <BrixelButtonPrimary
                 className="mx-a mt-3"
                 rounded
-                themeSat={300}
                 theme="altGreen"
                 label="Register on key4"
                 rightIcon="arrow-right"
@@ -207,6 +205,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(Key4Registration);

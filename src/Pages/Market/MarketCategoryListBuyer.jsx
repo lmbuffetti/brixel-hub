@@ -3,7 +3,7 @@ import React, {
   useEffect, lazy, Suspense, useState, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import {
@@ -29,6 +29,10 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListBuyer = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const settingSlider = {
     dots: false,
     infinite: true,
@@ -64,7 +68,6 @@ const MarketCategoryListBuyer = (props) => {
   // PROPS
   const {
     bestimate,
-    history,
     initialValues,
     initForm,
     ownerEstimations,
@@ -246,7 +249,7 @@ const MarketCategoryListBuyer = (props) => {
                   {
                     get(wishlistProperties, 'data', []).length > numWishProp && (
                       <div
-                        className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen300 min-w-fix-80 h-fix-80 ml-4 cur-poi"
+                        className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen400 min-w-fix-80 h-fix-80 ml-4 cur-poi"
                         onClick={() => history.push('/buy/wishlist')}
                       >
                         <span className="txtGreen400 fweight-600 fsize-500">
@@ -348,7 +351,7 @@ const MarketCategoryListBuyer = (props) => {
                   <span className="mx-small-4 txtAltBlue400">new properties</span>
                   <span>on our Pre-Market.</span>
                 </h3>
-                <h5 className="fweight-400 mt-3 txtAltGrey700">
+                <h5 className="fweight-400 mt-3 txtDark700">
                   Be ahead of the market.
                 </h5>
                 <BrixelButtonPrimary
@@ -356,7 +359,6 @@ const MarketCategoryListBuyer = (props) => {
                   className="mt-3 mt-lg-5"
                   rounded
                   theme="altGreen"
-                  themeSat={300}
                   label="Rate them now"
                 />
               </div>
@@ -412,7 +414,6 @@ const MarketCategoryListBuyer = (props) => {
 MarketCategoryListBuyer.propTypes = {
   bestimate: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   ownerEstimations: PropTypes.object.isRequired,
@@ -478,6 +479,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCategoryListBuyer);

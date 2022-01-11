@@ -10,7 +10,6 @@ import {
   FormatValue,
   Helpers,
 } from '@brixel/brixel-components';
-import { withRouter } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { updateFavorite } from '../actions/UserActions';
@@ -307,6 +306,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCardMap);

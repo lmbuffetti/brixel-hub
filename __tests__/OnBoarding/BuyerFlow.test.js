@@ -12,41 +12,39 @@ import {
 import BuyerFlow from '../../src/Pages/PackageFlow/GetStartedBuyer';
 
 describe('Render Buyer Flow', () => {
-  render(
-    <BuyerFlow isTest />, {
-      companies: {
-        activeSingleCompany: {
-          country: {
-            code: 'PT',
-          },
-          stub: 'brixel_portugal',
+  render(<BuyerFlow isTest />, {
+    companies: {
+      activeSingleCompany: {
+        country: {
+          code: 'PT',
+        },
+        stub: 'brixel_portugal',
+      },
+    },
+    brixelForm: {
+      GetStarted: {
+        values: {
+          test: true,
+          locations: [{
+            address: 'Lisboa,  Portugal,  Portugal',
+            city: 'Lisboa',
+            cityZip: '1250-096 Lisboa',
+            country: 'Portugal',
+            countryCode: 'PT',
+            geometry: {},
+            latitude: 38.7205373,
+            longitude: -9.1459023,
+            name: 'Avenida da Liberdade',
+            searchAddress: 'Lisboa,  Portugal,  Portugal',
+            state: 'Lisboa',
+            stateCode: 'Lisboa',
+            vicinity: null,
+            zip: null,
+          }],
         },
       },
-      brixelForm: {
-        GetStarted: {
-          values: {
-            test: true,
-            locations: [{
-              address: 'Lisboa,  Portugal,  Portugal',
-              city: 'Lisboa',
-              cityZip: '1250-096 Lisboa',
-              country: 'Portugal',
-              countryCode: 'PT',
-              geometry: {},
-              latitude: 38.7205373,
-              longitude: -9.1459023,
-              name: 'Avenida da Liberdade',
-              searchAddress: 'Lisboa,  Portugal,  Portugal',
-              state: 'Lisboa',
-              stateCode: 'Lisboa',
-              vicinity: null,
-              zip: null,
-            }],
-          },
-        },
-      },
-    }, '',
-  );
+    },
+  }, '');
 
   it('check the success save user/page', async () => {
     // PROPERTY TYPE
@@ -90,7 +88,7 @@ describe('Render Buyer Flow', () => {
     const Text = screen.getAllByRole('text');
     await userEvent.type(Text[0], 'Jest Test');
     const Email = screen.getAllByRole('email');
-    await userEvent.type(Email[0], 'jestTest+testjestBuyer@brixel.io',);
+    await userEvent.type(Email[0], 'jestTest+testjestBuyer@brixel.io');
     const Password = screen.getAllByRole('password');
     await userEvent.type(Password[0], 'test.99', { allAtOnce: true });
     const Privacy = screen.getAllByRole('checkbox')[0];

@@ -4,11 +4,11 @@ if (typeof window !== 'undefined') {
   window.matchMedia = window.matchMedia || function () {
     return {
       matches: false,
-      addListener: function () {},
-      removeListener: function () {},
+      addListener() {},
+      removeListener() {},
     };
   };
-};
+}
 
 const noop = () => {};
 Object.defineProperty(window, 'scrollTo', { value: noop, writable: true });

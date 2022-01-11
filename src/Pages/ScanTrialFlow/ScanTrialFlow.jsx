@@ -16,18 +16,24 @@ import {
 } from '@brixel/brixel-components';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import isArray from 'lodash/isArray';
+import queryString from 'query-string';
 import { checkBrowser } from '../../utils/helpers';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
 
 const ScanTrialFlow = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleCompany,
@@ -36,25 +42,23 @@ const ScanTrialFlow = (props) => {
     errorValue,
     formValue,
     handleSendScanTrial,
-    history,
     initForm,
     initialValues,
     isSmallLoading,
     loggedInUser,
-    match,
     reset,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(ScanTrialQuestions());
   // const [position, setPosition] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(3);
   const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   // REF
   const singleStepRef = useRef(null);
@@ -68,6 +72,12 @@ const ScanTrialFlow = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
+    const urlParams = queryString.parse(get(history, 'location.search', ''));
+    if (urlParams && urlParams.action) {
+      if (urlParams.action === 'remote' || urlParams.action === 'on-site') {
+        setCurrentIndex(3);
+      }
+    }
     if (questions[currentIndex].history) {
       history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
     }
@@ -83,6 +93,9 @@ const ScanTrialFlow = (props) => {
 
   useEffect(() => {
     initForm(initialValues);
+    let defId = checkCondition(currentIndex);
+    console.log(defId);
+    if (defId !== currentIndex) changeStep();
   }, [activeSingleProperty]);
 
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
@@ -184,6 +197,7 @@ const ScanTrialFlow = (props) => {
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
+    if (get(formValue, 'date') < +new Date()) isValid = false;
     if (get(quest, 'inputs', null)) {
       quest.inputs.forEach((input) => {
         const err = get(errorValue, input.name, null);
@@ -244,45 +258,49 @@ const ScanTrialFlow = (props) => {
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
-
-      // setPosition(newIndex);
-      if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
-
-      let newQuest = {
-        ...questions[defId],
-      };
-      if (questions[defId].effect === 'slideUp') {
-        newQuest = {
-          ...questions[defId - 1],
+      if (defId !== newIndex) defId = checkCondition(defId, act);
+      if (defId > -1) {
+        if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
+  
+        let newQuest = {
+          ...questions[defId],
         };
-      }
-      if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
-        setQuest(newQuest);
-        setCurrentIndex(defId);
-      } else {
-        setQuest(newQuest);
-        setCurrentIndex(defId);
-      }
-      setTimeout(() => {
-        const getCurStep = document.getElementById(`step-${defId}`);
-        if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-          getCurStep.querySelector('input[type="number"]').focus();
-        } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-          getCurStep.querySelector('input[type="text"]').focus();
+        if (questions[defId].effect === 'slideUp') {
+          newQuest = {
+            ...questions[defId - 1],
+          };
         }
-      }, 100);
-      if (questions[defId].history) {
-        history.push({
-          pathname: `/${propID}/trialRequest/${questions[defId].history}`,
-          state: get(history, 'location.state', {}),
-        });
-      }
-      if (checkBrowser() > 0) {
-        if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
-        if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
-      } else {
-        if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-        if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+        if (act === 'back' && questions[defId + 1].effect === 'slideUp') {
+          setQuest(newQuest);
+          setCurrentIndex(defId);
+        } else {
+          setQuest(newQuest);
+          setCurrentIndex(defId);
+        }
+        setTimeout(() => {
+          const getCurStep = document.getElementById(`step-${defId}`);
+          if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+            getCurStep.querySelector('input[type="number"]').focus();
+          } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+            getCurStep.querySelector('input[type="text"]').focus();
+          }
+        }, 100);
+        if (questions[defId].history) {
+          history.push({
+            pathname: `/${propID}/trialRequest/${questions[defId].history}`,
+            state: get(history, 'location.state', {}),
+          });
+        }
+        if (checkBrowser() > 0) {
+          if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+          if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
+        } else {
+          if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+          if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+          });
+        }
       }
     }
     return null;
@@ -447,17 +465,6 @@ const ScanTrialFlow = (props) => {
                 <div className="pos-r">
                   <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
                     {
-                      (get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0) && (
-                        <BrixelButtonIcon
-                          className="backBtn ml-0 mr-a"
-                          icon="arrow-left-small"
-                          onClick={() => changeStep('back')}
-                          theme="light"
-                          secondary
-                        />
-                      )
-                    }
-                    {
                       (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
                         <>
                           {
@@ -474,7 +481,7 @@ const ScanTrialFlow = (props) => {
                               />
                             ) : (
                               <BrixelButtonPrimary
-                                className={`${currentIndex > 0 && get(questions, `[${currentIndex - 1}].inputs`, null) ? 'mr-a ml-5-neg' : ''} noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                className={`noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 rounded
                                 theme="green"
@@ -519,18 +526,34 @@ ScanTrialFlow.propTypes = {
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
+  const history = {
+    location: window.location.href,
+  };
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
+  let bookType = get(history, 'location', '').replace(/\/$/, '');
+  if (bookType) bookType = bookType.split('/')[bookType.split('/').length - 1];
+  const initVal = {
+    ...get(state, 'brixelForm.scanFlow.values', {}),
+    name: get(state, 'user.loggedInUser.user.name', null),
+    phone: {
+      prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,
+      number: get(state, 'user.loggedInUser.user.phone.number', ''),
+    },
+    email: get(state, 'user.loggedInUser.user.email', null),
+    userID: get(state, 'user.loggedInUser.user.id', null),
+  };
+  if (!initVal.analysis) initVal.analysis = 'on-site';
+  if (bookType === 'on-site') initVal.analysis = 'on-site';
+  if (bookType === 'remote') initVal.analysis = 'remote';
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
@@ -538,16 +561,7 @@ const mapStateToProps = (state) => {
     formValue: get(state, 'brixelForm.scanFlow.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    initialValues: {
-      ...get(state, 'brixelForm.scanFlow.values', {}),
-      name: get(state, 'user.loggedInUser.user.name', null),
-      phone: {
-        prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,
-        number: get(state, 'user.loggedInUser.user.phone.number', ''),
-      },
-      email: get(state, 'user.loggedInUser.user.email', null),
-      userID: get(state, 'user.loggedInUser.user.id', null),
-    },
+    initialValues: initVal,
   });
 };
 
@@ -569,6 +583,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ScanTrialFlow);

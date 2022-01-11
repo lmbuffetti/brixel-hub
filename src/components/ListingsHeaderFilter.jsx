@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
@@ -164,6 +163,5 @@ const mapStateToProps = () => ({});
 const mapDispatchToProps = () => ({});
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(ListingsHeaderFilter);

@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
@@ -21,21 +21,22 @@ import { spinnerOff } from '../../../actions/CommonActions';
 import { getFavoritesProperties } from '../../../actions/MarketActions';
 import { getBuyerDeal } from '../../../actions/DealActions';
 
-const ProtectedRoute = lazy(() => import('../../../components/ProtectedRoute'));
-
 const PropertiesBuyerDashboard = lazy(() => import('./PropertiesBuyerDashboard'));
-
-const RewardsBuyerDashboard = lazy(() => import('./RewardsBuyerDashboard'));
 
 const PropertyBuyerDashboard = lazy(() => import('./PropertyBuyerDashboard'));
 
 const DealsDashboardBuyer = lazy(() => import('./DealsDashboardBuyer'));
 
-const Documents = lazy(() => import('../../EditProperty/Documents'));
+const Documents = lazy(() => import('../../SingleProperty/Documents'));
 
 const Financing = lazy(() => import('./Financing'));
 
 const Dashboard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleCompany,
@@ -47,22 +48,20 @@ const Dashboard = (props) => {
     handleSpinnerOff,
     handleGetBuyerDeal,
     handleSetUserTypes,
-    history,
     loggedInUser,
-    match,
     favoritesProperties,
   } = props;
 
   // GET URL PARAMS
-  const propID = get(match, 'params.propID', null);
-  const dealID = get(match, 'params.dealID', null);
+  const propID = get(match, 'propID', null);
+  const dealID = get(match, 'dealID', null);
   // STATE
   const [itemsPerPage] = useState(20);
   const [currentPage] = useState(0);
   const [sortOrderType] = useState('updatedAt');
   const [sortDirection] = useState('DESC');
 
-  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT AND GET THE GAME ACHIEVEMENTS - GAME HISTORY - GAME GROUP
+  // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
     const data = {
       resultsPerPage: itemsPerPage,
@@ -111,13 +110,15 @@ const Dashboard = (props) => {
     <div className="dashboardContainer" id="dashboard">
       <div className="w-perc-100 pt-0 pt-lg-3">
         <Suspense fallback="">
-          { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-          <ProtectedRoute exact path="/buyer/propertyLists" component={PropertiesBuyerDashboard} />
-          <ProtectedRoute path="/buyer/:propID/home" component={RewardsBuyerDashboard} />
-          <ProtectedRoute path="/buyer/:propID/property" component={PropertyBuyerDashboard} />
-          <ProtectedRoute path="/buyer/:propID/docubox" component={Documents} />
-          <ProtectedRoute path="/buyer/:propID/financing" component={Financing} />
-          <ProtectedRoute path="/buyer/:propID/closing" component={DealsDashboardBuyer} />
+          <Routes>
+            { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+            <Route path="/" element={<PropertiesBuyerDashboard />} />
+            <Route path="/property/*" element={<PropertyBuyerDashboard />} />
+            <Route path="/docubox" element={<Documents />} />
+            <Route path="/financing" element={<Financing />} />
+            <Route path="/closing/*" element={<DealsDashboardBuyer />} />
+            <Route path="*" element={<Navigate to={`/buyer/${propID}/property`} />} />
+          </Routes>
         </Suspense>
       </div>
     </div>
@@ -134,9 +135,7 @@ Dashboard.propTypes = {
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.object.isRequired,
 };
 
@@ -170,6 +169,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Dashboard);

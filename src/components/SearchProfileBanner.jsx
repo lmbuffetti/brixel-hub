@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
@@ -21,12 +21,15 @@ import { createUserSearchProfile, updateUserSearchProfile } from '../actions/Sea
 import { setWizard } from '../actions/CommonActions';
 
 const SearchProfileBanner = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     formValue,
     handleCreateSearchProfile,
     handleSetWizard,
     handleUpdateSearchProfile,
-    history,
     isSmallLoading,
     lang,
     loggedInUser,
@@ -121,7 +124,7 @@ const SearchProfileBanner = (props) => {
 
   return (
     <>
-      <h4 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtAltGrey700`}>{title}</h4>
+      <h4 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtDark700`}>{title}</h4>
       {
         subtitle && (
           <div className="mb-4 txtDark700 fsize-500">
@@ -230,7 +233,7 @@ const SearchProfileBanner = (props) => {
                     className="closePanel dis-f jc-b px-2 a-c py-1"
                     style={styleMobileProfile ? {} : {}}
                   >
-                    <h5 className="fweight-600 txtAltGrey700">{title}</h5>
+                    <h5 className="fweight-600 txtDark700">{title}</h5>
                     <BrixelButtonIcon
                       ghost
                       theme="dark"
@@ -256,7 +259,7 @@ const SearchProfileBanner = (props) => {
                         <BrixelIcon
                           iconWidth="w-fix-24"
                           background="altMist"
-                          saturation={200}
+                          saturation={100}
                           color="altMist"
                           rounded
                           icon="fire"
@@ -271,7 +274,7 @@ const SearchProfileBanner = (props) => {
                         <BrixelIcon
                           iconWidth="w-fix-24"
                           background="altRed"
-                          saturation={200}
+                          saturation={100}
                           color="altRed"
                           rounded
                           icon="close-small"
@@ -286,7 +289,6 @@ const SearchProfileBanner = (props) => {
                         <BrixelIcon
                           iconWidth="w-fix-24"
                           background="altGreen"
-                          saturation={200}
                           color="altGreen"
                           rounded
                           icon="favorite"
@@ -395,7 +397,7 @@ const SearchProfileBanner = (props) => {
                       <BrixelIcon
                         iconWidth="w-fix-32"
                         background="altMist"
-                        saturation={200}
+                        saturation={100}
                         color="altMist"
                         rounded
                         icon="fire"
@@ -404,7 +406,7 @@ const SearchProfileBanner = (props) => {
                         className={`ml-1 ${onStatsFunc.matching ? 'cur-poi' : ''}`}
                         onClick={() => (onStatsFunc.matching ? onStatsFunc.matching() : '')}
                       >
-                        <p className="fsize-600 fweight-600 txtAltBlue400">
+                        <p className="fsize-600 fweight-600 txtAltBlue600">
                           <span>{preMarketStats.total}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
                             Matching
@@ -416,13 +418,13 @@ const SearchProfileBanner = (props) => {
                       <BrixelIcon
                         iconWidth="w-fix-32"
                         background="altRed"
-                        saturation={200}
+                        saturation={100}
                         color="altRed"
                         rounded
                         icon="close-small"
                       />
                       <div className="ml-1">
-                        <p className="fsize-600 fweight-600 txtAltRed700">
+                        <p className="fsize-600 fweight-600 txtAltRed600">
                           <span>{preMarketStats.dislikedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg no-wrap">
                             Don&apos;t like
@@ -434,13 +436,13 @@ const SearchProfileBanner = (props) => {
                       <BrixelIcon
                         iconWidth="w-fix-32"
                         background="altGreen"
-                        saturation={200}
+                        saturation={100}
                         color="altGreen"
                         rounded
                         icon="favorite"
                       />
                       <div className="ml-1 cur-poi" onClick={() => history.push('/buy/wishlist')}>
-                        <p className="fsize-600 fweight-600 txtAltGreen400">
+                        <p className="fsize-600 fweight-600 txtAltGreen600">
                           <span>{preMarketStats.likedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
                             Likes
@@ -477,7 +479,6 @@ const SearchProfileBanner = (props) => {
                     className="mr-a-lg"
                     rounded
                     theme="altGreen"
-                    themeSat={300}
                     label="Save and close filters"
                     onClick={() => saveData()}
                     isLoading={isSmallLoading.saveData}
@@ -497,7 +498,6 @@ SearchProfileBanner.propTypes = {
   handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetWizard: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -543,6 +543,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SearchProfileBanner);

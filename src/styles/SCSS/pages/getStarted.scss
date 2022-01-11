@@ -42,6 +42,19 @@
 
   .flowHeader {
     background-color: #F7F6F5;
+
+    &.welcomeSellerHeader {
+      background-color: #fff;
+
+        .wcInnerWrap {
+        padding-top: $step;
+        padding-bottom: $step;
+
+        @media (max-width: $responsive-medium) {
+          max-height: fit-content;
+        }
+      }
+    }
   }
 }
 .flowBody {
@@ -292,6 +305,28 @@
             }
             .subcontainer {
               max-width: inherit;
+            }
+          }
+        }
+      }
+      &.welcomeSellerBody {
+        .multiStepSlides {
+
+          .singleStep {
+
+            @media (max-width: $responsive-medium) {
+              padding-left: $step * 2 !important;
+              padding-right: $step * 2 !important;
+            }
+          }
+          .cardLayout {
+            .textLabel {
+              min-height: fit-content;
+              padding-bottom: $step * 2;
+              @media (max-width: $responsive-small) {
+                text-align: left;
+                padding-bottom: 0;
+              }
             }
           }
         }
