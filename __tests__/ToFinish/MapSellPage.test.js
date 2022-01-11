@@ -47,16 +47,14 @@ describe('Render Map Sell', () => {
 
   for (let i = 0; i < categoryMap.length; i += 1) {
     it(`test page ${categoryMap[i]}`, async () => {
-      await render(
-        <App isTest />, {
-          common: {
-            test: true,
-          },
-          user: {
-            loggedInUser: user,
-          },
-        }, `/sell/${categoryMap[i]}`,
-      );
+      await render(<App isTest />, {
+        common: {
+          test: true,
+        },
+        user: {
+          loggedInUser: user,
+        },
+      }, `/sell/${categoryMap[i]}`);
 
       await waitFor(async () => {
         await expect(screen.getAllByRole('heading').length > 0);

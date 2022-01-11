@@ -298,7 +298,7 @@ const ScanTrialFlow = (props) => {
           if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
           if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({
             top: 0,
-            behavior: 'smooth'
+            behavior: 'smooth',
           });
         }
       }

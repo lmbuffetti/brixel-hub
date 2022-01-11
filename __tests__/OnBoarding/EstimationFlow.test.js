@@ -12,42 +12,40 @@ import {
 import EstimationFlow from '../../src/Pages/PackageFlow/GetStartedEstimation';
 
 describe('Render Estimation Flow', () => {
-  render(
-    <EstimationFlow isTest />, {
-      companies: {
-        activeSingleCompany: {
-          country: {
-            code: 'PT',
-          },
-          stub: 'brixel_portugal',
+  render(<EstimationFlow isTest />, {
+    companies: {
+      activeSingleCompany: {
+        country: {
+          code: 'PT',
         },
+        stub: 'brixel_portugal',
       },
-      brixelForm: {
-        GetStarted: {
-          values: {
-            pageID: '200000000000000000000000',
-            test: true,
-            location: {
-              address: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
-              city: 'Lisboa',
-              cityZip: '1250-096 Lisboa',
-              country: 'Portugal',
-              countryCode: 'PT',
-              geometry: {},
-              latitude: 38.7205373,
-              longitude: -9.1459023,
-              name: 'Avenida da Liberdade',
-              searchAddress: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
-              state: 'Lisboa',
-              stateCode: 'Lisboa',
-              vicinity: null,
-              zip: '1250-096',
-            },
+    },
+    brixelForm: {
+      GetStarted: {
+        values: {
+          pageID: '200000000000000000000000',
+          test: true,
+          location: {
+            address: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
+            city: 'Lisboa',
+            cityZip: '1250-096 Lisboa',
+            country: 'Portugal',
+            countryCode: 'PT',
+            geometry: {},
+            latitude: 38.7205373,
+            longitude: -9.1459023,
+            name: 'Avenida da Liberdade',
+            searchAddress: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
+            state: 'Lisboa',
+            stateCode: 'Lisboa',
+            vicinity: null,
+            zip: '1250-096',
           },
         },
       },
-    }, '',
-  );
+    },
+  }, '');
 
   it('check the estimation', async () => {
     // ESTIMATION TYPE

@@ -45,16 +45,14 @@ describe('Render Sell Home', () => {
 
   for (let i = 0; i < urlToTest.length; i += 1) {
     it(`test page ${urlToTest[i]}`, async () => {
-      await render(
-        <App isTest />, {
-          common: {
-            test: true,
-          },
-          user: {
-            loggedInUser: user,
-          },
-        }, urlToTest[i],
-      );
+      await render(<App isTest />, {
+        common: {
+          test: true,
+        },
+        user: {
+          loggedInUser: user,
+        },
+      }, urlToTest[i]);
 
       await waitFor(async () => {
         await expect(screen.getAllByRole('heading').length > 0);

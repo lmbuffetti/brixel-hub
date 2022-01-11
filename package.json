@@ -91,7 +91,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",
-    "@babel/node": "^7.16.7",
+    "@babel/node": "^7.16.8",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@svgr/core": "^6.2.0",
