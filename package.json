@@ -64,6 +64,7 @@
     "test-stage": "NODE_ENV=page-stag npm run sellerFlowTest && NODE_ENV=page-stag npm run estimationFlowTest && NODE_ENV=page-stag npm run buyerFlowTest && NODE_ENV=page-stag npm run allTests",
     "test-prod": "NODE_ENV=page-prod npm run sellerFlowTest && NODE_ENV=page-prod npm run estimationFlowTest && NODE_ENV=page-prod npm run buyerFlowTest && NODE_ENV=page-prod npm run allTests",
     "eject": "react-scripts eject",
+    "eslint": "eslint --fix --ignore-path .eslintignore .",
     "ncu": "ncu -x ''",
     "ncu-u": "ncu -x '' -u"
   },
