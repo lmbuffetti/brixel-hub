@@ -35,16 +35,14 @@ describe('Render Sell Home', () => {
   });
 
   it('check if page loaded', async () => {
-    await render(
-      <App isTest />, {
-        common: {
-          test: true,
-        },
-        user: {
-          loggedInUser: user,
-        },
-      }, '/sell',
-    );
+    await render(<App isTest />, {
+      common: {
+        test: true,
+      },
+      user: {
+        loggedInUser: user,
+      },
+    }, '/sell');
 
     await waitFor(async () => {
       // PROPERTY TYPE
