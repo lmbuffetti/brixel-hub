@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import { configureStore } from './store';
 import * as serviceWorker from './serviceWorker';
+import ErrorBoundary from './components/ErrorBoundering';
 
 // SET THE STORE FROM REDUX REDUCER
 const store = configureStore;
@@ -16,7 +17,9 @@ const root = document.getElementById('root');
 const AppDOM = () => (
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </BrowserRouter>
   </Provider>
 );
