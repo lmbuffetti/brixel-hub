@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -7,6 +7,9 @@ import {
   BrixelButtonPrimary, BrixelRadioButton, change, FactsOptions,
 } from '@brixel/brixel-components';
 import ApartmentImg from '../../images/welcomeOnboarding/apartment.svg';
+import HouseImg from '../../images/welcomeOnboarding/house.svg';
+import BuildingLandImg from '../../images/welcomeOnboarding/buildingLand.svg';
+import CommercialImg from '../../images/welcomeOnboarding/commercial.svg';
 import TestDriveImg from '../../images/welcomeOnboarding/tstDrive.png';
 import OverviewImg from '../../images/welcomeOnboarding/overview.png';
 import DiscussImg from '../../images/welcomeOnboarding/discuss.png';
@@ -19,6 +22,7 @@ const WelecomeOnboardingStage = (props) => {
     location: useLocation(),
   };
   const [step, setStep] = useState(1);
+  const [imgProperty, setImgProperty] = useState(null);
   const {
     activeSingleProperty,
     changeFieldValue,
@@ -28,6 +32,29 @@ const WelecomeOnboardingStage = (props) => {
     setStep(step + 1);
     history.push(`/packageFlow/${activeSingleProperty.id}/welcomeSeller/${factsOptions.progressBarOptions[0].value}/step${step + 1}`);
   };
+
+  useEffect(() => {
+    if (get(activeSingleProperty, 'properties.propertyType', null)) {
+      let img;
+      switch (activeSingleProperty.properties.propertyType) {
+        case 'Apartment':
+          img = ApartmentImg;
+          break;
+        case 'House':
+          img = HouseImg;
+          break;
+        case 'Commercial':
+          img = CommercialImg;
+          break;
+        case 'Building land':
+          img = BuildingLandImg;
+          break;
+        default:
+          img = null;
+      }
+      setImgProperty(img);
+    }
+  }, [activeSingleProperty]);
 
   const onChange = (val) => {
     switch (val) {
@@ -56,7 +83,11 @@ const WelecomeOnboardingStage = (props) => {
         <div className="multiFieldWrap w-perc-100">
           <div className="dis-f jc-b h-perc-100 a-c">
             <div className="dis-f-col jc-c a-c w-perc-100 pos-r pt-2">
-              <img src={ApartmentImg} alt={activeSingleProperty.title} />
+              {
+                imgProperty && (
+                  <img src={imgProperty} alt={activeSingleProperty.title} />
+                )
+              }
 
               <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-500 fsize-sm-600">
                 Congratulations 🎉

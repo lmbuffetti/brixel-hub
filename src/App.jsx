@@ -484,7 +484,7 @@ const App = (props) => {
 
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
-                      
+
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
 
                       { /* SECTION: HUB DASHBOARD */ }
@@ -575,17 +575,15 @@ const App = (props) => {
           </div>
 
           { /* SECTION: ACHIVEMENT FLOW */ }
-          {
-            <Routes>
-              <Route path="/:propId?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
-              <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
-              <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
-              <Route path="/:propID/prospects/:dealID/deal" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
-              <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
-              <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
-              <Route path="*" element={null} />
-            </Routes>
-          }
+          <Routes>
+            <Route path="/:propId?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
+            <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
+            <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
+            <Route path="/:propID/prospects/:dealID/deal" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
+            <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
+            <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
+            <Route path="*" element={null} />
+          </Routes>
 
           {
             modal.state && !modal.type && !modal.small && (
