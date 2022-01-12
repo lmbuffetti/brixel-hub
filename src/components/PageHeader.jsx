@@ -165,22 +165,23 @@ function PageHeader(props) {
       <header className={`flowHeader ${get(pageState, 'stage', null) ? 'welcomeSellerHeader' : ''}`}>
         <div className="container">
           <div className={`wcInnerWrap dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-3' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
-            <div className={`dis-f a-c min-h-fix-56 h-perc-100 ${get(pageState, 'stage', null) ? 'w-fix-48 w-fix-sm-80' : 'w-fix-104'}`}>
-
-              <img
-                className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'hide-md'}`}
-                src={`${window.innerWidth <= 600 ? logoColorIcon : logoColor}`}
-                alt="Brixel Logo"
-                id="header-logo"
-              />
+            <div className="dis-f a-c">
+              <div className={`dis-f a-c min-h-fix-80 h-perc-100 ${get(pageState, 'stage', null) ? 'w-fix-80 w-fix-sm-104' : 'w-fix-104'} ${get(pageState, 'stage', null) ? 'brdSmallRight brdLight200 pr-3 mr-3' : ''}`}>
+                <img
+                  className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32 mr-2' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'hide-md'}`}
+                  src={`${window.innerWidth <= 600 ? logoColorIcon : logoColor}`}
+                  alt="Brixel Logo"
+                  id="header-logo"
+                />
+              </div>
+              {
+                get(pageState, 'stage', null) && (
+                  <div>
+                    <ProgressSellerStage stepIndexProgress={0} />
+                  </div>
+                )
+              }
             </div>
-            {
-              get(pageState, 'stage', null) && (
-                <div>
-                  <ProgressSellerStage stepIndexProgress={0} />
-                </div>
-              )
-            }
             <div className="dis-f a-c">
               {
                 !loggedInUser.token ? (
@@ -227,7 +228,7 @@ function PageHeader(props) {
                         <BrixelButtonIcon
                           ghost
                           className="zIndex11"
-                          theme="dark"
+                          theme="altGrey"
                           icon="close-small"
                           onClick={() => closeOverlay()}
                         />

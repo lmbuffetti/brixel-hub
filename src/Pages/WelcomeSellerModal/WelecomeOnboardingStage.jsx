@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import {
   BrixelButtonPrimary, BrixelRadioButton, change, FactsOptions,
 } from '@brixel/brixel-components';
-import MarketCardSmall from '../../components/MarketCardSmall';
+import ApartmentImg from '../../images/welcomeOnboarding/apartment.svg';
 import TestDriveImg from '../../images/welcomeOnboarding/tstDrive.png';
 import OverviewImg from '../../images/welcomeOnboarding/overview.png';
 import DiscussImg from '../../images/welcomeOnboarding/discuss.png';
@@ -56,20 +56,16 @@ const WelecomeOnboardingStage = (props) => {
         <div className="multiFieldWrap w-perc-100">
           <div className="dis-f jc-b h-perc-100 a-c">
             <div className="dis-f-col jc-c a-c w-perc-100 pos-r pt-2">
-              <MarketCardSmall
-                readOnly
-                className="bgWhite"
-                type="fav"
-                showAddess
-                item={activeSingleProperty}
-              />
+              <img src={ApartmentImg} alt={activeSingleProperty.title} />
 
               <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-500 fsize-sm-600">
                 Congratulations 🎉
               </p>
 
-              <p className="mt-3 txtDark400 max-w-fix-448 m-a fweight-400 fsize-500 fsize-sm-600">
-                Your property was successfully created. Let’s move on.
+              <p className="mt-3 txtBlack max-w-fix-448 m-a fweight-400 fsize-500 fsize-sm-600">
+                <span>Your beautiful</span>
+                <b className="mx-small-4">{activeSingleProperty.title}</b>
+                <span>has been created. Let’s move on.</span>
               </p>
 
               <BrixelButtonPrimary
