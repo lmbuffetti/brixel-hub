@@ -48,3 +48,5 @@ export const GET_HISTORY = 'GET_HISTORY';
 export const SET_HISTORY = 'SET_HISTORY';
 
 export const SET_WIZARD = 'SET_WIZARD';
+
+export const SEND_SLACK_NOTIFICATION = 'SEND_SLACK_NOTIFICATION';

@@ -17,6 +17,11 @@ class Common extends Base {
     const url = ep.common.sendScheduleVisit();
     return this.apiClient.post(url, {}, data);
   }
+
+  sendSlackNotification(data, channel) {
+    const url = ep.common.sendSlackNotification(channel);
+    return this.apiClient.post(url, {}, data);
+  }
 }
 
 export default Common;

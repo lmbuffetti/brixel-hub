@@ -44,7 +44,7 @@
       align-items: center;
       border-radius: $brd-radius-circle;
       border: 1px solid map_get($altGreyColor, 100);
-      background: lighten(map_get($altGreyColor, 100), $amount: 5);
+      background: $brx-white;
 
       @media (max-width: $responsive-medium) {
         margin-bottom: $step;
@@ -84,17 +84,16 @@
     }
     &.active {
       &:before {
-        background: map_get($altGreenColor, 100);
+        background: map_get($altGreenColor, 400);
       }
       .wrap-step {
-        border: 1px solid map_get($altGreenColor, 100);
+        border: 1px solid map_get($altGreenColor, 400);
       }
       .circle {
-        background: map_get($altGreenColor, 400);
-        border: 1px solid map_get($altGreenColor, 100);
+        border: 1px solid map_get($altGreenColor, 400);
       }
       .stepNumber {
-        color: $brx-white;
+        color: map_get($altGreenColor, 400);
       }
       .stepLabel {
         color: map_get($altGreenColor, 400);
