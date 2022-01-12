@@ -4,7 +4,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonIcon,
   BrixelButtonPrimary,
   MultiFileldsReduxForm,
   change,
@@ -90,13 +89,6 @@ const ScanTrialFlow = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
-
-  useEffect(() => {
-    initForm(initialValues);
-    let defId = checkCondition(currentIndex);
-    console.log(defId);
-    if (defId !== currentIndex) changeStep();
-  }, [activeSingleProperty]);
 
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
@@ -261,7 +253,6 @@ const ScanTrialFlow = (props) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (defId > -1) {
         if (questions[defId].toSave) saveData(get(questions[defId], 'action', null));
-  
         let newQuest = {
           ...questions[defId],
         };
@@ -296,15 +287,23 @@ const ScanTrialFlow = (props) => {
           if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
         } else {
           if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-          if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-          });
+          if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) {
+            multiStepSlidesEl.scrollTo({
+              top: 0,
+              behavior: 'smooth',
+            });
+          }
         }
       }
     }
     return null;
   };
+
+  useEffect(() => {
+    initForm(initialValues);
+    const defId = checkCondition(currentIndex);
+    if (defId !== currentIndex) changeStep();
+  }, [activeSingleProperty]);
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
