@@ -176,6 +176,7 @@ const clientConfig = (env) => {
     },
     plugins: [
       new ESLintPlugin({
+        extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,
