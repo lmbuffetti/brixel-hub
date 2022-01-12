@@ -330,7 +330,6 @@ function PageHeaderDashboard(props) {
         activeMenu={activeMenu}
         onClose={() => setActiveMenu(null)}
       />
-      {history.test.test}
       <header className={`bgOverlay hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
         <div className="dasHeaderContainer">
           <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
