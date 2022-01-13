@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { lazy, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Link, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import get from 'lodash/get';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
@@ -22,6 +24,7 @@ import { DateTime } from 'luxon';
 import ICalendarLink from 'react-icalendar-link';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import ProgressSellerStage from '../../../components/ProgressSellerStage';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
 import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
@@ -45,6 +48,7 @@ const DashboardHome = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
+  const match = useParams();
   // PROPS
   const {
     activeSinglePropertyDeals,
@@ -68,6 +72,7 @@ const DashboardHome = (props) => {
   const [progressState, setProgressState] = useState({});
   const [visitLists, setVisitLists] = useState(null);
   // const [stepProgrss, setStepProgrss] = useState({});
+  const propID = get(match, 'propId', null);
 
   const { documents } = formValue;
 
@@ -168,6 +173,22 @@ const DashboardHome = (props) => {
         <span>Welcome back</span>
         <span className="ml-small-4"> { loggedInUser && (<>{loggedInUser.firstName}</>) } 👋 </span>
       </h4>
+
+      {
+        windowDimensions.width <= 1024 && (
+          <>
+            {
+              activeSingleProperty.id && propID && propID.length > 9 && (
+                <ProgressSellerStage
+                  className="mb-3"
+                  smallLayout
+                  stepIndexProgress={progressState.step}
+                />
+              )
+            }
+          </>
+        )
+      }
 
       <div className="max-w-fix-760 dis-fl-col">
         {
@@ -646,11 +667,11 @@ const DashboardHome = (props) => {
           progressState.step >= 3 && (
             <>
               <div className="dis-f jc-b flex-wrap">
-                <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-sm-1">
+                <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-md-1 pr-lg-0 pr-xl-1">
                   <DashboardPropertyCard smallLayout />
                 </div>
                 <div
-                  className="w-perc-100 w-perc-md-30 w-perc-lg-100 w-perc-xl-30 pl-sm-1 mt-md-0"
+                  className="w-perc-100 w-perc-md-30 w-perc-lg-100 w-perc-xl-30 pl-md-1 pl-lg-0 pl-xl-1 mt-md-0 mt-lg-3 mt-xl-0"
                 >
                   <Link
                     to={`/${activeSingleProperty.id}/marketing`}
