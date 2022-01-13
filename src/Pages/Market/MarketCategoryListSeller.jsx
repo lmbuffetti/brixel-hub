@@ -558,9 +558,8 @@ const MarketCategoryListSeller = (props) => {
               onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
               theme="AltGreen"
             />
-            <span className="mx-1 hide dis-fl-row-sm">or</span>
+            <span className="mx-sm-1 mt-2 my-sm-0">or</span>
             <BrixelButtonText
-              className="mt-2 mt-sm-0"
               rounded
               label="compare all plans"
               onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade#comparePlan`)}
