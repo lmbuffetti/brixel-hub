@@ -16,21 +16,26 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, info) {
-    const {
-      activeSingleProperty,
-      handleSendSlackNotifications,
-      loggedInUser,
-    } = this.props;
-    // logging the error details
-    const channel = 'frontend-dev';
-    const data = {
-      user: get(loggedInUser, 'id', ''),
-      page: get(activeSingleProperty, 'id', ''),
-      meta: `Cause: ${error}.\nStackTrace: ${info.componentStack}`,
-      url: window.location.href,
-      apiResource: '',
-    };
-    handleSendSlackNotifications({ data, channel });
+    if (typeof window !== 'undefined') {
+      const url = window.location.href;
+      if (!url.includes('500') && !url.includes('localhost')) {
+        const {
+          activeSingleProperty,
+          handleSendSlackNotifications,
+          loggedInUser,
+        } = this.props;
+        // logging the error details
+        const channel = 'frontend-dev';
+        const data = {
+          user: get(loggedInUser, 'id', ''),
+          page: get(activeSingleProperty, 'id', ''),
+          meta: `Cause: ${error}.\nStackTrace: ${info.componentStack}`,
+          url: window.location.href,
+          apiResource: '',
+        };
+        handleSendSlackNotifications({ data, channel });
+      }
+    }
   }
 
   render() {

@@ -35,6 +35,7 @@ import Support from './components/Support';
 
 // SIGNUP
 const Signup = lazy(() => import('./Pages/Signup/Signup'));
+const ErrorBoundering = lazy(() => import('./components/ErrorBoundering'));
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
@@ -470,6 +471,7 @@ const App = (props) => {
                     )
                   } */}
                     <Routes>
+                      <Route path="/500" element={<ErrorBoundering />} />
                       { /* SECTION: ONBOARDING */}
                       <Route path="/packageFlow/" element={<GetStarted />} />
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
