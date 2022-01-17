@@ -2,7 +2,7 @@
   .step-item {
     position: relative;
     z-index: 1;
-    padding-right: $step;
+    padding-right: $step * 2;
     &:last-child {
       padding-right: 0;
       &:before {

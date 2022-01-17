@@ -46,7 +46,7 @@ const ProgressSellerStage = (props) => {
               </div>
               {
                 (!smallLayout || stepIndexProgress === i) && !xSmallMobile && (
-                  <span className="fsize-300 stepLabel">{convertLabel(progress)}</span>
+                  <span className="fsize-300 stepLabel ff-mono">{convertLabel(progress)}</span>
                 )
               }
             </div>
