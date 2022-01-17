@@ -333,12 +333,12 @@ function PageHeaderDashboard(props) {
         <div className="dasHeaderContainer">
           <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c pr-2 pr-lg-3 jc-b pos-r">
             {
-              get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name ? (
+              windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name ? (
                 <div
                   className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
                 >
                   <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper max-w-fix-lg-232  min-w-fix-40 w-perc-lg-100 ${activeSingleProperty.id && propID && propID.length > 9 ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper min-w-fix-lg-232 w-fit min-w-fix-40 ${activeSingleProperty.id && propID && propID.length > 9 ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
                   >
                     <div className="brdSmallRight brdAltGrey200 min-w-80 h-fix-72 dis-f a-c pr-2">
                       <img

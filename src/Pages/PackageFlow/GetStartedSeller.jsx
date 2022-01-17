@@ -132,7 +132,8 @@ const GetStartedSeller = (props) => {
       price: getCurrency(),
       published: false,
       addProperty: true,
-      redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
+      // redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
+      redirectToUrl: '/sell',
       company,
       extraLoading: true,
     };
