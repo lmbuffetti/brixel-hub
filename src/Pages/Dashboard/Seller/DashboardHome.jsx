@@ -33,7 +33,7 @@ import completeDescriptionImg from '../../../images/dashboard/complete_descripti
 import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
 import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
 import contactTestDriveImg from '../../../images/TestDrive/contactTestDrive.svg';
-import bookTestDriveImg from '../../../images/TestDrive/bookTestDrive.svg';
+import bookTestDriveImg from '../../../images/TestDrive/bookTestDrive.png';
 
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
@@ -172,9 +172,9 @@ const DashboardHome = (props) => {
           className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
           onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site`)}
         >
-          <div className="min-w-perc-60">
-            <h5 className="mb-2 fSizePx18">Test drive our service. No strings attached.</h5>
-            <p className="fsize-300">Get the full Brixel experience worth CHF 9’900.</p>
+          <div className="w-perc-100 max-w-fix-208">
+            <h5 className="mb-2 fSizePx18 fweight-600">Test drive our service. No strings attached.</h5>
+            <p className="fsize-300 txtDark700">Get the full Brixel experience worth CHF 9’900.</p>
             <BrixelButtonPrimary
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site`)}
               className="mt-3"
@@ -184,7 +184,9 @@ const DashboardHome = (props) => {
               label="Book now"
             />
           </div>
-          <img src={bookTestDriveImg} alt="Book Test Drive" />
+          <div className="w-perc-100 max-w-fix-136">
+            <img src={bookTestDriveImg} alt="Book Test Drive" />
+          </div>
         </div>
       </div>
       <div className="mt-3 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
@@ -192,9 +194,9 @@ const DashboardHome = (props) => {
           onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote`)}
           className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
         >
-          <div className="min-w-perc-60">
-            <h5 className="mb-2 fSizePx18">Get in touch and find out more</h5>
-            <p className="fsize-300">Chat to one of our team members now.</p>
+          <div className="w-perc-100 max-w-fix-208">
+            <h5 className="mb-2 fSizePx18 fweight-600">Get in touch and find out more</h5>
+            <p className="fsize-300 txtDark700">Chat to one of our team members now.</p>
             <BrixelButtonPrimary
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote`)}
               className="mt-3"
@@ -204,7 +206,7 @@ const DashboardHome = (props) => {
               label="Contact us"
             />
           </div>
-          <div>
+          <div className="w-perc-100 max-w-fix-136">
             <img
               src={contactTestDriveImg}
               alt="Book Test Drive"

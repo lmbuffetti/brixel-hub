@@ -363,19 +363,24 @@ header {
 
 .sectionMenu {
   width: 100%;
-  .dropdown.sectionMenu:not(.compact) .title {
+  &:not(.compact) .title {
     min-width: auto;
   }
   .selElement > div {
     width: auto;
     .title {
       min-width: auto !important;
+      font-weight: 600;
     }
   }
+  .selElement.detailed {
+    padding-left: $step * 2;
+    padding-right: $step * 2;
+    align-items: center;
+  }
 
-  .dropdown .selElement.detailed {
-    padding-left: 20px;
-    padding-right: 20px;
-    align-items: center !important;
+  .dropdown-list {
+    border-radius: 0px !important;
   }
 }
+
