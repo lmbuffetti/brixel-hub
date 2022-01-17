@@ -340,7 +340,7 @@ function PageHeaderDashboard(props) {
                   <div
                     className={`dis-f a-c pl-0 pl-lg-3 logoWrapper min-w-fix-lg-232 w-fit min-w-fix-40 ${activeSingleProperty.id && propID && propID.length > 9 ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
                   >
-                    <div className="brdSmallRight brdAltGrey200 min-w-80 h-fix-72 dis-f a-c pr-2">
+                    <div className="brdSmallRight brdAltGrey200 min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-3">
                       <img
                         onClick={() => {
                           handleSetUserTypes('seller');
@@ -357,7 +357,7 @@ function PageHeaderDashboard(props) {
                       activeSingleProperty.id && propID && propID.length > 9 && (
                         <BrixelDropdown
                           noBorder
-                          className="sectionMenu h-fix-72 pl-1"
+                          className="sectionMenu h-fix-72 "
                           color="dark"
                           saturationTxt={700}
                           lang={lang}
