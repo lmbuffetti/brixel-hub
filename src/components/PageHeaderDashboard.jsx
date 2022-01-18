@@ -347,8 +347,8 @@ function PageHeaderDashboard(props) {
                           handleSetActiveSingleProperty({});
                           history.push('/sell');
                         }}
-                        className={`${windowDimensions.width <= 590 ? 'max-w-fix-32' : ''} pos-r cur-poi`}
-                        src={windowDimensions.width <= 590 ? logoMobile : logo}
+                        className={`${windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? 'max-w-fix-32' : ''} pos-r cur-poi`}
+                        src={windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? logoMobile : logo}
                         alt="Brixel Logo"
                         id="logo"
                       />
