@@ -295,9 +295,9 @@ function PageHeaderDashboard(props) {
   }, [get(history, 'location.state', null)]);
 
   useEffect(() => {
-    if (userType === 'seller') setSection('Sell');
+    if (userType === 'seller' || propID === 'sell') setSection('Sell');
     else setSection('Buy');
-  }, [get(history, 'location.state', null), userType]);
+  }, [get(history, 'location', null), userType]);
 
   const urlBackAction = () => {
     if (get(history, 'location.pathname', '').includes('buyer')) {
@@ -338,7 +338,7 @@ function PageHeaderDashboard(props) {
                   className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
                 >
                   <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper min-w-fix-lg-232 w-fit min-w-fix-40 ${activeSingleProperty.id && propID && propID.length > 9 ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper min-w-fix-lg-232 w-fit min-w-fix-40 ${((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
                   >
                     <div className="brdSmallRight brdAltGrey200 min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2">
                       <img
@@ -354,7 +354,7 @@ function PageHeaderDashboard(props) {
                       />
                     </div>
                     {
-                      activeSingleProperty.id && propID && propID.length > 9 && (
+                      ((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && (
                         <BrixelDropdown
                           noBorder
                           className="sectionMenu h-fix-72 "
