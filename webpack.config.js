@@ -124,13 +124,10 @@ const clientConfig = (env) => {
           exclude: /node_modules/,
           use: [
             {
-              loader: 'babel-loader',
+              loader: 'esbuild-loader',
               options: {
-                presets: ['@babel/preset-env', '@babel/preset-react'],
-                plugins: [
-                  '@babel/plugin-proposal-class-properties',
-                  '@babel/plugin-syntax-dynamic-import',
-                ],
+                loader: 'jsx', // Or 'ts' if you don't need tsx
+                target: 'esnext',
               },
             },
           ],
