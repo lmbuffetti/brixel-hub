@@ -8,7 +8,10 @@ const { factsOptions } = FactsOptions;
 
 const ProgressSellerStage = (props) => {
   const {
+    className,
+    smallLayout,
     stepIndexProgress,
+    xSmallMobile,
   } = props;
 
   const convertLabel = (progress) => {
@@ -23,11 +26,11 @@ const ProgressSellerStage = (props) => {
   };
 
   return (
-    <div className="progress-stage dis-f jc-b pos-r">
+    <div className={`progress-stage dis-f a-c pos-r ${className}`}>
       {
         factsOptions.progressBarOptions.map((progress, i) => (
-          <div className={`step-item ${stepIndexProgress === i ? 'active' : ''} ${stepIndexProgress > i ? 'done' : ''}`} key={i.toString()}>
-            <div className="wrap-step">
+          <div className={`step-item ${stepIndexProgress === i ? 'active' : ''} ${xSmallMobile ? 'xsmall' : ''} ${stepIndexProgress > i ? 'done' : ''}`} key={i.toString()}>
+            <div className={`wrap-step ${xSmallMobile ? 'xsmallStep' : ''} ${smallLayout ? 'smallStep' : ''}`}>
               <div className="circle">
                 {
                   stepIndexProgress > i ? (
@@ -41,7 +44,11 @@ const ProgressSellerStage = (props) => {
                   )
                 }
               </div>
-              <span className="fsize-300 stepLabel">{convertLabel(progress)}</span>
+              {
+                (!smallLayout || stepIndexProgress === i) && !xSmallMobile && (
+                  <span className="fsize-300 stepLabel ff-mono">{convertLabel(progress)}</span>
+                )
+              }
             </div>
           </div>
         ))
@@ -51,7 +58,16 @@ const ProgressSellerStage = (props) => {
 };
 
 ProgressSellerStage.propTypes = {
+  className: PropTypes.string,
+  smallLayout: PropTypes.bool,
+  xSmallMobile: PropTypes.bool,
   stepIndexProgress: PropTypes.number.isRequired,
+};
+
+ProgressSellerStage.defaultProps = {
+  className: '',
+  smallLayout: false,
+  xSmallMobile: false,
 };
 
 export default ProgressSellerStage;

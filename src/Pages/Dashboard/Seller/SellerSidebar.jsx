@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import {
   BrixelIcon,
-  FactsOptions,
 } from '@brixel/brixel-components';
 import sanitizeHtml from 'sanitize-html';
 import { DateTime } from 'luxon';
@@ -16,8 +15,6 @@ import { feedMessage } from '../../../resources/dashboardHistory';
 import { getHistoryFeed } from '../../../actions/HistoryActions';
 import { getNoteListings } from '../../../actions/NoteActions';
 import { arrayMove } from '../../../utils/helpers';
-
-const { factsOptions } = FactsOptions;
 
 const SellerSidebar = (props) => {
   // PROPS
@@ -31,8 +28,6 @@ const SellerSidebar = (props) => {
     activeCompanyPackages,
   } = props;
   // STATE
-  const [stepProgrss, setStepProgrss] = useState({});
-  const [stepIndexProgrss, setIndexProgrss] = useState(0);
   const [fullUpdates, setFullUpdates] = useState([]);
 
   useEffect(() => {
@@ -86,16 +81,6 @@ const SellerSidebar = (props) => {
     setFullUpdates(mergedFeed);
   }, [historyFeed, activeSinglePropertyNotes]);
 
-  useEffect(() => {
-    if (activeSingleProperty.id) {
-      const defState = factsOptions.progressBarOptions.find((item) => item.value === activeSingleProperty.progress.state);
-      const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === activeSingleProperty.progress.state);
-      if (defState.label === 'Sales Lead') defState.label = 'Onboarding';
-      setStepProgrss(defState);
-      setIndexProgrss(defIndexState);
-    }
-  }, [activeSingleProperty.id]);
-
   const convertFeedMessage = (stub, type, history) => {
     const data = feedMessage(loggedInUser, history, activeCompanyPackages);
     if (data[stub] && data[stub][type]) return data[stub][type];
@@ -116,30 +101,8 @@ const SellerSidebar = (props) => {
 
   return (
     <div className="seller-sidebar w-perc-100 max-w-fix-368 p-3">
-      <span className="txtDark700"><span>Your Progress:</span> <span className="ml-1 fweight-600">{stepProgrss.label}</span></span>
-      <div className="progress-steps dis-f jc-b pos-r mb-4 mt-2">
-        <span className="liner" />
-        {
-          factsOptions.progressBarOptions.map((progress, i) => (
-            <div className={`step-item ${stepIndexProgrss === i ? 'active' : ''} ${stepIndexProgrss > i ? 'done' : ''}`} key={i.toString()}>
-              {
-                stepIndexProgrss > i ? (
-                  <BrixelIcon
-                    iconWidth="w-fix-flex-32 pos-r zIndex2"
-                    icon="check-small-fill"
-                    color="altGreen"
-                    saturationTxt={300}
-                  />
-                ) : (
-                  <span className="w-fix-40 h-fix-40">{i + 1}</span>
-                )
-              }
-            </div>
-          ))
-        }
-      </div>
       <div className="updates dis-fl-col">
-        <p className="fweight-600 txtDark700 mb-2">Updates</p>
+        <p className="fweight-600 txtDark700 mb-2">Feed</p>
 
         {
           fullUpdates.map((history, i) => (

@@ -106,7 +106,7 @@ const MenuSidebar = (props) => {
                           icon={nav.icon}
                         />
 
-                        <span className="pl-3">{nav.title}</span>
+                        <span className="pl-1">{nav.title}</span>
 
                       </Link>
                       {
