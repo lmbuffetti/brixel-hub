@@ -447,7 +447,9 @@ const mapStateToProps = (state) => {
         ...get(initVal, 'finance', {}),
         currency: get(initVal, 'finance.currency', get(userCompany, 'country.currency', 'CHF')),
       },
-      location: {},
+      location: {
+        countryCode: get(initVal, 'location[0].countryCode', get(userCompany, 'country.code', 'CH')),
+      },
       locations: get(state, 'user.userSearchProfiles[0].location', []),
     },
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
