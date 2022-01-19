@@ -79,6 +79,20 @@
         color: map_get($altGreenColor, 400);
       }
     }
+    &.done {
+      &:before {
+        background: map_get($altGreenColor, 400);
+      }
+      .circle {
+        border: 1px solid map_get($altGreenColor, 400);
+      }
+      .stepNumber {
+        color: map_get($altGreenColor, 400);
+      }
+      .stepLabel {
+        color: map_get($altGreenColor, 400);
+      }
+    }
 
   }
 

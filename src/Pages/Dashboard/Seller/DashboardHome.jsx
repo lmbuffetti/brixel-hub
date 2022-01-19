@@ -232,6 +232,7 @@ const DashboardHome = (props) => {
                 <ProgressSellerStage
                   className="mb-3"
                   smallLayout
+                  xSmallMobile={windowDimensions.width <= 520}
                   stepIndexProgress={progressState.step}
                 />
               )

@@ -35,8 +35,9 @@ const ProgressSellerStage = (props) => {
                 {
                   stepIndexProgress > i ? (
                     <BrixelIcon
-                      iconWidth="w-fix-flex-32 pos-r zIndex2"
-                      icon="check-small-fill"
+                      noBorder
+                      iconWidth="w-fix-flex-24 pos-r zIndex2"
+                      icon="check"
                       color="altGreen"
                     />
                   ) : (
