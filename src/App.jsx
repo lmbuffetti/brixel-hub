@@ -41,7 +41,7 @@ const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
-// const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
+const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazy(() => import('./Pages/Offers/Flow/MakeOffer'));
 
@@ -477,7 +477,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
-                      {/* <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} /> */}
+                      <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
 
