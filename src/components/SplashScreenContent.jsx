@@ -177,8 +177,6 @@ const SplashScreen = (props) => {
       setTimeout(() => {
         const getModal = document.getElementsByClassName('wrapSplash')[0];
         const scrollContainer = getModal.getElementsByClassName('ov-a')[0];
-        // eslint-disable-next-line no-console
-        console.log(getElementToScroll.offsetTop);
         scrollContainer.scrollTo({ top: 1400, behavior: 'smooth' });
       }, 1000);
     }
