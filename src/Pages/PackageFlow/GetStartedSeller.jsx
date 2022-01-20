@@ -505,10 +505,6 @@ const GetStartedSeller = (props) => {
     return label;
   };
 
-  useEffect(() => {
-    // if (get(formValue, 'properties.propertyType', null)) changeStep('next', null, 1, true);
-  }, [get(formValue, 'properties.propertyType', null)]);
-
   const progressBarCalc = () => {
     let num = 0;
     questions.forEach((item) => {
