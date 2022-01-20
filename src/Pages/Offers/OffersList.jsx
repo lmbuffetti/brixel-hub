@@ -2,9 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
@@ -19,11 +17,14 @@ import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions
 
 // COMPONENTS
 const OfferList = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleProperty,
     // handleGetOfferListings,
     handleSetActiveSingleDeal,
-    history,
     offerListings,
   } = props;
 
@@ -48,9 +49,7 @@ const OfferList = (props) => {
 
 OfferList.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  // handleGetOfferListings: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   offerListings: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -67,6 +66,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(OfferList);

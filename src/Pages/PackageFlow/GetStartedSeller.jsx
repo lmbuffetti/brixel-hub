@@ -9,7 +9,7 @@ import {
   BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy, DataByCountry,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -25,13 +25,17 @@ import { createActiveSingleProperty, saveActiveSingleProperty } from '../../acti
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingSeller';
-import { getGamegroup } from '../../actions/GamificationActions';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 
 const cookie = new Cookies();
 
 const GetStartedSeller = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -46,13 +50,11 @@ const GetStartedSeller = (props) => {
     handleSpinnerOff,
     handleValidateUser,
     handleSpinnerOn,
-    history,
     initForm,
     initialValues,
     isTest,
     lang,
     loggedInUser,
-    match,
     reset,
   } = props;
   // STATE
@@ -66,8 +68,7 @@ const GetStartedSeller = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
-  const getAchievement = () => last(history.location.pathname.split('/'));
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -131,6 +132,7 @@ const GetStartedSeller = (props) => {
       price: getCurrency(),
       published: false,
       addProperty: true,
+      // redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
       redirectToUrl: '/sell',
       company,
       extraLoading: true,
@@ -439,11 +441,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      history.push(`/${propID}/home`);
-    } else {
-      history.push(`/${propID}/home/${getAchievement()}`);
-    }
+    history.push(`/${propID}/home`);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -692,13 +690,11 @@ GetStartedSeller.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 
@@ -707,8 +703,8 @@ GetStartedSeller.defaultProps = {
   lang: 'en',
 };
 
-const mapStateToProps = (state, props) => {
-  const urlSearch = queryString.parse(get(props.history, 'location.search', ''));
+const mapStateToProps = (state, ownProps) => {
+  const urlSearch = queryString.parse(get(ownProps.history, 'location.search', ''));
   const channelCookie = cookie.get('brixelChannelSignup') || null;
   const channel = get(urlSearch, 'channel', channelCookie);
   const propertyType = get(urlSearch, 'propertyType', null);
@@ -719,8 +715,6 @@ const mapStateToProps = (state, props) => {
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
-    gameGroup: get(state, 'gamification.gameGroup', []),
-    gameHistory: get(state, 'gamification.gameHistory', {}),
     initialValues: {
       ...get(state, 'brixelForm.GetStarted.initialValues', {}),
       channel,
@@ -782,7 +776,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleGetGamegroup: bindActionCreators(getGamegroup, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
@@ -799,6 +792,5 @@ export const GetStartedSellerMemo = React.memo(GetStartedSeller, (prevProps, nex
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(GetStartedSellerMemo);

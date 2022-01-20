@@ -12,42 +12,40 @@ import {
 import SellerFlow from '../../src/Pages/PackageFlow/GetStartedSeller';
 
 describe('Render Seller Flow', () => {
-  render(
-    <SellerFlow isTest />, {
-      brixelForm: {
-        companies: {
-          activeSingleCompany: {
-            country: {
-              code: 'PT',
-            },
-            stub: 'brixel_portugal',
+  render(<SellerFlow isTest />, {
+    brixelForm: {
+      companies: {
+        activeSingleCompany: {
+          country: {
+            code: 'PT',
           },
+          stub: 'brixel_portugal',
         },
-        GetStarted: {
-          values: {
-            pageID: '100000000000000000000000',
-            test: true,
-            location: {
-              address: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
-              city: 'Lisboa',
-              cityZip: '1250-096 Lisboa',
-              country: 'Portugal',
-              countryCode: 'PT',
-              geometry: {},
-              latitude: 38.7205373,
-              longitude: -9.1459023,
-              name: 'Avenida da Liberdade',
-              searchAddress: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
-              state: 'Lisboa',
-              stateCode: 'Lisboa',
-              vicinity: null,
-              zip: '1250-096',
-            },
+      },
+      GetStarted: {
+        values: {
+          pageID: '100000000000000000000000',
+          test: true,
+          location: {
+            address: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
+            city: 'Lisboa',
+            cityZip: '1250-096 Lisboa',
+            country: 'Portugal',
+            countryCode: 'PT',
+            geometry: {},
+            latitude: 38.7205373,
+            longitude: -9.1459023,
+            name: 'Avenida da Liberdade',
+            searchAddress: 'Av. da Liberdade, 1250-096 Lisboa, Portugal',
+            state: 'Lisboa',
+            stateCode: 'Lisboa',
+            vicinity: null,
+            zip: '1250-096',
           },
         },
       },
-    }, '',
-  );
+    },
+  }, '');
 
   it('check the success save user/page', async () => {
     // PROPERTY TYPE

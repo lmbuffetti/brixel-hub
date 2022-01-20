@@ -2,8 +2,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Route,
-  withRouter,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 // import has from 'lodash/has';
@@ -16,30 +15,33 @@ import { connect } from 'react-redux';
 import last from 'lodash/last';
 import Loading from '../../../components/Loading';
 
-const Price = lazy(() => import('../../EditProperty/Price'));
+const Price = lazy(() => import('../../SingleProperty/Price'));
 
-const Facts = lazy(() => import('../../EditProperty/Facts'));
+const Facts = lazy(() => import('../../SingleProperty/Facts'));
 
-const Photos = lazy(() => import('../../EditProperty/Media/Photos'));
+const Photos = lazy(() => import('../../SingleProperty/Media/Photos'));
 
-const Plans = lazy(() => import('../../EditProperty/Media/Plans'));
+const Plans = lazy(() => import('../../SingleProperty/Media/Plans'));
 
-const Tour = lazy(() => import('../../EditProperty/Media/Tour'));
+const Tour = lazy(() => import('../../SingleProperty/Media/Tour'));
 
 const HomeDashboard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     formValue,
-    history,
     // loggedInUser,
-    match,
     // property,
     windowDimensions,
   } = props;
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
-  const propID = get(match, 'params.propId', null);
+  const propID = get(match, 'propId', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
@@ -157,11 +159,14 @@ const HomeDashboard = (props) => {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
-                <Route path="/:propId?/property/facts" component={Facts} />
-                <Route path="/:propId?/property/price" component={Price} />
-                <Route path="/:propId?/property/photos" component={Photos} />
-                <Route path="/:propId?/property/floorPlans" component={Plans} />
-                <Route path="/:propId?/property/tour" exact component={Tour} />
+                <Routes>
+                  <Route path="/facts/*" element={<Facts />} />
+                  <Route path="/price" element={<Price />} />
+                  <Route path="/photos/*" element={<Photos />} />
+                  <Route path="/floorPlans/*" element={<Plans />} />
+                  <Route path="/tour" element={<Tour />} />
+                  <Route path="*" element={<Navigate to={`/${propID}/property/facts`} />} />
+                </Routes>
               </Suspense>
             </div>
           )
@@ -173,10 +178,6 @@ const HomeDashboard = (props) => {
 
 HomeDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  // loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  // property: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -187,11 +188,9 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   langConfig: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  // property: get(state, 'property.activeSingleProperty', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(HomeDashboard);

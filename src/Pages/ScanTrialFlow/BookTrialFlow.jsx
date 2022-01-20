@@ -3,9 +3,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import {
-  withRouter,
-} from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   BrixelIcon,
@@ -429,6 +426,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(BookTrialFlow);

@@ -14,6 +14,7 @@ export default {
     sendMessage: () => '/message',
     sendGenericMessage: () => '/email/sendTemplateEmail',
     sendScheduleVisit: () => '/email/sendScheduleVisitEmail',
+    sendSlackNotification: (channel) => `/utils/sendCustomSlackMessage?channel=${channel}`,
   },
   company: {
     companyList: (data) => `company/${data}`,
@@ -40,17 +41,6 @@ export default {
     generateEstimation: (id) => `/estimation/${id}/generate`,
     proEstimationNotification: (id) => `/estimation/${id}/completeProEstimation`,
     getEstimationsList: (paginationLimit, paginationSkip, ownerId, data) => `/estimation/${paginationLimit}/${paginationSkip}?owner=${ownerId}${data}`,
-  },
-  gamification: {
-    gameAchievement: () => '/gameAchievement',
-    gameAchievementById: (id) => `/gameAchievement/${id}`,
-    gameAchievementList: (limit, offset) => `/gameAchievement/${limit}/${offset}?order=name&direction=desc`,
-    gameHistoryByUser: (id) => `/gameHistory/user/${id}/add`,
-    gameHistoryByUserId: (userId) => `/gameHistory/user/${userId}`,
-    gameHistoryList: (limit, offset) => `/gameHistory/${limit}/${offset}`,
-    group: () => '/gameGroup',
-    groupList: (limit, offset) => `/gameGroup/${limit}/${offset}?order=name&direction=desc`,
-    groupdById: (id) => `/gameGroup/${id}`,
   },
   history: {
     createHistory: () => '/history/',

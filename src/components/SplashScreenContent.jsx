@@ -4,9 +4,6 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withRouter,
-} from 'react-router-dom';
-import {
   bindActionCreators,
   compose,
 } from 'redux';
@@ -23,6 +20,7 @@ import Slider from 'react-slick';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { setSplashType, setWizard } from '../actions/CommonActions';
 import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } from '../actions/PropertyActions';
 import { updateFavorite, addNotInterested } from '../actions/UserActions';
@@ -40,6 +38,10 @@ import WizardCard from './WizardCard';
 import { getCookie } from '../utils/helpers';
 
 const SplashScreen = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeMarketOverlayProperty,
     activeMarketOverlayPropertyLists,
@@ -54,7 +56,6 @@ const SplashScreen = (props) => {
     handleSetActiveMarketOverlayPropertyLists,
     handleSetWizard,
     handleUpdateFavorites,
-    history,
     isSmallLoading,
     lang,
     loggedInUser,
@@ -526,7 +527,6 @@ SplashScreen.propTypes = {
   handleSetActiveMarketOverlayPropertyLists: PropTypes.func,
   handleSetWizard: PropTypes.func.isRequired,
   handleUpdateFavorites: PropTypes.func,
-  history: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object,
@@ -588,6 +588,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SplashScreen);

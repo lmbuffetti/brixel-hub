@@ -42,6 +42,8 @@ import { exampleDeal } from '../resources/exampleDeal';
 
 import api from '../controllers/api/config';
 
+const ActionStubs = require('../resources/timelineActionStubs');
+
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
     case GET_USER_DEALS: {
@@ -352,9 +354,9 @@ const checkCommon = (store) => (next) => (action) => {
               let dealUserHistory = {};
               let call3;
               let updatedDeal;
-              const queryParams = `?parent=${response.data.user.id}&order=createdAt&direction=ASC`;
+              const queryParamsDealUser = `?parent=${response.data.user.id}&order=createdAt&direction=ASC&historyType=user`;
               // eslint-disable-next-line no-return-assign
-              const call2 = api.history.getHistoryList(10, 0, queryParams)
+              const call2 = api.history.getHistoryList(10, 0, queryParamsDealUser, ActionStubs.DealOwner)
                 .then((res) => {
                   if (res.meta.status === 200) dealUserHistory = res.data;
                 });

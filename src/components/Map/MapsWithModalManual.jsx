@@ -3,7 +3,7 @@
 import React, {
   useState, createRef, useEffect, useRef,
 } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   GoogleApiWrapper,
 } from 'google-maps-react';
@@ -31,6 +31,10 @@ import Map from './Map';
 import { setCountryList } from '../../actions/CommonActions';
 
 export const MapsWithModalManual = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleCompany,
@@ -43,7 +47,6 @@ export const MapsWithModalManual = (props) => {
     formValue,
     google,
     handleUpdateCountry,
-    history,
     init,
     latitude,
     longitude,
@@ -743,10 +746,10 @@ MapsWithModalManual.defaultProps = {
   subMinHeight: '',
 };
 
-const mapStateToProps = (state, props) => {
-  const formName = get(props, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
-  const propsLat = get(props, 'latitude', 0);
-  const propsLng = get(props, 'longitude', 0);
+const mapStateToProps = (state, ownProps) => {
+  const formName = get(ownProps, 'formName', Object.keys(get(state, 'brixelForm'))[0]);
+  const propsLat = get(ownProps, 'latitude', 0);
+  const propsLng = get(ownProps, 'longitude', 0);
   const lat = get(state, 'property.activeSingleProperty.location.latitude', propsLat);
   const lng = get(state, 'property.activeSingleProperty.location.longitude', propsLng);
   return ({
@@ -777,6 +780,5 @@ export default compose(
     language: props.lang,
     libraries: ['geometry', 'drawing', 'places'],
   })),
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MapsWithModalManual);

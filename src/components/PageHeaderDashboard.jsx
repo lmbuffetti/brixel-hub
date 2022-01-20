@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
@@ -18,6 +18,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import orderBy from 'lodash/orderBy';
+import ErrorBoundary from './ErrorBoundering';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -32,6 +33,10 @@ import AccountDropdown from './AccountDropdown';
 import MenuSidebar from './MenuSidebar';
 
 function PageHeaderDashboard(props) {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleCompany,
@@ -44,7 +49,6 @@ function PageHeaderDashboard(props) {
     handleSetActiveSingleProperty,
     handleSetLanguage,
     handleSetUserTypes,
-    history,
     lang,
     loggedInUser,
     ownerProperties,
@@ -83,11 +87,6 @@ function PageHeaderDashboard(props) {
       setActiveCompanyPackageIDArray(array);
     }
   }, [activeCompanyPackages]);
-
-  // ON CHANGE HISTORY THE MOBILE MENU IS CLOSED
-  useEffect(() => {
-    setShowMobileMenu(false);
-  }, [history]);
 
   useEffect(() => {
     let activeSinglePropertyPackage = packagesProperty;
@@ -162,7 +161,7 @@ function PageHeaderDashboard(props) {
     }
   };
 
-  // CHECK IF USER IS LOGGED IN AND LOAD GAME HISTORY IF NO DATA
+  // CHECK IF USER IS LOGGED IN
   useEffect(() => {
     if (loggedInUser && loggedInUser.user) {
       const langUsr = loggedInUser.user.language;
@@ -200,7 +199,7 @@ function PageHeaderDashboard(props) {
   };
 
   useEffect(() => {
-    setShowMobileMenu(false);
+    // setShowMobileMenu(false);
     setShowAccountMenu(false);
   }, [get(history, 'location.pathname', null)]);
 
@@ -320,7 +319,12 @@ function PageHeaderDashboard(props) {
   };
 
   return (
-    <>
+    <ErrorBoundary
+      FallbackComponent={() => <div>Error</div>}
+      onReset={() => {
+        // reset the state of your app so the error doesn't happen again
+      }}
+    >
       <MenuNavigationSubmenu
         windowDimensions={windowDimensions}
         activeMenu={activeMenu}
@@ -331,8 +335,12 @@ function PageHeaderDashboard(props) {
           <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
             {
               windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name ? (
-                <div className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}>
-                  <div className="dis-f a-c pl-0 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256  min-w-fix-40 w-perc-sm-100">
+                <div
+                  className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
+                >
+                  <div
+                    className="dis-f a-c pl-0 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256  min-w-fix-40 w-perc-sm-100"
+                  >
                     {
                       windowDimensions.width <= 590 ? (
                         <img
@@ -428,7 +436,7 @@ function PageHeaderDashboard(props) {
                   <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
                     <span className="hide dis-b-md">Your Plan:&nbsp;</span>
                     {
-                      has(ownerProperties, 'total') ? (
+                      has(ownerProperties, 'total') || get(activeSingleProperty, 'id', null) ? (
                         <span
                           className="fweight-600 td-u-colored dis-f cur-poi"
                           onClick={() => onUpgrade()}
@@ -460,7 +468,7 @@ function PageHeaderDashboard(props) {
                   </>
                 )
               }
-              { /* SECTION SIDEBAR MENU MOBILE */ }
+              { /* SECTION SIDEBAR MENU MOBILE */}
               {
                 windowDimensions.width <= 1024 && (
                   <div className="ml-1 ml-sm-2">
@@ -562,7 +570,9 @@ function PageHeaderDashboard(props) {
                           propID !== 'sell' && propID !== 'buy' && (
                             <div className={`bottomMenu ${showMobileMenu ? 'bottomMenuOn' : ''}`}>
                               <hr className="lighter" />
-                              <div className={`account-menu pb-2 dis-fl-col px-2 ${showAccountMenu ? 'opened' : 'closed'}`}>
+                              <div
+                                className={`account-menu pb-2 dis-fl-col px-2 ${showAccountMenu ? 'opened' : 'closed'}`}
+                              >
                                 <div className={`dis-f a-c py-1 ${userType === 'seller' ? 'jc-b' : 'jc-fe'}  w-perc-100`}>
                                   {
                                     propID && userType === 'seller' && (
@@ -657,7 +667,7 @@ function PageHeaderDashboard(props) {
           </div>
         )
       }
-    </>
+    </ErrorBoundary>
   );
 }
 
@@ -672,7 +682,6 @@ PageHeaderDashboard.propTypes = {
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   ownerProperties: PropTypes.object.isRequired,
@@ -691,11 +700,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
-  awards: get(state, 'user.awards', 0),
-  brixelPoints: get(state, 'user.brixelPoints', 0),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
-  gameGroup: get(state, 'gamification.gameGroup', []),
-  gameHistory: get(state, 'gamification.gameHistory', {}),
   lang: get(state, 'common.language', []),
   languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
@@ -719,4 +724,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard));
+export default connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard);

@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  withRouter, Link,
-} from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary, FormatValue,
@@ -17,21 +15,24 @@ import { getUserProperties } from '../../../actions/UserActions';
 import { spinnerOff } from '../../../actions/CommonActions';
 
 const HomeDashboard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     form,
     handleGetUserProperties,
-    history,
     handleSpinnerOff,
     loggedInUser,
-    match,
     userProperties,
   } = props;
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
   const getFact = () => last(history.location.pathname.split('/'));
-  const propID = get(match, 'params.propID', null);
+  const propID = get(match, 'propID', null);
 
   // DESTROY FORM ON EXIT
   useEffect(() => {
@@ -202,10 +203,8 @@ HomeDashboard.propTypes = {
   form: PropTypes.object.isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   // isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
@@ -226,6 +225,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(HomeDashboard);

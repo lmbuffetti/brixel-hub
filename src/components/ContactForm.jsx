@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { compose, bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,6 +14,10 @@ import { createPropertyVisitBooking } from '../actions/PropertyActions';
 import { sendMessage, spinnerSmall } from '../actions/CommonActions';
 
 function ContactForm(props) {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     action,
@@ -26,7 +30,6 @@ function ContactForm(props) {
     handleCreatePropertyVisitBooking,
     handleSendMessage,
     handleSpinnerSmall,
-    history,
     initialValues,
     isSmallLoading,
     lang,
@@ -291,7 +294,6 @@ ContactForm.propTypes = {
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
   handleSendMessage: PropTypes.func.isRequired,
   handleSpinnerSmall: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
@@ -329,7 +331,7 @@ const mapStateToProps = (state) => {
   });
 };
 
-const mapPropsToState = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('ContactForm'));
   },
@@ -344,4 +346,4 @@ const mapPropsToState = (dispatch) => ({
   handleSendMessage: bindActionCreators(sendMessage, dispatch),
 });
 
-export default compose(connect(mapStateToProps, mapPropsToState), withRouter)(ContactForm);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(ContactForm);

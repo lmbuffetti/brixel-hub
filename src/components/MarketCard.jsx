@@ -10,7 +10,7 @@ import {
   Helpers, BrixelIcon, FormatValue, ProgressRing, BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import CoverPropertyImage from './CoverPropertyImage';
@@ -29,12 +29,15 @@ import {
 } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     favoritesProperties,
     handleGenerateBestimate,
     handleGetEstimation,
-    history,
     item,
     layout,
     onSetActiveProperty,
@@ -281,7 +284,7 @@ const MarketCard = (props) => {
                           <div className="dis-f a-c">
                             <BrixelIcon
                               background="AltMist"
-                              saturation={200}
+                              saturation={100}
                               color="AltBlue"
                               saturationTxt={400}
                               padding="p-small-12"
@@ -304,7 +307,7 @@ const MarketCard = (props) => {
                           <BrixelIcon
                             className="dis-b-sm hide mr-2"
                             background="AltMist"
-                            saturation={200}
+                            saturation={100}
                             color="AltBlue"
                             saturationTxt={400}
                             padding="p-small-12"
@@ -422,10 +425,10 @@ const MarketCard = (props) => {
                 }
                 <div className="info dis-fl-col jc-b">
                   <div className="top dis-fl-col notranslate px-3 pt-3">
-                    <span className="fweight-600 fsize-500 txtAltGrey700 ellipsis one notranslate">
+                    <span className="fweight-600 fsize-500 txtDark700 ellipsis one notranslate">
                       {get(item, 'title', '')}
                     </span>
-                    <span className="fsize-300 txtAltGrey700 mt-1 notranslate">
+                    <span className="fsize-300 txtDark700 mt-1 notranslate">
                       {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                       {
                         get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -552,7 +555,6 @@ const MarketCard = (props) => {
                     label="Edit"
                     onClick={() => history.push(`/${item.id}/home`)}
                     theme="altGreen"
-                    themeSat={300}
                   />
                 </div>
               </div>
@@ -568,7 +570,6 @@ MarketCard.propTypes = {
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   item: PropTypes.object,
   layout: PropTypes.string,
   onSetActiveProperty: PropTypes.func,
@@ -614,6 +615,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketCard);

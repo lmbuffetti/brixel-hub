@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import {
-  Route,
-  withRouter,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -14,14 +13,17 @@ import isNumber from 'lodash/isNumber';
 const OfferDetail = lazy(() => import('../../Offers/OfferDetail'));
 
 const DealsDashboardBuyer = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleDeal,
-    history,
-    match,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'params.propID', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
   const link = get(history, 'location.pathname', '').split('/');
 
@@ -45,7 +47,10 @@ const DealsDashboardBuyer = (props) => {
           )
             ? (
               <Suspense fallback="">
-                <Route path="/buyer/:propID/closing/:dealID" component={() => <OfferDetail isBuyer />} />
+                <Routes>
+                  <Route path="/:dealID" element={<OfferDetail isBuyer />} />
+                  <Route path="*" element={<Navigate to={`/buyer/${propID}/closing`} />} />
+                </Routes>
               </Suspense>
             ) : (
               <div />
@@ -58,8 +63,6 @@ const DealsDashboardBuyer = (props) => {
 
 DealsDashboardBuyer.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -67,6 +70,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(DealsDashboardBuyer);

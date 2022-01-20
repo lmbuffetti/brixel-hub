@@ -133,15 +133,6 @@ const clientConfig = (env) => {
                 ],
               },
             },
-            {
-              loader: 'eslint-loader',
-              options: {
-                failOnError: !devMode,
-                failOnWarning: !devMode,
-                emitWarning: true,
-                fix: true,
-              },
-            },
           ],
         },
         // Svg loader
@@ -185,6 +176,7 @@ const clientConfig = (env) => {
     },
     plugins: [
       new ESLintPlugin({
+        extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,

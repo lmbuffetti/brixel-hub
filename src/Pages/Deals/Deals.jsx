@@ -2,9 +2,7 @@
 import React, {
   useEffect, useState, Fragment,
 } from 'react';
-import {
-  withRouter,
-} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   connect,
@@ -46,6 +44,10 @@ import {
 import DealSkelton from '../../images/deals-skelton.svg';
 
 const Deals = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const [processedDeals, setProcessedDeals] = useState(null);
   const [activeDestColumn, setActiveDestColumn] = useState(null);
   const [activeIndexDeal, setActiveIndexDeal] = useState(-1);
@@ -63,8 +65,6 @@ const Deals = (props) => {
     activeSinglePropertyDeals,
     handleGetPageDeals,
     handleSaveDeal,
-    history,
-    match,
     notification,
     resetSingleDeal,
     saveMultipleDeals,
@@ -155,12 +155,13 @@ const Deals = (props) => {
 
   const openDeal = (id) => {
     resetSingleDeal({});
-    history.push(`${match.url}/${id}/deal`);
+    const path = get(history, 'location.pathname', '').replace(/\/$/, '');
+    history.push(`${path}/${id}/deal`);
   };
 
   const createNewDeal = () => {
     resetSingleDeal({});
-    history.push(`${match.url}/newDeal`);
+    history.push(`/${activeSingleProperty.id}/prospects/newDeal`);
   };
 
   const saveDeal = (deal, type = '') => {
@@ -591,8 +592,6 @@ Deals.propTypes = {
   activeSinglePropertyDeals: PropTypes.object,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSaveDeal: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetSingleDeal: PropTypes.func.isRequired,
   saveMultipleDeals: PropTypes.func.isRequired,
@@ -628,6 +627,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(Deals);

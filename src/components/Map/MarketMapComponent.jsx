@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable array-callback-return */
 import React, { useState, useEffect, useRef } from 'react';
-import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
 import {
   Map, InfoWindow, GoogleApiWrapper,
@@ -214,6 +213,5 @@ export default compose(
     apiKey: (baseByData.googleMaps),
     libraries: ['geometry', 'drawing', 'places'],
   }),
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketMapComponent);

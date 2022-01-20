@@ -41,19 +41,17 @@ describe('Render Seller Flow', () => {
   });
 
   it('check notification show', async () => {
-    await render(
-      <App isTest />, {
-        common: {
-          test: true,
-        },
-        property: {
-          activeSingleProperty: property,
-        },
-        user: {
-          loggedInUser: user,
-        },
-      }, '/100000000000000000000000/property/facts/propertyType',
-    );
+    await render(<App isTest />, {
+      common: {
+        test: true,
+      },
+      property: {
+        activeSingleProperty: property,
+      },
+      user: {
+        loggedInUser: user,
+      },
+    }, '/100000000000000000000000/property/facts/propertyType');
 
     await waitFor(async () => {
       // PROPERTY TYPE
@@ -79,13 +77,13 @@ describe('Render Seller Flow', () => {
 
     await waitFor(async () => {
       console.log(screen.getAllByRole('button'));
-      //await fireEvent.click(screen.getByRole('button', { name: 'Price & financial' }));
+      // await fireEvent.click(screen.getByRole('button', { name: 'Price & financial' }));
     }, { timeout: 1000 });
 
     await waitFor(async () => {
       const Package = screen.getAllByRole('number');
       console.log(screen.getAllByRole('button'));
-      //await userEvent.type(Package[1], '10000', { allAtOnce: true });
+      // await userEvent.type(Package[1], '10000', { allAtOnce: true });
     }, { timeout: 2000 });
 
     await waitFor(async () => {

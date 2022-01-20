@@ -1,7 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Route, Switch } from 'react-router-dom';
+import {
+  Navigate,
+  Route, Routes, useLocation, useNavigate,
+} from 'react-router-dom';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -22,6 +25,10 @@ const MarketCategoryListSeller = lazy(() => import('./MarketCategoryListSeller')
 const MarketList = lazy(() => import('./MarketList'));
 
 const MarketSeller = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     destroyForm,
@@ -29,7 +36,6 @@ const MarketSeller = (props) => {
     handleGetPremiumProperties,
     handleGetSellerProperties,
     handleSpinnerOff,
-    history,
     loggedInUser,
   } = props;
 
@@ -58,10 +64,11 @@ const MarketSeller = (props) => {
     <Suspense fallback="">
       <div className="market-container sellerPage" id="market">
         {/* premarket overlay */}
-        <Switch>
-          <Route exact path="/sell" component={MarketCategoryListSeller} />
-          <Route exact path="/sell/:cat/:id?" component={() => <MarketList isSeller />} />
-        </Switch>
+        <Routes>
+          <Route path="/" element={<MarketCategoryListSeller />} />
+          <Route path="/:cat" element={<MarketList isSeller />} />
+          <Route path="*" element={<Navigate to="/sell" />} />
+        </Routes>
       </div>
     </Suspense>
   );
@@ -73,7 +80,6 @@ MarketSeller.propTypes = {
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
 
@@ -98,6 +104,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MarketSeller);

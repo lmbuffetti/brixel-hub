@@ -14,7 +14,7 @@ import {
   BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -33,6 +33,11 @@ import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../actio
 import { multiUploadDocument } from '../../../actions/UploadActions';
 
 const MakeOffer = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
@@ -48,13 +53,11 @@ const MakeOffer = (props) => {
     handleSetModal,
     handleSetLanguage,
     handleSpinnerOff,
-    history,
     initForm,
     initialValues,
     isSmallLoading,
     handleGetBuyerDeal,
     loggedInUser,
-    match,
     reset,
   } = props;
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
@@ -71,7 +74,7 @@ const MakeOffer = (props) => {
   const [showError, setShowError] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
-  const propID = get(match, 'params.id', null);
+  const propID = get(match, 'id', null);
   const dealID = get(activeSingleDeal, 'id', null);
 
   // REF
@@ -595,12 +598,10 @@ MakeOffer.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
 };
 
@@ -649,6 +650,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(MakeOffer);

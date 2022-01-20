@@ -36,16 +36,14 @@ describe('Render Scan Trial Flow', () => {
   });
 
   it('check via phone', async () => {
-    await render(
-      <App isTest />, {
-        common: {
-          test: true,
-        },
-        user: {
-          loggedInUser: user,
-        },
-      }, '/100000000000000000000000/trialRequest/introScanFlow',
-    );
+    await render(<App isTest />, {
+      common: {
+        test: true,
+      },
+      user: {
+        loggedInUser: user,
+      },
+    }, '/100000000000000000000000/trialRequest/introScanFlow');
 
     await waitFor(async () => {
       // Start
@@ -67,16 +65,14 @@ describe('Render Scan Trial Flow', () => {
   });
 
   it('check online', async () => {
-    await render(
-      <App isTest />, {
-        common: {
-          test: true,
-        },
-        user: {
-          loggedInUser: user,
-        },
-      }, '/100000000000000000000000/trialRequest/introScanFlow',
-    );
+    await render(<App isTest />, {
+      common: {
+        test: true,
+      },
+      user: {
+        loggedInUser: user,
+      },
+    }, '/100000000000000000000000/trialRequest/introScanFlow');
 
     await waitFor(async () => {
       // Start

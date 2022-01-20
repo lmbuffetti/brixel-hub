@@ -7,19 +7,22 @@ import {
   BrixelIcon,
   Helpers,
 } from '@brixel/brixel-components';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import CoverPropertyImage from './CoverPropertyImage';
 
 const DashboardPropertyCard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleProperty,
     estimation,
     formValue,
-    history,
     smallLayout,
   } = props;
 
@@ -46,7 +49,7 @@ const DashboardPropertyCard = (props) => {
         </div>
         <div className="pl-3 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
           <div className="">
-            <h4 className="txtAltGrey700 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
+            <h4 className="txtDark700 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
           </div>
@@ -57,7 +60,7 @@ const DashboardPropertyCard = (props) => {
                   <div className="dis-f a-c mr-a mr-sm-0">
                     <BrixelIcon
                       background="AltMist"
-                      saturation={200}
+                      saturation={100}
                       color="AltBlue"
                       saturationTxt={400}
                       padding="p-small-12"
@@ -78,7 +81,6 @@ const DashboardPropertyCard = (props) => {
                     rounded
                     label="Open"
                     theme="altGreen"
-                    themeSat={300}
                     onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
                   />
                 </div>
@@ -90,7 +92,7 @@ const DashboardPropertyCard = (props) => {
                         <div className="dis-f a-c">
                           <BrixelIcon
                             background="AltMist"
-                            saturation={200}
+                            saturation={100}
                             color="AltBlue"
                             saturationTxt={400}
                             padding="p-small-12"
@@ -114,7 +116,7 @@ const DashboardPropertyCard = (props) => {
                             <div className="dis-f pt-2 a-t">
                               <BrixelIcon
                                 background="AltMist"
-                                saturation={200}
+                                saturation={100}
                                 color="AltBlue"
                                 saturationTxt={400}
                                 padding="p-small-12"
@@ -137,7 +139,7 @@ const DashboardPropertyCard = (props) => {
                             <div className="dis-f pt-2 a-t">
                               <BrixelIcon
                                 background="AltMist"
-                                saturation={200}
+                                saturation={100}
                                 color="AltBlue"
                                 saturationTxt={400}
                                 padding="p-small-12"
@@ -194,7 +196,6 @@ DashboardPropertyCard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
   smallLayout: PropTypes.bool,
 };
 
@@ -208,9 +209,6 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
 });
 
-const mapDispatchToProps = () => ({});
-
 export default compose(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(DashboardPropertyCard);

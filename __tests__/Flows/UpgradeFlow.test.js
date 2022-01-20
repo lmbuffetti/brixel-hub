@@ -36,16 +36,14 @@ describe('Render Upgrade Flow', () => {
   });
 
   it('check steps', async () => {
-    await render(
-      <App isTest />, {
-        common: {
-          test: true,
-        },
-        user: {
-          loggedInUser: user,
-        },
-      }, '/100000000000000000000000/upgrade',
-    );
+    await render(<App isTest />, {
+      common: {
+        test: true,
+      },
+      user: {
+        loggedInUser: user,
+      },
+    }, '/100000000000000000000000/upgrade');
 
     await waitFor(async () => {
       // PROPERTY TYPE

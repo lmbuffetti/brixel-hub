@@ -8,7 +8,6 @@ import {
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import Slider from 'react-slick';
@@ -368,24 +367,24 @@ const LoginSignup = (props) => {
                   <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and uncomplicated&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen300">M. Hardegger</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">House sold</p>
+                  <h5 className="ta-c txtAltGreen400">M. Hardegger</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">House sold</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen300">F. Pfiffner</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">Saved CHF 30&apos;700</p>
+                  <h5 className="ta-c txtAltGreen400">F. Pfiffner</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">Saved CHF 30&apos;700</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Excellent service with flexible fees.&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen300">M. Callaghan</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">Saved CHF 44&apos;050</p>
+                  <h5 className="ta-c txtAltGreen400">M. Callaghan</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">Saved CHF 44&apos;050</p>
                 </div>
               </Slider>
             ) : (
@@ -394,24 +393,24 @@ const LoginSignup = (props) => {
                   <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Always quick in responding, friendly, professional.&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen300">Katrien Willems</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500" />
+                  <h5 className="ta-c txtAltGreen400">Katrien Willems</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500" />
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Everything went incredibly well, it doesn&apos;t even seem real!&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen300">Luca Benussi</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">Saved 18.400€</p>
+                  <h5 className="ta-c txtAltGreen400">Luca Benussi</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">Saved 18.400€</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;The sale was done even faster than expected.&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen300">Márcia Traça</h5>
-                  <p className="ta-c txtAltGreen300 fsize-500">Saved 13.000€</p>
+                  <h5 className="ta-c txtAltGreen400">Márcia Traça</h5>
+                  <p className="ta-c txtAltGreen400 fsize-500">Saved 13.000€</p>
                 </div>
               </Slider>
             )
@@ -448,11 +447,11 @@ LoginSignup.defaultProps = {
   skipPhone: false,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state, ownProps) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
   formError: get(state, 'common.formError', {}),
-  errorValue: get(state, `brixelForm.${props.formName}.syncErrors`, {}),
-  formValue: get(state, `brixelForm.${props.formName}.values`, {}),
+  errorValue: get(state, `brixelForm.${ownProps.formName}.syncErrors`, {}),
+  formValue: get(state, `brixelForm.${ownProps.formName}.values`, {}),
   isSmallLoading: get(state, 'common.isSmallLoading', ''),
   lang: get(state, 'common.language', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
@@ -468,6 +467,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(LoginSignup);

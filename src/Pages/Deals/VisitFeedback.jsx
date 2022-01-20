@@ -15,7 +15,7 @@ import {
 } from '@brixel/brixel-components';
 import queryString from 'query-string';
 import { bindActionCreators, compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -26,6 +26,11 @@ import { setActiveSingleCompany } from '../../actions/CompanyActions';
 import { setCookie } from '../../utils/helpers';
 
 const VisitFeedback = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
@@ -35,15 +40,13 @@ const VisitFeedback = (props) => {
     handleSendVisitFeedback,
     handleGetActiveSingleProperty,
     handleSetActiveSingleCompany,
-    history,
     handleInitForm,
     initialValues,
     isSmallLoading,
-    match,
   } = props;
   // GET URL PARAMS
-  const dealID = get(match, 'params.dealID', null);
-  const pageID = get(match, 'params.pageID', null);
+  const dealID = get(match, 'dealID', null);
+  const pageID = get(match, 'pageID', null);
   const [disabledSend, setDisabledSend] = useState(true);
   const [successMessage, setSuccessMessage] = useState(false);
   const urlParams = queryString.parse(get(history, 'location.search', ''));
@@ -149,7 +152,6 @@ const VisitFeedback = (props) => {
                                   onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
                                   rounded
                                   theme="altGreen"
-                                  themeSat={300}
                                   className="w-fit mx-a mt-3"
                                   label="Make an offer"
                                 />
@@ -255,7 +257,6 @@ const VisitFeedback = (props) => {
                               onClick={() => history.push('/buy')}
                               rounded
                               theme="altGreen"
-                              themeSat={300}
                               className="w-fit m-a"
                               label="Login to your market"
                             />
@@ -333,7 +334,6 @@ const VisitFeedback = (props) => {
                               isLoading={isSmallLoading.sendVisit}
                               rounded
                               theme="altGreen"
-                              themeSat={300}
                               className="w-fit m-a"
                               label="Send"
                             />
@@ -356,28 +356,29 @@ VisitFeedback.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   contacts: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  initialValues: PropTypes.object.isRequired,
-  handleInitForm: PropTypes.func.isRequired,
-  handleSetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSendVisitFeedback: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleInitForm: PropTypes.func.isRequired,
+  handleSendVisitFeedback: PropTypes.func.isRequired,
+  handleSetActiveSingleCompany: PropTypes.func.isRequired,
   handleUpdateError: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
-  formValue: get(state, 'brixelForm.visitFeedback.values', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  initialValues: {
+const mapStateToProps = (state) => {
+  const initialValues = {
     reasons: null,
     otherReason: '',
     priceChangeAlert: null,
-  },
-});
+  };
+  return ({
+    activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+    contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
+    formValue: get(state, 'brixelForm.visitFeedback.values', {}),
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
+    initialValues,
+  });
+};
 
 const mapDispatchToProps = (dispatch) => ({
   handleUpdateError(name, value) {
@@ -393,6 +394,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(VisitFeedback);

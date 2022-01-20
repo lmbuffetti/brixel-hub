@@ -2,7 +2,6 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
@@ -104,10 +103,10 @@ WarningScreen.defaultProps = {
   saveFunc: null,
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state, ownProps) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  formValue: get(state, `brixelForm[${props.formName}].values`, {}),
-  initialValue: get(state, `brixelForm[${props.formName}].initialValues`, {}),
+  formValue: get(state, `brixelForm[${ownProps.formName}].values`, {}),
+  initialValue: get(state, `brixelForm[${ownProps.formName}].initialValues`, {}),
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });
@@ -120,6 +119,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(WarningScreen);

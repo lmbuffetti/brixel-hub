@@ -2,8 +2,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Route,
-  withRouter,
+  Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import {
@@ -23,19 +22,21 @@ const ShowingsBuyer = lazy(() => import('./ShowingsBuyer'));
 const ContactBuyer = lazy(() => import('./ContactBuyer'));
 
 const PropertyBuyerDashboard = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
   const {
     activeSingleDeal,
     formValue,
-    history,
-    // loggedInUser,
-    match,
     windowDimensions,
   } = props;
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
-  const propID = get(match, 'params.propID', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
@@ -169,9 +170,12 @@ const PropertyBuyerDashboard = (props) => {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
               <Suspense fallback={<Loading isLoading />}>
-                <Route path="/buyer/:propId/property/page" component={PageBuyer} />
-                <Route path="/buyer/:propId/property/contact" component={ContactBuyer} />
-                <Route path="/buyer/:propId/property/showings" component={ShowingsBuyer} />
+                <Routes>
+                  <Route path="/page" element={<PageBuyer />} />
+                  <Route path="/contact" element={<ContactBuyer />} />
+                  <Route path="/showings/*" element={<ShowingsBuyer />} />
+                  <Route path="*" element={<Navigate to={`/buyer/${propID}/property/page`} />} />
+                </Routes>
               </Suspense>
             </div>
           )
@@ -184,8 +188,6 @@ const PropertyBuyerDashboard = (props) => {
 PropertyBuyerDashboard.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -202,6 +204,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(PropertyBuyerDashboard);

@@ -4,7 +4,7 @@ import React, {
   useEffect, useState, useRef, useCallback, Fragment, lazy, Suspense,
 } from 'react';
 import {
-  Switch, Route, withRouter,
+  Routes, Route, useNavigate, useLocation, Navigate,
 } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -29,19 +29,19 @@ import {
 } from './actions/CommonActions';
 import { setActiveSingleProperty } from './actions/PropertyActions';
 
-import BrixelModalAwards from './components/BrixelModalAwards';
 import { getImageType } from './actions/UploadActions';
-// import TeaserBanner from './components/TeaserBanner';
 import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 
 // SIGNUP
 const Signup = lazy(() => import('./Pages/Signup/Signup'));
+const ErrorBoundering = lazy(() => import('./components/ErrorBoundering'));
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
+/*const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));*/
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazy(() => import('./Pages/Offers/Flow/MakeOffer'));
 
@@ -64,21 +64,13 @@ const DashboardSeller = lazy(() => import('./Pages/Dashboard/Seller/Dashboard'))
 const DashboardBuyer = lazy(() => import('./Pages/Dashboard/Buyer/Dashboard'));
 
 // FLOW SELLER
-const MarketChecker = lazy(() => import('./Pages/GameHistory/MarketChecker'));
+const Bestimate = lazy(() => import('./Pages/Bestimate'));
 
-const Assessor = lazy(() => import('./Pages/GameHistory/Assessor'));
-
-const Bestimate = lazy(() => import('./Pages/GameHistory/Bestimate'));
-
-const ProEstimationFlow = lazy(() => import('./Pages/EditProperty/ProEstimationFlow'));
-
-const Facts = lazy(() => import('./Pages/GameHistory/Facts'));
-
-const MediaExplanation = lazy(() => import('./Pages/GameHistory/SecondLevel/MediaExplanation'));
+const ProEstimationFlow = lazy(() => import('./Pages/SingleProperty/ProEstimationFlow'));
 
 const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScreen'));
 
-const SingleDocument = lazy(() => import('./Pages/EditProperty/SingleDocument'));
+const SingleDocument = lazy(() => import('./Pages/SingleProperty/SingleDocument'));
 
 const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
 const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
@@ -98,6 +90,10 @@ const WarningScreen = lazy(() => import('./components/WarningScreen'));
 const cookies = new Cookies();
 
 const App = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   // PROPS
   const {
     activeSingleProperty,
@@ -110,7 +106,6 @@ const App = (props) => {
     handleSetNotification,
     handleSetUserTypes,
     handleSetWindowsDimension,
-    history,
     isLoading,
     isSmallLoading,
     loggedInUser,
@@ -187,6 +182,9 @@ const App = (props) => {
 
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
+    if (get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) {
+      history.push('/sell');
+    }
     if (get(history, 'location', null) && typeof ga !== 'undefined') {
       ga('send', 'pageview', history.location.pathname);
     }
@@ -401,7 +399,9 @@ const App = (props) => {
       >
         <Loading isLoading={isLoading} />
         <Suspense fallback={<Loading isLoading />}>
-          <div className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}>
+          <div
+            className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}
+          >
             <div className="dis-f">
               <div
                 className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : 'flowScrollWrap'}`}
@@ -470,21 +470,24 @@ const App = (props) => {
                       // <TeaserBanner />
                     )
                   } */}
-                    <Switch>
-                      { /* SECTION: ONBOARDING */ }
-                      <Route exact path="/packageFlow/" component={GetStarted} />
-                      <Route path="/packageFlow/getstarted/" component={GetStartedSeller} />
-                      <Route path="/packageFlow/getstartedBuyer/" component={GetStartedBuyer} />
-                      <Route path="/packageFlow/getstartedEstimation/" component={GetStartedEstimation} />
-                      <Route path="/packageFlow/testDrive/" component={ScanTrialFlow} />
-                      <ProtectedRoute path="/packageFlow/:id/makeOffer" component={MakeOffer} />
-                      <Route path="/visitFeedback/:dealID/:pageID" component={VisitFeedback} />
+                    <Routes>
+                      <Route path="/500" element={<ErrorBoundering />} />
+                      { /* SECTION: ONBOARDING */}
+                      <Route path="/packageFlow/" element={<GetStarted />} />
+                      <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
+                      <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
+                      <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
+                      {/*<Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />*/}
+                      <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
+                      <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
 
                       {/* SECTION: SIGNUP */}
-                      <Route path="/signup" component={Signup} />
+                      <Route path="/signup" element={<Signup />} />
 
-                      { /* SECTION: INSERT TOKEN */ }
-                      <Route path="/tokeninput" component={InsertToken} />
+                      { /* SECTION: INSERT TOKEN */}
+                      <Route path="/tokeninput" element={<InsertToken />} />
+
+                      <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
 
                       { /* SECTION: HUB DASHBOARD */ }
                       {
@@ -495,22 +498,28 @@ const App = (props) => {
                         !history.location.pathname.includes('signup') &&
                         (
                           <>
-                            <ProtectedRoute path="/sell" component={MarketSeller} />
-                            <ProtectedRoute path="/buy/:cat?/:id?" component={MarketBuyer} />
-                            <ProtectedRoute path="/seller/pageLists" component={DashboardSeller} />
-                            <ProtectedRoute path="/" exact component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/home" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/singleFlow" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/docubox" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/closing" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/property" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/marketing" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/support" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/prospects" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/offers" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/deal" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/upgrade" component={DashboardSeller} />
-                            <ProtectedRoute path="/:propId?/trialRequest" component={DashboardSeller} />
+                            <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
+                            <Route path="/buy/*" element={<ProtectedRoute><MarketBuyer /></ProtectedRoute>} />
+                            {
+                              get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
+                              get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
+                              get(history, 'location.pathname', '').split('/')[1].length > 18 && (
+                                <>
+                                  <Route path="/:propId/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/docubox/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/closing/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/property" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/marketing" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propId?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                </>
+                              )
+                            }
                           </>
                         )
                       }
@@ -521,18 +530,15 @@ const App = (props) => {
                         !history.location.pathname.includes('signup') &&
                         (
                           <>
-                            <ProtectedRoute path="/buyer" exact component={DashboardBuyer} />
-                            <ProtectedRoute path="/buyer/propertyLists" exact component={DashboardBuyer} />
-                            <ProtectedRoute path="/buyer/:propID/:act" component={DashboardBuyer} />
+                            <Route path="/buyer/:propID/*" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
+                            <Route path="/buyer/propertyList" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
                           </>
                         )
                       }
-                    </Switch>
+                      <Route path="*" element={<Navigate to="/sell" />} />
+                    </Routes>
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
-                      style={{
-
-                      }}
                     >
                       {
                         showSupport && (
@@ -571,27 +577,16 @@ const App = (props) => {
           </div>
 
           { /* SECTION: ACHIVEMENT FLOW */ }
-          {
-            <Switch>
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/market-checker" component={MarketChecker} protect={userTypes ? userTypes !== 'seller' : false} />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/assessor" component={Assessor} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/bestimate" component={Bestimate} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/media" component={MediaExplanation} userTypes="seller" />
-              <ProtectedRoute path="/:propId?/singleFlow/achievement/facts" component={Facts} userTypes="seller" />
-              <ProtectedRoute path="/buyer/:act/:propID/showings/add" component={AddShowingsBuyer} />
-              <ProtectedRoute path="/buyer/:act/:propID/contact/add" component={AddContactBuyer} />
-              <ProtectedRoute exact path="/:propID/prospects/:dealID/deal" component={SingleDeal} />
-              <ProtectedRoute exact path="/:propID/prospects/newDeal" component={CreateDeal} />
-              <ProtectedRoute path="/:propID/property/price/formFlow" component={ProEstimationFlow} />
-            </Switch>
-          }
+          <Routes>
+            <Route path="/:propId?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
+            <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
+            <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
+            <Route path="/:propID/prospects/:dealID/deal" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
+            <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
+            <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
+            <Route path="*" element={null} />
+          </Routes>
 
-          { /* SECTION: GENERAL MODAL - use redux modal to populate */ }
-          {
-            modal.showAwardsInfo && (
-              <BrixelModalAwards />
-            )
-          }
           {
             modal.state && !modal.type && !modal.small && (
               <BrixelModalFullScreen
@@ -639,7 +634,7 @@ const App = (props) => {
             )
           }
 
-          { /* SPLASH SCREEN */ }
+          { /* SPLASH SCREEN */}
           {
             (splashScreenType === 'marketOverlay' || splashScreenType === 'marketOverlayCarousel') && (
               <SplashScreen
@@ -662,7 +657,7 @@ const App = (props) => {
             )
           }
 
-          { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */ }
+          { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */}
           {
             notification && notification.length > 0 &&
             !history.location.pathname.includes('home') &&
@@ -712,14 +707,14 @@ const App = (props) => {
           }
 
           {/* Splash screens for single deal, create new deal and edit document */}
-          <Switch>
+          <Routes>
             <Route
-              exact
               path="/:propID/docubox/:docID/editDocument"
-              component={SingleDocument}
+              element={<SingleDocument />}
             />
-            <Route exact path="/:propID/prospects/newDeal" component={CreateDeal} />
-          </Switch>
+            <Route path="/:propID/prospects/newDeal" element={<CreateDeal />} />
+            <Route path="*" element={null} />
+          </Routes>
         </Suspense>
       </main>
     </>
@@ -737,7 +732,6 @@ App.propTypes = {
   handleSetNotification: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   handleSetWindowsDimension: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired,
   isLoading: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -787,4 +781,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(App);

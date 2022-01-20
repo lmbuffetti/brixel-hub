@@ -3,7 +3,6 @@ import React from 'react';
 import { compose } from 'redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { DateTime } from 'luxon';
 import GreenHouseImg from '../../images/scanTrial/green_house.svg';
@@ -106,6 +105,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-  withRouter,
   connect(mapStateToProps, null),
 )(ResumeTrialFlow);
