@@ -76,7 +76,7 @@ function PageHeaderDashboard(props) {
 
   // URL PARAMS
   let propID = history.location.pathname.split('/')[1];
-  if (propID === 'buyer') propID = history.location.pathname.split('/')[3];
+  if (propID === 'buyer') propID = history.location.pathname.split('/')[2];
   if (propID === 'home' || propID === 'seller') propID = null;
 
   useEffect(() => {
@@ -91,10 +91,12 @@ function PageHeaderDashboard(props) {
 
   useEffect(() => {
     if (activeSingleProperty.id) {
-      const defState = factsOptions.progressBarOptions.find((item) => item.value === activeSingleProperty.progress.state);
-      const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === activeSingleProperty.progress.state);
-      if (defState.label === 'Sales Lead') defState.label = 'Onboarding';
-      setIndexProgrss(defIndexState);
+      const defState = factsOptions.progressBarOptions.find((item) => item.value === get(activeSingleProperty, 'progress.state', ''));
+      if (defState) {
+        const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === activeSingleProperty.progress.state);
+        if (defState.label === 'Sales Lead') defState.label = 'Onboarding';
+        setIndexProgrss(defIndexState);
+      }
     }
   }, [activeSingleProperty.id]);
 
@@ -379,7 +381,7 @@ function PageHeaderDashboard(props) {
                     windowDimensions.width > 1024 && (
                       <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
                         {
-                          activeSingleProperty.id && propID && propID.length > 9 && (
+                          activeSingleProperty.id && propID && propID.length > 9 && userType === 'seller' && (
                             <ProgressSellerStage
                               smallLayout
                               xSmallMobile={windowDimensions.width < 480}
