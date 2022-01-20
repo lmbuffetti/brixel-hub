@@ -94,7 +94,7 @@ const WelecomeOnboardingStage = (props) => {
               </p>
 
               <p className="mt-3 txtBlack max-w-fix-448 m-a fweight-400 fsize-500 fsize-sm-600">
-                <span>Your beautiful</span>
+                <span>Your</span>
                 <b className="mx-small-4">{activeSingleProperty.title}</b>
                 <span>has been created. Let’s move on.</span>
               </p>
@@ -115,7 +115,6 @@ const WelecomeOnboardingStage = (props) => {
       return (
         <div>
           <div className="ta-c mb-6">
-            <p className="txtAltMist400">Next step</p>
             <h3 className="fweight-600 txtDark700">How do you want to proceed?</h3>
           </div>
           <BrixelRadioButton

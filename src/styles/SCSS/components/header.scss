@@ -351,3 +351,36 @@ header {
     height: 252px;
   }
 }
+
+.dropdown.sectionMenu {
+  &:not(.compact) .title {
+    min-width: 50px;
+  }
+  .brdRadius {
+    border-radius: 0;
+  }
+}
+
+.sectionMenu {
+  width: 100%;
+  &:not(.compact) .title {
+    min-width: auto;
+  }
+  .selElement > div {
+    width: auto;
+    .title {
+      min-width: auto !important;
+      font-weight: 600;
+    }
+  }
+  .selElement.detailed {
+    padding-left: $step * 2;
+    padding-right: $step * 2;
+    align-items: center;
+  }
+
+  .dropdown-list {
+    border-radius: 0px !important;
+  }
+}
+

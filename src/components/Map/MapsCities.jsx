@@ -20,6 +20,7 @@ import { setCountryList } from '../../actions/CommonActions';
 export const MapsCities = (props) => {
   // PROPS
   const {
+    blockScroll,
     className,
     changeFieldValue,
     country,
@@ -274,7 +275,7 @@ export const MapsCities = (props) => {
 
   useEffect(() => {
     const resultBox = addressRef.current;
-    if (resultBox) resultBox.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    if (resultBox && !blockScroll) resultBox.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }, [locList.length]);
 
   return (
@@ -399,6 +400,7 @@ export const MapsCities = (props) => {
 };
 
 MapsCities.propTypes = {
+  blockScroll: PropTypes.bool,
   changeFieldValue: PropTypes.func.isRequired,
   className: PropTypes.string,
   country: PropTypes.arrayOf(PropTypes.object),
@@ -425,6 +427,7 @@ MapsCities.propTypes = {
 };
 
 MapsCities.defaultProps = {
+  blockScroll: true,
   className: '',
   country: [],
   curCountry: {},
