@@ -174,7 +174,12 @@ const DashboardHome = (props) => {
         >
           <div className="w-perc-100 max-w-fix-208">
             <h5 className="mb-2 fSizePx18 fweight-600">Test drive our service. No strings attached.</h5>
-            <p className="fsize-300 txtDark700">Get the full Brixel experience worth CHF 9’900.</p>
+            <p className="fsize-300 txtDark700">
+              <span>Get the full Brixel experience worth</span>
+              <span className="ml-small-4">
+                {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
+              </span>
+            </p>
             <BrixelButtonPrimary
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site`)}
               className="mt-3"
