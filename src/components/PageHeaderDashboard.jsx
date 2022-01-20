@@ -12,7 +12,7 @@ import {
   BrixelAvatar,
   BrixelIcon,
   destroy,
-  BrixelSelect, BrixelButtonIcon,
+  BrixelSelect, BrixelButtonIcon, BrixelDropdown, FactsOptions,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
@@ -31,6 +31,9 @@ import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
 import { getPackageProperty, setActiveSingleProperty, getPackagesProperty } from '../actions/PropertyActions';
 import AccountDropdown from './AccountDropdown';
 import MenuSidebar from './MenuSidebar';
+import ProgressSellerStage from './ProgressSellerStage';
+
+const { factsOptions } = FactsOptions;
 
 function PageHeaderDashboard(props) {
   const history = {
@@ -43,8 +46,6 @@ function PageHeaderDashboard(props) {
     activeCompanyPackages,
     activeSingleProperty,
     changeZIndex,
-    destroyForm,
-    formValue,
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
     handleSetLanguage,
@@ -57,17 +58,17 @@ function PageHeaderDashboard(props) {
     windowDimensions,
   } = props;
   // STATE
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showAccountMenu, setShowAccountMenu] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [activeCompanyPackageIDArray, setActiveCompanyPackageIDArray] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
-  const [section, setSection] = useState('Sell');
-  const [linkSection, setLinkSection] = useState('Sell');
   const [packageName, setPackageName] = useState('Basic');
+  const [section, setSection] = useState('Sell');
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [stepIndexProgrss, setIndexProgrss] = useState(0);
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
-  const [activeCompanyPackageIDArray, setActiveCompanyPackageIDArray] = useState([]);
 
   // REF
   const profileMenu = useRef(null);
@@ -87,6 +88,15 @@ function PageHeaderDashboard(props) {
       setActiveCompanyPackageIDArray(array);
     }
   }, [activeCompanyPackages]);
+
+  useEffect(() => {
+    if (activeSingleProperty.id) {
+      const defState = factsOptions.progressBarOptions.find((item) => item.value === activeSingleProperty.progress.state);
+      const defIndexState = factsOptions.progressBarOptions.findIndex((item) => item.value === activeSingleProperty.progress.state);
+      if (defState.label === 'Sales Lead') defState.label = 'Onboarding';
+      setIndexProgrss(defIndexState);
+    }
+  }, [activeSingleProperty.id]);
 
   useEffect(() => {
     let activeSinglePropertyPackage = packagesProperty;
@@ -285,20 +295,9 @@ function PageHeaderDashboard(props) {
   }, [get(history, 'location.state', null)]);
 
   useEffect(() => {
-    if (userType === 'seller') setSection('Sell');
+    if (userType === 'seller' || propID === 'sell') setSection('Sell');
     else setSection('Buy');
-  }, [get(history, 'location.state', null), userType]);
-
-  useEffect(() => {
-    switch (section) {
-      case 'Buy':
-        setLinkSection('/buy');
-        break;
-      default:
-        setLinkSection('/sell');
-        break;
-    }
-  }, [section]);
+  }, [get(history, 'location', null), userType]);
 
   const urlBackAction = () => {
     if (get(history, 'location.pathname', '').includes('buyer')) {
@@ -332,89 +331,65 @@ function PageHeaderDashboard(props) {
       />
       <header className={`bgOverlay hubDasHeader ${showMobileMenu ? 'menu-active' : ''}`}>
         <div className="dasHeaderContainer">
-          <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c h-fix-72 pr-2 pr-lg-3 jc-b pos-r">
+          <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c pr-2 pr-lg-3 jc-b pos-r">
             {
               windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name ? (
                 <div
                   className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
                 >
                   <div
-                    className="dis-f a-c pl-0 pl-lg-5 logoWrapper max-w-fix-64 max-w-fix-sm-120 max-w-fix-lg-256  min-w-fix-40 w-perc-sm-100"
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper min-w-fix-lg-232 w-fit min-w-fix-40 ${((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
                   >
+                    <div className="brdSmallRight brdAltGrey200 min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2">
+                      <img
+                        onClick={() => {
+                          handleSetUserTypes('seller');
+                          handleSetActiveSingleProperty({});
+                          history.push('/sell');
+                        }}
+                        className={`${windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? 'max-w-fix-32' : ''} pos-r cur-poi`}
+                        src={windowDimensions.width <= 590 || (propID !== 'buy' && propID !== 'sell') ? logoMobile : logo}
+                        alt="Brixel Logo"
+                        id="logo"
+                      />
+                    </div>
                     {
-                      windowDimensions.width <= 590 ? (
-                        <img
-                          onClick={() => {
-                            handleSetUserTypes('seller');
-                            handleSetActiveSingleProperty({});
-                            history.push('/sell');
-                          }}
-                          className="pos-r max-w-fix-32 cur-poi"
-                          src={logoMobile}
-                          alt="Brixel Logo"
-                          id="logo"
-                        />
-                      ) : (
-                        <img
-                          onClick={() => {
-                            handleSetUserTypes('seller');
-                            handleSetActiveSingleProperty({});
-                            history.push('/sell');
-                          }}
-                          className="pos-r cur-poi"
-                          src={logo}
-                          alt="Brixel Logo"
-                          id="logo"
+                      ((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && (
+                        <BrixelDropdown
+                          noBorder
+                          className="sectionMenu h-fix-72 "
+                          color="dark"
+                          saturationTxt={700}
+                          lang={lang}
+                          keyType="label"
+                          selected={section}
+                          options={[{
+                            value: 'sell',
+                            label: 'Sell',
+                          }, {
+                            value: 'buy',
+                            label: 'Buy',
+                          }]}
+                          onSelect={(e, key) => history.push(`/${key.value}`)}
                         />
                       )
                     }
                   </div>
-                  <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
-                    {
-                      activeSingleProperty.id && propID && propID !== 'home' && propID !== 'buyer' && propID !== 'seller' && propID !== 'buy' && propID !== 'sell' ? (
-                        <>
-                          <span
-                            className="cur-poi"
-                            onClick={() => history.push(linkSection)}
-                          >
-                            {section}
-                          </span>
-                          {
-                            windowDimensions.width > 1024 && (
-                              <>
-                                <span className="px-1"> &gt; </span>
-                                <span className="propertyTitle txtDark700">{get(formValue, 'title', '')}</span>
-                              </>
-                            )
-                          }
-                        </>
-                      ) : (
-                        <>
-                          <span
-                            className={`pr-1 pr-sm-3 cur-poi ${history.location.pathname.includes('/sell') ? 'fweight-600 txtDark600' : ''}`}
-                            onClick={() => {
-                              handleSetUserTypes('seller');
-                              handleSetActiveSingleProperty({});
-                              history.push('/sell');
-                            }}
-                          >
-                            Sell
-                          </span>
-                          <span
-                            className={`cur-poi ${history.location.pathname.includes('/buy') ? 'fweight-600 txtDark600' : ''}`}
-                            onClick={() => {
-                              destroyForm();
-                              handleSetUserTypes('buyer');
-                              handleSetActiveSingleProperty({});
-                              history.push('/buy');
-                            }}
-                          >
-                            Buy
-                          </span>
-                        </>
-                      )
-                    }
-                  </div>
+                  {
+                    windowDimensions.width > 1024 && (
+                      <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
+                        {
+                          activeSingleProperty.id && propID && propID.length > 9 && (
+                            <ProgressSellerStage
+                              smallLayout
+                              xSmallMobile={windowDimensions.width < 480}
+                              stepIndexProgress={stepIndexProgrss}
+                            />
+                          )
+                        }
+                      </div>
+                    )
+                  }
                 </div>
               ) : (
                 <div>
@@ -676,8 +651,6 @@ PageHeaderDashboard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   changeZIndex: PropTypes.func,
-  destroyForm: PropTypes.func.isRequired,
-  formValue: PropTypes.object.isRequired,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,

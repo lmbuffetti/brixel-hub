@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { lazy, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Link, useLocation, useNavigate, useParams,
+} from 'react-router-dom';
 import get from 'lodash/get';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
@@ -22,6 +24,7 @@ import { DateTime } from 'luxon';
 import ICalendarLink from 'react-icalendar-link';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import ProgressSellerStage from '../../../components/ProgressSellerStage';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
 import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
@@ -29,14 +32,14 @@ import completedFactsImg from '../../../images/dashboard/completed_facts.svg';
 import completeDescriptionImg from '../../../images/dashboard/complete_description.svg';
 import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
 import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
+import contactTestDriveImg from '../../../images/TestDrive/contactTestDrive.svg';
+import bookTestDriveImg from '../../../images/TestDrive/bookTestDrive.png';
 
 import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getActiveSinglePropertyDealsCount, getPageDeals } from '../../../actions/PropertyActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import DashboardPropertyCard from '../../../components/DashboardPropertyCard';
-
-const BoxTrialTestDirve = lazy(() => import('../../../components/BoxTrialTestDirve'));
 
 const { factsOptions } = FactsOptions;
 
@@ -45,6 +48,7 @@ const DashboardHome = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
+  const match = useParams();
   // PROPS
   const {
     activeSinglePropertyDeals,
@@ -68,6 +72,7 @@ const DashboardHome = (props) => {
   const [progressState, setProgressState] = useState({});
   const [visitLists, setVisitLists] = useState(null);
   // const [stepProgrss, setStepProgrss] = useState({});
+  const propID = get(match, 'propId', null);
 
   const { documents } = formValue;
 
@@ -160,7 +165,57 @@ const DashboardHome = (props) => {
     return <Loading />;
   }
 
-  // const classToHide = get(history, 'location.state.hideBackPage', false);
+  const boxScanTrial = () => (
+    <div className="dis-f flex-wrap">
+      <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+        <div
+          className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
+          onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site`)}
+        >
+          <div className="w-perc-100 max-w-fix-208">
+            <h5 className="mb-2 fSizePx18 fweight-600">Test drive our service. No strings attached.</h5>
+            <p className="fsize-300 txtDark700">Get the full Brixel experience worth CHF 9’900.</p>
+            <BrixelButtonPrimary
+              onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site`)}
+              className="mt-3"
+              rounded
+              theme="AltGreen"
+              themeSat={400}
+              label="Book now"
+            />
+          </div>
+          <div className="w-perc-100 max-w-fix-136">
+            <img src={bookTestDriveImg} alt="Book Test Drive" />
+          </div>
+        </div>
+      </div>
+      <div className="mt-3 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+        <div
+          onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote`)}
+          className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
+        >
+          <div className="w-perc-100 max-w-fix-208">
+            <h5 className="mb-2 fSizePx18 fweight-600">Get in touch and find out more</h5>
+            <p className="fsize-300 txtDark700">Chat to one of our team members now.</p>
+            <BrixelButtonPrimary
+              onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote`)}
+              className="mt-3"
+              rounded
+              theme="AltBlue"
+              themeSat={700}
+              label="Contact us"
+            />
+          </div>
+          <div className="w-perc-100 max-w-fix-136">
+            <img
+              src={contactTestDriveImg}
+              alt="Book Test Drive"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
@@ -169,12 +224,32 @@ const DashboardHome = (props) => {
         <span className="ml-small-4"> { loggedInUser && (<>{loggedInUser.firstName}</>) } 👋 </span>
       </h4>
 
+      {
+        windowDimensions.width <= 1024 && (
+          <>
+            {
+              activeSingleProperty.id && propID && propID.length > 9 && (
+                <ProgressSellerStage
+                  className="mb-3"
+                  smallLayout
+                  xSmallMobile={windowDimensions.width <= 520}
+                  stepIndexProgress={progressState.step}
+                />
+              )
+            }
+          </>
+        )
+      }
+
       <div className="max-w-fix-760 dis-fl-col">
         {
           progressState.step === 1 && (
             <>
               <DashboardPropertyCard />
-              <div className="dis-fl-col dis-fl-row-sm">
+
+              {boxScanTrial()}
+
+              <div className="mt-3 dis-fl-col dis-fl-row-sm">
                 <div
                   onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
                   className="shadow-2dp bgAltMist100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
@@ -462,7 +537,10 @@ const DashboardHome = (props) => {
           progressState.step === 2 && (
             <>
               <DashboardPropertyCard />
-              <div className="dis-fl-col dis-fl-row-sm">
+
+              {boxScanTrial()}
+
+              <div className="mt-3 dis-fl-col dis-fl-row-sm">
 
                 {/* FACTS */}
                 <div
@@ -646,11 +724,11 @@ const DashboardHome = (props) => {
           progressState.step >= 3 && (
             <>
               <div className="dis-f jc-b flex-wrap">
-                <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-sm-1">
+                <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-md-1 pr-lg-0 pr-xl-1">
                   <DashboardPropertyCard smallLayout />
                 </div>
                 <div
-                  className="w-perc-100 w-perc-md-30 w-perc-lg-100 w-perc-xl-30 pl-sm-1 mt-md-0"
+                  className="w-perc-100 w-perc-md-30 w-perc-lg-100 w-perc-xl-30 pl-md-1 pl-lg-0 pl-xl-1 mt-md-0 mt-lg-3 mt-xl-0"
                 >
                   <Link
                     to={`/${activeSingleProperty.id}/marketing`}
@@ -847,14 +925,6 @@ const DashboardHome = (props) => {
                 )
               }
             </>
-          )
-        }
-
-        {
-          progressState.step <= 2 && (
-            <BoxTrialTestDirve
-              className="shadow-2dp"
-            />
           )
         }
 

@@ -41,7 +41,7 @@ const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
 const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
 const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
-/*const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));*/
+// const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazy(() => import('./Pages/Offers/Flow/MakeOffer'));
 
