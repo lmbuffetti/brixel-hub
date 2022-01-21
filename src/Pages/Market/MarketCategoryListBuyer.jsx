@@ -358,7 +358,6 @@ const MarketCategoryListBuyer = (props) => {
                   onClick={() => setSplashScreen('marketOverlayCarousel')}
                   className="mt-3 mt-lg-5"
                   rounded
-                  theme="altGreen"
                   label="Rate them now"
                 />
               </div>

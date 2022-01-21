@@ -159,7 +159,6 @@ const Key4Registration = (props) => {
               <BrixelButtonPrimary
                 className="mx-a mt-3"
                 rounded
-                theme="altGreen"
                 label="Register on key4"
                 rightIcon="arrow-right"
                 onClick={() => onRegisterKey4()}

@@ -554,7 +554,7 @@ const MarketCard = (props) => {
                     rounded
                     label="Edit"
                     onClick={() => history.push(`/${item.id}/home`)}
-                    theme="altGreen"
+
                   />
                 </div>
               </div>

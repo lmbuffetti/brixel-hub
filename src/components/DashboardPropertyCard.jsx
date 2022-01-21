@@ -80,7 +80,6 @@ const DashboardPropertyCard = (props) => {
                     className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
                     rounded
                     label="Open"
-                    theme="altGreen"
                     onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
                   />
                 </div>

@@ -184,8 +184,6 @@ const DashboardHome = (props) => {
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site`)}
               className="mt-3"
               rounded
-              theme="AltGreen"
-              themeSat={400}
               label="Book now"
             />
           </div>
@@ -206,7 +204,7 @@ const DashboardHome = (props) => {
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote`)}
               className="mt-3"
               rounded
-              theme="AltBlue"
+              theme="blue"
               themeSat={700}
               label="Contact us"
             />
@@ -375,7 +373,7 @@ const DashboardHome = (props) => {
                     <BrixelButtonPrimary
                       onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                       label="Upload"
-                      theme="AltGreen"
+                      theme="green"
                       themeSat={700}
                       className="mt-2 as-fs"
                       rounded
@@ -839,7 +837,6 @@ const DashboardHome = (props) => {
                           <BrixelButtonPrimary
                             className="ml-a ml-sm-0"
                             rounded
-                            theme="altGreen"
                             label="All"
                             onClick={() => history.push('')}
                           />

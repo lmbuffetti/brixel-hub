@@ -72,7 +72,6 @@ const WizardCard = (props) => {
         <BrixelButtonPrimary
           className="mt-3"
           rounded
-          theme="altGreen"
           onClick={() => onClickNext()}
           label="Got it"
         />

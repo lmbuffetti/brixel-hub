@@ -77,7 +77,7 @@ const FinanceCertificate = (props) => {
                 className="mx-a mt-4"
                 label="Apply now"
                 rightIcon="arrow-right"
-                theme="altGreen"
+
               />
 
               <div className="mt-4 mx-a ta-c w-fix-md-504">

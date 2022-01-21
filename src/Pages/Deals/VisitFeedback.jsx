@@ -151,7 +151,6 @@ const VisitFeedback = (props) => {
                                 <BrixelButtonPrimary
                                   onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
                                   rounded
-                                  theme="altGreen"
                                   className="w-fit mx-a mt-3"
                                   label="Make an offer"
                                 />
@@ -256,7 +255,6 @@ const VisitFeedback = (props) => {
                             <BrixelButtonPrimary
                               onClick={() => history.push('/buy')}
                               rounded
-                              theme="altGreen"
                               className="w-fit m-a"
                               label="Login to your market"
                             />
@@ -333,7 +331,6 @@ const VisitFeedback = (props) => {
                               disabled={disabledSend}
                               isLoading={isSmallLoading.sendVisit}
                               rounded
-                              theme="altGreen"
                               className="w-fit m-a"
                               label="Send"
                             />

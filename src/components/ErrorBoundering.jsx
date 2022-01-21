@@ -53,10 +53,12 @@ class ErrorBoundary extends Component {
           buttons={[
             {
               label: 'Dashboard',
+              btnType: 'primary',
               onClick: () => window.location.assign('/sell'),
             }, {
               label: 'Try again',
               className: 'ml-2',
+              btnType: 'secondary',
               onClick: () => window.location.reload(),
             },
           ]}

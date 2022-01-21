@@ -478,7 +478,6 @@ const SearchProfileBanner = (props) => {
                   <BrixelButtonPrimary
                     className="mr-a-lg"
                     rounded
-                    theme="altGreen"
                     label="Save and close filters"
                     onClick={() => saveData()}
                     isLoading={isSmallLoading.saveData}

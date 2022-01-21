@@ -556,7 +556,7 @@ const MarketCategoryListSeller = (props) => {
               rounded
               label="Upgrade your plan"
               onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
-              theme="AltGreen"
+
             />
             <span className="mx-sm-1 mt-2 my-sm-0">or</span>
             <BrixelButtonText
