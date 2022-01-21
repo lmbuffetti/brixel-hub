@@ -24,7 +24,7 @@ import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { getCompanyListing, setActiveSingleCompany } from '../../actions/CompanyActions';
 import {
-  setEstimation, getEstimation, setActiveMarketOverlayProperty, setActiveSingleProperty,
+  setEstimation, getEstimation, setActiveMarketOverlayProperty, setActiveSingleProperty, getPackageProperty,
 } from '../../actions/PropertyActions';
 import ArticlesList from '../../resources/homeArticles';
 import EmptyHubImg from '../../images/emptyHub.svg';
@@ -47,11 +47,13 @@ const MarketCategoryListSeller = (props) => {
   const {
     activeMarketOverlayProperty,
     activeSingleProperty,
+    activeSinglePropertyPackage,
     bestimate,
     companyListings,
     estimation,
     handleGetCompanyListing,
     handleGetEstimation,
+    handleGetPackageProperty,
     handleSetActiveSingleProperty,
     handleSetActiveSingleCompany,
     handleSetHistory,
@@ -90,20 +92,25 @@ const MarketCategoryListSeller = (props) => {
         handleSetActiveSingleProperty({ customID: propertyId, setID: indexOwn });
         const singleCmp = companyListings.find((cmp) => cmp.id === ownerProperties.data[indexOwn].company);
         handleSetActiveSingleCompany(singleCmp);
+        handleGetPackageProperty({ id: propertyId, smallLoader: 'package' });
       } else handleSetActiveSingleProperty({});
     }
   }, [propertyId, companyListings.length]);
 
   useEffect(() => {
     const packages = get(companyDetail, 'servicePackages', null);
+    let filtPkg = [];
     if (packages) {
-      let filtPkg = packages.filter((pkg) => pkg.type === 'one' || pkg.type === 'premium' || pkg.type === 'private');
-      // eslint-disable-next-line no-return-assign
-      filtPkg.map((pkg) => pkg.price.total = +pkg.price.total);
-      filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
-      setFilteredPackages(filtPkg);
+      filtPkg = packages.filter((pkg) => pkg.availableToCustomer);
     }
-  }, [get(companyDetail, 'servicePackages', null)]);
+    if (activeSinglePropertyPackage.length > 0) {
+      // filtPkg = activeSinglePropertyPackage;
+    }
+    // eslint-disable-next-line no-return-assign
+    filtPkg.map((pkg) => pkg.price.total = +pkg.price.total);
+    filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
+    setFilteredPackages(filtPkg);
+  }, [get(companyDetail, 'servicePackages', null), activeSinglePropertyPackage]);
 
   // Update market card when bestimate changes
   useEffect(() => {
@@ -620,11 +627,13 @@ const MarketCategoryListSeller = (props) => {
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   bestimate: PropTypes.object.isRequired,
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleGetPackageProperty: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetActiveSingleCompany: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
@@ -644,6 +653,7 @@ const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   bestimate: get(state, 'property.estimation.result', {}),
   companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
@@ -666,6 +676,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
