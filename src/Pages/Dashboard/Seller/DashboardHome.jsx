@@ -72,7 +72,7 @@ const DashboardHome = (props) => {
   const [progressState, setProgressState] = useState({});
   const [visitLists, setVisitLists] = useState(null);
   // const [stepProgrss, setStepProgrss] = useState({});
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   const { documents } = formValue;
 

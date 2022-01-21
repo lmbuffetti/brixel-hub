@@ -42,7 +42,7 @@ const HomeDashboard = (props) => {
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE

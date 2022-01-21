@@ -68,7 +68,7 @@ const GetStartedSeller = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);

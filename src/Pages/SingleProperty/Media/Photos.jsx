@@ -54,7 +54,7 @@ const Photos = (props) => {
   const [btnActive, setBtnActive] = useState(null);
   const [newImages, setNewImages] = useState([]);
   // GET URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   // REF
   // eslint-disable-next-line no-unused-vars
   const arrayImg = [...Array(photos ? photos.length : 0)].map((_, index) => React.createRef());

@@ -27,7 +27,7 @@ const FactsQuestion = (props) => {
     quest,
   } = props;
   // PARAMS URL
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
 
   useEffect(() => {
