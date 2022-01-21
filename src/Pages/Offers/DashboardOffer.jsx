@@ -1,16 +1,17 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { bindActionCreators, compose } from 'redux'; import {
   Routes, Route, Navigate, useParams,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import lazyWithRetry from '../../components/LazyWithRetry';
 import Loading from '../../components/Loading';
 import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions';
 
-const OffersList = lazy(() => import('./OffersList'));
+const OffersList = lazyWithRetry(() => import('./OffersList'));
 
-const OfferDetail = lazy(() => import('./OfferDetail'));
+const OfferDetail = lazyWithRetry(() => import('./OfferDetail'));
 
 const DashboardOffer = (props) => {
   const {
@@ -19,7 +20,7 @@ const DashboardOffer = (props) => {
   } = props;
   const match = useParams();
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   useEffect(() => {
     const data = {

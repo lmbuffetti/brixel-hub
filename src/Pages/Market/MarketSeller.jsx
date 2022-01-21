@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
   Navigate,
@@ -19,10 +19,11 @@ import {
 import '../../styles/SCSS/pages/market.scss';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
 import { updateFavorite } from '../../actions/UserActions';
+import lazyWithRetry from '../../components/LazyWithRetry';
 
-const MarketCategoryListSeller = lazy(() => import('./MarketCategoryListSeller'));
+const MarketCategoryListSeller = lazyWithRetry(() => import('./MarketCategoryListSeller'));
 
-const MarketList = lazy(() => import('./MarketList'));
+const MarketList = lazyWithRetry(() => import('./MarketList'));
 
 const MarketSeller = (props) => {
   const history = {

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import {
   Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
@@ -11,13 +11,14 @@ import get from 'lodash/get';
 import last from 'lodash/last';
 import isNumber from 'lodash/isNumber';
 import Sticker from 'react-stickyfill';
+import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 
-const Showings = lazy(() => import('../../Marketing/Showings'));
+const Showings = lazyWithRetry(() => import('../../Marketing/Showings'));
 
-const Page = lazy(() => import('../../Marketing/Page'));
+const Page = lazyWithRetry(() => import('../../Marketing/Page'));
 
-const Portals = lazy(() => import('../../Marketing/Portals'));
+const Portals = lazyWithRetry(() => import('../../Marketing/Portals'));
 
 const MarketingDashboard = (props) => {
   const history = {
@@ -31,7 +32,7 @@ const MarketingDashboard = (props) => {
     windowDimensions,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE

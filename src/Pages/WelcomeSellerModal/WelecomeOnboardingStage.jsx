@@ -89,21 +89,21 @@ const WelecomeOnboardingStage = (props) => {
                 )
               }
 
-              <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-500 fsize-sm-600">
-                Congratulations 🎉
+              <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-500 fsize-sm-600 max-w-fix-480 mx-a">
+                <span>Great.</span>
+                <span>&ldquo;{activeSingleProperty.title}&rdquo;</span>
+                <span>is ready.</span>
               </p>
 
               <p className="mt-3 txtBlack max-w-fix-448 m-a fweight-400 fsize-500 fsize-sm-600">
-                <span>Your</span>
-                <b className="mx-small-4">{activeSingleProperty.title}</b>
-                <span>has been created. Let’s move on.</span>
+                Are you ready too?
               </p>
 
               <BrixelButtonPrimary
                 className="mx-a mt-5"
                 rounded
                 theme="altGreen"
-                label="Progress sale"
+                label="Yes, let's go."
                 rightIcon="arrow-right-small"
                 onClick={() => onChangeStep()}
               />

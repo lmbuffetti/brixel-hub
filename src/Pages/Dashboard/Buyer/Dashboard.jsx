@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, useState, lazy, Suspense,
+  useEffect, useState, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -20,16 +20,17 @@ import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { spinnerOff } from '../../../actions/CommonActions';
 import { getFavoritesProperties } from '../../../actions/MarketActions';
 import { getBuyerDeal } from '../../../actions/DealActions';
+import lazyWithRetry from '../../../components/LazyWithRetry';
 
-const PropertiesBuyerDashboard = lazy(() => import('./PropertiesBuyerDashboard'));
+const PropertiesBuyerDashboard = lazyWithRetry(() => import('./PropertiesBuyerDashboard'));
 
-const PropertyBuyerDashboard = lazy(() => import('./PropertyBuyerDashboard'));
+const PropertyBuyerDashboard = lazyWithRetry(() => import('./PropertyBuyerDashboard'));
 
-const DealsDashboardBuyer = lazy(() => import('./DealsDashboardBuyer'));
+const DealsDashboardBuyer = lazyWithRetry(() => import('./DealsDashboardBuyer'));
 
-const Documents = lazy(() => import('../../SingleProperty/Documents'));
+const Documents = lazyWithRetry(() => import('../../SingleProperty/Documents'));
 
-const Financing = lazy(() => import('./Financing'));
+const Financing = lazyWithRetry(() => import('./Financing'));
 
 const Dashboard = (props) => {
   const history = {

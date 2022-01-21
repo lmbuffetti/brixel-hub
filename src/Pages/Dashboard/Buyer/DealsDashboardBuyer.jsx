@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import {
   Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
@@ -9,8 +9,9 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import last from 'lodash/last';
 import isNumber from 'lodash/isNumber';
+import lazyWithRetry from '../../../components/LazyWithRetry';
 
-const OfferDetail = lazy(() => import('../../Offers/OfferDetail'));
+const OfferDetail = lazyWithRetry(() => import('../../Offers/OfferDetail'));
 
 const DealsDashboardBuyer = (props) => {
   const history = {

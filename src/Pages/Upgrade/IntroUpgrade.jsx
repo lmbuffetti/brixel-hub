@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  lazy, useEffect, useRef, useState,
+  useEffect, useRef, useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
@@ -22,6 +22,7 @@ import Slider from 'react-slick';
 import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 import { getPackageProperty } from '../../actions/PropertyActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import lazyWithRetry from '../../components/LazyWithRetry';
 
 // import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
 import CallUsImg from '../../images/Upgrade/callUs.svg';
@@ -36,8 +37,8 @@ import Testimonial2PT from '../../images/getstarted/testimonial-2_PT.jpg';
 import Testimonial3PT from '../../images/getstarted/testimonial-3_PT.jpg';
 import EmptyHubImg from '../../images/emptyHub.svg';
 
-const PackagesComparePlans = lazy(() => import('../../components/PackagesComparePlans'));
-const BoxTrialTestDirve = lazy(() => import('../../components/BoxTrialTestDirve'));
+const PackagesComparePlans = lazyWithRetry(() => import('../../components/PackagesComparePlans'));
+const BoxTrialTestDirve = lazyWithRetry(() => import('../../components/BoxTrialTestDirve'));
 
 const IntroUpgrade = (props) => {
   const history = {
@@ -58,7 +59,7 @@ const IntroUpgrade = (props) => {
   // STATE
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [packageName, setPackageName] = useState({ });
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   // SLIDER
   const sliderInstance = useRef(null);

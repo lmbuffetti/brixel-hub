@@ -123,7 +123,7 @@ const Documents = (props) => {
   const index = (key) => findIndex(showFullFolder, (el) => el === key);
 
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   // REF
   const documentRef = useRef(null);
