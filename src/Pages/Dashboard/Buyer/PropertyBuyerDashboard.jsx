@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
   Routes, Route, useLocation, useNavigate, useParams, Navigate,
@@ -13,13 +13,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import Sticker from 'react-stickyfill';
+import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 
-const PageBuyer = lazy(() => import('./PageBuyer'));
+const PageBuyer = lazyWithRetry(() => import('./PageBuyer'));
 
-const ShowingsBuyer = lazy(() => import('./ShowingsBuyer'));
+const ShowingsBuyer = lazyWithRetry(() => import('./ShowingsBuyer'));
 
-const ContactBuyer = lazy(() => import('./ContactBuyer'));
+const ContactBuyer = lazyWithRetry(() => import('./ContactBuyer'));
 
 const PropertyBuyerDashboard = (props) => {
   const history = {

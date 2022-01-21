@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* global Transifex */
 import React, {
-  useState, useEffect, useCallback, lazy, Suspense,
+  useState, useEffect, useCallback, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,11 +15,12 @@ import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colo
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import lazyWithRetry from './LazyWithRetry';
 import ProgressSellerStage from './ProgressSellerStage';
 import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 
-const AvatarImage = lazy(() => import('./AvatarImage'));
+const AvatarImage = lazyWithRetry(() => import('./AvatarImage'));
 
 function PageHeader(props) {
   const history = {
