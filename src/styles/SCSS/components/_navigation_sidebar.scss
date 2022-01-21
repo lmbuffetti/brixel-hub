@@ -22,7 +22,7 @@
       }
       &.active {
         > a {
-          background-color: map_get($altMistColor, 100);
+          background-color: map_get($blueColor, 100);
           color:  map_get($blueColor, 700);
           border-left-color:  map_get($blueColor, 700);
         }

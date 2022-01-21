@@ -255,12 +255,12 @@ const SearchProfileBanner = (props) => {
                     />
 
                     <div className="dis-f a-c">
-                      <div className="bgAltMist200 brdFullRadius dis-f a-c brdSmallLeft brdLight200 h-perc-100 pr-1 ml-1">
+                      <div className="bgBlue200 brdFullRadius dis-f a-c brdSmallLeft brdLight200 h-perc-100 pr-1 ml-1">
                         <BrixelIcon
                           iconWidth="w-fix-24"
-                          background="altMist"
+                          background="blue"
                           saturation={100}
-                          color="altMist"
+                          color="blue"
                           rounded
                           icon="fire"
                         />
@@ -396,9 +396,9 @@ const SearchProfileBanner = (props) => {
                     <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
                       <BrixelIcon
                         iconWidth="w-fix-32"
-                        background="altMist"
+                        background="blue"
                         saturation={100}
-                        color="altMist"
+                        color="blue"
                         rounded
                         icon="fire"
                       />

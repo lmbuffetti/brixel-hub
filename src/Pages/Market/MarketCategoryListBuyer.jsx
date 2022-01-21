@@ -368,7 +368,7 @@ const MarketCategoryListBuyer = (props) => {
         </div>
         {
           windowDimensions.width < 1025 && (
-            <div className="bgAltMist200">
+            <div className="bgBlue200">
               <object width="100%" data={teaserAnimation}> </object>
             </div>
           )

@@ -255,12 +255,12 @@ const DashboardHome = (props) => {
               <div className="mt-3 dis-fl-col dis-fl-row-sm">
                 <div
                   onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
-                  className="shadow-2dp bgAltMist100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+                  className="shadow-2dp bgBlue100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
                 >
                   {
                     get(proEstimation, 'value', null) ? (
                       <div className="dis-fl-col max-w-perc-100">
-                        <span className="fsize-400 txtAltMist400">
+                        <span className="fsize-400 txtBlue400">
                           Pro estimation
                         </span>
                         {
@@ -292,7 +292,7 @@ const DashboardHome = (props) => {
                     ) : (
                       <>
                         <div className="dis-fl-col">
-                          <span className="fsize-400 txtAltMist400">
+                          <span className="fsize-400 txtBlue400">
                             Pro estimation
                           </span>
 
@@ -648,7 +648,7 @@ const DashboardHome = (props) => {
                             <span>Photos</span>
                             <BrixelIcon
                               icon="check-small-fill"
-                              color={get(activeSingleProperty, 'photos', []).length > 5 ? 'altMist' : 'light'}
+                              color={get(activeSingleProperty, 'photos', []).length > 5 ? 'blue' : 'light'}
                               saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 400 : 300}
                             />
                           </div>
@@ -659,7 +659,7 @@ const DashboardHome = (props) => {
                             <span>Plans</span>
                             <BrixelIcon
                               icon="check-small-fill"
-                              color={get(activeSingleProperty, 'floorPlans', []).length >= 1 ? 'altMist' : 'light'}
+                              color={get(activeSingleProperty, 'floorPlans', []).length >= 1 ? 'blue' : 'light'}
                               saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length >= 1 ? 400 : 300}
                             />
                           </div>
@@ -670,7 +670,7 @@ const DashboardHome = (props) => {
                             <span>3d tour</span>
                             <BrixelIcon
                               icon="check-small-fill"
-                              color={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 'altMist' : 'light'}
+                              color={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 'blue' : 'light'}
                               saturationTxt={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 400 : 300}
                             />
                           </div>
@@ -690,12 +690,12 @@ const DashboardHome = (props) => {
                 </div>
 
                 <div
-                  className="pos-r w-perc-100 ov-h w-perc-sm-65 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp bgAltMist100 px-2"
+                  className="pos-r w-perc-100 ov-h w-perc-sm-65 mt-3 mt-sm-0 brdRadius shadow-2dp dis-fl-col jc-b pt-2 cur-poi shadowHover-4dp bgBlue100 px-2"
                   onClick={() => openBrixelPage()}
                 >
                   <div className="dis-f-md a-b h-perc-100">
                     <div className="dis-fl-col mb-a">
-                      <span className="fsize-400 txtAltMist400">Brixel Page</span>
+                      <span className="fsize-400 txtBlue400">Brixel Page</span>
 
                       <span className="fsize-500 fsize-md-600 fweight-600 txtBlue700 mb-2 mt-1">
                         Preview your property website
@@ -796,7 +796,7 @@ const DashboardHome = (props) => {
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="visited"
-                    color="altMist"
+                    color="blue"
                   />
                   <h6 className="mt-xs-2 fweight-400">Visits</h6>
                   <p className="fSizePx64 fweight-600 txtBlue700 mt-xs-3">
@@ -827,7 +827,7 @@ const DashboardHome = (props) => {
                         <BrixelIcon
                           iconWidth="w-fix-32"
                           icon="visited"
-                          color="altMist"
+                          color="blue"
                           saturationTxt={400}
                         />
                         <h5 className="ml-2 ml-sm-3 fsize-500">Confirmed visits</h5>

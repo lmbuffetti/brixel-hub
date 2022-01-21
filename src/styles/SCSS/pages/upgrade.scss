@@ -155,18 +155,18 @@
   }
 
   &.private {
-    border-color: map_get($altMistColor, 400);
+    border-color: map_get($blueColor, 400);
     h5 {
-      color: map_get($altMistColor, 400);
+      color: map_get($blueColor, 400);
     }
     h6 {
-      background-color: map_get($altMistColor, 400);
+      background-color: map_get($blueColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($altMistColor, 400);
+          background-color: map_get($blueColor, 400);
         }
       }
     }
@@ -210,18 +210,18 @@
 }
 
 .private {
-  border-color: map_get($altMistColor, 400);
+  border-color: map_get($blueColor, 400);
   h4 {
-    color: map_get($altMistColor, 400);
+    color: map_get($blueColor, 400);
   }
   h6:not([class*=bg]) {
-    background-color: map_get($altMistColor, 400);
+    background-color: map_get($blueColor, 400);
   }
 
   ul.checked {
     li {
       &:before {
-        background-color: map_get($altMistColor, 400);
+        background-color: map_get($blueColor, 400);
       }
     }
   }
@@ -268,7 +268,7 @@ span {
     color: map_get($primaryColor, 400);
   }
   &.private {
-    color: map_get($altMistColor, 400);
+    color: map_get($blueColor, 400);
   }
   &.premium {
     color: map_get($redColor, 400);

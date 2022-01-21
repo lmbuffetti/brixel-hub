@@ -77,8 +77,8 @@ export const feedMessage = (user, history, packages) => {
       icon: 'tag',
     },
     'pro-estimation-complete': {
-      className: 'brdAltMist100',
-      colorBgIcon: 'AltMist',
+      className: 'brdBlue100',
+      colorBgIcon: 'Blue',
       colorIconSat: 100,
       colorBgIconSat: 400,
       colorIcon: 'AltBlue',
