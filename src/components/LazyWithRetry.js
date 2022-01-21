@@ -2,7 +2,7 @@ import { lazy } from 'react';
 
 const lazyWithRetry = (componentImport) => lazy(async () => {
   const pageHasAlreadyBeenForceRefreshed = JSON.parse(
-    window.localStorage.getItem(
+    localStorage.getItem(
       'page-has-been-force-refreshed',
     ) || 'false',
   );
@@ -10,7 +10,7 @@ const lazyWithRetry = (componentImport) => lazy(async () => {
   try {
     const component = await componentImport();
 
-    window.localStorage.setItem(
+    localStorage.setItem(
       'page-has-been-force-refreshed',
       'false',
     );
@@ -20,7 +20,7 @@ const lazyWithRetry = (componentImport) => lazy(async () => {
     if (!pageHasAlreadyBeenForceRefreshed) {
       // Assuming that the user is not on the latest version of the application.
       // Let's refresh the page immediately.
-      window.localStorage.setItem(
+      localStorage.setItem(
         'page-has-been-force-refreshed',
         'true',
       );
