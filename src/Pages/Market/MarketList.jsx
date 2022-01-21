@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, useState, lazy, Suspense,
+  useEffect, useState, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -16,12 +16,13 @@ import {
   getNewProperties, getOwnedProperties, getPremarketProperties,
   getPremiumProperties, getWishlistProperties,
 } from '../../actions/MarketActions';
+import lazyWithRetry from '../../components/LazyWithRetry';
 import MarketCardMap from '../../components/MarketCardMap';
 import Pagination from '../../components/Pagination';
 import { setSplashType, setWindowDimensions } from '../../actions/CommonActions';
 import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 
-const MarketMap = lazy(() => import('./MarketMap'));
+const MarketMap = lazyWithRetry(() => import('./MarketMap'));
 
 const MarketList = (props) => {
   const history = {

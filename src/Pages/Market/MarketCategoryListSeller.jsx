@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, useState, lazy, Suspense,
+  useEffect, useState, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -16,6 +16,7 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import orderBy from 'lodash/orderBy';
+import lazyWithRetry from '../../components/LazyWithRetry';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
@@ -36,7 +37,7 @@ import sellYourself from '../../images/Market/sellYourself.png';
 import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
 import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 
-const CarouselWrapper = lazy(() => import('../../components/CarouselWrapper'));
+const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
 
 const MarketCategoryListSeller = (props) => {
   const history = {
