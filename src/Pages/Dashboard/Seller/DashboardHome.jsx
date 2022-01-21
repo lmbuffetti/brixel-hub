@@ -347,7 +347,7 @@ const DashboardHome = (props) => {
                                 size={windowDimensions.width <= 590 ? 80 : 100}
                                 strokeWidth={windowDimensions.width <= 590 ? 10 : 14}
                                 circleOneStroke="#fff"
-                                circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
+                                circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#004D71'}
                                 showIcon={false}
                                 showIconComplete={calcPercentageProEstimation().realPerc === 100}
                               />

@@ -366,7 +366,7 @@ const MarketCard = (props) => {
                                       size={48}
                                       strokeWidth={10}
                                       circleOneStroke="#D7F0F1"
-                                      circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#1E1491'}
+                                      circleTwoStroke={calcPercentageProEstimation('', item).realPerc === 100 ? '#218B80' : '#004D71'}
                                       showIcon={false}
                                       showIconComplete={calcPercentageProEstimation('', item).realPerc === 100}
                                     />

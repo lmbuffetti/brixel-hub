@@ -312,7 +312,7 @@ const Price = (props) => {
                               size={45}
                               strokeWidth={6}
                               circleOneStroke="#DCDDDE"
-                              circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
+                              circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#004D71'}
                               showIcon={false}
                               showIconComplete={calcPercentageProEstimation().realPerc === 100}
                             />
