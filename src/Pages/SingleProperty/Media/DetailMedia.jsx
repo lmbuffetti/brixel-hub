@@ -42,7 +42,7 @@ const DetailMedia = (props) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   // PARAMS URL
   const mediaID = get(match, 'imgId', null);
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const mediaType = get(match, 'editType', null);
   // REF
   const wrapImg = useRef(null);

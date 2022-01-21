@@ -36,7 +36,7 @@ const Portals = (props) => {
     changeFieldValue,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {

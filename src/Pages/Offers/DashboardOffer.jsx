@@ -20,7 +20,7 @@ const DashboardOffer = (props) => {
   } = props;
   const match = useParams();
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   useEffect(() => {
     const data = {

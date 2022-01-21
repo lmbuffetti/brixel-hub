@@ -44,7 +44,7 @@ const Facts = (props) => {
   const [Questions, setQuestions] = useState(InputSheets(formValue));
   const [selectedQuest, setSelectedQuest] = useState(null);
   // PARAMS URL
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // FUNCTION TO CHECK IF MAIN SECTION IS FINISH OR NOT

@@ -103,7 +103,7 @@ const Dashboard = (props) => {
   // const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null) && activeSingleProperty.id) {

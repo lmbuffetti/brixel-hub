@@ -57,7 +57,7 @@ const Price = (props) => {
   const [allSettings, setAllSettings] = useState(false);
   const [percComplete, setPercComplete] = useState(0);
   // PARAMS URL
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const bestimateflowCompleted = completedBestimate(formValue);
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
