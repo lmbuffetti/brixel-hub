@@ -132,8 +132,8 @@ const GetStartedSeller = (props) => {
       price: getCurrency(),
       published: false,
       addProperty: true,
-      redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
-      // redirectToUrl: '/sell',
+      // redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
+      redirectToUrl: '/sell',
       company,
       extraLoading: true,
     };
@@ -504,10 +504,6 @@ const GetStartedSeller = (props) => {
     else label = 'Next';
     return label;
   };
-
-  useEffect(() => {
-    // if (get(formValue, 'properties.propertyType', null)) changeStep('next', null, 1, true);
-  }, [get(formValue, 'properties.propertyType', null)]);
 
   const progressBarCalc = () => {
     let num = 0;

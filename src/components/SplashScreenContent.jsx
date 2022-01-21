@@ -173,6 +173,16 @@ const SplashScreen = (props) => {
   }, [activeMarketOverlayPropertyLists]);
 
   useEffect(() => {
+    if (get(wizard, 'type', null) === 'preMarketOverlay' && get(wizard, 'step', null) === 1 && windowDimensions.width < 768) {
+      setTimeout(() => {
+        const getModal = document.getElementsByClassName('wrapSplash')[0];
+        const scrollContainer = getModal.getElementsByClassName('ov-a')[0];
+        scrollContainer.scrollTo({ top: 1400, behavior: 'smooth' });
+      }, 1000);
+    }
+  }, [get(wizard, 'type', null)]);
+
+  useEffect(() => {
     updateData();
     setTimeout(() => {
       setShowContent(true);
@@ -204,7 +214,6 @@ const SplashScreen = (props) => {
     }
   }, [activeSlide]);
 
-  // console.log(activeSlide);
   // Function to close the drawer menus when we click outside
   useOutsideAlerter(drawerRef, {
     action: 'function',
