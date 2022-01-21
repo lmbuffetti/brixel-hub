@@ -31,7 +31,6 @@ const ContactBuyer = (props) => {
     contacts,
   } = props;
   // URL PARAMS
-  console.log(match);
   const propID = get(match, 'propID', null);
 
   return (
