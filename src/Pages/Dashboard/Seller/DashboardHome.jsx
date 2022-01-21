@@ -266,7 +266,7 @@ const DashboardHome = (props) => {
                         {
                           get(proEstimation, 'value', 0) > 0 && (
                             <>
-                              <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600 txtAltBlue400">
+                              <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600 txtBlue700">
                                 <span>
                                   {get(estimation, 'result.currency', '')}
                                 </span>
@@ -279,8 +279,8 @@ const DashboardHome = (props) => {
                                 bgTransparent
                                 onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
                                 className="mt-2 as-fs"
-                                theme="AltBlue"
-                                themeSat={400}
+                                theme="blue"
+                                themeSat={700}
                                 rounded
                                 ghost
                                 label="View"
@@ -299,7 +299,7 @@ const DashboardHome = (props) => {
                           {
                             (get(activeSingleProperty, 'properties.propertyType', '') === 'Apartment' || get(activeSingleProperty, 'properties.propertyType', '') === 'House') ? (
                               <>
-                                <span className="fsize-600 fweight-600 txtAltBlue400">
+                                <span className="fsize-600 fweight-600 txtBlue700">
                                   <span>{calcPercentageProEstimation().realPerc}%</span>
                                   <span className="ml-small-4"> Complete</span>
                                 </span>
@@ -308,8 +308,8 @@ const DashboardHome = (props) => {
                                     <BrixelButtonPrimary
                                       onClick={() => window.location.assign(`/${activeSingleProperty.id}/property/price/formFlow`)}
                                       label="Next step"
-                                      theme="AltBlue"
-                                      themeSat={400}
+                                      theme="Blue"
+                                      themeSat={700}
                                       className="mt-2 as-fs"
                                       rounded
                                     />
@@ -318,8 +318,8 @@ const DashboardHome = (props) => {
                                       bgTransparent
                                       onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
                                       className="mt-2"
-                                      theme="AltBlue"
-                                      themeSat={400}
+                                      theme="Blue"
+                                      themeSat={700}
                                       rounded
                                       ghost
                                       label="Pending"
@@ -328,7 +328,7 @@ const DashboardHome = (props) => {
                                 }
                               </>
                             ) : (
-                              <p className="fsize-600 fweight-600 txtAltBlue400">
+                              <p className="fsize-600 fweight-600 txtBlue700">
                                 For this type currently not available
                               </p>
                             )
@@ -340,7 +340,7 @@ const DashboardHome = (props) => {
                               <ProgressRing
                                 customIcon={get(proEstimation, 'value', 0) <= 0 && calcPercentageProEstimation().realPerc === 100 ? 'hourglass' : null}
                                 iconColor={{
-                                  color: 'altGreen',
+                                  color: 'primary',
                                   sat: 400,
                                 }}
                                 progress={calcPercentageProEstimation().realPerc}
@@ -359,12 +359,12 @@ const DashboardHome = (props) => {
                   }
                 </div>
                 <div
-                  className="shadow-2dp bgAltGreen100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 w-perc-sm-50 ml-sm-1 cur-poi"
+                  className="shadow-2dp bgPrimary100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 w-perc-sm-50 ml-sm-1 cur-poi"
                   onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                 >
                   <div className="dis-fl-col">
-                    <span className="fsize-400 txtAltGreen400">Docubox</span>
-                    <span className="fsize-600 fweight-600 txtAltGreen700">
+                    <span className="fsize-400 txtPrimary400">Docubox</span>
+                    <span className="fsize-600 fweight-600 txtPrimary700">
                       <span>{countMandatoryDocuments()}</span>
                       <span className="mx-small-4">of</span>
                       <span>{mandatoryDocuments ? mandatoryDocuments.length : 0} </span>
@@ -396,8 +396,8 @@ const DashboardHome = (props) => {
                       <div className="dis-f px-3">
                         <BrixelIcon
                           icon="property-new"
-                          color="AltBlue"
-                          saturationTxt={400}
+                          color="blue"
+                          saturationTxt={700}
                         />
                         <span className="txtDark700 fweight-600 pl-1">Facts</span>
                       </div>
@@ -405,7 +405,7 @@ const DashboardHome = (props) => {
                         <BrixelProgressBar
                           progressValue={calcPercentageFacts().realPerc}
                           saturation={400}
-                          color="AltGreen"
+                          color="Primary"
                         />
                         <span className="txtDark700 fsize-300 fsize-sm-400 pt-small-4 dis-b">
                           <span>{calcPercentageFacts().realPerc}%</span>
@@ -428,8 +428,8 @@ const DashboardHome = (props) => {
                       <div className="dis-f px-3">
                         <BrixelIcon
                           icon="mike"
-                          color="AltBlue"
-                          saturationTxt={400}
+                          color="blue"
+                          saturationTxt={700}
                         />
                         <span className="txtDark700 fweight-600 pl-1">Marketing</span>
                       </div>
@@ -548,19 +548,19 @@ const DashboardHome = (props) => {
                 {/* FACTS */}
                 <div
                   onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
-                  className="shadow-2dp bgAltRed100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+                  className="shadow-2dp bgRed100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
                 >
                   <div className="dis-fl-col">
-                    <span className="fsize-400 txtAltRed400">Facts</span>
+                    <span className="fsize-400 txtRed400">Facts</span>
 
-                    <span className="fsize-500 fsize-md-600 fweight-600 txtAltRed700 mb-2 mt-1">
+                    <span className="fsize-500 fsize-md-600 fweight-600 txtRed700 mb-2 mt-1">
                       {(calcPercentageFacts().realPerc * 100) / 40 > 100 ? 'Completed relevant facts' : 'Complete relevant facts'}
                     </span>
 
                     <BrixelProgressBar
                       progressValue={(calcPercentageFacts().realPerc * 100) / 40 > 100 ? 100 : (calcPercentageFacts().realPerc * 100) / 40}
                       saturation={400}
-                      color="AltRed"
+                      color="Red"
                     />
 
                   </div>
@@ -574,10 +574,10 @@ const DashboardHome = (props) => {
 
                 {/* DESCRIPTION */}
                 <div
-                  className="shadow-2dp bgAltGreen100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
+                  className="shadow-2dp bgPrimary100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
                 >
                   <div className="dis-fl-col">
-                    <span className="fsize-400 txtAltGreen400">
+                    <span className="fsize-400 txtPrimary400">
                       <span
                         onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
                       >
@@ -588,11 +588,11 @@ const DashboardHome = (props) => {
                           <BrixelIcon
                             className="ml-1"
                             icon="info"
-                            color="altGreen"
+                            color="primary"
                             onClick={() => handleSetModal({
                               state: true,
                               small: true,
-                              classTitle: 'txtAltGreen400',
+                              classTitle: 'txtPrimary400',
                               title: 'How to add your description',
                               body: `<ol>
                             <li>Add a title</li>
@@ -607,7 +607,7 @@ const DashboardHome = (props) => {
 
                     <span
                       onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
-                      className="fsize-500 fsize-md-600 fweight-600 txtAltGreen700 mb-2 mt-1"
+                      className="fsize-500 fsize-md-600 fweight-600 txtPrimary700 mb-2 mt-1"
                     >
                       {completeDescritpion() ? 'Thanks for adding your description!\n' : 'Add your description'}
                     </span>
@@ -634,8 +634,8 @@ const DashboardHome = (props) => {
                       <div className="dis-f px-3">
                         <BrixelIcon
                           icon="folder-open"
-                          color="AltBlue"
-                          saturationTxt={400}
+                          color="blue"
+                          saturationTxt={700}
                         />
                         <span className="txtDark700 fweight-600 pl-1">Media</span>
                       </div>
@@ -697,7 +697,7 @@ const DashboardHome = (props) => {
                     <div className="dis-fl-col mb-a">
                       <span className="fsize-400 txtAltMist400">Brixel Page</span>
 
-                      <span className="fsize-500 fsize-md-600 fweight-600 txtAltBlue400 mb-2 mt-1">
+                      <span className="fsize-500 fsize-md-600 fweight-600 txtBlue700 mb-2 mt-1">
                         Preview your property website
                       </span>
                     </div>
@@ -741,8 +741,8 @@ const DashboardHome = (props) => {
                       <div className="dis-f px-3">
                         <BrixelIcon
                           icon="mike"
-                          color="AltBlue"
-                          saturationTxt={400}
+                          color="blue"
+                          saturationTxt={700}
                         />
                         <span className="txtDark700 fweight-600 pl-1">Marketing</span>
                       </div>
@@ -782,10 +782,10 @@ const DashboardHome = (props) => {
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="interested"
-                    color="altRed"
+                    color="red"
                   />
                   <h6 className="mt-xs-2 fweight-400">Interested</h6>
-                  <p className="fSizePx64 fweight-600 txtAltRed700 mt-xs-3">
+                  <p className="fSizePx64 fweight-600 txtRed700 mt-xs-3">
                     {get(activeSinglePropertyDealsCount, 'Interested.total', '')}
                   </p>
                 </div>
@@ -799,7 +799,7 @@ const DashboardHome = (props) => {
                     color="altMist"
                   />
                   <h6 className="mt-xs-2 fweight-400">Visits</h6>
-                  <p className="fSizePx64 fweight-600 txtAltBlue400 mt-xs-3">
+                  <p className="fSizePx64 fweight-600 txtBlue700 mt-xs-3">
                     {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
                   </p>
                 </div>
@@ -810,10 +810,10 @@ const DashboardHome = (props) => {
                   <BrixelIcon
                     iconWidth="w-fix-48"
                     icon="offers"
-                    color="altGreen"
+                    color="primary"
                   />
                   <h6 className="mt-xs-2 fweight-400">Offers</h6>
-                  <p className="fSizePx64 fweight-600 txtAltGreen400 mt-xs-3">
+                  <p className="fSizePx64 fweight-600 txtPrimary400 mt-xs-3">
                     {get(activeSinglePropertyDealsCount, 'Offer.total', '')}
                   </p>
                 </div>
@@ -873,7 +873,7 @@ const DashboardHome = (props) => {
                             </p>
                           </div>
                           <p
-                            className={`${classWidthTable(1)} ${!visit.past ? 'txtAltGreen400' : 'txtLight600'} order-3 order-md-2 cur-poi`}
+                            className={`${classWidthTable(1)} ${!visit.past ? 'txtPrimary400' : 'txtLight600'} order-3 order-md-2 cur-poi`}
                             onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
                           >
                             {DateTime.fromMillis(visit.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
@@ -903,7 +903,7 @@ const DashboardHome = (props) => {
                                 >
                                   <BrixelIcon
                                     icon="calendar-add"
-                                    color="altGreen"
+                                    color="primary"
                                     saturationTxt={300}
                                     label="Add to calendar"
                                   />

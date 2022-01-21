@@ -409,8 +409,8 @@ const SplashScreen = (props) => {
                           <BrixelIcon
                             rounded
                             className="mr-4"
-                            color="AltRed"
-                            background="AltRed"
+                            color="Red"
+                            background="Red"
                             iconWidth="w-fix-32"
                             saturation={200}
                             saturationTxt={400}
@@ -420,8 +420,8 @@ const SplashScreen = (props) => {
                           />
                           <BrixelIcon
                             rounded
-                            color="AltGreen"
-                            background="AltGreen"
+                            color="Primary"
+                            background="Primary"
                             iconWidth="w-fix-32"
                             saturation={200}
                             saturationTxt={400}

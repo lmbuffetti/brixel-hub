@@ -217,13 +217,13 @@ const CarouselWrapper = (props) => {
               <BrixelButtonText
                 className="fsize-300 show-all pos-r mr-1"
                 label="+ Add new"
-                theme="AltBlue"
-                themeSat={400}
+                theme="blue"
+                themeSat={700}
                 onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
               />
               <BrixelButtonText
-                theme="AltBlue"
-                themeSat={400}
+                theme="blue"
+                themeSat={700}
                 className="fsize-300 show-all pos-r"
                 label={`<span>View all</span> <span class="ml-1">(${total})</span>`}
                 onClick={() => showAll()}

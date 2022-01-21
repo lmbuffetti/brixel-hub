@@ -90,7 +90,7 @@ const Key4Registration = (props) => {
                       className="mr-2"
                       iconWidth="w-fix-32"
                       icon="tax-declaration"
-                      color="altGreen"
+                      color="primary"
                       saturationTxt={300}
                     />
                     <p className="txtDark700">Latest tax declaration</p>
@@ -100,7 +100,7 @@ const Key4Registration = (props) => {
                       className="mr-2"
                       iconWidth="w-fix-32"
                       icon="proof-income"
-                      color="altGreen"
+                      color="primary"
                       saturationTxt={300}
                     />
                     <p className="txtDark700">Latest proof of income, incl. proof of bonus if applicable</p>
@@ -110,7 +110,7 @@ const Key4Registration = (props) => {
                       className="mr-2"
                       iconWidth="w-fix-32"
                       icon="pension"
-                      color="altGreen"
+                      color="primary"
                       saturationTxt={300}
                     />
                     <p className="txtDark700">Pension fund statement</p>
@@ -121,7 +121,7 @@ const Key4Registration = (props) => {
                       className="mr-2"
                       iconWidth="w-fix-32"
                       icon="property-expose"
-                      color="altGreen"
+                      color="primary"
                       saturationTxt={300}
                     />
                     <p className="dis-f flex-wrap a-c txtDark700">

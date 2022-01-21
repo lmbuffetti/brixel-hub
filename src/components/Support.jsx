@@ -153,8 +153,8 @@ const Support = (props) => {
             phone && (
               <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-2">
                 <BrixelIcon
-                  color="altBlue"
-                  saturationTxt={400}
+                  color="blue"
+                  saturationTxt={700}
                   icon="phone"
                 />
                 <p className="ml-2">
@@ -167,7 +167,7 @@ const Support = (props) => {
             email && (
               <a href={`mailto: ${email}`} className="dis-f a-c mb-2">
                 <BrixelIcon
-                  color="altRed"
+                  color="red"
                   saturationTxt={400}
                   icon="mail"
                 />
@@ -186,7 +186,7 @@ const Support = (props) => {
                 rel="noopener noreferrer"
               >
                 <BrixelIcon
-                  color="altGreen"
+                  color="primary"
                   saturationTxt={400}
                   icon="whatsapp"
                 />

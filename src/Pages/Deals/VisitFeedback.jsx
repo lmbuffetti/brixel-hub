@@ -165,8 +165,8 @@ const VisitFeedback = (props) => {
                                   contacts.phone && (
                                     <a href={`tel:${Helpers.telephoneFormat(contacts.phone)}`} className="dis-f a-c mb-2">
                                       <BrixelIcon
-                                        color="altBlue"
-                                        saturationTxt={400}
+                                        color="blue"
+                                        saturationTxt={700}
                                         icon="phone"
                                       />
                                       <p className="ml-2">
@@ -179,7 +179,7 @@ const VisitFeedback = (props) => {
                                   contacts.email && (
                                     <a href={`mailto: ${contacts.email}`} className="dis-f a-c mb-2">
                                       <BrixelIcon
-                                        color="altRed"
+                                        color="red"
                                         saturationTxt={400}
                                         icon="mail"
                                       />
@@ -220,8 +220,8 @@ const VisitFeedback = (props) => {
                                         contacts.phone && (
                                           <a href={`tel:${Helpers.telephoneFormat(contacts.phone)}`} className="dis-f a-c mb-2">
                                             <BrixelIcon
-                                              color="altBlue"
-                                              saturationTxt={400}
+                                              color="blue"
+                                              saturationTxt={700}
                                               icon="phone"
                                             />
                                             <p className="ml-2">
@@ -234,7 +234,7 @@ const VisitFeedback = (props) => {
                                         contacts.email && (
                                           <a href={`mailto: ${contacts.email}`} className="dis-f a-c mb-2">
                                             <BrixelIcon
-                                              color="altRed"
+                                              color="red"
                                               saturationTxt={400}
                                               icon="mail"
                                             />

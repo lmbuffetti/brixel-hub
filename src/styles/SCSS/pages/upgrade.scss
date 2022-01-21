@@ -173,18 +173,18 @@
   }
 
   &.premium {
-    border-color: map_get($altRedColor, 400);
+    border-color: map_get($redColor, 400);
     h5 {
-      color: map_get($altRedColor, 400);
+      color: map_get($redColor, 400);
     }
     h6 {
-      background-color: map_get($altRedColor, 400);
+      background-color: map_get($redColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($altRedColor, 400);
+          background-color: map_get($redColor, 400);
         }
       }
     }
@@ -228,18 +228,18 @@
 }
 
 .premium {
-  border-color: map_get($altRedColor, 400);
+  border-color: map_get($redColor, 400);
   h4 {
-    color: map_get($altRedColor, 400);
+    color: map_get($redColor, 400);
   }
   h6:not([class*=bg]) {
-    background-color: map_get($altRedColor, 400);
+    background-color: map_get($redColor, 400);
   }
 
   ul.checked {
     li {
       &:before {
-        background-color: map_get($altRedColor, 400);
+        background-color: map_get($redColor, 400);
       }
     }
   }
@@ -265,13 +265,13 @@
 
 span {
   &.basic {
-    color: map_get($altGreenColor, 400);
+    color: map_get($primaryColor, 400);
   }
   &.private {
     color: map_get($altMistColor, 400);
   }
   &.premium {
-    color: map_get($altRedColor, 400);
+    color: map_get($redColor, 400);
   }
   &.one {
     color: map_get($darkColor, 700);
@@ -284,7 +284,7 @@ span {
     display: flex;
     margin-bottom: $step * 2;
     &:before {
-      background-color: map_get($altGreenColor, 300);
+      background-color: map_get($primaryColor, 300);
       -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
       mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
       display: block;

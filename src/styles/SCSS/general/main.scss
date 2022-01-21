@@ -192,6 +192,7 @@ p.cutRow {
 header {
   .dropdown {
     padding-right: 0;
+    border-radius: 0;
   }
 }
 
@@ -795,7 +796,7 @@ button.minimum-w-210 {
   border-radius: 50%;
 
   &.green {
-    background-color: map-get($altGreenColor, 400);
+    background-color: map-get($primaryColor, 400);
   }
 
   &.grey {

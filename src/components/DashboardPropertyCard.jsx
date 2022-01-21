@@ -59,10 +59,10 @@ const DashboardPropertyCard = (props) => {
                 <div className="dis-fl-col dis-fl-row-sm jc-b a-c w-perc-100">
                   <div className="dis-f a-c mr-a mr-sm-0">
                     <BrixelIcon
-                      background="AltMist"
+                      background="blue"
                       saturation={100}
-                      color="AltBlue"
-                      saturationTxt={400}
+                      color="blue"
+                      saturationTxt={700}
                       padding="p-small-12"
                       icon="price"
                       rounded
@@ -70,7 +70,7 @@ const DashboardPropertyCard = (props) => {
                     />
                     <div className="ml-2 dis-fl-col">
                       <span className="txtLight600 fsize-300">Your Price</span>
-                      <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltBlue400 fweight-600">
+                      <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
                         <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
                         <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
                       </Link>
@@ -90,10 +90,10 @@ const DashboardPropertyCard = (props) => {
                       <div className="dis-fl-col">
                         <div className="dis-f a-c">
                           <BrixelIcon
-                            background="AltMist"
+                            background="blue"
                             saturation={100}
-                            color="AltBlue"
-                            saturationTxt={400}
+                            color="blue"
+                            saturationTxt={700}
                             padding="p-small-12"
                             icon="price"
                             rounded
@@ -101,7 +101,7 @@ const DashboardPropertyCard = (props) => {
                           />
                           <div className="ml-2 dis-fl-col">
                             <span className="txtLight600 fsize-300"> Your Price</span>
-                            <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltBlue400 fweight-600">
+                            <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
                               <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
                               <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
                             </Link>
@@ -114,10 +114,10 @@ const DashboardPropertyCard = (props) => {
                           get(activeSingleProperty, 'proEstimation.value', 0) > 0 ? (
                             <div className="dis-f pt-2 a-t">
                               <BrixelIcon
-                                background="AltMist"
+                                background="blue"
                                 saturation={100}
-                                color="AltBlue"
-                                saturationTxt={400}
+                                color="blue"
+                                saturationTxt={700}
                                 padding="p-small-12"
                                 icon="chart"
                                 rounded
@@ -125,22 +125,22 @@ const DashboardPropertyCard = (props) => {
                               />
                               <div className="dis-fl-col pl-2 mr-1">
                                 <span className="txtLight600 fsize-300">Pro estimation</span>
-                                <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltBlue400 no-state fweight-600">
+                                <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 no-state fweight-600">
                                   {get(activeSingleProperty, 'proEstimation.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'proEstimation.value', 0), get(activeSingleProperty, 'proEstimation.currency', 0))}
                                 </Link>
                               </div>
                               <div className="tagBg dis-fl-row-sm hide a-c">
                                 <span className="activeDot" />
-                                <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtAltBlue400"> Set your price </Link>
+                                <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700"> Set your price </Link>
                               </div>
                             </div>
                           ) : (
                             <div className="dis-f pt-2 a-t">
                               <BrixelIcon
-                                background="AltMist"
+                                background="blue"
                                 saturation={100}
-                                color="AltBlue"
-                                saturationTxt={400}
+                                color="blue"
+                                saturationTxt={700}
                                 padding="p-small-12"
                                 icon="chart"
                                 rounded
@@ -150,21 +150,21 @@ const DashboardPropertyCard = (props) => {
                                 <span className="txtLight600 fsize-300">Your Bestimate</span>
                                 {
                                   !get(estimation, 'status', null) && (
-                                    <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtAltBlue400 fweight-600">
+                                    <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
                                       Get Estimation
                                     </Link>
                                   )
                                 }
                                 {
                                   get(estimation, 'status', '') === 'pending' && (
-                                    <span className="txtAltBlue400 fweight-600">
+                                    <span className="txtBlue700 fweight-600">
                                       Pending
                                     </span>
                                   )
                                 }
                                 {
                                   get(estimation, 'status', '') === 'processed' && (
-                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtAltBlue400 no-state fweight-600">
+                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 no-state fweight-600">
                                       {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
                                     </Link>
                                   )
@@ -172,7 +172,7 @@ const DashboardPropertyCard = (props) => {
                               </div>
                               <div className="tagBg dis-fl-row-sm hide a-c">
                                 <span className="activeDot" />
-                                <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtAltBlue400"> Set your price </Link>
+                                <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700"> Set your price </Link>
                               </div>
                             </div>
                           )

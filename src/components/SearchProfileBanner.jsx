@@ -265,36 +265,36 @@ const SearchProfileBanner = (props) => {
                           icon="fire"
                         />
                         <div>
-                          <p className="fsize-500 fweight-600 txtAltBlue400">
+                          <p className="fsize-500 fweight-600 txtBlue700">
                             <span>{preMarketStats.total}</span>
                           </p>
                         </div>
                       </div>
-                      <div className="bgAltRed200 brdFullRadius dis-f a-c brdSmallLeft brdLight200 h-perc-100 pr-1 ml-1">
+                      <div className="bgRed200 brdFullRadius dis-f a-c brdSmallLeft brdLight200 h-perc-100 pr-1 ml-1">
                         <BrixelIcon
                           iconWidth="w-fix-24"
-                          background="altRed"
+                          background="red"
                           saturation={100}
-                          color="altRed"
+                          color="red"
                           rounded
                           icon="close-small"
                         />
                         <div>
-                          <p className="fsize-500 fweight-600 txtAltRed700">
+                          <p className="fsize-500 fweight-600 txtRed700">
                             <span>{preMarketStats.dislikedTotal}</span>
                           </p>
                         </div>
                       </div>
-                      <div className="bgAltGreen200 brdFullRadius dis-f a-c brdSmallLeft brdLight200 h-perc-100 pr-1 ml-1">
+                      <div className="bgPrimary200 brdFullRadius dis-f a-c brdSmallLeft brdLight200 h-perc-100 pr-1 ml-1">
                         <BrixelIcon
                           iconWidth="w-fix-24"
-                          background="altGreen"
-                          color="altGreen"
+                          background="primary"
+                          color="primary"
                           rounded
                           icon="favorite"
                         />
                         <div>
-                          <p className="fsize-500 fweight-600 txtAltGreen400">
+                          <p className="fsize-500 fweight-600 txtPrimary400">
                             <span>{preMarketStats.likedTotal}</span>
                           </p>
                         </div>
@@ -406,7 +406,7 @@ const SearchProfileBanner = (props) => {
                         className={`ml-1 ${onStatsFunc.matching ? 'cur-poi' : ''}`}
                         onClick={() => (onStatsFunc.matching ? onStatsFunc.matching() : '')}
                       >
-                        <p className="fsize-600 fweight-600 txtAltBlue600">
+                        <p className="fsize-600 fweight-600 txtBlue700">
                           <span>{preMarketStats.total}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
                             Matching
@@ -417,14 +417,14 @@ const SearchProfileBanner = (props) => {
                     <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
                       <BrixelIcon
                         iconWidth="w-fix-32"
-                        background="altRed"
+                        background="red"
                         saturation={100}
-                        color="altRed"
+                        color="red"
                         rounded
                         icon="close-small"
                       />
                       <div className="ml-1">
-                        <p className="fsize-600 fweight-600 txtAltRed600">
+                        <p className="fsize-600 fweight-600 txtRed600">
                           <span>{preMarketStats.dislikedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg no-wrap">
                             Don&apos;t like
@@ -435,14 +435,14 @@ const SearchProfileBanner = (props) => {
                     <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
                       <BrixelIcon
                         iconWidth="w-fix-32"
-                        background="altGreen"
+                        background="primary"
                         saturation={100}
-                        color="altGreen"
+                        color="primary"
                         rounded
                         icon="favorite"
                       />
                       <div className="ml-1 cur-poi" onClick={() => history.push('/buy/wishlist')}>
-                        <p className="fsize-600 fweight-600 txtAltGreen600">
+                        <p className="fsize-600 fweight-600 txtPrimary600">
                           <span>{preMarketStats.likedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
                             Likes

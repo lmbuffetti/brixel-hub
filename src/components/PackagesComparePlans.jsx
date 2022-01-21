@@ -135,7 +135,7 @@ export const PackagesComparePlans = (props) => {
             {
               extractTable('premium').map((pkg, i) => (
                 <th key={i.toString()}>
-                  <span className="txtAltRed400">{pkg.name}</span>
+                  <span className="txtRed400">{pkg.name}</span>
                   <span className="fsize-500 dis-f a-b fweight-400">
                     <span>
                       {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}

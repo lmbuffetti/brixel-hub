@@ -49,7 +49,7 @@
 
     &:not(.input-range--disabled) {
       .input-range__slider {
-        background: map_get($altBlueColor, 400) !important;
+        background: map_get($blueColor, 700) !important;
       }
     }
 

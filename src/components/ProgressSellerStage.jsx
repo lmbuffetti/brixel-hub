@@ -38,7 +38,7 @@ const ProgressSellerStage = (props) => {
                       noBorder
                       iconWidth="w-fix-flex-24 pos-r zIndex2"
                       icon="check"
-                      color="altGreen"
+                      color="primary"
                     />
                   ) : (
                     <span className="stepNumber fsize-300">{i + 1}</span>
