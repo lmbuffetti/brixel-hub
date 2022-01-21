@@ -44,7 +44,7 @@ const Bestimate = (props) => {
   const [questions, setQuestions] = useState(BestimateQuestions('en'));
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   // INITIALIZE FORM
   useEffect(() => {

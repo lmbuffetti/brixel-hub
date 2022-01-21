@@ -57,7 +57,7 @@ const Showings = (props) => {
   const [unavailableSlots, setUnavailableSlots] = useState([]);
   const [bookingSlot, setBookingSlot] = useState([]);
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // GET BOOKING
@@ -256,7 +256,7 @@ const Showings = (props) => {
         getFact() !== 'showings' && (
           <Suspense fallback={<Loading isLoading />}>
             <Route
-              path="/:propId/marketing/showings/addBooking/:idShowing"
+              path="/:propID/marketing/showings/addBooking/:idShowing"
               element={<AddShowings />}
             />
           </Suspense>

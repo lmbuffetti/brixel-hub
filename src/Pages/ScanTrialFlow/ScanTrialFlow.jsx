@@ -57,7 +57,7 @@ const ScanTrialFlow = (props) => {
   const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   // REF
   const singleStepRef = useRef(null);

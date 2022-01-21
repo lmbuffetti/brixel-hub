@@ -42,7 +42,7 @@ const GetStarted = lazyWithRetry(() => import('./Pages/PackageFlow/GetStarted'))
 const GetStartedSeller = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedSeller'));
 const GetStartedBuyer = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedEstimation = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedEstimation'));
-// const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
+const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazyWithRetry(() => import('./Pages/Offers/Flow/MakeOffer'));
 
@@ -478,7 +478,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
-                      {/* <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} /> */}
+                      <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
 
@@ -506,18 +506,18 @@ const App = (props) => {
                               get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
                               get(history, 'location.pathname', '').split('/')[1].length > 18 && (
                                 <>
-                                  <Route path="/:propId/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/docubox/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/closing/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/property" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/marketing" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/docubox/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/closing/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/property" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/marketing" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                 </>
                               )
                             }
@@ -579,7 +579,7 @@ const App = (props) => {
 
           { /* SECTION: ACHIVEMENT FLOW */ }
           <Routes>
-            <Route path="/:propId?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
+            <Route path="/:propID?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
             <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/:dealID/deal" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />

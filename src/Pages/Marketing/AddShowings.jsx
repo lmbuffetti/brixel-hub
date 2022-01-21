@@ -38,7 +38,7 @@ const Showings = (props) => {
     userLang,
   } = props;
   // PARAMS URL
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const idShowing = get(match, 'idShowing', null);
 
   const saveData = () => {

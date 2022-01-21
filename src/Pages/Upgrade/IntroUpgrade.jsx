@@ -59,7 +59,7 @@ const IntroUpgrade = (props) => {
   // STATE
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [packageName, setPackageName] = useState({ });
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   // SLIDER
   const sliderInstance = useRef(null);
