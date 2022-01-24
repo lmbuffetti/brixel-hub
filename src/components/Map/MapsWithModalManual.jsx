@@ -400,7 +400,7 @@ export const MapsWithModalManual = (props) => {
 
   useEffect(() => {
     const dropdownEl = addressRef.current;
-    if (dropdownEl) dropdownEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    if (dropdownEl) dropdownEl.scrollIntoView({ behavior: 'smooth' });
   }, [locList.length]);
 
   const closeModal = () => {
