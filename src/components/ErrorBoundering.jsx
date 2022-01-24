@@ -32,7 +32,7 @@ class ErrorBoundary extends Component {
         url: window.location.href,
         apiResource: '',
       };
-      if (!url.includes('500') && !url.includes('localhost')) {
+      if (!url.includes('500') && !url.includes('localhost') && !info.componentStack.includes('ChunkLoadError')) {
         handleSendSlackNotifications({ data, channel });
       } else {
         // eslint-disable-next-line no-console
