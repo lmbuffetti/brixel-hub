@@ -35,7 +35,7 @@ const DashboardPropertyCard = (props) => {
             className={`dis-b w-perc-100 ${smallLayout ? 'w-fix-sm-152' : 'w-fix-sm-232'} h-fix-152 pos-r`}
           >
             <CoverPropertyImage
-              className="cover w-perc-100 h-perc-100"
+              className="cover w-perc-100 h-perc-100 negTop"
               coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(formValue, 'properties.propertyType', undefined)}
             />
@@ -49,7 +49,7 @@ const DashboardPropertyCard = (props) => {
         </div>
         <div className="pl-3 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
           <div className="">
-            <h4 className="txtDark700 fweight-600"> {get(activeSingleProperty, 'title', '')} </h4>
+            <h4 className="txtDark700 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
           </div>
@@ -112,7 +112,7 @@ const DashboardPropertyCard = (props) => {
                       <>
                         {
                           get(activeSingleProperty, 'proEstimation.value', 0) > 0 ? (
-                            <div className="dis-f pt-2 a-t">
+                            <div className="dis-f pt-4 pt-sm-2 a-t">
                               <BrixelIcon
                                 background="blue"
                                 saturation={100}
@@ -135,7 +135,7 @@ const DashboardPropertyCard = (props) => {
                               </div>
                             </div>
                           ) : (
-                            <div className="dis-f pt-2 a-t">
+                            <div className="dis-f pt-4 pt-sm-2 a-t">
                               <BrixelIcon
                                 background="blue"
                                 saturation={100}

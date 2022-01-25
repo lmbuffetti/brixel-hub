@@ -265,7 +265,7 @@ const SearchProfileBanner = (props) => {
                           icon="fire"
                         />
                         <div>
-                          <p className="fsize-500 fweight-600 txtBlue700">
+                          <p className="fsize-500 fweight-600 txtBlue700 px-small-4">
                             <span>{preMarketStats.total}</span>
                           </p>
                         </div>
@@ -280,7 +280,7 @@ const SearchProfileBanner = (props) => {
                           icon="close-small"
                         />
                         <div>
-                          <p className="fsize-500 fweight-600 txtRed700">
+                          <p className="fsize-500 fweight-600 txtRed700 px-small-4">
                             <span>{preMarketStats.dislikedTotal}</span>
                           </p>
                         </div>
@@ -289,12 +289,13 @@ const SearchProfileBanner = (props) => {
                         <BrixelIcon
                           iconWidth="w-fix-24"
                           background="primary"
+                          saturation={100}
                           color="primary"
                           rounded
                           icon="favorite"
                         />
                         <div>
-                          <p className="fsize-500 fweight-600 txtPrimary400">
+                          <p className="fsize-500 fweight-600 txtPrimary400 px-small-4">
                             <span>{preMarketStats.likedTotal}</span>
                           </p>
                         </div>
