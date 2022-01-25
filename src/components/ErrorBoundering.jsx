@@ -9,12 +9,12 @@ import { sendSlackNotification } from '../actions/CommonActions';
 class ErrorBoundary extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = { hasError: false };
-  
+
   static getDerivedStateFromError() {
     // Update state to show the fallback UI during the next render phase
     return { hasError: true };
   }
-  
+
   componentDidCatch(error, info) {
     if (typeof window !== 'undefined') {
       const url = window.location.href;
@@ -40,7 +40,7 @@ class ErrorBoundary extends Component {
       }
     }
   }
-  
+
   // eslint-disable-next-line class-methods-use-this
   getBrowserInfo() {
     const module = {
@@ -82,7 +82,7 @@ class ErrorBoundary extends Component {
         let match;
         let matches;
         let version;
-        
+
         for (i = 0; i < data.length; i += 1) {
           regex = new RegExp(data[i].value, 'i');
           match = regex.test(string);
@@ -112,18 +112,18 @@ class ErrorBoundary extends Component {
         return { name: 'unknown', version: 0 };
       },
     };
-    
+
     const e = module.init();
     let debug = '';
-    
+
     debug += `os.name = ${e.os.name}\n`;
     debug += `os.version = ${e.os.version}\n`;
     debug += `browser.name = ${e.browser.name}\n`;
     debug += `browser.version = ${e.browser.version}\n`;
-    
+
     return debug;
   }
-  
+
   render() {
     const {
       hasError,
