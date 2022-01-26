@@ -137,10 +137,10 @@ const VisitFeedback = (props) => {
                 {
                   status ? (
                     <div id="step-0" className="dis-fl-col flex-wrap">
-                      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+                      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                         We&apos;re glad you are still interested.
                       </h2>
-                      <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 w-perc-100 mb-5">
+                      <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5 w-perc-100 mb-5">
                         <div className=" multiFieldWrap w-perc-100 ">
                           <div className="dis-f jc-b h-perc-100 a-t">
                             <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
@@ -201,10 +201,10 @@ const VisitFeedback = (props) => {
                       {
                         successMessage ? (
                           <div id="step-0" className="dis-fl-col flex-wrap">
-                            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+                            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                               Thank you. Your feedback has been sent.
                             </h2>
-                            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 w-perc-100 mb-5">
+                            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
                                 <div className="dis-f jc-b h-perc-100 a-t">
                                   <div className="ml-0 mr-a pr-10 dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
@@ -261,10 +261,10 @@ const VisitFeedback = (props) => {
                           </div>
                         ) : (
                           <>
-                            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+                            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                               Thank you for your feedback.
                             </h2>
-                            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 w-perc-100 mb-5">
+                            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
                                 <div className="dis-f jc-b h-perc-100 a-t">
                                   <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
