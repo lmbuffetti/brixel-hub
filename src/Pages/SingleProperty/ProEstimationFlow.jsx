@@ -253,7 +253,7 @@ const ProEstimationFlow = (props) => {
                     size={45}
                     strokeWidth={6}
                     circleOneStroke="#DCDDDE"
-                    circleTwoStroke="#1E1491"
+                    circleTwoStroke="#004D71"
                     showIcon={false}
                   />
                   <div className="ml-2">

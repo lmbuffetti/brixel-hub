@@ -129,7 +129,7 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
   position: relative;
   z-index: 1;
   @media (min-width: $responsive-medium) {
-    background-color: map-get($altMistColor, 100 );
+    background-color: map-get($blueColor, 100 );
   }
 
   &::after {

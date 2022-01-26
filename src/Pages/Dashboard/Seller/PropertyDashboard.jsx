@@ -162,7 +162,7 @@ const HomeDashboard = (props) => {
               <Suspense fallback={<Loading isLoading />}>
                 <Routes>
                   <Route path="/facts/*" element={<Facts />} />
-                  <Route path="/price" element={<Price />} />
+                  <Route path="/price/*" element={<Price />} />
                   <Route path="/photos/*" element={<Photos />} />
                   <Route path="/floorPlans/*" element={<Plans />} />
                   <Route path="/tour" element={<Tour />} />

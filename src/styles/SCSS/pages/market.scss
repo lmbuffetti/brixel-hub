@@ -346,12 +346,12 @@ $lightColorNew2: #F0F0F2;
   }
 }
 
-.bgAltBlue400 {
+.bgBlue700 {
   .slick-list {
     @media (max-width: $responsive-small) {
       &::before {
-        background: map-get($altBlueColor, 400) !important;
-        background: linear-gradient(90deg, rgba(map-get($altBlueColor, 400), 0), rgba(map-get($altBlueColor, 400), 1) 100%) !important;
+        background: map-get($blueColor, 700) !important;
+        background: linear-gradient(90deg, rgba(map-get($blueColor, 700), 0), rgba(map-get($blueColor, 700), 1) 100%) !important;
       }
     }
   }

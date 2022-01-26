@@ -151,7 +151,6 @@ const VisitFeedback = (props) => {
                                 <BrixelButtonPrimary
                                   onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
                                   rounded
-                                  theme="altGreen"
                                   className="w-fit mx-a mt-3"
                                   label="Make an offer"
                                 />
@@ -166,8 +165,8 @@ const VisitFeedback = (props) => {
                                   contacts.phone && (
                                     <a href={`tel:${Helpers.telephoneFormat(contacts.phone)}`} className="dis-f a-c mb-2">
                                       <BrixelIcon
-                                        color="altBlue"
-                                        saturationTxt={400}
+                                        color="blue"
+                                        saturationTxt={700}
                                         icon="phone"
                                       />
                                       <p className="ml-2">
@@ -180,7 +179,7 @@ const VisitFeedback = (props) => {
                                   contacts.email && (
                                     <a href={`mailto: ${contacts.email}`} className="dis-f a-c mb-2">
                                       <BrixelIcon
-                                        color="altRed"
+                                        color="red"
                                         saturationTxt={400}
                                         icon="mail"
                                       />
@@ -221,8 +220,8 @@ const VisitFeedback = (props) => {
                                         contacts.phone && (
                                           <a href={`tel:${Helpers.telephoneFormat(contacts.phone)}`} className="dis-f a-c mb-2">
                                             <BrixelIcon
-                                              color="altBlue"
-                                              saturationTxt={400}
+                                              color="blue"
+                                              saturationTxt={700}
                                               icon="phone"
                                             />
                                             <p className="ml-2">
@@ -235,7 +234,7 @@ const VisitFeedback = (props) => {
                                         contacts.email && (
                                           <a href={`mailto: ${contacts.email}`} className="dis-f a-c mb-2">
                                             <BrixelIcon
-                                              color="altRed"
+                                              color="red"
                                               saturationTxt={400}
                                               icon="mail"
                                             />
@@ -256,7 +255,6 @@ const VisitFeedback = (props) => {
                             <BrixelButtonPrimary
                               onClick={() => history.push('/buy')}
                               rounded
-                              theme="altGreen"
                               className="w-fit m-a"
                               label="Login to your market"
                             />
@@ -333,7 +331,6 @@ const VisitFeedback = (props) => {
                               disabled={disabledSend}
                               isLoading={isSmallLoading.sendVisit}
                               rounded
-                              theme="altGreen"
                               className="w-fit m-a"
                               label="Send"
                             />

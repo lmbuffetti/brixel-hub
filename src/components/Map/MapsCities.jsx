@@ -275,7 +275,7 @@ export const MapsCities = (props) => {
 
   useEffect(() => {
     const resultBox = addressRef.current;
-    if (resultBox && !blockScroll) resultBox.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    if (resultBox && !blockScroll) resultBox.scrollIntoView({ behavior: 'smooth' });
   }, [locList.length]);
 
   return (

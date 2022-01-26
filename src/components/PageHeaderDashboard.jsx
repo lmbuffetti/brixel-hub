@@ -448,7 +448,7 @@ function PageHeaderDashboard(props) {
               { /* SECTION SIDEBAR MENU MOBILE */}
               {
                 windowDimensions.width <= 1024 && (
-                  <div className="ml-1 ml-sm-2">
+                  <div className="ml-1 ml-sm-2 h-fix-72 dis-f a-c">
                     {
                       (propID === 'sell' || propID === 'buy') ? (
                         <>

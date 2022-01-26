@@ -250,7 +250,7 @@ const MarketCategoryListBuyer = (props) => {
                   {
                     get(wishlistProperties, 'data', []).length > numWishProp && (
                       <div
-                        className="brdSmall brdRadius dis-f a-c jc-c brdAltGreen400 min-w-fix-80 h-fix-80 ml-4 cur-poi"
+                        className="brdSmall brdRadius dis-f a-c jc-c brdPrimary400 min-w-fix-80 h-fix-80 ml-4 cur-poi"
                         onClick={() => history.push('/buy/wishlist')}
                       >
                         <span className="txtGreen400 fweight-600 fsize-500">
@@ -348,8 +348,8 @@ const MarketCategoryListBuyer = (props) => {
               <div className="w-perc-md-50 w-perc-100">
                 <h3 className="max-w-fix-320 fweight-600 fsize-800">
                   <span>There are</span>
-                  <span className="mx-small-4 txtAltBlue400">{preMarketStats.total}</span>
-                  <span className="mx-small-4 txtAltBlue400">new properties</span>
+                  <span className="mx-small-4 txtBlue700">{preMarketStats.total}</span>
+                  <span className="mx-small-4 txtBlue700">new properties</span>
                   <span>on our Pre-Market.</span>
                 </h3>
                 <h5 className="fweight-400 mt-3 txtDark700">
@@ -359,7 +359,6 @@ const MarketCategoryListBuyer = (props) => {
                   onClick={() => setSplashScreen('marketOverlayCarousel')}
                   className="mt-3 mt-lg-5"
                   rounded
-                  theme="altGreen"
                   label="Rate them now"
                 />
               </div>
@@ -370,7 +369,7 @@ const MarketCategoryListBuyer = (props) => {
         </div>
         {
           windowDimensions.width < 1025 && (
-            <div className="bgAltMist200">
+            <div className="bgBlue200">
               <object width="100%" data={teaserAnimation}> </object>
             </div>
           )
@@ -390,7 +389,7 @@ const MarketCategoryListBuyer = (props) => {
           }
         </div>
 
-        <div className="pt-7 pb-8 bgAltBlue400">
+        <div className="pt-7 pb-8 bgBlue700">
           {
             premiumEuropeProperties.total > 0 && (
               <div className="container">

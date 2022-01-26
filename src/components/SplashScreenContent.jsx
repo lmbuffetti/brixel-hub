@@ -380,7 +380,7 @@ const SplashScreen = (props) => {
                   activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === 0 ? (
                     <>
                       <div className="w-fix-424 brdRadius ov-h dis-fl-col jc-c a-c noMatchProperty m-a pb-5 mb-10">
-                        <div className="bgAltMist400 pt-6 w-perc-100 ta-c">
+                        <div className="bgBlue400 pt-6 w-perc-100 ta-c">
                           <img src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
                         </div>
                         <div className="p-2">
@@ -409,8 +409,8 @@ const SplashScreen = (props) => {
                           <BrixelIcon
                             rounded
                             className="mr-4"
-                            color="AltRed"
-                            background="AltRed"
+                            color="Red"
+                            background="Red"
                             iconWidth="w-fix-32"
                             saturation={200}
                             saturationTxt={400}
@@ -420,8 +420,8 @@ const SplashScreen = (props) => {
                           />
                           <BrixelIcon
                             rounded
-                            color="AltGreen"
-                            background="AltGreen"
+                            color="Primary"
+                            background="Primary"
                             iconWidth="w-fix-32"
                             saturation={200}
                             saturationTxt={400}

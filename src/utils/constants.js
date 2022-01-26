@@ -1,5 +1,5 @@
 export const colorCharts = [
-  '#1E1491',
+  '#004D71',
   '#96BEF0',
   '#5A6EFF',
   '#F19BA5',

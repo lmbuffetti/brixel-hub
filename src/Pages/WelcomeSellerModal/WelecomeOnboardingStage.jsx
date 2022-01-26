@@ -102,8 +102,7 @@ const WelecomeOnboardingStage = (props) => {
               <BrixelButtonPrimary
                 className="mx-a mt-5"
                 rounded
-                theme="altGreen"
-                label="Yes, let's go."
+                label="Progress sale"
                 rightIcon="arrow-right-small"
                 onClick={() => onChangeStep()}
               />

@@ -367,24 +367,24 @@ const LoginSignup = (props) => {
                   <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Absolutely perfect and uncomplicated&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen400">M. Hardegger</h5>
-                  <p className="ta-c txtAltGreen400 fsize-500">House sold</p>
+                  <h5 className="ta-c txtPrimary400">M. Hardegger</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">House sold</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;We would sell with Brixel again anytime.&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen400">F. Pfiffner</h5>
-                  <p className="ta-c txtAltGreen400 fsize-500">Saved CHF 30&apos;700</p>
+                  <h5 className="ta-c txtPrimary400">F. Pfiffner</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">Saved CHF 30&apos;700</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Excellent service with flexible fees.&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen400">M. Callaghan</h5>
-                  <p className="ta-c txtAltGreen400 fsize-500">Saved CHF 44&apos;050</p>
+                  <h5 className="ta-c txtPrimary400">M. Callaghan</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">Saved CHF 44&apos;050</p>
                 </div>
               </Slider>
             ) : (
@@ -393,24 +393,24 @@ const LoginSignup = (props) => {
                   <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Always quick in responding, friendly, professional.&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen400">Katrien Willems</h5>
-                  <p className="ta-c txtAltGreen400 fsize-500" />
+                  <h5 className="ta-c txtPrimary400">Katrien Willems</h5>
+                  <p className="ta-c txtPrimary400 fsize-500" />
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;Everything went incredibly well, it doesn&apos;t even seem real!&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen400">Luca Benussi</h5>
-                  <p className="ta-c txtAltGreen400 fsize-500">Saved 18.400€</p>
+                  <h5 className="ta-c txtPrimary400">Luca Benussi</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">Saved 18.400€</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">&quot;The sale was done even faster than expected.&quot;</h2>
 
-                  <h5 className="ta-c txtAltGreen400">Márcia Traça</h5>
-                  <p className="ta-c txtAltGreen400 fsize-500">Saved 13.000€</p>
+                  <h5 className="ta-c txtPrimary400">Márcia Traça</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">Saved 13.000€</p>
                 </div>
               </Slider>
             )
