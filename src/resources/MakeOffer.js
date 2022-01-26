@@ -54,7 +54,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
     {
       title: 'Set your price',
       history: 'priceInfo',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
       inputs: [
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -114,7 +114,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       }],
       title: 'Please tell us some more details',
       history: 'analysis',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -187,7 +187,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       }],
       title: 'Where do you currently live?',
       history: 'location',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -279,7 +279,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       }],
       cardType: 'loadComponent',
       history: 'financeCertificate',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: FinanceCertificate,
       hideContinueBtn: true,
@@ -292,7 +292,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       showBackButton: true,
       title: 'Please enter your financial data',
       history: 'financialData',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -352,7 +352,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'key4Registration',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: Key4Registration,
     },

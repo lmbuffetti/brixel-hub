@@ -33,7 +33,7 @@ const FinanceCertificate = (props) => {
 
   return (
     <div>
-      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
         Apply for a financing certificate
       </h2>
       <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">

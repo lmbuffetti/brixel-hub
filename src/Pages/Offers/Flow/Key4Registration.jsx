@@ -77,7 +77,7 @@ const Key4Registration = (props) => {
       {
         affordability < maxAffordability && loanToValueRatio < maxLoanRatio ? (
           <>
-            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
               Learn within 48 hours if you can afford your desired home.
             </h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
@@ -171,7 +171,7 @@ const Key4Registration = (props) => {
           </>
         ) : (
           <>
-            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
               Unfortunately, your budget is not sufficient
             </h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
