@@ -201,7 +201,7 @@ const IntroUpgrade = (props) => {
                         <div className="dis-f jc-b a-c">
                           <h5 className="fweight-600 fsize-700">{pkg.name}</h5>
                           {pkg.stub === packageName.stub && (
-                            <div className="bgDark500 p-1 brdRadius txtWhite">Your plan</div>
+                            <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
                           )}
                         </div>
                         <p className="mt-2 txtDark700">
@@ -235,7 +235,7 @@ const IntroUpgrade = (props) => {
                       }
                       {
                         pkg.type === 'one' && get(activeSingleCompany, 'meta.additionalPackage.price', 0) > 0 && (
-                          <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg mb-sm-4-neg ta-c">
+                          <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg mb-lg-4-neg ta-c">
                             <span>Let us handle all showings for additional</span>
                             <span className="ml-small-4">
                               {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.additionalPackage.price', 0), get(activeSingleCompany, 'country.currency', ''))}.
