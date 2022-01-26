@@ -181,20 +181,20 @@ const IntroUpgrade = (props) => {
       </section>
 
       <section className="container packages py-6">
-        <div className="dis-fl-col dis-fl-row-md pb-3">
+        <div className="dis-fl-col dis-fl-row-md pb-3 jc-c">
           {
             filteredPackages.length === 0 ? (
               <>
-                <SkeletonPackages className="w-perc-100" type="big" />
-                <SkeletonPackages className="mx-lg-2 w-perc-100" type="big" />
-                <SkeletonPackages className="w-perc-100" type="big" />
+                <SkeletonPackages className="w-perc-100 max-w-fix-400" type="big" />
+                <SkeletonPackages className="mx-lg-4 w-perc-100 max-w-fix-400" type="big" />
+                <SkeletonPackages className="w-perc-100 max-w-fix-400" type="big" />
               </>
             ) : (
               <>
                 {
                   filteredPackages.map((pkg, i) => (
                     <div
-                      className={`packageBox mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
+                      className={`packageBox  mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
                       key={i.toString()}
                     >
                       <div className="p-4">

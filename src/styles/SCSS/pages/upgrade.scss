@@ -87,21 +87,22 @@
 .packageBox {
   border: 1px solid map_get($lightColor, 200);
   border-radius: $brd-radius-small;
+  max-width: 400px;
 
   &:nth-child(1) {
     @media (min-width: $responsive-medium) {
-      margin-right: $step;
+      margin-right: $step * 2;
     }
   }
   &:nth-child(2) {
     @media (min-width: $responsive-medium) {
-      margin-left: $step;
-      margin-right: $step;
+      margin-left: $step  * 2;
+      margin-right: $step  * 2;
     }
   }
   &:nth-child(3) {
     @media (min-width: $responsive-medium) {
-      margin-left: $step;
+      margin-left: $step * 2;
     }
   }
 
