@@ -154,6 +154,24 @@
     }
   }
 
+  &.basic {
+    border-color: map_get($greenColor, 400);
+    h5 {
+      color: map_get($greenColor, 400);
+    }
+    h6 {
+      background-color: map_get($greenColor, 400);
+    }
+
+    ul.checked {
+      li {
+        &:before {
+          background-color: map_get($greenColor, 400);
+        }
+      }
+    }
+  }
+
   &.private {
     border-color: map_get($blueColor, 400);
     h5 {
@@ -204,6 +222,24 @@
         &:before {
           background-color: map_get($darkColor, 700);
         }
+      }
+    }
+  }
+}
+
+.basic {
+  border-color: map_get($greenColor, 400);
+  h4 {
+    color: map_get($greenColor, 400);
+  }
+  h6:not([class*=bg]) {
+    background-color: map_get($greenColor, 400);
+  }
+
+  ul.checked {
+    li {
+      &:before {
+        background-color: map_get($greenColor, 400);
       }
     }
   }

@@ -48,6 +48,7 @@ const MarketCategoryListSeller = (props) => {
   const {
     activeMarketOverlayProperty,
     activeSingleProperty,
+    activeSinglePropertyActivePackage,
     activeSinglePropertyPackage,
     bestimate,
     companyListings,
@@ -544,11 +545,26 @@ const MarketCategoryListSeller = (props) => {
                         key={i.toString()}
                         className={`${pkg.type} bgWhite txtDark700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
                       >
-                        <h4 className="fweight-600 txtDark700">{pkg.name}</h4>
-                        <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
-                          <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                          <small className="ml-1 fsize-300 txtDark700">incl. VAT</small>
-                        </p>
+                        <div className="dis-f jc-b a-c">
+                          <h4 className="fweight-500 txtDark700">{pkg.name}</h4>
+                          {
+                            activeSinglePropertyActivePackage.stub === pkg.stub && (
+                              <div className="bgDark500 p-1 brdRadius txtWhite">Your plan</div>
+                            )
+                          }
+                        </div>
+                        {
+                          pkg.price.total > 0 ? (
+                            <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
+                              <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                              <small className="ml-1 fsize-300 txtDark700">incl. VAT</small>
+                            </p>
+                          ) : (
+                            <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
+                              Free
+                            </p>
+                          )
+                        }
                         <p className="txtDark700">{pkg.description}</p>
                       </div>
                     ))
@@ -628,6 +644,7 @@ const MarketCategoryListSeller = (props) => {
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyActivePackage: PropTypes.object.isRequired,
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   bestimate: PropTypes.object.isRequired,
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -635,8 +652,8 @@ MarketCategoryListSeller.propTypes = {
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
-  handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetActiveSingleCompany: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -654,6 +671,7 @@ const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSinglePropertyActivePackage: get(state, 'property.activeSinglePropertyActivePackage', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   bestimate: get(state, 'property.estimation.result', {}),
   companyListings: get(state, 'companies.companyListings.data', []),

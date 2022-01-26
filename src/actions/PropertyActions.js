@@ -35,6 +35,7 @@ import {
   SET_PROPERTY_LISTINGS,
   UPDATE_PORTALS_REVIEW,
   UPDATE_PUBLISHED_REVIEW,
+  SET_ACTIVE_SINGLE_PROPERTY_ACTIVE_PACKAGE,
 } from './types/PropertyTypes';
 
 export const {
@@ -73,6 +74,7 @@ export const {
   setActiveMarketOverlayPropertyLists,
   getPackageProperty,
   setPackageProperty,
+  setActiveSinglePropertyActivePackage,
 } = createActions({
   [CREATE_ACTIVE_SINGLE_PROPERTY]: (payload) => payload,
   [CREATE_PROPERTY_VISIT_BOOKING]: (payload) => payload,
@@ -111,4 +113,5 @@ export const {
   [SET_ACTIVE_MARKET_OVERLAY_PROPERTY]: (payload) => payload,
   [GET_PACKAGE_PROPERTY]: (payload) => payload,
   [SET_PACKAGE_PROPERTY]: (payload) => payload,
+  [SET_ACTIVE_SINGLE_PROPERTY_ACTIVE_PACKAGE]: (payload) => payload,
 });

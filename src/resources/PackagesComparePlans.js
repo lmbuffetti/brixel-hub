@@ -1,3 +1,4 @@
+import checkGreen from '../images/Upgrade/check-green.svg';
 import checkBlue from '../images/Upgrade/check-blue.svg';
 import checkRed from '../images/Upgrade/check-red.svg';
 import checkBlack from '../images/Upgrade/check-black.svg';
@@ -6,6 +7,7 @@ export const PackagesComparePlansTable = [
   {
     title: 'Brixel Hub',
     td: {
+      basic: { img: checkGreen },
       private: { img: checkBlue },
       premium: { img: checkRed },
       one: { img: checkBlack },
@@ -14,6 +16,7 @@ export const PackagesComparePlansTable = [
   {
     title: 'Pre-market',
     td: {
+      basic: { img: checkGreen },
       private: { img: checkBlue },
       premium: { img: checkRed },
       one: { img: checkBlack },
@@ -22,6 +25,7 @@ export const PackagesComparePlansTable = [
   {
     title: 'Brixel Page',
     td: {
+      basic: { img: checkGreen },
       private: { img: checkBlue },
       premium: { img: checkRed },
       one: { img: checkBlack },
@@ -30,6 +34,7 @@ export const PackagesComparePlansTable = [
   {
     title: 'Listings',
     td: {
+      basic: { img: checkGreen, desc: 'Paid add-on' },
       private: { img: checkBlue, desc: '3 months listings' },
       premium: { img: checkRed, desc: '6 months listings' },
       one: { img: checkBlack, desc: '12 months listings' },
@@ -38,6 +43,7 @@ export const PackagesComparePlansTable = [
   {
     title: 'Support',
     td: {
+      basic: { img: checkGreen, desc: 'Online' },
       private: { img: checkBlue, desc: 'Online' },
       premium: { img: checkRed, desc: 'Backoffice' },
       one: { img: checkBlack, desc: 'Expert' },
