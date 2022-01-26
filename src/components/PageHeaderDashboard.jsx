@@ -397,7 +397,7 @@ function PageHeaderDashboard(props) {
               ) : (
                 <div>
                   <BrixelButtonIcon
-                    className="dis-b hide-md"
+                    className="dis-b hide-lg"
                     icon="arrow-left-small"
                     theme="dark"
                     ghost

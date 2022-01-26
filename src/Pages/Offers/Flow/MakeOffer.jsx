@@ -445,24 +445,28 @@ const MakeOffer = (props) => {
                     <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.title && (
-                          <h2 className={`fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h2 className={`fweight-600 fsize-600 fsize-sm-800 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
-                      <div className={`${quest.className} w-perc-100`}>
-                        <MultiFileldsReduxForm
-                          form="offerFlow"
-                          disableNextBtn={false}
-                          formValue={formValue}
-                          inputs={quest.inputs}
-                          onClick={() => changeStep()}
-                          onCloseGoBack={() => changeStep('back')}
-                          onClickDisabled={!checkValidateField()}
-                          onSubmit={() => changeStep()}
-                          showSendButton={false}
-                          showErrors={showError}
-                          disableDelay
-                        />
-                      </div>
+                      {
+                        initialValues.id && (
+                          <div className={`${quest.className} w-perc-100`}>
+                            <MultiFileldsReduxForm
+                              form="offerFlow"
+                              disableNextBtn={false}
+                              formValue={formValue}
+                              inputs={quest.inputs}
+                              onClick={() => changeStep()}
+                              onCloseGoBack={() => changeStep('back')}
+                              onClickDisabled={!checkValidateField()}
+                              onSubmit={() => changeStep()}
+                              showSendButton={false}
+                              showErrors={showError}
+                              disableDelay
+                            />
+                          </div>
+                        )
+                      }
 
                     </div>
                   )
@@ -616,6 +620,7 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValues: {
     ...get(state, 'brixelForm.offerFlow.values', {}),
+    id: get(state, 'property.activeSingleProperty.id', null),
     propertyLocation: get(state, 'property.activeSingleProperty.location', {}),
     amount: get(state, 'property.activeSingleProperty.price.total', 0) || 0,
     propertyPrice: get(state, 'property.activeSingleProperty.price.total', 0) || 0,
