@@ -85,11 +85,11 @@ const WelecomeOnboardingStage = (props) => {
             <div className="dis-f-col jc-c a-c w-perc-100 pos-r pt-2">
               {
                 imgProperty && (
-                  <img src={imgProperty} alt={activeSingleProperty.title} />
+                  <img width={315} src={imgProperty} alt={activeSingleProperty.title} />
                 )
               }
 
-              <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-500 fsize-sm-600 max-w-fix-480 mx-a">
+              <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-600 fsize-sm-700 max-w-fix-424 mx-a">
                 <span>Great.</span>
                 <span>&ldquo;{activeSingleProperty.title}&rdquo;</span>
                 <span>is ready.</span>
