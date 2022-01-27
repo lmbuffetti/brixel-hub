@@ -120,6 +120,19 @@ export const PackagesComparePlans = (props) => {
           <tr>
             <td />
             {
+              extractTable('basic').map((pkg, i) => (
+                <th key={i.toString()}>
+                  <span className="txGreen400">{pkg.name}</span>
+                  <span className="fsize-500 dis-f a-b fweight-400">
+                    <span>
+                      {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
+                    </span>
+                    <span className="fsize-300 ml-1">incl. VAT</span>
+                  </span>
+                </th>
+              ))
+            }
+            {
               extractTable('private').map((pkg, i) => (
                 <th key={i.toString()}>
                   <span className="txtBlue400">{pkg.name}</span>
@@ -165,6 +178,22 @@ export const PackagesComparePlans = (props) => {
             PackagesComparePlansTable.map((table, i) => (
               <tr key={i.toString()}>
                 <th>{table.title}</th>
+                {
+                  extractTable('basic').map((pkg, f) => (
+                    <td key={f.toString()}>
+                      {
+                        table.td.private && (
+                          <>
+                            <img className="pt-small-6" src={table.td.basic.img} alt="" />
+                            {table.td.private.desc && (
+                              <span className="pl-1">{table.td.basic.desc}</span>
+                            )}
+                          </>
+                        )
+                      }
+                    </td>
+                  ))
+                }
                 {
                   extractTable('private').map((pkg, f) => (
                     <td key={f.toString()}>

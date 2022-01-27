@@ -28,7 +28,9 @@ import {
   sidebarNavigationSeller,
 } from '../resources/navigationRoutes';
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
-import { getPackageProperty, setActiveSingleProperty, getPackagesProperty } from '../actions/PropertyActions';
+import {
+  getPackageProperty, setActiveSingleProperty, getPackagesProperty, setActiveSinglePropertyActivePackage,
+} from '../actions/PropertyActions';
 import AccountDropdown from './AccountDropdown';
 import MenuSidebar from './MenuSidebar';
 import ProgressSellerStage from './ProgressSellerStage';
@@ -42,12 +44,13 @@ function PageHeaderDashboard(props) {
   };
   // PROPS
   const {
-    activeSingleCompany,
     activeCompanyPackages,
+    activeSingleCompany,
     activeSingleProperty,
     changeZIndex,
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
+    handleSetActiveSinglePropertyActivePackage,
     handleSetLanguage,
     handleSetUserTypes,
     lang,
@@ -101,15 +104,10 @@ function PageHeaderDashboard(props) {
   }, [activeSingleProperty.id]);
 
   useEffect(() => {
-    let activeSinglePropertyPackage = packagesProperty;
-    if (ownerProperties.total === 0) {
-      setPackageName('Basic');
-    }
+    const activeSinglePropertyPackage = packagesProperty;
+    setPackageName('Basic');
+    handleSetActiveSinglePropertyActivePackage({ name: 'Basic' });
     if (activeCompanyPackageIDArray.length > 0) {
-      if (activeSingleProperty.customID && ownerProperties.data) {
-        const prop = ownerProperties.data.find((page) => page.id === activeSingleProperty.customID);
-        if (prop) activeSinglePropertyPackage = get(prop, 'servicePackages', []);
-      }
       if (activeSinglePropertyPackage && packagesProperty.length > 0) {
         activeSinglePropertyPackage.forEach((pkg, i) => {
           const filtSortPackage = packagesProperty.find((item) => pkg.id === item.id);
@@ -119,12 +117,15 @@ function PageHeaderDashboard(props) {
         const activePackage = activeSinglePropertyPackage.find((item) => item.started);
         if (has(activePackage, 'id')) {
           const filtPackages = packagesProperty.find((item) => activePackage.id === item.id);
-          if (filtPackages) setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackages.servicePackage)].name);
-          else setPackageName('Basic');
+          if (filtPackages) {
+            handleSetActiveSinglePropertyActivePackage(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackages.servicePackage)]);
+            setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackages.servicePackage)].name);
+          } else setPackageName('Basic');
         } else if (sortedPackage[0]) {
           const filtPackage = packagesProperty.find((item) => sortedPackage[0].id === item.id);
           if (get(filtPackage, 'servicePackage', null)) {
             setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(get(filtPackage, 'servicePackage', ''))].name);
+            handleSetActiveSinglePropertyActivePackage(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(get(filtPackage, 'servicePackage', ''))]);
           }
         } else {
           setPackageName('Basic');
@@ -649,20 +650,21 @@ function PageHeaderDashboard(props) {
 }
 
 PageHeaderDashboard.propTypes = {
+  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   changeZIndex: PropTypes.func,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  handleSetActiveSinglePropertyActivePackage: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   ownerProperties: PropTypes.object.isRequired,
+  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
-  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -672,6 +674,7 @@ PageHeaderDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
@@ -680,21 +683,21 @@ const mapStateToProps = (state) => ({
   languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
-  property: get(state, 'property.activeSingleProperty', {}),
   packagesProperty: get(state, 'property.activeSinglePropertyPackage', []),
+  property: get(state, 'property.activeSingleProperty', {}),
   userType: get(state, 'user.userTypes', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('Property'));
   },
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleGetPackagesProperty: bindActionCreators(getPackagesProperty, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleSetActiveSinglePropertyActivePackage: bindActionCreators(setActiveSinglePropertyActivePackage, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });

@@ -87,21 +87,22 @@
 .packageBox {
   border: 1px solid map_get($lightColor, 200);
   border-radius: $brd-radius-small;
+  max-width: 400px;
 
   &:nth-child(1) {
     @media (min-width: $responsive-medium) {
-      margin-right: $step;
+      margin-right: $step * 2;
     }
   }
   &:nth-child(2) {
     @media (min-width: $responsive-medium) {
-      margin-left: $step;
-      margin-right: $step;
+      margin-left: $step  * 2;
+      margin-right: $step  * 2;
     }
   }
   &:nth-child(3) {
     @media (min-width: $responsive-medium) {
-      margin-left: $step;
+      margin-left: $step * 2;
     }
   }
 
@@ -133,7 +134,7 @@
       padding: 0;
       padding-left: $step * 4;
       display: flex;
-      margin-top: $step;
+      margin-top: $step * 2;
 
       span {
         margin-left: $step;
@@ -151,6 +152,24 @@
     small {
       @include fontStyle(300,'normal',left);
       margin-left: $step;
+    }
+  }
+
+  &.basic {
+    border-color: map_get($greenColor, 700);
+    h5 {
+      color: map_get($greenColor, 700);
+    }
+    h6 {
+      background-color: map_get($greenColor, 700);
+    }
+
+    ul.checked {
+      li {
+        &:before {
+          background-color: map_get($greenColor, 700);
+        }
+      }
     }
   }
 
@@ -191,19 +210,37 @@
   }
 
   &.one {
-    border-color: map_get($darkColor, 700);
+    border-color: map_get($darkColor, 400);
     h5 {
-      color: map_get($darkColor, 700);
+      color: map_get($darkColor, 400);
     }
     h6 {
-      background-color: map_get($darkColor, 700);
+      background-color: map_get($darkColor, 400);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($darkColor, 700);
+          background-color: map_get($darkColor, 400);
         }
+      }
+    }
+  }
+}
+
+.basic {
+  border-color: map_get($greenColor, 700);
+  h4 {
+    color: map_get($greenColor, 700);
+  }
+  h6:not([class*=bg]) {
+    background-color: map_get($greenColor, 700);
+  }
+
+  ul.checked {
+    li {
+      &:before {
+        background-color: map_get($greenColor, 700);
       }
     }
   }
@@ -265,7 +302,7 @@
 
 span {
   &.basic {
-    color: map_get($primaryColor, 400);
+    color: map_get($primaryColor, 700);
   }
   &.private {
     color: map_get($blueColor, 400);
