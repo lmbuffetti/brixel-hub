@@ -106,6 +106,7 @@ const IntroUpgrade = (props) => {
   }, [propID, loggedInUser]);
 
   useEffect(() => {
+    const basicPackage = packages.find((pkg) => pkg.type === 'basic');
     if (activeSinglePropertyPackage && packages.length > 0) {
       const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
@@ -118,11 +119,7 @@ const IntroUpgrade = (props) => {
             stub: filtPackages.stub,
           });
         } else {
-          setPackageName({
-            name: 'Basic',
-            type: 'basic',
-            stub: 'basic',
-          });
+          setPackageName(basicPackage);
         }
       } else if (sortedPackage[0]) {
         const filtPackage = packages.find((item) => sortedPackage[0].servicePackage === item.id);
@@ -133,17 +130,10 @@ const IntroUpgrade = (props) => {
             stub: filtPackage.stub,
           });
         } else {
-          setPackageName({
-            name: 'Basic',
-            type: 'basic',
-            stub: 'basic',
-          });
+          setPackageName(basicPackage);
         }
       } else {
-        setPackageName({
-          name: 'Basic',
-          type: 'basic',
-        });
+        setPackageName(basicPackage);
       }
       if (scrollHash) scrollTo(scrollHash.replace('#', ''));
     }

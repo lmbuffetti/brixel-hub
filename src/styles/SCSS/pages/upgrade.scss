@@ -341,3 +341,7 @@ span {
 .testimonialsSlide .slick-slide > div {
   display: flex;
 }
+
+@media (min-width: 768px) {
+  .compare-btn-mobile { display: none !important; }
+}

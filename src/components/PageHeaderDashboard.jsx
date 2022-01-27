@@ -106,7 +106,8 @@ function PageHeaderDashboard(props) {
   useEffect(() => {
     const activeSinglePropertyPackage = packagesProperty;
     setPackageName('Basic');
-    handleSetActiveSinglePropertyActivePackage({ name: 'Basic' });
+    const basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
+    handleSetActiveSinglePropertyActivePackage(basicPackage);
     if (activeCompanyPackageIDArray.length > 0) {
       if (activeSinglePropertyPackage && packagesProperty.length > 0) {
         activeSinglePropertyPackage.forEach((pkg, i) => {
