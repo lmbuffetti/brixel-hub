@@ -95,7 +95,7 @@ const checkHistory = (store) => (next) => (action) => {
     case GET_HISTORY_FEED: {
       next(action);
       const {
-        arryaStubs,
+        arrayStubs,
         direction,
         id,
         offset,
@@ -116,7 +116,7 @@ const checkHistory = (store) => (next) => (action) => {
         });
       }
       const queryParams = `?order=${order}&direction=${direction}`;
-      api.history.historyFeed(id, resultsPerPage, offset, queryParams, arryaStubs)
+      api.history.historyFeed(id, resultsPerPage, offset, queryParams, arrayStubs)
         .then((res) => {
           store.dispatch({ type: SET_HISTORY_FEED, payload: res.data });
           if (smallLoader) {
