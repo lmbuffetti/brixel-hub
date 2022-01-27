@@ -184,7 +184,7 @@ const IntroUpgrade = (props) => {
                 {
                   filteredPackages.map((pkg, i) => (
                     <div
-                      className={`packageBox  mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
+                      className={`packageBox mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
                       key={i.toString()}
                     >
                       <div className="p-4">
@@ -194,11 +194,11 @@ const IntroUpgrade = (props) => {
                             <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
                           )}
                         </div>
-                        <p className="mt-2 txtDark700">
+                        <p className="mt-4 txtDark700">
                           {pkg.description}
                         </p>
 
-                        <ul className="checked mt-3 txtDark700">
+                        <ul className="checked mt-4 txtDark700">
                           {
                             pkg.details && get(pkg, 'details', []).map((detail, f) => (
                               <li

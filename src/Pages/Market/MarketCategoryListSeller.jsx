@@ -528,13 +528,13 @@ const MarketCategoryListSeller = (props) => {
             Boost your private sale with an upgrade.
           </h3>
 
-          <div className="dis-fl-col dis-fl-row-md">
+          <div className="dis-fl-col dis-fl-row-md jc-c">
             {
               (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
                 <>
-                  <SkeletonPackages className="mx-sm-2 w-perc-100" type="small" />
-                  <SkeletonPackages className="my-2 my-sm-0 mx-sm-2 w-perc-100" type="small" />
-                  <SkeletonPackages className="mx-sm-2 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
+                  <SkeletonPackages className="my-2 my-sm-0 mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
                 </>
               ) : (
                 <>
@@ -543,13 +543,13 @@ const MarketCategoryListSeller = (props) => {
                       <div
                         onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
                         key={i.toString()}
-                        className={`${pkg.type} bgWhite txtDark700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
+                        className={`${pkg.type} bgWhite txtDark700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi max-w-fix-400 w-perc-100`}
                       >
                         <div className="dis-f jc-b a-c">
                           <h4 className="fweight-500 txtDark700">{pkg.name}</h4>
                           {
                             activeSinglePropertyActivePackage.stub === pkg.stub && (
-                              <div className="bgDark500 p-1 brdRadius txtWhite">Your plan</div>
+                              <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
                             )
                           }
                         </div>
