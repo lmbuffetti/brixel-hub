@@ -12,13 +12,15 @@ import {
   BrixelAvatar,
   BrixelIcon,
   destroy,
-  BrixelSelect, BrixelButtonIcon, BrixelDropdown, FactsOptions,
+  BrixelSelect,
+  BrixelButtonIcon,
+  FactsOptions,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import orderBy from 'lodash/orderBy';
-import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
@@ -64,6 +66,7 @@ function PageHeaderDashboard(props) {
   const [langSel, setSelLang] = useState(lang);
   const [packageName, setPackageName] = useState('Basic');
   const [section, setSection] = useState('Sell');
+  const [openMenu, setOpenMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -72,6 +75,7 @@ function PageHeaderDashboard(props) {
 
   // REF
   const profileMenu = useRef(null);
+  const menuHub = useRef(null);
   const currentPathName = get(history, 'location.pathname', '').split('/')[get(history, 'location.pathname', '').split('/').length - 1];
 
   // URL PARAMS
@@ -293,6 +297,18 @@ function PageHeaderDashboard(props) {
     }
   };
 
+  const onClickMenu = (href) => {
+    history.push(href);
+    setOpenMenu(false);
+  };
+
+  useOutsideAlerter(menuHub, {
+    action: 'function',
+    func: () => {
+      setOpenMenu(false);
+    },
+  });
+
   return (
     <>
       <MenuNavigationSubmenu
@@ -326,23 +342,25 @@ function PageHeaderDashboard(props) {
                     </div>
                     {
                       ((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && (
-                        <BrixelDropdown
-                          noBorder
-                          className="sectionMenu h-fix-72 "
-                          color="dark"
-                          saturationTxt={700}
-                          lang={lang}
-                          keyType="label"
-                          selected={section}
-                          options={[{
-                            value: 'sell',
-                            label: 'Sell',
-                          }, {
-                            value: 'buy',
-                            label: 'Buy',
-                          }]}
-                          onSelect={(e, key) => history.push(`/${key.value}`)}
-                        />
+
+                        <div className={`hubNavigation ${openMenu ? 'open' : 'close'}`} ref={menuHub}>
+                          <div className="dis-f titleSection txtDark700" onClick={() => setOpenMenu(!openMenu)}>
+                            <span>{section}</span>
+                            <BrixelIcon
+                              icon="dropdown"
+                            />
+                          </div>
+                          {
+                            openMenu && (
+                              <div className="hubMenu">
+                                <ul>
+                                  <li onClick={() => onClickMenu('/sell')}>Sell</li>
+                                  <li onClick={() => onClickMenu('/buy')}>Buy</li>
+                                </ul>
+                              </div>
+                            )
+                          }
+                        </div>
                       )
                     }
                   </div>
