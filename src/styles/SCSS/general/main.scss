@@ -714,6 +714,7 @@ button.minimum-w-210 {
   span.brixelIcon.hour-book {
     right: 24px;
     top: 18px;
+    pointer-events: none;
 
     @media (max-width: $responsive-small) {
       right: 16px;
