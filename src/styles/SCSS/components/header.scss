@@ -384,3 +384,48 @@ header {
   }
 }
 
+.hubNavigation {
+  display: flex;
+  align-items: center;
+  position: relative;
+  .titleSection {
+    padding-left: 16px;
+    padding-right: 16px;
+    font-weight: 600;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    .brixelIcon {
+      margin-left: 15px;
+    }
+    &:hover {
+      background-color: #FBFBFB;
+    }
+  }
+  .hubMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #FFF;
+    overflow: auto;
+    min-width: 100%;
+    border-radius: 4px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-shadow: $shadow-4dp;
+    li {
+      padding: 8px 24px;
+      list-style: none;
+      color: #506166;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: all 150ms ease-in-out;
+      cursor: pointer;
+      &:hover {
+        background-color: #FBFBFB;
+      }
+    }
+  }
+}
