@@ -245,12 +245,11 @@ const SearchProfileBanner = (props) => {
                     className="topPanel dis-f jc-b px-0 py-2"
                     style={styleMobileProfile ? { paddingLeft: '16px', paddingRight: '16px' } : {}}
                   >
-                    <BrixelButtonSecondary
+                    <BrixelButtonIcon
                       theme="dark"
+                      secondary
                       rounded
-                      label="Edit"
-                      className="noMinWidth"
-                      leftIcon="edit-setting"
+                      icon="edit-setting"
                       onClick={() => openForm('mobile')}
                     />
 
