@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import forEach from 'lodash/forEach';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelAvatar,
   BrixelIcon,
@@ -18,7 +18,6 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import orderBy from 'lodash/orderBy';
-import ErrorBoundary from './ErrorBoundering';
 import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
@@ -45,7 +44,6 @@ function PageHeaderDashboard(props) {
   // PROPS
   const {
     activeCompanyPackages,
-    activeSingleCompany,
     activeSingleProperty,
     changeZIndex,
     handleSaveActiveSingleUser,
@@ -61,7 +59,6 @@ function PageHeaderDashboard(props) {
     windowDimensions,
   } = props;
   // STATE
-  const [activeCompanyPackageIDArray, setActiveCompanyPackageIDArray] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
@@ -83,16 +80,6 @@ function PageHeaderDashboard(props) {
   if (propID === 'home' || propID === 'seller') propID = null;
 
   useEffect(() => {
-    const array = [];
-    if (activeCompanyPackages.length > 0) {
-      forEach(activeCompanyPackages, (el) => {
-        array.push(el.id);
-      });
-      setActiveCompanyPackageIDArray(array);
-    }
-  }, [activeCompanyPackages]);
-
-  useEffect(() => {
     if (activeSingleProperty.id) {
       const defState = factsOptions.progressBarOptions.find((item) => item.value === get(activeSingleProperty, 'progress.state', ''));
       if (defState) {
@@ -104,37 +91,22 @@ function PageHeaderDashboard(props) {
   }, [activeSingleProperty.id]);
 
   useEffect(() => {
-    const activeSinglePropertyPackage = packagesProperty;
+    const activeSinglePropertyPackage = cloneDeep(packagesProperty);
     setPackageName('Basic');
     const basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
     handleSetActiveSinglePropertyActivePackage(basicPackage);
-    if (activeCompanyPackageIDArray.length > 0) {
-      if (activeSinglePropertyPackage && packagesProperty.length > 0) {
-        activeSinglePropertyPackage.forEach((pkg, i) => {
-          const filtSortPackage = packagesProperty.find((item) => pkg.id === item.id);
-          activeSinglePropertyPackage[i].price = get(filtSortPackage, 'price', 0);
-        });
-        const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
-        const activePackage = activeSinglePropertyPackage.find((item) => item.started);
-        if (has(activePackage, 'id')) {
-          const filtPackages = packagesProperty.find((item) => activePackage.id === item.id);
-          if (filtPackages) {
-            handleSetActiveSinglePropertyActivePackage(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackages.servicePackage)]);
-            setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackages.servicePackage)].name);
-          } else setPackageName('Basic');
-        } else if (sortedPackage[0]) {
-          const filtPackage = packagesProperty.find((item) => sortedPackage[0].id === item.id);
-          if (get(filtPackage, 'servicePackage', null)) {
-            setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(get(filtPackage, 'servicePackage', ''))].name);
-            handleSetActiveSinglePropertyActivePackage(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(get(filtPackage, 'servicePackage', ''))]);
-          }
-        } else {
-          setPackageName('Basic');
-        }
+    if (activeSinglePropertyPackage.length > 0) {
+      const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
+      const getActivePackage = sortedPackage.find((pkg) => pkg.started);
+      if (getActivePackage) {
+        handleSetActiveSinglePropertyActivePackage(getActivePackage.servicePackage);
+        setPackageName(getActivePackage.servicePackage.name);
+      } else {
+        handleSetActiveSinglePropertyActivePackage(sortedPackage[0].servicePackage);
+        setPackageName(sortedPackage[0].name);
       }
     }
-  }, [activeSingleProperty.id, activeSingleProperty.customID, ownerProperties,
-    packagesProperty.length, activeSingleCompany.id, activeCompanyPackageIDArray]);
+  }, [packagesProperty.length]);
 
   // GET LANGUAGE LISTS
   useEffect(() => {
@@ -322,12 +294,7 @@ function PageHeaderDashboard(props) {
   };
 
   return (
-    <ErrorBoundary
-      FallbackComponent={() => <div>Error</div>}
-      onReset={() => {
-        // reset the state of your app so the error doesn't happen again
-      }}
-    >
+    <>
       <MenuNavigationSubmenu
         windowDimensions={windowDimensions}
         activeMenu={activeMenu}
@@ -646,13 +613,12 @@ function PageHeaderDashboard(props) {
           </div>
         )
       }
-    </ErrorBoundary>
+    </>
   );
 }
 
 PageHeaderDashboard.propTypes = {
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   changeZIndex: PropTypes.func,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,

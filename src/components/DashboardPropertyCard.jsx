@@ -31,7 +31,7 @@ const DashboardPropertyCard = (props) => {
       <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'pl-sm-4 pt-sm-3 pb-sm-3 pt-0 pb-3 mb-3'} ov-h`}>
         <div>
           <div
-            onClick={() => history.push(`/${activeSingleProperty.id}/property/photos`)}
+            onClick={() => history.push(`/${activeSingleProperty.id}/property`)}
             className={`dis-b w-perc-100 ${smallLayout ? 'w-fix-sm-152' : 'w-fix-sm-232'} h-fix-152 pos-r`}
           >
             <CoverPropertyImage
