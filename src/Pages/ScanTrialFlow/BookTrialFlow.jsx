@@ -318,7 +318,7 @@ const BookTrialFlow = (props) => {
                         }}
                       />
                     </div>
-                    <div className="pos-r pl-1 w-perc-50">
+                    <div className="pos-r pl-1 max-w-fix-152 w-perc-100">
                       <ReduxField
                         form="scanFlow"
                         ReduxFieldClass="inputTime"
