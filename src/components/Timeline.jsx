@@ -116,7 +116,9 @@ const Timeline = (props) => {
       if (activeDealHistoryList.total > 0 && activeDealHistoryList.data.length > 0) {
         // eslint-disable-next-line consistent-return
         forEach(activeDealHistoryList.data, (item) => {
-          array.push(createTimelineEntry(item, userLang));
+          // We need to call this stub on the history api to process
+          // the visit feedback on the deal but we don't need it on the timeline
+          if (item.actionStub !== 'deal-feedback-visit') array.push(createTimelineEntry(item, userLang));
         });
       }
 
