@@ -56,7 +56,7 @@ const MarketBuyer = (props) => {
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
   useEffect(() => {
-    if (loggedInUser.id) {
+    if (get(loggedInUser, 'id', null)) {
       const data = {
         resultsPerPage: 10,
         offset: 0,

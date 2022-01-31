@@ -75,7 +75,7 @@ export const ComponentMap = (props) => {
       let typeSearch = [get(props, 'searchType', 'address')];
       if (type === 'cities') typeSearch = ['(regions)'];
       if (type === 'zip') typeSearch = ['(regions)'];
-      if (val.length > 3) {
+      if (val && val.length > 3) {
         const searcCountry = selCountry === 'all' ? '' : selCountry;
         autocompleteService.getPlacePredictions(
           {

@@ -172,7 +172,7 @@ const ScanTrialFlow = (props) => {
           },
         },
       };
-      if (loggedInUser.id) data.data.user.id = loggedInUser.id;
+      if (loggedInUser.id) data.data.user.id = get(loggedInUser, 'id', '');
       handleSendScanTrial(data);
     }
   };

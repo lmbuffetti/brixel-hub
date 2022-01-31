@@ -132,7 +132,7 @@ const Dashboard = (props) => {
     if (!get(formValue, 'id', null)) {
       const data = {
         limit: 1,
-        offset: `0/?owner=${loggedInUser.user.id}`,
+        offset: `0/?owner=${get(loggedInUser, 'user.id', '')}`,
         setAsSingle: true,
         multiLoader: true,
       };
@@ -183,7 +183,7 @@ const Dashboard = (props) => {
           if (!isSellerUser && isBuyerUser) history.push('/buy');
           else history.push('/sell');
         }
-        if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
+        if (get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'user.id', '')) {
           // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
           handleGetActiveSinglePropertyBookings({ id: propID });
         }
