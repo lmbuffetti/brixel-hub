@@ -123,7 +123,7 @@ const BookTrialFlow = (props) => {
                 isExpanded={openAccordion === 'online'}
               >
                 <div className="dis-f a-t w-perc-100">
-                  <div className="pos-r pr-1">
+                  <div className="pos-r pr-1 w-perc-100 max-w-perc-50">
                     <ReduxField
                       form="scanFlow"
                       ReduxFieldClass="inputDate"
@@ -152,7 +152,7 @@ const BookTrialFlow = (props) => {
                       }}
                     />
                   </div>
-                  <div className="pos-r pl-1 w-perc-100 max-w-fix-144">
+                  <div className="pos-r pl-1 w-perc-100 max-w-perc-50">
                     <ReduxField
                       form="scanFlow"
                       ReduxFieldClass="inputDate"
