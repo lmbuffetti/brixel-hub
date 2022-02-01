@@ -50,7 +50,7 @@ const ScanTrialFlow = (props) => {
   // STATE
   const [questions, setQuestions] = useState(ScanTrialQuestions());
   // const [position, setPosition] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(3);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
@@ -74,7 +74,7 @@ const ScanTrialFlow = (props) => {
     const urlParams = queryString.parse(get(history, 'location.search', ''));
     if (urlParams && urlParams.action) {
       if (urlParams.action === 'remote' || urlParams.action === 'on-site') {
-        setCurrentIndex(3);
+        // setCurrentIndex(3);
       }
     }
     if (questions[currentIndex].history) {

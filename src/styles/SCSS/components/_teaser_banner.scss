@@ -255,6 +255,37 @@
     }
   }
 
+  .roundDot {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: map-get($lightColor, 400);
+    color: #FFF;
+    font-family: $font-family-secondary;
+    font-size: 18px;
+    position: relative;
+    margin-top: 9px;
+
+    &::after {
+      content: '';
+      background: #F7F6F5;
+      width: 20px;
+      left: -20px;
+      position: absolute;
+      height: 100%;
+    }
+    &::before {
+      content: '';
+      background: #F7F6F5;
+      width: 20px;
+      right: -20px;
+      position: absolute;
+      height: 100%;
+    }
+  }
 
   .introScanFlow {
     .singleStep {

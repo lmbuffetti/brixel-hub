@@ -31,9 +31,6 @@ import ArticlesList from '../../resources/homeArticles';
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
 import testdrive from '../../images/Market/testdrive.jpeg';
-import testdrive2 from '../../images/Market/testdrive2.png';
-import presentation from '../../images/Market/presentation.png';
-import sellYourself from '../../images/Market/sellYourself.png';
 import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
 import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 
@@ -155,12 +152,6 @@ const MarketCategoryListSeller = (props) => {
     }
   }, [ownerProperties, loggedInUser]);
 
-  const onCloseWelcome = () => {
-    setCookie('brixelMarketWelcome', true);
-    setCookie('brixelSplashHome', null);
-    setSplashScreen('');
-  };
-
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
@@ -214,91 +205,6 @@ const MarketCategoryListSeller = (props) => {
 
   return (
     <Suspense fallback="">
-      {/* SECTION: seller welcome message  */}
-      {
-        splashScreenType === 'sellerWelcome' && (
-          <SplashScreen
-            className="result-popup centered"
-            closeOutside={false}
-          >
-            <div className="dis-f jc-fe mb-2">
-              <BrixelButtonIcon
-                ghost
-                theme="dark"
-                icon="close-small"
-                onClick={() => onCloseWelcome()}
-              />
-            </div>
-            <div className="dis-fl-col jc-c a-c pb-2">
-              <h3>Welcome 🖐 </h3>
-              <span className="txtDark200 pt-2 pb-5"> We are happy to have you as a new member at Brixel. Are you thinking about selling? </span>
-              <div className="mb-5">
-                <div className="dis-f mb-2">
-                  <div className="dis-fl-row a-c">
-                    <img
-                      className="w-fix-48"
-                      src={sellYourself}
-                      alt="Sell Yourself"
-                      id="sell"
-                    />
-                    <p className="max-w-fix-440 txtDark700 pl-2">
-                      <span>Sell privately without an agent. We</span>
-                      <a
-                        href="#"
-                        className="link ml-small-4"
-                        onClick={(e) => openSupport(e)}
-                      >
-                        <span>support</span>
-                      </a>
-                      <span className="ml-small-4">you with modular service packages - without any brokerage contract.</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="dis-f mb-2">
-                  <div className="dis-fl-row a-c">
-                    <img
-                      className="w-fix-48"
-                      src={presentation}
-                      alt="Presentation"
-                      id="presentation"
-                    />
-                    <p className="max-w-fix-440 txtDark700 pl-2">
-                      <span>Market with the best presentation. Buyers confirm that our quality stands out on the market.</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="dis-f">
-                  <div className="dis-fl-row a-c">
-                    <img
-                      className="w-fix-48"
-                      src={testdrive2}
-                      alt="Test Drive"
-                      id="testDrive"
-                    />
-                    <p className="max-w-fix-440 txtDark700 pl-2">
-                      <span>Test our full service with a</span>
-                      <a
-                        className="link ml-small-4"
-                        href="#"
-                        onClick={() => bookNow()}
-                      >
-                        <span>&nbsp;test drive</span>
-                      </a>
-                      <span className="ml-small-4">– like a car. No strings attached.</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <BrixelButtonPrimary
-                label="ok, got it!"
-                rounded
-                onClick={() => onCloseWelcome()}
-              />
-            </div>
-          </SplashScreen>
-        )
-      }
-
       {/* SECTION: bestimate result */}
       {
         !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(estimation, 'status', 'active') !== 'pending' && (
