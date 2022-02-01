@@ -210,6 +210,7 @@ const MarketCategoryListSeller = (props) => {
       {
         !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(estimation, 'status', 'active') !== 'pending' && (
           <BestimateCardOverlay
+            activeSinglePropertyId={activeSingleProperty.customID}
             setBestimateMessage={(val) => setBestimateMessage(val)}
             clearEstimation
           />
