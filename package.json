@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.16.12",
-    "@brixel/brixel-components": "^2.7.31",
+    "@brixel/brixel-components": "^2.7.33",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^2.0.2",
     "d3": "^7.3.0",
@@ -105,7 +105,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.5.1",
-    "esbuild": "^0.14.14",
+    "esbuild": "^0.14.16",
     "esbuild-loader": "^2.18.0",
     "eslint": "8.8.0",
     "eslint-loader": "^4.0.2",
