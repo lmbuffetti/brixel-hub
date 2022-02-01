@@ -33,6 +33,7 @@ const ScanTrialFlow = (props) => {
     location: useLocation(),
   };
   const match = useParams();
+  const urlParams = queryString.parse(get(history, 'location.search', ''));
   // PROPS
   const {
     activeSingleCompany,
@@ -50,7 +51,7 @@ const ScanTrialFlow = (props) => {
   // STATE
   const [questions, setQuestions] = useState(ScanTrialQuestions());
   // const [position, setPosition] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(3);
+  const [currentIndex, setCurrentIndex] = useState(formValue.analysis === 'remote' || urlParams.action === 'on-site' ? 3 : 0);
   const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
@@ -71,12 +72,6 @@ const ScanTrialFlow = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
-    const urlParams = queryString.parse(get(history, 'location.search', ''));
-    if (urlParams && urlParams.action) {
-      if (urlParams.action === 'remote' || urlParams.action === 'on-site') {
-        setCurrentIndex(3);
-      }
-    }
     if (questions[currentIndex].history) {
       history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
     }
@@ -331,6 +326,7 @@ const ScanTrialFlow = (props) => {
     if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
+    if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
   }, [formValue]);
 
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
@@ -479,17 +475,23 @@ const ScanTrialFlow = (props) => {
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                               />
                             ) : (
-                              <BrixelButtonPrimary
-                                className={`noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                                disabled={!checkValidateField()}
-                                rounded
-                                theme="green"
-                                themeSat={600}
-                                label={buttonLabel()}
-                                rightIcon="arrow-right-small"
-                                onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
-                                onShowError={() => setShowError(true)}
-                              />
+                              <>
+                                {
+                                  (questions[currentIndex].history !== 'BookTrialFlow' || get(formValue, 'analysis', null) !== 'remote') && (
+                                    <BrixelButtonPrimary
+                                      className={`noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                      disabled={!checkValidateField()}
+                                      rounded
+                                      theme="green"
+                                      themeSat={600}
+                                      label={buttonLabel()}
+                                      rightIcon="arrow-right-small"
+                                      onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
+                                      onShowError={() => setShowError(true)}
+                                    />
+                                  )
+                                }
+                              </>
                             )
                           }
                         </>
@@ -539,7 +541,10 @@ const mapStateToProps = (state) => {
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   let bookType = get(history, 'location', '').replace(/\/$/, '');
-  if (bookType) bookType = bookType.split('/')[bookType.split('/').length - 1];
+  if (bookType) {
+    if (bookType.includes('?url=')) bookType = bookType.split('?')[0];
+    bookType = bookType.split('/')[bookType.split('/').length - 1];
+  }
   const initVal = {
     ...get(state, 'brixelForm.scanFlow.values', {}),
     name: get(state, 'user.loggedInUser.user.name', null),
@@ -551,8 +556,8 @@ const mapStateToProps = (state) => {
     userID: get(state, 'user.loggedInUser.user.id', null),
   };
   if (!initVal.analysis) initVal.analysis = 'on-site';
-  if (bookType === 'on-site') initVal.analysis = 'on-site';
-  if (bookType === 'remote') initVal.analysis = 'remote';
+  if (bookType.includes('on-site')) initVal.analysis = 'on-site';
+  if (bookType.includes('remote')) initVal.analysis = 'remote';
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),

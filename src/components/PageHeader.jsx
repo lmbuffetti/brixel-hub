@@ -15,6 +15,7 @@ import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colo
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import queryString from 'query-string';
 import lazyWithRetry from './LazyWithRetry';
 import ProgressSellerStage from './ProgressSellerStage';
 import { setCookie, checkBrowser } from '../utils/helpers';
@@ -49,6 +50,13 @@ function PageHeader(props) {
   const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  useEffect(() => {
+    if (get(history, 'location.search', null) && get(history, 'location.search', '').includes('?url=')) {
+      const urlParams = queryString.parse(get(history, 'location.search', ''));
+      localStorage.setItem('backUrl', urlParams.url);
+    }
+  }, [history]);
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {

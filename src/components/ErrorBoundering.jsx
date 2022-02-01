@@ -81,7 +81,7 @@ ErrorBoundary.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty.id', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 

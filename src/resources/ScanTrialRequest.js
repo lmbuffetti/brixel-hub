@@ -12,10 +12,6 @@ import { svgIcons } from './svgIcons';
 
 export const ScanTrialQuestions = () => [
   {
-    conditions: [{
-      name: 'userID',
-      value: null,
-    }],
     cardType: 'loadComponent',
     history: 'introScanFlow',
     component: IntroScanFlow,
