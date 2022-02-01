@@ -72,11 +72,6 @@ const ScanTrialFlow = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
-    if (urlParams && urlParams.action) {
-      if (urlParams.action === 'on-site') {
-        setCurrentIndex(0);
-      }
-    }
     if (questions[currentIndex].history) {
       history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
     }

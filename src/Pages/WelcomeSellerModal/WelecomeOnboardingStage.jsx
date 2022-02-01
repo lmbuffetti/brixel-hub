@@ -1,4 +1,3 @@
-import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -60,7 +59,7 @@ const WelecomeOnboardingStage = (props) => {
   const onChange = (val) => {
     switch (val) {
       case 'testDrive':
-        history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=${baseByData.hubUrl}sell`);
+        history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/sell`);
         changeFieldValue('scanFlow', 'analysis', 'remote');
         changeFieldValue('scanFlow', 'bookType', 'whereby');
         break;
@@ -70,7 +69,7 @@ const WelecomeOnboardingStage = (props) => {
       case 'discuss':
         changeFieldValue('scanFlow', 'analysis', 'on-site');
         changeFieldValue('scanFlow', 'bookType', 'online');
-        history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=${baseByData.hubUrl}sell`);
+        history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/sell`);
         break;
       default:
         return null;
