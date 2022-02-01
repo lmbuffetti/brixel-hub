@@ -237,21 +237,21 @@ const BookTrialFlow = (props) => {
           </>
         ) : (
           <>
-            <h2 className="mb-1 ta-c fweight-600">We are ready from</h2>
-            <h2 className="mb-3 mb-sm-6 ta-c fweight-600">Mo - Fr, 09:00 to 18:00.</h2>
+            <h2 className="mb-1 ta-c fsize-600 fsize-sm-800 fweight-600">We are ready from</h2>
+            <h2 className="mb-3 mb-sm-6 ta-c fsize-600 fsize-sm-800 fweight-600">Mo - Fr, 09:00 to 18:00.</h2>
             <div>
-              <div className="max-w-fix-600 ml-a mr-a dis-f a-t jc-b">
-                <div className="w-perc-50 max-w-fix-304 ta-c">
-                  <img src={PhoneImg} alt="Phone" />
-                  <h4 className="mt-2 mb-1">Phone</h4>
+              <div className="max-w-fix-600 dis-fl-col dis-fl-row-sm ml-a mr-a dis-f a-t jc-b">
+                <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
+                  <img className="max-w-fix-120 max-w-fix-sm-144" src={PhoneImg} alt="Phone" />
+                  <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">Phone</h4>
                   <p>You can call us on</p>
                   <p>
                     <a className="txtDark700 td-u" href={`tel:${phone}`}>{Helpers.telephoneFormat(phone)}</a>
                   </p>
                 </div>
-                <div className="w-perc-50 max-w-fix-304 ta-c">
-                  <img src={VidelCallImg} alt="Phone" />
-                  <h4 className="mt-2 mb-1">Video call</h4>
+                <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
+                  <img className="max-w-fix-120 max-w-fix-sm-144" src={VidelCallImg} alt="Phone" />
+                  <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">Video call</h4>
                   <p>We use Whereby – a safe and easy tool. No installation needed.</p>
                   {
                     whereby && (
