@@ -13,6 +13,7 @@ import {
   BrixelButtonText,
   SkeletonPackages,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import orderBy from 'lodash/orderBy';
@@ -199,7 +200,7 @@ const MarketCategoryListSeller = (props) => {
   const bookNow = () => {
     if (propertyId) {
       localStorage.setItem('backUrl', '/sell');
-      history.push(`/${propertyId}/trialRequest`);
+      history.push(`/${propertyId}/trialRequest?url${baseByData.hubUrl}sell`);
     }
   };
 
