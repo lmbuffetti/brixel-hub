@@ -963,3 +963,16 @@ button.minimum-w-210 {
   top: -2px;
   position: relative;
 }
+
+.BookTrialFlow {
+  @media (max-width: $responsive-small) {
+    .mobile-version select,
+    input {
+      font-size: 16px !important;
+    }
+    .mobile-version select {
+      padding-left: $step * 2;
+      padding-top: 2px;
+    }
+  }
+}
