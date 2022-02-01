@@ -479,17 +479,23 @@ const ScanTrialFlow = (props) => {
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                               />
                             ) : (
-                              <BrixelButtonPrimary
-                                className={`noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                                disabled={!checkValidateField()}
-                                rounded
-                                theme="green"
-                                themeSat={600}
-                                label={buttonLabel()}
-                                rightIcon="arrow-right-small"
-                                onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
-                                onShowError={() => setShowError(true)}
-                              />
+                              <>
+                                {
+                                  questions[currentIndex].history === 'BookTrialFlow' && get(formValue, 'analysis', null) !== 'remote' && (
+                                    <BrixelButtonPrimary
+                                      className={`noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                      disabled={!checkValidateField()}
+                                      rounded
+                                      theme="green"
+                                      themeSat={600}
+                                      label={buttonLabel()}
+                                      rightIcon="arrow-right-small"
+                                      onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
+                                      onShowError={() => setShowError(true)}
+                                    />
+                                  )
+                                }
+                              </>
                             )
                           }
                         </>
