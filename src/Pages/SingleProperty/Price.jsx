@@ -382,9 +382,7 @@ const Price = (props) => {
                             rounded
                             className="mt-3 w-fit"
                             label="Contact support"
-                            onClick={() => {
-                              history.push({ state: { showSupport: true } });
-                            }}
+                            onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/property/price`)}
                           />
                         </>
                       )

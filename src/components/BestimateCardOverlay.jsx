@@ -25,6 +25,7 @@ const BestimateCardOverlay = (props) => {
     location: useLocation(),
   };
   const {
+    activeSinglePropertyId,
     bestimate,
     clearEstimation,
     setBestimateMessage,
@@ -41,7 +42,7 @@ const BestimateCardOverlay = (props) => {
 
   const openSupport = (e) => {
     e.preventDefault();
-    history.push({ state: { showSupport: true } });
+    history.push(`/${activeSinglePropertyId.id}/trialRequest/remote?url=/sell`);
   };
 
   return (
@@ -138,6 +139,7 @@ const BestimateCardOverlay = (props) => {
 };
 
 BestimateCardOverlay.propTypes = {
+  activeSinglePropertyId: PropTypes.string.isRequired,
   bestimate: PropTypes.object.isRequired,
   clearEstimation: PropTypes.bool,
   setBestimateMessage: PropTypes.func,

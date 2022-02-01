@@ -20,12 +20,11 @@ import lazyWithRetry from '../../components/LazyWithRetry';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
-import { setEstimation, getEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
+import { setEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 import MarketCardSmall from '../../components/MarketCardSmall';
 import SearchProfileBanner from '../../components/SearchProfileBanner';
 import teaserAnimation from '../../images/Market/teaserAnimate.svg';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
-import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 
 const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
 
@@ -68,7 +67,6 @@ const MarketCategoryListBuyer = (props) => {
 
   // PROPS
   const {
-    bestimate,
     initialValues,
     initForm,
     ownerEstimations,
@@ -147,16 +145,6 @@ const MarketCategoryListBuyer = (props) => {
 
   return (
     <Suspense fallback="">
-
-      {/* SECTION: bestimate result */}
-      {
-        splashScreenType === 'bestimateResult' && has(bestimate, 'higherValue') && (
-          <BestimateCardOverlay
-            clearEstimation
-          />
-        )
-      }
-
       <div className="buyerMarket">
         {/* SECTION: buyer welcome message  */}
         {
@@ -412,7 +400,6 @@ const MarketCategoryListBuyer = (props) => {
 };
 
 MarketCategoryListBuyer.propTypes = {
-  bestimate: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -436,7 +423,6 @@ const mapStateToProps = (state) => {
   const initVal = searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile;
   const userCompany = get(state, 'user.loggedInUser.user.comapny', {});
   return ({
-    bestimate: get(state, 'property.estimation.result', {}),
     estimation: get(state, 'property.estimation', {}),
     favoritesProperties: get(state, 'market.favoritesProperties', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
@@ -472,7 +458,6 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
