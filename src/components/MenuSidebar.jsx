@@ -26,6 +26,7 @@ const MenuSidebar = (props) => {
   };
   const {
     activeSingleDeal,
+    onClickLink,
     userType,
     windowDimensions,
   } = props;
@@ -97,8 +98,11 @@ const MenuSidebar = (props) => {
                     <li
                       key={i.toString()}
                       className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav fsize-400 fweight-600`}
+                      onClick={() => onClickLink()}
                     >
-                      <Link to={linkMenu(nav.path)}>
+                      <Link
+                        to={linkMenu(nav.path)}
+                      >
 
                         <BrixelIcon
                           color="blue"
@@ -159,11 +163,13 @@ const MenuSidebar = (props) => {
 
 MenuSidebar.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
+  onClickLink: PropTypes.func,
   userType: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 MenuSidebar.defaultProps = {
+  onClickLink: () => '',
   userType: 'user',
 };
 

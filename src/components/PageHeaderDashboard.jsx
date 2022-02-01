@@ -300,6 +300,7 @@ function PageHeaderDashboard(props) {
   const onClickMenu = (href) => {
     history.push(href);
     setOpenMenu(false);
+    setShowMobileMenu(false);
   };
 
   useOutsideAlerter(menuHub, {
@@ -527,7 +528,9 @@ function PageHeaderDashboard(props) {
                         }
                         {
                           activeSingleProperty.id && (
-                            <MenuSidebar />
+                            <MenuSidebar
+                              onClickLink={() => setShowMobileMenu(false)}
+                            />
                           )
                         }
                         {
