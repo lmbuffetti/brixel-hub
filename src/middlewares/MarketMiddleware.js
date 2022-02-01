@@ -183,7 +183,10 @@ const checkLead = (store) => (next) => (action) => {
         .then((res) => {
           if (res.meta.status === 200) {
             const redData = (res.data.data).filter((item) => get(item, 'data.title', null) !== null);
-            store.dispatch({ type: SET_OWNED_ESTIMATIONS, payload: { ...res.data, data: redData } });
+            const redExcludedData = (res.data.data).filter((item) => get(item, 'data.title', null) === null);
+            const countData = res.data;
+            countData.total -= redExcludedData.length;
+            store.dispatch({ type: SET_OWNED_ESTIMATIONS, payload: { ...countData, data: redData } });
           }
           loadSkeleton = cloneDeep(get(store.getState(), 'common.skeleton', {}));
           loadSkeleton.estimation = false;

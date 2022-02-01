@@ -55,7 +55,7 @@ const IntroScanFlow = (props) => {
               <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={AnalyseImg} alt="text-1" />
               <div className="pos-r my-1">
                 <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-r-0" />
-                <div className="roundNumber ml-a mr-a">1</div>
+                <div className="roundDot ml-a mr-a" />
               </div>
               <h4 className="fweight-600 my-3 mb-1">We analyse</h4>
               <p className="max-w-fix-280 m-a">
@@ -69,7 +69,7 @@ const IntroScanFlow = (props) => {
               <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DeliverImg} alt="text-1" />
               <div className="pos-r my-1">
                 <hr className="divider-line-mobile" />
-                <div className="roundNumber ml-a mr-a">2</div>
+                <div className="roundDot ml-a mr-a" />
               </div>
               <h4 className="fweight-600 my-3 mb-1">We deliver</h4>
               <p className="max-w-fix-280 m-a">
@@ -83,7 +83,7 @@ const IntroScanFlow = (props) => {
               <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={YourTestImg} alt="text-1" />
               <div className="pos-r my-1">
                 <hr className="divider-line-mobile" />
-                <div className="roundNumber ml-a mr-a">3</div>
+                <div className="roundDot ml-a mr-a" />
               </div>
               <h4 className="fweight-600 my-3 mb-1">You test</h4>
               <p className="max-w-fix-280 m-a">
@@ -97,7 +97,7 @@ const IntroScanFlow = (props) => {
               <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DecideImg} alt="text-1" />
               <div className="pos-r my-1">
                 <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-l-0" />
-                <div className="roundNumber ml-a mr-a">4</div>
+                <div className="roundDot ml-a mr-a" />
               </div>
               <h4 className="fweight-600 my-3 mb-1">You decide</h4>
               <p className="max-w-fix-280 m-a">
@@ -146,7 +146,7 @@ const IntroScanFlow = (props) => {
               <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={AnalyseImg} alt="text-1" /> */}
-                  <div className="roundNumber ml-a mr-a">1</div>
+                  <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">We analyse</h4>
                   <p className="max-w-fix-280 m-a">
                     We estimate your property and define the sales process with you.
@@ -157,7 +157,7 @@ const IntroScanFlow = (props) => {
               <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={DeliverImg} alt="text-1" /> */}
-                  <div className="roundNumber ml-a mr-a">2</div>
+                  <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">We deliver</h4>
                   <p className="max-w-fix-280 m-a">
                     We capture your property and create your personal Brixel Page.
@@ -168,7 +168,7 @@ const IntroScanFlow = (props) => {
               <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={YourTestImg} alt="text-1" /> */}
-                  <div className="roundNumber ml-a mr-a">3</div>
+                  <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">You test</h4>
                   <p className="max-w-fix-280 m-a">
                     You review our work and can test our full service on the market.
@@ -179,7 +179,7 @@ const IntroScanFlow = (props) => {
               <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={DecideImg} alt="text-1" /> */}
-                  <div className="roundNumber ml-a mr-a">4</div>
+                  <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">You decide</h4>
                   <p className="max-w-fix-280 m-a">
                     If you are happy, you book one of our service packages or withdraw without any costs.

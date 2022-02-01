@@ -101,8 +101,8 @@ const MenuSidebar = (props) => {
                       <Link to={linkMenu(nav.path)}>
 
                         <BrixelIcon
-                          color="altBlue"
-                          saturationTxt={400}
+                          color="blue"
+                          saturationTxt={700}
                           icon={nav.icon}
                         />
 
@@ -120,7 +120,7 @@ const MenuSidebar = (props) => {
                                 >
                                   <Link
                                     to={linkMenu(submenu.path)}
-                                    className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtAltBlue400' : 'txtDark700'}`}
+                                    className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtBlue700' : 'txtDark700'}`}
                                   >
                                     <span className="dot" />
                                     <span className="pl-4">{submenu.title}</span>

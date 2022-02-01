@@ -12,10 +12,6 @@ import { svgIcons } from './svgIcons';
 
 export const ScanTrialQuestions = () => [
   {
-    conditions: [{
-      name: 'userID',
-      value: null,
-    }],
     cardType: 'loadComponent',
     history: 'introScanFlow',
     component: IntroScanFlow,
@@ -28,7 +24,7 @@ export const ScanTrialQuestions = () => [
     }],
     title: 'Nice to meet you. Who are you?',
     history: 'contactInfo',
-    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-5',
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5',
     inputs: [
       {
         component: BrixelInputText,

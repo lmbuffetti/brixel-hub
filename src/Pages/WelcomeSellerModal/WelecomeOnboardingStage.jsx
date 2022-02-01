@@ -10,9 +10,9 @@ import ApartmentImg from '../../images/welcomeOnboarding/apartment.svg';
 import HouseImg from '../../images/welcomeOnboarding/house.svg';
 import BuildingLandImg from '../../images/welcomeOnboarding/buildingLand.svg';
 import CommercialImg from '../../images/welcomeOnboarding/commercial.svg';
-import TestDriveImg from '../../images/welcomeOnboarding/tstDrive.png';
-import OverviewImg from '../../images/welcomeOnboarding/overview.png';
-import DiscussImg from '../../images/welcomeOnboarding/discuss.png';
+// import TestDriveImg from '../../images/welcomeOnboarding/tstDrive.png';
+// import OverviewImg from '../../images/welcomeOnboarding/overview.png';
+// import DiscussImg from '../../images/welcomeOnboarding/discuss.png';
 
 const { factsOptions } = FactsOptions;
 
@@ -59,7 +59,7 @@ const WelecomeOnboardingStage = (props) => {
   const onChange = (val) => {
     switch (val) {
       case 'testDrive':
-        history.push(`/${activeSingleProperty.id}/trialRequest/on-site`);
+        history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/sell`);
         changeFieldValue('scanFlow', 'analysis', 'remote');
         changeFieldValue('scanFlow', 'bookType', 'whereby');
         break;
@@ -69,7 +69,7 @@ const WelecomeOnboardingStage = (props) => {
       case 'discuss':
         changeFieldValue('scanFlow', 'analysis', 'on-site');
         changeFieldValue('scanFlow', 'bookType', 'online');
-        history.push(`/${activeSingleProperty.id}/trialRequest/remote`);
+        history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/sell`);
         break;
       default:
         return null;
@@ -85,13 +85,13 @@ const WelecomeOnboardingStage = (props) => {
             <div className="dis-f-col jc-c a-c w-perc-100 pos-r pt-2">
               {
                 imgProperty && (
-                  <img src={imgProperty} alt={activeSingleProperty.title} />
+                  <img width={315} src={imgProperty} alt={activeSingleProperty.title} />
                 )
               }
 
-              <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-500 fsize-sm-600 max-w-fix-480 mx-a">
+              <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-600 fsize-sm-700 max-w-fix-424 mx-a">
                 <span>Great.</span>
-                <span>&ldquo;{activeSingleProperty.title}&rdquo;</span>
+                <span className="mx-small-4">&ldquo;{activeSingleProperty.title}&rdquo;</span>
                 <span>is ready.</span>
               </p>
 
@@ -102,7 +102,6 @@ const WelecomeOnboardingStage = (props) => {
               <BrixelButtonPrimary
                 className="mx-a mt-5"
                 rounded
-                theme="altGreen"
                 label="Yes, let's go."
                 rightIcon="arrow-right-small"
                 onClick={() => onChangeStep()}
@@ -115,7 +114,7 @@ const WelecomeOnboardingStage = (props) => {
       return (
         <div>
           <div className="ta-c mb-6">
-            <h3 className="fweight-600 txtDark700">How do you want to proceed?</h3>
+            <h3 className="fweight-600 txtDark700">Choose your next step</h3>
           </div>
           <BrixelRadioButton
             design={{
@@ -129,21 +128,24 @@ const WelecomeOnboardingStage = (props) => {
             disableDelay
             options={[
               {
-                label: 'Test drive our service',
+                title: 'Test drive our service',
+                label: 'Because you would not buy a car without driving it.',
                 value: 'testDrive',
-                img: TestDriveImg,
+                img: '',
                 color: 'blue',
               },
               {
-                label: 'Explore the tool on your own',
+                title: 'Explore the tool on your own',
+                label: 'For all the explorers who like to click things.',
                 value: 'overview',
-                img: OverviewImg,
+                img: '',
                 color: 'blue',
               },
               {
-                label: 'Discuss your options',
+                title: 'Discuss your options',
+                label: 'Yes, a real human expert who is happy to help.',
                 value: 'discuss',
-                img: DiscussImg,
+                img: '',
                 color: 'blue',
               },
             ]}

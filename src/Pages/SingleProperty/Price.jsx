@@ -13,7 +13,6 @@ import {
   BrixelInputText,
   BrixelSelect,
   Helpers,
-  BrixelButtonText,
   ReduxField,
   change,
   reset,
@@ -48,13 +47,12 @@ const Price = (props) => {
     handleSetHistory,
     proEstimation,
     setSplashScreen,
-    windowDimensions,
   } = props;
 
   // STATE
   const [Questions, setQuestions] = useState(InputSheets(formValue));
   const [selectedQuest, setSelectedQuest] = useState(null);
-  const [allSettings, setAllSettings] = useState(false);
+  // const [allSettings, setAllSettings] = useState(false);
   const [percComplete, setPercComplete] = useState(0);
   // PARAMS URL
   const propID = get(match, 'propID', null);
@@ -177,7 +175,7 @@ const Price = (props) => {
               />
             </div>
 
-            <div className={`${allSettings ? '' : 'hide'} dis-b-md`}>
+            <div className="dis-b-md">
               <ReduxField
                 ReduxFieldClass="w-perc-60 mt-2"
                 form="Property"
@@ -194,18 +192,6 @@ const Price = (props) => {
                 }}
               />
             </div>
-
-            {
-              windowDimensions.width <= 1024 && (
-                <div className="mt-2">
-                  <BrixelButtonText
-                    label={allSettings ? 'Fewer settings' : 'Show all settings'}
-                    onClick={() => setAllSettings(!allSettings)}
-                    rightIcon={allSettings ? 'minus-small' : 'plus-small'}
-                  />
-                </div>
-              )
-            }
           </div>
 
           <div className="ml-md-1 w-perc-100">
@@ -312,7 +298,7 @@ const Price = (props) => {
                               size={45}
                               strokeWidth={6}
                               circleOneStroke="#DCDDDE"
-                              circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#1E1491'}
+                              circleTwoStroke={calcPercentageProEstimation().realPerc === 100 ? '#218B80' : '#004D71'}
                               showIcon={false}
                               showIconComplete={calcPercentageProEstimation().realPerc === 100}
                             />
@@ -423,7 +409,6 @@ Price.propTypes = {
   handleSetHistory: PropTypes.func.isRequired,
   proEstimation: PropTypes.object,
   setSplashScreen: PropTypes.func.isRequired,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
 Price.defaultProps = {
@@ -435,7 +420,6 @@ const mapStateToProps = (state) => ({
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -64,33 +64,33 @@
     }
     &.active {
       &:before {
-        background: map_get($altGreenColor, 400);
+        background: map_get($primaryColor, 400);
       }
       .wrap-step:not(.xsmallStep) {
-        border: 1px solid map_get($altGreenColor, 400);
+        border: 1px solid map_get($primaryColor, 400);
       }
       .circle {
-        border: 1px solid map_get($altGreenColor, 400);
+        border: 1px solid map_get($primaryColor, 400);
       }
       .stepNumber {
-        color: map_get($altGreenColor, 400);
+        color: map_get($primaryColor, 400);
       }
       .stepLabel {
-        color: map_get($altGreenColor, 400);
+        color: map_get($primaryColor, 400);
       }
     }
     &.done {
       &:before {
-        background: map_get($altGreenColor, 400);
+        background: map_get($primaryColor, 400);
       }
       .circle {
-        border: 1px solid map_get($altGreenColor, 400);
+        border: 1px solid map_get($primaryColor, 400);
       }
       .stepNumber {
-        color: map_get($altGreenColor, 400);
+        color: map_get($primaryColor, 400);
       }
       .stepLabel {
-        color: map_get($altGreenColor, 400);
+        color: map_get($primaryColor, 400);
       }
     }
 

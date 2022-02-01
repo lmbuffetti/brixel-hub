@@ -13,6 +13,7 @@ import {
   BrixelButtonText,
   SkeletonPackages,
 } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import orderBy from 'lodash/orderBy';
@@ -25,15 +26,12 @@ import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { getCompanyListing, setActiveSingleCompany } from '../../actions/CompanyActions';
 import {
-  setEstimation, getEstimation, setActiveMarketOverlayProperty, setActiveSingleProperty,
+  setEstimation, getEstimation, setActiveMarketOverlayProperty, setActiveSingleProperty, getPackageProperty,
 } from '../../actions/PropertyActions';
 import ArticlesList from '../../resources/homeArticles';
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
 import testdrive from '../../images/Market/testdrive.jpeg';
-import testdrive2 from '../../images/Market/testdrive2.png';
-import presentation from '../../images/Market/presentation.png';
-import sellYourself from '../../images/Market/sellYourself.png';
 import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
 import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 
@@ -48,11 +46,14 @@ const MarketCategoryListSeller = (props) => {
   const {
     activeMarketOverlayProperty,
     activeSingleProperty,
+    activeSinglePropertyActivePackage,
+    activeSinglePropertyPackage,
     bestimate,
     companyListings,
     estimation,
     handleGetCompanyListing,
     handleGetEstimation,
+    handleGetPackageProperty,
     handleSetActiveSingleProperty,
     handleSetActiveSingleCompany,
     handleSetHistory,
@@ -91,20 +92,25 @@ const MarketCategoryListSeller = (props) => {
         handleSetActiveSingleProperty({ customID: propertyId, setID: indexOwn });
         const singleCmp = companyListings.find((cmp) => cmp.id === ownerProperties.data[indexOwn].company);
         handleSetActiveSingleCompany(singleCmp);
+        handleGetPackageProperty({ id: propertyId, smallLoader: 'package' });
       } else handleSetActiveSingleProperty({});
     }
   }, [propertyId, companyListings.length]);
 
   useEffect(() => {
     const packages = get(companyDetail, 'servicePackages', null);
+    let filtPkg = [];
     if (packages) {
-      let filtPkg = packages.filter((pkg) => pkg.type === 'one' || pkg.type === 'premium' || pkg.type === 'private');
-      // eslint-disable-next-line no-return-assign
-      filtPkg.map((pkg) => pkg.price.total = +pkg.price.total);
-      filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
-      setFilteredPackages(filtPkg);
+      filtPkg = packages.filter((pkg) => pkg.availableToCustomer);
     }
-  }, [get(companyDetail, 'servicePackages', null)]);
+    if (activeSinglePropertyPackage.length > 0) {
+      // filtPkg = activeSinglePropertyPackage;
+    }
+    // eslint-disable-next-line no-return-assign
+    filtPkg.map((pkg) => pkg.price.total = +pkg.price.total);
+    filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
+    setFilteredPackages(filtPkg);
+  }, [get(companyDetail, 'servicePackages', null), activeSinglePropertyPackage]);
 
   // Update market card when bestimate changes
   useEffect(() => {
@@ -146,12 +152,6 @@ const MarketCategoryListSeller = (props) => {
       }
     }
   }, [ownerProperties, loggedInUser]);
-
-  const onCloseWelcome = () => {
-    setCookie('brixelMarketWelcome', true);
-    setCookie('brixelSplashHome', null);
-    setSplashScreen('');
-  };
 
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
@@ -200,97 +200,12 @@ const MarketCategoryListSeller = (props) => {
   const bookNow = () => {
     if (propertyId) {
       localStorage.setItem('backUrl', '/sell');
-      history.push(`/${propertyId}/trialRequest`);
+      history.push(`/${propertyId}/trialRequest?url${baseByData.hubUrl}sell`);
     }
   };
 
   return (
     <Suspense fallback="">
-      {/* SECTION: seller welcome message  */}
-      {
-        splashScreenType === 'sellerWelcome' && (
-          <SplashScreen
-            className="result-popup centered"
-            closeOutside={false}
-          >
-            <div className="dis-f jc-fe mb-2">
-              <BrixelButtonIcon
-                ghost
-                theme="dark"
-                icon="close-small"
-                onClick={() => onCloseWelcome()}
-              />
-            </div>
-            <div className="dis-fl-col jc-c a-c pb-2">
-              <h3>Welcome 🖐 </h3>
-              <span className="txtDark200 pt-2 pb-5"> We are happy to have you as a new member at Brixel. Are you thinking about selling? </span>
-              <div className="mb-5">
-                <div className="dis-f mb-2">
-                  <div className="dis-fl-row a-c">
-                    <img
-                      className="w-fix-48"
-                      src={sellYourself}
-                      alt="Sell Yourself"
-                      id="sell"
-                    />
-                    <p className="max-w-fix-440 txtDark700 pl-2">
-                      <span>Sell privately without an agent. We</span>
-                      <a
-                        href="#"
-                        className="link ml-small-4"
-                        onClick={(e) => openSupport(e)}
-                      >
-                        <span>support</span>
-                      </a>
-                      <span className="ml-small-4">you with modular service packages - without any brokerage contract.</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="dis-f mb-2">
-                  <div className="dis-fl-row a-c">
-                    <img
-                      className="w-fix-48"
-                      src={presentation}
-                      alt="Presentation"
-                      id="presentation"
-                    />
-                    <p className="max-w-fix-440 txtDark700 pl-2">
-                      <span>Market with the best presentation. Buyers confirm that our quality stands out on the market.</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="dis-f">
-                  <div className="dis-fl-row a-c">
-                    <img
-                      className="w-fix-48"
-                      src={testdrive2}
-                      alt="Test Drive"
-                      id="testDrive"
-                    />
-                    <p className="max-w-fix-440 txtDark700 pl-2">
-                      <span>Test our full service with a</span>
-                      <a
-                        className="link ml-small-4"
-                        href="#"
-                        onClick={() => bookNow()}
-                      >
-                        <span>&nbsp;test drive</span>
-                      </a>
-                      <span className="ml-small-4">– like a car. No strings attached.</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <BrixelButtonPrimary
-                label="ok, got it!"
-                rounded
-                onClick={() => onCloseWelcome()}
-              />
-            </div>
-          </SplashScreen>
-        )
-      }
-
       {/* SECTION: bestimate result */}
       {
         !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(estimation, 'status', 'active') !== 'pending' && (
@@ -520,13 +435,13 @@ const MarketCategoryListSeller = (props) => {
             Boost your private sale with an upgrade.
           </h3>
 
-          <div className="dis-fl-col dis-fl-row-md">
+          <div className="dis-fl-col dis-fl-row-md jc-c">
             {
               (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
                 <>
-                  <SkeletonPackages className="mx-sm-2 w-perc-100" type="small" />
-                  <SkeletonPackages className="my-2 my-sm-0 mx-sm-2 w-perc-100" type="small" />
-                  <SkeletonPackages className="mx-sm-2 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
+                  <SkeletonPackages className="my-2 my-sm-0 mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
+                  <SkeletonPackages className="mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
                 </>
               ) : (
                 <>
@@ -535,13 +450,28 @@ const MarketCategoryListSeller = (props) => {
                       <div
                         onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
                         key={i.toString()}
-                        className={`${pkg.type} bgWhite txtDark700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi`}
+                        className={`${pkg.type} bgWhite txtDark700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi max-w-fix-400 w-perc-100`}
                       >
-                        <h4 className="fweight-600 txtDark700">{pkg.name}</h4>
-                        <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
-                          <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                          <small className="ml-1 fsize-300 txtDark700">incl. VAT</small>
-                        </p>
+                        <div className="dis-f jc-b a-c">
+                          <h4 className="fweight-500 txtDark700">{pkg.name}</h4>
+                          {
+                            activeSinglePropertyActivePackage.stub === pkg.stub && (
+                              <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
+                            )
+                          }
+                        </div>
+                        {
+                          pkg.price.total > 0 ? (
+                            <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
+                              <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                              <small className="ml-1 fsize-300 txtDark700">incl. VAT</small>
+                            </p>
+                          ) : (
+                            <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
+                              Free
+                            </p>
+                          )
+                        }
                         <p className="txtDark700">{pkg.description}</p>
                       </div>
                     ))
@@ -557,7 +487,7 @@ const MarketCategoryListSeller = (props) => {
               rounded
               label="Upgrade your plan"
               onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
-              theme="AltGreen"
+
             />
             <span className="mx-sm-1 mt-2 my-sm-0">or</span>
             <BrixelButtonText
@@ -621,13 +551,16 @@ const MarketCategoryListSeller = (props) => {
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyActivePackage: PropTypes.object.isRequired,
+  activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   bestimate: PropTypes.object.isRequired,
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
-  handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetPackageProperty: PropTypes.func.isRequired,
   handleSetActiveSingleCompany: PropTypes.func.isRequired,
+  handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -645,6 +578,8 @@ const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSinglePropertyActivePackage: get(state, 'property.activeSinglePropertyActivePackage', {}),
+  activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   bestimate: get(state, 'property.estimation.result', {}),
   companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
@@ -667,6 +602,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),

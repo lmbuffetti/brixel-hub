@@ -90,7 +90,7 @@ const PropertyList = (props) => {
 
                     <div className="flex-88 max-w-fix-88 ta-r txtDark700">
                       {
-                        property.owner.id === user.user.id ? (
+                        get(property, 'owner.id', '') === get(user, 'user.id', null) ? (
                           <>
                             {
                               activeSection !== 'seller' && (

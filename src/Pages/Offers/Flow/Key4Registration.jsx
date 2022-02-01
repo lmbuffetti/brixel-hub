@@ -77,7 +77,7 @@ const Key4Registration = (props) => {
       {
         affordability < maxAffordability && loanToValueRatio < maxLoanRatio ? (
           <>
-            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
               Learn within 48 hours if you can afford your desired home.
             </h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
@@ -90,7 +90,7 @@ const Key4Registration = (props) => {
                       className="mr-2"
                       iconWidth="w-fix-32"
                       icon="tax-declaration"
-                      color="altGreen"
+                      color="primary"
                       saturationTxt={300}
                     />
                     <p className="txtDark700">Latest tax declaration</p>
@@ -100,7 +100,7 @@ const Key4Registration = (props) => {
                       className="mr-2"
                       iconWidth="w-fix-32"
                       icon="proof-income"
-                      color="altGreen"
+                      color="primary"
                       saturationTxt={300}
                     />
                     <p className="txtDark700">Latest proof of income, incl. proof of bonus if applicable</p>
@@ -110,7 +110,7 @@ const Key4Registration = (props) => {
                       className="mr-2"
                       iconWidth="w-fix-32"
                       icon="pension"
-                      color="altGreen"
+                      color="primary"
                       saturationTxt={300}
                     />
                     <p className="txtDark700">Pension fund statement</p>
@@ -121,7 +121,7 @@ const Key4Registration = (props) => {
                       className="mr-2"
                       iconWidth="w-fix-32"
                       icon="property-expose"
-                      color="altGreen"
+                      color="primary"
                       saturationTxt={300}
                     />
                     <p className="dis-f flex-wrap a-c txtDark700">
@@ -159,7 +159,6 @@ const Key4Registration = (props) => {
               <BrixelButtonPrimary
                 className="mx-a mt-3"
                 rounded
-                theme="altGreen"
                 label="Register on key4"
                 rightIcon="arrow-right"
                 onClick={() => onRegisterKey4()}
@@ -172,7 +171,7 @@ const Key4Registration = (props) => {
           </>
         ) : (
           <>
-            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+            <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
               Unfortunately, your budget is not sufficient
             </h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">

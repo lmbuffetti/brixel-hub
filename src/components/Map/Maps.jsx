@@ -75,7 +75,7 @@ export const ComponentMap = (props) => {
       let typeSearch = [get(props, 'searchType', 'address')];
       if (type === 'cities') typeSearch = ['(regions)'];
       if (type === 'zip') typeSearch = ['(regions)'];
-      if (val.length > 3) {
+      if (val && val.length > 3) {
         const searcCountry = selCountry === 'all' ? '' : selCountry;
         autocompleteService.getPlacePredictions(
           {
@@ -299,7 +299,7 @@ export const ComponentMap = (props) => {
 
   useEffect(() => {
     const dropdownEl = addressRef.current;
-    if (dropdownEl) dropdownEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    if (dropdownEl) dropdownEl.scrollIntoView({ behavior: 'smooth' });
   }, [locList.length]);
 
   const changeFielsSaerchAddress = (val) => {

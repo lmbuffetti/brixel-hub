@@ -24,7 +24,7 @@ const lazyWithRetry = (componentImport) => lazy(async () => {
         'page-has-been-force-refreshed',
         'true',
       );
-      // return window.location.reload();
+      // setTimeout(() => window.location.reload(), 5000);
     }
 
     // The page has already been reloaded
