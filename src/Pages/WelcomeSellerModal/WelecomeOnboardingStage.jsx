@@ -142,7 +142,7 @@ const WelecomeOnboardingStage = (props) => {
                 color: 'blue',
               },
               {
-                title: 'Discuss your options',
+                title: 'Talk to a human',
                 label: 'Yes, a real human expert who is happy to help.',
                 value: 'discuss',
                 img: '',
