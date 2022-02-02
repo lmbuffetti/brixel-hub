@@ -170,7 +170,7 @@ const DashboardHome = (props) => {
       <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
         <div
           className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
-          onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=${baseByData.hubUrl}${activeSingleProperty.id}/home`)}
+          onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
         >
           <div className="w-perc-100 max-w-fix-208">
             <h5 className="mb-2 fSizePx18 fweight-600">Test drive our service. No strings attached.</h5>
