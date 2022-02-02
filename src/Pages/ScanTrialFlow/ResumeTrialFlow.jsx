@@ -7,13 +7,11 @@ import { connect } from 'react-redux';
 import { DateTime } from 'luxon';
 import GreenHouseImg from '../../images/scanTrial/green_house.svg';
 import ScheduleImg from '../../images/scanTrial/schedule.svg';
-import WherbyImg from '../../images/scanTrial/whereby.svg';
 
 const ResumeTrialFlow = (props) => {
   // PROPS
   const {
     formValue,
-    step,
     userLang,
   } = props;
 
@@ -66,17 +64,7 @@ const ResumeTrialFlow = (props) => {
       }
 
       {
-        get(formValue, 'bookType', 'whereby') === 'whereby' && !step && (
-          <div className="max-w-fix-360 ml-a mr-a ta-c">
-            <img width="100" src={WherbyImg} alt="Resume" />
-            <h4 className="fweight-700 mt-3">Let&apos;s meet now.</h4>
-            <p className="ta-c mt-2">We use Whereby – a safe and easy video call tool from Norway. No installation needed. Just click to start.</p>
-          </div>
-        )
-      }
-
-      {
-        get(formValue, 'bookType', 'whereby') === 'whereby' && step === 'wherebyResume' && (
+        get(formValue, 'bookType', 'whereby') === 'whereby' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
             <img src={ScheduleImg} alt="Resume" />
             <p className="ta-c mt-2">Thank you for completing your video call.
@@ -91,12 +79,7 @@ const ResumeTrialFlow = (props) => {
 
 ResumeTrialFlow.propTypes = {
   formValue: PropTypes.object.isRequired,
-  step: PropTypes.string,
   userLang: PropTypes.string.isRequired,
-};
-
-ResumeTrialFlow.defaultProps = {
-  step: null,
 };
 
 const mapStateToProps = (state) => ({
