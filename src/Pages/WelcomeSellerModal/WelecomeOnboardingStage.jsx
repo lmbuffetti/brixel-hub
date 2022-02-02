@@ -59,16 +59,16 @@ const WelecomeOnboardingStage = (props) => {
   const onChange = (val) => {
     switch (val) {
       case 'testDrive':
+        changeFieldValue('scanFlow', 'analysis', 'on-site');
+        changeFieldValue('scanFlow', 'bookType', 'online');
         history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/sell`);
-        changeFieldValue('scanFlow', 'analysis', 'remote');
-        changeFieldValue('scanFlow', 'bookType', 'whereby');
         break;
       case 'overview':
         history.push(`/${activeSingleProperty.id}/home`);
         break;
       case 'discuss':
-        changeFieldValue('scanFlow', 'analysis', 'on-site');
-        changeFieldValue('scanFlow', 'bookType', 'online');
+        changeFieldValue('scanFlow', 'analysis', 'remote');
+        changeFieldValue('scanFlow', 'bookType', 'whereby');
         history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/sell`);
         break;
       default:

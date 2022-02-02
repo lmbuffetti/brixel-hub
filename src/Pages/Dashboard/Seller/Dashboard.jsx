@@ -107,7 +107,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null) && activeSingleProperty.id) {
-      if (loggedInUser.user.id !== activeSingleProperty.owner.id) {
+      if (loggedInUser.user.id !== activeSingleProperty.owner.id && loggedInUser.user.id !== activeSingleProperty.owner) {
         history.push(`/buyer/${activeSingleProperty.id}/property`);
       }
     }

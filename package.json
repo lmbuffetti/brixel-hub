@@ -105,8 +105,6 @@
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.5.1",
-    "esbuild": "^0.14.16",
-    "esbuild-loader": "^2.18.0",
     "eslint": "8.8.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-flowtype": "^8.0.3",

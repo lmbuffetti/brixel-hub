@@ -142,6 +142,7 @@ export const ScanTrialQuestions = () => [
       name: 'step',
       noValue: 'skip',
     }],
+    hideProgress: true,
     background: 'bgCardGreen',
     cardType: 'loadComponent',
     component: ResumeTrialFlow,
