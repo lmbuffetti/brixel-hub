@@ -181,7 +181,7 @@ const DashboardHome = (props) => {
               </span>
             </p>
             <BrixelButtonPrimary
-              onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url${baseByData.hubUrl}${activeSingleProperty.id}/home`)}
+              onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
               className="mt-3"
               rounded
               label="Book now"

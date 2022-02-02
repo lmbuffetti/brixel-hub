@@ -11,7 +11,6 @@ import {
   reset,
   initializeForm,
   BrixelButtonText,
-  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
@@ -134,27 +133,6 @@ const ScanTrialFlow = (props) => {
       };
       handleSendScanTrial(data);
     }
-  };
-
-  const progressBarCalc = () => {
-    let num = 0;
-    questions.forEach((item) => {
-      if (get(item, 'hideProgress', false) !== true) {
-        if (item.conditions) {
-          item.conditions.forEach((cond) => {
-            const val = get(formValue, cond.name, null);
-            if (cond.value && val === cond.value) {
-              num += 1;
-            } else if (cond.noValue && val !== cond.noValue) {
-              num += 1;
-            }
-          });
-        } else {
-          num += 1;
-        }
-      }
-    });
-    return (currentIndex * 100) / (num);
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -341,23 +319,6 @@ const ScanTrialFlow = (props) => {
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
-
-      <div className="pos-r">
-        {
-          get(quest, 'hideProgress', false) !== true && (
-            <BrixelProgressBar
-              large
-              classProgressBar="container"
-              className="brdRadius"
-              saturation={500}
-              color="green"
-              barBackground="light"
-              backgroundSaturation={200}
-              progressValue={progressBarCalc()}
-            />
-          )
-        }
-      </div>
 
       <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
         <form
