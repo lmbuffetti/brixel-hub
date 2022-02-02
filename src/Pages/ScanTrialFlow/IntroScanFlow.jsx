@@ -171,7 +171,7 @@ const IntroScanFlow = (props) => {
                   <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">You test</h4>
                   <p className="max-w-fix-280 m-a">
-                    You review our work and can test our full service on the market.
+                    You can review our work before you decide.
                   </p>
                 </div>
               </div>
@@ -182,7 +182,7 @@ const IntroScanFlow = (props) => {
                   <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">You decide</h4>
                   <p className="max-w-fix-280 m-a">
-                    If you are happy, you book one of our service packages or withdraw without any costs.
+                    Start with Brixel One if you are happy with our work or withdraw without any costs.
                   </p>
                 </div>
               </div>

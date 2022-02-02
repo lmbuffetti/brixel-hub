@@ -100,6 +100,11 @@ const BookTrialFlow = (props) => {
     setDatePickerModal(!datePickerModal);
   };
 
+  const openWhereByVideoCall = () => {
+    window.open(whereby, '_blank');
+    onClick();
+  };
+
   useOutsideAlerter(datePicker, {
     action: 'function',
     func: () => closeModal(),
@@ -259,7 +264,7 @@ const BookTrialFlow = (props) => {
                         className="mx-a mt-3"
                         rounded
                         label="Start video call"
-                        onClick={() => onClick()}
+                        onClick={() => openWhereByVideoCall()}
                         rightIcon="arrow-right-small"
                       />
                     )
