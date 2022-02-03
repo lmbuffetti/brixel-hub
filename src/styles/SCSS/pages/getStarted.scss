@@ -1,8 +1,8 @@
 .bgCardGreenDark {
-  background-color: map_get($altGreenColor, 300);
+  background-color: map_get($primaryColor, 300);
 }
 .bgCardGreen {
-  background-color: map_get($altGreenColor, 200);
+  background-color: map_get($primaryColor, 200);
 }
 
 .flowBody {
@@ -528,7 +528,7 @@ body:not(.overlayOpen).locationInputResume {
     }
   }
   .supportBtn {
-    background-color: map_get($altGreenColor, 200);
+    background-color: map_get($primaryColor, 200);
     @media (min-width: $responsive-medium) {
       background-color: transparent;
     }

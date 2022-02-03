@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
   Navigate,
@@ -22,10 +22,11 @@ import { setSplashType, spinnerOff } from '../../actions/CommonActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import { updateFavorite } from '../../actions/UserActions';
 import { setActiveMarketOverlayPropertyLists } from '../../actions/PropertyActions';
+import lazyWithRetry from '../../components/LazyWithRetry';
 
-const MarketCategoryListBuyer = lazy(() => import('./MarketCategoryListBuyer'));
+const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
 
-const MarketList = lazy(() => import('./MarketList'));
+const MarketList = lazyWithRetry(() => import('./MarketList'));
 
 const MarketBuyer = (props) => {
   const history = {
@@ -55,7 +56,7 @@ const MarketBuyer = (props) => {
   useEffect(() => { destroyForm(); }, [history.location.pathname]);
 
   useEffect(() => {
-    if (loggedInUser.id) {
+    if (get(loggedInUser, 'id', null)) {
       const data = {
         resultsPerPage: 10,
         offset: 0,

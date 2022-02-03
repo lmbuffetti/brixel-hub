@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import {
   Routes, Route, useLocation, useNavigate, useParams, Navigate,
@@ -13,17 +13,18 @@ import {
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
+import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 
-const Price = lazy(() => import('../../SingleProperty/Price'));
+const Price = lazyWithRetry(() => import('../../SingleProperty/Price'));
 
-const Facts = lazy(() => import('../../SingleProperty/Facts'));
+const Facts = lazyWithRetry(() => import('../../SingleProperty/Facts'));
 
-const Photos = lazy(() => import('../../SingleProperty/Media/Photos'));
+const Photos = lazyWithRetry(() => import('../../SingleProperty/Media/Photos'));
 
-const Plans = lazy(() => import('../../SingleProperty/Media/Plans'));
+const Plans = lazyWithRetry(() => import('../../SingleProperty/Media/Plans'));
 
-const Tour = lazy(() => import('../../SingleProperty/Media/Tour'));
+const Tour = lazyWithRetry(() => import('../../SingleProperty/Media/Tour'));
 
 const HomeDashboard = (props) => {
   const history = {
@@ -41,7 +42,7 @@ const HomeDashboard = (props) => {
   // STATE
   // const [userType, setUserType] = useState();
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE

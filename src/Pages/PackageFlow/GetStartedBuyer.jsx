@@ -118,9 +118,9 @@ const GetStartedBuyer = (props) => {
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     handleSpinnerOn();
     if (formValue.owner) {
-      data.owner = loggedInUser.user.id;
+      data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
-      data.dataSearchProfile.user = loggedInUser.user.id;
+      data.dataSearchProfile.user = get(loggedInUser, 'user.id', '');
       await handleCreateSearchProfile(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);

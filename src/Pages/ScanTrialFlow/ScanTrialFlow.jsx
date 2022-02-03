@@ -11,7 +11,6 @@ import {
   reset,
   initializeForm,
   BrixelButtonText,
-  BrixelProgressBar,
 } from '@brixel/brixel-components';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
@@ -33,6 +32,7 @@ const ScanTrialFlow = (props) => {
     location: useLocation(),
   };
   const match = useParams();
+  const urlParams = queryString.parse(get(history, 'location.search', ''));
   // PROPS
   const {
     activeSingleCompany,
@@ -50,14 +50,14 @@ const ScanTrialFlow = (props) => {
   // STATE
   const [questions, setQuestions] = useState(ScanTrialQuestions());
   // const [position, setPosition] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(3);
+  const [currentIndex, setCurrentIndex] = useState(formValue.analysis === 'remote' || urlParams.action === 'on-site' ? 3 : 0);
   const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   // REF
   const singleStepRef = useRef(null);
@@ -71,12 +71,6 @@ const ScanTrialFlow = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
-    const urlParams = queryString.parse(get(history, 'location.search', ''));
-    if (urlParams && urlParams.action) {
-      if (urlParams.action === 'remote' || urlParams.action === 'on-site') {
-        setCurrentIndex(3);
-      }
-    }
     if (questions[currentIndex].history) {
       history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
     }
@@ -139,27 +133,6 @@ const ScanTrialFlow = (props) => {
       };
       handleSendScanTrial(data);
     }
-  };
-
-  const progressBarCalc = () => {
-    let num = 0;
-    questions.forEach((item) => {
-      if (get(item, 'hideProgress', false) !== true) {
-        if (item.conditions) {
-          item.conditions.forEach((cond) => {
-            const val = get(formValue, cond.name, null);
-            if (cond.value && val === cond.value) {
-              num += 1;
-            } else if (cond.noValue && val !== cond.noValue) {
-              num += 1;
-            }
-          });
-        } else {
-          num += 1;
-        }
-      }
-    });
-    return (currentIndex * 100) / (num);
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -331,13 +304,13 @@ const ScanTrialFlow = (props) => {
     if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
+    if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
   }, [formValue]);
 
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    if (get(questions, `[${currentIndex}].history`, null) === 'resume' && get(formValue, 'bookType', '') === 'whereby') label = 'Start video call now';
-    else if (currentIndex === 0) label = 'Book your test drive';
+    if (currentIndex === 0) label = 'Book your test drive';
     else if (currentIndex === questions.length - 1) label = 'Continue';
     else label = 'Continue';
     return label;
@@ -345,23 +318,6 @@ const ScanTrialFlow = (props) => {
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
-
-      <div className="pos-r">
-        {
-          get(quest, 'hideProgress', false) !== true && (
-            <BrixelProgressBar
-              large
-              classProgressBar="container"
-              className="brdRadius"
-              saturation={500}
-              color="green"
-              barBackground="light"
-              backgroundSaturation={200}
-              progressValue={progressBarCalc()}
-            />
-          )
-        }
-      </div>
 
       <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
         <form
@@ -479,17 +435,23 @@ const ScanTrialFlow = (props) => {
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                               />
                             ) : (
-                              <BrixelButtonPrimary
-                                className={`noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                                disabled={!checkValidateField()}
-                                rounded
-                                theme="green"
-                                themeSat={600}
-                                label={buttonLabel()}
-                                rightIcon="arrow-right-small"
-                                onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
-                                onShowError={() => setShowError(true)}
-                              />
+                              <>
+                                {
+                                  (questions[currentIndex].history !== 'BookTrialFlow' || get(formValue, 'analysis', null) !== 'remote') && (
+                                    <BrixelButtonPrimary
+                                      className={`noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                      disabled={!checkValidateField()}
+                                      rounded
+                                      theme="green"
+                                      themeSat={600}
+                                      label={buttonLabel()}
+                                      rightIcon="arrow-right-small"
+                                      onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
+                                      onShowError={() => setShowError(true)}
+                                    />
+                                  )
+                                }
+                              </>
                             )
                           }
                         </>
@@ -539,7 +501,10 @@ const mapStateToProps = (state) => {
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   let bookType = get(history, 'location', '').replace(/\/$/, '');
-  if (bookType) bookType = bookType.split('/')[bookType.split('/').length - 1];
+  if (bookType) {
+    if (bookType.includes('?url=')) bookType = bookType.split('?')[0];
+    bookType = bookType.split('/')[bookType.split('/').length - 1];
+  }
   const initVal = {
     ...get(state, 'brixelForm.scanFlow.values', {}),
     name: get(state, 'user.loggedInUser.user.name', null),
@@ -551,8 +516,8 @@ const mapStateToProps = (state) => {
     userID: get(state, 'user.loggedInUser.user.id', null),
   };
   if (!initVal.analysis) initVal.analysis = 'on-site';
-  if (bookType === 'on-site') initVal.analysis = 'on-site';
-  if (bookType === 'remote') initVal.analysis = 'remote';
+  if (bookType.includes('on-site')) initVal.analysis = 'on-site';
+  if (bookType.includes('remote')) initVal.analysis = 'remote';
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),

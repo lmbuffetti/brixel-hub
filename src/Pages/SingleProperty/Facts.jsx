@@ -44,7 +44,7 @@ const Facts = (props) => {
   const [Questions, setQuestions] = useState(InputSheets(formValue));
   const [selectedQuest, setSelectedQuest] = useState(null);
   // PARAMS URL
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // FUNCTION TO CHECK IF MAIN SECTION IS FINISH OR NOT
@@ -122,11 +122,11 @@ const Facts = (props) => {
         const scrollElement = document.getElementById('bodyScroll');
         const scrollElementMobile = document.getElementById('factsQuestion');
         if (checkBrowser() > 0) {
-          scrollElement.scrollTop = 0;
-          scrollElementMobile.scrollTop = 0;
+          if (scrollElement && scrollElement.scrollTop) scrollElement.scrollTop = 0;
+          if (scrollElementMobile && scrollElementMobile.scrollTop) scrollElementMobile.scrollTop = 0;
         } else {
-          scrollElement.scrollTo({ top: 0, behavior: 'smooth' });
-          scrollElementMobile.scrollTo({ top: 0, behavior: 'smooth' });
+          if (scrollElement && scrollElement.scrollTo) scrollElement.scrollTo({ top: 0, behavior: 'smooth' });
+          if (scrollElementMobile && scrollElementMobile.scrollTo) scrollElementMobile.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
       handleSaveData('saveFacts');

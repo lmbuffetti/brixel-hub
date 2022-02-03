@@ -32,7 +32,7 @@ const SellerSidebar = (props) => {
 
   useEffect(() => {
     if (activeSingleProperty.id) {
-      const arryaStubs = [
+      const arrayStubs = [
         'page-create',
         'page-published',
         'page-scan-trial',
@@ -44,7 +44,7 @@ const SellerSidebar = (props) => {
         'user-register',
       ];
       const payloadPageHistory = {
-        arryaStubs,
+        arrayStubs,
         id: activeSingleProperty.id,
         resultsPerPage: 50,
         offset: 0,

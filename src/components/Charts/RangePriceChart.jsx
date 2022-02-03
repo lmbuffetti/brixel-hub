@@ -146,11 +146,11 @@ function RangePriceChart(props) {
       .style('fill', (d) => {
         if (bestimate && d) {
           if (d.priceRangeStart >= bestimate.lowerValue && d.priceRangeStart <= bestimate.higherValue) {
-            return '#1E1491';
+            return '#004D71';
           }
           return '#ABB0B3';
         }
-        return '#1E1491';
+        return '#004D71';
       });
 
     chart.selectAll('.bar-label')

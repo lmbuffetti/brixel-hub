@@ -1,5 +1,5 @@
 import React, {
-  useRef, lazy, Suspense,
+  useRef, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,9 +9,10 @@ import {
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
+import lazyWithRetry from './LazyWithRetry';
 import Loading from './Loading';
 
-const SplashScreenContent = lazy(() => import('./SplashScreenContent'));
+const SplashScreenContent = lazyWithRetry(() => import('./SplashScreenContent'));
 
 const SplashScreen = (props) => {
   const history = {

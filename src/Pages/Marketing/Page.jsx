@@ -33,7 +33,7 @@ const Page = (props) => {
     isSmallLoading,
   } = props;
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   // GET PAGE STATUS
   const changeReviewStatus = (status) => {

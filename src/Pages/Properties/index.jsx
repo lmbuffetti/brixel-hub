@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
@@ -14,8 +14,9 @@ import {
   getUserProperties,
   getFavorites,
 } from '../../actions/UserActions';
+import lazyWithRetry from '../../components/LazyWithRetry';
 
-const PropertyList = lazy(() => import('./PropertyList'));
+const PropertyList = lazyWithRetry(() => import('./PropertyList'));
 
 const Properties = (props) => {
   // PROPS

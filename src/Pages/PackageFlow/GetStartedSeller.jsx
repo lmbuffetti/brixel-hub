@@ -68,7 +68,7 @@ const GetStartedSeller = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -132,8 +132,8 @@ const GetStartedSeller = (props) => {
       price: getCurrency(),
       published: false,
       addProperty: true,
-      // redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
-      redirectToUrl: '/sell',
+      redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
+      // redirectToUrl: '/sell',
       company,
       extraLoading: true,
     };
@@ -142,7 +142,7 @@ const GetStartedSeller = (props) => {
     handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     if (formValue.owner) {
-      data.owner = loggedInUser.user.id;
+      data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {

@@ -63,7 +63,7 @@ const ScanTrialFlow = (props) => {
   const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   // REF
   const singleStepRef = useRef(null);
@@ -172,7 +172,7 @@ const ScanTrialFlow = (props) => {
           },
         },
       };
-      if (loggedInUser.id) data.data.user.id = loggedInUser.id;
+      if (loggedInUser.id) data.data.user.id = get(loggedInUser, 'id', '');
       handleSendScanTrial(data);
     }
   };
@@ -362,8 +362,7 @@ const ScanTrialFlow = (props) => {
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    if (get(questions, `[${currentIndex}].history`, null) === 'resume' && get(formValue, 'bookType', '') === 'whereby') label = 'Start video call now';
-    else if (currentIndex === 0) label = 'Book your test drive';
+    if (currentIndex === 0) label = 'Book your test drive';
     else if (currentIndex === questions.length - 1) label = 'Continue';
     else label = 'Continue';
     return label;

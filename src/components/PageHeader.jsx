@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* global Transifex */
 import React, {
-  useState, useEffect, useCallback, lazy, Suspense,
+  useState, useEffect, useCallback, Suspense,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,11 +15,13 @@ import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colo
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import queryString from 'query-string';
+import lazyWithRetry from './LazyWithRetry';
 import ProgressSellerStage from './ProgressSellerStage';
 import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 
-const AvatarImage = lazy(() => import('./AvatarImage'));
+const AvatarImage = lazyWithRetry(() => import('./AvatarImage'));
 
 function PageHeader(props) {
   const history = {
@@ -48,6 +50,13 @@ function PageHeader(props) {
   const [dropLang, setDropLang] = useState([]);
   const [widthScreen, setWidthScreen] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  useEffect(() => {
+    if (get(history, 'location.search', null) && get(history, 'location.search', '').includes('?url=')) {
+      const urlParams = queryString.parse(get(history, 'location.search', ''));
+      localStorage.setItem('backUrl', urlParams.url);
+    }
+  }, [history]);
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
@@ -163,12 +172,12 @@ function PageHeader(props) {
 
   return (
     <>
-      <header className={`flowHeader ${get(pageState, 'stage', null) ? 'welcomeSellerHeader' : ''}`}>
+      <header className={`flowHeader ${get(pageState, 'stage', null) || get(history, 'location.pathname', '').includes('/getStarted/') ? 'welcomeSellerHeader' : ''}`}>
         <div className="container">
           {/* eslint-disable-next-line max-len */}
-          <div className={`w-perc-100 wcInnerWrap dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-3' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
+          <div className={`w-perc-100 wcInnerWrap dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-2' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
             <div className="dis-f a-c">
-              <div className={`dis-f a-c min-h-fix-80 h-perc-100 ${get(pageState, 'stage', null) ? 'w-fix-48 w-fix-sm-104' : 'w-fix-104'} ${get(pageState, 'stage', null) ? 'brdSmallRight brdLight200 pr-1 mr-1 pr-lg-3 mr-lg-3' : ''}`}>
+              <div className={`dis-f a-c min-h-fix-72 h-perc-100 w-fix-48 w-fix-sm-104 ${get(pageState, 'stage', null) || get(history, 'location.pathname', '').includes('/getStarted/') ? 'brdSmallRight brdLight200 pr-1 mr-2 pr-lg-3 mr-lg-3' : ''}`}>
                 <img
                   className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'hide-md'}`}
                   src={`${window.innerWidth <= 600 ? logoColorIcon : logoColor}`}
@@ -177,7 +186,7 @@ function PageHeader(props) {
                 />
               </div>
               {
-                get(pageState, 'stage', null) && (
+                (get(pageState, 'stage', null) || get(history, 'location.pathname', '').includes('/getStarted/')) && (
                   <div>
                     <ProgressSellerStage
                       smallLayout={windowDimensions.width < 1025}

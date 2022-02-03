@@ -1,7 +1,7 @@
 // @collapse
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, useState, lazy, Suspense,
+  useEffect, useState, Suspense,
 } from 'react';
 import {
   Routes, Route, useLocation, useNavigate, useParams, Navigate,
@@ -18,6 +18,7 @@ import find from 'lodash/find';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
 import { change, initializeForm, reset } from '@brixel/brixel-components';
+import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 import {
   getPropertyListings,
@@ -39,24 +40,24 @@ import { calcPercentageFacts } from '../../../utils/helpers';
 
 import SellerSidebar from './SellerSidebar';
 
-const DashboardHome = lazy(() => import('./DashboardHome'));
+const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
 
-const PropertyDashboard = lazy(() => import('./PropertyDashboard'));
+const PropertyDashboard = lazyWithRetry(() => import('./PropertyDashboard'));
 
-const MarketingDashboard = lazy(() => import('./MarketingDashboard'));
+const MarketingDashboard = lazyWithRetry(() => import('./MarketingDashboard'));
 
-const Deals = lazy(() => import('../../Deals/Deals'));
+const Deals = lazyWithRetry(() => import('../../Deals/Deals'));
 
-const EmptyProperty = lazy(() => import('./EmptyProperty'));
+const EmptyProperty = lazyWithRetry(() => import('./EmptyProperty'));
 
-const Documents = lazy(() => import('../../SingleProperty/Documents'));
+const Documents = lazyWithRetry(() => import('../../SingleProperty/Documents'));
 
-const DashboardOffer = lazy(() => import('../../Offers/DashboardOffer'));
+const DashboardOffer = lazyWithRetry(() => import('../../Offers/DashboardOffer'));
 
 // UPGRADE
-const Upgrade = lazy(() => import('../../Upgrade/Upgrade'));
+const Upgrade = lazyWithRetry(() => import('../../Upgrade/Upgrade'));
 
-const ScanTrialFlow = lazy(() => import('../../ScanTrialFlow/ScanTrialFlow'));
+const ScanTrialFlow = lazyWithRetry(() => import('../../ScanTrialFlow/ScanTrialFlow'));
 
 const Dashboard = (props) => {
   const history = {
@@ -102,11 +103,11 @@ const Dashboard = (props) => {
   // const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
 
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null) && activeSingleProperty.id) {
-      if (loggedInUser.user.id !== activeSingleProperty.owner.id) {
+      if (loggedInUser.user.id !== activeSingleProperty.owner.id && loggedInUser.user.id !== activeSingleProperty.owner) {
         history.push(`/buyer/${activeSingleProperty.id}/property`);
       }
     }
@@ -131,7 +132,7 @@ const Dashboard = (props) => {
     if (!get(formValue, 'id', null)) {
       const data = {
         limit: 1,
-        offset: `0/?owner=${loggedInUser.user.id}`,
+        offset: `0/?owner=${get(loggedInUser, 'user.id', '')}`,
         setAsSingle: true,
         multiLoader: true,
       };
@@ -182,7 +183,7 @@ const Dashboard = (props) => {
           if (!isSellerUser && isBuyerUser) history.push('/buy');
           else history.push('/sell');
         }
-        if (get(activeSingleProperty, 'owner', null) === loggedInUser.user.id) {
+        if (get(activeSingleProperty, 'owner', null) === get(loggedInUser, 'user.id', '')) {
           // handleGetActiveSingleProperty({ fullVersion: true, id: propID });
           handleGetActiveSinglePropertyBookings({ id: propID });
         }

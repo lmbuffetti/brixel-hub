@@ -22,9 +22,9 @@
       }
       &.active {
         > a {
-          background-color: map_get($altMistColor, 100);
-          color:  map_get($altBlueColor, 400);
-          border-left-color:  map_get($altBlueColor, 400);
+          background-color: map_get($blueColor, 100);
+          color:  map_get($blueColor, 700);
+          border-left-color:  map_get($blueColor, 700);
         }
         .submenu {
           max-height: 260px;
@@ -61,9 +61,9 @@
       }
       .submenuActive {
         a {
-          color: map_get($altBlueColor, 400);
+          color: map_get($blueColor, 700);
           .dot {
-            background-color:  map_get($altBlueColor, 400);;
+            background-color:  map_get($blueColor, 700);;
           }
         }
       }

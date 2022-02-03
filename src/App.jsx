@@ -1,7 +1,7 @@
 /* global ga, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useEffect, useState, useRef, useCallback, Fragment, lazy, Suspense,
+  useEffect, useState, useRef, useCallback, Fragment, Suspense,
 } from 'react';
 import {
   Routes, Route, useNavigate, useLocation, Navigate,
@@ -32,60 +32,61 @@ import { setActiveSingleProperty } from './actions/PropertyActions';
 import { getImageType } from './actions/UploadActions';
 import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
+import lazyWithRetry from './components/LazyWithRetry';
 
 // SIGNUP
-const Signup = lazy(() => import('./Pages/Signup/Signup'));
-const ErrorBoundering = lazy(() => import('./components/ErrorBoundering'));
+const Signup = lazyWithRetry(() => import('./Pages/Signup/Signup'));
+const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
 // GET STARTED ADD ADD PROPERTY
-const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
-const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
-const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
-const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
-// const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
-const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
-const MakeOffer = lazy(() => import('./Pages/Offers/Flow/MakeOffer'));
+const GetStarted = lazyWithRetry(() => import('./Pages/PackageFlow/GetStarted'));
+const GetStartedSeller = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedSeller'));
+const GetStartedBuyer = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedBuyer'));
+const GetStartedEstimation = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedEstimation'));
+const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
+const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialFlow'));
+const MakeOffer = lazyWithRetry(() => import('./Pages/Offers/Flow/MakeOffer'));
 
 // GENERAL COMPONENTS
-const PageHeaderDashboard = lazy(() => import('./components/PageHeaderDashboard'));
+const PageHeaderDashboard = lazyWithRetry(() => import('./components/PageHeaderDashboard'));
 
-const PageHeader = lazy(() => import('./components/PageHeader'));
+const PageHeader = lazyWithRetry(() => import('./components/PageHeader'));
 
-const MenuSidebar = lazy(() => import('./components/MenuSidebar'));
+const MenuSidebar = lazyWithRetry(() => import('./components/MenuSidebar'));
 
 // ADMIN ROUTES
-const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
+const ProtectedRoute = lazyWithRetry(() => import('./components/ProtectedRoute'));
 
-const InsertToken = lazy(() => import('./Pages/InsertToken'));
+const InsertToken = lazyWithRetry(() => import('./Pages/InsertToken'));
 
 // HUB DASHBOARD - SELLER
-const DashboardSeller = lazy(() => import('./Pages/Dashboard/Seller/Dashboard'));
+const DashboardSeller = lazyWithRetry(() => import('./Pages/Dashboard/Seller/Dashboard'));
 
 // HUB DASHBOARD - BUYER
-const DashboardBuyer = lazy(() => import('./Pages/Dashboard/Buyer/Dashboard'));
+const DashboardBuyer = lazyWithRetry(() => import('./Pages/Dashboard/Buyer/Dashboard'));
 
 // FLOW SELLER
-const Bestimate = lazy(() => import('./Pages/Bestimate'));
+const Bestimate = lazyWithRetry(() => import('./Pages/Bestimate'));
 
-const ProEstimationFlow = lazy(() => import('./Pages/SingleProperty/ProEstimationFlow'));
+const ProEstimationFlow = lazyWithRetry(() => import('./Pages/SingleProperty/ProEstimationFlow'));
 
-const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScreen'));
+const BrixelModalFullScreen = lazyWithRetry(() => import('./components/BrixelModalFullScreen'));
 
-const SingleDocument = lazy(() => import('./Pages/SingleProperty/SingleDocument'));
+const SingleDocument = lazyWithRetry(() => import('./Pages/SingleProperty/SingleDocument'));
 
-const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
-const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
+const CreateDeal = lazyWithRetry(() => import('./Pages/Deals/CreateDeal'));
+const VisitFeedback = lazyWithRetry(() => import('./Pages/Deals/VisitFeedback'));
 
-const AddShowingsBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddShowingsBuyer'));
+const AddShowingsBuyer = lazyWithRetry(() => import('./Pages/Dashboard/Buyer/AddShowingsBuyer'));
 
-const AddContactBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddContactBuyer'));
+const AddContactBuyer = lazyWithRetry(() => import('./Pages/Dashboard/Buyer/AddContactBuyer'));
 
-const SingleDeal = lazy(() => import('./Pages/Deals/SingleDeal'));
+const SingleDeal = lazyWithRetry(() => import('./Pages/Deals/SingleDeal'));
 
-const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
+const MarketSeller = lazyWithRetry(() => import('./Pages/Market/MarketSeller'));
 
-const MarketBuyer = lazy(() => import('./Pages/Market/MarketBuyer'));
+const MarketBuyer = lazyWithRetry(() => import('./Pages/Market/MarketBuyer'));
 
-const WarningScreen = lazy(() => import('./components/WarningScreen'));
+const WarningScreen = lazyWithRetry(() => import('./components/WarningScreen'));
 
 const cookies = new Cookies();
 
@@ -161,7 +162,7 @@ const App = (props) => {
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
-    if ((activeSingleProperty && activeSingleProperty.id && loggedInUser.user && (activeSingleProperty.owner === loggedInUser.user.id || get(activeSingleProperty, 'owner.id', '') === loggedInUser.user.id) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
+    if (((get(activeSingleProperty, 'owner.id', 'a') === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
       handleSetUserTypes('seller');
     } else {
       handleSetUserTypes('buyer');
@@ -477,7 +478,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
-                      {/* <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} /> */}
+                      <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
 
@@ -505,18 +506,18 @@ const App = (props) => {
                               get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
                               get(history, 'location.pathname', '').split('/')[1].length > 18 && (
                                 <>
-                                  <Route path="/:propId/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/docubox/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/closing/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/property" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/marketing" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propId?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/docubox/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/closing/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/property" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/marketing" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                 </>
                               )
                             }
@@ -578,7 +579,7 @@ const App = (props) => {
 
           { /* SECTION: ACHIVEMENT FLOW */ }
           <Routes>
-            <Route path="/:propId?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
+            <Route path="/:propID?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
             <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/:dealID/deal" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />

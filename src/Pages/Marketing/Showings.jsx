@@ -2,7 +2,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useState, useEffect, lazy, Suspense,
+  useState, useEffect, Suspense,
 } from 'react';
 import {
   Route, useLocation, useNavigate, useParams,
@@ -23,6 +23,7 @@ import {
   reset,
 } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
+import lazyWithRetry from '../../components/LazyWithRetry';
 import Loading from '../../components/Loading';
 import {
   getActiveSinglePropertyBookings,
@@ -32,7 +33,7 @@ import {
 } from '../../actions/PropertyActions';
 import ShowingPlaceholder from '../../images/Listings/showing_placeholder.svg';
 
-const AddShowings = lazy(() => import('./AddShowings'));
+const AddShowings = lazyWithRetry(() => import('./AddShowings'));
 
 const Showings = (props) => {
   const history = {
@@ -56,7 +57,7 @@ const Showings = (props) => {
   const [unavailableSlots, setUnavailableSlots] = useState([]);
   const [bookingSlot, setBookingSlot] = useState([]);
   // URL PARAMS
-  const propID = get(match, 'propId', null);
+  const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
   // GET BOOKING
@@ -255,7 +256,7 @@ const Showings = (props) => {
         getFact() !== 'showings' && (
           <Suspense fallback={<Loading isLoading />}>
             <Route
-              path="/:propId/marketing/showings/addBooking/:idShowing"
+              path="/:propID/marketing/showings/addBooking/:idShowing"
               element={<AddShowings />}
             />
           </Suspense>

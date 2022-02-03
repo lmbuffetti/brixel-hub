@@ -7,19 +7,20 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import forEach from 'lodash/forEach';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelAvatar,
   BrixelIcon,
   destroy,
-  BrixelSelect, BrixelButtonIcon, BrixelDropdown, FactsOptions,
+  BrixelSelect,
+  BrixelButtonIcon,
+  FactsOptions,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import orderBy from 'lodash/orderBy';
-import ErrorBoundary from './ErrorBoundering';
-import useOutsideAlerter from './OutsideElement';
 import { setCookie } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
@@ -28,7 +29,9 @@ import {
   sidebarNavigationSeller,
 } from '../resources/navigationRoutes';
 import { saveActiveSingleUser, setUserTypes } from '../actions/UserActions';
-import { getPackageProperty, setActiveSingleProperty, getPackagesProperty } from '../actions/PropertyActions';
+import {
+  getPackageProperty, setActiveSingleProperty, getPackagesProperty, setActiveSinglePropertyActivePackage,
+} from '../actions/PropertyActions';
 import AccountDropdown from './AccountDropdown';
 import MenuSidebar from './MenuSidebar';
 import ProgressSellerStage from './ProgressSellerStage';
@@ -42,12 +45,12 @@ function PageHeaderDashboard(props) {
   };
   // PROPS
   const {
-    activeSingleCompany,
     activeCompanyPackages,
     activeSingleProperty,
     changeZIndex,
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
+    handleSetActiveSinglePropertyActivePackage,
     handleSetLanguage,
     handleSetUserTypes,
     lang,
@@ -58,12 +61,12 @@ function PageHeaderDashboard(props) {
     windowDimensions,
   } = props;
   // STATE
-  const [activeCompanyPackageIDArray, setActiveCompanyPackageIDArray] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
   const [packageName, setPackageName] = useState('Basic');
   const [section, setSection] = useState('Sell');
+  const [openMenu, setOpenMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -72,22 +75,13 @@ function PageHeaderDashboard(props) {
 
   // REF
   const profileMenu = useRef(null);
+  const menuHub = useRef(null);
   const currentPathName = get(history, 'location.pathname', '').split('/')[get(history, 'location.pathname', '').split('/').length - 1];
 
   // URL PARAMS
   let propID = history.location.pathname.split('/')[1];
   if (propID === 'buyer') propID = history.location.pathname.split('/')[2];
   if (propID === 'home' || propID === 'seller') propID = null;
-
-  useEffect(() => {
-    const array = [];
-    if (activeCompanyPackages.length > 0) {
-      forEach(activeCompanyPackages, (el) => {
-        array.push(el.id);
-      });
-      setActiveCompanyPackageIDArray(array);
-    }
-  }, [activeCompanyPackages]);
 
   useEffect(() => {
     if (activeSingleProperty.id) {
@@ -101,38 +95,22 @@ function PageHeaderDashboard(props) {
   }, [activeSingleProperty.id]);
 
   useEffect(() => {
-    let activeSinglePropertyPackage = packagesProperty;
-    if (ownerProperties.total === 0) {
-      setPackageName('Basic');
-    }
-    if (activeCompanyPackageIDArray.length > 0) {
-      if (activeSingleProperty.customID && ownerProperties.data) {
-        const prop = ownerProperties.data.find((page) => page.id === activeSingleProperty.customID);
-        if (prop) activeSinglePropertyPackage = get(prop, 'servicePackages', []);
-      }
-      if (activeSinglePropertyPackage && packagesProperty.length > 0) {
-        activeSinglePropertyPackage.forEach((pkg, i) => {
-          const filtSortPackage = packagesProperty.find((item) => pkg.id === item.id);
-          activeSinglePropertyPackage[i].price = get(filtSortPackage, 'price', 0);
-        });
-        const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
-        const activePackage = activeSinglePropertyPackage.find((item) => item.started);
-        if (has(activePackage, 'id')) {
-          const filtPackages = packagesProperty.find((item) => activePackage.id === item.id);
-          if (filtPackages) setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(filtPackages.servicePackage)].name);
-          else setPackageName('Basic');
-        } else if (sortedPackage[0]) {
-          const filtPackage = packagesProperty.find((item) => sortedPackage[0].id === item.id);
-          if (get(filtPackage, 'servicePackage', null)) {
-            setPackageName(activeCompanyPackages[activeCompanyPackageIDArray.indexOf(get(filtPackage, 'servicePackage', ''))].name);
-          }
-        } else {
-          setPackageName('Basic');
-        }
+    const activeSinglePropertyPackage = cloneDeep(packagesProperty);
+    setPackageName('Basic');
+    const basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
+    handleSetActiveSinglePropertyActivePackage(basicPackage);
+    if (activeSinglePropertyPackage.length > 0) {
+      const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
+      const getActivePackage = sortedPackage.find((pkg) => pkg.started);
+      if (getActivePackage) {
+        handleSetActiveSinglePropertyActivePackage(getActivePackage.servicePackage);
+        setPackageName(getActivePackage.servicePackage.name);
+      } else {
+        handleSetActiveSinglePropertyActivePackage(sortedPackage[0].servicePackage);
+        setPackageName(sortedPackage[0].name);
       }
     }
-  }, [activeSingleProperty.id, activeSingleProperty.customID, ownerProperties,
-    packagesProperty.length, activeSingleCompany.id, activeCompanyPackageIDArray]);
+  }, [packagesProperty.length]);
 
   // GET LANGUAGE LISTS
   useEffect(() => {
@@ -319,13 +297,21 @@ function PageHeaderDashboard(props) {
     }
   };
 
+  const onClickMenu = (href) => {
+    history.push(href);
+    setOpenMenu(false);
+    setShowMobileMenu(false);
+  };
+
+  useOutsideAlerter(menuHub, {
+    action: 'function',
+    func: () => {
+      setOpenMenu(false);
+    },
+  });
+
   return (
-    <ErrorBoundary
-      FallbackComponent={() => <div>Error</div>}
-      onReset={() => {
-        // reset the state of your app so the error doesn't happen again
-      }}
-    >
+    <>
       <MenuNavigationSubmenu
         windowDimensions={windowDimensions}
         activeMenu={activeMenu}
@@ -357,23 +343,25 @@ function PageHeaderDashboard(props) {
                     </div>
                     {
                       ((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && (
-                        <BrixelDropdown
-                          noBorder
-                          className="sectionMenu h-fix-72 "
-                          color="dark"
-                          saturationTxt={700}
-                          lang={lang}
-                          keyType="label"
-                          selected={section}
-                          options={[{
-                            value: 'sell',
-                            label: 'Sell',
-                          }, {
-                            value: 'buy',
-                            label: 'Buy',
-                          }]}
-                          onSelect={(e, key) => history.push(`/${key.value}`)}
-                        />
+
+                        <div className={`hubNavigation ${openMenu ? 'open' : 'close'}`} ref={menuHub}>
+                          <div className="dis-f titleSection txtDark700" onClick={() => setOpenMenu(!openMenu)}>
+                            <span>{section}</span>
+                            <BrixelIcon
+                              icon="dropdown"
+                            />
+                          </div>
+                          {
+                            openMenu && (
+                              <div className="hubMenu">
+                                <ul>
+                                  <li onClick={() => onClickMenu('/sell')}>Sell</li>
+                                  <li onClick={() => onClickMenu('/buy')}>Buy</li>
+                                </ul>
+                              </div>
+                            )
+                          }
+                        </div>
                       )
                     }
                   </div>
@@ -396,7 +384,7 @@ function PageHeaderDashboard(props) {
               ) : (
                 <div>
                   <BrixelButtonIcon
-                    className="dis-b hide-md"
+                    className="dis-b hide-lg"
                     icon="arrow-left-small"
                     theme="dark"
                     ghost
@@ -448,7 +436,7 @@ function PageHeaderDashboard(props) {
               { /* SECTION SIDEBAR MENU MOBILE */}
               {
                 windowDimensions.width <= 1024 && (
-                  <div className="ml-1 ml-sm-2">
+                  <div className="ml-1 ml-sm-2 h-fix-72 dis-f a-c">
                     {
                       (propID === 'sell' || propID === 'buy') ? (
                         <>
@@ -540,7 +528,9 @@ function PageHeaderDashboard(props) {
                         }
                         {
                           activeSingleProperty.id && (
-                            <MenuSidebar />
+                            <MenuSidebar
+                              onClickLink={() => setShowMobileMenu(false)}
+                            />
                           )
                         }
                         {
@@ -644,25 +634,25 @@ function PageHeaderDashboard(props) {
           </div>
         )
       }
-    </ErrorBoundary>
+    </>
   );
 }
 
 PageHeaderDashboard.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
+  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   changeZIndex: PropTypes.func,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
+  handleSetActiveSinglePropertyActivePackage: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   ownerProperties: PropTypes.object.isRequired,
+  packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
-  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 PageHeaderDashboard.defaultProps = {
@@ -672,6 +662,7 @@ PageHeaderDashboard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
@@ -680,21 +671,21 @@ const mapStateToProps = (state) => ({
   languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
-  property: get(state, 'property.activeSingleProperty', {}),
   packagesProperty: get(state, 'property.activeSinglePropertyPackage', []),
+  property: get(state, 'property.activeSingleProperty', {}),
   userType: get(state, 'user.userTypes', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
-  activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     dispatch(destroy('Property'));
   },
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleGetPackagesProperty: bindActionCreators(getPackagesProperty, dispatch),
+  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
+  handleSetActiveSinglePropertyActivePackage: bindActionCreators(setActiveSinglePropertyActivePackage, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });

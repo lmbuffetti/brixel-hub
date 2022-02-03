@@ -33,7 +33,7 @@ const FinanceCertificate = (props) => {
 
   return (
     <div>
-      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 mb-sm-6">
+      <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
         Apply for a financing certificate
       </h2>
       <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
@@ -43,19 +43,19 @@ const FinanceCertificate = (props) => {
             <div className="p-5">
               <div className="dis-fl-col dis-fl-row-sm jc-b a-t">
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs ta-c">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">Answer questions about financing</p>
                 </div>
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs my-2 my-sm-0">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img src={RegisterKey4Img} alt="Register on key4" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">Register on key4</p>
                 </div>
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">Upload documents on key4</p>
@@ -77,7 +77,7 @@ const FinanceCertificate = (props) => {
                 className="mx-a mt-4"
                 label="Apply now"
                 rightIcon="arrow-right"
-                theme="altGreen"
+
               />
 
               <div className="mt-4 mx-a ta-c w-fix-md-504">
@@ -98,7 +98,7 @@ const FinanceCertificate = (props) => {
 
               <div className="dis-fl-col dis-fl-row-sm jc-b a-t mt-3">
                 <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs ta-c">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">
@@ -106,7 +106,7 @@ const FinanceCertificate = (props) => {
                   </p>
                 </div>
                 <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs my-2 my-sm-0">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img src={RegisterKey4Img} alt="Register on key4" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">
@@ -114,7 +114,7 @@ const FinanceCertificate = (props) => {
                   </p>
                 </div>
                 <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs">
-                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgAltMist200 dis-f a-c jc-c mb-1">
+                  <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
                     <img src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">
