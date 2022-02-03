@@ -158,14 +158,14 @@ export const createTimelineEntry = (item, userLang) => {
       {
         description: `<div><div><a class='txtDark700' rel='noreferrer noopener' target='_blank' href='/${item.parent.id}/user'>${item.parent.email}</a> <span>just signed up</span></div><div><span class="fweight-500">Signup Channel: </span><span>${item.parent.signupChannel}</span></div></div>`,
         icon: 'account',
-        formattedDate: DateTime.fromMillis(item.parent.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'),
+        formattedDate: !isNaN(+item.parent.createdAt) ? DateTime.fromMillis(item.parent.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm') : item.parent.createdAt,
         timestamp: item.parent.createdAt,
         pinned: false,
       },
       {
         description: getHTMLDescription(),
         icon: getIcon(),
-        formattedDate: DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm'),
+        formattedDate: !isNaN(+item.createdAt) ? DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm') : item.createdAt,
         timestamp: item.createdAt,
         pinned: false,
       },
@@ -177,9 +177,9 @@ export const createTimelineEntry = (item, userLang) => {
     return {
       description: getHTMLDescription(), // Content of the event
       icon: 'mail', // Defines the type of icon on the event
-      formattedDate: DateTime.fromMillis(item.createdAt, {
+      formattedDate: !isNaN(+item.createdAt) ? DateTime.fromMillis(item.createdAt, {
         locale: userLang,
-      }).toFormat('d LLL yyyy, H:mm'), // Formatted date to be shown on the event
+      }).toFormat('d LLL yyyy, H:mm') : item.createdAt, // Formatted date to be shown on the event
       timestamp: item.createdAt, // Unix timestamp for sorting purposes
       pinned: false, // Flag for sorting purposes
       style: 'default',
