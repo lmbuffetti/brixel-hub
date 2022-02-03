@@ -61,7 +61,7 @@ const WelecomeOnboardingStage = (props) => {
       case 'testDrive':
         changeFieldValue('scanFlow', 'analysis', 'on-site');
         changeFieldValue('scanFlow', 'bookType', 'online');
-        history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/sell`);
+        history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`);
         break;
       case 'overview':
         history.push(`/${activeSingleProperty.id}/home`);
@@ -69,7 +69,7 @@ const WelecomeOnboardingStage = (props) => {
       case 'discuss':
         changeFieldValue('scanFlow', 'analysis', 'remote');
         changeFieldValue('scanFlow', 'bookType', 'whereby');
-        history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/sell`);
+        history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/home`);
         break;
       default:
         return null;

@@ -251,11 +251,14 @@ export const ComponentMap = (props) => {
     const content = container.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     let start = -1;
     let end = 0;
-    content.split('').forEach((val, i) => {
-      if (val === newLocation.charAt(i)) end = i;
-      if (start === -1 && val === newLocation.charAt(i).toLowerCase()) start = i;
-    });
-    return `<span>${container.substring(0, start)}</span><span class='highlight'>${container.substring(start, end + 1)}</span><span>${container.substring(end + 1, content.length)}</span>`;
+    if (content) {
+      content.split('').forEach((val, i) => {
+        if (val === newLocation.charAt(i)) end = i;
+        if (start === -1 && val === newLocation.charAt(i).toLowerCase()) start = i;
+      });
+      return `<span>${container.substring(0, start)}</span><span class="highlight">${container.substring(start, end + 1)}</span><span>${container.substring(end + 1, content.length)}</span>`;
+    }
+    return container;
   };
 
   // FUNCTION TO MANAGE THE CLICK OUTSIDE OF DROPDOWN ADDRESS LISTS
@@ -268,21 +271,23 @@ export const ComponentMap = (props) => {
   // FUNCTION TO MANAGE KEY-CHANGE
   const keyUpInput = (e) => {
     let newId = selLocAuto;
-    if (e.key === 'ArrowUp') {
-      newId = selLocAuto <= 0 ? locList.length - 1 : selLocAuto - 1;
+    if (locList && locList.length > 0) {
+      if (e.key === 'ArrowUp') {
+        newId = selLocAuto <= 0 ? locList.length - 1 : selLocAuto - 1;
+      }
+      if (e.key === 'ArrowDown') {
+        newId = selLocAuto < locList.length - 1 ? selLocAuto + 1 : 0;
+      }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelLocAuto(newId);
+      }
+      if (e.key === 'Enter' && get(locList, `[${newId}].description`, null)) {
+        e.preventDefault();
+        geoCode(locList[newId].description);
+      }
+      if (e.key === 'Enter') e.preventDefault();
     }
-    if (e.key === 'ArrowDown') {
-      newId = selLocAuto < locList.length - 1 ? selLocAuto + 1 : 0;
-    }
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      setSelLocAuto(newId);
-    }
-    if (e.key === 'Enter' && get(locList, `[${newId}].description`, null)) {
-      e.preventDefault();
-      geoCode(locList[newId].description);
-    }
-    if (e.key === 'Enter') e.preventDefault();
   };
 
   // ADD MESSAGE THAT THE ADDRESS IS NOT EDITABLE
@@ -300,7 +305,7 @@ export const ComponentMap = (props) => {
   useEffect(() => {
     const dropdownEl = addressRef.current;
     if (dropdownEl) dropdownEl.scrollIntoView({ behavior: 'smooth' });
-  }, [locList.length]);
+  }, [locList && locList.length]);
 
   const changeFielsSaerchAddress = (val) => {
     if (!disabled) {
@@ -344,7 +349,7 @@ export const ComponentMap = (props) => {
                   message={showMessageToChangeAddress ? { help: 'placeholder' } : null}
                 />
                 {
-                  !selectedAddress && locList.length > 0 && !disabled && (
+                  !selectedAddress && locList && locList.length > 0 && !disabled && (
                     <ul className="resultAutoComplete notranslate" ref={addressRef}>
                       {
                         locList.map((loc, i) => (
