@@ -35,7 +35,6 @@ const ScanTrialFlow = (props) => {
   const urlParams = queryString.parse(get(history, 'location.search', ''));
   // PROPS
   const {
-    activeSingleCompany,
     activeSingleProperty,
     destroyForm,
     errorValue,
@@ -478,7 +477,6 @@ const ScanTrialFlow = (props) => {
 };
 
 ScanTrialFlow.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
