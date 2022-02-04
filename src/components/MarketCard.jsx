@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -7,7 +9,12 @@ import set from 'lodash/set';
 import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
 import {
-  Helpers, BrixelIcon, FormatValue, ProgressRing, BrixelButtonPrimary,
+  BrixelButtonPrimary,
+  BrixelButtonSecondary,
+  BrixelIcon,
+  FormatValue,
+  Helpers,
+  ProgressRing,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -25,7 +32,7 @@ import {
   setEstimation,
   setActiveMarketOverlayProperty,
   setActiveMarketOverlayPropertyLists,
-  getEstimation,
+  getEstimation, getPackageProperty,
 } from '../actions/PropertyActions';
 
 const MarketCard = (props) => {
@@ -35,9 +42,11 @@ const MarketCard = (props) => {
   };
   // PROPS
   const {
+    activeCompanyPackages,
     favoritesProperties,
     handleGenerateBestimate,
     handleGetEstimation,
+    handleGetPackageProperty,
     item,
     layout,
     onSetActiveProperty,
@@ -75,6 +84,12 @@ const MarketCard = (props) => {
       set(item, 'tags', pullAt(compact(result), [0, 1]));
     }
   }, [get(item, 'tags', [])]);
+
+  useEffect(() => {
+    if (layout === 'singleOwnCard') {
+      handleGetPackageProperty({ id: get(item, 'id', null), smallLoader: 'loadPackage', addToOwnerProp: true });
+    }
+  }, [layout, item]);
 
   const openCard = (e) => {
     if (e) e.preventDefault();
@@ -138,6 +153,24 @@ const MarketCard = (props) => {
     }
   };
 
+  const selectActiveServicePackage = () => {
+    const basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
+    if (get(item, 'servicePackage', null)) {
+      const activeSinglePropertyPackage = cloneDeep(get(item, 'servicePackage', []));
+      if (activeSinglePropertyPackage.length > 0) {
+        const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
+        const getActivePackage = sortedPackage.find((pkg) => pkg.started);
+        if (get(getActivePackage, 'servicePackage', null)) {
+          return getActivePackage.servicePackage;
+        }
+        if (get(sortedPackage[0], 'servicePackage', null)) {
+          return sortedPackage[0].servicePackage;
+        }
+      }
+    }
+    return basicPackage;
+  };
+
   const checkFavorite = () => {
     const findIndex = favoritesProperties.findIndex((prop) => prop.id === get(item, 'id', null));
     return findIndex > -1;
@@ -196,84 +229,69 @@ const MarketCard = (props) => {
           {
             type === 'own' ? (
               <>
-                <>
-                  <CoverPropertyImage
-                    loadedImg={(val) => setCoverImgLoaded(val)}
-                    className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius h-fix-208 w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-304 mb-1 mb-sm-0' : 'w-fix-sm-208 mb-1'}`}
-                    coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-                    propertyType={get(item, 'properties.propertyType', undefined)}
-                    onClick={(e) => openCard(e)}
-                  />
-                  {
-                    get(item, 'tags', []).length > 0 && (
-                      <div className="tag-container pos-a dis-fl-row a-c jc-b">
-                        {
-                          get(item, 'tags', []).filter((tag) => tag !== 'new').map((tag, i) => (
-                            <p
-                              key={i.toString()}
-                              className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
-                              onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
-                            >
-                              <span className="type">{getTypeText(tag)}</span>
-                            </p>
-                          ))
-                        }
-                      </div>
-                    )
-                  }
-                </>
+                <CoverPropertyImage
+                  loadedImg={(val) => setCoverImgLoaded(val)}
+                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-184 h-fix-184 mb-1 mb-sm-0' : 'w-fix-sm-208 h-fix-208 mb-1'}`}
+                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                  propertyType={get(item, 'properties.propertyType', undefined)}
+                  onClick={(e) => openCard(e)}
+                />
+                {
+                  get(item, 'tags', []).length > 0 && layout !== 'singleOwnCard' && (
+                    <div className="tag-container pos-a dis-fl-row a-c jc-b">
+                      {
+                        get(item, 'tags', []).filter((tag) => tag !== 'new').map((tag, i) => (
+                          <p
+                            key={i.toString()}
+                            className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
+                            onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
+                          >
+                            <span className="type">{getTypeText(tag)}</span>
+                          </p>
+                        ))
+                      }
+                    </div>
+                  )
+                }
 
                 <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100 jc-b">
                   <div>
-                    <div className="top dis-fl-col notranslate" onClick={(e) => openCard(e)}>
-                      <h6 className="fweight-600 fsize-600 mb-small-4 txtDark700 ellipsis two w-perc-100 max-w-fix-496 ta-l">{get(item, 'title', '')}</h6>
-                      <span className="fsize-300 txtDark700 mb-1 ta-l">
-                        {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
-                        {
-                          get(item, 'location.countryCode', 'CH') === 'CH' && (
-                            <>
-                              {` (${get(item, 'location.stateCode', '')})`}
-                            </>
-                          )
-                        }
-                      </span>
-                    </div>
                     <div
-                      className="mid dis-fl-row fsize-300 txtDark400 mb-2"
+                      className="top dis-fl-col notranslate"
                       onClick={(e) => openCard(e)}
                     >
-                      <div className="dis-f a-c flex-wrap">
-                        <div className="div pt-small-2">
-                          <span>
-                            {get(item, 'properties.propertyType', '')}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="px-1 notranslate"> &middot; </span>
-                          <span>
-                            <span className="notranslate">
-                              {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                            </span>
+                      <h6
+                        className="fweight-600 fsize-600 mb-small-4 txtDark700 ellipsis two w-perc-100 ta-l mb-2"
+                      >
+                        {get(item, 'title', '')}
+                      </h6>
+                      <div>
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdAltGrey700 mr-2 pr-2 brdAltGrey700">
+                          {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
+                          {
+                            get(item, 'location.countryCode', 'CH') === 'CH' && (
+                              <>
+                                {` (${get(item, 'location.stateCode', '')})`}
+                              </>
+                            )
+                          }
+                        </span>
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdAltGrey700">
+                          {get(item, 'properties.propertyType', '')}
+                        </span>
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 txtDark700">
+                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                        </span>
+                        {
+                          get(item, 'properties.typology.livingArea.value', 0) > 0 && (
                             <span>
-                              {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-                            </span>
-                          </span>
-                          {
-                            get(item, 'properties.typology.bedrooms') > 0 && (
-                              <span className="px-1 notranslate"> &middot; </span>
-                            )
-                          }
-                          {
-                            get(item, 'properties.typology.livingArea.value', 0) > 0 && (
                               <span>
-                                <span>
-                                  {get(item, 'properties.typology.livingArea.value', 0)}
-                                </span>
-                                <span> m2</span>
+                                {get(item, 'properties.typology.livingArea.value', 0)}
                               </span>
-                            )
-                          }
-                        </div>
+                              <span> m2</span>
+                            </span>
+                          )
+                        }
                       </div>
                     </div>
                   </div>
@@ -549,11 +567,24 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-                <div className="pt-1 pt-sm-0 ml-a">
-                  <BrixelButtonPrimary
+                <div className="pt-1 pt-sm-0 ml-a dis-f a-c">
+                  <div>
+                    <span>
+                      Your plan:
+                    </span>
+                    <span className="ml-1 td-u">{get(selectActiveServicePackage(), 'name', 'Basic')}</span>
+                  </div>
+                  <BrixelButtonSecondary
+                    className="ml-2"
                     rounded
                     label="Edit"
                     onClick={() => history.push(`/${item.id}/home`)}
+                  />
+                  <BrixelButtonPrimary
+                    className="ml-2"
+                    rounded
+                    label="Request test drive"
+                    onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}
                   />
                 </div>
               </div>
@@ -566,9 +597,12 @@ const MarketCard = (props) => {
 };
 
 MarketCard.propTypes = {
+  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleGenerateBestimate: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleGetPackageProperty: PropTypes.func.isRequired,
   item: PropTypes.object,
   layout: PropTypes.string,
   onSetActiveProperty: PropTypes.func,
@@ -576,7 +610,6 @@ MarketCard.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
-  handleGenerateBestimate: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -591,6 +624,7 @@ MarketCard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   allProperties: get(state, 'market.allProperties.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties.data', []),
@@ -604,8 +638,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
