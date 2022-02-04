@@ -35,7 +35,6 @@ const ScanTrialFlow = (props) => {
   const urlParams = queryString.parse(get(history, 'location.search', ''));
   // PROPS
   const {
-    activeSingleCompany,
     activeSingleProperty,
     destroyForm,
     errorValue,
@@ -209,9 +208,6 @@ const ScanTrialFlow = (props) => {
     if (act === 'back') {
       newIndex -= step;
     } else {
-      if (get(questions, `[${currentIndex}].history`, null) === 'resume' && get(activeSingleCompany, 'contact.whereby', null) && get(formValue, 'bookType', '') === 'whereby') {
-        window.open(get(activeSingleCompany, 'contact.whereby', ''), '_blank');
-      }
       if (!checkValidateField() && !skipValidation) {
         setShowError(true);
         return false;
@@ -481,7 +477,6 @@ const ScanTrialFlow = (props) => {
 };
 
 ScanTrialFlow.propTypes = {
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
