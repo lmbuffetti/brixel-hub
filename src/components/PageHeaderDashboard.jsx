@@ -102,10 +102,10 @@ function PageHeaderDashboard(props) {
     if (activeSinglePropertyPackage.length > 0) {
       const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const getActivePackage = sortedPackage.find((pkg) => pkg.started);
-      if (getActivePackage) {
+      if (get(getActivePackage, 'servicePackage', null)) {
         handleSetActiveSinglePropertyActivePackage(getActivePackage.servicePackage);
         setPackageName(getActivePackage.servicePackage.name);
-      } else {
+      } else if (get(sortedPackage[0], 'servicePackage', null)) {
         handleSetActiveSinglePropertyActivePackage(sortedPackage[0].servicePackage);
         setPackageName(sortedPackage[0].name);
       }
