@@ -46,10 +46,22 @@
     &.welcomeSellerHeader {
       background-color: #fff;
 
+
         .wcInnerWrap {
         padding-top: $step;
         padding-bottom: $step;
 
+        @media (max-width: $responsive-small) {
+          padding-top: 0;
+          padding-bottom: 0;
+          .langMenu {
+            margin-left: $step;
+            .title {
+              min-width: fit-content !important;
+              max-width: fit-content !important;
+            }
+          }
+        }
         @media (max-width: $responsive-medium) {
           max-height: fit-content;
         }
