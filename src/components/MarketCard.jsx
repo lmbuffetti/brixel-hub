@@ -222,7 +222,7 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 brdRadius pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
+        className={`market-card ov-h cur-poi h-perc-100 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
         onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} ${layout === 'singleOwnCard' ? 'px-0' : 'px-1'}`}>
@@ -231,7 +231,7 @@ const MarketCard = (props) => {
               <>
                 <CoverPropertyImage
                   loadedImg={(val) => setCoverImgLoaded(val)}
-                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-184 h-fix-184 mb-1 mb-sm-0' : 'w-fix-sm-208 h-fix-208 mb-1'}`}
+                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-184 h-fix-184 mb-1 mb-sm-0' : 'w-fix-sm-208 h-fix-208 mb-1'}`}
                   coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
                   propertyType={get(item, 'properties.propertyType', undefined)}
                   onClick={(e) => openCard(e)}
@@ -254,7 +254,7 @@ const MarketCard = (props) => {
                   )
                 }
 
-                <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100 jc-b">
+                <div className="info dis-fl-col pl-sm-4 pl-0 w-perc-100 jc-b">
                   <div>
                     <div
                       className="top dis-fl-col notranslate"
@@ -266,7 +266,7 @@ const MarketCard = (props) => {
                         {get(item, 'title', '')}
                       </h6>
                       <div>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdAltGrey700 mr-2 pr-2 brdAltGrey700">
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdLight400 mr-2 pr-2">
                           {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                           {
                             get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -276,19 +276,19 @@ const MarketCard = (props) => {
                             )
                           }
                         </span>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdAltGrey700">
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdLight400">
                           {get(item, 'properties.propertyType', '')}
                         </span>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 txtDark700">
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdLight400">
                           {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
                         {
                           get(item, 'properties.typology.livingArea.value', 0) > 0 && (
                             <span>
-                              <span>
+                              <span className="fsize-300 txtAltGrey700">
                                 {get(item, 'properties.typology.livingArea.value', 0)}
                               </span>
-                              <span> m2</span>
+                              <span className="fsize-300 txtAltGrey700"> m2</span>
                             </span>
                           )
                         }
@@ -321,7 +321,7 @@ const MarketCard = (props) => {
                           </div>
                         </div>
                       ) : (
-                        <div className="dis-f pt-sm-2 a-t">
+                        <div className="dis-f pt-sm-2 a-t pt-3 pt-sm-0">
                           <BrixelIcon
                             className="dis-b-sm hide mr-2"
                             background="blue"
@@ -370,7 +370,7 @@ const MarketCard = (props) => {
                             (get(item, 'properties.propertyType', '') === 'House' || get(item, 'properties.propertyType', '') === 'Apartment') && (
                               <div
                                 onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
-                                className="dis-fl-row a-c ml-2"
+                                className="dis-fl-row a-c ml-4 brdSmallLeft brdLight400 pl-4"
                               >
                                 <div className="hide dis-fl-row-sm">
                                   <div className="pos-r h-fix-48 w-fix-48">
@@ -531,7 +531,7 @@ const MarketCard = (props) => {
                 {
                   has(item, 'published') && item.published === false ? (
                     <div
-                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
+                      className="dis-fl-col dis-fl-row-sm"
                     >
                       <div className="dis-fl-row-sm">
 
@@ -567,25 +567,27 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-                <div className="pt-1 pt-sm-0 ml-a dis-f a-c">
+                <div className="pt-1 pt-sm-0 ml-sm-a dis-fl-col dis-fl-row-sm a-c">
                   <div>
                     <span>
                       Your plan:
                     </span>
                     <span className="ml-1 td-u">{get(selectActiveServicePackage(), 'name', 'Basic')}</span>
                   </div>
-                  <BrixelButtonSecondary
-                    className="ml-2"
-                    rounded
-                    label="Edit"
-                    onClick={() => history.push(`/${item.id}/home`)}
-                  />
-                  <BrixelButtonPrimary
-                    className="ml-2"
-                    rounded
-                    label="Request test drive"
-                    onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}
-                  />
+                  <div className="dis-fl-col dis-fl-row-sm">
+                    <BrixelButtonSecondary
+                      className="ml-2 my-1 my-sm-0"
+                      rounded
+                      label="Edit"
+                      onClick={() => history.push(`/${item.id}/home`)}
+                    />
+                    <BrixelButtonPrimary
+                      className="ml-2"
+                      rounded
+                      label="Request test drive"
+                      onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}
+                    />
+                  </div>
                 </div>
               </div>
             </>

@@ -339,6 +339,7 @@ const MarketCategoryListSeller = (props) => {
           </SplashScreen>
         )
       }
+
       {
         ownerProperties.total === 0 ? (
           <div className="px-2 px-md-0 mb-5 mb-sm-3">
@@ -357,7 +358,7 @@ const MarketCategoryListSeller = (props) => {
         ) : (
           <div className="mb-5 mb-sm-3 container">
             <div className="dis-f a-c jc-b">
-              <h1 className="fsize-700">
+              <h1 className="fsize-500 fsize-sm-700 max-w-perc-50">
                 <span>{ownerProperties.total}</span>
                 <span className="ml-small-4">{ownerProperties.total === 1 ? 'Property' : 'Properties'} added by you</span>
               </h1>
@@ -424,15 +425,17 @@ const MarketCategoryListSeller = (props) => {
             {
               (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
                 <div className="marketSellBanner mb-10">
-                  <div className="m-a px-2 px-sm-0 max-w-fix-480 max-w-fix-sm-768">
-                    <div className="p-2 py-sm-3 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
+                  <div className="m-a w-perc-100">
+                    <div className="brdRadius shadow-3dp p-2 mb-3 mt-3 pb-4">
                       <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
+                      <hr className="lighter hide dis-b-sm pos-a-fix mt-4-neg max-w-perc-97" />
                       <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                     </div>
                   </div>
                 </div>
               )
             }
+
           </div>
         )
       }
