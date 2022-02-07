@@ -378,16 +378,16 @@ const MarketCategoryListSeller = (props) => {
                 <>
                   {
                     ownerProperties.data.map((prop, i) => (
-                      <div className="brdRadius shadow-3dp p-2 mt-3" key={i.toString()}>
+                      <div className="shadow-3dp p-2 mt-3" key={i.toString()}>
                         {
                           i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) && (
-                            <div className="w-perc-100 dis-fl-col dis-fl-row-sm a-c jc-fs bgBlue100 brdRadius px-6 mb-3">
-                              <div>
-                                <img src={testdrive} alt="testdrive" />
+                            <div className="w-perc-100 dis-f a-c jc-fs bgBlue100 px-2 px-md-6 mb-3">
+                              <div className="hide dis-b-md">
+                                <img width="176" height="158" src={testdrive} alt="testdrive" />
                               </div>
-                              <div className="ml-sm-5 ta-c ta-l-sm">
-                                <h4>Test drive our service. No strings attached.</h4>
-                                <h5 className="fSizePx18 fweight-400 mb-3 txtBlue700">
+                              <div className="ml-md-5">
+                                <h3 className="fsize-600 fsize-md-700 fweight-600 pt-2">Test drive our service. No strings attached.</h3>
+                                <h5 className="fweight-400 mt-1 mb-1 mb-sm-3 txtBlue700">
                                   {
                                     companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
                                       <>
@@ -400,10 +400,10 @@ const MarketCategoryListSeller = (props) => {
                                   }
                                 </h5>
                                 <div>
-                                  <ul className="checked mt-4 txtDark700 dis-f a-c jc-fs w-perc-100">
+                                  <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-col dis-fl-row-sm fsize-400 mb-2">
                                     <li>Easy house inspection</li>
-                                    <li className="ml-3">Images clicked by Experts</li>
-                                    <li className="ml-3">Free House Evauation</li>
+                                    <li className="ml-0 ml-md-3">Images clicked by Experts</li>
+                                    <li className="ml-0 ml-md-3">Free House Evauation</li>
                                   </ul>
                                 </div>
 
