@@ -42,11 +42,12 @@ const MarketCard = (props) => {
   };
   // PROPS
   const {
-    activeCompanyPackages,
+    companyListings,
     favoritesProperties,
     handleGenerateBestimate,
     handleGetEstimation,
     handleGetPackageProperty,
+    isSmallLoading,
     item,
     layout,
     onSetActiveProperty,
@@ -87,7 +88,7 @@ const MarketCard = (props) => {
 
   useEffect(() => {
     if (layout === 'singleOwnCard') {
-      handleGetPackageProperty({ id: get(item, 'id', null), smallLoader: 'loadPackage', addToOwnerProp: true });
+      handleGetPackageProperty({ id: get(item, 'id', null), smallLoader: `loadPackage${get(item, 'id', '')}`, addToOwnerProp: true });
     }
   }, [layout, item]);
 
@@ -154,17 +155,24 @@ const MarketCard = (props) => {
   };
 
   const selectActiveServicePackage = () => {
-    const basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
-    if (get(item, 'servicePackage', null)) {
-      const activeSinglePropertyPackage = cloneDeep(get(item, 'servicePackage', []));
-      if (activeSinglePropertyPackage.length > 0) {
-        const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
-        const getActivePackage = sortedPackage.find((pkg) => pkg.started);
-        if (get(getActivePackage, 'servicePackage', null)) {
-          return getActivePackage.servicePackage;
-        }
-        if (get(sortedPackage[0], 'servicePackage', null)) {
-          return sortedPackage[0].servicePackage;
+    let basicPackage = null;
+    if (companyListings.length > 0) {
+      const activeCompany = companyListings.find((cmp) => cmp.id === get(item, 'company', ''));
+      if (activeCompany) {
+        const activeCompanyPackages = get(activeCompany, 'servicePackages', []);
+        basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
+      }
+      if (get(item, 'servicePackage', null)) {
+        const activeSinglePropertyPackage = cloneDeep(get(item, 'servicePackage', []));
+        if (activeSinglePropertyPackage.length > 0) {
+          const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
+          const getActivePackage = sortedPackage.find((pkg) => pkg.started);
+          if (get(getActivePackage, 'servicePackage', null)) {
+            return getActivePackage.servicePackage;
+          }
+          if (get(sortedPackage[0], 'servicePackage', null)) {
+            return sortedPackage[0].servicePackage;
+          }
         }
       }
     }
@@ -568,12 +576,21 @@ const MarketCard = (props) => {
                   )
                 }
                 <div className="pt-1 pt-sm-0 ml-sm-a dis-fl-col dis-fl-row-sm a-c">
-                  <div>
-                    <span>
-                      Your plan:
-                    </span>
-                    <span className="ml-1 td-u">{get(selectActiveServicePackage(), 'name', 'Basic')}</span>
-                  </div>
+                  {
+                    isSmallLoading[`loadPackage${get(item, 'id', '')}`] === false && (
+                      <div>
+                        <span>
+                          Your plan:
+                        </span>
+                        <span
+                          className="ml-1 td-u cur-poi"
+                          onClick={() => history.push(`/${item.id}/upgrade`)}
+                        >
+                          {get(selectActiveServicePackage(), 'name', 'Basic')}
+                        </span>
+                      </div>
+                    )
+                  }
                   <div className="dis-fl-col dis-fl-row-sm">
                     <BrixelButtonSecondary
                       className="ml-2 my-1 my-sm-0"
@@ -599,12 +616,13 @@ const MarketCard = (props) => {
 };
 
 MarketCard.propTypes = {
-  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGenerateBestimate: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   item: PropTypes.object,
   layout: PropTypes.string,
   onSetActiveProperty: PropTypes.func,
@@ -626,10 +644,11 @@ MarketCard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
+  companyListings: get(state, 'companies.companyListings.data', []),
   allProperties: get(state, 'market.allProperties.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties.data', []),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties.data', []),
   newProperties: get(state, 'market.newProperties.data', []),
   ownerProperties: get(state, 'market.ownerProperties.data', []),

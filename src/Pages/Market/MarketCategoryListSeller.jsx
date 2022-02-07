@@ -142,6 +142,9 @@ const MarketCategoryListSeller = (props) => {
     if (getCookie('brixelSplashHome') === 'sellerWelcome' && get(ownerProperties, 'data', []).length === 1) {
       setSplashScreen('sellerWelcome');
     }
+    if (ownerProperties.length > 0) {
+      setPropertyId(ownerProperties.data[0].id);
+    }
   }, [getCookie('brixelSplashHome'), ownerProperties, notification]);
 
   useEffect(() => {
@@ -377,7 +380,7 @@ const MarketCategoryListSeller = (props) => {
                     ownerProperties.data.map((prop, i) => (
                       <div className="brdRadius shadow-3dp p-2 mt-3" key={i.toString()}>
                         {
-                          i === 0 && prop.servicePackage && prop.servicePackage.length === 0 && (
+                          i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) && (
                             <div className="w-perc-100 dis-fl-col dis-fl-row-sm a-c jc-fs bgBlue100 brdRadius px-6 mb-3">
                               <div>
                                 <img src={testdrive} alt="testdrive" />
