@@ -269,7 +269,7 @@ const MarketCard = (props) => {
                       onClick={(e) => openCard(e)}
                     >
                       <h6
-                        className="fweight-600 fsize-600 mb-small-4 txtDark700 ellipsis two w-perc-100 ta-l mb-2"
+                        className="fweight-600 fsize-500 fsize-sm-600 mb-small-4 txtDark700 ellipsis two w-perc-100 ta-l mb-2"
                       >
                         {get(item, 'title', '')}
                       </h6>

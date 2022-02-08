@@ -361,13 +361,14 @@ const MarketCategoryListSeller = (props) => {
         ) : (
           <div className="mb-5 mb-sm-3 container">
             <div className="dis-f a-c jc-b">
-              <h1 className="fsize-500 fsize-sm-700 max-w-perc-50">
+              <h1 className="fsize-400 fsize-sm-700">
                 <span>{ownerProperties.total}</span>
                 <span className="ml-small-4">{ownerProperties.total === 1 ? 'Property' : 'Properties'} added by you</span>
               </h1>
               <BrixelButtonText
                 label="+ Add new"
                 theme="dark"
+                labelClass="ws-nw"
                 themeSat={700}
                 onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
               />
@@ -381,13 +382,13 @@ const MarketCategoryListSeller = (props) => {
                       <div className="shadow-3dp p-2 mt-3" key={i.toString()}>
                         {
                           i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) && (
-                            <div className="w-perc-100 dis-f a-c jc-fs bgBlue100 px-2 px-md-6 mb-3">
+                            <div className="w-perc-100 dis-f a-c jc-fs bgBlue100 px-2 px-md-6 mb-2 mb-sm-3">
                               <div className="hide dis-b-md">
                                 <img width="176" height="158" src={testdrive} alt="testdrive" />
                               </div>
                               <div className="ml-md-5">
-                                <h3 className="fsize-600 fsize-md-700 fweight-600 pt-2">Test drive our service. No strings attached.</h3>
-                                <h5 className="fweight-400 mt-1 mb-1 mb-sm-3 txtBlue700">
+                                <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">Test drive our service. No strings attached.</h3>
+                                <h5 className="fweight-400 fsize-300 fsize-md-400 mt-1 mb-1 mb-sm-3 txtBlue700">
                                   {
                                     companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
                                       <>
