@@ -27,10 +27,11 @@ const BrixelClosingTree = (props) => {
     activeSingleProperty,
     className,
     isBuyer,
+    propID,
     setSplashScreen,
     userLang,
   } = props;
-
+  // STATE
   const [showTooltip, setShowTooltip] = useState({ type: '', side: '', active: false });
 
   // TODO: add active/inactive lock logic
@@ -304,6 +305,16 @@ const BrixelClosingTree = (props) => {
               <div className="action w-fix-256 dis-fl-col a-c jc-c">
                 <h5 className="mb-1">Identification</h5>
                 <span className="fsize-200 ta-c">Submit ID and personal information.</span>
+                {
+                  get(activeSingleClosing, 'stageIdentification.active', null) && (
+                    <BrixelButtonSecondary
+                      className="mt-2"
+                      rounded
+                      onClick={() => history.push(`/packageFlow/${propID}/closing/identification`)}
+                      label="Edit"
+                    />
+                  )
+                }
               </div>
               <div className="as-b w-fix-120 a-b dis-fl-col">
                 {
@@ -660,6 +671,7 @@ BrixelClosingTree.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   className: PropTypes.string,
   isBuyer: PropTypes.bool,
+  propID: PropTypes.string.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userLang: PropTypes.string.isRequired,
 };
@@ -670,10 +682,10 @@ BrixelClosingTree.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSingleClosing: get(state, 'deal.activeSingleDeal.closing', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleOffer: get(state, 'deal.activeSingleDeal.closing.stageOffer', {}),
-  activeSingleClosing: get(state, 'deal.activeSingleDeal.closing', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 

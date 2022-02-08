@@ -45,6 +45,7 @@ const GetStartedEstimation = lazyWithRetry(() => import('./Pages/PackageFlow/Get
 const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazyWithRetry(() => import('./Pages/Offers/Flow/MakeOffer'));
+const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identification/IdentificationFlow'));
 
 // GENERAL COMPONENTS
 const PageHeaderDashboard = lazyWithRetry(() => import('./components/PageHeaderDashboard'));
@@ -488,7 +489,9 @@ const App = (props) => {
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
 
+                      { /* SECTION: CLOSING FLOWS */}
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
+                      <Route path="/packageFlow/:propID/closing/identification/*" element={<IdentificationFlow />} />
 
                       { /* SECTION: HUB DASHBOARD */ }
                       {

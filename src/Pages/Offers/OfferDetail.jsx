@@ -20,6 +20,7 @@ const OfferDetail = (props) => {
   } = props;
   // PARAMS
   const dealID = get(match, 'dealID', null);
+  const propID = get(match, 'propID', null);
 
   // useEffect(() => () => handleSetActiveSingleDeal({}), []);
 
@@ -77,6 +78,7 @@ const OfferDetail = (props) => {
             )
           }
           <BrixelClosingTree
+            propID={propID}
             isBuyer={isBuyer}
             offer={{}}
           />
