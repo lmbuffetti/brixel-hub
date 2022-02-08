@@ -400,7 +400,7 @@ const MarketCategoryListSeller = (props) => {
                                   }
                                 </h5>
                                 <div>
-                                  <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-col dis-fl-row-sm fsize-400 mb-2">
+                                  <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
                                     <li>Easy house inspection</li>
                                     <li className="ml-0 ml-md-3">Images clicked by Experts</li>
                                     <li className="ml-0 ml-md-3">Free House Evauation</li>
