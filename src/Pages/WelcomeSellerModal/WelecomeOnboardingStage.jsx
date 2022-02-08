@@ -123,7 +123,8 @@ const WelecomeOnboardingStage = (props) => {
             label=""
             icons
             cardLayout
-            pdClass="py-1 pb-sm-5 pt-sm-4"
+            stretched
+            pdClass="py-1 pb-sm-3 pt-sm-4"
             isHorizontal
             disableDelay
             options={[

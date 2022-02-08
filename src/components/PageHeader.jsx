@@ -177,7 +177,7 @@ function PageHeader(props) {
           {/* eslint-disable-next-line max-len */}
           <div className={`w-perc-100 wcInnerWrap dis-f max-h-fix-136 a-c dis-f a-c  jc-b pos-r jc-b pos-r pb-1 ${history.location.pathname.includes('upgrade') ? 'pt-1 py-sm-2' : 'pt-2 py-sm-5'}  ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'jc-fe-md'}`}>
             <div className="dis-f a-c">
-              <div className={`dis-f a-c min-h-fix-72 h-perc-100 w-fix-48 w-fix-sm-104 ${get(pageState, 'stage', null) || get(history, 'location.pathname', '').includes('/getStarted/') ? 'brdSmallRight brdLight200 pr-1 mr-2 pr-lg-3 mr-lg-3' : ''}`}>
+              <div className={`dis-f a-c min-h-fix-72 h-perc-100 w-fix-48 w-fix-sm-104 ${get(pageState, 'stage', null) || get(history, 'location.pathname', '').includes('/getStarted/') ? 'brdSmallRight brdLight200 pr-1 mr-1 mr-sm-2 pr-lg-3 mr-lg-3' : ''}`}>
                 <img
                   className={`logo w-perc-100 ${window.innerWidth <= 600 ? 'w-fix-32' : 'max-w-fix-104 ov-h'} ${(history.location.pathname.includes('onBoarding') || history.location.pathname.includes('packageFlow') || history.location.pathname.includes('visitFeedback') || history.location.pathname.includes('signup') || history.location.pathname.includes('trialRequest') || history.location.pathname.includes('upgrade')) ? '' : 'hide-md'}`}
                   src={`${window.innerWidth <= 600 ? logoColorIcon : logoColor}`}
