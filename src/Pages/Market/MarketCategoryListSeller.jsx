@@ -379,10 +379,10 @@ const MarketCategoryListSeller = (props) => {
                 <>
                   {
                     ownerProperties.data.map((prop, i) => (
-                      <div className="shadow-3dp p-2 mt-3" key={i.toString()}>
+                      <div className="shadow-3dp p-2 mt-3 brdRadiusSmall" key={i.toString()}>
                         {
                           i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) && (
-                            <div className="w-perc-100 dis-f a-c jc-fs bgBlue100 px-2 px-md-6 mb-2 mb-sm-3">
+                            <div className="w-perc-100 dis-f a-c jc-fs bgBlue100 brdRadiusSmall px-2 px-md-6 mb-2 mb-sm-3">
                               <div className="hide dis-b-md">
                                 <img width="176" height="158" src={testdrive} alt="testdrive" />
                               </div>
