@@ -20,7 +20,7 @@ export const IdentificationQuestions = (editForm = false) => {
   let formValue = {};
   let isPT;
   if (configureStore) {
-    formValue = get(configureStore.getState(), 'brixelForm.offerFlow.values', []);
+    formValue = get(configureStore.getState(), 'brixelForm.Identification.values', []);
     const countryCode = get(formValue, 'propertyLocation.countryCode', '');
     isPT = countryCode === 'PT';
   }
@@ -44,7 +44,7 @@ export const IdentificationQuestions = (editForm = false) => {
       ],
     },
     {
-      title: 'Please give us all details about Bianca Buyer.',
+      title: `Please give us all details about ${get(formValue, 'buyers[0].fullName')}.`,
       history: 'buyerData',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
@@ -52,6 +52,7 @@ export const IdentificationQuestions = (editForm = false) => {
         {
           component: BrixelInputText,
           classNameBox: 'ml-a mr-a',
+          classBoxWrapper: 'mt-2',
           label: 'Nationality',
           name: 'buyers[0].nationality',
           pdClass: 'py-3 py-md-5',
@@ -61,6 +62,7 @@ export const IdentificationQuestions = (editForm = false) => {
           component: BrixelInputDatePicker,
           className: '',
           classNameBox: 'ml-a mr-a',
+          classBoxWrapper: 'mt-2',
           ReduxFieldClass: '',
           label: 'Your date of birth',
           name: 'buyers[0].dateBirth',
@@ -69,6 +71,7 @@ export const IdentificationQuestions = (editForm = false) => {
         },
         {
           classNameBox: 'ml-a mr-a',
+          classBoxWrapper: 'mt-2',
           component: BrixelSelect,
           label: 'Your marital status',
           name: 'buyers[0].maritialStatus',
@@ -85,6 +88,7 @@ export const IdentificationQuestions = (editForm = false) => {
             value: 'partnership',
           }],
           classNameBox: 'ml-a mr-a',
+          classBoxWrapper: 'mt-2',
           component: BrixelSelect,
           label: 'Your matrimonial property regime',
           name: 'buyers[0].matrimonialPropertyRegime',
@@ -96,8 +100,9 @@ export const IdentificationQuestions = (editForm = false) => {
           component: BrixelInputText,
           classNameBox: 'ml-a mr-a',
           classWidthBox: 'w-perc-100',
+          classBoxWrapper: 'mt-2',
           ReduxFieldClass: '',
-          label: 'Street',
+          label: 'Current living address',
           name: 'buyers[0].location.street',
           validation: [Validation.required],
           large: true,
@@ -106,10 +111,10 @@ export const IdentificationQuestions = (editForm = false) => {
           component: BrixelInputText,
           className: '',
           classWidthBox: 'w-perc-60 w-perc-sm-40',
-          classBoxWrapper: 'pr-0 pr-sm-2 mt-3',
+          classBoxWrapper: 'pr-0 pr-sm-2 mt-2',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
-          label: 'Zip',
+          placeholder: 'ZIP',
           name: 'buyers[0].location.zipCode',
           validation: [Validation.required],
           large: true,
@@ -118,10 +123,10 @@ export const IdentificationQuestions = (editForm = false) => {
           component: BrixelInputText,
           className: '',
           classWidthBox: 'w-perc-100 w-perc-sm-60',
-          classBoxWrapper: 'mt-3',
+          classBoxWrapper: 'mt-2',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
-          label: 'City',
+          placeholder: 'City',
           name: 'buyers[0].location.city',
           validation: [Validation.required],
           large: true,
@@ -129,7 +134,7 @@ export const IdentificationQuestions = (editForm = false) => {
       ],
     },
     {
-      title: 'Please upload an official ID of Bianca Buyer.',
+      title: `Please upload an official ID of  ${get(formValue, 'buyers[0].fullName')}.`,
       history: 'location',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
@@ -186,11 +191,12 @@ export const IdentificationQuestions = (editForm = false) => {
       title: 'Thank you',
       img: ClipboardImg,
       imgMaxWidth: 'max-w-fix-160',
-      cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
-      subtitle: 'Your offer has been submitted to the seller and is currently pending. The seller will get back to you.',
+      cardClass: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
+      subtitle: 'Thank you. We will review your inputs and get back to you.',
       history: 'success',
       vCentered: true,
       toSave: true,
+      hideActionsButton: true,
     },
   ];
 };

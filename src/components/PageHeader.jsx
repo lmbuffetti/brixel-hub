@@ -156,7 +156,7 @@ function PageHeader(props) {
       history.location.pathname.toLowerCase().includes('visitfeedback')
     ) {
       history.push('/buy');
-    } else if (history.location.pathname.toLowerCase().includes('makeoffer')) {
+    } else if (history.location.pathname.toLowerCase().includes('makeoffer') || history.location.pathname.toLowerCase().includes('closing')) {
       history.push(`/buyer/${propID}/closing/${dealID}`);
     } else {
       let url = localStorage.getItem('backUrlBis');

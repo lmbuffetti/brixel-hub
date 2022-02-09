@@ -484,6 +484,17 @@ const IdentificationFlow = (props) => {
                           />
                         )
                       }
+                      <BrixelButtonPrimary
+                        className={`mt-3 m-a noWrap ${quest.history}`}
+                        rounded
+                        theme="green"
+                        themeSat={600}
+                        label="Back to hub"
+                        disabled={!checkValidateField()}
+                        isLoading={isSmallLoading.sendData}
+                        rightIcon="arrow-right-small"
+                        onClick={() => history.push(`/buyer/${propID}/closing`)}
+                      />
                     </div>
                   )
                 }
@@ -517,7 +528,7 @@ const IdentificationFlow = (props) => {
                     {
                       ((get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0) || (get(questions, `[${currentIndex}].showBackButton`, null))) && (
                         <BrixelButtonIcon
-                          className="backBtn ml-0 mr-a"
+                          className="backBtn ml-0"
                           icon="arrow-left-small"
                           onClick={() => changeStep('back')}
                           theme="light"
