@@ -13,17 +13,13 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import cloneDeep from 'lodash/cloneDeep';
 import Cookies from 'universal-cookie';
 import { diff } from 'deep-object-diff';
-import isArray from 'lodash/isArray';
-import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { createActiveSingleProperty, saveActiveSingleProperty } from '../../../actions/PropertyActions';
 import { titleProperty } from '../../../utils/titleCreation';
-import { calcPercentageFacts, setCookie, checkBrowser } from '../../../utils/helpers';
+import { setCookie, checkBrowser } from '../../../utils/helpers';
 import { IdentificationQuestions } from '../../../resources/Identification';
-import { setLanguage, spinnerOff, spinnerOn } from '../../../actions/CommonActions';
-import { doLogin, validateUser, saveActiveSingleUser } from '../../../actions/UserActions';
+import { spinnerOff, spinnerOn } from '../../../actions/CommonActions';
+import { saveClosingIdentification } from '../../../actions/DealActions';
 
 const cookie = new Cookies();
 
@@ -40,7 +36,7 @@ const IdentificationFlow = (props) => {
     destroyForm,
     errorValue,
     formValue,
-    handleGetActiveSingleCompany,
+    handleSaveClosingIdentification,
     handleSetLanguage,
     handleSpinnerOff,
     initForm,
@@ -53,7 +49,6 @@ const IdentificationFlow = (props) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [questions, setQuestions] = useState(IdentificationQuestions());
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [oldIndex, setOldIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   const [action, setAction] = useState('next');
   const [isEnter, setIsEnter] = useState(true);
@@ -62,6 +57,7 @@ const IdentificationFlow = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
+  const dealID = get(match, 'dealID', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -92,9 +88,13 @@ const IdentificationFlow = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
-    const dataForm = cloneDeep(formValue);
+    const dataForm = {
+      id: dealID,
+      smallLoader: 'sendData',
+      ...formValue,
+    };
     // eslint-disable-next-line no-console
-    console.log(dataForm);
+    handleSaveClosingIdentification(dataForm);
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -135,25 +135,7 @@ const IdentificationFlow = (props) => {
             }
           });
         } else if (input.validation) {
-          // const getRegField = get(registeredFields
-          let field;
-          if (input.name === 'profile') {
-            const page = get(formValue, 'signupScreen', null);
-            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
-            if (page === 'login') {
-              field = ['login.email', 'login.password'];
-            }
-            field.forEach((item) => {
-              const err = get(errorValue, item, true);
-              if (err !== true && err !== false && isValid) isValid = false;
-            });
-          }
-          if (input.name === 'register.ownerType') {
-            if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
-          }
-          if (input.name === 'register.whenToSell') {
-            if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
-          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
+          if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });
     }
@@ -169,7 +151,6 @@ const IdentificationFlow = (props) => {
     if (e) e.preventDefault();
     const newQuestions = IdentificationQuestions();
     let newIndex = currentIndex;
-    setOldIndex(currentIndex);
     setShowError(false);
     setAction(act);
     if (act === 'back') {
@@ -188,7 +169,7 @@ const IdentificationFlow = (props) => {
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (newQuestions[defId]) {
         // setPosition(newIndex);
-        if (newQuestions[defId].toSave) {
+        if (newQuestions[defId].toSave && !isSmallLoading.sendDataSent) {
           saveData(get(newQuestions[defId], 'action', null));
         } else {
           let newQuest = {
@@ -236,7 +217,7 @@ const IdentificationFlow = (props) => {
           }
           if (newQuestions[defId].history) {
             history.push({
-              pathname: `/packageFlow/${propID}/closing/identification/${newQuestions[defId].history}`,
+              pathname: `/packageFlow/${propID}/${dealID}/closing/identification/${newQuestions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -253,19 +234,12 @@ const IdentificationFlow = (props) => {
     return null;
   };
 
-  // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
+  // CHANGE STEP AFTER SAVE
   useEffect(() => {
-    setOldIndex(currentIndex);
-    const newQuest = IdentificationQuestions();
-    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
-      changeStep('next', null, 1, true);
+    if (isSmallLoading.sendDataSent) {
+      changeStep();
     }
-    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-    if (calcPercentageFacts('Identification').calcPerc !== calcPercentageFacts('Identification').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('Identification').calcPerc) {
-      inputSheet.totalComplete = calcPercentageFacts('Identification').calcPerc;
-      changeFieldValue('inputSheet', inputSheet);
-    }
-  }, [formValue]);
+  }, [isSmallLoading]);
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
@@ -278,35 +252,6 @@ const IdentificationFlow = (props) => {
       setQuest(IdentificationQuestions()[currentIndex]);
     }
   }, [lang]);
-
-  // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
-  useEffect(() => {
-    if (currentIndex > 2) {
-      const countryCodeLocation = get(formValue, 'location.countryCode', '');
-      const countryCodeCompany = get(company, 'country.code', '');
-      if (countryCodeCompany !== countryCodeLocation) {
-        let newCountryStub = '';
-        if (countryCodeLocation === 'CH') newCountryStub = 'brixel_zurich';
-        if (countryCodeLocation === 'PT') newCountryStub = 'brixel_portugal';
-        if (countryCodeLocation === 'DE') newCountryStub = 'brixel_germany';
-        handleGetActiveSingleCompany({ stub: newCountryStub });
-      }
-    }
-  }, [get(formValue, 'location.countryCode', '')]);
-
-  // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
-  useEffect(() => {
-    if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
-      const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
-      changeFieldValue('properties.typology.livingArea.value', livingSpace);
-    }
-    if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
-      changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
-    }
-    if (get(formValue, 'properties.typology.lotArea.value', 0) > 0) {
-      changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.lotArea.value', 0));
-    }
-  }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0), get(formValue, 'properties.typology.lotArea.value', 0)]);
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
@@ -544,6 +489,7 @@ const IdentificationFlow = (props) => {
                           rounded
                           theme="green"
                           label={buttonLabel()}
+                          isLoading={isSmallLoading.sendData}
                           rightIcon="arrow-right-small"
                           onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                           onShowError={() => setShowError(true)}
@@ -567,7 +513,7 @@ IdentificationFlow.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleSaveClosingIdentification: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -603,15 +549,9 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)));
   },
-  handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
-  handleDoLogin: bindActionCreators(doLogin, dispatch),
-  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handleValidateUser: bindActionCreators(validateUser, dispatch),
+  handleSaveClosingIdentification: bindActionCreators(saveClosingIdentification, dispatch),
 });
 
 export const GetStartedSellerMemo = React.memo(IdentificationFlow, (prevProps, nextProps) => {

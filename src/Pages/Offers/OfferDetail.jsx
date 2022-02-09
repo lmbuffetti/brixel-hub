@@ -79,6 +79,7 @@ const OfferDetail = (props) => {
           }
           <BrixelClosingTree
             propID={propID}
+            dealID={dealID}
             isBuyer={isBuyer}
             offer={{}}
           />

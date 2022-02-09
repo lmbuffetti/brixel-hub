@@ -491,7 +491,7 @@ const App = (props) => {
 
                       { /* SECTION: CLOSING FLOWS */}
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
-                      <Route path="/packageFlow/:propID/closing/identification/*" element={<IdentificationFlow />} />
+                      <Route path="/packageFlow/:propID/:dealID/closing/identification/*" element={<IdentificationFlow />} />
 
                       { /* SECTION: HUB DASHBOARD */ }
                       {

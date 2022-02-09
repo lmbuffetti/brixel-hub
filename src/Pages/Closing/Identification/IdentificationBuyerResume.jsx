@@ -31,12 +31,13 @@ const IdentificationFlow = (props) => {
   const {
     cardInput,
     formValue,
+    isSmallLoading,
     onBack,
     onClick,
   } = props;
   // STATE
   const [editProfile, setEditProfile] = useState(-1);
-  const [stepForm, setStepForm] = useState('checkData');
+  const [stepForm, setStepForm] = useState('resume');
 
   const onClickEdit = (id) => {
     setStepForm('editProfile');
@@ -93,7 +94,7 @@ const IdentificationFlow = (props) => {
                     or an investment partner.
                   </h6>
                   {
-                    get(formValue, 'buyers', []).map((buyer, i) => (
+                    get(formValue, 'persons', []).map((buyer, i) => (
                       <div
                         className="mt-2 bgBlue100 brdRadius py-2 px-4 dis-f a-c jc-b"
                         key={i.toString()}
@@ -113,7 +114,7 @@ const IdentificationFlow = (props) => {
                     className="mt-2"
                     label="Add another person"
                     leftIcon="plus"
-                    onClick={() => setEditProfile(get(formValue, 'buyers', []).length)}
+                    onClick={() => setEditProfile(get(formValue, 'persons', []).length)}
                   />
                   <hr />
 
@@ -178,7 +179,7 @@ const IdentificationFlow = (props) => {
                   </h6>
 
                   {
-                    get(formValue, 'buyers', []).map((buyer, i) => (
+                    get(formValue, 'persons', []).map((buyer, i) => (
                       <div
                         className="mt-2 bgBlue100 brdRadius py-2 px-4"
                         key={i.toString()}
@@ -201,20 +202,20 @@ const IdentificationFlow = (props) => {
                                 key={f.toString()}
                               >
                                 {
-                                  data.name.includes('location.street') ? (
+                                  data.name.includes('currentLivingAddress.address') ? (
                                     <>
                                       <h6>Address</h6>
                                       <p>
-                                        <span>{get(formValue, `buyers[${i}].location.street`, '')}</span>
+                                        <span>{get(formValue, `persons[${i}].currentLivingAddress.street`, '')}</span>
                                         {
-                                          get(formValue, `buyers[${i}].location.zipCode`, '') && (
-                                            <span>, {get(formValue, `buyers[${i}].location.zipCode`, '')}</span>
+                                          get(formValue, `persons[${i}].currentLivingAddress.zipCode`, '') && (
+                                            <span>, {get(formValue, `persons[${i}].currentLivingAddress.zipCode`, '')}</span>
                                           )
                                         }
                                         {
-                                          get(formValue, `buyers[${i}].location.city`, '') && (
+                                          get(formValue, `persons[${i}].location.city`, '') && (
                                             <span className="ml-small-4">
-                                              {get(formValue, `buyers[${i}].location.city`, '')}
+                                              {get(formValue, `persons[${i}].location.city`, '')}
                                             </span>
                                           )
                                         }
@@ -223,7 +224,7 @@ const IdentificationFlow = (props) => {
                                   ) : (
                                     <>
                                       {
-                                        !data.name.includes('location') && (
+                                        !data.name.includes('currentLivingAddress') && (
                                           <>
                                             <h6>{data.label}</h6>
                                             {
@@ -258,6 +259,7 @@ const IdentificationFlow = (props) => {
                   }
 
                   <ReduxField
+                    form="Identification"
                     design={{
                       className: 'mt-3',
                     }}
@@ -288,10 +290,12 @@ const IdentificationFlow = (props) => {
                     />
                     <BrixelButtonPrimary
                       rounded
+                      disabled={get(formValue, 'agreeToProceed', false) === false}
                       onClick={() => onClick()}
                       rightIcon="arrow-right-small"
                       className="ml-a mr-a noWrap"
-                      label="Next"
+                      label="Save"
+                      isLoading={isSmallLoading.sendData}
                     />
                   </div>
                 </div>
@@ -308,6 +312,7 @@ const IdentificationFlow = (props) => {
 IdentificationFlow.propTypes = {
   cardInput: PropTypes.arrayOf(PropTypes.object),
   formValue: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 };
@@ -318,6 +323,7 @@ IdentificationFlow.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Identification.values', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 
 export default compose(

@@ -25,6 +25,7 @@ export default {
   },
   deal: {
     buyerDeal: (id) => `/page/${id}/deal/buyer`,
+    closingIdentification: (id, personType = 'buyer') => `/deal/${id}/closing/identification/person?personType=${personType}`,
     createSingleDeal: () => '/deal',
     dealByUserID: (id) => `/user/${id}/deals`,
     getListOfDeals: (paginationLimit, paginationSkip, data) => `/deal/${paginationLimit}/${paginationSkip}${data}`,

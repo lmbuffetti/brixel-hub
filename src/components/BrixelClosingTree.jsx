@@ -26,6 +26,7 @@ const BrixelClosingTree = (props) => {
     activeSingleOffer,
     activeSingleProperty,
     className,
+    dealID,
     isBuyer,
     propID,
     setSplashScreen,
@@ -310,7 +311,7 @@ const BrixelClosingTree = (props) => {
                     <BrixelButtonSecondary
                       className="mt-2"
                       rounded
-                      onClick={() => history.push(`/packageFlow/${propID}/closing/identification`)}
+                      onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/identification`)}
                       label="Edit"
                     />
                   )
@@ -670,6 +671,7 @@ BrixelClosingTree.propTypes = {
   activeSingleOffer: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   className: PropTypes.string,
+  dealID: PropTypes.string.isRequired,
   isBuyer: PropTypes.bool,
   propID: PropTypes.string.isRequired,
   setSplashScreen: PropTypes.func.isRequired,

@@ -78,7 +78,7 @@ const EditBuyerData = (props) => {
                         wrapClass: field.wrapClass || '',
                       }}
                       input={{
-                        name: `buyers[${profileId}].${field.name.replace('buyers[0].', '')}`,
+                        name: `persons[${profileId}].${field.name.replace('persons[0].', '')}`,
                         options: field.options,
                         placeholder: field.placeholder || '',
                       }}
