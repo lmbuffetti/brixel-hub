@@ -6,6 +6,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import findIndex from 'lodash/findIndex';
 import cloneDeep from 'lodash/cloneDeep';
+import { SET_OWNED_PROPERTIES } from '../actions/types/MarketTypes';
 import {
   CREATE_ACTIVE_SINGLE_PROPERTY,
   CREATE_PROPERTY_VISIT_BOOKING,
@@ -1070,6 +1071,7 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_PACKAGE_PROPERTY: {
       next(action);
       const {
+        addToOwnerProp,
         id,
         smallLoader,
       } = action.payload;
@@ -1088,7 +1090,14 @@ const checkCommon = (store) => (next) => (action) => {
       api.property.packagePage(id)
         .then((res) => {
           if (res.meta.status === 200) {
-            store.dispatch({ type: SET_PACKAGE_PROPERTY, payload: res.data });
+            if (addToOwnerProp) {
+              const ownProp = get(store.getState(), 'market.ownerProperties', {});
+              const indexProp = ownProp.data.findIndex((item) => item.id === id);
+              ownProp.data[indexProp].servicePackage = res.data;
+              store.dispatch({ type: SET_OWNED_PROPERTIES, payload: ownProp });
+            } else {
+              store.dispatch({ type: SET_PACKAGE_PROPERTY, payload: res.data });
+            }
             if (smallLoader) {
               store.dispatch({
                 type: SPINNER_SMALL,

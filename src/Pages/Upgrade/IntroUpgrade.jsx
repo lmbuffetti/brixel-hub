@@ -47,6 +47,7 @@ const IntroUpgrade = (props) => {
   // PROPS
   const {
     activeSingleCompany,
+    activeSingleCompanyPackages,
     activeSingleProperty,
     activeSinglePropertyPackage,
     handleGetActiveSingleCompany,
@@ -106,32 +107,22 @@ const IntroUpgrade = (props) => {
   }, [propID, loggedInUser]);
 
   useEffect(() => {
-    const basicPackage = packages.find((pkg) => pkg.type === 'basic');
+    const basicPackage = activeSingleCompanyPackages.find((pkg) => pkg.type === 'basic');
     if (activeSinglePropertyPackage && packages.length > 0) {
       const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
       if (activePackage) {
-        const filtPackages = packages.find((item) => activePackage.servicePackage === item.id);
-        if (filtPackages) {
-          setPackageName({
-            name: filtPackages.name,
-            type: filtPackages.type,
-            stub: filtPackages.stub,
-          });
-        } else {
-          setPackageName(basicPackage);
-        }
+        setPackageName({
+          name: get(activePackage, 'servicePackage.name', ''),
+          type: get(activePackage, 'servicePackage.type', ''),
+          stub: get(activePackage, 'servicePackage.stub', ''),
+        });
       } else if (sortedPackage[0]) {
-        const filtPackage = packages.find((item) => sortedPackage[0].servicePackage === item.id);
-        if (filtPackage) {
-          setPackageName({
-            name: filtPackage.name,
-            type: filtPackage.type,
-            stub: filtPackage.stub,
-          });
-        } else {
-          setPackageName(basicPackage);
-        }
+        setPackageName({
+          name: get(sortedPackage[0], 'servicePackage.name', ''),
+          type: get(sortedPackage[0], 'servicePackage.type', ''),
+          stub: get(sortedPackage[0], 'servicePackage.stub', ''),
+        });
       } else {
         setPackageName(basicPackage);
       }
@@ -405,6 +396,7 @@ const IntroUpgrade = (props) => {
 
 IntroUpgrade.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
+  activeSingleCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
@@ -421,6 +413,7 @@ IntroUpgrade.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
