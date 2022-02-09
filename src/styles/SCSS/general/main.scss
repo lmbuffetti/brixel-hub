@@ -808,6 +808,9 @@ button.minimum-w-210 {
 .brdRadiusLrg {
   border-radius: $step * 3;
 }
+.brdLeftLight {
+  border-left: 1px solid  map-get($lightColor, 400);;
+}
 
 .linkWrap {
   .wHover {

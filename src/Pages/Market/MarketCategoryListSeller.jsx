@@ -18,6 +18,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import orderBy from 'lodash/orderBy';
 import lazyWithRetry from '../../components/LazyWithRetry';
+import MarketCard from '../../components/MarketCard';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
@@ -31,7 +32,7 @@ import {
 import ArticlesList from '../../resources/homeArticles';
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
-import testdrive from '../../images/Market/testdrive.jpeg';
+import testdrive from '../../images/Market/testDriveSell.svg';
 import skeletonOwnCard from '../../images/Market/skeletonOwnCard.svg';
 import marketSkeltonMobile from '../../images/Market/skeletonCardMobile.svg';
 
@@ -140,6 +141,9 @@ const MarketCategoryListSeller = (props) => {
     }
     if (getCookie('brixelSplashHome') === 'sellerWelcome' && get(ownerProperties, 'data', []).length === 1) {
       setSplashScreen('sellerWelcome');
+    }
+    if (ownerProperties.length > 0) {
+      setPropertyId(ownerProperties.data[0].id);
     }
   }, [getCookie('brixelSplashHome'), ownerProperties, notification]);
 
@@ -338,6 +342,7 @@ const MarketCategoryListSeller = (props) => {
           </SplashScreen>
         )
       }
+
       {
         ownerProperties.total === 0 ? (
           <div className="px-2 px-md-0 mb-5 mb-sm-3">
@@ -354,78 +359,87 @@ const MarketCategoryListSeller = (props) => {
             </div>
           </div>
         ) : (
-          <div className="mb-5 mb-sm-3 mt-4-neg mt-sm-10-neg">
-
-            <div className="marketSellBanner dis-fl-col dis-fl-row-sm a-c jc-c pb-2 mt-2-neg mt-sm-0">
-              <div className="max-w-fix-144 min-h-fix-200 min-h-fix-sm-360 max-w-fix-sm-264 w-perc-100">
-                <img src={testdrive} alt="testdrive" />
-              </div>
-              <div className="max-w-fix-360 ml-sm-5 pt-sm-8 ta-c ta-l-sm">
-                <h3 className="fweight-600 fsize-600 fsize-sm-800 mb-1 pt-2 pt-sm-5">Test drive our service. <br /> No strings attached.</h3>
-                <h5 className="fSizePx18 min-h-fix-56 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0">
-                  {
-                    companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
-                      <>
-                        <span>Get the full Brixel experience <br /> worth</span>
-                        <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
-                      </>
-                    ) : (
-                      <span>Get the full Brixel experience</span>
-                    )
-                  }
-                  { companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) === 0 && (
-                    <span className="dis-b"> worth . . . </span>
-                  )}
-                </h5>
-                <BrixelButtonPrimary
-                  rounded
-                  theme="red"
-                  label="Request now"
-                  onClick={() => bookNow()}
-                  className="mb-2 ml-a ml-sm-0 mr-sm-0 mr-a"
-                />
-
-              </div>
-
-            </div>
-            <div className="actionTop bgWhite pos-r zIndex2 py-1 px-1 dis-f hide-sm a-c jc-b">
+          <div className="mb-5 mb-sm-3 container">
+            <div className="dis-f a-c jc-b">
+              <h1 className="fsize-400 fsize-sm-700">
+                <span>{ownerProperties.total}</span>
+                <span className="ml-small-4">{ownerProperties.total === 1 ? 'Property' : 'Properties'} added by you</span>
+              </h1>
               <BrixelButtonText
-                className="fsize-300 show-all pos-r mr-1"
-                label={`<span>View all properties</span> <span class="ml-1">(${get(ownerProperties, 'total', '-')})</span>`}
-                onClick={() => history.push('/sell/own')}
-              />
-              <BrixelButtonText
-                className="fsize-300 show-all pos-r"
                 label="+ Add new"
-                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'user.company.stub', '')}`)}
+                theme="dark"
+                labelClass="ws-nw"
+                themeSat={700}
+                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
               />
             </div>
+
             {
               ownerProperties.total > 0 && (
-                <CarouselWrapper
-                  layout="singleOwnCard"
-                  className="market-category-carousel type-own"
-                  type="own"
-                  items={ownerProperties.data}
-                  total={ownerProperties.total}
-                  setPropertyId={(id) => setPropertyId(id)}
-                  setActiveSingleCompany={(id) => setActiveCompanyId(id)}
-                  slideToGo={ownerProperties.data.findIndex((page) => page.id === activeSingleProperty.customID)}
-                />
+                <>
+                  {
+                    ownerProperties.data.map((prop, i) => (
+                      <div className="shadow-3dp p-2 mt-3" key={i.toString()}>
+                        {
+                          i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) && (
+                            <div className="w-perc-100 dis-f a-c jc-fs bgBlue100 px-2 px-md-6 mb-2 mb-sm-3">
+                              <div className="hide dis-b-md">
+                                <img width="176" height="158" src={testdrive} alt="testdrive" />
+                              </div>
+                              <div className="ml-md-5">
+                                <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">Test drive our service. No strings attached.</h3>
+                                <h5 className="fweight-400 fsize-300 fsize-md-400 mt-1 mb-1 mb-sm-3 txtBlue700">
+                                  {
+                                    companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
+                                      <>
+                                        <span>Get the full Brixel experience worth</span>
+                                        <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
+                                      </>
+                                    ) : (
+                                      <span>Get the full Brixel experience</span>
+                                    )
+                                  }
+                                </h5>
+                                <div>
+                                  <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
+                                    <li>Easy house inspection</li>
+                                    <li className="ml-0 ml-md-3">Images clicked by Experts</li>
+                                    <li className="ml-0 ml-md-3">Free House Evauation</li>
+                                  </ul>
+                                </div>
+
+                              </div>
+
+                            </div>
+                          )
+                        }
+                        <MarketCard
+                          layout="singleOwnCard"
+                          type="own"
+                          item={prop}
+                          onSetActiveProperty={(id) => setPropertyId(id)}
+                          bookProp={() => bookNow()}
+                        />
+                      </div>
+                    ))
+                  }
+                </>
               )
             }
             {
               (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
                 <div className="marketSellBanner mb-10">
-                  <div className="m-a px-2 px-sm-0 max-w-fix-480 max-w-fix-sm-768">
-                    <div className="p-2 py-sm-3 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240">
+                  <div className="m-a w-perc-100">
+                    <div className="brdRadius shadow-3dp p-2 mb-3 mt-3 pb-4">
                       <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
+                      <hr className="lighter hide dis-b-sm pos-a-fix mt-4-neg max-w-perc-97" />
                       <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                     </div>
                   </div>
                 </div>
               )
             }
+
           </div>
         )
       }
