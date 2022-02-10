@@ -96,6 +96,16 @@ export const IdentificationQuestions = (editForm = false) => {
           large: true,
         },
         {
+          classNameBox: 'ml-a mr-a',
+          classBoxWrapper: 'mt-2',
+          component: BrixelSelect,
+          label: 'Type of ownership',
+          name: 'persons[0].typeOfOwnership',
+          options: isPT ? factsOptions.purchaseTypePT : factsOptions.purchaseType,
+          pdClass: 'py-3 py-md-5',
+          large: true,
+        },
+        {
           component: BrixelInputText,
           classNameBox: 'ml-a mr-a',
           classWidthBox: 'w-perc-100',
