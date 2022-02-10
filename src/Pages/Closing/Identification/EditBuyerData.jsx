@@ -68,11 +68,6 @@ const EditBuyerData = (props) => {
         </h2>
         <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
           <div className="p-5">
-            <BrixelIcon
-              className="mb-2"
-              onClick={() => onCloseEdit()}
-              icon="arrow-left-small"
-            />
             {
               forceStep === 0 && (
                 <>
