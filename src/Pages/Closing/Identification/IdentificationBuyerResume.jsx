@@ -124,7 +124,7 @@ const IdentificationFlow = (props) => {
                                 rounded
                                 ghost
                                 label="1 document uploaded"
-                                onClick={() => onClickEdit(i)}
+                                onClick={() => onClickEdit(i, 1)}
                               />
                             ) : (
                               <BrixelIcon
