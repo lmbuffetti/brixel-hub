@@ -1,17 +1,18 @@
 /* eslint-disable no-nested-ternary */
+import cloneDeep from 'lodash/cloneDeep';
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import {
   BrixelIcon,
   ReduxField,
 } from '@brixel/brixel-components';
+import { deleteDocument } from '../../../actions/UploadActions';
 import { IdentificationQuestions } from '../../../resources/Identification';
-// import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const EditBuyerData = (props) => {
   /* const history = {
@@ -21,14 +22,43 @@ const EditBuyerData = (props) => {
   const match = useParams(); */
   // PROPS
   const {
+    dealID,
+    forceStep,
+    formValue,
+    handleDeleteDocument,
     onCloseEdit,
     profileId,
   } = props;
   // STATE
+  const [formData, setFormData] = useState([]);
 
-  const getBuyerNameData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerName');
-  const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerData');
-  const fullForm = getBuyerNameData.inputs.concat(getBuyerData.inputs);
+  useEffect(() => {
+    const getBuyerNameData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerName');
+    const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerData');
+    const fullFormBuyerData = getBuyerNameData.inputs.concat(getBuyerData.inputs);
+    const getUploadData = IdentificationQuestions(true).find((quest) => quest.history === 'document');
+    const formDataUpload = get(getUploadData, 'inputs', []);
+    switch (forceStep) {
+      case 1:
+        setFormData(formDataUpload);
+        break;
+      default:
+        setFormData(fullFormBuyerData);
+    }
+  }, [forceStep]);
+
+  const onRemoveFile = (file) => {
+    const dataForm = cloneDeep(formValue);
+    dataForm.persons[profileId].document = {};
+    const data = {
+      ...dataForm,
+      dealID,
+      id: file.id,
+      saveAction: 'closingIdentification',
+      smallLoader: 'removeData',
+    };
+    handleDeleteDocument(data);
+  };
 
   return (
     <div>
@@ -43,13 +73,19 @@ const EditBuyerData = (props) => {
               onClick={() => onCloseEdit()}
               icon="arrow-left-small"
             />
-            <h3>Add Person</h3>
-            <h6 className="mb-3">
-              Fill the information below
-            </h6>
+            {
+              forceStep === 0 && (
+                <>
+                  <h3>{get(formValue, `persons[${profileId}]`, null) ? 'Edit Person' : 'Add Person'}</h3>
+                  <h6 className="mb-3">
+                    Fill the information below
+                  </h6>
+                </>
+              )
+            }
             <div className="dis-f a-c flex-wrap">
               {
-                fullForm.map((field, i) => (
+                formData.map((field, i) => (
                   <div
                     className={`${field.classWidthBox ? field.classWidthBox : 'w-perc-100'} ${field.classBoxWrapper || 'mt-3'}`}
                     key={i.toString()}
@@ -81,6 +117,7 @@ const EditBuyerData = (props) => {
                         name: `persons[${profileId}].${field.name.replace('persons[0].', '')}`,
                         options: field.options,
                         placeholder: field.placeholder || '',
+                        onRemove: (val) => onRemoveFile(val),
                       }}
                       labels={{
                         icons: field.icons,
@@ -101,14 +138,26 @@ const EditBuyerData = (props) => {
 };
 
 EditBuyerData.propTypes = {
+  dealID: PropTypes.string.isRequired,
+  forceStep: PropTypes.number,
+  formValue: PropTypes.object.isRequired,
+  handleDeleteDocument: PropTypes.func.isRequired,
   onCloseEdit: PropTypes.func.isRequired,
   profileId: PropTypes.number.isRequired,
+};
+
+EditBuyerData.defaultProps = {
+  forceStep: 0,
 };
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Identification.values', {}),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
+});
+
 export default compose(
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
 )(EditBuyerData);

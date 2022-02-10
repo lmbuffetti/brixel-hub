@@ -13,15 +13,14 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import Cookies from 'universal-cookie';
+import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
+import { deleteDocument, multiUploadDocument } from '../../../actions/UploadActions';
 import { titleProperty } from '../../../utils/titleCreation';
-import { setCookie, checkBrowser } from '../../../utils/helpers';
+import { checkBrowser } from '../../../utils/helpers';
 import { IdentificationQuestions } from '../../../resources/Identification';
-import { spinnerOff, spinnerOn } from '../../../actions/CommonActions';
-import { saveClosingIdentification } from '../../../actions/DealActions';
-
-const cookie = new Cookies();
+import { getActiveSingleDeal, saveClosingIdentification } from '../../../actions/DealActions';
+import { spinnerOff } from '../../../actions/CommonActions';
 
 const IdentificationFlow = (props) => {
   const history = {
@@ -32,18 +31,21 @@ const IdentificationFlow = (props) => {
   // PROPS
   const {
     changeFieldValue,
-    company,
     destroyForm,
     errorValue,
     formValue,
+    handleDeleteDocument,
+    handleGetActiveSingleDeal,
     handleSaveClosingIdentification,
-    handleSetLanguage,
+    handleMultiUploadDocument,
     handleSpinnerOff,
     initForm,
     initialValues,
     isSmallLoading,
     lang,
+    loggedInUser,
     reset,
+    stageClosingData,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -65,8 +67,13 @@ const IdentificationFlow = (props) => {
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
+    handleGetActiveSingleDeal({ id: dealID });
     return () => destroyForm();
   }, []);
+
+  useEffect(() => {
+    initForm(initialValues);
+  }, [stageClosingData]);
 
   const getCurrency = () => {
     const result = {};
@@ -88,13 +95,35 @@ const IdentificationFlow = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
+    const docsList = [];
+    const formData = cloneDeep(formValue);
+    formValue.persons.forEach((person, index) => {
+      docsList.push({
+        idBuyer: index,
+        ...person.document,
+        user: get(loggedInUser, 'id', null),
+      });
+    });
+    const dataDocuments = {
+      allImgs: docsList,
+      actions: 'documents',
+      pageID: propID,
+      smallLoader: 'sendData',
+      user: get(loggedInUser, 'id', null),
+    };
     const dataForm = {
       id: dealID,
+      ...dataDocuments,
       smallLoader: 'sendData',
-      ...formValue,
+      ...formData,
+      saveAction: 'closingIdentification',
     };
     // eslint-disable-next-line no-console
-    handleSaveClosingIdentification(dataForm);
+    if (docsList.length > 0) {
+      handleMultiUploadDocument(dataForm);
+    } else {
+      handleSaveClosingIdentification(dataForm);
+    }
   };
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -180,41 +209,8 @@ const IdentificationFlow = (props) => {
               ...newQuestions[defId - 1],
             };
           }
-          if (act === 'back' && newQuestions[defId + 1].effect === 'slideUp') {
-            setQuest(newQuest);
-            setCurrentIndex(defId);
-          } else {
-            setQuest(newQuest);
-            setCurrentIndex(defId);
-          }
-          if (newQuest.history !== 'createProfile') {
-            if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
-              const fakeInput = document.createElement('input');
-              fakeInput.setAttribute('type', 'text');
-              fakeInput.setAttribute('id', 'fakeInput');
-              fakeInput.style.position = 'absolute';
-              fakeInput.style.opacity = 0;
-              fakeInput.style.height = 0;
-              fakeInput.style.fontSize = '16px'; // disable auto zoom
-              // zoom/scroll behavior
-              document.body.prepend(fakeInput);
-              fakeInput.focus();
-            }
-
-            setTimeout(() => {
-              const fakeInput = document.getElementById('fakeInput');
-              const getCurStep = document.getElementById(`step-${defId}`);
-              if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-                getCurStep.querySelector('input[type="number"]').focus();
-              } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-                getCurStep.querySelector('input[type="text"]').focus();
-              } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
-                getCurStep.querySelector('input[type="search"]').focus();
-              }
-              // cleanup
-              if (fakeInput) fakeInput.remove();
-            }, 500);
-          }
+          setQuest(newQuest);
+          setCurrentIndex(defId);
           if (newQuestions[defId].history) {
             history.push({
               pathname: `/packageFlow/${propID}/${dealID}/closing/identification/${newQuestions[defId].history}`,
@@ -292,24 +288,6 @@ const IdentificationFlow = (props) => {
     }
   }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
 
-  // SET DATA BY COMPANY
-  useEffect(() => {
-    if (get(company, 'stub', null)) {
-      let getLang = cookie.get('brixelLang');
-      if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
-        const companyLang = get(company, 'language.code', 'en');
-        handleSetLanguage(companyLang.toLowerCase());
-        getLang = companyLang.toLowerCase();
-      }
-      const companyCountry = get(company, 'country.code', 'CH');
-      setQuestions(IdentificationQuestions(getLang, companyCountry));
-      // changeFieldValue('location.countryCode', companyCountry);
-      setCookie('brixelStubCompany', company.stub);
-      changeFieldValue('company', company.stub);
-    }
-    initForm(initialValues);
-  }, [company]);
-
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
@@ -339,6 +317,19 @@ const IdentificationFlow = (props) => {
       }
     });
     return (currentIndex * 100) / (num - 1);
+  };
+
+  const onRemoveFile = (file, profileId = 0) => {
+    const dataForm = cloneDeep(formValue);
+    dataForm.persons[profileId].document = {};
+    const data = {
+      ...dataForm,
+      dealID,
+      id: file.id,
+      saveAction: 'closingIdentification',
+      smallLoader: 'removeData',
+    };
+    handleDeleteDocument(data);
   };
 
   return (
@@ -392,6 +383,7 @@ const IdentificationFlow = (props) => {
                           showSendButton={false}
                           showErrors={showError}
                           disableDelay
+                          onRemove={(val) => onRemoveFile(val)}
                         />
                       </div>
 
@@ -403,7 +395,8 @@ const IdentificationFlow = (props) => {
                     React.createElement(
                       quest.component,
                       {
-                        formName: 'offerFlow',
+                        dealID,
+                        formName: 'Identification',
                         initialValue: formValue,
                         ...quest,
                         onClick: (step = 1) => (questions[currentIndex + 1] ? changeStep('next', null, step, true) : closeWindow()),
@@ -509,22 +502,25 @@ const IdentificationFlow = (props) => {
 
 IdentificationFlow.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
-  company: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleDeleteDocument: PropTypes.func.isRequired,
+  handleGetActiveSingleDeal: PropTypes.func.isRequired,
+  handleMultiUploadDocument: PropTypes.func.isRequired,
   handleSaveClosingIdentification: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
+  stageClosingData: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const initialValues = {};
+  const initialValues = get(state, 'deal.activeSingleDeal.closing.stageIdentification.buyer', {});
   return ({
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
@@ -533,6 +529,8 @@ const mapStateToProps = (state) => {
     initialValues,
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.lang', 'en'),
+    loggedInUser: get(state, 'user.loggedInUser.user', {}),
+    stageClosingData: initialValues,
   });
 };
 
@@ -549,18 +547,13 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form) {
     (dispatch(reset(form)));
   },
-  handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetActiveSingleDeal: bindActionCreators(getActiveSingleDeal, dispatch),
+  handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveClosingIdentification: bindActionCreators(saveClosingIdentification, dispatch),
-});
-
-export const GetStartedSellerMemo = React.memo(IdentificationFlow, (prevProps, nextProps) => {
-  const diffProps = diff(prevProps, nextProps);
-  return (
-    Object.keys(diffProps).length === 0
-  );
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(GetStartedSellerMemo);
+)(IdentificationFlow);
