@@ -29,16 +29,16 @@ export const IdentificationQuestions = (editForm = false) => {
     {
       title: 'Who is the buyer of the property?',
       history: 'buyerName',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5',
       inputs: [
         {
           component: BrixelInputText,
-          classNameBox: 'ml-0 mr-a pr-10',
+          classNameBox: 'ml-0 mr-a',
           label: editForm ? 'Full Name' : 'Please fill in the full name as it is stated in your ID. Add all people who are legally buying the property, e.g. your spouse or an investment partner.',
           name: 'persons[0].fullName',
           placeholder: 'Enter full name',
           validation: [Validation.required],
-          pdClass: 'py-3 py-md-5',
+          pdClass: 'py-2 py-md-5',
           large: true,
         },
       ],
@@ -46,7 +46,7 @@ export const IdentificationQuestions = (editForm = false) => {
     {
       title: `Please give us all details about ${get(formValue, 'persons[0].fullName')}.`,
       history: 'buyerData',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -136,7 +136,7 @@ export const IdentificationQuestions = (editForm = false) => {
     {
       title: `Please upload an official ID of  ${get(formValue, 'persons[0].fullName')}.`,
       history: 'location',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -155,7 +155,7 @@ export const IdentificationQuestions = (editForm = false) => {
       hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'buyerDataResume',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: IdentificationBuyerResume,
       hideActionsButton: true,
@@ -191,7 +191,7 @@ export const IdentificationQuestions = (editForm = false) => {
       title: 'Thank you',
       img: ClipboardImg,
       imgMaxWidth: 'max-w-fix-160',
-      cardClass: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
+      cardClass: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5',
       subtitle: 'Thank you. We will review your inputs and get back to you.',
       history: 'success',
       vCentered: true,
