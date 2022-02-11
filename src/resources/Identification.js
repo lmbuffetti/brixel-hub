@@ -148,9 +148,10 @@ export const IdentificationQuestions = (editForm = false) => {
         {
           component: BrixelUploadFile,
           classNameBox: 'ml-a mr-a',
-          classWidthBox: 'w-perc-100 w-perc-sm-80',
-          classBoxWrapper: 'pr-0 pr-sm-2',
-          ReduxFieldClass: '',
+          classWidthBox: 'w-perc-100',
+          classBoxWrapper: '',
+          labelIcon: true,
+          ReduxFieldClass: 'dis-f jc-c',
           name: 'persons[0].document',
           large: true,
         },

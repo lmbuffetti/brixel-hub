@@ -484,11 +484,11 @@ const ScanTrialFlow = (props) => {
                 className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
               >
                 <div className="pos-r">
-                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
+                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3 h-fix-40">
                     {
                       (get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0) && (
                         <BrixelButtonIcon
-                          className="backBtn ml-0 mr-a"
+                          className="backBtn pos-a-fix x-l-0 x-t-0"
                           icon="arrow-left-small"
                           onClick={() => changeStep('back')}
                           theme="light"
