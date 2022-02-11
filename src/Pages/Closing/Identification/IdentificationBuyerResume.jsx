@@ -118,7 +118,7 @@ const IdentificationFlow = (props) => {
                         </div>
                         <div className="dis-f a-c">
                           {
-                            buyer.document.id ? (
+                            get(buyer, 'document.id', null) ? (
                               <BrixelButtonSecondary
                                 className="mr-2"
                                 rounded
