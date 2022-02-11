@@ -367,7 +367,7 @@ const IdentificationFlow = (props) => {
                     <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
                         quest.title && (
-                          <h2 className={`fweight-600 fsize-600 fsize-sm-800 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          <h3 className={`fweight-600 fsize-600 fsize-sm-800 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                         )
                       }
                       <div className={`${quest.className} w-perc-100`}>
@@ -411,26 +411,24 @@ const IdentificationFlow = (props) => {
                     <div className={`scaleAnim ta-c ${quest.cardClass}`}>
                       <img src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
                       <h2
-                        className="fadeAnim fweight-600 ta-c"
+                        className="fadeAnim fsize-600 fsize-sm-700 fweight-600 ta-c"
                         dangerouslySetInnerHTML={{ __html: quest.title }}
                       />
                       {
                         quest.subtitle && (
                           <h6
-                            className="fadeAnim fsize-600 fweight-400 mt-2 ta-c"
+                            className="fadeAnim fsize-400 fsize-sm-500 fweight-400 mt-2 ta-c"
                             dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                           />
                         )
                       }
                       <BrixelButtonPrimary
-                        className={`mt-3 m-a noWrap ${quest.history}`}
+                        className={`mt-3 mb-3 m-a noWrap ${quest.history}`}
                         rounded
                         theme="green"
-                        themeSat={600}
                         label="Back to hub"
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
-                        rightIcon="arrow-right-small"
                         onClick={() => history.push(`/buyer/${propID}/closing`)}
                       />
                     </div>
