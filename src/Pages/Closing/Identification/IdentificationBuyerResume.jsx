@@ -93,8 +93,8 @@ const IdentificationFlow = (props) => {
               <h2 className="fweight-600 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                 Who is the buyer of the property?
               </h2>
-              <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
-                <div className="p-5">
+              <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
+                <div className="p-2 p-sm-5">
                   <h6 className="mb-1">
                     Please fill in the full name as it is stated in your ID. Add all people who are legally buying the property, e.g. your spouse
                     or an investment partner.
@@ -102,7 +102,7 @@ const IdentificationFlow = (props) => {
                   {
                     get(formValue, 'persons', []).map((buyer, i) => (
                       <div
-                        className="mt-2 bgBlue100 brdRadius p-2 dis-f a-c jc-b"
+                        className="mt-2 bgBlue100x25 brdRadius p-2 dis-f a-c jc-b"
                         key={i.toString()}
                       >
                         <div className="dis-f a-c">
@@ -205,8 +205,8 @@ const IdentificationFlow = (props) => {
               <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
                 Who is the buyer of the property?
               </h2>
-              <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
-                <div className="p-5">
+              <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
+                <div className="p-2 p-sm-5">
                   <h6 className="fweight-400">Great, thank you.</h6>
                   <h6 className="fweight-400">
                     Are all these details correct? Please review all inputs as they will be later used for the notary.
@@ -215,7 +215,7 @@ const IdentificationFlow = (props) => {
                   {
                     get(formValue, 'persons', []).map((buyer, i) => (
                       <div
-                        className="mt-2 bgBlue100 brdRadius py-2 px-4"
+                        className="mt-2 bgBlue100x25 brdRadius py-2 px-4"
                         key={i.toString()}
                       >
                         <div className="dis-f a-c jc-b">
@@ -238,8 +238,8 @@ const IdentificationFlow = (props) => {
                                 {
                                   data.name.includes('currentLivingAddress.address') ? (
                                     <>
-                                      <h6>Address</h6>
-                                      <p>
+                                      <span className="fsize-300 txtAltGrey400">Address</span>
+                                      <p className="fsize-300">
                                         <span>{get(formValue, `persons[${i}].currentLivingAddress.street`, '')}</span>
                                         {
                                           get(formValue, `persons[${i}].currentLivingAddress.zipCode`, '') && (
@@ -260,10 +260,10 @@ const IdentificationFlow = (props) => {
                                       {
                                         !data.name.includes('currentLivingAddress') && (
                                           <>
-                                            <h6>{data.label}</h6>
+                                            <span className="fsize-300 txtAltGrey400">{data.label}</span>
                                             {
                                               data.name.includes('date') ? (
-                                                <p>
+                                                <p className="fsize-300">
                                                   {
                                                     !isNaN(+get(formValue, data.name.replace('[0]', `[${i}]`), '')) ? (
                                                       DateTime.fromMillis(get(formValue, data.name.replace('[0]', `[${i}]`), '')).toFormat('d/MM/yyyy')
@@ -273,7 +273,7 @@ const IdentificationFlow = (props) => {
                                                   }
                                                 </p>
                                               ) : (
-                                                <p>
+                                                <p className="fsize-300">
                                                   {get(formValue, data.name.replace('[0]', `[${i}]`), '')}
                                                 </p>
                                               )
