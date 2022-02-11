@@ -29,7 +29,7 @@ export const IdentificationQuestions = (editForm = false) => {
     {
       title: 'Who is the buyer of the property?',
       history: 'buyerName',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200 p-2 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
       inputs: [
         {
           component: BrixelInputText,
@@ -45,7 +45,7 @@ export const IdentificationQuestions = (editForm = false) => {
     {
       title: `Please give us all details about ${get(formValue, 'persons[0].fullName')}.`,
       history: 'buyerData',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200 p-2 p-sm-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -142,7 +142,7 @@ export const IdentificationQuestions = (editForm = false) => {
     {
       title: `Please upload an official ID of  ${get(formValue, 'persons[0].fullName')}.`,
       history: 'document',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200 p-2 p-sm-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -160,7 +160,7 @@ export const IdentificationQuestions = (editForm = false) => {
       hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'buyerDataResume',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200 p-2 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: IdentificationBuyerResume,
       hideActionsButton: true,
@@ -194,7 +194,7 @@ export const IdentificationQuestions = (editForm = false) => {
       title: 'Thank you',
       img: ClipboardImg,
       imgMaxWidth: 'max-w-fix-160',
-      cardClass: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200 p-2 p-sm-5',
+      cardClass: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
       subtitle: 'Thank you. We will review your inputs and get back to you.',
       history: 'success',
       vCentered: true,

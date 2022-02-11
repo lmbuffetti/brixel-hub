@@ -80,7 +80,7 @@ const Key4Registration = (props) => {
             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
               Learn within 48 hours if you can afford your desired home.
             </h2>
-            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200">
+            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
               <div className="p-5">
                 <p className="fsize-500 txtDark700">Please prepare the following documents to apply for your certificate:</p>
 
@@ -174,7 +174,7 @@ const Key4Registration = (props) => {
             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
               Unfortunately, your budget is not sufficient
             </h2>
-            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200">
+            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
               <div className="p-5">
                 <h5>
                   Based on the details you have provided, financing your dream home is not quite possible yet.

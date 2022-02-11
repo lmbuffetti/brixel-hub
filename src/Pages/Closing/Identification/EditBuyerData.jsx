@@ -66,7 +66,7 @@ const EditBuyerData = (props) => {
         <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
           Who is the buyer of the property?
         </h2>
-        <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200">
+        <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
           <div className="p-2 p-sm-5">
             {
               forceStep === 0 && (
