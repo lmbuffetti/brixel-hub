@@ -24,7 +24,7 @@ export const ScanTrialQuestions = () => [
     }],
     title: 'Nice to meet you. Who are you?',
     history: 'contactInfo',
-    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-2 p-sm-5',
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200 p-2 p-sm-5',
     inputs: [
       {
         component: BrixelInputText,

@@ -8,7 +8,7 @@ import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import {
-  BrixelIcon,
+  // BrixelIcon,
   ReduxField,
 } from '@brixel/brixel-components';
 import { deleteDocument } from '../../../actions/UploadActions';
@@ -26,7 +26,7 @@ const EditBuyerData = (props) => {
     forceStep,
     formValue,
     handleDeleteDocument,
-    onCloseEdit,
+    // onCloseEdit,
     profileId,
   } = props;
   // STATE
@@ -66,13 +66,13 @@ const EditBuyerData = (props) => {
         <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
           Who is the buyer of the property?
         </h2>
-        <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
-          <div className="p-5">
+        <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdLight200">
+          <div className="p-2 p-sm-5">
             {
               forceStep === 0 && (
                 <>
-                  <h3>{get(formValue, `persons[${profileId}]`, null) ? 'Edit Person' : 'Add Person'}</h3>
-                  <h6 className="mb-3">
+                  <h3 className="fweight-600 fsize-600">{get(formValue, `persons[${profileId}]`, null) ? 'Edit Person' : 'Add Person'}</h3>
+                  <h6 className="mb-3 txtAltGrey700 fweight-400">
                     Fill the information below
                   </h6>
                 </>
@@ -137,7 +137,7 @@ EditBuyerData.propTypes = {
   forceStep: PropTypes.number,
   formValue: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
-  onCloseEdit: PropTypes.func.isRequired,
+  // onCloseEdit: PropTypes.func.isRequired,
   profileId: PropTypes.number.isRequired,
 };
 

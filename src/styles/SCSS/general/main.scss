@@ -979,3 +979,6 @@ button.minimum-w-210 {
     }
   }
 }
+.bgBlue100x25 {
+  background-color: rgba(map-get($blueColor, 100), 0.25);
+}
