@@ -13,6 +13,7 @@ build site:
       - node_modules/
   only:
     - develop
+    - feature/closing-identification
     - staging
     - master
   variables:
@@ -41,6 +42,7 @@ deploy_dev:
   stage: deploy
   only:
     - develop
+    - feature/closing-identification
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
