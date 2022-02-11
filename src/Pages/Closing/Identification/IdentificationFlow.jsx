@@ -101,6 +101,7 @@ const IdentificationFlow = (props) => {
       docsList.push({
         idBuyer: index,
         ...person.document,
+        isPrivate: true,
         user: get(loggedInUser, 'id', null),
       });
     });
