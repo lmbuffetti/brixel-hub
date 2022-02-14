@@ -380,6 +380,12 @@ const checkCommon = (store) => (next) => (action) => {
                   });
               }
               Promise.all([call2, call3]).then(() => {
+                // Set the parent of each history entry with the user
+                // associated with the deal api call
+                dealUserHistory.data.forEach((entry) => {
+                  set(entry, 'parent', response.data.user);
+                });
+
                 store.dispatch({
                   type: SET_ACTIVE_SINGLE_DEAL,
                   payload: has(updatedDeal, 'id') ? updatedDeal : response.data,
