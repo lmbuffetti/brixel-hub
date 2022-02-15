@@ -331,7 +331,7 @@ function PageHeader(props) {
                   className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
                 >
                   <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper min-w-fix-lg-232 w-fit min-w-fix-40 ${((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper min-w-fix-lg-232 w-fit min-w-fix-40 ${((!isFlow && activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
                   >
                     <div className={`${isFlow ? '' : 'brdSmallRight brdAltGrey200'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
                       <img
@@ -347,7 +347,7 @@ function PageHeader(props) {
                       />
                     </div>
                     {
-                      ((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && (
+                      ((activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) && !isFlow && (
 
                         <div className={`hubNavigation ${openMenu ? 'open' : 'close'}`} ref={menuHub}>
                           <div className="dis-f titleSection txtDark700" onClick={() => setOpenMenu(!openMenu)}>
@@ -371,14 +371,14 @@ function PageHeader(props) {
                     }
                   </div>
                   {
-                    windowDimensions.width > 1024 && (
+                    windowDimensions.width > 1024 && (!isFlow || history.location.pathname.includes('welcomeSeller')) && (
                       <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
                         {
                           activeSingleProperty.id && propID && propID.length > 9 && userType === 'seller' && (
                             <ProgressSellerStage
                               smallLayout
                               xSmallMobile={windowDimensions.width < 480}
-                              stepIndexProgress={stepIndexProgrss}
+                              stepIndexProgress={history.location.pathname.includes('welcomeSeller') ? 0 : stepIndexProgrss}
                             />
                           )
                         }

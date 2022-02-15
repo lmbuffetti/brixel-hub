@@ -427,7 +427,7 @@ const App = (props) => {
                       <MenuSidebar />
                     )
                   }
-                  <div className="w-perc-100 innerWrap">
+                  <div className="w-perc-100 innerWrap h-perc-100">
                     <Routes>
                       <Route path="/500" element={<ErrorBoundering />} />
                       { /* SECTION: ONBOARDING */}
