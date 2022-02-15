@@ -48,7 +48,7 @@ const MakeOffer = lazyWithRetry(() => import('./Pages/Offers/Flow/MakeOffer'));
 const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identification/IdentificationFlow'));
 
 // GENERAL COMPONENTS
-const PageHeaderDashboard = lazyWithRetry(() => import('./components/Header/PageHeaderDashboard'));
+const PageHeader = lazyWithRetry(() => import('./components/Header/PageHeader'));
 
 // const PageHeader = lazyWithRetry(() => import('./components/PageHeader'));
 
@@ -415,7 +415,7 @@ const App = (props) => {
                   style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
                   ref={dashContentRef}
                 >
-                  <PageHeaderDashboard
+                  <PageHeader
                     changeZIndex={(index) => { setZIndex(index); }}
                     isFlow={isFlow}
                   />

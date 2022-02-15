@@ -41,7 +41,7 @@ const ProgressSellerStage = lazyWithRetry(() => import('../ProgressSellerStage')
 
 const { factsOptions } = FactsOptions;
 
-function PageHeaderDashboard(props) {
+function PageHeader(props) {
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -650,7 +650,7 @@ function PageHeaderDashboard(props) {
   );
 }
 
-PageHeaderDashboard.propTypes = {
+PageHeader.propTypes = {
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   changeZIndex: PropTypes.func,
@@ -668,7 +668,7 @@ PageHeaderDashboard.propTypes = {
   windowDimensions: PropTypes.object.isRequired,
 };
 
-PageHeaderDashboard.defaultProps = {
+PageHeader.defaultProps = {
   changeZIndex: () => 1,
   isFlow: false,
   lang: 'en',
@@ -704,4 +704,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageHeaderDashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(PageHeader);
