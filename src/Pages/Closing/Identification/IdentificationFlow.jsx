@@ -73,7 +73,7 @@ const IdentificationFlow = (props) => {
 
   useEffect(() => {
     initForm(initialValues);
-  }, [activeSingleDeal.id]);
+  }, [activeSingleDeal.id, get(initialValues, 'persons[0].fullName', null)]);
 
   const getCurrency = () => {
     const result = {};

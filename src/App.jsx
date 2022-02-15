@@ -50,8 +50,6 @@ const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identific
 // GENERAL COMPONENTS
 const PageHeader = lazyWithRetry(() => import('./components/Header/PageHeader'));
 
-// const PageHeader = lazyWithRetry(() => import('./components/PageHeader'));
-
 const MenuSidebar = lazyWithRetry(() => import('./components/Header/MenuSidebar'));
 
 // ADMIN ROUTES
