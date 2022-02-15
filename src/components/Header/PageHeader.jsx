@@ -111,7 +111,7 @@ function PageHeader(props) {
         setPackageName(getActivePackage.servicePackage.name);
       } else if (get(sortedPackage[0], 'servicePackage', null)) {
         handleSetActiveSinglePropertyActivePackage(sortedPackage[0].servicePackage);
-        setPackageName(sortedPackage[0].name);
+        setPackageName(sortedPackage[0].servicePackage.name);
       }
     }
   }, [packagesProperty.length]);
