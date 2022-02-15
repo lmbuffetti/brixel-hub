@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { get, isNaN } from 'lodash';
+import { get, isNaN, isObject } from 'lodash';
 import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,
@@ -35,6 +35,7 @@ const IdentificationFlow = (props) => {
     isSmallLoading,
     onBack,
     onClick,
+    syncErrors,
   } = props;
   // STATE
   const [editProfile, setEditProfile] = useState(-1);
@@ -46,6 +47,23 @@ const IdentificationFlow = (props) => {
     setStepResume('editProfile');
     setStepForm(formStep);
     setEditProfile(id);
+  };
+
+  const validateInput = () => {
+    if (stepResume === 'editProfile' && stepForm === 0) {
+      let isValid = true;
+      if (syncErrors.persons[editProfile]) {
+        Object.keys(syncErrors.persons[editProfile]).forEach((key) => {
+          if (isObject(syncErrors.persons[editProfile][key])) {
+            Object.keys(syncErrors.persons[editProfile][key]).forEach((subkey) => {
+              if (isValid) isValid = syncErrors.persons[editProfile][key][subkey] !== 'Required';
+            });
+          } else if (isValid) isValid = syncErrors.persons[editProfile][key] !== 'Required';
+        });
+      }
+      return isValid;
+    }
+    return true;
   };
 
   const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerData');
@@ -79,6 +97,7 @@ const IdentificationFlow = (props) => {
                       onClick={stepForm === 0 ? () => setStepForm(1) : () => setStepResume('resume')}
                       rightIcon="arrow-right-small"
                       className="ml-a mr-a noWrap"
+                      disabled={!validateInput(validateInput)}
                       label="Next"
                     />
                   </div>
@@ -348,6 +367,7 @@ IdentificationFlow.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   onBack: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  syncErrors: PropTypes.object.isRequired,
 };
 
 IdentificationFlow.defaultProps = {
@@ -355,6 +375,7 @@ IdentificationFlow.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  syncErrors: get(state, 'brixelForm.Identification.syncErrors', {}),
   formValue: get(state, 'brixelForm.Identification.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });

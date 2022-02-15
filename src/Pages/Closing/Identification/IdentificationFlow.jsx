@@ -73,6 +73,9 @@ const IdentificationFlow = (props) => {
 
   useEffect(() => {
     initForm(initialValues);
+    if (activeSingleDeal.id && get(activeSingleDeal, 'closing.stageIdentification.active', false) !== true) {
+      history.push(`/buyer/${propID}/closing`);
+    }
   }, [activeSingleDeal.id, get(initialValues, 'persons[0].fullName', null)]);
 
   const getCurrency = () => {
@@ -257,7 +260,7 @@ const IdentificationFlow = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    history.push(`/${propID}/home`);
+    history.push(`/buyer/${propID}/closing`);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER

@@ -8,7 +8,7 @@ import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import {
-  MultiFileldsReduxForm,
+  ReduxField,
 } from '@brixel/brixel-components';
 import { deleteDocument } from '../../../actions/UploadActions';
 import { IdentificationQuestions } from '../../../resources/Identification';
@@ -37,15 +37,14 @@ const EditBuyerData = (props) => {
     const fullFormBuyerData = getBuyerNameData.inputs.concat(getBuyerData.inputs);
     const getUploadData = IdentificationQuestions(true).find((quest) => quest.history === 'document');
     const formDataUpload = get(getUploadData, 'inputs', []);
-    const defForm = formDataUpload.map((field) => field.name.replace('persons[0]', `persons[${profileId}]`));
     switch (forceStep) {
       case 1:
-        setFormData(defForm);
+        setFormData(formDataUpload);
         break;
       default:
         setFormData(fullFormBuyerData);
     }
-  }, [forceStep, profileId]);
+  }, [forceStep]);
 
   const onRemoveFile = (file) => {
     const dataForm = cloneDeep(formValue);
@@ -79,19 +78,52 @@ const EditBuyerData = (props) => {
               )
             }
             <div className="dis-f a-c flex-wrap">
-
-              <MultiFileldsReduxForm
-                form="Identification"
-                disableNextBtn={false}
-                formValue={formValue}
-                inputs={formData}
-                onClick={() => ''}
-                onCloseGoBack={() => ''}
-                onSubmit={() => ''}
-                showSendButton={false}
-                disableDelay
-                onRemove={(val) => onRemoveFile(val)}
-              />
+              {
+                formData.map((field, i) => (
+                  <div
+                    className={`${field.classWidthBox ? field.classWidthBox : 'w-perc-100'} ${field.classBoxWrapper || 'mt-3'}`}
+                    key={i.toString()}
+                  >
+                    <ReduxField
+                      form="Identification"
+                      component={field.component}
+                      design={{
+                        cardLayout: field.cardLayout,
+                        cardSmall: field.cardSmall,
+                        className: field.className || '',
+                        classNameParent: field.classNameParent || '',
+                        compact: field.compact,
+                        fluid: field.fluid,
+                        formatText: field.formatText,
+                        iconClass: field.iconClass,
+                        inputClassName: field.className || '',
+                        isHorizontal: field.isHorizontal,
+                        pdClass: field.pdClass,
+                        large: field.large,
+                        section: field.section,
+                        showCountCharacters: field.showCountCharacters,
+                        stretched: field.stretched,
+                        svgSupport: field.svgSupport,
+                        svgWidth: field.svgWidth,
+                        wrapClass: field.wrapClass || '',
+                      }}
+                      input={{
+                        name: `persons[${profileId}].${field.name.replace('persons[0].', '')}`,
+                        options: field.options,
+                        placeholder: field.placeholder || '',
+                        onRemove: (val) => onRemoveFile(val),
+                        validate: field.validation,
+                      }}
+                      labels={{
+                        icons: field.icons,
+                        label: field.label,
+                        labelLeft: field.labelLeft,
+                        labelType: field.labelType,
+                      }}
+                    />
+                  </div>
+                ))
+              }
             </div>
           </div>
         </div>
