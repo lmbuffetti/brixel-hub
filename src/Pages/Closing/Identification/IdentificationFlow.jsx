@@ -30,6 +30,7 @@ const IdentificationFlow = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleDeal,
     changeFieldValue,
     destroyForm,
     errorValue,
@@ -45,7 +46,6 @@ const IdentificationFlow = (props) => {
     lang,
     loggedInUser,
     reset,
-    stageClosingData,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -73,7 +73,7 @@ const IdentificationFlow = (props) => {
 
   useEffect(() => {
     initForm(initialValues);
-  }, [stageClosingData]);
+  }, [activeSingleDeal.id]);
 
   const getCurrency = () => {
     const result = {};
@@ -98,12 +98,16 @@ const IdentificationFlow = (props) => {
     const docsList = [];
     const formData = cloneDeep(formValue);
     formValue.persons.forEach((person, index) => {
-      docsList.push({
-        idBuyer: index,
-        ...person.document,
-        isPrivate: true,
-        user: get(loggedInUser, 'id', null),
-      });
+      if (get(person, 'document', []).length > 0) {
+        get(person, 'document', []).forEach((doc) => {
+          docsList.push({
+            idBuyer: index,
+            ...doc,
+            isPrivate: true,
+            user: get(loggedInUser, 'id', null),
+          });
+        });
+      }
     });
     const dataDocuments = {
       allImgs: docsList,
@@ -500,6 +504,7 @@ const IdentificationFlow = (props) => {
 };
 
 IdentificationFlow.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
@@ -515,12 +520,12 @@ IdentificationFlow.propTypes = {
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
-  stageClosingData: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const initialValues = get(state, 'deal.activeSingleDeal.closing.stageIdentification.buyer', {});
   return ({
+    activeSingleDeal: get(state, 'deal.activeSingleDeal', null),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.Identification.syncErrors', {}),

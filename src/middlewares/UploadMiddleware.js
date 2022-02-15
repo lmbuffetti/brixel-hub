@@ -336,8 +336,8 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.smallLoader;
       delete action.payload.saveAction;
       const calls = [];
-      allImgs.forEach((img, index) => {
-        calls.push(api.image.uploadDocument(img, null, index));
+      allImgs.forEach((img) => {
+        calls.push(api.image.uploadDocument(img, null, img.idBuyer));
       });
       if (smallLoader) {
         store.dispatch({
@@ -367,8 +367,12 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
         } else if (saveAction === 'closingIdentification') {
           const dataIdentification = action.payload;
+          dataIdentification.persons.forEach((person, id) => {
+            dataIdentification.persons[id].document = [];
+          });
           res.forEach((doc) => {
-            dataIdentification.persons[doc.id].document = doc.data;
+            console.log(doc.id);
+            dataIdentification.persons[doc.id].document.push(doc.data);
           });
           const data = {
             ...dataIdentification,
