@@ -371,7 +371,6 @@ const checkCommon = (store) => (next) => (action) => {
             dataIdentification.persons[id].document = [];
           });
           res.forEach((doc) => {
-            console.log(doc.id);
             dataIdentification.persons[doc.id].document.push(doc.data);
           });
           const data = {
