@@ -326,7 +326,7 @@ function PageHeader(props) {
         <div className="dasHeaderContainer">
           <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c pr-2 pr-lg-3 jc-b pos-r">
             {
-              windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name ? (
+              (windowDimensions.width > 1024 || get(history, 'location.pathname', '').includes('home') || !getCurrentRoute().name || isFlow) ? (
                 <div
                   className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
                 >
@@ -632,7 +632,7 @@ function PageHeader(props) {
         </div>
       </header>
       {
-        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && !history.location.pathname.includes('closing/') && (
+        windowDimensions.width <= 1024 && !history.location.pathname.includes('home') && !history.location.pathname.includes('/buyer/') && getCurrentRoute().title && getCurrentRoute().title !== 'Prospects' && !history.location.pathname.includes('closing/') && !isFlow && (
           <div className="mobileTitle dis-f jc-b a-c px-2 py-1">
             {
               getCurrentRoute().title && (
