@@ -297,11 +297,6 @@ const App = (props) => {
     return head[0] ? head[0].offsetHeight : 0;
   }, []);
 
-  const calcFlowHeaderHeight = useCallback(() => {
-    const flowHead = document.getElementsByClassName('flowHeader');
-    return flowHead[0] ? flowHead[0].offsetHeight : 0;
-  }, []);
-
   const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
@@ -318,7 +313,7 @@ const App = (props) => {
       contentHeight = 'auto';
     }
     return contentHeight;
-  }, [isFlow, calcHeaderHeight, calcFlowHeaderHeight, windowDimensions]);
+  }, [isFlow, calcHeaderHeight, windowDimensions]);
 
   // DID MOUNT TO CHECK THE USER TOKEN AND INITIALIZE THE WINDOW SIZE LISTENER
   useEffect(() => {
@@ -357,7 +352,6 @@ const App = (props) => {
       });
       headerCalc();
       calcHeaderHeight();
-      calcFlowHeaderHeight();
     });
   }, [window]);
 

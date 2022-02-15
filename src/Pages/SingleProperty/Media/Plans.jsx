@@ -322,7 +322,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   imageType: get(state, 'images.imageType', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  loggedInUser: get(state, 'user.loggedInUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', { }),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

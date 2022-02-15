@@ -90,12 +90,10 @@ const IntroUpgrade = (props) => {
   const scrollTo = (id) => {
     document.body.classList.add('scrollSmooth');
     setTimeout(() => {
-      const flowHeader = document.getElementsByClassName('flowHeader')[0];
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
       const scrollEl = document.getElementById(id);
-      const headerHeight = flowHeader.offsetHeight / 2;
-      if (flowHeader && scrollPage) {
-        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - headerHeight;
+      if (scrollPage) {
+        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop;
       }
     }, 100);
   };
