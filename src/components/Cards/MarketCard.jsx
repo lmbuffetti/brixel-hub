@@ -20,20 +20,20 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import CoverPropertyImage from './CoverPropertyImage';
-import CardImageText from './Skeleton/CardImageText';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
 import {
   calcPercentageProEstimation, setCookie, completedBestimate,
-} from '../utils/helpers';
-import { setSplashType } from '../actions/CommonActions';
-import { generateEstimation } from '../actions/EstimationActions';
+} from '../../utils/helpers';
+import { setSplashType } from '../../actions/CommonActions';
+import { generateEstimation } from '../../actions/EstimationActions';
 import {
   setActiveSingleProperty,
   setEstimation,
   setActiveMarketOverlayProperty,
   setActiveMarketOverlayPropertyLists,
   getEstimation, getPackageProperty,
-} from '../actions/PropertyActions';
+} from '../../actions/PropertyActions';
 
 const MarketCard = (props) => {
   const history = {

@@ -5,8 +5,8 @@ import isBoolean from 'lodash/isBoolean';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { translateTo } from '../utils/translation';
-import Emoji from './Emoji';
+import { translateTo } from '../../utils/translation';
+import Emoji from '../Emoji';
 
 const BrixelRadioEmoji = (props) => {
   const {

@@ -22,7 +22,7 @@ import {
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import Loading from './components/Loading';
-import WizardCard from './components/WizardCard';
+import WizardCard from './components/Cards/WizardCard';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
   setLanguage, setModal, setWindowDimensions, setScreenNotification,
@@ -48,11 +48,11 @@ const MakeOffer = lazyWithRetry(() => import('./Pages/Offers/Flow/MakeOffer'));
 const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identification/IdentificationFlow'));
 
 // GENERAL COMPONENTS
-const PageHeaderDashboard = lazyWithRetry(() => import('./components/PageHeaderDashboard'));
+const PageHeaderDashboard = lazyWithRetry(() => import('./components/Header/PageHeaderDashboard'));
 
-const PageHeader = lazyWithRetry(() => import('./components/PageHeader'));
+// const PageHeader = lazyWithRetry(() => import('./components/PageHeader'));
 
-const MenuSidebar = lazyWithRetry(() => import('./components/MenuSidebar'));
+const MenuSidebar = lazyWithRetry(() => import('./components/Header/MenuSidebar'));
 
 // ADMIN ROUTES
 const ProtectedRoute = lazyWithRetry(() => import('./components/ProtectedRoute'));
@@ -409,54 +409,20 @@ const App = (props) => {
                 className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : 'flowScrollWrap'}`}
                 style={contentLayout()}
               >
-                {
-                  (
-                    history.location.pathname.includes('packageFlow') ||
-                    history.location.pathname.includes('visitFeedback') ||
-                    history.location.pathname.includes('onBoarding') ||
-                    history.location.pathname.includes('trialRequest') ||
-                    history.location.pathname.includes('upgrade') ||
-                    history.location.pathname.includes('signup')
-                  ) && (
-                    <>
-                      <PageHeader />
-                    </>
-                  )
-                }
-
                 <div
                   id="bodyScroll"
-                  className={`content ${!isFlow ? `hubDasContent dis-fl-col ${overflowClass()}` : 'flowContent dis-f'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
+                  className={`content dis-fl-col ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
                   style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
                   ref={dashContentRef}
                 >
+                  <PageHeaderDashboard
+                    changeZIndex={(index) => { setZIndex(index); }}
+                    isFlow={isFlow}
+                  />
                   {
-                    (
-                      !history.location.pathname.includes('packageFlow') &&
-                      !history.location.pathname.includes('visitFeedback') &&
-                      !history.location.pathname.includes('onBoarding') &&
-                      !history.location.pathname.includes('signup')
-                    ) &&
-                    !history.location.pathname.includes('upgrade') &&
-                    !history.location.pathname.includes('trialRequest') &&
-                    (
-                      <>
-                        <PageHeaderDashboard changeZIndex={(index) => { setZIndex(index); }} />
-                      </>
-                    )
-                  }
-                  {
-                    !history.location.pathname.includes('packageFlow') &&
-                    !history.location.pathname.includes('visitFeedback') &&
-                    !history.location.pathname.includes('signup') &&
-                    (!history.location.pathname.includes('sell') || history.location.pathname.includes('homebase')) &&
+                    !isFlow &&
+                    !history.location.pathname.includes('sell') &&
                     (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
-                    !history.location.pathname.includes('onBoarding') &&
-                    !history.location.pathname.includes('upgrade') &&
-                    !history.location.pathname.includes('trialRequest') &&
-                    !history.location.pathname.includes('achievement') &&
-                    !history.location.pathname.includes('propertyLists') &&
-                    !history.location.pathname.includes('pageLists') &&
                     loggedInUser &&
                     windowDimensions.width > 1024 &&
                     (
@@ -464,14 +430,6 @@ const App = (props) => {
                     )
                   }
                   <div className="w-perc-100 innerWrap">
-                    {/*  {
-                    !history.location.pathname.includes('packageFlow') &&
-                  !history.location.pathname.includes('onBoarding') &&
-                  !history.location.pathname.includes('buyer') &&
-                    (
-                      // <TeaserBanner />
-                    )
-                  } */}
                     <Routes>
                       <Route path="/500" element={<ErrorBoundering />} />
                       { /* SECTION: ONBOARDING */}
@@ -665,13 +623,7 @@ const App = (props) => {
           {
             notification && notification.length > 0 &&
             !history.location.pathname.includes('home') &&
-            !history.location.pathname.includes('packageFlow') &&
-            !history.location.pathname.includes('visitFeedback') &&
-            !history.location.pathname.includes('upgrade') &&
-            !history.location.pathname.includes('trialRequest') &&
-            !history.location.pathname.includes('upgrade') &&
-            !history.location.pathname.includes('docubox') &&
-            !history.location.pathname.includes('signup') &&
+            !isFlow &&
             (
               <div className="brixel-notifications">
                 {

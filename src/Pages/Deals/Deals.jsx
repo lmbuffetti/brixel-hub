@@ -35,7 +35,7 @@ import {
 import {
   preventExitFromScreen,
 } from '../../actions/CommonActions';
-import DealsCard from '../../components/DealsCard';
+import DealsCard from '../../components/Cards/DealsCard';
 import DealsTitle from '../../components/DealsTitle';
 import FilterBar from '../../components/FilterBar';
 import {

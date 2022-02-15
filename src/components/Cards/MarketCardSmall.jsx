@@ -6,10 +6,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelIcon, Helpers } from '@brixel/brixel-components';
-import CoverPropertyImage from './CoverPropertyImage';
-import CardImageText from './Skeleton/CardImageText';
-import { setActiveSingleProperty, setEstimation } from '../actions/PropertyActions';
-import { setSplashType } from '../actions/CommonActions';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
+import { setActiveSingleProperty, setEstimation } from '../../actions/PropertyActions';
+import { setSplashType } from '../../actions/CommonActions';
 
 const MarketCardSmall = (props) => {
   const history = {

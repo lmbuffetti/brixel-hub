@@ -8,10 +8,10 @@ import {
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import empowerBestPersonalSupport from '../images/BrxielComingTown/empowerBestPersonalSupport.svg';
-import empowerBestMarketing from '../images/BrxielComingTown/empowerBestMarketing.svg';
-import empowerSellOwn from '../images/BrxielComingTown/empowerSellOwn.svg';
-import { translateTo } from '../utils/translation';
+import empowerBestPersonalSupport from '../../images/BrxielComingTown/empowerBestPersonalSupport.svg';
+import empowerBestMarketing from '../../images/BrxielComingTown/empowerBestMarketing.svg';
+import empowerSellOwn from '../../images/BrxielComingTown/empowerSellOwn.svg';
+import { translateTo } from '../../utils/translation';
 
 const BrixelRadioCard = (props) => {
   const {

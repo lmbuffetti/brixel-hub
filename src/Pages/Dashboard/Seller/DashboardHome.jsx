@@ -39,7 +39,7 @@ import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getActiveSinglePropertyDealsCount, getPageDeals } from '../../../actions/PropertyActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
-import DashboardPropertyCard from '../../../components/DashboardPropertyCard';
+import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 
 const { factsOptions } = FactsOptions;
 

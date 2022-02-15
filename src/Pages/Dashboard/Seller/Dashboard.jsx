@@ -142,7 +142,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null)) && propID !== 'sell') {
+    if ((propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null)) && propID !== 'sell') {
       if (propID && propID !== 'home' && propID !== 'company') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetPackageProperty({ id: propID });
@@ -175,7 +175,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && loadedProp && propID !== 'sell') {
+    if (loadedProp && propID !== 'sell') {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
           const isSellerUser = get(loggedInUser, 'user.seller', false);

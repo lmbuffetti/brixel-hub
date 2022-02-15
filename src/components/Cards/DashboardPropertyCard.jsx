@@ -11,7 +11,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import CoverPropertyImage from './CoverPropertyImage';
+import CoverPropertyImage from '../CoverPropertyImage';
 
 const DashboardPropertyCard = (props) => {
   const history = {

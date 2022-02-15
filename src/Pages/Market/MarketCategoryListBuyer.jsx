@@ -21,7 +21,7 @@ import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { setEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import MarketCardSmall from '../../components/MarketCardSmall';
+import MarketCardSmall from '../../components/Cards/MarketCardSmall';
 import SearchProfileBanner from '../../components/SearchProfileBanner';
 import teaserAnimation from '../../images/Market/teaserAnimate.svg';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';

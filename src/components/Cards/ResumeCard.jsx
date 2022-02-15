@@ -6,10 +6,10 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 // property thumb
-import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
-import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
-import resumeLand from '../images/BrxielComingTown/resumeLand.svg';
-import resumeCommercial from '../images/BrxielComingTown/resumeCommercial.svg';
+import resumeHouse from '../../images/BrxielComingTown/resumeHouse.svg';
+import resumeApartment from '../../images/BrxielComingTown/resumeApartement.svg';
+import resumeLand from '../../images/BrxielComingTown/resumeLand.svg';
+import resumeCommercial from '../../images/BrxielComingTown/resumeCommercial.svg';
 
 // COMPONENT USED ON ONBOARDING TO SHOW THE PREVIEW OF CREATED PROPERTY
 const ResumeCard = (props) => {

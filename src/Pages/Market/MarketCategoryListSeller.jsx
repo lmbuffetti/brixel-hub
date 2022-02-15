@@ -18,7 +18,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import orderBy from 'lodash/orderBy';
 import lazyWithRetry from '../../components/LazyWithRetry';
-import MarketCard from '../../components/MarketCard';
+import MarketCard from '../../components/Cards/MarketCard';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';

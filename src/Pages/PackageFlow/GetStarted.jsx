@@ -271,7 +271,7 @@ const GetStarted = (props) => {
   const closeWindow = () => {
     reset('Property');
     // history.push('/home');
-    history.push('/buyer/propertyLists');
+    history.push('/buy');
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
