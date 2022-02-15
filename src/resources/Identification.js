@@ -6,7 +6,7 @@ import {
   BrixelInputDatePicker,
   // Validation,
   FactsOptions,
-  BrixelSelect,
+  BrixelSelect, Validation,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import ClipboardImg from '../images/scanTrial/clipboard.png';
@@ -38,6 +38,7 @@ export const IdentificationQuestions = (editForm = false) => {
           name: 'persons[0].fullName',
           placeholder: 'Enter full name',
           pdClass: 'py-2 py-md-5',
+          validation: [Validation.required],
           large: true,
         },
       ],
@@ -56,6 +57,7 @@ export const IdentificationQuestions = (editForm = false) => {
           name: 'persons[0].nationality',
           pdClass: 'py-3 py-md-5',
           large: true,
+          validation: [Validation.required],
         },
         {
           component: BrixelInputDatePicker,
@@ -67,6 +69,7 @@ export const IdentificationQuestions = (editForm = false) => {
           name: 'persons[0].dateBirth',
           showFullSelectDate: true,
           large: true,
+          validation: [Validation.required],
         },
         {
           classNameBox: 'ml-a mr-a',
@@ -77,6 +80,7 @@ export const IdentificationQuestions = (editForm = false) => {
           options: factsOptions.martialStatus,
           pdClass: 'py-3 py-md-5',
           large: true,
+          validation: [Validation.required],
         },
         {
           conditionsOr: [{
@@ -104,6 +108,7 @@ export const IdentificationQuestions = (editForm = false) => {
           options: isPT ? factsOptions.purchaseTypePT : factsOptions.purchaseType,
           pdClass: 'py-3 py-md-5',
           large: true,
+          validation: [Validation.required],
         },
         {
           component: BrixelInputText,
@@ -114,6 +119,7 @@ export const IdentificationQuestions = (editForm = false) => {
           label: 'Current living address',
           name: 'persons[0].currentLivingAddress.address',
           large: true,
+          validation: [Validation.required],
         },
         {
           component: BrixelInputText,
@@ -125,6 +131,7 @@ export const IdentificationQuestions = (editForm = false) => {
           placeholder: 'ZIP',
           name: 'persons[0].currentLivingAddress.zipCode',
           large: true,
+          validation: [Validation.required],
         },
         {
           component: BrixelInputText,
@@ -136,6 +143,7 @@ export const IdentificationQuestions = (editForm = false) => {
           placeholder: 'City',
           name: 'persons[0].currentLivingAddress.city',
           large: true,
+          validation: [Validation.required],
         },
       ],
     },
@@ -187,6 +195,7 @@ export const IdentificationQuestions = (editForm = false) => {
           label: 'Account Owner',
           name: 'bankInfo.accountOwner',
           large: true,
+          validation: [Validation.required],
         },
         {
           component: BrixelInputText,
@@ -197,6 +206,7 @@ export const IdentificationQuestions = (editForm = false) => {
           label: 'IBAN',
           name: 'bankInfo.IBAN',
           large: true,
+          validation: [Validation.isValidIban, Validation.required],
         },
       ],
     },

@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.17.2",
-    "@brixel/brixel-components": "^2.7.40",
+    "@brixel/brixel-components": "^2.7.41",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^2.0.4",
     "d3": "^7.3.0",
@@ -132,7 +132,7 @@
     "redux-mock-store": "^1.5.4",
     "regenerator-runtime": "^0.13.9",
     "resolve-url-loader": "^5.0.0",
-    "sass-loader": "^12.5.0",
+    "sass-loader": "^12.6.0",
     "webpack": "5.68.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
