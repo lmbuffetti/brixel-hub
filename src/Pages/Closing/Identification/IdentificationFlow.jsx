@@ -78,7 +78,8 @@ const IdentificationFlow = (props) => {
   useEffect(() => {
     initForm(initialValues);
     if (activeSingleDeal.id && get(activeSingleDeal, 'closing.stageIdentification.active', false) !== true) {
-      history.push(`/buyer/${propID}/closing`);
+      if (userType === 'seller') history.push(`/${propID}/closing`);
+      else history.push(`/buyer/${propID}/closing`);
     }
   }, [activeSingleDeal.id, get(initialValues, 'persons[0].fullName', null)]);
 
@@ -204,9 +205,7 @@ const IdentificationFlow = (props) => {
       }
       newIndex += step;
     }
-    if (newIndex === -1) {
-      history.push('/packageFlow');
-    } else {
+    if (newIndex > -1) {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (newQuestions[defId]) {
@@ -226,7 +225,7 @@ const IdentificationFlow = (props) => {
           setCurrentIndex(defId);
           if (newQuestions[defId].history) {
             history.push({
-              pathname: `/packageFlow/${propID}/${dealID}/closing/identification/${newQuestions[defId].history}`,
+              pathname: `/packageFlow/${propID}/${dealID}/closing/${userType}/identification/${newQuestions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -265,7 +264,8 @@ const IdentificationFlow = (props) => {
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     reset('Property');
-    history.push(`/buyer/${propID}/closing`);
+    if (userType === 'seller') history.push(`/${propID}/closing`);
+    else history.push(`/buyer/${propID}/closing`);
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
