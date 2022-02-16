@@ -41,6 +41,7 @@ function RightHeaderFlow(props) {
     if (get(history, 'location.search', null) && get(history, 'location.search', '').includes('?url=')) {
       const urlParams = queryString.parse(get(history, 'location.search', ''));
       localStorage.setItem('backUrl', urlParams.url);
+      localStorage.setItem('backUrlBis', urlParams.url);
     }
   }, [history]);
 

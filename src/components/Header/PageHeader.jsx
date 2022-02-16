@@ -68,12 +68,13 @@ function PageHeader(props) {
   const [activeMenu, setActiveMenu] = useState(null);
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
+  const [openMenu, setOpenMenu] = useState(false);
   const [packageName, setPackageName] = useState('Basic');
   const [section, setSection] = useState('Sell');
-  const [openMenu, setOpenMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showProgressStage, setShowProgressStage] = useState(false);
   const [stepIndexProgrss, setIndexProgrss] = useState(0);
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
 
@@ -185,9 +186,26 @@ function PageHeader(props) {
 
   // ON CHANGE PAGE
   useEffect(() => {
-    // setShowMobileMenu(false);
     setShowAccountMenu(false);
-  }, [get(history, 'location.pathname', null)]);
+    if (
+      windowDimensions.width > 1024 && (
+        (
+          !isFlow &&
+        activeSingleProperty.id &&
+        propID &&
+        propID.length > 9 &&
+        userType === 'seller'
+        ) || (
+          history.location.pathname.includes('welcomeSeller') ||
+        history.location.pathname.includes('getStarted/')
+        )
+      )
+    ) {
+      setShowProgressStage(true);
+    } else {
+      setShowProgressStage(false);
+    }
+  }, [get(history, 'location.pathname', null), isFlow, userType, propID, activeSingleProperty.id]);
 
   // SHOW/HIDE MOBILE MENU
   const toggleMobileMenu = () => {
@@ -243,20 +261,14 @@ function PageHeader(props) {
         } else {
           dashWrapperEl.classList.remove('longScroll');
         }
+        if (showMobileMenu) {
+          dashContentEl.classList.add('menuOn');
+          dashContentEl.style.overflowY = 'hidden';
+        } else {
+          dashContentEl.style.overflowY = '';
+          dashContentEl.classList.remove('menuOn');
+        }
       });
-    }
-  }, [showMobileMenu]);
-
-  useEffect(() => {
-    const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
-    if (dashContentEl) {
-      if (showMobileMenu) {
-        dashContentEl.classList.add('menuOn');
-        dashContentEl.style.overflowY = 'hidden';
-      } else {
-        dashContentEl.style.overflowY = '';
-        dashContentEl.classList.remove('menuOn');
-      }
     }
   }, [showMobileMenu]);
 
@@ -371,17 +383,13 @@ function PageHeader(props) {
                     }
                   </div>
                   {
-                    windowDimensions.width > 1024 && (!isFlow || history.location.pathname.includes('welcomeSeller')) && (
+                    showProgressStage && (
                       <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
-                        {
-                          activeSingleProperty.id && propID && propID.length > 9 && userType === 'seller' && (
-                            <ProgressSellerStage
-                              smallLayout
-                              xSmallMobile={windowDimensions.width < 480}
-                              stepIndexProgress={history.location.pathname.includes('welcomeSeller') ? 0 : stepIndexProgrss}
-                            />
-                          )
-                        }
+                        <ProgressSellerStage
+                          smallLayout
+                          xSmallMobile={windowDimensions.width < 480}
+                          stepIndexProgress={history.location.pathname.includes('welcomeSeller') ? 0 : stepIndexProgrss}
+                        />
                       </div>
                     )
                   }
