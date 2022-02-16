@@ -89,7 +89,7 @@ const Portals = (props) => {
       <h3 className="mb-3 hide dis-b-lg">Portals</h3>
 
       <div className="secondLevel dis-fl-col">
-        <div className="dis-fl-col backPanel dis-b hide-md">
+        <div className="dis-fl-col backPanel dis-b hide-lg">
           <h5 className="sectionTitle">Portals</h5>
         </div>
 
