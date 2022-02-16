@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy, DataByCountry,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -74,28 +74,6 @@ const IdentificationFlow = (props) => {
     }
     return () => destroyForm();
   }, []);
-
-  useEffect(() => {
-    initForm(initialValues);
-    if (activeSingleDeal.id && get(activeSingleDeal, 'closing.stageIdentification.active', false) !== true) {
-      if (userType === 'seller') history.push(`/${propID}/closing`);
-      else history.push(`/buyer/${propID}/closing`);
-    }
-  }, [activeSingleDeal.id, get(initialValues, 'persons[0].fullName', null)]);
-
-  const getCurrency = () => {
-    const result = {};
-    if (get(formValue, 'location.countryCode', '')) {
-      const currency = DataByCountry(get(formValue, 'location.countryCode', ''));
-      result.currency = currency || 'CHF';
-      changeFieldValue('price.currency', result.currency);
-    }
-    return result;
-  };
-
-  useEffect(() => {
-    getCurrency();
-  }, [get(history, 'location.countryCode', null)]);
 
   useEffect(() => {
     setIsEnter(true);
@@ -241,6 +219,19 @@ const IdentificationFlow = (props) => {
     }
     return null;
   };
+
+  useEffect(() => {
+    initForm(initialValues);
+    if (activeSingleDeal.id && get(activeSingleDeal, 'closing.stageIdentification.active', false) !== true) {
+      if (userType === 'seller') history.push(`/${propID}/closing`);
+      else history.push(`/buyer/${propID}/closing`);
+    }
+    if (get(initialValues, 'persons[0].fullName', null)) {
+      setTimeout(() => {
+        changeStep('next', null, 3, true);
+      }, 100);
+    }
+  }, [activeSingleDeal.id, get(initialValues, 'persons[0].fullName', null)]);
 
   // CHANGE STEP AFTER SAVE
   useEffect(() => {

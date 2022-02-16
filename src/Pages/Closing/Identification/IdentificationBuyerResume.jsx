@@ -14,7 +14,7 @@ import {
   BrixelButtonText,
   BrixelCheckbox,
   BrixelIcon,
-  MultiFileldsReduxForm,
+  ReduxField,
 } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
 import EditBuyerData from './EditBuyerData';
@@ -59,6 +59,19 @@ const IdentificationFlow = (props) => {
               if (isValid) isValid = syncErrors.persons[editProfile][key][subkey] !== 'Required';
             });
           } else if (isValid) isValid = syncErrors.persons[editProfile][key] !== 'Required';
+        });
+      }
+      return isValid;
+    }
+    if (stepResume === 'resume') {
+      let isValid = true;
+      if (syncErrors) {
+        Object.keys(syncErrors).forEach((key) => {
+          if (isObject(syncErrors[key])) {
+            Object.keys(syncErrors[key]).forEach((subkey) => {
+              if (isValid) isValid = syncErrors[key][subkey] !== 'Required' && syncErrors[key][subkey] !== 'Invalid IBAN';
+            });
+          } else if (isValid) isValid = syncErrors[key] !== 'Required' && syncErrors[key] !== 'Invalid IBAN';
         });
       }
       return isValid;
@@ -176,19 +189,51 @@ const IdentificationFlow = (props) => {
                   </h6>
 
                   <div className="w-perc-100">
-                    <MultiFileldsReduxForm
-                      form="Identification"
-                      disableNextBtn={false}
-                      formValue={formValue}
-                      inputs={cardInput}
-                      onClick={() => ''}
-                      onCloseGoBack={() => ''}
-                      // onClickDisabled={!checkValidateField()}
-                      // onSubmit={() => changeStep()}
-                      showSendButton={false}
-                      // showErrors={showError}
-                      disableDelay
-                    />
+                    {
+                      cardInput.map((field, i) => (
+                        <div
+                          className={`${field.classWidthBox ? field.classWidthBox : 'w-perc-100'} ${field.classBoxWrapper || 'mt-3'}`}
+                          key={i.toString()}
+                        >
+                          <ReduxField
+                            form="Identification"
+                            component={field.component}
+                            design={{
+                              cardLayout: field.cardLayout,
+                              cardSmall: field.cardSmall,
+                              className: field.className || '',
+                              classNameParent: field.classNameParent || '',
+                              compact: field.compact,
+                              fluid: field.fluid,
+                              formatText: field.formatText,
+                              iconClass: field.iconClass,
+                              inputClassName: field.className || '',
+                              isHorizontal: field.isHorizontal,
+                              pdClass: field.pdClass,
+                              large: field.large,
+                              section: field.section,
+                              showCountCharacters: field.showCountCharacters,
+                              stretched: field.stretched,
+                              svgSupport: field.svgSupport,
+                              svgWidth: field.svgWidth,
+                              wrapClass: field.wrapClass || '',
+                            }}
+                            input={{
+                              name: field.name,
+                              options: field.options,
+                              placeholder: field.placeholder || '',
+                              validate: field.validation,
+                            }}
+                            labels={{
+                              icons: field.icons,
+                              label: field.label,
+                              labelLeft: field.labelLeft,
+                              labelType: field.labelType,
+                            }}
+                          />
+                        </div>
+                      ))
+                    }
                   </div>
 
                 </div>
@@ -207,6 +252,7 @@ const IdentificationFlow = (props) => {
                     />
                     <BrixelButtonPrimary
                       rounded
+                      disabled={!validateInput()}
                       onClick={() => setStepResume('checkData')}
                       rightIcon="arrow-right-small"
                       className="ml-a mr-a noWrap"
