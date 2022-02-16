@@ -155,8 +155,7 @@ const Deals = (props) => {
 
   const openDeal = (id) => {
     resetSingleDeal({});
-    const path = get(history, 'location.pathname', '').replace(/\/$/, '');
-    history.push(`${path}/${id}/deal`);
+    history.push(`/${activeSingleProperty.id}/prospect/${id}`);
   };
 
   const createNewDeal = () => {

@@ -860,7 +860,7 @@ const DashboardHome = (props) => {
                         >
                           <div
                             className={`dis-f a-c ${classWidthTable(0)} order-1 cur-poi`}
-                            onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
+                            onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
                           >
                             <BrixelAvatar
                               baseURL={get(baseByData, 'shortPath', '')}
@@ -874,7 +874,7 @@ const DashboardHome = (props) => {
                           </div>
                           <p
                             className={`${classWidthTable(1)} ${!visit.past ? 'txtPrimary400' : 'txtLight600'} order-3 order-md-2 cur-poi`}
-                            onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
+                            onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
                           >
                             {DateTime.fromMillis(visit.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                           </p>
