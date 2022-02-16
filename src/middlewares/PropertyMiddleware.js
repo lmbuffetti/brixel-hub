@@ -1228,7 +1228,7 @@ const checkCommon = (store) => (next) => (action) => {
               // Process the user history for each deal
               res.forEach((userHistory) => {
                 // We need the the user history filtered by the active property
-                const userHistoryFiltered = filter(userHistory.data.data, (el) => get(el, 'child', '') === action.payload);
+                const userHistoryFiltered = filter(userHistory.data.data, (el) => get(el, 'child', '') === action.payload.id);
                 // We need the most recent entry, which is the first position based on the direction written on the queryparams
                 const mostRecentUserHistoryFiltered = userHistoryFiltered[0];
                 const dealIndex = findIndex(deals, (d) => d.user.id === get(mostRecentUserHistoryFiltered, 'parent', ''));

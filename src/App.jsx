@@ -469,6 +469,7 @@ const App = (props) => {
                                   <Route path="/:propID?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                                  <Route path="/:propID/prospect/:dealID" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
                                   <Route path="/:propID?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                 </>
@@ -535,7 +536,6 @@ const App = (props) => {
             <Route path="/:propID?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
             <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
-            <Route path="/:propID/prospects/:dealID/deal" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
             <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
             <Route path="*" element={null} />
