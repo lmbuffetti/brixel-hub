@@ -16,7 +16,7 @@ import { configureStore } from '../store';
 
 const { factsOptions } = FactsOptions;
 
-export const IdentificationQuestions = (editForm = false) => {
+export const IdentificationQuestions = (editForm = false, userType) => {
   let formValue = {};
   let isPT;
   if (configureStore) {
@@ -27,7 +27,7 @@ export const IdentificationQuestions = (editForm = false) => {
 
   return [
     {
-      title: 'Who is the buyer of the property?',
+      title: `Who is the ${userType} of the property?`,
       history: 'buyerName',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
       inputs: [

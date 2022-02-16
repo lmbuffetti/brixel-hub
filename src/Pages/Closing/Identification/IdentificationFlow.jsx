@@ -47,21 +47,21 @@ const IdentificationFlow = (props) => {
     loggedInUser,
     reset,
   } = props;
+  // GET URL PARAMS
+  const propID = get(match, 'propID', null);
+  const dealID = get(match, 'dealID', null);
+  const userType = get(match, 'userType', null);
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState(IdentificationQuestions());
+  const [questions, setQuestions] = useState(IdentificationQuestions(false, userType));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   const [action, setAction] = useState('next');
   const [isEnter, setIsEnter] = useState(true);
   // SET QUEST TO FIRST QUESTION OF IdentificationQuestions()
-  const [quest, setQuest] = useState(IdentificationQuestions()[0]);
-  // const [roomValue, setRoomValue] = useState('');
-  // GET URL PARAMS
-  const propID = get(match, 'propID', null);
-  const dealID = get(match, 'dealID', null);
-  const userType = get(match, 'userType', null);
+  const [quest, setQuest] = useState(IdentificationQuestions(false, userType)[0]);
 
+  // REFS
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
 
@@ -121,7 +121,7 @@ const IdentificationFlow = (props) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    const newQuestions = IdentificationQuestions();
+    const newQuestions = IdentificationQuestions(false, userType);
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       newQuestions[newIndex].conditions.map((cond) => {
@@ -170,7 +170,7 @@ const IdentificationFlow = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const newQuestions = IdentificationQuestions();
+    const newQuestions = IdentificationQuestions(false, userType);
     let newIndex = currentIndex;
     setShowError(false);
     setAction(act);
@@ -242,13 +242,13 @@ const IdentificationFlow = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = IdentificationQuestions()[currentIndex];
+    const currentQuest = IdentificationQuestions(false, userType)[currentIndex];
     if (currentQuest.effect === 'slideUp') {
-      setQuestions(IdentificationQuestions());
-      setQuest(IdentificationQuestions()[currentIndex - 1]);
+      setQuestions(IdentificationQuestions(false, userType));
+      setQuest(IdentificationQuestions(false, userType)[currentIndex - 1]);
     } else {
-      setQuestions(IdentificationQuestions());
-      setQuest(IdentificationQuestions()[currentIndex]);
+      setQuestions(IdentificationQuestions(false, userType));
+      setQuest(IdentificationQuestions(false, userType)[currentIndex]);
     }
   }, [lang]);
 
@@ -263,7 +263,7 @@ const IdentificationFlow = (props) => {
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      IdentificationQuestions('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      IdentificationQuestions(false, userType).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -402,6 +402,7 @@ const IdentificationFlow = (props) => {
                         dealID,
                         formName: 'Identification',
                         initialValue: formValue,
+                        userType,
                         ...quest,
                         onClick: (step = 1) => (questions[currentIndex + 1] ? changeStep('next', null, step, true) : closeWindow()),
                         onBack: (step = 1) => changeStep('back', null, step, true),

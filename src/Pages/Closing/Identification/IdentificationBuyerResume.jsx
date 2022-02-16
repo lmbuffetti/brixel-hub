@@ -36,6 +36,7 @@ const IdentificationFlow = (props) => {
     onBack,
     onClick,
     syncErrors,
+    userType,
   } = props;
   // STATE
   const [editProfile, setEditProfile] = useState(-1);
@@ -92,6 +93,7 @@ const IdentificationFlow = (props) => {
                 forceStep={stepForm}
                 onCloseEdit={() => setStepResume('resume')}
                 profileId={editProfile}
+                userType={userType}
               />
               <div
                 className="footerAction flowFooter"
@@ -123,7 +125,7 @@ const IdentificationFlow = (props) => {
           stepResume === 'resume' && (
             <>
               <h2 className="fweight-600 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                Who is the buyer of the property?
+                Who is the {userType} of the property?
               </h2>
               <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
                 <div className="p-2 p-sm-5">
@@ -414,6 +416,7 @@ IdentificationFlow.propTypes = {
   onBack: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   syncErrors: PropTypes.object.isRequired,
+  userType: PropTypes.string.isRequired,
 };
 
 IdentificationFlow.defaultProps = {
