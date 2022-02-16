@@ -370,8 +370,8 @@ const checkCommon = (store) => (next) => (action) => {
                     if (res2.meta.status === 200) {
                       updatedDeal = res2.data;
                       store.dispatch({
-                        type: GET_PAGE_DEALS,
-                        payload: store.getState().property.activeSingleProperty.id,
+                        type: SET_ACTIVE_SINGLE_DEAL,
+                        payload: updatedDeal,
                       });
                     } else {
                       // eslint-disable-next-line no-console
