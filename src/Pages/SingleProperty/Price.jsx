@@ -131,7 +131,7 @@ const Price = (props) => {
       <h3 className="mb-3 hide dis-b-lg">Price</h3>
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
 
-        <div className="dis-fl-col backPanel dis-b hide-md">
+        <div className="dis-fl-col backPanel dis-b hide-lg">
           <h5 className="sectionTitle">Price</h5>
         </div>
 

@@ -244,7 +244,7 @@ const IntroUpgrade = (props) => {
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">Do you want to upgrade or change plans?</h3>
 
         <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
             <img className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
@@ -256,7 +256,7 @@ const IntroUpgrade = (props) => {
               />
             </div>
           </div>
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
             <img className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
@@ -270,7 +270,7 @@ const IntroUpgrade = (props) => {
           </div>
           {
             propID !== 'company' && (
-              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
                 <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
                 <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
