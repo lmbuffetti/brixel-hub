@@ -403,7 +403,7 @@ const Upgrade = (props) => {
                               />
                             ) : (
                               <BrixelButtonPrimary
-                                className={`${currentIndex > 0 && get(questions, `[${currentIndex - 1}].inputs`, null) ? 'mr-a ml-a' : ''} noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                className={`mr-a ml-a noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 rounded
                                 theme="green"

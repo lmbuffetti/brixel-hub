@@ -43,7 +43,7 @@ const IntroScanFlow = (props) => {
   });
 
   return (
-    <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700">
+    <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700 mt-3">
 
       <h2 className="mb-0 mb-lg-5 ta-c fweight-600">
         How it works

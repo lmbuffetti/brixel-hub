@@ -550,7 +550,7 @@ const MakeOffer = (props) => {
                           {
                             buttonLabel().toLowerCase() === 'skip' ? (
                               <BrixelButtonSecondary
-                                className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                className={`noWrap mr-a ml-a ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 theme="green"
                                 themeSat={600}
@@ -561,7 +561,7 @@ const MakeOffer = (props) => {
                               />
                             ) : (
                               <BrixelButtonPrimary
-                                className={`${currentIndex > 0 && get(questions, `[${currentIndex - 1}].inputs`, null) ? 'mr-a ml-5-neg' : ''} noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                className={`mr-a ml-a noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 rounded
                                 theme="green"

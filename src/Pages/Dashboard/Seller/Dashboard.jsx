@@ -340,8 +340,8 @@ const Dashboard = (props) => {
   const sectionClass = get(history, 'location.pathname', '/').split('/');
 
   return (
-    <div className={`dashboardContainer dis-f jc-b ${sectionClass[2]}`} id="dashboard">
-      <div className="w-perc-100 pt-0 pt-lg-3">
+    <div className={`dashboardContainer mt-0 mt-md-3 dis-f jc-b ${sectionClass[2]}`} id="dashboard">
+      <div className="w-perc-100">
         <Suspense fallback={<Loading isLoading />}>
           {/* teaserScreens && isEligible(activeSingleProperty) && () */}
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
