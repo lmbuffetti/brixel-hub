@@ -60,6 +60,7 @@ const IdentificationFlow = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
   const dealID = get(match, 'dealID', null);
+  const userType = get(match, 'userType', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -68,6 +69,9 @@ const IdentificationFlow = (props) => {
   useEffect(() => {
     handleSpinnerOff();
     handleGetActiveSingleDeal({ id: dealID });
+    if (userType !== 'buyer' && userType !== 'seller') {
+      history.push(`/buyer/${propID}/closing`);
+    }
     return () => destroyForm();
   }, []);
 
@@ -123,6 +127,7 @@ const IdentificationFlow = (props) => {
       id: dealID,
       ...dataDocuments,
       smallLoader: 'sendData',
+      personType: userType,
       ...formData,
       saveAction: 'closingIdentification',
     };
@@ -526,7 +531,9 @@ IdentificationFlow.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const initialValues = get(state, 'deal.activeSingleDeal.closing.stageIdentification.buyer', {});
+  let userType = 'buyer';
+  if (typeof window !== 'undefined') userType = (window.location.href).includes('seller') ? 'seller' : 'buyer';
+  const initialValues = get(state, `deal.activeSingleDeal.closing.stageIdentification.${userType}`, {});
   return ({
     activeSingleDeal: get(state, 'deal.activeSingleDeal', null),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),

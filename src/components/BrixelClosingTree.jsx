@@ -311,7 +311,7 @@ const BrixelClosingTree = (props) => {
                     <BrixelButtonSecondary
                       className="mt-2"
                       rounded
-                      onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/identification`)}
+                      onClick={isBuyer ? () => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification`) : () => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification`)}
                       label="Edit"
                     />
                   )
