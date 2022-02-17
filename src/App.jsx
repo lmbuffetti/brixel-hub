@@ -245,7 +245,7 @@ const App = (props) => {
     } else {
       if (history.location.pathname.includes('home')) {
         setClassMain('w-perc-100 pos-r hubContainer rewardsTop withTopBar sellerHub');
-      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('closing') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects') || history.location.pathname.includes('financing')) {
+      } else if (history.location.pathname.includes('property') || history.location.pathname.includes('closing') || history.location.pathname.includes('docubox') || history.location.pathname.includes('prospects') || history.location.pathname.includes('prospect') || history.location.pathname.includes('financing')) {
         if (history.location.pathname.includes('buyer')) {
           setClassMain('w-perc-100 pos-r hubContainer buyerHub propertyTop');
         } else {
@@ -358,7 +358,7 @@ const App = (props) => {
   const overflowClass = useCallback(() => {
     if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) {
       // if (windowDimensions.width <= 1024) return 'ov-y-a ov-x-h';
-      return 'ov-y-h ov-x-h';
+      return 'ov-y-a ov-x-h';
     }
     return 'ov-y-a ov-x-h';
   }, []);
