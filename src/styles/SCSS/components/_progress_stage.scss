@@ -34,7 +34,7 @@
       align-items: center;
       border-radius: $brd-radius-circle;
       background: $brx-white;
-      &:not(.smallStep) {
+      &:not(.smallStep):not(.xsmallStep) {
         border: 1px solid map_get($altGreyColor, 100);
       }
       > span {

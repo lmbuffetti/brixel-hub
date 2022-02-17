@@ -384,10 +384,9 @@ function PageHeader(props) {
                   </div>
                   {
                     showProgressStage && (
-                      <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-lg-4">
+                      <div className="quickNav mr-a dis-f fsize-300 fsize-sm-400 pl-2 pl-md-4">
                         <ProgressSellerStage
-                          smallLayout={!isFlow}
-                          xSmallMobile={windowDimensions.width < 480}
+                          xSmallMobile={windowDimensions.width <= 768}
                           stepIndexProgress={history.location.pathname.includes('welcomeSeller') ? 0 : stepIndexProgrss}
                         />
                       </div>
