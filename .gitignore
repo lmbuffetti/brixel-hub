@@ -5,3 +5,4 @@ package-lock.json
 brixel-hub.iml
 .DS_Store
 dist
+_accordion.scss

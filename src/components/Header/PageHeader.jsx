@@ -343,7 +343,7 @@ function PageHeader(props) {
                   className={`header-section dis-fl-row a-c jc-b w-perc-100 w-perc-lg-80 ${showMobileMenu ? 'hide' : ''}`}
                 >
                   <div
-                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper min-w-fix-lg-232 w-fit min-w-fix-40 ${((!isFlow && activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy')) ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
+                    className={`dis-f a-c pl-0 pl-lg-3 logoWrapper ${isFlow ? '' : 'min-w-fix-lg-232'} w-fit min-w-fix-40 ${((!isFlow && activeSingleProperty.id && propID && propID.length > 9) || (propID === 'sell' || propID === 'buy') || showProgressStage) ? 'brdSmallRight brdAltGrey200' : ''} w-fit`}
                   >
                     <div className={`${isFlow ? '' : 'brdSmallRight brdAltGrey200'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
                       <img
