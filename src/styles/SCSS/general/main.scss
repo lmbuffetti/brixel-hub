@@ -41,6 +41,21 @@ map-get($blueColor, 300);
 @import "./windows",
 "./hubDashboard";
 
+/* PAGES */
+@import
+"../pages/listings",
+"../pages/_property_listings",
+"../pages/upgrade",
+"../pages/images",
+"../pages/bodyModal",
+"../pages/facts",
+"../pages/buyer",
+"../pages/deals",
+"../pages/getStarted",
+"../pages/sellerSidebar",
+"../pages/seller";
+
+
 html,
 body {
   position: relative;
