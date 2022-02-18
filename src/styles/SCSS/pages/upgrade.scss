@@ -282,27 +282,6 @@ span {
   }
 }
 
-.fullGreenList {
-  li {
-    list-style: none;
-    display: flex;
-    margin-bottom: $step * 2;
-    &:before {
-      background-color: map_get($primaryColor, 300);
-      -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
-      mask-image: url('#{$imgRootpath}images/Icons/svg/check-small-fill.svg');
-      display: block;
-      width: 32px;
-      height: 32px;
-      background-position: center;
-      mask-size: contain;
-      margin-right: $step * 2;
-      margin-top: 3px;
-      mask-repeat: no-repeat;
-    }
-  }
-}
-
 ul.checked {
   padding: 0;
 

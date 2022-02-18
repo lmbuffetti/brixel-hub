@@ -27,31 +27,6 @@ $lightColorNew2: #F0F0F2;
           padding-top: 0;
           margin-top: 0;
         }
-        .paddingOffset {
-          flex: 1;
-          padding-top: 180px;
-          margin-top: -130px;
-          padding-bottom: 40px;
-          background-color: $lightColorNew;
-
-          @media (min-width: $responsive-medium) {
-            padding-bottom: 62px;
-          }
-
-
-          .market-card .info {
-            background: white;
-            margin-top: -$step;
-            border-bottom-right-radius: $step;
-            border-bottom-left-radius: $step;
-            padding: $step * 2;
-            padding-right: $step;
-          }
-          .market-card .cover {
-              border-bottom-right-radius: 0px;
-              border-bottom-left-radius: 0px;
-          }
-        }
       }
       .searchProfileArea {
         &:hover {
@@ -62,12 +37,6 @@ $lightColorNew2: #F0F0F2;
         @media (max-width: $responsive-small) {
           position: absolute;
           right: 8px;
-        }
-      }
-
-      .mobile-market-filter {
-        .dropdown-list {
-          width: 250px;
         }
       }
 
@@ -161,19 +130,8 @@ $lightColorNew2: #F0F0F2;
             > div {
               height: 100%;
             }
-
-            .min-100v {
-              min-height: calc(100vh - 64px);
-
-              @media (max-width: $responsive-large) {
-                min-height: calc(100vh - 56px);
-              }
-            }
           }
         }
-      }
-      .innerLineHeight {
-        line-height: 1.5;
       }
       .market-card {
         overflow: hidden;

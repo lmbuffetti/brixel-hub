@@ -41,21 +41,6 @@ map-get($blueColor, 300);
 @import "./windows",
 "./hubDashboard";
 
-/* PAGES */
-@import "../pages/onBoarding",
-"../pages/listings",
-"../pages/_property_listings",
-"../pages/upgrade",
-"../pages/images",
-"../pages/bodyModal",
-"../pages/facts",
-"../pages/buyer",
-"../pages/deals",
-"../pages/getStarted",
-"../pages/sellerSidebar",
-"../pages/seller";
-
-
 html,
 body {
   position: relative;
@@ -616,10 +601,6 @@ sub {
   &:not([class*=txt]) {
     color: map_get($primaryColor, 400);
   }
-}
-
-.transY-100 {
-  transform: translateY(-100%) !important;
 }
 
 button.minimum-w-210 {
