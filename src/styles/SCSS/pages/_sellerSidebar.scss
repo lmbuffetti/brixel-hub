@@ -1,5 +1,14 @@
 .seller-sidebar {
-  border-left: 1px solid map-get($lightColor, 300);
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    height: calc(100% + 24px);
+    width: 0;
+    left: 0;
+    top: - 24px;
+    border-left: 1px solid map-get($lightColor, 300);
+  }
 }
 
 .progress-steps {
