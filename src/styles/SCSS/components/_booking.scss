@@ -41,29 +41,6 @@
   height: calc(100% - 40px);
 }
 
-.bookingHoursList {
-  .bookingHour {
-    text-align: center;
-    padding: $step $step * 2;
-    border-radius: $brd-radius-small;
-    margin-right: $step / 2;
-    border-width: 1px;
-    border-style: solid;
-    border-color: map_get($lightColor, 300);
-    color: map_get($darkColor, 700);
-    &.selected {
-      opacity: 1;
-      cursor: pointer;
-      background: map_get($greenColor, 100);
-      border-color: map_get($greenColor, 300);
-      color: map_get($greenColor, 400);
-      p, span {
-        color: map_get($greenColor, 400);
-      }
-    }
-  }
-}
-
 .openBooking {
   position: absolute;
   background: rgba($brx-black, 0.56);
