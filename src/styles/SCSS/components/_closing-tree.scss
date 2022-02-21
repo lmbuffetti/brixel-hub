@@ -1,0 +1,10 @@
+.personsListIdentification {
+  .wrapName {
+    width: calc(100% - 50px);
+    .personsName {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

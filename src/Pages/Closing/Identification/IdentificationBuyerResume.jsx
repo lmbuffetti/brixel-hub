@@ -53,7 +53,7 @@ const IdentificationFlow = (props) => {
   const validateInput = () => {
     if (stepResume === 'editProfile' && stepForm === 0) {
       let isValid = true;
-      if (syncErrors.persons[editProfile]) {
+      if (get(syncErrors, `persons[${editProfile}]`, null)) {
         Object.keys(syncErrors.persons[editProfile]).forEach((key) => {
           if (isObject(syncErrors.persons[editProfile][key])) {
             Object.keys(syncErrors.persons[editProfile][key]).forEach((subkey) => {
