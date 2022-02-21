@@ -103,7 +103,7 @@ const BrixelClosingTree = (props) => {
       onClick: (action) => onClickOffer(action),
       stageName: 'stageOffer',
       subtitle: get(activeSingleOffer, 'offer.amount', 0) > 0 ?
-        `<span>${get(activeSingleOffer, 'offer.currency', 0)}</span><span>${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
+        `<span class="ff-mono">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
         'Add your first offer to start.',
       title: 'Offer',
     },
@@ -163,17 +163,21 @@ const BrixelClosingTree = (props) => {
                   </span>
                 )
               }
-              <BrixelIcon
-                color="green"
-                icon="pencil"
-                onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification/`)}
-              />
+              {
+                ((isBuyer && usrType === 'buyer') || (!isBuyer && usrType === 'seller')) && (
+                  <BrixelIcon
+                    color="green"
+                    icon="pencil"
+                    onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/${usrType}/identification/`)}
+                  />
+                )
+              }
             </div>
           </div>
         ) : (
           <BrixelButtonSecondary
             label="Edit"
-            onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
+            onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/${usrType}/identification/`)}
           />
         )
       }
@@ -255,12 +259,17 @@ const BrixelClosingTree = (props) => {
                 <div>
                   <div className="dis-f a-c jc-fe jc-fs-md">
                     <BrixelIcon
-                      icon="check-small"
+                      icon={get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) ? status.accepted.icon : status.pending.icon}
                       color={get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) ? 'green' : 'dark'}
                     />
                     {
                       get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) && (
-                        <span className="fsize-200 txtGreen400">Verified</span>
+                        <span className="ml-1 txtGreen400">Verified</span>
+                      )
+                    }
+                    {
+                      get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length > 0 && !get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) && (
+                        <span className="ml-1 txtYellow400">Pending</span>
                       )
                     }
                   </div>
@@ -381,12 +390,18 @@ const BrixelClosingTree = (props) => {
                 <div>
                   <div className="dis-f a-c jc-fe jc-fs-md">
                     <BrixelIcon
-                      icon="check-small"
+                      icon={get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) ? status.accepted.icon : status.pending.icon}
                       color={get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) ? 'green' : 'dark'}
                     />
+
                     {
                       get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) && (
-                        <span className="fsize-200 txtGreen400">Verified</span>
+                        <span className="ml-1 txtGreen400">Verified</span>
+                      )
+                    }
+                    {
+                      get(activeSingleClosing, 'stageIdentification.seller.persons', []).length > 0 && !get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) && (
+                        <span className="ml-1 txtYellow400">Pending</span>
                       )
                     }
                   </div>
@@ -442,7 +457,7 @@ const BrixelClosingTree = (props) => {
 
   return (
     <>
-      <div className={`brdRadius shadow-1dp w-perc-100 max-w-fix-1200 ${className} px-1 pt-1 px-md-3 pt-md-3`}>
+      <div className={`brdRadius shadow-1dp w-perc-100 max-w-fix-1200 ${className} px-1 pt-1 px-md-3 pt-md-3 bgWhite`}>
         <div className="dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
 
@@ -474,7 +489,7 @@ const BrixelClosingTree = (props) => {
                   </div>
                   {
                     (!showTabSection || showTabSection === 'buyer') && (
-                      <div className="w-perc-50 w-perc-md-30 bgAltGrey100-md py-2 py-md-4 px-2 ta-r ta-l-md">
+                      <div className="w-perc-50 w-perc-md-30 bg-mdAltGrey100 py-2 py-md-4 px-2 ta-r ta-l-md">
                         {buyerSection(stage.stageName)}
                       </div>
                     )

@@ -31,6 +31,7 @@ const IdentificationFlow = (props) => {
   // PROPS
   const {
     activeSingleDeal,
+    activeSingleProperty,
     changeFieldValue,
     destroyForm,
     errorValue,
@@ -225,6 +226,15 @@ const IdentificationFlow = (props) => {
     if (activeSingleDeal.id && get(activeSingleDeal, 'closing.stageIdentification.active', false) !== true) {
       if (userType === 'seller') history.push(`/${propID}/closing`);
       else history.push(`/buyer/${propID}/closing`);
+    } else {
+      let ownerProp = get(activeSingleProperty, 'owner.id', null);
+      if (!ownerProp) ownerProp = get(activeSingleProperty, 'owner', null);
+      if (userType === 'seller' && ownerProp !== loggedInUser.id) {
+        history.push(`/${propID}/closing`);
+      }
+      if (userType === 'buyer' && ownerProp !== get(activeSingleDeal, 'user', null)) {
+        history.push(`/buyer/${propID}/closing`);
+      }
     }
     if (get(initialValues, 'persons[0].fullName', null)) {
       setTimeout(() => {
@@ -505,6 +515,7 @@ const IdentificationFlow = (props) => {
 
 IdentificationFlow.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
