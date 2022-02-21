@@ -35,6 +35,27 @@ const BrixelClosingTree = (props) => {
   // STATE
   const [showTooltip, setShowTooltip] = useState({ type: '', side: '', active: false });
 
+  const status = {
+    accepted: {
+      icon: 'check-small-fill',
+      label: 'Accepted',
+      color: 'green',
+      colorText: 'txtGreen400',
+    },
+    rejected: {
+      icon: 'close-circle',
+      label: 'Rejected',
+      color: 'red',
+      colorText: 'txtRed400',
+    },
+    pending: {
+      icon: 'check-small',
+      label: 'Pending',
+      color: 'yellow',
+      colorText: 'txtYellow400',
+    },
+  };
+
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
     if (action === 'add') {
@@ -67,597 +88,426 @@ const BrixelClosingTree = (props) => {
     );
   }
 
-  return (
-    <>
-      <div className="header dis-fl-row jc-b a-c mb-2 w-perc-100 max-w-fix-1056 px-1">
-        {
-          isBuyer ? (
-            <>
-              <span className="tt-up fsize-200">You</span>
-              <span className="tt-up fsize-200">Seller</span>
-            </>
-          ) : (
-            <>
-              <span className="tt-up fsize-200">Buyer</span>
-              <span className="tt-up fsize-200">You</span>
-            </>
-          )
-        }
-      </div>
-      <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
-        <div className="body dis-fl-row">
-          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-sm-5 px-1 txtDark700">
-            <div className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}>
-              <div className="as-b w-fix-120 dis-fl-col">
-                {
-                  get(activeSingleOffer, 'offer.amount', null) ? (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1 as-b"
-                      />
-                      <span className="fsize-200 txtGreen400">Sent</span>
-                      {
-                        get(activeSingleOffer, 'createdAt', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleOffer.createdAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+  const closingStage = [
+    {
+      name: 'offer',
+      onClick: (action) => onClickOffer(action),
+      stageName: 'stageOffer',
+      subtitle: get(activeSingleOffer, 'offer.amount', 0) > 0 ?
+        `<span>${get(activeSingleOffer, 'offer.currency', 0)}</span><span>${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
+        'Add your first offer to start.',
+      title: 'Offer',
+    },
+    {
+      name: 'identification',
+      button: (action) => onClickOffer(action),
+      stageName: 'stageIdentification',
+      subtitle: 'Submit ID and personal information.',
+      title: 'Identification',
+    },
+    {
+      name: 'lock',
+      onClick: (action) => onClickOffer(action),
+      stageName: 'stageLock',
+      subtitle: 'Reserve the property for closing.',
+      title: 'Lock',
+    },
+    {
+      name: 'contract',
+      onClick: (action) => onClickOffer(action),
+      stageName: 'stageContract',
+      subtitle: 'Approve the terms of the contract.',
+      title: 'Contract',
+    },
+    {
+      name: 'notary',
+      onClick: (action) => onClickOffer(action),
+      stageName: 'stageNotary',
+      subtitle: 'Sign the contract at the notary.',
+      title: 'Notary',
+    },
+  ];
+
+  const buyerSection = (stage) => {
+    switch (stage) {
+      case 'stageOffer':
+        return (
+          <>
+            {
+              get(activeSingleClosing, 'stageOffer.active', null) === false ? (
+                <>
+                  <BrixelIcon
+                    icon="locked"
+                    color="dark"
+                    className="mb-1"
+                  />
+                </>
+              ) : (
+                <>
+                  {
+                    get(activeSingleOffer, 'offer.amount', 0) > 0 ? (
+                      <>
+                        <div className="dis-f a-c">
+                          <BrixelIcon
+                            icon="check-small-fill"
+                            color="green"
+                            className="mr-1"
+                          />
+                          <span className="txtGreen400">Sent</span>
+                        </div>
+                        {
+                          get(activeSingleOffer, 'createdAt', null) ? (
+                            <p className="fsize-300 txtDark200">
+                              {DateTime.fromMillis(activeSingleOffer.createdAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                            </p>
+                          ) : (
+                            <span className="fsize-100 txtDark200">-</span>
+                          )
+                        }
+                      </>
+                    ) : (
+                      <>
+                        <BrixelIcon
+                          icon="check-small"
+                          color="dark"
+                        />
+                        {
+                          isBuyer && (
+                            <BrixelButtonPrimary
+                              label="Add new"
+                              onClick={() => onClickOffer('add')}
+                            />
+                          )
+                        }
+                      </>
+                    )
+                  }
+                </>
+              )
+            }
+          </>
+        );
+      case 'stageIdentification':
+        return (
+          <>
+            {
+              get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
+                <>
+                  <BrixelIcon
+                    icon="locked"
+                    color="dark"
+                    className="mb-1"
+                  />
+                </>
+              ) : (
+                <div
+                  className="pos-r"
+                >
+                  <BrixelIcon
+                    icon="check-small"
+                    color={get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) ? 'green' : 'dark'}
+                  />
+                  {
+                    get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) && (
+                      <span className="fsize-200 txtGreen400">Verified</span>
+                    )
+                  }
+                  {
+                    get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length > 0 ? (
+                      <div className="dis-f a-c bgBlue100 txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2">
+                        <div className="dis-f a-c">
+                          <BrixelIcon
+                            className="mr-1"
+                            rounded
+                            background="white"
+                            saturation={0}
+                            color="green"
+                            icon="account"
+                          />
+                          <span>
+                            {get(activeSingleClosing, 'stageIdentification.buyer.persons[0].fullName', '')}
                           </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  ) : (
-                    <div
-                      className="pos-r"
-                      onMouseEnter={() => (get(activeSingleClosing, 'stageOffer.active', null) ? '' : setShowTooltip({ type: 'offer', active: true }))}
-                      onMouseLeave={() => (get(activeSingleClosing, 'stageOffer.active', null) ? '' : setShowTooltip({ type: 'offer', active: false }))}
-                    >
-                      <BrixelIcon
-                        icon={get(activeSingleClosing, 'stageOffer.active', null) ? 'check-small' : 'locked'}
-                        color="dark"
+                        </div>
+                        {
+                          get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length > 1 && (
+                            <span>
+                              +{get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length - 1}
+                            </span>
+                          )
+                        }
+                        <BrixelIcon
+                          color="green"
+                          icon="pencil"
+                          onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification/`)}
+                        />
+                      </div>
+                    ) : (
+                      <BrixelButtonSecondary
+                        label="Edit"
+                        onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
                       />
-                      {
-                        setShowTooltip.type === 'offer' && setShowTooltip.active === true && (
-                          <span
-                            className="tooltip-label fsize-200"
-                            style={{
-                              minWidth: '200px',
-                            }}
-                          >
-                            This stage is locked. The prior stage must be fulfilled to unlock it.
-                          </span>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-              <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                {
-                  !isBuyer ? (
-                    <h5
-                      onClick={() => onClickOffer('review')}
-                      className="mb-1 cur-poi"
-                    >
-                      Offer
-                    </h5>
-                  ) : (
-                    <h5 className="mb-1">Offer</h5>
-                  )
-                }
-                {
-                  !get(activeSingleOffer, 'offer.amount', null) && isBuyer ? (
-                    <span className="fsize-200 mb-3">Add your first offer to start.</span>
-                  ) : (
-                    <span className="ff-mono mb-3">{get(activeSingleOffer, 'offer.currency', 0)} {Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>
-                  )
-                }
-                {
-                  isBuyer ? (
-                    <>
-                      {
-                        (((!get(activeSingleOffer, 'offer.amount', null) || get(activeSingleOffer, 'offer.status', null) === 'rejected')) && activeSingleDeal.id && get(activeSingleOffer, 'offer.status', null) !== 'pending') && (
-                          <BrixelButtonPrimary
-                            theme="primary"
-                            rounded
-                            label="Add offer"
-                            onClick={() => onClickOffer('add')}
-                          />
-                        )
-                      }
-                    </>
-                  ) : (
-                    <>
-                      {
-                        activeSingleOffer.status === 'pending' ? (
-                          <BrixelButtonPrimary
-                            theme="primary"
-                            rounded
-                            label="Review"
-                            onClick={() => onClickOffer('review')}
-                          />
-                        ) : (
-                          <BrixelButtonSecondary
-                            theme="primary"
-                            rounded
-                            label="Open"
-                            onClick={() => onClickOffer('review')}
-                          />
-                        )
-                      }
-                    </>
-                  )
-                }
-              </div>
-              <div className="as-b w-fix-120 a-b dis-fl-col">
-                {
-                  !get(activeSingleOffer, 'offer.status', null) && (
-                    <BrixelIcon
-                      icon="check-small"
-                      color="dark"
-                    />
-                  )
-                }
-                {
-                  get(activeSingleOffer, 'offer.status', null) === 'pending' && (
-                    <>
+                    )
+                  }
+                </div>
+              )
+            }
+          </>
+        );
+      default:
+        return (
+          <>
+            {
+              get(activeSingleClosing, `${stage}.active`, null) ? (
+                <>
+                  <BrixelIcon
+                    icon="check-small-fill"
+                    color="green"
+                    className="mb-1"
+                  />
+                  <span className="fsize-200 txtGreen400">Locked</span>
+                  {
+                    get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
+                      <span className="fsize-100 txtDark200">
+                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                      </span>
+                    ) : (
+                      <span className="fsize-100 txtDark200">-</span>
+                    )
+                  }
+                </>
+              ) : (
+                <div
+                  className="pos-r"
+                  onMouseEnter={() => (get(activeSingleClosing, `${stage}.active`, null) ? '' : setShowTooltip({ type: 'lock', side: 'right', active: true }))}
+                  onMouseLeave={() => (get(activeSingleClosing, `${stage}.active`, null) ? '' : setShowTooltip({ type: 'lock', side: 'right', active: false }))}
+                >
+                  <BrixelIcon
+                    icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
+                    color="dark"
+                  />
+                  {
+                    showTooltip.type === 'lock' && showTooltip.side === 'right' && showTooltip.active === true && (
+                      <span
+                        className="tooltip-label right fsize-200"
+                        style={{
+                          minWidth: '200px',
+                        }}
+                      >
+                        This stage is locked. The prior stage must be fulfilled to unlock it.
+                      </span>
+                    )
+                  }
+                </div>
+              )
+            }
+          </>
+        );
+    }
+  };
+
+  const sellerSection = (stage) => {
+    switch (stage) {
+      case 'stageOffer':
+        return (
+          <>
+            {
+              get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
+                <>
+                  <BrixelIcon
+                    icon="locked"
+                    color="dark"
+                    className="mb-1"
+                  />
+                </>
+              ) : (
+                <>
+                  {
+                    !get(activeSingleOffer, 'offer.status', null) || !status[get(activeSingleOffer, 'offer.status', '')] ? (
                       <BrixelIcon
                         icon="check-small"
                         color="dark"
-                        className="mb-1"
                       />
-                      <span className="fsize-200 txtYellow400">Pending</span>
-                    </>
-                  )
-                }
-                {
-                  get(activeSingleOffer, 'offer.status', null) === 'accepted' && (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1"
-                      />
-                      <span className="fsize-200 txtGreen400">Accepted</span>
-                      {
-                        get(activeSingleOffer, 'updatedAt', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleOffer.updatedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                    ) : (
+                      <>
+                        <div className="dis-f a-c">
+                          <BrixelIcon
+                            icon={status[get(activeSingleOffer, 'offer.status', '')].icon}
+                            color={status[get(activeSingleOffer, 'offer.status', '')].color}
+                            className="mr-1"
+                          />
+                          <span className={status[get(activeSingleOffer, 'offer.status', '')].colorText}>
+                            {status[get(activeSingleOffer, 'offer.status', '')].label}
                           </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  )
-                }
-                {
-                  get(activeSingleOffer, 'offer.status', null) === 'rejected' && (
-                    <>
-                      <BrixelIcon
-                        icon="close-circle"
-                        color="red"
-                        className="mb-1"
-                      />
-                      <span className="fsize-200 txtRed400">Rejected</span>
-                      {
-                        get(activeSingleOffer, 'updatedAt', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleOffer.updatedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
-                          </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  )
-                }
-              </div>
-            </div>
-            <div className={`identification-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageIdentification.active', null) ? 'active' : 'locked'}`}>
-              <div className="as-b w-fix-120 dis-fl-col">
-                {
-                  get(activeSingleClosing, 'stageIdentification.completedByBuyer.status', null) && get(activeSingleClosing, 'stageIdentification.active', null) ? (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1"
-                      />
+                        </div>
+                        {
+                          get(activeSingleOffer, 'updatedAt', null) ? (
+                            <p className="fsize-300 txtDark200">
+                              {DateTime.fromMillis(activeSingleOffer.updatedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                            </p>
+                          ) : (
+                            <span className="fsize-100 txtDark200">-</span>
+                          )
+                        }
+                      </>
+                    )
+                  }
+                </>
+              )
+            }
+          </>
+        );
+      case 'stageIdentification':
+        return (
+          <>
+            {
+              get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
+                <>
+                  <BrixelIcon
+                    icon="locked"
+                    color="dark"
+                    className="mb-1"
+                  />
+                </>
+              ) : (
+                <div
+                  className="pos-r"
+                >
+                  <BrixelIcon
+                    icon="check-small"
+                    color={get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) ? 'green' : 'dark'}
+                  />
+                  {
+                    get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) && (
                       <span className="fsize-200 txtGreen400">Verified</span>
-                      {
-                        get(activeSingleClosing, 'stageIdentification.completedByBuyer.completedAt', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleClosing.stageIdentification.completedByBuyer.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                    )
+                  }
+                  {
+                    get(activeSingleClosing, 'stageIdentification.seller.persons', []).length > 0 ? (
+                      <div className="dis-f a-c bgBlue100 txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2">
+                        <div className="dis-f a-c">
+                          <BrixelIcon
+                            className="mr-1"
+                            rounded
+                            background="white"
+                            saturation={0}
+                            color="green"
+                            icon="account"
+                          />
+                          <span>
+                            {get(activeSingleClosing, 'stageIdentification.seller.persons[0].fullName', '')}
                           </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  ) : (
-                    <div
-                      className="pos-r"
-                      onMouseEnter={() => (get(activeSingleClosing, 'stageIdentification.active', null) ? '' : setShowTooltip({ type: 'identification', side: 'left', active: true }))}
-                      onMouseLeave={() => (get(activeSingleClosing, 'stageIdentification.active', null) ? '' : setShowTooltip({ type: 'identification', side: 'left', active: false }))}
-                    >
-                      <BrixelIcon
-                        icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
-                        color="dark"
+                        </div>
+                        {
+                          get(activeSingleClosing, 'stageIdentification.seller.persons', []).length > 1 && (
+                            <span>
+                              +{get(activeSingleClosing, 'stageIdentification.seller.persons', []).length - 1}
+                            </span>
+                          )
+                        }
+                        <BrixelIcon
+                          color="green"
+                          icon="pencil"
+                          onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
+                        />
+                      </div>
+                    ) : (
+                      <BrixelButtonSecondary
+                        label="Edit"
+                        onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
                       />
-                      {
-                        showTooltip.type === 'identification' && showTooltip.side === 'left' && showTooltip.active === true && (
-                          <span
-                            className="tooltip-label fsize-200"
-                            style={{
-                              minWidth: '200px',
-                            }}
-                          >
-                            This stage is locked. The prior stage must be fulfilled to unlock it.
-                          </span>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-              <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                <h5 className="mb-1">Identification</h5>
-                <span className="fsize-200 ta-c">Submit ID and personal information.</span>
-                {
-                  get(activeSingleClosing, 'stageIdentification.active', null) && (
-                    <BrixelButtonSecondary
-                      className="mt-2"
-                      rounded
-                      onClick={isBuyer ? () => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification`) : () => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification`)}
-                      label="Edit"
-                    />
-                  )
-                }
-              </div>
-              <div className="as-b w-fix-120 a-b dis-fl-col">
-                {
-                  get(activeSingleClosing, 'stageIdentification.completedBySeller.status', null) && get(activeSingleClosing, 'stageIdentification.active', null) ? (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1"
-                      />
-                      <span className="fsize-200 txtGreen400">Verified</span>
-                      {
-                        get(activeSingleClosing, 'stageIdentification.completedBySeller.completedAt', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleClosing.stageIdentification.completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
-                          </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  ) : (
-                    <div
-                      className="pos-r"
-                      onMouseEnter={() => (get(activeSingleClosing, 'stageIdentification.active', null) ? '' : setShowTooltip({ type: 'identification', side: 'right', active: true }))}
-                      onMouseLeave={() => (get(activeSingleClosing, 'stageIdentification.active', null) ? '' : setShowTooltip({ type: 'identification', side: 'right', active: false }))}
-                    >
-                      <BrixelIcon
-                        icon={get(activeSingleClosing, 'stageIdentification.active', null) ? 'check-small' : 'locked'}
-                        color="dark"
-                      />
-                      {
-                        showTooltip.type === 'identification' && showTooltip.side === 'right' && showTooltip.active === true && (
-                          <span
-                            className="tooltip-label right fsize-200"
-                            style={{
-                              minWidth: '200px',
-                            }}
-                          >
-                            This stage is locked. The prior stage must be fulfilled to unlock it.
-                          </span>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
+                    )
+                  }
+                </div>
+              )
+            }
+          </>
+        );
+      default:
+        return (
+          <>
+            {
+              get(activeSingleClosing, `${stage}.active`, null) ? (
+                <>
+                  <BrixelIcon
+                    icon="check-small-fill"
+                    color="green"
+                    className="mb-1"
+                  />
+                  <span className="fsize-200 txtGreen400">Locked</span>
+                  {
+                    get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
+                      <span className="fsize-100 txtDark200">
+                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                      </span>
+                    ) : (
+                      <span className="fsize-100 txtDark200">-</span>
+                    )
+                  }
+                </>
+              ) : (
+                <div
+                  className="pos-r"
+                  onMouseEnter={() => (get(activeSingleClosing, `${stage}.active`, null) ? '' : setShowTooltip({ type: 'lock', side: 'right', active: true }))}
+                  onMouseLeave={() => (get(activeSingleClosing, `${stage}.active`, null) ? '' : setShowTooltip({ type: 'lock', side: 'right', active: false }))}
+                >
+                  <BrixelIcon
+                    icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
+                    color="dark"
+                  />
+                  {
+                    showTooltip.type === 'lock' && showTooltip.side === 'right' && showTooltip.active === true && (
+                      <span
+                        className="tooltip-label right fsize-200"
+                        style={{
+                          minWidth: '200px',
+                        }}
+                      >
+                        This stage is locked. The prior stage must be fulfilled to unlock it.
+                      </span>
+                    )
+                  }
+                </div>
+              )
+            }
+          </>
+        );
+    }
+  };
+
+  return (
+    <>
+      <div className={`brdRadius shadow-1dp w-perc-100 max-w-fix-1056 ${className} px-3 pt-3`}>
+        <div className="dis-fl-row">
+          <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
+
+            <div className="header bgGreen100 brdRadius dis-f jc-b a-c w-perc-100 px-3 py-2 mb-1">
+              <span className="w-perc-40">PROCESS</span>
+              <span className="w-perc-30">BUYER</span>
+              <span className="w-perc-30">SELLER</span>
             </div>
-            <div className={`lock-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageLock.active', null) ? 'active' : 'locked'}`}>
-              <div className="as-b w-fix-120 dis-fl-col">
-                {
-                  get(activeSingleClosing, 'stageLock.completedByBuyer.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1"
-                      />
-                      <span className="fsize-200 txtGreen400">Locked</span>
-                      {
-                        get(activeSingleClosing, 'stageLock.completedByBuyer.completedAt', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleClosing.stageLock.completedByBuyer.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
-                          </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  ) : (
-                    <div
-                      className="pos-r"
-                      onMouseEnter={() => (get(activeSingleClosing, 'stageLock.active', null) ? '' : setShowTooltip({ type: 'lock', side: 'left', active: true }))}
-                      onMouseLeave={() => (get(activeSingleClosing, 'stageLock.active', null) ? '' : setShowTooltip({ type: 'lock', side: 'left', active: false }))}
-                    >
-                      <BrixelIcon
-                        icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
-                        color="dark"
-                      />
-                      {
-                        showTooltip.type === 'lock' && showTooltip.side === 'left' && showTooltip.active === true && (
-                          <span
-                            className="tooltip-label fsize-200"
-                            style={{
-                              minWidth: '200px',
-                            }}
-                          >
-                            This stage is locked. The prior stage must be fulfilled to unlock it.
-                          </span>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-              <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                <h5 className="mb-1">Lock</h5>
-                <span className="fsize-200 ta-c">Reserve the property for closing.</span>
-              </div>
-              <div className="as-b w-fix-120 a-b dis-fl-col">
-                {
-                  get(activeSingleClosing, 'stageLock.completedBySeller.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1"
-                      />
-                      <span className="fsize-200 txtGreen400">Locked</span>
-                      {
-                        get(activeSingleClosing, 'stageLock.completedBySeller.completedAt', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleClosing.stageLock.completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
-                          </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  ) : (
-                    <div
-                      className="pos-r"
-                      onMouseEnter={() => (get(activeSingleClosing, 'stageLock.active', null) ? '' : setShowTooltip({ type: 'lock', side: 'right', active: true }))}
-                      onMouseLeave={() => (get(activeSingleClosing, 'stageLock.active', null) ? '' : setShowTooltip({ type: 'lock', side: 'right', active: false }))}
-                    >
-                      <BrixelIcon
-                        icon={get(activeSingleClosing, 'stageLock.active', null) ? 'check-small' : 'locked'}
-                        color="dark"
-                      />
-                      {
-                        showTooltip.type === 'lock' && showTooltip.side === 'right' && showTooltip.active === true && (
-                          <span
-                            className="tooltip-label right fsize-200"
-                            style={{
-                              minWidth: '200px',
-                            }}
-                          >
-                            This stage is locked. The prior stage must be fulfilled to unlock it.
-                          </span>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-            </div>
-            <div className={`contract-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageContract.active', null) ? 'active' : 'locked'}`}>
-              <div className="as-b w-fix-120 dis-fl-col">
-                {
-                  get(activeSingleClosing, 'stageContract.completedByBuyer.status', null) && get(activeSingleClosing, 'stageContract.active', null) ? (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1"
-                      />
-                      <span className="fsize-200 txtGreen400">Approved</span>
-                      {
-                        get(activeSingleClosing, 'stageContract.completedByBuyer.completedAt', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleClosing.stageContract.completedByBuyer.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
-                          </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  ) : (
-                    <div
-                      className="pos-r"
-                      onMouseEnter={() => (get(activeSingleClosing, 'stageContract.active', null) ? '' : setShowTooltip({ type: 'contract', side: 'left', active: true }))}
-                      onMouseLeave={() => (get(activeSingleClosing, 'stageContract.active', null) ? '' : setShowTooltip({ type: 'contract', side: 'left', active: false }))}
-                    >
-                      <BrixelIcon
-                        icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
-                        color="dark"
-                      />
-                      {
-                        showTooltip.type === 'contract' && showTooltip.side === 'left' && showTooltip.active === true && (
-                          <span
-                            className="tooltip-label fsize-200"
-                            style={{
-                              minWidth: '200px',
-                            }}
-                          >
-                            This stage is locked. The prior stage must be fulfilled to unlock it.
-                          </span>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-              <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                <h5 className="mb-1">Contract</h5>
-                <span className="fsize-200 ta-c">Approve the terms of the contract.</span>
-              </div>
-              <div className="as-b w-fix-120 a-b dis-fl-col">
-                {
-                  get(activeSingleClosing, 'stageContract.completedBySeller.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1"
-                      />
-                      <span className="fsize-200 txtGreen400">Approved</span>
-                      {
-                        get(activeSingleClosing, 'stageContract.completedBySeller.completedAt', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleClosing.stageContract.completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
-                          </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  ) : (
-                    <div
-                      className="pos-r"
-                      onMouseEnter={() => (get(activeSingleClosing, 'stageContract.active', null) ? '' : setShowTooltip({ type: 'contract', side: 'right', active: true }))}
-                      onMouseLeave={() => (get(activeSingleClosing, 'stageContract.active', null) ? '' : setShowTooltip({ type: 'contract', side: 'right', active: false }))}
-                    >
-                      <BrixelIcon
-                        icon={get(activeSingleClosing, 'stageContract.active', null) ? 'check-small' : 'locked'}
-                        color="dark"
-                      />
-                      {
-                        showTooltip.type === 'contract' && showTooltip.side === 'right' && showTooltip.active === true && (
-                          <span
-                            className="tooltip-label right fsize-200"
-                            style={{
-                              minWidth: '200px',
-                            }}
-                          >
-                            This stage is locked. The prior stage must be fulfilled to unlock it.
-                          </span>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-            </div>
-            <div className={`notary-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageNotary.active', null) ? 'active' : 'locked'}`}>
-              <div className="as-b w-fix-120 dis-fl-col">
-                {
-                  get(activeSingleClosing, 'stageNotary.completedByBuyer.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1"
-                      />
-                      <span className="fsize-200 txtGreen400">Signed</span>
-                      {
-                        get(activeSingleClosing, 'stageNotary.completedByBuyer', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleClosing.stageNotary.completedByBuyer.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
-                          </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  ) : (
-                    <div
-                      className="pos-r"
-                      onMouseEnter={() => (get(activeSingleClosing, 'stageNotary.active', null) ? '' : setShowTooltip({ type: 'notary', side: 'left', active: true }))}
-                      onMouseLeave={() => (get(activeSingleClosing, 'stageNotary.active', null) ? '' : setShowTooltip({ type: 'notary', side: 'left', active: false }))}
-                    >
-                      <BrixelIcon
-                        icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
-                        color="dark"
-                      />
-                      {
-                        showTooltip.type === 'notary' && showTooltip.side === 'left' && showTooltip.active === true && (
-                          <span
-                            className="tooltip-label fsize-200"
-                            style={{
-                              minWidth: '200px',
-                            }}
-                          >
-                            This stage is locked. The prior stage must be fulfilled to unlock it.
-                          </span>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-              <div className="action w-fix-256 dis-fl-col a-c jc-c">
-                <h5 className="mb-1">Notary</h5>
-                <span className="fsize-200 ta-c">Sign the contract at the notary.</span>
-              </div>
-              <div className="as-b w-fix-120 a-b dis-fl-col">
-                {
-                  get(activeSingleClosing, 'stageNotary.completedBySeller.status', null) && get(activeSingleClosing, 'stageLock.active', null) ? (
-                    <>
-                      <BrixelIcon
-                        icon="check-small-fill"
-                        color="green"
-                        className="mb-1"
-                      />
-                      <span className="fsize-200 txtGreen400">Signed</span>
-                      {
-                        get(activeSingleClosing, 'stageNotary.completedBySeller', null) ? (
-                          <span className="fsize-100 txtDark200">
-                            {DateTime.fromMillis(activeSingleClosing.stageNotary.completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
-                          </span>
-                        ) : (
-                          <span className="fsize-100 txtDark200">-</span>
-                        )
-                      }
-                    </>
-                  ) : (
-                    <div
-                      className="pos-r"
-                      onMouseEnter={() => (get(activeSingleClosing, 'stageNotary.active', null) ? '' : setShowTooltip({ type: 'notary', side: 'right', active: true }))}
-                      onMouseLeave={() => (get(activeSingleClosing, 'stageNotary.active', null) ? '' : setShowTooltip({ type: 'notary', side: 'right', active: false }))}
-                    >
-                      <BrixelIcon
-                        icon={get(activeSingleClosing, 'stageNotary.active', null) ? 'check-small' : 'locked'}
-                        color="dark"
-                      />
-                      {
-                        showTooltip.type === 'notary' && showTooltip.side === 'right' && showTooltip.active === true && (
-                          <span
-                            className="tooltip-label right fsize-200"
-                            style={{
-                              minWidth: '200px',
-                            }}
-                          >
-                            This stage is locked. The prior stage must be fulfilled to unlock it.
-                          </span>
-                        )
-                      }
-                    </div>
-                  )
-                }
-              </div>
-            </div>
+
+            {
+              closingStage.map((stage, i) => (
+                <div
+                  className={`offer-container dis-fl-row jc-b ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${closingStage.length > i + 1 ? 'brdSmallBottom brdAltGrey100' : ''}`}
+                  key={i.toString()}
+                >
+                  <div className="w-perc-40 py-4 px-2">
+                    <h5 className="mb-1">{stage.title}</h5>
+                    <div dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
+                  </div>
+
+                  <div className="w-perc-30 bgAltGrey100 py-4 px-2">
+                    {buyerSection(stage.stageName)}
+                  </div>
+
+                  <div className="w-perc-30 py-4 px-2">
+                    {sellerSection(stage.stageName)}
+                  </div>
+
+                </div>
+              ))
+            }
           </div>
         </div>
       </div>
