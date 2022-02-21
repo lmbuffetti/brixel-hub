@@ -175,10 +175,16 @@ const BrixelClosingTree = (props) => {
             </div>
           </div>
         ) : (
-          <BrixelButtonSecondary
-            label="Edit"
-            onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/${usrType}/identification/`)}
-          />
+          <>
+            {
+              ((isBuyer && usrType === 'buyer') || (!isBuyer && usrType === 'seller')) && (
+                <BrixelButtonSecondary
+                  label="Edit"
+                  onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/${usrType}/identification/`)}
+                />
+              )
+            }
+          </>
         )
       }
     </>

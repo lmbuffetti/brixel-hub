@@ -232,7 +232,7 @@ const IdentificationFlow = (props) => {
       if (userType === 'seller' && ownerProp !== loggedInUser.id) {
         history.push(`/${propID}/closing`);
       }
-      if (userType === 'buyer' && ownerProp !== get(activeSingleDeal, 'user', null)) {
+      if (userType === 'buyer' && loggedInUser.id !== get(activeSingleDeal, 'user', null)) {
         history.push(`/buyer/${propID}/closing`);
       }
     }

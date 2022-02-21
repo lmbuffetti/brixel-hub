@@ -27,6 +27,9 @@ import { checkToken, setUserTypes } from './actions/UserActions';
 import {
   setLanguage, setModal, setWindowDimensions, setScreenNotification,
 } from './actions/CommonActions';
+import {
+  setActiveSingleDeal,
+} from './actions/DealActions';
 import { setActiveSingleProperty } from './actions/PropertyActions';
 
 import { getImageType } from './actions/UploadActions';
@@ -100,6 +103,7 @@ const App = (props) => {
     handleCheckToken,
     handleGetImageType,
     handleReset,
+    handleSetActiveSingleDeal,
     handleSetActiveSingleProperty,
     handleSetLanguage,
     handleSetModal,
@@ -113,8 +117,8 @@ const App = (props) => {
     notification,
     redirectTo,
     splashScreenType,
-    userTypes,
     teamAvatars,
+    userTypes,
     windowDimensions,
     wizard,
   } = props;
@@ -166,6 +170,7 @@ const App = (props) => {
     } else {
       handleSetUserTypes('buyer');
     }
+    handleSetActiveSingleDeal({});
   }, [activeSingleProperty]);
 
   const bodyModal = document.getElementById('bodyModalWrapper');
@@ -674,6 +679,7 @@ App.propTypes = {
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSetActiveSingleDeal: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
@@ -687,8 +693,8 @@ App.propTypes = {
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   redirectTo: PropTypes.object,
   splashScreenType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  userTypes: PropTypes.string,
   teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
+  userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
   wizard: PropTypes.object.isRequired,
 };
@@ -709,8 +715,8 @@ const mapStateToProps = (state) => ({
   notification: get(state, 'common.notification', []),
   redirectTo: get(state, 'common.redirectTo', null),
   splashScreenType: get(state, 'common.splashScreenType', ''),
-  userTypes: get(state, 'user.userTypes', null),
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
+  userTypes: get(state, 'user.userTypes', null),
   windowDimensions: get(state, 'common.windowDimensions', {}),
   wizard: get(state, 'common.wizard', {}),
 });
@@ -721,6 +727,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
