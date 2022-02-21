@@ -34,7 +34,6 @@ const BrixelClosingTree = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [showTooltip, setShowTooltip] = useState({ type: '', side: '', active: false });
   const [showTabSection, setShowTabSection] = useState(null);
 
   const status = {
