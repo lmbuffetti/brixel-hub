@@ -83,7 +83,7 @@ const IdentificationFlow = (props) => {
   const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerData');
 
   return (
-    <div>
+    <div className="idFlow">
       <>
         {
           stepResume === 'editProfile' && (
@@ -129,10 +129,10 @@ const IdentificationFlow = (props) => {
               </h2>
               <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
                 <div className="p-2 p-sm-5">
-                  <h6 className="mb-1">
+                  <p className="mb-1">
                     Please fill in the full name as it is stated in your ID. Add all people who are legally buying the property, e.g. your spouse
                     or an investment partner.
-                  </h6>
+                  </p>
                   {
                     get(formValue, 'persons', []).map((buyer, i) => (
                       <div
@@ -153,18 +153,18 @@ const IdentificationFlow = (props) => {
                         <div className="dis-f a-c">
                           {
                             get(buyer, 'document.id', null) ? (
+                              <BrixelIcon
+                                className="mr-2"
+                                color="green"
+                                icon="upload"
+                                onClick={() => onClickEdit(i, 1)}
+                              />
+                            ) : (
                               <BrixelButtonSecondary
                                 className="mr-2"
                                 rounded
                                 ghost
                                 label="1 document uploaded"
-                                onClick={() => onClickEdit(i, 1)}
-                              />
-                            ) : (
-                              <BrixelIcon
-                                className="mr-2"
-                                color="green"
-                                icon="upload-document"
                                 onClick={() => onClickEdit(i, 1)}
                               />
                             )
@@ -184,11 +184,11 @@ const IdentificationFlow = (props) => {
                     leftIcon="plus"
                     onClick={() => onClickEdit(get(formValue, 'persons', []).length)}
                   />
-                  <hr />
+                  <hr className="brdAltGrey100" />
 
-                  <h6 className="mt-3">
+                  <p className="mt-3">
                     Please give us your bank details to simplify the reservation process.
-                  </h6>
+                  </p>
 
                   <div className="w-perc-100">
                     {
@@ -360,7 +360,7 @@ const IdentificationFlow = (props) => {
                   }
 
                   <BrixelCheckbox
-                    className="mt-2"
+                    className="mt-4"
                     input={{
                       name: 'agreeToProceed',
                       onChange: (val) => setAgreeToProceed(val),

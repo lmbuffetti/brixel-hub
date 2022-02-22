@@ -30,11 +30,12 @@ export const IdentificationQuestions = (editForm = false, userType) => {
       title: `Who is the ${userType} of the property?`,
       history: 'buyerName',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
+      subtitleSmall: userType === 'seller' ? 'Please fill in the full name as it is stated in your ID. Add all people who are legally selling the property, e.g. your spouse or an investment partner.' : 'Please fill in the full name as it is stated in your ID. Add all people who are legally buying the property, e.g. your spouse or an investment partner.',
       inputs: [
         {
           component: BrixelInputText,
           classNameBox: 'ml-0 mr-a',
-          label: editForm ? 'Full Name' : 'Please fill in the full name as it is stated in your ID. Add all people who are legally buying the property, e.g. your spouse or an investment partner.',
+          label: editForm ? 'Full Name' : 'Name',
           name: 'persons[0].fullName',
           placeholder: 'Enter full name',
           pdClass: 'py-2 py-md-5',
@@ -218,7 +219,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
       img: ClipboardImg,
       imgMaxWidth: 'max-w-fix-152',
       cardClass: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
-      subtitle: 'Thank you. We will review your inputs and get back to you.',
+      subtitle: 'Your data was transmitted. We will review your inputs and get back to you.',
       history: 'success',
       vCentered: true,
       toSave: true,
