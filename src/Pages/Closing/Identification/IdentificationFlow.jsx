@@ -347,7 +347,7 @@ const IdentificationFlow = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted idFlow ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
       {
         get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
           <div className="pos-r">
@@ -385,6 +385,7 @@ const IdentificationFlow = (props) => {
                         )
                       }
                       <div className={`${quest.className} w-perc-100`}>
+                        <p className="mb-3"> {quest.subtitleSmall} </p>
                         <MultiFileldsReduxForm
                           form="Identification"
                           disableNextBtn={false}
