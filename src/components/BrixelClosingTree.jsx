@@ -103,7 +103,7 @@ const BrixelClosingTree = (props) => {
       onClick: (action) => onClickOffer(action),
       stageName: 'stageOffer',
       subtitle: get(activeSingleOffer, 'offer.amount', 0) > 0 ?
-        `<span class="ff-mono">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
+        `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
         'Add your first offer to start.',
       title: 'Offer',
     },
@@ -141,7 +141,7 @@ const BrixelClosingTree = (props) => {
     <>
       {
         get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 ? (
-          <div className={`dis-f a-c bgBlue100 txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2 ${classNamePersons} personsListIdentification`}>
+          <div className={`dis-f a-c bgBlue100x25 txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2 ${classNamePersons} personsListIdentification`}>
             <div className="dis-f a-c wrapName">
               <BrixelIcon
                 className="mr-1"
@@ -219,7 +219,7 @@ const BrixelClosingTree = (props) => {
                         </div>
                         {
                           get(activeSingleOffer, 'createdAt', null) ? (
-                            <p className="fsize-300 txtDark200">
+                            <p className="fsize-300 txtDark200 mt-2">
                               {DateTime.fromMillis(activeSingleOffer.createdAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
                             </p>
                           ) : (
@@ -373,7 +373,7 @@ const BrixelClosingTree = (props) => {
                         </div>
                         {
                           get(activeSingleOffer, 'updatedAt', null) ? (
-                            <p className="fsize-300 txtDark200">
+                            <p className="fsize-300 txtDark200 my-2">
                               {DateTime.fromMillis(activeSingleOffer.updatedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
                             </p>
                           ) : (
@@ -382,7 +382,8 @@ const BrixelClosingTree = (props) => {
                         }
                         {
                           get(activeSingleOffer, 'offer.status', '') === 'pending' && !isBuyer && (
-                            <BrixelButtonPrimary
+                            <BrixelButtonSecondary
+                              rounded
                               label="Review offer"
                               onClick={() => onClickOffer('review')}
                             />
@@ -483,7 +484,7 @@ const BrixelClosingTree = (props) => {
         <div className="dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
 
-            <div className="hide header bgGreen100 brdRadius dis-f-md jc-b a-c w-perc-100 px-3 py-2 mb-1">
+            <div className="hide header bgGreen100 brdRadius dis-f-md jc-b a-c w-perc-100 px-3 py-2">
               <span className="w-perc-40">PROCESS</span>
               <span className="w-perc-30">BUYER</span>
               <span className="w-perc-30">SELLER</span>
@@ -506,12 +507,12 @@ const BrixelClosingTree = (props) => {
                   key={i.toString()}
                 >
                   <div className="w-perc-50 w-perc-md-40 py-2 py-md-4 px-2">
-                    <h5 className="mb-1">{stage.title}</h5>
-                    <div dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
+                    <h5 className="mb-1 fweight-600">{stage.title}</h5>
+                    <div className="fsize-300" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
                   </div>
                   {
                     (!showTabSection || showTabSection === 'buyer') && (
-                      <div className="w-perc-50 w-perc-md-30 bg-mdAltGrey100 py-2 py-md-4 px-2 ta-r ta-l-md">
+                      <div className="w-perc-50 w-perc-md-30 bg-mdLight100 py-2 py-md-4 px-2 ta-r ta-l-md">
                         {buyerSection(stage.stageName)}
                       </div>
                     )

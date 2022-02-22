@@ -35,7 +35,7 @@ const DealsDashboardBuyer = (props) => {
   }, [activeSingleDeal.id]);
 
   return (
-    <div className="secondLevel">
+    <div className={`${get(history, 'location.pathname', '').includes('closing/') ? '' : 'secondLevel'}`}>
       <div className="">
         {
           (link[link.length - 1] === 'deal' || !link[link.length - 1]) && (
