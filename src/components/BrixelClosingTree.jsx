@@ -236,12 +236,20 @@ const BrixelClosingTree = (props) => {
                         {
                           isBuyer && (
                             <BrixelButtonPrimary
-                              label="Add new"
+                              label="Add offer"
                               onClick={() => onClickOffer('add')}
                             />
                           )
                         }
                       </>
+                    )
+                  }
+                  {
+                    get(activeSingleOffer, 'offer.status', '') !== 'pending' && get(activeSingleOffer, 'offer.status', '') !== 'accepted' && isBuyer && (
+                      <BrixelButtonPrimary
+                        label="Add offer"
+                        onClick={() => onClickOffer('add')}
+                      />
                     )
                   }
                 </>
@@ -335,7 +343,7 @@ const BrixelClosingTree = (props) => {
         return (
           <>
             {
-              get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
+              get(activeSingleClosing, 'stageOffer.active', null) === false ? (
                 <>
                   <BrixelIcon
                     icon="locked"
@@ -370,6 +378,14 @@ const BrixelClosingTree = (props) => {
                             </p>
                           ) : (
                             <span className="fsize-100 txtDark200">-</span>
+                          )
+                        }
+                        {
+                          get(activeSingleOffer, 'offer.status', '') === 'pending' && !isBuyer && (
+                            <BrixelButtonPrimary
+                              label="Review offer"
+                              onClick={() => onClickOffer('review')}
+                            />
                           )
                         }
                       </>
