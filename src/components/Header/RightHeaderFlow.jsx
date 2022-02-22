@@ -110,7 +110,12 @@ function RightHeaderFlow(props) {
     ) {
       history.push('/buy');
     } else if (history.location.pathname.toLowerCase().includes('makeoffer') || history.location.pathname.toLowerCase().includes('closing')) {
-      history.push(`/buyer/${propID}/closing/${dealID}`);
+      const userType = history.location.pathname.toLowerCase().includes('buyer') ? 'buyer' : 'seller';
+      if (userType === 'seller') {
+        history.push(`/${propID}/closing/${dealID}`);
+      } else {
+        history.push(`/buyer/${propID}/closing/${dealID}`);
+      }
     } else {
       let url = localStorage.getItem('backUrlBis');
       if (url) {
