@@ -8,7 +8,7 @@ import {
 } from 'react-redux';
 import { DateTime } from 'luxon';
 import {
-  BrixelButtonPrimary, BrixelButtonSecondary, BrixelIcon, Helpers, BrixelTabs,
+  BrixelButtonSecondary, BrixelIcon, Helpers, BrixelTabs,
 } from '@brixel/brixel-components';
 import ReviewOffer from '../Pages/Offers/ReviewOffer';
 import { setSplashType } from '../actions/CommonActions';
@@ -179,7 +179,9 @@ const BrixelClosingTree = (props) => {
             {
               ((isBuyer && usrType === 'buyer') || (!isBuyer && usrType === 'seller')) && (
                 <BrixelButtonSecondary
-                  label="Edit"
+                  className="mt-2"
+                  rounded
+                  label={`Add ${usrType}`}
                   onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/${usrType}/identification/`)}
                 />
               )
@@ -228,25 +230,18 @@ const BrixelClosingTree = (props) => {
                         }
                       </>
                     ) : (
-                      <>
+                      <div className="my-2">
                         <BrixelIcon
                           icon="check-small"
                           color="dark"
                         />
-                        {
-                          isBuyer && (
-                            <BrixelButtonPrimary
-                              label="Add offer"
-                              onClick={() => onClickOffer('add')}
-                            />
-                          )
-                        }
-                      </>
+                      </div>
                     )
                   }
                   {
-                    get(activeSingleOffer, 'offer.status', '') !== 'pending' && get(activeSingleOffer, 'offer.status', '') !== 'accepted' && isBuyer && (
-                      <BrixelButtonPrimary
+                    (!get(activeSingleOffer, 'offer.status', null) || (get(activeSingleOffer, 'offer.status', '') !== 'pending' && get(activeSingleOffer, 'offer.status', '') !== 'accepted')) && isBuyer && (
+                      <BrixelButtonSecondary
+                        rounded
                         label="Add offer"
                         onClick={() => onClickOffer('add')}
                       />

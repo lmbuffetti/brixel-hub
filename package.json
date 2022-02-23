@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.17.5",
-    "@brixel/brixel-components": "^2.7.43",
+    "@brixel/brixel-components": "^2.7.46",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^2.0.5",
     "d3": "^7.3.0",
