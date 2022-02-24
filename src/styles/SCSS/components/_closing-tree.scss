@@ -8,3 +8,50 @@
     }
   }
 }
+
+/* CUSTOM TAB */
+.closingTree {
+  .locked {
+    opacity: 0.6;
+  }
+  .brixel-tabs {
+    box-shadow: none;
+    overflow: hidden;
+    border-bottom: 1px solid map-get($altGreyColor, 100);
+    border-top-left-radius: $step;
+    border-top-right-radius: $step;
+
+    ul.tabsList {
+    border: 0;
+
+      li.listItem {
+        padding-top: $step * 3;
+        padding-bottom: $step * 3;
+        color: map-get($altGreyColor, 400);
+        transition: background-color $default-time-long;
+
+        > span {
+          font-weight: 400;
+          @include fontStyle(300, 400);
+        }
+        &:hover {
+          background-color: map-get($lightColor, 100);
+          span {
+            color: map-get($altGreyColor, 400);
+          }
+        }
+        &.active {
+          background-color: map-get($greenColor, 100);
+
+          > span {
+            color: map-get($darkColor, 700);
+            font-weight: 600;
+          }
+        }
+      }
+      li.activeBar {
+        display: none;
+      }
+    }
+  }
+}
