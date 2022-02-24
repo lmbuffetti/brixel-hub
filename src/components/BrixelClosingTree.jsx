@@ -266,12 +266,13 @@ const BrixelClosingTree = (props) => {
                         <BrixelIcon
                           icon={get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) ? status.accepted.icon : status.pending.icon}
                           color={get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) ? 'green' : 'dark'}
+                          iconWidth="w-fix-16"
                         />
                       )
                     }
                     {
                       get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) && (
-                        <span className="ml-1 txtGreen400">Verified</span>
+                        <span className="ml-1 txtGreen400 fsize-300 fsize-lg-400">Verified</span>
                       )
                     }
                     {
@@ -283,7 +284,7 @@ const BrixelClosingTree = (props) => {
                   {
                     !showTabSection && (
                       <>
-                        {personsInfo('buyer', 'mt-1')}
+                        {personsInfo('buyer', 'mt-2')}
                       </>
                     )
                   }
