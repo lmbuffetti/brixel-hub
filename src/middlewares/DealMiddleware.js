@@ -923,6 +923,12 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.id;
       delete objData.personType;
       delete objData.status;
+      delete objData.allImgs;
+      delete objData.actions;
+      delete objData.saveAction;
+      delete objData.user;
+      delete objData.completedAt;
+      delete objData.completedBy;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
