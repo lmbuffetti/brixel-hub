@@ -87,12 +87,14 @@ const IdentificationFlow = (props) => {
     formValue.persons.forEach((person, index) => {
       if (get(person, 'document', []).length > 0) {
         get(person, 'document', []).forEach((doc) => {
-          docsList.push({
-            idBuyer: index,
-            ...doc,
-            isPrivate: true,
-            user: get(loggedInUser, 'id', null),
-          });
+          if (doc.file) {
+            docsList.push({
+              idBuyer: index,
+              ...doc,
+              isPrivate: true,
+              user: get(loggedInUser, 'id', null),
+            });
+          }
         });
       }
     });
