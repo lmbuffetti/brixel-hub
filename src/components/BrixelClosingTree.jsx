@@ -140,7 +140,7 @@ const BrixelClosingTree = (props) => {
   const personsInfo = (usrType, classNamePersons = '') => (
     <>
       {
-        get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 ? (
+        get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 && (
           <div className={`dis-f a-c bgBlue100x25 txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2 ${classNamePersons} personsListIdentification`}>
             <div className="dis-f a-c wrapName">
               <BrixelIcon
@@ -174,19 +174,6 @@ const BrixelClosingTree = (props) => {
               }
             </div>
           </div>
-        ) : (
-          <>
-            {
-              ((isBuyer && usrType === 'buyer') || (!isBuyer && usrType === 'seller')) && (
-                <BrixelButtonSecondary
-                  className="mt-2"
-                  rounded
-                  label={`Add ${usrType}`}
-                  onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/${usrType}/identification/`)}
-                />
-              )
-            }
-          </>
         )
       }
     </>
@@ -279,6 +266,18 @@ const BrixelClosingTree = (props) => {
                       )
                     }
                   </div>
+                  {
+                    get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length === 0 && isBuyer && (
+                      <div className="dis-f a-c jc-fe jc-fs-lg">
+                        <BrixelButtonSecondary
+                          className="mt-2"
+                          rounded
+                          label="Add buyer"
+                          onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification/`)}
+                        />
+                      </div>
+                    )
+                  }
                   {
                     !showTabSection && (
                       <>
@@ -422,6 +421,18 @@ const BrixelClosingTree = (props) => {
                       )
                     }
                   </div>
+                  {
+                    get(activeSingleClosing, 'stageIdentification.seller.persons', []).length === 0 && !isBuyer && (
+                      <div className="dis-f a-c jc-fe jc-fs-lg">
+                        <BrixelButtonSecondary
+                          className="mt-2"
+                          rounded
+                          label="Add seller"
+                          onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
+                        />
+                      </div>
+                    )
+                  }
                   {
                     !showTabSection && (
                       <>
