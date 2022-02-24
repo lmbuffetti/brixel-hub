@@ -211,7 +211,7 @@ const BrixelClosingTree = (props) => {
                   {
                     get(activeSingleOffer, 'offer.amount', 0) > 0 && (
                       <>
-                        <div className="dis-f a-c jc-fe jc-fs-md">
+                        <div className="dis-f a-c jc-fe jc-fs-lg">
                           <BrixelIcon
                             icon="check-small-fill"
                             color="green"
@@ -259,7 +259,7 @@ const BrixelClosingTree = (props) => {
                 </>
               ) : (
                 <div>
-                  <div className="dis-f a-c jc-fe jc-fs-md">
+                  <div className="dis-f a-c jc-fe jc-fs-lg">
                     {
                       get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length > 0 && (
                         <BrixelIcon
@@ -350,7 +350,7 @@ const BrixelClosingTree = (props) => {
                       <></>
                     ) : (
                       <>
-                        <div className="dis-f a-c jc-fe jc-fs-md">
+                        <div className="dis-f a-c jc-fe jc-fs-lg">
                           <BrixelIcon
                             icon={status[get(activeSingleOffer, 'offer.status', '')].icon}
                             color={status[get(activeSingleOffer, 'offer.status', '')].color}
@@ -373,6 +373,7 @@ const BrixelClosingTree = (props) => {
                           get(activeSingleOffer, 'offer.status', '') === 'pending' && !isBuyer && (
                             <BrixelButtonSecondary
                               rounded
+                              className="ml-a ml-lg-0"
                               label="Review offer"
                               onClick={() => onClickOffer('review')}
                             />
@@ -400,7 +401,7 @@ const BrixelClosingTree = (props) => {
                 </>
               ) : (
                 <div>
-                  <div className="dis-f a-c jc-fe jc-fs-md">
+                  <div className="dis-f a-c jc-fe jc-fs-lg">
                     {
                       get(activeSingleClosing, 'stageIdentification.seller.persons', []).length > 0 && (
                         <BrixelIcon
@@ -473,18 +474,18 @@ const BrixelClosingTree = (props) => {
 
   return (
     <>
-      <div className={`brdRadius shadow-1dp w-perc-100 max-w-fix-1200 ${className} px-1 pt-1 px-md-3 pt-md-3 bgWhite`}>
+      <div className={`brdRadius shadow-1dp w-perc-100 max-w-fix-1200 ${className} px-1 pt-1 px-lg-3 pt-lg-3 bgWhite`}>
         <div className="dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
 
-            <div className="hide header bgGreen100 brdRadius dis-f-md jc-b a-c w-perc-100 px-3 py-2">
+            <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-3 py-2">
               <span className="w-perc-40">PROCESS</span>
               <span className="w-perc-30">BUYER</span>
               <span className="w-perc-30">SELLER</span>
             </div>
 
             <BrixelTabs
-              className="hide-md ov-h"
+              className="hide-lg ov-h"
               classNameUl="ov-y-h"
               labels={['Buyer', 'Seller']}
               clicksList={['buyer', 'seller']}
@@ -499,13 +500,13 @@ const BrixelClosingTree = (props) => {
                   className={`offer-container dis-fl-row jc-b ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${closingStage.length > i + 1 ? 'brdSmallBottom brdAltGrey100' : ''} flex-wrap`}
                   key={i.toString()}
                 >
-                  <div className="w-perc-50 w-perc-md-40 py-2 py-md-4 px-2">
+                  <div className="w-perc-50 w-perc-lg-40 py-2 py-lg-4 px-2">
                     <h5 className="mb-1 fweight-600">{stage.title}</h5>
                     <div className="fsize-300" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
                   </div>
                   {
                     (!showTabSection || showTabSection === 'buyer') && (
-                      <div className="w-perc-50 w-perc-md-30 bg-mdLight100 py-2 py-md-4 px-2 ta-r ta-l-md">
+                      <div className="w-perc-50 w-perc-lg-30 bg-lgLight100 py-2 py-lg-4 px-2 ta-r ta-l-lg">
                         {buyerSection(stage.stageName)}
                       </div>
                     )
@@ -513,7 +514,7 @@ const BrixelClosingTree = (props) => {
 
                   {
                     (!showTabSection || showTabSection === 'seller') && (
-                      <div className="w-perc-50 w-perc-md-30 py-2 py-md-4 px-2 ta-r ta-l-md">
+                      <div className="w-perc-50 w-perc-lg-30 py-2 py-lg-4 px-2 ta-r ta-l-lg">
                         {sellerSection(stage.stageName)}
                       </div>
                     )
