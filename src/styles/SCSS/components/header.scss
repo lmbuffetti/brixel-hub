@@ -246,16 +246,6 @@
       border: none;
       display: inline-block;
       position: relative;
-      &:after {
-        @include icomoon();
-        font-size: 16px;
-        content: $icon-arrow-simple-down;
-        color: map_get($darkColor, 700);
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-      }
       select {
         width: auto;
         @include fontStyle(300);
