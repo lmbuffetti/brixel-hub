@@ -25,7 +25,6 @@ $responsive-desktop: map-get($grid-breakpoints, xl);
 
 @import '~@brixel/brixel-components/dist/styles/SCSS/general/variables';
 @import '~@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
-@import '~@brixel/brixel-components/dist/styles/SCSS/general/icomoon';
 
 $sidebarWidth: 176px;
 $sidebarWidthCollapsed: 70px;
