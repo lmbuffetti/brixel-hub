@@ -5,6 +5,7 @@
     "react/jsx-no-useless-fragment": "off",
     "react/no-invalid-html-attribute": "off",
     "react/function-component-definition": "off",
+    "react/no-array-index-key": "off",
     "react/no-unstable-nested-components": [
       "off",
       {
