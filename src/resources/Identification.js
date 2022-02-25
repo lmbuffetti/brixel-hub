@@ -30,7 +30,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
       title: `Who is the ${userType} of the property?`,
       history: 'buyerName',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
-      subtitleSmall: userType === 'seller' ? 'Please fill in the full name as it is stated in your ID. Add all people who are legally selling the property, e.g. your spouse or an investment partner.' : 'Please fill in the full name as it is stated in your ID. Add all people who are legally buying the property, e.g. your spouse or an investment partner.',
+      subtitleSmall: `Please fill in the full name as it is stated in your ID. Add all people who are legally ${userType === 'seller' ? 'selling' : 'buying'}  the property, e.g. your spouse or an investment partner.`,
       inputs: [
         {
           component: BrixelInputText,
