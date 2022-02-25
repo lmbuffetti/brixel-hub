@@ -617,6 +617,10 @@ sub {
   }
 }
 
+.transY-100 {
+  transform: translateY(-100%) !important;
+}
+
 button.minimum-w-210 {
   min-width: 210px;
 }
@@ -762,7 +766,6 @@ button.minimum-w-210 {
   background: map-get($blueColor, 100);
   position: relative;
   float: left;
-  position: relative;
   height: 48px;
   margin-left: $step * 4;
 
@@ -815,7 +818,7 @@ button.minimum-w-210 {
       transition: left 150ms ease-in;
       position: relative;
       display: inline-block;
-      left: 0px;
+      left: 0;
     }
 
     .arrow-symbol {
@@ -979,7 +982,3 @@ button.minimum-w-210 {
     }
   }
 }
-.bgBlue100x25 {
-  background-color: rgba(map-get($blueColor, 100), 0.25);
-}
-
