@@ -121,4 +121,12 @@ export const PackagesComparePlansTable = [
       one: { img: checkBlack },
     },
   },
+  {
+    title: 'Showings',
+    td: {
+      private: null,
+      premium: null,
+      one: { img: checkBlack, desc: 'Paid add-on' },
+    },
+  },
 ];
