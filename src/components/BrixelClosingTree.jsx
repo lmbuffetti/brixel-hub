@@ -196,7 +196,8 @@ const BrixelClosingTree = (props) => {
               ) : (
                 <>
                   {
-                    get(activeSingleOffer, 'offer.amount', 0) > 0 && (
+                    get(activeSingleOffer, 'offer.amount', 0) > 0 &&
+                    get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
                       <>
                         <div className="dis-f a-c jc-fe jc-fs-lg">
                           <BrixelIcon
@@ -218,7 +219,9 @@ const BrixelClosingTree = (props) => {
                     )
                   }
                   {
-                    (!get(activeSingleOffer, 'offer.status', null) || (get(activeSingleOffer, 'offer.status', '') !== 'pending' && get(activeSingleOffer, 'offer.status', '') !== 'accepted')) && isBuyer && (
+                    (!get(activeSingleOffer, 'offer.status', null) || (get(activeSingleOffer, 'offer.status', '') !== 'pending' &&
+                      get(activeSingleOffer, 'offer.status', '') !== 'accepted')) &&
+                    isBuyer && (
                       <BrixelButtonSecondary
                         rounded
                         className="mt-2"
