@@ -282,7 +282,7 @@ const BrixelClosingTree = (props) => {
                   {
                     !showTabSection && (
                       <>
-                        {personsInfo('buyer', 'mt-2')}
+                        {personsInfo('buyer', 'mt-2 mx-2 mx-lg-0')}
                       </>
                     )
                   }
@@ -437,7 +437,7 @@ const BrixelClosingTree = (props) => {
                   {
                     !showTabSection && (
                       <>
-                        {personsInfo('seller', 'mt-1')}
+                        {personsInfo('seller', 'mt-2 mx-2 mx-lg-0')}
                       </>
                     )
                   }
@@ -537,7 +537,7 @@ const BrixelClosingTree = (props) => {
                   {
                     stage.stageName === 'stageIdentification' && showTabSection && (
                       <>
-                        {personsInfo(showTabSection, 'mb-2')}
+                        {personsInfo(showTabSection, 'mb-2 mx-2 mx-lg-0')}
                       </>
                     )
                   }
