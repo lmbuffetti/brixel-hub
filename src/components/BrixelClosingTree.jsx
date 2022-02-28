@@ -210,7 +210,7 @@ const BrixelClosingTree = (props) => {
                         {
                           get(activeSingleOffer, 'offer.createdAt', null) ? (
                             <p className="fsize-300 txtDark200 mt-2">
-                              {DateTime.fromMillis(activeSingleOffer.createdAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                              {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
                             </p>
                           ) : (
                             <span className="fsize-100 txtDark200">-</span>
