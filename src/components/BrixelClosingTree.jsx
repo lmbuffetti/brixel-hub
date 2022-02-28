@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import get from 'lodash/get';
+import { get, cloneDeep } from 'lodash';
 import {
   connect,
 } from 'react-redux';
@@ -36,35 +36,6 @@ const BrixelClosingTree = (props) => {
   // STATE
   const [showTabSection, setShowTabSection] = useState(null);
 
-  const status = {
-    accepted: {
-      icon: 'check-small-fill',
-      label: 'Accepted',
-      color: 'green',
-      colorText: 'txtGreen400',
-    },
-    rejected: {
-      icon: 'close-circle',
-      label: 'Rejected',
-      color: 'red',
-      colorText: 'txtRed400',
-    },
-    pending: {
-      icon: 'check-small',
-      label: 'Pending',
-      color: 'yellow',
-      colorText: 'txtYellow400',
-    },
-  };
-
-  useEffect(() => {
-    if (windowDimensions.width < 1024 && !showTabSection) {
-      setShowTabSection('buyer');
-    } else if (windowDimensions.width >= 1024) {
-      setShowTabSection(null);
-    }
-  }, [windowDimensions]);
-
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
     if (action === 'add') {
@@ -76,28 +47,7 @@ const BrixelClosingTree = (props) => {
     }
   }, []);
 
-  if (!activeSingleDeal.id) {
-    return (
-      <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
-        <div className="body dis-fl-row">
-          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-sm-5 px-1 txtDark700">
-            {
-              sectionNumber.map((item, i) => (
-                <div
-                  key={i.toString()}
-                  className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}
-                >
-                  <ClosingTree />
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const closingStage = [
+  const [closingStage, setClosingStage] = useState([
     {
       name: 'offer',
       onClick: (action) => onClickOffer(action),
@@ -135,7 +85,69 @@ const BrixelClosingTree = (props) => {
       subtitle: 'Sign the contract at the notary.',
       title: 'Notary',
     },
-  ];
+  ]);
+
+  const status = {
+    accepted: {
+      icon: 'check-small-fill',
+      label: 'Accepted',
+      color: 'green',
+      colorText: 'txtGreen400',
+    },
+    rejected: {
+      icon: 'close-circle',
+      label: 'Rejected',
+      color: 'red',
+      colorText: 'txtRed400',
+    },
+    pending: {
+      icon: 'check-small',
+      label: 'Pending',
+      color: 'yellow',
+      colorText: 'txtYellow400',
+    },
+  };
+
+  useEffect(() => {
+    if (windowDimensions.width < 1024 && !showTabSection) {
+      setShowTabSection('buyer');
+    } else if (windowDimensions.width >= 1024) {
+      setShowTabSection(null);
+    }
+  }, [windowDimensions]);
+
+  useEffect(() => {
+    const stageText = cloneDeep(closingStage);
+    if (get(activeSingleDeal, 'id', null)) {
+      if (get(activeSingleOffer, 'offer.status', '') === 'rejected') {
+        stageText[0].subtitle = `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span><span class="ml-1 txtRed400">(Rejected)</span>`;
+      } else if (get(activeSingleOffer, 'offer.amount', 0) > 0) {
+        stageText[0].subtitle = `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>`;
+      }
+    }
+    setClosingStage(stageText);
+  }, [activeSingleOffer]);
+
+  if (!activeSingleDeal.id) {
+    return (
+      <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
+        <div className="body dis-fl-row">
+          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-sm-5 px-1 txtDark700">
+            {
+              sectionNumber.map((item, i) => (
+                <div
+                  key={i.toString()}
+                  className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}
+                >
+                  <ClosingTree />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const personsInfo = (usrType, classNamePersons = '') => (
     <>
