@@ -410,6 +410,7 @@ const BrixelClosingTree = (props) => {
                         <BrixelIcon
                           icon={get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) ? status.accepted.icon : status.pending.icon}
                           color={get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) ? 'green' : 'dark'}
+                          iconWidth="w-fix-16"
                         />
                       )
                     }
