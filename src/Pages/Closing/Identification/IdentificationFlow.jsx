@@ -447,7 +447,7 @@ const IdentificationFlow = (props) => {
                         label="Back to hub"
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
-                        onClick={() => history.push(`/buyer/${propID}/closing`)}
+                        onClick={() => (userType === 'buyer' ? history.push(`/buyer/${propID}/closing`) : history.push(`${propID}/closing`))}
                       />
                     </div>
                   )

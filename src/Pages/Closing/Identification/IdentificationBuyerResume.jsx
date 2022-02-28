@@ -270,7 +270,7 @@ const IdentificationFlow = (props) => {
           stepResume === 'checkData' && (
             <>
               <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                Who is the buyer of the property?
+                Who is the {userType} of the property?
               </h2>
               <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
                 <div className="p-2 p-sm-5">
@@ -307,16 +307,16 @@ const IdentificationFlow = (props) => {
                                     <>
                                       <span className="fsize-300 txtAltGrey400">Address</span>
                                       <p className="fsize-300">
-                                        <span>{get(formValue, `persons[${i}].currentLivingAddress.street`, '')}</span>
+                                        <span>{get(formValue, `persons[${i}].currentLivingAddress.address`, '')}</span>
                                         {
                                           get(formValue, `persons[${i}].currentLivingAddress.zipCode`, '') && (
                                             <span>, {get(formValue, `persons[${i}].currentLivingAddress.zipCode`, '')}</span>
                                           )
                                         }
                                         {
-                                          get(formValue, `persons[${i}].location.city`, '') && (
+                                          get(formValue, `persons[${i}].currentLivingAddress.city`, '') && (
                                             <span className="ml-small-4">
-                                              {get(formValue, `persons[${i}].location.city`, '')}
+                                              {get(formValue, `persons[${i}].currentLivingAddress.city`, '')}
                                             </span>
                                           )
                                         }
@@ -327,22 +327,28 @@ const IdentificationFlow = (props) => {
                                       {
                                         !data.name.includes('currentLivingAddress') && (
                                           <>
-                                            <span className="fsize-300 txtAltGrey400">{data.label}</span>
                                             {
-                                              data.name.includes('date') ? (
-                                                <p className="fsize-300">
+                                              get(formValue, data.name.replace('[0]', `[${i}]`)) && (
+                                                <>
+                                                  <span className="fsize-300 txtAltGrey400">{data.label}</span>
                                                   {
-                                                    !isNaN(+get(formValue, data.name.replace('[0]', `[${i}]`), '')) ? (
-                                                      DateTime.fromMillis(get(formValue, data.name.replace('[0]', `[${i}]`), '')).toFormat('d/MM/yyyy')
+                                                    data.name.includes('date') ? (
+                                                      <p className="fsize-300">
+                                                        {
+                                                          !isNaN(+get(formValue, data.name.replace('[0]', `[${i}]`), '')) ? (
+                                                            DateTime.fromMillis(get(formValue, data.name.replace('[0]', `[${i}]`), '')).toFormat('d/MM/yyyy')
+                                                          ) : (
+                                                            ''
+                                                          )
+                                                        }
+                                                      </p>
                                                     ) : (
-                                                      ''
+                                                      <p className="fsize-300">
+                                                        {get(formValue, data.name.replace('[0]', `[${i}]`), '')}
+                                                      </p>
                                                     )
                                                   }
-                                                </p>
-                                              ) : (
-                                                <p className="fsize-300">
-                                                  {get(formValue, data.name.replace('[0]', `[${i}]`), '')}
-                                                </p>
+                                                </>
                                               )
                                             }
                                           </>

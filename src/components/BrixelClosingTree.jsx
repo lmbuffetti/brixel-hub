@@ -221,6 +221,7 @@ const BrixelClosingTree = (props) => {
                     (!get(activeSingleOffer, 'offer.status', null) || (get(activeSingleOffer, 'offer.status', '') !== 'pending' && get(activeSingleOffer, 'offer.status', '') !== 'accepted')) && isBuyer && (
                       <BrixelButtonSecondary
                         rounded
+                        className="mt-2"
                         label="Add offer"
                         onClick={() => onClickOffer('add')}
                       />
@@ -363,7 +364,7 @@ const BrixelClosingTree = (props) => {
                         </div>
                         {
                           get(activeSingleOffer, 'offer.reviewedAt', null) && (
-                            <p className="fsize-300 txtDark200 my-2">
+                            <p className="fsize-300 txtDark200 mt-2">
                               {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
                             </p>
                           )
@@ -372,7 +373,7 @@ const BrixelClosingTree = (props) => {
                           get(activeSingleOffer, 'offer.status', '') === 'pending' && !isBuyer && (
                             <BrixelButtonSecondary
                               rounded
-                              className="ml-a ml-lg-0"
+                              className="ml-a ml-lg-0 mt-2"
                               label="Review offer"
                               onClick={() => onClickOffer('review')}
                             />
