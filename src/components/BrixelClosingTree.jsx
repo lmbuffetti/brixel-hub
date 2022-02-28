@@ -208,12 +208,10 @@ const BrixelClosingTree = (props) => {
                           <span className="fsize-300 fsize-lg-400 txtGreen400">Sent</span>
                         </div>
                         {
-                          get(activeSingleOffer, 'offer.createdAt', null) ? (
+                          get(activeSingleOffer, 'offer.createdAt', null) && (
                             <p className="fsize-300 txtDark200 mt-2">
                               {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
                             </p>
-                          ) : (
-                            <span className="fsize-100 txtDark200">-</span>
                           )
                         }
                       </>
@@ -364,12 +362,10 @@ const BrixelClosingTree = (props) => {
                           </span>
                         </div>
                         {
-                          get(activeSingleOffer, 'offer.reviewedAt', null) ? (
+                          get(activeSingleOffer, 'offer.reviewedAt', null) && (
                             <p className="fsize-300 txtDark200 my-2">
                               {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
                             </p>
-                          ) : (
-                            <span className="fsize-100 txtDark200">-</span>
                           )
                         }
                         {
