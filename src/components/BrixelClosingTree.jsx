@@ -518,7 +518,7 @@ const BrixelClosingTree = (props) => {
                   key={i.toString()}
                 >
                   <div className="w-perc-50 w-perc-lg-40 py-2 py-lg-4 px-2">
-                    <h5 className="mb-1 fweight-600 fsize-300 fsize-lg-400">{stage.title}</h5>
+                    <h5 className="mb-2 fweight-600 fsize-300 fsize-lg-400">{stage.title}</h5>
                     <div className="fsize-300" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
                   </div>
                   {
