@@ -71,7 +71,7 @@ const IdentificationFlow = (props) => {
     handleSpinnerOff();
     handleGetActiveSingleDeal({ id: dealID });
     if (userType !== 'buyer' && userType !== 'seller') {
-      history.push(`/buyer/${propID}/closing`);
+      history.push(`/buyer/${propID}/closing/${dealID}`);
     }
     return () => destroyForm();
   }, []);
@@ -447,7 +447,7 @@ const IdentificationFlow = (props) => {
                         label="Back to hub"
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
-                        onClick={() => (userType === 'buyer' ? history.push(`/buyer/${propID}/closing`) : history.push(`${propID}/closing`))}
+                        onClick={() => (userType === 'buyer' ? history.push(`/buyer/${propID}/closing`) : history.push(`/${propID}/closing/${dealID}`))}
                       />
                     </div>
                   )
