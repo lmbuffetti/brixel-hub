@@ -128,6 +128,12 @@ const BrixelClosingTree = (props) => {
     setClosingStage(stageText);
   }, [activeSingleOffer]);
 
+  const statusIdentification = (usrType) => {
+    if (get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'accepted';
+    if (get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 && !get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'pending';
+    return 'default';
+  };
+
   if (!activeSingleDeal.id) {
     return (
       <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
@@ -267,19 +273,19 @@ const BrixelClosingTree = (props) => {
                     {
                       get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length > 0 && (
                         <BrixelIcon
-                          icon={get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) ? status.accepted.icon : status.pending.icon}
-                          color={get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) ? 'green' : 'dark'}
+                          icon={status[statusIdentification('buyer')].icon}
+                          color={status[statusIdentification('buyer')].color}
                           iconWidth="w-fix-16"
                         />
                       )
                     }
                     {
-                      get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) && (
+                      statusIdentification('buyer') === 'accepted' && (
                         <span className="ml-1 txtGreen400 fsize-300 fsize-lg-400">Verified</span>
                       )
                     }
                     {
-                      get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length > 0 && !get(activeSingleClosing, 'stageIdentification.buyer.completedBy', null) && (
+                      statusIdentification('buyer') === 'pending' && (
                         <span className="ml-1 txtYellow400 fsize-300 fsize-lg-400">Pending</span>
                       )
                     }
@@ -422,20 +428,20 @@ const BrixelClosingTree = (props) => {
                     {
                       get(activeSingleClosing, 'stageIdentification.seller.persons', []).length > 0 && (
                         <BrixelIcon
-                          icon={get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) ? status.accepted.icon : status.pending.icon}
-                          color={get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) ? 'green' : 'dark'}
+                          icon={status[statusIdentification('seller')].icon}
+                          color={status[statusIdentification('seller')].color}
                           iconWidth="w-fix-16"
                         />
                       )
                     }
 
                     {
-                      get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) && (
+                      statusIdentification('seller') === 'accepted' && (
                         <span className="ml-1 txtGreen400">Verified</span>
                       )
                     }
                     {
-                      get(activeSingleClosing, 'stageIdentification.seller.persons', []).length > 0 && !get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) && (
+                      statusIdentification('seller') === 'pending' && (
                         <span className="ml-1 txtYellow400">Pending</span>
                       )
                     }
@@ -510,10 +516,10 @@ const BrixelClosingTree = (props) => {
         <div className="dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
 
-            <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-3 py-2">
+            <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-2 py-2">
               <span className="w-perc-40">PROCESS</span>
-              <span className="w-perc-30">BUYER</span>
-              <span className="w-perc-30">SELLER</span>
+              <span className="w-perc-30 px-2">BUYER</span>
+              <span className="w-perc-30 pl-2">SELLER</span>
             </div>
 
             <BrixelTabs
