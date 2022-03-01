@@ -120,7 +120,7 @@ const BrixelClosingTree = (props) => {
     const stageText = cloneDeep(closingStage);
     if (get(activeSingleDeal, 'id', null)) {
       if (get(activeSingleOffer, 'offer.status', '') === 'rejected') {
-        stageText[0].subtitle = `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span><span class="ml-1 txtRed400">(Rejected)</span>`;
+        stageText[0].subtitle = `<span class="ff-mono fsize-300 txtRed400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1 txtRed400">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span><span class="ml-1 txtRed400">(Rejected)</span>`;
       } else if (get(activeSingleOffer, 'offer.amount', 0) > 0) {
         stageText[0].subtitle = `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>`;
       }
