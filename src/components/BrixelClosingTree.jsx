@@ -106,6 +106,12 @@ const BrixelClosingTree = (props) => {
       color: 'yellow',
       colorText: 'txtYellow400',
     },
+    default: {
+      icon: 'check-small',
+      label: '',
+      color: 'dark',
+      colorText: 'txtDark400',
+    },
   };
 
   useEffect(() => {
@@ -291,14 +297,29 @@ const BrixelClosingTree = (props) => {
                     }
                   </div>
                   {
-                    get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length === 0 && isBuyer && (
+                    get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length === 0 && (
                       <div className="dis-f a-c jc-fe jc-fs-lg">
-                        <BrixelButtonSecondary
-                          className="mt-2"
-                          rounded
-                          label="Add buyer"
-                          onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification/`)}
-                        />
+                        {
+                          isBuyer ? (
+                            <BrixelButtonSecondary
+                              className="mt-2"
+                              rounded
+                              label="Add buyer"
+                              onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification/`)}
+                            />
+                          ) : (
+                            <>
+                              <BrixelIcon
+                                icon={status[statusIdentification('buyer')].icon}
+                                color={status[statusIdentification('buyer')].color}
+                                iconWidth="w-fix-16"
+                              />
+                              <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
+                                Open
+                              </span>
+                            </>
+                          )
+                        }
                       </div>
                     )
                   }
@@ -447,14 +468,29 @@ const BrixelClosingTree = (props) => {
                     }
                   </div>
                   {
-                    get(activeSingleClosing, 'stageIdentification.seller.persons', []).length === 0 && !isBuyer && (
+                    get(activeSingleClosing, 'stageIdentification.seller.persons', []).length === 0 && (
                       <div className="dis-f a-c jc-fe jc-fs-lg">
-                        <BrixelButtonSecondary
-                          className="mt-2"
-                          rounded
-                          label="Add seller"
-                          onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
-                        />
+                        {
+                          isBuyer ? (
+                            <BrixelButtonSecondary
+                              className="mt-2"
+                              rounded
+                              label="Add seller"
+                              onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
+                            />
+                          ) : (
+                            <>
+                              <BrixelIcon
+                                icon={status[statusIdentification('buyer')].icon}
+                                color={status[statusIdentification('buyer')].color}
+                                iconWidth="w-fix-16"
+                              />
+                              <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
+                                Open
+                              </span>
+                            </>
+                          )
+                        }
                       </div>
                     )
                   }
