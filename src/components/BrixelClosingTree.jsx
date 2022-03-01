@@ -132,14 +132,16 @@ const BrixelClosingTree = (props) => {
     return (
       <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
         <div className="body dis-fl-row">
-          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-sm-5 px-1 txtDark700">
+          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-sm-5 px-1 txtDark700 bgWhite">
             {
               sectionNumber.map((item, i) => (
                 <div
                   key={i.toString()}
                   className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}
                 >
-                  <ClosingTree />
+                  <div className="hide dis-b-md mt-6">
+                    <ClosingTree />
+                  </div>
                 </div>
               ))
             }
@@ -153,7 +155,7 @@ const BrixelClosingTree = (props) => {
     <>
       {
         get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 && (
-          <div className={`dis-f a-c bgBlue100x25 txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2 ${classNamePersons} personsListIdentification`}>
+          <div className={`dis-f a-c txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2 ${classNamePersons} ${(isBuyer && usrType === 'buyer') || (!isBuyer && usrType === 'seller') ? '' : 'filterGray'} bgBlue100x25 personsListIdentification`}>
             <div className="dis-f a-c wrapName">
               <BrixelIcon
                 className="mr-1"
@@ -422,6 +424,7 @@ const BrixelClosingTree = (props) => {
                         <BrixelIcon
                           icon={get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) ? status.accepted.icon : status.pending.icon}
                           color={get(activeSingleClosing, 'stageIdentification.seller.completedBy', null) ? 'green' : 'dark'}
+                          iconWidth="w-fix-16"
                         />
                       )
                     }
