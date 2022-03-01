@@ -8,6 +8,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import {
   BrixelButtonPrimary,
+  BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
   BrixelButtonText,
@@ -437,6 +438,18 @@ const MarketCategoryListSeller = (props) => {
                     </div>
                   </div>
                 </div>
+              )
+            }
+
+            {
+              ownerProperties.total > 0 && (
+                <BrixelButtonSecondary
+                  label="View all"
+                  rounded
+                  rightIcon="arrow-simple-right"
+                  className="m-a mt-3"
+                  onClick={() => history.push('/sell/own')}
+                />
               )
             }
 

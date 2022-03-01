@@ -228,12 +228,13 @@ const IdentificationFlow = (props) => {
     if (activeSingleDeal.id && get(activeSingleDeal, 'closing.stageIdentification.active', false) !== true) {
       if (userType === 'seller') history.push(`/${propID}/closing`);
       else history.push(`/buyer/${propID}/closing`);
-    } else {
+    } else if (get(activeSingleProperty, 'owner', null)) {
       let ownerProp = get(activeSingleProperty, 'owner.id', null);
       if (!ownerProp) ownerProp = get(activeSingleProperty, 'owner', null);
       if (userType === 'seller' && ownerProp !== loggedInUser.id) {
         history.push(`/${propID}/closing`);
       }
+
       if (userType === 'buyer' && loggedInUser.id !== get(activeSingleDeal, 'user', null)) {
         history.push(`/buyer/${propID}/closing`);
       }
@@ -243,7 +244,7 @@ const IdentificationFlow = (props) => {
         changeStep('next', null, 3, true);
       }, 100);
     }
-  }, [activeSingleDeal.id, get(initialValues, 'persons[0].fullName', null)]);
+  }, [activeSingleDeal.id, get(initialValues, 'persons[0].fullName', null), get(activeSingleProperty, 'id', null)]);
 
   // CHANGE STEP AFTER SAVE
   useEffect(() => {

@@ -110,7 +110,7 @@ function RightHeaderFlow(props) {
     ) {
       history.push('/buy');
     } else if (history.location.pathname.toLowerCase().includes('makeoffer') || history.location.pathname.toLowerCase().includes('closing')) {
-      const userType = history.location.pathname.toLowerCase().includes('buyer') ? 'buyer' : 'seller';
+      const userType = history.location.pathname.toLowerCase().includes('/buyer/') ? 'buyer' : 'seller';
       if (userType === 'seller') {
         history.push(`/${propID}/closing/${dealID}`);
       } else {
