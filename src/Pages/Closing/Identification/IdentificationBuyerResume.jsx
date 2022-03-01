@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
   BrixelButtonText,
   BrixelCheckbox,
   BrixelIcon,
@@ -151,24 +150,12 @@ const IdentificationFlow = (props) => {
                           <span className="txtGreen400">{buyer.fullName}</span>
                         </div>
                         <div className="dis-f a-c">
-                          {
-                            get(buyer, 'document.id', null) ? (
-                              <BrixelIcon
-                                className="mr-2"
-                                color="green"
-                                icon="upload"
-                                onClick={() => onClickEdit(i, 1)}
-                              />
-                            ) : (
-                              <BrixelButtonSecondary
-                                className="mr-2"
-                                rounded
-                                ghost
-                                label="1 document uploaded"
-                                onClick={() => onClickEdit(i, 1)}
-                              />
-                            )
-                          }
+                          <BrixelIcon
+                            className="mr-2"
+                            color="green"
+                            icon={get(buyer, 'document[0].id', null) ? 'identity-card' : 'upload'}
+                            onClick={() => onClickEdit(i, 1)}
+                          />
                           <BrixelIcon
                             color="green"
                             icon="pencil"

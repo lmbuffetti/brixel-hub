@@ -471,7 +471,7 @@ const BrixelClosingTree = (props) => {
                     get(activeSingleClosing, 'stageIdentification.seller.persons', []).length === 0 && (
                       <div className="dis-f a-c jc-fe jc-fs-lg">
                         {
-                          isBuyer ? (
+                          !isBuyer ? (
                             <BrixelButtonSecondary
                               className="mt-2"
                               rounded

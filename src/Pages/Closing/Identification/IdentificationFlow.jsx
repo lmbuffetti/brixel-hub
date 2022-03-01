@@ -85,8 +85,10 @@ const IdentificationFlow = (props) => {
     const docsList = [];
     const formData = cloneDeep(formValue);
     formValue.persons.forEach((person, index) => {
-      if (get(person, 'document', []).length > 0) {
-        get(person, 'document', []).forEach((doc) => {
+      const prs = get(person, 'document', []);
+      if (prs.length > 0) {
+        Object.keys(prs).forEach((key) => {
+          const doc = prs[key];
           if (doc.file) {
             docsList.push({
               idBuyer: index,

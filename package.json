@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.17.5",
-    "@brixel/brixel-components": "^2.7.46",
+    "@brixel/brixel-components": "^2.7.50",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^2.0.6",
     "d3": "^7.3.0",
@@ -14,7 +14,7 @@
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "7.29.2",
+    "eslint-plugin-react": "7.28.0",
     "google-maps-react": "^2.0.6",
     "lodash": "^4.17.21",
     "luxon": "^2.3.1",
@@ -65,8 +65,8 @@
     "test-prod": "NODE_ENV=page-prod npm run sellerFlowTest && NODE_ENV=page-prod npm run estimationFlowTest && NODE_ENV=page-prod npm run buyerFlowTest && NODE_ENV=page-prod npm run allTests",
     "eject": "react-scripts eject",
     "eslint": "eslint --fix --config .eslintrc --ignore-path .eslintignore .",
-    "ncu": "ncu -x 'mini-css-extract-plugin'",
-    "ncu-u": "ncu -x 'mini-css-extract-plugin' -u"
+    "ncu": "ncu -x 'eslint-plugin-react'",
+    "ncu-u": "ncu -x 'eslint-plugin-react' -u"
   },
   "eslintConfig": {
     "extends": "react-app"
