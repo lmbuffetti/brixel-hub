@@ -20,20 +20,20 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import CoverPropertyImage from './CoverPropertyImage';
-import CardImageText from './Skeleton/CardImageText';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
 import {
   calcPercentageProEstimation, setCookie, completedBestimate,
-} from '../utils/helpers';
-import { setSplashType } from '../actions/CommonActions';
-import { generateEstimation } from '../actions/EstimationActions';
+} from '../../utils/helpers';
+import { setSplashType } from '../../actions/CommonActions';
+import { generateEstimation } from '../../actions/EstimationActions';
 import {
   setActiveSingleProperty,
   setEstimation,
   setActiveMarketOverlayProperty,
   setActiveMarketOverlayPropertyLists,
   getEstimation, getPackageProperty,
-} from '../actions/PropertyActions';
+} from '../../actions/PropertyActions';
 
 const MarketCard = (props) => {
   const history = {
@@ -274,7 +274,7 @@ const MarketCard = (props) => {
                         {get(item, 'title', '')}
                       </h6>
                       <div>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdLight400 mr-2 pr-2">
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdLight400 mr-2 pr-2 dis-ib">
                           {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                           {
                             get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -284,15 +284,15 @@ const MarketCard = (props) => {
                             )
                           }
                         </span>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdLight400">
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdLight400 dis-ib">
                           {get(item, 'properties.propertyType', '')}
                         </span>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdLight400">
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdLight400 dis-ib">
                           {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
                         {
                           get(item, 'properties.typology.livingArea.value', 0) > 0 && (
-                            <span>
+                            <span className="dis-ib">
                               <span className="fsize-300 txtAltGrey700">
                                 {get(item, 'properties.typology.livingArea.value', 0)}
                               </span>
@@ -306,7 +306,7 @@ const MarketCard = (props) => {
                   <div className="">
                     {
                       item && get(item, 'price.total', 0) > 0 ? (
-                        <div className="dis-fl-col">
+                        <div className="dis-fl-col mt-2">
                           <div className="dis-f a-c">
                             <BrixelIcon
                               background="blue"
@@ -533,7 +533,7 @@ const MarketCard = (props) => {
               <span className="hr mt-3 lighter mb-1" />
 
               <div
-                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm ${has(item, 'published') && item.published === false ? '' : ''}`}
+                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm flex-wrap ${has(item, 'published') && item.published === false ? '' : ''}`}
               >
 
                 {
@@ -591,15 +591,15 @@ const MarketCard = (props) => {
                       </div>
                     )
                   }
-                  <div className="dis-fl-col dis-fl-row-sm">
+                  <div className="dis-fl-col dis-fl-row-sm w-perc-100-sm">
                     <BrixelButtonSecondary
-                      className="ml-2 my-1 my-sm-0"
+                      className="ml-sm-2 my-1 my-sm-0"
                       rounded
                       label="Edit"
                       onClick={() => history.push(`/${item.id}/home`)}
                     />
                     <BrixelButtonPrimary
-                      className="ml-2"
+                      className="ml-sm-2"
                       rounded
                       label="Request test drive"
                       onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}

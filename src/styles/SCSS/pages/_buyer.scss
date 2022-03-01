@@ -42,51 +42,6 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
   }
 }
 
-.buyerShowings {
-  opacity: 0;
-  animation: scaleUp $default-time $default-easing forwards;
-}
-.date-schedule {
-  opacity: 0;
-  animation: slideUpTrans $default-time $default-easing forwards;
-}
-
-.scheduleGrid .header {
-
-}
-.scheduleGrid {
-  width: 100%;
-  .header {
-    flex-direction: column;
-    .actions {
-      margin-top: $step;
-    }
-  }
-  > div {
-    width: calc(50% - 8px);
-  }
-}
-
-.property-container {
-  .avatar {
-    object-fit: cover;
-  }
-}
-
-.headerFormMarketBuyer {
-  //height: 1px;
-}
-
-.infoBannerMarketBuyer {
-  margin-top: 90px;
-  @media (max-width: $responsive-medium) {
-    margin-top: 72px;
-  }
-  @media (max-width: 320px) {
-    margin-top: 120px;
-  }
-}
-
 .searchProfileGrid {
   display: flex;
   flex-wrap: wrap;
@@ -116,12 +71,6 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
 
   .cardLayout .brixel-checkbox-icon .textLabel {
     font-size: 1rem !important;
-  }
-
-  .inputRangeWrap {
-    .multiFieldWrap {
-      //margin-top: 0;
-    }
   }
 }
 
@@ -213,8 +162,5 @@ $responsive-desktop: map-get($grid-breakpoints, xl );
     @media (max-width: 320px) {
       max-height: 120px;
     }
-  }
-  .secondaryBtn.noMinWidth {
-    min-width: auto;
   }
 }

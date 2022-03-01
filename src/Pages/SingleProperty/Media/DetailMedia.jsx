@@ -248,7 +248,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'brixelForm.Property.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  loggedInUser: get(state, 'user.loggedInUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', { }),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -414,14 +414,14 @@ const ScanTrialFlow = (props) => {
                 className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
               >
                 <div className="pos-r">
-                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
+                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3 h-fix-40">
                     {
                       (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
                         <>
                           {
                             buttonLabel().toLowerCase() === 'skip' ? (
                               <BrixelButtonSecondary
-                                className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                className={`noWrap mr-a ml-a ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 theme="green"
                                 themeSat={600}
@@ -435,7 +435,7 @@ const ScanTrialFlow = (props) => {
                                 {
                                   (questions[currentIndex].history !== 'BookTrialFlow' || get(formValue, 'analysis', null) !== 'remote') && (
                                     <BrixelButtonPrimary
-                                      className={`noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                      className={`noWrap ml-a mr-a ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                       disabled={!checkValidateField()}
                                       rounded
                                       theme="green"

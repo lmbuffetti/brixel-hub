@@ -39,7 +39,7 @@ import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getActiveSinglePropertyDealsCount, getPageDeals } from '../../../actions/PropertyActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
-import DashboardPropertyCard from '../../../components/DashboardPropertyCard';
+import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 
 const { factsOptions } = FactsOptions;
 
@@ -968,9 +968,9 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  loggedInUser: get(state, 'user.loggedInUser.user', null),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
-  userLang: get(state, 'user.loggedInUser.user.language', null),
+  userLang: get(state, 'user.loggedInUser.user.language', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

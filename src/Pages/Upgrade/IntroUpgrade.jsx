@@ -90,12 +90,10 @@ const IntroUpgrade = (props) => {
   const scrollTo = (id) => {
     document.body.classList.add('scrollSmooth');
     setTimeout(() => {
-      const flowHeader = document.getElementsByClassName('flowHeader')[0];
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
       const scrollEl = document.getElementById(id);
-      const headerHeight = flowHeader.offsetHeight / 2;
-      if (flowHeader && scrollPage) {
-        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - headerHeight;
+      if (scrollPage) {
+        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop;
       }
     }, 100);
   };
@@ -152,7 +150,7 @@ const IntroUpgrade = (props) => {
   }, []);
 
   return (
-    <main id="rewards" className="introScanFlow pt-2 pb-2 pb-sm-4 h-perc-100 txtDark700">
+    <main id="rewards" className="introScanFlow pt-2 pt-sm-4 pb-2 pb-sm-4 h-perc-100 txtDark700">
 
       <section className="intro container">
 
@@ -246,7 +244,7 @@ const IntroUpgrade = (props) => {
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">Do you want to upgrade or change plans?</h3>
 
         <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
             <img className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
@@ -258,7 +256,7 @@ const IntroUpgrade = (props) => {
               />
             </div>
           </div>
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
             <img className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
@@ -272,7 +270,7 @@ const IntroUpgrade = (props) => {
           </div>
           {
             propID !== 'company' && (
-              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
                 <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
                 <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 

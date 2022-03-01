@@ -41,7 +41,7 @@ map-get($blueColor, 300);
 "./hubDashboard";
 
 /* PAGES */
-@import "../pages/onBoarding",
+@import
 "../pages/listings",
 "../pages/_property_listings",
 "../pages/upgrade",
@@ -766,7 +766,6 @@ button.minimum-w-210 {
   background: map-get($blueColor, 100);
   position: relative;
   float: left;
-  position: relative;
   height: 48px;
   margin-left: $step * 4;
 
@@ -819,7 +818,7 @@ button.minimum-w-210 {
       transition: left 150ms ease-in;
       position: relative;
       display: inline-block;
-      left: 0px;
+      left: 0;
     }
 
     .arrow-symbol {
@@ -965,6 +964,11 @@ button.minimum-w-210 {
   top: -2px;
   position: relative;
 }
+.w-perc-100-sm {
+  @media (max-width: $responsive-small) {
+    width: 100%;
+  }
+}
 
 .BookTrialFlow {
   @media (max-width: $responsive-small) {
@@ -977,4 +981,11 @@ button.minimum-w-210 {
       padding-top: 2px;
     }
   }
+}
+// todo styleguide
+.bgBlue100x25 {
+  background-color: rgba(map-get($blueColor, 100), 0.25);
+}
+.filterGray {
+  filter: grayscale(1);
 }

@@ -5,11 +5,11 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { setSplashType } from '../actions/CommonActions';
+import { setSplashType } from '../../actions/CommonActions';
 import {
   setActiveSingleProperty, setEstimation, setActiveMarketOverlayProperty, getEstimation,
-} from '../actions/PropertyActions';
-import { mapStyles } from '../constants/map';
+} from '../../actions/PropertyActions';
+import { mapStyles } from '../../constants/map';
 
 const MarketCardPreMarket = (props) => {
   // PROPS

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, Suspense } from 'react';
 import {
-  Routes, Route, useLocation, useNavigate, useParams, Navigate,
+  Routes, Route, useLocation, useNavigate, useParams,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -35,8 +35,8 @@ const DealsDashboardBuyer = (props) => {
   }, [activeSingleDeal.id]);
 
   return (
-    <div className="secondLevel">
-      <div className="pt-3">
+    <div className={`${get(history, 'location.pathname', '').includes('closing/') ? '' : 'secondLevel'}`}>
+      <div className="">
         {
           (link[link.length - 1] === 'deal' || !link[link.length - 1]) && (
             <OfferDetail isBuyer />
@@ -50,7 +50,6 @@ const DealsDashboardBuyer = (props) => {
               <Suspense fallback="">
                 <Routes>
                   <Route path="/:dealID" element={<OfferDetail isBuyer />} />
-                  <Route path="*" element={<Navigate to={`/buyer/${propID}/closing`} />} />
                 </Routes>
               </Suspense>
             ) : (

@@ -105,7 +105,7 @@ Tour.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
-  loggedInUser: get(state, 'user.loggedInUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', { }),
 });
 
 const mapDispatchToProps = (dispatch) => ({

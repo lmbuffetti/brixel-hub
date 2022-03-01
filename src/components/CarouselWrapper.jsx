@@ -15,7 +15,7 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { setWindowDimensions } from '../actions/CommonActions';
-import MarketCard from './MarketCard';
+import MarketCard from './Cards/MarketCard';
 
 const CarouselWrapper = (props) => {
   const history = {

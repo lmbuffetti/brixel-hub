@@ -8,6 +8,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import {
   BrixelButtonPrimary,
+  BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
   BrixelButtonText,
@@ -18,7 +19,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import orderBy from 'lodash/orderBy';
 import lazyWithRetry from '../../components/LazyWithRetry';
-import MarketCard from '../../components/MarketCard';
+import MarketCard from '../../components/Cards/MarketCard';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
@@ -437,6 +438,18 @@ const MarketCategoryListSeller = (props) => {
                     </div>
                   </div>
                 </div>
+              )
+            }
+
+            {
+              ownerProperties.total > 0 && (
+                <BrixelButtonSecondary
+                  label="View all"
+                  rounded
+                  rightIcon="arrow-simple-right"
+                  className="m-a mt-3"
+                  onClick={() => history.push('/sell/own')}
+                />
               )
             }
 

@@ -12,9 +12,9 @@ import {
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { updateFavorite } from '../actions/UserActions';
-import CoverPropertyImage from './CoverPropertyImage';
-import CardImageText from './Skeleton/CardImageText';
+import { updateFavorite } from '../../actions/UserActions';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
 
 const MarketCardMap = (props) => {
   // PROPS

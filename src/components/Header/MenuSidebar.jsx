@@ -12,10 +12,10 @@ import {
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { CSSTransition } from 'react-transition-group';
-import useOutsideAlerter from './OutsideElement';
-import { setUserTypes } from '../actions/UserActions';
-import { setActiveSingleProperty } from '../actions/PropertyActions';
-import { sidebarNavigationSeller, sidebarNavigationBuyer } from '../resources/navigationRoutes';
+import useOutsideAlerter from '../OutsideElement';
+import { setUserTypes } from '../../actions/UserActions';
+import { setActiveSingleProperty } from '../../actions/PropertyActions';
+import { sidebarNavigationSeller, sidebarNavigationBuyer } from '../../resources/navigationRoutes';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 

@@ -402,7 +402,7 @@ const GetStartedBuyer = (props) => {
   const closeWindow = () => {
     reset('Property');
     // history.push('/buy');
-    history.push('/buyer/propertyLists');
+    history.push('/buy');
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -466,8 +466,6 @@ const GetStartedBuyer = (props) => {
     else label = 'Next';
     return label;
   };
-
-  // console.log(formValue);
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>

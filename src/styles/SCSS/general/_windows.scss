@@ -52,7 +52,7 @@
 
     @media (min-width: $responsive-medium) {
       padding: $step * 4 $step * 5;
-      padding-top: 0;
+      padding-top: $step * 3;
       padding-right: $step * 5;
       &.home {
         padding-right: 0px;

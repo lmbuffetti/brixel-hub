@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
 } from '@brixel/brixel-components';
-import { setWizard } from '../actions/CommonActions';
-import WizardText from '../resources/Wizard';
-import { setCookie } from '../utils/helpers';
+import { setWizard } from '../../actions/CommonActions';
+import WizardText from '../../resources/Wizard';
+import { setCookie } from '../../utils/helpers';
 
 const WizardCard = (props) => {
   const {

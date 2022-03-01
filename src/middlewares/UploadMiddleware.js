@@ -29,7 +29,7 @@ import {
   SPINNER_OFF,
   SPINNER_SMALL,
 } from '../actions/types/CommonTypes';
-import { SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
+import { SAVE_CLOSING_IDENTIFICATION, SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -324,7 +324,11 @@ const checkCommon = (store) => (next) => (action) => {
     case MULTI_UPLOAD_DOCUMENT: {
       next(action);
       const {
-        allImgs, actions, pageID, smallLoader, saveAction,
+        actions,
+        allImgs,
+        pageID,
+        saveAction,
+        smallLoader,
       } = action.payload;
       delete action.payload.allImgs;
       delete action.payload.actions;
@@ -333,7 +337,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.saveAction;
       const calls = [];
       allImgs.forEach((img) => {
-        calls.push(api.image.uploadDocument(img));
+        calls.push(api.image.uploadDocument(img, null, img.idBuyer));
       });
       if (smallLoader) {
         store.dispatch({
@@ -361,6 +365,19 @@ const checkCommon = (store) => (next) => (action) => {
           };
           data.smallLoader = smallLoader;
           store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
+        } else if (saveAction === 'closingIdentification') {
+          const dataIdentification = action.payload;
+          dataIdentification.persons.forEach((person, id) => {
+            dataIdentification.persons[id].document = [];
+          });
+          res.forEach((doc) => {
+            dataIdentification.persons[doc.id].document.push(doc.data);
+          });
+          const data = {
+            ...dataIdentification,
+            smallLoader,
+          };
+          store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
         } else {
           const data = {};
           const filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
@@ -394,10 +411,13 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO SINGLE UPLOAD DOCUMENTS - DOCUMENTS ARRAY
     case UPLOAD_DOCUMENT: {
       next(action);
-      const { pageID, smallLoader, saveAction } = action.payload;
+      const {
+        pageID, index, smallLoader, saveAction,
+      } = action.payload;
       delete action.payload.pageID;
       delete action.payload.smallLoader;
       delete action.payload.saveAction;
+      delete action.payload.index;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -422,6 +442,17 @@ const checkCommon = (store) => (next) => (action) => {
             };
             data.smallLoader = smallLoader;
             store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
+          } else if (saveAction === 'closingIdentification') {
+            const document = [];
+            document.push(res.data);
+            const data = {
+              ...action.payload,
+              index,
+              documents: document,
+            };
+            if (index > -1) data.index = index;
+            data.smallLoader = smallLoader;
+            // store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
           } else {
             const docList = store.getState().brixelForm.Property.values.documents || [];
             docList.push(res.data);
@@ -430,6 +461,7 @@ const checkCommon = (store) => (next) => (action) => {
               documents: docList,
               smallLoader: true,
             };
+            if (index > -1) data.index = index;
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data, setSuccessNotification: true });
             if (smallLoader) {
               store.dispatch({
@@ -450,10 +482,10 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO SINGLE IMAGES - DOCUMENT OBJECT
     case DELETE_DOCUMENT: {
       next(action);
-      const { smallLoader } = action.payload;
+      const { dealID, smallLoader, saveAction } = action.payload;
+      delete action.payload.dealID;
+      delete action.payload.saveAction;
       delete action.payload.smallLaoder;
-      const arrayImg = store.getState().brixelForm.Property.values.documents;
-      const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -468,25 +500,35 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.image.deleteDocument(action.payload.id)
         .then(() => {
-          arrayImg.splice(idImg, 1);
-          store.dispatch(change('Property', 'documents', arrayImg));
-          const data = {
-            id: action.payload.pageID,
-            documents: arrayImg,
-            smallLoader: true,
-          };
-          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
+          if (saveAction === 'closingIdentification') {
+            const data = {
+              ...action.payload,
+              id: dealID,
+            };
+            store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
           } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
+            const arrayImg = store.getState().brixelForm.Property.values.documents;
+            const idImg = arrayImg.findIndex((val) => val.id === action.payload.id);
+            arrayImg.splice(idImg, 1);
+            store.dispatch(change('Property', 'documents', arrayImg));
+            const data = {
+              id: action.payload.pageID,
+              documents: arrayImg,
+              smallLoader: true,
+            };
+            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+            if (smallLoader) {
+              store.dispatch({
+                type: SPINNER_SMALL,
+                payload: {
+                  [smallLoader]: false,
+                },
+              });
+            } else {
+              store.dispatch({
+                type: SPINNER_OFF,
+              });
+            }
           }
         });
       break;

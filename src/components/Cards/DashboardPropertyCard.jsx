@@ -11,7 +11,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import CoverPropertyImage from './CoverPropertyImage';
+import CoverPropertyImage from '../CoverPropertyImage';
 
 const DashboardPropertyCard = (props) => {
   const history = {
@@ -88,7 +88,7 @@ const DashboardPropertyCard = (props) => {
                   {
                     get(activeSingleProperty, 'price.total', 0) > 0 ? (
                       <div className="dis-fl-col">
-                        <div className="dis-f a-c">
+                        <div className="dis-f a-c mt-3 mt-sm-0">
                           <BrixelIcon
                             background="blue"
                             saturation={100}
@@ -112,7 +112,7 @@ const DashboardPropertyCard = (props) => {
                       <>
                         {
                           get(activeSingleProperty, 'proEstimation.value', 0) > 0 ? (
-                            <div className="dis-f pt-4 pt-sm-2 a-t">
+                            <div className="dis-f pt-3 pt-sm-2 a-t">
                               <BrixelIcon
                                 background="blue"
                                 saturation={100}
@@ -135,7 +135,7 @@ const DashboardPropertyCard = (props) => {
                               </div>
                             </div>
                           ) : (
-                            <div className="dis-f pt-4 pt-sm-2 a-t">
+                            <div className="dis-f pt-3 pt-sm-2 a-t">
                               <BrixelIcon
                                 background="blue"
                                 saturation={100}

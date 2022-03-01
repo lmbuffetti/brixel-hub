@@ -283,7 +283,7 @@ function RangePriceChart(props) {
                 <p>${titleTooltip}</p>
                 <span class="curr">${cfg.label} </span>
                 <span class="num">${formatNum(properties[0].median, "'", ',', cfg.localString)}</span>
-              `;
+            `;
           });
       }, 0);
     } else if (showTopLabel) {
