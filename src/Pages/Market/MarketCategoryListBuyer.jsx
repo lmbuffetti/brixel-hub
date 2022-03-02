@@ -21,7 +21,7 @@ import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { setEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import MarketCardSmall from '../../components/MarketCardSmall';
+import MarketCardSmall from '../../components/Cards/MarketCardSmall';
 import SearchProfileBanner from '../../components/SearchProfileBanner';
 import teaserAnimation from '../../images/Market/teaserAnimate.svg';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
@@ -332,7 +332,7 @@ const MarketCategoryListBuyer = (props) => {
               />
             </div>
 
-            <div className="dis-f jc-fe-lg pt-1 pt-lg-8 infoBannerMarketBuyer">
+            <div className="dis-f jc-fe-lg pt-1 pt-lg-9 mt-9 mt-lg-10 infoBannerMarketBuyer">
               <div className="w-perc-md-50 w-perc-100">
                 <h3 className="max-w-fix-320 fweight-600 fsize-800">
                   <span>There are</span>

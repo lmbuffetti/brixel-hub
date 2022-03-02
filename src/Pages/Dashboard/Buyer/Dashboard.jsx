@@ -109,7 +109,7 @@ const Dashboard = (props) => {
 
   return (
     <div className="dashboardContainer" id="dashboard">
-      <div className="w-perc-100 pt-0 pt-lg-3">
+      <div className="w-perc-100">
         <Suspense fallback="">
           <Routes>
             { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }

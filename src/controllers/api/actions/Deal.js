@@ -62,6 +62,11 @@ class Deal extends Base {
     const url = ep.deal.visitFeedback(id, sendSlack);
     return this.apiClient.put(url, {}, data);
   }
+
+  closingIdentification(id, personType, data) {
+    const url = ep.deal.closingIdentification(id, personType);
+    return this.apiClient.post(url, {}, data);
+  }
 }
 
 export default Deal;

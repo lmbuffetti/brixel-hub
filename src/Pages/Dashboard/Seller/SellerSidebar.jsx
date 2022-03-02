@@ -165,7 +165,7 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   historyFeed: get(state, 'history.historyFeed.data', []),
-  loggedInUser: get(state, 'user.loggedInUser.user', null),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
   activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
 });
 

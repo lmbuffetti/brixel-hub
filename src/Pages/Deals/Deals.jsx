@@ -35,7 +35,7 @@ import {
 import {
   preventExitFromScreen,
 } from '../../actions/CommonActions';
-import DealsCard from '../../components/DealsCard';
+import DealsCard from '../../components/Cards/DealsCard';
 import DealsTitle from '../../components/DealsTitle';
 import FilterBar from '../../components/FilterBar';
 import {
@@ -461,7 +461,7 @@ const Deals = (props) => {
                                                 ref={provided.innerRef}
                                               >
                                                 {
-                                                  (emptyDeals || smallLoader.loadDeal) && (
+                                                  (emptyDeals && smallLoader.loadDeal) && (
                                                     <>
                                                       <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{subkey}</span>
                                                       <img src={DealSkelton} alt="skelton deals" />

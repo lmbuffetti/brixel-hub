@@ -30,19 +30,19 @@ export const QuestionsList = (lang) => [
       isHorizontal: true,
       options: [
         {
-          label: 'I want to start <b>selling</b>',
+          label: 'I want to start <b style="vertical-align:revert">selling</b>',
           value: 'seller',
           img: svgIcons.selling,
           color: 'blue',
         },
         {
-          label: 'I want to <b>estimate</b> a property',
+          label: 'I want to <b style="vertical-align:revert">estimate</b> a property',
           value: 'estimation',
           img: svgIcons.estimate,
           color: 'green',
         },
         {
-          label: 'I want to <b>buy</b> a property',
+          label: 'I want to <b style="vertical-align:revert">buy</b> a property',
           value: 'buyer',
           img: svgIcons.buy,
           color: 'red',

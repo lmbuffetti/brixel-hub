@@ -10,7 +10,6 @@ import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { BrixelDropdown, BrixelAvatar } from '@brixel/brixel-components';
-// import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo.svg';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colors_new.svg';
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';

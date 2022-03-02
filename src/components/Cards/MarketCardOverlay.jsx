@@ -16,15 +16,15 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import CoverPropertyImage from './CoverPropertyImage';
-import CardImageText from './Skeleton/CardImageText';
-import { setSplashType } from '../actions/CommonActions';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
+import { setSplashType } from '../../actions/CommonActions';
 // import Map from './Map/Maps';
-import { fullExtraFeatures } from '../utils/propertyData';
+import { fullExtraFeatures } from '../../utils/propertyData';
 import {
   setActiveSingleProperty, setEstimation, setActiveMarketOverlayProperty, getEstimation,
-} from '../actions/PropertyActions';
-import { mapStyles } from '../constants/map';
+} from '../../actions/PropertyActions';
+import { mapStyles } from '../../constants/map';
 
 const MarketCard = (props) => {
   // PROPS

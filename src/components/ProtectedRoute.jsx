@@ -53,7 +53,7 @@ ProtectedRoute.defaultProps = {
 
 const mapStateToProps = (state) => ({
   isTest: get(state, 'common.test', false),
-  loggedInUser: get(state, 'user.loggedInUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', { }),
   userTypes: get(state, 'user.userTypes', null),
 });
 
