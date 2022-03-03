@@ -243,7 +243,7 @@ const BrixelClosingTree = (props) => {
                         {
                           get(activeSingleOffer, 'offer.createdAt', null) && (
                             <p className="fsize-300 txtDark200 mt-2">
-                              {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                              {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                             </p>
                           )
                         }
@@ -357,7 +357,7 @@ const BrixelClosingTree = (props) => {
                   {
                     get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
                       <span className="fsize-100 txtDark200">
-                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                       </span>
                     ) : (
                       <span className="fsize-100 txtDark200">-</span>
@@ -415,7 +415,7 @@ const BrixelClosingTree = (props) => {
                         {
                           get(activeSingleOffer, 'offer.reviewedAt', null) && (
                             <p className="fsize-300 txtDark200 mt-2">
-                              {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                              {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                             </p>
                           )
                         }
@@ -528,7 +528,7 @@ const BrixelClosingTree = (props) => {
                   {
                     get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
                       <span className="fsize-100 txtDark200">
-                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                       </span>
                     ) : (
                       <span className="fsize-100 txtDark200">-</span>
