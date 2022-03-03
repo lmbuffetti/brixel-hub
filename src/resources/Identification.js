@@ -46,7 +46,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
     },
     {
       title: `<span>Please give us all details about</span><span class="ml-1">${get(formValue, 'persons[0].fullName')}.</span>`,
-      history: 'buyerData',
+      history: 'userData',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
@@ -181,7 +181,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
     {
       hideContinueBtn: true,
       cardType: 'loadComponent',
-      history: 'buyerDataResume',
+      history: 'userDataResume',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: IdentificationBuyerResume,
