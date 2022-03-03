@@ -34,6 +34,7 @@ const BrixelClosingTree = (props) => {
     windowDimensions,
   } = props;
   // STATE
+  const userType = isBuyer ? 'buyer' : 'seller';
   const [showTabSection, setShowTabSection] = useState(null);
 
   // TODO: add active/inactive lock logic
@@ -114,6 +115,12 @@ const BrixelClosingTree = (props) => {
     },
   };
 
+  const statusIdentification = (usrType) => {
+    if (get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'accepted';
+    if (get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 && !get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'pending';
+    return 'default';
+  };
+
   useEffect(() => {
     if (windowDimensions.width < 1024 && !showTabSection) {
       setShowTabSection('buyer');
@@ -130,15 +137,12 @@ const BrixelClosingTree = (props) => {
       } else if (get(activeSingleOffer, 'offer.amount', 0) > 0) {
         stageText[0].subtitle = `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>`;
       }
+      if (statusIdentification(userType) === 'pending') {
+        stageText[1].subtitle = 'Identification currently being verified';
+      }
     }
     setClosingStage(stageText);
   }, [activeSingleOffer]);
-
-  const statusIdentification = (usrType) => {
-    if (get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'accepted';
-    if (get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 && !get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'pending';
-    return 'default';
-  };
 
   if (!activeSingleDeal.id) {
     return (
@@ -553,9 +557,9 @@ const BrixelClosingTree = (props) => {
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
 
             <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-2 py-2">
-              <span className="w-perc-40">PROCESS</span>
-              <span className="w-perc-30 px-2">BUYER</span>
-              <span className="w-perc-30 pl-2">SELLER</span>
+              <span className="w-perc-40 tt-u">Process</span>
+              <span className="w-perc-30 px-2 tt-u">Buyer</span>
+              <span className="w-perc-30 pl-2 tt-u">Seller</span>
             </div>
 
             <BrixelTabs

@@ -265,16 +265,16 @@ const MarketCard = (props) => {
                 <div className="info dis-fl-col pl-sm-4 pl-0 w-perc-100 jc-b">
                   <div>
                     <div
-                      className="top dis-fl-col notranslate"
+                      className="top dis-fl-col"
                       onClick={(e) => openCard(e)}
                     >
                       <h6
-                        className="fweight-600 fsize-500 fsize-sm-600 mb-small-4 txtDark700 ellipsis two w-perc-100 ta-l mb-2"
+                        className="fweight-600 fsize-500 fsize-sm-600 mb-small-4 txtDark700 ellipsis two w-perc-100 ta-l mb-2 notranslate"
                       >
                         {get(item, 'title', '')}
                       </h6>
                       <div>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdLight400 mr-2 pr-2 dis-ib">
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdLight400 mr-2 pr-2 dis-ib notranslate">
                           {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                           {
                             get(item, 'location.countryCode', 'CH') === 'CH' && (
@@ -287,12 +287,12 @@ const MarketCard = (props) => {
                         <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdLight400 dis-ib">
                           {get(item, 'properties.propertyType', '')}
                         </span>
-                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdLight400 dis-ib">
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdLight400 dis-ib notranslate">
                           {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                         </span>
                         {
                           get(item, 'properties.typology.livingArea.value', 0) > 0 && (
-                            <span className="dis-ib">
+                            <span className="dis-ib notranslate">
                               <span className="fsize-300 txtAltGrey700">
                                 {get(item, 'properties.typology.livingArea.value', 0)}
                               </span>
