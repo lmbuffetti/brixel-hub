@@ -321,7 +321,7 @@ const BrixelClosingTree = (props) => {
                                 iconWidth="w-fix-16"
                               />
                               <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
-                                Open
+                                Pending
                               </span>
                             </>
                           )
@@ -492,7 +492,7 @@ const BrixelClosingTree = (props) => {
                                 iconWidth="w-fix-16"
                               />
                               <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
-                                Open
+                                Pending
                               </span>
                             </>
                           )
