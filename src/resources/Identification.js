@@ -30,7 +30,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
       title: `Who is the ${userType} of the property?`,
       history: 'buyerName',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
-      subtitleSmall: `Please fill in the full name as it is stated in your ID. Add all people who are legally ${userType === 'seller' ? 'selling' : 'buying'}  the property, e.g. your spouse or an investment partner.`,
+      subtitleSmall: userType === 'seller' ? 'Please fill in the full name as it is stated in your ID. Add all people who are legally seller the property, e.g. your spouse or an investment partner.' : 'Please fill in the full name as it is stated in your ID. Add all people who are legally buyer the property, e.g. your spouse or an investment partner.',
       inputs: [
         {
           component: BrixelInputText,
@@ -46,7 +46,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
     },
     {
       title: `<span>Please give us all details about</span><span class="ml-1">${get(formValue, 'persons[0].fullName')}.</span>`,
-      history: 'userData',
+      history: 'buyerData',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
@@ -181,7 +181,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
     {
       hideContinueBtn: true,
       cardType: 'loadComponent',
-      history: 'userDataResume',
+      history: 'buyerDataResume',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: IdentificationBuyerResume,
