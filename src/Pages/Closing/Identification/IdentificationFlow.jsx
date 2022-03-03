@@ -554,8 +554,8 @@ const mapStateToProps = (state) => {
       typeOfOwnership: get(buyerOffer, 'buyer.typeOfPurchase', ''),
       currentLivingAddress: {
         address: get(buyerOffer, 'location.street', {}),
-        zipCode: get(buyerOffer, 'location.street', {}),
-        city: get(buyerOffer, 'location.street', {}),
+        zipCode: get(buyerOffer, 'location.zipCode', {}),
+        city: get(buyerOffer, 'location.City', {}),
       },
     }];
   }
