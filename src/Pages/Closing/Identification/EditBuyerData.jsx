@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
-import get from 'lodash/get';
+import { get, has } from 'lodash';
 import { connect } from 'react-redux';
 import {
   ReduxField,
@@ -30,6 +30,7 @@ const EditBuyerData = (props) => {
   } = props;
   // STATE
   const [formData, setFormData] = useState([]);
+  const [filteredForm, setFilteredForm] = useState([]);
 
   useEffect(() => {
     const getBuyerNameData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerName');
@@ -59,6 +60,41 @@ const EditBuyerData = (props) => {
     handleDeleteDocument(data);
   };
 
+  // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
+  useEffect(() => {
+    const newQuest = [];
+    formData.map((quest) => {
+      let isValid = true;
+      if (quest.condition) {
+        quest.condition.map((item) => {
+          if (get(formValue, item.name, null) !== item.value) {
+            isValid = false;
+          }
+          return null;
+        });
+        if (isValid) newQuest.push(quest);
+      } else if (quest.conditionsOr) {
+        isValid = false;
+        quest.conditionsOr.map((item) => {
+          if (has(item, 'value')) {
+            if ((item.value === 'isPositive' && get(formValue, item.name, 0) > 0) || get(formValue, item.name, 'a') === item.value) {
+              isValid = true;
+            }
+          }
+          if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
+            isValid = true;
+          }
+          return null;
+        });
+        if (isValid) newQuest.push(quest);
+      } else {
+        newQuest.push(quest);
+      }
+      return null;
+    });
+    setFilteredForm(newQuest);
+  }, [formValue, forceStep, formData]);
+  // console.log(formData, filteredForm);
   return (
     <div>
       <>
@@ -79,7 +115,7 @@ const EditBuyerData = (props) => {
             }
             <div className="dis-f a-c flex-wrap">
               {
-                formData.map((field, i) => (
+                filteredForm.map((field, i) => (
                   <div
                     className={`${field.classWidthBox ? field.classWidthBox : 'w-perc-100'} ${field.classBoxWrapper || 'mt-3'}`}
                     key={i.toString()}
