@@ -241,7 +241,7 @@ const IdentificationFlow = (props) => {
         history.push(`/buyer/${propID}/closing`);
       }
     }
-    if (get(initialValues, 'persons[0].fullName', null)) {
+    if (get(initialValues, 'persons[0].fullName', null) && get(activeSingleDeal, 'closing.stageOffer.buyer.', null)) {
       setTimeout(() => {
         changeStep('next', null, 3, true);
       }, 100);
@@ -542,7 +542,23 @@ IdentificationFlow.propTypes = {
 const mapStateToProps = (state) => {
   let userType = 'buyer';
   if (typeof window !== 'undefined') userType = (window.location.href).includes('seller') ? 'seller' : 'buyer';
-  const initialValues = get(state, `deal.activeSingleDeal.closing.stageIdentification.${userType}`, {});
+  const initialValues = cloneDeep(get(state, `deal.activeSingleDeal.closing.stageIdentification.${userType}`, {}));
+  if (userType === 'buyer' && get(initialValues, 'persons', []).length === 0) {
+    const buyerOffer = cloneDeep(get(state, 'deal.activeSingleDeal.closing.stageOffer.offer', {}));
+    initialValues.persons = [{
+      document: [],
+      dateBirth: get(buyerOffer, 'buyer.dateBirth', ''),
+      maritialStatus: get(buyerOffer, 'buyer.maritialStatus', ''),
+      matrimonialPropertyRegime: get(buyerOffer, 'buyer.matrimonialPropertyRegime', ''),
+      nationality: get(buyerOffer, 'buyer.placeOfOrigin', ''),
+      typeOfOwnership: get(buyerOffer, 'buyer.typeOfPurchase', ''),
+      currentLivingAddress: {
+        address: get(buyerOffer, 'location.street', {}),
+        zipCode: get(buyerOffer, 'location.street', {}),
+        city: get(buyerOffer, 'location.street', {}),
+      },
+    }];
+  }
   return ({
     activeSingleDeal: get(state, 'deal.activeSingleDeal', null),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
