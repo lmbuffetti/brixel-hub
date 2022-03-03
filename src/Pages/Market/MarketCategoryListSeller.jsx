@@ -403,9 +403,9 @@ const MarketCategoryListSeller = (props) => {
                                 </h5>
                                 <div>
                                   <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
-                                    <li>Easy house inspection</li>
-                                    <li className="ml-0 ml-md-3">Images clicked by Experts</li>
-                                    <li className="ml-0 ml-md-3">Free House Evauation</li>
+                                    <li>Personal consultation</li>
+                                    <li className="ml-0 ml-md-3">Free 3D tour & HD photos</li>
+                                    <li className="ml-0 ml-md-3">Full estimation by an expert</li>
                                   </ul>
                                 </div>
 
