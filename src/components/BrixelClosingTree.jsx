@@ -557,9 +557,9 @@ const BrixelClosingTree = (props) => {
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
 
             <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-2 py-2">
-              <span className="w-perc-40 tt-u">Process</span>
-              <span className="w-perc-30 px-2 tt-u">Buyer</span>
-              <span className="w-perc-30 pl-2 tt-u">Seller</span>
+              <span className="w-perc-40 tt-up">Process</span>
+              <span className="w-perc-30 px-2 tt-up">Buyer</span>
+              <span className="w-perc-30 pl-2 tt-up">Seller</span>
             </div>
 
             <BrixelTabs
