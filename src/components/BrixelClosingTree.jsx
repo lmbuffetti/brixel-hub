@@ -137,12 +137,14 @@ const BrixelClosingTree = (props) => {
       } else if (get(activeSingleOffer, 'offer.amount', 0) > 0) {
         stageText[0].subtitle = `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>`;
       }
-      if (statusIdentification(userType) === 'pending') {
+      if (statusIdentification(userType) === 'pending' && (!showTabSection || (showTabSection === userType))) {
         stageText[1].subtitle = 'Identification currently being verified';
+      } else {
+        stageText[1].subtitle = 'Submit ID and personal information.';
       }
     }
     setClosingStage(stageText);
-  }, [activeSingleOffer]);
+  }, [activeSingleOffer, showTabSection]);
 
   if (!activeSingleDeal.id) {
     return (
