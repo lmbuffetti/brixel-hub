@@ -202,12 +202,12 @@ const IntroUpgrade = (props) => {
                       </div>
                       {
                         pkg.price.total > 0 ? (
-                          <h6 className="px-4 py-2">
+                          <h6 className="px-4 py-2 txtWhite">
                             <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
                             <small>incl. VAT</small>
                           </h6>
                         ) : (
-                          <h6 className="px-4 py-2">
+                          <h6 className="px-4 py-2 txtWhite">
                             Free
                           </h6>
                         )
