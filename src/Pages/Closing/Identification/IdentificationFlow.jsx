@@ -241,10 +241,10 @@ const IdentificationFlow = (props) => {
         history.push(`/buyer/${propID}/closing`);
       }
     }
-    if (get(initialValues, 'persons[0].fullName', null) && get(activeSingleDeal, 'closing.stageOffer.buyer.', null)) {
+    if (get(initialValues, 'persons[0].fullName', null)) {
       setTimeout(() => {
         changeStep('next', null, 3, true);
-      }, 100);
+      }, 10);
     }
   }, [activeSingleDeal.id, get(initialValues, 'persons[0].fullName', null), get(activeSingleProperty, 'id', null)]);
 

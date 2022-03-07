@@ -7,6 +7,12 @@
       text-overflow: ellipsis;
     }
   }
+  &.disabled {
+    filter: grayscale(1);
+    .editIcon {
+      display: none;
+    }
+  }
 }
 
 /* CUSTOM TAB */
