@@ -137,12 +137,14 @@ const BrixelClosingTree = (props) => {
       } else if (get(activeSingleOffer, 'offer.amount', 0) > 0) {
         stageText[0].subtitle = `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>`;
       }
-      if (statusIdentification(userType) === 'pending') {
+      if (statusIdentification(userType) === 'pending' && (!showTabSection || (showTabSection === userType))) {
         stageText[1].subtitle = 'Identification currently being verified';
+      } else {
+        stageText[1].subtitle = 'Submit ID and personal information.';
       }
     }
     setClosingStage(stageText);
-  }, [activeSingleOffer]);
+  }, [activeSingleOffer, showTabSection]);
 
   if (!activeSingleDeal.id) {
     return (
@@ -241,7 +243,7 @@ const BrixelClosingTree = (props) => {
                         {
                           get(activeSingleOffer, 'offer.createdAt', null) && (
                             <p className="fsize-300 txtDark200 mt-2">
-                              {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                              {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                             </p>
                           )
                         }
@@ -319,7 +321,7 @@ const BrixelClosingTree = (props) => {
                                 iconWidth="w-fix-16"
                               />
                               <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
-                                Open
+                                Pending
                               </span>
                             </>
                           )
@@ -355,7 +357,7 @@ const BrixelClosingTree = (props) => {
                   {
                     get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
                       <span className="fsize-100 txtDark200">
-                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                       </span>
                     ) : (
                       <span className="fsize-100 txtDark200">-</span>
@@ -413,7 +415,7 @@ const BrixelClosingTree = (props) => {
                         {
                           get(activeSingleOffer, 'offer.reviewedAt', null) && (
                             <p className="fsize-300 txtDark200 mt-2">
-                              {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                              {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                             </p>
                           )
                         }
@@ -490,7 +492,7 @@ const BrixelClosingTree = (props) => {
                                 iconWidth="w-fix-16"
                               />
                               <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
-                                Open
+                                Pending
                               </span>
                             </>
                           )
@@ -526,7 +528,7 @@ const BrixelClosingTree = (props) => {
                   {
                     get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
                       <span className="fsize-100 txtDark200">
-                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yy, H:mm')}
+                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                       </span>
                     ) : (
                       <span className="fsize-100 txtDark200">-</span>
