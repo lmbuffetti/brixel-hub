@@ -173,7 +173,7 @@ const BrixelClosingTree = (props) => {
     <>
       {
         get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 && (
-          <div className={`dis-f a-c txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2 ${classNamePersons} ${(isBuyer && usrType === 'buyer') || (!isBuyer && usrType === 'seller') ? '' : 'filterGray'} bgBlue100x25 personsListIdentification`}>
+          <div className={`dis-f a-c txtGreen400 brdRadius w-perc-100 jc-b py-1 px-2 ${classNamePersons} ${(isBuyer && usrType === 'buyer') || (!isBuyer && usrType === 'seller') ? '' : 'filterGray'} ${statusIdentification('seller') === 'accepted' || statusIdentification('buyer') === 'accepted' ? 'disabled' : ''} bgBlue100x25 personsListIdentification`}>
             <div className="dis-f a-c wrapName">
               <BrixelIcon
                 className="mr-1"
@@ -200,6 +200,7 @@ const BrixelClosingTree = (props) => {
                   <BrixelIcon
                     color="green"
                     icon="pencil"
+                    className="editIcon"
                     onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/${usrType}/identification/`)}
                   />
                 )
