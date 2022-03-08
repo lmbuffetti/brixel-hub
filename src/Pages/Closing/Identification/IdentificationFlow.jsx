@@ -385,9 +385,8 @@ const IdentificationFlow = (props) => {
                         )
                       }
                       <div className={`${quest.className} w-perc-100`}>
-                        <p className="mb-3"> {quest.subtitleSmall} </p>
+                        <p className="mb-3" dangerouslySetInnerHTML={{ __html: quest.subtitleSmall }} />
                         <MultiFileldsReduxForm
-                          autofocus={quest.inputs.length === 1}
                           form="Identification"
                           disableNextBtn={false}
                           formValue={formValue}

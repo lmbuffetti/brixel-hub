@@ -25,12 +25,14 @@ export const IdentificationQuestions = (editForm = false, userType) => {
     isPT = countryCode === 'PT';
   }
 
+  let textIntro = 'Please fill in the full name as it is stated in your ID. Add all people who are legally seller the property, e.g. your spouse or an investment partner.';
+  if (userType === 'buyer') textIntro = 'Please fill in the full name as it is stated in your ID. Add all people who are legally buyer the property, e.g. your spouse or an investment partner.';
   return [
     {
       title: `Who is the ${userType} of the property?`,
       history: 'userName',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
-      subtitleSmall: userType === 'seller' ? 'Please fill in the full name as it is stated in your ID. Add all people who are legally seller the property, e.g. your spouse or an investment partner.' : 'Please fill in the full name as it is stated in your ID. Add all people who are legally buyer the property, e.g. your spouse or an investment partner.',
+      subtitleSmall: `<span>${textIntro}</span>`,
       inputs: [
         {
           component: BrixelInputText,
