@@ -16,7 +16,6 @@ import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, multiUploadDocument } from '../../../actions/UploadActions';
-import { titleProperty } from '../../../utils/titleCreation';
 import { checkBrowser } from '../../../utils/helpers';
 import { IdentificationQuestions } from '../../../resources/Identification';
 import { getActiveSingleDeal, saveClosingIdentification } from '../../../actions/DealActions';
@@ -32,7 +31,6 @@ const IdentificationFlow = (props) => {
   const {
     activeSingleDeal,
     activeSingleProperty,
-    changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
@@ -47,6 +45,7 @@ const IdentificationFlow = (props) => {
     lang,
     loggedInUser,
     reset,
+    syncErrors,
   } = props;
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
@@ -77,6 +76,10 @@ const IdentificationFlow = (props) => {
   }, []);
 
   useEffect(() => {
+    delete syncErrors.location;
+  }, [syncErrors]);
+
+  useEffect(() => {
     setIsEnter(true);
   }, [currentIndex]);
 
@@ -92,6 +95,7 @@ const IdentificationFlow = (props) => {
           if (doc.file) {
             docsList.push({
               idBuyer: index,
+              id: index,
               ...doc,
               isPrivate: true,
               user: get(loggedInUser, 'id', null),
@@ -298,15 +302,6 @@ const IdentificationFlow = (props) => {
     }
   }, [formValue]);
 
-  // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
-  useEffect(() => {
-    if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
-      const propertyType = get(formValue, 'properties.propertyType', null);
-      const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
-      if (pageTitle && questions[currentIndex].history !== 'createProfile') changeFieldValue('pageTitle', pageTitle);
-    }
-  }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
-
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
@@ -392,6 +387,7 @@ const IdentificationFlow = (props) => {
                       <div className={`${quest.className} w-perc-100`}>
                         <p className="mb-3"> {quest.subtitleSmall} </p>
                         <MultiFileldsReduxForm
+                          autofocus={quest.inputs.length === 1}
                           form="Identification"
                           disableNextBtn={false}
                           formValue={formValue}
@@ -522,7 +518,6 @@ const IdentificationFlow = (props) => {
 IdentificationFlow.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -537,12 +532,17 @@ IdentificationFlow.propTypes = {
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   reset: PropTypes.func.isRequired,
+  syncErrors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
   let userType = 'buyer';
   if (typeof window !== 'undefined') userType = (window.location.href).includes('seller') ? 'seller' : 'buyer';
   const initialValues = cloneDeep(get(state, `deal.activeSingleDeal.closing.stageIdentification.${userType}`, {}));
+  initialValues.location = {
+    name: get(initialValues, 'location.street', ''),
+    street: get(initialValues, 'location.street', ''),
+  };
   if (userType === 'buyer' && get(initialValues, 'persons', []).length === 0) {
     const buyerOffer = cloneDeep(get(state, 'deal.activeSingleDeal.closing.stageOffer.offer', {}));
     initialValues.persons = [{
@@ -553,9 +553,12 @@ const mapStateToProps = (state) => {
       nationality: get(buyerOffer, 'buyer.placeOfOrigin', ''),
       typeOfOwnership: get(buyerOffer, 'buyer.typeOfPurchase', ''),
       currentLivingAddress: {
-        address: get(buyerOffer, 'location.street', {}),
-        zipCode: get(buyerOffer, 'location.zipCode', {}),
-        city: get(buyerOffer, 'location.City', {}),
+        address: get(buyerOffer, 'location.street', ''),
+        zipCode: get(buyerOffer, 'location.zipCode', ''),
+        city: get(buyerOffer, 'location.City', ''),
+      },
+      location: {
+        name: get(buyerOffer, 'location.street', ''),
       },
     }];
   }
@@ -570,6 +573,7 @@ const mapStateToProps = (state) => {
     lang: get(state, 'common.lang', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     stageClosingData: initialValues,
+    syncErrors: get(state, 'brixelForm.Identification.syncErrors', {}),
   });
 };
 

@@ -79,7 +79,7 @@ const IdentificationFlow = (props) => {
     return true;
   };
 
-  const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerData');
+  const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'userData');
 
   return (
     <div className="idFlow">
@@ -153,7 +153,7 @@ const IdentificationFlow = (props) => {
                           <BrixelIcon
                             className="mr-2"
                             color="green"
-                            icon={get(buyer, 'document[0].id', null) ? 'identity-card' : 'upload'}
+                            icon={get(buyer, 'document[0].id', null) || get(buyer, 'document[0].file', null) ? 'identity-card' : 'upload'}
                             onClick={() => onClickEdit(i, 1)}
                           />
                           <BrixelIcon

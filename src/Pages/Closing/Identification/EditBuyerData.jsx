@@ -33,8 +33,8 @@ const EditBuyerData = (props) => {
   const [filteredForm, setFilteredForm] = useState([]);
 
   useEffect(() => {
-    const getBuyerNameData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerName');
-    const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'buyerData');
+    const getBuyerNameData = IdentificationQuestions(true).find((quest) => quest.history === 'userName');
+    const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'userData');
     const fullFormBuyerData = getBuyerNameData.inputs.concat(getBuyerData.inputs);
     const getUploadData = IdentificationQuestions(true).find((quest) => quest.history === 'document');
     const formDataUpload = get(getUploadData, 'inputs', []);
@@ -94,7 +94,7 @@ const EditBuyerData = (props) => {
     });
     setFilteredForm(newQuest);
   }, [formValue, forceStep, formData]);
-  // console.log(formData, filteredForm);
+
   return (
     <div>
       <>
