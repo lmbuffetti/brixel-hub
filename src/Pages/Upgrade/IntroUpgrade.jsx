@@ -174,7 +174,7 @@ const IntroUpgrade = (props) => {
                   filteredPackages.map((pkg, i) => (
                     <div
                       className={`packageBox mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
-                      key={i.toString()}
+                      key={`fltPkg_${i.toString()}`}
                     >
                       <div className="p-4">
                         <div className="dis-f jc-b a-c">
@@ -191,7 +191,7 @@ const IntroUpgrade = (props) => {
                           {
                             pkg.details && get(pkg, 'details', []).map((detail, f) => (
                               <li
-                                key={f.toString()}
+                                key={`pkgDtl_${f.toString()}`}
                                 className={i > 0 && f === 0 ? 'fweight-600' : ''}
                               >
                                 {detail.description}

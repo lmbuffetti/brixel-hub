@@ -124,7 +124,7 @@ const ProgressBar = (props) => {
         {
           options.map((option, i) => (
             <div
-              key={i.toString()}
+              key={`opt_${i.toString()}`}
               className={`single-bar
                         ${i === 0 ? 'first' : ''}
                         ${i === (options.length - 1) ? 'last' : ''}
@@ -159,7 +159,7 @@ const ProgressBar = (props) => {
             {
               progressBarStateArray.map((item, i) => (
                 <li
-                  key={i.toString()}
+                  key={`prgBr_${i.toString()}`}
                   className="selectedProgressItem"
                 >
                   <span className="fweight-600 txtLight100 fsize-200 mr-1">{item}</span>

@@ -222,7 +222,7 @@ const MarketCategoryListBuyer = (props) => {
                   <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
                     {
                       get(wishlistProperties, 'data', []).map((fav, i) => (
-                        <React.Fragment key={i.toString()}>
+                        <React.Fragment key={`wsh_${i.toString()}`}>
                           {
                             i < numWishProp && (
                               <MarketCardSmall
@@ -265,7 +265,7 @@ const MarketCategoryListBuyer = (props) => {
                             get(ownerEstimations, 'data', []).map((fav, i) => (
                               <div className="max-w-fix-sm-304">
                                 <MarketCardSmall
-                                  key={i.toString()}
+                                  key={`ownPro_${i.toString()}`}
                                   type="estimation"
                                   estimation={fav.result}
                                   item={fav.data}
@@ -279,7 +279,7 @@ const MarketCategoryListBuyer = (props) => {
                           {
                             get(ownerEstimations, 'data', []).map((fav, i) => (
                               <MarketCardSmall
-                                key={i.toString()}
+                                key={`ownEst_${i.toString()}`}
                                 type="estimation"
                                 estimation={fav.result}
                                 item={fav.data}

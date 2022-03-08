@@ -113,7 +113,7 @@ const HomeDashboard = (props) => {
               {
                 userProperties.map((property, i) => (
                   <div
-                    key={i.toString()}
+                    key={`usrPro_${i.toString()}`}
                     className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius cur-poi"
                     onClick={() => history.push({ pathname: `/${property.id}/home`, state: { section: 'Sell' } })}
                   >

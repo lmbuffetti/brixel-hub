@@ -154,7 +154,7 @@ const BrixelClosingTree = (props) => {
             {
               sectionNumber.map((item, i) => (
                 <div
-                  key={i.toString()}
+                  key={`sctNm_${i.toString()}`}
                   className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}
                 >
                   <div className="hide dis-b-md mt-6">
@@ -579,7 +579,7 @@ const BrixelClosingTree = (props) => {
               closingStage.map((stage, i) => (
                 <div
                   className={`offer-container dis-fl-row jc-b ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${closingStage.length > i + 1 ? 'brdSmallBottom brdAltGrey100' : ''} flex-wrap`}
-                  key={i.toString()}
+                  key={`clsStg_${i.toString()}`}
                 >
                   <div className="w-perc-50 w-perc-lg-40 py-2 py-lg-4 px-2">
                     <h5 className="mb-2 fweight-600 fsize-300 fsize-lg-400">{stage.title}</h5>

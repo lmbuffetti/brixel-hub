@@ -624,7 +624,7 @@ export const MapsWithModalManual = (props) => {
                             <li
                               className={i === selLocAuto ? 'active' : ''}
                               tabIndex={i}
-                              key={i.toString()}
+                              key={`loc_${i.toString()}`}
                               onClick={() => geoCode(loc.description, 'submit')}
                             >
                               <BrixelIcon

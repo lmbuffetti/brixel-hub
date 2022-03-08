@@ -29,7 +29,10 @@ const ProgressSellerStage = (props) => {
     <div className={`progress-stage dis-f a-c pos-r ${className}`}>
       {
         factsOptions.progressBarOptions.map((progress, i) => (
-          <div className={`step-item ${stepIndexProgress === i ? 'active' : ''} ${xSmallMobile ? 'xsmall' : ''} ${stepIndexProgress > i ? 'done' : ''}`} key={i.toString()}>
+          <div
+            className={`step-item ${stepIndexProgress === i ? 'active' : ''} ${xSmallMobile ? 'xsmall' : ''} ${stepIndexProgress > i ? 'done' : ''}`}
+            key={`fctOpts_${i.toString()}`}
+          >
             <div className={`wrap-step ${xSmallMobile ? 'xsmallStep' : ''} ${smallLayout ? 'smallStep' : ''}`}>
               <div className="circle">
                 {

@@ -125,7 +125,10 @@ const PropertiesBuyerDashboard = (props) => {
       <div className="dis-f flex-wrap">
         {
           extraFeatures.map((item, i) => (
-            <p key={i.toString()} className="mr-1">
+            <p
+              key={`xtf_${i.toString()}`}
+              className="mr-1"
+            >
               <BrixelIcon
                 color="green"
                 icon="check"
@@ -177,7 +180,7 @@ const PropertiesBuyerDashboard = (props) => {
             {
               activeBuyerProperties.map((property, i) => (
                 <div
-                  key={i.toString()}
+                  key={`actBuy_${i.toString()}`}
                   className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius"
                 >
                   <div className="row-section p-1 avatar-container dis-f a-c ov-h flex-112">
@@ -264,7 +267,12 @@ const PropertiesBuyerDashboard = (props) => {
                       <h6 className="txtDark500 body2">Type</h6>
                       {
                         get(userSearchProfiles, '[0].characteristics.propertyType', []).map((item, i) => (
-                          <p className="txtDark700" key={i.toString()}>{item}</p>
+                          <p
+                            className="txtDark700"
+                            key={`usrPro_${i.toString()}`}
+                          >
+                            {item}
+                          </p>
                         ))
                       }
                     </div>
@@ -279,7 +287,12 @@ const PropertiesBuyerDashboard = (props) => {
                   <h6 className="txtDark500 body2 mt-3">Location</h6>
                   {
                     get(userSearchProfiles, '[0].location', []).map((item, i) => (
-                      <p className="txtDark700" key={i.toString()}>{item.address}</p>
+                      <p
+                        className="txtDark700"
+                        key={`usrPro_${i.toString()}`}
+                      >
+                        {item.address}
+                      </p>
                     ))
                   }
                   {

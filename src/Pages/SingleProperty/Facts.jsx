@@ -164,7 +164,7 @@ const Facts = (props) => {
                     <button
                       type="button"
                       className={`dis-b w-perc-100 accordWrap cur-poi ${selectedQuest && selectedQuest.history === quest.history ? 'active' : ''}`}
-                      key={i.toString()}
+                      key={`qst_${i.toString()}`}
                       onClick={() => onSelectQuest(quest)}
                       aria-label={quest.title}
                     >

@@ -183,7 +183,7 @@ const MarketCard = (props) => {
                 {
                   item.tags.map((tag, i) => (
                     <p
-                      key={i.toString()}
+                      key={`itm_${i.toString()}`}
                       className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                     >
                       <span className="type">{getTypeText(tag)}</span>
@@ -283,7 +283,7 @@ const MarketCard = (props) => {
                               <div className="row mx-0 pt-1">
                                 {
                                   fullExtraFeatures(item).map((key, i) => (
-                                    <div key={i.toString()} className="dis-f flex-50 a-c mb-2">
+                                    <div key={`fllExt_${i.toString()}`} className="dis-f flex-50 a-c mb-2">
                                       <BrixelIcon
                                         icon={get(key, 'icon', '')}
                                         color="green"

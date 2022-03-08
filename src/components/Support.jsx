@@ -66,7 +66,7 @@ const Support = (props) => {
                           {
                             teamAvatars.map((imgTeam, i) => (
                               <img
-                                key={i.toString()}
+                                key={`rmAvt_${i.toString()}`}
                                 src={`${baseByData.shortPath}${imgTeam.path}`}
                                 alt="Support Team"
                                 className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
@@ -123,7 +123,7 @@ const Support = (props) => {
                     {
                       teamAvatars.map((imgTeam, i) => (
                         <img
-                          key={i.toString()}
+                          key={`tmAvt_${i.toString()}`}
                           src={`${baseByData.shortPath}${imgTeam.path}`}
                           alt="Support Team"
                           className={`${layout === 'rewards' ? 'w-fix-56 w-fix-sm-104 mr-2-neg' : 'w-fix-40 mr-1-neg'}  square brdLarge brdWhite brdCircle`}

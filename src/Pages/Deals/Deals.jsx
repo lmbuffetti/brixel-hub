@@ -388,12 +388,12 @@ const Deals = (props) => {
                 filteredDeals && Object.keys(filteredDeals).map((key, i) => (
 
                   <div
-                    key={i.toString()}
+                    key={`fltDls_${i.toString()}`}
                     className={key === 'right' ? 'rightCol' : 'leftCol'}
                   >
                     {
                       filteredDeals[key] && Object.keys(filteredDeals[key]).map((subkey, f) => (
-                        <React.Fragment key={f.toString()}>
+                        <React.Fragment key={`fltDls_${f.toString()}`}>
                           {
                             (!activeTab || activeTab === subkey) && (
                               <div className="pr-2">
@@ -419,7 +419,7 @@ const Deals = (props) => {
               >
                 {
                   filteredDeals && Object.keys(filteredDeals).map((key, o) => (
-                    <React.Fragment key={o.toString()}>
+                    <React.Fragment key={`fltDls_${o.toString()}`}>
                       <div className={key === 'right' ? 'topParent bgWhite' : 'leftCol'}>
                         <div className={`${key === 'right' ? 'rightCol parentScroll' : ''} dis-fl-col w-perc-100 h-perc-100`}>
                           <div className="scrollContent">
@@ -442,7 +442,7 @@ const Deals = (props) => {
                             }
                             {
                               filteredDeals[key] && Object.keys(filteredDeals[key]).map((subkey, m) => (
-                                <React.Fragment key={m.toString()}>
+                                <React.Fragment key={`subFltDls_${m.toString()}`}>
                                   {
                                     (!activeTab || activeTab === subkey) && (
                                       <div
@@ -471,7 +471,7 @@ const Deals = (props) => {
                                                 }
                                                 {
                                                   get(filteredDeals[key], subkey, []).filter((deal) => deal.active).map((item, k) => (
-                                                    <Fragment key={k.toString()}>
+                                                    <Fragment key={`cldFltDls_${k.toString()}`}>
                                                       {
                                                         activeIndexDeal === k && activeOrgColumn === subkey && (
                                                           <div className={`list-item pos-r ${!item.active ? 'archived' : ''}`}>
@@ -526,7 +526,7 @@ const Deals = (props) => {
                                                 {provided.placeholder}
                                                 {
                                                   get(filteredDeals[key], subkey, []).filter((deal) => !deal.active).map((item, j) => (
-                                                    <React.Fragment key={j.toString()}>
+                                                    <React.Fragment key={`cldsFltDls_${j.toString()}`}>
                                                       {
                                                         j === 0 && (
                                                           <div

@@ -356,7 +356,7 @@ export const ComponentMap = (props) => {
                           <li
                             className={i === selLocAuto ? 'active' : ''}
                             tabIndex={i}
-                            key={i.toString()}
+                            key={`loc_${i.toString()}`}
                             onClick={() => geoCode(loc.description)}
                             dangerouslySetInnerHTML={{ __html: highlight(get(loc, 'description', '')) }}
                           />

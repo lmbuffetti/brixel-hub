@@ -60,6 +60,7 @@ const checkUser = (store) => (next) => (action) => {
           } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
             window.location.assign(`${baseByData.logoutUrl}?url=${get(window, 'location.href', '')}`);
           } else {
+            if (get(response, 'data.user.language', '').includes('en')) response.data.user.language = 'en';
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: response.data });
           }
           if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
@@ -149,6 +150,7 @@ const checkUser = (store) => (next) => (action) => {
             if (setOwner) {
               store.dispatch(change('GetStarted', 'owner', userData.user.id));
             }
+            if (get(userData, 'user.language', '').includes('en')) userData.user.language = 'en';
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: userData });
             if (addProperty) {
               const dataProperty = cloneDeep(action.payload);
@@ -235,6 +237,7 @@ const checkUser = (store) => (next) => (action) => {
           if (setLoggedInUser) {
             const userData = store.getState().user.loggedInUser;
             userData.user = response.data;
+            if (get(userData, 'user.language', '').includes('en')) userData.user.language = 'en';
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: userData });
           }
         })

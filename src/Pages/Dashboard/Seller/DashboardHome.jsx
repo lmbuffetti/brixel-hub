@@ -436,7 +436,9 @@ const DashboardHome = (props) => {
                       <div className="px-3">
                         {
                           Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
-                            <React.Fragment key={i.toString()}>
+                            <React.Fragment
+                              key={`actCmp_${i.toString()}`}
+                            >
                               {
                                 get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
                                   <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
@@ -749,7 +751,9 @@ const DashboardHome = (props) => {
                       <div className="px-3">
                         {
                           Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
-                            <React.Fragment key={i.toString()}>
+                            <React.Fragment
+                              key={`actCmp_${i.toString()}`}
+                            >
                               {
                                 get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
                                   <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
@@ -855,7 +859,7 @@ const DashboardHome = (props) => {
                     {
                       visitLists.map((visit, i) => (
                         <div
-                          key={i.toString()}
+                          key={`vst_${i.toString()}`}
                           className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
                         >
                           <div

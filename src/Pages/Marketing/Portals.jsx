@@ -192,7 +192,9 @@ const Portals = (props) => {
                             <div className="portalsList mt-3">
                               {
                                 Object.keys(portals).map((key, i) => (
-                                  <React.Fragment key={i.toString()}>
+                                  <React.Fragment
+                                    key={`prt_${i.toString()}`}
+                                  >
                                     {
                                       portals[key] && get(customPortals, `${key}`, true) && !key.toLocaleLowerCase().includes('url') && (
                                         <a
@@ -214,7 +216,7 @@ const Portals = (props) => {
                               }
                               {
                                 Object.keys(customPortals).map((key, i) => (
-                                  <React.Fragment key={i.toString()}>
+                                  <React.Fragment key={`cstPrt_${i.toString()}`}>
                                     {
                                       customPortals[key] && !key.toLocaleLowerCase().includes('url') && (
                                         <a

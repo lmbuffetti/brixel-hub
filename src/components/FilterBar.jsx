@@ -118,7 +118,10 @@ const FilterBar = (props) => {
                     </div>
                     {
                       get(factsOptions, 'dealsStatusHub', []).map((item, i) => (
-                        <div className="statusList dis-fl-col" key={i.toString()}>
+                        <div
+                          className="statusList dis-fl-col"
+                          key={`fctOpt_${i.toString()}`}
+                        >
                           <div
                             className="statusItem p-1 cur-poi dis-fl-row"
                             onClick={() => {

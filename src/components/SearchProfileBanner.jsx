@@ -168,7 +168,7 @@ const SearchProfileBanner = (props) => {
                           >
                             {
                               get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
-                                <React.Fragment key={i.toString()}>
+                                <React.Fragment key={`usrSrc_${i.toString()}`}>
                                   {i > 0 && (<span>, </span>)}
                                   <span>{item}</span>
                                 </React.Fragment>
@@ -185,7 +185,7 @@ const SearchProfileBanner = (props) => {
                           >
                             {
                               get(userSearchProfiles, 'location', []).map((item, i) => (
-                                <React.Fragment key={i.toString()}>
+                                <React.Fragment key={`usrLoc_${i.toString()}`}>
                                   {i > 0 && (<span>, </span>)}
                                   <span>{item.name}</span>
                                 </React.Fragment>
@@ -317,7 +317,7 @@ const SearchProfileBanner = (props) => {
                               <div className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2 wrap-width">
                                 {
                                   get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
-                                    <React.Fragment key={i.toString()}>
+                                    <React.Fragment key={`usrChr_${i.toString()}`}>
                                       {i > 0 && (<span>, </span>)}
                                       <span>{item}</span>
                                     </React.Fragment>
@@ -334,7 +334,7 @@ const SearchProfileBanner = (props) => {
                               >
                                 {
                                   get(userSearchProfiles, 'location', []).map((item, i) => (
-                                    <React.Fragment key={i.toString()}>
+                                    <React.Fragment key={`usrLoc_${i.toString()}`}>
                                       {i > 0 && (<span>, </span>)}
                                       <span>{item.name}</span>
                                     </React.Fragment>

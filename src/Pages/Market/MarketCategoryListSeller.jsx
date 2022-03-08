@@ -380,7 +380,10 @@ const MarketCategoryListSeller = (props) => {
                 <>
                   {
                     ownerProperties.data.map((prop, i) => (
-                      <div className="shadow-3dp p-2 mt-3 brdRadiusSmall" key={i.toString()}>
+                      <div
+                        className="shadow-3dp p-2 mt-3 brdRadiusSmall"
+                        key={`ownProp_${i.toString()}`}
+                      >
                         {
                           i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) && (
                             <div className="w-perc-100 dis-f a-c jc-fs bgBlue100 brdRadiusSmall px-2 px-md-6 mb-2 mb-sm-3">
@@ -477,7 +480,7 @@ const MarketCategoryListSeller = (props) => {
                     filteredPackages.map((pkg, i) => (
                       <div
                         onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
-                        key={i.toString()}
+                        key={`fltPkg_${i.toString()}`}
                         className={`${pkg.type} bgWhite txtDark700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi max-w-fix-400 w-perc-100`}
                       >
                         <div className="dis-f jc-b a-c">
@@ -538,7 +541,7 @@ const MarketCategoryListSeller = (props) => {
             {
               artByCountry.map((article, i) => (
                 <div
-                  key={i.toString()}
+                  key={`artCnt_${i.toString()}`}
                   className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
                 >
                   <a className="txtDark700 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">

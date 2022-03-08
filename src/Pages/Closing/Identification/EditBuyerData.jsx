@@ -118,7 +118,7 @@ const EditBuyerData = (props) => {
                 filteredForm.map((field, i) => (
                   <div
                     className={`${field.classWidthBox ? field.classWidthBox : 'w-perc-100'} ${field.classBoxWrapper || 'mt-3'}`}
-                    key={i.toString()}
+                    key={`frm_${i.toString()}`}
                   >
                     <ReduxField
                       form="Identification"

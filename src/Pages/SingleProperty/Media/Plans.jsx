@@ -175,7 +175,7 @@ const Photos = (props) => {
                         fixPhotos.map((item, i) => (
                           <li
                             className="cur-poi pos-r"
-                            key={i.toString()}
+                            key={`fixPht_${i.toString()}`}
                             data-id={JSON.stringify(item)}
                           >
                             <div
