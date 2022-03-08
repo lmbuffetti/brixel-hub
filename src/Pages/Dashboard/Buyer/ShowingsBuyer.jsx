@@ -117,7 +117,10 @@ const ShowingsBuyer = (props) => {
                   <h5 className="my-3">Thanks for your request.</h5>
                   {
                     bookingSlot.map((day, g) => (
-                      <div key={g.toString()} className="w-perc-100 max-w-fix-360">
+                      <div
+                        key={`bkgSlt_${g.toString()}`}
+                        className="w-perc-100 max-w-fix-360"
+                      >
                         <BrixelInfoSlot
                           title={DateTime.fromISO(extractDate(day.slot.slot), { locale: userLang }).toFormat('cccc - dd LLL yyyy')}
                           subtitle={extractDate(day.slot.slot, true)}

@@ -326,7 +326,7 @@ export const MapsCities = (props) => {
                           <li
                             className={i === selLocAuto ? 'active' : ''}
                             tabIndex={i}
-                            key={i.toString()}
+                            key={`loc_${i.toString()}`}
                             onClick={() => geoCode(loc.description)}
                           >
                             <BrixelIcon
@@ -352,7 +352,10 @@ export const MapsCities = (props) => {
             <div className="dis-f a-c flex-wrap notranslate">
               {
                 get(formValue, 'locations', []).map((loc, i) => (
-                  <div key={i.toString()} className="dis-f a-c jc-fs bgDark700 brdRadius p-1 mb-1 txtWhite fweight-500 fSizePx14 w-fit mr-2">
+                  <div
+                    key={`frm_${i.toString()}`}
+                    className="dis-f a-c jc-fs bgDark700 brdRadius p-1 mb-1 txtWhite fweight-500 fSizePx14 w-fit mr-2"
+                  >
                     <span>{loc.name}{loc.name !== loc.city && (<>, {loc.city}</>)}</span>
                     <BrixelIcon
                       className="fSizePx12 ml-2"

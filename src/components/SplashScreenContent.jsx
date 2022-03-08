@@ -395,7 +395,7 @@ const SplashScreen = (props) => {
                         {
                           activeMarketOverlayPropertyLists.map((item, i) => (
                             <MarketCardPreMarket
-                              key={i.toString()}
+                              key={`mrkCrd_${i.toString()}`}
                               item={item}
                               activeIndex={activeSlide}
                               propertyList={activeMarketOverlayPropertyLists}

@@ -250,7 +250,7 @@ const MarketCard = (props) => {
                       {
                         get(item, 'tags', []).filter((tag) => tag !== 'new').map((tag, i) => (
                           <p
-                            key={i.toString()}
+                            key={`itm_${i.toString()}`}
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                             onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
                           >
@@ -439,7 +439,7 @@ const MarketCard = (props) => {
                       {
                         item.tags.map((tag, i) => (
                           <p
-                            key={i.toString()}
+                            key={`itmTgs_${i.toString()}`}
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                           >
                             <span className="type">{getTypeText(tag)}</span>

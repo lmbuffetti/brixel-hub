@@ -368,7 +368,7 @@ export const ComponentMap = (props) => {
                   scaledSize: new google.maps.Size(8, 8),
                 }}
                 draggable={false}
-                key={i.toString()}
+                key={`mp_${i.toString()}`}
               />
             ))
           }

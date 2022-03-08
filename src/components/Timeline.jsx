@@ -321,7 +321,7 @@ const Timeline = (props) => {
             <div
               className={`single-event p-small-12 w-perc-100 dis-fl-row a-t bgWhite mb-2 brdRadius ${has(event, 'parent') ? 'note' : ''} ${has(event, 'parent') && event.pinned ? 'pinned' : ''}`}
               id={`note-${i}`}
-              key={i.toString()}
+              key={`chrLog_${i.toString()}`}
             >
               {
                 !has(event, 'parent') ? (

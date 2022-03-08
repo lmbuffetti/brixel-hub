@@ -201,7 +201,7 @@ const Showings = (props) => {
               <div className="pb-3">
                 {
                   Object.keys(gorupByMonth()).map((key, e) => (
-                    <React.Fragment key={e.toString()}>
+                    <React.Fragment key={`gpMnt_${e.toString()}`}>
                       <h6 className="txtLight400 mt-3 mb-1">
                         <span>{DateTime.fromFormat(key, 'LL.yyyy').toFormat('LLLL')}</span>
                         &nbsp;-&nbsp;
@@ -209,7 +209,7 @@ const Showings = (props) => {
                       </h6>
                       {
                         gorupByMonth()[key].map((day, g) => (
-                          <div key={g.toString()}>
+                          <div key={`grpMnt_${g.toString()}`}>
                             {
                               ((!activeTab || (activeTab && day.slot.status === activeTab)) && day.slot.status !== 'canceled') && (
                                 <BrixelBookingCard

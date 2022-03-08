@@ -361,7 +361,7 @@ const MarketList = (props) => {
             propertyListings.map((page, i) => (
               <MarketCardMap
                 type="own"
-                key={i.toString()}
+                key={`prop_${i.toString()}`}
                 item={page}
                 onClick={() => openCard(page)}
                 onHover={(val) => setActiveProperty(val !== null ? page.id : null)}

@@ -518,7 +518,7 @@ const App = (props) => {
                           {
                             teamAvatars.map((imgTeam, i) => (
                               <img
-                                key={i.toString()}
+                                key={`avt_${i.toString()}`}
                                 src={`${baseByData.shortPath}${imgTeam.path}`}
                                 alt="Support Team"
                                 className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
@@ -625,7 +625,7 @@ const App = (props) => {
               <div className="brixel-notifications">
                 {
                   notification.map((not, i) => (
-                    <Fragment key={i.toString()}>
+                    <Fragment key={`ntf_${i.toString()}`}>
                       <BrixelNotification
                         className={not.state ? 'fadeInLeft' : 'fadeOutLeft'}
                         handleSetNotification={(data) => handleSetNotification(data)}

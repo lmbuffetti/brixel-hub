@@ -149,7 +149,7 @@ const AddShowingsBuyer = (props) => {
                   scheduleVisitFree.map((val, i) => (
                     <div
                       className="date-schedule brdSmall brdLight200 p-2 brdRadius bgWhite mt-2"
-                      key={i.toString()}
+                      key={`vst_${i.toString()}`}
                     >
                       <div>
                         <div className="day mb-1">

@@ -136,7 +136,7 @@ const IdentificationFlow = (props) => {
                     get(formValue, 'persons', []).map((buyer, i) => (
                       <div
                         className="mt-2 bgBlue100x25 brdRadius p-2 dis-f a-c jc-b"
-                        key={i.toString()}
+                        key={`frm_${i.toString()}`}
                       >
                         <div className="dis-f a-c">
                           <BrixelIcon
@@ -182,7 +182,7 @@ const IdentificationFlow = (props) => {
                       cardInput.map((field, i) => (
                         <div
                           className={`${field.classWidthBox ? field.classWidthBox : 'w-perc-100'} ${field.classBoxWrapper || 'mt-3'}`}
-                          key={i.toString()}
+                          key={`crd_${i.toString()}`}
                         >
                           <ReduxField
                             form="Identification"
@@ -270,7 +270,7 @@ const IdentificationFlow = (props) => {
                     get(formValue, 'persons', []).map((buyer, i) => (
                       <div
                         className="mt-2 bgBlue100x25 brdRadius py-2 px-4"
-                        key={i.toString()}
+                        key={`frm_${i.toString()}`}
                       >
                         <div className="dis-f a-c jc-b">
                           <span className="txtGreen400">{buyer.fullName}</span>
@@ -287,7 +287,7 @@ const IdentificationFlow = (props) => {
                             getBuyerData.inputs.map((data, f) => (
                               <div
                                 className="w-perc-50 mt-2"
-                                key={f.toString()}
+                                key={`byrDt_${f.toString()}`}
                               >
                                 {
                                   data.name.includes('currentLivingAddress.address') ? (

@@ -144,7 +144,7 @@ const MarketCardMap = (props) => {
                     {
                       item.tags.map((tag, i) => (
                         <p
-                          key={i.toString()}
+                          key={`tag_${i.toString()}`}
                           className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                         >
                           <span className="type">{getTypeText(tag)}</span>

@@ -121,7 +121,7 @@ export const PackagesComparePlans = (props) => {
             <td />
             {
               extractTable('basic').map((pkg, i) => (
-                <th key={i.toString()}>
+                <th key={`xtrTbl_${i.toString()}`}>
                   <span className="txGreen400">{pkg.name}</span>
                   {
                     pkg.price.total > 0 ? (
@@ -142,7 +142,7 @@ export const PackagesComparePlans = (props) => {
             }
             {
               extractTable('private').map((pkg, i) => (
-                <th key={i.toString()}>
+                <th key={`tblPrv_${i.toString()}`}>
                   <span className="txtBlue400">{pkg.name}</span>
                   {
                     pkg.price.total > 0 ? (
@@ -163,7 +163,7 @@ export const PackagesComparePlans = (props) => {
             }
             {
               extractTable('premium').map((pkg, i) => (
-                <th key={i.toString()}>
+                <th key={`tblPrm_${i.toString()}`}>
                   <span className="txtRed400">{pkg.name}</span>
                   {
                     pkg.price.total > 0 ? (
@@ -184,7 +184,7 @@ export const PackagesComparePlans = (props) => {
             }
             {
               extractTable('one').map((pkg, i) => (
-                <th key={i.toString()}>
+                <th key={`one_${i.toString()}`}>
                   <span className="txtDark700">{pkg.name}</span>
                   {
                     pkg.price.total > 0 ? (
@@ -208,11 +208,11 @@ export const PackagesComparePlans = (props) => {
         <tbody>
           {
             PackagesComparePlansTable.map((table, i) => (
-              <tr key={i.toString()}>
+              <tr key={`tbl_${i.toString()}`}>
                 <th>{table.title}</th>
                 {
                   extractTable('basic').map((pkg, f) => (
-                    <td key={f.toString()}>
+                    <td key={`bsc_${f.toString()}`}>
                       {
                         table.td.private && (
                           <>
@@ -228,7 +228,7 @@ export const PackagesComparePlans = (props) => {
                 }
                 {
                   extractTable('private').map((pkg, f) => (
-                    <td key={f.toString()}>
+                    <td key={`prv_${f.toString()}`}>
                       {
                         table.td.private && (
                           <>
@@ -244,7 +244,7 @@ export const PackagesComparePlans = (props) => {
                 }
                 {
                   extractTable('premium').map((pkg, f) => (
-                    <td key={f.toString()}>
+                    <td key={`prm_${f.toString()}`}>
                       {
                         table.td.premium && (
                           <>
@@ -260,7 +260,7 @@ export const PackagesComparePlans = (props) => {
                 }
                 {
                   extractTable('one').map((pkg, f) => (
-                    <td key={f.toString()}>
+                    <td key={`one_${f.toString()}`}>
                       {
                         table.td.one && (
                           <>
