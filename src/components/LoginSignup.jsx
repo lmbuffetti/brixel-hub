@@ -110,7 +110,7 @@ const LoginSignup = (props) => {
       if (Validation.isEmail(email) === true && Validation.required(email) === true) {
         handleRecoverPassword({
           email: email.toLowerCase(),
-          smallLoader: 'sendData',
+          smallLoader: 'recoverPassword',
         });
       }
     } else if (isValid) {
@@ -228,7 +228,7 @@ const LoginSignup = (props) => {
                         }
                         <BrixelLogin
                           company={company}
-                          formName="signupScreen"
+                          formName="GetStarted"
                           showErrors={showErrors}
                         />
                         <p className="mt-1">
@@ -261,7 +261,7 @@ const LoginSignup = (props) => {
                           baseURL={baseByData.apiRoot}
                           showGeneratePassword={false}
                           company={company}
-                          formName="signupScreen"
+                          formName="GetStarted"
                           showErrors={showErrors}
                           // validateEmail
                           skipPhone={skipPhone}
@@ -281,7 +281,7 @@ const LoginSignup = (props) => {
                         }
                         <BrixelReset
                           company={company}
-                          formName="signupScreen"
+                          formName="GetStarted"
                           showErrors={showErrors}
                         />
                         {
