@@ -45,7 +45,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
       ],
     },
     {
-      title: `<span>Please give us all details about</span><span class="ml-1">${get(formValue, 'persons[0].fullName')}.</span>`,
+      title: `<span>Please give us all details about</span><span class="ml-1 notranslate">${get(formValue, 'persons[0].fullName')}.</span>`,
       history: 'userData',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
@@ -149,7 +149,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
       ],
     },
     {
-      title: `<span>Please upload an official ID of</span><span class="ml-1">${get(formValue, 'persons[0].fullName')}.</span>`,
+      title: `<span>Please upload an official ID of</span><span class="ml-1 notranslate">${get(formValue, 'persons[0].fullName')}.</span>`,
       history: 'document',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
