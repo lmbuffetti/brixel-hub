@@ -942,8 +942,11 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       api.deal.closingIdentification(id, personType, objData)
-        .then(() => {
-          store.dispatch({ type: GET_ACTIVE_SINGLE_DEAL, payload: { id, smallLoader } });
+        .then((response) => {
+          store.dispatch({
+            type: SET_ACTIVE_SINGLE_DEAL,
+            payload: response.data,
+          });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
