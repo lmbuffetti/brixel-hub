@@ -305,8 +305,14 @@ const SingleDeal = (props) => {
     let answerText = '';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.buyer') && Object.keys(activeSingleDeal.closing.stageOffer.offer.buyer).length > 0) {
       answerText += `<span>Buyer details: </br></span>
-      <span>Date of birth: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '')} </span>
-      </br><span>Marital status: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', '')} </span>
+      <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span class="fweight-500">
+      ${(typeof get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') === 'string' && get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '').includes('-')) ? get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') : DateTime.fromMillis(
+    get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', ''),
+    {
+      locale: userLang,
+    },
+  ).toFormat('yyyy-MM-dd')} 
+    </span></span>      </br><span>Marital status: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', '')} </span>
       </br><span>Place of origin: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.placeOfOrigin', '')} </span>
       </br><span>Type of purchase: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', '')} </span>`;
     }
