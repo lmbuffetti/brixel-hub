@@ -106,7 +106,7 @@ const IdentificationFlow = (props) => {
               user: get(loggedInUser, 'id', null),
             });
           } else {
-            formValue.persons[index].document = prs;
+            formValue.persons[index].document[key] = doc;
           }
         });
       }
