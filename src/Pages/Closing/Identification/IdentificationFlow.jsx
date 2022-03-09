@@ -19,7 +19,7 @@ import { deleteDocument, multiUploadDocument } from '../../../actions/UploadActi
 import { checkBrowser } from '../../../utils/helpers';
 import { IdentificationQuestions } from '../../../resources/Identification';
 import { getActiveSingleDeal, saveClosingIdentification } from '../../../actions/DealActions';
-import { spinnerOff } from '../../../actions/CommonActions';
+import { spinnerOff, spinnerSmall } from '../../../actions/CommonActions';
 
 const IdentificationFlow = (props) => {
   const history = {
@@ -38,6 +38,7 @@ const IdentificationFlow = (props) => {
     handleGetActiveSingleDeal,
     handleSaveClosingIdentification,
     handleMultiUploadDocument,
+    handleChangeSmallLoading,
     handleSpinnerOff,
     initForm,
     initialValues,
@@ -72,7 +73,11 @@ const IdentificationFlow = (props) => {
     if (userType !== 'buyer' && userType !== 'seller') {
       history.push(`/buyer/${propID}/closing/${dealID}`);
     }
-    return () => destroyForm();
+    return () => {
+      delete isSmallLoading.sendDataSent;
+      handleChangeSmallLoading(isSmallLoading);
+      destroyForm();
+    };
   }, []);
 
   useEffect(() => {
@@ -94,12 +99,14 @@ const IdentificationFlow = (props) => {
           const doc = prs[key];
           if (doc.file) {
             docsList.push({
-              idBuyer: index,
-              id: index,
+              idBuyer: `${index}:${key}`,
+              id: `${index}:${key}`,
               ...doc,
               isPrivate: true,
               user: get(loggedInUser, 'id', null),
             });
+          } else {
+            formValue.persons[index].document = prs;
           }
         });
       }
@@ -119,7 +126,6 @@ const IdentificationFlow = (props) => {
       ...formData,
       saveAction: 'closingIdentification',
     };
-    // eslint-disable-next-line no-console
     if (docsList.length > 0) {
       handleMultiUploadDocument(dataForm);
     } else {
@@ -524,6 +530,7 @@ IdentificationFlow.propTypes = {
   handleGetActiveSingleDeal: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
   handleSaveClosingIdentification: PropTypes.func.isRequired,
+  handleChangeSmallLoading: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -551,9 +558,6 @@ const mapStateToProps = (state) => {
         address: get(buyerOffer, 'location.street', ''),
         zipCode: get(buyerOffer, 'location.zipCode', ''),
         city: get(buyerOffer, 'location.City', ''),
-      },
-      location: {
-        name: get(buyerOffer, 'location.street', ''),
       },
     }];
   }
@@ -589,6 +593,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveClosingIdentification: bindActionCreators(saveClosingIdentification, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleChangeSmallLoading: bindActionCreators(spinnerSmall, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
 });
 
