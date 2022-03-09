@@ -127,8 +127,8 @@ export const IdentificationQuestions = (editForm = false, userType) => {
         {
           component: BrixelInputText,
           className: '',
-          classWidthBox: 'w-perc-60 w-perc-sm-40',
-          classBoxWrapper: 'pr-0 pr-sm-2 mt-2',
+          classWidthBox: 'w-perc-40',
+          classBoxWrapper: 'pr-2 mt-2',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           placeholder: 'ZIP',
@@ -139,7 +139,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
         {
           component: BrixelInputText,
           className: '',
-          classWidthBox: 'w-perc-100 w-perc-sm-60',
+          classWidthBox: 'w-perc-60',
           classBoxWrapper: 'mt-2',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
