@@ -59,6 +59,7 @@ export const IdentificationQuestions = (editForm = false, userType) => {
           label: 'Nationality',
           name: 'persons[0].nationality',
           pdClass: 'py-3 py-md-5',
+          type: 'text',
           large: true,
           validation: [Validation.required],
         },
