@@ -357,6 +357,17 @@ const SingleDeal = (props) => {
             <div className="w-perc-100">
               <div className="single-deal dis-fl-col">
                 {/* top panel */}
+                <div className="actions dis-fl-row jc-b pb-2">
+                  <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
+                    <BrixelButtonIcon
+                      icon="arrow-left-small"
+                      ghost
+                      theme="dark"
+                      onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                    />
+                  </div>
+                  <OptionsDropdown showDesktop />
+                </div>
                 <div className="top dis-fl-row jc-b mb-0 mb-lg-4">
                   <div className="user dis-fl-row col-7 p-2 p-lg-0">
                     <BrixelAvatar
@@ -394,17 +405,6 @@ const SingleDeal = (props) => {
                           )
                         }
                       </div>
-                    </div>
-                  </div>
-                  <div className="actions dis-fl-row jc-fe col-5 p-0">
-                    <OptionsDropdown showDesktop />
-                    <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
-                      <BrixelButtonIcon
-                        icon="close-small"
-                        ghost
-                        theme="dark"
-                        onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
-                      />
                     </div>
                   </div>
                 </div>

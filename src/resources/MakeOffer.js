@@ -193,8 +193,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         {
           component: BrixelInputText,
           classNameBox: 'ml-a mr-a',
-          classWidthBox: 'w-perc-100 w-perc-sm-80',
-          classBoxWrapper: 'pr-0 pr-sm-2',
+          classWidthBox: 'w-perc-80',
+          classBoxWrapper: 'pr-2',
           ReduxFieldClass: '',
           label: 'Street',
           name: 'location.street',
@@ -203,8 +203,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         },
         {
           component: BrixelInputText,
-          classBoxWrapper: 'mt-3 pr-2 pr-sm-0 mt-sm-0',
-          classWidthBox: 'w-perc-40 w-perc-sm-20',
+          classBoxWrapper: 'pr-0 mt-0',
+          classWidthBox: 'w-perc-20',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           label: 'Nr',
