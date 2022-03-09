@@ -538,10 +538,6 @@ const mapStateToProps = (state) => {
   let userType = 'buyer';
   if (typeof window !== 'undefined') userType = (window.location.href).includes('seller') ? 'seller' : 'buyer';
   const initialValues = cloneDeep(get(state, `deal.activeSingleDeal.closing.stageIdentification.${userType}`, {}));
-  initialValues.location = {
-    name: get(initialValues, 'location.street', ''),
-    street: get(initialValues, 'location.street', ''),
-  };
   if (userType === 'buyer' && get(initialValues, 'persons', []).length === 0) {
     const buyerOffer = cloneDeep(get(state, 'deal.activeSingleDeal.closing.stageOffer.offer', {}));
     initialValues.persons = [{
