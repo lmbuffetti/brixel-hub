@@ -372,7 +372,6 @@ const checkCommon = (store) => (next) => (action) => {
           });
           res.forEach((doc) => {
             const { id } = doc;
-            console.log(id);
             const idPerson = id.split(':')[0];
             const idDoc = id.split(':')[1];
             dataIdentification.persons[idPerson].document[idDoc] = doc.data;
