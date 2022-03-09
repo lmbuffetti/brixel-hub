@@ -18,7 +18,6 @@ import {
 import { DateTime } from 'luxon';
 import EditBuyerData from './EditBuyerData';
 import { IdentificationQuestions } from '../../../resources/Identification';
-// import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const IdentificationFlow = (props) => {
   /* const history = {
@@ -39,9 +38,11 @@ const IdentificationFlow = (props) => {
   } = props;
   // STATE
   const [editProfile, setEditProfile] = useState(-1);
-  const [stepResume, setStepResume] = useState('resume');
+  const [stepResume, setStepResume] = useState('checkData');
   const [stepForm, setStepForm] = useState(0);
   const [agreeToProceed, setAgreeToProceed] = useState([]);
+
+  const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'userData');
 
   const onClickEdit = (id, formStep = 0) => {
     setStepResume('editProfile');
@@ -79,7 +80,14 @@ const IdentificationFlow = (props) => {
     return true;
   };
 
-  const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'userData');
+  const formatTextForm = (txt, name) => {
+    const getField = getBuyerData.inputs.find((fld) => fld.name === name);
+    if (getField && getField.options) {
+      const txtData = getField.options.find((fld) => fld.value === txt);
+      if (txtData) return txtData.label;
+    }
+    return txt;
+  };
 
   return (
     <div className="idFlow">
@@ -331,7 +339,7 @@ const IdentificationFlow = (props) => {
                                                       </p>
                                                     ) : (
                                                       <p className="fsize-300">
-                                                        {get(formValue, data.name.replace('[0]', `[${i}]`), '')}
+                                                        {formatTextForm(get(formValue, data.name.replace('[0]', `[${i}]`), ''), data.name)}
                                                       </p>
                                                     )
                                                   }
