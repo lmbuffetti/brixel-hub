@@ -368,10 +368,14 @@ const checkCommon = (store) => (next) => (action) => {
         } else if (saveAction === 'closingIdentification') {
           const dataIdentification = action.payload;
           dataIdentification.persons.forEach((person, id) => {
-            dataIdentification.persons[id].document = [];
+            if (!person.document) dataIdentification.persons[id].document = [];
           });
           res.forEach((doc) => {
-            dataIdentification.persons[doc.id].document.push(doc.data);
+            const { id } = doc;
+            console.log(id);
+            const idPerson = id.split(':')[0];
+            const idDoc = id.split(':')[1];
+            dataIdentification.persons[idPerson].document[idDoc] = doc.data;
           });
           const data = {
             ...dataIdentification,
