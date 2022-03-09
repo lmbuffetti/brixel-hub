@@ -337,7 +337,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.saveAction;
       const calls = [];
       allImgs.forEach((img) => {
-        calls.push(api.image.uploadDocument(img, null, img.idBuyer));
+        calls.push(api.image.uploadDocument(img, null, get(img, 'idBuyer', null)));
       });
       if (smallLoader) {
         store.dispatch({
