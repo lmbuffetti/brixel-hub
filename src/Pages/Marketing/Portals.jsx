@@ -12,7 +12,7 @@ import {
   BrixelIcon, BrixelTextArea,
   BrixelButtonText, BrixelSwitchButton,
 } from '@brixel/brixel-components';
-import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
@@ -332,13 +332,13 @@ const Portals = (props) => {
 };
 
 Portals.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -355,9 +355,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
-  },
-  reset(form, data) {
-    (dispatch(reset(form, data)));
   },
   handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
 });

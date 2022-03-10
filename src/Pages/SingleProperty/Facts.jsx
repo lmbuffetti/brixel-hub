@@ -10,21 +10,16 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   BrixelButtonText,
-  change,
-  reset,
 } from '@brixel/brixel-components';
+import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
-import {
-  setModal, setPageData, setWindowDimensions,
-} from '../../actions/CommonActions';
-import { uploadDocument, deleteDocument } from '../../actions/UploadActions';
+import { setPageData } from '../../actions/CommonActions';
 import { InputSheets } from '../../resources/inputSheets';
 import { calcPercentageFacts, checkBrowser } from '../../utils/helpers';
 
 // COMPONENTS
-import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import FactsQuestion from './FactsQuestion';
 
 const Facts = (props) => {
@@ -260,15 +255,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  reset(form) {
-    (dispatch(reset(form)));
-  },
-  handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
-  handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),
-  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
-  handleSetModal: bindActionCreators(setModal, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
-  handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
 
 export default compose(

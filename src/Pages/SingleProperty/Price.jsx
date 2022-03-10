@@ -15,7 +15,6 @@ import {
   ReduxField,
   ProgressRing,
 } from '@brixel/brixel-components';
-import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
@@ -420,14 +419,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('Property', field, value));
-  },
-  reset(form) {
-    (dispatch(reset(form)));
-  },
-  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });

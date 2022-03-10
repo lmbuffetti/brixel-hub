@@ -63,7 +63,7 @@ const GetStartedEstimation = (props) => {
     isTest,
     lang,
     loggedInUser,
-    reset,
+    handleReset,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -513,7 +513,7 @@ const GetStartedEstimation = (props) => {
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    reset('Property');
+    handleReset('Property');
     history.push(`/${propID}/home`);
   };
 
@@ -788,7 +788,7 @@ GetStartedEstimation.propTypes = {
   isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 GetStartedEstimation.defaultProps = {
@@ -871,7 +871,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  reset(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),
