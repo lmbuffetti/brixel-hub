@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { change, reset } from '@brixel/brixel-components';
+import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import has from 'lodash/has';

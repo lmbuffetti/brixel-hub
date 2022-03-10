@@ -9,9 +9,11 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary, ReduxField,
-  BrixelIcon, Helpers, BrixelTextArea,
-  change, reset, BrixelButtonText, BrixelSwitchButton,
+  BrixelIcon, BrixelTextArea,
+  BrixelButtonText, BrixelSwitchButton,
 } from '@brixel/brixel-components';
+import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import portalStart from '../../images/Listings/portals_start.svg';

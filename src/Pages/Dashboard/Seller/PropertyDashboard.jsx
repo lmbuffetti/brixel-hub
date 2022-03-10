@@ -8,7 +8,6 @@ import get from 'lodash/get';
 // import has from 'lodash/has';
 import {
   BrixelButtonBox,
-  // FormatValue,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';

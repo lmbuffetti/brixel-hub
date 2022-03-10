@@ -6,8 +6,9 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy, DataByCountry,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, DataByCountry,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';

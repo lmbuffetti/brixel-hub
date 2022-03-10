@@ -8,11 +8,8 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   MultiFileldsReduxForm,
-  initializeForm,
-  change,
-  reset,
-  destroy,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -51,7 +48,7 @@ const GetStarted = (props) => {
     initialValues,
     lang,
     loggedInUser,
-    reset,
+    resetForm,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -269,7 +266,7 @@ const GetStarted = (props) => {
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    reset('Property');
+    resetForm('Property');
     // history.push('/home');
     history.push('/buy');
   };
@@ -525,7 +522,7 @@ GetStarted.propTypes = {
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
 };
 
 GetStarted.defaultProps = {
@@ -589,7 +586,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  reset(form) {
+  resetForm(form) {
     (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),

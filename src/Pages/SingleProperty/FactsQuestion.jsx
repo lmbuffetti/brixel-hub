@@ -9,8 +9,9 @@ import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, change, reset,
+  BrixelButtonIcon, MultiFileldsReduxForm,
 } from '@brixel/brixel-components';
+import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { keyify } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';

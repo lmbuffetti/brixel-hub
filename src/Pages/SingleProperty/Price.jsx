@@ -12,12 +12,11 @@ import {
   BrixelIcon,
   BrixelInputText,
   BrixelSelect,
-  Helpers,
   ReduxField,
-  change,
-  reset,
   ProgressRing,
 } from '@brixel/brixel-components';
+import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

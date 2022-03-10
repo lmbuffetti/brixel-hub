@@ -22,10 +22,11 @@ import {
 } from 'react-redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import {
-  BrixelAvatar, BrixelButtonIcon, BrixelButtonSecondary, Helpers,
+  BrixelAvatar, BrixelButtonIcon, BrixelButtonSecondary,
   FactsOptions, useOutsideAlerter, change, BrixelDropdownMini,
   BrixelIcon,
 } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import {
   getActiveSingleDeal, saveActiveSingleDeal, updateMultipleDeals,
   setActiveSingleDeal,
@@ -311,7 +312,7 @@ const SingleDeal = (props) => {
     {
       locale: userLang,
     },
-  ).toFormat('dd-MM-yyyy')} 
+  ).toFormat('dd-MM-yyyy')}
     </span></span>      </br><span>Marital status: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', '')} </span>
       </br><span>Place of origin: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.placeOfOrigin', '')} </span>
       </br><span>Type of purchase: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', '')} </span>`;
