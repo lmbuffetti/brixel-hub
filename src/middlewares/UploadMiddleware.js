@@ -3,6 +3,7 @@ import { change, reset } from '@brixel/brixel-components';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
 import {
   ROTATE_IMG,
@@ -415,12 +416,22 @@ const checkCommon = (store) => (next) => (action) => {
     case UPLOAD_DOCUMENT: {
       next(action);
       const {
-        pageID, index, smallLoader, saveAction,
+        dealID,
+        formValue,
+        index,
+        indexDoc,
+        indexPerson,
+        pageID,
+        saveAction,
+        smallLoader,
       } = action.payload;
-      delete action.payload.pageID;
-      delete action.payload.smallLoader;
-      delete action.payload.saveAction;
+      delete action.payload.dealID;
       delete action.payload.index;
+      delete action.payload.indexDoc;
+      delete action.payload.indexPerson;
+      delete action.payload.pageID;
+      delete action.payload.saveAction;
+      delete action.payload.smallLoader;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -434,7 +445,7 @@ const checkCommon = (store) => (next) => (action) => {
         });
       }
       const docData = get(action.payload, 'docs', action.payload);
-      api.image.uploadDocument(docData)
+      api.image.uploadDocument(docData, null, null)
         .then((res) => {
           if (saveAction === 'makeOffer') {
             const document = [];
@@ -444,18 +455,13 @@ const checkCommon = (store) => (next) => (action) => {
               documents: document,
             };
             data.smallLoader = smallLoader;
-            store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
+            store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
           } else if (saveAction === 'closingIdentification') {
-            const document = [];
-            document.push(res.data);
-            const data = {
-              ...action.payload,
-              index,
-              documents: document,
-            };
-            if (index > -1) data.index = index;
+            const data = cloneDeep(formValue);
+            data.persons[indexPerson].document[indexDoc] = res.data;
+            data.id = dealID;
             data.smallLoader = smallLoader;
-            // store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
+            store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
           } else {
             const docList = store.getState().brixelForm.Property.values.documents || [];
             docList.push(res.data);
@@ -485,10 +491,11 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO SINGLE IMAGES - DOCUMENT OBJECT
     case DELETE_DOCUMENT: {
       next(action);
-      const { dealID, smallLoader, saveAction } = action.payload;
+      const { dealID, smallLoader, saveAction, indexPerson } = action.payload;
       delete action.payload.dealID;
       delete action.payload.saveAction;
       delete action.payload.smallLaoder;
+      delete action.payload.indexPerson;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -508,6 +515,10 @@ const checkCommon = (store) => (next) => (action) => {
               ...action.payload,
               id: dealID,
             };
+            const idDocToDelete = get(action.payload, `persons[${indexPerson}].document`, []).findIndex((doc) => doc.id === action.payload.id);
+            if (idDocToDelete > -1) {
+              data.persons[indexPerson].document.splice(idDocToDelete, 1);
+            }
             store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
           } else {
             const arrayImg = store.getState().brixelForm.Property.values.documents;
@@ -539,8 +550,21 @@ const checkCommon = (store) => (next) => (action) => {
     // DISPATCH TO UPDATE IMAGES - DOCUMENT ID
     case UPDATE_DOCUMENT: {
       next(action);
-      const { pageID, smallLoader } = action.payload;
+      const {
+        saveAction,
+        formValue,
+        indexDoc,
+        indexPerson,
+        dealID,
+        pageID,
+        smallLoader,
+      } = action.payload;
+      delete action.payload.dealID;
+      delete action.payload.formValue;
+      delete action.payload.indexDoc;
+      delete action.payload.indexPerson;
       delete action.payload.pageID;
+      delete action.payload.saveAction;
       delete action.payload.smallLaoder;
       if (smallLoader) {
         store.dispatch({
@@ -556,18 +580,25 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.image.updateDocument(action.payload.id, action.payload.body)
         .then((res) => {
-          const docList = store.getState().brixelForm.Property.values.documents;
-          docList.forEach((el, index) => {
-            if (el.id === res.data.id) {
-              docList[index] = res.data;
-            }
-          });
-          const data = {
-            id: pageID,
-            documents: docList,
-            setSuccessNotification: true,
-          };
-          store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          if (saveAction === 'closingIdentification') {
+            const data = cloneDeep(formValue);
+            data.persons[indexPerson].document[indexDoc] = res.data;
+            data.id = dealID;
+            store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
+          } else {
+            const docList = store.getState().brixelForm.Property.values.documents;
+            docList.forEach((el, index) => {
+              if (el.id === res.data.id) {
+                docList[index] = res.data;
+              }
+            });
+            const data = {
+              id: pageID,
+              documents: docList,
+              setSuccessNotification: true,
+            };
+            store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
+          }
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
