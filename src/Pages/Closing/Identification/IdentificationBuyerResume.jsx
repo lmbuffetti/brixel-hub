@@ -38,7 +38,7 @@ const IdentificationFlow = (props) => {
   } = props;
   // STATE
   const [editProfile, setEditProfile] = useState(-1);
-  const [stepResume, setStepResume] = useState('checkData');
+  const [stepResume, setStepResume] = useState('resume');
   const [stepForm, setStepForm] = useState(0);
   const [agreeToProceed, setAgreeToProceed] = useState([]);
 
