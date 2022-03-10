@@ -305,8 +305,14 @@ const SingleDeal = (props) => {
     let answerText = '';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.buyer') && Object.keys(activeSingleDeal.closing.stageOffer.offer.buyer).length > 0) {
       answerText += `<span>Buyer details: </br></span>
-      <span>Date of birth: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '')} </span>
-      </br><span>Marital status: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', '')} </span>
+      <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span class="fweight-500">
+      ${(typeof get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') === 'string' && get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '').includes('-')) ? get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') : DateTime.fromMillis(
+    get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', ''),
+    {
+      locale: userLang,
+    },
+  ).toFormat('yyyy-MM-dd')} 
+    </span></span>      </br><span>Marital status: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', '')} </span>
       </br><span>Place of origin: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.placeOfOrigin', '')} </span>
       </br><span>Type of purchase: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', '')} </span>`;
     }
@@ -357,6 +363,17 @@ const SingleDeal = (props) => {
             <div className="w-perc-100">
               <div className="single-deal dis-fl-col">
                 {/* top panel */}
+                <div className="actions dis-fl-row jc-b pb-2">
+                  <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
+                    <BrixelButtonIcon
+                      icon="arrow-left-small"
+                      ghost
+                      theme="dark"
+                      onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                    />
+                  </div>
+                  <OptionsDropdown showDesktop />
+                </div>
                 <div className="top dis-fl-row jc-b mb-0 mb-lg-4">
                   <div className="user dis-fl-row col-7 p-2 p-lg-0">
                     <BrixelAvatar
@@ -394,17 +411,6 @@ const SingleDeal = (props) => {
                           )
                         }
                       </div>
-                    </div>
-                  </div>
-                  <div className="actions dis-fl-row jc-fe col-5 p-0">
-                    <OptionsDropdown showDesktop />
-                    <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
-                      <BrixelButtonIcon
-                        icon="close-small"
-                        ghost
-                        theme="dark"
-                        onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
-                      />
                     </div>
                   </div>
                 </div>

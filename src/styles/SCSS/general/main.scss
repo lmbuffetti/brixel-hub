@@ -989,3 +989,7 @@ button.minimum-w-210 {
 .filterGray {
   filter: grayscale(1);
 }
+
+input::-webkit-date-and-time-value {
+  text-align: left !important;
+}
