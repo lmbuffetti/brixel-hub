@@ -196,8 +196,7 @@ function PageHeader(props) {
         propID.length > 9 &&
         userType === 'seller'
         ) || (
-          history.location.pathname.includes('welcomeSeller') ||
-        history.location.pathname.includes('getStarted/')
+          history.location.pathname.includes('welcomeSeller')
         )
       )
     ) {
