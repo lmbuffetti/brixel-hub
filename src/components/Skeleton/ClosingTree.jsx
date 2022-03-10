@@ -1,12 +1,12 @@
 /* eslint-disable no-nested-ternary */
-import React, { memo } from 'react';
+import React  from 'react';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import SkeletonClosingCard from '../../images/skeleton-closing-tree.svg';
 
-const ClosingTree = memo((props) => {
+const ClosingTree = (props) => {
   const {
     className,
   } = props;
@@ -21,7 +21,7 @@ const ClosingTree = memo((props) => {
       />
     </>
   );
-});
+};
 
 ClosingTree.propTypes = {
   className: PropTypes.string,

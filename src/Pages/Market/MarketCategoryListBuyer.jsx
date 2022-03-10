@@ -263,7 +263,10 @@ const MarketCategoryListBuyer = (props) => {
                         <Slider ref={sliderInstance} {...settingSlider}>
                           {
                             get(ownerEstimations, 'data', []).map((fav, i) => (
-                              <div className="max-w-fix-sm-304">
+                              <div
+                                key={`ownProp_${i.toString()}`}
+                                className="max-w-fix-sm-304"
+                              >
                                 <MarketCardSmall
                                   key={`ownPro_${i.toString()}`}
                                   type="estimation"
