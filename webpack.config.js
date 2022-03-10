@@ -180,8 +180,8 @@ const clientConfig = (env) => {
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
-        emitWarning: !devMode,
-        emitError: !devMode,
+        emitWarning: true,
+        emitError: true,
         fix: false,
       }),
       new MiniCssExtractPlugin({
