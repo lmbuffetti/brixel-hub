@@ -312,7 +312,7 @@ const SingleDeal = (props) => {
     {
       locale: userLang,
     },
-  ).toFormat('yyyy-MM-dd')}
+  ).toFormat('dd-MM-yyyy')}
     </span></span>      </br><span>Marital status: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', '')} </span>
       </br><span>Place of origin: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.placeOfOrigin', '')} </span>
       </br><span>Type of purchase: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', '')} </span>`;
