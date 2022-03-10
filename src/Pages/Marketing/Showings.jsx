@@ -48,7 +48,7 @@ const Showings = (props) => {
     handleSavePropertyVisitBooking,
     handleGetActiveSinglePropertyBookings,
     lang,
-    resetForm,
+    handleReset,
   } = props;
   // STATE
   const [activeTab, setActiveTab] = useState('');
@@ -104,7 +104,7 @@ const Showings = (props) => {
   // DISCARD BOOKING
   const discardChanges = () => {
     setManageAvailability(false);
-    resetForm(initialValues);
+    handleReset(initialValues);
   };
 
   // MANAGE BOOKING VISIT
@@ -272,7 +272,7 @@ Showings.propTypes = {
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  resetForm: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 Showings.defaultProps = {
@@ -292,7 +292,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  resetForm(data) {
+  handleReset(data) {
     (dispatch(reset('Property', data)));
   },
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),

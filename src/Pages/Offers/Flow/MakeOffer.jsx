@@ -55,7 +55,7 @@ const MakeOffer = (props) => {
     isSmallLoading,
     handleGetBuyerDeal,
     loggedInUser,
-    resetForm,
+    handleReset,
   } = props;
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
   lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
@@ -172,7 +172,7 @@ const MakeOffer = (props) => {
 
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
-    resetForm('offerFlow');
+    handleReset('offerFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
     history.push(url || `/buyer/${propID}/closing/${dealID}`);
@@ -603,7 +603,7 @@ MakeOffer.propTypes = {
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  resetForm: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -636,7 +636,7 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     (dispatch(destroy('offerFlow')));
   },
-  resetForm(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleGetActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),

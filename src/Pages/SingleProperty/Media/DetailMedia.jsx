@@ -56,21 +56,6 @@ const DetailMedia = (props) => {
     }
   }, [formValue, mediaType, match]);
 
-  // RELAOD THE EFFECT OF EDIT MEDIA ON CHANGE IMAGE ID
-  /*  useEffect(() => {
-    resetForm(initialValues);
-    if (get(formValue, `[${mediaType}][${idImg}]`, null)) {
-      if (formValue[mediaType][idImg] !== '') {
-        if (thirdlevelEl) {
-          thirdlevelEl.classList.add('move');
-          setTimeout(() => {
-            thirdlevelEl.classList.remove('move');
-          }, 500);
-        }
-      }
-    }
-  }, [mediaID]); */
-
   // WHEN THE SMALL LOADING END AND changeSection IS SET TO TRUE MOVED TO NEXT IMAGES
   useEffect(() => {
     if (changeSection && !isSmallLoading.saveData) {
@@ -254,7 +239,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  resetForm(data) {
+  handleReset(data) {
     dispatch(reset('Property', data));
   },
   handleRotateImg: bindActionCreators(rotateImg, dispatch),

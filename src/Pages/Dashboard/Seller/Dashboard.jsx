@@ -95,7 +95,7 @@ const Dashboard = (props) => {
     isSmallLoading,
     loggedInUser,
     notification,
-    resetForm,
+    handleReset,
     userTypes,
   } = props;
   const [userType, setUserType] = useState(null);
@@ -120,7 +120,7 @@ const Dashboard = (props) => {
       !get(history, 'location.pathname', '').includes('achievement') &&
       get(activeSingleProperty, 'id', null)
     ) {
-      resetForm(initialValues);
+      handleReset(initialValues);
     }
     if (get(history, 'location.pathname', '').includes('deal') && !get(history, 'location.pathname', '').includes('prospects')) {
       history.push({ pathname: `/${propID}/prospects` });
@@ -394,7 +394,7 @@ Dashboard.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
-  resetForm: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
   userTypes: PropTypes.string,
   // handleSpinnerOn: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
@@ -486,7 +486,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Property', value));
   },
-  resetForm(data) {
+  handleReset(data) {
     (dispatch(reset('Property', data)));
   },
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),

@@ -224,7 +224,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetForm(data) {
+  handleReset(data) {
     (dispatch(reset('CreateDeal', data)));
   },
   initForm(value) {
