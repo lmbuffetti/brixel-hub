@@ -74,8 +74,9 @@ const IdentificationFlow = (props) => {
       history.push(`/buyer/${propID}/closing/${dealID}`);
     }
     return () => {
-      delete isSmallLoading.sendDataSent;
-      handleChangeSmallLoading(isSmallLoading);
+      const loader = cloneDeep(isSmallLoading);
+      loader.sendDataSent = false;
+      handleChangeSmallLoading(loader);
       destroyForm();
     };
   }, []);
@@ -205,6 +206,8 @@ const IdentificationFlow = (props) => {
         // setPosition(newIndex);
         if (newQuestions[defId].toSave && !isSmallLoading.sendDataSent) {
           saveData(get(newQuestions[defId], 'action', null));
+          delete isSmallLoading.sendDataSent;
+          handleChangeSmallLoading(isSmallLoading);
         } else {
           let newQuest = {
             ...newQuestions[defId],
