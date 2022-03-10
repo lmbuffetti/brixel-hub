@@ -1,6 +1,6 @@
 /* global Transifex */
 import get from 'lodash/get';
-import { FormatValue } from '@brixel/brixel-components';
+import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
 import { translateTo } from './translation';
 
 const aptAdjective = {

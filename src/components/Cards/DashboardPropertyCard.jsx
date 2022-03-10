@@ -2,16 +2,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import {
-  BrixelButtonPrimary,
-  BrixelIcon,
-  Helpers,
-} from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import CoverPropertyImage from '../CoverPropertyImage';
+const BrixelButtonPrimary = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelButtonPrimary'));
+const BrixelIcon = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelIcon'));
+const CoverPropertyImage = React.lazy(() => import('../CoverPropertyImage'));
 
 const DashboardPropertyCard = (props) => {
   const history = {

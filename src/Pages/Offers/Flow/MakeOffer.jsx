@@ -7,12 +7,9 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   MultiFileldsReduxForm,
-  change,
-  destroy,
-  reset,
-  initializeForm,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -58,7 +55,7 @@ const MakeOffer = (props) => {
     isSmallLoading,
     handleGetBuyerDeal,
     loggedInUser,
-    reset,
+    resetForm,
   } = props;
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
   lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
@@ -175,7 +172,7 @@ const MakeOffer = (props) => {
 
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
-    reset('offerFlow');
+    resetForm('offerFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
     history.push(url || `/buyer/${propID}/closing/${dealID}`);
@@ -606,7 +603,7 @@ MakeOffer.propTypes = {
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -639,7 +636,7 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     (dispatch(destroy('offerFlow')));
   },
-  reset(form) {
+  resetForm(form) {
     (dispatch(reset(form)));
   },
   handleGetActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),

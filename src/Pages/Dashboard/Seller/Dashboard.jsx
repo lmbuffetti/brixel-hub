@@ -17,7 +17,7 @@ import set from 'lodash/set';
 import find from 'lodash/find';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
-import { change, initializeForm, reset } from '@brixel/brixel-components';
+import { reset, initializeForm, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 import {

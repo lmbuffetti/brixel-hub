@@ -8,14 +8,8 @@ import has from 'lodash/has';
 import set from 'lodash/set';
 import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
-import {
-  BrixelButtonPrimary,
-  BrixelButtonSecondary,
-  BrixelIcon,
-  FormatValue,
-  Helpers,
-  ProgressRing,
-} from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
+import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
@@ -34,6 +28,11 @@ import {
   setActiveMarketOverlayPropertyLists,
   getEstimation, getPackageProperty,
 } from '../../actions/PropertyActions';
+
+const BrixelButtonPrimary = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelButtonPrimary'));
+const BrixelButtonSecondary = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelButtonSecondary'));
+const BrixelIcon = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelIcon'));
+const ProgressRing = React.lazy(() => import('@brixel/brixel-components/dist/components/ProgressRing'));
 
 const MarketCard = (props) => {
   const history = {

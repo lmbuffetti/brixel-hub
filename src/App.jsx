@@ -17,8 +17,8 @@ import {
   BrixelIcon,
   BrixelModal,
   BrixelNotification,
-  reset,
 } from '@brixel/brixel-components';
+import { reset } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import Loading from './components/Loading';

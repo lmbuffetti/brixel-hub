@@ -13,8 +13,6 @@ import {
   BrixelInputText,
   Validation,
   ReduxField,
-  change,
-  reset,
 } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
 import {
@@ -203,9 +201,9 @@ const Showings = (props) => {
 
 Showings.propTypes = {
   errorValue: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
   lang: PropTypes.string,
   schedule: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
@@ -226,12 +224,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('Showings', field, value));
-  },
-  reset(form) {
-    (dispatch(reset(form)));
-  },
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
 });
 

@@ -10,9 +10,9 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   FactsOptions,
-  FormatValue,
-  Helpers,
 } from '@brixel/brixel-components';
+import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';

@@ -10,12 +10,11 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelIcon,
-  Helpers,
-  FormatValue,
   BrixelSwitchButton,
-  change,
-  reset,
 } from '@brixel/brixel-components';
+import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { useParams } from 'react-router-dom';
 import { updatePublishedReview } from '../../actions/PropertyActions';

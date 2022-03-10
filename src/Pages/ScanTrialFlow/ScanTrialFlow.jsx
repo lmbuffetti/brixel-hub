@@ -6,12 +6,9 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   MultiFileldsReduxForm,
-  change,
-  destroy,
-  reset,
-  initializeForm,
   BrixelButtonText,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';

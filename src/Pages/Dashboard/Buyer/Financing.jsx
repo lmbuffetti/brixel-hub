@@ -7,8 +7,6 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  change,
-  reset,
   FinancingCalculator,
 } from '@brixel/brixel-components';
 import { setModal } from '../../../actions/CommonActions';
@@ -62,12 +60,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('Property', field, value));
-  },
-  reset(form, data) {
-    (dispatch(reset(form, data)));
-  },
   handleSetModal: bindActionCreators(setModal, dispatch),
 });
 

@@ -3,12 +3,7 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  initializeForm,
-  change,
-  reset,
-  destroy,
-} from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';

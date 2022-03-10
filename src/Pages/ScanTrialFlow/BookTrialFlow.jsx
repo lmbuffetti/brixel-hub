@@ -10,11 +10,11 @@ import {
   BrixelInputText,
   BrixelInputDatePicker,
   change,
-  Helpers,
   changeSyncError,
   ReduxField,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import { DateTime } from 'luxon';
 import Accordion from '../../components/Accordion';
 import PhoneImg from '../../images/TestDrive/Phone.svg';

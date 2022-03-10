@@ -6,8 +6,9 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -45,7 +46,7 @@ const IdentificationFlow = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
-    reset,
+    resetForm,
     syncErrors,
   } = props;
   // GET URL PARAMS
@@ -282,7 +283,7 @@ const IdentificationFlow = (props) => {
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    reset('Property');
+    resetForm('Property');
     if (userType === 'seller') history.push(`/${propID}/closing`);
     else history.push(`/buyer/${propID}/closing`);
   };
@@ -540,7 +541,7 @@ IdentificationFlow.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  resetForm: PropTypes.func.isRequired,
   syncErrors: PropTypes.object.isRequired,
 };
 
@@ -589,7 +590,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Identification', value));
   },
-  reset(form) {
+  resetForm(form) {
     (dispatch(reset(form)));
   },
   handleGetActiveSingleDeal: bindActionCreators(getActiveSingleDeal, dispatch),

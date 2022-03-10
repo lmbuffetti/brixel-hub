@@ -9,11 +9,7 @@ import {
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-  change,
-  initializeForm,
-  reset,
-} from '@brixel/brixel-components';
+import { reset, initializeForm, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { setUserTypes, getUserPagesDeals } from '../../../actions/UserActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
