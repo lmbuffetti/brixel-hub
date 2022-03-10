@@ -13,6 +13,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -177,11 +178,12 @@ const clientConfig = (env) => {
     plugins: [
       new ESLintPlugin({
         extensions: ['js', 'jsx'],
+        exclude: ['node_modules', 'public', '__tests__', 'dist', 'configJest'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: !devMode,
         emitError: !devMode,
-        fix: true,
+        fix: false,
       }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
@@ -229,16 +231,14 @@ const clientConfig = (env) => {
           NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
         },
       }),
+      new CompressionPlugin({
+        algorithm: 'gzip',
+      }),
     ],
     resolve: {
       extensions: ['.js', '.jsx'],
     },
   });
-  if (localDev) {
-    config.plugins.push(
-      new webpack.HotModuleReplacementPlugin(),
-    );
-  }
   if (!localDev) {
     config.plugins.push(
       new PurgecssPlugin({
