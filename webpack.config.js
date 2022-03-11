@@ -276,15 +276,8 @@ const clientConfig = () => {
       nodeEnv: 'production',
       minimize: true,
       minimizer: [
-        new TerserPlugin({
-          minify: TerserPlugin.uglifyJsMinify,
-          parallel: true,
-        }),
-        new CssMinimizerPlugin({
-          parallel: true,
-          minify: CssMinimizerPlugin.cssnanoMinify,
-          warningsFilter: () => { return false },
-        }),
+        new TerserPlugin(),
+        new CssMinimizerPlugin(),
       ],
       splitChunks: {
         chunks: 'all',
