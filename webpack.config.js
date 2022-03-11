@@ -14,7 +14,7 @@ const PurgecssPlugin = require('purgecss-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
 const CompressionPlugin = require("compression-webpack-plugin");
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
 
@@ -273,27 +273,17 @@ const clientConfig = () => {
       }),
     )
     config.optimization = {
-      moduleIds: 'deterministic',
-      runtimeChunk: 'single',
       nodeEnv: 'production',
       minimize: true,
       minimizer: [
-        (compiler) => {
-          new TerserPlugin({
-            /* your config */
-          }).apply(compiler);
-        },
-        new OptimizeCssAssetsPlugin({
-          cssProcessorPluginOptions: {
-            preset: ['default', { discardComments: { removeAll: true } }],
-          },
-          canPrint: true,
-          cssProcessorOptions: {
-            map: {
-              inline: true,
-              annotation: true,
-            },
-          },
+        new TerserPlugin({
+          minify: TerserPlugin.uglifyJsMinify,
+          parallel: true,
+        }),
+        new CssMinimizerPlugin({
+          parallel: true,
+          minify: CssMinimizerPlugin.cssnanoMinify,
+          warningsFilter: () => { return false },
         }),
       ],
       splitChunks: {
