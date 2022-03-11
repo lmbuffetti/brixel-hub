@@ -252,14 +252,18 @@ const clientConfig = (env) => {
           `${PATHS.dist}/**/*`,
         ], { nodir: true }),
         safelist: safelistClass,
-      }),
+      })
+    );
+    config.push(
       new CompressionPlugin({
         filename: "[path][base].gz",
         algorithm: "gzip",
         test: /\.js$|\.css$|\.html$/,
         threshold: 10240,
         minRatio: 0.8,
-      }),
+      })
+    );
+    config.push(
       new CompressionPlugin({
         filename: "[path][base].br",
         algorithm: "brotliCompress",
@@ -272,7 +276,7 @@ const clientConfig = (env) => {
         threshold: 10240,
         minRatio: 0.8,
       }),
-    );
+    )
   }
   if (!devMode) {
     config.optimization = {
