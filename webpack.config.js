@@ -181,14 +181,14 @@ const clientConfig = (env) => {
       ],
     },
     plugins: [
-     /* new ESLintPlugin({
+     new ESLintPlugin({
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,
         emitError: true,
         fix: false,
-      }),*/
+      }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
@@ -235,6 +235,24 @@ const clientConfig = (env) => {
           NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
         },
       }),
+    ],
+    resolve: {
+      extensions: ['.js', '.jsx'],
+    },
+    performance: {
+      hints: false
+    },
+  });
+  if (!localDev) {
+    config.plugins.push(
+      new PurgecssPlugin({
+        paths: glob.sync([
+          `${PATHS.src}/**/*`,
+          `${PATHS.modules}/**/*`,
+          `${PATHS.dist}/**/*`,
+        ], { nodir: true }),
+        safelist: safelistClass,
+      }),
       new CompressionPlugin({
         filename: "[path][base].gz",
         algorithm: "gzip",
@@ -254,24 +272,6 @@ const clientConfig = (env) => {
         threshold: 10240,
         minRatio: 0.8,
       }),
-    ],
-    resolve: {
-      extensions: ['.js', '.jsx'],
-    },
-    performance: {
-      hints: false
-    },
-  });
-  if (!localDev) {
-    config.plugins.push(
-      new PurgecssPlugin({
-        paths: glob.sync([
-          `${PATHS.src}/**/*`,
-          `${PATHS.modules}/**/*`,
-          `${PATHS.dist}/**/*`,
-        ], { nodir: true }),
-        safelist: safelistClass,
-      }),
     );
   }
   if (!devMode) {
@@ -280,7 +280,6 @@ const clientConfig = (env) => {
       minimize: true,
       minimizer: [
         (compiler) => {
-          const TerserPlugin = require('terser-webpack-plugin');
           new TerserPlugin({
             /* your config */
           }).apply(compiler);
