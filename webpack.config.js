@@ -36,7 +36,7 @@ const clientConfig = (env) => {
   const localDev = env.DEV_LOCAL;
   const config = ({
     mode: mode,
-    devtool: devMode ? 'source-map' : null,
+    devtool: devMode ? 'source-map' : false,
     entry: {
       polyfill: '@babel/polyfill',
       main: [
@@ -252,18 +252,14 @@ const clientConfig = (env) => {
           `${PATHS.dist}/**/*`,
         ], { nodir: true }),
         safelist: safelistClass,
-      })
-    );
-    config.plugins.push(
+      }),
       new CompressionPlugin({
         filename: "[path][base].gz",
         algorithm: "gzip",
         test: /\.js$|\.css$|\.html$/,
         threshold: 10240,
         minRatio: 0.8,
-      })
-    );
-    config.plugins.push(
+      }),
       new CompressionPlugin({
         filename: "[path][base].br",
         algorithm: "brotliCompress",
