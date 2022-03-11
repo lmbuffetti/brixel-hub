@@ -36,7 +36,7 @@ const clientConfig = (env) => {
   const localDev = env.DEV_LOCAL;
   const config = ({
     mode: mode,
-    devtool: devMode ? 'source-map' : false,
+    devtool: devMode ? 'source-map' : 'inline-cheap-source-map',
     entry: {
       polyfill: '@babel/polyfill',
       main: [
@@ -276,6 +276,8 @@ const clientConfig = (env) => {
   }
   if (!devMode) {
     config.optimization = {
+      moduleIds: 'deterministic',
+      runtimeChunk: 'single',
       nodeEnv: 'production',
       minimize: true,
       minimizer: [
