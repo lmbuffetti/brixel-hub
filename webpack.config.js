@@ -32,8 +32,7 @@ const PATHS = {
   dist: path.join(__dirname, 'dist'),
 };
 
-const clientConfig = (env) => {
-  const localDev = env.DEV_LOCAL;
+const clientConfig = () => {
   const config = ({
     mode: mode,
     devtool: devMode ? 'source-map' : 'inline-cheap-source-map',
@@ -244,6 +243,35 @@ const clientConfig = (env) => {
     },
   });
   if (!devMode) {
+    config.plugins.push(
+      new PurgecssPlugin({
+        paths: glob.sync([
+          `${PATHS.src}/**/*`,
+          `${PATHS.modules}/**/*`,
+          `${PATHS.dist}/**/*`,
+        ], { nodir: true }),
+        safelist: safelistClass,
+      }),
+      new CompressionPlugin({
+        filename: "[path][base].gz",
+        algorithm: "gzip",
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8,
+      }),
+      new CompressionPlugin({
+        filename: "[path][base].br",
+        algorithm: "brotliCompress",
+        test: /\.(js|css|html|svg)$/,
+        compressionOptions: {
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+          },
+        },
+        threshold: 10240,
+        minRatio: 0.8,
+      }),
+    )
     config.optimization = {
       moduleIds: 'deterministic',
       runtimeChunk: 'single',
