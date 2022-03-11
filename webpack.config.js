@@ -14,12 +14,17 @@ const PurgecssPlugin = require('purgecss-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
 const CompressionPlugin = require("compression-webpack-plugin");
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const zlib = require("zlib");
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
+const mode = devMode ?  'development' : 'production';
+
 
 const PATHS = {
   src: path.join(__dirname, 'src'),
@@ -30,8 +35,8 @@ const PATHS = {
 const clientConfig = (env) => {
   const localDev = env.DEV_LOCAL;
   const config = ({
-    mode: 'development',
-    devtool: devMode ? 'inline-source-map' : false,
+    mode: mode,
+    devtool: devMode ? 'source-map' : 'inline-source-map',
     entry: {
       polyfill: '@babel/polyfill',
       main: [
@@ -176,14 +181,14 @@ const clientConfig = (env) => {
       ],
     },
     plugins: [
-      new ESLintPlugin({
+     /* new ESLintPlugin({
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,
         emitError: true,
         fix: false,
-      }),
+      }),*/
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
@@ -231,11 +236,30 @@ const clientConfig = (env) => {
         },
       }),
       new CompressionPlugin({
-        algorithm: 'gzip',
+        filename: "[path][base].gz",
+        algorithm: "gzip",
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8,
+      }),
+      new CompressionPlugin({
+        filename: "[path][base].br",
+        algorithm: "brotliCompress",
+        test: /\.(js|css|html|svg)$/,
+        compressionOptions: {
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+          },
+        },
+        threshold: 10240,
+        minRatio: 0.8,
       }),
     ],
     resolve: {
       extensions: ['.js', '.jsx'],
+    },
+    performance: {
+      hints: false
     },
   });
   if (!localDev) {
@@ -252,9 +276,32 @@ const clientConfig = (env) => {
   }
   if (!devMode) {
     config.optimization = {
+      nodeEnv: 'production',
+      minimize: true,
+      minimizer: [
+        (compiler) => {
+          const TerserPlugin = require('terser-webpack-plugin');
+          new TerserPlugin({
+            /* your config */
+          }).apply(compiler);
+        },
+        new OptimizeCssAssetsPlugin({
+          cssProcessorPluginOptions: {
+            preset: ['default', { discardComments: { removeAll: true } }],
+          },
+          canPrint: true,
+          cssProcessorOptions: {
+            map: {
+              inline: true,
+              annotation: true,
+            },
+          },
+        }),
+      ],
       splitChunks: {
         chunks: 'async',
         minSize: 20000,
+        maxSize: 250000,
         minRemainingSize: 0,
         minChunks: 1,
         maxAsyncRequests: 30,

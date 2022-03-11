@@ -190,7 +190,7 @@ const App = (props) => {
     if (get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) {
       history.push('/sell');
     }
-    if (get(history, 'location', null) && typeof ga !== 'undefined') {
+    if (get(history, 'location', null) && typeof ga === 'function') {
       ga('send', 'pageview', history.location.pathname);
     }
     const splittedURL = get(history, 'location.pathname', '').split('/');
