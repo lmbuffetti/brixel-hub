@@ -299,9 +299,9 @@ const clientConfig = (env) => {
         }),
       ],
       splitChunks: {
-        chunks: 'async',
+        chunks: 'all',
         minSize: 20000,
-        maxSize: 250000,
+        maxSize: 25000,
         minRemainingSize: 0,
         minChunks: 1,
         maxAsyncRequests: 30,
