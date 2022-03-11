@@ -254,7 +254,7 @@ const clientConfig = (env) => {
         safelist: safelistClass,
       })
     );
-    config.push(
+    config.plugins.push(
       new CompressionPlugin({
         filename: "[path][base].gz",
         algorithm: "gzip",
@@ -263,7 +263,7 @@ const clientConfig = (env) => {
         minRatio: 0.8,
       })
     );
-    config.push(
+    config.plugins.push(
       new CompressionPlugin({
         filename: "[path][base].br",
         algorithm: "brotliCompress",
