@@ -36,7 +36,7 @@ const clientConfig = (env) => {
   const localDev = env.DEV_LOCAL;
   const config = ({
     mode: mode,
-    devtool: devMode ? 'source-map' : 'inline-source-map',
+    devtool: devMode ? 'source-map' : null,
     entry: {
       polyfill: '@babel/polyfill',
       main: [
