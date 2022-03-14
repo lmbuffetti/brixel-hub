@@ -51,10 +51,9 @@ if (typeof window !== 'undefined') {
   if (getCurDom.length > 3) domain = 'io';
 }
 
-if (url.indexOf('dev') !== -1 || url.indexOf('localhost')) env = 'DEV';
+if (url.indexOf('dev') !== -1 || url.indexOf('localhost') !== -1) env = 'DEV';
 else if (url.indexOf('stag') !== -1) env = 'STAGING';
 else env = 'PROD';
-
 let configUrl = getConfigEnvWeb(env, domain);
 
 if (typeof window !== 'undefined') {
