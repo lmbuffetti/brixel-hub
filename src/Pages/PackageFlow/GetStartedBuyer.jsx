@@ -10,11 +10,8 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   MultiFileldsReduxForm,
-  initializeForm,
-  change,
-  reset,
-  destroy,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -60,7 +57,7 @@ const GetStartedBuyer = (props) => {
     initialValues,
     lang,
     loggedInUser,
-    reset,
+    handleReset,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -400,9 +397,9 @@ const GetStartedBuyer = (props) => {
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    reset('Property');
+    handleReset('Property');
     // history.push('/buy');
-    history.push('/buyer/propertyLists');
+    history.push('/buy');
   };
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
@@ -466,8 +463,6 @@ const GetStartedBuyer = (props) => {
     else label = 'Next';
     return label;
   };
-
-  // console.log(formValue);
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
@@ -692,9 +687,9 @@ GetStartedBuyer.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleCreateSearchProfile: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleCreateSearchProfile: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
@@ -703,7 +698,7 @@ GetStartedBuyer.propTypes = {
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 GetStartedBuyer.defaultProps = {
@@ -768,7 +763,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  reset(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),

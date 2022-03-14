@@ -34,7 +34,7 @@ export const PackagesComparePlansTable = [
   {
     title: 'Listings',
     td: {
-      basic: { img: checkGreen, desc: 'Paid add-on' },
+      basic: { img: checkGreen },
       private: { img: checkBlue, desc: '3 months listings' },
       premium: { img: checkRed, desc: '6 months listings' },
       one: { img: checkBlack, desc: '12 months listings' },
@@ -58,7 +58,15 @@ export const PackagesComparePlansTable = [
     },
   },
   {
-    title: 'Property scan',
+    title: 'Photos',
+    td: {
+      private: null,
+      premium: { img: checkRed },
+      one: { img: checkBlack },
+    },
+  },
+  {
+    title: 'Floorplans',
     td: {
       private: null,
       premium: { img: checkRed },
@@ -82,7 +90,7 @@ export const PackagesComparePlansTable = [
     },
   },
   {
-    title: 'Propspects management',
+    title: 'Prospects management',
     td: {
       private: null,
       premium: { img: checkRed },
@@ -111,6 +119,14 @@ export const PackagesComparePlansTable = [
       private: null,
       premium: null,
       one: { img: checkBlack },
+    },
+  },
+  {
+    title: 'Showings',
+    td: {
+      private: null,
+      premium: null,
+      one: { img: checkBlack, desc: 'Paid add-on' },
     },
   },
 ];

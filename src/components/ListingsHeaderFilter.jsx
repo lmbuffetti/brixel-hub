@@ -100,7 +100,7 @@ const ListingsHeaderFilter = (props) => {
       {
         labels.map((label, i) => (
           <div
-            key={i.toString()}
+            key={`lstHdr_${i.toString()}`}
             className="header dis-f a-c tt-up p-1"
           >
             <div

@@ -17,7 +17,7 @@ import {
   getPremiumProperties, getWishlistProperties,
 } from '../../actions/MarketActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
-import MarketCardMap from '../../components/MarketCardMap';
+import MarketCardMap from '../../components/Cards/MarketCardMap';
 import Pagination from '../../components/Pagination';
 import { setSplashType, setWindowDimensions } from '../../actions/CommonActions';
 import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
@@ -361,7 +361,7 @@ const MarketList = (props) => {
             propertyListings.map((page, i) => (
               <MarketCardMap
                 type="own"
-                key={i.toString()}
+                key={`prop_${i.toString()}`}
                 item={page}
                 onClick={() => openCard(page)}
                 onHover={(val) => setActiveProperty(val !== null ? page.id : null)}

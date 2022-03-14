@@ -7,12 +7,9 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   MultiFileldsReduxForm,
-  change,
-  destroy,
-  reset,
-  initializeForm,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -58,7 +55,7 @@ const MakeOffer = (props) => {
     isSmallLoading,
     handleGetBuyerDeal,
     loggedInUser,
-    reset,
+    handleReset,
   } = props;
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
   lowCountry = lowCountry ? lowCountry.toLowerCase() : '';
@@ -175,7 +172,7 @@ const MakeOffer = (props) => {
 
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
-    reset('offerFlow');
+    handleReset('offerFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
     history.push(url || `/buyer/${propID}/closing/${dealID}`);
@@ -530,11 +527,11 @@ const MakeOffer = (props) => {
                 className={`footerAction flowFooter ${questions[currentIndex] && questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
               >
                 <div className="pos-r">
-                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
+                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3 h-fix-40">
                     {
                       ((get(questions, `[${currentIndex - 1}].inputs`, null) && currentIndex > 0) || (get(questions, `[${currentIndex}].showBackButton`, null))) && (
                         <BrixelButtonIcon
-                          className="backBtn ml-0 mr-a"
+                          className="backBtn pos-a-fix x-l-0 x-t-0"
                           icon="arrow-left-small"
                           onClick={() => changeStep('back')}
                           theme="light"
@@ -550,7 +547,7 @@ const MakeOffer = (props) => {
                           {
                             buttonLabel().toLowerCase() === 'skip' ? (
                               <BrixelButtonSecondary
-                                className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                className={`noWrap mr-a ml-a ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 theme="green"
                                 themeSat={600}
@@ -561,7 +558,7 @@ const MakeOffer = (props) => {
                               />
                             ) : (
                               <BrixelButtonPrimary
-                                className={`${currentIndex > 0 && get(questions, `[${currentIndex - 1}].inputs`, null) ? 'mr-a ml-5-neg' : ''} noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                className={`mr-a ml-a noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 rounded
                                 theme="green"
@@ -606,7 +603,7 @@ MakeOffer.propTypes = {
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -639,7 +636,7 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     (dispatch(destroy('offerFlow')));
   },
-  reset(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleGetActiveDeal: bindActionCreators(getActiveSingleDeal, dispatch),

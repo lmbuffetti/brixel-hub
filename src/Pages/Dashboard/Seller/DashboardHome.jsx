@@ -15,9 +15,9 @@ import {
   BrixelIcon,
   BrixelProgressBar,
   FactsOptions,
-  Helpers,
   ProgressRing,
 } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import orderBy from 'lodash/orderBy';
 import has from 'lodash/has';
 import { DateTime } from 'luxon';
@@ -39,7 +39,7 @@ import Loading from '../../../components/Loading';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getActiveSinglePropertyDealsCount, getPageDeals } from '../../../actions/PropertyActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
-import DashboardPropertyCard from '../../../components/DashboardPropertyCard';
+import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 
 const { factsOptions } = FactsOptions;
 
@@ -436,7 +436,9 @@ const DashboardHome = (props) => {
                       <div className="px-3">
                         {
                           Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
-                            <React.Fragment key={i.toString()}>
+                            <React.Fragment
+                              key={`actCmp_${i.toString()}`}
+                            >
                               {
                                 get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
                                   <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
@@ -749,7 +751,9 @@ const DashboardHome = (props) => {
                       <div className="px-3">
                         {
                           Object.keys(get(activeSingleCompany, 'availablePortals', {})).map((portal, i) => (
-                            <React.Fragment key={i.toString()}>
+                            <React.Fragment
+                              key={`actCmp_${i.toString()}`}
+                            >
                               {
                                 get(activeSingleCompany, `availablePortals[${portal}]`, null) && (
                                   <span className="txtDark700 fsize-300 fsize-sm-400 dis-f jc-b a-c w-perc-100 tt-c">
@@ -855,12 +859,12 @@ const DashboardHome = (props) => {
                     {
                       visitLists.map((visit, i) => (
                         <div
-                          key={i.toString()}
+                          key={`vst_${i.toString()}`}
                           className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
                         >
                           <div
                             className={`dis-f a-c ${classWidthTable(0)} order-1 cur-poi`}
-                            onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
+                            onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
                           >
                             <BrixelAvatar
                               baseURL={get(baseByData, 'shortPath', '')}
@@ -874,7 +878,7 @@ const DashboardHome = (props) => {
                           </div>
                           <p
                             className={`${classWidthTable(1)} ${!visit.past ? 'txtPrimary400' : 'txtLight600'} order-3 order-md-2 cur-poi`}
-                            onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
+                            onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
                           >
                             {DateTime.fromMillis(visit.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                           </p>
@@ -968,9 +972,9 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  loggedInUser: get(state, 'user.loggedInUser.user', null),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
-  userLang: get(state, 'user.loggedInUser.user.language', null),
+  userLang: get(state, 'user.loggedInUser.user.language', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

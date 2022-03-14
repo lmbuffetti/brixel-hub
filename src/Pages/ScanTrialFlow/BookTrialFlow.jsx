@@ -10,11 +10,11 @@ import {
   BrixelInputText,
   BrixelInputDatePicker,
   change,
-  Helpers,
   changeSyncError,
   ReduxField,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import { DateTime } from 'luxon';
 import Accordion from '../../components/Accordion';
 import PhoneImg from '../../images/TestDrive/Phone.svg';
@@ -117,7 +117,7 @@ const BookTrialFlow = (props) => {
           <>
             <h2 className="ta-c fweight-600 fsize-600 fsize-sm-800">We are ready 🚀.</h2>
             <h2 className="mb-3 mb-sm-6 ta-c fweight-600 fsize-600 fsize-sm-800">When do you want us to visit?</h2>
-            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite">
+            <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
               <Accordion
                 color="dark"
                 saturationTxt={400}

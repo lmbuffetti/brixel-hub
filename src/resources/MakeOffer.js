@@ -54,7 +54,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
     {
       title: 'Set your price',
       history: 'priceInfo',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       inputs: [
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -114,7 +114,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       }],
       title: 'Please tell us some more details',
       history: 'analysis',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -187,14 +187,14 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       }],
       title: 'Where do you currently live?',
       history: 'location',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5 dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
           component: BrixelInputText,
           classNameBox: 'ml-a mr-a',
-          classWidthBox: 'w-perc-100 w-perc-sm-80',
-          classBoxWrapper: 'pr-0 pr-sm-2',
+          classWidthBox: 'w-perc-80',
+          classBoxWrapper: 'pr-2',
           ReduxFieldClass: '',
           label: 'Street',
           name: 'location.street',
@@ -203,8 +203,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         },
         {
           component: BrixelInputText,
-          classBoxWrapper: 'mt-3 pr-2 pr-sm-0 mt-sm-0',
-          classWidthBox: 'w-perc-40 w-perc-sm-20',
+          classBoxWrapper: 'pr-0 mt-0',
+          classWidthBox: 'w-perc-20',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           label: 'Nr',
@@ -214,8 +214,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         {
           component: BrixelInputText,
           className: '',
-          classWidthBox: 'w-perc-60 w-perc-sm-40',
-          classBoxWrapper: 'pr-0 pr-sm-2 mt-3',
+          classWidthBox: 'w-perc-40',
+          classBoxWrapper: 'pr-2 mt-3',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
           label: 'Zip',
@@ -226,7 +226,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         {
           component: BrixelInputText,
           className: '',
-          classWidthBox: 'w-perc-100 w-perc-sm-60',
+          classWidthBox: 'w-perc-60',
           classBoxWrapper: 'mt-3',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
@@ -250,7 +250,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       ],
       title: 'Upload your proof of financing',
       history: 'financingProof',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite dis-f flex-wrap',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -279,7 +279,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       }],
       cardType: 'loadComponent',
       history: 'financeCertificate',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: FinanceCertificate,
       hideContinueBtn: true,
@@ -292,7 +292,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       showBackButton: true,
       title: 'Please enter your financial data',
       history: 'financialData',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
@@ -352,7 +352,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'key4Registration',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite p-3 p-sm-5',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: Key4Registration,
     },

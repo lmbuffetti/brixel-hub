@@ -13,10 +13,8 @@ import {
   BrixelButtonIcon,
   BrixelButtonText,
   BrixelAvatar,
-  Helpers,
-  change,
-  reset,
 } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../../actions/PropertyActions';
 
@@ -137,12 +135,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('Property', field, value));
-  },
-  reset(form, data) {
-    (dispatch(reset(form, data)));
-  },
   handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
 });
 

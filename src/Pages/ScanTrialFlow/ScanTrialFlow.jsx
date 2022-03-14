@@ -6,12 +6,9 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   MultiFileldsReduxForm,
-  change,
-  destroy,
-  reset,
-  initializeForm,
   BrixelButtonText,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -44,7 +41,7 @@ const ScanTrialFlow = (props) => {
     initialValues,
     isSmallLoading,
     loggedInUser,
-    reset,
+    handleReset,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(ScanTrialQuestions());
@@ -85,14 +82,14 @@ const ScanTrialFlow = (props) => {
 
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
-    reset('scanFlow');
+    handleReset('scanFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
     history.push(url || `/${propID}/home`);
   };
 
   const goToFacts = () => {
-    reset('scanFlow');
+    handleReset('scanFlow');
     history.push(`/${propID}/property/facts/propertyType`);
   };
 
@@ -414,14 +411,14 @@ const ScanTrialFlow = (props) => {
                 className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
               >
                 <div className="pos-r">
-                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3">
+                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3 h-fix-40">
                     {
                       (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
                         <>
                           {
                             buttonLabel().toLowerCase() === 'skip' ? (
                               <BrixelButtonSecondary
-                                className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                className={`noWrap mr-a ml-a ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 theme="green"
                                 themeSat={600}
@@ -435,7 +432,7 @@ const ScanTrialFlow = (props) => {
                                 {
                                   (questions[currentIndex].history !== 'BookTrialFlow' || get(formValue, 'analysis', null) !== 'remote') && (
                                     <BrixelButtonPrimary
-                                      className={`noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                      className={`noWrap ml-a mr-a ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                       disabled={!checkValidateField()}
                                       rounded
                                       theme="green"
@@ -486,7 +483,7 @@ ScanTrialFlow.propTypes = {
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -534,7 +531,7 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     (dispatch(destroy('scanFlow')));
   },
-  reset(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),

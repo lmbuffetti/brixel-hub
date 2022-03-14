@@ -13,12 +13,18 @@ const CopyPlugin = require('copy-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
+const CompressionPlugin = require("compression-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
+const zlib = require("zlib");
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
 const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
+const mode = devMode ?  'development' : 'production';
+
 
 const PATHS = {
   src: path.join(__dirname, 'src'),
@@ -26,11 +32,10 @@ const PATHS = {
   dist: path.join(__dirname, 'dist'),
 };
 
-const clientConfig = (env) => {
-  const localDev = env.DEV_LOCAL;
+const clientConfig = () => {
   const config = ({
-    mode: 'development',
-    devtool: devMode ? 'inline-source-map' : 'cheap-source-map',
+    mode: mode,
+    devtool: devMode ? 'source-map' : 'inline-cheap-source-map',
     entry: {
       polyfill: '@babel/polyfill',
       main: [
@@ -175,12 +180,13 @@ const clientConfig = (env) => {
       ],
     },
     plugins: [
-      new ESLintPlugin({
+     new ESLintPlugin({
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,
-        fix: true,
+        emitError: true,
+        fix: false,
       }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
@@ -232,13 +238,11 @@ const clientConfig = (env) => {
     resolve: {
       extensions: ['.js', '.jsx'],
     },
+    performance: {
+      hints: false
+    },
   });
-  if (localDev) {
-    config.plugins.push(
-      new webpack.HotModuleReplacementPlugin(),
-    );
-  }
-  if (!localDev) {
+  if (!devMode) {
     config.plugins.push(
       new PurgecssPlugin({
         paths: glob.sync([
@@ -248,13 +252,37 @@ const clientConfig = (env) => {
         ], { nodir: true }),
         safelist: safelistClass,
       }),
-    );
-  }
-  if (!devMode) {
+      new CompressionPlugin({
+        filename: "[path][base].gz",
+        algorithm: "gzip",
+        test: /\.js$|\.css$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8,
+      }),
+      new CompressionPlugin({
+        filename: "[path][base].br",
+        algorithm: "brotliCompress",
+        test: /\.(js|css|html|svg)$/,
+        compressionOptions: {
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+          },
+        },
+        threshold: 10240,
+        minRatio: 0.8,
+      }),
+    )
     config.optimization = {
+      nodeEnv: 'production',
+      minimize: true,
+      minimizer: [
+        new TerserPlugin(),
+        new CssMinimizerPlugin(),
+      ],
       splitChunks: {
-        chunks: 'async',
+        chunks: 'all',
         minSize: 20000,
+        maxSize: 25000,
         minRemainingSize: 0,
         minChunks: 1,
         maxAsyncRequests: 30,

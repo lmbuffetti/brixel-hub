@@ -192,7 +192,7 @@ const Photos = (props) => {
                         fixPhotos.map((item, i) => (
                           <li
                             className="cur-poi pos-r"
-                            key={i.toString()}
+                            key={`pht_${i.toString()}`}
                             data-id={JSON.stringify(item)}
                           >
                             <div
@@ -345,7 +345,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   imageType: get(state, 'images.imageType', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  loggedInUser: get(state, 'user.loggedInUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', { }),
   percentage: get(state, 'common.percentage', 0),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

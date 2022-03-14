@@ -14,11 +14,10 @@ $grid-breakpoints: (
   xxl: 1920px,
 );
 $responsive-medium: map_get($grid-breakpoints, md);
-
+$n: 20;
 
 @import '~@brixel/brixel-components/dist/styles/SCSS/general/variables';
 @import '~@brixel/brixel-components/dist/styles/SCSS/utils/fontMixin';
-@import '~@brixel/brixel-components/dist/styles/SCSS/general/icomoon';
 
 $sidebarWidth: 232px;
 $sidebarWidthCollapsed: 70px;
@@ -36,16 +35,12 @@ map-get($blueColor, 300);
 
 /* COMPONENTS */
 @import "../components/accordion",
-"../components/avatar",
 "../components/booking",
 "../components/box_card",
-"../components/buttonAchievement",
 "../components/carousel-wrapper",
-"../components/checkboxWithDetail",
 "../components/closing-tree",
 "../components/contact_modal",
 "../components/documents",
-"../components/donut",
 "../components/header",
 "../components/loading",
 "../components/map",
@@ -58,8 +53,6 @@ map-get($blueColor, 300);
 "../components/progress-bar",
 "../components/progress_stage",
 "../components/property-list",
-"../components/radioButtonCard",
-"../components/radioButtonEmoji",
 "../components/rangePriceChart",
 "../components/rangeInput",
 "../components/seller_sidebar",
@@ -70,18 +63,6 @@ map-get($blueColor, 300);
 "../components/timeline_achievement",
 "../components/warningScreen",
 "../components/wizard";
-
-/* PAGES */
-@import "../pages/getStarted",
-"../pages/onBoarding",
-"../pages/listings",
-"../pages/_property_listings",
-"../pages/upgrade",
-"../pages/images",
-"../pages/bodyModal",
-"../pages/facts",
-"../pages/buyer",
-"../pages/seller";
 
 /* TRANSITIONS */
 @import "./transitions";

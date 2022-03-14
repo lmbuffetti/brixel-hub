@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
-import useOutsideAlerter from './OutsideElement';
+import useOutsideAlerter from '../OutsideElement';
 
-import Properties from '../Pages/Properties';
-import Support from './Support';
-import Loading from './Loading';
+import Properties from '../../Pages/Properties';
+import Support from '../Support';
+import Loading from '../Loading';
 
 const MenuNavigationSubmenu = (props) => {
   // PROPS

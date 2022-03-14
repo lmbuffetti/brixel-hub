@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import cloneDeep from 'lodash/cloneDeep';
+import orderBy from 'lodash/orderBy';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -6,27 +8,31 @@ import has from 'lodash/has';
 import set from 'lodash/set';
 import pullAt from 'lodash/pullAt';
 import compact from 'lodash/compact';
-import {
-  Helpers, BrixelIcon, FormatValue, ProgressRing, BrixelButtonPrimary,
-} from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
+import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import CoverPropertyImage from './CoverPropertyImage';
-import CardImageText from './Skeleton/CardImageText';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
 import {
   calcPercentageProEstimation, setCookie, completedBestimate,
-} from '../utils/helpers';
-import { setSplashType } from '../actions/CommonActions';
-import { generateEstimation } from '../actions/EstimationActions';
+} from '../../utils/helpers';
+import { setSplashType } from '../../actions/CommonActions';
+import { generateEstimation } from '../../actions/EstimationActions';
 import {
   setActiveSingleProperty,
   setEstimation,
   setActiveMarketOverlayProperty,
   setActiveMarketOverlayPropertyLists,
-  getEstimation,
-} from '../actions/PropertyActions';
+  getEstimation, getPackageProperty,
+} from '../../actions/PropertyActions';
+
+const BrixelButtonPrimary = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelButtonPrimary'));
+const BrixelButtonSecondary = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelButtonSecondary'));
+const BrixelIcon = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelIcon'));
+const ProgressRing = React.lazy(() => import('@brixel/brixel-components/dist/components/ProgressRing'));
 
 const MarketCard = (props) => {
   const history = {
@@ -35,9 +41,12 @@ const MarketCard = (props) => {
   };
   // PROPS
   const {
+    companyListings,
     favoritesProperties,
     handleGenerateBestimate,
     handleGetEstimation,
+    handleGetPackageProperty,
+    isSmallLoading,
     item,
     layout,
     onSetActiveProperty,
@@ -75,6 +84,12 @@ const MarketCard = (props) => {
       set(item, 'tags', pullAt(compact(result), [0, 1]));
     }
   }, [get(item, 'tags', [])]);
+
+  useEffect(() => {
+    if (layout === 'singleOwnCard') {
+      handleGetPackageProperty({ id: get(item, 'id', null), smallLoader: `loadPackage${get(item, 'id', '')}`, addToOwnerProp: true });
+    }
+  }, [layout, item]);
 
   const openCard = (e) => {
     if (e) e.preventDefault();
@@ -138,6 +153,31 @@ const MarketCard = (props) => {
     }
   };
 
+  const selectActiveServicePackage = () => {
+    let basicPackage = null;
+    if (companyListings.length > 0) {
+      const activeCompany = companyListings.find((cmp) => cmp.id === get(item, 'company', ''));
+      if (activeCompany) {
+        const activeCompanyPackages = get(activeCompany, 'servicePackages', []);
+        basicPackage = activeCompanyPackages.find((pkg) => pkg.type === 'basic');
+      }
+      if (get(item, 'servicePackage', null)) {
+        const activeSinglePropertyPackage = cloneDeep(get(item, 'servicePackage', []));
+        if (activeSinglePropertyPackage.length > 0) {
+          const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
+          const getActivePackage = sortedPackage.find((pkg) => pkg.started);
+          if (get(getActivePackage, 'servicePackage', null)) {
+            return getActivePackage.servicePackage;
+          }
+          if (get(sortedPackage[0], 'servicePackage', null)) {
+            return sortedPackage[0].servicePackage;
+          }
+        }
+      }
+    }
+    return basicPackage;
+  };
+
   const checkFavorite = () => {
     const findIndex = favoritesProperties.findIndex((prop) => prop.id === get(item, 'id', null));
     return findIndex > -1;
@@ -189,98 +229,83 @@ const MarketCard = (props) => {
         )
       }
       <div
-        className={`market-card ov-h cur-poi h-perc-100 brdRadius pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
+        className={`market-card ov-h cur-poi h-perc-100 pos-r ${removeSkeleton && item ? '' : 'pos-a opacity0'} `}
         onClick={(e) => (type !== 'own' ? openCard(e) : '')}
       >
         <div className={`${type === 'own' ? 'dis-f-sm' : 'dis-fl-col'} ${layout === 'singleOwnCard' ? 'px-0' : 'px-1'}`}>
           {
             type === 'own' ? (
               <>
-                <>
-                  <CoverPropertyImage
-                    loadedImg={(val) => setCoverImgLoaded(val)}
-                    className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover brdRadius h-fix-208 w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-304 mb-1 mb-sm-0' : 'w-fix-sm-208 mb-1'}`}
-                    coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
-                    propertyType={get(item, 'properties.propertyType', undefined)}
-                    onClick={(e) => openCard(e)}
-                  />
-                  {
-                    get(item, 'tags', []).length > 0 && (
-                      <div className="tag-container pos-a dis-fl-row a-c jc-b">
-                        {
-                          get(item, 'tags', []).filter((tag) => tag !== 'new').map((tag, i) => (
-                            <p
-                              key={i.toString()}
-                              className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
-                              onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
-                            >
-                              <span className="type">{getTypeText(tag)}</span>
-                            </p>
-                          ))
-                        }
-                      </div>
-                    )
-                  }
-                </>
-
-                <div className="info dis-fl-col pl-sm-2 pl-0 w-perc-100 jc-b">
-                  <div>
-                    <div className="top dis-fl-col notranslate" onClick={(e) => openCard(e)}>
-                      <h6 className="fweight-600 fsize-600 mb-small-4 txtDark700 ellipsis two w-perc-100 max-w-fix-496 ta-l">{get(item, 'title', '')}</h6>
-                      <span className="fsize-300 txtDark700 mb-1 ta-l">
-                        {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
-                        {
-                          get(item, 'location.countryCode', 'CH') === 'CH' && (
-                            <>
-                              {` (${get(item, 'location.stateCode', '')})`}
-                            </>
-                          )
-                        }
-                      </span>
+                <CoverPropertyImage
+                  loadedImg={(val) => setCoverImgLoaded(val)}
+                  className={`${isPreMarket() ? 'pre-market' : ''} ${get(item, 'tags', []).join(' ')} cover w-perc-100 ${layout === 'singleOwnCard' ? 'w-fix-sm-184 h-fix-184 mb-1 mb-sm-0' : 'w-fix-sm-208 h-fix-208 mb-1'}`}
+                  coverPhoto={get(item, 'coverPhoto.galleryThumbnailPath', undefined)}
+                  propertyType={get(item, 'properties.propertyType', undefined)}
+                  onClick={(e) => openCard(e)}
+                />
+                {
+                  get(item, 'tags', []).length > 0 && layout !== 'singleOwnCard' && (
+                    <div className="tag-container pos-a dis-fl-row a-c jc-b">
+                      {
+                        get(item, 'tags', []).filter((tag) => tag !== 'new').map((tag, i) => (
+                          <p
+                            key={`itm_${i.toString()}`}
+                            className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
+                            onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
+                          >
+                            <span className="type">{getTypeText(tag)}</span>
+                          </p>
+                        ))
+                      }
                     </div>
+                  )
+                }
+
+                <div className="info dis-fl-col pl-sm-4 pl-0 w-perc-100 jc-b">
+                  <div>
                     <div
-                      className="mid dis-fl-row fsize-300 txtDark400 mb-2"
+                      className="top dis-fl-col"
                       onClick={(e) => openCard(e)}
                     >
-                      <div className="dis-f a-c flex-wrap">
-                        <div className="div pt-small-2">
-                          <span>
-                            {get(item, 'properties.propertyType', '')}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="px-1 notranslate"> &middot; </span>
-                          <span>
-                            <span className="notranslate">
-                              {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
-                            </span>
-                            <span>
-                              {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
-                            </span>
-                          </span>
+                      <h6
+                        className="fweight-600 fsize-500 fsize-sm-600 mb-small-4 txtDark700 ellipsis two w-perc-100 ta-l mb-2 notranslate"
+                      >
+                        {get(item, 'title', '')}
+                      </h6>
+                      <div>
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdLight400 mr-2 pr-2 dis-ib notranslate">
+                          {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
                           {
-                            get(item, 'properties.typology.bedrooms') > 0 && (
-                              <span className="px-1 notranslate"> &middot; </span>
+                            get(item, 'location.countryCode', 'CH') === 'CH' && (
+                              <>
+                                {` (${get(item, 'location.stateCode', '')})`}
+                              </>
                             )
                           }
-                          {
-                            get(item, 'properties.typology.livingArea.value', 0) > 0 && (
-                              <span>
-                                <span>
-                                  {get(item, 'properties.typology.livingArea.value', 0)}
-                                </span>
-                                <span> m2</span>
+                        </span>
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdLight400 dis-ib">
+                          {get(item, 'properties.propertyType', '')}
+                        </span>
+                        <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdLight400 dis-ib notranslate">
+                          {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
+                        </span>
+                        {
+                          get(item, 'properties.typology.livingArea.value', 0) > 0 && (
+                            <span className="dis-ib notranslate">
+                              <span className="fsize-300 txtAltGrey700">
+                                {get(item, 'properties.typology.livingArea.value', 0)}
                               </span>
-                            )
-                          }
-                        </div>
+                              <span className="fsize-300 txtAltGrey700"> m2</span>
+                            </span>
+                          )
+                        }
                       </div>
                     </div>
                   </div>
                   <div className="">
                     {
                       item && get(item, 'price.total', 0) > 0 ? (
-                        <div className="dis-fl-col">
+                        <div className="dis-fl-col mt-2">
                           <div className="dis-f a-c">
                             <BrixelIcon
                               background="blue"
@@ -303,7 +328,7 @@ const MarketCard = (props) => {
                           </div>
                         </div>
                       ) : (
-                        <div className="dis-f pt-sm-2 a-t">
+                        <div className="dis-f pt-sm-2 a-t pt-3 pt-sm-0">
                           <BrixelIcon
                             className="dis-b-sm hide mr-2"
                             background="blue"
@@ -352,7 +377,7 @@ const MarketCard = (props) => {
                             (get(item, 'properties.propertyType', '') === 'House' || get(item, 'properties.propertyType', '') === 'Apartment') && (
                               <div
                                 onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
-                                className="dis-fl-row a-c ml-2"
+                                className="dis-fl-row a-c ml-4 brdSmallLeft brdLight400 pl-4"
                               >
                                 <div className="hide dis-fl-row-sm">
                                   <div className="pos-r h-fix-48 w-fix-48">
@@ -413,7 +438,7 @@ const MarketCard = (props) => {
                       {
                         item.tags.map((tag, i) => (
                           <p
-                            key={i.toString()}
+                            key={`itmTgs_${i.toString()}`}
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                           >
                             <span className="type">{getTypeText(tag)}</span>
@@ -507,13 +532,13 @@ const MarketCard = (props) => {
               <span className="hr mt-3 lighter mb-1" />
 
               <div
-                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm ${has(item, 'published') && item.published === false ? '' : ''}`}
+                className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm flex-wrap ${has(item, 'published') && item.published === false ? '' : ''}`}
               >
 
                 {
                   has(item, 'published') && item.published === false ? (
                     <div
-                      className="dis-fl-col dis-fl-row-sm jc-c a-c"
+                      className="dis-fl-col dis-fl-row-sm"
                     >
                       <div className="dis-fl-row-sm">
 
@@ -549,12 +574,36 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-                <div className="pt-1 pt-sm-0 ml-a">
-                  <BrixelButtonPrimary
-                    rounded
-                    label="Edit"
-                    onClick={() => history.push(`/${item.id}/home`)}
-                  />
+                <div className="pt-1 pt-sm-0 ml-sm-a dis-fl-col dis-fl-row-sm a-c">
+                  {
+                    isSmallLoading[`loadPackage${get(item, 'id', '')}`] === false && (
+                      <div>
+                        <span>
+                          Your plan:
+                        </span>
+                        <span
+                          className="ml-1 td-u cur-poi"
+                          onClick={() => history.push(`/${item.id}/upgrade`)}
+                        >
+                          {get(selectActiveServicePackage(), 'name', 'Basic')}
+                        </span>
+                      </div>
+                    )
+                  }
+                  <div className="dis-fl-col dis-fl-row-sm w-perc-100-sm">
+                    <BrixelButtonSecondary
+                      className="ml-sm-2 my-1 my-sm-0"
+                      rounded
+                      label="Edit"
+                      onClick={() => history.push(`/${item.id}/home`)}
+                    />
+                    <BrixelButtonPrimary
+                      className="ml-sm-2"
+                      rounded
+                      label="Request test drive"
+                      onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}
+                    />
+                  </div>
                 </div>
               </div>
             </>
@@ -566,9 +615,13 @@ const MarketCard = (props) => {
 };
 
 MarketCard.propTypes = {
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   favoritesProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleGenerateBestimate: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
+  handleGetPackageProperty: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   item: PropTypes.object,
   layout: PropTypes.string,
   onSetActiveProperty: PropTypes.func,
@@ -576,7 +629,6 @@ MarketCard.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
-  handleGenerateBestimate: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -591,9 +643,11 @@ MarketCard.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  companyListings: get(state, 'companies.companyListings.data', []),
   allProperties: get(state, 'market.allProperties.data', []),
   estimation: get(state, 'property.estimation', {}),
   favoritesProperties: get(state, 'market.favoritesProperties.data', []),
+  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lastViewedProperties: get(state, 'market.lastViewedProperties.data', []),
   newProperties: get(state, 'market.newProperties.data', []),
   ownerProperties: get(state, 'market.ownerProperties.data', []),
@@ -604,8 +658,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),

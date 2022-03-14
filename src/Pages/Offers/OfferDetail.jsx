@@ -3,13 +3,18 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { Helpers } from '@brixel/brixel-components';
-import { useParams } from 'react-router-dom';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { setSplashType } from '../../actions/CommonActions';
 import BrixelClosingTree from '../../components/BrixelClosingTree';
 import { getActiveSingleDeal, setActiveSingleDeal } from '../../actions/DealActions';
 
 const OfferDetail = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const match = useParams();
   const {
     activeSingleDeal,
@@ -20,6 +25,7 @@ const OfferDetail = (props) => {
   } = props;
   // PARAMS
   const dealID = get(match, 'dealID', null);
+  const propID = get(match, 'propID', null);
 
   // useEffect(() => () => handleSetActiveSingleDeal({}), []);
 
@@ -40,6 +46,13 @@ const OfferDetail = (props) => {
           {
             !isBuyer ? (
               <>
+                <BrixelButtonIcon
+                  className="hide dis-b-md mb-2"
+                  icon="arrow-left-small"
+                  theme="dark"
+                  ghost
+                  onClick={() => history.push(`/${propID}/closing`)}
+                />
                 <div className="offer-info dis-f a-c mb-1">
                   <h5>{get(activeSingleDeal, 'user.name', 'No Name')}</h5>
                   {
@@ -77,6 +90,8 @@ const OfferDetail = (props) => {
             )
           }
           <BrixelClosingTree
+            propID={propID}
+            dealID={dealID}
             isBuyer={isBuyer}
             offer={{}}
           />

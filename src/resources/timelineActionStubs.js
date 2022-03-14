@@ -34,9 +34,15 @@ module.exports = {
     'update-deal',
     'portal-create-deal',
     'deal-feedback-visit',
+    'user-add-favorite',
+    'user-message',
+    'user-schedule',
+    'user-get-document',
+    'user-phone-call',
   ],
   DealOwner: [
     'user-register',
     'user-portal-create-message',
+    'user-schedule',
   ],
 };

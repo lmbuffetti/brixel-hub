@@ -1,54 +1,62 @@
-.closing-tree {
-  background-color: white;
+.personsListIdentification {
+  .wrapName {
+    width: calc(100% - 50px);
+    .personsName {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  &.disabled {
+    filter: grayscale(1);
+    .editIcon {
+      display: none;
+    }
+  }
+}
 
-  .phases {
-    .offer-container,
-    .identification-container,
-    .lock-container,
-    .notary-container,
-    .contract-container {
-      &:not(:last-child) {
-        border-bottom: 1px solid map-get($lightColor, 200);
-      }
-      &.locked * {
-        color: map-get($darkColor, 300);
-      }
+/* CUSTOM TAB */
+.closingTree {
+  .locked {
+    opacity: 0.6;
+  }
+  .brixel-tabs {
+    box-shadow: none;
+    overflow: hidden;
+    border-bottom: 1px solid map-get($altGreyColor, 100);
+    border-top-left-radius: $step;
+    border-top-right-radius: $step;
 
-      .tooltip-label {
-        transition: all $default-time $default-easing;
-        position: absolute;
-        bottom: 0px;
-        left: -98px;
-        transform: translateY(115%);
-        display: block;
-        background: map-get($darkColor, 700);
-        border-radius: $step;
-        padding-top: $step / 2;
-        padding-bottom: $step / 2;
-        padding-left: $step * 4;
-        padding-right: $step * 4;
-        color: $brx-white;
-        pointer-events: none;
-        text-align: center;
-        box-shadow: $shadow-2dp;
-        z-index: 2;
+    ul.tabsList {
+    border: 0;
 
-        &.right {
-          left: -89px;
+      li.listItem {
+        padding-top: $step * 3;
+        padding-bottom: $step * 3;
+        color: map-get($altGreyColor, 400);
+        transition: background-color $default-time-long;
+
+        > span {
+          font-weight: 400;
+          @include fontStyle(300, 400);
         }
-
-        &::before {
-          position: absolute;
-          content: '';
-          top: -5px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 0;
-          height: 0;
-          border-left: 5px solid transparent;
-          border-right: 5px solid transparent;
-          border-bottom: 5px solid map-get($darkColor, 700);
+        &:hover {
+          background-color: map-get($lightColor, 100);
+          span {
+            color: map-get($altGreyColor, 400);
+          }
         }
+        &.active {
+          background-color: map-get($greenColor, 100);
+
+          > span {
+            color: map-get($darkColor, 700);
+            font-weight: 600;
+          }
+        }
+      }
+      li.activeBar {
+        display: none;
       }
     }
   }

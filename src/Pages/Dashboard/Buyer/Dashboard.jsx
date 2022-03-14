@@ -9,11 +9,7 @@ import {
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-  change,
-  initializeForm,
-  reset,
-} from '@brixel/brixel-components';
+import { reset, initializeForm, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { setUserTypes, getUserPagesDeals } from '../../../actions/UserActions';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
@@ -109,7 +105,7 @@ const Dashboard = (props) => {
 
   return (
     <div className="dashboardContainer" id="dashboard">
-      <div className="w-perc-100 pt-0 pt-lg-3">
+      <div className="w-perc-100">
         <Suspense fallback="">
           <Routes>
             { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
@@ -157,7 +153,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Property', value));
   },
-  resetForm(data) {
+  handleReset(data) {
     (dispatch(reset('Property', data)));
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),

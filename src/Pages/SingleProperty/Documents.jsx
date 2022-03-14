@@ -255,7 +255,7 @@ const Documents = (props) => {
             </p>
             {
               mandatoryDocuments.map((element, j) => (
-                <div className="dis-fl-col max-w-perc-100 max-w-fix-768" key={j.toString()}>
+                <div className="dis-fl-col max-w-perc-100 max-w-fix-768" key={`mndDoc_${j.toString()}`}>
                   <div className="dis-fl-row a-c jc-b py-2 pl-2">
                     <div className="dis-fl-row a-c">
                       {
@@ -325,7 +325,10 @@ const Documents = (props) => {
                     {
                       Object.keys(processedDocuments).map((key, i) => (
                         key !== 'NoFolder' ? (
-                          <div className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius" key={i.toString()}>
+                          <div
+                            className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
+                            key={`prcDcc_${i.toString()}`}
+                          >
                             <div className="dis-fl-row jc-b a-c">
                               <div className={`dis-fl-row a-c ${(index(i) !== -1) ? 'mb-3' : ''}`}>
                                 <BrixelIcon
@@ -359,7 +362,7 @@ const Documents = (props) => {
                             {
                               (index(i) !== -1) && processedDocuments[key].map((doc, k) => (
                                 <li
-                                  key={k.toString()}
+                                  key={`prcDocs_${k.toString()}`}
                                   className="single-document pl-5 dis-fl-row a-c jc-b pb-1 mb-1"
                                 >
                                   <div className="name w-fix-184 w-fix-lg-352 dis-fl-row a-c pr-1 pr-sm-0">
@@ -460,7 +463,7 @@ const Documents = (props) => {
                         ) : (
                           processedDocuments[key].map((doc, k) => (
                             <div
-                              key={k.toString()}
+                              key={`prcDocs_${k.toString()}`}
                               className="single-document-folder dis-fl-row a-c jc-b p-1 mb-2 brdRadius shadow-1dp"
                             >
 

@@ -5,11 +5,12 @@ import get from 'lodash/get';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon, Helpers } from '@brixel/brixel-components';
-import CoverPropertyImage from './CoverPropertyImage';
-import CardImageText from './Skeleton/CardImageText';
-import { setActiveSingleProperty, setEstimation } from '../actions/PropertyActions';
-import { setSplashType } from '../actions/CommonActions';
+import { BrixelIcon } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
+import { setActiveSingleProperty, setEstimation } from '../../actions/PropertyActions';
+import { setSplashType } from '../../actions/CommonActions';
 
 const MarketCardSmall = (props) => {
   const history = {

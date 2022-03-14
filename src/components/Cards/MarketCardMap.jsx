@@ -7,14 +7,14 @@ import compact from 'lodash/compact';
 import pullAt from 'lodash/pullAt';
 import {
   BrixelButtonIcon,
-  FormatValue,
-  Helpers,
 } from '@brixel/brixel-components';
+import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { updateFavorite } from '../actions/UserActions';
-import CoverPropertyImage from './CoverPropertyImage';
-import CardImageText from './Skeleton/CardImageText';
+import { updateFavorite } from '../../actions/UserActions';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
 
 const MarketCardMap = (props) => {
   // PROPS
@@ -144,7 +144,7 @@ const MarketCardMap = (props) => {
                     {
                       item.tags.map((tag, i) => (
                         <p
-                          key={i.toString()}
+                          key={`tag_${i.toString()}`}
                           className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                         >
                           <span className="type">{getTypeText(tag)}</span>

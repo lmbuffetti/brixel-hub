@@ -15,9 +15,8 @@ import {
   BrixelTextArea,
   ReduxField,
   useOutsideAlerter,
-  reset,
-  change,
 } from '@brixel/brixel-components';
+import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import Loading from '../../../components/Loading';
 import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActions';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';
@@ -56,21 +55,6 @@ const DetailMedia = (props) => {
       }
     }
   }, [formValue, mediaType, match]);
-
-  // RELAOD THE EFFECT OF EDIT MEDIA ON CHANGE IMAGE ID
-  /*  useEffect(() => {
-    resetForm(initialValues);
-    if (get(formValue, `[${mediaType}][${idImg}]`, null)) {
-      if (formValue[mediaType][idImg] !== '') {
-        if (thirdlevelEl) {
-          thirdlevelEl.classList.add('move');
-          setTimeout(() => {
-            thirdlevelEl.classList.remove('move');
-          }, 500);
-        }
-      }
-    }
-  }, [mediaID]); */
 
   // WHEN THE SMALL LOADING END AND changeSection IS SET TO TRUE MOVED TO NEXT IMAGES
   useEffect(() => {
@@ -248,14 +232,14 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'brixelForm.Property.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  loggedInUser: get(state, 'user.loggedInUser', null),
+  loggedInUser: get(state, 'user.loggedInUser', { }),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  resetForm(data) {
+  handleReset(data) {
     dispatch(reset('Property', data));
   },
   handleRotateImg: bindActionCreators(rotateImg, dispatch),

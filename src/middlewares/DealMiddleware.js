@@ -15,19 +15,20 @@ import {
   CREATE_DEAL,
   DELETE_ACTIVE_SINGLE_DEAL,
   GET_ACTIVE_SINGLE_DEAL,
+  GET_BUYER_DEAL,
   GET_DEAL_LISTINGS,
+  GET_OFFER_LISTINGS,
   GET_USER_DEALS,
   SAVE_ACTIVE_SINGLE_DEAL, SAVE_MAKE_OFFER,
+  SAVE_CLOSING_IDENTIFICATION,
+  SAVE_REVIEW_OFFER,
+  SEND_VISIT_FEEDBACK,
   SET_ACTIVE_SINGLE_DEAL,
   SET_DEAL_LISTINGS,
+  SET_OFFER_LISTINGS,
   SET_USER_DEALS,
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
-  GET_BUYER_DEAL,
-  SAVE_REVIEW_OFFER,
-  SET_OFFER_LISTINGS,
-  GET_OFFER_LISTINGS,
-  SEND_VISIT_FEEDBACK,
 } from '../actions/types/DealTypes';
 
 import {
@@ -370,8 +371,8 @@ const checkCommon = (store) => (next) => (action) => {
                     if (res2.meta.status === 200) {
                       updatedDeal = res2.data;
                       store.dispatch({
-                        type: GET_PAGE_DEALS,
-                        payload: store.getState().property.activeSingleProperty.id,
+                        type: SET_ACTIVE_SINGLE_DEAL,
+                        payload: updatedDeal,
                       });
                     } else {
                       // eslint-disable-next-line no-console
@@ -380,6 +381,12 @@ const checkCommon = (store) => (next) => (action) => {
                   });
               }
               Promise.all([call2, call3]).then(() => {
+                // Set the parent of each history entry with the user
+                // associated with the deal api call
+                dealUserHistory.data.forEach((entry) => {
+                  set(entry, 'parent', response.data.user);
+                });
+
                 store.dispatch({
                   type: SET_ACTIVE_SINGLE_DEAL,
                   payload: has(updatedDeal, 'id') ? updatedDeal : response.data,
@@ -884,6 +891,62 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.deal.sendVisitFeedback(id, sendSlack, objData)
         .then(() => {
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
+                [`${smallLoader}Sent`]: true,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
+      break;
+    }
+    case SAVE_CLOSING_IDENTIFICATION: {
+      next(action);
+      const objData = cloneDeep(action.payload);
+      const {
+        smallLoader,
+        id,
+        personType,
+      } = objData;
+      delete objData.smallLoader;
+      delete objData.id;
+      delete objData.personType;
+      delete objData.status;
+      delete objData.allImgs;
+      delete objData.actions;
+      delete objData.saveAction;
+      delete objData.user;
+      delete objData.completedAt;
+      delete objData.completedBy;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.deal.closingIdentification(id, personType, objData)
+        .then((response) => {
+          store.dispatch({
+            type: SET_ACTIVE_SINGLE_DEAL,
+            payload: response.data,
+          });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,

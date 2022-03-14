@@ -23,9 +23,9 @@ class Upload extends Base {
     return this.apiClient.delete(url);
   }
 
-  uploadDocument(data, onUploading) {
+  uploadDocument(data, onUploading, id) {
     const url = ep.upload.document();
-    return this.apiClient.post(url, { action: onUploading }, data);
+    return this.apiClient.post(url, { action: onUploading, id }, data);
   }
 
   deleteDocument(id) {

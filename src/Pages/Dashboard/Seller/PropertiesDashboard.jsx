@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import {
-  BrixelButtonPrimary, FormatValue,
-  Helpers,
+  BrixelButtonPrimary,
 } from '@brixel/brixel-components';
+import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
@@ -113,7 +114,7 @@ const HomeDashboard = (props) => {
               {
                 userProperties.map((property, i) => (
                   <div
-                    key={i.toString()}
+                    key={`usrPro_${i.toString()}`}
                     className="results dis-f shadow-3dp mb-3 a-c bgWhite brdRadius cur-poi"
                     onClick={() => history.push({ pathname: `/${property.id}/home`, state: { section: 'Sell' } })}
                   >

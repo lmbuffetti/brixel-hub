@@ -6,8 +6,9 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, initializeForm, change, reset, destroy, DataByCountry,
+  BrixelButtonPrimary, BrixelButtonIcon, BrixelProgressBar, MultiFileldsReduxForm, DataByCountry,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -55,7 +56,7 @@ const GetStartedSeller = (props) => {
     isTest,
     lang,
     loggedInUser,
-    reset,
+    handleReset,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -440,7 +441,7 @@ const GetStartedSeller = (props) => {
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    reset('Property');
+    handleReset('Property');
     history.push(`/${propID}/home`);
   };
 
@@ -691,7 +692,7 @@ GetStartedSeller.propTypes = {
   isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 GetStartedSeller.defaultProps = {
@@ -766,7 +767,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  reset(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),

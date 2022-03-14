@@ -145,8 +145,10 @@
     "react-hooks"
   ],
   "extends": [
+    "plugin:react/recommended",
     "plugin:react-redux/recommended",
-    "airbnb"
+    "eslint:recommended",
+    "plugin:import/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -156,6 +158,9 @@
     }
   },
   "settings": {
+    "react": {
+      "version": "detect"
+    },
     "import/resolver": {
       "node": {
         "extensions": [

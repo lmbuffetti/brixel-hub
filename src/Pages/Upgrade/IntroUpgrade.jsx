@@ -15,9 +15,9 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonText,
-  Helpers,
   SkeletonPackages,
 } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import Slider from 'react-slick';
 import { getPackageProperty } from '../../actions/PropertyActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
@@ -47,6 +47,7 @@ const IntroUpgrade = (props) => {
   // PROPS
   const {
     activeSingleCompany,
+    activeSingleCompanyPackages,
     activeSingleProperty,
     activeSinglePropertyPackage,
     handleGetActiveSingleCompany,
@@ -89,12 +90,10 @@ const IntroUpgrade = (props) => {
   const scrollTo = (id) => {
     document.body.classList.add('scrollSmooth');
     setTimeout(() => {
-      const flowHeader = document.getElementsByClassName('flowHeader')[0];
       const scrollPage = document.getElementsByClassName('flowScrollWrap')[0];
       const scrollEl = document.getElementById(id);
-      const headerHeight = flowHeader.offsetHeight / 2;
-      if (flowHeader && scrollPage) {
-        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop - headerHeight;
+      if (scrollPage) {
+        scrollPage.scrollTop = scrollEl.getBoundingClientRect().top + scrollPage.scrollTop;
       }
     }, 100);
   };
@@ -106,32 +105,22 @@ const IntroUpgrade = (props) => {
   }, [propID, loggedInUser]);
 
   useEffect(() => {
-    const basicPackage = packages.find((pkg) => pkg.type === 'basic');
+    const basicPackage = activeSingleCompanyPackages.find((pkg) => pkg.type === 'basic');
     if (activeSinglePropertyPackage && packages.length > 0) {
       const sortedPackage = orderBy(activeSinglePropertyPackage, ['price.total'], ['desc']);
       const activePackage = activeSinglePropertyPackage.find((item) => item.started);
       if (activePackage) {
-        const filtPackages = packages.find((item) => activePackage.servicePackage === item.id);
-        if (filtPackages) {
-          setPackageName({
-            name: filtPackages.name,
-            type: filtPackages.type,
-            stub: filtPackages.stub,
-          });
-        } else {
-          setPackageName(basicPackage);
-        }
+        setPackageName({
+          name: get(activePackage, 'servicePackage.name', ''),
+          type: get(activePackage, 'servicePackage.type', ''),
+          stub: get(activePackage, 'servicePackage.stub', ''),
+        });
       } else if (sortedPackage[0]) {
-        const filtPackage = packages.find((item) => sortedPackage[0].servicePackage === item.id);
-        if (filtPackage) {
-          setPackageName({
-            name: filtPackage.name,
-            type: filtPackage.type,
-            stub: filtPackage.stub,
-          });
-        } else {
-          setPackageName(basicPackage);
-        }
+        setPackageName({
+          name: get(sortedPackage[0], 'servicePackage.name', ''),
+          type: get(sortedPackage[0], 'servicePackage.type', ''),
+          stub: get(sortedPackage[0], 'servicePackage.stub', ''),
+        });
       } else {
         setPackageName(basicPackage);
       }
@@ -161,7 +150,7 @@ const IntroUpgrade = (props) => {
   }, []);
 
   return (
-    <main id="rewards" className="introScanFlow pt-2 pb-2 pb-sm-4 h-perc-100 txtDark700">
+    <main id="rewards" className="introScanFlow pt-2 pt-sm-4 pb-2 pb-sm-4 h-perc-100 txtDark700">
 
       <section className="intro container">
 
@@ -185,7 +174,7 @@ const IntroUpgrade = (props) => {
                   filteredPackages.map((pkg, i) => (
                     <div
                       className={`packageBox mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
-                      key={i.toString()}
+                      key={`fltPkg_${i.toString()}`}
                     >
                       <div className="p-4">
                         <div className="dis-f jc-b a-c">
@@ -202,7 +191,7 @@ const IntroUpgrade = (props) => {
                           {
                             pkg.details && get(pkg, 'details', []).map((detail, f) => (
                               <li
-                                key={f.toString()}
+                                key={`pkgDtl_${f.toString()}`}
                                 className={i > 0 && f === 0 ? 'fweight-600' : ''}
                               >
                                 {detail.description}
@@ -213,12 +202,12 @@ const IntroUpgrade = (props) => {
                       </div>
                       {
                         pkg.price.total > 0 ? (
-                          <h6 className="px-4 py-2">
+                          <h6 className="px-4 py-2 txtWhite">
                             <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
                             <small>incl. VAT</small>
                           </h6>
                         ) : (
-                          <h6 className="px-4 py-2">
+                          <h6 className="px-4 py-2 txtWhite">
                             Free
                           </h6>
                         )
@@ -255,7 +244,7 @@ const IntroUpgrade = (props) => {
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">Do you want to upgrade or change plans?</h3>
 
         <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
             <img className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
@@ -267,7 +256,7 @@ const IntroUpgrade = (props) => {
               />
             </div>
           </div>
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
             <img className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
@@ -281,7 +270,7 @@ const IntroUpgrade = (props) => {
           </div>
           {
             propID !== 'company' && (
-              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0">
+              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
                 <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
                 <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
@@ -405,6 +394,7 @@ const IntroUpgrade = (props) => {
 
 IntroUpgrade.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
+  activeSingleCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
@@ -421,6 +411,7 @@ IntroUpgrade.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),

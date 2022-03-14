@@ -9,9 +9,10 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   ReduxField, BrixelButtonPrimary, BrixelInputText,
-  reset, initializeForm, BrixelSelect, destroy, BrixelButtonIcon,
+  BrixelSelect, BrixelButtonIcon,
   FactsOptions,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import {
   bindActionCreators, compose,
 } from 'redux';
@@ -223,7 +224,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  resetForm(data) {
+  handleReset(data) {
     (dispatch(reset('CreateDeal', data)));
   },
   initForm(value) {

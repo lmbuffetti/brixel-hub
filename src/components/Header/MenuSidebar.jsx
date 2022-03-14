@@ -12,10 +12,10 @@ import {
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { CSSTransition } from 'react-transition-group';
-import useOutsideAlerter from './OutsideElement';
-import { setUserTypes } from '../actions/UserActions';
-import { setActiveSingleProperty } from '../actions/PropertyActions';
-import { sidebarNavigationSeller, sidebarNavigationBuyer } from '../resources/navigationRoutes';
+import useOutsideAlerter from '../OutsideElement';
+import { setUserTypes } from '../../actions/UserActions';
+import { setActiveSingleProperty } from '../../actions/PropertyActions';
+import { sidebarNavigationSeller, sidebarNavigationBuyer } from '../../resources/navigationRoutes';
 
 import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 
@@ -96,7 +96,7 @@ const MenuSidebar = (props) => {
                 {
                   navigationMenu.map((nav, i) => (
                     <li
-                      key={i.toString()}
+                      key={`nav_${i.toString()}`}
                       className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav fsize-400 fweight-600`}
                       onClick={() => onClickLink()}
                     >
@@ -119,7 +119,7 @@ const MenuSidebar = (props) => {
                             {
                               nav.submenu.map((submenu, f) => (
                                 <li
-                                  key={f.toString()}
+                                  key={`nav_${f.toString()}`}
                                   className={`${history.location.pathname.includes(submenu.name) ? 'submenuActive' : ''} subNav`}
                                 >
                                   <Link

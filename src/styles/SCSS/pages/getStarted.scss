@@ -552,3 +552,11 @@ body:not(.overlayOpen).locationInputResume {
     border-radius: 50%;
   }
 }
+
+// closing flow style
+.idFlow .reduxFieldWrap {
+  .labelLarge,
+  .labelLarge > span {
+    font-weight: 400;
+  }
+}

@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   BrixelAvatar,
-  Helpers,
   BrixelStatus,
   ListingsHeaderFilter,
 } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import { compose } from 'redux';
 import { DateTime } from 'luxon';
 import { connect } from 'react-redux';
@@ -84,7 +84,7 @@ const OfferListings = (props) => {
                     {
                       data.length > 0 && (
                         data.map((offer, i) => (
-                          <Fragment key={i.toString()}>
+                          <Fragment key={`off_${i.toString()}`}>
                             <div className="results fsize-300 row-cols-4 dis-f brdRadius shadow-1dp mb-2 px-1 py-small-12 bgWhite">
 
                               <div className="row-section pl-1 dis-f a-c name">

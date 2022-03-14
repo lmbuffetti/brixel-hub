@@ -33,7 +33,9 @@ class ErrorBoundary extends Component {
         url: window.location.href,
         apiResource: '',
       };
-      if (!url.includes('500') && !url.includes('localhost') && !error.includes('ChunkLoadError:') && !error.includes('Loading CSS chunk')) {
+      let txtError = '';
+      if (typeof error === 'string' && error) txtError = error;
+      if (url && !url.includes('500') && !url.includes('localhost') && ((!txtError.includes('ChunkLoadError:') && !txtError.includes('Loading CSS chunk')) || typeof error !== 'string')) {
         handleSendSlackNotifications({ data, channel });
       } else {
         // eslint-disable-next-line no-console

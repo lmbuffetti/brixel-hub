@@ -19,9 +19,8 @@ import {
   BrixelTabs,
   BrixelTimeSlots,
   BrixelBookingCard,
-  change,
-  reset,
 } from '@brixel/brixel-components';
+import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { DateTime } from 'luxon';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import Loading from '../../components/Loading';
@@ -49,7 +48,7 @@ const Showings = (props) => {
     handleSavePropertyVisitBooking,
     handleGetActiveSinglePropertyBookings,
     lang,
-    resetForm,
+    handleReset,
   } = props;
   // STATE
   const [activeTab, setActiveTab] = useState('');
@@ -105,7 +104,7 @@ const Showings = (props) => {
   // DISCARD BOOKING
   const discardChanges = () => {
     setManageAvailability(false);
-    resetForm(initialValues);
+    handleReset(initialValues);
   };
 
   // MANAGE BOOKING VISIT
@@ -201,7 +200,7 @@ const Showings = (props) => {
               <div className="pb-3">
                 {
                   Object.keys(gorupByMonth()).map((key, e) => (
-                    <React.Fragment key={e.toString()}>
+                    <React.Fragment key={`gpMnt_${e.toString()}`}>
                       <h6 className="txtLight400 mt-3 mb-1">
                         <span>{DateTime.fromFormat(key, 'LL.yyyy').toFormat('LLLL')}</span>
                         &nbsp;-&nbsp;
@@ -209,7 +208,7 @@ const Showings = (props) => {
                       </h6>
                       {
                         gorupByMonth()[key].map((day, g) => (
-                          <div key={g.toString()}>
+                          <div key={`grpMnt_${g.toString()}`}>
                             {
                               ((!activeTab || (activeTab && day.slot.status === activeTab)) && day.slot.status !== 'canceled') && (
                                 <BrixelBookingCard
@@ -273,7 +272,7 @@ Showings.propTypes = {
   handleSavePropertyVisitBooking: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
-  resetForm: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 Showings.defaultProps = {
@@ -293,7 +292,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
   },
-  resetForm(data) {
+  handleReset(data) {
     (dispatch(reset('Property', data)));
   },
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),

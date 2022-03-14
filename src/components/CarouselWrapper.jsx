@@ -15,7 +15,7 @@ import {
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { setWindowDimensions } from '../actions/CommonActions';
-import MarketCard from './MarketCard';
+import MarketCard from './Cards/MarketCard';
 
 const CarouselWrapper = (props) => {
   const history = {
@@ -167,7 +167,7 @@ const CarouselWrapper = (props) => {
                   <MarketCard
                     layout={layout}
                     type={type}
-                    key={i.toString()}
+                    key={`nmCrd_${i.toString()}`}
                     item={card}
                     preventClick={preventClick}
                     onSetActiveProperty={(id) => onSetActiveProperty(id)}
@@ -179,7 +179,7 @@ const CarouselWrapper = (props) => {
                   <MarketCard
                     layout={layout}
                     type={type}
-                    key={i.toString()}
+                    key={`mkCrd_${i.toString()}`}
                     item={item}
                     preventClick={preventClick}
                     onSetActiveProperty={(id) => onSetActiveProperty(id)}
@@ -310,7 +310,7 @@ const CarouselWrapper = (props) => {
           !items && numCard.map((card, i) => (
             <MarketCard
               type={type}
-              key={i.toString()}
+              key={`nmCrd_${i.toString()}`}
               item={card}
               preventClick={preventClick}
               onSetActiveProperty={(id) => onSetActiveProperty(id)}
@@ -321,7 +321,7 @@ const CarouselWrapper = (props) => {
           items && items.length > 0 && items.map((item, i) => (
             <MarketCard
               type={type}
-              key={i.toString()}
+              key={`mktCrd_${i.toString()}`}
               item={item}
               preventClick={preventClick}
               onSetActiveProperty={(id) => onSetActiveProperty(id)}

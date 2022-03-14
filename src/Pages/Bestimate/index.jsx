@@ -7,9 +7,8 @@ import {
   BrixelButtonPrimary,
   BrixelButtonText,
   BrixelProgressLineDots,
-  reset,
-  initializeForm, change,
 } from '@brixel/brixel-components';
+import { reset, initializeForm, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -34,7 +33,7 @@ const Bestimate = (props) => {
     initForm,
     initialValues,
     initialValuesPage,
-    resetForm,
+    handleReset,
   } = props;
   // STATE
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -115,7 +114,7 @@ const Bestimate = (props) => {
     } else {
       history.push(`/${propID}/home/${getAchievement()}`);
     }
-    resetForm('Property', initialValuesPage);
+    handleReset('Property', initialValuesPage);
   };
 
   // FUNCTION TO SAVE DATA
@@ -125,7 +124,7 @@ const Bestimate = (props) => {
       properties: get(formValue, 'properties', {}),
     };
     handleSaveActiveSingleProperty(data);
-    resetForm('Property', initialValuesPage);
+    handleReset('Property', initialValuesPage);
   };
 
   // FUNCTION TO CHANGE STEP - BACK-FORWARD
@@ -318,7 +317,7 @@ Bestimate.propTypes = {
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   initialValuesPage: PropTypes.object.isRequired,
-  resetForm: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -357,7 +356,7 @@ const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('GamingFlow', field, value));
   },
-  resetForm(form, data) {
+  handleReset(form, data) {
     (dispatch(reset(form, data)));
   },
   initForm(value) {

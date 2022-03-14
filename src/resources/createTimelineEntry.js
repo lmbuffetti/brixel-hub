@@ -18,8 +18,8 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'page-published') return `<span>Page published:</span> <a class='txtDark700' rel='noreferrer noopener' target='_blank' href='${getConfigEnv.pageUrl}${item.parent.stub}'>${getConfigEnv.pageUrl}${item.parent.stub}</a>`;
       if (item.actionStub === 'page-unpublished') return 'Page unpublished';
       if (item.actionStub === 'page-message') return 'Message sent';
-      if (item.actionStub === 'page-schedule') return `<span>${item.child.email} </span><span>scheduled a visit</span>`;
-      if (item.actionStub === 'page-get-document') return 'Requested documents';
+      // if (item.actionStub === 'page-schedule') return `<span>${item.child.email} </span><span>scheduled a visit</span>`;
+      // if (item.actionStub === 'page-get-document') return 'Requested documents';
       if (item.actionStub === 'page-upgrade') return 'Upgraded package';
       if (item.actionStub === 'page-add-favorite') return `<span>${item.child.email} </span><span>added the property as favorite</span>`;
       if (item.actionStub === 'page-listed') return 'Listed on portals';
@@ -81,23 +81,31 @@ export const createTimelineEntry = (item, userLang) => {
       // DEAL HISTORY ENTRY
       if (item.actionStub === 'update-deal') {
         if (has(item, 'meta.stageBefore')) {
-          return `<span>Deal updated: </span><span>from</span> <span>${item.meta.stageBefore}</span> <span>to</span> <span>${item.meta.stageAfter}</span>`;
+          return `<span>Prospect updated: </span><span>from</span> <span>${item.meta.stageBefore}</span> <span>to</span> <span>${item.meta.stageAfter}</span>`;
         }
         if (has(item, 'meta.state')) {
           if (item.meta.name === 'active') {
             if (item.meta.state === true) {
-              return '<span>Deal unarchived</span>';
+              return '<span>Prospect unarchived</span>';
             }
             if (item.meta.state === false) {
-              return '<span>Deal archived</span>';
+              return '<span>Prospect archived</span>';
             }
           }
           if (item.meta.name === 'winner') {
             if (item.meta.state === true) {
-              return '<span>Deal marked as winner</span>';
+              return '<span>Prospect marked as winner</span>';
             }
             if (item.meta.state === false) {
-              return '<span>Deal removed as winner</span>';
+              return '<span>Prospect removed as winner</span>';
+            }
+          }
+          if (item.meta.name === 'new') {
+            if (item.meta.state === true) {
+              return '<span>Prospect marked as new</span>';
+            }
+            if (item.meta.state === false) {
+              return '<span>Prospect marked as seen</span>';
             }
           }
           if (item.meta.name === 'visit') {
@@ -195,6 +203,18 @@ export const createTimelineEntry = (item, userLang) => {
       formattedDate: !isNaN(+item.createdAt) ? DateTime.fromMillis(item.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm') : '', // Formatted date to be shown on the event
       timestamp: item.createdAt, // Unix timestamp for sorting purposes
       pinned: false, // Flag for sorting purposes
+    };
+  }
+
+  if (has(item, 'createdAt')) {
+    return {
+      description: getHTMLDescription(),
+      icon: getIcon(),
+      formattedDate: DateTime.fromMillis(get(item, 'createdAt'), {
+        locale: userLang,
+      }).toFormat('d LLL yyyy, H:mm'),
+      timestamp: get(item, 'createdAt'),
+      pinned: false,
     };
   }
 

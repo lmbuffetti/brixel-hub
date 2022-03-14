@@ -17,7 +17,7 @@ import set from 'lodash/set';
 import find from 'lodash/find';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
-import { change, initializeForm, reset } from '@brixel/brixel-components';
+import { reset, initializeForm, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 import {
@@ -95,7 +95,7 @@ const Dashboard = (props) => {
     isSmallLoading,
     loggedInUser,
     notification,
-    resetForm,
+    handleReset,
     userTypes,
   } = props;
   const [userType, setUserType] = useState(null);
@@ -120,7 +120,7 @@ const Dashboard = (props) => {
       !get(history, 'location.pathname', '').includes('achievement') &&
       get(activeSingleProperty, 'id', null)
     ) {
-      resetForm(initialValues);
+      handleReset(initialValues);
     }
     if (get(history, 'location.pathname', '').includes('deal') && !get(history, 'location.pathname', '').includes('prospects')) {
       history.push({ pathname: `/${propID}/prospects` });
@@ -142,7 +142,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && (propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null)) && propID !== 'sell') {
+    if ((propID !== get(activeSingleProperty, 'id', null) || !get(activeSingleProperty, 'id', null)) && propID !== 'sell') {
       if (propID && propID !== 'home' && propID !== 'company') {
         handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
         handleGetPackageProperty({ id: propID });
@@ -175,7 +175,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (!history.location.pathname.includes('pageLists') && loadedProp && propID !== 'sell') {
+    if (loadedProp && propID !== 'sell') {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
           const isSellerUser = get(loggedInUser, 'user.seller', false);
@@ -340,8 +340,8 @@ const Dashboard = (props) => {
   const sectionClass = get(history, 'location.pathname', '/').split('/');
 
   return (
-    <div className={`dashboardContainer dis-f jc-b ${sectionClass[2]}`} id="dashboard">
-      <div className="w-perc-100 pt-0 pt-lg-3">
+    <div className={`dashboardContainer mt-0 mt-md-3 dis-f jc-b ${sectionClass[2]}`} id="dashboard">
+      <div className="w-perc-100">
         <Suspense fallback={<Loading isLoading />}>
           {/* teaserScreens && isEligible(activeSingleProperty) && () */}
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
@@ -394,7 +394,7 @@ Dashboard.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
-  resetForm: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
   userTypes: PropTypes.string,
   // handleSpinnerOn: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
@@ -486,7 +486,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Property', value));
   },
-  resetForm(data) {
+  handleReset(data) {
     (dispatch(reset('Property', data)));
   },
   handleCreatePropertyVisitSchedule: bindActionCreators(createPropertyVisitSchedule, dispatch),

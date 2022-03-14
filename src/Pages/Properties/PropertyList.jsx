@@ -72,7 +72,11 @@ const PropertyList = (props) => {
           <div className="px-0 pb-5">
             {
               activeProperties.map((property, i) => (
-                <a key={i.toString()} className="link" href={`/${property.id}/home`}>
+                <a
+                  key={`actProp_${i.toString()}`}
+                  className="link"
+                  href={`/${property.id}/home`}
+                >
                   <li className="single-property a-c dis-fl-row cur-poi shadow-1dp brdRadius p-1 my-2">
                     <div className="image-ratio w-fix-48 h-fix-48 flex-48 a-c jc-c pos-r brdRadius ov-h">
                       <CoverPropertyImage

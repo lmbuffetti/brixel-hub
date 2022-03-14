@@ -9,19 +9,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { BrixelDropdown } from '@brixel/brixel-components';
-// import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo.svg';
+import { BrixelDropdown, BrixelAvatar } from '@brixel/brixel-components';
 import logoColor from '@brixel/brixel-configuration-partner/src/images/logo_colors_new.svg';
 import logoColorIcon from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import BrixelButtonIcon from '@brixel/brixel-components/dist/components/BrixelButtonIcon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import queryString from 'query-string';
-import lazyWithRetry from './LazyWithRetry';
 import ProgressSellerStage from './ProgressSellerStage';
 import { setCookie, checkBrowser } from '../utils/helpers';
 import { setLanguage } from '../actions/CommonActions';
-
-const AvatarImage = lazyWithRetry(() => import('./AvatarImage'));
 
 function PageHeader(props) {
   const history = {
@@ -223,7 +219,7 @@ function PageHeader(props) {
                       !history.location.pathname.includes('upgrade') &&
                       !history.location.pathname.includes('signup') && (
                         <Suspense fallback="">
-                          <AvatarImage
+                          <BrixelAvatar
                             avatarImg={has(loggedInUser, 'user.avatar[0]') ? `${baseByData.shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null}
                             name={loggedInUser.user.name}
                             size={40}

@@ -12,12 +12,10 @@ import {
   BrixelIcon,
   BrixelInputText,
   BrixelSelect,
-  Helpers,
   ReduxField,
-  change,
-  reset,
   ProgressRing,
 } from '@brixel/brixel-components';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -131,7 +129,7 @@ const Price = (props) => {
       <h3 className="mb-3 hide dis-b-lg">Price</h3>
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
 
-        <div className="dis-fl-col backPanel dis-b hide-md">
+        <div className="dis-fl-col backPanel dis-b hide-lg">
           <h5 className="sectionTitle">Price</h5>
         </div>
 
@@ -421,14 +419,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('Property', field, value));
-  },
-  reset(form) {
-    (dispatch(reset(form)));
-  },
-  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });

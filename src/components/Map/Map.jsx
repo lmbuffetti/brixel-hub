@@ -312,13 +312,14 @@ export const ComponentMap = (props) => {
             )
           }
           {
-            points.map((item) => ([
+            points.map((item, i) => ([
               <Marker
                 position={{
                   lat: item.latitude,
                   lng: item.longitude,
                 }}
                 icon={markerImg}
+                key={`marker_${i.toString()}`}
               />,
               <Circle
                 radius={item.radius * 1000}
@@ -331,6 +332,7 @@ export const ComponentMap = (props) => {
                 strokeWeight={5}
                 fillColor="#FF0000"
                 fillOpacity={0.2}
+                key={`circle_${i.toString()}`}
               />,
             ]))
           }
@@ -368,7 +370,7 @@ export const ComponentMap = (props) => {
                   scaledSize: new google.maps.Size(8, 8),
                 }}
                 draggable={false}
-                key={i.toString()}
+                key={`mp_${i.toString()}`}
               />
             ))
           }

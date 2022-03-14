@@ -10,12 +10,11 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelIcon,
-  Helpers,
-  FormatValue,
   BrixelSwitchButton,
-  change,
-  reset,
 } from '@brixel/brixel-components';
+import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { useParams } from 'react-router-dom';
 import { updatePublishedReview } from '../../actions/PropertyActions';
@@ -315,11 +314,11 @@ const Page = (props) => {
 };
 
 Page.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -331,9 +330,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
-  },
-  reset(form, data) {
-    (dispatch(reset(form, data)));
   },
   handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
 });

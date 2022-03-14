@@ -9,9 +9,11 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary, ReduxField,
-  BrixelIcon, Helpers, BrixelTextArea,
-  change, reset, BrixelButtonText, BrixelSwitchButton,
+  BrixelIcon, BrixelTextArea,
+  BrixelButtonText, BrixelSwitchButton,
 } from '@brixel/brixel-components';
+import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import portalStart from '../../images/Listings/portals_start.svg';
@@ -89,7 +91,7 @@ const Portals = (props) => {
       <h3 className="mb-3 hide dis-b-lg">Portals</h3>
 
       <div className="secondLevel dis-fl-col">
-        <div className="dis-fl-col backPanel dis-b hide-md">
+        <div className="dis-fl-col backPanel dis-b hide-lg">
           <h5 className="sectionTitle">Portals</h5>
         </div>
 
@@ -192,7 +194,9 @@ const Portals = (props) => {
                             <div className="portalsList mt-3">
                               {
                                 Object.keys(portals).map((key, i) => (
-                                  <React.Fragment key={i.toString()}>
+                                  <React.Fragment
+                                    key={`prt_${i.toString()}`}
+                                  >
                                     {
                                       portals[key] && get(customPortals, `${key}`, true) && !key.toLocaleLowerCase().includes('url') && (
                                         <a
@@ -214,7 +218,7 @@ const Portals = (props) => {
                               }
                               {
                                 Object.keys(customPortals).map((key, i) => (
-                                  <React.Fragment key={i.toString()}>
+                                  <React.Fragment key={`cstPrt_${i.toString()}`}>
                                     {
                                       customPortals[key] && !key.toLocaleLowerCase().includes('url') && (
                                         <a
@@ -328,13 +332,13 @@ const Portals = (props) => {
 };
 
 Portals.propTypes = {
+  changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -351,9 +355,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
-  },
-  reset(form, data) {
-    (dispatch(reset(form, data)));
   },
   handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
 });

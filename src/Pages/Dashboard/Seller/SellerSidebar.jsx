@@ -108,7 +108,7 @@ const SellerSidebar = (props) => {
           fullUpdates.map((history, i) => (
             <div
               className={`update-item brdRadius brdSmall p-2 dis-f mb-2 ${convertFeedMessage(history.actionStub, 'className', history)}`}
-              key={i.toString()}
+              key={`fllUpd_${i.toString()}`}
             >
               <BrixelIcon
                 background={convertFeedMessage(history.actionStub, 'colorBgIcon', history)}
@@ -165,7 +165,7 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   historyFeed: get(state, 'history.historyFeed.data', []),
-  loggedInUser: get(state, 'user.loggedInUser.user', null),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
   activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
 });
 

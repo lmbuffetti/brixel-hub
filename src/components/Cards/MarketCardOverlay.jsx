@@ -9,22 +9,22 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   BrixelIcon,
-  Helpers,
-  FormatValue,
 } from '@brixel/brixel-components';
+import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
+import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 // import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import CoverPropertyImage from './CoverPropertyImage';
-import CardImageText from './Skeleton/CardImageText';
-import { setSplashType } from '../actions/CommonActions';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
+import { setSplashType } from '../../actions/CommonActions';
 // import Map from './Map/Maps';
-import { fullExtraFeatures } from '../utils/propertyData';
+import { fullExtraFeatures } from '../../utils/propertyData';
 import {
   setActiveSingleProperty, setEstimation, setActiveMarketOverlayProperty, getEstimation,
-} from '../actions/PropertyActions';
-import { mapStyles } from '../constants/map';
+} from '../../actions/PropertyActions';
+import { mapStyles } from '../../constants/map';
 
 const MarketCard = (props) => {
   // PROPS
@@ -183,7 +183,7 @@ const MarketCard = (props) => {
                 {
                   item.tags.map((tag, i) => (
                     <p
-                      key={i.toString()}
+                      key={`itm_${i.toString()}`}
                       className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                     >
                       <span className="type">{getTypeText(tag)}</span>
@@ -283,7 +283,7 @@ const MarketCard = (props) => {
                               <div className="row mx-0 pt-1">
                                 {
                                   fullExtraFeatures(item).map((key, i) => (
-                                    <div key={i.toString()} className="dis-f flex-50 a-c mb-2">
+                                    <div key={`fllExt_${i.toString()}`} className="dis-f flex-50 a-c mb-2">
                                       <BrixelIcon
                                         icon={get(key, 'icon', '')}
                                         color="green"

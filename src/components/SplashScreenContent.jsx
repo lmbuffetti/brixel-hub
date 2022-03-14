@@ -24,8 +24,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { setSplashType, setWizard } from '../actions/CommonActions';
 import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } from '../actions/PropertyActions';
 import { updateFavorite, addNotInterested } from '../actions/UserActions';
-import MarketCardOverlay from './MarketCardOverlay';
-import MarketCardPreMarket from './MarketCardPreMarket';
+import MarketCardOverlay from './Cards/MarketCardOverlay';
+import MarketCardPreMarket from './Cards/MarketCardPreMarket';
 import {
   getFavoritesProperties,
   getLastViewedProperties,
@@ -34,7 +34,7 @@ import {
 } from '../actions/MarketActions';
 import NoMorePropertiesImg from '../images/searchProfile/no-properties.svg';
 import SearchProfileBanner from './SearchProfileBanner';
-import WizardCard from './WizardCard';
+import WizardCard from './Cards/WizardCard';
 import { getCookie } from '../utils/helpers';
 
 const SplashScreen = (props) => {
@@ -395,7 +395,7 @@ const SplashScreen = (props) => {
                         {
                           activeMarketOverlayPropertyLists.map((item, i) => (
                             <MarketCardPreMarket
-                              key={i.toString()}
+                              key={`mrkCrd_${i.toString()}`}
                               item={item}
                               activeIndex={activeSlide}
                               propertyList={activeMarketOverlayPropertyLists}

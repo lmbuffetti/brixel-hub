@@ -283,7 +283,7 @@ const Timeline = (props) => {
     <div className={`timeline dis-fl-col ${className}`}>
       <span className="title overline tt-up mb-3">History</span>
       <div className="events-container w-perc-100 dis-fl-col a-c">
-        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col py-2 mb-1 md-lg-4">
+        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col pb-2 mb-1 md-lg-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
               avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
@@ -321,7 +321,7 @@ const Timeline = (props) => {
             <div
               className={`single-event p-small-12 w-perc-100 dis-fl-row a-t bgWhite mb-2 brdRadius ${has(event, 'parent') ? 'note' : ''} ${has(event, 'parent') && event.pinned ? 'pinned' : ''}`}
               id={`note-${i}`}
-              key={i.toString()}
+              key={`chrLog_${i.toString()}`}
             >
               {
                 !has(event, 'parent') ? (
