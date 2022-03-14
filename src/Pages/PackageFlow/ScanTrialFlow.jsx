@@ -48,7 +48,7 @@ const ScanTrialFlow = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
-    reset,
+    handleReset,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(ScanTrialQuestions());
@@ -122,14 +122,14 @@ const ScanTrialFlow = (props) => {
 
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
-    reset('scanFlow');
+    handleReset('scanFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
     history.push(url || `/${propID}/home`);
   };
 
   const goToFacts = () => {
-    reset('scanFlow');
+    handleReset('scanFlow');
     history.push(`/packageFlow/getStarted?company=${activeSingleCompany.stub}`);
   };
 
@@ -551,7 +551,7 @@ ScanTrialFlow.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -588,7 +588,7 @@ const mapDispatchToProps = (dispatch) => ({
   destroyForm() {
     (dispatch(destroy('scanFlow')));
   },
-  reset(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),

@@ -3,7 +3,7 @@
 /* eslint-disable no-shadow */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import { change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -284,12 +284,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   destroyForm() {
     dispatch(destroy('GetStarted'));
-  },
-  initForm(value) {
-    dispatch(initializeForm('GetStarted', value));
-  },
-  reset(form) {
-    (dispatch(reset(form)));
   },
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),

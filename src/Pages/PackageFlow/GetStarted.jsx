@@ -48,7 +48,7 @@ const GetStarted = (props) => {
     initialValues,
     lang,
     loggedInUser,
-    resetForm,
+    handleReset,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -266,7 +266,7 @@ const GetStarted = (props) => {
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    resetForm('Property');
+    handleReset('Property');
     // history.push('/home');
     history.push('/buy');
   };
@@ -522,7 +522,7 @@ GetStarted.propTypes = {
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  resetForm: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 GetStarted.defaultProps = {
@@ -586,7 +586,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  resetForm(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleCreateActiveSingleProperty: bindActionCreators(createActiveSingleProperty, dispatch),

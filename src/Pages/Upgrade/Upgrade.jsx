@@ -10,7 +10,7 @@ import {
   BrixelButtonText,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { reset, initializeForm, change, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
+import { reset, initializeForm, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -37,7 +37,7 @@ const Upgrade = (props) => {
     initForm,
     initialValues,
     isSmallLoading,
-    reset,
+    handleReset,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(UpgradeQuestions());
@@ -86,14 +86,14 @@ const Upgrade = (props) => {
 
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
-    reset('scanFlow');
+    handleReset('scanFlow');
     const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
     history.push(url || `/${propID}/home`);
   };
 
   const goToFacts = () => {
-    reset('scanFlow');
+    handleReset('scanFlow');
     history.push(`/${propID}/property/facts/propertyType`);
   };
 
@@ -447,7 +447,7 @@ Upgrade.propTypes = {
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  reset: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -473,16 +473,13 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('scanFlow', field, value));
-  },
   initForm(value) {
     dispatch(initializeForm('scanFlow', value));
   },
   destroyForm() {
     (dispatch(destroy('scanFlow')));
   },
-  reset(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),

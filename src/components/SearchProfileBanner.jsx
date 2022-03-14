@@ -533,7 +533,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  resetForm(value) {
+  handleReset(value) {
     dispatch(reset('GetStarted', value));
   },
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),

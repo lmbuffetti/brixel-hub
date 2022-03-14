@@ -46,7 +46,7 @@ const IdentificationFlow = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
-    resetForm,
+    handleReset,
     syncErrors,
   } = props;
   // GET URL PARAMS
@@ -283,7 +283,7 @@ const IdentificationFlow = (props) => {
 
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    resetForm('Property');
+    handleReset('Property');
     if (userType === 'seller') history.push(`/${propID}/closing`);
     else history.push(`/buyer/${propID}/closing`);
   };
@@ -541,7 +541,7 @@ IdentificationFlow.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  resetForm: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
   syncErrors: PropTypes.object.isRequired,
 };
 
@@ -590,7 +590,7 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Identification', value));
   },
-  resetForm(form) {
+  handleReset(form) {
     (dispatch(reset(form)));
   },
   handleGetActiveSingleDeal: bindActionCreators(getActiveSingleDeal, dispatch),
