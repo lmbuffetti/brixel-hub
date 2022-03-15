@@ -51,20 +51,20 @@ const DashboardHome = (props) => {
   const match = useParams();
   // PROPS
   const {
-    activeSinglePropertyDeals,
     activeSingleCompany,
     activeSingleProperty,
+    activeSinglePropertyDeals,
     activeSinglePropertyDealsCount,
     estimation,
     formValue,
-    handleSetModal,
     handleGetActiveSinglePropertyDealsCount,
     handleGetPageDeals,
+    handleSetModal,
     isSmallLoading,
     loggedInUser,
     proEstimation,
-    userTypes,
     userLang,
+    userTypes,
     windowDimensions,
   } = props;
   // STATE
