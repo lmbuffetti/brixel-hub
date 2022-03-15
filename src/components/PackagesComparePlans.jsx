@@ -1,7 +1,9 @@
 /* eslint-disable max-len */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
+import {
+  Helpers,
+} from '@brixel/brixel-components';
 import { PackagesComparePlansTable } from '../resources/PackagesComparePlans';
 
 export const PackagesComparePlans = (props) => {

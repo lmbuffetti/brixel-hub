@@ -9,11 +9,9 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary, ReduxField,
-  BrixelIcon, BrixelTextArea,
-  BrixelButtonText, BrixelSwitchButton,
+  BrixelIcon, Helpers, BrixelTextArea,
+  change, reset, BrixelButtonText, BrixelSwitchButton,
 } from '@brixel/brixel-components';
-import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import portalStart from '../../images/Listings/portals_start.svg';
@@ -332,13 +330,13 @@ const Portals = (props) => {
 };
 
 Portals.propTypes = {
-  changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -355,6 +353,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('Property', field, value));
+  },
+  reset(form, data) {
+    (dispatch(reset(form, data)));
   },
   handleUpdatePortalsReview: bindActionCreators(updatePortalsReview, dispatch),
 });

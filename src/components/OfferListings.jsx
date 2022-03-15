@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   BrixelAvatar,
+  Helpers,
   BrixelStatus,
   ListingsHeaderFilter,
 } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import { compose } from 'redux';
 import { DateTime } from 'luxon';
 import { connect } from 'react-redux';

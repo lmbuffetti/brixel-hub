@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import unset from 'lodash/unset';
 import { diff } from 'deep-object-diff';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm,
+  BrixelButtonIcon, MultiFileldsReduxForm, change, reset,
 } from '@brixel/brixel-components';
+import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { keyify } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';
 
@@ -64,6 +65,61 @@ const FactsQuestion = (props) => {
     });
   }, [formValue]);
 
+  // FUNCTIONS TO SKIP SECTION
+  /*
+  const handleSkipSection = async (val) => {
+    const inputSheet = get(formValue, 'inputSheet', {});
+    const skipSection = get(formValue, 'inputSheet.skipSection', {});
+    set(skipSection, val, true);
+    inputSheet.skipSection = skipSection;
+
+    await handleSaveActiveSingleProperty({id: propID, inputSheet: inputSheet, smallLoader: true});
+    changeFieldValue('inputSheet', inputSheet);
+  };
+  */
+
+  // FUNCTION TO LOAD DIFFERENT CHACKMAR IF GROUP IS COMPLETE, UNCOMPLETE, DISABLE
+  /*
+  const checkQuestionGroup = (questInput, skipped = {}) => {
+    const sectionSkip = get(formValue, `inputSheet.skipSection[${questInput.name}]`, false);
+    if (get(errorValue, questInput.name, null) === true) {
+      return (
+        <div>
+          <BrixelIcon
+            className="brdSmall dis-b border-green"
+            icon="check"
+            rounded
+            background="green"
+            saturation={400}
+            color="white"
+            saturationTxt={0}
+            iconSize="small"
+            padding="p-small-7"
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <BrixelButtonIcon
+            icon="check"
+            rounded
+            bgTransparent={!sectionSkip}
+            background={sectionSkip ? 'primary' : ''}
+            saturation={sectionSkip ? 300 : 0}
+            color={sectionSkip ? "white" : "dark"}
+            saturationTxt={sectionSkip ? 0 : 400}
+            className={`brdSmall dis-b p-small-4 ${sectionSkip ? 'border-primary' : ''}`}
+            iconSize="small"
+            onClick={() => handleSkipSection(questInput.name)}
+            // isLoading={isSmallLoading && quest.history === selObj}
+          />
+        </div>
+      )
+    }
+  };
+  */
+
   return (
     <div
       className="questContent"
@@ -105,8 +161,19 @@ FactsQuestion.defaultProps = {
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initValues: get(state, 'brixelForm.Property.initialValues', {}),
+  errorValue: get(state, 'brixelForm.syncErrors', {}),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('Property', field, value));
+  },
+  handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
+  reset(form) {
+    (dispatch(reset(form)));
+  },
 });
 
 export default compose(
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
 )(FactsQuestion);

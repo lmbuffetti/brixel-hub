@@ -5,7 +5,7 @@ import React from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
@@ -13,10 +13,9 @@ import {
   BrixelButtonIcon,
   BrixelButtonText,
   BrixelAvatar,
+  Helpers,
 } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { updatePublishedReview } from '../../../actions/PropertyActions';
 
 const ContactBuyer = (props) => {
   const history = {
@@ -126,18 +125,10 @@ ContactBuyer.propTypes = {
   contacts: PropTypes.object.isRequired,
 };
 
-ContactBuyer.defaultProps = {
-};
-
 const mapStateToProps = (state) => ({
   contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
-  isSmallLoading: get(state, 'common.isSmallLoading', {}),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
 });
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
 )(ContactBuyer);

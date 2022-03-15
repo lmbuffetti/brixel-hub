@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-const BrixelIcon = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelIcon'));
+import BrixelIcon from '@brixel/brixel-components/dist/components/BrixelIcon';
 
 const Accordion = (props) => {
   const {

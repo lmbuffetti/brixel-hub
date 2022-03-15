@@ -9,8 +9,8 @@ import {
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
+  Helpers,
 } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import has from 'lodash/has';
 import { setSplashType } from '../actions/CommonActions';
 import Loading from './Loading';

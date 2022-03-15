@@ -8,9 +8,8 @@ import {
   BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelButtonIcon,
+  BrixelButtonIcon, reset,
 } from '@brixel/brixel-components';
-import { reset } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { setModal } from '../actions/CommonActions';
