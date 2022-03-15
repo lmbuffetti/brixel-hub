@@ -15,9 +15,9 @@ import {
   BrixelIcon,
   BrixelProgressBar,
   FactsOptions,
+  Helpers,
   ProgressRing,
 } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import orderBy from 'lodash/orderBy';
 import has from 'lodash/has';
 import { DateTime } from 'luxon';

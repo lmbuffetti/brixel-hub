@@ -11,10 +11,10 @@ import {
   BrixelTextArea,
   change,
   destroy,
+  Helpers,
   initializeForm,
   ReduxField,
 } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import SplashScreen from '../../components/SplashScreen';

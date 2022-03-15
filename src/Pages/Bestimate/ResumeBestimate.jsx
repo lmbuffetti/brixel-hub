@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
+import { Helpers } from '@brixel/brixel-components';
 import { useParams } from 'react-router-dom';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { createEstimation, generateEstimation } from '../../actions/EstimationActions';

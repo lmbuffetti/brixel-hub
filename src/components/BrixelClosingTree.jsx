@@ -8,9 +8,8 @@ import {
 } from 'react-redux';
 import { DateTime } from 'luxon';
 import {
-  BrixelButtonSecondary, BrixelIcon, BrixelTabs,
+  BrixelButtonSecondary, BrixelIcon, Helpers, BrixelTabs,
 } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import ReviewOffer from '../Pages/Offers/ReviewOffer';
 import { setSplashType } from '../actions/CommonActions';
 import ClosingTree from './Skeleton/ClosingTree';

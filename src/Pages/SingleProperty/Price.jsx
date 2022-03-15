@@ -12,10 +12,12 @@ import {
   BrixelIcon,
   BrixelInputText,
   BrixelSelect,
+  Helpers,
   ReduxField,
+  change,
+  reset,
   ProgressRing,
 } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -419,8 +421,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
+  changeFieldValue(field, value) {
+    dispatch(change('Property', field, value));
+  },
+  reset(form) {
+    (dispatch(reset(form)));
+  },
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
+  handleGenerateBestimate: bindActionCreators(generateEstimation, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });

@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get, has } from 'lodash';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
+import get from 'lodash/get';
+import has from 'lodash/has';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import {
+  BrixelButtonIcon, BrixelAvatar, BrixelStatus, BrixelIcon,
+  Helpers,
+} from '@brixel/brixel-components';
 import {
   DateTime,
 } from 'luxon';
-const BrixelButtonIcon = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelButtonIcon'));
-const BrixelAvatar = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelAvatar'));
-const BrixelStatus = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelStatus'));
-const BrixelIcon = React.lazy(() => import('@brixel/brixel-components/dist/components/BrixelIcon'));
 
 const DealsCard = (props) => {
   const {
