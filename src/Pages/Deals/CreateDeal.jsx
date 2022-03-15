@@ -9,10 +9,9 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   ReduxField, BrixelButtonPrimary, BrixelInputText,
-  BrixelSelect, BrixelButtonIcon,
+  reset, initializeForm, BrixelSelect, destroy, BrixelButtonIcon,
   FactsOptions,
 } from '@brixel/brixel-components';
-import { reset, initializeForm, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import {
   bindActionCreators, compose,
 } from 'redux';

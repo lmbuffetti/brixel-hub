@@ -15,8 +15,9 @@ import {
   BrixelTextArea,
   ReduxField,
   useOutsideAlerter,
+  reset,
+  change,
 } from '@brixel/brixel-components';
-import { reset, change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import Loading from '../../../components/Loading';
 import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActions';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';

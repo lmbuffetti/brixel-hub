@@ -6,11 +6,14 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  MultiFileldsReduxForm,
   BrixelButtonText,
   BrixelProgressBar,
+  MultiFileldsReduxForm,
+  change,
+  destroy,
+  initializeForm,
+  reset,
 } from '@brixel/brixel-components';
-import { reset, initializeForm, destroy } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -34,10 +37,10 @@ const Upgrade = (props) => {
     destroyForm,
     errorValue,
     formValue,
+    handleReset,
     initForm,
     initialValues,
     isSmallLoading,
-    handleReset,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(UpgradeQuestions());
@@ -473,6 +476,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('scanFlow', field, value));
+  },
   initForm(value) {
     dispatch(initializeForm('scanFlow', value));
   },

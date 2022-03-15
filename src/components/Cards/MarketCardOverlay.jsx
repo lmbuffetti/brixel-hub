@@ -9,9 +9,9 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   BrixelIcon,
+  Helpers,
+  FormatValue,
 } from '@brixel/brixel-components';
-import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 // import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

@@ -7,9 +7,9 @@ import compact from 'lodash/compact';
 import pullAt from 'lodash/pullAt';
 import {
   BrixelButtonIcon,
+  FormatValue,
+  Helpers,
 } from '@brixel/brixel-components';
-import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { updateFavorite } from '../../actions/UserActions';

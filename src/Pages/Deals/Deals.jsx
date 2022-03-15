@@ -15,9 +15,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import { DateTime } from 'luxon';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs,
+  BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers,
 } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import {
   bindActionCreators, compose,
 } from 'redux';

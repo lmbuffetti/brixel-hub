@@ -10,10 +10,10 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonIcon,
+  Helpers,
   BrixelButtonText,
   SkeletonPackages,
 } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

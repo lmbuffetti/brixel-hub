@@ -1,6 +1,5 @@
 import get from 'lodash/get';
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
-import * as Helpers from '@brixel/brixel-components/dist/utils/helper';
+import { BrixelButtonPrimary, Helpers } from '@brixel/brixel-components';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';

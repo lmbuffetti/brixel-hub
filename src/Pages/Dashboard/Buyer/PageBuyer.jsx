@@ -9,8 +9,10 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelIcon,
+  FormatValue,
+  change,
+  reset,
 } from '@brixel/brixel-components';
-import * as FormatValue from '@brixel/brixel-components/dist/utils/normalizeFormat';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { updatePublishedReview } from '../../../actions/PropertyActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
@@ -141,6 +143,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  changeFieldValue(field, value) {
+    dispatch(change('Property', field, value));
+  },
+  reset(form, data) {
+    (dispatch(reset(form, data)));
+  },
   handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
 });
 
