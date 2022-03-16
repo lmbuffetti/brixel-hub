@@ -26,9 +26,13 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
-import { getCompanyListing, setActiveSingleCompany } from '../../actions/CompanyActions';
+import { getCompanyListing, setActiveSingleCompany, getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
 import {
-  setEstimation, getEstimation, setActiveMarketOverlayProperty, setActiveSingleProperty, getPackageProperty,
+  getEstimation,
+  getPackageProperty,
+  setActiveMarketOverlayProperty,
+  setActiveSingleProperty,
+  setEstimation,
 } from '../../actions/PropertyActions';
 import ArticlesList from '../../resources/homeArticles';
 import EmptyHubImg from '../../images/emptyHub.svg';
@@ -47,17 +51,19 @@ const MarketCategoryListSeller = (props) => {
   // PROPS
   const {
     activeMarketOverlayProperty,
+    activeSingleCompanyPackages,
     activeSingleProperty,
     activeSinglePropertyActivePackage,
     activeSinglePropertyPackage,
     bestimate,
     companyListings,
     estimation,
+    handleGetActiveCompanyPackages,
     handleGetCompanyListing,
     handleGetEstimation,
     handleGetPackageProperty,
-    handleSetActiveSingleProperty,
     handleSetActiveSingleCompany,
+    handleSetActiveSingleProperty,
     handleSetHistory,
     isSmallLoading,
     loggedInUser,
@@ -100,19 +106,21 @@ const MarketCategoryListSeller = (props) => {
   }, [propertyId, companyListings.length]);
 
   useEffect(() => {
-    const packages = get(companyDetail, 'servicePackages', null);
-    let filtPkg = [];
-    if (packages) {
-      filtPkg = packages.filter((pkg) => pkg.availableToCustomer);
+    if (activeSingleCompanyPackages.length > 0) {
+      const packages = activeSingleCompanyPackages;
+      let filtPkg = [];
+      if (packages) {
+        filtPkg = packages.filter((pkg) => pkg.availableToCustomer);
+      }
+      if (activeSinglePropertyPackage.length > 0) {
+        // filtPkg = activeSinglePropertyPackage;
+      }
+      // eslint-disable-next-line no-return-assign
+      filtPkg.map((pkg) => pkg.price.total = +pkg.price.total);
+      filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
+      setFilteredPackages(filtPkg);
     }
-    if (activeSinglePropertyPackage.length > 0) {
-      // filtPkg = activeSinglePropertyPackage;
-    }
-    // eslint-disable-next-line no-return-assign
-    filtPkg.map((pkg) => pkg.price.total = +pkg.price.total);
-    filtPkg = orderBy(filtPkg, ['price.total'], ['asc']);
-    setFilteredPackages(filtPkg);
-  }, [get(companyDetail, 'servicePackages', null), activeSinglePropertyPackage]);
+  }, [activeSingleCompanyPackages, activeSinglePropertyPackage]);
 
   // Update market card when bestimate changes
   useEffect(() => {
@@ -199,6 +207,13 @@ const MarketCategoryListSeller = (props) => {
       if (actCompany) setCompanyDetail(actCompany);
       const actCountry = get(actCompany, 'country.code', '').toLowerCase();
       setArtByCountry(ArticlesList[actCountry] || ArticlesList.default);
+    }
+    if (activeCompanyId) {
+      const dataCompany = {
+        id: activeCompanyId,
+        smallLoader: 'pkgComapny'
+      };
+      handleGetActiveCompanyPackages(dataCompany);
     }
   }, [activeCompanyId, companyListings]);
 
@@ -489,7 +504,7 @@ const MarketCategoryListSeller = (props) => {
                         <div className="dis-f jc-b a-c">
                           <h4 className="fweight-500 txtDark700">{pkg.name}</h4>
                           {
-                            activeSinglePropertyActivePackage.stub === pkg.stub && (
+                            (activeSinglePropertyActivePackage.stub === pkg.stub || (!activeSinglePropertyActivePackage.stub && pkg.type === 'basic')) && (
                               <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
                             )
                           }
@@ -584,12 +599,14 @@ const MarketCategoryListSeller = (props) => {
 
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
+  activeSingleCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyActivePackage: PropTypes.object.isRequired,
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   bestimate: PropTypes.object.isRequired,
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
+  handleGetActiveCompanyPackages: PropTypes.func.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
@@ -611,6 +628,7 @@ MarketCategoryListSeller.propTypes = {
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  activeSingleCompanyPackages: get(state, 'companies.activeSingleCompanyPackages', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyActivePackage: get(state, 'property.activeSinglePropertyActivePackage', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
@@ -635,10 +653,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
+  handleGetActiveCompanyPackages: bindActionCreators(getActiveSingleCompanyPackages, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
-  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),
+  handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),

@@ -20,7 +20,7 @@ import {
 } from '@brixel/brixel-components';
 import Slider from 'react-slick';
 import { getPackageProperty } from '../../actions/PropertyActions';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import { getActiveSingleCompany, getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 
 // import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
@@ -49,6 +49,7 @@ const IntroUpgrade = (props) => {
     activeSingleCompany,
     activeSingleCompanyPackages,
     activeSingleProperty,
+    handleGetActiveCompanyPackages,
     activeSinglePropertyPackage,
     handleGetActiveSingleCompany,
     loggedInUser,
@@ -97,12 +98,18 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-
+  
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
       handleGetActiveSingleCompany({ id: loggedInUser.company.id });
     }
-  }, [propID, loggedInUser]);
+  }, [propID, loggedInUser.id]);
+  
+  useEffect(() => {
+    if (get(activeSingleProperty, 'company.id', '')) {
+      handleGetActiveCompanyPackages({ id: activeSingleProperty.company.id, smallLoader: 'getPackages' });
+    }
+  }, [activeSingleProperty.id]);
 
   useEffect(() => {
     const basicPackage = activeSingleCompanyPackages.find((pkg) => pkg.type === 'basic');
@@ -214,7 +221,7 @@ const IntroUpgrade = (props) => {
                       }
                       {
                         pkg.type === 'one' && get(activeSingleCompany, 'meta.additionalPackage.price', 0) > 0 && (
-                          <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg mb-lg-4-neg ta-c">
+                          <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg ta-c">
                             <span>Let us handle all showings for additional</span>
                             <span className="ml-small-4">
                               {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.additionalPackage.price', 0), get(activeSingleCompany, 'country.currency', ''))}.
@@ -399,6 +406,7 @@ IntroUpgrade.propTypes = {
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
+  handleGetActiveCompanyPackages: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -411,17 +419,18 @@ IntroUpgrade.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
-  activeSingleCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
+  activeSingleCompanyPackages: get(state, 'companies.activeSingleCompanyPackages', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
-  packages: get(state, 'companies.activeSingleCompany.servicePackages', []),
+  packages: get(state, 'companies.activeSingleCompanyPackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
+  handleGetActiveCompanyPackages: bindActionCreators(getActiveSingleCompanyPackages, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
 });
 
