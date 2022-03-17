@@ -35,7 +35,7 @@ const PATHS = {
 const clientConfig = () => {
   const config = ({
     mode: mode,
-    devtool: devMode ? 'source-map' : 'inline-cheap-source-map',
+    devtool: devMode ? 'source-map' : 'source-map',
     entry: {
       polyfill: '@babel/polyfill',
       main: [
@@ -143,10 +143,18 @@ const clientConfig = () => {
         // Svg loader
         {
           test: /\.svg$/,
-          type: 'asset/resource',
-          generator: {
-            filename: 'images/[name][ext][query]',
-          },
+          use: [
+            {
+              loader: '@svgr/webpack',
+            },
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'images/',
+              },
+            },
+          ],
         },
         // Fonts loader
         {
@@ -180,14 +188,14 @@ const clientConfig = () => {
       ],
     },
     plugins: [
-     new ESLintPlugin({
+     /*new ESLintPlugin({
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,
         emitError: true,
         fix: false,
-      }),
+      }),*/
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
