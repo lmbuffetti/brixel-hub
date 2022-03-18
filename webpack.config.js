@@ -35,7 +35,7 @@ const PATHS = {
 const clientConfig = () => {
   const config = ({
     mode: mode,
-    devtool: devMode ? 'source-map' : 'inline-cheap-source-map',
+    devtool: devMode ? 'source-map' : 'source-map',
     entry: {
       polyfill: '@babel/polyfill',
       main: [
