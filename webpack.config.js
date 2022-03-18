@@ -146,6 +146,14 @@ const clientConfig = () => {
           use: [
             {
               loader: '@svgr/webpack',
+              options: {
+                svgoConfig: {
+                  plugins: [{
+                    name: 'removeViewBox',
+                    active: false,
+                  }],
+                },
+              },
             },
             {
               loader: 'file-loader',
@@ -188,14 +196,14 @@ const clientConfig = () => {
       ],
     },
     plugins: [
-     /*new ESLintPlugin({
+     new ESLintPlugin({
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,
         emitError: true,
-        fix: false,
-      }),*/
+        fix: true,
+      }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
