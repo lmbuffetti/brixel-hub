@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^2.7.59",
+    "@brixel/brixel-components": "^2.7.60",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^2.0.7",
     "d3": "^7.3.0",
