@@ -12,7 +12,7 @@ import {
   Helpers,
 } from '@brixel/brixel-components';
 import has from 'lodash/has';
-import { setSplashType } from '../actions/CommonActions';
+import { setModal, setSplashType } from '../actions/CommonActions';
 import Loading from './Loading';
 import SplashScreen from './SplashScreen';
 import { setCookie } from '../utils/helpers';
@@ -28,16 +28,19 @@ const BestimateCardOverlay = (props) => {
     activeSinglePropertyId,
     bestimate,
     clearEstimation,
+    handleSetModal,
     setBestimateMessage,
     setPropertyEstimation,
     setSplashScreen,
+    type,
   } = props;
 
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     if (setBestimateMessage) setBestimateMessage(true);
     if (clearEstimation) setPropertyEstimation({});
-    setSplashScreen('');
+    if (type === 'modal') handleSetModal({});
+    else setSplashScreen('');
   };
 
   const openSupport = (e) => {
@@ -142,14 +145,17 @@ BestimateCardOverlay.propTypes = {
   activeSinglePropertyId: PropTypes.string.isRequired,
   bestimate: PropTypes.object.isRequired,
   clearEstimation: PropTypes.bool,
+  handleSetModal: PropTypes.func,
   setBestimateMessage: PropTypes.func,
   setPropertyEstimation: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
+  type: PropTypes.string,
 };
 
 BestimateCardOverlay.defaultProps = {
   clearEstimation: true,
   setBestimateMessage: null,
+  type: 'splashScreen',
 };
 
 const mapStateToProps = (state) => ({
@@ -157,6 +163,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  handleSetModal: bindActionCreators(setModal, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });

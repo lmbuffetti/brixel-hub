@@ -8,9 +8,10 @@ import {
   Helpers,
 } from '@brixel/brixel-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { compose } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { setModal, setSplashType } from '../../actions/CommonActions';
 import CoverPropertyImage from '../CoverPropertyImage';
 
 const DashboardPropertyCard = (props) => {
@@ -23,6 +24,7 @@ const DashboardPropertyCard = (props) => {
     activeSingleProperty,
     estimation,
     formValue,
+    handleSetModal,
     smallLayout,
   } = props;
 
@@ -31,7 +33,7 @@ const DashboardPropertyCard = (props) => {
       <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'pl-sm-4 pt-sm-3 pb-sm-3 pt-0 pb-3 mb-3'} ov-h`}>
         <div>
           <div
-            onClick={() => history.push(`/${activeSingleProperty.id}/property`)}
+            onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
             className={`dis-b w-perc-100 ${smallLayout ? 'w-fix-sm-152' : 'w-fix-sm-232'} h-fix-152 pos-r`}
           >
             <CoverPropertyImage
@@ -164,9 +166,15 @@ const DashboardPropertyCard = (props) => {
                                 }
                                 {
                                   get(estimation, 'status', '') === 'processed' && (
-                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 no-state fweight-600">
-                                      {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', ''), get(estimation, 'currency', ''))}
-                                    </Link>
+                                    <button
+                                      onClick={() => handleSetModal({
+                                        state: true,
+                                        type: 'bestimate',
+                                      })}
+                                      className="txtBlue700 no-state fweight-600"
+                                    >
+                                      {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', '').toFixed(0), get(estimation, 'currency', ''))}
+                                    </button>
                                   )
                                 }
                               </div>
@@ -195,6 +203,7 @@ DashboardPropertyCard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
   smallLayout: PropTypes.bool,
 };
 
@@ -208,6 +217,11 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  handleSetModal: bindActionCreators(setModal, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
+});
+
 export default compose(
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
 )(DashboardPropertyCard);

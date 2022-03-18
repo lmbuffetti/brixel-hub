@@ -21,6 +21,7 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
+import BestimateCardOverlay from './components/BestimateCardOverlay';
 import Loading from './components/Loading';
 import WizardCard from './components/Cards/WizardCard';
 import { checkToken, setUserTypes } from './actions/UserActions';
@@ -589,6 +590,16 @@ const App = (props) => {
                 title={modal.title}
                 formName={modal.formName}
                 onClose={() => modal.onClose()}
+              />
+            )
+          }
+  
+          {
+            modal.state && modal.type === 'bestimate' && (
+              <BestimateCardOverlay
+                activeSinglePropertyId={activeSingleProperty.id}
+                clearEstimation={false}
+                type="modal"
               />
             )
           }
