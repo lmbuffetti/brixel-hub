@@ -72,7 +72,7 @@ const SplashScreen = (props) => {
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   const drawerRef = useRef(null);
   const sliderInstance = useRef(null);
-  const [activeSlide, setActiveSlide] = useState(-1);
+  const [activeSlide, setActiveSlide] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [fullScreenCard, setFullScreenCard] = useState(false);
   const [totalSlide, setTotalSlide] = useState(preMarketProperties.total);
@@ -391,9 +391,10 @@ const SplashScreen = (props) => {
                     </>
                   ) : (
                     <>
+                      <span style={{display: 'none'}}>{activeSlide}</span>
                       <Slider ref={sliderInstance} {...settingSlider()}>
                         {
-                          activeMarketOverlayPropertyLists.map((item, i) => (
+                          activeSlide >= 0 && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.map((item, i) => (
                             <MarketCardPreMarket
                               key={`mrkCrd_${i.toString()}`}
                               item={item}

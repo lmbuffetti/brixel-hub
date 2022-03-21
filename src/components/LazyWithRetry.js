@@ -17,14 +17,14 @@ const lazyWithRetry = (componentImport) => lazy(async () => {
 
     return component;
   } catch (error) {
-    if (!pageHasAlreadyBeenForceRefreshed) {
+    if (!pageHasAlreadyBeenForceRefreshed || pageHasAlreadyBeenForceRefreshed === 'false') {
       // Assuming that the user is not on the latest version of the application.
       // Let's refresh the page immediately.
       localStorage.setItem(
         'page-has-been-force-refreshed',
         'true',
       );
-      // setTimeout(() => window.location.reload(), 5000);
+      setTimeout(() => window.location.reload(), 1000);
     }
 
     // The page has already been reloaded
