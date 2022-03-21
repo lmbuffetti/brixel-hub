@@ -24,6 +24,7 @@ import { DateTime } from 'luxon';
 import ICalendarLink from 'react-icalendar-link';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import ProgressSellerStage from '../../../components/ProgressSellerStage';
 import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import docIcon from '../../../images/dashboard/icon-docs.svg';
@@ -63,6 +64,7 @@ const DashboardHome = (props) => {
     isSmallLoading,
     loggedInUser,
     proEstimation,
+    splashScreenType,
     userLang,
     userTypes,
     windowDimensions,
@@ -222,6 +224,16 @@ const DashboardHome = (props) => {
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
+  
+      {
+        splashScreenType === 'bestimateResult' && get(estimation, 'status', 'active') !== 'pending' && (
+          <BestimateCardOverlay
+            activeSinglePropertyId={activeSingleProperty.customID}
+            clearEstimation
+          />
+        )
+      }
+      
       <h4 className="mb-3 hide dis-b-lg fweight-600">
         <span>Welcome back</span>
         <span className="ml-small-4"> { loggedInUser && (<>{loggedInUser.firstName}</>) } 👋 </span>
@@ -952,6 +964,7 @@ DashboardHome.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   proEstimation: PropTypes.object,
+  splashScreenType: PropTypes.string.isRequired,
   userLang: PropTypes.string.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -974,6 +987,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
+  splashScreenType: get(state, 'common.splashScreenType', ''),
   userLang: get(state, 'user.loggedInUser.user.language', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

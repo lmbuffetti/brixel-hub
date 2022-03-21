@@ -94,9 +94,14 @@ const MarketBuyer = (props) => {
         searchProfileId: get(userSearchProfiles, '[0].id', null),
       };
       handleGetPreMarketProperties(data);
-      handleGetPremiumProperties(data);
-      data.resultType = 'europe';
-      handleGetPremiumProperties(data);
+      if (get(userSearchProfiles, '[0].id', null)) {
+        handleGetPremiumProperties(data);
+        data.resultType = 'europe';
+        handleGetPremiumProperties(data);
+      } else {
+        data.resultType = 'seller';
+        handleGetPremiumProperties(data);
+      }
       handleSpinnerOff();
     }
   }, [userSearchProfiles, get(history, 'location.pathname', null)]);
