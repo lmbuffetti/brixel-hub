@@ -9,24 +9,20 @@
     />
     <link rel="icon" sizes="192x192" href="/favicon.png">
 
-    <script>(function (i, s, o, g, r, a, m) {
-      i['GoogleAnalyticsObject'] = r;
-      i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-              m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', '<%= htmlWebpackPlugin.options.googleAnalyticsId %>', 'auto', {'allowLinker': true});
-    ga('require', 'linker');
-    ga('linker:autoLink', ['brixel.pt','brixel.io','gobrixel.dk','gobrixel.se','brixel.ch','gobrixel.de','gobrixel.at','gobrixel.nl']);
-    ga('require', 'GTM-TD3XNTN');
-    ga('set', 'anonymizeIp', true);
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= htmlWebpackPlugin.options.googleAnalyticsId %>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '<%= htmlWebpackPlugin.options.googleAnalyticsId %>', {
+        'anonymize_ip': true,
+        'linker': {
+          'domains': ['brixel.pt','brixel.io','gobrixel.dk','gobrixel.se','brixel.ch','gobrixel.de','gobrixel.at','gobrixel.nl']
+        }
+      });
     </script>
+
     <!-- TRANSIFEX - e86c750b39de4c7e8c36a3b1ab7f98af -->
     <script type="text/javascript" src="//cdn.transifex.com/live.js"></script>
     <script type="text/javascript">window.liveSettings = {api_key: '<%= htmlWebpackPlugin.options.transifexKey %>', picker: "#transifex-selector", dynamic: true };</script>
