@@ -1,4 +1,4 @@
-/* global ga, Transifex */
+/* global ga, gtag, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect, useState, useRef, useCallback, Fragment, Suspense,
@@ -193,6 +193,13 @@ const App = (props) => {
     }
     if (get(history, 'location', null) && typeof ga === 'function') {
       ga('send', 'pageview', history.location.pathname);
+    }
+    if (get(history, 'location', null) && typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        page_location: history.location.pathname,
+        page_path: history.location.pathname,
+        send_to: baseByData.googleAnalyticsIdLogin,
+      })
     }
     const splittedURL = get(history, 'location.pathname', '').split('/');
     if (splittedURL[1] === 'sell') {
