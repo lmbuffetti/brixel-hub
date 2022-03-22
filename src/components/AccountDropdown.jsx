@@ -6,7 +6,6 @@ import { compose, bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { BrixelDropdown, BrixelSelect, BrixelAvatar } from '@brixel/brixel-components';
-import has from 'lodash/has';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import { setUnsavedChangesModal } from '../actions/CommonActions';
 import { saveActiveSingleUser } from '../actions/UserActions';
@@ -122,8 +121,9 @@ const AccountDropdown = (props) => {
               selectedComponent={{
                 component: BrixelAvatar,
                 props: {
-                  avatarImg: has(loggedInUser, 'user.avatar[0]') ? `${baseByData().shortPath}${loggedInUser.user.avatar[0].thumbnailPath}` : null,
-                  // name: has(loggedInUser, 'user.firstName') ? loggedInUser.user.firstName : '',
+                  baseURL: baseByData().shortPath,
+                  profileId: get(loggedInUser, 'user.id', null),
+                  name: get(loggedInUser, 'user.firstName', ''),
                   isIcon: true,
                 },
               }}

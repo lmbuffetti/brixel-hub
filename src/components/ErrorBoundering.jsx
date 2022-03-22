@@ -18,7 +18,7 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, info) {
     if (typeof window !== 'undefined') {
-      const url = window.location.href;
+      const url = get(window, 'location.href', '');
       const {
         activeSingleProperty,
         handleSendSlackNotifications,
@@ -29,17 +29,17 @@ class ErrorBoundary extends Component {
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
-        meta: `Browser Info: ${browserDetection().debug}\n Cause: ${error}.\nStackTrace: ${info.componentStack}`,
+        meta: `Browser Info: ${browserDetection().debug}\n Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
         url: window.location.href,
         apiResource: '',
       };
       let txtError = '';
       if (typeof error === 'string' && error) txtError = error;
-      if (url && !url.includes('500') && !url.includes('localhost') && ((!txtError.includes('ChunkLoadError:') && !txtError.includes('Loading CSS chunk')) || typeof error !== 'string')) {
+      if (url && !url.includes('500') && !url.includes('localhost') && !txtError.includes('ChunkLoadError:') && !txtError.includes('Loading CSS chunk')) {
         handleSendSlackNotifications({ data, channel });
       } else {
         // eslint-disable-next-line no-console
-        console.log(data);
+        console.error(data);
       }
     }
   }
@@ -56,18 +56,6 @@ class ErrorBoundary extends Component {
       return (
         <BrixelPage500
           errorMessage="You can try again or go back to the dashboard"
-          buttons={[
-            {
-              label: 'Dashboard',
-              btnType: 'primary',
-              onClick: () => window.location.assign('/sell'),
-            }, {
-              label: 'Try again',
-              className: 'ml-2',
-              btnType: 'secondary',
-              onClick: () => window.location.reload(),
-            },
-          ]}
         />
       );
     }

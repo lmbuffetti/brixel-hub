@@ -1,4 +1,4 @@
-/* global ga, Transifex */
+/* global ga, gtag, Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect, useState, useRef, useCallback, Fragment, Suspense,
@@ -21,6 +21,7 @@ import {
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
+import BestimateCardOverlay from './components/BestimateCardOverlay';
 import Loading from './components/Loading';
 import WizardCard from './components/Cards/WizardCard';
 import { checkToken, setUserTypes } from './actions/UserActions';
@@ -192,6 +193,13 @@ const App = (props) => {
     }
     if (get(history, 'location', null) && typeof ga === 'function') {
       ga('send', 'pageview', history.location.pathname);
+    }
+    if (get(history, 'location', null) && typeof gtag === 'function') {
+      gtag('event', 'page_view', {
+        page_location: history.location.pathname,
+        page_path: history.location.pathname,
+        send_to: baseByData.googleAnalyticsIdLogin,
+      })
     }
     const splittedURL = get(history, 'location.pathname', '').split('/');
     if (splittedURL[1] === 'sell') {
@@ -389,7 +397,7 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     );
   }
-
+  
   return (
     <>
       <main
@@ -589,6 +597,16 @@ const App = (props) => {
                 title={modal.title}
                 formName={modal.formName}
                 onClose={() => modal.onClose()}
+              />
+            )
+          }
+  
+          {
+            modal.state && modal.type === 'bestimate' && (
+              <BestimateCardOverlay
+                activeSinglePropertyId={activeSingleProperty.id}
+                clearEstimation={false}
+                type="modal"
               />
             )
           }

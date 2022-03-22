@@ -17,7 +17,7 @@ import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
-import searchImg from '../../../images/searchProfile/search.svg';
+import searchImg from '../../../images/searchProfile/searchIconProfile.svg';
 import { updateFavorite } from '../../../actions/UserActions';
 import { setSplashType } from '../../../actions/CommonActions';
 import { setActiveMarketOverlayProperty } from '../../../actions/PropertyActions';

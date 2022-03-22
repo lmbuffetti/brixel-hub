@@ -379,10 +379,10 @@ const MarketCategoryListBuyer = (props) => {
             )
           }
         </div>
-
-        <div className="pt-7 pb-8 bgBlue700">
-          {
-            premiumEuropeProperties.total > 0 && (
+  
+        {
+          premiumEuropeProperties.total > 0 && (
+            <div className="pt-7 pb-8 bgBlue700">
               <div className="container">
                 <CarouselWrapper
                   theme="light"
@@ -394,9 +394,9 @@ const MarketCategoryListBuyer = (props) => {
                   total={premiumEuropeProperties.total}
                 />
               </div>
-            )
-          }
-        </div>
+            </div>
+          )
+        }
       </div>
     </Suspense>
   );
