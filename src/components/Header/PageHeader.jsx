@@ -96,6 +96,7 @@ function PageHeader(props) {
         if (defState.label === 'Sales Lead') defState.label = 'Onboarding';
         setIndexProgrss(defIndexState);
       }
+      if (get(activeSingleProperty, 'sellerStatus', '') === 'success') setIndexProgrss(5);
     }
   }, [activeSingleProperty.id]);
 

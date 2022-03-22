@@ -32,6 +32,9 @@ import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
 import completedFactsImg from '../../../images/dashboard/completed_facts.svg';
 import completeDescriptionImg from '../../../images/dashboard/complete_description.svg';
 import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
+import reviewSaleSvg from '../../../images/dashboard/reviewSale.svg';
+import surveySaleSvg from '../../../images/dashboard/surveySale.svg';
+import marketNewHomeSvg from '../../../images/dashboard/marketNewHome.svg';
 import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
 import contactTestDriveImg from '../../../images/TestDrive/contactTestDrive.svg';
 import bookTestDriveImg from '../../../images/TestDrive/bookTestDrive.png';
@@ -116,6 +119,13 @@ const DashboardHome = (props) => {
         id: defIndexState,
         step: defIndexState + 1,
       });
+      if (get(activeSingleProperty, 'sellerStatus', '') === 'success') {
+        setProgressState({
+          ...defState,
+          id: 4,
+          step: 5,
+        });
+      }
     }
   }, [activeSingleProperty.id]);
 
@@ -233,11 +243,20 @@ const DashboardHome = (props) => {
           />
         )
       }
-      
-      <h4 className="mb-3 hide dis-b-lg fweight-600">
-        <span>Welcome back</span>
-        <span className="ml-small-4"> { loggedInUser && (<>{loggedInUser.firstName}</>) } 👋 </span>
-      </h4>
+  
+      {
+        progressState.step < 5 ? (
+          <h4 className="mb-3 hide dis-b-lg fweight-600">
+            <span>Welcome back</span>
+            <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
+          </h4>
+        ) : (
+          <h4 className="mb-3 hide dis-b-lg fweight-600">
+            <span>Congratulations on your sale</span>
+            <span>, {loggedInUser && (<>{loggedInUser.firstName}</>)} 🎉 </span>
+          </h4>
+        )
+      }
 
       {
         windowDimensions.width <= 1024 && (
@@ -738,7 +757,7 @@ const DashboardHome = (props) => {
         }
 
         {
-          progressState.step >= 3 && (
+          progressState.step >= 3 && progressState.step < 5 && (
             <>
               <div className="dis-f jc-b flex-wrap">
                 <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-md-1 pr-lg-0 pr-xl-1">
@@ -942,6 +961,108 @@ const DashboardHome = (props) => {
                   </div>
                 )
               }
+            </>
+          )
+        }
+  
+        {
+          progressState.step === 5 && (
+            <>
+              
+              <div className="brdRadius brdSmall brdGreen400 p-2 mb-3 fweight-400">
+                <h6>
+                  You successfully sold this property and transfered it to the new owner. You can still access your photos, 3D tour, and all documents for your memory.
+                </h6>
+              </div>
+              
+              <DashboardPropertyCard type="sold" />
+        
+              <div className="dis-fl-col dis-fl-row-sm">
+  
+                {
+                  get(activeSingleCompany, 'links.review', null) && (
+                    <div
+                      onClick={() => window.open(get(activeSingleCompany, 'links.review', null), '_blank')}
+                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite"
+                    >
+                      <div className="dis-fl-col max-w-perc-100">
+                        <span className="fsize-400 txtGreen400">
+                          Review
+                        </span>
+                        <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600">
+                          <span className="pr-2">
+                            We appreciate your stars.
+                          </span>
+                          <img
+                            src={reviewSaleSvg}
+                            alt="review Sale"
+                          />
+                        </div>
+        
+                        <BrixelButtonPrimary
+                          onClick={() => window.open(get(activeSingleCompany, 'links.review', null), '_blank')}
+                          className="mt-2 as-fs"
+                          rounded
+                          label="Review us on Google"
+                        />
+                      </div>
+                    </div>
+                  )
+                }
+                {
+                  get(activeSingleCompany, 'links.survey', null) && (
+                    <div
+                      onClick={() => window.open(get(activeSingleCompany, 'links.survey', null), '_blank')}
+                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite"
+                    >
+                      <div className="dis-fl-col max-w-perc-100">
+                        <span className="fsize-400 txtGreen400">
+                          Feedback
+                        </span>
+                        <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600">
+                          <span className="pr-2">
+                            Let us know how we did
+                          </span>
+                          <img
+                            src={surveySaleSvg}
+                            alt="Survey Sale"
+                          />
+                        </div>
+          
+                        <BrixelButtonSecondary
+                          onClick={() => window.open(get(activeSingleCompany, 'links.survey', null), '_blank')}
+                          className="mt-2 as-fs"
+                          rounded
+                          label="Fill our survey"
+                        />
+                      </div>
+                    </div>
+                  )
+                }
+              </div>
+  
+              <div
+                onClick={() => history.push(`/buy`)}
+                className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100"
+                style={{backgroundImage: `url(${marketNewHomeSvg})`}}
+              >
+                <div className="dis-fl-col max-w-perc-100">
+                  <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600">
+                    <span className="pr-2 w-perc-100 max-w-fix-240">
+                      Looking for a new home?
+                    </span>
+                  </div>
+      
+                  <BrixelButtonSecondary
+                    bgTransparent
+                    onClick={() => history.push(`/buy`)}
+                    className="mt-2 as-fs"
+                    rounded
+                    label="Go to our market"
+                  />
+                </div>
+              </div>
+              
             </>
           )
         }

@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import logger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import get from 'lodash/get';
 import { rootReducer } from '../reducers';
 
@@ -24,7 +24,14 @@ const middlewares = [thunkMiddleware];
 const getIfDev = (get(window, 'location.href', '')).split('?');
 
 if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || (getIfDev[1] && getIfDev[1].includes('dev=true')))) {
-  middlewares.push(logger);
+  middlewares.push(createLogger({
+    colors: {
+      title: () => "#002bff",
+      prevState: () => "#de6f0d",
+      action: () => "#6e13ab",
+      nextState: () => "#1a9134",
+    },
+  }));
 }
 
 const composedEnhancers = compose(

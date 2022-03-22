@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@brixel/brixel-components": "^2.7.60",
+    "@brixel/brixel-components": "^2.7.67",
     "@brixel/brixel-configuration-partner": "git+https://brixel_admin:e1C13Nz8THA_psP6pe1e@gitlab.com/brixel/brixel-partner-configuration.git#brixel",
     "@googlemaps/markerwithlabel": "^2.0.7",
     "d3": "^7.3.0",
@@ -40,7 +40,7 @@
     "sanitize-html": "^2.7.0",
     "slick-carousel": "^1.8.1",
     "smoothscroll-polyfill": "^0.4.4",
-    "sortablejs": "^1.14.0",
+    "sortablejs": "^1.15.0",
     "universal-cookie": "^4.0.4"
   },
   "scripts": {
@@ -85,14 +85,14 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "^7.17.7",
+    "@babel/core": "^7.17.8",
     "@babel/eslint-parser": "^7.17.0",
     "@babel/node": "^7.16.8",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@svgr/core": "^6.2.1",
-    "@swc/cli": "^0.1.55",
-    "@swc/core": "^1.2.157",
+    "@swc/cli": "^0.1.56",
+    "@swc/core": "^1.2.160",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.4",
