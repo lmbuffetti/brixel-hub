@@ -255,8 +255,8 @@ export const ComponentMap = (props) => {
       content.split('').forEach((val, i) => {
         if (val === newLocation.charAt(i)) end = i;
         if (start === -1 && val === newLocation.charAt(i).toLowerCase()) start = i;
+        return `<span>${container.substring(0, start)}</span><span class="highlight">${container.substring(start, end + 1)}</span><span>${container.substring(end + 1, content.length)}</span>`;
       });
-      return `<span>${container.substring(0, start)}</span><span class="highlight">${container.substring(start, end + 1)}</span><span>${container.substring(end + 1, content.length)}</span>`;
     }
     return container;
   };

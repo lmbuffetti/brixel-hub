@@ -137,7 +137,7 @@ const ShowingsBuyer = (props) => {
                   <img src={showingsEmpty} alt="Showing Buyer" />
                   <h5 className="my-3">{formValue.allowVisits === false ? 'Right now there are no showings available' : 'Request your showing'}</h5>
                   {
-                    formValue.allowVisits && (
+                    formValue.allowVisits !== false && (
                       <BrixelButtonPrimary
                         rounded
                         label="Add dates"
