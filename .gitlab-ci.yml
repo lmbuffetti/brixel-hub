@@ -1,4 +1,4 @@
-image: node:14.14.0
+image: node:14.18.1
 
 stages:
   - build
@@ -6,7 +6,7 @@ stages:
   - test
 
 build site:
-  image: node:14.14.0
+  image: node:14.18.1
   stage: build
   cache:
     paths:
@@ -78,7 +78,7 @@ deploy_master:
 
 
 test integration:
-  image: node:14.14.0
+  image: node:14.18.1
   stage: test
   cache:
     paths:
