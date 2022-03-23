@@ -2,7 +2,7 @@
 import React, {
   useEffect, useState, Fragment,
 } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   connect,
@@ -48,6 +48,7 @@ const Deals = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
+  const match = useParams();
   const [processedDeals, setProcessedDeals] = useState(null);
   const [activeDestColumn, setActiveDestColumn] = useState(null);
   const [activeIndexDeal, setActiveIndexDeal] = useState(-1);
@@ -74,6 +75,8 @@ const Deals = (props) => {
     userLang,
     windowDimensions,
   } = props;
+  
+  const propID = get(match, 'propID', null);
 
   useEffect(() => {
     if (windowDimensions.width <= 1024 && !activeTab) {
@@ -89,14 +92,14 @@ const Deals = (props) => {
 
   // GET THE BUYERS REQUEST FOR CURRENT PROPERTY
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (propID) {
       const data = {
-        id: activeSingleProperty.id,
+        id: propID,
         smallLoader: 'loadDeal',
       };
       handleGetPageDeals(data);
     }
-  }, [activeSingleProperty]);
+  }, [propID]);
 
   const processDeals = (list) => {
     if (activeSinglePropertyDeals) {
