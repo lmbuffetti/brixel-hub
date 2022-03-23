@@ -73,9 +73,8 @@ const DashboardPropertyCard = (props) => {
                   {
                     get(activeSingleProperty, 'virtual', null) && (
                       <div className="bgBlue300 tourLink h-fix-40">
-                        <a
-                          href={`${baseByData.pageUrl}/${get(activeSingleProperty, 'stub', '')}/explore/tour`}
-                          target="_blank"
+                        <button
+                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
                           className="dis-f a-c" rel="noreferrer"
                         >
                           <BrixelIcon
@@ -90,7 +89,7 @@ const DashboardPropertyCard = (props) => {
                           <span className="pl-1 pr-2 txtBlue700 fsize-300">
                             3D-Tour
                           </span>
-                        </a>
+                        </button>
                       </div>
                     )
                   }
@@ -105,7 +104,7 @@ const DashboardPropertyCard = (props) => {
                           saturation={100}
                           icon="photos"
                           padding="p-small-10"
-                          onClick={() => window.open(`${baseByData.pageUrl}/${get(activeSingleProperty, 'stub', '')}/explore/photos`, '_blank')}
+                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/photos`)}
                         />
                       </div>
                     )
@@ -121,7 +120,7 @@ const DashboardPropertyCard = (props) => {
                           saturation={100}
                           icon="plans"
                           padding="p-small-10"
-                          onClick={() => window.open(`${baseByData.pageUrl}/${get(activeSingleProperty, 'stub', '')}/explore/plans`, '_blank')}
+                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/floorPlans`)}
                         />
                       </div>
                     )
