@@ -45,6 +45,18 @@ module.exports = {
     'user-portal-create-message',
     'user-schedule',
   ],
+  SellerSidebar: [
+    'page-create',
+    'page-published',
+    'page-scan-trial',
+    'page-start-service-package',
+    'page-stop-service-package',
+    'page-unpublished',
+    'pro-estimation-complete',
+    'user-create-estimation',
+    'user-register',
+    'page-status-success'
+  ],
   DealLastAction: [
     'user-add-favorite',
     'user-schedule',

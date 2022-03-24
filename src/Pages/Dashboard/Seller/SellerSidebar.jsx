@@ -10,9 +10,10 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import sanitizeHtml from 'sanitize-html';
-import { getHistoryFeed } from '../../../actions/HistoryActions';
+import { getHistoryListings } from '../../../actions/HistoryActions';
 import { getNoteListings } from '../../../actions/NoteActions';
 import { feedMessage } from '../../../resources/dashboardHistory';
+import timelineActionStubs from '../../../resources/timelineActionStubs';
 import { arrayMove } from '../../../utils/helpers';
 
 const SellerSidebar = (props) => {
@@ -33,25 +34,15 @@ const SellerSidebar = (props) => {
 
   useEffect(() => {
     if (propID) {
-      const arrayStubs = [
-        'page-create',
-        'page-published',
-        'page-scan-trial',
-        'page-start-service-package',
-        'page-stop-service-package',
-        'page-unpublished',
-        'pro-estimation-complete',
-        'user-create-estimation',
-        'user-register',
-      ];
       const payloadPageHistory = {
-        arrayStubs,
-        id: propID,
+        actionStubs: timelineActionStubs.SellerSidebar,
+        parent: propID,
         resultsPerPage: 50,
         offset: 0,
-        order: '',
+        order: 'createdAt',
         direction: 'DESC',
         smallLoader: 'getPageHistory',
+        type: 'page',
       };
       const payloadNote = {
         object: propID,
@@ -59,7 +50,7 @@ const SellerSidebar = (props) => {
         resultsPerPage: 50,
         offset: 0,
         text: '',
-        order: '',
+        order: 'createdAt',
         direction: 'DESC',
         company: '',
         smallLoader: 'pageNotes',
@@ -67,7 +58,7 @@ const SellerSidebar = (props) => {
       handleGetHistoryFeed(payloadPageHistory);
       handleGetNoteListings(payloadNote);
     }
-  }, [propID]);
+  }, [loggedInUser.id, propID]);
 
   useEffect(() => {
     let mergedFeed = historyFeed.concat(activeSinglePropertyNotes);
@@ -164,13 +155,13 @@ SellerSidebar.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  historyFeed: get(state, 'history.historyFeed.data', []),
+  historyFeed: get(state, 'history.activeSinglePropertyHistory.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetHistoryFeed: bindActionCreators(getHistoryFeed, dispatch),
+  handleGetHistoryFeed: bindActionCreators(getHistoryListings, dispatch),
   handleGetNoteListings: bindActionCreators(getNoteListings, dispatch),
 });
 
