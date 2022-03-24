@@ -1,38 +1,37 @@
 /* global Transifex */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import get from 'lodash/get';
-import has from 'lodash/has';
-import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelAvatar,
-  BrixelIcon,
-  destroy,
-  BrixelSelect,
   BrixelButtonIcon,
+  BrixelIcon,
+  BrixelSelect,
+  destroy,
   FactsOptions,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
+import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
+import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
-import { setCookie } from '../../utils/helpers';
+import PropTypes from 'prop-types';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import { setLanguage } from '../../actions/CommonActions';
-import lazyWithRetry from '../LazyWithRetry';
-import MenuNavigationSubmenu from './MenuNavigationSubmenu';
 import {
-  sidebarNavigationBuyer,
-  sidebarNavigationSeller,
-} from '../../resources/navigationRoutes';
-import { saveActiveSingleUser, setUserTypes } from '../../actions/UserActions';
-import {
-  getPackageProperty, setActiveSingleProperty, getPackagesProperty, setActiveSinglePropertyActivePackage,
+  getPackageProperty,
+  getPackagesProperty,
+  setActiveSingleProperty,
+  setActiveSinglePropertyActivePackage,
 } from '../../actions/PropertyActions';
+import { saveActiveSingleUser, setUserTypes } from '../../actions/UserActions';
+import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/navigationRoutes';
+import { setCookie } from '../../utils/helpers';
+import lazyWithRetry from '../LazyWithRetry';
 
 const RightFlowHeader = lazyWithRetry(() => import('./RightHeaderFlow'));
 const AccountDropdown = lazyWithRetry(() => import('../AccountDropdown'));
@@ -65,7 +64,6 @@ function PageHeader(props) {
     windowDimensions,
   } = props;
   // STATE
-  const [activeMenu, setActiveMenu] = useState(null);
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
   const [openMenu, setOpenMenu] = useState(false);
@@ -272,25 +270,6 @@ function PageHeader(props) {
     }
   }, [showMobileMenu]);
 
-  // FUNCTION TO MAANGE THE TAB CLICK
-  const onTabClick = (val, act = 'url') => {
-    if (act === 'state' || val === 'support' || val === '/support') {
-      setActiveMenu(val.replace('/', ''));
-    } else {
-      const url = val.replace(':propID', propID);
-      history.push(url);
-      setActiveMenu(null);
-    }
-  };
-
-  // FUNCTION TO SHOW/HIDE THE SUPPORT MENU (history.push({state: {showSupport: true}}))
-  useEffect(() => {
-    if (get(history, 'location.state.showSupport', null) === true) {
-      onTabClick('support');
-      history.push({ state: { showSupport: false } });
-    }
-  }, [get(history, 'location.state', null)]);
-
   useEffect(() => {
     if (userType === 'seller' || propID === 'sell') setSection('Sell');
     else setSection('Buy');
@@ -329,11 +308,6 @@ function PageHeader(props) {
 
   return (
     <>
-      <MenuNavigationSubmenu
-        windowDimensions={windowDimensions}
-        activeMenu={activeMenu}
-        onClose={() => setActiveMenu(null)}
-      />
       <header className={`bgOverlay hubDasHeader ${showMobileMenu ? 'menu-active' : ''} bgWhite`}>
         <div className="dasHeaderContainer">
           <div className="wrapperHeader pl-2 pl-lg-0 dis-f a-c pr-2 pr-lg-3 jc-b pos-r">

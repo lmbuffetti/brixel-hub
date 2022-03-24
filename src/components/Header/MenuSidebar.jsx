@@ -1,23 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useState, useRef, useEffect, useCallback,
-} from 'react';
-import PropTypes from 'prop-types';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
-import {
-  destroy,
-  BrixelIcon,
-} from '@brixel/brixel-components';
+import { BrixelIcon, destroy } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import { CSSTransition } from 'react-transition-group';
-import useOutsideAlerter from '../OutsideElement';
-import { setUserTypes } from '../../actions/UserActions';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { setActiveSingleProperty } from '../../actions/PropertyActions';
-import { sidebarNavigationSeller, sidebarNavigationBuyer } from '../../resources/navigationRoutes';
-
-import MenuNavigationSubmenu from './MenuNavigationSubmenu';
+import { setUserTypes } from '../../actions/UserActions';
+import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/navigationRoutes';
 
 const MenuSidebar = (props) => {
   const history = {
@@ -31,22 +22,10 @@ const MenuSidebar = (props) => {
     windowDimensions,
   } = props;
   // STATE
-  const [activeMenu, setActiveMenu] = useState(null);
-  const [slideIn, setSlideIn] = useState(false);
   const [navigationMenu, setNavigationMenu] = useState([]);
-  // REF
-  const wrapperRef = useRef(null);
   // URL PARAMS
   const propID = userType === 'seller' ? history.location.pathname.split('/')[1] : history.location.pathname.split('/')[2];
   const levelUrl = history.location.pathname.split('/');
-
-  // FUNCTION TO MAANGE THE TAB CLICK
-  const onTabClick = useCallback((val, act = 'url') => {
-    if (act === 'state' || val === 'support' || val === '/support') {
-      setActiveMenu(val.replace('/', ''));
-      setSlideIn(true);
-    }
-  }, []);
 
   // FUNCTION TO MAANGE THE TAB CLICK
   const linkMenu = useCallback((val) => {
@@ -55,20 +34,6 @@ const MenuSidebar = (props) => {
     return url;
   }, [userType, activeSingleDeal, propID]);
 
-  // FUNCTION TO SHOW/HIDE THE SUPPORT MENU (history.push({state: {showSupport: true}}))
-  useEffect(() => {
-    if (get(history, 'location.state.showSupport', null) === true) {
-      onTabClick('support');
-    }
-  }, [get(history, 'location.state', null)]);
-
-  // FUNCTION WHEN SUPPORT MENU IS CLOSED
-  const onCloseSupport = useCallback(() => {
-    setActiveMenu(null);
-    setSlideIn(false);
-    history.push({ state: null });
-  }, []);
-
   useEffect(() => {
     if (history.location.pathname.includes('buyer')) {
       setNavigationMenu(sidebarNavigationBuyer);
@@ -76,14 +41,6 @@ const MenuSidebar = (props) => {
       setNavigationMenu(sidebarNavigationSeller);
     }
   }, [get(history, 'location.pathname', null)]);
-
-  // FUNCTION TO MANAGE CLICK OUTSIDE OF SUPPORT MENU
-  useOutsideAlerter(wrapperRef, {
-    action: 'function',
-    func: () => {
-      onCloseSupport();
-    },
-  });
 
   return (
     <>
@@ -141,20 +98,6 @@ const MenuSidebar = (props) => {
               </ul>
             </div>
           </div>
-          <CSSTransition
-            in={slideIn}
-            timeout={200}
-            classNames="slideIn"
-            onEnter={() => setSlideIn(true)}
-            onExited={() => setActiveMenu(null)}
-            unmountOnExit
-          >
-            <MenuNavigationSubmenu
-              windowDimensions={windowDimensions}
-              activeMenu={activeMenu}
-              onClose={() => onCloseSupport()}
-            />
-          </CSSTransition>
         </div>
       </header>
     </>

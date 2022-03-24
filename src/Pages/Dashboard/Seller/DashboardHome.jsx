@@ -1,13 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Link, useLocation, useNavigate, useParams,
-} from 'react-router-dom';
-import get from 'lodash/get';
-// import cloneDeep from 'lodash/cloneDeep';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
 import {
   BrixelAvatar,
   BrixelButtonPrimary,
@@ -18,32 +9,39 @@ import {
   Helpers,
   ProgressRing,
 } from '@brixel/brixel-components';
-import orderBy from 'lodash/orderBy';
-import has from 'lodash/has';
-import { DateTime } from 'luxon';
-import ICalendarLink from 'react-icalendar-link';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
-import ProgressSellerStage from '../../../components/ProgressSellerStage';
-import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
-import docIcon from '../../../images/dashboard/icon-docs.svg';
-import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
-import completedFactsImg from '../../../images/dashboard/completed_facts.svg';
-import completeDescriptionImg from '../../../images/dashboard/complete_description.svg';
-import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
-import reviewSaleSvg from '../../../images/dashboard/reviewSale.svg';
-import surveySaleSvg from '../../../images/dashboard/surveySale.svg';
-import marketNewHomeSvg from '../../../images/dashboard/marketNewHome.svg';
-import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
-import contactTestDriveImg from '../../../images/TestDrive/contactTestDrive.svg';
-import bookTestDriveImg from '../../../images/TestDrive/bookTestDrive.png';
-
-import Loading from '../../../components/Loading';
+import get from 'lodash/get';
+import has from 'lodash/has';
+import orderBy from 'lodash/orderBy';
+import { DateTime } from 'luxon';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import ICalendarLink from 'react-icalendar-link';
+import { connect } from 'react-redux';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+// import cloneDeep from 'lodash/cloneDeep';
+import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getActiveSinglePropertyDealsCount, getPageDeals } from '../../../actions/PropertyActions';
-import CoverPropertyImage from '../../../components/CoverPropertyImage';
+import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
+import CoverPropertyImage from '../../../components/CoverPropertyImage';
+
+import Loading from '../../../components/Loading';
+import ProgressSellerStage from '../../../components/ProgressSellerStage';
+import completeDescriptionImg from '../../../images/dashboard/complete_description.svg';
+import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
+import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
+import completedFactsImg from '../../../images/dashboard/completed_facts.svg';
+import docIcon from '../../../images/dashboard/icon-docs.svg';
+import marketNewHomeSvg from '../../../images/dashboard/marketNewHome.svg';
+import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
+import reviewSaleSvg from '../../../images/dashboard/reviewSale.svg';
+import surveySaleSvg from '../../../images/dashboard/surveySale.svg';
+import bookTestDriveImg from '../../../images/TestDrive/bookTestDrive.png';
+import contactTestDriveImg from '../../../images/TestDrive/contactTestDrive.svg';
+import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 
 const { factsOptions } = FactsOptions;
 
@@ -93,8 +91,8 @@ const DashboardHome = (props) => {
 
   useEffect(() => {
     if (progressState.step === 3) {
-      handleGetActiveSinglePropertyDealsCount({ id: activeSingleProperty.id });
-      handleGetPageDeals({ id: activeSingleProperty.id });
+      handleGetActiveSinglePropertyDealsCount({ id: propID });
+      handleGetPageDeals({ id: propID });
     }
   }, [progressState.step]);
 

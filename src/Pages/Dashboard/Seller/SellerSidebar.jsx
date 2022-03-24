@@ -1,25 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { BrixelIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
 import orderBy from 'lodash/orderBy';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
-import {
-  BrixelIcon,
-} from '@brixel/brixel-components';
-import sanitizeHtml from 'sanitize-html';
 import { DateTime } from 'luxon';
-import { feedMessage } from '../../../resources/dashboardHistory';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import sanitizeHtml from 'sanitize-html';
 import { getHistoryFeed } from '../../../actions/HistoryActions';
 import { getNoteListings } from '../../../actions/NoteActions';
+import { feedMessage } from '../../../resources/dashboardHistory';
 import { arrayMove } from '../../../utils/helpers';
 
 const SellerSidebar = (props) => {
   // PROPS
   const {
-    activeSingleProperty,
     activeSinglePropertyNotes,
     handleGetHistoryFeed,
     handleGetNoteListings,
@@ -27,11 +25,14 @@ const SellerSidebar = (props) => {
     loggedInUser,
     activeCompanyPackages,
   } = props;
+  const match = useParams();
   // STATE
   const [fullUpdates, setFullUpdates] = useState([]);
+  
+  const propID = get(match, 'propID', null);
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (propID) {
       const arrayStubs = [
         'page-create',
         'page-published',
@@ -45,7 +46,7 @@ const SellerSidebar = (props) => {
       ];
       const payloadPageHistory = {
         arrayStubs,
-        id: activeSingleProperty.id,
+        id: propID,
         resultsPerPage: 50,
         offset: 0,
         order: '',
@@ -53,7 +54,7 @@ const SellerSidebar = (props) => {
         smallLoader: 'getPageHistory',
       };
       const payloadNote = {
-        object: activeSingleProperty.id,
+        object: propID,
         type: 'page',
         resultsPerPage: 50,
         offset: 0,
@@ -66,7 +67,7 @@ const SellerSidebar = (props) => {
       handleGetHistoryFeed(payloadPageHistory);
       handleGetNoteListings(payloadNote);
     }
-  }, [activeSingleProperty.id]);
+  }, [propID]);
 
   useEffect(() => {
     let mergedFeed = historyFeed.concat(activeSinglePropertyNotes);
@@ -150,7 +151,6 @@ const SellerSidebar = (props) => {
 
 SellerSidebar.propTypes = {
   activeSinglePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
   handleGetNoteListings: PropTypes.func.isRequired,
   historyFeed: PropTypes.arrayOf(PropTypes.object).isRequired,
