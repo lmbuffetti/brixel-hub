@@ -1,9 +1,10 @@
 import { handleActions } from 'redux-actions';
 
 import {
+  SET_HISTORY_FEED,
   SET_PROPERTY_HISTORY_LISTINGS,
   SET_PROPERTY_OWNER_HISTORY_LISTINGS,
-  SET_HISTORY_FEED,
+  SET_USER_HISTORY_LISTINGS,
 } from '../actions/types/HistoryTypes';
 
 export const defaultState = {
@@ -23,6 +24,10 @@ export default handleActions(
       activeSinglePropertyOwnerHistory: action.payload,
     }),
     [SET_HISTORY_FEED]: (state, action) => ({
+      ...state,
+      historyFeed: action.payload,
+    }),
+    [SET_USER_HISTORY_LISTINGS]: (state, action) => ({
       ...state,
       historyFeed: action.payload,
     }),

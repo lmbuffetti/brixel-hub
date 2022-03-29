@@ -1,13 +1,12 @@
-import React, { Suspense, useEffect } from 'react';
-import { bindActionCreators, compose } from 'redux'; import {
-  Routes, Route, Navigate, useParams,
-} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Navigate, Route, Routes, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import Loading from '../../components/Loading';
-import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions';
 
 const OffersList = lazyWithRetry(() => import('./OffersList'));
 
@@ -24,9 +23,9 @@ const DashboardOffer = (props) => {
 
   useEffect(() => {
     const data = {
-      id: activeSingleProperty.id,
+      id: propID,
     };
-    if (activeSingleProperty.id) handleGetOfferListings(data);
+    if (propID) handleGetOfferListings(data);
   }, [activeSingleProperty]);
 
   return (

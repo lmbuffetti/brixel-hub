@@ -172,7 +172,7 @@ const App = (props) => {
       handleSetUserTypes('buyer');
     }
     handleSetActiveSingleDeal({});
-  }, [activeSingleProperty]);
+  }, [activeSingleProperty.id]);
 
   const bodyModal = document.getElementById('bodyModalWrapper');
   useEffect(() => {
@@ -196,9 +196,9 @@ const App = (props) => {
     }
     if (get(history, 'location', null) && typeof gtag === 'function') {
       gtag('event', 'page_view', {
-        page_location: history.location.pathname,
-        page_path: history.location.pathname,
-        send_to: baseByData.googleAnalyticsIdLogin,
+        page_title: 'Hub',
+        page_location: window.location.href,
+        send_to: baseByData.googleAnalyticsId,
       })
     }
     const splittedURL = get(history, 'location.pathname', '').split('/');

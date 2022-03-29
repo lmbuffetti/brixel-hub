@@ -29,14 +29,14 @@ const DealsDashboardBuyer = (props) => {
   const link = get(history, 'location.pathname', '').split('/');
 
   useEffect(() => {
-    if ((link[link.length - 1] === 'closing' || !link[link.length - 1]) && activeSingleDeal.id) {
+    if ((link[link.length - 1] === 'closing' || !link[link.length - 1] || link[link.length - 1] === 'undefined') && activeSingleDeal.id) {
       history.push(`/buyer/${propID}/closing/${activeSingleDeal.id}`);
     }
   }, [activeSingleDeal.id]);
 
   return (
     <div className={`${get(history, 'location.pathname', '').includes('closing/') ? '' : 'secondLevel'}`}>
-      <div className="">
+      <div>
         {
           (link[link.length - 1] === 'deal' || !link[link.length - 1]) && (
             <OfferDetail isBuyer />
