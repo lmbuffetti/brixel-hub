@@ -77,7 +77,11 @@ const Dashboard = (props) => {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
     if (dealID !== activeSingleDeal.id || !dealID) {
-      handleGetBuyerDeal({ id: propID });
+      let actionStub;
+      if (get(history, 'location.pathname', '').includes('showings')) actionStub = 'user-schedule';
+      if (get(history, 'location.pathname', '').includes('docubox')) actionStub = 'get-document';
+      if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
+      handleGetBuyerDeal({ id: propID, actionStub });
     }
   }, [propID]);
 
