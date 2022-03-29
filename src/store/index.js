@@ -1,29 +1,29 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
 import get from 'lodash/get';
-import { rootReducer } from '../reducers';
+import { applyMiddleware, compose, createStore } from 'redux';
+import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';
 import CompanyMiddleware from '../middlewares/CompanyMiddleware';
 import DealMiddleware from '../middlewares/DealMiddleware';
+import EstimationMiddleware from '../middlewares/EstimationMiddleware';
 import HistoryMiddleware from '../middlewares/HistoryMiddleware';
-import ImageMiddleware from '../middlewares/UploadMiddleware';
 import LeadMiddleware from '../middlewares/LeadMiddleware';
 import MarketMiddleware from '../middlewares/MarketMiddleware';
 import NoteMiddleware from '../middlewares/NoteMiddleware';
 import PropertyMiddleware from '../middlewares/PropertyMiddleware';
-import UserMiddleware from '../middlewares/UserMiddleware';
 import SearchProfile from '../middlewares/SearchProfileMiddleware';
-import EstimationMiddleware from '../middlewares/EstimationMiddleware';
+import ImageMiddleware from '../middlewares/UploadMiddleware';
+import UserMiddleware from '../middlewares/UserMiddleware';
+import { rootReducer } from '../reducers';
 
 const enhancers = [];
 const middlewares = [thunkMiddleware];
 
 const getIfDev = (get(window, 'location.href', '')).split('?');
 
-if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || (getIfDev[1] && getIfDev[1].includes('dev=true')))) {
+if (typeof window !== 'undefined' && ((getIfDev[1] && getIfDev[1].includes('dev=true')))) {
   middlewares.push(createLogger({
     colors: {
       title: () => "#002bff",

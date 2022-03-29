@@ -21,7 +21,7 @@ const zlib = require("zlib");
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
 const BUILD_DIR = path.join(ROOT_DIR, './dist');
-const devMode = process.argv[process.argv.length - 1] === 'development';
+const devMode = process.argv[process.argv.length - 1] !== 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
 const mode = devMode ?  'development' : 'production';
 
@@ -196,14 +196,14 @@ const clientConfig = () => {
       ],
     },
     plugins: [
-      new ESLintPlugin({
+      /*new ESLintPlugin({
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,
         emitError: true,
         fix: true,
-      }),
+      }),*/
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional

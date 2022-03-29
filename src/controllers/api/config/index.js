@@ -1,19 +1,18 @@
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import get from 'lodash/get';
-import ApiClient from './ApiClient';
 
 import Common from '../actions/Common';
 import Company from '../actions/Company';
 import Deal from '../actions/Deal';
+import Estimation from '../actions/Estimation';
 import History from '../actions/History';
 import Lead from '../actions/Lead';
+import Market from '../actions/Market';
 import Note from '../actions/Note';
 import Property from '../actions/Property';
+import SearchProfile from '../actions/SearchProfile';
 import Upload from '../actions/Upload';
 import User from '../actions/User';
-import SearchProfile from '../actions/SearchProfile';
-import Estimation from '../actions/Estimation';
-import Market from '../actions/Market';
+import ApiClient from './ApiClient';
 
 const getConfigEnvWeb = require('@brixel/brixel-configuration-partner/src/SettingsWebpack');
 
@@ -57,10 +56,7 @@ else env = 'PROD';
 let configUrl = getConfigEnvWeb(env, domain);
 
 if (typeof window !== 'undefined') {
-  const urlAddress = get(window, 'location.href', '');
-  if (urlAddress.includes('dev-') || urlAddress.includes('stage-') || urlAddress.includes('localhost')) {
-    configUrl = getConfigEnv;
-  }
+  configUrl = getConfigEnv;
 }
 
 export default apiFactory({
