@@ -196,14 +196,14 @@ const clientConfig = () => {
       ],
     },
     plugins: [
-      /*new ESLintPlugin({
+      new ESLintPlugin({
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,
         emitError: true,
         fix: true,
-      }),*/
+      }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional

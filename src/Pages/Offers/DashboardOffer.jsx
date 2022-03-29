@@ -22,7 +22,6 @@ const DashboardOffer = (props) => {
   const propID = get(match, 'propID', null);
 
   useEffect(() => {
-    console.log(match);
     const data = {
       id: propID,
     };
