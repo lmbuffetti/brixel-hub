@@ -446,6 +446,7 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.deal.getBuyerDeal(id)
         .then((res) => {
+          console.log(res.data);
           if (!res.data) {
             const deal = {
               page: id,
