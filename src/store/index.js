@@ -23,7 +23,7 @@ const middlewares = [thunkMiddleware];
 
 const getIfDev = (get(window, 'location.href', '')).split('?');
 
-if (typeof window !== 'undefined' && ((getIfDev[1] && getIfDev[1].includes('dev=true')))) {
+if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || (getIfDev[1] && getIfDev[1].includes('dev=true')))) {
   middlewares.push(createLogger({
     colors: {
       title: () => "#002bff",

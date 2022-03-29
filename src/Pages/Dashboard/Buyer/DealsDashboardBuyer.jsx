@@ -29,7 +29,8 @@ const DealsDashboardBuyer = (props) => {
   const link = get(history, 'location.pathname', '').split('/');
 
   useEffect(() => {
-    if ((link[link.length - 1] === 'closing' || !link[link.length - 1]) && activeSingleDeal.id) {
+    console.log(link[link.length - 1]);
+    if ((link[link.length - 1] === 'closing' || !link[link.length - 1] || link[link.length - 1] === 'undefined') && activeSingleDeal.id) {
       history.push(`/buyer/${propID}/closing/${activeSingleDeal.id}`);
     }
   }, [activeSingleDeal.id]);

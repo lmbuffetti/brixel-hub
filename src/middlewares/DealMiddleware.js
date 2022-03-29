@@ -448,7 +448,7 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           if (!res.data) {
             const deal = {
-              page: get(store.getState(), 'property.activeSingleProperty.id', ''),
+              page: id,
               user: get(store.getState(), 'user.loggedInUser.user.id', ''),
               stage: 'Interested',
               actionStub: 'add-favorite',
