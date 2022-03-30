@@ -1,25 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, useState, Suspense,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  Routes, Route, useLocation, useNavigate, useParams, Navigate,
-} from 'react-router-dom';
+import { change, initializeForm, reset } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import {
-  change,
-  initializeForm,
-  reset,
-} from '@brixel/brixel-components';
-import { setUserTypes, getUserPagesDeals } from '../../../actions/UserActions';
-import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { getActiveSingleProperty } from '../../../actions/PropertyActions';
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { spinnerOff } from '../../../actions/CommonActions';
-import { getFavoritesProperties } from '../../../actions/MarketActions';
+import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getBuyerDeal } from '../../../actions/DealActions';
+import { getFavoritesProperties } from '../../../actions/MarketActions';
+import { getActiveSingleProperty } from '../../../actions/PropertyActions';
+import { getUserPagesDeals, setUserTypes } from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 
 const PropertiesBuyerDashboard = lazyWithRetry(() => import('./PropertiesBuyerDashboard'));
@@ -84,10 +76,14 @@ const Dashboard = (props) => {
     } else if (activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
-    if (activeSingleProperty.id && (dealID !== activeSingleDeal.id || !dealID)) {
-      handleGetBuyerDeal({ id: activeSingleProperty.id });
+    if (dealID !== activeSingleDeal.id || !dealID) {
+      let actionStub;
+      if (get(history, 'location.pathname', '').includes('showings')) actionStub = 'user-schedule';
+      if (get(history, 'location.pathname', '').includes('docubox')) actionStub = 'get-document';
+      if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
+      handleGetBuyerDeal({ id: propID, actionStub });
     }
-  }, [activeSingleProperty]);
+  }, [propID]);
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists') {

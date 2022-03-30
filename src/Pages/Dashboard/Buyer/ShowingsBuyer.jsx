@@ -1,23 +1,19 @@
 /* eslint-disable array-callback-return */
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import get from 'lodash/get';
+import { DateTime } from 'luxon';
+import PropTypes from 'prop-types';
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useState, useEffect,
-} from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import get from 'lodash/get';
-import {
-  BrixelButtonPrimary,
-} from '@brixel/brixel-components';
-import { DateTime } from 'luxon';
-import Loading from '../../../components/Loading';
-import BrixelInfoSlot from '../../../components/BrixelInfoSlot';
 import { getActiveSinglePropertyBookings, setActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
-import showingsIMG from '../../../images/Listings/showings.svg';
+import BrixelInfoSlot from '../../../components/BrixelInfoSlot';
+import Loading from '../../../components/Loading';
 import showingsEmpty from '../../../images/Listings/showing_placeholder.svg';
+import showingsIMG from '../../../images/Listings/showings.svg';
 
 // COMPONENTS
 
@@ -45,9 +41,9 @@ const ShowingsBuyer = (props) => {
   useEffect(() => () => handleSetActiveSinglePropertyBookings([]), []);
 
   useEffect(() => {
-    if (formValue.id) {
+    if (propID) {
       const data = {
-        id: formValue.id,
+        id: propID,
         data: {
           user: loggedInUser.id,
         },
@@ -55,7 +51,7 @@ const ShowingsBuyer = (props) => {
       };
       handleGetActiveSinglePropertyBookings(data);
     }
-  }, [formValue]);
+  }, [propID]);
 
   // SET BOOKING
   useEffect(() => {

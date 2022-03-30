@@ -172,7 +172,7 @@ const App = (props) => {
       handleSetUserTypes('buyer');
     }
     handleSetActiveSingleDeal({});
-  }, [activeSingleProperty]);
+  }, [activeSingleProperty.id]);
 
   const bodyModal = document.getElementById('bodyModalWrapper');
   useEffect(() => {

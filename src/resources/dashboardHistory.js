@@ -103,6 +103,15 @@ export const feedMessage = (user, history, packages) => {
       message: `${user.email} just signed up`,
       icon: 'userNew',
     },
+    'page-status-success': {
+      className: 'brdGreen100',
+      colorIcon: 'Green',
+      colorBgIcon: 'Green',
+      colorIconSat: 100,
+      colorBgIconSat: 400,
+      message: 'Congratulations, your property has been sold.',
+      icon: 'tag',
+    },
     note: {
       className: 'brdGreen100',
       colorIcon: 'Green',
@@ -118,8 +127,8 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `${user.email} just signed up`,
-      icon: 'userNew',
+      message: history.content,
+      icon: 'tag',
     },
   });
 };

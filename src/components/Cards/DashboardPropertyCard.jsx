@@ -26,6 +26,7 @@ const DashboardPropertyCard = (props) => {
     formValue,
     handleSetModal,
     smallLayout,
+    type,
   } = props;
 
   return (
@@ -34,19 +35,23 @@ const DashboardPropertyCard = (props) => {
         <div>
           <div
             onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
-            className={`dis-b w-perc-100 ${smallLayout ? 'w-fix-sm-152' : 'w-fix-sm-232'} h-fix-152 pos-r`}
+            className={`dis-b w-perc-100 ${smallLayout ? 'w-fix-sm-160' : 'w-fix-sm-232'} h-fix-160 pos-r`}
           >
             <CoverPropertyImage
               className="cover w-perc-100 h-perc-100 negTop"
               coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(formValue, 'properties.propertyType', undefined)}
             />
-            <Link
-              to={`/${activeSingleProperty.id}/property/photos`}
-              className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
-            >
-              Edit
-            </Link>
+            {
+              type !== 'sold' && (
+                <Link
+                  to={`/${activeSingleProperty.id}/property/photos`}
+                  className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
+                >
+                  Edit
+                </Link>
+              )
+            }
           </div>
         </div>
         <div className="pl-3 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
@@ -55,144 +60,213 @@ const DashboardPropertyCard = (props) => {
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
           </div>
-          <>
-            {
-              smallLayout ? (
-                <div className="dis-fl-col dis-fl-row-sm jc-b a-c w-perc-100">
-                  <div className="dis-f a-c mr-a mr-sm-0">
-                    <BrixelIcon
-                      background="blue"
-                      saturation={100}
-                      color="blue"
-                      saturationTxt={700}
-                      padding="p-small-12"
-                      icon="price"
-                      rounded
-                      iconSize="large"
-                    />
-                    <div className="ml-2 dis-fl-col">
-                      <span className="txtLight600 fsize-300">Your Price</span>
-                      <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
-                        <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
-                        <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
-                      </Link>
-                    </div>
-                  </div>
-                  <BrixelButtonPrimary
-                    className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
-                    rounded
-                    label="Open"
-                    onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
-                  />
+          {
+            type === 'sold' ? (
+              <div className="w-perc-100">
+                <div className="fweight-600 txtBlue700 fsize-500 mb-2">
+                  <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
+                  <span className="ml-1">
+                    {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
+                  </span>
                 </div>
-              ) : (
-                <>
+                <div className="dis-f a-c">
                   {
-                    get(activeSingleProperty, 'price.total', 0) > 0 ? (
-                      <div className="dis-fl-col">
-                        <div className="dis-f a-c mt-3 mt-sm-0">
+                    get(activeSingleProperty, 'virtual', null) && (
+                      <div className="bgBlue300 tourLink h-fix-40">
+                        <button
+                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
+                          className="dis-f a-c" rel="noreferrer"
+                        >
                           <BrixelIcon
-                            background="blue"
-                            saturation={100}
-                            color="blue"
-                            saturationTxt={700}
-                            padding="p-small-12"
-                            icon="price"
+                            color="Blue"
                             rounded
-                            iconSize="large"
+                            saturationTxt={700}
+                            background="Blue"
+                            saturation={100}
+                            icon="tour"
+                            padding="p-small-8"
                           />
-                          <div className="ml-2 dis-fl-col">
-                            <span className="txtLight600 fsize-300"> Your Price</span>
-                            <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
-                              <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
-                              <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
-                            </Link>
-                          </div>
-                        </div>
+                          <span className="pl-1 pr-2 txtBlue700 fsize-300">
+                            3D-Tour
+                          </span>
+                        </button>
                       </div>
-                    ) : (
-                      <>
-                        {
-                          get(activeSingleProperty, 'proEstimation.value', 0) > 0 ? (
-                            <div className="dis-f pt-3 pt-sm-2 a-t">
-                              <BrixelIcon
-                                background="blue"
-                                saturation={100}
-                                color="blue"
-                                saturationTxt={700}
-                                padding="p-small-12"
-                                icon="chart"
-                                rounded
-                                iconSize="large"
-                              />
-                              <div className="dis-fl-col pl-2 mr-1">
-                                <span className="txtLight600 fsize-300">Pro estimation</span>
-                                <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 no-state fweight-600">
-                                  {get(activeSingleProperty, 'proEstimation.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'proEstimation.value', 0), get(activeSingleProperty, 'proEstimation.currency', 0))}
-                                </Link>
-                              </div>
-                              <div className="tagBg dis-fl-row-sm hide a-c">
-                                <span className="activeDot" />
-                                <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700"> Set your price </Link>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="dis-f pt-3 pt-sm-2 a-t">
-                              <BrixelIcon
-                                background="blue"
-                                saturation={100}
-                                color="blue"
-                                saturationTxt={700}
-                                padding="p-small-12"
-                                icon="chart"
-                                rounded
-                                iconSize="large"
-                              />
-                              <div className="dis-fl-col pl-2 mr-1">
-                                <span className="txtLight600 fsize-300">Your Bestimate</span>
-                                {
-                                  !get(estimation, 'status', null) && (
-                                    <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
-                                      Get Estimation
-                                    </Link>
-                                  )
-                                }
-                                {
-                                  get(estimation, 'status', '') === 'pending' && (
-                                    <span className="txtBlue700 fweight-600">
-                                      Pending
-                                    </span>
-                                  )
-                                }
-                                {
-                                  get(estimation, 'status', '') === 'processed' && (
-                                    <button
-                                      onClick={() => handleSetModal({
-                                        state: true,
-                                        type: 'bestimate',
-                                      })}
-                                      className="txtBlue700 no-state fweight-600"
-                                    >
-                                      {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', '').toFixed(0), get(estimation, 'currency', ''))}
-                                    </button>
-                                  )
-                                }
-                              </div>
-                              <div className="tagBg dis-fl-row-sm hide a-c">
-                                <span className="activeDot" />
-                                <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700"> Set your price </Link>
-                              </div>
-                            </div>
-                          )
-                        }
-                      </>
                     )
                   }
-                </>
-              )
-            }
-          </>
-
+                  {
+                    activeSingleProperty.photos && activeSingleProperty.photos.length > 0 && (
+                      <div className="ml-1">
+                        <BrixelIcon
+                          color="red"
+                          rounded
+                          saturationTxt={700}
+                          background="red"
+                          saturation={100}
+                          icon="photos"
+                          padding="p-small-10"
+                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/photos`)}
+                        />
+                      </div>
+                    )
+                  }
+                  {
+                    activeSingleProperty.floorPlans && activeSingleProperty.floorPlans.length > 0 && (
+                      <div className="ml-1">
+                        <BrixelIcon
+                          color="green"
+                          rounded
+                          saturationTxt={700}
+                          background="green"
+                          saturation={100}
+                          icon="plans"
+                          padding="p-small-10"
+                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/floorPlans`)}
+                        />
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
+            ) : (
+              <>
+                {
+                  smallLayout ? (
+                    <div className="dis-fl-col dis-fl-row-sm jc-b a-c w-perc-100">
+                      <div className="dis-f a-c mr-a mr-sm-0">
+                        <BrixelIcon
+                          background="blue"
+                          saturation={100}
+                          color="blue"
+                          saturationTxt={700}
+                          padding="p-small-12"
+                          icon="price"
+                          rounded
+                          iconSize="large"
+                        />
+                        <div className="ml-2 dis-fl-col">
+                          <span className="txtLight600 fsize-300">Your Price</span>
+                          <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
+                            <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
+                            <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
+                          </Link>
+                        </div>
+                      </div>
+                      <BrixelButtonPrimary
+                        className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
+                        rounded
+                        label="Open"
+                        onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      {
+                        get(activeSingleProperty, 'price.total', 0) > 0 ? (
+                          <div className="dis-fl-col">
+                            <div className="dis-f a-c mt-3 mt-sm-0">
+                              <BrixelIcon
+                                background="blue"
+                                saturation={100}
+                                color="blue"
+                                saturationTxt={700}
+                                padding="p-small-12"
+                                icon="price"
+                                rounded
+                                iconSize="large"
+                              />
+                              <div className="ml-2 dis-fl-col">
+                                <span className="txtLight600 fsize-300"> Your Price</span>
+                                <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
+                                  <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
+                                  <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            {
+                              get(activeSingleProperty, 'proEstimation.value', 0) > 0 ? (
+                                <div className="dis-f pt-3 pt-sm-2 a-t">
+                                  <BrixelIcon
+                                    background="blue"
+                                    saturation={100}
+                                    color="blue"
+                                    saturationTxt={700}
+                                    padding="p-small-12"
+                                    icon="chart"
+                                    rounded
+                                    iconSize="large"
+                                  />
+                                  <div className="dis-fl-col pl-2 mr-1">
+                                    <span className="txtLight600 fsize-300">Pro estimation</span>
+                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 no-state fweight-600">
+                                      {get(activeSingleProperty, 'proEstimation.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'proEstimation.value', 0), get(activeSingleProperty, 'proEstimation.currency', 0))}
+                                    </Link>
+                                  </div>
+                                  <div className="tagBg dis-fl-row-sm hide a-c">
+                                    <span className="activeDot" />
+                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700"> Set your price </Link>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="dis-f pt-3 pt-sm-2 a-t">
+                                  <BrixelIcon
+                                    background="blue"
+                                    saturation={100}
+                                    color="blue"
+                                    saturationTxt={700}
+                                    padding="p-small-12"
+                                    icon="chart"
+                                    rounded
+                                    iconSize="large"
+                                  />
+                                  <div className="dis-fl-col pl-2 mr-1">
+                                    <span className="txtLight600 fsize-300">Your Bestimate</span>
+                                    {
+                                      !get(estimation, 'status', null) && (
+                                        <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
+                                          Get Estimation
+                                        </Link>
+                                      )
+                                    }
+                                    {
+                                      get(estimation, 'status', '') === 'pending' && (
+                                        <span className="txtBlue700 fweight-600">
+                                          Pending
+                                        </span>
+                                      )
+                                    }
+                                    {
+                                      get(estimation, 'status', '') === 'processed' && (
+                                        <button
+                                          onClick={() => handleSetModal({
+                                            state: true,
+                                            type: 'bestimate',
+                                          })}
+                                          className="txtBlue700 no-state fweight-600"
+                                        >
+                                          {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', '').toFixed(0), get(estimation, 'currency', ''))}
+                                        </button>
+                                      )
+                                    }
+                                  </div>
+                                  <div className="tagBg dis-fl-row-sm hide a-c">
+                                    <span className="activeDot" />
+                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700"> Set your price </Link>
+                                  </div>
+                                </div>
+                              )
+                            }
+                          </>
+                        )
+                      }
+                    </>
+                  )
+                }
+              </>
+            )
+          }
         </div>
       </div>
     </>
@@ -205,10 +279,12 @@ DashboardPropertyCard.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   smallLayout: PropTypes.bool,
+  type: PropTypes.string,
 };
 
 DashboardPropertyCard.defaultProps = {
   smallLayout: false,
+  type: 'own',
 };
 
 const mapStateToProps = (state) => ({

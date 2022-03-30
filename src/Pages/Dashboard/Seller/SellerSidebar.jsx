@@ -1,25 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { BrixelIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
 import orderBy from 'lodash/orderBy';
-import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
-import {
-  BrixelIcon,
-} from '@brixel/brixel-components';
-import sanitizeHtml from 'sanitize-html';
 import { DateTime } from 'luxon';
-import { feedMessage } from '../../../resources/dashboardHistory';
-import { getHistoryFeed } from '../../../actions/HistoryActions';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import sanitizeHtml from 'sanitize-html';
+import { getHistoryListings } from '../../../actions/HistoryActions';
 import { getNoteListings } from '../../../actions/NoteActions';
+import { feedMessage } from '../../../resources/dashboardHistory';
+import timelineActionStubs from '../../../resources/timelineActionStubs';
 import { arrayMove } from '../../../utils/helpers';
 
 const SellerSidebar = (props) => {
   // PROPS
   const {
-    activeSingleProperty,
     activeSinglePropertyNotes,
     handleGetHistoryFeed,
     handleGetNoteListings,
@@ -27,38 +26,31 @@ const SellerSidebar = (props) => {
     loggedInUser,
     activeCompanyPackages,
   } = props;
+  const match = useParams();
   // STATE
   const [fullUpdates, setFullUpdates] = useState([]);
+  
+  const propID = get(match, 'propID', null);
 
   useEffect(() => {
-    if (activeSingleProperty.id) {
-      const arrayStubs = [
-        'page-create',
-        'page-published',
-        'page-scan-trial',
-        'page-start-service-package',
-        'page-stop-service-package',
-        'page-unpublished',
-        'pro-estimation-complete',
-        'user-create-estimation',
-        'user-register',
-      ];
+    if (propID) {
       const payloadPageHistory = {
-        arrayStubs,
-        id: activeSingleProperty.id,
+        actionStubs: timelineActionStubs.SellerSidebar,
+        parent: propID,
         resultsPerPage: 50,
         offset: 0,
-        order: '',
+        order: 'createdAt',
         direction: 'DESC',
         smallLoader: 'getPageHistory',
+        type: 'page',
       };
       const payloadNote = {
-        object: activeSingleProperty.id,
+        object: propID,
         type: 'page',
         resultsPerPage: 50,
         offset: 0,
         text: '',
-        order: '',
+        order: 'createdAt',
         direction: 'DESC',
         company: '',
         smallLoader: 'pageNotes',
@@ -66,7 +58,7 @@ const SellerSidebar = (props) => {
       handleGetHistoryFeed(payloadPageHistory);
       handleGetNoteListings(payloadNote);
     }
-  }, [activeSingleProperty.id]);
+  }, [loggedInUser.id, propID]);
 
   useEffect(() => {
     let mergedFeed = historyFeed.concat(activeSinglePropertyNotes);
@@ -150,7 +142,6 @@ const SellerSidebar = (props) => {
 
 SellerSidebar.propTypes = {
   activeSinglePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
   handleGetNoteListings: PropTypes.func.isRequired,
   historyFeed: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -164,13 +155,13 @@ SellerSidebar.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  historyFeed: get(state, 'history.historyFeed.data', []),
+  historyFeed: get(state, 'history.activeSinglePropertyHistory.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetHistoryFeed: bindActionCreators(getHistoryFeed, dispatch),
+  handleGetHistoryFeed: bindActionCreators(getHistoryListings, dispatch),
   handleGetNoteListings: bindActionCreators(getNoteListings, dispatch),
 });
 

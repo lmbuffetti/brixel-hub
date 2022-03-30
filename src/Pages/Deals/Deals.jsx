@@ -1,64 +1,34 @@
 /* eslint-disable react/jsx-no-bind */
-import React, {
-  useEffect, useState, Fragment,
-} from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {
-  connect,
-} from 'react-redux';
-import get from 'lodash/get';
-import set from 'lodash/set';
-// import orderBy from 'lodash/orderBy';
-import forEach from 'lodash/forEach';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers } from '@brixel/brixel-components';
+import { has } from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
+// import orderBy from 'lodash/orderBy';
+import forEach from 'lodash/forEach';
+import get from 'lodash/get';
+import set from 'lodash/set';
 import { DateTime } from 'luxon';
-import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers,
-} from '@brixel/brixel-components';
-import {
-  bindActionCreators, compose,
-} from 'redux';
-import {
-  DragDropContext, Droppable, Draggable,
-} from 'react-beautiful-dnd';
-import {
-  has,
-} from 'lodash';
-import {
-  getPageDeals, setPageDeals,
-} from '../../actions/PropertyActions';
-import {
-  setActiveSingleDeal, saveActiveSingleDeal, updateDealsOrder,
-} from '../../actions/DealActions';
-import {
-  preventExitFromScreen,
-} from '../../actions/CommonActions';
+import PropTypes from 'prop-types';
+import React, { Fragment, useEffect, useState } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import { preventExitFromScreen } from '../../actions/CommonActions';
+import { saveActiveSingleDeal, setActiveSingleDeal, updateDealsOrder } from '../../actions/DealActions';
+import { getPageDeals, setPageDeals } from '../../actions/PropertyActions';
 import DealsCard from '../../components/Cards/DealsCard';
 import DealsTitle from '../../components/DealsTitle';
 import FilterBar from '../../components/FilterBar';
-import {
-  setCookie, getCookie,
-} from '../../utils/helpers';
 import DealSkelton from '../../images/deals-skelton.svg';
+import { getCookie, setCookie } from '../../utils/helpers';
 
 const Deals = (props) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
   };
-  const [processedDeals, setProcessedDeals] = useState(null);
-  const [activeDestColumn, setActiveDestColumn] = useState(null);
-  const [activeIndexDeal, setActiveIndexDeal] = useState(-1);
-  const [activeOrgColumn, setActiveOrgColumn] = useState(null);
-  const [filteredDeals, setFilteredDeals] = useState(null);
-  const [emptyDeals, setEmptyDeals] = useState(false);
-  const [activeTab, setActiveTab] = useState(null);
-  const [filterStatus, setFilterStatus] = useState({
-    status: getCookie('brixelFilterDeal') || 'all',
-  });
-
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
@@ -74,6 +44,19 @@ const Deals = (props) => {
     userLang,
     windowDimensions,
   } = props;
+  
+  const [processedDeals, setProcessedDeals] = useState(null);
+  const [activeDestColumn, setActiveDestColumn] = useState(null);
+  const [activeIndexDeal, setActiveIndexDeal] = useState(-1);
+  const [activeOrgColumn, setActiveOrgColumn] = useState(null);
+  const [filteredDeals, setFilteredDeals] = useState(null);
+  const [emptyDeals, setEmptyDeals] = useState(false);
+  const [activeTab, setActiveTab] = useState(null);
+  const [filterStatus, setFilterStatus] = useState({
+    status: getCookie('brixelFilterDeal') || 'all',
+  });
+  
+  const propID = get(match, 'propID', null);
 
   useEffect(() => {
     if (windowDimensions.width <= 1024 && !activeTab) {
@@ -89,14 +72,14 @@ const Deals = (props) => {
 
   // GET THE BUYERS REQUEST FOR CURRENT PROPERTY
   useEffect(() => {
-    if (activeSingleProperty.id) {
+    if (propID) {
       const data = {
-        id: activeSingleProperty.id,
+        id: propID,
         smallLoader: 'loadDeal',
       };
       handleGetPageDeals(data);
     }
-  }, [activeSingleProperty]);
+  }, [propID]);
 
   const processDeals = (list) => {
     if (activeSinglePropertyDeals) {

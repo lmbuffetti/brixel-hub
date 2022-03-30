@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -10,6 +10,8 @@ import {
 import {
   DateTime,
 } from 'luxon';
+import TimelineActionStubs from '../../resources/timelineActionStubs';
+import api from '../../controllers/api/config';
 
 const DealsCard = (props) => {
   const {
@@ -24,11 +26,12 @@ const DealsCard = (props) => {
     archived,
     isWinner,
     isNew,
-    lastAction,
     stage,
     visit,
     lang,
   } = props;
+  
+  const [lastAction, setLastAction] = useState({})
 
   const returnMessage = () => {
     if (Object.keys(lastAction).length > 0) {
@@ -46,6 +49,16 @@ const DealsCard = (props) => {
     } else if (offer === '') return 'Made an offer';
     return '';
   };
+  
+  useEffect(() => {
+    if (stage === 'Interested') {
+      const queryParams = `?parent=${profileId}&order=DESC&direction=createdAt&historyType=user`;
+      api.history.getHistoryList(1, 0, queryParams, TimelineActionStubs.DealLastAction)
+        .then((res) => {
+          setLastAction(get(res, 'data.data.[0]', {}));
+        });
+    }
+  }, [profileId]);
 
   const getIcon = () => {
     if (visit < +new Date().setHours(0, 0, 0, 0)) return 'calendar-check';
@@ -223,17 +236,16 @@ DealsCard.propTypes = {
   archived: PropTypes.bool,
   className: PropTypes.string,
   date: PropTypes.string,
+  feedback: PropTypes.object,
   isNew: PropTypes.bool,
   isWinner: PropTypes.bool,
-  lastAction: PropTypes.object,
-  feedback: PropTypes.object,
+  lang: PropTypes.string,
   name: PropTypes.string,
   offer: PropTypes.object,
   parentOnClick: PropTypes.func,
   profileId: PropTypes.string,
   stage: PropTypes.string,
   visit: PropTypes.number,
-  lang: PropTypes.string,
 };
 
 DealsCard.defaultProps = {
@@ -241,17 +253,16 @@ DealsCard.defaultProps = {
   archived: false,
   className: '',
   date: '',
+  feedback: {},
   isNew: false,
   isWinner: false,
-  lastAction: {},
-  feedback: {},
+  lang: 'en',
   name: '',
   offer: {},
   parentOnClick: () => '',
   profileId: '',
   stage: '',
   visit: 0,
-  lang: 'en',
 };
 
 export default DealsCard;

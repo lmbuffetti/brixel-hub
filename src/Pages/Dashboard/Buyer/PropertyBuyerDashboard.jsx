@@ -173,7 +173,7 @@ const PropertyBuyerDashboard = (props) => {
               <Suspense fallback={<Loading isLoading />}>
                 <Routes>
                   <Route path="/page" element={<PageBuyer />} />
-                  <Route path="/contact" element={<ContactBuyer />} />
+                  <Route path="/contact/*" element={<ContactBuyer />} />
                   <Route path="/showings/*" element={<ShowingsBuyer />} />
                   <Route path="*" element={<Navigate to={`/buyer/${propID}/property/page`} />} />
                 </Routes>

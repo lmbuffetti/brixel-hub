@@ -429,6 +429,7 @@ const checkCommon = (store) => (next) => (action) => {
     case GET_BUYER_DEAL: {
       next(action);
       const {
+        actionStub,
         id,
         smallLoader,
       } = action.payload;
@@ -448,11 +449,11 @@ const checkCommon = (store) => (next) => (action) => {
         .then((res) => {
           if (!res.data) {
             const deal = {
-              page: get(store.getState(), 'property.activeSingleProperty.id', ''),
+              page: id,
               user: get(store.getState(), 'user.loggedInUser.user.id', ''),
               stage: 'Interested',
-              actionStub: 'add-favorite',
             };
+            if (actionStub) deal.actionStub = actionStub;
             api.deal.createSingleDeal(deal)
               .then((response1) => {
                 if (response1.meta.normalizedStatus === 200) {
