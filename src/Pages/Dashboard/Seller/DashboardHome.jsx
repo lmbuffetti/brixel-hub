@@ -979,9 +979,9 @@ const DashboardHome = (props) => {
   
                 {
                   get(activeSingleCompany, 'links.review', null) && (
-                    <div
+                    <button
                       onClick={() => window.open(get(activeSingleCompany, 'links.review', null), '_blank')}
-                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite"
+                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
                     >
                       <div className="dis-fl-col max-w-perc-100">
                         <span className="fsize-400 txtGreen400">
@@ -998,20 +998,20 @@ const DashboardHome = (props) => {
                         </div>
         
                         <BrixelButtonPrimary
-                          onClick={() => window.open(get(activeSingleCompany, 'links.review', null), '_blank')}
+                          onClick={() => ''}
                           className="mt-2 as-fs"
                           rounded
                           label="Review us on Google"
                         />
                       </div>
-                    </div>
+                    </button>
                   )
                 }
                 {
                   get(activeSingleCompany, 'links.survey', null) && (
-                    <div
+                    <button
                       onClick={() => window.open(get(activeSingleCompany, 'links.survey', null), '_blank')}
-                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite"
+                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
                     >
                       <div className="dis-fl-col max-w-perc-100">
                         <span className="fsize-400 txtGreen400">
@@ -1028,13 +1028,13 @@ const DashboardHome = (props) => {
                         </div>
           
                         <BrixelButtonSecondary
-                          onClick={() => window.open(get(activeSingleCompany, 'links.survey', null), '_blank')}
+                          onClick={() => ''}
                           className="mt-2 as-fs"
                           rounded
                           label="Fill our survey"
                         />
                       </div>
-                    </div>
+                    </button>
                   )
                 }
               </div>
