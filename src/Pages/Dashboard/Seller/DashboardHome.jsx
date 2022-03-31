@@ -1042,7 +1042,7 @@ const DashboardHome = (props) => {
               <div
                 onClick={() => history.push(`/buy`)}
                 className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100"
-                style={{backgroundImage: `url(${marketNewHomeSvg})`}}
+                style={{backgroundImage: `url(${marketNewHomeSvg})`, backgroundSize: 'auto 100%'}}
               >
                 <div className="dis-fl-col max-w-perc-100">
                   <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600">
