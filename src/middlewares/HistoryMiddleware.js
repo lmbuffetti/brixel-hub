@@ -28,6 +28,7 @@ const checkHistory = (store) => (next) => (action) => {
       next(action);
       // eslint-disable-next-line no-case-declarations
       const {
+        child,
         direction,
         offset,
         order,
@@ -54,7 +55,8 @@ const checkHistory = (store) => (next) => (action) => {
         return action.payload.type;
       };
 
-      const queryParams = `?parent=${parent}&order=${order}&direction=${direction}&historyType=${getType()}`;
+      let queryParams = `?parent=${parent}&order=${order}&direction=${direction}&historyType=${getType()}`;
+      if (child) queryParams += `&child=${child}`;
       api.history.getHistoryList(resultsPerPage, offset, queryParams, actionStubs)
         .then((response) => {
           if (response.data.total > 0) {

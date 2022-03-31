@@ -66,6 +66,7 @@ const SellerSidebar = (props) => {
       const payloadUserHistory = {
         actionStubs: timelineActionStubs.SellerSidebar,
         parent: loggedInUser.id,
+        child: propID,
         resultsPerPage: 50,
         offset: 0,
         order: 'createdAt',
