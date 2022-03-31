@@ -19,12 +19,13 @@ import { arrayMove } from '../../../utils/helpers';
 const SellerSidebar = (props) => {
   // PROPS
   const {
+    activeCompanyPackages,
+    activeSinglePropertyHistory,
     activeSinglePropertyNotes,
+    activeSingleUserHistory,
     handleGetHistoryFeed,
     handleGetNoteListings,
-    historyFeed,
     loggedInUser,
-    activeCompanyPackages,
   } = props;
   const match = useParams();
   // STATE
@@ -44,6 +45,16 @@ const SellerSidebar = (props) => {
         smallLoader: 'getPageHistory',
         type: 'page',
       };
+      const payloadUserHistory = {
+        actionStubs: timelineActionStubs.SellerSidebar,
+        parent: loggedInUser.id,
+        resultsPerPage: 50,
+        offset: 0,
+        order: 'createdAt',
+        direction: 'DESC',
+        smallLoader: 'getPageHistory',
+        type: 'user',
+      };
       const payloadNote = {
         object: propID,
         type: 'page',
@@ -56,12 +67,14 @@ const SellerSidebar = (props) => {
         smallLoader: 'pageNotes',
       };
       handleGetHistoryFeed(payloadPageHistory);
+      handleGetHistoryFeed(payloadUserHistory);
       handleGetNoteListings(payloadNote);
     }
   }, [loggedInUser.id, propID]);
 
   useEffect(() => {
-    let mergedFeed = historyFeed.concat(activeSinglePropertyNotes);
+    let mergedFeed = activeSinglePropertyHistory.concat(activeSinglePropertyNotes);
+    mergedFeed = activeSingleUserHistory.concat(mergedFeed);
     mergedFeed = orderBy(mergedFeed, ['createdAt'], ['desc']);
     let newId = 0;
     mergedFeed.forEach((item, i) => {
@@ -71,7 +84,7 @@ const SellerSidebar = (props) => {
       }
     });
     setFullUpdates(mergedFeed);
-  }, [historyFeed, activeSinglePropertyNotes]);
+  }, [activeSinglePropertyHistory, activeSingleUserHistory, activeSinglePropertyNotes]);
 
   const convertFeedMessage = (stub, type, history) => {
     const data = feedMessage(loggedInUser, history, activeCompanyPackages);
@@ -141,23 +154,25 @@ const SellerSidebar = (props) => {
 };
 
 SellerSidebar.propTypes = {
+  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
   handleGetNoteListings: PropTypes.func.isRequired,
-  historyFeed: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 SellerSidebar.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  historyFeed: get(state, 'history.activeSinglePropertyHistory.data', []),
-  loggedInUser: get(state, 'user.loggedInUser.user', { }),
   activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory.data', []),
+  activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
+  activeSingleUserHistory: get(state, 'history.activeSingleUserHistory.data', []),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
 });
 
 const mapDispatchToProps = (dispatch) => ({
