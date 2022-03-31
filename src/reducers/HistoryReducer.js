@@ -9,6 +9,7 @@ import {
 
 export const defaultState = {
   activeSinglePropertyHistory: {},
+  activeSingleUserHistory: {},
   activeSinglePropertyOwnerHistory: {},
   historyFeed: {},
 };
@@ -29,7 +30,7 @@ export default handleActions(
     }),
     [SET_USER_HISTORY_LISTINGS]: (state, action) => ({
       ...state,
-      historyFeed: action.payload,
+      activeSingleUserHistory: action.payload,
     }),
   },
   defaultState,
