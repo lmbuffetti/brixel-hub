@@ -45,16 +45,6 @@ const SellerSidebar = (props) => {
         smallLoader: 'getPageHistory',
         type: 'page',
       };
-      const payloadUserHistory = {
-        actionStubs: timelineActionStubs.SellerSidebar,
-        parent: loggedInUser.id,
-        resultsPerPage: 50,
-        offset: 0,
-        order: 'createdAt',
-        direction: 'DESC',
-        smallLoader: 'getPageHistory',
-        type: 'user',
-      };
       const payloadNote = {
         object: propID,
         type: 'page',
@@ -67,10 +57,25 @@ const SellerSidebar = (props) => {
         smallLoader: 'pageNotes',
       };
       handleGetHistoryFeed(payloadPageHistory);
-      handleGetHistoryFeed(payloadUserHistory);
       handleGetNoteListings(payloadNote);
     }
-  }, [loggedInUser.id, propID]);
+  }, [propID]);
+  
+  useEffect(() => {
+    if (loggedInUser.id) {
+      const payloadUserHistory = {
+        actionStubs: timelineActionStubs.SellerSidebar,
+        parent: loggedInUser.id,
+        resultsPerPage: 50,
+        offset: 0,
+        order: 'createdAt',
+        direction: 'DESC',
+        smallLoader: 'getPageHistory',
+        type: 'user',
+      };
+      handleGetHistoryFeed(payloadUserHistory);
+    }
+  }, [loggedInUser.id]);
 
   useEffect(() => {
     let mergedFeed = activeSinglePropertyHistory.concat(activeSinglePropertyNotes);
