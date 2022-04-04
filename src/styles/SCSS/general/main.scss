@@ -993,3 +993,11 @@ button.minimum-w-210 {
 input::-webkit-date-and-time-value {
   text-align: left !important;
 }
+
+.brixel-pageNotFound.errorPage {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 9999999;
+}

@@ -1,4 +1,5 @@
 /* global ga, gtag, Transifex */
+import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect, useState, useRef, useCallback, Fragment, Suspense,
@@ -38,6 +39,7 @@ import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 import lazyWithRetry from './components/LazyWithRetry';
 
+import PartialErrorBoundering from './components/PartialErrorBoundering';
 // SIGNUP
 const Signup = lazyWithRetry(() => import('./Pages/Signup/Signup'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
@@ -116,6 +118,7 @@ const App = (props) => {
     loggedInUser,
     modal,
     notification,
+    pageError,
     redirectTo,
     splashScreenType,
     teamAvatars,
@@ -399,7 +402,15 @@ const App = (props) => {
   }
   
   return (
-    <>
+    <PartialErrorBoundering>
+      {
+        pageError && (
+          <BrixelPage500
+            className="errorPage"
+            errorMessage="You can try again or go back to the dashboard"
+          />
+        )
+      }
       <main
         className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
         ref={dashWrapperRef}
@@ -688,7 +699,7 @@ const App = (props) => {
           </Routes>
         </Suspense>
       </main>
-    </>
+    </PartialErrorBoundering>
   );
 };
 
@@ -710,6 +721,7 @@ App.propTypes = {
   modal: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   redirectTo: PropTypes.object,
+  pageError: PropTypes.bool.isRequired,
   splashScreenType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   userTypes: PropTypes.string,
@@ -731,6 +743,7 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', []),
+  pageError: get(state, 'common.setPageData.pageError', false),
   redirectTo: get(state, 'common.redirectTo', null),
   splashScreenType: get(state, 'common.splashScreenType', ''),
   teamAvatars: get(state, 'companies.activeSingleCompany.teamAvatars', get(state, 'user.loggedInUser.user.company.teamAvatars', [])),
