@@ -26,6 +26,7 @@ const Page = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleProperty,
     changeFieldValue,
     company,
     formValue,
@@ -49,10 +50,10 @@ const Page = (props) => {
   const onClickPreview = () => {
     let url;
     if (formValue.published) {
-      url = `${baseByData.pageUrl}${formValue.stub}`;
+      url = `${baseByData.pageUrl}${activeSingleProperty.stub}`;
       window.open(url, '_blank');
     } else {
-      url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${get(window, 'location.href', '')}`;
+      url = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
       window.location.assign(url);
     }
   };
@@ -64,7 +65,7 @@ const Page = (props) => {
         <h3 className="mb-3 hide dis-b-lg">Brixel Page</h3>
         <div className="">
           {
-            formValue.published ? (
+            activeSingleProperty.published ? (
               <BrixelButtonPrimary
                 leftIcon="eye"
                 label="Live view"
@@ -92,7 +93,7 @@ const Page = (props) => {
                 <h5 className="sectionTitle">Brixel Page</h5>
                 <div className="">
                   {
-                    formValue.published ? (
+                    activeSingleProperty.published ? (
                       <BrixelButtonPrimary
                         leftIcon="eye"
                         label="Live view"
@@ -212,7 +213,7 @@ const Page = (props) => {
                     )
                   }
                   {
-                    formValue.published && (
+                    activeSingleProperty.published && (
                       <>
                         <div className="ta-c mt-4">
                           <h5 className="mb-1">Share for free.</h5>
@@ -294,7 +295,7 @@ const Page = (props) => {
           </div>
 
           {
-            !formValue.published && !formValue.publishReview && (
+            !activeSingleProperty.published && !formValue.publishReview && (
               <BrixelUpgradeMessage
                 title="Make your Brixel Page public."
                 description="You can publish your Brixel Page for free to share it wherever you want. We will review your content before publishing to make sure you get the best result."
@@ -315,6 +316,7 @@ const Page = (props) => {
 };
 
 Page.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   company: PropTypes.object.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -323,6 +325,7 @@ Page.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   company: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),

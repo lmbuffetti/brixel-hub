@@ -27,6 +27,7 @@ const Portals = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleProperty,
     company,
     customPortals,
     formValue,
@@ -69,7 +70,7 @@ const Portals = (props) => {
       description: 'We offer you a free trial of 7 days for our Premium package, including listings on the biggest portals. During this time we will publish your listing on Homegate, ImmoScout24 and Newhome. After this period you can upgrade to continue being present on the biggest portals.',
       btnLabel: 'Start free trial',
     };
-    if (get(formValue, 'location.countryCode', null) === 'PT') {
+    if (get(activeSingleProperty, 'location.countryCode', null) === 'PT') {
       message = {
         title: 'Get 7 days of listings for free.',
         description: 'We offer you a free trial of 7 days for our Premium package, including listings on the biggest portals. During this time we will publish your listing on Idealista and Imovirtual. After this period you can upgrade to continue being present on the biggest portals.',
@@ -94,7 +95,7 @@ const Portals = (props) => {
         </div>
 
         {
-          has(formValue, 'published') && formValue.published === false && (
+          has(activeSingleProperty, 'published') && activeSingleProperty.published === false && (
             <div className="boxCard mb-5">
               <div className="portalsWrapper dis-fl-col cardInfoBox">
                 <BrixelSwitchButton
@@ -102,13 +103,13 @@ const Portals = (props) => {
                   label="Pre-market"
                   className="mb-3 boldLabel"
                   input={{
-                    onChange: () => changeFieldValue('preMarketVisible', !formValue.preMarketVisible),
+                    onChange: () => changeFieldValue('preMarketVisible', !activeSingleProperty.preMarketVisible),
                     name: 'stageOffer',
-                    value: formValue.preMarketVisible,
+                    value: activeSingleProperty.preMarketVisible,
                   }}
                 />
                 {
-                  get(formValue, 'preMarketVisible', false) === true ? (
+                  get(activeSingleProperty, 'preMarketVisible', false) === true ? (
                     <p className="txtDark700">
                       Your property is visible on our pre-market.
                       Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
@@ -126,12 +127,12 @@ const Portals = (props) => {
 
             <div className="max-h-perc-100 pb-4 ov-a">
               {
-                formValue.portalsReview ? (
+                activeSingleProperty.portalsReview ? (
                   <>
                     <div className="ta-c mt-2">
                       <img className="h-fix-120" src={portalReview} alt="Page Under review" />
                       {
-                        formValue.portalsReview === 'offline' ? (
+                        activeSingleProperty.portalsReview === 'offline' ? (
                           <>
                             <h5 className="txtPrimary600 mb-2 mt-3">Your property gets unpublished…</h5>
 
@@ -312,7 +313,7 @@ const Portals = (props) => {
         }
 
         {
-          !checkPortalsOnline() && !formValue.portalsReview && (
+          !checkPortalsOnline() && !activeSingleProperty.portalsReview && (
             <BrixelUpgradeMessage
               title={messageToUnlock('title')}
               description={messageToUnlock('description')}
@@ -330,6 +331,7 @@ const Portals = (props) => {
 };
 
 Portals.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   company: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
@@ -341,12 +343,14 @@ Portals.propTypes = {
 
 const mapStateToProps = (state) => {
   const formValue = get(state, 'brixelForm.Property.values', {});
+  const activeSingleProperty = get(state, 'property.activeSingleProperty', {});
   return ({
+    activeSingleProperty,
     company: get(state, 'companies.activeSingleCompany', {}),
-    customPortals: get(formValue, 'customPortals', {}),
-    formValue: get(state, 'brixelForm.Property.values', {}),
+    customPortals: get(activeSingleProperty, 'customPortals', {}),
+    formValue,
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    portals: get(formValue, 'portals', {}),
+    portals: get(activeSingleProperty, 'portals', {}),
   });
 };
 

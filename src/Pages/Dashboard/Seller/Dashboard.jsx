@@ -410,7 +410,6 @@ Dashboard.defaultProps = {
 const mapStateToProps = (state) => {
   const properties = get(state, 'property.activeSingleProperty.properties', {});
   const formValue = get(state, 'property.activeSingleProperty', {});
-  const allPortals = diff(get(state, 'property.activeSingleProperty.customPortals', {}), get(state, 'property.activeSingleProperty.portals', {}));
   set(properties, 'typology.livingArea.unit', 'm2');
   set(properties, 'typology.grossArea.unit', 'm2');
   set(properties, 'typology.additionalArea.unit', 'm2');
@@ -435,10 +434,10 @@ const mapStateToProps = (state) => {
     imageType: get(state, 'images.imageType', []),
     initValues: get(state, 'brixelForm.Property.initialValues', {}),
     initialValues: {
-      booking: get(state, 'property.activeSinglePropertyBooking', []),
+      // booking: get(state, 'property.activeSinglePropertyBooking', []),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
-      customPortals: get(state, 'property.activeSingleProperty.customPortals', {}),
+      // customPortals: get(state, 'property.activeSingleProperty.customPortals', {}),
       description: get(state, 'property.activeSingleProperty.description', {}),
       documents: get(state, 'property.activeSingleProperty.documents', []),
       floorPlans: get(state, 'property.activeSingleProperty.floorPlans', []),
@@ -459,14 +458,14 @@ const mapStateToProps = (state) => {
         contactEmail: get(state, 'user.loggedInUser.user.email', ''),
         contactPhone: get(state, 'user.loggedInUser.user.phone', ''),
       },
-      portals: allPortals,
+      // portals: allPortals,
       portalsReview: get(state, 'property.activeSingleProperty.portalsReview', null),
       properties,
       preMarketVisible: get(state, 'property.activeSingleProperty.preMarketVisible', false),
       publishReview: get(state, 'property.activeSingleProperty.publishReview', null),
       published: get(state, 'property.activeSingleProperty.published', null),
-      schedule: get(state, 'property.activeSingleProperty.schedule', {}),
-      stub: get(state, 'property.activeSingleProperty.stub', null),
+      // schedule: get(state, 'property.activeSingleProperty.schedule', {}),
+      // stub: get(state, 'property.activeSingleProperty.stub', null),
       title: get(state, 'property.activeSingleProperty.title', null),
       virtual: get(state, 'property.activeSingleProperty.virtual', null),
     },
