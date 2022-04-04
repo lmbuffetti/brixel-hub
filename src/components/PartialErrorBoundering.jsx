@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { sendSlackNotification } from '../actions/CommonActions';
+import { sendSlackNotification, setPageData } from '../actions/CommonActions';
 
 class PartialErrorBoundering extends Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -20,7 +20,9 @@ class PartialErrorBoundering extends Component {
       const {
         activeSingleProperty,
         handleSendSlackNotifications,
+        handleSetPageData,
         loggedInUser,
+        pageError,
       } = this.props;
       // logging the error details
       const channel = 'frontend-dev';
@@ -33,11 +35,14 @@ class PartialErrorBoundering extends Component {
       };
       let txtError = '';
       if (typeof error === 'string' && error) txtError = error;
-      if (url && !url.includes('500') && !url.includes('localhost') && ((!txtError.includes('ChunkLoadError:') && !txtError.includes('Loading CSS chunk')) || typeof error !== 'string')) {
-        handleSendSlackNotifications({ data, channel });
-      } else {
-        // eslint-disable-next-line no-console
-        console.log(data);
+      if (!pageError) {
+        handleSetPageData({ pageError: true });
+        if (url && !url.includes('500') && !url.includes('localhost') && ((!txtError.includes('ChunkLoadError:') && !txtError.includes('Loading CSS chunk')) || typeof error !== 'string')) {
+          handleSendSlackNotifications({ data, channel });
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(data);
+        }
       }
     }
   }
@@ -135,9 +140,7 @@ class PartialErrorBoundering extends Component {
     if (hasError) {
       // Return the fallback UI
       return (
-        <>
-          {children}
-        </>
+        <div />
       );
     }
 
@@ -149,16 +152,20 @@ PartialErrorBoundering.propTypes = {
   activeSingleProperty: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.any]).isRequired,
   handleSendSlackNotifications: PropTypes.func.isRequired,
+  handleSetPageData: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  pageError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty.id', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
+  pageError: get(state, 'common.setPageData.pageError', false),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
+  handleSetPageData: bindActionCreators(setPageData, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PartialErrorBoundering);
