@@ -38,6 +38,7 @@ import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 import lazyWithRetry from './components/LazyWithRetry';
 
+const PartialErrorBoundering = lazyWithRetry(() => import('./components/PartialErrorBoundering'));
 // SIGNUP
 const Signup = lazyWithRetry(() => import('./Pages/Signup/Signup'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
@@ -399,7 +400,7 @@ const App = (props) => {
   }
   
   return (
-    <>
+    <PartialErrorBoundering>
       <main
         className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
         ref={dashWrapperRef}
@@ -688,7 +689,7 @@ const App = (props) => {
           </Routes>
         </Suspense>
       </main>
-    </>
+    </PartialErrorBoundering>
   );
 };
 
