@@ -249,59 +249,65 @@ const Documents = (props) => {
       }
       {
         has(formValue, 'location') && userType === 'seller' && (
-          <div className="mandatory-documents mb-5">
-            <p className="fweight-500 fsize-500 txtGreen700 mb-4">
-              <span>You have uploaded</span><span> {countMandatoryDocuments()} </span><span>of</span><span> {mandatoryDocuments.length} </span><span>documents.</span>
-            </p>
+          <>
             {
-              mandatoryDocuments.map((element, j) => (
-                <div className="dis-fl-col max-w-perc-100 max-w-fix-768" key={`mndDoc_${j.toString()}`}>
-                  <div className="dis-fl-row a-c jc-b py-2 pl-2">
-                    <div className="dis-fl-row a-c">
-                      {
-                        mandatoryDocumentExists(element) === true && (
-                          <BrixelIcon
-                            icon="check-small-fill"
-                            color="dark"
-                            className="mr-3"
-                          />
-                        )
-                      }
-                      {
-                        mandatoryDocumentExists(element) === false && (
-                          <BrixelIcon
-                            icon="document"
-                            ghost
-                            bgTransparent
-                            className="mr-3"
-                          />
-                        )
-                      }
-                      {
-                        mandatoryDocumentExists(element) === true && (
-                          <span className="txtDark700 dont-break-out">{element}</span>
-                        )
-                      }
-                      {
-                        mandatoryDocumentExists(element) === false && (
-                          <span className="txtDark700 dont-break-out">{element}</span>
-                        )
-                      }
-                    </div>
-                    {
-                      mandatoryDocumentExists(element) === false && (
-                        <div className="upload-wrapper cur-poi pl-2 pos-r">
-                          <BrixelButtonPrimary rounded theme="white" label="Upload" />
-                          <input accept="application/pdf, image/png, image/jpeg" multiple className="cur-poi upload" type="file" name="document" id={`documentInput${j}`} onChange={(e) => loadFile(e, element, j)} />
+              mandatoryDocuments && (
+                <div className="mandatory-documents mb-5">
+                  <p className="fweight-500 fsize-500 txtGreen700 mb-4">
+                    <span>You have uploaded</span><span> {countMandatoryDocuments()} </span><span>of</span><span> {mandatoryDocuments.length} </span><span>documents.</span>
+                  </p>
+                  {
+                    mandatoryDocuments.map((element, j) => (
+                      <div className="dis-fl-col max-w-perc-100 max-w-fix-768" key={`mndDoc_${j.toString()}`}>
+                        <div className="dis-fl-row a-c jc-b py-2 pl-2">
+                          <div className="dis-fl-row a-c">
+                            {
+                              mandatoryDocumentExists(element) === true && (
+                                <BrixelIcon
+                                  icon="check-small-fill"
+                                  color="dark"
+                                  className="mr-3"
+                                />
+                              )
+                            }
+                            {
+                              mandatoryDocumentExists(element) === false && (
+                                <BrixelIcon
+                                  icon="document"
+                                  ghost
+                                  bgTransparent
+                                  className="mr-3"
+                                />
+                              )
+                            }
+                            {
+                              mandatoryDocumentExists(element) === true && (
+                                <span className="txtDark700 dont-break-out">{element}</span>
+                              )
+                            }
+                            {
+                              mandatoryDocumentExists(element) === false && (
+                                <span className="txtDark700 dont-break-out">{element}</span>
+                              )
+                            }
+                          </div>
+                          {
+                            mandatoryDocumentExists(element) === false && (
+                              <div className="upload-wrapper cur-poi pl-2 pos-r">
+                                <BrixelButtonPrimary rounded theme="white" label="Upload" />
+                                <input accept="application/pdf, image/png, image/jpeg" multiple className="cur-poi upload" type="file" name="document" id={`documentInput${j}`} onChange={(e) => loadFile(e, element, j)} />
+                              </div>
+                            )
+                          }
                         </div>
-                      )
-                    }
-                  </div>
-                  <hr className="lighter" />
+                        <hr className="lighter" />
+                      </div>
+                    ))
+                  }
                 </div>
-              ))
+              )
             }
-          </div>
+          </>
         )
       }
       <div className={`scaleUp boxCard ${(!documents || (documents && documents.length === 0)) ? 'emptyMedia' : ''} docubox cardSecondLevel max-w-perc-100 max-w-fix-768`}>
