@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import orderBy from 'lodash/orderBy';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import MarketCard from '../../components/Cards/MarketCard';
+import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
 import BestimateCardOverlay from '../../components/BestimateCardOverlay';
@@ -225,375 +226,377 @@ const MarketCategoryListSeller = (props) => {
   };
 
   return (
-    <Suspense fallback="">
-      {/* SECTION: bestimate result */}
-      {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(estimation, 'status', 'active') !== 'pending' && (
-          <BestimateCardOverlay
-            activeSinglePropertyId={activeSingleProperty.customID}
-            setBestimateMessage={(val) => setBestimateMessage(val)}
-            clearEstimation
-          />
-        )
-      }
+    <PartialErrorBoundering>
+      <Suspense fallback="">
+        {/* SECTION: bestimate result */}
+        {
+          !bestimateMessage && splashScreenType === 'bestimateResult' && bestimate.higherValue !== 0 && get(estimation, 'status', 'active') !== 'pending' && (
+            <BestimateCardOverlay
+              activeSinglePropertyId={activeSingleProperty.customID}
+              setBestimateMessage={(val) => setBestimateMessage(val)}
+              clearEstimation
+            />
+          )
+        }
 
-      {/* SECTION: bestimate teaser */}
-      {
-        !bestimateMessage && splashScreenType === 'bestimateTeaser' && (
-          <SplashScreen
-            className="result-popup centered"
-            closeOutside={false}
-          >
-            {
-              (get(activeMarketOverlayProperty, 'location.countryCode', null) !== 'PT' && get(activeMarketOverlayProperty, 'location.countryCode', null) !== 'CH') ? (
-                <>
-                  <div className="dis-f jc-fe mb-2">
-                    <BrixelButtonIcon
-                      ghost
-                      theme="dark"
-                      icon="close-small"
-                      onClick={() => onCloseBestimateTeaser()}
-                    />
-                  </div>
-                  <div className="dis-fl-col jc-c a-c pb-2">
-                    <h3>Generating your estimation... </h3>
-                    <span className="max-w-fix-448 ta-c txtDark700 py-2"> Our experts are validating the data and generating an estimation report just for you. </span>
-
-                    <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
-
-                    <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
-                      <span>If you have any questions please contact our </span>
-                      <span
-                        className="cur-poi link txtPrimary400"
-                        onClick={(e) => {
-                          openSupport(e);
-                        }}
-                      >
-                        <span>&nbsp;support</span>
-                      </span>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
-                    <BrixelButtonIcon
-                      ghost
-                      theme="dark"
-                      icon="close-small"
-                      onClick={() => onCloseBestimateTeaser()}
-                    />
-                  </div>
-                  <div className="dis-fl-col jc-c a-c pb-2">
-                    <h3 className="ta-c">Get a free price indication. </h3>
-                    <span className="max-w-fix-448 ta-c txtDark700 py-2">Compare your property to real transaction data to better define the pricing.</span>
-
-                    <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
-
-                    <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
-                      <span
-                        className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
-                        onClick={() => {
-                          setCookie('brixelMarketBestimate', true);
-                          setBestimateMessage(true);
-                        }}
-                      >
-                        <span>Thanks, not now</span>
-                      </span>
-                      <BrixelButtonPrimary
-                        rounded
-                        label="Get free Bestimate&reg;"
-                        className="m-a"
-                        onClick={() => onBestimateFlow()}
-                        rightIcon="arrow-right"
+        {/* SECTION: bestimate teaser */}
+        {
+          !bestimateMessage && splashScreenType === 'bestimateTeaser' && (
+            <SplashScreen
+              className="result-popup centered"
+              closeOutside={false}
+            >
+              {
+                (get(activeMarketOverlayProperty, 'location.countryCode', null) !== 'PT' && get(activeMarketOverlayProperty, 'location.countryCode', null) !== 'CH') ? (
+                  <>
+                    <div className="dis-f jc-fe mb-2">
+                      <BrixelButtonIcon
+                        ghost
+                        theme="dark"
+                        icon="close-small"
+                        onClick={() => onCloseBestimateTeaser()}
                       />
                     </div>
-                  </div>
-                </>
-              )
-            }
-          </SplashScreen>
-        )
-      }
+                    <div className="dis-fl-col jc-c a-c pb-2">
+                      <h3>Generating your estimation... </h3>
+                      <span className="max-w-fix-448 ta-c txtDark700 py-2"> Our experts are validating the data and generating an estimation report just for you. </span>
 
-      {/* SECTION: bestimate missing */}
-      {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending') && (
-          <SplashScreen
-            className="result-popup centered"
-            closeOutside={false}
-          >
-            <div className="dis-f jc-fe mb-2">
-              <BrixelButtonIcon
-                ghost
-                theme="dark"
-                icon="close-small"
-                onClick={() => onCloseBestimateResult()}
-              />
-            </div>
-            <div className="dis-fl-col jc-c a-c pb-2">
-              <h3>Bestimate&reg; is missing 🙁 </h3>
-              <span className="max-w-fix-448 ta-c txtDark700 py-2"> We could not calculate your Bestimate&reg;. No problem. Our support team will do it for you manually. </span>
+                      <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
 
-              <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+                      <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
+                        <span>If you have any questions please contact our </span>
+                        <span
+                          className="cur-poi link txtPrimary400"
+                          onClick={(e) => {
+                            openSupport(e);
+                          }}
+                        >
+                          <span>&nbsp;support</span>
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="dis-f jc-fe mb-2 mb-sm-1 my-1">
+                      <BrixelButtonIcon
+                        ghost
+                        theme="dark"
+                        icon="close-small"
+                        onClick={() => onCloseBestimateTeaser()}
+                      />
+                    </div>
+                    <div className="dis-fl-col jc-c a-c pb-2">
+                      <h3 className="ta-c">Get a free price indication. </h3>
+                      <span className="max-w-fix-448 ta-c txtDark700 py-2">Compare your property to real transaction data to better define the pricing.</span>
 
-              <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
-                <span
-                  className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
-                  onClick={() => {
-                    onCloseBestimateResult();
-                  }}
-                >
-                  <span>Thanks, not now</span>
-                </span>
+                      <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+
+                      <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
+                        <span
+                          className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
+                          onClick={() => {
+                            setCookie('brixelMarketBestimate', true);
+                            setBestimateMessage(true);
+                          }}
+                        >
+                          <span>Thanks, not now</span>
+                        </span>
+                        <BrixelButtonPrimary
+                          rounded
+                          label="Get free Bestimate&reg;"
+                          className="m-a"
+                          onClick={() => onBestimateFlow()}
+                          rightIcon="arrow-right"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )
+              }
+            </SplashScreen>
+          )
+        }
+
+        {/* SECTION: bestimate missing */}
+        {
+          !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending') && (
+            <SplashScreen
+              className="result-popup centered"
+              closeOutside={false}
+            >
+              <div className="dis-f jc-fe mb-2">
+                <BrixelButtonIcon
+                  ghost
+                  theme="dark"
+                  icon="close-small"
+                  onClick={() => onCloseBestimateResult()}
+                />
+              </div>
+              <div className="dis-fl-col jc-c a-c pb-2">
+                <h3>Bestimate&reg; is missing 🙁 </h3>
+                <span className="max-w-fix-448 ta-c txtDark700 py-2"> We could not calculate your Bestimate&reg;. No problem. Our support team will do it for you manually. </span>
+
+                <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+
+                <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
+                  <span
+                    className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
+                    onClick={() => {
+                      onCloseBestimateResult();
+                    }}
+                  >
+                    <span>Thanks, not now</span>
+                  </span>
+                  <BrixelButtonPrimary
+                    rounded
+                    label="Contact support"
+                    className="m-a"
+                    onClick={(e) => openSupport(e)}
+                    rightIcon="arrow-right"
+                  />
+                </div>
+              </div>
+            </SplashScreen>
+          )
+        }
+
+        {
+          ownerProperties.total === 0 ? (
+            <div className="px-2 px-md-0 mb-5 mb-sm-3">
+              <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
+                <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
+                <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">Anybody home?</h4>
+                <h5 className="ta-c fSizePx18 mb-2 m-a">For using the Brixel Hub you need at least one property.</h5>
                 <BrixelButtonPrimary
                   rounded
-                  label="Contact support"
-                  className="m-a"
-                  onClick={(e) => openSupport(e)}
-                  rightIcon="arrow-right"
+                  className="m-a mt-3"
+                  label="+ Add new"
+                  onClick={() => history.push(`/packageFlow/getStarted?company==${get(loggedInUser, 'company.stub', '')}`)}
                 />
               </div>
             </div>
-          </SplashScreen>
-        )
-      }
+          ) : (
+            <div className="mb-5 mb-sm-3 container">
+              <div className="dis-f a-c jc-b">
+                <h1 className="fsize-400 fsize-sm-700">
+                  <span>{ownerProperties.total}</span>
+                  <span className="ml-small-4">{ownerProperties.total === 1 ? 'Property' : 'Properties'} added by you</span>
+                </h1>
+                <BrixelButtonText
+                  label="+ Add new"
+                  theme="dark"
+                  labelClass="ws-nw"
+                  themeSat={700}
+                  onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+                />
+              </div>
 
-      {
-        ownerProperties.total === 0 ? (
-          <div className="px-2 px-md-0 mb-5 mb-sm-3">
-            <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
-              <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
-              <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">Anybody home?</h4>
-              <h5 className="ta-c fSizePx18 mb-2 m-a">For using the Brixel Hub you need at least one property.</h5>
-              <BrixelButtonPrimary
-                rounded
-                className="m-a mt-3"
-                label="+ Add new"
-                onClick={() => history.push(`/packageFlow/getStarted?company==${get(loggedInUser, 'company.stub', '')}`)}
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="mb-5 mb-sm-3 container">
-            <div className="dis-f a-c jc-b">
-              <h1 className="fsize-400 fsize-sm-700">
-                <span>{ownerProperties.total}</span>
-                <span className="ml-small-4">{ownerProperties.total === 1 ? 'Property' : 'Properties'} added by you</span>
-              </h1>
-              <BrixelButtonText
-                label="+ Add new"
-                theme="dark"
-                labelClass="ws-nw"
-                themeSat={700}
-                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
-              />
-            </div>
+              {
+                ownerProperties.total > 0 && (
+                  <>
+                    {
+                      ownerProperties.data.map((prop, i) => (
+                        <div
+                          className="shadow-3dp p-2 mt-3 brdRadiusSmall"
+                          key={`ownProp_${i.toString()}`}
+                        >
+                          {
+                            i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) && (
+                              <div
+                                className="w-perc-100 dis-f a-c jc-fs bgBlue100 brdRadiusSmall px-2 px-md-6 mb-2 mb-sm-3 cur-poi"
+                                onClick={() => history.push(`/${prop.id}/trialRequest?url=/sell`)}
+                              >
+                                <div className="hide dis-b-md">
+                                  <img width="176" height="158" src={testdrive} alt="testdrive" />
+                                </div>
+                                <div className="ml-md-5">
+                                  <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">Test drive our service. No strings attached.</h3>
+                                  <h5 className="fweight-400 fsize-300 fsize-md-400 mt-1 mb-1 mb-sm-3 txtBlue700">
+                                    {
+                                      companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
+                                        <>
+                                          <span>Get the full Brixel experience worth</span>
+                                          <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
+                                        </>
+                                      ) : (
+                                        <span>Get the full Brixel experience</span>
+                                      )
+                                    }
+                                  </h5>
+                                  <div>
+                                    <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
+                                      <li>Personal consultation</li>
+                                      <li className="ml-0 ml-md-3">Free 3D tour & HD photos</li>
+                                      <li className="ml-0 ml-md-3">Full estimation by an expert</li>
+                                    </ul>
+                                  </div>
 
-            {
-              ownerProperties.total > 0 && (
-                <>
-                  {
-                    ownerProperties.data.map((prop, i) => (
-                      <div
-                        className="shadow-3dp p-2 mt-3 brdRadiusSmall"
-                        key={`ownProp_${i.toString()}`}
-                      >
-                        {
-                          i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) && (
-                            <div
-                              className="w-perc-100 dis-f a-c jc-fs bgBlue100 brdRadiusSmall px-2 px-md-6 mb-2 mb-sm-3 cur-poi"
-                              onClick={() => history.push(`/${prop.id}/trialRequest?url=/sell`)}
-                            >
-                              <div className="hide dis-b-md">
-                                <img width="176" height="158" src={testdrive} alt="testdrive" />
-                              </div>
-                              <div className="ml-md-5">
-                                <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">Test drive our service. No strings attached.</h3>
-                                <h5 className="fweight-400 fsize-300 fsize-md-400 mt-1 mb-1 mb-sm-3 txtBlue700">
-                                  {
-                                    companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
-                                      <>
-                                        <span>Get the full Brixel experience worth</span>
-                                        <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
-                                      </>
-                                    ) : (
-                                      <span>Get the full Brixel experience</span>
-                                    )
-                                  }
-                                </h5>
-                                <div>
-                                  <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
-                                    <li>Personal consultation</li>
-                                    <li className="ml-0 ml-md-3">Free 3D tour & HD photos</li>
-                                    <li className="ml-0 ml-md-3">Full estimation by an expert</li>
-                                  </ul>
                                 </div>
 
                               </div>
-
-                            </div>
-                          )
-                        }
-                        <MarketCard
-                          layout="singleOwnCard"
-                          type="own"
-                          item={prop}
-                          onSetActiveProperty={(id) => setPropertyId(id)}
-                          bookProp={() => bookNow()}
-                        />
+                            )
+                          }
+                          <MarketCard
+                            layout="singleOwnCard"
+                            type="own"
+                            item={prop}
+                            onSetActiveProperty={(id) => setPropertyId(id)}
+                            bookProp={() => bookNow()}
+                          />
+                        </div>
+                      ))
+                    }
+                  </>
+                )
+              }
+              {
+                (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
+                  <div className="marketSellBanner mb-10">
+                    <div className="m-a w-perc-100">
+                      <div className="brdRadius shadow-3dp p-2 mb-3 mt-3 pb-4">
+                        <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
+                        <hr className="lighter hide dis-b-sm pos-a-fix mt-4-neg max-w-perc-97" />
+                        <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                       </div>
-                    ))
-                  }
-                </>
-              )
-            }
-            {
-              (ownerProperties.total !== 0 && ownerProperties.total === undefined) && (
-                <div className="marketSellBanner mb-10">
-                  <div className="m-a w-perc-100">
-                    <div className="brdRadius shadow-3dp p-2 mb-3 mt-3 pb-4">
-                      <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
-                      <hr className="lighter hide dis-b-sm pos-a-fix mt-4-neg max-w-perc-97" />
-                      <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                     </div>
                   </div>
-                </div>
-              )
-            }
+                )
+              }
 
+              {
+                ownerProperties.total > 0 && (
+                  <BrixelButtonSecondary
+                    label="View all"
+                    rounded
+                    rightIcon="arrow-simple-right"
+                    className="m-a mt-3"
+                    onClick={() => history.push('/sell/own')}
+                  />
+                )
+              }
+
+            </div>
+          )
+        }
+
+        <div className="bgLight100 pt-6 pt-sm-8 pb-4 pb-sm-7">
+          <div className="container">
+            <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
+              Boost your private sale with an upgrade.
+            </h3>
+
+            <div className="dis-fl-col dis-fl-row-md jc-c">
+              {
+                (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
+                  <>
+                    <SkeletonPackages className="mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
+                    <SkeletonPackages className="my-2 my-sm-0 mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
+                    <SkeletonPackages className="mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
+                  </>
+                ) : (
+                  <>
+                    {
+                      filteredPackages.map((pkg, i) => (
+                        <div
+                          onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
+                          key={`fltPkg_${i.toString()}`}
+                          className={`${pkg.type} bgWhite txtDark700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi max-w-fix-400 w-perc-100`}
+                        >
+                          <div className="dis-f jc-b a-c">
+                            <h4 className="fweight-500 txtDark700">{pkg.name}</h4>
+                            {
+                              (activeSinglePropertyActivePackage.stub === pkg.stub || (!activeSinglePropertyActivePackage.stub && pkg.type === 'basic')) && (
+                                <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
+                              )
+                            }
+                          </div>
+                          {
+                            pkg.price.total > 0 ? (
+                              <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
+                                <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                                <small className="ml-1 fsize-300 txtDark700">incl. VAT</small>
+                              </p>
+                            ) : (
+                              <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
+                                Free
+                              </p>
+                            )
+                          }
+                          <p className="txtDark700">{pkg.description}</p>
+                        </div>
+                      ))
+                    }
+                  </>
+                )
+              }
+            </div>
+
+            <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
+
+              <BrixelButtonPrimary
+                rounded
+                label="Upgrade your plan"
+                onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
+
+              />
+              <span className="mx-sm-1 mt-2 my-sm-0">or</span>
+              <BrixelButtonText
+                rounded
+                label="compare all plans"
+                onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade#comparePlan`)}
+                theme="AltGrey"
+                themeSat={700}
+              />
+
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 mt-sm-10">
+          <div className="container">
+            <h4 className="mb-4 fweight-600 txtDark700">This may interest you</h4>
+
+            <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
+              {
+                artByCountry.map((article, i) => (
+                  <div
+                    key={`artCnt_${i.toString()}`}
+                    className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
+                  >
+                    <a className="txtDark700 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
+                      <img src={article.img} alt={`Article ${i}`} />
+                    </a>
+                    {article.title && (<h5 className=" fweight-600 mb-1">{article.title}</h5>)}
+                    <p className="mb-2 txtDark700">{article.desc}</p>
+                    <a className="txtDark700 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
+                  </div>
+                ))
+              }
+            </div>
+
+          </div>
+        </div>
+
+        <span className="mt-4 mb-6 hr lighter" />
+
+        <div className="mb-5 mb-sm-10">
+          <div className="container">
             {
-              ownerProperties.total > 0 && (
-                <BrixelButtonSecondary
-                  label="View all"
-                  rounded
-                  rightIcon="arrow-simple-right"
-                  className="m-a mt-3"
-                  onClick={() => history.push('/sell/own')}
+              premiumProperties.total > 0 && (
+                <CarouselWrapper
+                  title="Others selling with Brixel"
+                  className="market-category-carousel"
+                  type="premium"
+                  items={premiumProperties.data}
+                  total={premiumProperties.total}
                 />
               )
             }
-
-          </div>
-        )
-      }
-
-      <div className="bgLight100 pt-6 pt-sm-8 pb-4 pb-sm-7">
-        <div className="container">
-          <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
-            Boost your private sale with an upgrade.
-          </h3>
-
-          <div className="dis-fl-col dis-fl-row-md jc-c">
-            {
-              (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
-                <>
-                  <SkeletonPackages className="mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
-                  <SkeletonPackages className="my-2 my-sm-0 mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
-                  <SkeletonPackages className="mx-sm-2 max-w-fix-400 w-perc-100" type="small" />
-                </>
-              ) : (
-                <>
-                  {
-                    filteredPackages.map((pkg, i) => (
-                      <div
-                        onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
-                        key={`fltPkg_${i.toString()}`}
-                        className={`${pkg.type} bgWhite txtDark700 mb-2 mb-lg-0 mx-0 mx-lg-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi max-w-fix-400 w-perc-100`}
-                      >
-                        <div className="dis-f jc-b a-c">
-                          <h4 className="fweight-500 txtDark700">{pkg.name}</h4>
-                          {
-                            (activeSinglePropertyActivePackage.stub === pkg.stub || (!activeSinglePropertyActivePackage.stub && pkg.type === 'basic')) && (
-                              <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
-                            )
-                          }
-                        </div>
-                        {
-                          pkg.price.total > 0 ? (
-                            <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
-                              <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                              <small className="ml-1 fsize-300 txtDark700">incl. VAT</small>
-                            </p>
-                          ) : (
-                            <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
-                              Free
-                            </p>
-                          )
-                        }
-                        <p className="txtDark700">{pkg.description}</p>
-                      </div>
-                    ))
-                  }
-                </>
-              )
-            }
-          </div>
-
-          <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
-
-            <BrixelButtonPrimary
-              rounded
-              label="Upgrade your plan"
-              onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
-
-            />
-            <span className="mx-sm-1 mt-2 my-sm-0">or</span>
-            <BrixelButtonText
-              rounded
-              label="compare all plans"
-              onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade#comparePlan`)}
-              theme="AltGrey"
-              themeSat={700}
-            />
-
           </div>
         </div>
-      </div>
-
-      <div className="mt-6 mt-sm-10">
-        <div className="container">
-          <h4 className="mb-4 fweight-600 txtDark700">This may interest you</h4>
-
-          <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
-            {
-              artByCountry.map((article, i) => (
-                <div
-                  key={`artCnt_${i.toString()}`}
-                  className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
-                >
-                  <a className="txtDark700 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
-                    <img src={article.img} alt={`Article ${i}`} />
-                  </a>
-                  {article.title && (<h5 className=" fweight-600 mb-1">{article.title}</h5>)}
-                  <p className="mb-2 txtDark700">{article.desc}</p>
-                  <a className="txtDark700 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
-                </div>
-              ))
-            }
-          </div>
-
-        </div>
-      </div>
-
-      <span className="mt-4 mb-6 hr lighter" />
-
-      <div className="mb-5 mb-sm-10">
-        <div className="container">
-          {
-            premiumProperties.total > 0 && (
-              <CarouselWrapper
-                title="Others selling with Brixel"
-                className="market-category-carousel"
-                type="premium"
-                items={premiumProperties.data}
-                total={premiumProperties.total}
-              />
-            )
-          }
-        </div>
-      </div>
-    </Suspense>
+      </Suspense>
+    </PartialErrorBoundering>
   );
 };
 
