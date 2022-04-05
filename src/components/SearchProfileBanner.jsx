@@ -16,6 +16,7 @@ import {
 import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
+import PartialErrorBoundering from './PartialErrorBoundering';
 import { QuestionsList } from '../resources/onBoardingBuyer';
 import { createUserSearchProfile, updateUserSearchProfile } from '../actions/SearchProfileActions';
 import { setWizard } from '../actions/CommonActions';
@@ -123,7 +124,7 @@ const SearchProfileBanner = (props) => {
   });
 
   return (
-    <>
+    <PartialErrorBoundering>
       <h4 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtDark700`}>{title}</h4>
       {
         subtitle && (
@@ -492,7 +493,7 @@ const SearchProfileBanner = (props) => {
           </div>
         </div>
       </div>
-    </>
+    </PartialErrorBoundering>
   );
 };
 

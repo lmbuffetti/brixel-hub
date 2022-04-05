@@ -23,6 +23,7 @@ class ErrorBoundary extends Component {
         activeSingleProperty,
         handleSendSlackNotifications,
         loggedInUser,
+        pageError,
       } = this.props;
       // logging the error details
       const channel = 'frontend-dev';
@@ -35,11 +36,13 @@ class ErrorBoundary extends Component {
       };
       let txtError = '';
       if (typeof error === 'string' && error) txtError = error;
-      if (url && !url.includes('500') && !url.includes('localhost') && !txtError.includes('ChunkLoadError:') && !txtError.includes('Loading CSS chunk')) {
-        handleSendSlackNotifications({ data, channel });
-      } else {
-        // eslint-disable-next-line no-console
-        console.error(data);
+      if (!pageError) {
+        if (url && !url.includes('500') && !url.includes('localhost') && !txtError.includes('ChunkLoadError:') && !txtError.includes('Loading CSS chunk')) {
+          handleSendSlackNotifications({ data, channel });
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(data);
+        }
       }
     }
   }
@@ -67,12 +70,14 @@ ErrorBoundary.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   children: PropTypes.oneOfType([PropTypes.any]).isRequired,
   handleSendSlackNotifications: PropTypes.func.isRequired,
+  pageError: PropTypes.bool.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  pageError: get(state, 'common.setPageData.pageError', false),
 });
 
 const mapDispatchToProps = (dispatch) => ({

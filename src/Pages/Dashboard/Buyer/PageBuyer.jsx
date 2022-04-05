@@ -20,18 +20,18 @@ import CoverPropertyImage from '../../../components/CoverPropertyImage';
 const PageBuyer = (props) => {
   // PROPS
   const {
-    formValue,
+    activeSingleProperty,
   } = props;
   // URL PARAMS
 
   // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
   const onClickPreview = () => {
     let url;
-    if (formValue.published) {
-      url = `${baseByData.pageUrl}${formValue.stub}`;
+    if (activeSingleProperty.published) {
+      url = `${baseByData.pageUrl}${activeSingleProperty.stub}`;
       window.open(url, '_blank');
     } else {
-      url = `${baseByData.pageUrl}preview/${formValue.stub}?hubUrl=${get(window, 'location.href', '')}`;
+      url = `${baseByData.pageUrl}preview/${activeSingleProperty.stub}?hubUrl=${get(window, 'location.href', '')}`;
       window.location.assign(url);
     }
   };
@@ -44,7 +44,7 @@ const PageBuyer = (props) => {
         <div className="">
           <BrixelButtonPrimary
             leftIcon="eye"
-            label={formValue.published ? 'Open' : 'Preview'}
+            label={activeSingleProperty.published ? 'Open' : 'Preview'}
             rounded
             onClick={() => onClickPreview()}
           />
@@ -85,13 +85,13 @@ const PageBuyer = (props) => {
                       <CoverPropertyImage
                         className="cover"
                         size="56"
-                        coverPhoto={get(formValue, 'coverPhoto.path', undefined)}
-                        propertyType={get(formValue, 'properties.propertyType', undefined)}
+                        coverPhoto={get(activeSingleProperty, 'coverPhoto.path', undefined)}
+                        propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
                       />
                     </div>
                     <div className="cardPageInfo">
                       <div className="w-fix-80 bgPrimary400 opacity5 h-fix-8 mb-1" />
-                      <h6>{formValue.title}</h6>
+                      <h6>{activeSingleProperty.title}</h6>
                       <div className="dis-f jc-b a-c mt-2">
                         <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
                         <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
@@ -102,15 +102,15 @@ const PageBuyer = (props) => {
                         <div className="w-fix-24 bgLight400 opacity5 h-fix-8" />
                       </div>
                       <div className="dis-f jc-b a-c pb-3">
-                        <h6 className="w-fix-24 ff-mono">{FormatValue.formatRooms(get(formValue, 'properties.typology.bedrooms', 0), get(formValue, 'location.countryCode', 'CH'))}</h6>
+                        <h6 className="w-fix-24 ff-mono">{FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))}</h6>
                         {
-                          get(formValue, 'location.countryCode', '') === 'PT' && get(formValue, 'properties.typology.grossArea.value', 0) > 0 ? (
-                            <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.grossArea.value', 0)}</h6>
+                          get(activeSingleProperty, 'location.countryCode', '') === 'PT' && get(activeSingleProperty, 'properties.typology.grossArea.value', 0) > 0 ? (
+                            <h6 className="w-fix-24 ff-mono">{get(activeSingleProperty, 'properties.typology.grossArea.value', 0)}</h6>
                           ) : (
-                            <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.livingArea.value', 0)}</h6>
+                            <h6 className="w-fix-24 ff-mono">{get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}</h6>
                           )
                         }
-                        <h6 className="w-fix-24 ff-mono">{get(formValue, 'properties.typology.building.built', 0)}</h6>
+                        <h6 className="w-fix-24 ff-mono">{get(activeSingleProperty, 'properties.typology.building.built', 0)}</h6>
                       </div>
                       <div className="contactPageCard">
                         <div className="contactUser">
@@ -131,14 +131,14 @@ const PageBuyer = (props) => {
 };
 
 PageBuyer.propTypes = {
-  formValue: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
 };
 
 PageBuyer.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  formValue: get(state, 'property.activeSingleProperty', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 
