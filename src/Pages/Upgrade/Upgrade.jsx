@@ -457,10 +457,11 @@ Upgrade.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetActiveSingleCompanyPackages: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
