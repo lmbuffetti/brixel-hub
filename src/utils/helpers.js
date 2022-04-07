@@ -29,7 +29,7 @@ export const calcPercentageFacts = (form = 'Property', value = {}) => {
           }
           return null;
         });
-      } else if (item.validation && (!item.condition || (item.condition && valA === item.condition.value))) {
+      } else if (!item.condition || (item.condition && valA === item.condition.value)) {
         if (get(formValue, `inputSheet.skipSection[${item.name}]`, false)) {
           countTotal += 1;
           countDone += 1;
