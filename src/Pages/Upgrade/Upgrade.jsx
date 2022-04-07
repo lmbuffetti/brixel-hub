@@ -23,6 +23,7 @@ import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/Bri
 import { checkBrowser } from '../../utils/helpers';
 import { UpgradeQuestions } from '../../resources/Upgrade';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
+import { getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
 
 const Upgrade = (props) => {
   const history = {
@@ -37,6 +38,7 @@ const Upgrade = (props) => {
     destroyForm,
     errorValue,
     formValue,
+    handleGetActiveSingleCompanyPackages,
     handleReset,
     initForm,
     initialValues,
@@ -82,6 +84,14 @@ const Upgrade = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
+  
+  
+  
+  useEffect(() => {
+    if (activeSingleCompany.id) {
+      handleGetActiveSingleCompanyPackages({id: activeSingleCompany.id, smallLoader: 'getPackages'})
+    }
+  }, [activeSingleCompany.id]);
 
   useEffect(() => {
     initForm(initialValues);
@@ -489,7 +499,7 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form)));
   },
   handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),
-
+  handleGetActiveSingleCompanyPackages: bindActionCreators(getActiveSingleCompanyPackages, dispatch),
 });
 
 export default compose(
