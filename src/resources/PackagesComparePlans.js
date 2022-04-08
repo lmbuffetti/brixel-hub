@@ -32,21 +32,20 @@ export const PackagesComparePlansTable = [
     },
   },
   {
-    title: 'Listings',
-    td: {
-      basic: { img: checkGreen },
-      private: { img: checkBlue, desc: '3 months listings' },
-      premium: { img: checkRed, desc: '6 months listings' },
-      one: { img: checkBlack, desc: '12 months listings' },
-    },
-  },
-  {
     title: 'Support',
     td: {
       basic: { img: checkGreen, desc: 'Online' },
       private: { img: checkBlue, desc: 'Online' },
       premium: { img: checkRed, desc: 'Backoffice' },
       one: { img: checkBlack, desc: 'Expert' },
+    },
+  },
+  {
+    title: 'Listings',
+    td: {
+      private: { img: checkBlue, desc: '3 months listings' },
+      premium: { img: checkRed, desc: '6 months listings' },
+      one: { img: checkBlack, desc: '12 months listings' },
     },
   },
   {
