@@ -533,18 +533,17 @@ const MarketCategoryListSeller = (props) => {
             </div>
 
             <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
-
               <BrixelButtonPrimary
                 rounded
                 label="Upgrade your plan"
-                onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade`)}
+                onClick={() => window.location.assign(`/${get(ownerProperties, 'data[0].id', 'company')}/upgrade`)}
 
               />
               <span className="mx-sm-1 mt-2 my-sm-0">or</span>
               <BrixelButtonText
                 rounded
                 label="compare all plans"
-                onClick={() => window.location.assign(`/${propertyId || 'company'}/upgrade#comparePlan`)}
+                onClick={() => window.location.assign(`/${get(ownerProperties, 'data[0].id', 'company')}/upgrade#comparePlan`)}
                 theme="AltGrey"
                 themeSat={700}
               />

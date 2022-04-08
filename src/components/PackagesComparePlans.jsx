@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { get } from 'lodash';
 import {
   Helpers,
 } from '@brixel/brixel-components';
@@ -216,9 +217,9 @@ export const PackagesComparePlans = (props) => {
                       {
                         table.td.private && (
                           <>
-                            <img className="pt-small-6" src={table.td.basic.img} alt="" />
+                            <img className="pt-small-6" src={get(table, 'td.basic.img', '')} alt="" />
                             {table.td.private.desc && (
-                              <span className="pl-1">{table.td.basic.desc}</span>
+                              <span className="pl-1">{get(table, 'td.basic.desc', '')}</span>
                             )}
                           </>
                         )
