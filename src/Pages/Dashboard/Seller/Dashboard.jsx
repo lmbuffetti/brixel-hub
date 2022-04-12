@@ -4,7 +4,7 @@ import React, {
   useEffect, useState, Suspense,
 } from 'react';
 import {
-  Routes, Route, useLocation, useNavigate, useParams, Navigate,
+  Routes, Route, useLocation, useNavigate, useParams
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -355,7 +355,7 @@ const Dashboard = (props) => {
             <Route path="/upgrade/*" element={<Upgrade />} />
             <Route path="/trialRequest/*" element={<ScanTrialFlow />} />
             <Route path="/no-property" element={<EmptyProperty />} />
-            <Route path="*" element={<Navigate to={`/${propID}/home`} />} />
+            
           </Routes>
         </Suspense>
       </div>

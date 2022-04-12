@@ -663,7 +663,7 @@ export const arrayMove = (arr, oldIndex, newIndex) => {
 
 export const completedBestimate = (formValue) => {
   const location = get(formValue, 'location.countryCode', '');
-  const propertyType = get(formValue, 'propperties.propertyType', '');
+  const propertyType = get(formValue, 'properties.propertyType', '');
   const BestimateQuest = BestimateQuestions(null, location, propertyType);
   let isValid = true;
   BestimateQuest.forEach((inputs) => {

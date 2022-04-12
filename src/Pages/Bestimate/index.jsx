@@ -226,6 +226,12 @@ const Bestimate = (props) => {
           autoComplete="off"
           className="dis-fl-col jc-b"
         >
+          <div className="dis-f jc-fe a-c mx-a max-w-fix-736 w-perc-100 mb-2 mt-2">
+            <BrixelButtonIcon
+              icon="close-small"
+              onClick={() => history.push(`/${propID}/home`)}
+            />
+          </div>
           <div className="multiStepSlides">
             <div
               className={`singleStep jc-c ${quest.background || ''} ${isEnter ? 'fade-enter-active' : 'fade-enter'}`}

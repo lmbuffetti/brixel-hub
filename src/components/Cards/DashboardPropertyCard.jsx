@@ -12,6 +12,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setModal, setSplashType } from '../../actions/CommonActions';
+import { completedBestimate } from '../../utils/helpers';
 import CoverPropertyImage from '../CoverPropertyImage';
 
 const DashboardPropertyCard = (props) => {
@@ -224,14 +225,14 @@ const DashboardPropertyCard = (props) => {
                                   <div className="dis-fl-col pl-2 mr-1">
                                     <span className="txtLight600 fsize-300">Your Bestimate</span>
                                     {
-                                      !get(estimation, 'status', null) && (
+                                      !get(estimation, 'status', null) || !completedBestimate(formValue) && (
                                         <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
                                           Get Estimation
                                         </Link>
                                       )
                                     }
                                     {
-                                      get(estimation, 'status', '') === 'pending' && (
+                                      get(estimation, 'status', '') === 'pending' && completedBestimate(formValue) && (
                                         <span className="txtBlue700 fweight-600">
                                           Pending
                                         </span>

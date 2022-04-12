@@ -69,7 +69,7 @@ const Price = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id) {
+    if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id && completedBestimate(activeSingleProperty)) {
       if (!has(estimation, 'result') && get(estimation, 'status', '') !== 'pending') {
         const payload = {
           reloadOnwProperties: true,
