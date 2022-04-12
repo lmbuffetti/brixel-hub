@@ -112,7 +112,7 @@ const Price = (props) => {
   };
 
   const onBestimateFlow = () => {
-    history.push(`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`);
+    history.push(`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1?url=/${activeSingleProperty.id}/property/price`);
     setSplashScreen('');
     handleSetHistory({ source: `/${activeSingleProperty.id}/property/price` });
   };

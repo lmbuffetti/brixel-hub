@@ -15,6 +15,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import queryString from 'query-string';
 import { BestimateQuestions } from '../../resources/Bestimate';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 
@@ -44,6 +45,7 @@ const Bestimate = (props) => {
   const [questions, setQuestions] = useState(BestimateQuestions('en'));
   // GET URL PARAMS
   const getAchievement = () => history.location.pathname.split('/')[4];
+  const urlData = queryString.parse(get(history, 'location.search', ''));
   const propID = get(match, 'propID', null);
 
   // INITIALIZE FORM
@@ -58,6 +60,12 @@ const Bestimate = (props) => {
       }
     }
   }, [activeSingleProperty]);
+  
+  useEffect(() => {
+    const redirectURL = get(urlData, 'url', null);
+    if (redirectURL) localStorage.setItem('backUrl', redirectURL);
+  }, []);
+  
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT AND IF HAS TO REDO
   useEffect(() => {
@@ -110,12 +118,10 @@ const Bestimate = (props) => {
 
   // ON CLOSE WINDOW TWO DIFFERENT ACTION BY SCREEN RESOLUTION
   const closeWindow = () => {
-    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
-      history.push(`/${propID}/home`);
-    } else {
-      history.push(`/${propID}/home/${getAchievement()}`);
-    }
-    handleReset('Property', initialValuesPage);
+    const redirectURL = localStorage.getItem('backUrl');
+    if (redirectURL) history.push(redirectURL);
+    else history.push(`/${propID}/home`);
+    localStorage.removeItem('backUrl');
   };
 
   // FUNCTION TO SAVE DATA
@@ -229,7 +235,7 @@ const Bestimate = (props) => {
           <div className="dis-f jc-fe a-c mx-a max-w-fix-736 w-perc-100 mb-2 mt-2">
             <BrixelButtonIcon
               icon="close-small"
-              onClick={() => history.push(`/${propID}/home`)}
+              onClick={() => closeWindow()}
             />
           </div>
           <div className="multiStepSlides">
