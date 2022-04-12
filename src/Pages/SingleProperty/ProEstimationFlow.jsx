@@ -58,7 +58,7 @@ const ProEstimationFlow = (props) => {
     if (initialValues.id) {
       initForm(initialValues);
     }
-  }, [initialValues.id]);
+  }, [activeSingleProperty]);
 
   useEffect(() => {
     if (!isSmallLoading.saveData) {
