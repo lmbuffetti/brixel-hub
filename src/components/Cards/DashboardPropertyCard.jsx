@@ -73,7 +73,7 @@ const DashboardPropertyCard = (props) => {
                 <div className="dis-f a-c">
                   {
                     get(activeSingleProperty, 'virtual', null) && (
-                      <div className="bgBlue300 tourLink h-fix-40">
+                      <div className="bgBlue300 tourLink">
                         <button
                           onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
                           className="dis-f a-c" rel="noreferrer"
