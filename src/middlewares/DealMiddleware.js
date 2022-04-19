@@ -18,7 +18,6 @@ import {
   GET_BUYER_DEAL,
   GET_DEAL_LISTINGS,
   GET_OFFER_LISTINGS,
-  GET_USER_DEALS,
   SAVE_ACTIVE_SINGLE_DEAL, SAVE_MAKE_OFFER,
   SAVE_CLOSING_IDENTIFICATION,
   SAVE_REVIEW_OFFER,
@@ -26,7 +25,6 @@ import {
   SET_ACTIVE_SINGLE_DEAL,
   SET_DEAL_LISTINGS,
   SET_OFFER_LISTINGS,
-  SET_USER_DEALS,
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
 } from '../actions/types/DealTypes';
@@ -47,42 +45,6 @@ const ActionStubs = require('../resources/timelineActionStubs');
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
-    case GET_USER_DEALS: {
-      next(action);
-      const {
-        id,
-        smallLoader,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      api.user.getPagesByDealByUser(id)
-        .then((res) => {
-          store.dispatch({ type: SET_USER_DEALS, payload: res.data });
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
-      break;
-    }
     case GET_DEAL_LISTINGS: {
       next(action);
       const {

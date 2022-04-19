@@ -115,7 +115,6 @@ export default {
     getToken: () => '/authentication/getToken',
     getUserByEmail: (email) => `/user/email/${email}`,
     leadsByUser: (id) => `/user/${id}/userLeads`,
-    pageDealByUser: (id) => `/user/${id}/pageDeals`,
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
     removeAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/remove`,
     removeFavorite: (id) => `/user/favorite/page/${id}/remove`,

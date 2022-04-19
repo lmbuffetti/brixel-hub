@@ -73,11 +73,6 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
-  getPagesByDealByUser(id) {
-    const url = ep.user.pageDealByUser(id);
-    return this.apiClient.get(url, {});
-  }
-
   getLeadsByUser(id) {
     const url = ep.user.leadsByUser(id);
     return this.apiClient.get(url, {});
