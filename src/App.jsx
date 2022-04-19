@@ -583,6 +583,7 @@ const App = (props) => {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
                 classTitle={modal.classTitle}
+                layout={modal.layout}
                 title={modal.title}
                 onClose={() => {
                   handleSetModal({ state: false });
