@@ -17,7 +17,6 @@ import {
   BrixelSwitchButton,
   BrixelStatus,
 } from '@brixel/brixel-components';
-import has from 'lodash/has';
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import { setModal } from '../../actions/CommonActions';
 import { MarketingModal } from '../../resources/marketingModal';
@@ -78,11 +77,11 @@ const Portals = (props) => {
   }, [activeSingleProperty]);
 
   // CHANGE PORTALS REVIEW
-  const changeReviewStatus = (status) => {
+  const changeReviewStatus = () => {
     const data = {
       page: propID,
       smallLoader: 'saveData',
-      status,
+      status: checkPortalsOnline() ? 'offline' : 'online',
     };
     handleUpdatePortalsReview(data);
   };
@@ -292,7 +291,6 @@ const Portals = (props) => {
 
 Portals.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  company: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
