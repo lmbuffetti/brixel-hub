@@ -17,24 +17,24 @@ const BrixelUpgradeMessage = (props) => {
     activeSingleProperty,
     btnLabel,
     className,
-    title,
     description,
-    titleConfirm,
-    isSmallLoading,
     descriptionConfirm,
+    isSmallLoading,
     onClick,
     onClose,
+    onOpentour,
     redirectUrl,
     showClose,
-    unlockFunction,
+    title,
+    titleConfirm,
     trialRequest,
+    unlockFunction,
     virtualTour,
   } = props;
   // URL PARAMS
   const propID = history.location.pathname.split('/')[1];
   // STATE
   const [showUnlockMessage, setShowUnlockMessage] = useState(false);
-  const [showTour, setShowTour] = useState(false);
 
   // WHEN CLICK TO CONFIRM THE UPGRADE
   const onUpgrade = () => {
@@ -98,45 +98,31 @@ const BrixelUpgradeMessage = (props) => {
         ) : (
           <div className="bgGreen100 pb-3">
             <h5 className="txtGreen700">{title}</h5>
-            <p className="mt-3 mb-3 max-w-fix-360 m-a txtDark700" dangerouslySetInnerHTML={{ __html: description }} />
+            <p
+              className="mt-3 mb-3 max-w-fix-360 m-a txtDark700"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
             {
               // CONDITION TO SHOW MESSAGE OR DEFAULT DEFAULT TOUR IF TOUR 3D
               virtualTour && (
                 <div className="my-5">
-                  {
-                    showTour ? (
-                      <div className="ta-c">
-                        <iframe
-                          className="min-h-fix-320"
-                          width="100%"
-                          height="100%"
-                          src={virtualTour}
-                          allow="vr"
-                          frameBorder="0"
-                          allowFullScreen
-                          title="Virtual Tour"
-                        />
-                      </div>
-                    ) : (
-                      <div className="pos-r brdRadius ov-h">
-                        <img
-                          className="dis-b"
-                          src={defaultCover}
-                          alt="Cover"
-                        />
-                        <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
-                        <div className="pos-a xy-c">
-                          <BrixelButtonIcon
-                            ghost
-                            icon="play-fill"
-                            className="m-a opacity8"
-                            onClick={() => setShowTour(true)}
-                          />
-                          <p className="ta-c txtWhite mt-2">Example 3D-Tour</p>
-                        </div>
-                      </div>
-                    )
-                  }
+                  <div className="pos-r brdRadius ov-h">
+                    <img
+                      className="dis-b"
+                      src={defaultCover}
+                      alt="Cover"
+                    />
+                    <div className="pos-a w-perc-100 h-perc-100 bgBlack opacity5" />
+                    <div className="pos-a xy-c">
+                      <BrixelButtonIcon
+                        ghost
+                        icon="play-fill"
+                        className="m-a opacity8"
+                        onClick={() => onOpentour(virtualTour)}
+                      />
+                      <p className="ta-c txtWhite mt-2">Example 3D-Tour</p>
+                    </div>
+                  </div>
                 </div>
               )
             }
@@ -160,9 +146,10 @@ BrixelUpgradeMessage.propTypes = {
   className: PropTypes.string,
   description: PropTypes.string,
   descriptionConfirm: PropTypes.string,
+  onOpentour: PropTypes.func,
   isSmallLoading: PropTypes.object.isRequired,
-  onClose: PropTypes.func,
   onClick: PropTypes.func,
+  onClose: PropTypes.func,
   redirectUrl: PropTypes.string,
   showClose: PropTypes.bool,
   title: PropTypes.string,

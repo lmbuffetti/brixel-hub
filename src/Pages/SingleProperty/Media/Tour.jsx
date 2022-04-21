@@ -18,7 +18,8 @@ const Tour = (props) => {
   } = props;
   // URL PARAMS
 
-  const open3dTour = () => {
+  const open3dTour = (url) => {
+    const urlTour = url || `https://my.matterport.com/show/?m=${get(formValue, 'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&wh=0`
     handleSetModal({
       state: true,
       small: true,
@@ -27,7 +28,7 @@ const Tour = (props) => {
                             class="matterportIframeModal"
                             width="100%"
                             height="100%"
-                            src="https://my.matterport.com/show/?m=${get(formValue, 'virtual.matterport', null)}&help=0&hl=2&nt=1&play=1&brand=0&mls=2&wh=0"
+                            src="${urlTour}"
                             allow="vr"
                             frameBorder="0"
                             allowFullScreen
@@ -74,6 +75,7 @@ const Tour = (props) => {
             ) : (
               <div className="tour brixel-upgrade-message rewardsSplash">
                 <BrixelUpgradeMessage
+                  onOpentour={(url) => open3dTour(url)}
                   unlockFunction={false}
                   title="Do you want a 3D tour for your property?"
                   description="A 3D tour helps you to avoid unnecessary showings and increases the attention of your property in the market. Request a free scan by one of our experts to get your own tour."
