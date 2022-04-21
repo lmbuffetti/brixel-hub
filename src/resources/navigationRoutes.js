@@ -49,18 +49,6 @@ export const sidebarNavigationSeller = [
     name: 'marketing',
     icon: 'mike',
     path: '/:propID/marketing',
-    submenu: [
-      {
-        title: 'Page',
-        name: 'page',
-        path: '/:propID/marketing/page',
-      },
-      {
-        title: 'Portals',
-        name: 'portals',
-        path: '/:propID/marketing/portals',
-      },
-    ],
   },
   {
     title: 'Prospects',

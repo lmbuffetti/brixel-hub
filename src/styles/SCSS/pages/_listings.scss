@@ -44,8 +44,10 @@
 .portalsList {
   > a {
     text-transform: capitalize;
-    display: block;
     padding-bottom: $step;
+    > span {
+      min-width: 140px;
+    }
     span {
       color: map_get($darkColor, 400);
     }

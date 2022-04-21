@@ -60,6 +60,7 @@
     "test": "NODE_ENV=page-dev npm run sellerFlowTest && NODE_ENV=page-dev npm run estimationFlowTest && NODE_ENV=page-dev npm run buyerFlowTest && NODE_ENV=page-dev npm run allTests",
     "test-stage": "NODE_ENV=page-stag npm run sellerFlowTest && NODE_ENV=page-stag npm run estimationFlowTest && NODE_ENV=page-stag npm run buyerFlowTest && NODE_ENV=page-stag npm run allTests",
     "test-prod": "NODE_ENV=page-prod npm run sellerFlowTest && NODE_ENV=page-prod npm run estimationFlowTest && NODE_ENV=page-prod npm run buyerFlowTest && NODE_ENV=page-prod npm run allTests",
+    "install-styleguide": "rm -rf node_modules/@brixel && rm -rf package-lock.json && npm install",
     "eject": "react-scripts eject",
     "eslint": "eslint --fix --config .eslintrc --ignore-path .eslintignore .",
     "ncu": "ncu -x 'eslint-plugin-react'",
