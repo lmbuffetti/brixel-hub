@@ -17,7 +17,7 @@ const Tour = (props) => {
     handleSetModal,
   } = props;
   // URL PARAMS
-  
+
   const open3dTour = () => {
     handleSetModal({
       state: true,
@@ -49,11 +49,11 @@ const Tour = (props) => {
           {
             get(formValue, 'virtual.matterport', null) ? (
               <div className="tour boxCard mb-5">
-                <div className="pos-r brdRadius ov-h">
+                <div className="pos-r brdRadius ov-h max-h-fix-344">
                   {
                     get(formValue, 'virtual.matterport', null) && (
                       <img
-                        className="dis-b"
+                        className="dis-b w-perc-100"
                         src={`${baseByData.shortPath}${get(formValue, 'coverPhoto.path', '')}`}
                         alt="Cover"
                       />
