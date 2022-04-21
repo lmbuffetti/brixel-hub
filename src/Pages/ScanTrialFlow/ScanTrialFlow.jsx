@@ -161,17 +161,14 @@ const ScanTrialFlow = (props) => {
   const checkValidateField = (act) => {
     let isValid = true;
     let isNotEmpty = false;
-    console.log(get(formValue, 'date', 0), +new Date(get(formValue, 'fullDate', 0)))
-    if (get(formValue, 'date') < +new Date()) isValid = false;
+    if (get(formValue, 'fullDate', 0) && +new Date(get(formValue, 'fullDate', 0)) < +new Date()) isValid = false;
     if (get(quest, 'inputs', null)) {
-      console.log(isValid);
       quest.inputs.forEach((input) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
         if (noEmpty !== 'ayc') isNotEmpty = true;
         if (input.condition) {
           input.condition.forEach((item) => {
-            console.log(input.name, err);
             if (item.value && get(formValue, item.name, null) === item.value) {
               if (err !== true && err !== false && isValid) isValid = false;
             }
@@ -180,13 +177,11 @@ const ScanTrialFlow = (props) => {
             }
           });
         } else if (input.validation) {
-          console.log(input.name, err);
           if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });
     }
     if (act === 'value') return isValid && isNotEmpty;
-    console.log(isValid);
     return isValid;
   };
 
