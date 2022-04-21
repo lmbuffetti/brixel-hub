@@ -45,6 +45,53 @@ const Support = (props) => {
     if (layout === 'rewards') return 'p-1';
     return 'p-3';
   };
+  
+  if (layout === 'inline') {
+    return (
+      <div className="bgGreen100 brdRadius p-3 brdSmall brdAltGrey400 mt-5">
+        
+        <h6 className="txtGreen400 fweight-600 mb-2">Any questions?</h6>
+        
+        <div className="dis-f a-t jc-b">
+          <div>
+            {
+              phone && (
+                <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-1 txtDark700">
+                  <b className="txtDark700">
+                    Call us
+                  </b>
+                  <span className="ml-2">{Helpers.telephoneFormat(phone)}</span>
+                </a>
+              )
+            }
+            {
+              email && (
+                <a href={`mailto: ${email}`} className="dis-f a-c mb-1 txtDark700">
+                  <b className="txtDark700">
+                    Write us
+                  </b>
+                  <span className="ml-1">{email}</span>
+                </a>
+              )
+            }
+          </div>
+  
+          <div className="dis-f jc-fs a-t">
+            {
+              teamAvatars.map((imgTeam, i) => (
+                <img
+                  key={`tmAvt_${i.toString()}`}
+                  src={`${baseByData.shortPath}${imgTeam.path}`}
+                  alt="Support Team"
+                  className="w-fix-48 mr-1-neg square brdSmall brdWhite brdCircle"
+                />
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius min-w-fix-312' : ''}`} id="supportBox">

@@ -1001,3 +1001,31 @@ input::-webkit-date-and-time-value {
   background-color: white;
   z-index: 9999999;
 }
+
+.checkList {
+  li {
+    display: flex;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    list-style: none;
+    &:before {
+      content: "";
+      -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
+      mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
+      mask-size: contain;
+      mask-position: center;
+      background: map_get($darkColor, 400);
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin-right: 16px;
+    }
+  }
+  &.green {
+    li {
+      &:before {
+        background: map_get($greenColor, 400);
+      }
+    }
+  }
+}

@@ -582,9 +582,16 @@ const App = (props) => {
           {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
+                bodyActionsClass={modal.bodyActionsClass}
+                bodyClassColor={modal.bodyClassColor}
+                classContainer={modal.classContainer}
+                classImg={modal.classImg}
                 classTitle={modal.classTitle}
                 layout={modal.layout}
+                multiActions={modal.multiActions}
+                multiBodyActions={modal.multiBodyActions}
                 title={modal.title}
+                titleImg={modal.titleImg}
                 onClose={() => {
                   handleSetModal({ state: false });
                 }}
@@ -596,7 +603,7 @@ const App = (props) => {
                       expanded
                       isFixed={false}
                       hideClose
-                      layout="onboarding"
+                      layout={modal.supportLayout || "onboarding"}
                     />
                   )
                 }
