@@ -18,12 +18,12 @@ export const MarketingModal = {
   unpublishPage: {
     request: {
       title: 'Please confirm your request.',
-      body: 'You can unpublish your Brixel Page for free. We will review your request before unpublishing to make sure you get the best result.',
+      body: 'Hereby we will take your Page offline. All your connected listings on third-party portals will also be removed. You can republish your Page at any time.',
       titleImg: UnpublishPageImg,
     },
     success: {
       title: 'Please confirm your request.',
-      body: 'You can publish your Brixel Page for free to share it wherever you want. We will review your content before publishing to make sure you get the best result.',
+      body: 'It may take a few hours until everything is offline. We will confirm as soon as all listings are removed.',
       titleImg: SuccessReview,
     }
   },
@@ -42,12 +42,12 @@ export const MarketingModal = {
   unpublishPortals: {
     request: {
       title: 'Please confirm your request.',
-      body: 'Hereby you give Brixel the right to unpublish your property on third-party portals.<br /><br />We will review your content before unpublishing to make sure you get the best result.',
+      body: 'Hereby we will take all your listings on third-party portals offline. You can request to publish the listings again at any time.',
       titleImg: UnpublishPageImg,
     },
     success: {
       title: 'Successfully submitted',
-      body: 'Portals can take up to 8 hours until your property is offline. We will let you know as soon as your listings are offline.',
+      body: 'It may take a few hours until everything is offline. We will confirm as soon as all listings are removed.',
       titleImg: SuccessReview,
     }
   }
