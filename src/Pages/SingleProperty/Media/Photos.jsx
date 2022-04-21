@@ -346,7 +346,6 @@ const mapStateToProps = (state) => ({
   imageType: get(state, 'images.imageType', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', { }),
-  percentage: get(state, 'common.percentage', 0),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

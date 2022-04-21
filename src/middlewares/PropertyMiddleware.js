@@ -11,8 +11,6 @@ import {
   CREATE_ACTIVE_SINGLE_PROPERTY,
   CREATE_PROPERTY_VISIT_BOOKING,
   CREATE_PROPERTY_VISIT_SCHEDULE,
-  DELETE_ACTIVE_SINGLE_PROPERTY,
-  DELETE_PROPERTY_VISIT_SCHEDULE,
   GET_ACTIVE_SINGLE_PROPERTY,
   GET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
   GET_ESTIMATION,
@@ -22,7 +20,6 @@ import {
   SAVE_ACTIVE_SINGLE_PROPERTY,
   SAVE_PROPERTY_VISIT_BOOKING,
   SAVE_PROPERTY_VISIT_SCHEDULE,
-  SAVE_UPGRADE_PLAN,
   SEND_SCAN_TRIAL_REQUEST,
   SET_ACTIVE_SINGLE_PROPERTY,
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
@@ -299,52 +296,6 @@ const checkCommon = (store) => (next) => (action) => {
             if (redirectToHome) {
               window.location.assign(`/${res.data.id}/sell`);
             }
-          }
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
-      break;
-    }
-    // DISPATCH TO DELETE SINGLE PROPERTY - by PROPERTY ID
-    case DELETE_ACTIVE_SINGLE_PROPERTY: {
-      next(action);
-      const { smallLoader } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      api.property.deleteProperty(action.payload.id)
-        .then((response) => {
-          if (response.meta.status === 200) {
-            store.dispatch({
-              type: SET_ACTIVE_SINGLE_PROPERTY,
-              payload: {},
-            });
-            store.dispatch({
-              type: REDIRECT_TO,
-              payload: { url: '/' },
-            });
-          } else {
-            // TODO: Should dispatch error state
-
           }
           if (smallLoader) {
             store.dispatch({
@@ -673,7 +624,7 @@ const checkCommon = (store) => (next) => (action) => {
           .catch(() => {
             store.dispatch({ type: SPINNER_OFF });
           });
-        await api.property.getContructionYears(urlSpace)
+        await api.property.getConstructionYears(urlSpace)
           .then((res) => {
             marketData.constructionYearDistribution = res.data;
           })
@@ -777,47 +728,6 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: GET_ACTIVE_SINGLE_PROPERTY,
               payload: { id: action.payload.data.page, smallLoader: true, setSuccessNotification: true },
-            });
-          } else {
-            // TODO: Should dispatch error state
-          }
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
-      break;
-    }
-    // DISPATCH TO DELETE PROPERTY VISIT SCHEDULE - by SCHEDULE ID
-    case DELETE_PROPERTY_VISIT_SCHEDULE: {
-      next(action);
-      const { smallLoader } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      api.property.deletePropertyVisitSchedule(action.payload.scheduleId)
-        .then((response) => {
-          if (response.meta.status === 200) {
-            store.dispatch({
-              type: GET_ACTIVE_SINGLE_PROPERTY,
-              payload: { id: action.payload.pageId, smallLoader: true },
             });
           } else {
             // TODO: Should dispatch error state
@@ -1112,39 +1022,6 @@ const checkCommon = (store) => (next) => (action) => {
             }
           } else {
             // TODO: Should dispatch error state
-          }
-        });
-      break;
-    }
-    // DISPATCH TO UPDATE UPGRADE PACKAGE - by PROPERTY ID
-    case SAVE_UPGRADE_PLAN: {
-      next(action);
-      const { smallLoader, page, data } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      api.property.saveUpgradePlan(page, data)
-        .then(() => {
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
           }
         });
       break;

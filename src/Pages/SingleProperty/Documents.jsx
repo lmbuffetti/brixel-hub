@@ -25,7 +25,6 @@ import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsCo
 import { useDropzone } from 'react-dropzone';
 import { DateTime } from 'luxon';
 import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actions/UploadActions';
-import { setScreenNotification } from '../../actions/CommonActions';
 // IMAGES
 import uploadDocumentsEmpty from '../../images/Upload/upload_documents_empty.svg';
 import buyerDocumentsEmpty from '../../images/Media/buyer_docuboxEmpty.svg';
@@ -636,7 +635,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setNotification: bindActionCreators(setScreenNotification, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleDeleteDocument: bindActionCreators(deleteDocument, dispatch),

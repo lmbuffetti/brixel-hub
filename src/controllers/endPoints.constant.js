@@ -1,9 +1,7 @@
 export default {
   brixelator: {
-    getContructionYears: (data) => `/marketData/constructionYearDistribution${data}`,
+    getConstructionYears: (data) => `/marketData/constructionYearDistribution${data}`,
     getLivingSpaceDistribution: (data) => `/marketData/livingSpacesDistribution${data}`,
-    getMaketAggregate: (data) => `/marketData/aggregate${data}`,
-    getMarketData: (data) => `/marketData/pricesPerM2Distribution${data}`,
     getMarketDays: (data) => `/marketData/daysOnMarketDistribution${data}`,
     getMerged: (data) => `/merged/list${data}`,
     getMergedBySubtype: (data) => `/merged/countBySubType${data}`,
@@ -11,9 +9,6 @@ export default {
     getPricePerSpace: (data) => `/marketData/pricesPerM2Distribution${data}`,
   },
   common: {
-    sendMessage: () => '/message',
-    sendGenericMessage: () => '/email/sendTemplateEmail',
-    sendScheduleVisit: () => '/email/sendScheduleVisitEmail',
     sendSlackNotification: (channel) => `/utils/sendCustomSlackMessage?channel=${channel}`,
   },
   company: {
@@ -27,7 +22,6 @@ export default {
     buyerDeal: (id) => `/page/${id}/deal/buyer`,
     closingIdentification: (id, personType = 'buyer') => `/deal/${id}/closing/identification/person?personType=${personType}`,
     createSingleDeal: () => '/deal',
-    dealByUserID: (id) => `/user/${id}/deals`,
     getListOfDeals: (paginationLimit, paginationSkip, data) => `/deal/${paginationLimit}/${paginationSkip}${data}`,
     makeOffer: (id) => `/deal/${id}/closing/makeOffer`,
     offerListings: (id) => `/page/${id}/offers`,
@@ -44,10 +38,7 @@ export default {
     getEstimationsList: (paginationLimit, paginationSkip, ownerId, data) => `/estimation/${paginationLimit}/${paginationSkip}?owner=${ownerId}${data}`,
   },
   history: {
-    createHistory: () => '/history/',
     getHistoryListOfParent: (paginationLimit, paginationSkip, data) => `/history/${paginationLimit}/${paginationSkip}${data}`,
-    historyById: (id) => `/history/${id}`,
-    historyFeed: (id, paginationLimit, paginationSkip, data) => `/feed/${id}/${paginationLimit}/${paginationSkip}${data}`,
   },
   lead: {
     getLeadList: (leadType, paginationLimit, paginationSkip, data) => `/lead/${leadType}/${paginationLimit}/${paginationSkip}${data}`,
@@ -76,12 +67,8 @@ export default {
     createPropertyVisitSchedule: () => '/schedule',
     estimation: (id) => `/page/${id}/estimation`,
     getPageVisits: (id) => `/page/${id}/visit`,
-    getPropertyScheduleListings: (id) => `/schedule/10/0?pageId=${id}&order=name&direction=desc`,
-    getPropertyVisitListings: () => '/scheduleVisit/10/0?order=name&direction=desc',
     mapPageById: (id) => `/map/property/${id}`,
-    packagesList: (limit, offset) => `/servicePackage/${limit}/${offset}`,
     packagePage: (id) => `/pageServicePackage/10/0?pageID=${id}&order=createdAt&direction=ASC`,
-    page: (limit, offset) => `/page/${limit}/${offset}`,
     pageById: (id) => `/page/${id}`,
     pageByStub: (stub) => `/page/stub/${stub}`,
     pageDeals: (id, data) => `/page/${id}/deals${data}`,
@@ -91,7 +78,6 @@ export default {
     propertyVisitScheduleById: (id) => `/schedule/${id}`,
     publishReview: (id, status) => `/page/${id}/publishReview?status=${status}`,
     scanTrial: (id) => `/page/${id}/scanTrial`,
-    upgradePlan: (id) => `/page/${id}/upgradePlan`,
   },
   searchProfile: {
     searchProfileByUserID: (id) => `/user/${id}/searchProfile`,
@@ -110,11 +96,9 @@ export default {
     addAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/add`,
     addFavorite: (id) => `/user/favorite/page/${id}/add`,
     createUser: () => '/user/register',
-    favoritePages: () => '/user/favoritePages',
     getPropertiesOfUser: (owner, limit = 0) => `/page/${limit}/0?owner=${owner}`,
     getToken: () => '/authentication/getToken',
     getUserByEmail: (email) => `/user/email/${email}`,
-    leadsByUser: (id) => `/user/${id}/userLeads`,
     recoverPassword: (email) => `/user/recoverPassword/${email}`,
     removeAsNotInterested: (pageId) => `/user/notInterested/page/${pageId}/remove`,
     removeFavorite: (id) => `/user/favorite/page/${id}/remove`,

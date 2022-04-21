@@ -48,11 +48,6 @@ class Property extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
-  getFavoritesPages() {
-    const url = ep.user.favoritePages();
-    return this.apiClient.get(url, {});
-  }
-
   getPublicUser(id) {
     const url = ep.user.getPublicUser(id);
     return this.apiClient.get(url, {});
@@ -70,11 +65,6 @@ class Property extends Base {
 
   validateUser(email) {
     const url = ep.user.validateUser(email);
-    return this.apiClient.get(url, {});
-  }
-
-  getLeadsByUser(id) {
-    const url = ep.user.leadsByUser(id);
     return this.apiClient.get(url, {});
   }
 
