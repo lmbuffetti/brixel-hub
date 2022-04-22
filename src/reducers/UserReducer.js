@@ -1,7 +1,6 @@
 import { handleActions } from 'redux-actions';
 import {
   SET_USER_TYPES,
-  SET_FAVORITES,
   SET_LOGGED_IN_USER,
   SET_USER_PROPERTIES,
   SET_USER_PAGES_DEALS,
@@ -13,7 +12,6 @@ import {
 
 export const defaultState = {
   userTypes: '',
-  favorites: [],
   loggedInUser: {},
   userSearchProfiles: null,
   userProperties: [],
@@ -25,10 +23,6 @@ export default handleActions(
     [SET_USER_TYPES]: (state, action) => ({
       ...state,
       userTypes: action.payload,
-    }),
-    [SET_FAVORITES]: (state, action) => ({
-      ...state,
-      favorites: action.payload,
     }),
     [SET_LOGGED_IN_USER]: (state, action) => ({
       ...state,

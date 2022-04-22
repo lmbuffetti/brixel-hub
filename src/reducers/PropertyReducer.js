@@ -31,7 +31,6 @@ export const defaultState = {
   activeSinglePropertyActivePackage: [],
   activeSinglePropertyPackage: [],
   estimation: {},
-  historyFeed: {},
   marketCheck: {},
   packagesProperty: [],
   propertyListings: [],

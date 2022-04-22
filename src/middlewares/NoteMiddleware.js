@@ -1,18 +1,12 @@
 import cloneDeep from 'lodash/cloneDeep';
-import get from 'lodash/get';
 
 import {
   CREATE_NOTE,
-  DELETE_ACTIVE_SINGLE_NOTE,
   GET_NOTE_LISTINGS,
   SET_USER_NOTE_LISTINGS,
   SET_PROPERTY_NOTE_LISTINGS,
   SET_DEAL_NOTE_LISTINGS,
-  GET_ACTIVE_SINGLE_NOTE,
-  SET_ACTIVE_SINGLE_NOTE,
   SAVE_ACTIVE_SINGLE_NOTE,
-  GET_ACTIVITY_LISTINGS,
-  SET_ACTIVITY_LISTINGS,
 } from '../actions/types/NoteTypes';
 
 import {
@@ -156,93 +150,6 @@ const checkNote = (store) => (next) => (action) => {
         });
       break;
     }
-    case DELETE_ACTIVE_SINGLE_NOTE: {
-      next(action);
-      const {
-        id,
-        smallLoader,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      delete action.payload.data.user;
-      api.note.updateSingleNote(id)
-        .then((response) => {
-          if (response.meta.status === 200) {
-            store.dispatch({
-              type: SET_ACTIVE_SINGLE_NOTE,
-              payload: {},
-            });
-          } else {
-            // TODO: Should dispatch error state
-          }
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
-      break;
-    }
-    case GET_ACTIVE_SINGLE_NOTE: {
-      next(action);
-      const {
-        id,
-        smallLoader,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      api.note.getSingleNote(id)
-        .then((response) => {
-          if (response.meta.status === 200) {
-            store.dispatch({
-              type: SET_ACTIVE_SINGLE_NOTE,
-              payload: response.data,
-            });
-          } else {
-            // TODO: Should dispatch error state
-          }
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: true,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_ON,
-            });
-          }
-        });
-      break;
-    }
     case SAVE_ACTIVE_SINGLE_NOTE: {
       next(action);
       const {
@@ -289,54 +196,6 @@ const checkNote = (store) => (next) => (action) => {
                 label: 'Your changes were saved',
                 type: 'done',
               },
-            });
-          }
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
-      break;
-    }
-    case GET_ACTIVITY_LISTINGS: {
-      next(action);
-      const {
-        company,
-        direction,
-        offset,
-        resultsPerPage,
-        smallLoader,
-        text,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      const filterData = get(action, 'payload.filterData', '') ? `&${get(action, 'payload.filterData', '')}` : '&complete=false';
-      let queryParams = `?search=${encodeURIComponent(text)}&order=${action.payload.order}&direction=${direction}&company=${company}${filterData}`;
-      queryParams = queryParams.replace('&&', '&');
-      api.note.getActivitiesList(resultsPerPage, offset, queryParams)
-        .then((res) => {
-          if (res.meta.status === 200) {
-            store.dispatch({
-              type: SET_ACTIVITY_LISTINGS,
-              payload: res.data,
             });
           }
           if (smallLoader) {

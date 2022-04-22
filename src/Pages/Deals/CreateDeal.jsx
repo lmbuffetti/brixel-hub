@@ -21,9 +21,6 @@ import {
 import {
   createDeal,
 } from '../../actions/DealActions';
-// import {
-//   getLeadListings,
-// } from '../../actions/LeadActions';
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';
@@ -233,7 +230,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(destroy('CreateDeal'));
   },
   handleCreateDeal: bindActionCreators(createDeal, dispatch),
-  // handleGetLeads: bindActionCreators(getLeadListings, dispatch),
 });
 
 export default compose(

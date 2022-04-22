@@ -43,20 +43,9 @@ class Property extends Base {
     return this.apiClient.get(url, {});
   }
 
-  // Endpoints for time slots available in order to book a visit to a property
-  getPropertyScheduleListings(id) {
-    const url = ep.property.getPropertyScheduleListings(id);
-    return this.apiClient.get(url);
-  }
-
   createPropertyVisitSchedule(data) {
     const url = ep.property.createPropertyVisitSchedule();
     return this.apiClient.post(url, {}, data);
-  }
-
-  deletePropertyVisitSchedule(id) {
-    const url = ep.property.propertyVisitScheduleById(id);
-    return this.apiClient.delete(url, {});
   }
 
   getPropertyVisitSchedule(id) {
@@ -67,12 +56,6 @@ class Property extends Base {
   updatePropertyVisitSchedule(id, data) {
     const url = ep.property.propertyVisitScheduleById(id);
     return this.apiClient.put(url, {}, data);
-  }
-
-  // Endpoints for property visits requested by users
-  getPropertyVisitListings() {
-    const url = ep.property.getPropertyVisitListings();
-    return this.apiClient.get(url);
   }
 
   createPropertyVisit(data) {
@@ -110,20 +93,9 @@ class Property extends Base {
     return this.apiClient.put(url, {}, {});
   }
 
-  // PACAKGE - UPGRADE
-  getPackageList(limit, offset) {
-    const url = ep.property.packagesList(limit, offset);
-    return this.apiClient.get(url, {});
-  }
-
   packagePage(id, limit, offset, data) {
     const url = ep.property.packagePage(id, limit, offset, data);
     return this.apiClient.get(url, {});
-  }
-
-  saveUpgradePlan(id, data) {
-    const url = ep.property.upgradePlan(id);
-    return this.apiClient.put(url, {}, data);
   }
 
   // BRIXELATOR
@@ -152,18 +124,13 @@ class Property extends Base {
     return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
 
-  getContructionYears(data) {
-    const url = ep.brixelator.getContructionYears(data);
+  getConstructionYears(data) {
+    const url = ep.brixelator.getConstructionYears(data);
     return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
 
   getMergedBySubtype(data) {
     const url = ep.brixelator.getMergedBySubtype(data);
-    return this.apiClient.get(url, { baseUrlType: 'brixelator' });
-  }
-
-  getMaketAggregate(data) {
-    const url = ep.brixelator.getMaketAggregate(data);
     return this.apiClient.get(url, { baseUrlType: 'brixelator' });
   }
 

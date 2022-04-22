@@ -3,11 +3,6 @@ import Base from '../config/Base';
 import ep from '../../endPoints.constant';
 
 class Note extends Base {
-  getSingleNote(id) {
-    const url = ep.note.singleNote(id);
-    return this.apiClient.get(url, {});
-  }
-
   updateSingleNote(id, data) {
     const url = ep.note.singleNote(id);
     return this.apiClient.put(url, {}, data);

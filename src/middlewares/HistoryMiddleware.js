@@ -10,8 +10,6 @@ import {
   SET_PROPERTY_HISTORY_LISTINGS,
   SET_USER_HISTORY_LISTINGS,
   SET_DEAL_HISTORY_LISTINGS,
-  GET_HISTORY_FEED,
-  SET_HISTORY_FEED,
 } from '../actions/types/HistoryTypes';
 
 import {
@@ -127,48 +125,6 @@ const checkHistory = (store) => (next) => (action) => {
               console.warn('Could not get any history for this object');
             }
           }
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
-      break;
-    }
-    case GET_HISTORY_FEED: {
-      next(action);
-      const {
-        arrayStubs,
-        direction,
-        id,
-        offset,
-        order,
-        resultsPerPage,
-        smallLoader,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      const queryParams = `?order=${order}&direction=${direction}`;
-      api.history.historyFeed(id, resultsPerPage, offset, queryParams, arrayStubs)
-        .then((res) => {
-          store.dispatch({ type: SET_HISTORY_FEED, payload: res.data });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,

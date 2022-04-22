@@ -322,7 +322,6 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language.code', 'de'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    messageSent: get(state, 'common.messageSent', false),
     initialValues: {
       userName: get(loggedInUser, 'name', {}),
       userPhone: get(loggedInUser, 'phone', {}),

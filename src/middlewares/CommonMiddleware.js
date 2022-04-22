@@ -3,7 +3,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   SPINNER_ON,
   SPINNER_OFF,
-  SEND_GENERIC_MAIL,
   SET_SAVED_SCREEN,
   SET_NOTIFICATION,
   SET_SCREEN_NOTIFICATION,
@@ -16,44 +15,6 @@ import api from '../controllers/api/config';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
-    // DISPATCH TO SEND GENERAL EMAIL
-    case SEND_GENERIC_MAIL: {
-      next(action);
-      const data = cloneDeep(action.payload);
-      const { smallLoader } = data;
-      delete data.smallLoader;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      api.common.sendGenericMessage(data)
-        .then(() => {
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        })
-        .catch(() => {
-          // console.log(res.data);
-        });
-      break;
-    }
     // DISPATCH TO SEND EMAIL
     case SEND_MESSAGE: {
       next(action);

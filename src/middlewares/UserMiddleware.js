@@ -9,8 +9,6 @@ import {
   SET_LOGGED_IN_USER,
   SAVE_ACTIVE_SINGLE_USER,
   VALIDATE_USER,
-  GET_FAVORITES,
-  SET_FAVORITES,
   GET_USER_PROPERTIES,
   SET_USER_PROPERTIES,
   GET_USER_PAGES_DEALS,
@@ -34,7 +32,7 @@ import {
 import { CREATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
 
 import { CREATE_ACTIVE_SINGLE_PROPERTY } from '../actions/types/PropertyTypes';
-import { GET_FAVORITES_PROPERTIES, SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
+import { SET_FAVORITES_PROPERTIES } from '../actions/types/MarketTypes';
 
 import { CREATE_ESTIMATION } from '../actions/types/EstimationTypes';
 
@@ -217,9 +215,8 @@ const checkUser = (store) => (next) => (action) => {
       next(action);
       const objData = cloneDeep(action.payload);
       const { id } = action.payload;
-      const { sendEmail, setLoggedInUser, smallLoader } = action.payload;
+      const { setLoggedInUser, smallLoader } = action.payload;
       delete objData.id;
-      delete objData.sendEmail;
       delete objData.smallLoader;
       delete objData.setLoggedInUser;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
@@ -228,12 +225,6 @@ const checkUser = (store) => (next) => (action) => {
         .then((response) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: false } });
           else store.dispatch({ type: SPINNER_OFF });
-          if (sendEmail) {
-            api.common.sendGenericMessage(sendEmail)
-              .then(() => {
-                // console.log(res.data);
-              });
-          }
           if (setLoggedInUser) {
             const userData = store.getState().user.loggedInUser;
             userData.user = response.data;
@@ -309,21 +300,6 @@ const checkUser = (store) => (next) => (action) => {
         .catch(() => {
           store.dispatch({ type: SPINNER_OFF });
           if (extraLoading) store.dispatch({ type: SPINNER_OFF });
-        });
-      break;
-    }
-    // DISPATCH TO GET FAVORITES LIST
-    case GET_FAVORITES: {
-      next(action);
-      store.dispatch({ type: SPINNER_SMALL, payload: { favorite: true } });
-      store.dispatch({ type: GET_FAVORITES_PROPERTIES });
-      api.user.getFavoritesPages()
-        .then((res) => {
-          store.dispatch({ type: SET_FAVORITES, payload: res.data });
-          store.dispatch({ type: SPINNER_SMALL, payload: { favorite: false } });
-        })
-        .catch(() => {
-          store.dispatch({ type: SPINNER_SMALL, payload: { favorite: false } });
         });
       break;
     }
