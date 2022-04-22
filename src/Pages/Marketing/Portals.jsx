@@ -26,6 +26,7 @@ const Portals = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    companyPortals,
     customPortals,
     handleSetModal,
     formValue,
@@ -159,23 +160,38 @@ const Portals = (props) => {
       
         <div className="portalsList mt-3">
           {
-            Object.keys(portals).map((key, i) => (
+            Object.keys(companyPortals).map((key, i) => (
               <React.Fragment
                 key={`prt_${i.toString()}`}
               >
                 {
-                  portals[key] && get(customPortals, `${key}`, true) && !key.toLocaleLowerCase().includes('url') && (
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={portals[`${key}Url`]}
-                      className="dis-f a-c"
-                    >
-                      <span>{key}</span>
-                      <BrixelStatus
-                        color="green"
-                      />
-                    </a>
+                  companyPortals[key] && (
+                    <>
+                      {
+                        portals[key] ? (
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={portals[`${key}Url`]}
+                            className="dis-f a-c"
+                          >
+                            <span>{key}</span>
+                            <BrixelStatus
+                              color="green"
+                            />
+                          </a>
+                        ) : (
+                          <div
+                            className="dis-f a-c singlePortal"
+                          >
+                            <span>{key}</span>
+                            <BrixelStatus
+                              color="red"
+                            />
+                          </div>
+                        )
+                      }
+                    </>
                   )
                 }
               </React.Fragment>
@@ -291,6 +307,7 @@ const Portals = (props) => {
 
 Portals.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  companyPortals: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
@@ -305,7 +322,7 @@ const mapStateToProps = (state) => {
   const activeSingleProperty = get(state, 'property.activeSingleProperty', {});
   return ({
     activeSingleProperty,
-    company: get(state, 'companies.activeSingleCompany', {}),
+    companyPortals: get(state, 'companies.activeSingleCompany.availablePortals', {}),
     customPortals: get(activeSingleProperty, 'customPortals', {}),
     formValue,
     isSmallLoading: get(state, 'common.isSmallLoading', {}),

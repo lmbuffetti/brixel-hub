@@ -42,7 +42,7 @@
 }
 
 .portalsList {
-  > a {
+  > a, .singlePortal {
     text-transform: capitalize;
     padding-bottom: $step;
     > span {
