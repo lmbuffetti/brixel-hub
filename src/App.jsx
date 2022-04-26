@@ -584,6 +584,7 @@ const App = (props) => {
               <BrixelModal
                 bodyActionsClass={modal.bodyActionsClass}
                 bodyClassColor={modal.bodyClassColor}
+                bodyInnerClass={modal.bodyInnerClass}
                 classContainer={modal.classContainer}
                 classImg={modal.classImg}
                 classTitle={modal.classTitle}
