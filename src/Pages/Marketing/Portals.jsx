@@ -53,7 +53,7 @@ const Portals = (props) => {
     });
     return isOnline;
   };
-  
+
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
     if (activeSingleProperty.portalsReview) {
@@ -86,7 +86,7 @@ const Portals = (props) => {
     };
     handleUpdatePortalsReview(data);
   };
-  
+
   const onClickRequest = (state, type = 'request') => {
     handleSetModal({
       state: true,
@@ -98,7 +98,8 @@ const Portals = (props) => {
       titleImg: MarketingModal[state][type].titleImg,
       classContainer: 'dis-b ta-c',
       classImg: 'mx-a w-fix-64 mb-3',
-      bodyActionsClass: 'dis-f a-c jc-c mt-3',
+      bodyActionsClass: 'dis-f a-c jc-c mt-5 mb-3',
+      bodyInnerClass: 'max-w-fix-384 m-a ta-c',
       classTitle: 'ta-c',
       showSupport: type === 'success',
       supportLayout: 'inline',
@@ -137,7 +138,7 @@ const Portals = (props) => {
             {status.text}
           </div>
         </div>
-      
+
         <div className="mb-4">
           {
             checkPortalsOnline() ? (
@@ -157,7 +158,7 @@ const Portals = (props) => {
             )
           }
         </div>
-      
+
         <div className="portalsList mt-3">
           {
             Object.keys(companyPortals).map((key, i) => (
@@ -219,7 +220,7 @@ const Portals = (props) => {
             ))
           }
         </div>
-      
+
         {
           checkPortalsOnline() && !formValue.portalsReview && (
             <>
@@ -241,7 +242,7 @@ const Portals = (props) => {
             </>
           )
         }
-      
+
         <div className="dis-f a-c jc-fe mt-5">
           {
             checkPortalsOnline() ? (
@@ -270,10 +271,10 @@ const Portals = (props) => {
             )
           }
         </div>
-    
+
       </div>
-    
-      
+
+
       {
         get(activeSingleProperty, 'published', null) === false && (
           <div className="bgWhite brdRadius p-4 mt-2">
@@ -300,7 +301,7 @@ const Portals = (props) => {
           </div>
         )
       }
-  
+
     </>
   );
 };

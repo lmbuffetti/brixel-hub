@@ -45,13 +45,13 @@ const Support = (props) => {
     if (layout === 'rewards') return 'p-1';
     return 'p-3';
   };
-  
+
   if (layout === 'inline') {
     return (
-      <div className="bgGreen100 brdRadius p-3 brdSmall brdAltGrey400 mt-5">
-        
+      <div className="bgGreen100 brdRadius p-3 brdSmall brdAltGrey400 mt-5 mx-3">
+
         <h6 className="txtGreen400 fweight-600 mb-2">Any questions?</h6>
-        
+
         <div className="dis-f a-t jc-b">
           <div>
             {
@@ -75,7 +75,7 @@ const Support = (props) => {
               )
             }
           </div>
-  
+
           <div className="dis-f jc-fs a-t">
             {
               teamAvatars.map((imgTeam, i) => (

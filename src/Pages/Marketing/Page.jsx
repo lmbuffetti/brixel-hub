@@ -37,7 +37,7 @@ const Page = (props) => {
   const [status, setStatus] = useState({});
   // URL PARAMS
   const propID = get(match, 'propID', null);
-  
+
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
     if (activeSingleProperty.publishReview) {
@@ -60,7 +60,7 @@ const Page = (props) => {
       });
     }
   }, [activeSingleProperty]);
-  
+
   // GET PAGE STATUS
   const changeReviewStatus = () => {
     const data = {
@@ -70,7 +70,7 @@ const Page = (props) => {
     };
     handleUpdatePublishedReview(data);
   };
-  
+
   // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
   const onClickPreview = () => {
     let url;
@@ -82,19 +82,20 @@ const Page = (props) => {
       window.location.assign(url);
     }
   };
-  
+
   const onClickRequest = (state, type = 'request') => {
     handleSetModal({
       state: true,
       layout:'xlarge',
-      bodyClassColor: 'bgWhite',
       title: MarketingModal[state][type].title,
       body: MarketingModal[state][type].body,
       small: true,
       titleImg: MarketingModal[state][type].titleImg,
+      bodyInnerClass: 'max-w-fix-384 m-a ta-c',
+      bodyClassColor: 'bgWhite',
       classContainer: 'dis-b ta-c',
       classImg: 'mx-a w-fix-64 mb-3',
-      bodyActionsClass: 'dis-f a-c jc-c mt-3',
+      bodyActionsClass: 'dis-f a-c jc-c mt-5 mb-3',
       classTitle: 'ta-c',
       showSupport: type === 'success',
       supportLayout: 'inline',
@@ -123,7 +124,7 @@ const Page = (props) => {
       ]
     })
   };
-  
+
   useEffect(() => {
     if (get(modal, 'multiBodyActions', []).length > 1) {
       modal.multiBodyActions[1].isLoading = isSmallLoading.saveData;
@@ -138,7 +139,7 @@ const Page = (props) => {
   if (!status.state) {
     return <div />
   }
-  
+
   return (
     <>
       <div className="bgWhite p-4 brdRadius">
@@ -148,7 +149,7 @@ const Page = (props) => {
             {status.text}
           </div>
         </div>
-  
+
         <div className="mb-4">
           {
             status.state === 'published' ? (
@@ -269,9 +270,9 @@ const Page = (props) => {
             )
           }
         </div>
-        
+
       </div>
-  
+
       {
         status.state === 'published' && (
           <div className="pos-r w-perc-100 bgWhite p-3 my-5 brdRadius shadow-1dp">

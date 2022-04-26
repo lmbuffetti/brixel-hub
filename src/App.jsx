@@ -400,7 +400,7 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     );
   }
-  
+
   return (
     <PartialErrorBoundering>
       {
@@ -483,7 +483,7 @@ const App = (props) => {
                                   get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
                                   get(history, 'location.pathname', '').split('/')[1].length > 18) ||
                                 get(history, 'location.pathname', '').split('/')[1] === 'company') && (
-    
+
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
@@ -584,7 +584,6 @@ const App = (props) => {
               <BrixelModal
                 bodyActionsClass={modal.bodyActionsClass}
                 bodyClassColor={modal.bodyClassColor}
-                bodyInnerClass={modal.bodyInnerClass}
                 classContainer={modal.classContainer}
                 classImg={modal.classImg}
                 classTitle={modal.classTitle}
@@ -597,7 +596,7 @@ const App = (props) => {
                   handleSetModal({ state: false });
                 }}
               >
-                <div dangerouslySetInnerHTML={{ __html: modal.body }} />
+                <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
                 {
                   modal.showSupport && (
                     <Support
@@ -622,7 +621,7 @@ const App = (props) => {
               />
             )
           }
-  
+
           {
             modal.state && modal.type === 'bestimate' && (
               <BestimateCardOverlay
