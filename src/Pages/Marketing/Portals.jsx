@@ -148,7 +148,7 @@ const Portals = (props) => {
                 <p>
                   Reach a wide audience and publish your property on the biggest portals
                 </p>
-                <ul className="checkList fsize-400 green mt-2">
+                <ul className="checkList fsize-300 green mt-2 txtAltGrey700">
                   <li>Manage all your listings in one place</li>
                   <li>Publish all your listings with one click</li>
                   <li>Valid for 6 months</li>
@@ -176,7 +176,7 @@ const Portals = (props) => {
                             href={portals[`${key}Url`]}
                             className="dis-f a-c"
                           >
-                            <span>{key}</span>
+                            <span className="fsize-300">{key}</span>
                             <BrixelStatus
                               color="green"
                             />
@@ -185,7 +185,7 @@ const Portals = (props) => {
                           <div
                             className="dis-f a-c singlePortal"
                           >
-                            <span>{key}</span>
+                            <span className="fsize-300">{key}</span>
                             <BrixelStatus
                               color="red"
                             />
@@ -209,7 +209,7 @@ const Portals = (props) => {
                       href={customPortals[`${key}Url`]}
                       className="dis-f a-c"
                     >
-                      <span>{key}</span>
+                      <span className="fsize-300">{key}</span>
                       <BrixelStatus
                         color="green"
                       />
@@ -235,7 +235,7 @@ const Portals = (props) => {
                   placeholder: 'Add text',
                 }}
                 design={{
-                  className: '',
+                  className: 'mt-2',
                 }}
                 component={BrixelTextArea}
               />

@@ -1006,7 +1006,6 @@ input::-webkit-date-and-time-value {
   li {
     display: flex;
     margin-bottom: 8px;
-    font-size: 1rem;
     list-style: none;
     &:before {
       content: "";
@@ -1019,6 +1018,7 @@ input::-webkit-date-and-time-value {
       width: 20px;
       height: 20px;
       margin-right: 16px;
+      margin-top: 2px;
     }
   }
   &.green {
