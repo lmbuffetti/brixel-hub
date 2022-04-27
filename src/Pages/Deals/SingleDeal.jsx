@@ -378,18 +378,18 @@ const SingleDeal = (props) => {
                   <div className="user dis-fl-row col-7 p-2 p-lg-0">
                     <BrixelAvatar
                       baseURL={get(getConfigEnv, 'shortPath', '')}
-                      name={Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name) === 'No Name' ? get(activeSingleDeal.user, 'email', '') : Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name)}
+                      name={Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', null), get(activeSingleDeal, 'user.lastName', null), get(activeSingleDeal, 'user.name', null)) === 'No Name' ? get(activeSingleDeal, 'user.email', '') : Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', null), get(activeSingleDeal, 'user.lastName', null), get(activeSingleDeal, 'user.name', null))}
                       profileId={get(activeSingleDeal.user, 'id', '')}
                     />
                     <div className="title dis-fl-col ml-2">
                       <span
                         className={`name dis-b fsize-500 fweight-500 ${get(activeSingleDeal, 'user.name') ? 'txtDark700' : 'txtDark100'}`}
                       >
-                        {Helpers.userNameVal(activeSingleDeal.user.firstName, activeSingleDeal.user.lastName, activeSingleDeal.user.name)}
+                        {Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', null), get(activeSingleDeal, 'user.lastName', null), get(activeSingleDeal, 'user.name', null))}
                       </span>
                       <div className="dis-f">
                         {
-                          has(activeSingleDeal, 'user.email') && (
+                          get(activeSingleDeal, 'user.email', null) && (
                             <a
                               className="txtDark700 link mr-2"
                               target="_blank"
@@ -401,7 +401,7 @@ const SingleDeal = (props) => {
                           )
                         }
                         {
-                          has(activeSingleDeal, 'winner') && activeSingleDeal.winner && (
+                          get(activeSingleDeal, 'winner', null) && (
                             <span className="cardTag green mr-2"> Winner </span>
                           )
                         }
@@ -426,7 +426,7 @@ const SingleDeal = (props) => {
                         <div className="dis-fl-col ta-l mb-2">
                           <span className="subtitle fsize-200 txtDark200">Phone</span>
                           {
-                            (has(activeSingleDeal, 'user.phone.number') && activeSingleDeal.user.phone.number.length > 0) ? (
+                            get(activeSingleDeal, 'user.phone.number', null) ? (
                               <span className="value txtDark700">{Helpers.telephoneFormat(activeSingleDeal.user.phone)}</span>
                             ) : (
                               <span className="value txtDark700">-</span>
