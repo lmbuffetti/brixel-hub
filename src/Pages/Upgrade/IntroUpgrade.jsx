@@ -16,8 +16,8 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   Helpers,
-  SkeletonPackages,
 } from '@brixel/brixel-components';
+import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
 import Slider from 'react-slick';
 import { getPackageProperty } from '../../actions/PropertyActions';
 import { getActiveSingleCompany, getActiveSingleCompanyPackages } from '../../actions/CompanyActions';

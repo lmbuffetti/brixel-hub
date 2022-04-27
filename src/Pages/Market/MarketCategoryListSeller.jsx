@@ -12,8 +12,8 @@ import {
   BrixelButtonIcon,
   Helpers,
   BrixelButtonText,
-  SkeletonPackages,
 } from '@brixel/brixel-components';
+import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
