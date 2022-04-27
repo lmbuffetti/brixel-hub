@@ -94,6 +94,7 @@ const AddShowingsBuyer = (props) => {
         normDate: date,
       },
     ]);
+    console.log(date);
     setShowResizer(false);
   };
 
