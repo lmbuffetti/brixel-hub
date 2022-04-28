@@ -13,11 +13,13 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelDatePicker,
   BrixelIcon,
   BrixelModal,
-  BrixelSwitchButton,
 } from '@brixel/brixel-components';
+import {
+  BrixelDatePicker,
+  BrixelSwitchButton,
+} from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { DateTime } from 'luxon';

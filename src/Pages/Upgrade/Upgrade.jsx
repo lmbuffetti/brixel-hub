@@ -8,12 +8,14 @@ import {
   BrixelButtonPrimary,
   BrixelButtonText,
   BrixelProgressBar,
+} from '@brixel/brixel-components';
+import {
   MultiFileldsReduxForm,
   change,
   destroy,
   initializeForm,
   reset,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';

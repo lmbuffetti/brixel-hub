@@ -22,10 +22,16 @@ import {
 } from 'react-redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import {
-  BrixelAvatar, BrixelButtonIcon, BrixelButtonSecondary, Helpers,
-  FactsOptions, useOutsideAlerter, change, BrixelDropdownMini,
+  BrixelAvatar,
+  BrixelButtonIcon,
+  BrixelButtonSecondary,
+  Helpers,
+  FactsOptions,
+  useOutsideAlerter,
+  BrixelDropdownMini,
   BrixelIcon,
 } from '@brixel/brixel-components';
+import { change } from '@brixel/brixel-components/dist/form';
 import {
   getActiveSingleDeal, saveActiveSingleDeal, updateMultipleDeals,
   setActiveSingleDeal,

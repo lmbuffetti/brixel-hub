@@ -14,12 +14,12 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
 import {
-  change,
   BrixelButtonIcon,
   BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
 } from '@brixel/brixel-components';
+import { change } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
 import { deleteImg, uploadImg, multiUploadImg } from '../../../actions/UploadActions';

@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { FactsOptions } from '@brixel/brixel-components';
 import {
   BrixelRadioButton,
   BrixelCheckbox,
@@ -7,8 +8,7 @@ import {
   BrixelInputText,
   BrixelSelect,
   Validation,
-  FactsOptions,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import MapsCities from '../components/Map/MapsCities';
 import LoginSignup from '../components/LoginSignup';

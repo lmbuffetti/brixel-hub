@@ -3,7 +3,7 @@ import {
   BrixelRadioButton,
   BrixelInputText,
   Validation,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import IntroScanFlow from '../Pages/ScanTrialFlow/IntroScanFlow';
 import BookTrialFlow from '../Pages/ScanTrialFlow/BookTrialFlow';
 import ResumeTrialFlow from '../Pages/ScanTrialFlow/ResumeTrialFlow';

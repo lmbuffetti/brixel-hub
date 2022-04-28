@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { formReduxer } from '@brixel/brixel-components';
+import { formReduxer } from '@brixel/brixel-components/dist/form';
 import common from './CommonReducer';
 import companies from './CompanyReducer';
 import deal from './DealReducer';

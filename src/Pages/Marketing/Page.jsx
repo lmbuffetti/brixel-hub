@@ -10,10 +10,14 @@ import {
   BrixelButtonPrimary,
   BrixelIcon,
   FormatValue,
+  BrixelButtonSecondary,
+  BrixelButtonText,
+} from '@brixel/brixel-components';
+import {
   BrixelSwitchButton,
   change,
-  reset, BrixelButtonSecondary, BrixelButtonText,
-} from '@brixel/brixel-components';
+  reset,
+} from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { useParams } from 'react-router-dom';
 import { setModal } from '../../actions/CommonActions';

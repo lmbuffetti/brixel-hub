@@ -8,9 +8,7 @@ import {
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-  destroy,
-} from '@brixel/brixel-components';
+import { destroy } from '@brixel/brixel-components/dist/form';
 import { diff } from 'deep-object-diff';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,

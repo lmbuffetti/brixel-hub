@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { change } from '@brixel/brixel-components';
+import { change } from '@brixel/brixel-components/dist/form';
 import {
   CHECK_TOKEN,
   CREATE_USER,

@@ -10,14 +10,16 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelIcon,
+  Helpers,
+  ProgressRing,
+} from '@brixel/brixel-components';
+import {
   BrixelInputText,
   BrixelSelect,
-  Helpers,
   ReduxField,
   change,
   reset,
-  ProgressRing,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

@@ -14,13 +14,16 @@ import { bindActionCreators, compose } from 'redux';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelIcon,
+  BrixelButtonIcon,
+} from '@brixel/brixel-components';
+import {
   BrixelInputText,
   BrixelSelect,
   ReduxField,
   Validation,
-  BrixelIcon,
-  change, BrixelButtonIcon,
-} from '@brixel/brixel-components';
+  change,
+} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';

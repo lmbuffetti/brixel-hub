@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { change, initializeForm, reset } from '@brixel/brixel-components';
+import { change, initializeForm, reset } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useState } from 'react';

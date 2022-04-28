@@ -1,9 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, useState,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -11,20 +9,22 @@ import set from 'lodash/set';
 import find from 'lodash/find';
 import has from 'lodash/has';
 import uniq from 'lodash/uniq';
+import { diff } from 'deep-object-diff';
+import { bindActionCreators, compose } from 'redux';
+import { connect } from 'react-redux';
 import {
-  diff,
-} from 'deep-object-diff';
-import {
-  bindActionCreators, compose,
-} from 'redux';
-import {
-  connect,
-} from 'react-redux';
-import {
-  BrixelInputText, BrixelButtonIcon, ReduxField, BrixelButtonPrimary,
-  change, BrixelSelect, BrixelButtonText, BrixelButtonSecondary,
-  BrixelRadioButton,
+  BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelButtonText,
+  BrixelButtonSecondary,
 } from '@brixel/brixel-components';
+import {
+  ReduxField,
+  change,
+  BrixelSelect,
+  BrixelInputText,
+  BrixelRadioButton,
+} from '@brixel/brixel-components/dist/form';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import {
   updateDocument,

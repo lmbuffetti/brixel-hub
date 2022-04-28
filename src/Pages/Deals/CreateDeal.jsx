@@ -8,10 +8,18 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
-  ReduxField, BrixelButtonPrimary, BrixelInputText,
-  reset, initializeForm, BrixelSelect, destroy, BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelButtonIcon,
   FactsOptions,
 } from '@brixel/brixel-components';
+import {
+  BrixelInputText,
+  BrixelSelect,
+  ReduxField,
+  destroy,
+  initializeForm,
+  reset,
+} from '@brixel/brixel-components/dist/form';
 import {
   bindActionCreators, compose,
 } from 'redux';

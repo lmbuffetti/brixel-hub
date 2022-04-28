@@ -9,14 +9,16 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
+  BrixelButtonText,
+  BrixelStatus,
+} from '@brixel/brixel-components';
+import {
   ReduxField,
   BrixelTextArea,
   change,
   reset,
-  BrixelButtonText,
   BrixelSwitchButton,
-  BrixelStatus,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import { setModal } from '../../actions/CommonActions';
 import { MarketingModal } from '../../resources/marketingModal';

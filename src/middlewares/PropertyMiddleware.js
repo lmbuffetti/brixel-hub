@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { change } from '@brixel/brixel-components';
+import { change } from '@brixel/brixel-components/dist/form';
 import filter from 'lodash/filter';
 import set from 'lodash/set';
 import get from 'lodash/get';

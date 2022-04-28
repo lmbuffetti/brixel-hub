@@ -8,9 +8,7 @@ import { bindActionCreators, compose } from 'redux';
 import { get, has } from 'lodash';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {
-  ReduxField,
-} from '@brixel/brixel-components';
+import { ReduxField } from '@brixel/brixel-components/dist/form';
 import { deleteDocument, uploadDocument } from '../../../actions/UploadActions';
 import { IdentificationQuestions } from '../../../resources/Identification';
 

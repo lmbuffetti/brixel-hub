@@ -5,13 +5,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
+  BrixelButtonText,
+} from '@brixel/brixel-components';
+import {
   MultiFileldsReduxForm,
   change,
   destroy,
   reset,
   initializeForm,
-  BrixelButtonText,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';

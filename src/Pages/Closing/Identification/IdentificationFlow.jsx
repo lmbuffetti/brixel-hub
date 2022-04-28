@@ -9,12 +9,14 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelProgressBar,
+} from '@brixel/brixel-components';
+import {
   MultiFileldsReduxForm,
   change,
   destroy,
   initializeForm,
   reset,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';

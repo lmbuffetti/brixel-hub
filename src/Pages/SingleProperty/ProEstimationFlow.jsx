@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  initializeForm,
-  MultiFileldsReduxForm,
   BrixelButtonIcon,
   ProgressRing,
+} from '@brixel/brixel-components';
+import {
+  initializeForm,
+  MultiFileldsReduxForm,
   destroy,
   reset,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate } from 'react-router-dom';

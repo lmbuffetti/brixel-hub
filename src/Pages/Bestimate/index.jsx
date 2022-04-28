@@ -3,13 +3,16 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
-  MultiFileldsReduxForm,
   BrixelButtonPrimary,
   BrixelButtonText,
   BrixelProgressLineDots,
-  reset,
-  initializeForm, change,
 } from '@brixel/brixel-components';
+import {
+  MultiFileldsReduxForm,
+  reset,
+  initializeForm,
+  change,
+} from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';

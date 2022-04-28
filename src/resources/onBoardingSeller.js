@@ -4,7 +4,7 @@ import {
   BrixelInputStepNumber,
   BrixelInputText,
   Validation,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import MapsWithModalManual from '../components/Map/MapsWithModalManual';
