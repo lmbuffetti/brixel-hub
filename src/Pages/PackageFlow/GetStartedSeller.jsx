@@ -92,7 +92,7 @@ const GetStartedSeller = (props) => {
 
   useEffect(() => {
     getCurrency();
-  }, [get(history, 'location.countryCode', null)]);
+  }, [get(history, 'location.pathname', null)]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
@@ -130,7 +130,7 @@ const GetStartedSeller = (props) => {
       status: 'on-request',
       listed: false,
       active: true,
-      price: getCurrency(),
+      price: get(formValue, 'price', getCurrency()),
       published: false,
       addProperty: true,
       redirectToUrl: '/packageFlow/:pageID/welcomeSeller',

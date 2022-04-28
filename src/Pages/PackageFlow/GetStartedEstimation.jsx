@@ -137,7 +137,7 @@ const GetStartedEstimation = (props) => {
   useEffect(() => {
     getCurrency();
     if (get(formValue, 'location.countryCode', null) !== 'ch') changeFieldValue('properties.building.conditionStatus', 'used');
-  }, [get(formValue, 'location.countryCode', null)]);
+  }, [get(history, 'location.pathname', null)]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
@@ -174,7 +174,7 @@ const GetStartedEstimation = (props) => {
       active: true,
       published: false,
       addProperty: get(dataFormAnswer, 'estimationType', '') !== 'buyer',
-      price: getCurrency(),
+      price: get(formValue, 'price', getCurrency()),
       redirectToUserFlow: false,
       createEstimation: true,
       company,
