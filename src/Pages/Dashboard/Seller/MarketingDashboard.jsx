@@ -33,7 +33,7 @@ const MarketingDashboard = () => {
       <Sticker>
         <div>
           <h3 className="mb-3 hide dis-b-lg">Marketing</h3>
-          <div className="dis-f a-t flex-wrap">
+          <div className="dis-f a-t flex-wrap max-w-fix-768">
             <div className="pr-md-1 w-perc-100 w-perc-md-50">
               <Page />
             </div>
