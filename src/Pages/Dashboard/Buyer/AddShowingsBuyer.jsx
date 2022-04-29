@@ -91,6 +91,7 @@ const AddShowingsBuyer = (props) => {
       {
         start: allDay ? null : startHour,
         end: allDay ? null : endHour,
+        slot: DateTime.fromMillis(date).toFormat('yyyy-MM-dd', { locale:  userLang}),
         date,
         isAllDay: allDay,
         normDate: date,
