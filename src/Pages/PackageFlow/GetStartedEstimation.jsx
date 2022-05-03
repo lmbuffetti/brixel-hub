@@ -9,13 +9,15 @@ import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
   BrixelProgressBar,
+  DataByCountry,
+} from '@brixel/brixel-components';
+import {
   MultiFileldsReduxForm,
   initializeForm,
   change,
   reset,
   destroy,
-  DataByCountry,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -137,7 +139,7 @@ const GetStartedEstimation = (props) => {
   useEffect(() => {
     getCurrency();
     if (get(formValue, 'location.countryCode', null) !== 'ch') changeFieldValue('properties.building.conditionStatus', 'used');
-  }, [get(formValue, 'location.countryCode', null)]);
+  }, [get(history, 'location.pathname', null)]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
@@ -174,7 +176,7 @@ const GetStartedEstimation = (props) => {
       active: true,
       published: false,
       addProperty: get(dataFormAnswer, 'estimationType', '') !== 'buyer',
-      price: getCurrency(),
+      price: get(formValue, 'price', getCurrency()),
       redirectToUserFlow: false,
       createEstimation: true,
       company,

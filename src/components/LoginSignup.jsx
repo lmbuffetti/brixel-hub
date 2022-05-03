@@ -4,8 +4,16 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelLogin, BrixelRegister, BrixelButtonPrimary, change, BrixelButtonText, Validation, BrixelReset,
+  BrixelButtonPrimary,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
+import {
+  BrixelLogin,
+  BrixelRegister,
+  change,
+  Validation,
+  BrixelReset,
+} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

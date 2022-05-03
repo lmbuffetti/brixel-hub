@@ -8,7 +8,7 @@ import {
   change,
   reset,
   destroy,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';

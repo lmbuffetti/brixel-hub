@@ -13,11 +13,13 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelDatePicker,
   BrixelIcon,
   BrixelModal,
-  BrixelSwitchButton,
 } from '@brixel/brixel-components';
+import {
+  BrixelDatePicker,
+  BrixelSwitchButton,
+} from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { DateTime } from 'luxon';
@@ -89,6 +91,7 @@ const AddShowingsBuyer = (props) => {
       {
         start: allDay ? null : startHour,
         end: allDay ? null : endHour,
+        slot: DateTime.fromMillis(date).toFormat('yyyy-MM-dd', { locale:  userLang}),
         date,
         isAllDay: allDay,
         normDate: date,

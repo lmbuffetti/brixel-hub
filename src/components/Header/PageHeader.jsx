@@ -3,11 +3,13 @@ import {
   BrixelAvatar,
   BrixelButtonIcon,
   BrixelIcon,
-  BrixelSelect,
-  destroy,
   FactsOptions,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import {
+  BrixelSelect,
+  destroy,
+} from '@brixel/brixel-components/dist/form';
 import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
 import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';

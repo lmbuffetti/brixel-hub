@@ -6,11 +6,11 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import { FinancingCalculator } from '@brixel/brixel-components';
 import {
   change,
   reset,
-  FinancingCalculator,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { setModal } from '../../../actions/CommonActions';
 
 const Financing = (props) => {

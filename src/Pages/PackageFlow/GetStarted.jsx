@@ -5,14 +5,14 @@ import React, {
   useState, useEffect, useRef,
 } from 'react';
 import PropTypes from 'prop-types';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import {
-  BrixelButtonPrimary,
   MultiFileldsReduxForm,
   initializeForm,
   change,
   reset,
   destroy,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';

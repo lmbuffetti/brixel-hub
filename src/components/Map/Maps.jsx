@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Geocode from 'react-geocode';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { BrixelInputText, change } from '@brixel/brixel-components';
+import { BrixelInputText, change } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';

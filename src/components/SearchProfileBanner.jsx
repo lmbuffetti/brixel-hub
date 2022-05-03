@@ -9,10 +9,12 @@ import {
   BrixelIcon,
   Helpers,
   BrixelButtonIcon,
-  reset,
-  MultiFileldsReduxForm,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import {
+  reset,
+  MultiFileldsReduxForm,
+} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';

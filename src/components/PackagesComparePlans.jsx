@@ -214,10 +214,10 @@ export const PackagesComparePlans = (props) => {
                   extractTable('basic').map((pkg, f) => (
                     <td key={`bsc_${f.toString()}`}>
                       {
-                        table.td.private && (
+                        table.td.basic && (
                           <>
                             <img className="pt-small-6" src={table.td.basic.img} alt="" />
-                            {table.td.private.desc && (
+                            {table.td.basic.desc && (
                               <span className="pl-1">{table.td.basic.desc}</span>
                             )}
                           </>

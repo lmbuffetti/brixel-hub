@@ -4,15 +4,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
+  BrixelButtonPrimary,
+  Helpers,
+  BrixelIcon,
+} from '@brixel/brixel-components';
+import {
   BrixelCheckbox,
   BrixelTextArea,
   BrixelRadioButton,
   ReduxField,
-  BrixelButtonPrimary,
   Validation,
   changeSyncError,
-  initializeForm, Helpers, BrixelIcon,
-} from '@brixel/brixel-components';
+  initializeForm,
+} from '@brixel/brixel-components/dist/form';
 import queryString from 'query-string';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';

@@ -18,8 +18,8 @@ import {
   BrixelIcon,
   BrixelModal,
   BrixelNotification,
-  reset,
 } from '@brixel/brixel-components';
+import { reset } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
@@ -400,7 +400,7 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     );
   }
-  
+
   return (
     <PartialErrorBoundering>
       {
@@ -479,9 +479,11 @@ const App = (props) => {
                             <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
                             <Route path="/buy/*" element={<ProtectedRoute><MarketBuyer /></ProtectedRoute>} />
                             {
-                              get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
-                              get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
-                              get(history, 'location.pathname', '').split('/')[1].length > 18 && (
+                              ((get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
+                                  get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
+                                  get(history, 'location.pathname', '').split('/')[1].length > 18) ||
+                                get(history, 'location.pathname', '').split('/')[1] === 'company') && (
+
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
@@ -557,7 +559,7 @@ const App = (props) => {
 
           { /* SECTION: ACHIVEMENT FLOW */ }
           <Routes>
-            <Route path="/:propID?/singleFlow/achievement/bestimate" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
+            <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
             <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
@@ -580,20 +582,28 @@ const App = (props) => {
           {
             modal.state && !modal.type && modal.small && (
               <BrixelModal
+                bodyActionsClass={modal.bodyActionsClass}
+                bodyClassColor={modal.bodyClassColor}
+                classContainer={modal.classContainer}
+                classImg={modal.classImg}
                 classTitle={modal.classTitle}
+                layout={modal.layout}
+                multiActions={modal.multiActions}
+                multiBodyActions={modal.multiBodyActions}
                 title={modal.title}
+                titleImg={modal.titleImg}
                 onClose={() => {
                   handleSetModal({ state: false });
                 }}
               >
-                <div dangerouslySetInnerHTML={{ __html: modal.body }} />
+                <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
                 {
                   modal.showSupport && (
                     <Support
                       expanded
                       isFixed={false}
                       hideClose
-                      layout="onboarding"
+                      layout={modal.supportLayout || "onboarding"}
                     />
                   )
                 }
@@ -611,7 +621,7 @@ const App = (props) => {
               />
             )
           }
-  
+
           {
             modal.state && modal.type === 'bestimate' && (
               <BestimateCardOverlay

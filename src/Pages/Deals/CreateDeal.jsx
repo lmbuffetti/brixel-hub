@@ -8,10 +8,18 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
-  ReduxField, BrixelButtonPrimary, BrixelInputText,
-  reset, initializeForm, BrixelSelect, destroy, BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelButtonIcon,
   FactsOptions,
 } from '@brixel/brixel-components';
+import {
+  BrixelInputText,
+  BrixelSelect,
+  ReduxField,
+  destroy,
+  initializeForm,
+  reset,
+} from '@brixel/brixel-components/dist/form';
 import {
   bindActionCreators, compose,
 } from 'redux';
@@ -21,9 +29,6 @@ import {
 import {
   createDeal,
 } from '../../actions/DealActions';
-// import {
-//   getLeadListings,
-// } from '../../actions/LeadActions';
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';
@@ -233,7 +238,6 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(destroy('CreateDeal'));
   },
   handleCreateDeal: bindActionCreators(createDeal, dispatch),
-  // handleGetLeads: bindActionCreators(getLeadListings, dispatch),
 });
 
 export default compose(

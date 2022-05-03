@@ -6,9 +6,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import { BrixelIcon } from '@brixel/brixel-components';
 import {
-  BrixelTextArea, BrixelInputText, Validation, BrixelIcon, ReduxField, initializeForm, change, destroy,
-} from '@brixel/brixel-components';
+  BrixelTextArea,
+  BrixelInputText,
+  Validation,
+  ReduxField,
+  initializeForm,
+  change,
+  destroy,
+} from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { createPropertyVisitBooking } from '../actions/PropertyActions';
 import { sendMessage, spinnerSmall } from '../actions/CommonActions';
@@ -322,7 +329,6 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language.code', 'de'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    messageSent: get(state, 'common.messageSent', false),
     initialValues: {
       userName: get(loggedInUser, 'name', {}),
       userPhone: get(loggedInUser, 'phone', {}),

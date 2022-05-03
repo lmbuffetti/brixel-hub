@@ -4,22 +4,17 @@ import Cookies from 'universal-cookie';
 import { countryList } from '@brixel/brixel-components';
 
 import {
-  ERROR_MESSAGE,
   REDIRECT_TO,
-  REQUEST_DONE,
-  RESET_REQUEST,
   SPINNER_OFF,
   SPINNER_ON,
   SPINNER_SMALL_OFF,
   SPINNER_SMALL,
-  SET_LANGUAGES,
   SET_LANGUAGE,
   SET_NOTIFICATION,
   SET_PAGE_DATA, SET_MODAL,
   PREVENT_EXIT_FROM_SCREEN,
   SET_UNSAVED_CHANGES_MODAL,
   SET_WINDOW_DIMENSIONS,
-  SET_UPLOADING_PERCENTAGE,
   SET_COUNTRY_LIST,
   SET_FORM_ERROR,
   SKELETON_ON,
@@ -56,7 +51,6 @@ export const defaultState = {
   percentage: 0,
   preventExitFromScreen: false,
   redirectTo: null,
-  requestDone: false,
   setPageData: null,
   skeleton: { },
   splashScreenType: '',
@@ -99,25 +93,9 @@ export default handleActions(
       ...state,
       isSmallLoading: { },
     }),
-    [REQUEST_DONE]: (state) => ({
-      ...state,
-      requestDone: true,
-    }),
-    [RESET_REQUEST]: (state) => ({
-      ...state,
-      requestDone: false,
-    }),
     [REDIRECT_TO]: (state, action) => ({
       ...state,
       redirectTo: action.payload,
-    }),
-    [ERROR_MESSAGE]: (state, action) => ({
-      ...state,
-      errorMsg: action.payload,
-    }),
-    [SET_LANGUAGES]: (state, action) => ({
-      ...state,
-      languages: action.payload,
     }),
     [SET_LANGUAGE]: (state, action) => ({
       ...state,
@@ -142,10 +120,6 @@ export default handleActions(
     [SET_UNSAVED_CHANGES_MODAL]: (state, action) => ({
       ...state,
       unsavedChangesModal: action.payload,
-    }),
-    [SET_UPLOADING_PERCENTAGE]: (state, action) => ({
-      ...state,
-      percentage: action.payload,
     }),
     [SET_FORM_ERROR]: (state, action) => ({
       ...state,

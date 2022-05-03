@@ -1,13 +1,15 @@
 /* eslint-disable max-len */
 import {
+  FactsOptions,
+} from '@brixel/brixel-components';
+import {
   BrixelCheckbox,
   BrixelInputStepNumber,
   BrixelInputText,
   BrixelInputQuality,
-  FactsOptions,
   Validation,
   BrixelSelect,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
 import homesSvg from '../images/getstarted/svgs/homes.svg';
 
@@ -61,7 +63,6 @@ export const BestimatePT = (type = null) => {
           maxLengthNum: 99999,
           labelLeft: 'Lot Size',
           placeholder: 'e.g. 140',
-          validation: [Validation.required],
         },
       ],
     },

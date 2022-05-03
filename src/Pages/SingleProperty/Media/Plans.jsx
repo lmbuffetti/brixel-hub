@@ -12,8 +12,11 @@ import { connect } from 'react-redux';
 import { useDropzone } from 'react-dropzone';
 import get from 'lodash/get';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonSecondary, change,
+  BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelButtonSecondary,
 } from '@brixel/brixel-components';
+import { change } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { ReactSortable } from 'react-sortablejs';
 import cloneDeep from 'lodash/cloneDeep';

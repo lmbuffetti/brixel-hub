@@ -1,17 +1,17 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import { FactsOptions } from '@brixel/brixel-components';
 import {
   BrixelRadioButton,
   BrixelInputText,
   BrixelInputDatePicker,
   BrixelInputTextStep,
   Validation,
-  FactsOptions,
   BrixelSelect,
   BrixelTextArea,
   BrixelMultiUploadFile,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import FinanceCertificate from '../Pages/Offers/Flow/FinanceCertificate';
 import Key4Registration from '../Pages/Offers/Flow/Key4Registration';

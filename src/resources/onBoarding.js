@@ -2,7 +2,7 @@
 import {
   BrixelRadioButton,
   Validation,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { svgIcons } from './svgIcons';
 import { translateTo } from '../utils/translation';
 

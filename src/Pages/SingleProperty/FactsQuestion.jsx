@@ -8,9 +8,12 @@ import unset from 'lodash/unset';
 import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
 import {
-  BrixelButtonIcon, MultiFileldsReduxForm, change, reset,
-} from '@brixel/brixel-components';
+  MultiFileldsReduxForm,
+  change,
+  reset,
+} from '@brixel/brixel-components/dist/form';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { keyify } from '../../utils/helpers';
 import { InputSheets } from '../../resources/inputSheets';

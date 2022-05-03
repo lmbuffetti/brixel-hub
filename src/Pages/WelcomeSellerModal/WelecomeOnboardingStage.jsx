@@ -4,8 +4,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import {
-  BrixelButtonPrimary, BrixelRadioButton, change, FactsOptions,
+  BrixelButtonPrimary,
+  FactsOptions,
 } from '@brixel/brixel-components';
+import {
+  BrixelRadioButton,
+  change,
+} from '@brixel/brixel-components/dist/form';
 import ApartmentImg from '../../images/welcomeOnboarding/apartment.svg';
 import HouseImg from '../../images/welcomeOnboarding/house.svg';
 import BuildingLandImg from '../../images/welcomeOnboarding/buildingLand.svg';

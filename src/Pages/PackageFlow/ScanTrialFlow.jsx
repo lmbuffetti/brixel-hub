@@ -6,13 +6,15 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
+  BrixelProgressBar,
+} from '@brixel/brixel-components';
+import {
   MultiFileldsReduxForm,
   change,
   destroy,
   reset,
   initializeForm,
-  BrixelProgressBar,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';

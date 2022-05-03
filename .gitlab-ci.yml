@@ -30,6 +30,7 @@ build site:
     - if [ "$FOLDER" == "master" ]; then MODULE="prod"; else MODULE="dev"; fi
     - if [ "$FOLDER" == "staging" ]; then MODULE="stage"; else MODULESS="dev"; fi
     - npm install
+    - npm run install-styleguide
     - npm run build-${MODULE}
   artifacts:
     expire_in: 1 day

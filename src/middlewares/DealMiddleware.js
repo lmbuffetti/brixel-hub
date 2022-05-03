@@ -13,20 +13,15 @@ import {
 
 import {
   CREATE_DEAL,
-  DELETE_ACTIVE_SINGLE_DEAL,
   GET_ACTIVE_SINGLE_DEAL,
   GET_BUYER_DEAL,
-  GET_DEAL_LISTINGS,
   GET_OFFER_LISTINGS,
-  GET_USER_DEALS,
   SAVE_ACTIVE_SINGLE_DEAL, SAVE_MAKE_OFFER,
   SAVE_CLOSING_IDENTIFICATION,
   SAVE_REVIEW_OFFER,
   SEND_VISIT_FEEDBACK,
   SET_ACTIVE_SINGLE_DEAL,
-  SET_DEAL_LISTINGS,
   SET_OFFER_LISTINGS,
-  SET_USER_DEALS,
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
 } from '../actions/types/DealTypes';
@@ -47,102 +42,6 @@ const ActionStubs = require('../resources/timelineActionStubs');
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
-    case GET_USER_DEALS: {
-      next(action);
-      const {
-        id,
-        smallLoader,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      api.user.getPagesByDealByUser(id)
-        .then((res) => {
-          store.dispatch({ type: SET_USER_DEALS, payload: res.data });
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
-      break;
-    }
-    case GET_DEAL_LISTINGS: {
-      next(action);
-      const {
-        company,
-        direction,
-        offset,
-        order,
-        resultsPerPage,
-        smallLoader,
-        text,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      // eslint-disable-next-line no-case-declarations
-      const queryParams = `?search=${text}&order=${order}&direction=${direction}&company=${company}`;
-      api.deal.getDealsList(resultsPerPage, offset, queryParams)
-        .then((response) => {
-          if (response.data.length > 0) {
-            const data = {
-              packages: response.data,
-              total: response.data.length,
-            };
-            store.dispatch({
-              type: SET_DEAL_LISTINGS,
-              payload: data,
-            });
-          } else {
-            // Should dispatch error state
-            store.dispatch({
-              type: REDIRECT_TO,
-              payload: {
-                url: '/properties',
-              },
-            });
-          }
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
-          }
-        });
-      break;
-    }
     case CREATE_DEAL: {
       next(action);
       const {
@@ -276,50 +175,6 @@ const checkCommon = (store) => (next) => (action) => {
                   });
                 }
               });
-          }
-        });
-      break;
-    }
-    case DELETE_ACTIVE_SINGLE_DEAL: {
-      next(action);
-      const {
-        id,
-        smallLoader,
-      } = action.payload;
-      if (smallLoader) {
-        store.dispatch({
-          type: SPINNER_SMALL,
-          payload: {
-            [smallLoader]: true,
-          },
-        });
-      } else {
-        store.dispatch({
-          type: SPINNER_ON,
-        });
-      }
-      delete action.payload.data.user;
-      api.deal.deleteSingleDeal(id)
-        .then((response) => {
-          if (response.meta.status === 200) {
-            store.dispatch({
-              type: SET_ACTIVE_SINGLE_DEAL,
-              payload: {},
-            });
-          } else {
-            // TODO: Should dispatch error state
-          }
-          if (smallLoader) {
-            store.dispatch({
-              type: SPINNER_SMALL,
-              payload: {
-                [smallLoader]: false,
-              },
-            });
-          } else {
-            store.dispatch({
-              type: SPINNER_OFF,
-            });
           }
         });
       break;

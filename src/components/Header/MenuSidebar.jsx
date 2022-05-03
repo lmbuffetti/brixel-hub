@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { BrixelIcon, destroy } from '@brixel/brixel-components';
+import { BrixelIcon } from '@brixel/brixel-components';
+import { destroy } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';

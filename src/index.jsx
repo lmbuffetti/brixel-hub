@@ -1,17 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import { configureStore } from './store';
-import * as serviceWorker from './serviceWorker';
 import ErrorBoundary from './components/ErrorBoundering';
 
 // SET THE STORE FROM REDUX REDUCER
 const store = configureStore;
-const root = document.getElementById('root');
+const container = document.getElementById('root');
+const root = createRoot(container);
 
 // INITILAIZE THE REACT DOM APP
 const AppDOM = () => (
@@ -24,6 +24,5 @@ const AppDOM = () => (
   </Provider>
 );
 
-ReactDOM.render(<AppDOM />, root);
+root.render(<AppDOM />);
 
-serviceWorker.unregister();

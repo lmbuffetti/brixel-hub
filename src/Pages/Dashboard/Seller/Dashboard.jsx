@@ -4,7 +4,7 @@ import React, {
   useEffect, useState, Suspense,
 } from 'react';
 import {
-  Routes, Route, useLocation, useNavigate, useParams, Navigate,
+  Routes, Route, useLocation, useNavigate, useParams,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -17,7 +17,7 @@ import set from 'lodash/set';
 import find from 'lodash/find';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
-import { change, initializeForm, reset } from '@brixel/brixel-components';
+import { change, initializeForm, reset } from '@brixel/brixel-components/dist/form';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 import {
@@ -355,7 +355,6 @@ const Dashboard = (props) => {
             <Route path="/upgrade/*" element={<Upgrade />} />
             <Route path="/trialRequest/*" element={<ScanTrialFlow />} />
             <Route path="/no-property" element={<EmptyProperty />} />
-            <Route path="*" element={<Navigate to={`/${propID}/home`} />} />
           </Routes>
         </Suspense>
       </div>

@@ -10,6 +10,7 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   BrixelButtonText,
+  Helpers,
 } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
@@ -64,7 +65,7 @@ const Facts = (props) => {
             sectionDone = false;
           }
         }
-      }
+      } else if (Helpers.isEmpty(get(formValue, item.name, ''))) sectionDone = false;
       return null;
     });
     if (act === 'section') return sectionDone;

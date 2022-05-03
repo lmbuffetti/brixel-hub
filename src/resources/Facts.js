@@ -1,15 +1,18 @@
 /* eslint-disable max-len */
 import get from 'lodash/get';
 import {
+  FactsOptions,
+} from '@brixel/brixel-components';
+import {
   BrixelCheckbox,
-  BrixelExtraFeature, BrixelInputScale,
+  BrixelExtraFeature,
+  BrixelInputScale,
   BrixelInputStepNumber,
   BrixelInputText,
   BrixelRadioButton,
   BrixelTextArea,
-  FactsOptions,
   Validation,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { configureStore } from '../store';
 
 const { factsOptions } = FactsOptions;

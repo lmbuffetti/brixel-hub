@@ -4,7 +4,7 @@ import {
   BrixelInputStepNumber,
   BrixelInputText,
   Validation,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import MapsWithModalManual from '../components/Map/MapsWithModalManual';
@@ -332,6 +332,25 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       ],
     },
   );
+  if (country === 'PT') {
+    question.push(
+      {
+        title: translateTo(lang, 'Property condition'),
+        history: 'propertyCondition',
+        cardType: 'propertyCondition',
+        footerWidth: 'max-w-fix-384',
+        inputs: [
+          {
+            classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
+            component: BrixelRadioButton,
+            name: 'properties.building.conditionStatus',
+            options: factsOptions.conditionStatus,
+            validation: [Validation.required],
+          }
+        ],
+      },
+    );
+  }
   question.push(
     {
       conditions: [{

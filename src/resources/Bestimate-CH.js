@@ -3,7 +3,7 @@ import {
   BrixelInputStepNumber,
   BrixelInputText,
   Validation,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
 
 // eslint-disable-next-line default-param-last
