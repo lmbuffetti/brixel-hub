@@ -23,6 +23,7 @@ import { spinnerSmallOff } from '../../../actions/CommonActions';
 import { QuestionsList } from '../../../resources/AddShowings';
 import 'react-input-range/lib/css/index.css';
 import { checkBrowser } from '../../../utils/helpers';
+import AddShowings from '../../../images/Showings/Showings.png';
 
 // COMPONENTS
 
@@ -255,7 +256,7 @@ const AddShowingsBuyer = (props) => {
   
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    history.push(`/buyer/${propID}/proeprty`);
+    history.push(`/buyer/${propID}/property`);
   };
   
   // DYNAMIC LABEL NEXT BUTTON
@@ -271,9 +272,11 @@ const AddShowingsBuyer = (props) => {
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
       <div
-        className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
+        className={`bodyModal max-w-fix-600 pt-10 container ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
       >
-      
+        <div className="ov-h ta-c">
+          <img className="w-perc-100 max-w-fix-120" src={AddShowings} alt="text-1" />
+        </div>
         <form
           id="multiStepForm"
           autoComplete="off"
@@ -281,7 +284,7 @@ const AddShowingsBuyer = (props) => {
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
+            <div ref={singleStepRef} className="singleStep buyerShowings jc-c">
               <div className="subcontainer m-a">
                 {
                   get(quest, 'inputs', null) && (
@@ -300,20 +303,21 @@ const AddShowingsBuyer = (props) => {
                         quest.subtitle && (
                           <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
-                      <MultiFileldsReduxForm
-                        form="GetStarted"
-                        className="w-perc-100"
-                        disableNextBtn={false}
-                        formValue={formValue}
-                        inputs={quest.inputs}
-                        onClick={() => changeStep()}
-                        onCloseGoBack={() => changeStep('back')}
-                        onSubmit={() => changeStep()}
-                        showSendButton={quest.showSendButton}
-                        showErrors={showError}
-                        disableDelay={quest.history !== 'createProfile'}
-                        skipPhone
-                      />
+                      <div className="formWrapper bgWhite brdRadius w-perc-100 shadow-1dp p-6">
+                        <MultiFileldsReduxForm
+                          form="Showings"
+                          className="w-perc-100"
+                          disableNextBtn={false}
+                          formValue={formValue}
+                          inputs={quest.inputs}
+                          onClick={() => changeStep()}
+                          onCloseGoBack={() => changeStep('back')}
+                          onSubmit={() => changeStep()}
+                          showSendButton={quest.showSendButton}
+                          showErrors={showError}
+                          disableDelay={quest.history !== 'createProfile'}
+                        />
+                      </div>
                     </div>
     
                   )
@@ -379,7 +383,7 @@ const mapStateToProps = (state) => {
   return ({
     activeSingleCompany,
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-    errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
+    errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
     formValue: get(state, 'brixelForm.Showings.values', {}),
     initialValues,
     isSmallLoading: get(state, 'common.isSmallLoading', {}),

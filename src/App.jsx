@@ -451,7 +451,7 @@ const App = (props) => {
                   <div className="w-perc-100 innerWrap h-perc-100">
                     <Routes>
                       <Route path="/500" element={<ErrorBoundering />} />
-                      { /* SECTION: ONBOARDING */}
+                      { /* SECTION: ONBOARDING AND FLOWS */}
                       <Route path="/packageFlow/" element={<GetStarted />} />
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />

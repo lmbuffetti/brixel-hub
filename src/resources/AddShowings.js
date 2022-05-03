@@ -1,12 +1,13 @@
 /* eslint-disable max-len */
 import {
   BrixelInputText,
+  BrixelTextArea,
   Validation,
 } from '@brixel/brixel-components/dist/form';
 
 export const QuestionsList = () => [
   {
-    title: 'Nice to meet you. Who are you?',
+    title: 'How can we reach you?',
     history: 'contactInfo',
     className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
     inputs: [
@@ -21,20 +22,27 @@ export const QuestionsList = () => [
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        label: 'Email',
-        name: 'email',
-        validation: [Validation.isEmail, Validation.required],
-        pdClass: 'py-3 py-md-5',
-      },
-      {
-        component: BrixelInputText,
-        classNameBox: 'max-w-fix-816 ml-a mr-a',
         label: 'Phone',
         name: 'phone',
         pdClass: 'py-3 py-md-5',
         type: 'text',
         formatType: 'tel',
         validation: [Validation.phoneIfNotEmptyLength, Validation.required],
+      },
+      {
+        component: BrixelInputText,
+        classNameBox: 'max-w-fix-816 ml-a mr-a',
+        label: 'Email',
+        name: 'email',
+        validation: [Validation.isEmail, Validation.required],
+        pdClass: 'py-3 py-md-5',
+      },
+      {
+        component: BrixelTextArea,
+        classNameBox: 'max-w-fix-816 ml-a mr-a',
+        label: 'Message',
+        name: 'message',
+        pdClass: 'py-3 py-md-5',
       },
     ],
   },

@@ -304,6 +304,10 @@
             padding-top: 64px;
             padding-bottom: 24px;
 
+            &.buyerShowings {
+              padding-top: 16px;
+            }
+
             @media (max-width: $responsive-medium) {
               padding-top: 40px;
               padding-bottom: 40px;
