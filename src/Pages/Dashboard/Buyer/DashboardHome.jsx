@@ -6,6 +6,7 @@ import {
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { atcb_init } from 'add-to-calendar-button';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 // import cloneDeep from 'lodash/cloneDeep';
@@ -27,6 +28,7 @@ import schedulePendingSvg from '../../../images/dashboard/schedulePending.svg';
 import financingSvg from '../../../images/dashboard/financingDashboard.svg';
 
 const DashboardHome = (props) => {
+  const timezone = -(new Date().getTimezoneOffset() / 60);
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -47,6 +49,8 @@ const DashboardHome = (props) => {
   const [progressState] = useState({step: 1});
   const [visitAccepted, setVisitAccepted] = useState(false);
   const propID = get(match, 'propID', null);
+  
+  useEffect(() => atcb_init());
 
   useEffect(() => {
     if (activeSinglePropertyBookingSlots.length > 0) {
@@ -69,8 +73,27 @@ const DashboardHome = (props) => {
   }, [propID]);
   
   const openSchedule = () => {
-    if (activeSinglePropertyBookingSlots.length > 0) {
-      if (visitAccepted) history.push(`/buyer/${propID}/scheduleVisit`)
+    if (!visitAccepted) {
+      history.push(`/buyer/${propID}/scheduleVisit`);
+    }
+  }
+  
+  const formatCalendar = (type) => {
+    switch (type) {
+      case 'location': {
+        const location = `${activeSingleProperty.location.name}, ${activeSingleProperty.location.streetNumber} ${activeSingleProperty.location.zip} ${activeSingleProperty.location.city}`;
+        return location;
+      }
+      case 'start': {
+        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', userLang).toFormat('yyyy-LL-dd', userLang);
+        const start = `${visitAccepted.slot.split( ' ')[1]}`;
+        return `${date}T${start}`;
+      }
+      case 'end': {
+        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', userLang).toFormat('yyyy-LL-dd', userLang);
+        const end = `${visitAccepted.slot.split( ' ')[2] ? visitAccepted.slot.split( ' ')[2] : visitAccepted.slot.split( ' ')[1]}`;
+        return `${date}T${end}`;
+      }
     }
   }
 
@@ -97,7 +120,7 @@ const DashboardHome = (props) => {
               <div className="dis-fl-col dis-fl-row-sm">
   
                 <button
-                  onClick={() => window.open(get(activeSingleCompany, 'links.review', null), '_blank')}
+                  onClick={() => !visitAccepted ? openSchedule() : ''}
                   className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${activeSinglePropertyBookingSlots.length > 0 ? 'bgWhite' : 'bgRed100'}`}
                 >
                   {
@@ -121,13 +144,19 @@ const DashboardHome = (props) => {
                                   )
                                 }
                               </div>
-    
-                              <BrixelButtonPrimary
-                                onClick={() => ''}
-                                className="mt-5 as-fs"
-                                rounded
-                                label="show dates"
-                              />
+                              
+                              <div className='atcb' style={{display: 'none'}}>
+                                {JSON.stringify({
+                                  name: `Visit ${activeSingleProperty.title}`,
+                                  startDate: formatCalendar('start'),
+                                  endDate: formatCalendar('end'),
+                                  options: ['Apple', 'Google', 'iCal', 'Microsoft365', 'Outlook.com', 'MicrosoftTeams', 'Yahoo'],
+                                  trigger: "click",
+                                  location: formatCalendar('location'),
+                                  timeZoneOffset:`+0${timezone + 1}:00`,
+                                  iCalFileName: "Reminder-Event",
+                                })}
+                              </div>
                             </div>
                           ) : (
                             <div className="dis-fl-col max-w-perc-70">
