@@ -1,32 +1,28 @@
 /* eslint-disable array-callback-return */
+import { diff } from 'deep-object-diff';
+import has from 'lodash/has';
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import InputRange from 'react-input-range';
-import subDays from 'date-fns/subDays';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
-  BrixelIcon,
-  BrixelModal,
 } from '@brixel/brixel-components';
 import {
-  BrixelDatePicker,
-  BrixelSwitchButton,
+  initializeForm,
+  MultiFileldsReduxForm,
 } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { DateTime } from 'luxon';
-import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
+import { createPropertyVisitBooking, getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
-import ContactForm from '../../../components/ContactForm';
+import { QuestionsList } from '../../../resources/AddShowings';
 import 'react-input-range/lib/css/index.css';
+import { checkBrowser } from '../../../utils/helpers';
 
 // COMPONENTS
 
@@ -35,335 +31,343 @@ const AddShowingsBuyer = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
+    errorValue,
+    formValue,
+    handleGetActiveSingleProperty,
+    initForm,
+    initialValues,
     lang,
-    isSmallLoading,
-    userLang,
   } = props;
-  const [currentStep, setCurrentStep] = useState('schedule');
+  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [showError, setShowError] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [action, setAction] = useState(null);
-  const [allDay, setAllDay] = useState(false);
-  const [date, setDate] = useState(null);
-  const [datePickerModal, setDatePickerModal] = useState(false);
-  const [hours, setHours] = useState({ min: 8, max: 20 });
-  const [scheduleVisitFree, setScheduleVisitFree] = useState([]);
-  const [showDate, setShowDate] = useState(false);
-  const [showResizer, setShowResizer] = useState(false);
   // REFS
-  const calendarRef = useRef(null);
-  const datePicker = useRef(null);
-  const hoursRef = useRef(null);
-
+  const singleStepRef = useRef(null);
+  const multiStepSlidesRef = useRef(null);
+  // GET URL PARAMS
+  const propID = get(match, 'propID', null);
+  
   useEffect(() => {
-    if (isSmallLoading.savedBooking === 'sentMessage' || isSmallLoading.sendMessage === 'sentMessage') {
-      setCurrentStep('sentMessage');
+    if (activeSingleProperty.id) {
+      initForm(initialValues);
     }
-  }, [isSmallLoading]);
-
-  const removeEl = (id) => {
-    const visit = scheduleVisitFree;
-    scheduleVisitFree.splice(id, 1);
-    setScheduleVisitFree(visit.length === 0 ? [] : [...scheduleVisitFree]);
-    if (visit.length === 0) history.push({ state: { schedule: false } });
-  };
-
-  const handleChange = (e) => {
-    setAllDay(e);
-    setHours({ min: 8, max: 20 });
-  };
-
-  const handleChangeDate = (day) => {
-    setDate(day);
-  };
-
-  const saveDate = (e) => {
-    setDatePickerModal(!datePickerModal);
-    e.preventDefault();
-    e.stopPropagation();
-    const startFormHour = Math.trunc(hours.min) < 10 ? `0${Math.trunc(hours.min)}` : Math.trunc(hours.min);
-    const startHour = hours.min % 1 !== 0 ? `${startFormHour}:30` : `${startFormHour}:00`;
-    const endFormHour = Math.trunc(hours.max) < 10 ? `0${Math.trunc(hours.max)}` : Math.trunc(hours.max);
-    const endHour = hours.max % 1 !== 0 ? `${endFormHour}:30` : `${endFormHour}:00`;
-    setScheduleVisitFree([
-      ...scheduleVisitFree,
-      {
-        start: allDay ? null : startHour,
-        end: allDay ? null : endHour,
-        slot: DateTime.fromMillis(date).toFormat('yyyy-MM-dd', { locale:  userLang}),
-        date,
-        isAllDay: allDay,
-        normDate: date,
-      },
-    ]);
-    setShowResizer(false);
-  };
-
-  const buttonActions = () => {
-    let btn = null;
-    if (currentStep === 'schedule') {
-      btn = [
-        {
-          name: 'Continue',
-          disabled: scheduleVisitFree.length === 0,
-          func: () => setCurrentStep('message'),
-          btnType: 'Primary',
-          className: 'mr-1',
-          isLoading: isSmallLoading.sendMessage === true,
-          bkg: 'primary',
-          sat: 400,
-          round: true,
-        },
-      ];
+  }, [activeSingleProperty])
+  
+  useEffect(() => {
+    if (propID && propID !== 'propertyLists' && propID !== activeSingleProperty.id) {
+      const data = {
+        fullVersion: false,
+        smallLoader: 'property',
+        id: propID,
+      };
+      handleGetActiveSingleProperty(data);
     }
-    if (currentStep === 'message') {
-      btn = [
-        {
-          name: 'Send',
-          func: () => setAction('send'),
-          btnType: 'Primary',
-          className: 'mr-1',
-          bkg: 'primary',
-          isLoading: action === 'isLoading',
-          sat: 400,
-          round: true,
-        },
-      ];
+  }, [propID]);
+  
+  // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
+  const checkValidateField = (act) => {
+    let isValid = true;
+    let isNotEmpty = false;
+    if (get(quest, 'inputs', null)) {
+      quest.inputs.forEach((input) => {
+        let err = get(errorValue, input.name, null);
+        const noEmpty = get(formValue, input.name, 'ayc');
+        if (noEmpty !== 'ayc') isNotEmpty = true;
+        if (input.condition) {
+          input.condition.forEach((item) => {
+            if (item.value && get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+          });
+        } else if (input.validation) {
+          // const getRegField = get(registeredFields
+          let field;
+          if (input.name === 'profile') {
+            const page = get(formValue, 'signupScreen', null);
+            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
+            if (page === 'login') {
+              field = ['login.email', 'login.password'];
+            }
+            field.forEach((item) => {
+              err = get(errorValue, item, true);
+              if (err !== true && err !== false && isValid) isValid = false;
+            });
+          }
+          if (input.name === 'register.ownerType') {
+            if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
+          }
+          if (input.name === 'register.whenToSell') {
+            if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
+          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
+        }
+      });
     }
-    return btn;
+    if (act === 'value') return isValid && isNotEmpty;
+    return isValid;
+  };
+  
+  const singleStepEl = singleStepRef.current;
+  const multiStepSlidesEl = multiStepSlidesRef.current;
+  
+  const saveData = () => {
+  
+  };
+  
+  // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
+  const checkCondition = (id, act) => {
+    let newIndex = id;
+    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    if (get(newQuestions, `[${newIndex}].conditions`, null)) {
+      let checkCond = true;
+      newQuestions[newIndex].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (has(cond, 'value') && val !== cond.value && checkCond) {
+          if (act === 'back') newIndex -= 1;
+          else newIndex += 1;
+          checkCond = false;
+        }
+        return null;
+      });
+    }
+    return newIndex;
+  };
+  
+  // FUNCTION TO GO TO NEXT STEP
+  const changeStep = (act, e, step = 1, skipValidation) => {
+    if (e) e.preventDefault();
+    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    let newIndex = currentIndex;
+    setShowError(false);
+    setAction(act);
+    if (act === 'back') {
+      newIndex -= step;
+    } else {
+      if (!checkValidateField() && !skipValidation) {
+        setShowError(true);
+        return false;
+      }
+      newIndex += step;
+    }
+    if (newIndex === -1) {
+      history.push('/packageFlow');
+    } else {
+      let defId = checkCondition(newIndex, act);
+      if (defId !== newIndex) defId = checkCondition(defId, act);
+      if (newQuestions[defId]) {
+        // setPosition(newIndex);
+        if (newQuestions[defId].toSave) {
+          saveData(get(newQuestions[defId], 'action', null));
+        } else {
+          let newQuest = {
+            ...newQuestions[defId],
+          };
+          if (newQuestions[defId].effect === 'slideUp') {
+            newQuest = {
+              ...newQuestions[defId - 1],
+            };
+          }
+          if (act === 'back' && newQuestions[defId + 1].effect === 'slideUp') {
+            setQuest(newQuest);
+            setCurrentIndex(defId);
+          } else {
+            setQuest(newQuest);
+            setCurrentIndex(defId);
+          }
+          if (newQuest.history !== 'createProfile') {
+            if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
+              const fakeInput = document.createElement('input');
+              fakeInput.setAttribute('type', 'text');
+              fakeInput.setAttribute('id', 'fakeInput');
+              fakeInput.style.position = 'absolute';
+              fakeInput.style.opacity = 0;
+              fakeInput.style.height = 0;
+              fakeInput.style.fontSize = '16px'; // disable auto zoom
+              // zoom/scroll behavior
+              document.body.prepend(fakeInput);
+              fakeInput.focus();
+            }
+            
+            setTimeout(() => {
+              const fakeInput = document.getElementById('fakeInput');
+              const getCurStep = document.getElementById(`step-${defId}`);
+              if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
+                getCurStep.querySelector('input[type="number"]').focus();
+              } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
+                getCurStep.querySelector('input[type="text"]').focus();
+              } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
+                getCurStep.querySelector('input[type="search"]').focus();
+              }
+              // cleanup
+              if (fakeInput) fakeInput.remove();
+            }, 500);
+          }
+          if (newQuestions[defId].history) {
+            history.push({
+              pathname: `/packageFlow/getStarted/${newQuestions[defId].history}`,
+              state: get(history, 'location.state', {}),
+            });
+          }
+          if (checkBrowser() > 0) {
+            if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
+          } else {
+            if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+      }
+    }
+    return null;
+  };
+  
+  // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
+  useEffect(() => {
+    if (formValue) {
+      const newQuest = [];
+      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((qst) => {
+        if (qst.condition) {
+          let isValid = true;
+          qst.condition.map((item) => {
+            if (get(formValue, item.name, null) !== item.value) {
+              isValid = false;
+            }
+            return null;
+          });
+          if (isValid) newQuest.push(qst);
+        } else {
+          newQuest.push(qst);
+        }
+        return null;
+      });
+      const checkDiff = diff(quest, newQuest);
+      if (Object.keys(checkDiff).length > 0) setQuestions(newQuest);
+    }
+  }, [formValue]);
+  
+  // FUNCTION TO CLOSE
+  const closeWindow = () => {
+    history.push(`/buyer/${propID}/proeprty`);
+  };
+  
+  // DYNAMIC LABEL NEXT BUTTON
+  const buttonLabel = () => {
+    let label;
+    const inputName = get(quest, 'inputs[0].name', null);
+    if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
+    else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
+    else label = 'Next';
+    return label;
   };
 
   return (
-    <BrixelModal
-      multiActions={buttonActions()}
-      onClose={() => history.push(`/buyer/${activeSingleProperty.id}/property/showings/`)}
-      id="contact-foreground"
-      layout="large"
-    >
-      {
-        currentStep === 'schedule' && (
-          <div className="dis-fl-col test">
-            <section className="titleSection">
-              <h4 className="mb-2 txtDark700">Schedule a visit</h4>
-              <h5 className="heading6 txtDark700">Suggest up to 3 suitable dates to visit the property</h5>
-              <div className="min-h-fix-320">
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+      <div
+        className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
+      >
+      
+        <form
+          id="multiStepForm"
+          autoComplete="off"
+          className="interactive dis-fl-col jc-b"
+          onSubmit={(e) => changeStep(null, e)}
+        >
+          <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div ref={singleStepRef} className="singleStep pt-5 jc-c ">
+              <div className="subcontainer m-a">
                 {
-                  scheduleVisitFree.map((val, i) => (
-                    <div
-                      className="date-schedule brdSmall brdLight200 p-2 brdRadius bgWhite mt-2"
-                      key={`vst_${i.toString()}`}
-                    >
-                      <div>
-                        <div className="day mb-1">
-                          <BrixelIcon
-                            icon="calendar"
-                            className="mr-1"
-                          />
-                          {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('cccc, dd LLLL yyyy')}
-                        </div>
-                        <div className="time">
-                          <BrixelIcon
-                            icon="clock"
-                            className="mr-1"
-                          />
-                          {
-                            val.isAllDay ? (
-                              <span>All day</span>
-                            ) : (
-                              <>
-                                <span>{val.start}</span>
-                                {
-                                  val.end && (
-                                    <span>
-                                      &nbsp;-&nbsp;
-                                      {val.end}
-                                    </span>
-                                  )
-                                }
-                              </>
-                            )
-                          }
-                        </div>
-                      </div>
-                      <div
-                        className="remove cur-poi a-c"
-                        onClick={() => removeEl(i)}
-                      >
-                        <BrixelButtonIcon
-                          icon="bin"
-                          theme="red"
-                          ghost
-                        />
-                      </div>
+                  get(quest, 'inputs', null) && (
+                    <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
+                      {
+                        quest.titleGreen && (
+                          <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                        )
+                      }
+                      {
+                        quest.title && (
+                          <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                        )
+                      }
+                      {
+                        quest.subtitle && (
+                          <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                      }
+                      <MultiFileldsReduxForm
+                        form="GetStarted"
+                        className="w-perc-100"
+                        disableNextBtn={false}
+                        formValue={formValue}
+                        inputs={quest.inputs}
+                        onClick={() => changeStep()}
+                        onCloseGoBack={() => changeStep('back')}
+                        onSubmit={() => changeStep()}
+                        showSendButton={quest.showSendButton}
+                        showErrors={showError}
+                        disableDelay={quest.history !== 'createProfile'}
+                        skipPhone
+                      />
                     </div>
-
-                  ))
-                }
-                {
-                  scheduleVisitFree.length < 3 && (
-                    <>
-                      <div className={`dis-f a-c jc-c ${scheduleVisitFree.length > 0 ? 'mt-2' : ''}`}>
-                        <BrixelButtonSecondary
-                          bgTransparent
-                          className="w-perc-100 max-w-fix-240 mt-3"
-                          background="primary"
-                          saturation={400}
-                          label="Choose new date"
-                          rounded
-                          leftIcon="calendar"
-                          onClick={() => {
-                            setShowDate(!showDate);
-                            setDatePickerModal(!datePickerModal);
-                          }}
-                        />
-                      </div>
-                      <div id="chooseDate">
-                        <div id="wrapDatePicker">
-                          {
-                            showDate && (
-                              <BrixelDatePicker
-                                hideInput
-                                ref1={datePicker}
-                                ref2={calendarRef}
-                                inline
-                                selected={date}
-                                onChange={(day) => handleChangeDate(day)}
-                                minDate={subDays(new Date(), 0)}
-                                lang={lang.value || lang}
-                                hasButtonChoice
-                                onClick={() => {
-                                  setShowDate(false);
-                                  setShowResizer(true);
-                                }}
-                              />
-                            )
-                          }
-                        </div>
-                        <div>
-                          {
-                            showResizer && (
-                              <div className="overlay">
-                                <div id="rzSlider" className="modalWindow" ref={hoursRef}>
-                                  <h5>Choose the time </h5>
-                                  <p
-                                    className="mt-4 mb-2 mb-lg-0 mt-lg-0x"
-                                  >
-                                    {hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
-                                  </p>
-                                  <InputRange
-                                    maxValue={20}
-                                    minValue={8}
-                                    value={hours}
-                                    step={0.5}
-                                    formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
-                                    onChange={(value) => setHours(value)}
-                                    disabled={allDay}
-                                  />
-                                  <div className="dis-f a-c mb-1 mb-lg-0">
-                                    <BrixelSwitchButton
-                                      label="All day"
-                                      input={{
-                                        onChange: (e) => handleChange(e),
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="dis-f jc-c">
-                                    <BrixelButtonPrimary
-                                      onClick={(e) => saveDate(e)}
-                                      rounded
-                                      label="Save"
-                                      className="mt-4"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          }
-                        </div>
-                      </div>
-                    </>
+    
                   )
                 }
               </div>
-            </section>
+            </div>
           </div>
-        )
-      }
-      {
-        currentStep === 'message' && (
-          <div className="dis-fl-col test">
-            <section className="titleSection">
-              <h4 className="mb-2 txtDark700">About you</h4>
-              <h5 className="heading6 txtDark700">How can we reach you?</h5>
-              <div className="min-h-fix-320">
-                <ContactForm
-                  action={action}
-                  resetAction={() => setAction(null)}
-                  onChangeAction={(val) => setAction(val)}
-                  scheduleVisit={scheduleVisitFree}
-                />
+          <div
+            className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+          >
+            <div className="pos-r">
+              <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                {
+                  (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                    <BrixelButtonIcon
+                      className="backBtn ml-0 mr-a"
+                      icon="arrow-left-small"
+                      onClick={() => changeStep('back')}
+                      theme="light"
+                      secondary
+                    />
+                  )
+                }
+                {
+                  get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
+                    <BrixelButtonPrimary
+                      className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                      disabled={!checkValidateField()}
+                      rounded
+                      theme="green"
+                      label={buttonLabel()}
+                      rightIcon="arrow-right-small"
+                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                      onShowError={() => setShowError(true)}
+                    />
+                  )
+                }
               </div>
-            </section>
+            </div>
           </div>
-        )
-      }
-      {
-        currentStep === 'sentMessage' && (
-          <div id="messageSent" className="dis-fl-col jc-b h-perc-100 mb-2-neg">
-            <section className="titleSection">
-              <h6 className="mb-1 txtGreen400 dis-f a-bl">
-                YOUR MESSAGE WAS SENT
-              </h6>
-              <h4 className="mb-2 txtDark700">Thank you</h4>
-              <h5 className="heading6 txtDark700">We will contact you as soon as possible.</h5>
-            </section>
-            <section
-              className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg"
-            >
-              <p className="mb-2"><b>Here are 3 tips for a smooth process</b></p>
-
-              <ul>
-                <li>
-                  <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700} />
-                  <div>
-                    <span>Make sure you visited the</span>&nbsp;
-                    <span
-                      className="txtPrimary400 cur-poi"
-                      onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}/explore/tour`, '_blank')}
-                    >
-                      <span>3D Tour</span>
-                    </span>
-                  </div>
-                </li>
-                <li className="redIcon">
-                  <BrixelIcon
-                    icon="favorite-house"
-                    color="green"
-                    background="green"
-                    saturation={200}
-                    saturationTxt={700}
-                  />
-                  Do not forget to favorite the property to keep all the information in one place
-                </li>
-                <li className="redIcon">
-                  <BrixelIcon icon="money" color="green" background="green" saturation={200} saturationTxt={700} />
-                  Get in touch with your bank about financing before you visit
-                </li>
-              </ul>
-            </section>
-          </div>
-        )
-      }
-    </BrixelModal>
+        </form>
+      </div>
+    </div>
   );
 };
 
 AddShowingsBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  errorValue: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
+  handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  initForm: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
-  userLang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -371,19 +375,26 @@ const mapStateToProps = (state) => {
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   const activeSingleCompany = get(state, 'companies.activeSingleCompany', {});
   activeSingleCompany.defaultDialCode = countryPhoneCode.dial_code;
+  const initialValues = {};
   return ({
-    activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     activeSingleCompany,
-    formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
+    activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+    errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
+    formValue: get(state, 'brixelForm.Showings.values', {}),
+    initialValues,
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'user.loggedInUser.user.language', ''),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  initForm(value) {
+    dispatch(initializeForm('Showings', value));
+  },
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
 });
 

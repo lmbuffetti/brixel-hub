@@ -244,12 +244,14 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('trialRequest') ||
+      history.location.pathname.includes('property/showings') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('signup')
     ) {
       if (
         history.location.pathname.includes('packageFlow') ||
         history.location.pathname.includes('visitFeedback') ||
+        history.location.pathname.includes('property/showings') ||
         history.location.pathname.includes('signup')
       ) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -439,6 +441,7 @@ const App = (props) => {
                     !isFlow &&
                     !history.location.pathname.includes('sell') &&
                     (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
+                    (!history.location.pathname.includes('property/showings')) &&
                     loggedInUser &&
                     windowDimensions.width > 1024 &&
                     (
@@ -456,6 +459,7 @@ const App = (props) => {
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
+                      <Route path="/buyer/:propID/property/showings" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
 
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" element={<Signup />} />
@@ -560,7 +564,6 @@ const App = (props) => {
           { /* SECTION: ACHIVEMENT FLOW */ }
           <Routes>
             <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
-            <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
             <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
