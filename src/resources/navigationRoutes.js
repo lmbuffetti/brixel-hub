@@ -81,11 +81,6 @@ export const sidebarNavigationBuyer = [
         name: 'page',
         path: '/buyer/:propID/property/page',
       },
-      {
-        title: 'Showings',
-        name: 'showings',
-        path: '/buyer/:propID/property/showings',
-      },
     ],
   },
   {
@@ -94,6 +89,13 @@ export const sidebarNavigationBuyer = [
     icon: 'docs',
     path: '/buyer/:propID/docubox',
   },
+  {
+    title: 'Visit',
+    name: 'visit',
+    icon: 'docs',
+    path: '/buyer/:propID/scheduleVisit',
+  },
+  
   {
     title: 'Financing',
     name: 'financing',
