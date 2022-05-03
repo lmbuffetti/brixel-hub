@@ -66,9 +66,9 @@ export const sidebarNavigationSeller = [
 
 export const sidebarNavigationBuyer = [
   {
-    title: 'Property',
+    title: 'Home',
     name: 'property',
-    icon: 'property-new',
+    icon: 'four-circles',
     path: '/buyer/:propID/property',
     submenu: [
       {
@@ -82,25 +82,24 @@ export const sidebarNavigationBuyer = [
         path: '/buyer/:propID/property/page',
       },
     ],
+  },  
+  {
+    title: 'Financing',
+    name: 'financing',
+    icon: 'calculator',
+    path: '/buyer/:propID/financing',
+  },
+  {
+    title: 'Visit',
+    name: 'visit',
+    icon: 'calendar',
+    path: '/buyer/:propID/scheduleVisit',
   },
   {
     title: 'Docubox',
     name: 'docubox',
     icon: 'docs',
     path: '/buyer/:propID/docubox',
-  },
-  {
-    title: 'Visit',
-    name: 'visit',
-    icon: 'docs',
-    path: '/buyer/:propID/scheduleVisit',
-  },
-  
-  {
-    title: 'Financing',
-    name: 'financing',
-    icon: 'financing',
-    path: '/buyer/:propID/financing',
   },
   {
     title: 'Closing',
