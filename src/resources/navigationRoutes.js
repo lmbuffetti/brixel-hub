@@ -66,6 +66,12 @@ export const sidebarNavigationSeller = [
 
 export const sidebarNavigationBuyer = [
   {
+    title: 'Home',
+    name: 'home',
+    icon: 'four-circles',
+    path: '/buyer/:propID/home',
+  },
+  {
     title: 'Property',
     name: 'property',
     icon: 'property-new',

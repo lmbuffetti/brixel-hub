@@ -23,6 +23,7 @@ import {
   SEND_SCAN_TRIAL_REQUEST,
   SET_ACTIVE_SINGLE_PROPERTY,
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS,
   SET_ESTIMATION,
   SET_MARKET_CHECK,
   SET_PACKAGES_PROPERTY,
@@ -768,6 +769,16 @@ const checkCommon = (store) => (next) => (action) => {
         store.dispatch({
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
           payload: response.data,
+        });
+        const slots = [];
+        response.data.forEach((item) => {
+          item.slots.forEach((slot) => {
+            slots.push(slot);
+          })
+        });
+        store.dispatch({
+          type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS,
+          payload: slots,
         });
         if (redirectTo) {
           store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
