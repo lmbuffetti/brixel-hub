@@ -63,7 +63,6 @@ export const BestimatePT = (type = null) => {
           maxLengthNum: 99999,
           labelLeft: 'Lot Size',
           placeholder: 'e.g. 140',
-          validation: [Validation.required],
         },
       ],
     },

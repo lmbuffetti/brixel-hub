@@ -3,7 +3,7 @@ import {
   BrixelRadioButton,
   BrixelInputStepNumber,
   BrixelInputText,
-  Validation,
+  Validation, BrixelSelect,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
@@ -283,6 +283,15 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
     );
   }
   question.push(
+    {
+      className: 'pos-r zIndex6',
+      classBoxWrapper: 'two-cols',
+      component: BrixelSelect,
+      label: 'Property condition',
+      name: 'properties.building.conditionStatus',
+      options: factsOptions.conditionStatus,
+      validation: [Validation.required],
+    },
     {
       title: translateTo(lang, 'What is the location?'),
       history: 'locationInput',
