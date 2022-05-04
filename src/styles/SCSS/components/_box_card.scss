@@ -13,3 +13,16 @@
     color: map-get($darkColor, 700);
   }
 }
+
+.cardWithBg {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}

@@ -14,6 +14,8 @@ import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { getUserPagesDeals, setUserTypes } from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 
+const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
+
 const PropertiesBuyerDashboard = lazyWithRetry(() => import('./PropertiesBuyerDashboard'));
 
 const PropertyBuyerDashboard = lazyWithRetry(() => import('./PropertyBuyerDashboard'));
@@ -112,11 +114,12 @@ const Dashboard = (props) => {
             <Routes>
               { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
               <Route path="/" element={<PropertiesBuyerDashboard />} />
+              <Route path="/home" element={<DashboardHome />} />
               <Route path="/property/*" element={<PropertyBuyerDashboard />} />
               <Route path="/docubox" element={<Documents />} />
               <Route path="/financing" element={<Financing />} />
               <Route path="/closing/*" element={<DealsDashboardBuyer />} />
-              <Route path="*" element={<Navigate to={`/buyer/${propID}/property`} />} />
+              <Route path="*" element={<Navigate to={`/buyer/${propID}/home`} />} />
             </Routes>
           </Suspense>
         </div>
