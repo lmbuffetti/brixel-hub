@@ -15,6 +15,7 @@ import { DateTime } from 'luxon';
 import {
   getActiveSinglePropertyBookings,
 } from '../../../actions/PropertyActions';
+import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 
 import Loading from '../../../components/Loading';
@@ -32,15 +33,16 @@ const DashboardHome = (props) => {
   const match = useParams();
   // PROPS
   const {
-    activeSingleCompany,
     activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyBookingSlots,
     handleGetActiveSinglePropertyBookings,
+    handleGetUserSearchProfiles,
     isSmallLoading,
     loggedInUser,
-    userTypes,
     userLang,
+    userTypes,
+    searchProfile,
   } = props;
   // STATE
   const [progressState] = useState({step: 1});
@@ -64,8 +66,9 @@ const DashboardHome = (props) => {
         smallLoader: 'getBooking',
       };
       handleGetActiveSinglePropertyBookings(data);
+      if (loggedInUser.id) handleGetUserSearchProfiles(loggedInUser.id);
     }
-  }, [propID]);
+  }, [propID, loggedInUser]);
   
   const openSchedule = () => {
     if (!visitAccepted) {
@@ -197,7 +200,7 @@ const DashboardHome = (props) => {
                 </button>
   
                 <button
-                  onClick={() => window.open(get(activeSingleCompany, 'links.survey', null), '_blank')}
+                  onClick={() => history.push(`/buyer/${propID}/financing`)}
                   className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
                 >
                   <div
@@ -230,24 +233,47 @@ const DashboardHome = (props) => {
                 className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100"
                 style={{backgroundImage: `url(${marketNewHomeSvg})`, backgroundSize: 'auto 100%'}}
               >
-                <div className="dis-fl-col max-w-perc-100">
-                  <div className="w-perc-100 mt-1 max-w-fix-280">
-                    <span className="pr-2 w-perc-100 fsize-600 fweight-600">
-                      Looking for other homes?
-                    </span>
-                    <p className="mt-1">
-                      Create your search profile and find properties which are not yet on the market.
-                    </p>
-                  </div>
-      
-                  <BrixelButtonSecondary
-                    bgTransparent
-                    onClick={() => history.push(`/buy`)}
-                    className="mt-2 as-fs"
-                    rounded
-                    label="Go to our market"
-                  />
-                </div>
+                {
+                  searchProfile.id ? (
+                    <div className="dis-fl-col max-w-perc-100">
+                      <div className="w-perc-100 mt-1 max-w-fix-280">
+                        <span className="pr-2 w-perc-100 fsize-600 fweight-600">
+                          Looking for other homes?
+                        </span>
+                        <p className="mt-1">
+                          Explore our properties.
+                        </p>
+                      </div>
+    
+                      <BrixelButtonSecondary
+                        bgTransparent
+                        onClick={() => history.push(`/buy`)}
+                        className="mt-2 as-fs"
+                        rounded
+                        label="Go to our market"
+                      />
+                    </div>
+                  ) : (
+                    <div className="dis-fl-col max-w-perc-100">
+                      <div className="w-perc-100 mt-1 max-w-fix-280">
+                        <span className="pr-2 w-perc-100 fsize-600 fweight-600">
+                          Looking for other homes?
+                        </span>
+                        <p className="mt-1">
+                          Create your search profile and find properties which are not yet on the market.
+                        </p>
+                      </div>
+    
+                      <BrixelButtonSecondary
+                        bgTransparent
+                        onClick={() => history.push(`/buy`)}
+                        className="mt-2 as-fs"
+                        rounded
+                        label="Create a search profile"
+                      />
+                    </div>
+                  )
+                }
               </div>
               
             </>
@@ -261,14 +287,15 @@ const DashboardHome = (props) => {
 
 DashboardHome.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
-  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyBookingSlots: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
+  handleGetUserSearchProfiles: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  userTypes: PropTypes.string,
+  searchProfile: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
+  userTypes: PropTypes.string,
 };
 
 DashboardHome.defaultProps = {
@@ -279,7 +306,6 @@ DashboardHome.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
-  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
@@ -287,10 +313,13 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   userLang: get(state, 'user.loggedInUser.user.language', 'en'),
+  searchProfile: get(state, 'user.userSearchProfiles[0]', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
+  handleGetActiveSinglePropertyBookings: bindActionCreators(
+    getActiveSinglePropertyBookings, dispatch),
+  handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

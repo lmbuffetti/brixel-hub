@@ -104,6 +104,7 @@ const DashboardPropertyCard = (props) => {
                         className="ml-2"
                         rounded
                         label="View"
+                        onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
                       />
                     </div>
                   ) : (
