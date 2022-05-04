@@ -2,10 +2,32 @@
 import {
   BrixelInputText,
   BrixelTextArea,
+  BrixelInputDatePicker,
   Validation,
 } from '@brixel/brixel-components/dist/form';
 
 export const QuestionsList = () => [
+  {
+    title: 'Schedule a visit to your future home',
+    history: 'visitDates',
+    hideContinueBtn: true,
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
+    inputs: [
+      {
+        component: BrixelInputDatePicker,
+        className: '',
+        classNameBox: 'ml-a mr-a',
+        classBoxWrapper: 'mt-2',
+        ReduxFieldClass: '',
+        label: 'Choose your date',
+        name: 'visitDates',
+        showFullSelectDate: true,
+        large: true,
+        hasButtonChoice: true,
+        validation: [Validation.required],
+      },
+    ],
+  },
   {
     title: 'How can we reach you?',
     history: 'contactInfo',
@@ -45,5 +67,9 @@ export const QuestionsList = () => [
         pdClass: 'py-3 py-md-5',
       },
     ],
+  },
+  {
+    history: 'success',
+    toSave: true,
   },
 ];

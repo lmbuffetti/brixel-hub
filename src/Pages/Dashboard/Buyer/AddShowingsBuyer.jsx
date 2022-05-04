@@ -126,7 +126,7 @@ const AddShowingsBuyer = (props) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList();
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       newQuestions[newIndex].conditions.map((cond) => {
@@ -158,9 +158,7 @@ const AddShowingsBuyer = (props) => {
       }
       newIndex += step;
     }
-    if (newIndex === -1) {
-      history.push('/packageFlow');
-    } else {
+    if (newIndex > -1) {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
       if (newQuestions[defId]) {
@@ -182,40 +180,6 @@ const AddShowingsBuyer = (props) => {
           } else {
             setQuest(newQuest);
             setCurrentIndex(defId);
-          }
-          if (newQuest.history !== 'createProfile') {
-            if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
-              const fakeInput = document.createElement('input');
-              fakeInput.setAttribute('type', 'text');
-              fakeInput.setAttribute('id', 'fakeInput');
-              fakeInput.style.position = 'absolute';
-              fakeInput.style.opacity = 0;
-              fakeInput.style.height = 0;
-              fakeInput.style.fontSize = '16px'; // disable auto zoom
-              // zoom/scroll behavior
-              document.body.prepend(fakeInput);
-              fakeInput.focus();
-            }
-            
-            setTimeout(() => {
-              const fakeInput = document.getElementById('fakeInput');
-              const getCurStep = document.getElementById(`step-${defId}`);
-              if (getCurStep && getCurStep.querySelector('input[type="number"]')) {
-                getCurStep.querySelector('input[type="number"]').focus();
-              } else if (getCurStep && getCurStep.querySelector('input[type="text"]')) {
-                getCurStep.querySelector('input[type="text"]').focus();
-              } else if (getCurStep && getCurStep.querySelector('input[type="search"]')) {
-                getCurStep.querySelector('input[type="search"]').focus();
-              }
-              // cleanup
-              if (fakeInput) fakeInput.remove();
-            }, 500);
-          }
-          if (newQuestions[defId].history) {
-            history.push({
-              pathname: `/packageFlow/getStarted/${newQuestions[defId].history}`,
-              state: get(history, 'location.state', {}),
-            });
           }
           if (checkBrowser() > 0) {
             if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
@@ -263,7 +227,7 @@ const AddShowingsBuyer = (props) => {
   const buttonLabel = () => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
-    if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
+    if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Back to Hub';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
@@ -289,6 +253,7 @@ const AddShowingsBuyer = (props) => {
                 {
                   get(quest, 'inputs', null) && (
                     <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
+                      {console.log(quest)}
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>

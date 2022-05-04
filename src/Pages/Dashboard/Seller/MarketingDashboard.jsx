@@ -31,9 +31,9 @@ const MarketingDashboard = () => {
   return (
     <div className="listings-container dis-f jc-fs h-perc-lg-100 a-t" id="listingsDashaboard">
       <Sticker>
-        <div>
+        <div className="w-perc-100">
           <h3 className="mb-3 hide dis-b-lg">Marketing</h3>
-          <div className="dis-f a-t flex-wrap max-w-fix-768">
+          <div className="dis-f a-t flex-wrap max-w-fix-1280">
             <div className="pr-md-1 w-perc-100 w-perc-md-50">
               <Page />
             </div>
