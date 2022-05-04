@@ -162,7 +162,7 @@ const Portals = (props) => {
             )
           }
         </div>
-
+        
         <div className="portalsList mt-3">
           {
             checkPortalsOnline() && Object.keys(companyPortals).map((key, i) => (

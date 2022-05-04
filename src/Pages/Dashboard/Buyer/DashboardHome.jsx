@@ -1,22 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
+  AddToCalendar,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { atcb_init } from 'add-to-calendar-button';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-// import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { DateTime } from 'luxon';
 import {
   getActiveSinglePropertyBookings,
-  getActiveSinglePropertyDealsCount,
-  getPageDeals,
 } from '../../../actions/PropertyActions';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 
@@ -28,7 +25,6 @@ import schedulePendingSvg from '../../../images/dashboard/schedulePending.svg';
 import financingSvg from '../../../images/dashboard/financingDashboard.svg';
 
 const DashboardHome = (props) => {
-  const timezone = -(new Date().getTimezoneOffset() / 60);
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -37,6 +33,7 @@ const DashboardHome = (props) => {
   // PROPS
   const {
     activeSingleCompany,
+    activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyBookingSlots,
     handleGetActiveSinglePropertyBookings,
@@ -50,8 +47,6 @@ const DashboardHome = (props) => {
   const [visitAccepted, setVisitAccepted] = useState(false);
   const propID = get(match, 'propID', null);
   
-  useEffect(() => atcb_init());
-
   useEffect(() => {
     if (activeSinglePropertyBookingSlots.length > 0) {
       const acceptedVisit = activeSinglePropertyBookingSlots.find((visit) => visit.status === 'accepted');
@@ -139,24 +134,22 @@ const DashboardHome = (props) => {
                                 {
                                   get(visitAccepted, 'slot', '').split( ' ')[0] && (
                                     <h5 className="pr-2 txtGreen400 fweight-600">
-                                      {DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', userLang).toFormat('dd LLL yyyy', userLang)}, {visitAccepted.slot.split( ' ')[1]}
+                                      {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', userLang)}
                                     </h5>
                                   )
                                 }
                               </div>
-                              
-                              <div className='atcb' style={{display: 'none'}}>
-                                {JSON.stringify({
-                                  name: `Visit ${activeSingleProperty.title}`,
-                                  startDate: formatCalendar('start'),
-                                  endDate: formatCalendar('end'),
-                                  options: ['Apple', 'Google', 'iCal', 'Microsoft365', 'Outlook.com', 'MicrosoftTeams', 'Yahoo'],
-                                  trigger: "click",
-                                  location: formatCalendar('location'),
-                                  timeZoneOffset:`+0${timezone + 1}:00`,
-                                  iCalFileName: "Reminder-Event",
-                                })}
-                              </div>
+  
+                              {
+                                activeSingleDeal.visit && (
+                                  <AddToCalendar
+                                    title={`Visit ${activeSingleProperty.title}`}
+                                    timestamp={activeSingleDeal.visit}
+                                    location={formatCalendar('location')}
+                                    userLang={userLang}
+                                  />
+                                )
+                              }
                             </div>
                           ) : (
                             <div className="dis-fl-col max-w-perc-70">
@@ -267,6 +260,7 @@ const DashboardHome = (props) => {
 };
 
 DashboardHome.propTypes = {
+  activeSingleDeal: PropTypes.object.isRequired,
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyBookingSlots: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -284,6 +278,7 @@ DashboardHome.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
@@ -295,9 +290,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetActiveSinglePropertyDealsCount: bindActionCreators(getActiveSinglePropertyDealsCount, dispatch),
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
-  handleGetPageDeals: bindActionCreators(getPageDeals, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

@@ -174,7 +174,6 @@ const App = (props) => {
     } else {
       handleSetUserTypes('buyer');
     }
-    handleSetActiveSingleDeal({});
   }, [activeSingleProperty.id]);
 
   const bodyModal = document.getElementById('bodyModalWrapper');
@@ -193,6 +192,7 @@ const App = (props) => {
   useEffect(() => {
     if (get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) {
       history.push('/sell');
+      handleSetActiveSingleDeal({});
     }
     if (get(history, 'location', null) && typeof ga === 'function') {
       ga('send', 'pageview', history.location.pathname);
@@ -209,9 +209,11 @@ const App = (props) => {
       const customID = get(activeSingleProperty, 'id', null);
       if (customID) handleSetActiveSingleProperty({ customID });
       else handleSetActiveSingleProperty({});
+      handleSetActiveSingleDeal({});
     }
     if (splittedURL[1] === 'buy') {
       handleSetActiveSingleProperty({ });
+      handleSetActiveSingleDeal({});
     }
     const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
     if (scrollFlow) scrollFlow.scrollTop = 0;
