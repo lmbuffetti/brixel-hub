@@ -67,8 +67,14 @@ export const sidebarNavigationSeller = [
 export const sidebarNavigationBuyer = [
   {
     title: 'Home',
-    name: 'property',
+    name: 'home',
     icon: 'four-circles',
+    path: '/buyer/:propID/home',
+  },
+  {
+    title: 'Property',
+    name: 'property',
+    icon: 'property-new',
     path: '/buyer/:propID/property',
     submenu: [
       {
@@ -82,7 +88,7 @@ export const sidebarNavigationBuyer = [
         path: '/buyer/:propID/property/page',
       },
     ],
-  },  
+  },
   {
     title: 'Financing',
     name: 'financing',
