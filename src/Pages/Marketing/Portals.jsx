@@ -165,7 +165,7 @@ const Portals = (props) => {
 
         <div className="portalsList mt-3">
           {
-            Object.keys(companyPortals).map((key, i) => (
+            checkPortalsOnline() && Object.keys(companyPortals).map((key, i) => (
               <React.Fragment
                 key={`prt_${i.toString()}`}
               >
