@@ -434,7 +434,7 @@ const mapStateToProps = (state) => {
     initValues: get(state, 'brixelForm.Property.initialValues', {}),
     initialValues: {
       // booking: get(state, 'property.activeSinglePropertyBooking', []),
-      allowVisits: get(state, 'property.activeSingleProperty.allowVisits', {}),
+      allowVisits: get(state, 'property.activeSingleProperty.allowVisits', false),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
       // customPortals: get(state, 'property.activeSingleProperty.customPortals', {}),

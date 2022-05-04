@@ -27,6 +27,7 @@ const Portals = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     activeSingleProperty,
     companyPortals,
     customPortals,
@@ -90,12 +91,13 @@ const Portals = (props) => {
   };
 
   const onClickRequest = (state, type = 'request') => {
+    const bodyText = MarketingModal[state][type].body.replace(':companyPrice', `${get(activeSingleCompany, 'country.currency')} ${get(activeSingleCompany, 'meta.portals.price')}`);
     handleSetModal({
       state: true,
       layout:'xlarge',
       bodyClassColor: 'bgWhite',
       title: MarketingModal[state][type].title,
-      body: MarketingModal[state][type].body,
+      body: bodyText,
       small: true,
       titleImg: MarketingModal[state][type].titleImg,
       classContainer: 'dis-b ta-c',
@@ -163,7 +165,7 @@ const Portals = (props) => {
 
         <div className="portalsList mt-3">
           {
-            Object.keys(companyPortals).map((key, i) => (
+            checkPortalsOnline() && Object.keys(companyPortals).map((key, i) => (
               <React.Fragment
                 key={`prt_${i.toString()}`}
               >
@@ -309,6 +311,7 @@ const Portals = (props) => {
 };
 
 Portals.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   companyPortals: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
@@ -326,6 +329,7 @@ const mapStateToProps = (state) => {
   return ({
     activeSingleProperty,
     companyPortals: get(state, 'companies.activeSingleCompany.availablePortals', {}),
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     customPortals: get(activeSingleProperty, 'customPortals', {}),
     formValue,
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
