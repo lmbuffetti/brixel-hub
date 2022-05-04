@@ -30,7 +30,7 @@ export const MarketingModal = {
   publishPortals: {
     request: {
       title: 'Please confirm your request.',
-      body: 'Hereby you give Brixel the right to publish your property on third-party portals and accept the one time fee of CHF 950.<br /><br /> We will review your content before publishing to make sure you get the best result.',
+      body: '<span>Hereby you give Brixel the right to publish your property on third-party portals and accept the one time fee of</span><span class="ml-1">:companyPrice<span>.<br /><br /><span>We will review your content before publishing to make sure you get the best result.</span>',
       titleImg: PublishPageImg,
     },
     success: {
