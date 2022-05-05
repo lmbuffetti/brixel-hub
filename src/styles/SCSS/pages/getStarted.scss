@@ -245,6 +245,12 @@
           all: initial;
         }
       }
+
+      #rzSlider {
+        .input-range__label-container {
+          display: none;
+        }
+      }
     }
 
     // custom card style for test drive flow
