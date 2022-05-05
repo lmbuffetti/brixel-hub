@@ -3,19 +3,23 @@ import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
+import InputRange from 'react-input-range';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
+import subDays from 'date-fns/subDays';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
 } from '@brixel/brixel-components';
+import BrixelSwitchButton from '@brixel/brixel-components/dist/components/Form/BrixelSwitchButton';
 import {
   initializeForm,
   MultiFileldsReduxForm,
+  BrixelDatePicker,
 } from '@brixel/brixel-components/dist/form';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { createPropertyVisitBooking, getActiveSingleProperty } from '../../../actions/PropertyActions';
@@ -46,9 +50,20 @@ const AddShowingsBuyer = (props) => {
   const [showError, setShowError] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [action, setAction] = useState(null);
+  const [chooseDatesOpen, setChooseDatesOpen] = useState(false);
+  const [showResizer, setShowResizer] = useState(false);
+  const [date, setDate] = useState(null);
+  const [hours, setHours] = useState({ min: 8, max: 20 });
+  const [allDay, setAllDay] = useState(false);
+  const [scheduleVisitFree, setScheduleVisitFree] = useState([]);
+
   // REFS
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
+  const calendarRef = useRef(null);
+  const datePicker = useRef(null);
+  const hoursRef = useRef(null);
+
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
   
@@ -220,6 +235,37 @@ const AddShowingsBuyer = (props) => {
   const closeWindow = () => {
     history.push(`/buyer/${propID}/property`);
   };
+
+  const handleChangeDate = (day) => {
+    setDate(day);
+  };
+
+  const handleChange = (e) => {
+    setAllDay(e);
+    setHours({ min: 8, max: 20 });
+  };
+
+  const saveDate = (e) => {
+    // SET STUFF HERE
+    // setDatePickerModal(!datePickerModal);
+    e.preventDefault();
+    e.stopPropagation();
+    const startFormHour = Math.trunc(hours.min) < 10 ? `0${Math.trunc(hours.min)}` : Math.trunc(hours.min);
+    const startHour = hours.min % 1 !== 0 ? `${startFormHour}:30` : `${startFormHour}:00`;
+    const endFormHour = Math.trunc(hours.max) < 10 ? `0${Math.trunc(hours.max)}` : Math.trunc(hours.max);
+    const endHour = hours.max % 1 !== 0 ? `${endFormHour}:30` : `${endFormHour}:00`;
+    setScheduleVisitFree([
+      ...scheduleVisitFree,
+      {
+        start: allDay ? null : startHour,
+        end: allDay ? null : endHour,
+        date,
+        isAllDay: allDay,
+        normDate: date,
+      },
+    ]);
+    setShowResizer(false);
+  };
   
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
@@ -232,7 +278,7 @@ const AddShowingsBuyer = (props) => {
   };
 
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted scheduleVisit ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
       <div
         className={`bodyModal max-w-fix-600 pt-10 container ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
       >
@@ -251,7 +297,6 @@ const AddShowingsBuyer = (props) => {
                 {
                   get(quest, 'inputs', null) && (
                     <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
-                      {console.log(quest)}
                       {
                         quest.titleGreen && (
                           <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
@@ -267,60 +312,141 @@ const AddShowingsBuyer = (props) => {
                           <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
                       <div className="formWrapper bgWhite brdRadius w-perc-100 shadow-1dp p-6">
-                        <MultiFileldsReduxForm
-                          form="Showings"
-                          className="w-perc-100"
-                          disableNextBtn={false}
-                          formValue={formValue}
-                          inputs={quest.inputs}
-                          onClick={() => changeStep()}
-                          onCloseGoBack={() => changeStep('back')}
-                          onSubmit={() => changeStep()}
-                          showSendButton={quest.showSendButton}
-                          showErrors={showError}
-                          disableDelay={quest.history !== 'createProfile'}
-                        />
+                        {
+                          get(quest, 'history', '') === 'visitDates' && !chooseDatesOpen && (
+                            <div className="dis-fl-col a-c">
+                              <span className="fsize-400 fweight-400 mb-5">Suggest up to 3 suitable dates to visit the property</span>
+                              <BrixelButtonPrimary
+                                className="mx-a"
+                                rounded
+                                label="Choose new date"
+                                rightIcon="calendar"
+                                onClick={() => setChooseDatesOpen(true)}
+                              />
+                            </div>
+                          )
+                        }
+                        {
+                          chooseDatesOpen && (
+                            <div className="dis-fl-col a-c jc-b">
+                              <span className="fsize-400 fweight-400 mb-3">Choose your date</span>
+                              <BrixelDatePicker
+                                hideInput
+                                ref1={datePicker}
+                                ref2={calendarRef}
+                                inline
+                                selected={date}
+                                onChange={(day) => handleChangeDate(day)}
+                                minDate={subDays(new Date(), 0)}
+                                lang={lang.value || lang}
+                                onClick={() => {
+                                  setChooseDatesOpen(false);
+                                  setShowResizer(true);
+                                }}
+                              />
+                            </div>
+                          )
+                        }
+                        {
+                          showResizer && (
+                            <div>
+                              <div id="rzSlider" className="modalWindow" ref={hoursRef}>
+                                <h5>Choose the time </h5>
+                                <p
+                                  className="mt-4 mb-2 mb-lg-0 mt-lg-0x"
+                                >
+                                  {hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
+                                </p>
+                                <InputRange
+                                  maxValue={20}
+                                  minValue={8}
+                                  value={hours}
+                                  step={0.5}
+                                  formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
+                                  onChange={(value) => setHours(value)}
+                                  disabled={allDay}
+                                />
+                                <div className="dis-f a-c mb-1 mb-lg-0">
+                                  <BrixelSwitchButton
+                                    label="All day"
+                                    input={{
+                                      onChange: (e) => handleChange(e),
+                                    }}
+                                  />
+                                </div>
+                                <div className="dis-f jc-c">
+                                  <BrixelButtonPrimary
+                                    onClick={(e) => saveDate(e)}
+                                    rounded
+                                    label="Save"
+                                    className="mt-4"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        }
+                        {
+                          get(quest, 'history', '') === 'contactInfo' && !chooseDatesOpen && (
+                            <MultiFileldsReduxForm
+                              form="Showings"
+                              className="w-perc-100"
+                              disableNextBtn={false}
+                              formValue={formValue}
+                              inputs={quest.inputs}
+                              onClick={() => changeStep()}
+                              onCloseGoBack={() => changeStep('back')}
+                              onSubmit={() => changeStep()}
+                              showSendButton={quest.showSendButton}
+                              showErrors={showError}
+                              disableDelay={quest.history !== 'createProfile'}
+                            />
+                          )
+                        }
                       </div>
                     </div>
-    
                   )
                 }
               </div>
             </div>
           </div>
-          <div
-            className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
-          >
-            <div className="pos-r">
-              <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
-                {
-                  (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
-                    <BrixelButtonIcon
-                      className="backBtn ml-0 mr-a"
-                      icon="arrow-left-small"
-                      onClick={() => changeStep('back')}
-                      theme="light"
-                      secondary
-                    />
-                  )
-                }
-                {
-                  get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
-                    <BrixelButtonPrimary
-                      className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
-                      disabled={!checkValidateField()}
-                      rounded
-                      theme="green"
-                      label={buttonLabel()}
-                      rightIcon="arrow-right-small"
-                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      onShowError={() => setShowError(true)}
-                    />
-                  )
-                }
+          {
+            (get(quest, 'hideContinueBtn', '') !== true) && (
+              <div
+                className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+              >
+                <div className="pos-r">
+                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                    {
+                      (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                        <BrixelButtonIcon
+                          className="backBtn ml-0 mr-a"
+                          icon="arrow-left-small"
+                          onClick={() => changeStep('back')}
+                          theme="light"
+                          secondary
+                        />
+                      )
+                    }
+                    {
+                      get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
+                        <BrixelButtonPrimary
+                          className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                          disabled={!checkValidateField()}
+                          rounded
+                          theme="green"
+                          label={buttonLabel()}
+                          rightIcon="arrow-right-small"
+                          onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                          onShowError={() => setShowError(true)}
+                        />
+                      )
+                    }
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            )
+          }  
         </form>
       </div>
     </div>

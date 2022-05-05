@@ -201,14 +201,11 @@
 #bodyModalWrapper {
 
   &.getStarted {
+    z-index: 1;
+
     &:not([class*="bg"]) {
       background-color: transparent;
     }
-    &.container[class*="bg"] {
-      /* margin-left: 0px;
-      margin-right: 0px; */
-    }
-    z-index: 1;
 
     #progressBar {
       position: absolute;
@@ -233,6 +230,19 @@
           @media (max-width: $responsive-small) {
             margin-bottom: -2px;
           }
+        }
+      }
+    }
+
+    // schedule visit
+    &.scheduleVisit {
+      #wrapDatePicker #fixedDatePicker {
+        all: initial;
+      }
+
+      #wrapDatePicker {
+        .react-datepicker {
+          all: initial;
         }
       }
     }
