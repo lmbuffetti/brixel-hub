@@ -42,10 +42,13 @@ const AddShowingsBuyer = (props) => {
     activeSingleProperty,
     errorValue,
     formValue,
+    handleCreatePropertyVisitBooking,
     handleGetActiveSingleProperty,
     initForm,
     initialValues,
+    isSmallLoading,
     lang,
+    loggedInUser,
     userLang,
   } = props;
   const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
@@ -136,7 +139,21 @@ const AddShowingsBuyer = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
   
   const saveData = () => {
-    console.log(formValue, scheduleVisitFree)
+    const data = {
+      page: activeSingleProperty.id,
+      slots: scheduleVisitFree,
+      buyer: {
+        name: formValue.name,
+        phone: formValue.phone,
+        email: formValue.email,
+        language: lang,
+      },
+      getByUser: loggedInUser.id,
+      message: formValue.message,
+      smallLoader: 'scheduleVisit',
+    };
+    handleCreatePropertyVisitBooking(data);
+    return null;
   };
   
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -523,6 +540,7 @@ const AddShowingsBuyer = (props) => {
                           label={buttonLabel()}
                           rightIcon="arrow-right-small"
                           onClick={(e) => (getClickFunc(e))}
+                          smallLoader={isSmallLoading.scheduleVisit}
                           onShowError={() => setShowError(true)}
                         />
                       )
@@ -542,10 +560,13 @@ AddShowingsBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
 };
 
