@@ -68,6 +68,7 @@ export const QuestionsList = () => [
     ],
   },
   {
+    title: 'Thank you for scheduling your visits',
     history: 'success',
     toSave: true,
   },

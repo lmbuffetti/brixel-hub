@@ -136,7 +136,7 @@ const AddShowingsBuyer = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
   
   const saveData = () => {
-  
+    console.log(formValue, scheduleVisitFree)
   };
   
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -296,9 +296,10 @@ const AddShowingsBuyer = (props) => {
         setChooseDatesOpen(false);
         setShowResizer(true);
       }
-      if (date && !chooseDatesOpen && showResizer) {
+      else if (date && !chooseDatesOpen && showResizer) {
         saveDate(e);
       }
+      else if (get(questions, `[${currentIndex + 2}].toSave`, null)) changeStep();
     }
     if (get(quest, 'history', '') === 'contactInfo') {
       if (questions[currentIndex + 1]) changeStep();
@@ -393,7 +394,7 @@ const AddShowingsBuyer = (props) => {
                                       ))
                                     }
                                     {
-                                      (scheduleVisitFree.length > 0 && scheduleVisitFree.length <= 3) && (
+                                      (scheduleVisitFree.length > 0 && scheduleVisitFree.length < 3) && (
                                         <BrixelButtonText
                                           saturation={400}
                                           color="green"
@@ -502,8 +503,7 @@ const AddShowingsBuyer = (props) => {
                 <div className="pos-r">
                   <div className="w-perc-100 a-c dis-fl-row jc-c flex-wrap">
                     {
-                      // (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0 || showResizer) && (
-                      (showResizer || get(quest, 'history', '') === 'contactInfo' || scheduleVisitFree.length > 0) && (
+                      showResizer && (
                         <BrixelButtonIcon
                           className="backBtn ml-0"
                           icon="arrow-left-small"
