@@ -35,11 +35,11 @@ const ShowingsBuyer = (props) => {
   } = props;
   // STATE
   const [bookingSlot, setBookingSlot] = useState([]);
-
+  
   const propID = get(match, 'propID', null);
-
+  
   useEffect(() => () => handleSetActiveSinglePropertyBookings([]), []);
-
+  
   useEffect(() => {
     if (propID) {
       const data = {
@@ -52,7 +52,7 @@ const ShowingsBuyer = (props) => {
       handleGetActiveSinglePropertyBookings(data);
     }
   }, [propID]);
-
+  
   // SET BOOKING
   useEffect(() => {
     if (activeSinglePropertyBooking.length > 0) {
@@ -80,7 +80,7 @@ const ShowingsBuyer = (props) => {
       setBookingSlot([]);
     }
   }, [activeSinglePropertyBooking]);
-
+  
   const extractDate = (date, getHours = false) => {
     if (date) {
       if (getHours) return date.split(' ').splice(1, 3).join(' ');
@@ -88,7 +88,7 @@ const ShowingsBuyer = (props) => {
     }
     return '';
   };
-
+  
   if (isSmallLoading.getBooking) {
     return (
       <div className="wrapLoader secondLevel h-perc-lg-100 min-h-fix-320">
@@ -96,7 +96,7 @@ const ShowingsBuyer = (props) => {
       </div>
     );
   }
-
+  
   return (
     <>
       <h3 className="mb-3 hide dis-b-lg">Showings</h3>
@@ -133,7 +133,7 @@ const ShowingsBuyer = (props) => {
                   <img src={showingsEmpty} alt="Showing Buyer" />
                   <h5 className="my-3">{formValue.allowVisits === false ? 'Right now there are no showings available' : 'Request your showing'}</h5>
                   {
-                    formValue.allowVisits !== false && (
+                    formValue.allowVisits && (
                       <BrixelButtonPrimary
                         rounded
                         label="Add dates"

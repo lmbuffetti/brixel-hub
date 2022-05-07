@@ -13,9 +13,9 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelDatePicker,
   BrixelIcon,
   BrixelModal,
+  BrixelDatePicker,
   BrixelSwitchButton,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -53,29 +53,29 @@ const AddShowingsBuyer = (props) => {
   const calendarRef = useRef(null);
   const datePicker = useRef(null);
   const hoursRef = useRef(null);
-
+  
   useEffect(() => {
     if (isSmallLoading.savedBooking === 'sentMessage' || isSmallLoading.sendMessage === 'sentMessage') {
       setCurrentStep('sentMessage');
     }
   }, [isSmallLoading]);
-
+  
   const removeEl = (id) => {
     const visit = scheduleVisitFree;
     scheduleVisitFree.splice(id, 1);
     setScheduleVisitFree(visit.length === 0 ? [] : [...scheduleVisitFree]);
     if (visit.length === 0) history.push({ state: { schedule: false } });
   };
-
+  
   const handleChange = (e) => {
     setAllDay(e);
     setHours({ min: 8, max: 20 });
   };
-
+  
   const handleChangeDate = (day) => {
     setDate(day);
   };
-
+  
   const saveDate = (e) => {
     setDatePickerModal(!datePickerModal);
     e.preventDefault();
@@ -89,6 +89,7 @@ const AddShowingsBuyer = (props) => {
       {
         start: allDay ? null : startHour,
         end: allDay ? null : endHour,
+        slot: DateTime.fromMillis(date).toFormat('yyyy-MM-dd', { locale:  userLang}),
         date,
         isAllDay: allDay,
         normDate: date,
@@ -96,7 +97,7 @@ const AddShowingsBuyer = (props) => {
     ]);
     setShowResizer(false);
   };
-
+  
   const buttonActions = () => {
     let btn = null;
     if (currentStep === 'schedule') {
@@ -130,7 +131,7 @@ const AddShowingsBuyer = (props) => {
     }
     return btn;
   };
-
+  
   return (
     <BrixelModal
       multiActions={buttonActions()}
@@ -194,7 +195,7 @@ const AddShowingsBuyer = (props) => {
                         />
                       </div>
                     </div>
-
+                  
                   ))
                 }
                 {
@@ -319,7 +320,7 @@ const AddShowingsBuyer = (props) => {
               className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg"
             >
               <p className="mb-2"><b>Here are 3 tips for a smooth process</b></p>
-
+              
               <ul>
                 <li>
                   <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700} />
