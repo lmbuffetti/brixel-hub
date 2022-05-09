@@ -287,6 +287,7 @@ const AddShowingsBuyer = (props) => {
       {
         start: allDay ? null : startHour,
         end: allDay ? null : endHour,
+        slot: DateTime.fromMillis(date).toFormat('yyyy-MM-dd', { locale:  userLang}),
         date,
         isAllDay: allDay,
         normDate: date,
@@ -374,7 +375,7 @@ const AddShowingsBuyer = (props) => {
                                         >
                                           <div className="dis-fl-row a-c">
                                             <span className="day">
-                                              {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')}, 
+                                              {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')},
                                             </span>
                                             <div className="time">
                                               {
@@ -549,7 +550,7 @@ const AddShowingsBuyer = (props) => {
                 </div>
               </div>
             )
-          }  
+          }
         </form>
       </div>
     </div>
