@@ -878,6 +878,12 @@ const checkCommon = (store) => (next) => (action) => {
                 [smallLoader]: 'sentMessage',
               },
             });
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                scheduleVisit: false,
+              },
+            });
           } else {
             store.dispatch({
               type: SPINNER_OFF,

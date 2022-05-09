@@ -69,6 +69,7 @@ export const QuestionsList = () => [
   },
   {
     title: 'Thank you for scheduling your visits',
+    className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
     history: 'success',
     toSave: true,
   },

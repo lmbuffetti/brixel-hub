@@ -549,7 +549,7 @@ const AddShowingsBuyer = (props) => {
                           label={buttonLabel()}
                           rightIcon="arrow-right-small"
                           onClick={(e) => (getClickFunc(e))}
-                          smallLoader={isSmallLoading.scheduleVisit}
+                          isLoading={isSmallLoading.scheduleVisit}
                           onShowError={() => setShowError(true)}
                         />
                       )
