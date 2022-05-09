@@ -116,6 +116,8 @@ function RightHeaderFlow(props) {
       } else {
         history.push(`/buyer/${propID}/closing/${dealID}`);
       }
+    } else if (history.location.pathname.toLowerCase().includes('schedulevisit')) {
+      history.push(`/buyer/${propID}/home`);
     } else {
       let url = localStorage.getItem('backUrlBis');
       if (url) {
