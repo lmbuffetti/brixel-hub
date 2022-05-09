@@ -77,7 +77,15 @@ const AddShowingsBuyer = (props) => {
     if (activeSingleProperty.id) {
       initForm(initialValues);
     }
-  }, [activeSingleProperty])
+  }, [activeSingleProperty]);
+  
+  useEffect(() => {
+    if (!isSmallLoading.scheduleVisit && (questions[currentIndex + 1] && questions[currentIndex + 1].history === 'success')) {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+      setQuest(questions[newIndex]);
+    }
+  }, [isSmallLoading]);
   
   useEffect(() => {
     if (propID && propID !== 'propertyLists' && propID !== activeSingleProperty.id) {
