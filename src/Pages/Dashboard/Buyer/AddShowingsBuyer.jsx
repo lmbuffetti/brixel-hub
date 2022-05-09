@@ -261,7 +261,7 @@ const AddShowingsBuyer = (props) => {
   
   // FUNCTION TO CLOSE
   const closeWindow = () => {
-    history.push(`/buyer/${propID}/property`);
+    history.push(`/buyer/${propID}/home`);
   };
 
   const removeEl = (id) => {
@@ -331,6 +331,7 @@ const AddShowingsBuyer = (props) => {
       if (questions[currentIndex + 1]) changeStep();
       else closeWindow();
     }
+    if (get(quest, 'history', '') === 'success') closeWindow();
   };
 
   return (
@@ -416,7 +417,6 @@ const AddShowingsBuyer = (props) => {
                                             />
                                           </div>
                                         </div>
-
                                       ))
                                     }
                                     {
@@ -513,6 +513,45 @@ const AddShowingsBuyer = (props) => {
                               disableDelay={quest.history !== 'createProfile'}
                             />
                           )
+                        }
+                        {
+                          get(quest, 'history', '') === 'success' &&
+                          <div className="dis-fl-col a-c">
+                            <span>We will contact you as soon as possible</span>
+                            {
+                              scheduleVisitFree.map((val, i) => (
+                                <div
+                                  className="date-schedule brdSmall dis-fl-row brdLight200 p-2 brdRadius bgWhite mt-2"
+                                  key={`vst_${i.toString()}`}
+                                >
+                                  <div className="dis-fl-row a-c">
+                                    <span className="day">
+                                      {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')},
+                                    </span>
+                                    <div className="time">
+                                      {
+                                        val.isAllDay ? (
+                                          <span>All day</span>
+                                        ) : (
+                                          <>
+                                            <span>{val.start}</span>
+                                            {
+                                              val.end && (
+                                                <span>
+                                                  &nbsp;-&nbsp;
+                                                  {val.end}
+                                                </span>
+                                              )
+                                            }
+                                          </>
+                                        )
+                                      }
+                                    </div>
+                                  </div>
+                                </div>
+                              ))
+                            }
+                          </div>
                         }
                       </div>
                     </div>
