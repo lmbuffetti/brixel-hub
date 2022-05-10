@@ -13,6 +13,7 @@ import { getFavoritesProperties } from '../../../actions/MarketActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { getUserPagesDeals, setUserTypes } from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
+import SidebarBuyer from './SidebarBuyer';
 
 const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
 
@@ -105,10 +106,12 @@ const Dashboard = (props) => {
       history.push({ pathname: `/buyer/${propID}/closing` });
     }
   }, [history.location.pathname]);
+  
+  const sectionClass = get(history, 'location.pathname', '/').split('/');
 
   return (
     <PartialErrorBoundering>
-      <div className="dashboardContainer" id="dashboard">
+      <div className={`dashboardContainer mt-0 mt-md-3 dis-f jc-b ${sectionClass[2]}`} id="dashboard">
         <div className="w-perc-100">
           <Suspense fallback="">
             <Routes>
@@ -123,6 +126,13 @@ const Dashboard = (props) => {
             </Routes>
           </Suspense>
         </div>
+        {
+          get(history, 'location.pathname', '').includes('home') && (
+            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+              <SidebarBuyer />
+            </div>
+          )
+        }
       </div>
     </PartialErrorBoundering>
   );

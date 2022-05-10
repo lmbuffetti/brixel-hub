@@ -82,7 +82,7 @@ export const MapsWithModalManual = (props) => {
   // REF
   // const inputZipSearch = useRef(null);
   const addressRef = useRef(null);
-
+  
   useEffect(() => {
     const checkPath = get(history, 'location.pathname', '').split('/');
     if (checkPath[checkPath.length - 1] === 'locationInput') {
@@ -91,7 +91,7 @@ export const MapsWithModalManual = (props) => {
       changeFieldValue('location.longitude', null);
     }
   }, [history.location.pathname]);
-
+  
   useEffect(() => {
     setTimeout(() => {
       const getCurStep = document.getElementById('searchInputWrap');
@@ -102,7 +102,7 @@ export const MapsWithModalManual = (props) => {
       }
     }, 100);
   }, []);
-
+  
   useEffect(() => {
     const { body } = document;
     if (body) {
@@ -110,7 +110,7 @@ export const MapsWithModalManual = (props) => {
       else body.classList.remove('overlayOpen');
     }
   }, [showManualInput]);
-
+  
   // FUNCTION TO EXTRACT DATA FROM SELECTED ADDRESS
   const geoCode = (adr, action) => {
     const defAdr = adr.split(',');
@@ -132,23 +132,23 @@ export const MapsWithModalManual = (props) => {
         formattedPlace.stateCode = get(formattedPlace, 'stateCode', null);
         formattedPlace.zip = get(formattedPlace, 'zip', null);
         formattedPlace.city = get(formattedPlace, 'city', null);
-
+        
         const location = result.results[0];
-
+        
         if (location.geometry) {
           formattedPlace.geometry = location.geometry;
           formattedPlace.latitude = location.geometry.location.lat;
           formattedPlace.longitude = location.geometry.location.lng;
         }
-
+        
         if (location.name) {
           formattedPlace.name = location.name;
         }
-
+        
         if (location.vicinity) {
           formattedPlace.vicinity = location.vicinity;
         }
-
+        
         if (location.formatted_address) {
           if (location.formatted_address.split(',').length === 2) {
             formattedPlace.address = `${location.formatted_address.split(',')[0]}, ${defAdr[1]}, ${location.formatted_address.split(',')[1]}`;
@@ -156,7 +156,7 @@ export const MapsWithModalManual = (props) => {
             formattedPlace.address = location.formatted_address;
           }
         }
-
+        
         if (location.address_components) {
           location.address_components.map((el) => {
             if (!el.types) {
@@ -192,7 +192,7 @@ export const MapsWithModalManual = (props) => {
           ...formattedPlace,
           searchAddress: formattedPlace.address,
         };
-
+        
         if (
           get(formValue, 'location.zip', null) && currentLocation.zip !== get(formValue, 'location.zip', null)
         ) {
@@ -226,7 +226,7 @@ export const MapsWithModalManual = (props) => {
         changeLocation(get(formValue, 'location.zip', ''), true, 'zip', true);
       });
   };
-
+  
   // FUNCTION FOR THE AUTOCOMPLETE - start only if value more then 3 characters - val.length
   const changeLocation = (val, hideSearch, type, showErrorLoc = false) => {
     if ((showSearchLocation && inputSearch.current) || hideSearch) {
@@ -274,7 +274,7 @@ export const MapsWithModalManual = (props) => {
       }
     }
   };
-
+  
   const saveCurrentLocation = () => {
     const address = get(formValue, 'location.name', '');
     const zipCode = get(formValue, 'location.zip', '');
@@ -282,7 +282,7 @@ export const MapsWithModalManual = (props) => {
     const streetNumber = get(formValue, 'location.streetNumber', '');
     const getRealCountry = country.find(((item) => item.value === get(formValue, 'location.countryCode', 'all')));
     const searchAddr = `${address} ${streetNumber}, ${zipCode} ${city} ${getRealCountry.full}`;
-
+    
     const manualSyncError = cloneDeep(get(syncErrors, 'location', {}));
     delete manualSyncError.latitude;
     let invalidField = false;
@@ -297,7 +297,7 @@ export const MapsWithModalManual = (props) => {
       setLoadingAddress(true);
     }
   };
-
+  
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE searchAddress
   useEffect(() => {
     const addressSearch = get(formValue, 'location.searchAddress', null);
@@ -308,6 +308,7 @@ export const MapsWithModalManual = (props) => {
       if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
       changeLocation(fullAddress, true, 'address');
     }
+    setSelectedAddress(false);
     if (!selectedAddress) {
       changeFieldValue(formName, 'location.name', addressSearch);
     }
@@ -315,7 +316,7 @@ export const MapsWithModalManual = (props) => {
       changeFieldValue(formName, 'location', { countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude });
     }
   }, [get(formValue, 'location.searchAddress', null)]);
-
+  
   // FUNCTION TO LOAD AUTOCOMPLETE FUNCTION ON CHANGE startSearch
   useEffect(() => {
     if (startSearch) {
@@ -337,7 +338,7 @@ export const MapsWithModalManual = (props) => {
       setStartSearch(false);
     }
   }, [startSearch]);
-
+  
   // FUNCTION TO HIGLIGHT THE SEARCH VALUE ON RESULTS ADDRESS
   const highlight = (container) => {
     const content = container.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -350,15 +351,15 @@ export const MapsWithModalManual = (props) => {
     });
     return `<span class="txtDark200 fweight-300">${container.substring(0, start)}</span><span class='highlight'>${container.substring(start, end + 1)}</span><span class="txtDark200 fweight-300">${container.substring(end + 1, content.length)}</span>`;
   };
-
+  
   // FUNCTION TO MANAGE THE CLICK OUTSIDE OF DROPDOWN ADDRESS LISTS
   // useOutsideAlerter(inputZipSearch, { action: 'function', func: () => setZiplist([]) });
   useOutsideAlerter(addressRef, { action: 'function', func: () => setLoclist([]) });
-
+  
   const classNameDef = !className && showMap ? 'w-perc-100 dis-fl-col' : className;
   const mapWindowSize = windowDimensions.width >= 1024 ? 'h-fix-232' : 'h-fix-240';
   const mapSize = !className && showMap ? mapWindowSize : 'h-perc-100';
-
+  
   // FUNCTION TO MANAGE KEY-CHANGE
   const keyUpInput = (e) => {
     let newId = selLocAuto || 0;
@@ -378,7 +379,7 @@ export const MapsWithModalManual = (props) => {
     }
     setIdLocaSel(newId);
   };
-
+  
   useEffect(() => {
     if (!get(formValue, 'location.latitude', 0) && get(history, 'location.pathname', '').includes('locationInputResume')) {
       if (get(formValue, 'locationsList', []).length > 0) {
@@ -388,35 +389,35 @@ export const MapsWithModalManual = (props) => {
       }
     }
   }, [get(history, 'location.pathname', null)]);
-
+  
   // ADD MESSAGE THAT THE ADDRESS IS NOT EDITABLE
   useEffect(() => {
     const messageEl = document.getElementsByClassName('message')[0];
-
+    
     const messageHtml = 'Address can not be changed. Please contact <span class="cur-poi txtPrimary400 supportlink" onclick="supportLink()"> Brixel Support </span> to request a change. ';
     if (showMessageToChangeAddress && messageEl) messageEl.innerHTML = messageHtml;
-
+    
     window.supportLink = () => {
       history.push({ state: { showSupport: true } });
     };
   });
-
+  
   useEffect(() => {
     const dropdownEl = addressRef.current;
     if (dropdownEl) dropdownEl.scrollIntoView({ behavior: 'smooth' });
   }, [locList.length]);
-
+  
   const closeModal = () => {
     setShowManualInput(false);
   };
-
+  
   const clearField = () => {
     inputSearch.current.value = '';
     changeFieldValue(formName, 'location', {
       countryCode: curCountry.value, latitude: curCountry.latitude, longitude: curCountry.longitude, searchAddress: '',
     });
   };
-
+  
   return (
     // Important! Always set the container height explicitly
     <>
@@ -482,7 +483,7 @@ export const MapsWithModalManual = (props) => {
                       component={BrixelInputText}
                     />
                   </div>
-
+                  
                   <div className="dis-f a-t jc-b">
                     <ReduxField
                       multiple={false}

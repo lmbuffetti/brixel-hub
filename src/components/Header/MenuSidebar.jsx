@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { BrixelIcon } from '@brixel/brixel-components';
 import { destroy } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
@@ -29,11 +29,11 @@ const MenuSidebar = (props) => {
   const levelUrl = history.location.pathname.split('/');
 
   // FUNCTION TO MAANGE THE TAB CLICK
-  const linkMenu = useCallback((val) => {
+  const linkMenu = (val) => {
     let url = val.replace(':propID', propID);
     url = url.replace(':dealID', activeSingleDeal.id);
     return url;
-  }, [userType, activeSingleDeal, propID]);
+  };
 
   useEffect(() => {
     if (history.location.pathname.includes('buyer')) {
@@ -53,47 +53,53 @@ const MenuSidebar = (props) => {
               <ul className="sidebarNav dis-fl-col">
                 {
                   navigationMenu.map((nav, i) => (
-                    <li
-                      key={`nav_${i.toString()}`}
-                      className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav fsize-400 fweight-600`}
-                      onClick={() => onClickLink()}
-                    >
-                      <Link
-                        to={linkMenu(nav.path)}
-                      >
-
-                        <BrixelIcon
-                          color="blue"
-                          saturationTxt={700}
-                          icon={nav.icon}
-                        />
-
-                        <span className="pl-1">{nav.title}</span>
-
-                      </Link>
+                    <>
                       {
-                        nav.submenu && (
-                          <ul className="submenu">
+                        !linkMenu(nav.path).includes('undefined') && (
+                          <li
+                            key={`nav_${i.toString()}`}
+                            className={`${history.location.pathname.includes(nav.name) ? 'active' : ''} mainNav fsize-400 fweight-600`}
+                            onClick={() => onClickLink()}
+                          >
+                            <Link
+                              to={linkMenu(nav.path)}
+                            >
+        
+                              <BrixelIcon
+                                color="blue"
+                                saturationTxt={700}
+                                icon={nav.icon}
+                              />
+        
+                              <span className="pl-1">{nav.title}</span>
+      
+                            </Link>
                             {
-                              nav.submenu.map((submenu, f) => (
-                                <li
-                                  key={`nav_${f.toString()}`}
-                                  className={`${history.location.pathname.includes(submenu.name) ? 'submenuActive' : ''} subNav`}
-                                >
-                                  <Link
-                                    to={linkMenu(submenu.path)}
-                                    className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtBlue700' : 'txtDark700'}`}
-                                  >
-                                    <span className="dot" />
-                                    <span className="pl-4">{submenu.title}</span>
-                                  </Link>
-                                </li>
-                              ))
+                              nav.submenu && (
+                                <ul className="submenu">
+                                  {
+                                    nav.submenu.map((submenu, f) => (
+                                      <li
+                                        key={`nav_${f.toString()}`}
+                                        className={`${history.location.pathname.includes(submenu.name) ? 'submenuActive' : ''} subNav`}
+                                      >
+                                        <Link
+                                          to={linkMenu(submenu.path)}
+                                          className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtBlue700' : 'txtDark700'}`}
+                                        >
+                                          <span className="dot" />
+                                          <span className="pl-4">{submenu.title}</span>
+                                        </Link>
+                                      </li>
+                                    ))
+                                  }
+                                </ul>
+                              )
                             }
-                          </ul>
+                          </li>
                         )
                       }
-                    </li>
+                    </>
                   ))
                 }
               </ul>
