@@ -156,7 +156,13 @@ const Portals = (props) => {
                   <li>Manage all your listings in one place</li>
                   <li>Publish all your listings with one click</li>
                   <li>Valid for 6 months</li>
-                  <li>Homegate, ImmoScout24, Comparis, Newhome and many more.</li>
+                  {
+                    get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
+                      <li>Idealista, Imovirtual, Casa Sapo, SuperCasa and many more.</li>
+                    ) : (
+                      <li>Homegate, ImmoScout24, Comparis, Newhome and many more.</li>
+                    )
+                  }
                 </ul>
               </div>
             )
