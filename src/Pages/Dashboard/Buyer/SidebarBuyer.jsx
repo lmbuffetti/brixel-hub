@@ -19,6 +19,7 @@ import { arrayMove } from '../../../utils/helpers';
 const SidebarBuyer = (props) => {
   // PROPS
   const {
+    activeDealHistory,
     activeSinglePropertyDeals,
     activeCompanyPackages,
     activeSinglePropertyHistory,
@@ -35,7 +36,7 @@ const SidebarBuyer = (props) => {
   useEffect(() => {
     if (loggedInUser.id && activeSinglePropertyDeals.id) {
       const payloadPageHistory = {
-        actionStubs: timelineActionStubs.BuyerSidebar,
+        actionStubs: timelineActionStubs.BuyerSidebarPage,
         parent: loggedInUser.id,
         child: propID,
         resultsPerPage: 50,
@@ -47,7 +48,7 @@ const SidebarBuyer = (props) => {
       };
       handleGetHistoryFeed(payloadPageHistory);
       const payloadUserHistory = {
-        actionStubs: timelineActionStubs.User,
+        actionStubs: timelineActionStubs.BuyerSidebarUser,
         parent: loggedInUser.id,
         resultsPerPage: 50,
         offset: 0,
@@ -58,7 +59,7 @@ const SidebarBuyer = (props) => {
       };
       handleGetHistoryFeed(payloadUserHistory);
       const payloadDealHistory = {
-        actionStubs: timelineActionStubs.DealOwnerPageDealsList,
+        actionStubs: timelineActionStubs.BuyerSidebarDeal,
         parent: activeSinglePropertyDeals.id,
         resultsPerPage: 50,
         offset: 0,
@@ -73,8 +74,10 @@ const SidebarBuyer = (props) => {
 
   useEffect(() => {
     let mergedFeed = activeSinglePropertyHistory.concat(activeSingleUserHistory);
+    mergedFeed = mergedFeed.concat(activeDealHistory);
     mergedFeed = orderBy(mergedFeed, ['createdAt'], ['desc']);
     let newId = 0;
+    mergedFeed = mergedFeed.filter((item) => item.actionStub !== 'update-deal' || (item.actionStub === 'update-deal' && item.meta.name === 'visit'))
     mergedFeed.forEach((item, i) => {
       if (get(item, 'pinned', null)) {
         arrayMove(mergedFeed, i, newId);
@@ -82,7 +85,7 @@ const SidebarBuyer = (props) => {
       }
     });
     setFullUpdates(mergedFeed);
-  }, [activeSinglePropertyHistory, activeSingleUserHistory]);
+  }, [activeSinglePropertyHistory, activeSingleUserHistory, activeDealHistory]);
 
   const convertFeedMessage = (stub, type, history) => {
     const data = feedMessage(loggedInUser, history, activeCompanyPackages);
@@ -106,7 +109,6 @@ const SidebarBuyer = (props) => {
     <div className="seller-sidebar w-perc-100 max-w-fix-368 p-3">
       <div className="updates dis-fl-col">
         <p className="fweight-600 txtDark700 mb-2">Feed</p>
-
         {
           fullUpdates.map((history, i) => (
             <div
@@ -155,6 +157,7 @@ SidebarBuyer.propTypes = {
   activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeDealHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -165,6 +168,7 @@ const mapStateToProps = (state) => ({
   activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory.data', []),
+  activeDealHistory: get(state, 'deal.activeSingleDealHistory.data', []),
   activeSingleUserHistory: get(state, 'history.activeSingleUserHistory.data', []),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
 });
