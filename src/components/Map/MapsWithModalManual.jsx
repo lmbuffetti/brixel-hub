@@ -308,6 +308,7 @@ export const MapsWithModalManual = (props) => {
       if (citySearch) fullAddress = `${citySearch} ${addressSearch}`;
       changeLocation(fullAddress, true, 'address');
     }
+    setSelectedAddress(false);
     if (!selectedAddress) {
       changeFieldValue(formName, 'location.name', addressSearch);
     }
