@@ -101,7 +101,7 @@ export const feedMessage = (user, history, packages) => {
       colorIconSat: 100,
       colorBgIconSat: 400,
       message: `${user.email} just signed up`,
-      icon: 'userNew',
+      icon: 'user-new',
     },
     'page-status-success': {
       className: 'brdGreen100',
@@ -119,7 +119,16 @@ export const feedMessage = (user, history, packages) => {
       colorIconSat: 100,
       colorBgIconSat: 400,
       message: 'New offer made to this page',
-      icon: 'tag',
+      icon: 'offers',
+    },
+    'deal-review-offer': {
+      className: 'brdGreen100',
+      colorIcon: 'Green',
+      colorBgIcon: 'Green',
+      colorIconSat: 100,
+      colorBgIconSat: 400,
+      message: 'Offer reviewed',
+      icon: 'offers',
     },
     'deal-feedback-visit-email': {
       className: 'brdGreen100',
@@ -128,7 +137,7 @@ export const feedMessage = (user, history, packages) => {
       colorIconSat: 100,
       colorBgIconSat: 400,
       message: 'Visit feedback email sent',
-      icon: 'tag',
+      icon: 'mail-open',
     },
     'deal-confirm-visit-email': {
       className: 'brdGreen100',
@@ -137,7 +146,7 @@ export const feedMessage = (user, history, packages) => {
       colorIconSat: 100,
       colorBgIconSat: 400,
       message: 'Confirm visit email sent',
-      icon: 'tag',
+      icon: 'mail-open',
     },
     'user-send-message': {
       className: 'brdGreen100',
@@ -146,7 +155,7 @@ export const feedMessage = (user, history, packages) => {
       colorIconSat: 100,
       colorBgIconSat: 400,
       message: 'User sent a message',
-      icon: 'tag',
+      icon: 'mail-open',
     },
     'update-deal': {
       className: 'brdGreen100',
@@ -155,7 +164,7 @@ export const feedMessage = (user, history, packages) => {
       colorIconSat: 100,
       colorBgIconSat: 400,
       message: 'Visit confirmed',
-      icon: 'tag',
+      icon: 'calendar',
     },
     note: {
       className: 'brdGreen100',

@@ -111,41 +111,47 @@ const SidebarBuyer = (props) => {
         <p className="fweight-600 txtDark700 mb-2">Feed</p>
         {
           fullUpdates.map((history, i) => (
-            <div
-              className={`update-item brdRadius brdSmall p-2 dis-f mb-2 ${convertFeedMessage(history.actionStub, 'className', history)}`}
-              key={`fllUpd_${i.toString()}`}
-            >
-              <BrixelIcon
-                background={convertFeedMessage(history.actionStub, 'colorBgIcon', history)}
-                saturation={convertFeedMessage(history.actionStub, 'colorIconSat', history)}
-                color={convertFeedMessage(history.actionStub, 'colorIcon', history)}
-                saturationTxt={convertFeedMessage(history.actionStub, 'colorBgIconSat', history)}
-                padding="p-small-12"
-                icon={convertFeedMessage(history.actionStub, 'icon', history)}
-                rounded
-                className="as-fs"
-                iconSize="large"
-              />
-              <div className="pl-2 desc">
-                <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history)) }} />
-                {
-                  !isNaN(get(history, 'createdAt', null)) && (
-                    <p className="fsize-200 pt-small-4 txtLight400">
+            <>
+              {
+                history.actionStub && (
+                  <div
+                    className={`update-item brdRadius brdSmall p-2 dis-f mb-2 ${convertFeedMessage(history.actionStub, 'className', history)}`}
+                    key={`fllUpd_${i.toString()}`}
+                  >
+                    <BrixelIcon
+                      background={convertFeedMessage(history.actionStub, 'colorBgIcon', history)}
+                      saturation={convertFeedMessage(history.actionStub, 'colorIconSat', history)}
+                      color={convertFeedMessage(history.actionStub, 'colorIcon', history)}
+                      saturationTxt={convertFeedMessage(history.actionStub, 'colorBgIconSat', history)}
+                      padding="p-small-12"
+                      icon={convertFeedMessage(history.actionStub, 'icon', history)}
+                      rounded
+                      className="as-fs"
+                      iconSize="large"
+                    />
+                    <div className="pl-2 desc">
+                      <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history)) }} />
                       {
-                        get(history, 'history[0].author.name', null) && (
-                          <>
-                            {get(history, 'history[0].author.name', '')} -
-                          </>
+                        get(history, 'createdAt', null) && !isNaN(+get(history, 'createdAt', null)) && (
+                          <p className="fsize-200 pt-small-4 txtLight400">
+                            {
+                              get(history, 'history[0].author.name', null) && (
+                                <>
+                                  {get(history, 'history[0].author.name', '')} -
+                                </>
+                              )
+                            }
+                            {DateTime.fromMillis(history.createdAt, {
+                              locale: loggedInUser.language,
+                            }).toFormat('d LLL yyyy, H:mm')}
+                          </p>
                         )
                       }
-                      {DateTime.fromMillis(history.createdAt, {
-                        locale: loggedInUser.language,
-                      }).toFormat('d LLL yyyy, H:mm')}
-                    </p>
-                  )
-                }
-              </div>
-            </div>
+                    </div>
+                  </div>
+                )
+              }
+            </>
           ))
         }
       </div>
