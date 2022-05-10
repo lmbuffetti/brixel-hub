@@ -276,7 +276,7 @@ const Page = (props) => {
         </div>
 
       </div>
-
+  
       {
         status.state === 'published' && (
           <div className="pos-r w-perc-100 bgWhite p-3 my-5 brdRadius shadow-1dp">
@@ -285,7 +285,7 @@ const Page = (props) => {
               className="body2 row-reverse jc-b mt-2"
               label="Allow people to request visits on Brixel Page"
               input={{
-                onChange: () => changeFieldValue('allowVisits', !formValue.allowVisits),
+                onChange: (val) => changeFieldValue('allowVisits', val),
                 name: 'allowVisits',
                 value: formValue.allowVisits,
               }}
