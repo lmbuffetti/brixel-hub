@@ -48,14 +48,14 @@ const DashboardHome = (props) => {
   const [progressState] = useState({step: 1});
   const [visitAccepted, setVisitAccepted] = useState(false);
   const propID = get(match, 'propID', null);
-  
+
   useEffect(() => {
     if (activeSinglePropertyBookingSlots.length > 0) {
       const acceptedVisit = activeSinglePropertyBookingSlots.find((visit) => visit.status === 'accepted');
       setVisitAccepted(acceptedVisit !== null ? acceptedVisit : null);
     }
   }, [activeSinglePropertyBookingSlots]);
-  
+
   useEffect(() => {
     if (propID) {
       const data = {
@@ -69,13 +69,13 @@ const DashboardHome = (props) => {
       if (loggedInUser.id) handleGetUserSearchProfiles(loggedInUser.id);
     }
   }, [propID, loggedInUser]);
-  
+
   const openSchedule = () => {
     if (!visitAccepted) {
       history.push(`/buyer/${propID}/scheduleVisit`);
     }
   }
-  
+
   const formatCalendar = (type) => {
     switch (type) {
       case 'location': {
@@ -102,7 +102,7 @@ const DashboardHome = (props) => {
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
-  
+
       <h4 className="mb-3 hide dis-b-lg fweight-600">
         <span>Welcome back</span>
         <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
@@ -112,11 +112,11 @@ const DashboardHome = (props) => {
         {
           progressState.step === 1 && (
             <>
-              
+
               <DashboardPropertyCard type="buy" />
-        
+
               <div className="dis-fl-col dis-fl-row-sm">
-  
+
                 <button
                   onClick={() => !visitAccepted ? openSchedule() : ''}
                   className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${activeSinglePropertyBookingSlots.length > 0 ? 'bgWhite' : 'bgRed100'}`}
@@ -142,7 +142,7 @@ const DashboardHome = (props) => {
                                   )
                                 }
                               </div>
-  
+
                               {
                                 activeSingleDeal.visit && (
                                   <AddToCalendar
@@ -164,10 +164,10 @@ const DashboardHome = (props) => {
                                   We will contact you as soon as possible for confirmation.
                                 </p>
                               </div>
-    
+
                               <BrixelButtonPrimary
                                 onClick={() => ''}
-                                className="mt-2 as-fs"
+                                className="mt-a"
                                 rounded
                                 label="show dates"
                               />
@@ -186,7 +186,7 @@ const DashboardHome = (props) => {
                               Book a visit with the current owner.
                             </p>
                           </div>
-      
+
                           <BrixelButtonPrimary
                             onClick={() => ''}
                             className="mt-2 as-fs"
@@ -198,7 +198,7 @@ const DashboardHome = (props) => {
                     )
                   }
                 </button>
-  
+
                 <button
                   onClick={() => history.push(`/buyer/${propID}/financing`)}
                   className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
@@ -216,7 +216,7 @@ const DashboardHome = (props) => {
                           Assess whether you can afford your desired property.
                         </p>
                       </div>
-        
+
                       <BrixelButtonSecondary
                         rounded
                         onClick={() => ''}
@@ -227,7 +227,7 @@ const DashboardHome = (props) => {
                   </div>
                 </button>
               </div>
-  
+
               <div
                 onClick={() => history.push(`/buy`)}
                 className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100"
@@ -244,7 +244,7 @@ const DashboardHome = (props) => {
                           Explore our properties.
                         </p>
                       </div>
-    
+
                       <BrixelButtonSecondary
                         bgTransparent
                         onClick={() => history.push(`/buy`)}
@@ -263,7 +263,7 @@ const DashboardHome = (props) => {
                           Create your search profile and find properties which are not yet on the market.
                         </p>
                       </div>
-    
+
                       <BrixelButtonSecondary
                         bgTransparent
                         onClick={() => history.push(`/buy`)}
@@ -275,7 +275,7 @@ const DashboardHome = (props) => {
                   )
                 }
               </div>
-              
+
             </>
           )
         }
