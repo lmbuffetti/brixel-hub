@@ -174,7 +174,6 @@ const App = (props) => {
     } else {
       handleSetUserTypes('buyer');
     }
-    handleSetActiveSingleDeal({});
   }, [activeSingleProperty.id]);
 
   const bodyModal = document.getElementById('bodyModalWrapper');
@@ -193,6 +192,7 @@ const App = (props) => {
   useEffect(() => {
     if (get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) {
       history.push('/sell');
+      handleSetActiveSingleDeal({});
     }
     if (get(history, 'location', null) && typeof ga === 'function') {
       ga('send', 'pageview', history.location.pathname);
@@ -209,9 +209,11 @@ const App = (props) => {
       const customID = get(activeSingleProperty, 'id', null);
       if (customID) handleSetActiveSingleProperty({ customID });
       else handleSetActiveSingleProperty({});
+      handleSetActiveSingleDeal({});
     }
     if (splittedURL[1] === 'buy') {
       handleSetActiveSingleProperty({ });
+      handleSetActiveSingleDeal({});
     }
     const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
     if (scrollFlow) scrollFlow.scrollTop = 0;
@@ -244,12 +246,14 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('trialRequest') ||
+      history.location.pathname.includes('scheduleVisit') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('signup')
     ) {
       if (
         history.location.pathname.includes('packageFlow') ||
         history.location.pathname.includes('visitFeedback') ||
+        history.location.pathname.includes('scheduleVisit') ||
         history.location.pathname.includes('signup')
       ) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -439,6 +443,7 @@ const App = (props) => {
                     !isFlow &&
                     !history.location.pathname.includes('sell') &&
                     (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
+                    (!history.location.pathname.includes('scheduleVisit')) &&
                     loggedInUser &&
                     windowDimensions.width > 1024 &&
                     (
@@ -448,7 +453,7 @@ const App = (props) => {
                   <div className="w-perc-100 innerWrap h-perc-100">
                     <Routes>
                       <Route path="/500" element={<ErrorBoundering />} />
-                      { /* SECTION: ONBOARDING */}
+                      { /* SECTION: ONBOARDING AND FLOWS */}
                       <Route path="/packageFlow/" element={<GetStarted />} />
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
@@ -456,6 +461,7 @@ const App = (props) => {
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
+                      <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
 
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" element={<Signup />} />
@@ -518,38 +524,42 @@ const App = (props) => {
                       }
                       <Route path="*" element={<Navigate to="/sell" />} />
                     </Routes>
-                    <div
-                      className="dis-fl-col a-b jc-fe supportBtn"
-                    >
-                      {
-                        showSupport && (
-                          <Support
-                            layout="floatable"
-                            expanded
-                            isFixed
-                            onClose={() => setShowSupport(false)}
-                          />
-                        )
-                      }
-                      <div
-                        className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
-                        onClick={() => setShowSupport(!showSupport)}
-                      >
-                        <div className="dis-f jc-b a-c">
+                    {
+                      !history.location.pathname.includes('scheduleVisit') && (
+                        <div
+                          className="dis-fl-col a-b jc-fe supportBtn"
+                        >
                           {
-                            teamAvatars.map((imgTeam, i) => (
-                              <img
-                                key={`avt_${i.toString()}`}
-                                src={`${baseByData.shortPath}${imgTeam.path}`}
-                                alt="Support Team"
-                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                            showSupport && (
+                              <Support
+                                layout="floatable"
+                                expanded
+                                isFixed
+                                onClose={() => setShowSupport(false)}
                               />
-                            ))
+                            )
                           }
+                          <div
+                            className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                            onClick={() => setShowSupport(!showSupport)}
+                          >
+                            <div className="dis-f jc-b a-c">
+                              {
+                                teamAvatars.map((imgTeam, i) => (
+                                  <img
+                                    key={`avt_${i.toString()}`}
+                                    src={`${baseByData.shortPath}${imgTeam.path}`}
+                                    alt="Support Team"
+                                    className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                                  />
+                                ))
+                              }
+                            </div>
+                            <span className="ml-2 txtDark700 fweight-500">Support</span>
+                          </div>
                         </div>
-                        <span className="ml-2 txtDark700 fweight-500">Support</span>
-                      </div>
-                    </div>
+                      )
+                    }
                   </div>
                 </div>
               </div>
@@ -560,7 +570,6 @@ const App = (props) => {
           { /* SECTION: ACHIVEMENT FLOW */ }
           <Routes>
             <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
-            <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
             <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />

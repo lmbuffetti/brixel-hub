@@ -66,6 +66,12 @@ export const sidebarNavigationSeller = [
 
 export const sidebarNavigationBuyer = [
   {
+    title: 'Home',
+    name: 'home',
+    icon: 'four-circles',
+    path: '/buyer/:propID/home',
+  },
+  {
     title: 'Property',
     name: 'property',
     icon: 'property-new',
@@ -81,24 +87,25 @@ export const sidebarNavigationBuyer = [
         name: 'page',
         path: '/buyer/:propID/property/page',
       },
-      {
-        title: 'Showings',
-        name: 'showings',
-        path: '/buyer/:propID/property/showings',
-      },
     ],
+  },
+  {
+    title: 'Financing',
+    name: 'financing',
+    icon: 'calculator',
+    path: '/buyer/:propID/financing',
+  },
+  {
+    title: 'Visit',
+    name: 'visit',
+    icon: 'calendar',
+    path: '/buyer/:propID/scheduleVisit',
   },
   {
     title: 'Docubox',
     name: 'docubox',
     icon: 'docs',
     path: '/buyer/:propID/docubox',
-  },
-  {
-    title: 'Financing',
-    name: 'financing',
-    icon: 'financing',
-    path: '/buyer/:propID/financing',
   },
   {
     title: 'Closing',

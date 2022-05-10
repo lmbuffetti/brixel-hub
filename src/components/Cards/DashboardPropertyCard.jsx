@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
+  BrixelButtonSecondary,
   BrixelIcon,
+  FormatValue,
   Helpers,
 } from '@brixel/brixel-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -44,7 +46,7 @@ const DashboardPropertyCard = (props) => {
               propertyType={get(formValue, 'properties.propertyType', undefined)}
             />
             {
-              type !== 'sold' && (
+              type !== 'sold' && type !== 'buy' && (
                 <Link
                   to={`/${activeSingleProperty.id}/property/photos`}
                   className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
@@ -62,7 +64,7 @@ const DashboardPropertyCard = (props) => {
 
           </div>
           {
-            type === 'sold' ? (
+            (type === 'sold' || type === 'buy') ? (
               <div className="w-perc-100">
                 <div className="fweight-600 txtBlue700 fsize-500 mb-2">
                   <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
@@ -70,63 +72,101 @@ const DashboardPropertyCard = (props) => {
                     {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
                   </span>
                 </div>
-                <div className="dis-f a-c">
-                  {
-                    get(activeSingleProperty, 'virtual', null) && (
-                      <div className="bgBlue300 tourLink">
-                        <button
-                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
-                          className="dis-f a-c" rel="noreferrer"
-                        >
-                          <BrixelIcon
-                            color="Blue"
-                            rounded
-                            saturationTxt={700}
-                            background="Blue"
-                            saturation={100}
-                            icon="tour"
-                            padding="p-small-8"
-                          />
-                          <span className="pl-1 pr-2 txtBlue700 fsize-300">
-                            3D-Tour
-                          </span>
-                        </button>
+                {
+                  type === 'buy' ? (
+                    <div className="dis-f a-c">
+                      <div className="brdSmallRight brdAltGrey400 pr-2">
+                        <h6 className="ff-mono txtAltGrey400">
+                          Living area
+                        </h6>
+                        <p className="fsize-500">
+                          {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
+                        </p>
                       </div>
-                    )
-                  }
-                  {
-                    activeSingleProperty.photos && activeSingleProperty.photos.length > 0 && (
-                      <div className="ml-1">
-                        <BrixelIcon
-                          color="red"
-                          rounded
-                          saturationTxt={700}
-                          background="red"
-                          saturation={100}
-                          icon="photos"
-                          padding="p-small-10"
-                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/photos`)}
-                        />
+                      <div className="ml-2 brdSmallRight brdAltGrey400 pr-2">
+                        <h6 className="ff-mono txtAltGrey400">
+                          Rooms
+                        </h6>
+                        <p className="fsize-500">
+                          {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))
+                          }
+                        </p>
                       </div>
-                    )
-                  }
-                  {
-                    activeSingleProperty.floorPlans && activeSingleProperty.floorPlans.length > 0 && (
-                      <div className="ml-1">
-                        <BrixelIcon
-                          color="green"
-                          rounded
-                          saturationTxt={700}
-                          background="green"
-                          saturation={100}
-                          icon="plans"
-                          padding="p-small-10"
-                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/floorPlans`)}
-                        />
+                      <div className="ml-2 brdSmallRight brdAltGrey400 pr-2">
+                        <h6 className="ff-mono txtAltGrey400">
+                          Year built
+                        </h6>
+                        <p className="fsize-500">
+                          {get(activeSingleProperty, 'properties.building.built', 0)}
+                        </p>
                       </div>
-                    )
-                  }
-                </div>
+                      <BrixelButtonSecondary
+                        className="ml-2"
+                        rounded
+                        label="View"
+                        onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
+                      />
+                    </div>
+                  ) : (
+                    <div className="dis-f a-c">
+                      {
+                        get(activeSingleProperty, 'virtual', null) && (
+                          <div className="bgBlue300 tourLink">
+                            <button
+                              onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
+                              className="dis-f a-c" rel="noreferrer"
+                            >
+                              <BrixelIcon
+                                color="Blue"
+                                rounded
+                                saturationTxt={700}
+                                background="Blue"
+                                saturation={100}
+                                icon="tour"
+                                padding="p-small-8"
+                              />
+                              <span className="pl-1 pr-2 txtBlue700 fsize-300">
+                                3D-Tour
+                              </span>
+                            </button>
+                          </div>
+                        )
+                      }
+                      {
+                        activeSingleProperty.photos && activeSingleProperty.photos.length > 0 && (
+                          <div className="ml-1">
+                            <BrixelIcon
+                              color="red"
+                              rounded
+                              saturationTxt={700}
+                              background="red"
+                              saturation={100}
+                              icon="photos"
+                              padding="p-small-10"
+                              onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/photos`)}
+                            />
+                          </div>
+                        )
+                      }
+                      {
+                        activeSingleProperty.floorPlans && activeSingleProperty.floorPlans.length > 0 && (
+                          <div className="ml-1">
+                            <BrixelIcon
+                              color="green"
+                              rounded
+                              saturationTxt={700}
+                              background="green"
+                              saturation={100}
+                              icon="plans"
+                              padding="p-small-10"
+                              onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/floorPlans`)}
+                            />
+                          </div>
+                        )
+                      }
+                    </div>
+                  )
+                }
               </div>
             ) : (
               <>

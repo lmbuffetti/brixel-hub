@@ -104,7 +104,7 @@ const ContactBuyer = (props) => {
               <BrixelButtonPrimary
                 rounded
                 label="Schedule visit"
-                onClick={() => history.push(`/buyer/${propID}/property/showings/add`)}
+                onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
               />
               <BrixelButtonSecondary
                 className="ml-2"

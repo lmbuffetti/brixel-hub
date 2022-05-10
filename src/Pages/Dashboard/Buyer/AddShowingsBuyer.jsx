@@ -1,72 +1,279 @@
 /* eslint-disable array-callback-return */
+import { diff } from 'deep-object-diff';
+import has from 'lodash/has';
 /* eslint-disable dot-notation */
 /* eslint-disable react-hooks/exhaustive-deps */
+import InputRange from 'react-input-range';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import InputRange from 'react-input-range';
-import subDays from 'date-fns/subDays';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
+import subDays from 'date-fns/subDays';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
-  BrixelIcon,
-  BrixelModal,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
+import BrixelSwitchButton from '@brixel/brixel-components/dist/components/Form/BrixelSwitchButton';
 import {
+  initializeForm,
+  MultiFileldsReduxForm,
   BrixelDatePicker,
-  BrixelSwitchButton,
 } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { DateTime } from 'luxon';
-import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import { createPropertyVisitBooking, getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
-import ContactForm from '../../../components/ContactForm';
+import { QuestionsList } from '../../../resources/AddShowings';
 import 'react-input-range/lib/css/index.css';
-
-// COMPONENTS
+import { checkBrowser } from '../../../utils/helpers';
+import scheduleSvg from '../../../images/dashboard/scehdule.svg';
 
 const AddShowingsBuyer = (props) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
   };
+  const match = useParams();
   // PROPS
   const {
     activeSingleProperty,
-    lang,
+    errorValue,
+    formValue,
+    handleCreatePropertyVisitBooking,
+    handleGetActiveSingleProperty,
+    initForm,
+    initialValues,
     isSmallLoading,
+    lang,
+    loggedInUser,
     userLang,
   } = props;
-  const [currentStep, setCurrentStep] = useState('schedule');
+  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [showError, setShowError] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [action, setAction] = useState(null);
-  const [allDay, setAllDay] = useState(false);
-  const [date, setDate] = useState(null);
-  const [datePickerModal, setDatePickerModal] = useState(false);
-  const [hours, setHours] = useState({ min: 8, max: 20 });
-  const [scheduleVisitFree, setScheduleVisitFree] = useState([]);
-  const [showDate, setShowDate] = useState(false);
+  const [chooseDatesOpen, setChooseDatesOpen] = useState(false);
   const [showResizer, setShowResizer] = useState(false);
+  const [date, setDate] = useState(null);
+  const [hours, setHours] = useState({ min: 8, max: 20 });
+  const [allDay, setAllDay] = useState(false);
+  const [scheduleVisitFree, setScheduleVisitFree] = useState([]);
+
   // REFS
+  const singleStepRef = useRef(null);
+  const multiStepSlidesRef = useRef(null);
   const calendarRef = useRef(null);
   const datePicker = useRef(null);
   const hoursRef = useRef(null);
 
+  // GET URL PARAMS
+  const propID = get(match, 'propID', null);
+  
   useEffect(() => {
-    if (isSmallLoading.savedBooking === 'sentMessage' || isSmallLoading.sendMessage === 'sentMessage') {
-      setCurrentStep('sentMessage');
+    if (activeSingleProperty.id) {
+      initForm(initialValues);
+    }
+  }, [activeSingleProperty]);
+  
+  useEffect(() => {
+    if (!isSmallLoading.scheduleVisit && (questions[currentIndex + 1] && questions[currentIndex + 1].history === 'success')) {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+      setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
+  
+  useEffect(() => {
+    if (propID && propID !== 'propertyLists' && propID !== activeSingleProperty.id) {
+      const data = {
+        fullVersion: false,
+        smallLoader: 'property',
+        id: propID,
+      };
+      handleGetActiveSingleProperty(data);
+    }
+  }, [propID]);
+  
+  // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
+  const checkValidateField = (act) => {
+    let isValid = true;
+    let isNotEmpty = false;
+    if (get(quest, 'inputs', null)) {
+      quest.inputs.forEach((input) => {
+        let err = get(errorValue, input.name, null);
+        const noEmpty = get(formValue, input.name, 'ayc');
+        if (noEmpty !== 'ayc') isNotEmpty = true;
+        if (input.condition) {
+          input.condition.forEach((item) => {
+            if (item.value && get(formValue, item.name, null) === item.value) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+          });
+        } else if (input.validation) {
+          // const getRegField = get(registeredFields
+          let field;
+          if (input.name === 'profile') {
+            const page = get(formValue, 'signupScreen', null);
+            field = ['register.email', 'register.firstName', 'register.lastName', 'register.password', 'register.privacy'];
+            if (page === 'login') {
+              field = ['login.email', 'login.password'];
+            }
+            field.forEach((item) => {
+              err = get(errorValue, item, true);
+              if (err !== true && err !== false && isValid) isValid = false;
+            });
+          }
+          if (input.name === 'register.ownerType') {
+            if (!has(formValue, 'register.ownerType') || get(formValue, 'register.ownerType', '') === null) isValid = false;
+          }
+          if (input.name === 'register.whenToSell') {
+            if (!has(formValue, 'register.whenToSell') || get(formValue, 'register.whenToSell', '') === null) isValid = false;
+          } else if (err !== true && err !== false && err !== null && isValid) isValid = false;
+        }
+      });
+    }
+    if (act === 'value') return isValid && isNotEmpty;
+    return isValid;
+  };
+  
+  const singleStepEl = singleStepRef.current;
+  const multiStepSlidesEl = multiStepSlidesRef.current;
+  
+  const saveData = () => {
+    const data = {
+      page: activeSingleProperty.id,
+      slots: scheduleVisitFree,
+      buyer: {
+        name: formValue.name,
+        phone: formValue.phone,
+        email: formValue.email,
+        language: lang,
+      },
+      getByUser: loggedInUser.id,
+      message: formValue.message,
+      smallLoader: 'scheduleVisit',
+    };
+    handleCreatePropertyVisitBooking(data);
+    return null;
+  };
+  
+  // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
+  const checkCondition = (id, act) => {
+    let newIndex = id;
+    const newQuestions = QuestionsList();
+    if (get(newQuestions, `[${newIndex}].conditions`, null)) {
+      let checkCond = true;
+      newQuestions[newIndex].conditions.map((cond) => {
+        const val = get(formValue, cond.name, null);
+        if (has(cond, 'value') && val !== cond.value && checkCond) {
+          if (act === 'back') newIndex -= 1;
+          else newIndex += 1;
+          checkCond = false;
+        }
+        return null;
+      });
+    }
+    return newIndex;
+  };
+  
+  // FUNCTION TO GO TO NEXT STEP
+  const changeStep = (act, e, step = 1, skipValidation) => {
+    if (e) e.preventDefault();
+    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    let newIndex = currentIndex;
+    setShowError(false);
+    setAction(act);
+    if (act === 'back') {
+      newIndex -= step;
+    } else {
+      if (!checkValidateField() && !skipValidation) {
+        setShowError(true);
+        return false;
+      }
+      newIndex += step;
+    }
+    if (newIndex > -1) {
+      let defId = checkCondition(newIndex, act);
+      if (defId !== newIndex) defId = checkCondition(defId, act);
+      if (newQuestions[defId]) {
+        // setPosition(newIndex);
+        if (newQuestions[defId].toSave) {
+          saveData(get(newQuestions[defId], 'action', null));
+        } else {
+          let newQuest = {
+            ...newQuestions[defId],
+          };
+          if (newQuestions[defId].effect === 'slideUp') {
+            newQuest = {
+              ...newQuestions[defId - 1],
+            };
+          }
+          if (act === 'back' && newQuestions[defId + 1].effect === 'slideUp') {
+            setQuest(newQuest);
+            setCurrentIndex(defId);
+          } else {
+            setQuest(newQuest);
+            setCurrentIndex(defId);
+          }
+          if (checkBrowser() > 0) {
+            if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
+          } else {
+            if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+      }
+    }
+    return null;
+  };
+  
+  // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
+  useEffect(() => {
+    if (formValue) {
+      const newQuest = [];
+      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((qst) => {
+        if (qst.condition) {
+          let isValid = true;
+          qst.condition.map((item) => {
+            if (get(formValue, item.name, null) !== item.value) {
+              isValid = false;
+            }
+            return null;
+          });
+          if (isValid) newQuest.push(qst);
+        } else {
+          newQuest.push(qst);
+        }
+        return null;
+      });
+      const checkDiff = diff(quest, newQuest);
+      if (Object.keys(checkDiff).length > 0) setQuestions(newQuest);
+    }
+  }, [formValue]);
+  
+  // FUNCTION TO CLOSE
+  const closeWindow = () => {
+    history.push(`/buyer/${propID}/home`);
+  };
 
   const removeEl = (id) => {
     const visit = scheduleVisitFree;
     scheduleVisitFree.splice(id, 1);
     setScheduleVisitFree(visit.length === 0 ? [] : [...scheduleVisitFree]);
-    if (visit.length === 0) history.push({ state: { schedule: false } });
+    if (visit.length === 0) setDate(null);
+    setShowResizer(false);
+  };
+
+  const handleChangeDate = (day) => {
+    setDate(day);
   };
 
   const handleChange = (e) => {
@@ -74,12 +281,9 @@ const AddShowingsBuyer = (props) => {
     setHours({ min: 8, max: 20 });
   };
 
-  const handleChangeDate = (day) => {
-    setDate(day);
-  };
-
   const saveDate = (e) => {
-    setDatePickerModal(!datePickerModal);
+    // SET STUFF HERE
+    // setDatePickerModal(!datePickerModal);
     e.preventDefault();
     e.stopPropagation();
     const startFormHour = Math.trunc(hours.min) < 10 ? `0${Math.trunc(hours.min)}` : Math.trunc(hours.min);
@@ -98,130 +302,155 @@ const AddShowingsBuyer = (props) => {
       },
     ]);
     setShowResizer(false);
+    setChooseDatesOpen(false);
+  };
+  
+  // DYNAMIC LABEL NEXT BUTTON
+  const buttonLabel = () => {
+    let label;
+    if (date && chooseDatesOpen && !showResizer) label = 'Choose time';
+    else if (date && showResizer) label = 'Save'
+    else if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Continue';
+    else if (get(quest, 'history', '') === 'contactInfo') label = 'Send';
+    else label = 'Back to Hub';
+    return label;
   };
 
-  const buttonActions = () => {
-    let btn = null;
-    if (currentStep === 'schedule') {
-      btn = [
-        {
-          name: 'Continue',
-          disabled: scheduleVisitFree.length === 0,
-          func: () => setCurrentStep('message'),
-          btnType: 'Primary',
-          className: 'mr-1',
-          isLoading: isSmallLoading.sendMessage === true,
-          bkg: 'primary',
-          sat: 400,
-          round: true,
-        },
-      ];
+  const getClickFunc = (e) => {
+    if (get(quest, 'history', '') === 'visitDates') {
+      if (date && chooseDatesOpen && !showResizer) {
+        setChooseDatesOpen(false);
+        setShowResizer(true);
+      }
+      else if (date && !chooseDatesOpen && showResizer) {
+        saveDate(e);
+      }
+      else if (get(questions, `[${currentIndex + 2}].toSave`, null)) changeStep();
     }
-    if (currentStep === 'message') {
-      btn = [
-        {
-          name: 'Send',
-          func: () => setAction('send'),
-          btnType: 'Primary',
-          className: 'mr-1',
-          bkg: 'primary',
-          isLoading: action === 'isLoading',
-          sat: 400,
-          round: true,
-        },
-      ];
+    if (get(quest, 'history', '') === 'contactInfo') {
+      if (questions[currentIndex + 1]) changeStep();
+      else closeWindow();
     }
-    return btn;
+    if (get(quest, 'history', '') === 'success') closeWindow();
   };
 
   return (
-    <BrixelModal
-      multiActions={buttonActions()}
-      onClose={() => history.push(`/buyer/${activeSingleProperty.id}/property/showings/`)}
-      id="contact-foreground"
-      layout="large"
-    >
-      {
-        currentStep === 'schedule' && (
-          <div className="dis-fl-col test">
-            <section className="titleSection">
-              <h4 className="mb-2 txtDark700">Schedule a visit</h4>
-              <h5 className="heading6 txtDark700">Suggest up to 3 suitable dates to visit the property</h5>
-              <div className="min-h-fix-320">
+    <div id="bodyModalWrapper" className={`withHeader getStarted scheduleVisit ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+      <div
+        className={`bodyModal max-w-fix-600 pt-10 container ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
+      >
+        <div className="ov-h ta-c">
+          <img className="w-perc-100 max-w-fix-120" src={scheduleSvg} alt="text-1" />
+        </div>
+        <form
+          id="multiStepForm"
+          autoComplete="off"
+          className="interactive dis-fl-col jc-b"
+          onSubmit={(e) => changeStep(null, e)}
+        >
+          <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div ref={singleStepRef} className="singleStep buyerShowings jc-c">
+              <div className="subcontainer m-a">
                 {
-                  scheduleVisitFree.map((val, i) => (
-                    <div
-                      className="date-schedule brdSmall brdLight200 p-2 brdRadius bgWhite mt-2"
-                      key={`vst_${i.toString()}`}
-                    >
-                      <div>
-                        <div className="day mb-1">
-                          <BrixelIcon
-                            icon="calendar"
-                            className="mr-1"
-                          />
-                          {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('cccc, dd LLLL yyyy')}
-                        </div>
-                        <div className="time">
-                          <BrixelIcon
-                            icon="clock"
-                            className="mr-1"
-                          />
-                          {
-                            val.isAllDay ? (
-                              <span>All day</span>
-                            ) : (
-                              <>
-                                <span>{val.start}</span>
-                                {
-                                  val.end && (
-                                    <span>
-                                      &nbsp;-&nbsp;
-                                      {val.end}
-                                    </span>
-                                  )
-                                }
-                              </>
-                            )
-                          }
-                        </div>
-                      </div>
-                      <div
-                        className="remove cur-poi a-c"
-                        onClick={() => removeEl(i)}
-                      >
-                        <BrixelButtonIcon
-                          icon="bin"
-                          theme="red"
-                          ghost
-                        />
-                      </div>
-                    </div>
-
-                  ))
-                }
-                {
-                  scheduleVisitFree.length < 3 && (
-                    <>
-                      <div className={`dis-f a-c jc-c ${scheduleVisitFree.length > 0 ? 'mt-2' : ''}`}>
-                        <BrixelButtonSecondary
-                          bgTransparent
-                          className="w-perc-100 max-w-fix-240 mt-3"
-                          background="primary"
-                          saturation={400}
-                          label="Choose new date"
-                          rounded
-                          leftIcon="calendar"
-                          onClick={() => {
-                            setShowDate(!showDate);
-                            setDatePickerModal(!datePickerModal);
-                          }}
-                        />
-                      </div>
-                      <div id="chooseDate">
-                        <div id="wrapDatePicker">
-                          {
-                            showDate && (
+                  get(quest, 'inputs', null) && (
+                    <div id={`step-${currentIndex}`} className="dis-fl-col a-c flex-wrap">
+                      {
+                        quest.titleGreen && (
+                          <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                        )
+                      }
+                      {
+                        quest.title && (
+                          <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                        )
+                      }
+                      {
+                        quest.subtitle && (
+                          <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                      }
+                      <div className="formWrapper bgWhite brdRadius w-perc-100 shadow-1dp p-6">
+                        {
+                          get(quest, 'history', '') === 'visitDates' && !chooseDatesOpen && !showResizer && (
+                            <div className="dis-fl-col a-c">
+                              <span className="fsize-400 fweight-400 mb-5">Suggest up to 3 suitable dates to visit the property</span>
+                              {
+                                (scheduleVisitFree.length > 0) ? (
+                                  <div className="dis-fl-col a-c jc-b">
+                                    {
+                                      scheduleVisitFree.map((val, i) => (
+                                        <div
+                                          className="date-schedule brdSmall dis-fl-row brdLight200 p-2 brdRadius bgWhite mt-2"
+                                          key={`vst_${i.toString()}`}
+                                        >
+                                          <div className="dis-fl-row a-c">
+                                            <span className="day">
+                                              {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')},
+                                            </span>
+                                            <div className="time">
+                                              {
+                                                val.isAllDay ? (
+                                                  <span>All day</span>
+                                                ) : (
+                                                  <>
+                                                    <span>{val.start}</span>
+                                                    {
+                                                      val.end && (
+                                                        <span>
+                                                          &nbsp;-&nbsp;
+                                                          {val.end}
+                                                        </span>
+                                                      )
+                                                    }
+                                                  </>
+                                                )
+                                              }
+                                            </div>
+                                          </div>
+                                          <div
+                                            className="remove cur-poi a-c"
+                                            onClick={() => removeEl(i)}
+                                          >
+                                            <BrixelButtonIcon
+                                              icon="bin"
+                                              theme="red"
+                                              ghost
+                                            />
+                                          </div>
+                                        </div>
+                                      ))
+                                    }
+                                    {
+                                      (scheduleVisitFree.length > 0 && scheduleVisitFree.length < 3) && (
+                                        <BrixelButtonText
+                                          saturation={400}
+                                          color="green"
+                                          label="Choose another date"
+                                          rightIcon="calendar"
+                                          onClick={() => {
+                                            setShowResizer(false);
+                                            setChooseDatesOpen(true);
+                                          }}
+                                        />
+                                      )
+                                    }
+                                  </div>
+                                ) : (
+                                  <BrixelButtonPrimary
+                                    className="mx-a"
+                                    rounded
+                                    label="Choose new date"
+                                    rightIcon="calendar"
+                                    onClick={() => setChooseDatesOpen(true)}
+                                  />
+                                )
+                              }
+                            </div>
+                          )
+                        }
+                        {
+                          chooseDatesOpen && (
+                            <div className="dis-fl-col a-c jc-b">
+                              <span className="fsize-400 fweight-400 mb-3">Choose your date</span>
                               <BrixelDatePicker
                                 hideInput
                                 ref1={datePicker}
@@ -231,138 +460,161 @@ const AddShowingsBuyer = (props) => {
                                 onChange={(day) => handleChangeDate(day)}
                                 minDate={subDays(new Date(), 0)}
                                 lang={lang.value || lang}
-                                hasButtonChoice
                                 onClick={() => {
-                                  setShowDate(false);
-                                  setShowResizer(true);
                                 }}
                               />
-                            )
-                          }
-                        </div>
-                        <div>
-                          {
-                            showResizer && (
-                              <div className="overlay">
-                                <div id="rzSlider" className="modalWindow" ref={hoursRef}>
-                                  <h5>Choose the time </h5>
-                                  <p
-                                    className="mt-4 mb-2 mb-lg-0 mt-lg-0x"
-                                  >
-                                    {hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
-                                  </p>
-                                  <InputRange
-                                    maxValue={20}
-                                    minValue={8}
-                                    value={hours}
-                                    step={0.5}
-                                    formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
-                                    onChange={(value) => setHours(value)}
-                                    disabled={allDay}
+                            </div>
+                          )
+                        }
+                        {
+                          showResizer && (
+                            <div>
+                              <div id="rzSlider" className="modalWindow" ref={hoursRef}>
+                                <h6>Choose your time </h6>
+                                <p
+                                  className="mt-4 mb-2 mb-lg-0 mt-lg-0x"
+                                >
+                                  {hours.min % 1 !== 0 ? `${Math.trunc(hours.min)}:30` : `${hours.min}:00`} - {hours.max % 1 !== 0 ? `${Math.trunc(hours.max)}:30` : `${hours.max}:00`}
+                                </p>
+                                <InputRange
+                                  maxValue={20}
+                                  minValue={8}
+                                  value={hours}
+                                  step={0.5}
+                                  formatLabel={(value) => `${value % 1 !== 0 ? `${Math.trunc(value)}:30` : `${value}:00`}`}
+                                  onChange={(value) => setHours(value)}
+                                  disabled={allDay}
+                                />
+                                <div className="dis-f a-c mt-4 mb-lg-0">
+                                  <BrixelSwitchButton
+                                    label="I'm available all day"
+                                    input={{
+                                      onChange: (e) => handleChange(e),
+                                    }}
                                   />
-                                  <div className="dis-f a-c mb-1 mb-lg-0">
-                                    <BrixelSwitchButton
-                                      label="All day"
-                                      input={{
-                                        onChange: (e) => handleChange(e),
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="dis-f jc-c">
-                                    <BrixelButtonPrimary
-                                      onClick={(e) => saveDate(e)}
-                                      rounded
-                                      label="Save"
-                                      className="mt-4"
-                                    />
-                                  </div>
                                 </div>
                               </div>
-                            )
-                          }
-                        </div>
+                            </div>
+                          )
+                        }
+                        {
+                          get(quest, 'history', '') === 'contactInfo' && !chooseDatesOpen && (
+                            <MultiFileldsReduxForm
+                              form="Showings"
+                              className="w-perc-100"
+                              disableNextBtn={false}
+                              formValue={formValue}
+                              inputs={quest.inputs}
+                              onClick={() => changeStep()}
+                              onCloseGoBack={() => changeStep('back')}
+                              onSubmit={() => changeStep()}
+                              showSendButton={quest.showSendButton}
+                              showErrors={showError}
+                              disableDelay={quest.history !== 'createProfile'}
+                            />
+                          )
+                        }
+                        {
+                          get(quest, 'history', '') === 'success' &&
+                          <div className="dis-fl-col a-c">
+                            <span>We will contact you as soon as possible</span>
+                            {
+                              scheduleVisitFree.map((val, i) => (
+                                <div
+                                  className="date-schedule brdSmall dis-fl-row brdLight200 p-2 brdRadius bgWhite mt-2"
+                                  key={`vst_${i.toString()}`}
+                                >
+                                  <div className="dis-fl-row a-c">
+                                    <span className="day">
+                                      {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')},
+                                    </span>
+                                    <div className="time">
+                                      {
+                                        val.isAllDay ? (
+                                          <span>All day</span>
+                                        ) : (
+                                          <>
+                                            <span>{val.start}</span>
+                                            {
+                                              val.end && (
+                                                <span>
+                                                  &nbsp;-&nbsp;
+                                                  {val.end}
+                                                </span>
+                                              )
+                                            }
+                                          </>
+                                        )
+                                      }
+                                    </div>
+                                  </div>
+                                </div>
+                              ))
+                            }
+                          </div>
+                        }
                       </div>
-                    </>
+                    </div>
                   )
                 }
               </div>
-            </section>
+            </div>
           </div>
-        )
-      }
-      {
-        currentStep === 'message' && (
-          <div className="dis-fl-col test">
-            <section className="titleSection">
-              <h4 className="mb-2 txtDark700">About you</h4>
-              <h5 className="heading6 txtDark700">How can we reach you?</h5>
-              <div className="min-h-fix-320">
-                <ContactForm
-                  action={action}
-                  resetAction={() => setAction(null)}
-                  onChangeAction={(val) => setAction(val)}
-                  scheduleVisit={scheduleVisitFree}
-                />
-              </div>
-            </section>
-          </div>
-        )
-      }
-      {
-        currentStep === 'sentMessage' && (
-          <div id="messageSent" className="dis-fl-col jc-b h-perc-100 mb-2-neg">
-            <section className="titleSection">
-              <h6 className="mb-1 txtGreen400 dis-f a-bl">
-                YOUR MESSAGE WAS SENT
-              </h6>
-              <h4 className="mb-2 txtDark700">Thank you</h4>
-              <h5 className="heading6 txtDark700">We will contact you as soon as possible.</h5>
-            </section>
-            <section
-              className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg"
-            >
-              <p className="mb-2"><b>Here are 3 tips for a smooth process</b></p>
-
-              <ul>
-                <li>
-                  <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700} />
-                  <div>
-                    <span>Make sure you visited the</span>&nbsp;
-                    <span
-                      className="txtPrimary400 cur-poi"
-                      onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}/explore/tour`, '_blank')}
-                    >
-                      <span>3D Tour</span>
-                    </span>
+          {
+            date && (
+              <div
+                className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+              >
+                <div className="pos-r">
+                  <div className="w-perc-100 a-c dis-fl-row jc-c flex-wrap">
+                    {
+                      showResizer && (
+                        <BrixelButtonIcon
+                          className="backBtn ml-0"
+                          icon="arrow-left-small"
+                          onClick={() => changeStep('back')}
+                          theme="light"
+                          secondary
+                        />
+                      )
+                    }
+                    {
+                      (get(quest, 'inputs', []).length > 1 || action === 'back' || date || scheduleVisitFree.length > 0) && (
+                        <BrixelButtonPrimary
+                          className={`noWrap ${get(quest, 'history', null)} as-c`}
+                          disabled={!checkValidateField()}
+                          rounded
+                          theme="green"
+                          label={buttonLabel()}
+                          rightIcon="arrow-right-small"
+                          onClick={(e) => (getClickFunc(e))}
+                          isLoading={isSmallLoading.scheduleVisit}
+                          onShowError={() => setShowError(true)}
+                        />
+                      )
+                    }
                   </div>
-                </li>
-                <li className="redIcon">
-                  <BrixelIcon
-                    icon="favorite-house"
-                    color="green"
-                    background="green"
-                    saturation={200}
-                    saturationTxt={700}
-                  />
-                  Do not forget to favorite the property to keep all the information in one place
-                </li>
-                <li className="redIcon">
-                  <BrixelIcon icon="money" color="green" background="green" saturation={200} saturationTxt={700} />
-                  Get in touch with your bank about financing before you visit
-                </li>
-              </ul>
-            </section>
-          </div>
-        )
-      }
-    </BrixelModal>
+                </div>
+              </div>
+            )
+          }
+        </form>
+      </div>
+    </div>
   );
 };
 
 AddShowingsBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
+  errorValue: PropTypes.object.isRequired,
+  formValue: PropTypes.object.isRequired,
+  handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
+  handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  initForm: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   userLang: PropTypes.string.isRequired,
 };
 
@@ -371,19 +623,26 @@ const mapStateToProps = (state) => {
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   const activeSingleCompany = get(state, 'companies.activeSingleCompany', {});
   activeSingleCompany.defaultDialCode = countryPhoneCode.dial_code;
+  const initialValues = {};
   return ({
-    activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     activeSingleCompany,
-    formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
+    activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+    errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
+    formValue: get(state, 'brixelForm.Showings.values', {}),
+    initialValues,
+    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'user.loggedInUser.user.language', ''),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    isSmallLoading: get(state, 'common.isSmallLoading', {}),
     userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  initForm(value) {
+    dispatch(initializeForm('Showings', value));
+  },
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
 });
 
