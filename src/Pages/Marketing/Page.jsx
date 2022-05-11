@@ -130,7 +130,7 @@ const Page = (props) => {
   };
 
   useEffect(() => {
-    if (get(modal, 'multiBodyActions', []).length > 1) {
+    if (get(modal, 'multiBodyActions', []).length > 1 && isSmallLoading.saveMarketingPage === true) {
       modal.multiBodyActions[1].isLoading = isSmallLoading.saveMarketingPage;
       handleSetModal(modal);
     }

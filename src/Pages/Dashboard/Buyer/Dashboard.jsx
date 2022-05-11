@@ -17,8 +17,6 @@ import SidebarBuyer from './SidebarBuyer';
 
 const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
 
-const PropertiesBuyerDashboard = lazyWithRetry(() => import('./PropertiesBuyerDashboard'));
-
 const PropertyBuyerDashboard = lazyWithRetry(() => import('./PropertyBuyerDashboard'));
 
 const DealsDashboardBuyer = lazyWithRetry(() => import('./DealsDashboardBuyer'));
@@ -116,7 +114,6 @@ const Dashboard = (props) => {
           <Suspense fallback="">
             <Routes>
               { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-              <Route path="/" element={<PropertiesBuyerDashboard />} />
               <Route path="/home" element={<DashboardHome />} />
               <Route path="/property/*" element={<PropertyBuyerDashboard />} />
               <Route path="/docubox" element={<Documents />} />

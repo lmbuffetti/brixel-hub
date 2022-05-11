@@ -46,7 +46,7 @@ const MarketCardSmall = (props) => {
     if (e) e.preventDefault();
     if (type !== 'estimation') {
       history.push({
-        pathname: `/buyer/${item.id}/property/home`,
+        pathname: `/buyer/${item.id}/home`,
         state: { section: 'Market' },
       });
     } else {
