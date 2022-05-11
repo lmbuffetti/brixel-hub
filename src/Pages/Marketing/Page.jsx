@@ -38,9 +38,14 @@ const Page = (props) => {
     modal,
   } = props;
   // STATE
+  const saveLoading = get(isSmallLoading, 'saveMarketingPage', null);
   const [status, setStatus] = useState({});
   // URL PARAMS
   const propID = get(match, 'propID', null);
+  
+  useEffect(() => {
+    return () => handleSetModal({});
+  }, []);
   
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
@@ -130,15 +135,15 @@ const Page = (props) => {
   };
   
   useEffect(() => {
-    if (get(modal, 'multiBodyActions', []).length > 1) {
-      modal.multiBodyActions[1].isLoading = isSmallLoading.saveMarketingPage;
+    if (get(modal, 'multiBodyActions', []).length > 1 && saveLoading === true) {
+      modal.multiBodyActions[1].isLoading = saveLoading;
       handleSetModal(modal);
     }
-    if (isSmallLoading.saveMarketingPage === false) {
+    if (saveLoading === false) {
       const stateText = status.state === 'published' ? 'unpublishPage' : 'publishPage';
       onClickRequest(stateText, 'success');
     }
-  }, [isSmallLoading]);
+  }, [saveLoading]);
   
   if (!status.state) {
     return <div />

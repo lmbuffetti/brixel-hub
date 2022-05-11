@@ -44,6 +44,10 @@ const Portals = (props) => {
   // URL PARAMS
   const propID = get(match, 'propID', null);
   
+  useEffect(() => {
+    return () => handleSetModal({});
+  }, []);
+  
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {
     let isOnline = false;
@@ -135,7 +139,7 @@ const Portals = (props) => {
   };
   
   useEffect(() => {
-    if (get(modal, 'multiBodyActions', []).length > 1) {
+    if (get(modal, 'multiBodyActions', []).length > 1 && isSmallLoading.saveMarketingPortal === true) {
       modal.multiBodyActions[1].isLoading = isSmallLoading.saveMarketingPortal;
       handleSetModal(modal);
     }
