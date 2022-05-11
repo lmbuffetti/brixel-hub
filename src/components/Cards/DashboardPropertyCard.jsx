@@ -34,7 +34,7 @@ const DashboardPropertyCard = (props) => {
 
   return (
     <>
-      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'pl-sm-4 pt-sm-3 pb-sm-3 pt-0 pb-3 mb-3'} ov-h`}>
+      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-3 mb-3'} ov-h`}>
         <div>
           <div
             onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
@@ -75,33 +75,33 @@ const DashboardPropertyCard = (props) => {
                 {
                   type === 'buy' ? (
                     <div className="dis-f a-c">
-                      <div className="brdSmallRight brdAltGrey400 pr-2">
-                        <h6 className="ff-mono txtAltGrey400">
+                      <div className="brdSmallRight brdAltGrey200 pr-2">
+                        <h6 className="ff-mono txtAltGrey400 fsize-300">
                           Living area
                         </h6>
-                        <p className="fsize-500">
+                        <p className="fsize-500 fSizePx20">
                           {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
                         </p>
                       </div>
-                      <div className="ml-2 brdSmallRight brdAltGrey400 pr-2">
-                        <h6 className="ff-mono txtAltGrey400">
+                      <div className="ml-2 brdSmallRight brdAltGrey200 pr-2">
+                        <h6 className="ff-mono txtAltGrey400 fsize-300">
                           Rooms
                         </h6>
-                        <p className="fsize-500">
+                        <p className="fsize-500 fSizePx20">
                           {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))
                           }
                         </p>
                       </div>
-                      <div className="ml-2 brdSmallRight brdAltGrey400 pr-2">
-                        <h6 className="ff-mono txtAltGrey400">
+                      <div className="ml-2 brdSmallRight brdAltGrey200 pr-2">
+                        <h6 className="ff-mono txtAltGrey400 fsize-300">
                           Year built
                         </h6>
-                        <p className="fsize-500">
+                        <p className="fsize-500 fSizePx20">
                           {get(activeSingleProperty, 'properties.building.built', 0)}
                         </p>
                       </div>
                       <BrixelButtonSecondary
-                        className="ml-2"
+                        className="ml-a"
                         rounded
                         label="View"
                         onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
