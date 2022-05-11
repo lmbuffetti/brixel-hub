@@ -135,7 +135,7 @@ const Portals = (props) => {
   };
   
   useEffect(() => {
-    if (get(modal, 'multiBodyActions', []).length > 1) {
+    if (get(modal, 'multiBodyActions', []).length > 1 && isSmallLoading.saveMarketingPortal === true) {
       modal.multiBodyActions[1].isLoading = isSmallLoading.saveMarketingPortal;
       handleSetModal(modal);
     }
