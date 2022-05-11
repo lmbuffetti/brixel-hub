@@ -181,7 +181,7 @@ const DashboardHome = (props) => {
                           <h5 className="fweight-600">
                             Visit your future home
                           </h5>
-                          <div className="dis-f a-c w-perc-100 mt-1">
+                          <div className="dis-f a-c w-perc-100 mt-1 mb-3">
                             <p className="pr-2">
                               Book a visit with the current owner.
                             </p>
@@ -201,7 +201,7 @@ const DashboardHome = (props) => {
 
                 <button
                   onClick={() => history.push(`/buyer/${propID}/financing`)}
-                  className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
+                  className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
                 >
                   <div
                     className="cardWithBg"
@@ -236,11 +236,11 @@ const DashboardHome = (props) => {
                 {
                   searchProfile.id ? (
                     <div className="dis-fl-col max-w-perc-100">
-                      <div className="w-perc-100 mt-1 max-w-fix-280">
+                      <div className="w-perc-100 mt-1 max-w-fix-400">
                         <span className="pr-2 w-perc-100 fsize-600 fweight-600">
                           Looking for other homes?
                         </span>
-                        <p className="mt-1">
+                        <p className="mt-1 mb-2">
                           Explore our properties.
                         </p>
                       </div>
@@ -255,7 +255,7 @@ const DashboardHome = (props) => {
                     </div>
                   ) : (
                     <div className="dis-fl-col max-w-perc-100">
-                      <div className="w-perc-100 mt-1 max-w-fix-280">
+                      <div className="w-perc-100 mt-1 max-w-fix-400">
                         <span className="pr-2 w-perc-100 fsize-600 fweight-600">
                           Looking for other homes?
                         </span>
