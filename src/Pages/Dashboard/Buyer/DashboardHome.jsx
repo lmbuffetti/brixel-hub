@@ -178,7 +178,7 @@ const DashboardHome = (props) => {
                     ) : (
                       <div className="cardWithBg" style={{ backgroundImage: `url(${scheduleSvg})` }}>
                         <div className="dis-fl-col max-w-perc-70">
-                          <h5>
+                          <h5 className="fweight-600">
                             Visit your future home
                           </h5>
                           <div className="dis-f a-c w-perc-100 mt-1">
@@ -189,7 +189,7 @@ const DashboardHome = (props) => {
 
                           <BrixelButtonPrimary
                             onClick={() => ''}
-                            className="mt-2 as-fs"
+                            className="mt-a as-fs"
                             rounded
                             label="add dates"
                           />
@@ -208,10 +208,10 @@ const DashboardHome = (props) => {
                     style={{ backgroundImage: `url(${financingSvg})` }}
                   >
                     <div className="dis-fl-col max-w-perc-70">
-                      <h5>
+                      <h5 className="fweight-600">
                         Check financing
                       </h5>
-                      <div className="dis-f a-c w-perc-100 mt-1">
+                      <div className="dis-f a-c w-perc-100 mt-1 mb-3">
                         <p className="pr-2">
                           Assess whether you can afford your desired property.
                         </p>
@@ -220,7 +220,7 @@ const DashboardHome = (props) => {
                       <BrixelButtonSecondary
                         rounded
                         onClick={() => ''}
-                        className="mt-5 as-fs"
+                        className="mt-a as-fs"
                         label="Calculate now"
                       />
                     </div>
