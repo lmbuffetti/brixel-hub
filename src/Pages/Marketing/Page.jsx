@@ -32,8 +32,8 @@ const Page = (props) => {
     activeSingleProperty,
     changeFieldValue,
     formValue,
-    handleUpdatePublishedReview,
     handleSetModal,
+    handleUpdatePublishedReview,
     isSmallLoading,
     modal,
   } = props;
@@ -41,7 +41,7 @@ const Page = (props) => {
   const [status, setStatus] = useState({});
   // URL PARAMS
   const propID = get(match, 'propID', null);
-
+  
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
     if (activeSingleProperty.publishReview) {
@@ -64,17 +64,17 @@ const Page = (props) => {
       });
     }
   }, [activeSingleProperty]);
-
+  
   // GET PAGE STATUS
   const changeReviewStatus = () => {
     const data = {
       page: propID,
-      smallLoader: 'saveData',
+      smallLoader: 'saveMarketingPage',
       status: status.state === 'published' ? 'offline' : 'online',
     };
     handleUpdatePublishedReview(data);
   };
-
+  
   // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
   const onClickPreview = () => {
     let url;
@@ -86,7 +86,7 @@ const Page = (props) => {
       window.location.assign(url);
     }
   };
-
+  
   const onClickRequest = (state, type = 'request') => {
     handleSetModal({
       state: true,
@@ -128,22 +128,22 @@ const Page = (props) => {
       ]
     })
   };
-
+  
   useEffect(() => {
     if (get(modal, 'multiBodyActions', []).length > 1) {
-      modal.multiBodyActions[1].isLoading = isSmallLoading.saveData;
+      modal.multiBodyActions[1].isLoading = isSmallLoading.saveMarketingPage;
       handleSetModal(modal);
     }
-    if (isSmallLoading.saveData === false) {
+    if (isSmallLoading.saveMarketingPage === false) {
       const stateText = status.state === 'published' ? 'unpublishPage' : 'publishPage';
       onClickRequest(stateText, 'success');
     }
   }, [isSmallLoading]);
-
+  
   if (!status.state) {
     return <div />
   }
-
+  
   return (
     <>
       <div className="bgWhite p-4 brdRadius">
@@ -153,7 +153,7 @@ const Page = (props) => {
             {status.text}
           </div>
         </div>
-
+        
         <div className="mb-4">
           {
             status.state === 'published' ? (
@@ -274,9 +274,9 @@ const Page = (props) => {
             )
           }
         </div>
-
+      
       </div>
-
+      
       {
         status.state === 'published' && (
           <div className="pos-r w-perc-100 bgWhite p-3 my-5 brdRadius shadow-1dp">
@@ -301,18 +301,18 @@ Page.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  modal: PropTypes.object.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   company: get(state, 'companies.activeSingleCompany', {}),
-  modal: get(state, 'common.modal', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  modal: get(state, 'common.modal', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -322,8 +322,8 @@ const mapDispatchToProps = (dispatch) => ({
   reset(form, data) {
     (dispatch(reset(form, data)));
   },
-  handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
+  handleUpdatePublishedReview: bindActionCreators(updatePublishedReview, dispatch),
 });
 
 export default compose(

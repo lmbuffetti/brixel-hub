@@ -29,20 +29,21 @@ const Portals = (props) => {
   const {
     activeSingleCompany,
     activeSingleProperty,
+    changeFieldValue,
     companyPortals,
     customPortals,
-    handleSetModal,
     formValue,
+    handleSetModal,
     handleUpdatePortalsReview,
     isSmallLoading,
+    modal,
     portals,
-    changeFieldValue,
   } = props;
   // STATE
   const [status, setStatus] = useState({});
   // URL PARAMS
   const propID = get(match, 'propID', null);
-
+  
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {
     let isOnline = false;
@@ -56,7 +57,7 @@ const Portals = (props) => {
     });
     return isOnline;
   };
-
+  
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
     if (activeSingleProperty.portalsReview) {
@@ -79,17 +80,17 @@ const Portals = (props) => {
       });
     }
   }, [activeSingleProperty]);
-
+  
   // CHANGE PORTALS REVIEW
   const changeReviewStatus = () => {
     const data = {
       page: propID,
-      smallLoader: 'saveData',
+      smallLoader: 'saveMarketingPortal',
       status: checkPortalsOnline() ? 'offline' : 'online',
     };
     handleUpdatePortalsReview(data);
   };
-
+  
   const onClickRequest = (state, type = 'request') => {
     const bodyText = MarketingModal[state][type].body.replace(':companyPrice', `${get(activeSingleCompany, 'country.currency')} ${get(activeSingleCompany, 'meta.portals.price')}`);
     handleSetModal({
@@ -132,7 +133,18 @@ const Portals = (props) => {
       ]
     })
   };
-
+  
+  useEffect(() => {
+    if (get(modal, 'multiBodyActions', []).length > 1) {
+      modal.multiBodyActions[1].isLoading = isSmallLoading.saveMarketingPortal;
+      handleSetModal(modal);
+    }
+    if (isSmallLoading.saveMarketingPortal === false) {
+      const stateText = status.state === 'published' ? 'unpublishPage' : 'publishPage';
+      onClickRequest(stateText, 'success');
+    }
+  }, [isSmallLoading]);
+  
   return (
     <>
       <div className="bgWhite p-4 brdRadius">
@@ -142,7 +154,7 @@ const Portals = (props) => {
             {status.text}
           </div>
         </div>
-
+        
         <div className="mb-4">
           {
             checkPortalsOnline() ? (
@@ -168,7 +180,7 @@ const Portals = (props) => {
             )
           }
         </div>
-
+        
         <div className="portalsList mt-3">
           {
             checkPortalsOnline() && Object.keys(companyPortals).map((key, i) => (
@@ -230,7 +242,7 @@ const Portals = (props) => {
             ))
           }
         </div>
-
+        
         {
           checkPortalsOnline() && !formValue.portalsReview && (
             <>
@@ -252,7 +264,7 @@ const Portals = (props) => {
             </>
           )
         }
-
+        
         <div className="dis-f a-c jc-fe mt-5">
           {
             checkPortalsOnline() ? (
@@ -281,10 +293,10 @@ const Portals = (props) => {
             )
           }
         </div>
-
+      
       </div>
-
-
+      
+      
       {
         get(activeSingleProperty, 'published', null) === false && (
           <div className="bgWhite brdRadius p-4 mt-2">
@@ -293,7 +305,7 @@ const Portals = (props) => {
               label="Pre-market"
               className="mb-3 boldLabel"
               input={{
-                onChange: () => changeFieldValue('preMarketVisible', !activeSingleProperty.preMarketVisible),
+                onChange: (val) => changeFieldValue('preMarketVisible', val),
                 name: 'stageOffer',
                 value: activeSingleProperty.preMarketVisible,
               }}
@@ -311,7 +323,7 @@ const Portals = (props) => {
           </div>
         )
       }
-
+    
     </>
   );
 };
@@ -319,26 +331,28 @@ const Portals = (props) => {
 Portals.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
   companyPortals: PropTypes.object.isRequired,
   customPortals: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleUpdatePortalsReview: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  handleUpdatePortalsReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const formValue = get(state, 'brixelForm.Property.values', {});
   const activeSingleProperty = get(state, 'property.activeSingleProperty', {});
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty,
     companyPortals: get(state, 'companies.activeSingleCompany.availablePortals', {}),
-    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     customPortals: get(activeSingleProperty, 'customPortals', {}),
     formValue,
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
+    modal: get(state, 'common.modal', {}),
     portals: get(activeSingleProperty, 'portals', {}),
   });
 };
