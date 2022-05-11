@@ -192,33 +192,23 @@ export const MapsWithModalManual = (props) => {
           ...formattedPlace,
           searchAddress: formattedPlace.address,
         };
-
-        if (
-          get(formValue, 'location.zip', null) && currentLocation.zip !== get(formValue, 'location.zip', null)
-        ) {
-          setLoclist([]);
-          setLoadingAddress(false);
-          // eslint-disable-next-line no-use-before-define
-          changeLocation(get(formValue, 'location.zip', ''), true, 'zip');
-          setErrorResult(false);
-        } else {
-          changeFieldValue(formName, 'location', currentLocation);
-          const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
-          if (typeof existCountry === 'undefined') {
-            const newListcountry = country;
-            newListcountry.push({
-              value: formattedPlace.countryCode,
-              label: formattedPlace.country,
-            });
-            handleUpdateCountry(newListcountry);
-          }
-          // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
-          // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
-          setLoclist([]);
-          setLoadingAddress(false);
-          setShowManualInput(false);
-          if (action === 'submit') onSubmit();
+  
+        changeFieldValue(formName, 'location', currentLocation);
+        const existCountry = country.find((item) => item.value === formattedPlace.countryCode);
+        if (typeof existCountry === 'undefined') {
+          const newListcountry = country;
+          newListcountry.push({
+            value: formattedPlace.countryCode,
+            label: formattedPlace.country,
+          });
+          handleUpdateCountry(newListcountry);
         }
+        // changeFieldValue(formName, 'location.latitude', formattedPlace.latitude);
+        // changeFieldValue(formName, 'location.longitude', formattedPlace.longitude);
+        setLoclist([]);
+        setLoadingAddress(false);
+        setShowManualInput(false);
+        if (action === 'submit') onSubmit();
         // setZiplist([]);
       })
       .catch(() => {
