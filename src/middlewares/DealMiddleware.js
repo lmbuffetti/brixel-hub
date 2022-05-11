@@ -16,7 +16,8 @@ import {
   GET_ACTIVE_SINGLE_DEAL,
   GET_BUYER_DEAL,
   GET_OFFER_LISTINGS,
-  SAVE_ACTIVE_SINGLE_DEAL, SAVE_MAKE_OFFER,
+  SAVE_ACTIVE_SINGLE_DEAL,
+  SAVE_MAKE_OFFER,
   SAVE_CLOSING_IDENTIFICATION,
   SAVE_REVIEW_OFFER,
   SEND_VISIT_FEEDBACK,
@@ -587,7 +588,7 @@ const checkCommon = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_SMALL,
               payload: {
-                [smallLoader]: 'done',
+                [smallLoader]: false,
               },
             });
           } else {
