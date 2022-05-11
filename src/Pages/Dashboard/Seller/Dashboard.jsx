@@ -4,7 +4,7 @@ import React, {
   useEffect, useState, Suspense,
 } from 'react';
 import {
-  Routes, Route, useLocation, useNavigate, useParams, Navigate,
+  Routes, Route, useLocation, useNavigate, useParams,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -17,7 +17,7 @@ import set from 'lodash/set';
 import find from 'lodash/find';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
-import { change, initializeForm, reset } from '@brixel/brixel-components';
+import { change, initializeForm, reset } from '@brixel/brixel-components/dist/form';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 import {
@@ -89,7 +89,6 @@ const Dashboard = (props) => {
     handleSpinnerOff,
     imageType,
     initForm,
-    initValues,
     initialValues,
     isLoading,
     isSmallLoading,
@@ -159,19 +158,10 @@ const Dashboard = (props) => {
 
   // INITIALIZE FORM
   useEffect(() => {
-    const changeInitialValue = diff(initialValues, initValues);
-    if (
-      typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null) && (
-        Object.keys(changeInitialValue).length > 1 ||
-        (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet') ||
-        propID !== formValue.id
-      )
-    ) {
-      if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty.id === propID) {
-        initForm(cloneDeep(initialValues));
-      }
+    if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty.id === propID) {
+      initForm(cloneDeep(initialValues));
     }
-  }, [initialValues, propID]);
+  }, [activeSingleProperty, propID]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
@@ -355,7 +345,6 @@ const Dashboard = (props) => {
             <Route path="/upgrade/*" element={<Upgrade />} />
             <Route path="/trialRequest/*" element={<ScanTrialFlow />} />
             <Route path="/no-property" element={<EmptyProperty />} />
-            <Route path="*" element={<Navigate to={`/${propID}/home`} />} />
           </Routes>
         </Suspense>
       </div>
@@ -388,7 +377,6 @@ Dashboard.propTypes = {
   handleGetPackageProperty: PropTypes.func.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   initForm: PropTypes.func.isRequired,
-  initValues: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -435,6 +423,7 @@ const mapStateToProps = (state) => {
     initValues: get(state, 'brixelForm.Property.initialValues', {}),
     initialValues: {
       // booking: get(state, 'property.activeSinglePropertyBooking', []),
+      allowVisits: get(state, 'property.activeSingleProperty.allowVisits', true),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
       // customPortals: get(state, 'property.activeSingleProperty.customPortals', {}),

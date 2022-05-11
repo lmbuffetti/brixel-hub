@@ -6,13 +6,15 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
+  BrixelProgressBar,
+} from '@brixel/brixel-components';
+import {
   MultiFileldsReduxForm,
   change,
   destroy,
   reset,
   initializeForm,
-  BrixelProgressBar,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -189,7 +191,7 @@ const MakeOffer = (props) => {
     const dataDocuments = {
       allImgs: docs,
       actions: 'documents',
-      pageID: activeSingleProperty.id || propID,
+      pageID: propID,
       smallLoader: 'sendData',
       user: get(loggedInUser, 'id', null),
     };
@@ -564,6 +566,7 @@ const MakeOffer = (props) => {
                                 className={`mr-a ml-a noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 rounded
+                                isLoading={isSmallLoading.sendData}
                                 theme="green"
                                 themeSat={600}
                                 label={buttonLabel()}

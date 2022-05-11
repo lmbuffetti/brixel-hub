@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import SkeletonClosingCard from '../../images/skeleton-closing-tree.svg';
+import SkeletonClosingCard from '@brixel/brixel-components/dist/images/Skeleton/Svg/skeleton-closing-tree.svg';
 
 const ClosingTree = (props) => {
   const {

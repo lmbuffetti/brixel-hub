@@ -353,7 +353,7 @@ const MarketCard = (props) => {
                                   {
                                     get(item, 'estimation.status', '') !== 'processed' && (
                                       <Link
-                                        to={`/${item.id}/singleFlow/achievement/bestimate/step1`}
+                                        to={`/${item.id}/singleFlow/achievement/bestimate/step1?url=/sell`}
                                         className="txtBlue700 fweight-600"
                                       >
                                         Get Estimation

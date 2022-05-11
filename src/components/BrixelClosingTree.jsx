@@ -24,7 +24,6 @@ const BrixelClosingTree = (props) => {
     activeSingleClosing,
     activeSingleDeal,
     activeSingleOffer,
-    activeSingleProperty,
     className,
     dealID,
     isBuyer,
@@ -40,7 +39,7 @@ const BrixelClosingTree = (props) => {
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
     if (action === 'add') {
-      history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`);
+      history.push(`/packageFlow/${propID}/makeOffer`);
     } else {
       setSplashScreen({
         component: ReviewOffer,
@@ -623,7 +622,6 @@ BrixelClosingTree.propTypes = {
   activeSingleClosing: PropTypes.object.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleOffer: PropTypes.object.isRequired,
-  activeSingleProperty: PropTypes.object.isRequired,
   className: PropTypes.string,
   dealID: PropTypes.string.isRequired,
   isBuyer: PropTypes.bool,

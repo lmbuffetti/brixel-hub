@@ -10,14 +10,16 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelIcon,
+  Helpers,
+  ProgressRing,
+} from '@brixel/brixel-components';
+import {
   BrixelInputText,
   BrixelSelect,
-  Helpers,
   ReduxField,
   change,
   reset,
-  ProgressRing,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -69,7 +71,7 @@ const Price = (props) => {
   }, [formValue]);
 
   useEffect(() => {
-    if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id) {
+    if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id && completedBestimate(activeSingleProperty)) {
       if (!has(estimation, 'result') && get(estimation, 'status', '') !== 'pending') {
         const payload = {
           reloadOnwProperties: true,
@@ -112,7 +114,7 @@ const Price = (props) => {
   };
 
   const onBestimateFlow = () => {
-    history.push(`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`);
+    history.push(`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1?url=/${activeSingleProperty.id}/property/price`);
     setSplashScreen('');
     handleSetHistory({ source: `/${activeSingleProperty.id}/property/price` });
   };

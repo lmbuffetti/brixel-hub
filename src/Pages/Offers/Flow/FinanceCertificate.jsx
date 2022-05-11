@@ -6,9 +6,11 @@ import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
   BrixelButtonText,
+} from '@brixel/brixel-components';
+import {
   BrixelCheckbox,
   change,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import FinancingQuestionImg from '../../../images/Offer/financing_question.svg';
 import RegisterKey4Img from '../../../images/Offer/register_key4.svg';
 import UploadKey4Img from '../../../images/Offer/upload_key4.svg';

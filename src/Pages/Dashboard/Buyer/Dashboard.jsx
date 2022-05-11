@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { change, initializeForm, reset } from '@brixel/brixel-components';
+import { change, initializeForm, reset } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useState } from 'react';
@@ -13,8 +13,6 @@ import { getFavoritesProperties } from '../../../actions/MarketActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { getUserPagesDeals, setUserTypes } from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
-
-const PropertiesBuyerDashboard = lazyWithRetry(() => import('./PropertiesBuyerDashboard'));
 
 const PropertyBuyerDashboard = lazyWithRetry(() => import('./PropertyBuyerDashboard'));
 
@@ -111,7 +109,6 @@ const Dashboard = (props) => {
           <Suspense fallback="">
             <Routes>
               { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-              <Route path="/" element={<PropertiesBuyerDashboard />} />
               <Route path="/property/*" element={<PropertyBuyerDashboard />} />
               <Route path="/docubox" element={<Documents />} />
               <Route path="/financing" element={<Financing />} />

@@ -143,6 +143,7 @@ const clientConfig = () => {
         // Svg loader
         {
           test: /\.svg$/,
+          resourceQuery: { not: [/url/] },
           use: [
             {
               loader: '@svgr/webpack',
@@ -163,6 +164,14 @@ const clientConfig = () => {
               },
             },
           ],
+        },
+        {
+          test: /\.svg$/,
+          resourceQuery: /url/, // *.svg?url
+          type: 'asset/resource',
+          generator: {
+            filename: 'fonts/[name][ext][query]',
+          },
         },
         // Fonts loader
         {

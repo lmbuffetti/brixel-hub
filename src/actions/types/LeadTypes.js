@@ -2,8 +2,5 @@
  * Lead actions
  *
  */
-
-export const GET_LEAD_LISTINGS = 'GET_LEAD_LISTINGS';
-
 export const GET_GLOBAL_LEAD_LISTINGS = 'GET_GLOBAL_LEAD_LISTINGS';
 export const SET_GLOBAL_LEAD_LISTINGS = 'SET_GLOBAL_LEAD_LISTINGS';

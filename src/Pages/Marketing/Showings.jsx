@@ -19,9 +19,11 @@ import {
   BrixelTabs,
   BrixelTimeSlots,
   BrixelBookingCard,
+} from '@brixel/brixel-components';
+import {
   change,
   reset,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import Loading from '../../components/Loading';

@@ -1,11 +1,8 @@
 import { handleActions } from 'redux-actions';
 
 import {
-  SET_USER_DEALS,
-  SET_DEAL_LISTINGS,
   SET_ACTIVE_SINGLE_DEAL,
   SET_OFFER_LISTINGS,
-  SET_ACTIVE_SINGLE_OFFER,
 } from '../actions/types/DealTypes';
 
 import {
@@ -22,22 +19,11 @@ export const defaultState = {
   activeSingleDealHistory: {},
   activeSingleDealNotes: [],
   activeSingleDealOwnerHistory: {},
-  dealListings: {},
-  userDealListings: [],
   offerListings: [],
-
 };
 
 export default handleActions(
   {
-    [SET_USER_DEALS]: (state, action) => ({
-      ...state,
-      userDealListings: action.payload,
-    }),
-    [SET_DEAL_LISTINGS]: (state, action) => ({
-      ...state,
-      dealListings: action.payload,
-    }),
     [SET_ACTIVE_SINGLE_DEAL]: (state, action) => ({
       ...state,
       activeSingleDeal: action.payload,
@@ -57,10 +43,6 @@ export default handleActions(
     [SET_OFFER_LISTINGS]: (state, action) => ({
       ...state,
       offerListings: action.payload,
-    }),
-    [SET_ACTIVE_SINGLE_OFFER]: (state, action) => ({
-      ...state,
-      activeSingleOffer: action.payload,
     }),
   },
   defaultState,

@@ -1,14 +1,18 @@
 import { InputSheetsConfig } from '@brixel/brixel-configuration-partner/dist/InputSheets';
 import { ProEstimationConfig } from '@brixel/brixel-configuration-partner/dist/ProEstimation';
+import { FactsOptions } from '@brixel/brixel-components';
 import {
   BrixelCheckbox,
-  BrixelExtraFeature, BrixelInputQuality,
-  BrixelInputScale, BrixelInputStepNumber,
+  BrixelExtraFeature,
+  BrixelInputQuality,
+  BrixelInputScale,
+  BrixelInputStepNumber,
   BrixelInputText,
-  BrixelRadioButton, BrixelSelect, BrixelTextArea,
-  FactsOptions,
+  BrixelRadioButton,
+  BrixelSelect,
+  BrixelTextArea,
   Validation,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import Maps from '../components/Map/Maps';
 import { configureStore } from '../store';
 

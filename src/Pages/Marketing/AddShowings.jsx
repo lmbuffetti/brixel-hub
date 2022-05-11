@@ -10,12 +10,14 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
+} from '@brixel/brixel-components';
+import {
   BrixelInputText,
   Validation,
   ReduxField,
   change,
   reset,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import {
   createPropertyVisitBooking,

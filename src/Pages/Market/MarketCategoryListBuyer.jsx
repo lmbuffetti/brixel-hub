@@ -10,9 +10,9 @@ import {
   BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  initializeForm,
   BrixelTabs,
 } from '@brixel/brixel-components';
+import { initializeForm } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';

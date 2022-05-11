@@ -291,8 +291,8 @@ ul.checked {
 
     &:before {
       content: '';
-      -webkit-mask-image: url('../../../images/Upgrade/check-blue.svg');
-      mask-image: url('../../../images/Upgrade/check-blue.svg');
+      -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
+      mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
       display: block;
       mask-repeat: no-repeat;
       -webkit-mask-repeat: no-repeat;
@@ -302,7 +302,6 @@ ul.checked {
       background-position: center;
       position: absolute;
       left: 0;
-      top: $step;
       background-color: map_get($primaryColor, 400);
     }
 

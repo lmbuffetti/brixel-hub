@@ -8,13 +8,15 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelIcon,
+  Helpers,
+} from '@brixel/brixel-components';
+import {
   BrixelTextArea,
   change,
   destroy,
-  Helpers,
   initializeForm,
   ReduxField,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import SplashScreen from '../../components/SplashScreen';

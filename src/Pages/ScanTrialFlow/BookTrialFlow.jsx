@@ -7,14 +7,16 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelIcon,
+  Helpers,
+  useOutsideAlerter,
+} from '@brixel/brixel-components';
+import {
   BrixelInputText,
   BrixelInputDatePicker,
   change,
-  Helpers,
   changeSyncError,
   ReduxField,
-  useOutsideAlerter,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import Accordion from '../../components/Accordion';
 import PhoneImg from '../../images/TestDrive/phoneTrial.svg';

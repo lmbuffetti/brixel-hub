@@ -8,12 +8,14 @@ import {
   BrixelButtonPrimary,
   BrixelButtonText,
   BrixelProgressBar,
+} from '@brixel/brixel-components';
+import {
   MultiFileldsReduxForm,
   change,
   destroy,
   initializeForm,
   reset,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { bindActionCreators, compose } from 'redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -38,8 +40,8 @@ const Upgrade = (props) => {
     destroyForm,
     errorValue,
     formValue,
-    handleReset,
     handleGetActiveSingleCompanyPackages,
+    handleReset,
     initForm,
     initialValues,
     isSmallLoading,
@@ -85,12 +87,13 @@ const Upgrade = (props) => {
     }
   }, [isSmallLoading]);
   
+  
+  
   useEffect(() => {
     if (activeSingleCompany.id) {
       handleGetActiveSingleCompanyPackages({id: activeSingleCompany.id, smallLoader: 'getPackages'})
     }
   }, [activeSingleCompany.id]);
-  
 
   useEffect(() => {
     initForm(initialValues);
@@ -456,11 +459,11 @@ Upgrade.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetActiveSingleCompanyPackages: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  handleGetActiveSingleCompanyPackages: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

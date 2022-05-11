@@ -12,8 +12,8 @@ import {
   BrixelButtonIcon,
   Helpers,
   BrixelButtonText,
-  SkeletonPackages,
 } from '@brixel/brixel-components';
+import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -531,13 +531,13 @@ const MarketCategoryListSeller = (props) => {
                 )
               }
             </div>
-
+  
             <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
               <BrixelButtonPrimary
                 rounded
                 label="Upgrade your plan"
                 onClick={() => window.location.assign(`/${get(ownerProperties, 'data[0].id', 'company')}/upgrade`)}
-
+    
               />
               <span className="mx-sm-1 mt-2 my-sm-0">or</span>
               <BrixelButtonText
@@ -547,7 +547,7 @@ const MarketCategoryListSeller = (props) => {
                 theme="AltGrey"
                 themeSat={700}
               />
-
+  
             </div>
           </div>
         </div>

@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelInputText, BrixelButtonPrimary } from '@brixel/brixel-components';
-import { resetRequest, spinnerOff } from '../actions/CommonActions';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelInputText } from '@brixel/brixel-components/dist/form';
+import { spinnerOff } from '../actions/CommonActions';
 import { checkToken } from '../actions/UserActions';
 import { setCookie } from '../utils/helpers';
 
@@ -65,12 +66,10 @@ TokenInput.defaultProps = {
 
 const mapStateToProps = (state) => ({
   user: get(state, 'user.loggedInUser', []),
-  request: get(state, 'common.requestDone', false),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleCheckToken: bindActionCreators(checkToken, dispatch),
-  handleResetRequest: bindActionCreators(resetRequest, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 

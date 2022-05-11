@@ -12,12 +12,14 @@ import {
   BrixelButtonIcon,
   BrixelButtonSecondary,
   BrixelButtonText,
+  useOutsideAlerter,
+} from '@brixel/brixel-components';
+import {
   BrixelTextArea,
   ReduxField,
-  useOutsideAlerter,
   reset,
   change,
-} from '@brixel/brixel-components';
+} from '@brixel/brixel-components/dist/form';
 import Loading from '../../../components/Loading';
 import { rotateImg, deleteImg, setCoverPhoto } from '../../../actions/UploadActions';
 import { saveActiveSingleProperty } from '../../../actions/PropertyActions';

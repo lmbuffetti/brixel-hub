@@ -1,13 +1,13 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
+import { FactsOptions } from '@brixel/brixel-components';
 import {
   BrixelUploadFile,
   BrixelInputText,
   BrixelInputDatePicker,
-  // Validation,
-  FactsOptions,
-  BrixelSelect, Validation,
-} from '@brixel/brixel-components';
+  BrixelSelect,
+  Validation,
+} from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import ClipboardImg from '../images/scanTrial/clipboard.png';
 // eslint-disable-next-line import/no-cycle
