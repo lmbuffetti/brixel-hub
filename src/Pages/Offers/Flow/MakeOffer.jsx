@@ -191,7 +191,7 @@ const MakeOffer = (props) => {
     const dataDocuments = {
       allImgs: docs,
       actions: 'documents',
-      pageID: activeSingleProperty.id || propID,
+      pageID: propID,
       smallLoader: 'sendData',
       user: get(loggedInUser, 'id', null),
     };
