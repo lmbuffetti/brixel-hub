@@ -22,6 +22,7 @@ import {
 import { reset } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
+import { Helmet } from 'react-helmet';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
 import Loading from './components/Loading';
 import WizardCard from './components/Cards/WizardCard';
@@ -52,6 +53,13 @@ const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/Wel
 const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazyWithRetry(() => import('./Pages/Offers/Flow/MakeOffer'));
 const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identification/IdentificationFlow'));
+
+// IMAGES
+import Android192 from './images/android-icon-192x192.png';
+import AppleTouch120 from './images/apple-touch-icon-120x120.png';
+import AppleTouch152 from './images/apple-touch-icon-152x152.png';
+import AppleTouch180 from './images/apple-touch-icon-180x180.png';
+import AppleTouch76 from './images/apple-touch-icon-76x76.png';
 
 // GENERAL COMPONENTS
 const PageHeader = lazyWithRetry(() => import('./components/Header/PageHeader'));
@@ -403,6 +411,15 @@ const App = (props) => {
 
   return (
     <PartialErrorBoundering>
+      <Helmet>
+        <link rel="apple-touch-icon" href={AppleTouch76} />
+        <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
+        <link rel="apple-touch-icon" sizes="120x120" href={AppleTouch120} />
+        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />
+        <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
+        <link rel="icon" sizes="192x192" href={Android192} />
+        <title>Brixel Hub</title>
+      </Helmet>
       {
         pageError && (
           <BrixelPage500
