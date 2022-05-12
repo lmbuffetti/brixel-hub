@@ -17,7 +17,6 @@ import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
-import { diff } from 'deep-object-diff';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { setCookie } from '../../utils/helpers';
