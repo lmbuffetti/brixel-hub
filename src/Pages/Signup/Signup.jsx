@@ -304,13 +304,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
-export const SignupMemo = React.memo(Signup, (prevProps, nextProps) => {
-  const diffProps = diff(prevProps, nextProps);
-  return (
-    Object.keys(diffProps).length === 0
-  );
-});
-
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(SignupMemo);
+)(Signup);
