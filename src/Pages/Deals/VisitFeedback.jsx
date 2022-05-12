@@ -14,7 +14,6 @@ import {
   BrixelRadioButton,
   ReduxField,
   Validation,
-  changeSyncError,
   initializeForm,
 } from '@brixel/brixel-components/dist/form';
 import queryString from 'query-string';
@@ -55,14 +54,14 @@ const VisitFeedback = (props) => {
   const urlParams = queryString.parse(get(history, 'location.search', ''));
   const status = urlParams.status === 'true';
   const { lang } = urlParams;
-
+  
   const checkPriceReason = get(formValue, 'reasons', null) && get(formValue, 'reasons', []).findIndex((val) => val === 'price') > -1;
-
+  
   useEffect(() => {
     setCookie('brixelLang', lang);
     if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
   }, [lang]);
-
+  
   const onUpdateError = () => {
     let isValid = true;
     Object.keys(errorValue).forEach((key) => {
@@ -71,7 +70,7 @@ const VisitFeedback = (props) => {
     });
     setDisabledSend(!isValid);
   };
-
+  
   const saveData = () => {
     const data = {
       ...formValue,
@@ -82,7 +81,7 @@ const VisitFeedback = (props) => {
     };
     handleSendVisitFeedback(data);
   };
-
+  
   useEffect(() => {
     if (activeSingleProperty.id) {
       const data = {
@@ -97,13 +96,13 @@ const VisitFeedback = (props) => {
   useEffect(() => {
     onUpdateError()
   }, [formValue]);
-
+  
   useEffect(() => {
     if (!disabledSend && isSmallLoading.sendVisitSent === true) {
       setSuccessMessage(true);
     }
   }, [isSmallLoading]);
-
+  
   useEffect(() => {
     const data = {
       fullVersion: false,
@@ -112,14 +111,14 @@ const VisitFeedback = (props) => {
     };
     handleGetActiveSingleProperty(data);
   }, []);
-
+  
   // REF
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-
+  
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted visitFeedback">
-
+      
       <div className="bodyModal dis-fl-col upgradeModal container">
         <form
           id="multiStepForm"
@@ -139,7 +138,7 @@ const VisitFeedback = (props) => {
                         <div className=" multiFieldWrap w-perc-100 ">
                           <div className="dis-f jc-b h-perc-100 a-t">
                             <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
-
+                              
                               <div>
                                 <h6>Do you want to make an offer?</h6>
                                 <p>Make your offer online and have a proof of financing ready.</p>
@@ -150,11 +149,11 @@ const VisitFeedback = (props) => {
                                   label="Make an offer"
                                 />
                               </div>
-
+                              
                               <p className="mt-5">
                                 You can contact us if you have any specific questions to the owner.
                               </p>
-
+                              
                               <div className="my-3">
                                 {
                                   contacts.phone && (
@@ -185,7 +184,7 @@ const VisitFeedback = (props) => {
                                   )
                                 }
                               </div>
-
+                            
                             </div>
                           </div>
                         </div>
@@ -209,7 +208,7 @@ const VisitFeedback = (props) => {
                                     <p className="mt-1">
                                       Do you want to share any specific reasons or a comment to the owner?
                                     </p>
-
+                                    
                                     <div className="mt-3">
                                       {
                                         contacts.phone && (
@@ -240,7 +239,7 @@ const VisitFeedback = (props) => {
                                         )
                                       }
                                     </div>
-
+                                    
                                     <h6>Still looking for your dream home?</h6>
                                     <p>Check your Brixel market to find other properties.</p>
                                   </div>
@@ -282,7 +281,7 @@ const VisitFeedback = (props) => {
                                         validate: [Validation.required]
                                       }}
                                     />
-
+                                    
                                     <ReduxField
                                       design={{
                                         className: 'mt-2',
@@ -296,7 +295,7 @@ const VisitFeedback = (props) => {
                                         name: 'otherReason',
                                       }}
                                     />
-
+                                    
                                     {
                                       checkPriceReason && (
                                         <ReduxField
@@ -376,9 +375,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  handleUpdateError(name, value) {
-    dispatch(changeSyncError('visitFeedback', name, value));
-  },
   handleInitForm(value) {
     dispatch(initializeForm('visitFeedback', value));
   },

@@ -14,8 +14,7 @@ import {
   BrixelInputText,
   BrixelInputDatePicker,
   change,
-  changeSyncError,
-  ReduxField,
+  ReduxField, Validation,
 } from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import Accordion from '../../components/Accordion';
@@ -32,7 +31,6 @@ const BookTrialFlow = (props) => {
     onClick,
     showError,
     syncErrors,
-    updateError,
   } = props;
   // STATE
   const [, setDate] = useState('');
@@ -44,34 +42,14 @@ const BookTrialFlow = (props) => {
   const phone = get(activeSingleCompany, 'contact.phone', null);
   // const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
   const whereby = get(activeSingleCompany, 'contact.whereby', null);
-
+  
   const [openAccordion, setOpenAccordion] = useState('online');
-
+  
   useEffect(() => {
     if (get(formValue, 'analysis', '') === 'on-site') setOpenAccordion('online');
     else setOpenAccordion('whereby');
   }, [get(formValue, 'analysis', '')]);
-
-  useEffect(() => {
-    if (openAccordion) changeFieldValue('bookType', openAccordion);
-    if (openAccordion === 'online' || openAccordion === 'schedule') {
-      updateError('dateBook', 'Required');
-      updateError('hourBook', 'Required');
-      if (loggedInUser.id) updateError('phone', 'Required');
-    }
-  }, [openAccordion]);
-
-  useEffect(() => {
-    if (get(formValue, 'dateBook', null)) updateError('dateBook', true);
-    else updateError('dateBook', 'Required');
-    if (get(formValue, 'hourBook', null)) updateError('hourBook', true);
-    else updateError('hourBook', 'Required');
-    if (loggedInUser.id) {
-      if (get(formValue, 'phone', {}).number) updateError('phone', true);
-      else updateError('phone', 'Required');
-    }
-  }, [formValue]);
-
+  
   const handleChangeDate = (day) => {
     setDate(day);
     changeFieldValue('dateBook', DateTime.fromMillis(day, {
@@ -81,7 +59,7 @@ const BookTrialFlow = (props) => {
       locale: lang,
     }).toISO());
   };
-
+  
   useEffect(() => {
     let hourBook = get(formValue, 'hourBook', '');
     if (get(formValue, 'hourBook', null)) hourBook = get(formValue, 'hourBook', '').replace(':', '');
@@ -97,21 +75,21 @@ const BookTrialFlow = (props) => {
       changeFieldValue('date', defDate);
     }
   }, [get(formValue, 'fullDate', null), get(formValue, 'hourBook', null)]);
-
+  
   const closeModal = () => {
     setDatePickerModal(!datePickerModal);
   };
-
+  
   const openWhereByVideoCall = () => {
     window.open(whereby, '_blank');
     onClick();
   };
-
+  
   useOutsideAlerter(datePicker, {
     action: 'function',
     func: () => closeModal(),
   });
-
+  
   return (
     <main id="rewards" className="BookTrialFlow pb-4 h-perc-100 txtDark700">
       {
@@ -150,6 +128,7 @@ const BookTrialFlow = (props) => {
                         maxDate: `${DateTime.now().year + 1}-12-31`,
                         minDate: DateTime.now().toFormat('yyyy-LL-dd'),
                         onChange: (val) => handleChangeDate(val, 'new'),
+                        validate: [Validation.required]
                       }}
                       meta={{
                         invalid: get(syncErrors, 'dateBook', '') !== true,
@@ -170,6 +149,7 @@ const BookTrialFlow = (props) => {
                         name: 'hourBook',
                         placeholder: '08:00',
                         type: 'time',
+                        validate: [Validation.required]
                       }}
                       design={{
                         large: true,
@@ -211,6 +191,7 @@ const BookTrialFlow = (props) => {
                           name: 'phone',
                           type: 'text',
                           placeholder: '',
+                          validate: [Validation.required]
                         }}
                         inputFormat={{
                           formatType: 'tel',
@@ -277,7 +258,7 @@ const BookTrialFlow = (props) => {
           </>
         )
       }
-
+    
     </main>
   );
 };
@@ -291,7 +272,6 @@ BookTrialFlow.propTypes = {
   onClick: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   syncErrors: PropTypes.object.isRequired,
-  updateError: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -305,9 +285,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
     dispatch(change('scanFlow', field, value));
-  },
-  updateError(field, value) {
-    dispatch(changeSyncError('scanFlow', field, value));
   },
 });
 
