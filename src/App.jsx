@@ -22,6 +22,7 @@ import {
 import { reset } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
+import { Helmet } from 'react-helmet';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
 import Loading from './components/Loading';
 import WizardCard from './components/Cards/WizardCard';
@@ -52,6 +53,13 @@ const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/Wel
 const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazyWithRetry(() => import('./Pages/Offers/Flow/MakeOffer'));
 const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identification/IdentificationFlow'));
+
+// IMAGES
+import Android192 from './images/android-icon-192x192.png';
+import AppleTouch120 from './images/apple-touch-icon-120x120.png';
+import AppleTouch152 from './images/apple-touch-icon-152x152.png';
+import AppleTouch180 from './images/apple-touch-icon-180x180.png';
+import AppleTouch76 from './images/apple-touch-icon-76x76.png';
 
 // GENERAL COMPONENTS
 const PageHeader = lazyWithRetry(() => import('./components/Header/PageHeader'));
@@ -131,24 +139,24 @@ const App = (props) => {
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
-
+  
   const [isSecLevel, setIsSecLevel] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
-
+  
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
   // const [extraHeight, setExtraHeight] = useState(0);
-
+  
   // USEREF TO MANAGE DOM ELEMENT
   const dashContentRef = useRef(null);
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
   const el = document.getElementsByClassName('thirdLevel');
-
+  
   useEffect(() => {
     smoothscrollPolyfill.polyfill();
   }, []);
-
+  
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
     if (loggedInUser.user && localTransifex) {
@@ -166,7 +174,7 @@ const App = (props) => {
       element.classList.remove('txlive');
     }
   }, [localTransifex, loggedInUser]);
-
+  
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
     if (((get(activeSingleProperty, 'owner.id', 'a') === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
@@ -174,8 +182,9 @@ const App = (props) => {
     } else {
       handleSetUserTypes('buyer');
     }
+    handleSetActiveSingleDeal({});
   }, [activeSingleProperty.id]);
-
+  
   const bodyModal = document.getElementById('bodyModalWrapper');
   useEffect(() => {
     const hubDash = document.getElementsByClassName('hubDashboard')[0];
@@ -187,12 +196,11 @@ const App = (props) => {
       }
     }
   }, [bodyModal]);
-
+  
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
     if (get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) {
       history.push('/sell');
-      handleSetActiveSingleDeal({});
     }
     if (get(history, 'location', null) && typeof ga === 'function') {
       ga('send', 'pageview', history.location.pathname);
@@ -209,16 +217,14 @@ const App = (props) => {
       const customID = get(activeSingleProperty, 'id', null);
       if (customID) handleSetActiveSingleProperty({ customID });
       else handleSetActiveSingleProperty({});
-      handleSetActiveSingleDeal({});
     }
     if (splittedURL[1] === 'buy') {
       handleSetActiveSingleProperty({ });
-      handleSetActiveSingleDeal({});
     }
     const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
     if (scrollFlow) scrollFlow.scrollTop = 0;
   }, [history.location]);
-
+  
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
   useEffect(() => {
     if (get(redirectTo, 'history', null)) {
@@ -237,7 +243,7 @@ const App = (props) => {
       window.location.assign(redirectTo.url);
     }
   }, [redirectTo]);
-
+  
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
     if (
@@ -246,14 +252,12 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('trialRequest') ||
-      history.location.pathname.includes('scheduleVisit') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('signup')
     ) {
       if (
         history.location.pathname.includes('packageFlow') ||
         history.location.pathname.includes('visitFeedback') ||
-        history.location.pathname.includes('scheduleVisit') ||
         history.location.pathname.includes('signup')
       ) {
         setClassMain('flowContainer packageFlow w-perc-100');
@@ -286,7 +290,7 @@ const App = (props) => {
       setIsFlow(false);
       setZIndex(1);
     }
-
+    
     // add class to container when secondlevel visible on mobile
     if (
       (
@@ -311,12 +315,12 @@ const App = (props) => {
       }
     }
   }, [history.location.pathname, dashWrapperEl, [...el].length]);
-
+  
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
   }, []);
-
+  
   const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
@@ -334,7 +338,7 @@ const App = (props) => {
     }
     return contentHeight;
   }, [isFlow, calcHeaderHeight, windowDimensions]);
-
+  
   // DID MOUNT TO CHECK THE USER TOKEN AND INITIALIZE THE WINDOW SIZE LISTENER
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
@@ -349,7 +353,7 @@ const App = (props) => {
     }
     handleGetImageType({ smallLoader: 'imgType' });
   }, []);
-
+  
   const contentLayout = useCallback(() => {
     if (!isFlow) {
       if (isSecLevel) {
@@ -363,7 +367,7 @@ const App = (props) => {
     }
     return null;
   }, [isFlow, windowDimensions]);
-
+  
   useEffect(() => {
     window.addEventListener('resize', () => {
       handleSetWindowsDimension({
@@ -374,7 +378,7 @@ const App = (props) => {
       calcHeaderHeight();
     });
   }, [window]);
-
+  
   const overflowClass = useCallback(() => {
     if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) {
       // if (windowDimensions.width <= 1024) return 'ov-y-a ov-x-h';
@@ -382,7 +386,7 @@ const App = (props) => {
     }
     return 'ov-y-a ov-x-h';
   }, []);
-
+  
   // add class to body when loading enabled
   useEffect(() => {
     const loadingClass = document.getElementsByClassName('elem-loader')[0];
@@ -393,7 +397,7 @@ const App = (props) => {
       body.classList.remove('bodyLoading');
     }
   });
-
+  
   // CONDITION TO VIEW THE ELEMENTS AFTER LOADING
   if (
     !loggedInUser ||
@@ -404,9 +408,18 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     );
   }
-
+  
   return (
     <PartialErrorBoundering>
+      <Helmet>
+        <link rel="apple-touch-icon" href={AppleTouch76} />
+        <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
+        <link rel="apple-touch-icon" sizes="120x120" href={AppleTouch120} />
+        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />
+        <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
+        <link rel="icon" sizes="192x192" href={Android192} />
+        <title>Brixel Hub</title>
+      </Helmet>
       {
         pageError && (
           <BrixelPage500
@@ -443,7 +456,6 @@ const App = (props) => {
                     !isFlow &&
                     !history.location.pathname.includes('sell') &&
                     (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
-                    (!history.location.pathname.includes('scheduleVisit')) &&
                     loggedInUser &&
                     windowDimensions.width > 1024 &&
                     (
@@ -453,7 +465,7 @@ const App = (props) => {
                   <div className="w-perc-100 innerWrap h-perc-100">
                     <Routes>
                       <Route path="/500" element={<ErrorBoundering />} />
-                      { /* SECTION: ONBOARDING AND FLOWS */}
+                      { /* SECTION: ONBOARDING */}
                       <Route path="/packageFlow/" element={<GetStarted />} />
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
@@ -461,18 +473,17 @@ const App = (props) => {
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
-                      <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
-
+                      
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" element={<Signup />} />
-
+                      
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
-
+                      
                       { /* SECTION: CLOSING FLOWS */}
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
                       <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<IdentificationFlow />} />
-
+                      
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
@@ -489,7 +500,7 @@ const App = (props) => {
                                   get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
                                   get(history, 'location.pathname', '').split('/')[1].length > 18) ||
                                 get(history, 'location.pathname', '').split('/')[1] === 'company') && (
-
+                                
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
@@ -524,58 +535,55 @@ const App = (props) => {
                       }
                       <Route path="*" element={<Navigate to="/sell" />} />
                     </Routes>
-                    {
-                      !history.location.pathname.includes('scheduleVisit') && (
-                        <div
-                          className="dis-fl-col a-b jc-fe supportBtn"
-                        >
+                    <div
+                      className="dis-fl-col a-b jc-fe supportBtn"
+                    >
+                      {
+                        showSupport && (
+                          <Support
+                            layout="floatable"
+                            expanded
+                            isFixed
+                            onClose={() => setShowSupport(false)}
+                          />
+                        )
+                      }
+                      <div
+                        className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                        onClick={() => setShowSupport(!showSupport)}
+                      >
+                        <div className="dis-f jc-b a-c">
                           {
-                            showSupport && (
-                              <Support
-                                layout="floatable"
-                                expanded
-                                isFixed
-                                onClose={() => setShowSupport(false)}
+                            teamAvatars.map((imgTeam, i) => (
+                              <img
+                                key={`avt_${i.toString()}`}
+                                src={`${baseByData.shortPath}${imgTeam.path}`}
+                                alt="Support Team"
+                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
                               />
-                            )
+                            ))
                           }
-                          <div
-                            className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
-                            onClick={() => setShowSupport(!showSupport)}
-                          >
-                            <div className="dis-f jc-b a-c">
-                              {
-                                teamAvatars.map((imgTeam, i) => (
-                                  <img
-                                    key={`avt_${i.toString()}`}
-                                    src={`${baseByData.shortPath}${imgTeam.path}`}
-                                    alt="Support Team"
-                                    className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
-                                  />
-                                ))
-                              }
-                            </div>
-                            <span className="ml-2 txtDark700 fweight-500">Support</span>
-                          </div>
                         </div>
-                      )
-                    }
+                        <span className="ml-2 txtDark700 fweight-500">Support</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-
+            
             </div>
           </div>
-
+          
           { /* SECTION: ACHIVEMENT FLOW */ }
           <Routes>
             <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
+            <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
             <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
             <Route path="*" element={null} />
           </Routes>
-
+          
           {
             modal.state && !modal.type && !modal.small && (
               <BrixelModalFullScreen
@@ -619,7 +627,7 @@ const App = (props) => {
               </BrixelModal>
             )
           }
-
+          
           {
             modal.state && modal.type === 'confirmExit' && (
               <WarningScreen
@@ -630,7 +638,7 @@ const App = (props) => {
               />
             )
           }
-
+          
           {
             modal.state && modal.type === 'bestimate' && (
               <BestimateCardOverlay
@@ -640,7 +648,7 @@ const App = (props) => {
               />
             )
           }
-
+          
           { /* SPLASH SCREEN */}
           {
             (splashScreenType === 'marketOverlay' || splashScreenType === 'marketOverlayCarousel') && (
@@ -651,19 +659,19 @@ const App = (props) => {
               />
             )
           }
-
+          
           {
             has(splashScreenType, 'component') && (
               React.createElement(splashScreenType.component, splashScreenType.props)
             )
           }
-
+          
           {
             get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
               <WizardCard />
             )
           }
-
+          
           { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */}
           {
             notification && notification.length > 0 &&
@@ -690,7 +698,7 @@ const App = (props) => {
               </div>
             )
           }
-
+          
           {
             !history.location.pathname.includes('docubox') &&
             notification && (notification.small || notification.state) && (
@@ -706,7 +714,7 @@ const App = (props) => {
               </>
             )
           }
-
+          
           {/* Splash screens for single deal, create new deal and edit document */}
           <Routes>
             <Route
