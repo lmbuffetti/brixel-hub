@@ -40,7 +40,7 @@ const VisitFeedback = (props) => {
     activeSingleProperty,
     contacts,
     formValue,
-    handleUpdateError,
+    errorValue,
     handleSendVisitFeedback,
     handleGetActiveSingleProperty,
     handleSetActiveSingleCompany,
@@ -56,26 +56,26 @@ const VisitFeedback = (props) => {
   const urlParams = queryString.parse(get(history, 'location.search', ''));
   const status = urlParams.status === 'true';
   const { lang } = urlParams;
-
+  
   const checkPriceReason = get(formValue, 'reasons', null) && get(formValue, 'reasons', []).findIndex((val) => val === 'price') > -1;
-
+  
   useEffect(() => {
     setCookie('brixelLang', lang);
     if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
   }, [lang]);
-
+  
   const onUpdateError = () => {
-    const validateField = ['reasons'];
-    if (checkPriceReason) validateField.push('priceChangeAlert');
     let isValid = true;
+    let validateField = errorValue;
+    if (!checkPriceReason) validateField = Object.keys(validateField).filter((key) => key !== 'priceChangeAlert');
+    else validateField = Object.keys(validateField);
     validateField.forEach((key) => {
-      const checkError = Validation.required(get(formValue, key, ''));
-      if ((checkError !== true && checkError !== null) && isValid) isValid = false;
-      handleUpdateError(key, checkError);
+      const err = get(errorValue, key, null);
+      if (err !== true && err !== false && isValid) isValid = false;
     });
     setDisabledSend(!isValid);
   };
-
+  
   const saveData = () => {
     const data = {
       ...formValue,
@@ -86,7 +86,7 @@ const VisitFeedback = (props) => {
     };
     handleSendVisitFeedback(data);
   };
-
+  
   useEffect(() => {
     if (activeSingleProperty.id) {
       const data = {
@@ -97,21 +97,22 @@ const VisitFeedback = (props) => {
       handleSetActiveSingleCompany(activeSingleProperty.company);
     }
   }, [activeSingleProperty]);
-
+  
+  useEffect(() => {
+    onUpdateError()
+  }, [formValue]);
+  
+  
   useEffect(() => {
     if (has(formValue, 'status')) saveData();
   }, [formValue.status]);
-
-  useEffect(() => {
-    onUpdateError();
-  }, [formValue]);
-
+  
   useEffect(() => {
     if (!disabledSend && isSmallLoading.sendVisitSent === true) {
       setSuccessMessage(true);
     }
   }, [isSmallLoading]);
-
+  
   useEffect(() => {
     const data = {
       fullVersion: false,
@@ -119,16 +120,15 @@ const VisitFeedback = (props) => {
       stub: pageID,
     };
     handleGetActiveSingleProperty(data);
-    onUpdateError();
   }, []);
-
+  
   // REF
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-
+  
   return (
     <div id="bodyModalWrapper" className="withHeader getStarted visitFeedback">
-
+      
       <div className="bodyModal dis-fl-col upgradeModal container">
         <form
           id="multiStepForm"
@@ -148,7 +148,7 @@ const VisitFeedback = (props) => {
                         <div className=" multiFieldWrap w-perc-100 ">
                           <div className="dis-f jc-b h-perc-100 a-t">
                             <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
-
+                              
                               <div>
                                 <h6>Do you want to make an offer?</h6>
                                 <p>Make your offer online and have a proof of financing ready.</p>
@@ -159,11 +159,11 @@ const VisitFeedback = (props) => {
                                   label="Make an offer"
                                 />
                               </div>
-
+                              
                               <p className="mt-5">
                                 You can contact us if you have any specific questions to the owner.
                               </p>
-
+                              
                               <div className="my-3">
                                 {
                                   contacts.phone && (
@@ -194,7 +194,7 @@ const VisitFeedback = (props) => {
                                   )
                                 }
                               </div>
-
+                            
                             </div>
                           </div>
                         </div>
@@ -218,7 +218,7 @@ const VisitFeedback = (props) => {
                                     <p className="mt-1">
                                       Do you want to share any specific reasons or a comment to the owner?
                                     </p>
-
+                                    
                                     <div className="mt-3">
                                       {
                                         contacts.phone && (
@@ -249,7 +249,7 @@ const VisitFeedback = (props) => {
                                         )
                                       }
                                     </div>
-
+                                    
                                     <h6>Still looking for your dream home?</h6>
                                     <p>Check your Brixel market to find other properties.</p>
                                   </div>
@@ -288,9 +288,10 @@ const VisitFeedback = (props) => {
                                           { label: 'Better alternative', value: 'betterAlternative' },
                                           { label: 'Other', value: 'other' },
                                         ],
+                                        validate: [Validation.required]
                                       }}
                                     />
-
+                                    
                                     <ReduxField
                                       design={{
                                         className: 'mt-2',
@@ -304,7 +305,7 @@ const VisitFeedback = (props) => {
                                         name: 'otherReason',
                                       }}
                                     />
-
+                                    
                                     {
                                       checkPriceReason && (
                                         <ReduxField
@@ -322,6 +323,7 @@ const VisitFeedback = (props) => {
                                               { label: 'Yes', value: true },
                                               { label: 'No', value: false },
                                             ],
+                                            validate: [Validation.required]
                                           }}
                                         />
                                       )
@@ -356,12 +358,12 @@ const VisitFeedback = (props) => {
 VisitFeedback.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   contacts: PropTypes.object.isRequired,
+  errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleInitForm: PropTypes.func.isRequired,
   handleSendVisitFeedback: PropTypes.func.isRequired,
   handleSetActiveSingleCompany: PropTypes.func.isRequired,
-  handleUpdateError: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
 };
@@ -376,6 +378,7 @@ const mapStateToProps = (state) => {
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
     formValue: get(state, 'brixelForm.visitFeedback.values', {}),
+    errorValue: get(state, 'brixelForm.visitFeedback.syncErrors', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     initialValues,
   });
