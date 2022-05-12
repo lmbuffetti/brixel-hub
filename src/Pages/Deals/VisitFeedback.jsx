@@ -40,7 +40,7 @@ const VisitFeedback = (props) => {
     activeSingleProperty,
     contacts,
     formValue,
-    handleUpdateError,
+    errorValue,
     handleSendVisitFeedback,
     handleGetActiveSingleProperty,
     handleSetActiveSingleCompany,
@@ -65,13 +65,13 @@ const VisitFeedback = (props) => {
   }, [lang]);
 
   const onUpdateError = () => {
-    const validateField = ['reasons'];
-    if (checkPriceReason) validateField.push('priceChangeAlert');
     let isValid = true;
+    let validateField = errorValue;
+    if (!checkPriceReason) validateField = Object.keys(validateField).filter((key) => key !== 'priceChangeAlert');
+    else validateField = Object.keys(validateField);
     validateField.forEach((key) => {
-      const checkError = Validation.required(get(formValue, key, ''));
-      if ((checkError !== true && checkError !== null) && isValid) isValid = false;
-      handleUpdateError(key, checkError);
+      const err = get(errorValue, key, null);
+      if (err !== true && err !== false && isValid) isValid = false;
     });
     setDisabledSend(!isValid);
   };
@@ -97,14 +97,15 @@ const VisitFeedback = (props) => {
       handleSetActiveSingleCompany(activeSingleProperty.company);
     }
   }, [activeSingleProperty]);
+  
+  useEffect(() => {
+    onUpdateError()
+  }, [formValue]);
+  
 
   useEffect(() => {
     if (has(formValue, 'status')) saveData();
   }, [formValue.status]);
-
-  useEffect(() => {
-    onUpdateError();
-  }, [formValue]);
 
   useEffect(() => {
     if (!disabledSend && isSmallLoading.sendVisitSent === true) {
@@ -119,7 +120,6 @@ const VisitFeedback = (props) => {
       stub: pageID,
     };
     handleGetActiveSingleProperty(data);
-    onUpdateError();
   }, []);
 
   // REF
@@ -288,6 +288,7 @@ const VisitFeedback = (props) => {
                                           { label: 'Better alternative', value: 'betterAlternative' },
                                           { label: 'Other', value: 'other' },
                                         ],
+                                        validate: [Validation.required]
                                       }}
                                     />
 
@@ -322,6 +323,7 @@ const VisitFeedback = (props) => {
                                               { label: 'Yes', value: true },
                                               { label: 'No', value: false },
                                             ],
+                                            validate: [Validation.required]
                                           }}
                                         />
                                       )
@@ -356,12 +358,12 @@ const VisitFeedback = (props) => {
 VisitFeedback.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   contacts: PropTypes.object.isRequired,
+  errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleInitForm: PropTypes.func.isRequired,
   handleSendVisitFeedback: PropTypes.func.isRequired,
   handleSetActiveSingleCompany: PropTypes.func.isRequired,
-  handleUpdateError: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
 };
@@ -376,6 +378,7 @@ const mapStateToProps = (state) => {
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
     formValue: get(state, 'brixelForm.visitFeedback.values', {}),
+    errorValue: get(state, 'brixelForm.visitFeedback.syncErrors', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     initialValues,
   });
