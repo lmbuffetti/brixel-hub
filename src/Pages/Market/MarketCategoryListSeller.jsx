@@ -209,6 +209,9 @@ const MarketCategoryListSeller = (props) => {
       const actCountry = get(actCompany, 'country.code', '').toLowerCase();
       setArtByCountry(ArticlesList[actCountry] || ArticlesList.default);
     }
+  }, [activeCompanyId, companyListings]);
+  
+  useEffect(() => {
     if (activeCompanyId) {
       const dataCompany = {
         id: activeCompanyId,
@@ -216,7 +219,8 @@ const MarketCategoryListSeller = (props) => {
       };
       handleGetActiveCompanyPackages(dataCompany);
     }
-  }, [activeCompanyId, companyListings]);
+  }, [activeCompanyId]);
+  
 
   const bookNow = () => {
     if (propertyId) {
