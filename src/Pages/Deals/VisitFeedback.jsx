@@ -14,7 +14,6 @@ import {
   BrixelRadioButton,
   ReduxField,
   Validation,
-  changeSyncError,
   initializeForm,
 } from '@brixel/brixel-components/dist/form';
 import queryString from 'query-string';
@@ -376,9 +375,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  handleUpdateError(name, value) {
-    dispatch(changeSyncError('visitFeedback', name, value));
-  },
   handleInitForm(value) {
     dispatch(initializeForm('visitFeedback', value));
   },

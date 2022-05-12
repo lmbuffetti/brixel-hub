@@ -182,6 +182,10 @@ const ScanTrialFlow = (props) => {
           if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
       });
+      Object.keys(errorValue).forEach((key) => {
+        const err = get(errorValue, key, null);
+        if (err !== true && err !== false && isValid) isValid = false;
+      });
     }
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
