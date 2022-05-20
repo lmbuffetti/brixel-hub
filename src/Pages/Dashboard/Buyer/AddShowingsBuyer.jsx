@@ -72,13 +72,13 @@ const AddShowingsBuyer = (props) => {
 
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
-  
+
   useEffect(() => {
     if (activeSingleProperty.id) {
       initForm(initialValues);
     }
   }, [activeSingleProperty]);
-  
+
   useEffect(() => {
     if (!isSmallLoading.scheduleVisit && (questions[currentIndex + 1] && questions[currentIndex + 1].history === 'success')) {
       const newIndex = currentIndex + 1;
@@ -86,7 +86,7 @@ const AddShowingsBuyer = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
-  
+
   useEffect(() => {
     if (propID && propID !== 'propertyLists' && propID !== activeSingleProperty.id) {
       const data = {
@@ -97,7 +97,7 @@ const AddShowingsBuyer = (props) => {
       handleGetActiveSingleProperty(data);
     }
   }, [propID]);
-  
+
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -142,10 +142,10 @@ const AddShowingsBuyer = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-  
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
-  
+
   const saveData = () => {
     const data = {
       page: activeSingleProperty.id,
@@ -163,7 +163,7 @@ const AddShowingsBuyer = (props) => {
     handleCreatePropertyVisitBooking(data);
     return null;
   };
-  
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -182,7 +182,7 @@ const AddShowingsBuyer = (props) => {
     }
     return newIndex;
   };
-  
+
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
@@ -234,7 +234,7 @@ const AddShowingsBuyer = (props) => {
     }
     return null;
   };
-  
+
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
@@ -258,7 +258,7 @@ const AddShowingsBuyer = (props) => {
       if (Object.keys(checkDiff).length > 0) setQuestions(newQuest);
     }
   }, [formValue]);
-  
+
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     history.push(`/buyer/${propID}/home`);
@@ -304,7 +304,7 @@ const AddShowingsBuyer = (props) => {
     setShowResizer(false);
     setChooseDatesOpen(false);
   };
-  
+
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
@@ -379,14 +379,14 @@ const AddShowingsBuyer = (props) => {
                                     {
                                       scheduleVisitFree.map((val, i) => (
                                         <div
-                                          className="date-schedule brdSmall dis-fl-row brdLight200 p-2 brdRadius bgWhite mt-2"
+                                          className="date-schedule dis-fl-row bgAltGrey100 py-small-4 px-2 mb-1"
                                           key={`vst_${i.toString()}`}
                                         >
                                           <div className="dis-fl-row a-c">
-                                            <span className="day">
+                                            <span className="day pr-1 fsize-300">
                                               {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')},
                                             </span>
-                                            <div className="time">
+                                            <div className="time fsize-300">
                                               {
                                                 val.isAllDay ? (
                                                   <span>All day</span>
@@ -407,13 +407,15 @@ const AddShowingsBuyer = (props) => {
                                             </div>
                                           </div>
                                           <div
-                                            className="remove cur-poi a-c"
+                                            className="remove cur-poi a-c ml-1"
                                             onClick={() => removeEl(i)}
                                           >
                                             <BrixelButtonIcon
                                               icon="bin"
                                               theme="red"
                                               ghost
+                                              small
+                                              bgTransparent
                                             />
                                           </div>
                                         </div>
@@ -423,6 +425,7 @@ const AddShowingsBuyer = (props) => {
                                       (scheduleVisitFree.length > 0 && scheduleVisitFree.length < 3) && (
                                         <BrixelButtonText
                                           saturation={400}
+                                          className="mt-1 fsize-300"
                                           color="green"
                                           label="Choose another date"
                                           rightIcon="calendar"
@@ -517,18 +520,18 @@ const AddShowingsBuyer = (props) => {
                         {
                           get(quest, 'history', '') === 'success' &&
                           <div className="dis-fl-col a-c">
-                            <span>We will contact you as soon as possible</span>
+                            <span className="mb-2">We will contact you as soon as possible</span>
                             {
                               scheduleVisitFree.map((val, i) => (
                                 <div
-                                  className="date-schedule brdSmall dis-fl-row brdLight200 p-2 brdRadius bgWhite mt-2"
+                                  className="date-schedule dis-fl-row bgAltGrey100 py-small-4 px-2 mb-1"
                                   key={`vst_${i.toString()}`}
                                 >
                                   <div className="dis-fl-row a-c">
-                                    <span className="day">
+                                    <span className="day pr-1 fsize-300">
                                       {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')},
                                     </span>
-                                    <div className="time">
+                                    <div className="time fsize-300">
                                       {
                                         val.isAllDay ? (
                                           <span>All day</span>
@@ -570,7 +573,7 @@ const AddShowingsBuyer = (props) => {
                     {
                       showResizer && (
                         <BrixelButtonIcon
-                          className="backBtn ml-0"
+                          className="pos-a ml-0"
                           icon="arrow-left-small"
                           onClick={() => changeStep('back')}
                           theme="light"
