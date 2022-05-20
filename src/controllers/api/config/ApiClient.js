@@ -41,7 +41,7 @@ class ApiClient {
     return this.request({
       url: requestUrl,
       method: 'get',
-      data: { ...payload, meta: { url: get(window, 'location.href', '')}},
+      data: payload,
       params,
       headers,
       type,
@@ -57,7 +57,7 @@ class ApiClient {
     return this.request({
       url: requestUrl,
       method: 'put',
-      data: { ...payload, meta: { url: get(window, 'location.href', '')}},
+      data: payload,
       headers,
       type,
       baseUrlType,
@@ -72,7 +72,7 @@ class ApiClient {
     return this.request({
       url: requestUrl,
       method: 'post',
-      data: { ...payload, meta: { url: get(window, 'location.href', '')}},
+      data: payload,
       headers,
       type,
       baseUrlType,
@@ -97,7 +97,7 @@ class ApiClient {
     return this.request({
       url: requestUrl,
       method: 'delete',
-      data: { ...payload, meta: { url: get(window, 'location.href', '')}},
+      data: payload,
       headers,
       type,
       baseUrlType,
