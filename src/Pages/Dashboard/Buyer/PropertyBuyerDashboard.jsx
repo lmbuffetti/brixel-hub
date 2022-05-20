@@ -43,7 +43,7 @@ const PropertyBuyerDashboard = (props) => {
   // ON DESKTOP REDIREECT TO /LISTINGS/PAGE
   useEffect(() => {
     if (windowDimensions && windowDimensions.width > 1024 && (getFact() === propID || getFact() === 'property')) {
-      history.push({ pathname: `/buyer/${propID}/home` });
+      history.push({ pathname: `/buyer/${propID}/property/contact` });
     }
   }, [windowDimensions, getFact()]);
 

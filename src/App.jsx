@@ -248,6 +248,7 @@ const App = (props) => {
   useEffect(() => {
     if (
       history.location.pathname.includes('packageFlow') ||
+      history.location.pathname.includes('scheduleVisit') ||
       history.location.pathname.includes('visitFeedback') ||
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
@@ -257,6 +258,7 @@ const App = (props) => {
     ) {
       if (
         history.location.pathname.includes('packageFlow') ||
+        history.location.pathname.includes('scheduleVisit') ||
         history.location.pathname.includes('visitFeedback') ||
         history.location.pathname.includes('signup')
       ) {
@@ -345,6 +347,7 @@ const App = (props) => {
       let data = {};
       if (
         !history.location.pathname.includes('packageFlow') &&
+        !history.location.pathname.includes('scheduleVisit') &&
         !history.location.pathname.includes('visitFeedback') &&
         !history.location.pathname.includes('onBoarding') &&
         !history.location.pathname.includes('signup')
@@ -473,6 +476,7 @@ const App = (props) => {
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
+                      <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
                       
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" element={<Signup />} />
@@ -487,6 +491,7 @@ const App = (props) => {
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
@@ -523,6 +528,7 @@ const App = (props) => {
                       }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('signup') &&
@@ -577,7 +583,6 @@ const App = (props) => {
           { /* SECTION: ACHIVEMENT FLOW */ }
           <Routes>
             <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
-            <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
             <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
