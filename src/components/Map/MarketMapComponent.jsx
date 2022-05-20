@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { diff } from 'deep-object-diff';
 import { setWindowDimensions } from '../../actions/CommonActions';
 import MarkerComponent from './MarkerComponent';
 import { mapStyles } from '../../constants/map';
@@ -196,16 +195,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
-});
-
-export const MapComponent = React.memo(MarketMapComponent, (prevProps, nextProps) => {
-  const prevLat = get(prevProps, 'properties', null);
-  const nextLat = get(nextProps, 'properties', null);
-  const propDiff = diff(prevLat, nextLat);
-  return (
-    Object.keys(propDiff).length === 0 &&
-    prevProps.activeProperty === nextProps.activeProperty
-  );
 });
 
 export default compose(

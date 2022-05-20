@@ -793,13 +793,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
-export const GetStartedSellerMemo = React.memo(GetStartedSeller, (prevProps, nextProps) => {
-  const diffProps = diff(prevProps, nextProps);
-  return (
-    Object.keys(diffProps).length === 0
-  );
-});
-
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(GetStartedSellerMemo);
+)(GetStartedSeller);
