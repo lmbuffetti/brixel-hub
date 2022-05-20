@@ -57,7 +57,7 @@ const DashboardHome = (props) => {
   }, [activeSinglePropertyBookingSlots]);
 
   useEffect(() => {
-    if (propID) {
+    if (propID && loggedInUser.id) {
       const data = {
         id: propID,
         data: {

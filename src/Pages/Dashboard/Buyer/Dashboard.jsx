@@ -58,22 +58,24 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
-    const data = {
-      resultsPerPage: itemsPerPage,
-      offset: currentPage,
-      order: sortOrderType,
-      direction: sortDirection,
-      setAsSingle: true,
-      multiLoader: true,
-    };
-    handleGetFavoritesProperties(data);
-    handleSetUserTypes('buyer');
-    handleSpinnerOff();
+    if (loggedInUser.id) {
+      const data = {
+        resultsPerPage: itemsPerPage,
+        offset: currentPage,
+        order: sortOrderType,
+        direction: sortDirection,
+        setAsSingle: true,
+        multiLoader: true,
+      };
+      handleGetFavoritesProperties(data);
+      handleSetUserTypes('buyer');
+      handleSpinnerOff();
+    }
   }, []);
 
   useEffect(() => {
     const activeLeads = get(activeSingleProperty, 'pageLeads[0]', { });
-    if (activeLeads && activeLeads.company !== activeSingleCompany.id) {
+    if (activeLeads && activeLeads.company && activeLeads.company !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads.company });
     } else if (activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
@@ -88,7 +90,7 @@ const Dashboard = (props) => {
   }, [propID]);
 
   useEffect(() => {
-    if (propID && propID !== 'propertyLists') {
+    if (propID && propID !== 'propertyLists' && loggedInUser.id) {
       const data = {
         fullVersion: false,
         smallLoader: 'property',
@@ -96,7 +98,7 @@ const Dashboard = (props) => {
       };
       handleGetActiveSingleProperty(data);
     }
-  }, [propID, favoritesProperties]);
+  }, [propID, favoritesProperties, loggedInUser]);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
