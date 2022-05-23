@@ -111,7 +111,7 @@ const SidebarBuyer = (props) => {
         <p className="fweight-600 txtDark700 mb-2">Feed</p>
         {
           fullUpdates.map((history, i) => (
-            <>
+            <React.Fragment key={`updt_${i.toString()}`}>
               {
                 history.actionStub && (
                   <div
@@ -151,7 +151,7 @@ const SidebarBuyer = (props) => {
                   </div>
                 )
               }
-            </>
+            </React.Fragment>
           ))
         }
       </div>

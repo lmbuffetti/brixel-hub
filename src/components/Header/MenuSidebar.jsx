@@ -53,7 +53,7 @@ const MenuSidebar = (props) => {
               <ul className="sidebarNav dis-fl-col">
                 {
                   navigationMenu.map((nav, i) => (
-                    <>
+                    <React.Fragment key={`mnu_${i.toString()}`}>
                       {
                         !linkMenu(nav.path).includes('undefined') && (
                           <li
@@ -99,7 +99,7 @@ const MenuSidebar = (props) => {
                           </li>
                         )
                       }
-                    </>
+                    </React.Fragment>
                   ))
                 }
               </ul>

@@ -5,6 +5,7 @@ import {
   BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
+import isNaN from 'lodash/isNaN';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -55,6 +56,13 @@ const DashboardHome = (props) => {
       setVisitAccepted(acceptedVisit !== null ? acceptedVisit : null);
     }
   }, [activeSinglePropertyBookingSlots]);
+  
+  useEffect(() => {
+    if (!isNaN(+get(activeSingleDeal, 'visit', 0))) {
+      setVisitAccepted(get(activeSingleDeal, 'visit', 0));
+    }
+  }, [activeSingleDeal]);
+  
 
   useEffect(() => {
     if (propID && loggedInUser.id) {
@@ -122,79 +130,86 @@ const DashboardHome = (props) => {
                   className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${activeSinglePropertyBookingSlots.length > 0 ? 'bgWhite' : 'bgRed100'}`}
                 >
                   {
-                    activeSinglePropertyBookingSlots.length > 0 ? (
+                    visitAccepted ? (
                       <div
                         className="cardWithBg"
-                        style={{ backgroundImage: `url(${visitAccepted ? scheduleAcceptedSvg : schedulePendingSvg})` }}
+                        style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
                       >
+                        <div className="dis-fl-col max-w-perc-70">
+                          <h5>
+                            Your visit id confirmed
+                          </h5>
+                          <div className="dis-f a-c w-perc-100 mt-1">
+                            {
+                              get(visitAccepted, 'slot', '').split( ' ')[0] && (
+                                <h5 className="pr-2 txtGreen400 fweight-600">
+                                  {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', userLang)}
+                                </h5>
+                              )
+                            }
+                          </div>
+      
+                          {
+                            activeSingleDeal.visit && (
+                              <AddToCalendar
+                                title={`Visit ${activeSingleProperty.title}`}
+                                timestamp={activeSingleDeal.visit}
+                                location={formatCalendar('location')}
+                                userLang={userLang}
+                              />
+                            )
+                          }
+                        </div>
+                      </div>
+                    ) : (
+                      <>
                         {
-                          visitAccepted ? (
-                            <div className="dis-fl-col max-w-perc-70">
-                              <h5>
-                                Your visit id confirmed
-                              </h5>
-                              <div className="dis-f a-c w-perc-100 mt-1">
-                                {
-                                  get(visitAccepted, 'slot', '').split( ' ')[0] && (
-                                    <h5 className="pr-2 txtGreen400 fweight-600">
-                                      {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', userLang)}
-                                    </h5>
-                                  )
-                                }
+                          activeSinglePropertyBookingSlots.length > 0 ? (
+                            <div
+                              className="cardWithBg"
+                              style={{ backgroundImage: `url(${visitAccepted ? scheduleAcceptedSvg : schedulePendingSvg})` }}
+                            >
+                              <div className="dis-fl-col max-w-perc-70">
+                                <h5>
+                                  Thanks fo your request.
+                                </h5>
+                                <div className="dis-f a-c w-perc-100 mt-1">
+                                  <p className="pr-2">
+                                    We will contact you as soon as possible for confirmation.
+                                  </p>
+                                </div>
+        
+                                <BrixelButtonPrimary
+                                  onClick={() => ''}
+                                  className="mt-a"
+                                  rounded
+                                  label="show dates"
+                                />
                               </div>
-
-                              {
-                                activeSingleDeal.visit && (
-                                  <AddToCalendar
-                                    title={`Visit ${activeSingleProperty.title}`}
-                                    timestamp={activeSingleDeal.visit}
-                                    location={formatCalendar('location')}
-                                    userLang={userLang}
-                                  />
-                                )
-                              }
                             </div>
                           ) : (
-                            <div className="dis-fl-col max-w-perc-70">
-                              <h5>
-                                Thanks fo your request.
-                              </h5>
-                              <div className="dis-f a-c w-perc-100 mt-1">
-                                <p className="pr-2">
-                                  We will contact you as soon as possible for confirmation.
-                                </p>
+                            <div className="cardWithBg" style={{ backgroundImage: `url(${scheduleSvg})` }}>
+                              <div className="dis-fl-col max-w-perc-70">
+                                <h5 className="fweight-600">
+                                  Visit your future home
+                                </h5>
+                                <div className="dis-f a-c w-perc-100 mt-1 mb-3">
+                                  <p className="pr-2">
+                                    Book a visit with the current owner.
+                                  </p>
+                                </div>
+        
+                                <BrixelButtonPrimary
+                                  onClick={() => ''}
+                                  className="mt-a as-fs"
+                                  rounded
+                                  label="add dates"
+                                />
                               </div>
-
-                              <BrixelButtonPrimary
-                                onClick={() => ''}
-                                className="mt-a"
-                                rounded
-                                label="show dates"
-                              />
                             </div>
                           )
                         }
-                      </div>
-                    ) : (
-                      <div className="cardWithBg" style={{ backgroundImage: `url(${scheduleSvg})` }}>
-                        <div className="dis-fl-col max-w-perc-70">
-                          <h5 className="fweight-600">
-                            Visit your future home
-                          </h5>
-                          <div className="dis-f a-c w-perc-100 mt-1 mb-3">
-                            <p className="pr-2">
-                              Book a visit with the current owner.
-                            </p>
-                          </div>
-
-                          <BrixelButtonPrimary
-                            onClick={() => ''}
-                            className="mt-a as-fs"
-                            rounded
-                            label="add dates"
-                          />
-                        </div>
-                      </div>
+                      </>
                     )
                   }
                 </button>
@@ -299,7 +314,6 @@ DashboardHome.propTypes = {
 };
 
 DashboardHome.defaultProps = {
-  activeSinglePropertyDeals: null,
   proEstimation: {},
   userTypes: 'user',
 };
@@ -308,8 +322,6 @@ const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
-  activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
-  activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   userLang: get(state, 'user.loggedInUser.user.language', 'en'),
