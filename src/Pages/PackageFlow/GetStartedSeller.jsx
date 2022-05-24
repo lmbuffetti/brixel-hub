@@ -486,7 +486,7 @@ const GetStartedSeller = (props) => {
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle && questions[currentIndex].history !== 'createProfile') changeFieldValue('pageTitle', pageTitle);
     }
-  }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
+  }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
