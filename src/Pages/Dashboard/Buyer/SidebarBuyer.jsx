@@ -160,10 +160,10 @@ const SidebarBuyer = (props) => {
 };
 
 SidebarBuyer.propTypes = {
-  activeSinglePropertyDeals: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeDealHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeSinglePropertyDeals: PropTypes.object.isRequired,
+  activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
