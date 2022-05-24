@@ -486,7 +486,7 @@ const GetStartedSeller = (props) => {
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle && questions[currentIndex].history !== 'createProfile') changeFieldValue('pageTitle', pageTitle);
     }
-  }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
+  }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -793,13 +793,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
-export const GetStartedSellerMemo = React.memo(GetStartedSeller, (prevProps, nextProps) => {
-  const diffProps = diff(prevProps, nextProps);
-  return (
-    Object.keys(diffProps).length === 0
-  );
-});
-
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(GetStartedSellerMemo);
+)(GetStartedSeller);

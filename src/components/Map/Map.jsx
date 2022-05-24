@@ -433,17 +433,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export const Maps = React.memo(ComponentMap, (prevProps, nextProps) => {
-  const prevLat = get(prevProps, 'latitude', null);
-  const nextLat = get(nextProps, 'latitude', null);
-  const prevZoom = get(prevProps, 'zoom', null);
-  const nextZoom = get(nextProps, 'zoom', null);
-  return (
-    prevLat === nextLat &&
-    prevZoom === nextZoom
-  );
-});
-
 export default compose(
   connect(null, mapDispatchToProps),
 )(ComponentMap);
