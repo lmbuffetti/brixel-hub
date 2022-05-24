@@ -56,13 +56,13 @@ const DashboardHome = (props) => {
       setVisitAccepted(acceptedVisit !== null ? acceptedVisit : null);
     }
   }, [activeSinglePropertyBookingSlots]);
-  
+
   useEffect(() => {
     if (!isNaN(+get(activeSingleDeal, 'visit', 0))) {
       setVisitAccepted(get(activeSingleDeal, 'visit', 0));
     }
   }, [activeSingleDeal]);
-  
+
 
   useEffect(() => {
     if (propID && loggedInUser.id) {
@@ -115,7 +115,15 @@ const DashboardHome = (props) => {
         <span>Welcome back</span>
         <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
       </h4>
-
+      <div className="dis-f a-c w-perc-100 mt-1">
+        {
+          get(visitAccepted, 'slot', '').split( ' ')[0] && (
+            <h5 className="pr-2 txtGreen400 fweight-600">
+              {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', userLang)}
+            </h5>
+          )
+        }
+      </div>
       <div className="max-w-fix-760 dis-fl-col">
         {
           progressState.step === 1 && (
@@ -135,9 +143,9 @@ const DashboardHome = (props) => {
                         className="cardWithBg"
                         style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
                       >
-                        <div className="dis-fl-col max-w-perc-70">
+                        <div className="dis-fl-col max-w-perc-80">
                           <h5>
-                            Your visit id confirmed
+                            Your visit is confirmed
                           </h5>
                           <div className="dis-f a-c w-perc-100 mt-1">
                             {
@@ -148,15 +156,17 @@ const DashboardHome = (props) => {
                               )
                             }
                           </div>
-      
+
                           {
                             activeSingleDeal.visit && (
-                              <AddToCalendar
-                                title={`Visit ${activeSingleProperty.title}`}
-                                timestamp={activeSingleDeal.visit}
-                                location={formatCalendar('location')}
-                                userLang={userLang}
-                              />
+                              <div className="mt-a">
+                                <AddToCalendar
+                                  title={`Visit ${activeSingleProperty.title}`}
+                                  timestamp={activeSingleDeal.visit}
+                                  location={formatCalendar('location')}
+                                  userLang={userLang}
+                                />
+                              </div>
                             )
                           }
                         </div>
@@ -178,7 +188,7 @@ const DashboardHome = (props) => {
                                     We will contact you as soon as possible for confirmation.
                                   </p>
                                 </div>
-        
+
                                 <BrixelButtonPrimary
                                   onClick={() => ''}
                                   className="mt-a"
@@ -198,7 +208,7 @@ const DashboardHome = (props) => {
                                     Book a visit with the current owner.
                                   </p>
                                 </div>
-        
+
                                 <BrixelButtonPrimary
                                   onClick={() => ''}
                                   className="mt-a as-fs"
