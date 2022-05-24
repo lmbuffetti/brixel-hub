@@ -144,18 +144,22 @@ const DashboardHome = (props) => {
                           </h5>
                           <div className="dis-f a-c w-perc-100 mt-1">
                             <h5 className="pr-2 txtGreen400 fweight-600">
-                              {DateTime.fromMillis(visitAccepted).toFormat('dd LLL yyyy, hh:mm', userLang)}
+                              {!isNaN(+visitAccepted) ? DateTime.fromMillis(visitAccepted).toFormat('dd LLL yyyy, hh:mm', userLang) : visitAccepted}
                             </h5>
                           </div>
-
-                          <div className="mt-a">
-                            <AddToCalendar
-                              title={`Visit ${activeSingleProperty.title}`}
-                              timestamp={visitAccepted}
-                              location={formatCalendar('location')}
-                              userLang={userLang}
-                            />
-                          </div>
+  
+                          {
+                            !isNaN(+visitAccepted) && (
+                              <div className="mt-a">
+                                <AddToCalendar
+                                  title={`Visit ${activeSingleProperty.title}`}
+                                  timestamp={visitAccepted}
+                                  location={formatCalendar('location')}
+                                  userLang={userLang}
+                                />
+                              </div>
+                            )
+                          }
                         </div>
                       </div>
                     ) : (
