@@ -138,17 +138,17 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  activeSingleCompany: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  activeSingleCompany: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  handleGetFavoritesProperties: PropTypes.func.isRequired,
+  favoritesProperties: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
+  handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  favoritesProperties: PropTypes.object.isRequired,
 };
 
 Dashboard.defaultProps = {

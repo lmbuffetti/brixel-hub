@@ -49,13 +49,6 @@ const DashboardHome = (props) => {
   const [progressState] = useState({step: 1});
   const [visitAccepted, setVisitAccepted] = useState(false);
   const propID = get(match, 'propID', null);
-
-  useEffect(() => {
-    if (activeSinglePropertyBookingSlots.length > 0) {
-      const acceptedVisit = activeSinglePropertyBookingSlots.find((visit) => visit.status === 'accepted');
-      setVisitAccepted(acceptedVisit !== null ? acceptedVisit : null);
-    }
-  }, [activeSinglePropertyBookingSlots]);
   
   useEffect(() => {
     if (!isNaN(+get(activeSingleDeal, 'visit', 0))) {
@@ -87,8 +80,11 @@ const DashboardHome = (props) => {
   const formatCalendar = (type) => {
     switch (type) {
       case 'location': {
-        const location = `${activeSingleProperty.location.name}, ${activeSingleProperty.location.streetNumber} ${activeSingleProperty.location.zip} ${activeSingleProperty.location.city}`;
-        return location;
+        if (activeSingleProperty.location) {
+          const location = `${activeSingleProperty.location.name}, ${activeSingleProperty.location.streetNumber} ${activeSingleProperty.location.zip} ${activeSingleProperty.location.city}`;
+          return location;
+        }
+        break;
       }
       case 'start': {
         const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', userLang).toFormat('yyyy-LL-dd', userLang);
@@ -137,28 +133,20 @@ const DashboardHome = (props) => {
                       >
                         <div className="dis-fl-col max-w-perc-70">
                           <h5>
-                            Your visit id confirmed
+                            Your visit is confirmed
                           </h5>
                           <div className="dis-f a-c w-perc-100 mt-1">
-                            {
-                              get(visitAccepted, 'slot', '').split( ' ')[0] && (
-                                <h5 className="pr-2 txtGreen400 fweight-600">
-                                  {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', userLang)}
-                                </h5>
-                              )
-                            }
+                            <h5 className="pr-2 txtGreen400 fweight-600">
+                              {DateTime.fromMillis(visitAccepted).toFormat('dd LLL yyyy, hh:mm', userLang)}
+                            </h5>
                           </div>
-      
-                          {
-                            activeSingleDeal.visit && (
-                              <AddToCalendar
-                                title={`Visit ${activeSingleProperty.title}`}
-                                timestamp={activeSingleDeal.visit}
-                                location={formatCalendar('location')}
-                                userLang={userLang}
-                              />
-                            )
-                          }
+  
+                          <AddToCalendar
+                            title={`Visit ${activeSingleProperty.title}`}
+                            timestamp={visitAccepted}
+                            location={formatCalendar('location')}
+                            userLang={userLang}
+                          />
                         </div>
                       </div>
                     ) : (

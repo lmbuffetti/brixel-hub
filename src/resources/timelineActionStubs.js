@@ -53,6 +53,7 @@ module.exports = {
   ],
   BuyerSidebarPage: [
     'user-send-message',
+    'user-schedule',
   ],
   BuyerSidebarUser: [
     'user-register',
