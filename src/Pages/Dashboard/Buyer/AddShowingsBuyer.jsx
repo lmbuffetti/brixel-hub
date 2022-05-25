@@ -626,7 +626,15 @@ const mapStateToProps = (state) => {
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   const activeSingleCompany = get(state, 'companies.activeSingleCompany', {});
   activeSingleCompany.defaultDialCode = countryPhoneCode.dial_code;
-  const initialValues = {};
+  const initialValues = {
+    ...get(state, 'brixelForm.Showings.values', {}),
+    name: get(state, 'user.loggedInUser.user.name', null),
+    phone: {
+      prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,
+      number: get(state, 'user.loggedInUser.user.phone.number', ''),
+    },
+    email: get(state, 'user.loggedInUser.user.email', null),
+  };
   return ({
     activeSingleCompany,
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
