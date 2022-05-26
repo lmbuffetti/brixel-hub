@@ -1,28 +1,26 @@
-import {
-  Helpers
-} from '@brixel/brixel-components';
+import {Helpers} from '@brixel/brixel-components';
 import { has, tail } from 'lodash';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 
 const offerText = (offerMeta, userLang) => {
   let answerText = '';
-  answerText += `<span>${get(offerMeta, 'offer.currency')} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount'), get(offerMeta, 'offer.currency'))}</br></span>`;
+  answerText += `<span> You made an offer of </span> <span class="fweight-500">${get(offerMeta, 'offer.currency')} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount'), get(offerMeta, 'offer.currency'))}</br></span>`;
   if (get(offerMeta, 'offer.buyer') && Object.keys(offerMeta.offer.buyer).length > 0) {
-    answerText += `<span>Buyer details: </br></span> <span>Buyer details: </br></span>
-      <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span class="fweight-500">
+    answerText += `</br><span>Your details </br></span>
+      <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span>
       ${(typeof get(offerMeta, 'offer.buyer.dateBirth', '') === 'string' && get(offerMeta, 'offer.buyer.dateBirth', '').includes('-')) ? get(offerMeta, 'offer.buyer.dateBirth', '') : DateTime.fromMillis(
     get(offerMeta, 'offer.buyer.dateBirth', ''),
     {
       locale: userLang,
     },
   ).toFormat('yyyy-MM-dd')}
-    </span></span>      </br><span>Marital status: </span><span>${get(offerMeta, 'offer.buyer.maritialStatus', '')} </span>
+    </span></span><span>Marital status: </span><span>${get(offerMeta, 'offer.buyer.maritialStatus', '')} </span>
       </br><span>Place of origin: </span><span>${get(offerMeta, 'offer.buyer.placeOfOrigin', '')} </span>
       </br><span>Type of purchase: </span><span>${get(offerMeta, 'offer.buyer.typeOfPurchase', '')} </span>`;
   }
   if (get(offerMeta, 'offer.location') && Object.keys(offerMeta.offer.location).length > 0) {
-    answerText += `</br></br><span>Buyer location: </br></span>
+    answerText += `</br><span>Your location: </br></span>
       <span>${get(offerMeta, 'offer.location.street', '')} </span>
       <span>${get(offerMeta, 'offer.location.streetNumber', '')} </span>
       <span>, ${get(offerMeta, 'offer.location.zipCode', '')} </span>
@@ -167,13 +165,13 @@ export const feedMessage = (user, history, packages) => {
       icon: 'money',
     },
     'deal-review-offer': {
-      className: 'brdGreen100',
+      className: get(history, 'meta.offer.status', '') === 'rejected' ? 'brdRed100' : 'brdGreen100',
       colorIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorBgIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `Your offer was ${get(history, 'meta.offer.status', '')}`,
-      icon: 'money',
+      message: `Your offer of ${get(history, 'meta.offer.currency')} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency'))} was ${get(history, 'meta.offer.status', '')}`,
+      icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-small' : 'check',
     },
     'deal-feedback-visit-email': {
       className: 'brdGreen100',
