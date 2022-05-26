@@ -94,15 +94,17 @@ const SidebarBuyer = (props) => {
     return data.default[type];
   };
 
-  const parseNote = (text) => {
-    let textConverted = sanitizeHtml(text);
-    textConverted = textConverted.replace(/(?:\r\n|\r|\n)/g, '<br>');
-
-    const expMatch = /(\b(https?|):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/ig;
-    const elementContent = textConverted.replace(expMatch, '<a target="_blank" href="$1">$1</a>');
-    const newExpMatch = /(^|[^\\/])(www\.[\S]+(\b|$))/gim;
-    const newContent = elementContent.replace(newExpMatch, '$1<a target="_blank" href="http://$2">$2</a>');
-    return newContent;
+  const parseNote = (text, isNote) => {
+    if (isNote) {
+      let textConverted = sanitizeHtml(text);
+      textConverted = textConverted.replace(/(?:\r\n|\r|\n)/g, '<br>');
+      const expMatch = /(\b(https?|):\/\/[-A-Z0-9+&@#\\/%?=~_|!:,.;]*[-A-Z0-9+&@#\\/%=~_|])/ig;
+      const elementContent = textConverted.replace(expMatch, '<a target="_blank" href="$1">$1</a>');
+      const newExpMatch = /(^|[^\\/])(www\.[\S]+(\b|$))/gim;
+      const newContent = elementContent.replace(newExpMatch, '$1<a target="_blank" href="http://$2">$2</a>');
+      return newContent;
+    }
+    return text;
   };
 
   return (
@@ -130,7 +132,10 @@ const SidebarBuyer = (props) => {
                       iconSize="large"
                     />
                     <div className="pl-2 desc">
-                      <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history).replace(/&lt;br&gt;/g," ")) }} />
+                      <p
+                        className="fsize-300 txtDark600 dont-break-out"
+                        dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history), typeof history.actionStub === 'undefined') }}
+                      />
                       {
                         get(history, 'createdAt', null) && !isNaN(+get(history, 'createdAt', null)) && (
                           <p className="fsize-200 pt-small-4 txtLight400">
