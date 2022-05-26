@@ -100,6 +100,7 @@ const Dashboard = (props) => {
   } = props;
   const [userType, setUserType] = useState(null);
   const [loadedProp, setLoadedProp] = useState(false);
+  const [progressStep, setProgressStep] = useState({});
   // const [showMessage, setShowMessage] = useState(false);
 
   // GET URL PARAMS
@@ -346,7 +347,7 @@ const Dashboard = (props) => {
           {/* teaserScreens && isEligible(activeSingleProperty) && () */}
           { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
           <Routes>
-            <Route path="/home" element={<DashboardHome />} />
+            <Route path="/home" element={<DashboardHome onProgressStep={(step) => setProgressStep(step)} />} />
             <Route path="/property/*" element={<PropertyDashboard />} />
             <Route path="/docubox/*" element={<Documents />} />
             <Route path="/marketing/*" element={<MarketingDashboard />} />
@@ -361,7 +362,7 @@ const Dashboard = (props) => {
       {
         get(history, 'location.pathname', '').includes('home') && (
           <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
-            <SellerSidebar />
+            <SellerSidebar progressStep={progressStep} />
           </div>
         )
       }
