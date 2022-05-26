@@ -24,9 +24,9 @@ const offerText = (offerMeta, userLang) => {
       <span>, ${get(offerMeta, 'offer.location.zipCode', '')} </span>
       <span>${get(offerMeta, 'offer.location.City', '')} </span>`;
   }
-  
+
   if (get(offerMeta, 'offer.financeCertificate') === 0 || get(offerMeta, 'offer.financeCertificate') === 1) {
-    answerText += `</br></br><span>Financial certificate: </span><span>${offerMeta.offer.financeCertificate === 1 ? 'Yes' : 'No'} </span>`;
+    answerText += `</br><span>Financial certificate: </span><span>${offerMeta.offer.financeCertificate === 1 ? 'Yes' : 'No'} </span>`;
   }
   return answerText || 'Created offer';
 }
@@ -37,11 +37,11 @@ export const feedMessage = (user, history, packages) => {
   let dates = '';
   if (get(history, 'meta.schedule', null)) {
     const scheduleArray = tail(get(history, 'meta.schedule', '').split('•'));
-    scheduleArray.forEach((date, key) => {
-      dates += `<span>•${date}</span>${key !== (history.meta.schedule.split('•').length - 1) ? '</br>' : ''}`;
+    scheduleArray.forEach((date) => {
+      dates += `<span>•${date}</span>`;
     });
     if (has(history, 'meta.message')) {
-      dates += `</br><span>Message: </span><span>${history.meta.message}</span>`;
+      dates += `<span>Message: </span><span>${history.meta.message.replace(/&lt;br&gt;/g," ")}</span>`;
     }
   }
   return ({
@@ -204,7 +204,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `Visit confirmed: ${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}`,
+      message: `Visit confirmed: </br> ${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}`,
       icon: 'calendar',
     },
     'user-schedule': {
@@ -213,7 +213,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>Requested showing</span></br></br><span>${dates}</span>`,
+      message: `<span>Requested showing</span></br><span>${dates}</span>`,
       icon: 'calendar',
     },
     note: {

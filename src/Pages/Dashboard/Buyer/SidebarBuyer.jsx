@@ -30,9 +30,9 @@ const SidebarBuyer = (props) => {
   const match = useParams();
   // STATE
   const [fullUpdates, setFullUpdates] = useState([]);
-  
+
   const propID = get(match, 'propID', null);
-  
+
   useEffect(() => {
     if (loggedInUser.id && activeSinglePropertyDeals.id) {
       const payloadPageHistory = {
@@ -106,7 +106,7 @@ const SidebarBuyer = (props) => {
   };
 
   return (
-    <div className="seller-sidebar w-perc-100 max-w-fix-368 p-3">
+    <div className="seller-sidebar w-perc-100 max-w-fix-368 py-3 px-sm-2 px-3">
       <div className="updates dis-fl-col">
         <p className="fweight-600 txtDark700 mb-2">Feed</p>
         {
@@ -130,7 +130,7 @@ const SidebarBuyer = (props) => {
                       iconSize="large"
                     />
                     <div className="pl-2 desc">
-                      <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history)) }} />
+                      <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history).replace(/&lt;br&gt;/g," ")) }} />
                       {
                         get(history, 'createdAt', null) && !isNaN(+get(history, 'createdAt', null)) && (
                           <p className="fsize-200 pt-small-4 txtLight400">

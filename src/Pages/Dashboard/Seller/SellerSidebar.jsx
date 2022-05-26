@@ -36,7 +36,7 @@ const SellerSidebar = (props) => {
   // STATE
   const [fullUpdates, setFullUpdates] = useState([]);
   const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
-  
+
   const propID = get(match, 'propID', null);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const SellerSidebar = (props) => {
       handleGetNoteListings(payloadNote);
     }
   }, [propID]);
-  
+
   useEffect(() => {
     if (loggedInUser.id) {
       const payloadUserHistory = {
@@ -97,7 +97,7 @@ const SellerSidebar = (props) => {
     });
     setFullUpdates(mergedFeed);
   }, [activeSinglePropertyHistory, activeSingleUserHistory, activeSinglePropertyNotes]);
-  
+
   useEffect(() => {
     if (has(activeSingleProperty, 'location.countryCode')) {
       if (documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')]) {
@@ -107,7 +107,7 @@ const SellerSidebar = (props) => {
       }
     }
   }, [activeSingleProperty]);
-  
+
   const countMandatoryDocuments = () => {
     let count = 0;
     if (documents && mandatoryDocuments) {
@@ -141,13 +141,13 @@ const SellerSidebar = (props) => {
   return (
     <div className="seller-sidebar w-perc-100 max-w-fix-368">
       <div className="updates dis-fl-col">
-        
+
         {
           progressStep.step === 1 && (
             <div>
               <div className="p-3">
                 <p className="fweight-600 txtDark700 mb-2">Tasks</p>
-      
+
                 <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen100">
                   <div>
                     <BrixelIcon
@@ -166,7 +166,7 @@ const SellerSidebar = (props) => {
                     <span className="ml-small-4">of</span>
                     <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
                     <span className="ml-small-4">uplaoded on your docubox</span>
-  
+
                     <Link
                       className="dis-b mt-1"
                       to={{
@@ -177,9 +177,9 @@ const SellerSidebar = (props) => {
                     </Link>
                   </div>
                 </div>
-  
+
                 <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen100">
-  
+
                   <ProgressRing
                     progress={calcPercentageProEstimation().realPerc}
                     size={48}
@@ -191,7 +191,7 @@ const SellerSidebar = (props) => {
                   <div className="ml-3">
                     <span>{calcPercentageProEstimation().realPerc}%</span>
                     <span className="ml-small-4">of Pro Estimation complete</span>
-  
+
                     <Link
                       className="dis-b mt-1"
                       to={{
@@ -200,16 +200,16 @@ const SellerSidebar = (props) => {
                     >
                       {calcPercentageProEstimation().realPerc < 100 ? 'Next step' : 'View'}
                     </Link>
-                    
+
                   </div>
                 </div>
               </div>
-              
+
               <hr />
             </div>
           )
         }
-        
+
         <div className="p-3">
           <p className="fweight-600 txtDark700 mb-2">Feed</p>
 
@@ -231,7 +231,7 @@ const SellerSidebar = (props) => {
                   iconSize="large"
                 />
                 <div className="pl-2 desc">
-                  <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history)) }} />
+                  <p className="fsize-300 txtDark600 dont-break-out" dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history)).replace(/&lt;br&gt;/g," ") }} />
                   {
                     !isNaN(get(history, 'createdAt', null)) && (
                       <p className="fsize-200 pt-small-4 txtLight400">
