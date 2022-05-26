@@ -23,6 +23,7 @@ import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getActiveSinglePropertyDealsCount, getPageDeals } from '../../../actions/PropertyActions';
 import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
+import DashboardPropertyCardSold from '../../../components/Cards/DashboardPropertyCardSold';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 
 import Loading from '../../../components/Loading';
@@ -219,15 +220,10 @@ const DashboardHome = (props) => {
       }
   
       {
-        progressState.step < 5 ? (
+        progressState.step < 5 && (
           <h4 className="mb-3 hide dis-b-lg fweight-600">
             <span>Welcome back</span>
             <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
-          </h4>
-        ) : (
-          <h4 className="mb-3 hide dis-b-lg fweight-600">
-            <span>Congratulations on your sale</span>
-            <span>, {loggedInUser && (<>{loggedInUser.firstName}</>)} 🎉 </span>
           </h4>
         )
       }
@@ -691,14 +687,13 @@ const DashboardHome = (props) => {
         {
           progressState.step === 5 && (
             <>
-              
+              <DashboardPropertyCardSold />
+  
               <div className="brdRadius brdSmall brdGreen400 p-2 mb-3 fweight-400">
                 <h6>
                   You successfully sold this property and transfered it to the new owner. You can still access your photos, 3D tour, and all documents for your memory.
                 </h6>
               </div>
-              
-              <DashboardPropertyCard type="sold" />
         
               <div className="dis-fl-col dis-fl-row-sm">
   
@@ -765,24 +760,32 @@ const DashboardHome = (props) => {
               </div>
   
               <div
-                onClick={() => history.push(`/buy`)}
                 className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100"
                 style={{backgroundImage: `url(${marketNewHomeSvg})`, backgroundSize: 'auto 100%'}}
               >
                 <div className="dis-fl-col max-w-perc-100">
                   <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600">
                     <span className="pr-2 w-perc-100 max-w-fix-240">
-                      Looking for a new home?
+                      Find and add your new home
                     </span>
                   </div>
       
-                  <BrixelButtonSecondary
-                    bgTransparent
-                    onClick={() => history.push(`/buy`)}
-                    className="mt-2 as-fs"
-                    rounded
-                    label="Go to our market"
-                  />
+                  <div className="dis-f mt-2">
+                    <BrixelButtonPrimary
+                      onClick={() => history.push(`/buy`)}
+                      className="as-fs"
+                      rounded
+                      label="Search market"
+                    />
+  
+                    <BrixelButtonSecondary
+                      bgTransparent
+                      onClick={() => history.push(`/packageFlow/getStarted?company=${activeSingleCompany.stub}`)}
+                      className="as-fs ml-2"
+                      rounded
+                      label="Add new property"
+                    />
+                  </div>
                 </div>
               </div>
               
