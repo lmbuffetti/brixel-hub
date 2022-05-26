@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 const offerText = (offerMeta, userLang) => {
   let answerText = '';
   if (get(offerMeta, 'offer.buyer') && Object.keys(offerMeta.offer.buyer).length > 0) {
-    answerText += `<span>Buyer details: </br></span>
+    answerText += `<span>Buyer details: </br></span> <span>Buyer details: </br></span>
       <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span class="fweight-500">
       ${(typeof get(offerMeta, 'offer.buyer.dateBirth', '') === 'string' && get(offerMeta, 'offer.buyer.dateBirth', '').includes('-')) ? get(offerMeta, 'offer.buyer.dateBirth', '') : DateTime.fromMillis(
     get(offerMeta, 'offer.buyer.dateBirth', ''),
@@ -38,7 +38,7 @@ export const feedMessage = (user, history, packages) => {
   if (get(history, 'meta.schedule', null)) {
     const scheduleArray = tail(get(history, 'meta.schedule', '').split('•'));
     scheduleArray.forEach((date) => {
-      dates += `<span>•${date}</span>`;
+      dates += `<span class="tidy-dates">•${date}</span>`;
     });
     if (has(history, 'meta.message')) {
       dates += `<span>Message: </span><span>${history.meta.message.replace(/&lt;br&gt;/g," ")}</span>`;
@@ -141,7 +141,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `${user.email} just signed up`,
+      message: `${user.email} signed up`,
       icon: 'user-new',
     },
     'page-status-success': {
@@ -195,7 +195,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'User sent a message',
+      message: 'You sent a message',
       icon: 'mail-open',
     },
     'update-deal': {
@@ -204,7 +204,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `Visit confirmed: </br> ${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}`,
+      message: `Your visit is confirmed: </br> ${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}`,
       icon: 'calendar',
     },
     'user-schedule': {
@@ -213,7 +213,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>Requested showing</span></br><span>${dates}</span>`,
+      message: `<span>You requested a visit</span></br><span>${dates}</span>`,
       icon: 'calendar',
     },
     note: {

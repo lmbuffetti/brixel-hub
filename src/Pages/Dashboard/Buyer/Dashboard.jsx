@@ -106,7 +106,7 @@ const Dashboard = (props) => {
       history.push({ pathname: `/buyer/${propID}/closing` });
     }
   }, [history.location.pathname]);
-  
+
   const sectionClass = get(history, 'location.pathname', '/').split('/');
 
   return (
@@ -127,7 +127,7 @@ const Dashboard = (props) => {
         </div>
         {
           get(history, 'location.pathname', '').includes('home') && (
-            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+            <div className="hide dis-f-lg w-perc-100 max-w-fix-384">
               <SidebarBuyer />
             </div>
           )

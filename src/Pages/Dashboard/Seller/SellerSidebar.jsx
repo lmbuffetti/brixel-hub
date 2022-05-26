@@ -142,7 +142,7 @@ const SellerSidebar = (props) => {
   };
 
   return (
-    <div className="seller-sidebar w-perc-100 max-w-fix-368">
+    <div className="seller-sidebar w-perc-100 max-w-fix-384">
       <div className="updates dis-fl-col">
 
         {
