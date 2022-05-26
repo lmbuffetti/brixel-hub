@@ -1,9 +1,13 @@
+import {
+  Helpers
+} from '@brixel/brixel-components';
 import { has, tail } from 'lodash';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 
 const offerText = (offerMeta, userLang) => {
   let answerText = '';
+  answerText += `<span>${get(offerMeta, 'offer.currency')} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount'), get(offerMeta, 'offer.currency'))}</br></span>`;
   if (get(offerMeta, 'offer.buyer') && Object.keys(offerMeta.offer.buyer).length > 0) {
     answerText += `<span>Buyer details: </br></span>
       <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span class="fweight-500">
