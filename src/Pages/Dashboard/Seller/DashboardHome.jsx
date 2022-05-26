@@ -232,7 +232,7 @@ const DashboardHome = (props) => {
 
   return (
     <div className="rewards-container" id="rewardsDashboard">
-  
+
       {
         splashScreenType === 'bestimateResult' && get(estimation, 'status', 'active') !== 'pending' && (
           <BestimateCardOverlay
@@ -241,7 +241,7 @@ const DashboardHome = (props) => {
           />
         )
       }
-  
+
       {
         progressState.step < 5 ? (
           <h4 className="mb-3 hide dis-b-lg fweight-600">
@@ -273,7 +273,7 @@ const DashboardHome = (props) => {
         )
       }
 
-      <div className="max-w-fix-760 dis-fl-col">
+      <div className="max-w-fix-760 dis-fl-col pr-md-2">
         {
           progressState.step === 1 && (
             <>
@@ -962,21 +962,21 @@ const DashboardHome = (props) => {
             </>
           )
         }
-  
+
         {
           progressState.step === 5 && (
             <>
-              
+
               <div className="brdRadius brdSmall brdGreen400 p-2 mb-3 fweight-400">
                 <h6>
                   You successfully sold this property and transfered it to the new owner. You can still access your photos, 3D tour, and all documents for your memory.
                 </h6>
               </div>
-              
+
               <DashboardPropertyCard type="sold" />
-        
+
               <div className="dis-fl-col dis-fl-row-sm">
-  
+
                 {
                   get(activeSingleCompany, 'links.review', null) && (
                     <button
@@ -996,7 +996,7 @@ const DashboardHome = (props) => {
                             alt="review Sale"
                           />
                         </div>
-        
+
                         <BrixelButtonPrimary
                           onClick={() => ''}
                           className="mt-2 as-fs"
@@ -1026,7 +1026,7 @@ const DashboardHome = (props) => {
                             alt="Survey Sale"
                           />
                         </div>
-          
+
                         <BrixelButtonSecondary
                           onClick={() => ''}
                           className="mt-2 as-fs"
@@ -1038,7 +1038,7 @@ const DashboardHome = (props) => {
                   )
                 }
               </div>
-  
+
               <div
                 onClick={() => history.push(`/buy`)}
                 className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100"
@@ -1050,7 +1050,7 @@ const DashboardHome = (props) => {
                       Looking for a new home?
                     </span>
                   </div>
-      
+
                   <BrixelButtonSecondary
                     bgTransparent
                     onClick={() => history.push(`/buy`)}
@@ -1060,7 +1060,7 @@ const DashboardHome = (props) => {
                   />
                 </div>
               </div>
-              
+
             </>
           )
         }
