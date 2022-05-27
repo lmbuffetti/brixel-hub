@@ -19,6 +19,7 @@ import { arrayMove } from '../../../utils/helpers';
 const SidebarBuyer = (props) => {
   // PROPS
   const {
+    activeSingleProperty,
     activeDealHistory,
     activeSinglePropertyDeals,
     activeCompanyPackages,
@@ -88,10 +89,12 @@ const SidebarBuyer = (props) => {
   }, [activeSinglePropertyHistory, activeSingleUserHistory, activeDealHistory]);
 
   const convertFeedMessage = (stub, type, history) => {
-    const data = feedMessage(loggedInUser, history, activeCompanyPackages);
-    if (data[stub] && data[stub][type]) return data[stub][type];
-    if (history.content) return data.note[type];
-    return data.default[type];
+    if (activeSingleProperty.id) {
+      const data = feedMessage(loggedInUser, history, activeCompanyPackages, activeSingleProperty);
+      if (data[stub] && data[stub][type]) return data[stub][type];
+      if (history.content) return data.note[type];
+      return data.default[type];
+    }
   };
 
   const parseNote = (text, isNote) => {
@@ -168,6 +171,7 @@ SidebarBuyer.propTypes = {
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeDealHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyDeals: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,

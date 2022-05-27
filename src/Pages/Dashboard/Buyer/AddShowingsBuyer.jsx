@@ -24,7 +24,10 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { createPropertyVisitBooking, getActiveSingleProperty } from '../../../actions/PropertyActions';
+import {
+  createPropertyVisitBooking,
+  getActiveSingleProperty,
+} from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
 import { QuestionsList } from '../../../resources/AddShowings';
 import 'react-input-range/lib/css/index.css';
@@ -56,7 +59,7 @@ const AddShowingsBuyer = (props) => {
   const [showError, setShowError] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [action, setAction] = useState(null);
-  const [chooseDatesOpen, setChooseDatesOpen] = useState(false);
+  const [chooseDatesOpen, setChooseDatesOpen] = useState(true);
   const [showResizer, setShowResizer] = useState(false);
   const [date, setDate] = useState(null);
   const [hours, setHours] = useState({ min: 8, max: 20 });
@@ -86,6 +89,7 @@ const AddShowingsBuyer = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
+  
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists' && propID !== activeSingleProperty.id) {
@@ -282,7 +286,6 @@ const AddShowingsBuyer = (props) => {
   };
 
   const saveDate = (e) => {
-    // SET STUFF HERE
     // setDatePickerModal(!datePickerModal);
     e.preventDefault();
     e.stopPropagation();
@@ -372,9 +375,8 @@ const AddShowingsBuyer = (props) => {
                         {
                           get(quest, 'history', '') === 'visitDates' && !chooseDatesOpen && !showResizer && (
                             <div className="dis-fl-col a-c">
-                              <span className="fsize-400 fweight-400 mb-5">Suggest up to 3 suitable dates to visit the property</span>
                               {
-                                (scheduleVisitFree.length > 0) ? (
+                                (scheduleVisitFree.length > 0) && (
                                   <div className="dis-fl-col a-c jc-b">
                                     {
                                       scheduleVisitFree.map((val, i) => (
@@ -437,14 +439,6 @@ const AddShowingsBuyer = (props) => {
                                       )
                                     }
                                   </div>
-                                ) : (
-                                  <BrixelButtonPrimary
-                                    className="mx-a"
-                                    rounded
-                                    label="Choose new date"
-                                    rightIcon="calendar"
-                                    onClick={() => setChooseDatesOpen(true)}
-                                  />
                                 )
                               }
                             </div>
@@ -637,6 +631,7 @@ const mapStateToProps = (state) => {
   };
   return ({
     activeSingleCompany,
+    activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
     formValue: get(state, 'brixelForm.Showings.values', {}),
