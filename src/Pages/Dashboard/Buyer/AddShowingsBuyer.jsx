@@ -89,7 +89,23 @@ const AddShowingsBuyer = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
-  
+
+  useEffect(() => {
+    if (propID && loggedInUser.id) {
+      if (history) {
+        console.log(history)
+      }
+      // const data = {
+      //   id: propID,
+      //   data: {
+      //     user: loggedInUser.id,
+      //   },
+      //   smallLoader: 'getBooking',
+      // };
+      // handleGetActiveSinglePropertyBookings(data);
+    }
+  }, [propID, loggedInUser, history]);
+
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists' && propID !== activeSingleProperty.id) {
