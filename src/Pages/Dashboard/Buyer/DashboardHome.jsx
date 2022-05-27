@@ -138,8 +138,8 @@ const DashboardHome = (props) => {
                         className="cardWithBg"
                         style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
                       >
-                        <div className="dis-fl-col max-w-perc-80">
-                          <h5>
+                        <div className="dis-fl-col max-w-perc-100">
+                          <h5 className="max-w-perc-100">
                             Your visit is confirmed
                           </h5>
                           <div className="dis-f a-c w-perc-100 mt-1">
@@ -170,11 +170,11 @@ const DashboardHome = (props) => {
                               className="cardWithBg"
                               style={{ backgroundImage: `url(${visitAccepted ? scheduleAcceptedSvg : schedulePendingSvg})` }}
                             >
-                              <div className="dis-fl-col max-w-perc-70">
-                                <h5>
+                              <div className="dis-fl-col max-w-perc-100">
+                                <h5 className="max-w-perc-100">
                                   Thanks fo your request.
                                 </h5>
-                                <div className="dis-f a-c w-perc-100 mt-1">
+                                <div className="dis-f a-c max-w-perc-70 mt-1">
                                   <p className="pr-2">
                                     We will contact you as soon as possible for confirmation.
                                   </p>
@@ -190,11 +190,11 @@ const DashboardHome = (props) => {
                             </div>
                           ) : (
                             <div className="cardWithBg" style={{ backgroundImage: `url(${scheduleSvg})` }}>
-                              <div className="dis-fl-col max-w-perc-70">
+                              <div className="dis-fl-col max-w-perc-100">
                                 <h5 className="fweight-600">
                                   Visit your future home
                                 </h5>
-                                <div className="dis-f a-c w-perc-100 mt-1 mb-3">
+                                <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
                                   <p className="pr-2">
                                     Book a visit with the current owner.
                                   </p>
@@ -223,11 +223,11 @@ const DashboardHome = (props) => {
                     className="cardWithBg"
                     style={{ backgroundImage: `url(${financingSvg})` }}
                   >
-                    <div className="dis-fl-col max-w-perc-70">
+                    <div className="dis-fl-col max-w-perc-100">
                       <h5 className="fweight-600">
                         Check financing
                       </h5>
-                      <div className="dis-f a-c w-perc-100 mt-1 mb-3">
+                      <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
                         <p className="pr-2">
                           Assess whether you can afford your desired property.
                         </p>

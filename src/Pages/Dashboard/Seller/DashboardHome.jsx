@@ -251,28 +251,31 @@ const DashboardHome = (props) => {
             <>
               <DashboardPropertyCard />
 
-              <div className="bgGreen100 shadow-2dp brdRadius p-3">
+              <div
+                className="bgGreen100 shadow-2dp brdRadius p-2 p-sm-3 cardWithBg testDriveImg"
+                style={{ backgroundImage: `url(${testDriveImg})` }}
+              >
                 <div className="dis-f a-t jc-b">
                   <div>
                     <h4 className="mb-2 fweight-600">Test drive our service. No strings attached.</h4>
-                    <p className="fsize-300 txtDark700">
+                    <p className="fsize-300 txtDark700 max-w-perc-70">
                       <span>Get the full Brixel experience worth</span>
                       <span className="ml-small-4">
                         {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
                       </span>
                     </p>
 
-                    <div className="dis-f a-c mt-3">
+                    <div className="dis-fl-col dis-fl-row-sm mt-3">
                       <BrixelButtonPrimary
                         onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
-                        className=""
+                        className="as-fs min-w-fix-144"
                         rounded
                         label="Book now"
                       />
 
                       <BrixelButtonSecondary
                         onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/home`)}
-                        className="ml-3"
+                        className="ml-sm-3 mt-1 mt-sm-0 min-w-fix-144 as-fs"
                         rounded
                         bgTransparent
                         themeSat={700}
@@ -281,7 +284,7 @@ const DashboardHome = (props) => {
                     </div>
 
                   </div>
-                  <img src={testDriveImg} alt="Test Drive" />
+                  {/* <img src={testDriveImg} alt="Test Drive" /> */}
                 </div>
               </div>
             </>

@@ -34,7 +34,7 @@ const DashboardPropertyCard = (props) => {
 
   return (
     <>
-      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-3 mb-3'} ov-h`}>
+      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2 mb-3'} ov-h`}>
         <div>
           <div
             onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
@@ -57,7 +57,7 @@ const DashboardPropertyCard = (props) => {
             }
           </div>
         </div>
-        <div className="pl-3 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
+        <div className="pl-sm-3 pl-2 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
           <div className="">
             <h4 className="txtDark700 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
@@ -265,7 +265,7 @@ const DashboardPropertyCard = (props) => {
                                   <div className="dis-fl-col pl-2 mr-1">
                                     <span className="txtLight600 fsize-300">Your Bestimate</span>
                                     {
-                                      !get(estimation, 'status', null) || !completedBestimate(formValue) && (
+                                      !get(estimation, 'status', null) || !completedBestimate(formValue) && !get(estimation, 'status', '') === 'processed' && (
                                         <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
                                           Get Estimation
                                         </Link>
@@ -285,7 +285,7 @@ const DashboardPropertyCard = (props) => {
                                             state: true,
                                             type: 'bestimate',
                                           })}
-                                          className="txtBlue700 no-state fweight-600"
+                                          className="txtBlue700 no-state fweight-600 fsize-400 ml-1-neg"
                                         >
                                           {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', '').toFixed(0), get(estimation, 'currency', ''))}
                                         </button>

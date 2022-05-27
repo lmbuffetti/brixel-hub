@@ -151,27 +151,27 @@ const SellerSidebar = (props) => {
               <div className="p-3">
                 <p className="fweight-600 txtDark700 mb-2">Tasks</p>
 
-                <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen100">
+                <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen300">
                   <div>
                     <BrixelIcon
                       saturation={0}
                       color="green"
                       saturationTxt={400}
                       padding="p-small-12 brdSmall brdGreen200"
-                      icon="check"
+                      icon="tick"
                       rounded
                       className="as-fs"
                       iconSize="large"
                     />
                   </div>
-                  <div className="ml-3">
+                  <div className="ml-3 fsize-300">
                     <span>{countMandatoryDocuments()}</span>
                     <span className="ml-small-4">of</span>
                     <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
                     <span className="ml-small-4">uplaoded on your docubox</span>
 
                     <Link
-                      className="dis-b mt-1"
+                      className="dis-b mt-1 fsize-300 td-u"
                       to={{
                         pathname: `/${propID}/docubox`,
                       }}
@@ -181,7 +181,7 @@ const SellerSidebar = (props) => {
                   </div>
                 </div>
 
-                <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen100">
+                <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen300">
 
                   <ProgressRing
                     progress={calcPercentageProEstimation().realPerc}
@@ -191,12 +191,12 @@ const SellerSidebar = (props) => {
                     circleTwoStroke="#009877"
                     showIcon={false}
                   />
-                  <div className="ml-3">
+                  <div className="ml-3 fsize-300">
                     <span>{calcPercentageProEstimation().realPerc}%</span>
                     <span className="ml-small-4">of Pro Estimation complete</span>
 
                     <Link
-                      className="dis-b mt-1"
+                      className="dis-b mt-1 fsize-300 td-u"
                       to={{
                         pathname: calcPercentageProEstimation().realPerc < 100 ? `/${propID}/property/price/formFlow` : `/${propID}/property/price`,
                       }}

@@ -3,33 +3,9 @@ import { has, tail } from 'lodash';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 
-const offerText = (offerMeta, userLang) => {
+const offerText = (offerMeta) => {
   let answerText = '';
   answerText += `<span> You made an offer of </span> <span class="fweight-500">${get(offerMeta, 'offer.currency')} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount'), get(offerMeta, 'offer.currency'))}</br></span>`;
-  if (get(offerMeta, 'offer.buyer') && Object.keys(offerMeta.offer.buyer).length > 0) {
-    answerText += `</br><span>Your details </br></span>
-      <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span>
-      ${(typeof get(offerMeta, 'offer.buyer.dateBirth', '') === 'string' && get(offerMeta, 'offer.buyer.dateBirth', '').includes('-')) ? get(offerMeta, 'offer.buyer.dateBirth', '') : DateTime.fromMillis(
-    get(offerMeta, 'offer.buyer.dateBirth', ''),
-    {
-      locale: userLang,
-    },
-  ).toFormat('yyyy-MM-dd')}
-    </span></span><span>Marital status: </span><span>${get(offerMeta, 'offer.buyer.maritialStatus', '')} </span>
-      </br><span>Place of origin: </span><span>${get(offerMeta, 'offer.buyer.placeOfOrigin', '')} </span>
-      </br><span>Type of purchase: </span><span>${get(offerMeta, 'offer.buyer.typeOfPurchase', '')} </span>`;
-  }
-  if (get(offerMeta, 'offer.location') && Object.keys(offerMeta.offer.location).length > 0) {
-    answerText += `</br><span>Your location: </br></span>
-      <span>${get(offerMeta, 'offer.location.street', '')} </span>
-      <span>${get(offerMeta, 'offer.location.streetNumber', '')} </span>
-      <span>, ${get(offerMeta, 'offer.location.zipCode', '')} </span>
-      <span>${get(offerMeta, 'offer.location.City', '')} </span>`;
-  }
-
-  if (get(offerMeta, 'offer.financeCertificate') === 0 || get(offerMeta, 'offer.financeCertificate') === 1) {
-    answerText += `</br><span>Financial certificate: </span><span>${offerMeta.offer.financeCertificate === 1 ? 'Yes' : 'No'} </span>`;
-  }
   return answerText || 'Created offer';
 }
 
@@ -171,7 +147,7 @@ export const feedMessage = (user, history, packages) => {
       colorIconSat: 100,
       colorBgIconSat: 400,
       message: `Your offer of ${get(history, 'meta.offer.currency')} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency'))} was ${get(history, 'meta.offer.status', '')}`,
-      icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-small' : 'check',
+      icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-thin' : 'tick',
     },
     'deal-feedback-visit-email': {
       className: 'brdGreen100',
