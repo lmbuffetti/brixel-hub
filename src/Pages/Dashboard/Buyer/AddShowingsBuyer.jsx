@@ -27,6 +27,7 @@ import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodeP
 import {
   createPropertyVisitBooking,
   getActiveSingleProperty,
+  getActiveSinglePropertyBookings,
 } from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
 import { QuestionsList } from '../../../resources/AddShowings';
@@ -43,9 +44,11 @@ const AddShowingsBuyer = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    activeSinglePropertyBookingSlots,
     errorValue,
     formValue,
     handleCreatePropertyVisitBooking,
+    handleGetActiveSinglePropertyBookings,
     handleGetActiveSingleProperty,
     initForm,
     initialValues,
@@ -92,19 +95,22 @@ const AddShowingsBuyer = (props) => {
 
   useEffect(() => {
     if (propID && loggedInUser.id) {
-      if (history) {
-        console.log(history)
+      if (get(history, 'location.search', '').split('?')[1] === 'showBookings') {
+        setChooseDatesOpen(false);
+        const newIndex = questions.length - 1;
+        setCurrentIndex(newIndex);
+        setQuest(questions[questions.length - 1]);
+        const data2 = {
+          id: propID,
+          data: {
+            user: loggedInUser.id,
+          },
+          smallLoader: 'getBooking',
+        };
+        handleGetActiveSinglePropertyBookings(data2);
       }
-      // const data = {
-      //   id: propID,
-      //   data: {
-      //     user: loggedInUser.id,
-      //   },
-      //   smallLoader: 'getBooking',
-      // };
-      // handleGetActiveSinglePropertyBookings(data);
     }
-  }, [propID, loggedInUser, history]);
+  }, [propID, loggedInUser]);
 
 
   useEffect(() => {
@@ -117,6 +123,12 @@ const AddShowingsBuyer = (props) => {
       handleGetActiveSingleProperty(data);
     }
   }, [propID]);
+
+  useEffect(() => {
+    if (activeSinglePropertyBookingSlots.length > 0 && get(history, 'location.search', '').split('?')[1] === 'showBookings') {
+      setScheduleVisitFree(activeSinglePropertyBookingSlots);
+    }
+  }, [activeSinglePropertyBookingSlots]);
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
@@ -547,12 +559,17 @@ const AddShowingsBuyer = (props) => {
                                           <span>All day</span>
                                         ) : (
                                           <>
-                                            <span>{val.start}</span>
+                                            {
+                                              get(val, 'start') && (
+                                                <span>{typeof val.start === 'number' ? DateTime.fromMillis(val.start).toFormat('hh:mm') : val.start}</span>
+
+                                              )
+                                            }
                                             {
                                               val.end && (
                                                 <span>
                                                   &nbsp;-&nbsp;
-                                                  {val.end}
+                                                  {typeof val.end === 'number' ? DateTime.fromMillis(val.end).toFormat('hh:mm') : val.end}
                                                 </span>
                                               )
                                             }
@@ -574,7 +591,7 @@ const AddShowingsBuyer = (props) => {
             </div>
           </div>
           {
-            date && (
+            (date || (get(history, 'location.search', '').split('?')[1] === 'showBookings')) && (
               <div
                 className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
               >
@@ -592,7 +609,7 @@ const AddShowingsBuyer = (props) => {
                       )
                     }
                     {
-                      (get(quest, 'inputs', []).length > 1 || action === 'back' || date || scheduleVisitFree.length > 0) && (
+                      (get(quest, 'inputs', []).length > 1 || action === 'back' || (get(history, 'location.search', '').split('?')[1] === 'showBookings') || date || scheduleVisitFree.length > 0) && (
                         <BrixelButtonPrimary
                           className={`noWrap ${get(quest, 'history', null)} as-c`}
                           disabled={!checkValidateField()}
@@ -619,10 +636,12 @@ const AddShowingsBuyer = (props) => {
 
 AddShowingsBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyBookingSlots: PropTypes.arrayOf(PropTypes.object).isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -664,6 +683,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(initializeForm('Showings', value));
   },
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
+  handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
 });

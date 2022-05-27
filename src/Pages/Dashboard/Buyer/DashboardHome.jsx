@@ -175,10 +175,7 @@ const DashboardHome = (props) => {
 
                                 <BrixelButtonPrimary
                                   onClick={() => {
-                                    history.push({
-                                      pathname: `/buyer/${propID}/scheduleVisit`,
-                                      state: 'showBookings',
-                                    });
+                                    history.push({ pathname: `/buyer/${propID}/scheduleVisit`, search: 'showBookings' })
                                   }}
                                   className="mt-a w-fix-160 mt-1"
                                   rounded
