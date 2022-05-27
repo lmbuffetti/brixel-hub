@@ -8,7 +8,7 @@ import {
 
 export const QuestionsList = () => [
   {
-    title: 'Schedule a visit to your future home',
+    title: 'Request a visit to your future home',
     history: 'visitDates',
     className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
     inputs: [
