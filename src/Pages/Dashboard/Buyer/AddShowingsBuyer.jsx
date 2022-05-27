@@ -427,7 +427,7 @@ const AddShowingsBuyer = (props) => {
                                           saturation={400}
                                           className="mt-1 fsize-300"
                                           color="green"
-                                          label="Choose another date"
+                                          label="Suggest more dates"
                                           rightIcon="calendar"
                                           onClick={() => {
                                             setShowResizer(false);
