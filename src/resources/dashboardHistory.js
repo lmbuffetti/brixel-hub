@@ -3,7 +3,7 @@ import { has, tail } from 'lodash';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 
-const offerText = (offerMeta, activeSingleProperty) => {
+const offerText = (offerMeta, currency, activeSingleProperty) => {
   let answerText = '';
   answerText += `<span> You made an offer of </span> <span class="fweight-500">${get(offerMeta, 'offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', activeSingleProperty.price.currency))}</br></span>`;
   /* if (get(offerMeta, 'offer.buyer') && Object.keys(offerMeta.offer.buyer).length > 0) {
