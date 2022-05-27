@@ -19,6 +19,7 @@ import { arrayMove } from '../../../utils/helpers';
 const SidebarBuyer = (props) => {
   // PROPS
   const {
+    activeSingleProperty,
     activeDealHistory,
     activeSinglePropertyDeals,
     activeCompanyPackages,
@@ -168,6 +169,7 @@ SidebarBuyer.propTypes = {
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeDealHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyDeals: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
