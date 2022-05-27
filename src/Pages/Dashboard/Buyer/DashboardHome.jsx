@@ -86,12 +86,12 @@ const DashboardHome = (props) => {
         break;
       }
       case 'start': {
-        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', userLang).toFormat('yyyy-LL-dd', userLang);
+        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', { locale: userLang}).toFormat('yyyy-LL-dd', { locale: userLang});
         const start = `${visitAccepted.slot.split( ' ')[1]}`;
         return `${date}T${start}`;
       }
       case 'end': {
-        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', userLang).toFormat('yyyy-LL-dd', userLang);
+        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', { locale: userLang}).toFormat('yyyy-LL-dd', { locale: userLang});
         const end = `${visitAccepted.slot.split( ' ')[2] ? visitAccepted.slot.split( ' ')[2] : visitAccepted.slot.split( ' ')[1]}`;
         return `${date}T${end}`;
       }
@@ -114,7 +114,7 @@ const DashboardHome = (props) => {
         {
           get(visitAccepted, 'slot', '').split( ' ')[0] && (
             <h5 className="pr-2 txtGreen400 fweight-600">
-              {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', userLang)}
+              {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', { locale: userLang})}
             </h5>
           )
         }
@@ -144,7 +144,7 @@ const DashboardHome = (props) => {
                           </h5>
                           <div className="dis-f a-c w-perc-100 mt-1">
                             <h5 className="pr-2 txtGreen400 fweight-600">
-                              {!isNaN(+visitAccepted) ? DateTime.fromMillis(visitAccepted).toFormat('dd LLL yyyy, hh:mm', userLang) : visitAccepted}
+                              {!isNaN(+visitAccepted) ? DateTime.fromMillis(visitAccepted).toFormat('dd LLLL yyyy, hh:mm', { locale: userLang }) : visitAccepted}
                             </h5>
                           </div>
   

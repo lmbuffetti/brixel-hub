@@ -24,7 +24,11 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { createPropertyVisitBooking, getActiveSingleProperty } from '../../../actions/PropertyActions';
+import {
+  createPropertyVisitBooking,
+  getActiveSingleProperty,
+  getActiveSinglePropertyBookings,
+} from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
 import { QuestionsList } from '../../../resources/AddShowings';
 import 'react-input-range/lib/css/index.css';
@@ -40,10 +44,12 @@ const AddShowingsBuyer = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    activeSinglePropertyBookingSlots,
     errorValue,
     formValue,
     handleCreatePropertyVisitBooking,
     handleGetActiveSingleProperty,
+    handleGetActiveSinglePropertyBookings,
     initForm,
     initialValues,
     isSmallLoading,
@@ -78,6 +84,19 @@ const AddShowingsBuyer = (props) => {
       initForm(initialValues);
     }
   }, [activeSingleProperty]);
+  
+  useEffect(() => {
+    if (propID && loggedInUser.id) {
+      const data = {
+        id: propID,
+        data: {
+          user: loggedInUser.id,
+        },
+        smallLoader: 'getBooking',
+      };
+      handleGetActiveSinglePropertyBookings(data);
+    }
+  }, [propID, loggedInUser]);
 
   useEffect(() => {
     if (!isSmallLoading.scheduleVisit && (questions[currentIndex + 1] && questions[currentIndex + 1].history === 'success')) {
@@ -86,6 +105,13 @@ const AddShowingsBuyer = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
+  
+  useEffect(() => {
+    if (activeSinglePropertyBookingSlots.length > 0) {
+      setScheduleVisitFree(activeSinglePropertyBookingSlots);
+    }
+  }, [activeSinglePropertyBookingSlots]);
+  
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists' && propID !== activeSingleProperty.id) {
@@ -382,42 +408,75 @@ const AddShowingsBuyer = (props) => {
                                           className="date-schedule dis-fl-row bgAltGrey100 py-small-4 px-2 mb-1"
                                           key={`vst_${i.toString()}`}
                                         >
-                                          <div className="dis-fl-row a-c">
-                                            <span className="day pr-1 fsize-300">
-                                              {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')},
-                                            </span>
-                                            <div className="time fsize-300">
-                                              {
-                                                val.isAllDay ? (
-                                                  <span>All day</span>
-                                                ) : (
-                                                  <>
-                                                    <span>{val.start}</span>
-                                                    {
-                                                      val.end && (
-                                                        <span>
+                                          {
+                                            val.slot ? (
+                                              <div className="dis-fl-row a-c">
+                                                <span className="day pr-1 fsize-300">
+                                                  {DateTime.fromFormat(val.slot.split(' ')[0], 'yyyy-MM-dd', { locale: userLang }).toFormat('dd LLLL yyyy', { locale: userLang })},
+                                                </span>
+                                                <div className="time fsize-300">
+                                                  {
+                                                    val.isAllDay ? (
+                                                      <span>All day</span>
+                                                    ) : (
+                                                      <>
+                                                        <span>{val.slot.split(' ')[1]}</span>
+                                                        {
+                                                          val.end && (
+                                                            <span>
                                                           &nbsp;-&nbsp;
-                                                          {val.end}
-                                                        </span>
-                                                      )
-                                                    }
-                                                  </>
-                                                )
-                                              }
-                                            </div>
-                                          </div>
-                                          <div
-                                            className="remove cur-poi a-c ml-1"
-                                            onClick={() => removeEl(i)}
-                                          >
-                                            <BrixelButtonIcon
-                                              icon="bin"
-                                              theme="red"
-                                              ghost
-                                              small
-                                              bgTransparent
-                                            />
-                                          </div>
+                                                              {val.slot.split(' ')[2]}
+                                                            </span>
+                                                          )
+                                                        }
+                                                      </>
+                                                    )
+                                                  }
+                                                </div>
+                                              </div>
+                                            ) : (
+                                              <div className="dis-fl-row a-c">
+                                                <span className="day pr-1 fsize-300">
+                                                  {DateTime.fromMillis(val.date).toFormat('dd LLLL yyyy', { locale: userLang })},
+                                                </span>
+                                                <div className="time fsize-300">
+                                                  {
+                                                    val.isAllDay ? (
+                                                      <span>All day</span>
+                                                    ) : (
+                                                      <>
+                                                        <span>{val.start}</span>
+                                                        {
+                                                          val.end && (
+                                                            <span>
+                                                          &nbsp;-&nbsp;
+                                                              {val.end}
+                                                            </span>
+                                                          )
+                                                        }
+                                                      </>
+                                                    )
+                                                  }
+                                                </div>
+                                              </div>
+                                            )
+                                          }
+                                          {
+                                            !val.slot && (
+                                              <div
+                                                className="remove cur-poi a-c ml-1"
+                                                onClick={() => removeEl(i)}
+                                              >
+                                                <BrixelButtonIcon
+                                                  icon="bin"
+                                                  theme="red"
+                                                  ghost
+                                                  small
+                                                  bgTransparent
+                                                />
+                                              </div>
+                                            )
+                                          }
                                         </div>
                                       ))
                                     }
@@ -609,10 +668,12 @@ const AddShowingsBuyer = (props) => {
 
 AddShowingsBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyBookingSlots: PropTypes.arrayOf(PropTypes.object).isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleCreatePropertyVisitBooking: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -637,6 +698,7 @@ const mapStateToProps = (state) => {
   };
   return ({
     activeSingleCompany,
+    activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
     activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
     errorValue: get(state, 'brixelForm.Showings.syncErrors', {}),
     formValue: get(state, 'brixelForm.Showings.values', {}),
@@ -644,7 +706,7 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'user.loggedInUser.user.language', ''),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    userLang: get(state, 'user.loggedInUser.language', 'en'),
+    userLang: get(state, 'user.loggedInUser.user.language', 'en'),
   });
 };
 
@@ -652,6 +714,8 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('Showings', value));
   },
+  handleGetActiveSinglePropertyBookings: bindActionCreators(
+    getActiveSinglePropertyBookings, dispatch),
   handleCreatePropertyVisitBooking: bindActionCreators(createPropertyVisitBooking, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSpinnerSmallOff: bindActionCreators(spinnerSmallOff, dispatch),
