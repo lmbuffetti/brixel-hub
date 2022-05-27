@@ -27,7 +27,6 @@ import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodeP
 import {
   createPropertyVisitBooking,
   getActiveSingleProperty,
-  getActiveSinglePropertyBookings,
 } from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
 import { QuestionsList } from '../../../resources/AddShowings';
@@ -82,19 +81,6 @@ const AddShowingsBuyer = (props) => {
       initForm(initialValues);
     }
   }, [activeSingleProperty]);
-  
-  useEffect(() => {
-    if (propID && loggedInUser.id) {
-      const data = {
-        id: propID,
-        data: {
-          user: loggedInUser.id,
-        },
-        smallLoader: 'getBooking',
-      };
-      handleGetActiveSinglePropertyBookings(data);
-    }
-  }, [propID, loggedInUser]);
 
   useEffect(() => {
     if (!isSmallLoading.scheduleVisit && (questions[currentIndex + 1] && questions[currentIndex + 1].history === 'success')) {
