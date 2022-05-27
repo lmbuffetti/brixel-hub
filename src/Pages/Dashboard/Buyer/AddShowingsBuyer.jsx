@@ -60,7 +60,7 @@ const AddShowingsBuyer = (props) => {
   const [showError, setShowError] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [action, setAction] = useState(null);
-  const [chooseDatesOpen, setChooseDatesOpen] = useState(false);
+  const [chooseDatesOpen, setChooseDatesOpen] = useState(true);
   const [showResizer, setShowResizer] = useState(false);
   const [date, setDate] = useState(null);
   const [hours, setHours] = useState({ min: 8, max: 20 });
@@ -300,7 +300,6 @@ const AddShowingsBuyer = (props) => {
   };
 
   const saveDate = (e) => {
-    // SET STUFF HERE
     // setDatePickerModal(!datePickerModal);
     e.preventDefault();
     e.stopPropagation();
@@ -390,9 +389,8 @@ const AddShowingsBuyer = (props) => {
                         {
                           get(quest, 'history', '') === 'visitDates' && !chooseDatesOpen && !showResizer && (
                             <div className="dis-fl-col a-c">
-                              <span className="fsize-400 fweight-400 mb-5">Suggest up to 3 suitable dates to visit the property</span>
                               {
-                                (scheduleVisitFree.length > 0) ? (
+                                (scheduleVisitFree.length > 0) && (
                                   <div className="dis-fl-col a-c jc-b">
                                     {
                                       scheduleVisitFree.map((val, i) => (
@@ -455,14 +453,6 @@ const AddShowingsBuyer = (props) => {
                                       )
                                     }
                                   </div>
-                                ) : (
-                                  <BrixelButtonPrimary
-                                    className="mx-a"
-                                    rounded
-                                    label="Choose new date"
-                                    rightIcon="calendar"
-                                    onClick={() => setChooseDatesOpen(true)}
-                                  />
                                 )
                               }
                             </div>
