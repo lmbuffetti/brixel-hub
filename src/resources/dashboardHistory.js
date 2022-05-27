@@ -170,7 +170,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `Your offer of ${get(history, 'meta.offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency', activeSingleProperty.price.currency))} was ${get(history, 'meta.offer.status', '')}`,
+      message: `<span>Your offer of</span><span class="ml-small-4">${get(history, 'meta.offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency', activeSingleProperty.price.currency))}</span><span class="ml-small-4">was</span><span class="ml-small-4">${get(history, 'meta.offer.status', '')}</span>`,
       icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-small' : 'check',
     },
     'deal-feedback-visit-email': {
@@ -206,7 +206,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `Your visit is confirmed: </br> ${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}`,
+      message: `<span>Your visit is confirmed:<span class="ml-small-4"></br><span>${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}</span>`,
       icon: 'calendar',
     },
     'user-schedule': {
