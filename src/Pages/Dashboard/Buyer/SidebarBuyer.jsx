@@ -88,7 +88,7 @@ const SidebarBuyer = (props) => {
   }, [activeSinglePropertyHistory, activeSingleUserHistory, activeDealHistory]);
 
   const convertFeedMessage = (stub, type, history) => {
-    const data = feedMessage(loggedInUser, history, activeCompanyPackages);
+    const data = feedMessage(loggedInUser, history, activeCompanyPackages, activeSingleProperty);
     if (data[stub] && data[stub][type]) return data[stub][type];
     if (history.content) return data.note[type];
     return data.default[type];

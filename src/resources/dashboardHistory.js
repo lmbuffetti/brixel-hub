@@ -3,9 +3,9 @@ import { has, tail } from 'lodash';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 
-const offerText = (offerMeta, userLang) => {
+const offerText = (offerMeta, userLang, activeSingleProperty) => {
   let answerText = '';
-  answerText += `<span> You made an offer of </span> <span class="fweight-500">${get(offerMeta, 'offer.currency')} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount'), get(offerMeta, 'offer.currency'))}</br></span>`;
+  answerText += `<span> You made an offer of </span> <span class="fweight-500">${get(offerMeta, 'offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', activeSingleProperty.price.currency))}</br></span>`;
   if (get(offerMeta, 'offer.buyer') && Object.keys(offerMeta.offer.buyer).length > 0) {
     answerText += `</br><span>Your details </br></span>
       <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span>
@@ -33,7 +33,7 @@ const offerText = (offerMeta, userLang) => {
   return answerText || 'Created offer';
 }
 
-export const feedMessage = (user, history, packages) => {
+export const feedMessage = (user, history, packages, activeSingleProperty) => {
   let filtPackages = {};
   if (get(history, 'meta.servicePackage', null)) filtPackages = packages.find((item) => history.meta.servicePackage === item.id);
   let dates = '';
@@ -161,7 +161,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: offerText(history.meta || {}, user.language),
+      message: offerText(history.meta || {}, user.language, activeSingleProperty),
       icon: 'money',
     },
     'deal-review-offer': {
@@ -170,7 +170,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `Your offer of ${get(history, 'meta.offer.currency')} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency'))} was ${get(history, 'meta.offer.status', '')}`,
+      message: `Your offer of ${get(history, 'meta.offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency', activeSingleProperty.price.currency))} was ${get(history, 'meta.offer.status', '')}`,
       icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-small' : 'check',
     },
     'deal-feedback-visit-email': {
