@@ -1,36 +1,34 @@
-import {
-  Helpers
-} from '@brixel/brixel-components';
+import {Helpers} from '@brixel/brixel-components';
 import { has, tail } from 'lodash';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 
 const offerText = (offerMeta, userLang) => {
   let answerText = '';
-  answerText += `<span>${get(offerMeta, 'offer.currency')} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount'), get(offerMeta, 'offer.currency'))}</br></span>`;
+  answerText += `<span> You made an offer of </span> <span class="fweight-500">${get(offerMeta, 'offer.currency')} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount'), get(offerMeta, 'offer.currency'))}</br></span>`;
   if (get(offerMeta, 'offer.buyer') && Object.keys(offerMeta.offer.buyer).length > 0) {
-    answerText += `<span>Buyer details: </br></span>
-      <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span class="fweight-500">
+    answerText += `</br><span>Your details </br></span>
+      <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span>
       ${(typeof get(offerMeta, 'offer.buyer.dateBirth', '') === 'string' && get(offerMeta, 'offer.buyer.dateBirth', '').includes('-')) ? get(offerMeta, 'offer.buyer.dateBirth', '') : DateTime.fromMillis(
     get(offerMeta, 'offer.buyer.dateBirth', ''),
     {
       locale: userLang,
     },
   ).toFormat('yyyy-MM-dd')}
-    </span></span>      </br><span>Marital status: </span><span>${get(offerMeta, 'offer.buyer.maritialStatus', '')} </span>
+    </span></span><span>Marital status: </span><span>${get(offerMeta, 'offer.buyer.maritialStatus', '')} </span>
       </br><span>Place of origin: </span><span>${get(offerMeta, 'offer.buyer.placeOfOrigin', '')} </span>
       </br><span>Type of purchase: </span><span>${get(offerMeta, 'offer.buyer.typeOfPurchase', '')} </span>`;
   }
   if (get(offerMeta, 'offer.location') && Object.keys(offerMeta.offer.location).length > 0) {
-    answerText += `</br></br><span>Buyer location: </br></span>
+    answerText += `</br><span>Your location: </br></span>
       <span>${get(offerMeta, 'offer.location.street', '')} </span>
       <span>${get(offerMeta, 'offer.location.streetNumber', '')} </span>
       <span>, ${get(offerMeta, 'offer.location.zipCode', '')} </span>
       <span>${get(offerMeta, 'offer.location.City', '')} </span>`;
   }
-  
+
   if (get(offerMeta, 'offer.financeCertificate') === 0 || get(offerMeta, 'offer.financeCertificate') === 1) {
-    answerText += `</br></br><span>Financial certificate: </span><span>${offerMeta.offer.financeCertificate === 1 ? 'Yes' : 'No'} </span>`;
+    answerText += `</br><span>Financial certificate: </span><span>${offerMeta.offer.financeCertificate === 1 ? 'Yes' : 'No'} </span>`;
   }
   return answerText || 'Created offer';
 }
@@ -41,11 +39,11 @@ export const feedMessage = (user, history, packages) => {
   let dates = '';
   if (get(history, 'meta.schedule', null)) {
     const scheduleArray = tail(get(history, 'meta.schedule', '').split('•'));
-    scheduleArray.forEach((date, key) => {
-      dates += `<span>•${date}</span>${key !== (history.meta.schedule.split('•').length - 1) ? '</br>' : ''}`;
+    scheduleArray.forEach((date) => {
+      dates += `<span class="tidy-dates">•${date}</span>`;
     });
     if (has(history, 'meta.message')) {
-      dates += `</br><span>Message: </span><span>${history.meta.message}</span>`;
+      dates += `<span>Message: </span><span>${history.meta.message.replace(/&lt;br&gt;/g," ")}</span>`;
     }
   }
   return ({
@@ -145,7 +143,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `${user.email} just signed up`,
+      message: `${user.email} signed up`,
       icon: 'user-new',
     },
     'page-status-success': {
@@ -167,13 +165,13 @@ export const feedMessage = (user, history, packages) => {
       icon: 'money',
     },
     'deal-review-offer': {
-      className: 'brdGreen100',
+      className: get(history, 'meta.offer.status', '') === 'rejected' ? 'brdRed100' : 'brdGreen100',
       colorIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorBgIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `Your offer was ${get(history, 'meta.offer.status', '')}`,
-      icon: 'money',
+      message: `Your offer of ${get(history, 'meta.offer.currency')} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency'))} was ${get(history, 'meta.offer.status', '')}`,
+      icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-small' : 'check',
     },
     'deal-feedback-visit-email': {
       className: 'brdGreen100',
@@ -199,7 +197,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'User sent a message',
+      message: 'You sent a message',
       icon: 'mail-open',
     },
     'update-deal': {
@@ -208,7 +206,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `Visit confirmed: ${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}`,
+      message: `Your visit is confirmed: </br> ${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}`,
       icon: 'calendar',
     },
     'user-schedule': {
@@ -217,7 +215,7 @@ export const feedMessage = (user, history, packages) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>Requested showing</span></br></br><span>${dates}</span>`,
+      message: `<span>You requested a visit</span></br><span>${dates}</span>`,
       icon: 'calendar',
     },
     note: {

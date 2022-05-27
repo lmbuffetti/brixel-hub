@@ -30,9 +30,9 @@ const SidebarBuyer = (props) => {
   const match = useParams();
   // STATE
   const [fullUpdates, setFullUpdates] = useState([]);
-  
+
   const propID = get(match, 'propID', null);
-  
+
   useEffect(() => {
     if (loggedInUser.id && activeSinglePropertyDeals.id) {
       const payloadPageHistory = {
@@ -108,7 +108,7 @@ const SidebarBuyer = (props) => {
   };
 
   return (
-    <div className="seller-sidebar w-perc-100 max-w-fix-368 p-3">
+    <div className="seller-sidebar w-perc-100 max-w-fix-384 py-3 px-sm-2 px-3">
       <div className="updates dis-fl-col">
         <p className="fweight-600 txtDark700 mb-2">Feed</p>
         {

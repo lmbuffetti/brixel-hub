@@ -119,7 +119,7 @@ const DashboardHome = (props) => {
           )
         }
       </div>
-      <div className="max-w-fix-760 dis-fl-col">
+      <div className="max-w-fix-760 dis-fl-col pr-md-2">
         {
           progressState.step === 1 && (
             <>
@@ -143,11 +143,11 @@ const DashboardHome = (props) => {
                             Your visit is confirmed
                           </h5>
                           <div className="dis-f a-c w-perc-100 mt-1">
-                            <h5 className="pr-2 txtGreen400 fweight-600">
-                              {!isNaN(+visitAccepted) ? DateTime.fromMillis(visitAccepted).toFormat('dd LLLL yyyy, hh:mm', { locale: userLang }) : visitAccepted}
+                            <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
+                              {!isNaN(+visitAccepted) ? DateTime.fromMillis(visitAccepted).toFormat('dd LLL yyyy, hh:mm', userLang) : visitAccepted}
                             </h5>
                           </div>
-  
+
                           {
                             !isNaN(+visitAccepted) && (
                               <div className="mt-a">
