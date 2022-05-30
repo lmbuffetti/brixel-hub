@@ -32,7 +32,7 @@ import completeDescriptionImg from '../../../images/dashboard/complete_descripti
 import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
 import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
 import completedFactsImg from '../../../images/dashboard/completed_facts.svg';
-import marketNewHomeSvg from '../../../images/dashboard/marketNewHome.svg';
+import marketNewHomeSvg from '../../../images/dashboard/marketMin.png';
 import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
 import reviewSaleSvg from '../../../images/dashboard/reviewSale.svg';
 import surveySaleSvg from '../../../images/dashboard/surveySale.svg';
@@ -692,8 +692,8 @@ const DashboardHome = (props) => {
             <>
               <DashboardPropertyCardSold />
 
-              <div className="brdRadius brdSmall brdGreen400 p-2 mb-3 fweight-400">
-                <h6>
+              <div className="brdRadius brdSmall brdGreen400 p-2 mb-3 ">
+                <h6 className="fweight-400 fsize-300">
                   You successfully sold this property and transfered it to the new owner. You can still access your photos, 3D tour, and all documents for your memory.
                 </h6>
               </div>
@@ -704,14 +704,14 @@ const DashboardHome = (props) => {
                   get(activeSingleCompany, 'links.review', null) && (
                     <button
                       onClick={() => window.open(get(activeSingleCompany, 'links.review', null), '_blank')}
-                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
+                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
                     >
                       <div className="dis-fl-col max-w-perc-100">
-                        <span className="fsize-400 txtGreen400">
+                        <span className="fsize-300 txtGreen400">
                           Review
                         </span>
-                        <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600">
-                          <span className="pr-2">
+                        <div className="dis-f w-perc-100 fsize-600 fweight-600 mt-1">
+                          <span className="pr-1">
                             We appreciate your stars.
                           </span>
                           <img
@@ -734,13 +734,13 @@ const DashboardHome = (props) => {
                   get(activeSingleCompany, 'links.survey', null) && (
                     <button
                       onClick={() => window.open(get(activeSingleCompany, 'links.survey', null), '_blank')}
-                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
+                      className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 ml-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi bgWhite ta-l"
                     >
                       <div className="dis-fl-col max-w-perc-100">
-                        <span className="fsize-400 txtGreen400">
+                        <span className="fsize-300 txtGreen400">
                           Feedback
                         </span>
-                        <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600">
+                        <div className="dis-f w-perc-100 fsize-600 fweight-600 mt-1">
                           <span className="pr-2">
                             Let us know how we did
                           </span>
@@ -764,16 +764,16 @@ const DashboardHome = (props) => {
 
               <div
                 className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100"
-                style={{backgroundImage: `url(${marketNewHomeSvg})`, backgroundSize: 'auto 100%'}}
+                style={{backgroundImage: `url(${marketNewHomeSvg})`, backgroundSize: 'auto 100%', backgroundPosition: 'right', backgroundRepeat: 'no-repeat'}}
               >
                 <div className="dis-fl-col max-w-perc-100">
-                  <div className="dis-f a-c w-perc-100 mt-1 fsize-600 fweight-600">
-                    <span className="pr-2 w-perc-100 max-w-fix-240">
+                  <div className="dis-f mt-1">
+                    <span className="pr-2 max-w-fix-440 fsize-500 fweight-600 ">
                       Find and add your new home
                     </span>
                   </div>
 
-                  <div className="dis-f mt-2">
+                  <div className="dis-f mt-3">
                     <BrixelButtonPrimary
                       onClick={() => history.push(`/buy`)}
                       className="as-fs"

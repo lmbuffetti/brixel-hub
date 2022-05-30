@@ -25,18 +25,18 @@ const DashboardPropertyCardSold = (props) => {
   return (
     <>
       <div
-        className="p-5 mb-3 brdRadius imgCover imgCenter imgOverGreen"
+        className="p-2 p-sm-5 mb-3 brdRadius min-h-fix-304 h-fix-sm-440 ov-h imgCover imgCenter imgOverGreen"
         style={{ backgroundImage: `url(${baseByData.shortPath}${get(activeSingleProperty, 'coverPhoto.path', undefined)})` }}
       >
-        <div className="pos-r zIndex2">
-          <h2 className="mb-3 txtWhite fweight-600 mb-10">
+        <div className="pos-r zIndex2 h-perc-100 dis-fl-col jc-b">
+          <h2 className="mb-3 txtWhite fweight-600 fsize-900">
             <span>Congratulations on your sale</span>
             <span>, {loggedInUser && (<>{loggedInUser.firstName}</>)} 🎉 </span>
           </h2>
-          
-          <div className="bgWhite brdRadius p-2 max-w-fix-256 mt-10">
+
+          <div className="bgWhite brdRadius p-2 max-w-fix-256">
             <h6 className="fweight-600">{get(activeSingleProperty, 'title', '')}</h6>
-            
+
             <div className="dis-f a-c mt-3">
               <BrixelButtonSecondary
                 rounded
@@ -57,7 +57,7 @@ const DashboardPropertyCardSold = (props) => {
               />
             </div>
           </div>
-          
+
         </div>
       </div>
     </>
