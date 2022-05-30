@@ -1035,3 +1035,11 @@ input::-webkit-date-and-time-value {
   margin-top: 6px;
   display: block;
 }
+
+.addToCalendar {
+  .icon-dropdown {
+    svg >  path {
+      fill: white !important;
+    }
+  }
+}
