@@ -131,11 +131,11 @@ const DashboardHome = (props) => {
                         className="cardWithBg"
                         style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
                       >
-                        <div className="dis-fl-col max-w-perc-80">
-                          <h5>
+                        <div className="dis-fl-col max-w-perc-100">
+                          <h5 className="fweight-600">
                             Your visit is confirmed
                           </h5>
-                          <div className="dis-f a-c w-perc-100 mt-1">
+                          <div className="dis-f a-c max-w-perc-80 mt-1">
                             <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
                               {!isNaN(+visitAccepted) ? DateTime.fromMillis(visitAccepted).toFormat('dd LLL yyyy, hh:mm', userLang) : visitAccepted}
                             </h5>
@@ -163,21 +163,21 @@ const DashboardHome = (props) => {
                               className="cardWithBg"
                               style={{ backgroundImage: `url(${visitAccepted ? scheduleAcceptedSvg : schedulePendingSvg})` }}
                             >
-                              <div className="dis-fl-col max-w-perc-70">
-                                <h5>
+                              <div className="dis-fl-col">
+                                <h5 className="fweight-600">
                                   Thanks for your request.
                                 </h5>
-                                <div className="dis-f a-c w-perc-100 mt-1">
-                                  <p className="pr-2">
+                                <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
+                                  <p className="pr-2 fsize-300">
                                     We will contact you as soon as possible for confirmation.
                                   </p>
                                 </div>
 
-                                <BrixelButtonPrimary
+                                <BrixelButtonSecondary
                                   onClick={() => {
                                     history.push({ pathname: `/buyer/${propID}/scheduleVisit`, search: 'showBookings' })
                                   }}
-                                  className="mt-a w-fix-160 mt-1"
+                                  className="mt-a as-fs"
                                   rounded
                                   label="show dates"
                                 />
@@ -185,12 +185,12 @@ const DashboardHome = (props) => {
                             </div>
                           ) : (
                             <div className="cardWithBg" style={{ backgroundImage: `url(${scheduleSvg})` }}>
-                              <div className="dis-fl-col max-w-perc-70">
+                              <div className="dis-fl-col ">
                                 <h5 className="fweight-600">
                                   Visit your future home
                                 </h5>
-                                <div className="dis-f a-c w-perc-100 mt-1 mb-3">
-                                  <p className="pr-2">
+                                <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
+                                  <p className="pr-2 fsize-300">
                                     Book a visit with the current owner.
                                   </p>
                                 </div>
@@ -223,7 +223,7 @@ const DashboardHome = (props) => {
                         Check financing
                       </h5>
                       <div className="dis-f a-c w-perc-100 mt-1 mb-3">
-                        <p className="pr-2">
+                        <p className="pr-2 fsize-300">
                           Assess whether you can afford your desired property.
                         </p>
                       </div>
