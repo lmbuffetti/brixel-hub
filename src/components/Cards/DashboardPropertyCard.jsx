@@ -74,38 +74,42 @@ const DashboardPropertyCard = (props) => {
                 </div>
                 {
                   type === 'buy' ? (
-                    <div className="dis-f a-c">
-                      <div className="brdSmallRight brdAltGrey200 pr-2">
-                        <h6 className="ff-mono txtAltGrey400 fsize-300">
-                          Living area
-                        </h6>
-                        <p className="fsize-500 fSizePx20">
-                          {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
-                        </p>
+                    <div className="dis-fl-col dis-fl-row-sm a-c">
+                      <div className="dis-f w-perc-100 jc-b">
+                        <div className="brdSmallRight brdAltGrey200 pr-2">
+                          <h6 className="ff-mono txtAltGrey400 fsize-300">
+                            Living area
+                          </h6>
+                          <p className="fsize-500 fSizePx20">
+                            {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
+                          </p>
+                        </div>
+                        <div className="ml-2 brdSmallRight brdAltGrey200 pr-2">
+                          <h6 className="ff-mono txtAltGrey400 fsize-300">
+                            Rooms
+                          </h6>
+                          <p className="fsize-500 fSizePx20">
+                            {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))
+                            }
+                          </p>
+                        </div>
+                        <div className="ml-2 brdSmallRight-sm brdAltGrey200 pr-2 mr-1">
+                          <h6 className="ff-mono txtAltGrey400 fsize-300">
+                            Year built
+                          </h6>
+                          <p className="fsize-500 fSizePx20">
+                            {get(activeSingleProperty, 'properties.building.built', 0)}
+                          </p>
+                        </div>
                       </div>
-                      <div className="ml-2 brdSmallRight brdAltGrey200 pr-2">
-                        <h6 className="ff-mono txtAltGrey400 fsize-300">
-                          Rooms
-                        </h6>
-                        <p className="fsize-500 fSizePx20">
-                          {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))
-                          }
-                        </p>
-                      </div>
-                      <div className="ml-2 brdSmallRight brdAltGrey200 pr-2">
-                        <h6 className="ff-mono txtAltGrey400 fsize-300">
-                          Year built
-                        </h6>
-                        <p className="fsize-500 fSizePx20">
-                          {get(activeSingleProperty, 'properties.building.built', 0)}
-                        </p>
-                      </div>
+
                       <BrixelButtonSecondary
-                        className="ml-a"
+                        className="as-fs mt-2 mt-a-sm mb-a w-auto-sm w-perc-100"
                         rounded
                         label="View"
                         onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
                       />
+
                     </div>
                   ) : (
                     <div className="dis-f a-c">

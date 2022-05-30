@@ -127,7 +127,7 @@ const Dashboard = (props) => {
         </div>
         {
           get(history, 'location.pathname', '').includes('home') && (
-            <div className="hide dis-f-lg w-perc-100 max-w-fix-384">
+            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
               <SidebarBuyer />
             </div>
           )
