@@ -70,12 +70,6 @@ const DashboardHome = (props) => {
     }
   }, [propID, loggedInUser]);
 
-  const openSchedule = () => {
-    if (!visitAccepted) {
-      history.push(`/buyer/${propID}/scheduleVisit`);
-    }
-  }
-
   const formatCalendar = (type) => {
     switch (type) {
       case 'location': {
@@ -129,7 +123,6 @@ const DashboardHome = (props) => {
               <div className="dis-fl-col dis-fl-row-sm">
 
                 <button
-                  onClick={() => !visitAccepted ? openSchedule() : ''}
                   className={`shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi ta-l ${activeSinglePropertyBookingSlots.length > 0 ? 'bgWhite' : 'bgRed100'}`}
                 >
                   {
@@ -138,8 +131,8 @@ const DashboardHome = (props) => {
                         className="cardWithBg"
                         style={{ backgroundImage: `url(${scheduleAcceptedSvg})` }}
                       >
-                        <div className="dis-fl-col max-w-perc-100">
-                          <h5 className="max-w-perc-100">
+                        <div className="dis-fl-col max-w-perc-80">
+                          <h5>
                             Your visit is confirmed
                           </h5>
                           <div className="dis-f a-c w-perc-100 mt-1">
@@ -170,19 +163,21 @@ const DashboardHome = (props) => {
                               className="cardWithBg"
                               style={{ backgroundImage: `url(${visitAccepted ? scheduleAcceptedSvg : schedulePendingSvg})` }}
                             >
-                              <div className="dis-fl-col max-w-perc-100">
-                                <h5 className="max-w-perc-100">
-                                  Thanks fo your request.
+                              <div className="dis-fl-col max-w-perc-70">
+                                <h5>
+                                  Thanks for your request.
                                 </h5>
-                                <div className="dis-f a-c max-w-perc-70 mt-1">
+                                <div className="dis-f a-c w-perc-100 mt-1">
                                   <p className="pr-2">
                                     We will contact you as soon as possible for confirmation.
                                   </p>
                                 </div>
 
                                 <BrixelButtonPrimary
-                                  onClick={() => ''}
-                                  className="mt-a"
+                                  onClick={() => {
+                                    history.push({ pathname: `/buyer/${propID}/scheduleVisit`, search: 'showBookings' })
+                                  }}
+                                  className="mt-a w-fix-160 mt-1"
                                   rounded
                                   label="show dates"
                                 />
@@ -190,18 +185,18 @@ const DashboardHome = (props) => {
                             </div>
                           ) : (
                             <div className="cardWithBg" style={{ backgroundImage: `url(${scheduleSvg})` }}>
-                              <div className="dis-fl-col max-w-perc-100">
+                              <div className="dis-fl-col max-w-perc-70">
                                 <h5 className="fweight-600">
                                   Visit your future home
                                 </h5>
-                                <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
+                                <div className="dis-f a-c w-perc-100 mt-1 mb-3">
                                   <p className="pr-2">
                                     Book a visit with the current owner.
                                   </p>
                                 </div>
 
                                 <BrixelButtonPrimary
-                                  onClick={() => ''}
+                                  onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
                                   className="mt-a as-fs"
                                   rounded
                                   label="add dates"
@@ -223,11 +218,11 @@ const DashboardHome = (props) => {
                     className="cardWithBg"
                     style={{ backgroundImage: `url(${financingSvg})` }}
                   >
-                    <div className="dis-fl-col max-w-perc-100">
+                    <div className="dis-fl-col max-w-perc-70">
                       <h5 className="fweight-600">
                         Check financing
                       </h5>
-                      <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
+                      <div className="dis-f a-c w-perc-100 mt-1 mb-3">
                         <p className="pr-2">
                           Assess whether you can afford your desired property.
                         </p>
