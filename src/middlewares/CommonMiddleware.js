@@ -1,12 +1,14 @@
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import {
+  REQUEST_DONE,
   SPINNER_ON,
   SPINNER_OFF,
   SET_SAVED_SCREEN,
   SET_NOTIFICATION,
   SET_SCREEN_NOTIFICATION,
   SEND_MESSAGE,
+  SEND_SUPPORT_MESSAGE,
   SPINNER_SMALL,
   SEND_SLACK_NOTIFICATION,
 } from '../actions/types/CommonTypes';
@@ -40,6 +42,45 @@ const checkCommon = (store) => (next) => (action) => {
               type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: 'sentMessage',
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        });
+      break;
+    }
+    // DISPATCH TO SUPPORT EMAIL
+    case SEND_SUPPORT_MESSAGE: {
+      next(action);
+      const data = cloneDeep(action.payload);
+      const { smallLoader } = data;
+      delete data.smallLoader;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+        store.dispatch({
+          type: REQUEST_DONE,
+          payload: true,
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.common.sendSupportMessage(data)
+        .then(() => {
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: false,
               },
             });
           } else {
