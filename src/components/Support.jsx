@@ -238,6 +238,7 @@ const Support = (props) => {
                       icon="send"
                       theme="white"
                       ghost
+                      disabled={supportMessage.length === 0}
                       isLoading={isSmallLoading.supportMessage}
                       bgTransparent
                       onClick={() => sendMessage()}
