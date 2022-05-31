@@ -66,7 +66,7 @@ const Support = (props) => {
   };
 
   return (
-    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius min-w-fix-312' : 'mb-4'}`} id="supportBox">
+    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius min-w-fix-312 max-w-fix-312' : 'mb-4'}`} id="supportBox">
       <div className={`${isFixed && layout !== 'floatable' ? 'shadow-1dp' : ''} ${padding()}`}>
         {
           layout !== 'onboarding' && (
@@ -218,10 +218,12 @@ const Support = (props) => {
               {
                 requestDone ? (
                   <>
-                    <span className="txtWhite fweight-400 fsize-300">Thanks for your message. We&apos;ll get back to you shortly.</span>
+                    <span className="txtWhite fweight-400 fsize-300 lh-22 pr-2">Thanks for your message.
+                      <span className="dis-b"> We&apos;ll get back to you shortly.</span></span>
                     <BrixelIcon
-                      icon="check"
+                      icon="tick"
                       color="white"
+                      className="mr-1"
                     />
                   </>
                 ) : (
