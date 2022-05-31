@@ -88,7 +88,7 @@ const Support = (props) => {
                                 key={`rmAvt_${i.toString()}`}
                                 src={`${baseByData.shortPath}${imgTeam.path}`}
                                 alt="Support Team"
-                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                                className="w-fix-40 mr-1-neg square brdLarge brdWhite brdCircle"
                               />
                             ))
                           }
@@ -106,7 +106,7 @@ const Support = (props) => {
               {
                 // HIDE CLOSE BUTTON IF PROPS isFixed OR hideClose
                 !isFixed && !hideClose && (
-                  <BrixelButtonIcon
+                  <BrixelIcon
                     icon="close-small"
                     ghost
                     onClick={() => onClose()}
@@ -115,9 +115,9 @@ const Support = (props) => {
               }
               {
                 layout === 'floatable' && (
-                  <BrixelButtonIcon
+                  <BrixelIcon
                     icon="close-small"
-                    theme="green"
+                    color="green"
                     ghost
                     onClick={() => onClose()}
                   />
@@ -157,7 +157,7 @@ const Support = (props) => {
               }
               {
                 layout === 'floatable' && (
-                  <span className="mb-2 fweight-600 px-3">How can we help?</span>
+                  <span className="mb-2 fweight-600 px-3 pt-1">How can we help?</span>
                 )
               }
             </div>
@@ -227,6 +227,7 @@ const Support = (props) => {
                 ) : (
                   <>
                     <BrixelInputText
+                      className="w-perc-100 pr-2"
                       placeholder="Write us a message"
                       input={{
                         name: 'supportMessage',
@@ -246,7 +247,7 @@ const Support = (props) => {
                   </>
                 )
               }
-              
+
             </div>
           )
         }
