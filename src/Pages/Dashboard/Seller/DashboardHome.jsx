@@ -773,7 +773,7 @@ const DashboardHome = (props) => {
                     </span>
                   </div>
 
-                  <div className="dis-f mt-3">
+                  <div className="dis-fl-col dis-fl-row-sm mt-3">
                     <BrixelButtonPrimary
                       onClick={() => history.push(`/buy`)}
                       className="as-fs"
@@ -784,7 +784,7 @@ const DashboardHome = (props) => {
                     <BrixelButtonSecondary
                       bgTransparent
                       onClick={() => history.push(`/packageFlow/getStarted?company=${activeSingleCompany.stub}`)}
-                      className="as-fs ml-2"
+                      className="as-fs ml-sm-2 mt-1 mt-sm-0"
                       rounded
                       label="Add new property"
                     />

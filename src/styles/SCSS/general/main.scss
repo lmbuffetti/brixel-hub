@@ -1043,3 +1043,9 @@ input::-webkit-date-and-time-value {
     }
   }
 }
+.customFsize {
+  @include fontStyle(700);
+  @media (min-width: $responsive-small) {
+    @include fontStyle(900);
+  }
+}

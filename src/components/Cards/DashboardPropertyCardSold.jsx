@@ -25,11 +25,11 @@ const DashboardPropertyCardSold = (props) => {
   return (
     <>
       <div
-        className="p-2 p-sm-5 mb-3 brdRadius min-h-fix-304 h-fix-sm-440 ov-h imgCover imgCenter imgOverGreen"
+        className="p-2 p-sm-5 mb-3 brdRadius h-fix-sm-440 ov-h imgCover imgCenter imgOverGreen"
         style={{ backgroundImage: `url(${baseByData.shortPath}${get(activeSingleProperty, 'coverPhoto.path', undefined)})` }}
       >
         <div className="pos-r zIndex2 h-perc-100 dis-fl-col jc-b">
-          <h2 className="mb-3 txtWhite fweight-600 fsize-900">
+          <h2 className="mb-6 mb-sm-3 txtWhite fweight-600 customFsize">
             <span>Congratulations on your sale</span>
             <span>, {loggedInUser && (<>{loggedInUser.firstName}</>)} 🎉 </span>
           </h2>
