@@ -100,10 +100,6 @@ const GetStartedSeller = (props) => {
     return result;
   };
 
-  useEffect(() => {
-    getCurrency();
-  }, [get(history, 'location.pathname', null)]);
-
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = cloneDeep(formValue);
@@ -152,7 +148,7 @@ const GetStartedSeller = (props) => {
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
-    if (formValue.owner) {
+    if (formValue.owner && (has(formValue, 'price.currency') && formValue.price.currency !== null)) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
       await handleCreateActiveSingleProperty(data);
