@@ -137,6 +137,7 @@ const GetStartedSeller = (props) => {
       listed: false,
       active: true,
       price: get(formValue, 'price', getCurrency()),
+      createEstimation: true,
       published: false,
       addProperty: true,
       redirectToUrl: '/packageFlow/:pageID/welcomeSeller',

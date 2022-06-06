@@ -125,7 +125,8 @@ const checkCommon = (store) => (next) => (action) => {
                 owner: res.data.owner.id,
                 page: res.data.id,
                 generate: true,
-                redirectTo: redirectToUrl,
+                redirectTo: redirectToUrl.replace(':pageID', res.data.id),
+                // redirectTo: redirectToUrl,
               };
               store.dispatch({ type: CREATE_ESTIMATION, payload: data });
               if (extraLoading) store.dispatch({ type: SPINNER_OFF });

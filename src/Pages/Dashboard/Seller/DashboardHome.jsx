@@ -20,7 +20,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
-import { getActiveSinglePropertyDealsCount, getPageDeals } from '../../../actions/PropertyActions';
+import { getActiveSinglePropertyDealsCount, getPageDeals, getEstimation } from '../../../actions/PropertyActions';
 import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import DashboardPropertyCardSold from '../../../components/Cards/DashboardPropertyCardSold';
@@ -59,6 +59,7 @@ const DashboardHome = (props) => {
     formValue,
     handleGetActiveSinglePropertyDealsCount,
     handleGetPageDeals,
+    handleGetEstimation,
     handleSetModal,
     isSmallLoading,
     loggedInUser,
@@ -77,6 +78,14 @@ const DashboardHome = (props) => {
   useEffect(() => {
     if (progressState.step === 3) {
       handleGetActiveSinglePropertyDealsCount({ id: propID });
+      handleGetPageDeals({ id: propID });
+    }
+    if (progressState.step === 1) {
+      const payload = {
+        type: 'market',
+        id: activeSingleProperty.id,
+      };
+      handleGetEstimation(payload);
       handleGetPageDeals({ id: propID });
     }
   }, [progressState.step]);
@@ -814,6 +823,7 @@ DashboardHome.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   onProgressStep: PropTypes.func.isRequired,
+  handleGetEstimation: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   userLang: PropTypes.string.isRequired,
   userTypes: PropTypes.string,
@@ -845,6 +855,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSinglePropertyDealsCount: bindActionCreators(getActiveSinglePropertyDealsCount, dispatch),
   handleGetPageDeals: bindActionCreators(getPageDeals, dispatch),
+  handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
