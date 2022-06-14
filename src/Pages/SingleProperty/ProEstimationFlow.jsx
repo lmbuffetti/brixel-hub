@@ -347,9 +347,9 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
-    ...get(state, 'brixelForm.Property.values', {}),
+    ...get(state, 'property.activeSingleProperty', {}),
     properties: {
-      ...get(state, 'brixelForm.Property.values.properties', {}),
+      ...get(state, 'property.activeSingleProperty.properties', {}),
       parking: {
         ...get(state, 'property.activeSingleProperty.properties.parking', {}),
         garage: get(state, 'property.activeSingleProperty.properties.parking.garage', 0),
