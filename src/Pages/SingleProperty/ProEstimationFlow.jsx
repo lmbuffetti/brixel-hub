@@ -57,10 +57,10 @@ const ProEstimationFlow = (props) => {
   const [sendNotification, setSendNotification] = useState(false);
 
   useEffect(() => {
-    if (initialValues.id) {
+    if (activeSingleProperty.id) {
       initForm(initialValues);
     }
-  }, [activeSingleProperty]);
+  }, [activeSingleProperty.id]);
 
   useEffect(() => {
     if (!isSmallLoading.saveData) {
@@ -198,7 +198,7 @@ const ProEstimationFlow = (props) => {
       history.push(`/${activeSingleProperty.id}/property/price`);
     }
   };
-
+  
   if (!formValue.id) {
     return (
       <div />
@@ -347,9 +347,9 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
-    ...get(state, 'brixelForm.Property.values', {}),
+    ...get(state, 'property.activeSingleProperty', {}),
     properties: {
-      ...get(state, 'brixelForm.Property.values.properties', {}),
+      ...get(state, 'property.activeSingleProperty.properties', {}),
       parking: {
         ...get(state, 'property.activeSingleProperty.properties.parking', {}),
         garage: get(state, 'property.activeSingleProperty.properties.parking.garage', 0),
