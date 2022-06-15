@@ -3,19 +3,28 @@ import PropTypes from 'prop-types';
 import { BrixelIcon, BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
+import {
+  compose, bindActionCreators,
+} from 'redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import { BrixelInputText } from '@brixel/brixel-components/dist/form';
+import { sendSupportMessage } from '../actions/CommonActions';
 
 const Support = (props) => {
   const {
     activeSingleCompany,
+    activeSingleProperty,
     expanded,
+    handleSendSupportMessage,
     hideClose,
     isFixed,
+    isSmallLoading,
     layout,
     onClose,
+    requestDone,
   } = props;
 
-  // STATIC CONTCT DATA FROM COMPANY
+  // STATIC CONTACT DATA FROM COMPANY
   const phone = get(activeSingleCompany, 'contact.phone', null);
   const email = get(activeSingleCompany, 'contact.email', null);
   const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
@@ -25,11 +34,12 @@ const Support = (props) => {
   const colorLinkTextInfo = layout === 'onboarding' ? 'txtDark700' : 'txtDark700';
 
   const [openDetail, setOpenDetail] = useState(expanded);
+  const [supportMessage, setSupportMessage] = useState('');
 
   useEffect(() => () => document.body.classList.remove('scrollSmooth'));
 
   // FUCNTION TO OPEN/CLOSE THE SUPPORT DETAIL AND SCROLL DOWN
-  const onclickOne = () => {
+  const onClickOne = () => {
     setOpenDetail(!openDetail);
     if (!openDetail) {
       document.body.classList.add('scrollSmooth');
@@ -42,63 +52,25 @@ const Support = (props) => {
 
   const padding = () => {
     if (layout === 'onboarding' && expanded) return '';
-    if (layout === 'rewards') return 'p-1';
+    if (layout === 'floatable') return 'pt-3'
     return 'p-3';
   };
 
-  if (layout === 'inline') {
-    return (
-      <div className="bgGreen100 brdRadius p-3 brdSmall brdAltGrey400 mt-5 mx-3">
-
-        <h6 className="txtGreen400 fweight-600 mb-2">Any questions?</h6>
-
-        <div className="dis-f a-t jc-b">
-          <div>
-            {
-              phone && (
-                <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-1 txtDark700">
-                  <b className="txtDark700">
-                    Call us
-                  </b>
-                  <span className="ml-2">{Helpers.telephoneFormat(phone)}</span>
-                </a>
-              )
-            }
-            {
-              email && (
-                <a href={`mailto: ${email}`} className="dis-f a-c mb-1 txtDark700">
-                  <b className="txtDark700">
-                    Write us
-                  </b>
-                  <span className="ml-1">{email}</span>
-                </a>
-              )
-            }
-          </div>
-
-          <div className="dis-f jc-fs a-t">
-            {
-              teamAvatars.map((imgTeam, i) => (
-                <img
-                  key={`tmAvt_${i.toString()}`}
-                  src={`${baseByData.shortPath}${imgTeam.path}`}
-                  alt="Support Team"
-                  className="w-fix-48 mr-1-neg square brdSmall brdWhite brdCircle"
-                />
-              ))
-            }
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const sendMessage = () => {
+    const data = {
+      page: get(activeSingleProperty, 'id', ''),
+      message: supportMessage,
+      smallLoader: 'supportMessage',
+    };
+    handleSendSupportMessage(data);
+  };
 
   return (
-    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} mb-4 ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius min-w-fix-312' : ''}`} id="supportBox">
+    <div className={`max-w-perc-100 ${isFixed ? 'p-2' : ''} ${layout !== 'onboarding' ? 'bgWhite' : ''} ${isFixed ? 'fixed' : 'noFixed'} ${layout === 'floatable' ? 'shadow-3dp brdRadius min-w-fix-312 max-w-fix-312' : 'mb-4'}`} id="supportBox">
       <div className={`${isFixed && layout !== 'floatable' ? 'shadow-1dp' : ''} ${padding()}`}>
         {
-          layout !== 'rewards' && layout !== 'onboarding' && (
-            <div className="dis-f jc-b a-t">
+          layout !== 'onboarding' && (
+            <div className={`dis-f jc-b a-t ${layout === 'floatable' ? 'px-3' : ''}`}>
               {
                 layout !== 'floatable' ? (
                   <div>
@@ -116,21 +88,25 @@ const Support = (props) => {
                                 key={`rmAvt_${i.toString()}`}
                                 src={`${baseByData.shortPath}${imgTeam.path}`}
                                 alt="Support Team"
-                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                                className="w-fix-40 mr-1-neg square brdLarge brdWhite brdCircle"
                               />
                             ))
                           }
                         </div>
                       )
                     }
-                    <span className="ml-2 txtLight400">Support</span>
+                    {
+                      layout !== 'floatable' && (
+                        <span className="ml-2 txtLight400">Support</span>
+                      )
+                    }
                   </div>
                 )
               }
               {
                 // HIDE CLOSE BUTTON IF PROPS isFixed OR hideClose
                 !isFixed && !hideClose && (
-                  <BrixelButtonIcon
+                  <BrixelIcon
                     icon="close-small"
                     ghost
                     onClick={() => onClose()}
@@ -139,9 +115,10 @@ const Support = (props) => {
               }
               {
                 layout === 'floatable' && (
-                  <BrixelButtonIcon
+                  <BrixelIcon
                     icon="close-small"
-                    theme="green"
+                    color="green"
+                    ghost
                     onClick={() => onClose()}
                   />
                 )
@@ -150,19 +127,10 @@ const Support = (props) => {
           )
         }
         {
-          layout === 'rewards' && (
-            <div className="ta-c max-w-fix-376 m-a">
-              <h5 className="ta-c mt-3 mb-2">Let us give you some free advice.</h5>
-              <p className="ta-c fsize-300 txtDark200">What is the right selling price? When is the right time to start? How long does it take?</p>
-              <h5 className="txtDark700 mt-3">{companyLegalName}</h5>
-            </div>
-          )
-        }
-        {
           (layout === 'onboarding' || layout === 'floatable' || expanded) && (
             <div
-              className={`dis-f a-c ${layout === 'rewards' ? 'jc-c mt-2 mb-5' : 'mt-3 jc-b '} ${expanded ? '' : 'cur-poi'}`}
-              onClick={() => (expanded ? '' : onclickOne())}
+              className={`dis-f a-c jc-b ${expanded ? '' : 'cur-poi'} ${layout !== 'floatable' ? 'mt-3' : ''}`}
+              onClick={() => (expanded ? '' : onClickOne())}
             >
               {
                 layout !== 'onboarding' && layout !== 'floatable' && (
@@ -173,7 +141,7 @@ const Support = (props) => {
                           key={`tmAvt_${i.toString()}`}
                           src={`${baseByData.shortPath}${imgTeam.path}`}
                           alt="Support Team"
-                          className={`${layout === 'rewards' ? 'w-fix-56 w-fix-sm-104 mr-2-neg' : 'w-fix-40 mr-1-neg'}  square brdLarge brdWhite brdCircle`}
+                          className="w-fix-40 mr-1-neg square brdLarge brdWhite brdCircle"
                         />
                       ))
                     }
@@ -187,18 +155,18 @@ const Support = (props) => {
                   />
                 )
               }
+              {
+                layout === 'floatable' && (
+                  <span className="mb-2 fweight-600 px-3 pt-1">How can we help?</span>
+                )
+              }
             </div>
           )
         }
-        {
-          layout !== 'rewards' && layout !== 'onboarding' && layout !== 'floatable' && (
-            <hr className="my-3 lighter" />
-          )
-        }
-        <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'rewards' ? 'w-fit m-a' : ''}`}>
+        <div className={`moreInfoSupport ${openDetail ? 'open' : 'close'} ${layout === 'floatable' ? 'px-3' : ''}`}>
           {
             phone && (
-              <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="dis-f a-c mb-2">
+              <a href={`tel:${Helpers.telephoneFormat(phone)}`} className={`dis-f a-c ${layout === 'floatable' ? 'mb-1' : 'mb-2'}`}>
                 <BrixelIcon
                   color="blue"
                   saturationTxt={700}
@@ -211,7 +179,7 @@ const Support = (props) => {
             )
           }
           {
-            email && (
+            layout !== 'floatable' && email && (
               <a href={`mailto: ${email}`} className="dis-f a-c mb-2">
                 <BrixelIcon
                   color="red"
@@ -244,6 +212,47 @@ const Support = (props) => {
             )
           }
         </div>
+        {
+          layout === 'floatable' && (
+            <div className="send-message mt-2 p-2 bgGreen400 dis-fl-row w-perc-100 jc-b">
+              {
+                requestDone ? (
+                  <>
+                    <span className="txtWhite fweight-400 fsize-300 lh-22 pr-2">Thanks for your message.
+                      <span className="dis-b"> We&apos;ll get back to you shortly.</span></span>
+                    <BrixelIcon
+                      icon="tick"
+                      color="white"
+                      className="mr-1"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <BrixelInputText
+                      className="w-perc-100 pr-2"
+                      placeholder="Write us a message"
+                      input={{
+                        name: 'supportMessage',
+                        value: supportMessage,
+                        onChange: (val) => setSupportMessage(val),
+                      }}
+                    />
+                    <BrixelButtonIcon
+                      icon="send"
+                      theme="white"
+                      ghost
+                      disabled={supportMessage.length === 0}
+                      isLoading={isSmallLoading.supportMessage}
+                      bgTransparent
+                      onClick={() => sendMessage()}
+                    />
+                  </>
+                )
+              }
+
+            </div>
+          )
+        }
       </div>
     </div>
   );
@@ -251,10 +260,14 @@ const Support = (props) => {
 
 Support.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   layout: PropTypes.string,
+  handleSendSupportMessage: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   hideClose: PropTypes.bool,
   isFixed: PropTypes.bool,
   expanded: PropTypes.bool,
+  requestDone: PropTypes.bool.isRequired,
   onClose: PropTypes.func,
 };
 
@@ -268,6 +281,15 @@ Support.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany.id', null) ? get(state, 'companies.activeSingleCompany', null) : get(state, 'user.loggedInUser.user.company', {}),
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  isSmallLoading: get(state, 'common.isSmallLoading', ''),
+  requestDone: get(state, 'common.requestDone', false),
 });
 
-export default connect(mapStateToProps, null)(Support);
+const mapDispatchToProps = (dispatch) => ({
+  handleSendSupportMessage: bindActionCreators(sendSupportMessage, dispatch),
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+)(Support);

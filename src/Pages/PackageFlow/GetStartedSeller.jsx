@@ -100,10 +100,6 @@ const GetStartedSeller = (props) => {
     return result;
   };
 
-  useEffect(() => {
-    getCurrency();
-  }, [get(history, 'location.pathname', null)]);
-
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = cloneDeep(formValue);
@@ -141,6 +137,7 @@ const GetStartedSeller = (props) => {
       listed: false,
       active: true,
       price: get(formValue, 'price', getCurrency()),
+      createEstimation: true,
       published: false,
       addProperty: true,
       redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
@@ -152,7 +149,7 @@ const GetStartedSeller = (props) => {
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
-    if (formValue.owner) {
+    if (formValue.owner && (has(formValue, 'price.currency') && formValue.price.currency !== null)) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
       await handleCreateActiveSingleProperty(data);
@@ -486,7 +483,7 @@ const GetStartedSeller = (props) => {
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle && questions[currentIndex].history !== 'createProfile') changeFieldValue('pageTitle', pageTitle);
     }
-  }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
+  }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -793,13 +790,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleValidateUser: bindActionCreators(validateUser, dispatch),
 });
 
-export const GetStartedSellerMemo = React.memo(GetStartedSeller, (prevProps, nextProps) => {
-  const diffProps = diff(prevProps, nextProps);
-  return (
-    Object.keys(diffProps).length === 0
-  );
-});
-
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(GetStartedSellerMemo);
+)(GetStartedSeller);

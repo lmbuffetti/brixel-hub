@@ -139,24 +139,24 @@ const App = (props) => {
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
-
+  
   const [isSecLevel, setIsSecLevel] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
-
+  
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
   // const [extraHeight, setExtraHeight] = useState(0);
-
+  
   // USEREF TO MANAGE DOM ELEMENT
   const dashContentRef = useRef(null);
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
   const el = document.getElementsByClassName('thirdLevel');
-
+  
   useEffect(() => {
     smoothscrollPolyfill.polyfill();
   }, []);
-
+  
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
     if (loggedInUser.user && localTransifex) {
@@ -174,7 +174,7 @@ const App = (props) => {
       element.classList.remove('txlive');
     }
   }, [localTransifex, loggedInUser]);
-
+  
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
     if (((get(activeSingleProperty, 'owner.id', 'a') === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
@@ -182,9 +182,9 @@ const App = (props) => {
     } else {
       handleSetUserTypes('buyer');
     }
-    handleSetActiveSingleDeal({});
+    if (!activeSingleProperty.documents) handleSetActiveSingleDeal({});
   }, [activeSingleProperty.id]);
-
+  
   const bodyModal = document.getElementById('bodyModalWrapper');
   useEffect(() => {
     const hubDash = document.getElementsByClassName('hubDashboard')[0];
@@ -196,7 +196,7 @@ const App = (props) => {
       }
     }
   }, [bodyModal]);
-
+  
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
     if (get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) {
@@ -224,7 +224,7 @@ const App = (props) => {
     const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
     if (scrollFlow) scrollFlow.scrollTop = 0;
   }, [history.location]);
-
+  
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
   useEffect(() => {
     if (get(redirectTo, 'history', null)) {
@@ -243,11 +243,12 @@ const App = (props) => {
       window.location.assign(redirectTo.url);
     }
   }, [redirectTo]);
-
+  
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
     if (
       history.location.pathname.includes('packageFlow') ||
+      history.location.pathname.includes('scheduleVisit') ||
       history.location.pathname.includes('visitFeedback') ||
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
@@ -257,6 +258,7 @@ const App = (props) => {
     ) {
       if (
         history.location.pathname.includes('packageFlow') ||
+        history.location.pathname.includes('scheduleVisit') ||
         history.location.pathname.includes('visitFeedback') ||
         history.location.pathname.includes('signup')
       ) {
@@ -290,7 +292,7 @@ const App = (props) => {
       setIsFlow(false);
       setZIndex(1);
     }
-
+    
     // add class to container when secondlevel visible on mobile
     if (
       (
@@ -315,12 +317,12 @@ const App = (props) => {
       }
     }
   }, [history.location.pathname, dashWrapperEl, [...el].length]);
-
+  
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
   }, []);
-
+  
   const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
@@ -338,13 +340,14 @@ const App = (props) => {
     }
     return contentHeight;
   }, [isFlow, calcHeaderHeight, windowDimensions]);
-
+  
   // DID MOUNT TO CHECK THE USER TOKEN AND INITIALIZE THE WINDOW SIZE LISTENER
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
       let data = {};
       if (
         !history.location.pathname.includes('packageFlow') &&
+        !history.location.pathname.includes('scheduleVisit') &&
         !history.location.pathname.includes('visitFeedback') &&
         !history.location.pathname.includes('onBoarding') &&
         !history.location.pathname.includes('signup')
@@ -353,7 +356,7 @@ const App = (props) => {
     }
     handleGetImageType({ smallLoader: 'imgType' });
   }, []);
-
+  
   const contentLayout = useCallback(() => {
     if (!isFlow) {
       if (isSecLevel) {
@@ -367,7 +370,7 @@ const App = (props) => {
     }
     return null;
   }, [isFlow, windowDimensions]);
-
+  
   useEffect(() => {
     window.addEventListener('resize', () => {
       handleSetWindowsDimension({
@@ -378,7 +381,7 @@ const App = (props) => {
       calcHeaderHeight();
     });
   }, [window]);
-
+  
   const overflowClass = useCallback(() => {
     if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) {
       // if (windowDimensions.width <= 1024) return 'ov-y-a ov-x-h';
@@ -386,7 +389,7 @@ const App = (props) => {
     }
     return 'ov-y-a ov-x-h';
   }, []);
-
+  
   // add class to body when loading enabled
   useEffect(() => {
     const loadingClass = document.getElementsByClassName('elem-loader')[0];
@@ -397,7 +400,7 @@ const App = (props) => {
       body.classList.remove('bodyLoading');
     }
   });
-
+  
   // CONDITION TO VIEW THE ELEMENTS AFTER LOADING
   if (
     !loggedInUser ||
@@ -408,7 +411,7 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     );
   }
-
+  
   return (
     <PartialErrorBoundering>
       <Helmet>
@@ -473,20 +476,22 @@ const App = (props) => {
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
-
+                      <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
+                      
                       {/* SECTION: SIGNUP */}
                       <Route path="/signup" element={<Signup />} />
-
+                      
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
-
+                      
                       { /* SECTION: CLOSING FLOWS */}
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
                       <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<IdentificationFlow />} />
-
+                      
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
@@ -500,7 +505,7 @@ const App = (props) => {
                                   get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
                                   get(history, 'location.pathname', '').split('/')[1].length > 18) ||
                                 get(history, 'location.pathname', '').split('/')[1] === 'company') && (
-
+                                
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
@@ -523,6 +528,7 @@ const App = (props) => {
                       }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('signup') &&
@@ -548,42 +554,45 @@ const App = (props) => {
                           />
                         )
                       }
-                      <div
-                        className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
-                        onClick={() => setShowSupport(!showSupport)}
-                      >
-                        <div className="dis-f jc-b a-c">
-                          {
-                            teamAvatars.map((imgTeam, i) => (
-                              <img
-                                key={`avt_${i.toString()}`}
-                                src={`${baseByData.shortPath}${imgTeam.path}`}
-                                alt="Support Team"
-                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
-                              />
-                            ))
-                          }
-                        </div>
-                        <span className="ml-2 txtDark700 fweight-500">Support</span>
-                      </div>
+                      {
+                        !showSupport && (
+                          <div
+                            className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                            onClick={() => setShowSupport(!showSupport)}
+                          >
+                            <div className="dis-f jc-b a-c">
+                              {
+                                teamAvatars.map((imgTeam, i) => (
+                                  <img
+                                    key={`avt_${i.toString()}`}
+                                    src={`${baseByData.shortPath}${imgTeam.path}`}
+                                    alt="Support Team"
+                                    className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                                  />
+                                ))
+                              }
+                            </div>
+                            <span className="ml-2 txtDark700 fweight-500">Support</span>
+                          </div>
+                        )
+                      }
                     </div>
                   </div>
                 </div>
               </div>
-
+            
             </div>
           </div>
-
+          
           { /* SECTION: ACHIVEMENT FLOW */ }
           <Routes>
             <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
-            <Route path="/buyer/:propID/property/showings/add" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
             <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
             <Route path="*" element={null} />
           </Routes>
-
+          
           {
             modal.state && !modal.type && !modal.small && (
               <BrixelModalFullScreen
@@ -627,7 +636,7 @@ const App = (props) => {
               </BrixelModal>
             )
           }
-
+          
           {
             modal.state && modal.type === 'confirmExit' && (
               <WarningScreen
@@ -638,7 +647,7 @@ const App = (props) => {
               />
             )
           }
-
+          
           {
             modal.state && modal.type === 'bestimate' && (
               <BestimateCardOverlay
@@ -648,7 +657,7 @@ const App = (props) => {
               />
             )
           }
-
+          
           { /* SPLASH SCREEN */}
           {
             (splashScreenType === 'marketOverlay' || splashScreenType === 'marketOverlayCarousel') && (
@@ -659,19 +668,19 @@ const App = (props) => {
               />
             )
           }
-
+          
           {
             has(splashScreenType, 'component') && (
               React.createElement(splashScreenType.component, splashScreenType.props)
             )
           }
-
+          
           {
             get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
               <WizardCard />
             )
           }
-
+          
           { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */}
           {
             notification && notification.length > 0 &&
@@ -698,7 +707,7 @@ const App = (props) => {
               </div>
             )
           }
-
+          
           {
             !history.location.pathname.includes('docubox') &&
             notification && (notification.small || notification.state) && (
@@ -714,7 +723,7 @@ const App = (props) => {
               </>
             )
           }
-
+          
           {/* Splash screens for single deal, create new deal and edit document */}
           <Routes>
             <Route

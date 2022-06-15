@@ -38,15 +38,10 @@ const Page = (props) => {
     modal,
   } = props;
   // STATE
-  const saveLoading = get(isSmallLoading, 'saveMarketingPage', null);
   const [status, setStatus] = useState({});
   // URL PARAMS
   const propID = get(match, 'propID', null);
-  
-  useEffect(() => {
-    return () => handleSetModal({});
-  }, []);
-  
+
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
     if (activeSingleProperty.publishReview) {
@@ -69,7 +64,7 @@ const Page = (props) => {
       });
     }
   }, [activeSingleProperty]);
-  
+
   // GET PAGE STATUS
   const changeReviewStatus = () => {
     const data = {
@@ -79,7 +74,7 @@ const Page = (props) => {
     };
     handleUpdatePublishedReview(data);
   };
-  
+
   // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
   const onClickPreview = () => {
     let url;
@@ -91,7 +86,7 @@ const Page = (props) => {
       window.location.assign(url);
     }
   };
-  
+
   const onClickRequest = (state, type = 'request') => {
     handleSetModal({
       state: true,
@@ -133,22 +128,22 @@ const Page = (props) => {
       ]
     })
   };
-  
+
   useEffect(() => {
-    if (get(modal, 'multiBodyActions', []).length > 1 && saveLoading === true) {
-      modal.multiBodyActions[1].isLoading = saveLoading;
+    if (get(modal, 'multiBodyActions', []).length > 1 && isSmallLoading.saveMarketingPage === true) {
+      modal.multiBodyActions[1].isLoading = isSmallLoading.saveMarketingPage;
       handleSetModal(modal);
     }
-    if (saveLoading === false) {
+    if (isSmallLoading.saveMarketingPage === false) {
       const stateText = status.state === 'published' ? 'unpublishPage' : 'publishPage';
       onClickRequest(stateText, 'success');
     }
-  }, [saveLoading]);
-  
+  }, [isSmallLoading]);
+
   if (!status.state) {
     return <div />
   }
-  
+
   return (
     <>
       <div className="bgWhite p-4 brdRadius">
@@ -158,7 +153,7 @@ const Page = (props) => {
             {status.text}
           </div>
         </div>
-        
+
         <div className="mb-4">
           {
             status.state === 'published' ? (
@@ -279,9 +274,9 @@ const Page = (props) => {
             )
           }
         </div>
-      
+
       </div>
-      
+  
       {
         status.state === 'published' && (
           <div className="pos-r w-perc-100 bgWhite p-3 my-5 brdRadius shadow-1dp">

@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
+  BrixelButtonSecondary,
   BrixelIcon,
+  FormatValue,
   Helpers,
 } from '@brixel/brixel-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -32,7 +34,7 @@ const DashboardPropertyCard = (props) => {
 
   return (
     <>
-      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'pl-sm-4 pt-sm-3 pb-sm-3 pt-0 pb-3 mb-3'} ov-h`}>
+      <div className={`shadow-2dp imgSection bgWhite brdRadius dis-fl-col dis-fl-row-sm ${smallLayout ? 'p-sm-3' : 'p-sm-3 pt-0 pb-2 mb-3'} ov-h`}>
         <div>
           <div
             onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
@@ -44,7 +46,7 @@ const DashboardPropertyCard = (props) => {
               propertyType={get(formValue, 'properties.propertyType', undefined)}
             />
             {
-              type !== 'sold' && (
+              type !== 'sold' && type !== 'buy' && (
                 <Link
                   to={`/${activeSingleProperty.id}/property/photos`}
                   className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
@@ -55,14 +57,14 @@ const DashboardPropertyCard = (props) => {
             }
           </div>
         </div>
-        <div className="pl-3 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
+        <div className="pl-sm-3 pl-2 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
           <div className="">
             <h4 className="txtDark700 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
 
           </div>
           {
-            type === 'sold' ? (
+            (type === 'sold' || type === 'buy') ? (
               <div className="w-perc-100">
                 <div className="fweight-600 txtBlue700 fsize-500 mb-2">
                   <span>{get(activeSingleProperty, 'price.currency', 'CHF')}</span>
@@ -70,63 +72,105 @@ const DashboardPropertyCard = (props) => {
                     {Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}
                   </span>
                 </div>
-                <div className="dis-f a-c">
-                  {
-                    get(activeSingleProperty, 'virtual', null) && (
-                      <div className="bgBlue300 tourLink">
-                        <button
-                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
-                          className="dis-f a-c" rel="noreferrer"
-                        >
-                          <BrixelIcon
-                            color="Blue"
-                            rounded
-                            saturationTxt={700}
-                            background="Blue"
-                            saturation={100}
-                            icon="tour"
-                            padding="p-small-8"
-                          />
-                          <span className="pl-1 pr-2 txtBlue700 fsize-300">
-                            3D-Tour
-                          </span>
-                        </button>
+                {
+                  type === 'buy' ? (
+                    <div className="dis-fl-col dis-fl-row-sm a-c">
+                      <div className="dis-f w-perc-100 jc-b">
+                        <div className="brdSmallRight brdAltGrey200 pr-2">
+                          <h6 className="ff-mono txtAltGrey400 fsize-300">
+                            Living area
+                          </h6>
+                          <p className="fsize-500 fSizePx20">
+                            {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
+                          </p>
+                        </div>
+                        <div className="ml-2 brdSmallRight brdAltGrey200 pr-2">
+                          <h6 className="ff-mono txtAltGrey400 fsize-300">
+                            Rooms
+                          </h6>
+                          <p className="fsize-500 fSizePx20">
+                            {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))
+                            }
+                          </p>
+                        </div>
+                        <div className="ml-2 brdSmallRight-sm brdAltGrey200 pr-2 mr-1">
+                          <h6 className="ff-mono txtAltGrey400 fsize-300">
+                            Year built
+                          </h6>
+                          <p className="fsize-500 fSizePx20">
+                            {get(activeSingleProperty, 'properties.building.built', 0)}
+                          </p>
+                        </div>
                       </div>
-                    )
-                  }
-                  {
-                    activeSingleProperty.photos && activeSingleProperty.photos.length > 0 && (
-                      <div className="ml-1">
-                        <BrixelIcon
-                          color="red"
-                          rounded
-                          saturationTxt={700}
-                          background="red"
-                          saturation={100}
-                          icon="photos"
-                          padding="p-small-10"
-                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/photos`)}
-                        />
-                      </div>
-                    )
-                  }
-                  {
-                    activeSingleProperty.floorPlans && activeSingleProperty.floorPlans.length > 0 && (
-                      <div className="ml-1">
-                        <BrixelIcon
-                          color="green"
-                          rounded
-                          saturationTxt={700}
-                          background="green"
-                          saturation={100}
-                          icon="plans"
-                          padding="p-small-10"
-                          onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/floorPlans`)}
-                        />
-                      </div>
-                    )
-                  }
-                </div>
+
+                      <BrixelButtonSecondary
+                        className="as-fs mt-2 mt-a-sm mb-a w-auto-sm w-perc-100"
+                        rounded
+                        label="View"
+                        onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
+                      />
+
+                    </div>
+                  ) : (
+                    <div className="dis-f a-c">
+                      {
+                        get(activeSingleProperty, 'virtual', null) && (
+                          <div className="bgBlue300 tourLink">
+                            <button
+                              onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
+                              className="dis-f a-c" rel="noreferrer"
+                            >
+                              <BrixelIcon
+                                color="Blue"
+                                rounded
+                                saturationTxt={700}
+                                background="Blue"
+                                saturation={100}
+                                icon="tour"
+                                padding="p-small-8"
+                              />
+                              <span className="pl-1 pr-2 txtBlue700 fsize-300">
+                                3D-Tour
+                              </span>
+                            </button>
+                          </div>
+                        )
+                      }
+                      {
+                        activeSingleProperty.photos && activeSingleProperty.photos.length > 0 && (
+                          <div className="ml-1">
+                            <BrixelIcon
+                              color="red"
+                              rounded
+                              saturationTxt={700}
+                              background="red"
+                              saturation={100}
+                              icon="photos"
+                              padding="p-small-10"
+                              onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/photos`)}
+                            />
+                          </div>
+                        )
+                      }
+                      {
+                        activeSingleProperty.floorPlans && activeSingleProperty.floorPlans.length > 0 && (
+                          <div className="ml-1">
+                            <BrixelIcon
+                              color="green"
+                              rounded
+                              saturationTxt={700}
+                              background="green"
+                              saturation={100}
+                              icon="plans"
+                              padding="p-small-10"
+                              onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/floorPlans`)}
+                            />
+                          </div>
+                        )
+                      }
+                    </div>
+                  )
+                }
               </div>
             ) : (
               <>
@@ -225,7 +269,7 @@ const DashboardPropertyCard = (props) => {
                                   <div className="dis-fl-col pl-2 mr-1">
                                     <span className="txtLight600 fsize-300">Your Bestimate</span>
                                     {
-                                      !get(estimation, 'status', null) || !completedBestimate(formValue) && (
+                                      !get(estimation, 'status', null) || !completedBestimate(formValue) && !get(estimation, 'status', '') === 'processed' && (
                                         <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
                                           Get Estimation
                                         </Link>
@@ -245,7 +289,7 @@ const DashboardPropertyCard = (props) => {
                                             state: true,
                                             type: 'bestimate',
                                           })}
-                                          className="txtBlue700 no-state fweight-600"
+                                          className="txtBlue700 no-state fweight-600 fsize-400 ml-1-neg"
                                         >
                                           {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', '').toFixed(0), get(estimation, 'currency', ''))}
                                         </button>

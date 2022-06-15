@@ -9,7 +9,6 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { destroy } from '@brixel/brixel-components/dist/form';
-import { diff } from 'deep-object-diff';
 import {
   getOwnedProperties, getFavoritesProperties, getNewProperties,
   getPremiumProperties, getPremarketProperties, getLastViewedProperties,
@@ -168,15 +167,6 @@ const mapDispatchToProps = (dispatch) => ({
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
-export const MarketBuyerMemo = React.memo(MarketBuyer, (prevProps, nextProps) => {
-  const diffProps = diff(prevProps, nextProps);
-  const diffSearchProfile = diff(prevProps.userSearchProfiles, nextProps.userSearchProfiles);
-  return (
-    Object.keys(diffProps).length === 0 &&
-    Object.keys(diffSearchProfile).length === 0
-  );
-});
-
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(MarketBuyerMemo);
+)(MarketBuyer);

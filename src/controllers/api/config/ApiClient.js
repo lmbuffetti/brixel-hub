@@ -84,7 +84,7 @@ class ApiClient {
     return this.request({
       url: requestUrl,
       method: 'patch',
-      data: payload,
+      data: { ...payload, url: get(window, 'location.href', '')},
       headers,
       options,
     });

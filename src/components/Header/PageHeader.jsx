@@ -23,7 +23,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { setLanguage } from '../../actions/CommonActions';
 import {
   getPackageProperty,
   getPackagesProperty,
@@ -55,7 +54,6 @@ function PageHeader(props) {
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
     handleSetActiveSinglePropertyActivePackage,
-    handleSetLanguage,
     handleSetUserTypes,
     isFlow,
     lang,
@@ -156,20 +154,6 @@ function PageHeader(props) {
       handleSaveActiveSingleUser(userData);
     }
   };
-
-  // CHECK IF USER IS LOGGED IN
-  useEffect(() => {
-    if (loggedInUser && loggedInUser.user) {
-      const langUsr = loggedInUser.user.language;
-      handleSetLanguage(lang);
-      setCookie('brixelLang', langUsr);
-      if (typeof Transifex !== 'undefined') {
-        setTimeout(() => {
-          Transifex.live.translateTo(langUsr);
-        }, 100);
-      }
-    }
-  }, [loggedInUser, localTransifex]);
 
   // FUNCTION LOADED WHEN SCREEN RESIZED
   const screenResize = () => {
@@ -641,7 +625,6 @@ PageHeader.propTypes = {
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyActivePackage: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   isFlow: PropTypes.bool,
   lang: PropTypes.oneOfType([PropTypes.any]),
@@ -684,7 +667,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetActiveSinglePropertyActivePackage: bindActionCreators(setActiveSinglePropertyActivePackage, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 

@@ -13,6 +13,9 @@ import { getFavoritesProperties } from '../../../actions/MarketActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
 import { getUserPagesDeals, setUserTypes } from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
+import SidebarBuyer from './SidebarBuyer';
+
+const DashboardHome = lazyWithRetry(() => import('./DashboardHome'));
 
 const PropertyBuyerDashboard = lazyWithRetry(() => import('./PropertyBuyerDashboard'));
 
@@ -55,22 +58,24 @@ const Dashboard = (props) => {
 
   // FUNCTION TO LOAD THE PROPERTY BY ID OR LOAD THE DEFAULT
   useEffect(() => {
-    const data = {
-      resultsPerPage: itemsPerPage,
-      offset: currentPage,
-      order: sortOrderType,
-      direction: sortDirection,
-      setAsSingle: true,
-      multiLoader: true,
-    };
-    handleGetFavoritesProperties(data);
-    handleSetUserTypes('buyer');
-    handleSpinnerOff();
+    if (loggedInUser.id) {
+      const data = {
+        resultsPerPage: itemsPerPage,
+        offset: currentPage,
+        order: sortOrderType,
+        direction: sortDirection,
+        setAsSingle: true,
+        multiLoader: true,
+      };
+      handleGetFavoritesProperties(data);
+      handleSetUserTypes('buyer');
+      handleSpinnerOff();
+    }
   }, []);
 
   useEffect(() => {
     const activeLeads = get(activeSingleProperty, 'pageLeads[0]', { });
-    if (activeLeads && activeLeads.company !== activeSingleCompany.id) {
+    if (activeLeads && activeLeads.company && activeLeads.company !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads.company });
     } else if (activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
@@ -85,7 +90,7 @@ const Dashboard = (props) => {
   }, [propID]);
 
   useEffect(() => {
-    if (propID && propID !== 'propertyLists') {
+    if (propID && propID !== 'propertyLists' && loggedInUser.id) {
       const data = {
         fullVersion: false,
         smallLoader: 'property',
@@ -93,7 +98,7 @@ const Dashboard = (props) => {
       };
       handleGetActiveSingleProperty(data);
     }
-  }, [propID, favoritesProperties]);
+  }, [propID, favoritesProperties, loggedInUser]);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
@@ -102,38 +107,48 @@ const Dashboard = (props) => {
     }
   }, [history.location.pathname]);
 
+  const sectionClass = get(history, 'location.pathname', '/').split('/');
+
   return (
     <PartialErrorBoundering>
-      <div className="dashboardContainer" id="dashboard">
+      <div className={`dashboardContainer mt-0 mt-md-3 dis-f jc-b ${sectionClass[2]}`} id="dashboard">
         <div className="w-perc-100">
           <Suspense fallback="">
             <Routes>
               { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+              <Route path="/home" element={<DashboardHome />} />
               <Route path="/property/*" element={<PropertyBuyerDashboard />} />
               <Route path="/docubox" element={<Documents />} />
               <Route path="/financing" element={<Financing />} />
               <Route path="/closing/*" element={<DealsDashboardBuyer />} />
-              <Route path="*" element={<Navigate to={`/buyer/${propID}/property`} />} />
+              <Route path="*" element={<Navigate to={`/buyer/${propID}/home`} />} />
             </Routes>
           </Suspense>
         </div>
+        {
+          get(history, 'location.pathname', '').includes('home') && (
+            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+              <SidebarBuyer />
+            </div>
+          )
+        }
       </div>
     </PartialErrorBoundering>
   );
 };
 
 Dashboard.propTypes = {
+  activeSingleCompany: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  activeSingleCompany: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  handleGetFavoritesProperties: PropTypes.func.isRequired,
+  favoritesProperties: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
+  handleGetFavoritesProperties: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  favoritesProperties: PropTypes.object.isRequired,
 };
 
 Dashboard.defaultProps = {

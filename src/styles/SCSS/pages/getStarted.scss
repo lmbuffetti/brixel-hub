@@ -201,14 +201,11 @@
 #bodyModalWrapper {
 
   &.getStarted {
+    z-index: 1;
+
     &:not([class*="bg"]) {
       background-color: transparent;
     }
-    &.container[class*="bg"] {
-      /* margin-left: 0px;
-      margin-right: 0px; */
-    }
-    z-index: 1;
 
     #progressBar {
       position: absolute;
@@ -234,6 +231,28 @@
             margin-bottom: -2px;
           }
         }
+      }
+    }
+
+    // schedule visit
+    &.scheduleVisit {
+      #wrapDatePicker #fixedDatePicker {
+        all: initial;
+      }
+
+      #wrapDatePicker {
+        .react-datepicker {
+          all: initial;
+        }
+      }
+
+      #rzSlider {
+        .input-range__label-container {
+          display: none;
+        }
+      }
+      .date-schedule {
+        border-radius: 50px;
       }
     }
 
@@ -303,6 +322,10 @@
           .singleStep {
             padding-top: 64px;
             padding-bottom: 24px;
+
+            &.buyerShowings {
+              padding-top: 16px;
+            }
 
             @media (max-width: $responsive-medium) {
               padding-top: 40px;
