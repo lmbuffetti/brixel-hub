@@ -63,6 +63,7 @@ const GetStartedSeller = (props) => {
     handleSpinnerOn,
     initForm,
     initialValues,
+    isLoading,
     isTest,
     lang,
     loggedInUser,
@@ -102,6 +103,7 @@ const GetStartedSeller = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
+    if (isLoading) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     setCookie('brixelSplashHome', 'sellerWelcome');
@@ -692,16 +694,17 @@ GetStartedSeller.propTypes = {
   handleCreateActiveSingleProperty: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
-  handleReset: PropTypes.func.isRequired,
 };
 
 GetStartedSeller.defaultProps = {
@@ -759,6 +762,7 @@ const mapStateToProps = (state, ownProps) => {
       },
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
+    isLoading: get(state, 'common.isLoading', 0) > 0,
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
