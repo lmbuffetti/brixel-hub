@@ -7,7 +7,7 @@ import {
   compose, bindActionCreators,
 } from 'redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { BrixelInputText } from '@brixel/brixel-components/dist/form';
+import { BrixelTextArea } from '@brixel/brixel-components/dist/form';
 import { sendSupportMessage } from '../actions/CommonActions';
 
 const Support = (props) => {
@@ -228,7 +228,7 @@ const Support = (props) => {
                   </>
                 ) : (
                   <>
-                    <BrixelInputText
+                    <BrixelTextArea
                       className="w-perc-100 pr-2"
                       placeholder="Write us a message"
                       input={{
