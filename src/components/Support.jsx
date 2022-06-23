@@ -218,8 +218,10 @@ const Support = (props) => {
               {
                 requestDone ? (
                   <>
-                    <span className="txtWhite fweight-400 fsize-300 lh-22 pr-2">Thanks for your message.
-                      <span className="dis-b"> We&apos;ll get back to you shortly.</span></span>
+                    <p className="txtWhite fweight-400 fsize-300 lh-22 pr-2">
+                      <span>Thanks for your message.</span>
+                      <span className="dis-b"> We&apos;ll get back to you shortly.</span>
+                    </p>
                     <BrixelIcon
                       icon="tick"
                       color="white"
