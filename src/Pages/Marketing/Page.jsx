@@ -234,7 +234,7 @@ const Page = (props) => {
             </div>
           </div>
         </div>
-        <div className="dis-f a-c jc-b mt-5">
+        <div className="dis-f a-c jc-b mt-5 flex-wrap jc-c">
           {
             status.state === 'published' ? (
               <>
@@ -243,6 +243,7 @@ const Page = (props) => {
                   label="View your page"
                   rightIcon="eye"
                   onClick={() => onClickPreview()}
+                  className="mb-1 mr-2"
                 />
                 <BrixelButtonText
                   label="Take Page offline"
@@ -250,6 +251,7 @@ const Page = (props) => {
                   rounded
                   onClick={() => onClickRequest('unpublishPage', 'request')}
                   isLoading={isSmallLoading.pageReview}
+                  className="mb-1"
                 />
               </>
             ) : (
@@ -259,6 +261,7 @@ const Page = (props) => {
                   label="Preview your page"
                   rightIcon="eye"
                   onClick={() => onClickPreview()}
+                  className="mb-1 mr-2"
                 />
                 {
                   status.state !== 'review' && (
@@ -267,6 +270,7 @@ const Page = (props) => {
                       rounded
                       onClick={() => onClickRequest('publishPage', 'request')}
                       isLoading={isSmallLoading.pageReview}
+                      className="mb-1"
                     />
                   )
                 }
@@ -276,7 +280,7 @@ const Page = (props) => {
         </div>
 
       </div>
-  
+
       {
         status.state === 'published' && (
           <div className="pos-r w-perc-100 bgWhite p-3 my-5 brdRadius shadow-1dp">
