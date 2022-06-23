@@ -41,6 +41,7 @@
     border-bottom: 1px solid map_get($lightColor, 200);
     padding-bottom: $step;
     padding-top: $step;
+
     .day, .time {
       display: flex;
       align-items: center;

@@ -42,14 +42,14 @@ const BookTrialFlow = (props) => {
   const phone = get(activeSingleCompany, 'contact.phone', null);
   // const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
   const whereby = get(activeSingleCompany, 'contact.whereby', null);
-
+  
   const [openAccordion, setOpenAccordion] = useState('online');
-
+  
   useEffect(() => {
     if (get(formValue, 'analysis', '') === 'on-site') setOpenAccordion('online');
     else setOpenAccordion('whereby');
   }, [get(formValue, 'analysis', '')]);
-
+  
   const handleChangeDate = (day) => {
     setDate(day);
     changeFieldValue('dateBook', DateTime.fromMillis(day, {
@@ -59,7 +59,7 @@ const BookTrialFlow = (props) => {
       locale: lang,
     }).toISO());
   };
-
+  
   useEffect(() => {
     let hourBook = get(formValue, 'hourBook', '');
     if (get(formValue, 'hourBook', null)) hourBook = get(formValue, 'hourBook', '').replace(':', '');
@@ -75,21 +75,21 @@ const BookTrialFlow = (props) => {
       changeFieldValue('date', defDate);
     }
   }, [get(formValue, 'fullDate', null), get(formValue, 'hourBook', null)]);
-
+  
   const closeModal = () => {
     setDatePickerModal(!datePickerModal);
   };
-
+  
   const openWhereByVideoCall = () => {
     window.open(whereby, '_blank');
     onClick();
   };
-
+  
   useOutsideAlerter(datePicker, {
     action: 'function',
     func: () => closeModal(),
   });
-
+  
   return (
     <main id="rewards" className="BookTrialFlow pb-4 h-perc-100 txtDark700">
       {
@@ -258,7 +258,7 @@ const BookTrialFlow = (props) => {
           </>
         )
       }
-
+    
     </main>
   );
 };

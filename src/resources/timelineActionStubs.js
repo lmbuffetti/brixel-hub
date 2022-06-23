@@ -45,6 +45,29 @@ module.exports = {
     'user-portal-create-message',
     'user-schedule',
   ],
+  DealOwnerPageDealsList: [
+    'deal-feedback-visit',
+    'deal-confirm-visit',
+    'deal-confirm-visit-email',
+    'deal-feedback-visit-email',
+  ],
+  BuyerSidebarPage: [
+    'user-send-message',
+    'user-schedule',
+  ],
+  BuyerSidebarUser: [
+    'user-register',
+  ],
+  BuyerSidebarDeal: [
+    'page-message',
+    'deal-feedback-visit-email',
+    'deal-confirm-visit',
+    'deal-confirm-visit-email',
+    'deal-confirm-offer',
+    'deal-make-offer',
+    'deal-review-offer',
+    'update-deal',
+  ],
   SellerSidebar: [
     'page-create',
     'page-published',

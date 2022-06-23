@@ -23,6 +23,7 @@ import {
   SEND_SCAN_TRIAL_REQUEST,
   SET_ACTIVE_SINGLE_PROPERTY,
   SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS,
   SET_ESTIMATION,
   SET_MARKET_CHECK,
   SET_PACKAGES_PROPERTY,
@@ -124,7 +125,8 @@ const checkCommon = (store) => (next) => (action) => {
                 owner: res.data.owner.id,
                 page: res.data.id,
                 generate: true,
-                redirectTo: redirectToUrl,
+                redirectTo: redirectToUrl.replace(':pageID', res.data.id),
+                // redirectTo: redirectToUrl,
               };
               store.dispatch({ type: CREATE_ESTIMATION, payload: data });
               if (extraLoading) store.dispatch({ type: SPINNER_OFF });
@@ -769,6 +771,16 @@ const checkCommon = (store) => (next) => (action) => {
           type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
           payload: response.data,
         });
+        const slots = [];
+        response.data.forEach((item) => {
+          item.slots.forEach((slot) => {
+            slots.push(slot);
+          })
+        });
+        store.dispatch({
+          type: SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS,
+          payload: slots,
+        });
         if (redirectTo) {
           store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
         }
@@ -865,6 +877,12 @@ const checkCommon = (store) => (next) => (action) => {
               type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: 'sentMessage',
+              },
+            });
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                scheduleVisit: false,
               },
             });
           } else {

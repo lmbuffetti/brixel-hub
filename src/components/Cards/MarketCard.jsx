@@ -57,7 +57,6 @@ const MarketCard = (props) => {
     setSplashScreen,
     skeleton,
     type,
-    windowDimensions,
   } = props;
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
@@ -108,17 +107,10 @@ const MarketCard = (props) => {
       ) {
         window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
       } else if (type === 'favorite' || type === 'wishlist') {
-        if (get(windowDimensions, 'width', 0) <= 1024) {
-          history.push({
-            pathname: `/buyer/${item.id}/property`,
-            state: { section: 'Market' },
-          });
-        } else {
-          history.push({
-            pathname: `/buyer/${item.id}/property/page`,
-            state: { section: 'Market' },
-          });
-        }
+        history.push({
+          pathname: `/buyer/${item.id}/home`,
+          state: { section: 'Market' },
+        });
       } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
       // TODO: Estimation opens overlay
     }
@@ -632,7 +624,6 @@ MarketCard.propTypes = {
   setSplashScreen: PropTypes.func.isRequired,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
-  windowDimensions: PropTypes.object.isRequired,
 };
 
 MarketCard.defaultProps = {

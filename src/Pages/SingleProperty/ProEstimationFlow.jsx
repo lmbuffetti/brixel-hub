@@ -57,10 +57,10 @@ const ProEstimationFlow = (props) => {
   const [sendNotification, setSendNotification] = useState(false);
 
   useEffect(() => {
-    if (initialValues.id) {
+    if (activeSingleProperty.id) {
       initForm(initialValues);
     }
-  }, [activeSingleProperty]);
+  }, [activeSingleProperty.id]);
 
   useEffect(() => {
     if (!isSmallLoading.saveData) {
@@ -198,7 +198,7 @@ const ProEstimationFlow = (props) => {
       history.push(`/${activeSingleProperty.id}/property/price`);
     }
   };
-
+  
   if (!formValue.id) {
     return (
       <div />

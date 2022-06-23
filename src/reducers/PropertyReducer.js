@@ -1,17 +1,18 @@
 import { handleActions } from 'redux-actions';
 import {
-  SET_ACTIVE_SINGLE_PROPERTY,
-  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
   SET_ACTIVE_MARKET_OVERLAY_PROPERTY,
   SET_ACTIVE_MARKET_OVERLAY_PROPERTY_LISTS,
+  SET_ACTIVE_SINGLE_PROPERTY,
+  SET_ACTIVE_SINGLE_PROPERTY_ACTIVE_PACKAGE,
+  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS,
+  SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS,
+  SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
   SET_ESTIMATION,
   SET_MARKET_CHECK,
   SET_PACKAGES_PROPERTY,
+  SET_PACKAGE_PROPERTY,
   SET_PAGE_DEALS,
   SET_PROPERTY_LISTINGS,
-  SET_ACTIVE_SINGLE_PROPERTY_DEALS_COUNT,
-  SET_PACKAGE_PROPERTY,
-  SET_ACTIVE_SINGLE_PROPERTY_ACTIVE_PACKAGE,
 } from '../actions/types/PropertyTypes';
 
 import {
@@ -23,12 +24,13 @@ export const defaultState = {
   activeMarketOverlayProperty: {},
   activeMarketOverlayPropertyLists: null,
   activeSingleProperty: {},
+  activeSinglePropertyActivePackage: [],
   activeSinglePropertyBooking: [],
+  activeSinglePropertyBookingSlots: [],
   activeSinglePropertyDeals: null,
   activeSinglePropertyDealsCount: {},
   activeSinglePropertyHistory: {},
   activeSinglePropertyOwnerHistory: {},
-  activeSinglePropertyActivePackage: [],
   activeSinglePropertyPackage: [],
   estimation: {},
   marketCheck: {},
@@ -61,6 +63,10 @@ export default handleActions(
     [SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS]: (state, action) => ({
       ...state,
       activeSinglePropertyBooking: action.payload,
+    }),
+    [SET_ACTIVE_SINGLE_PROPERTY_BOOKINGS_SLOTS]: (state, action) => ({
+      ...state,
+      activeSinglePropertyBookingSlots: action.payload,
     }),
     [SET_MARKET_CHECK]: (state, action) => ({
       ...state,

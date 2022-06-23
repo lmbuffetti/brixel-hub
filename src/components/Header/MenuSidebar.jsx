@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { BrixelIcon } from '@brixel/brixel-components';
 import { destroy } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
@@ -29,11 +29,11 @@ const MenuSidebar = (props) => {
   const levelUrl = history.location.pathname.split('/');
 
   // FUNCTION TO MAANGE THE TAB CLICK
-  const linkMenu = useCallback((val) => {
+  const linkMenu = (val) => {
     let url = val.replace(':propID', propID);
     url = url.replace(':dealID', activeSingleDeal.id);
     return url;
-  }, [userType, activeSingleDeal, propID]);
+  };
 
   useEffect(() => {
     if (history.location.pathname.includes('buyer')) {
@@ -53,7 +53,7 @@ const MenuSidebar = (props) => {
               <ul className="sidebarNav dis-fl-col">
                 {
                   navigationMenu.map((nav, i) => (
-                    <>
+                    <React.Fragment key={`mnu_${i.toString()}`}>
                       {
                         !linkMenu(nav.path).includes('undefined') && (
                           <li
@@ -64,15 +64,15 @@ const MenuSidebar = (props) => {
                             <Link
                               to={linkMenu(nav.path)}
                             >
-                
+        
                               <BrixelIcon
                                 color="blue"
                                 saturationTxt={700}
                                 icon={nav.icon}
                               />
-                
+        
                               <span className="pl-1">{nav.title}</span>
-              
+      
                             </Link>
                             {
                               nav.submenu && (
@@ -99,7 +99,7 @@ const MenuSidebar = (props) => {
                           </li>
                         )
                       }
-                    </>
+                    </React.Fragment>
                   ))
                 }
               </ul>

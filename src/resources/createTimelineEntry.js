@@ -164,7 +164,7 @@ export const createTimelineEntry = (item, userLang) => {
   if (has(item, 'actionStub') && item.actionStub === 'user-register') {
     return [
       {
-        description: `<div><div><a class='txtDark700' rel='noreferrer noopener' target='_blank' href='/${item.parent.id}/user'>${item.parent.email}</a> <span>just signed up</span></div><div><span class="fweight-500">Signup Channel: </span><span>${item.parent.signupChannel}</span></div></div>`,
+        description: `<div><div><a class='txtDark700' rel='noreferrer noopener' target='_blank' href='/${item.parent.id}/user'>${item.parent.email}</a> <span> signed up</span></div><div><span class="fweight-500">Signup Channel: </span><span>${item.parent.signupChannel}</span></div></div>`,
         icon: 'account',
         formattedDate: !isNaN(+item.parent.createdAt) ? DateTime.fromMillis(item.parent.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm') : '',
         timestamp: item.parent.createdAt,

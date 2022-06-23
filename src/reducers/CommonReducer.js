@@ -13,6 +13,7 @@ import {
   SET_NOTIFICATION,
   SET_PAGE_DATA, SET_MODAL,
   PREVENT_EXIT_FROM_SCREEN,
+  REQUEST_DONE,
   SET_UNSAVED_CHANGES_MODAL,
   SET_WINDOW_DIMENSIONS,
   SET_COUNTRY_LIST,
@@ -51,6 +52,7 @@ export const defaultState = {
   percentage: 0,
   preventExitFromScreen: false,
   redirectTo: null,
+  requestDone: false,
   setPageData: null,
   skeleton: { },
   splashScreenType: '',
@@ -96,6 +98,10 @@ export default handleActions(
     [REDIRECT_TO]: (state, action) => ({
       ...state,
       redirectTo: action.payload,
+    }),
+    [REQUEST_DONE]: (state, action) => ({
+      ...state,
+      requestDone: action.payload,
     }),
     [SET_LANGUAGE]: (state, action) => ({
       ...state,

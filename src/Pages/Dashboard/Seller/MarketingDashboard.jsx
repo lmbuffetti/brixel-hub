@@ -12,8 +12,6 @@ import Sticker from 'react-stickyfill';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 
-const Showings = lazyWithRetry(() => import('../../Marketing/Showings'));
-
 const Page = lazyWithRetry(() => import('../../Marketing/Page'));
 
 const Portals = lazyWithRetry(() => import('../../Marketing/Portals'));
@@ -47,7 +45,6 @@ const MarketingDashboard = () => {
         getFact() !== 'marketing' && (
           <Suspense fallback={<Loading isLoading />}>
             <Routes>
-              <Route path="/showings" element={<Showings />} />
               <Route path="*" element={<Navigate to={`/buyer/${propID}/marketing`} />} />
             </Routes>
           </Suspense>
