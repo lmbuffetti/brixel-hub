@@ -535,7 +535,7 @@ const Documents = (props) => {
                                           [
                                             {
                                               label: isCopied ? 'Copied' : 'Copy Link',
-                                              clickFunc: () => copyLinkToClipboard(),
+                                              clickFunc: () => copyLinkToClipboard(doc.id),
                                             },
                                             {
                                               label: 'View',
@@ -555,7 +555,7 @@ const Documents = (props) => {
                                           ] : [
                                             {
                                               label: isCopied ? 'Copied' : 'Copy Link',
-                                              clickFunc: () => copyLinkToClipboard(),
+                                              clickFunc: () => copyLinkToClipboard(doc.id),
                                             },
                                             {
                                               label: 'View',
