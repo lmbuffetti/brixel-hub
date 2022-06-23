@@ -17,6 +17,7 @@ import {
   ReduxField, Validation,
 } from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
+import { addDays } from 'date-fns';
 import Accordion from '../../components/Accordion';
 import PhoneImg from '../../images/TestDrive/phoneTrial.svg';
 import VidelCallImg from '../../images/TestDrive/VideoCall.svg';
@@ -126,7 +127,7 @@ const BookTrialFlow = (props) => {
                         name: 'dateBook',
                         type: 'date',
                         maxDate: `${DateTime.now().year + 1}-12-31`,
-                        minDate: DateTime.now().toFormat('yyyy-LL-dd'),
+                        minDate: addDays(new Date(), 1),
                         onChange: (val) => handleChangeDate(val, 'new'),
                         validate: [Validation.required]
                       }}
