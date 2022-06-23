@@ -70,7 +70,7 @@ const clientConfig = () => {
     output: {
       publicPath: '/',
       path: BUILD_DIR,
-      filename: 'js/[name].bundle.js',
+      filename: 'js/[name].[fullhash].bundle.js',
       chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[fullhash].js',
       globalObject: 'this',
     },

@@ -347,7 +347,7 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
-    ...get(state, 'property.activeSingleProperty', {}),
+    id: get(state, 'property.activeSingleProperty.id', {}),
     properties: {
       ...get(state, 'property.activeSingleProperty.properties', {}),
       parking: {
