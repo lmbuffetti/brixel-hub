@@ -57,15 +57,8 @@ function RightHeaderFlow(props) {
 
   // FUNCTION TO POPULATE THE DROPDOWN LANGUAGE MENU
   useEffect(() => {
-    const drpLng = [];
-    languages.map((lng, i) => {
-      drpLng[i] = {
-        value: lng.value,
-        label: lng.label.replace('_US', ''),
-      };
-      return null;
-    });
-    setDropLang(drpLng);
+    languages.map((lng) => lng.label = lng.shortValue);
+    setDropLang(languages);
   }, [languages]);
 
   // FUNCTION TO TRANSLATE THE CONTENT USING TRANSIFEX
@@ -180,7 +173,6 @@ RightHeaderFlow.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   lang: get(state, 'common.language', ''),
-  languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   pageState: get(state, 'common.setPageData', {}),
   property: get(state, 'property.activeSingleProperty', {}),
