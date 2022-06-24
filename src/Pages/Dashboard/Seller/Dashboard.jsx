@@ -119,6 +119,7 @@ const Dashboard = (props) => {
     if (
       !get(history, 'location.pathname', '').includes('facts') &&
       !get(history, 'location.pathname', '').includes('achievement') &&
+      !get(history, 'location.pathname', '').includes('docubox') &&
       get(activeSingleProperty, 'id', null)
     ) {
       handleReset(initialValues);
