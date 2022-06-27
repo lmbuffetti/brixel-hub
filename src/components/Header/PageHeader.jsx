@@ -124,6 +124,7 @@ function PageHeader(props) {
         Transifex.live.getAllLanguages().map((lng, i) => {
           langHeader[i] = lng;
           langHeader[i].value = lng.code;
+          langHeader[i].shortValue = lng.code;
           langHeader[i].label = lng.name;
           return null;
         });
@@ -369,7 +370,9 @@ function PageHeader(props) {
 
             {
               isFlow ? (
-                <RightFlowHeader />
+                <RightFlowHeader
+                  languages={langMenu}
+                />
               ) : (
                 <div className="dis-f a-c">
                   {
