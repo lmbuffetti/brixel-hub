@@ -32,6 +32,7 @@ import {
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';
+import { requestDone } from '../../actions/CommonActions';
 
 const SingleDocument = (props) => {
   const history = {
@@ -46,6 +47,8 @@ const SingleDocument = (props) => {
     handleUpdateDocument,
     initialValues,
     isSmallLoading,
+    isRequestDone,
+    setRequestDone,
   } = props;
 
   const [activeDocument, setActiveDocument] = useState({});
@@ -53,6 +56,8 @@ const SingleDocument = (props) => {
   const [documentFolders, setDocumentFolders] = useState([]);
   const [newFolder, setNewFolder] = useState(false);
   const [docuementsType, setDocumentsType] = useState([]);
+
+  useEffect(() => () => setRequestDone(false), []);
 
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
@@ -109,7 +114,7 @@ const SingleDocument = (props) => {
   }, [activeDocument]);
 
   useEffect(() => {
-    if (isSmallLoading.saveData === false) {
+    if (isSmallLoading.saveData === false && isRequestDone) {
       history.push(`/${activeSingleProperty.id}/docubox`);
     }
   }, [isSmallLoading]);
@@ -344,6 +349,8 @@ SingleDocument.propTypes = {
   handleUpdateDocument: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  isRequestDone: PropTypes.bool.isRequired,
+  setRequestDone: PropTypes.func.isRequired,
 };
 
 SingleDocument.defaultProps = {};
@@ -355,6 +362,7 @@ const mapStateToProps = (state) => ({
   isSuperAdmin: get(state, 'common.superAdmin', false),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
+  isRequestDone: get(state, 'common.requestDone', false),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -362,6 +370,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change('Property', field, value));
   },
   handleUpdateDocument: bindActionCreators(updateDocument, dispatch),
+  setRequestDone: bindActionCreators(requestDone, dispatch),
 });
 
 export default compose(

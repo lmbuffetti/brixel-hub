@@ -29,6 +29,7 @@ import {
   SPINNER_ON,
   SPINNER_OFF,
   SPINNER_SMALL,
+  REQUEST_DONE,
 } from '../actions/types/CommonTypes';
 import { SAVE_CLOSING_IDENTIFICATION, SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
 
@@ -599,6 +600,10 @@ const checkCommon = (store) => (next) => (action) => {
             };
             store.dispatch({ type: SAVE_ACTIVE_SINGLE_PROPERTY, payload: data });
           }
+          store.dispatch({
+            type: REQUEST_DONE,
+            payload: true,
+          });
           if (smallLoader) {
             store.dispatch({
               type: SPINNER_SMALL,
