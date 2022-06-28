@@ -88,8 +88,8 @@ const GetStarted = (props) => {
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     let defComp = companyCookie;
+    defComp = get(companyByUrl, 'company', companyCookie);
     if (get(companyByUrl, 'company', companyCookie)) {
-      defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
     } else {
@@ -104,21 +104,6 @@ const GetStarted = (props) => {
       changeFieldValue('channel', channelCookie);
     }
     setCompanyURL(defComp);
-  }, []);
-
-  // ON DID MOUNT I GET THE COMPANY DATA
-  useEffect(() => {
-    // GET THE COMPANY BY URL OR COOKIE
-    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
-    const companyCookie = cookie.get('brixelStubCompany') || null;
-    if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({ stub: defComp });
-      setCookie('brixelStubCompany', defComp);
-    } else {
-      handleGetActiveSingleCompany({ stub: 'default' });
-      // changeFieldValue('location.countryCode', 'all');`
-    }
   }, []);
 
   return (

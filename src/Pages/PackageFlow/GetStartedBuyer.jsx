@@ -331,7 +331,7 @@ const GetStartedBuyer = (props) => {
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({ stub: defComp });
+      handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
     } else {
       handleGetActiveSingleCompany({ stub: 'default' });
@@ -457,7 +457,7 @@ const GetStartedBuyer = (props) => {
       changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
     }
     if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
-  }, [company]);
+  }, [get(company, 'id', null)]);
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {

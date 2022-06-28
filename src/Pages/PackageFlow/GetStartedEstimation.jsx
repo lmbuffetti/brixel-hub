@@ -455,7 +455,7 @@ const GetStartedEstimation = (props) => {
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({ stub: defComp });
+      handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
     } else if (!isTest) {
       const companyUser = get(loggedInUser, 'users.company.stub', null);
@@ -571,7 +571,7 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('company', company.stub);
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
-  }, [company]);
+  }, [get(company, 'id', null)]);
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
