@@ -118,6 +118,10 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             fluid: true,
             startFrom: 3,
             large: true,
+            tooltip: {
+              label: 'What is this?',
+              description: country === 'PT' ? 'Enter the number of rooms, including rooms with a minimum surface of 9 m² (+1). Kitchen and bathrooms are not counted as a proper room.' : 'Enter the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.',
+            }
           },
         ],
         successMessage: translateTo(lang, 'This is a nice number.'),
@@ -141,6 +145,10 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             placeholder: '117',
             maxLengthNum: 9999,
             large: true,
+            tooltip: {
+              label: 'What is this?',
+              description: country === 'PT' ? 'It is the total area measured by the external perimeter and axes of the walls or other separating elements of the building or property, including closed private balconies, basements, and private attics with the same use as the building or property. Open balconies, garages, and storage are excluded.' : 'The net living space is the part of the usable surface, which is specified for the primary use of the building. Included are entrance and courtyard, mobile walls, interior stairs, and fireplace. Excluded are external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms.',
+            }
           },
         ],
         successMessage: translateTo(lang, 'Great living space.'),
