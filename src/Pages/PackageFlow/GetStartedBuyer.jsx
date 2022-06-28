@@ -457,7 +457,7 @@ const GetStartedBuyer = (props) => {
       changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
     }
     if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
-  }, [company]);
+  }, [get(company, 'id', null)]);
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {

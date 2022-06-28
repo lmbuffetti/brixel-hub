@@ -571,7 +571,7 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('company', company.stub);
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
-  }, [company]);
+  }, [get(company, 'id', null)]);
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
