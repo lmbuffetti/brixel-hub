@@ -28,7 +28,7 @@ import Loading from './components/Loading';
 import WizardCard from './components/Cards/WizardCard';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
-  setLanguage, setModal, setWindowDimensions, setScreenNotification,
+  setLanguage, setModal, setWindowDimensions, setScreenNotification, sendSlackNotification,
 } from './actions/CommonActions';
 import {
   setActiveSingleDeal,
@@ -60,6 +60,7 @@ import AppleTouch120 from './images/apple-touch-icon-120x120.png';
 import AppleTouch152 from './images/apple-touch-icon-152x152.png';
 import AppleTouch180 from './images/apple-touch-icon-180x180.png';
 import AppleTouch76 from './images/apple-touch-icon-76x76.png';
+import browserDetection from './utils/browserDetection';
 
 // GENERAL COMPONENTS
 const PageHeader = lazyWithRetry(() => import('./components/Header/PageHeader'));
@@ -114,6 +115,7 @@ const App = (props) => {
     handleCheckToken,
     handleGetImageType,
     handleReset,
+    handleSendSlackNotifications,
     handleSetActiveSingleDeal,
     handleSetActiveSingleProperty,
     handleSetLanguage,
@@ -172,6 +174,20 @@ const App = (props) => {
       setIsLoaded(true);
       const element = document.getElementsByTagName('BODY')[0];
       element.classList.remove('txlive');
+    }
+    if (typeof Transifex !== 'undefined') {
+      const data = {
+        user: get(loggedInUser, 'id', ''),
+        page: get(activeSingleProperty, 'id', ''),
+        meta: `Browser Info: ${browserDetection().debug}\n`,
+        url: window.location.href,
+        apiResource: '',
+      };
+      const channel = 'frontend-dev';
+      Transifex.live.onError(function (err) {
+        data.meta += `${JSON.stringify(err)} - ${data.meta}`;
+        handleSendSlackNotifications({ data, channel });
+      });
     }
   }, [localTransifex, loggedInUser]);
   
@@ -744,6 +760,7 @@ App.propTypes = {
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSendSlackNotifications: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
@@ -756,8 +773,8 @@ App.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
-  redirectTo: PropTypes.object,
   pageError: PropTypes.bool.isRequired,
+  redirectTo: PropTypes.object,
   splashScreenType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   userTypes: PropTypes.string,
@@ -794,6 +811,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
