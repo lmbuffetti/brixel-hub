@@ -26,7 +26,7 @@ class ErrorBoundary extends Component {
         pageError,
       } = this.props;
       // logging the error details
-      const channel = 'frontend-dev';
+      const channel = 'frontend-bugs';
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
