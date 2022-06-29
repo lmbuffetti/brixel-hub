@@ -22,7 +22,6 @@ const PropertyBuyerDashboard = lazyWithRetry(() => import('./PropertyBuyerDashbo
 const DealsDashboardBuyer = lazyWithRetry(() => import('./DealsDashboardBuyer'));
 
 const Documents = lazyWithRetry(() => import('../../SingleProperty/Documents'));
-const PartialErrorBoundering = lazyWithRetry(() => import('../../../components/PartialErrorBoundering'));
 
 const Financing = lazyWithRetry(() => import('./Financing'));
 
