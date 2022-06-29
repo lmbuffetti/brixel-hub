@@ -23,7 +23,6 @@ import { setSplashType, setHistory } from '../../actions/CommonActions';
 import { setEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
 import MarketCardSmall from '../../components/Cards/MarketCardSmall';
 import SearchProfileBanner from '../../components/SearchProfileBanner';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 import teaserAnimation from '../../images/Market/teaserAnimate.svg';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 
@@ -145,7 +144,7 @@ const MarketCategoryListBuyer = (props) => {
   };
 
   return (
-    <PartialErrorBoundering>
+    <>
       <Suspense fallback="">
         <div className="buyerMarket">
           {/* SECTION: buyer welcome message  */}
@@ -331,12 +330,10 @@ const MarketCategoryListBuyer = (props) => {
 
               {/* SEARCH PROFILE */}
               <div className="">
-                <PartialErrorBoundering>
-                  <SearchProfileBanner
-                    preMarketStats={preMarketStats}
-                    onStatsFunc={{ matching: () => setSplashScreen('marketOverlayCarousel') }}
-                  />
-                </PartialErrorBoundering>
+                <SearchProfileBanner
+                  preMarketStats={preMarketStats}
+                  onStatsFunc={{ matching: () => setSplashScreen('marketOverlayCarousel') }}
+                />
               </div>
 
               <div className="dis-f jc-fe-lg pt-1 pt-lg-9 mt-9 mt-lg-10 infoBannerMarketBuyer">
@@ -403,7 +400,7 @@ const MarketCategoryListBuyer = (props) => {
           }
         </div>
       </Suspense>
-    </PartialErrorBoundering>
+    </>
   );
 };
 

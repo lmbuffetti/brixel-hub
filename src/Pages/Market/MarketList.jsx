@@ -20,7 +20,6 @@ import MarketCardMap from '../../components/Cards/MarketCardMap';
 import Pagination from '../../components/Pagination';
 import { setSplashType, setWindowDimensions } from '../../actions/CommonActions';
 import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 
 const MarketMap = lazyWithRetry(() => import('./MarketMap'));
 
@@ -287,7 +286,7 @@ const MarketList = (props) => {
   }, []);
 
   return (
-    <PartialErrorBoundering>
+    <>
       <div className="container">
         <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
           <BrixelButtonPrimary
@@ -408,7 +407,7 @@ const MarketList = (props) => {
           </div>
         </div>
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 

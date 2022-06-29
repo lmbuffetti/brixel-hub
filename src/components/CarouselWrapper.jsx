@@ -16,7 +16,6 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { setWindowDimensions } from '../actions/CommonActions';
 import MarketCard from './Cards/MarketCard';
-import PartialErrorBoundering from './PartialErrorBoundering';
 
 const CarouselWrapper = (props) => {
   const history = {
@@ -158,7 +157,7 @@ const CarouselWrapper = (props) => {
 
   if (layout === 'singleOwnCard') {
     return (
-      <PartialErrorBoundering>
+      <>
         <div className={`${className} carousel-wrapper pos-r`}>
 
           <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
@@ -262,11 +261,11 @@ const CarouselWrapper = (props) => {
             }
           </div>
         </div>
-      </PartialErrorBoundering>
+      </>
     );
   }
   return (
-    <PartialErrorBoundering>
+    <>
       <div className={`${className} carousel-wrapper pos-r`}>
         <div className={`${subtitle ? '' : 'mb-3'} dis-fl-col dis-fl-row-sm a-c-sm jc-b`}>
           <h4 className={`title fweight-600 fsize-600 ${theme === 'light' ? 'txtWhite' : ''}`}>{title}</h4>
@@ -334,7 +333,7 @@ const CarouselWrapper = (props) => {
           }
         </Slider>
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 

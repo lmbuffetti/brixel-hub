@@ -39,8 +39,6 @@ import { getImageType } from './actions/UploadActions';
 import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 import lazyWithRetry from './components/LazyWithRetry';
-
-import PartialErrorBoundering from './components/PartialErrorBoundering';
 // SIGNUP
 const Signup = lazyWithRetry(() => import('./Pages/Signup/Signup'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
@@ -413,7 +411,7 @@ const App = (props) => {
   }
   
   return (
-    <PartialErrorBoundering>
+    <>
       <Helmet>
         <link rel="apple-touch-icon" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
@@ -735,7 +733,7 @@ const App = (props) => {
           </Routes>
         </Suspense>
       </main>
-    </PartialErrorBoundering>
+    </>
   );
 };
 

@@ -31,7 +31,6 @@ import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingEstimation';
@@ -605,7 +604,7 @@ const GetStartedEstimation = (props) => {
   };
 
   return (
-    <PartialErrorBoundering>
+    <>
       <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
@@ -771,7 +770,7 @@ const GetStartedEstimation = (props) => {
         </div>
 
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 

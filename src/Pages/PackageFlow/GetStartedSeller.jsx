@@ -32,7 +32,6 @@ import { diff } from 'deep-object-diff';
 import isArray from 'lodash/isArray';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingSeller';
@@ -537,7 +536,7 @@ const GetStartedSeller = (props) => {
   };
 
   return (
-    <PartialErrorBoundering>
+    <>
       <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
@@ -681,7 +680,7 @@ const GetStartedSeller = (props) => {
           </form>
         </div>
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 
