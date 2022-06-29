@@ -72,6 +72,13 @@ const BrixelClosingTree = (props) => {
       title: 'Lock',
     },
     {
+      name: 'finance',
+      onClick: (action) => onClickOffer(action),
+      stageName: 'stageFinance',
+      subtitle: 'Plan early for your financial situation.',
+      title: 'Finance',
+    },
+    {
       name: 'contract',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageContract',
@@ -341,6 +348,26 @@ const BrixelClosingTree = (props) => {
             }
           </>
         );
+      case 'stageFinance':
+        return (
+          <>
+            {
+              get(activeSingleClosing, 'stageFinance.active', null) === false ? (
+                <>
+                  <BrixelIcon
+                    icon="locked"
+                    color="dark"
+                    className="mb-1"
+                  />
+                </>
+              ) : (
+                <>
+                  {/* TODO */}
+                </>
+              )
+            }
+          </>
+        );
       default:
         return (
           <>
@@ -508,6 +535,26 @@ const BrixelClosingTree = (props) => {
                     )
                   }
                 </div>
+              )
+            }
+          </>
+        );
+      case 'stageFinance':
+        return (
+          <>
+            {
+              get(activeSingleClosing, 'stageFinance.active', null) === false ? (
+                <>
+                  <BrixelIcon
+                    icon="locked"
+                    color="dark"
+                    className="mb-1"
+                  />
+                </>
+              ) : (
+                <>
+                  {/* TODO */}
+                </>
               )
             }
           </>
