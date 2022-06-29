@@ -83,7 +83,7 @@ const AddShowingsBuyer = (props) => {
     if (activeSingleProperty.id) {
       initForm(initialValues);
     }
-  }, [activeSingleProperty]);
+  }, [activeSingleProperty.id]);
 
   useEffect(() => {
     if (!isSmallLoading.scheduleVisit && (questions[currentIndex + 1] && questions[currentIndex + 1].history === 'success')) {
