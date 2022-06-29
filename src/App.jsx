@@ -183,7 +183,7 @@ const App = (props) => {
         url: window.location.href,
         apiResource: '',
       };
-      const channel = 'frontend-dev';
+      const channel = 'frontend-bugs';
       Transifex.live.onError(function (err) {
         data.meta += `${JSON.stringify(err)} - ${data.meta}`;
         handleSendSlackNotifications({ data, channel });
