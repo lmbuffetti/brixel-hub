@@ -31,7 +31,6 @@ import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingEstimation';
@@ -605,107 +604,106 @@ const GetStartedEstimation = (props) => {
   };
 
   return (
-    <PartialErrorBoundering>
-      <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}`}>
-        {
-          get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
-            <div className="pos-r">
-              <BrixelProgressBar
-                large
-                classProgressBar="container"
-                className="brdRadius"
-                saturation={500}
-                color="green"
-                barBackground="light"
-                backgroundSaturation={200}
-                progressValue={progressBarCalc()}
-              />
-            </div>
-          )
-        }
-
-        <div
-          className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
+    <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}`}>
+      {
+        get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
+          <div className="pos-r">
+            <BrixelProgressBar
+              large
+              classProgressBar="container"
+              className="brdRadius"
+              saturation={500}
+              color="green"
+              barBackground="light"
+              backgroundSaturation={200}
+              progressValue={progressBarCalc()}
+            />
+          </div>
+        )
+      }
+    
+      <div
+        className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
+      >
+        <form
+          id="multiStepForm"
+          autoComplete="off"
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+          onSubmit={(e) => changeStep(null, e)}
         >
-          <form
-            id="multiStepForm"
-            autoComplete="off"
-            className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
-            onSubmit={(e) => changeStep(null, e)}
-          >
-            <div ref={multiStepSlidesRef} className="multiStepSlides">
-              <div ref={singleStepRef} className="singleStep pt-5 jc-c">
-                <div className="subcontainer m-a">
-                  {
-                    get(quest, 'inputs', null) && (
-                      <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap">
-                        {
-                          quest.titleGreen && (
-                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
-                          )
-                        }
-                        {
-                          quest.title && (
-                            <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                          )
-                        }
-                        {
-                          quest.subtitle && (
-                            <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
-                        }
-                        <div className={`${quest.className} w-perc-100 `}>
-                          <MultiFileldsReduxForm
-                            form="GetStarted"
-                            disableNextBtn={false}
-                            formValue={formValue}
-                            inputs={quest.inputs}
-                            onClick={() => changeStep()}
-                            onCloseGoBack={() => changeStep('back')}
-                            onClickDisabled={!checkValidateField()}
-                            onSubmit={() => changeStep()}
-                            showSendButton={quest.showSendButton}
-                            showErrors={showError}
-                            disableDelay={quest.history !== 'createProfile'}
-                            skipPhone
-                          />
-                        </div>
-
-                      </div>
-                    )
-                  }
-                  {
-                    get(quest, 'cardType', null) === 'loadComponent' && (
-                      React.createElement(
-                        quest.component,
-                        {
-                          formName: 'GetStarted',
-                          initialValue: formValue,
-                          ...quest,
-                          onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
-                        },
-                      )
-                    )
-                  }
-                  {
-                    (get(quest, 'cardType', null) === 'card') && (
-                      <div className="scaleAnim ta-c">
-                        <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                        <h5
-                          className="fadeAnim mt-2 ta-c"
-                          dangerouslySetInnerHTML={{ __html: quest.title }}
+          <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div ref={singleStepRef} className="singleStep pt-5 jc-c">
+              <div className="subcontainer m-a">
+                {
+                  get(quest, 'inputs', null) && (
+                    <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap">
+                      {
+                        quest.titleGreen && (
+                          <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                        )
+                      }
+                      {
+                        quest.title && (
+                          <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                        )
+                      }
+                      {
+                        quest.subtitle && (
+                          <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                      }
+                      <div className={`${quest.className} w-perc-100 `}>
+                        <MultiFileldsReduxForm
+                          form="GetStarted"
+                          disableNextBtn={false}
+                          formValue={formValue}
+                          inputs={quest.inputs}
+                          onClick={() => changeStep()}
+                          onCloseGoBack={() => changeStep('back')}
+                          onClickDisabled={!checkValidateField()}
+                          onSubmit={() => changeStep()}
+                          showSendButton={quest.showSendButton}
+                          showErrors={showError}
+                          disableDelay={quest.history !== 'createProfile'}
+                          skipPhone
                         />
-                        {
-                          quest.subtitle && (
-                            <h6
-                              className="fadeAnim mt-2 ta-c"
-                              dangerouslySetInnerHTML={{ __html: quest.subtitle }}
-                            />
-                          )
-                        }
                       </div>
+                  
+                    </div>
+                  )
+                }
+                {
+                  get(quest, 'cardType', null) === 'loadComponent' && (
+                    React.createElement(
+                      quest.component,
+                      {
+                        formName: 'GetStarted',
+                        initialValue: formValue,
+                        ...quest,
+                        onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
+                      },
                     )
-                  }
-                  {/* {
+                  )
+                }
+                {
+                  (get(quest, 'cardType', null) === 'card') && (
+                    <div className="scaleAnim ta-c">
+                      <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                      <h5
+                        className="fadeAnim mt-2 ta-c"
+                        dangerouslySetInnerHTML={{ __html: quest.title }}
+                      />
+                      {
+                        quest.subtitle && (
+                          <h6
+                            className="fadeAnim mt-2 ta-c"
+                            dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                          />
+                        )
+                      }
+                    </div>
+                  )
+                }
+                {/* {
                   get(quest, 'history', null) === 'resume' && (
                     <div className="max-w-fix-344 m-a">
                       <BrixelButtonPrimary
@@ -720,58 +718,57 @@ const GetStartedEstimation = (props) => {
                     </div>
                   )
                 } */}
-                </div>
               </div>
             </div>
-            {
-              get(quest, 'history', null) !== 'resume' && (
-                <>
-                  {
-                    get(quest, 'history', null) !== 'createProfile' && (
-                      <div
-                        className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
-                      >
-                        <div className="pos-r">
-                          <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c h-fix-40">
-                            {
-                              (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
-                                <BrixelButtonIcon
-                                  className="backBtn pos-a-fix x-l-0 x-t-0"
-                                  icon="arrow-left-small"
-                                  onClick={() => changeStep('back')}
-                                  theme="light"
-                                  secondary
-                                />
-                              )
-                            }
-                            {
-                              (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
-                                <BrixelButtonPrimary
-                                  className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
-                                  disabled={!checkValidateField()}
-                                  rounded
-                                  theme="green"
-                                  themeSat={500}
-                                  label={buttonLabel()}
-                                  rightIcon="arrow-right-small"
-                                  onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                                  onShowError={() => setShowError(true)}
-                                />
-                              )
-                            }
-                          </div>
+          </div>
+          {
+            get(quest, 'history', null) !== 'resume' && (
+              <>
+                {
+                  get(quest, 'history', null) !== 'createProfile' && (
+                    <div
+                      className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                    >
+                      <div className="pos-r">
+                        <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c h-fix-40">
+                          {
+                            (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                              <BrixelButtonIcon
+                                className="backBtn pos-a-fix x-l-0 x-t-0"
+                                icon="arrow-left-small"
+                                onClick={() => changeStep('back')}
+                                theme="light"
+                                secondary
+                              />
+                            )
+                          }
+                          {
+                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
+                              <BrixelButtonPrimary
+                                className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
+                                disabled={!checkValidateField()}
+                                rounded
+                                theme="green"
+                                themeSat={500}
+                                label={buttonLabel()}
+                                rightIcon="arrow-right-small"
+                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                onShowError={() => setShowError(true)}
+                              />
+                            )
+                          }
                         </div>
                       </div>
-                    )
-                  }
-                </>
-              )
-            }
-          </form>
-        </div>
-
+                    </div>
+                  )
+                }
+              </>
+            )
+          }
+        </form>
       </div>
-    </PartialErrorBoundering>
+  
+    </div>
   );
 };
 

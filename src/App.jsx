@@ -39,8 +39,6 @@ import { getImageType } from './actions/UploadActions';
 import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 import lazyWithRetry from './components/LazyWithRetry';
-
-import PartialErrorBoundering from './components/PartialErrorBoundering';
 // SIGNUP
 const Signup = lazyWithRetry(() => import('./Pages/Signup/Signup'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
@@ -429,329 +427,327 @@ const App = (props) => {
   }
   
   return (
-    <PartialErrorBoundering>
-      <Helmet>
-        <link rel="apple-touch-icon" href={AppleTouch76} />
-        <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
-        <link rel="apple-touch-icon" sizes="120x120" href={AppleTouch120} />
-        <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />
-        <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
-        <link rel="icon" sizes="192x192" href={Android192} />
-        <title>Brixel Hub</title>
-      </Helmet>
+    <Helmet>
+      <link rel="apple-touch-icon" href={AppleTouch76} />
+      <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
+      <link rel="apple-touch-icon" sizes="120x120" href={AppleTouch120} />
+      <link rel="apple-touch-icon" sizes="152x152" href={AppleTouch152} />
+      <link rel="apple-touch-icon" sizes="180x180" href={AppleTouch180} />
+      <link rel="icon" sizes="192x192" href={Android192} />
+      <title>Brixel Hub</title>
+    </Helmet>
+  {
+    pageError && (
+      <BrixelPage500
+        className="errorPage"
+        errorMessage="You can try again or go back to the dashboard"
+      />
+    )
+  }
+  <main
+    className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
+    ref={dashWrapperRef}
+  >
+    <Loading isLoading={isLoading} />
+    <Suspense fallback={<Loading isLoading />}>
+      <div
+        className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}
+      >
+        <div className="dis-f">
+          <div
+            className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : 'flowScrollWrap'}`}
+            style={contentLayout()}
+          >
+            <div
+              id="bodyScroll"
+              className={`content dis-fl-col ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
+              style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
+              ref={dashContentRef}
+            >
+              <PageHeader
+                changeZIndex={(index) => { setZIndex(index); }}
+                isFlow={isFlow}
+              />
+              {
+                !isFlow &&
+                !history.location.pathname.includes('sell') &&
+                (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
+                loggedInUser &&
+                windowDimensions.width > 1024 &&
+                (
+                  <MenuSidebar />
+                )
+              }
+              <div className="w-perc-100 innerWrap h-perc-100">
+                <Routes>
+                  <Route path="/500" element={<ErrorBoundering />} />
+                  { /* SECTION: ONBOARDING */}
+                  <Route path="/packageFlow/" element={<GetStarted />} />
+                  <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
+                  <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
+                  <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
+                  <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
+                  <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
+                  <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
+                  <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
+                  
+                  {/* SECTION: SIGNUP */}
+                  <Route path="/signup" element={<Signup />} />
+                  
+                  { /* SECTION: INSERT TOKEN */}
+                  <Route path="/tokeninput" element={<InsertToken />} />
+                  
+                  { /* SECTION: CLOSING FLOWS */}
+                  <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
+                  <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<IdentificationFlow />} />
+                  
+                  { /* SECTION: HUB DASHBOARD */ }
+                  {
+                    !history.location.pathname.includes('packageFlow') &&
+                    !history.location.pathname.includes('scheduleVisit') &&
+                    !history.location.pathname.includes('visitFeedback') &&
+                    !history.location.pathname.includes('onBoarding') &&
+                    !history.location.pathname.includes('buyer') &&
+                    !history.location.pathname.includes('signup') &&
+                    (
+                      <>
+                        <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
+                        <Route path="/buy/*" element={<ProtectedRoute><MarketBuyer /></ProtectedRoute>} />
+                        {
+                          ((get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
+                              get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
+                              get(history, 'location.pathname', '').split('/')[1].length > 18) ||
+                            get(history, 'location.pathname', '').split('/')[1] === 'company') && (
+                            
+                            <>
+                              <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/docubox/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/closing/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/property" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/marketing" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID/prospect/:dealID" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
+                              <Route path="/:propID?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                              <Route path="/:propID?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
+                            </>
+                          )
+                        }
+                      </>
+                    )
+                  }
+                  {
+                    !history.location.pathname.includes('packageFlow') &&
+                    !history.location.pathname.includes('scheduleVisit') &&
+                    !history.location.pathname.includes('visitFeedback') &&
+                    !history.location.pathname.includes('onBoarding') &&
+                    !history.location.pathname.includes('signup') &&
+                    (
+                      <>
+                        <Route path="/buyer/:propID/*" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
+                        <Route path="/buyer/propertyList" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
+                      </>
+                    )
+                  }
+                  <Route path="*" element={<Navigate to="/sell" />} />
+                </Routes>
+                <div
+                  className="dis-fl-col a-b jc-fe supportBtn"
+                >
+                  {
+                    showSupport && (
+                      <Support
+                        layout="floatable"
+                        expanded
+                        isFixed
+                        onClose={() => setShowSupport(false)}
+                      />
+                    )
+                  }
+                  {
+                    !showSupport && (
+                      <div
+                        className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                        onClick={() => setShowSupport(!showSupport)}
+                      >
+                        <div className="dis-f jc-b a-c">
+                          {
+                            teamAvatars.map((imgTeam, i) => (
+                              <img
+                                key={`avt_${i.toString()}`}
+                                src={`${baseByData.shortPath}${imgTeam.path}`}
+                                alt="Support Team"
+                                className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                              />
+                            ))
+                          }
+                        </div>
+                        <span className="ml-2 txtDark700 fweight-500">Support</span>
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+      
+      { /* SECTION: ACHIVEMENT FLOW */ }
+      <Routes>
+        <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
+        <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
+        <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
+        <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
+        <Route path="*" element={null} />
+      </Routes>
+      
       {
-        pageError && (
-          <BrixelPage500
-            className="errorPage"
-            errorMessage="You can try again or go back to the dashboard"
+        modal.state && !modal.type && !modal.small && (
+          <BrixelModalFullScreen
+            title={modal.title}
+            onClose={() => {
+              handleSetModal({ state: false });
+            }}
+          >
+            {modal.body}
+          </BrixelModalFullScreen>
+        )
+      }
+      {
+        modal.state && !modal.type && modal.small && (
+          <BrixelModal
+            bodyActionsClass={modal.bodyActionsClass}
+            bodyClassColor={modal.bodyClassColor}
+            classContainer={modal.classContainer}
+            classImg={modal.classImg}
+            classTitle={modal.classTitle}
+            layout={modal.layout}
+            multiActions={modal.multiActions}
+            multiBodyActions={modal.multiBodyActions}
+            title={modal.title}
+            titleImg={modal.titleImg}
+            onClose={() => {
+              handleSetModal({ state: false });
+            }}
+          >
+            <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
+            {
+              modal.showSupport && (
+                <Support
+                  expanded
+                  isFixed={false}
+                  hideClose
+                  layout={modal.supportLayout || "onboarding"}
+                />
+              )
+            }
+          </BrixelModal>
+        )
+      }
+      
+      {
+        modal.state && modal.type === 'confirmExit' && (
+          <WarningScreen
+            saveFunc={() => modal.saveFunc()}
+            title={modal.title}
+            formName={modal.formName}
+            onClose={() => modal.onClose()}
           />
         )
       }
-      <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
-        ref={dashWrapperRef}
-      >
-        <Loading isLoading={isLoading} />
-        <Suspense fallback={<Loading isLoading />}>
-          <div
-            className={`${classMain} ${history.location.pathname.includes('property/') || history.location.pathname.includes('deal') ? 'dealsPage' : ''} ${isSecLevel ? 'fixedLayout' : ''}`}
-          >
-            <div className="dis-f">
-              <div
-                className={`zIndex${zIndex} w-perc-100 dis-fl-col ${!isFlow ? 'hubTopWrapper' : 'flowScrollWrap'}`}
-                style={contentLayout()}
-              >
-                <div
-                  id="bodyScroll"
-                  className={`content dis-fl-col ${!isFlow ? `hubDasContent ${overflowClass()}` : 'flowContent'} ${notification && notification.state ? 'saveActionOn pb-8' : ''}`}
-                  style={isSecLevel ? { height: '100%' } : { height: headerCalc() }}
-                  ref={dashContentRef}
-                >
-                  <PageHeader
-                    changeZIndex={(index) => { setZIndex(index); }}
-                    isFlow={isFlow}
+      
+      {
+        modal.state && modal.type === 'bestimate' && (
+          <BestimateCardOverlay
+            activeSinglePropertyId={activeSingleProperty.id}
+            clearEstimation={false}
+            type="modal"
+          />
+        )
+      }
+      
+      { /* SPLASH SCREEN */}
+      {
+        (splashScreenType === 'marketOverlay' || splashScreenType === 'marketOverlayCarousel') && (
+          <SplashScreen
+            className="result-market-overlay"
+            closeOutside={false}
+            type={splashScreenType}
+          />
+        )
+      }
+      
+      {
+        has(splashScreenType, 'component') && (
+          React.createElement(splashScreenType.component, splashScreenType.props)
+        )
+      }
+      
+      {
+        get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
+          <WizardCard />
+        )
+      }
+      
+      { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */}
+      {
+        notification && notification.length > 0 &&
+        !history.location.pathname.includes('home') &&
+        !isFlow &&
+        (
+          <div className="brixel-notifications">
+            {
+              notification.map((not, i) => (
+                <Fragment key={`ntf_${i.toString()}`}>
+                  <BrixelNotification
+                    className={not.state ? 'fadeInLeft' : 'fadeOutLeft'}
+                    handleSetNotification={(data) => handleSetNotification(data)}
+                    isSmallLoading={isSmallLoading}
+                    icon={not.icon}
+                    label={not.label}
+                    notification={not}
+                    resetForm={(form, data) => handleReset(form, data)}
+                    type={not.type}
                   />
-                  {
-                    !isFlow &&
-                    !history.location.pathname.includes('sell') &&
-                    (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer')) &&
-                    loggedInUser &&
-                    windowDimensions.width > 1024 &&
-                    (
-                      <MenuSidebar />
-                    )
-                  }
-                  <div className="w-perc-100 innerWrap h-perc-100">
-                    <Routes>
-                      <Route path="/500" element={<ErrorBoundering />} />
-                      { /* SECTION: ONBOARDING */}
-                      <Route path="/packageFlow/" element={<GetStarted />} />
-                      <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
-                      <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
-                      <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
-                      <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
-                      <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
-                      <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
-                      <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
-                      
-                      {/* SECTION: SIGNUP */}
-                      <Route path="/signup" element={<Signup />} />
-                      
-                      { /* SECTION: INSERT TOKEN */}
-                      <Route path="/tokeninput" element={<InsertToken />} />
-                      
-                      { /* SECTION: CLOSING FLOWS */}
-                      <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
-                      <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<IdentificationFlow />} />
-                      
-                      { /* SECTION: HUB DASHBOARD */ }
-                      {
-                        !history.location.pathname.includes('packageFlow') &&
-                        !history.location.pathname.includes('scheduleVisit') &&
-                        !history.location.pathname.includes('visitFeedback') &&
-                        !history.location.pathname.includes('onBoarding') &&
-                        !history.location.pathname.includes('buyer') &&
-                        !history.location.pathname.includes('signup') &&
-                        (
-                          <>
-                            <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
-                            <Route path="/buy/*" element={<ProtectedRoute><MarketBuyer /></ProtectedRoute>} />
-                            {
-                              ((get(history, 'location.pathname', '').split('/')[1] !== 'sell' &&
-                                  get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
-                                  get(history, 'location.pathname', '').split('/')[1].length > 18) ||
-                                get(history, 'location.pathname', '').split('/')[1] === 'company') && (
-                                
-                                <>
-                                  <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/docubox/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/closing/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/property" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/marketing" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/support" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/prospects" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/offers" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/deal/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID/prospect/:dealID" element={<ProtectedRoute><SingleDeal /></ProtectedRoute>} />
-                                  <Route path="/:propID?/upgrade" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                  <Route path="/:propID?/trialRequest" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
-                                </>
-                              )
-                            }
-                          </>
-                        )
-                      }
-                      {
-                        !history.location.pathname.includes('packageFlow') &&
-                        !history.location.pathname.includes('scheduleVisit') &&
-                        !history.location.pathname.includes('visitFeedback') &&
-                        !history.location.pathname.includes('onBoarding') &&
-                        !history.location.pathname.includes('signup') &&
-                        (
-                          <>
-                            <Route path="/buyer/:propID/*" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
-                            <Route path="/buyer/propertyList" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
-                          </>
-                        )
-                      }
-                      <Route path="*" element={<Navigate to="/sell" />} />
-                    </Routes>
-                    <div
-                      className="dis-fl-col a-b jc-fe supportBtn"
-                    >
-                      {
-                        showSupport && (
-                          <Support
-                            layout="floatable"
-                            expanded
-                            isFixed
-                            onClose={() => setShowSupport(false)}
-                          />
-                        )
-                      }
-                      {
-                        !showSupport && (
-                          <div
-                            className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
-                            onClick={() => setShowSupport(!showSupport)}
-                          >
-                            <div className="dis-f jc-b a-c">
-                              {
-                                teamAvatars.map((imgTeam, i) => (
-                                  <img
-                                    key={`avt_${i.toString()}`}
-                                    src={`${baseByData.shortPath}${imgTeam.path}`}
-                                    alt="Support Team"
-                                    className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
-                                  />
-                                ))
-                              }
-                            </div>
-                            <span className="ml-2 txtDark700 fweight-500">Support</span>
-                          </div>
-                        )
-                      }
-                    </div>
-                  </div>
-                </div>
-              </div>
-            
-            </div>
+                </Fragment>
+              ))
+            }
           </div>
-          
-          { /* SECTION: ACHIVEMENT FLOW */ }
-          <Routes>
-            <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
-            <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
-            <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
-            <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
-            <Route path="*" element={null} />
-          </Routes>
-          
-          {
-            modal.state && !modal.type && !modal.small && (
-              <BrixelModalFullScreen
-                title={modal.title}
-                onClose={() => {
-                  handleSetModal({ state: false });
-                }}
-              >
-                {modal.body}
-              </BrixelModalFullScreen>
-            )
-          }
-          {
-            modal.state && !modal.type && modal.small && (
-              <BrixelModal
-                bodyActionsClass={modal.bodyActionsClass}
-                bodyClassColor={modal.bodyClassColor}
-                classContainer={modal.classContainer}
-                classImg={modal.classImg}
-                classTitle={modal.classTitle}
-                layout={modal.layout}
-                multiActions={modal.multiActions}
-                multiBodyActions={modal.multiBodyActions}
-                title={modal.title}
-                titleImg={modal.titleImg}
-                onClose={() => {
-                  handleSetModal({ state: false });
-                }}
-              >
-                <div className={modal.bodyInnerClass} dangerouslySetInnerHTML={{ __html: modal.body }} />
-                {
-                  modal.showSupport && (
-                    <Support
-                      expanded
-                      isFixed={false}
-                      hideClose
-                      layout={modal.supportLayout || "onboarding"}
-                    />
-                  )
-                }
-              </BrixelModal>
-            )
-          }
-          
-          {
-            modal.state && modal.type === 'confirmExit' && (
-              <WarningScreen
-                saveFunc={() => modal.saveFunc()}
-                title={modal.title}
-                formName={modal.formName}
-                onClose={() => modal.onClose()}
-              />
-            )
-          }
-          
-          {
-            modal.state && modal.type === 'bestimate' && (
-              <BestimateCardOverlay
-                activeSinglePropertyId={activeSingleProperty.id}
-                clearEstimation={false}
-                type="modal"
-              />
-            )
-          }
-          
-          { /* SPLASH SCREEN */}
-          {
-            (splashScreenType === 'marketOverlay' || splashScreenType === 'marketOverlayCarousel') && (
-              <SplashScreen
-                className="result-market-overlay"
-                closeOutside={false}
-                type={splashScreenType}
-              />
-            )
-          }
-          
-          {
-            has(splashScreenType, 'component') && (
-              React.createElement(splashScreenType.component, splashScreenType.props)
-            )
-          }
-          
-          {
-            get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
-              <WizardCard />
-            )
-          }
-          
-          { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */}
-          {
-            notification && notification.length > 0 &&
-            !history.location.pathname.includes('home') &&
-            !isFlow &&
-            (
-              <div className="brixel-notifications">
-                {
-                  notification.map((not, i) => (
-                    <Fragment key={`ntf_${i.toString()}`}>
-                      <BrixelNotification
-                        className={not.state ? 'fadeInLeft' : 'fadeOutLeft'}
-                        handleSetNotification={(data) => handleSetNotification(data)}
-                        isSmallLoading={isSmallLoading}
-                        icon={not.icon}
-                        label={not.label}
-                        notification={not}
-                        resetForm={(form, data) => handleReset(form, data)}
-                        type={not.type}
-                      />
-                    </Fragment>
-                  ))
-                }
-              </div>
-            )
-          }
-          
-          {
-            !history.location.pathname.includes('docubox') &&
-            notification && (notification.small || notification.state) && (
-              <>
-                {
-                  notification.small && (
-                    <div className="brxNotification">
-                      <BrixelIcon icon={notification.icon} />
-                      <span>{notification.text}</span>
-                    </div>
-                  )
-                }
-              </>
-            )
-          }
-          
-          {/* Splash screens for single deal, create new deal and edit document */}
-          <Routes>
-            <Route
-              path="/:propID/docubox/:docID/editDocument"
-              element={<SingleDocument />}
-            />
-            <Route path="/:propID/prospects/newDeal" element={<CreateDeal />} />
-            <Route path="*" element={null} />
-          </Routes>
-        </Suspense>
-      </main>
-    </PartialErrorBoundering>
+        )
+      }
+      
+      {
+        !history.location.pathname.includes('docubox') &&
+        notification && (notification.small || notification.state) && (
+          <>
+            {
+              notification.small && (
+                <div className="brxNotification">
+                  <BrixelIcon icon={notification.icon} />
+                  <span>{notification.text}</span>
+                </div>
+              )
+            }
+          </>
+        )
+      }
+      
+      {/* Splash screens for single deal, create new deal and edit document */}
+      <Routes>
+        <Route
+          path="/:propID/docubox/:docID/editDocument"
+          element={<SingleDocument />}
+        />
+        <Route path="/:propID/prospects/newDeal" element={<CreateDeal />} />
+        <Route path="*" element={null} />
+      </Routes>
+    </Suspense>
+  </main>
   );
 };
 

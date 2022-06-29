@@ -31,7 +31,6 @@ import has from 'lodash/has';
 import isArray from 'lodash/isArray';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 import { setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingBuyer';
 import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
@@ -471,221 +470,219 @@ const GetStartedBuyer = (props) => {
   };
 
   return (
-    <PartialErrorBoundering>
-      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
-        {
-          (get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile') && get(quest, 'history', null) !== 'resume' && (
-            <div className="pos-r">
-              <BrixelProgressBar
-                large
-                classProgressBar="container"
-                className="brdRadius"
-                saturation={500}
-                color="green"
-                barBackground="light"
-                backgroundSaturation={200}
-                progressValue={progressBar}
-              />
-            </div>
-          )
-        }
-
-        <div
-          className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+      {
+        (get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile') && get(quest, 'history', null) !== 'resume' && (
+          <div className="pos-r">
+            <BrixelProgressBar
+              large
+              classProgressBar="container"
+              className="brdRadius"
+              saturation={500}
+              color="green"
+              barBackground="light"
+              backgroundSaturation={200}
+              progressValue={progressBar}
+            />
+          </div>
+        )
+      }
+    
+      <div
+        className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
+      >
+      
+        <form
+          id="multiStepForm"
+          autoComplete="off"
+          className={`interactive dis-fl-col jc-b ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+          onSubmit={(e) => changeStep(null, e)}
         >
-
-          <form
-            id="multiStepForm"
-            autoComplete="off"
-            className={`interactive dis-fl-col jc-b ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
-            onSubmit={(e) => changeStep(null, e)}
-          >
-            <div ref={multiStepSlidesRef} className="multiStepSlides">
-              <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
-                <div className="subcontainer m-a">
-                  {
-                    get(quest, 'inputs', null) && (
-                      <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
-                        {
-                          quest.titleGreen && (
-                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
-                          )
-                        }
-                        {
-                          quest.title && (
-                            <h3 className={`fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                          )
-                        }
-                        {
-                          quest.subtitle && (
-                            <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
-                        }
-                        <div className={`${quest.className} w-perc-100`}>
-                          <MultiFileldsReduxForm
-                            form="GetStarted"
-                            disableNextBtn={false}
-                            formValue={formValue}
-                            inputs={quest.inputs}
-                            onClick={() => changeStep()}
-                            onCloseGoBack={() => changeStep('back')}
-                            onClickDisabled={!checkValidateField()}
-                            onSubmit={() => changeStep()}
-                            showSendButton
-                            showErrors={showError}
-                            disableDelay={quest.history !== 'createProfile'}
-                            skipPhone
-                          />
-                        </div>
-
-                      </div>
-                    )
-                  }
-                  {
-                    get(quest, 'cardType', null) === 'loadComponent' && (
-                      React.createElement(
-                        quest.component,
-                        {
-                          formName: 'GetStarted',
-                          initialValue: formValue,
-                          ...quest,
-                          onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
-                        },
-                      )
-                    )
-                  }
-                  {
-                    (get(quest, 'cardType', null) === 'card') && (
-                      <div className="scaleAnim ta-c">
-                        <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                        <h5
-                          className="fadeAnim mt-2 ta-c"
-                          dangerouslySetInnerHTML={{ __html: quest.title }}
-                        />
-                        {
-                          quest.subtitle && (
-                            <h6
-                              className="fadeAnim mt-2 ta-c"
-                              dangerouslySetInnerHTML={{ __html: quest.subtitle }}
-                            />
-                          )
-                        }
-                      </div>
-                    )
-                  }
-                  {
-                    get(quest, 'history', null) === 'resume' && (
-                      <div className="max-w-fix-344 m-a">
-                        <BrixelButtonPrimary
-                          className={`mt-3 m-a noWrap ${quest.history}`}
-                          rounded
-                          theme="green"
-                          label={buttonLabel()}
-                          disabled={!checkValidateField()}
-                          rightIcon="arrow-right-small"
-                          onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                        />
-                      </div>
-                    )
-                  }
-                </div>
-              </div>
-            </div>
-            {
-              get(quest, 'history', null) !== 'createProfile' && (
-                <div
-                  className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
-                >
-                  <div className="pos-r">
-                    <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+          <div ref={multiStepSlidesRef} className="multiStepSlides">
+            <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+              <div className="subcontainer m-a">
+                {
+                  get(quest, 'inputs', null) && (
+                    <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                       {
-                        (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
-                          <BrixelButtonIcon
-                            className="backBtn ml-0 mr-a"
-                            icon="arrow-left-small"
-                            onClick={() => changeStep('back')}
-                            theme="light"
-                            secondary
-                          />
+                        quest.titleGreen && (
+                          <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
                         )
                       }
                       {
-                        (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
-                          <>
-                            {
-                              buttonLabel().toLowerCase() === 'skip' ? (
-                                <BrixelButtonSecondary
-                                  className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                                  disabled={!checkValidateField()}
-                                  saturation={400}
-                                  theme="green"
-                                  rounded
-                                  label={buttonLabel()}
-                                  rightIcon="arrow-right-small"
-                                  onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                                />
-                              ) : (
-                                <BrixelButtonPrimary
-                                  className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                                  disabled={!checkValidateField()}
-                                  rounded
-                                  theme="green"
-                                  label={buttonLabel()}
-                                  rightIcon="arrow-right-small"
-                                  onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                                  onShowError={() => setShowError(true)}
-                                />
-                              )
-                            }
-                          </>
+                        quest.title && (
+                          <h3 className={`fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                        )
+                      }
+                      {
+                        quest.subtitle && (
+                          <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                      }
+                      <div className={`${quest.className} w-perc-100`}>
+                        <MultiFileldsReduxForm
+                          form="GetStarted"
+                          disableNextBtn={false}
+                          formValue={formValue}
+                          inputs={quest.inputs}
+                          onClick={() => changeStep()}
+                          onCloseGoBack={() => changeStep('back')}
+                          onClickDisabled={!checkValidateField()}
+                          onSubmit={() => changeStep()}
+                          showSendButton
+                          showErrors={showError}
+                          disableDelay={quest.history !== 'createProfile'}
+                          skipPhone
+                        />
+                      </div>
+                  
+                    </div>
+                  )
+                }
+                {
+                  get(quest, 'cardType', null) === 'loadComponent' && (
+                    React.createElement(
+                      quest.component,
+                      {
+                        formName: 'GetStarted',
+                        initialValue: formValue,
+                        ...quest,
+                        onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
+                      },
+                    )
+                  )
+                }
+                {
+                  (get(quest, 'cardType', null) === 'card') && (
+                    <div className="scaleAnim ta-c">
+                      <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                      <h5
+                        className="fadeAnim mt-2 ta-c"
+                        dangerouslySetInnerHTML={{ __html: quest.title }}
+                      />
+                      {
+                        quest.subtitle && (
+                          <h6
+                            className="fadeAnim mt-2 ta-c"
+                            dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                          />
                         )
                       }
                     </div>
+                  )
+                }
+                {
+                  get(quest, 'history', null) === 'resume' && (
+                    <div className="max-w-fix-344 m-a">
+                      <BrixelButtonPrimary
+                        className={`mt-3 m-a noWrap ${quest.history}`}
+                        rounded
+                        theme="green"
+                        label={buttonLabel()}
+                        disabled={!checkValidateField()}
+                        rightIcon="arrow-right-small"
+                        onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                      />
+                    </div>
+                  )
+                }
+              </div>
+            </div>
+          </div>
+          {
+            get(quest, 'history', null) !== 'createProfile' && (
+              <div
+                className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+              >
+                <div className="pos-r">
+                  <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                    {
+                      (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                        <BrixelButtonIcon
+                          className="backBtn ml-0 mr-a"
+                          icon="arrow-left-small"
+                          onClick={() => changeStep('back')}
+                          theme="light"
+                          secondary
+                        />
+                      )
+                    }
+                    {
+                      (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton') && (
+                        <>
+                          {
+                            buttonLabel().toLowerCase() === 'skip' ? (
+                              <BrixelButtonSecondary
+                                className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                disabled={!checkValidateField()}
+                                saturation={400}
+                                theme="green"
+                                rounded
+                                label={buttonLabel()}
+                                rightIcon="arrow-right-small"
+                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                              />
+                            ) : (
+                              <BrixelButtonPrimary
+                                className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                disabled={!checkValidateField()}
+                                rounded
+                                theme="green"
+                                label={buttonLabel()}
+                                rightIcon="arrow-right-small"
+                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                onShowError={() => setShowError(true)}
+                              />
+                            )
+                          }
+                        </>
+                      )
+                    }
                   </div>
+                </div>
+              </div>
+            )
+          }
+        </form>
+      </div>
+      {/* signup flow */}
+      {
+        questions[currentIndex].effect === 'slideUp' && (
+          <div className="signUpContainer">
+            {
+              questions[currentIndex] && questions[currentIndex].inputs && (
+                <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
+                  {
+                    questions[currentIndex].titleGreen && (
+                      <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
+                    )
+                  }
+                  {
+                    questions[currentIndex].title && (
+                      <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
+                    )
+                  }
+                  {
+                    questions[currentIndex].subtitle && (
+                      <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
+                  }
+                  <MultiFileldsReduxForm
+                    form="GetStarted"
+                    disableNextBtn={false}
+                    formValue={formValue}
+                    inputs={questions[currentIndex].inputs}
+                    onSubmit={() => changeStep()}
+                    onCloseGoBack={() => changeStep('back')}
+                    onClickDisabled={!checkValidateField()}
+                    showSendButton
+                    showErrors={showError}
+                  />
                 </div>
               )
             }
-          </form>
-        </div>
-        {/* signup flow */}
-        {
-          questions[currentIndex].effect === 'slideUp' && (
-            <div className="signUpContainer">
-              {
-                questions[currentIndex] && questions[currentIndex].inputs && (
-                  <div id={`step-${currentIndex}slideUp`} className={`dis-f flex-wrap slideUp ${isEnter ? 'slide-enter-down' : ''}`}>
-                    {
-                      questions[currentIndex].titleGreen && (
-                        <h3 className="txtGreen400 w-perc-100">{questions[currentIndex].titleGreen}</h3>
-                      )
-                    }
-                    {
-                      questions[currentIndex].title && (
-                        <h3 className={`${questions[currentIndex].subtitle ? 'mb-1' : 'mb-5'} w-perc-100`}>{questions[currentIndex].title}</h3>
-                      )
-                    }
-                    {
-                      questions[currentIndex].subtitle && (
-                        <p className="mb-5 txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: questions[currentIndex].subtitle }} />)
-                    }
-                    <MultiFileldsReduxForm
-                      form="GetStarted"
-                      disableNextBtn={false}
-                      formValue={formValue}
-                      inputs={questions[currentIndex].inputs}
-                      onSubmit={() => changeStep()}
-                      onCloseGoBack={() => changeStep('back')}
-                      onClickDisabled={!checkValidateField()}
-                      showSendButton
-                      showErrors={showError}
-                    />
-                  </div>
-                )
-              }
-            </div>
-          )
-        }
-      </div>
-    </PartialErrorBoundering>
+          </div>
+        )
+      }
+    </div>
   );
 };
 

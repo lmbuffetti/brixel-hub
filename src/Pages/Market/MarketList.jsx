@@ -20,7 +20,6 @@ import MarketCardMap from '../../components/Cards/MarketCardMap';
 import Pagination from '../../components/Pagination';
 import { setSplashType, setWindowDimensions } from '../../actions/CommonActions';
 import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 
 const MarketMap = lazyWithRetry(() => import('./MarketMap'));
 
@@ -287,45 +286,44 @@ const MarketList = (props) => {
   }, []);
 
   return (
-    <PartialErrorBoundering>
-      <div className="container">
-        <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
-          <BrixelButtonPrimary
-            label="Map View"
-            rounded
-            theme="dark"
-            leftIcon="roadmap"
-            className={openMap ? 'slideOut' : ''}
-            onClick={() => { setOpenMap(true); }}
-          />
-        </div>
-        <div className="firstLevel dis-f">
-          <div className="property-list pb-md-3">
-            <div className="mb-3 dis-fl-col">
-              <div className="dis-fl-col pos-r">
-                <BrixelButtonIcon
-                  secondary
-                  small
-                  theme="light"
-                  onClick={() => handleMapClose()}
-                  icon="arrow-simple-left"
-                  className="pos-r"
-                />
-                <div className="mt-2 pr-0 pr-lg-3">
-                  <div className="dis-f jc-b a-b">
-                    <div>
-                      <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
-                      <span className="fsize-300"><span>There are </span> <span className="fweight-600 notranslate"> {getTotal() ? getTotal() : '-'}</span> <span className="fweight-600">properties</span> <span>available</span></span>
-                    </div>
-                    <BrixelButtonText
-                      className="fsize-300 show-all pos-r"
-                      label="+ Add new"
-                      onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
-                    />
+    <div className="container">
+      <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
+        <BrixelButtonPrimary
+          label="Map View"
+          rounded
+          theme="dark"
+          leftIcon="roadmap"
+          className={openMap ? 'slideOut' : ''}
+          onClick={() => { setOpenMap(true); }}
+        />
+      </div>
+      <div className="firstLevel dis-f">
+        <div className="property-list pb-md-3">
+          <div className="mb-3 dis-fl-col">
+            <div className="dis-fl-col pos-r">
+              <BrixelButtonIcon
+                secondary
+                small
+                theme="light"
+                onClick={() => handleMapClose()}
+                icon="arrow-simple-left"
+                className="pos-r"
+              />
+              <div className="mt-2 pr-0 pr-lg-3">
+                <div className="dis-f jc-b a-b">
+                  <div>
+                    <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
+                    <span className="fsize-300"><span>There are </span> <span className="fweight-600 notranslate"> {getTotal() ? getTotal() : '-'}</span> <span className="fweight-600">properties</span> <span>available</span></span>
                   </div>
+                  <BrixelButtonText
+                    className="fsize-300 show-all pos-r"
+                    label="+ Add new"
+                    onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+                  />
                 </div>
               </div>
-              {
+            </div>
+            {
               /*
              <div className="dis-f jc-b">
               <div className="dis-f a-t">
@@ -355,60 +353,59 @@ const MarketList = (props) => {
               </div>
             </div>
                */
-              }
-            </div>
-
-            {
-              propertyListings.map((page, i) => (
-                <MarketCardMap
-                  type="own"
-                  key={`prop_${i.toString()}`}
-                  item={page}
-                  onClick={() => openCard(page)}
-                  onHover={(val) => setActiveProperty(val !== null ? page.id : null)}
-                />
-              ))
-            }
-            {
-              propertyListings.length > 0 && (
-                <Pagination
-                  className="pr-3"
-                  totalItems={getTotal()}
-                  itemsPerPage={itemsPerPage}
-                  activePage={currentPage}
-                  paginate={(resultsPerPage, pageNumber) => updatePagination(resultsPerPage, pageNumber, sortOrderType, sortDirection)}
-                // we use the current values for the filters (stored in currentSearch, sortOrderType and sortDirection) in the moment the pagination is applied
-                />
-              )
             }
           </div>
-
-          <div className={`secondLevel p-0 map-wrapper ${openMap ? 'map-on' : ''}`}>
-            {
-              windowDimensions.width <= 1024 && !activeProperty && (
-                <BrixelButtonIcon
-                  ghost
-                  theme="dark"
-                  onClick={() => handleMapClose()}
-                  icon="close-small"
-                  className="pos-a-fix x-r-0 zIndex1 mt-10 mr-2"
-                />
-              )
-            }
-            <Suspense fallback="">
-              <MarketMap
-                type={catName}
-                activeProperty={activeProperty}
-                onActiveProperty={(val) => setActiveProperty(val)}
-                properties={propertyListings}
-                onMarker={(val) => setMarker(val)}
-                parentMarker={marker}
+        
+          {
+            propertyListings.map((page, i) => (
+              <MarketCardMap
+                type="own"
+                key={`prop_${i.toString()}`}
+                item={page}
+                onClick={() => openCard(page)}
+                onHover={(val) => setActiveProperty(val !== null ? page.id : null)}
               />
-            </Suspense>
-          </div>
+            ))
+          }
+          {
+            propertyListings.length > 0 && (
+              <Pagination
+                className="pr-3"
+                totalItems={getTotal()}
+                itemsPerPage={itemsPerPage}
+                activePage={currentPage}
+                paginate={(resultsPerPage, pageNumber) => updatePagination(resultsPerPage, pageNumber, sortOrderType, sortDirection)}
+                // we use the current values for the filters (stored in currentSearch, sortOrderType and sortDirection) in the moment the pagination is applied
+              />
+            )
+          }
+        </div>
+      
+        <div className={`secondLevel p-0 map-wrapper ${openMap ? 'map-on' : ''}`}>
+          {
+            windowDimensions.width <= 1024 && !activeProperty && (
+              <BrixelButtonIcon
+                ghost
+                theme="dark"
+                onClick={() => handleMapClose()}
+                icon="close-small"
+                className="pos-a-fix x-r-0 zIndex1 mt-10 mr-2"
+              />
+            )
+          }
+          <Suspense fallback="">
+            <MarketMap
+              type={catName}
+              activeProperty={activeProperty}
+              onActiveProperty={(val) => setActiveProperty(val)}
+              properties={propertyListings}
+              onMarker={(val) => setMarker(val)}
+              parentMarker={marker}
+            />
+          </Suspense>
         </div>
       </div>
-    </PartialErrorBoundering>
+    </div>
   );
 };
 
