@@ -348,6 +348,26 @@ const BrixelClosingTree = (props) => {
             }
           </>
         );
+      case 'stageFinance':
+        return (
+          <>
+            {
+              get(activeSingleClosing, 'stageFinance.active', null) === false ? (
+                <>
+                  <BrixelIcon
+                    icon="locked"
+                    color="dark"
+                    className="mb-1"
+                  />
+                </>
+              ) : (
+                <>
+                  {/* TODO */}
+                </>
+              )
+            }
+          </>
+        );
       default:
         return (
           <>
@@ -515,6 +535,26 @@ const BrixelClosingTree = (props) => {
                     )
                   }
                 </div>
+              )
+            }
+          </>
+        );
+      case 'stageFinance':
+        return (
+          <>
+            {
+              get(activeSingleClosing, 'stageFinance.active', null) === false ? (
+                <>
+                  <BrixelIcon
+                    icon="locked"
+                    color="dark"
+                    className="mb-1"
+                  />
+                </>
+              ) : (
+                <>
+                  {/* TODO */}
+                </>
               )
             }
           </>
