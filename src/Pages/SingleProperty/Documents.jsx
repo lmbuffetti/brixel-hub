@@ -331,8 +331,18 @@ const Documents = (props) => {
                       Object.keys(processedDocuments).map((key, i) => (
                         key !== 'NoFolder' ? (
                           <div
-                            className="document-folder shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
+                            className="document-folder cur-poi shadow-1dp dis-fl-col p-1 mb-2 brdRadius"
                             key={`prcDcc_${i.toString()}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const clone = cloneDeep(showFullFolder);
+                              if (index(i) === -1) {
+                                clone.push(i);
+                              } else if (index(i) !== -1) {
+                                clone.splice(index(i), 1);
+                              }
+                              setShowFullFolder(clone);
+                            }}
                           >
                             <div className="dis-fl-row jc-b a-c">
                               <div className={`dis-fl-row a-c ${(index(i) !== -1) ? 'mb-3' : ''}`}>
