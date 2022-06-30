@@ -1,4 +1,3 @@
-/* global Transifex */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -43,12 +42,6 @@ class ErrorBoundary extends Component {
         } else {
           // eslint-disable-next-line no-console
           console.error(data);
-        }
-        if (typeof Transifex !== 'undefined') {
-          Transifex.live.onError(function (err) {
-            data.meta += `${JSON.stringify(err)} - ${data.meta}`;
-            handleSendSlackNotifications({ data, channel });
-          });
         }
       }
     }
