@@ -223,55 +223,70 @@ const BrixelClosingTree = (props) => {
       case 'stageOffer':
         return (
           <>
-            {
-              get(activeSingleClosing, 'stageOffer.active', null) === false ? (
-                <>
-                  <BrixelIcon
-                    icon="locked"
-                    color="dark"
-                    className="mb-1"
-                  />
-                </>
-              ) : (
-                <>
+            <div className="secBuyer">
+
+              <div className="secHead dis-f jc-b">
+                <div className="secTitle">
+                  Buyer
+                </div>
+                <div className="secStatus">
                   {
-                    get(activeSingleOffer, 'offer.amount', 0) > 0 &&
-                    get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
+                    get(activeSingleClosing, 'stageOffer.active', null) === false ? (
+                      <BrixelIcon
+                        icon="locked"
+                        color="dark"
+                        className="mb-1"
+                      />
+                    ) : (
                       <>
-                        <div className="dis-f a-c jc-fe jc-fs-lg">
-                          <BrixelIcon
-                            icon="check-small-fill"
-                            color="green"
-                            className="mr-1"
-                            iconWidth="w-fix-16"
-                          />
-                          <span className="fsize-300 fsize-lg-400 txtGreen400">Sent</span>
-                        </div>
-                        {
-                          get(activeSingleOffer, 'offer.createdAt', null) && (
-                            <p className="fsize-300 txtDark200 mt-2">
-                              {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
-                            </p>
-                          )
+                        { get(activeSingleOffer, 'offer.amount', 0) > 0 &&
+                          get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
+                          <>
+                            <BrixelIcon
+                              icon="check-small-fill"
+                              color="green"
+                              className="mr-1"
+                              iconWidth="w-fix-16"
+                            />
+                            <span className="fsize-300 fsize-lg-400 txtGreen400">Sent</span>
+                          </>
+                        )
                         }
                       </>
                     )
                   }
-                  {
-                    (!get(activeSingleOffer, 'offer.status', null) || (get(activeSingleOffer, 'offer.status', '') !== 'pending' &&
-                      get(activeSingleOffer, 'offer.status', '') !== 'accepted')) &&
-                    isBuyer && (
-                      <BrixelButtonSecondary
-                        rounded
-                        className="mt-2"
-                        label="Add offer"
-                        onClick={() => onClickOffer('add')}
-                      />
-                    )
-                  }
-                </>
-              )
-            }
+                </div>
+              </div>
+
+              <div className="secDetails">
+                {
+                  get(activeSingleOffer, 'offer.amount', 0) > 0 &&
+                    get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
+                    <>
+                      {
+                        get(activeSingleOffer, 'offer.createdAt', null) && (
+                          <p className="fsize-300 txtDark200 mt-2">
+                            {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                          </p>
+                        )
+                      }
+                    </>
+                  )}
+                {
+                  (!get(activeSingleOffer, 'offer.status', null) || (get(activeSingleOffer, 'offer.status', '') !== 'pending' &&
+                    get(activeSingleOffer, 'offer.status', '') !== 'accepted')) &&
+                  isBuyer && (
+                    <BrixelButtonSecondary
+                      rounded
+                      className="mt-2"
+                      label="Add offer"
+                      onClick={() => onClickOffer('add')}
+                    />
+                  )
+                }
+              </div>
+
+            </div>
           </>
         );
       case 'stageIdentification':
@@ -412,7 +427,84 @@ const BrixelClosingTree = (props) => {
       case 'stageOffer':
         return (
           <>
-            {
+            <div className="secBuyer">
+              <div className="secHead dis-f jc-b">
+                <div className="secTitle">
+                  Seller
+                </div>
+                <div className="secStatus">
+                  {
+                    get(activeSingleClosing, 'stageOffer.active', null) === false ? (
+                      <BrixelIcon
+                        icon="locked"
+                        color="dark"
+                        className="mb-1"
+                      />
+                    ) : (
+                      <>
+                        { !get(activeSingleOffer, 'offer.status', null) || !status[get(activeSingleOffer, 'offer.status', '')] ? (
+                          <>
+                          </>
+                        ) : (
+                          <>
+                            <div className="">
+                              <BrixelIcon
+                                icon={status[get(activeSingleOffer, 'offer.status', '')].icon}
+                                color={status[get(activeSingleOffer, 'offer.status', '')].color}
+                                className="mr-1"
+                                iconWidth="w-fix-16"
+                              />
+                              <span className={`${status[get(activeSingleOffer, 'offer.status', '')].colorText} fsize-300 fsize-lg-400`}>
+                                {status[get(activeSingleOffer, 'offer.status', '')].label}
+                              </span>
+                            </div>
+                          </>
+                        )
+                        }
+                      </>
+                    )
+                  }
+                </div>
+              </div>
+
+              <div className="secDetails">
+                {
+                  get(activeSingleClosing, 'stageOffer.active', null) === false ? (
+                    <></>
+                  ) : (
+                    <>
+                      { !get(activeSingleOffer, 'offer.status', null) || !status[get(activeSingleOffer, 'offer.status', '')] ? (
+                        <>
+                        </>
+                      ) : (
+                        <>
+                          {
+                            get(activeSingleOffer, 'offer.reviewedAt', null) && (
+                              <p className="fsize-300 txtDark200 mt-2">
+                                {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                              </p>
+                            )
+                          }
+                          {
+                            get(activeSingleOffer, 'offer.status', '') === 'pending' && !isBuyer && (
+                              <BrixelButtonSecondary
+                                rounded
+                                className="ml-a ml-lg-0 mt-2"
+                                label="Review offer"
+                                onClick={() => onClickOffer('review')}
+                              />
+                            )
+                          }
+                        </>
+                      )
+                      }
+                    </>
+                  )
+                }
+              </div>
+
+            </div>
+            {/* {
               get(activeSingleClosing, 'stageOffer.active', null) === false ? (
                 <>
                   <BrixelIcon
@@ -461,7 +553,7 @@ const BrixelClosingTree = (props) => {
                   }
                 </>
               )
-            }
+            } */}
           </>
         );
       case 'stageIdentification':
@@ -620,6 +712,35 @@ const BrixelClosingTree = (props) => {
               activeTab={showTabSection}
               fullWidth
             />
+
+            {
+              closingStage.map((stage, i) => (
+                <div
+                  className="mb-3 brdSmall"
+                  key={`clsStg_${i.toString()}`}
+                >
+                  <div className="row m-0">
+                    <div className="col-12 col-md-4 shadow-1dp">
+                      {stage.title}
+                      <div className="fsize-300" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
+                    </div>
+                    <div className="col-12 col-md-4 shadow-1dp">
+                      {buyerSection(stage.stageName)}
+                    </div>
+                    <div className="col-12 col-md-4 shadow-1dp">
+                      {sellerSection(stage.stageName)}
+                    </div>
+                    {
+                      stage.stageName === 'stageIdentification' && (
+                        <>
+                          {personsInfo(showTabSection, 'mb-2 mx-2 mx-lg-0')}
+                        </>
+                      )
+                    }
+                  </div>
+                </div>
+              ))
+            }
 
             {
               closingStage.map((stage, i) => (
