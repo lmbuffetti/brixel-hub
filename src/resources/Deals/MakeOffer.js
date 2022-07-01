@@ -94,15 +94,9 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
             value: 0,
             label: 'No',
           }],
-          modal: {
-            message: 'info',
-            info: true,
-            func: () => handleSetModal({
-              state: true,
-              small: true,
-              title: 'What is a proof of financing?',
-              body: '<p>A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.</p>',
-            }),
+          tooltip: {
+            label: 'What is a proof of financing?',
+            description: 'A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.',
           },
         },
       ],
