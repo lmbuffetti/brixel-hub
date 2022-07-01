@@ -149,7 +149,7 @@ const GetStartedSeller = (props) => {
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
-    if (formValue.owner && (has(formValue, 'price.currency') && formValue.price.currency !== null)) {
+    if (formValue.owner && get(data, 'price.currency', null)) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
       await handleCreateActiveSingleProperty(data);

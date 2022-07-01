@@ -246,7 +246,7 @@ const DashboardHome = (props) => {
                   className="mb-3"
                   smallLayout
                   xSmallMobile={windowDimensions.width <= 520}
-                  stepIndexProgress={progressState.step}
+                  stepIndexProgress={progressState.id}
                 />
               )
             }

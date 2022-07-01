@@ -110,6 +110,7 @@ const App = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    activeSingleCompany,
     handleCheckToken,
     handleGetImageType,
     handleReset,
@@ -163,6 +164,9 @@ const App = (props) => {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
       handleSetLanguage(lang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
+    } else if (activeSingleCompany.id && !loggedInUser.user) {
+      const lang = cookies.get('brixelLang') || activeSingleCompany.language.code;
+      handleSetLanguage(lang);
     }
     if (typeof Transifex !== 'undefined') {
       Transifex.live.onReady(() => {
@@ -187,7 +191,7 @@ const App = (props) => {
         handleSendSlackNotifications({ data, channel });
       });
     }
-  }, [localTransifex, loggedInUser]);
+  }, [localTransifex, loggedInUser, activeSingleCompany.id]);
   
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
@@ -754,6 +758,7 @@ const App = (props) => {
 };
 
 App.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
@@ -787,6 +792,7 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
