@@ -35,7 +35,7 @@ import {
 import Loading from './Loading';
 import {
   createTimelineEntry,
-} from '../resources/createTimelineEntry';
+} from '../resources/Deals/createTimelineEntry';
 import {
   Truncate,
 } from '../utils/helpers';

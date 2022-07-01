@@ -22,7 +22,7 @@ import Cookies from 'universal-cookie';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { setCookie } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/onBoarding';
+import { QuestionsList } from '../../resources/Flows/onBoarding';
 import { spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';

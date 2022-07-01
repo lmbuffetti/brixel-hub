@@ -26,7 +26,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, multiUploadDocument } from '../../../actions/UploadActions';
 import { checkBrowser } from '../../../utils/helpers';
-import { IdentificationQuestions } from '../../../resources/Identification';
+import { IdentificationQuestions } from '../../../resources/Deals/Identification';
 import { getActiveSingleDeal, saveClosingIdentification } from '../../../actions/DealActions';
 import { spinnerOff, spinnerSmall } from '../../../actions/CommonActions';
 

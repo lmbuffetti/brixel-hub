@@ -13,10 +13,10 @@ import {
   BrixelMultiUploadFile,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import FinanceCertificate from '../Pages/Offers/Flow/FinanceCertificate';
-import Key4Registration from '../Pages/Offers/Flow/Key4Registration';
-import ClipboardImg from '../images/scanTrial/clipboard.png';
-import { configureStore } from '../store';
+import FinanceCertificate from '../../Pages/Offers/Flow/FinanceCertificate';
+import Key4Registration from '../../Pages/Offers/Flow/Key4Registration';
+import ClipboardImg from '../../images/scanTrial/clipboard.png';
+import { configureStore } from '../../store';
 
 const { factsOptions } = FactsOptions;
 
@@ -94,15 +94,9 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
             value: 0,
             label: 'No',
           }],
-          modal: {
-            message: 'info',
-            info: true,
-            func: () => handleSetModal({
-              state: true,
-              small: true,
-              title: 'What is a proof of financing?',
-              body: '<p>A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.</p>',
-            }),
+          tooltip: {
+            label: 'What is a proof of financing?',
+            description: 'A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.',
           },
         },
       ],

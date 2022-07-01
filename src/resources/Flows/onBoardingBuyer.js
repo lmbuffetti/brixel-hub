@@ -10,11 +10,11 @@ import {
   Validation,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import MapsCities from '../components/Map/MapsCities';
-import LoginSignup from '../components/LoginSignup';
-import { translateTo } from '../utils/translation';
-import { configureStore } from '../store';
-import { svgIcons } from './svgIcons';
+import MapsCities from '../../components/Map/MapsCities';
+import LoginSignup from '../../components/LoginSignup';
+import { translateTo } from '../../utils/translation';
+import { configureStore } from '../../store';
+import { svgIcons } from '../Utilities/svgIcons';
 
 const { factsOptions } = FactsOptions;
 

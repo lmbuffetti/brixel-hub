@@ -18,7 +18,7 @@ import {
 import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
-import { QuestionsList } from '../resources/onBoardingBuyer';
+import { QuestionsList } from '../resources/Flows/onBoardingBuyer';
 import { createUserSearchProfile, updateUserSearchProfile } from '../actions/SearchProfileActions';
 import { setWizard } from '../actions/CommonActions';
 

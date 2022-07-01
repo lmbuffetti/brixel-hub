@@ -1,6 +1,6 @@
-import PublishPageImg from '../images/Marketing/publishPage.svg';
-import UnpublishPageImg from '../images/Marketing/unpublishPage.svg';
-import SuccessReview from '../images/Marketing/successReview.svg';
+import PublishPageImg from '../../images/Marketing/publishPage.svg';
+import UnpublishPageImg from '../../images/Marketing/unpublishPage.svg';
+import SuccessReview from '../../images/Marketing/successReview.svg';
 
 export const MarketingModal = {
   publishPage: {

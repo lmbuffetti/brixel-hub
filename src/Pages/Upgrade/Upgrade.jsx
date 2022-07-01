@@ -23,7 +23,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { checkBrowser } from '../../utils/helpers';
-import { UpgradeQuestions } from '../../resources/Upgrade';
+import { UpgradeQuestions } from '../../resources/SingleProperty/Upgrade';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
 import { getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
 

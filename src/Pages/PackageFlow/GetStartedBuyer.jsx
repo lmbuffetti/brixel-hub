@@ -32,7 +32,7 @@ import isArray from 'lodash/isArray';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { setCookie, checkBrowser } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/onBoardingBuyer';
+import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
 import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';

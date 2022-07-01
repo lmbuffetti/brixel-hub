@@ -9,7 +9,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { setActiveSingleProperty } from '../../actions/PropertyActions';
 import { setUserTypes } from '../../actions/UserActions';
-import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/navigationRoutes';
+import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/Utilities/navigationRoutes';
 
 const MenuSidebar = (props) => {
   const history = {

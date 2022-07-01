@@ -17,7 +17,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import { setPageData } from '../../actions/CommonActions';
-import { InputSheets } from '../../resources/inputSheets';
+import { InputSheets } from '../../resources/SingleProperty/inputSheets';
 import { calcPercentageFacts, checkBrowser } from '../../utils/helpers';
 
 // COMPONENTS

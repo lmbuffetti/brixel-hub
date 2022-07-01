@@ -25,7 +25,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import queryString from 'query-string';
 import isArray from 'lodash/isArray';
-import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
+import { ScanTrialQuestions } from '../../resources/Flows/ScanTrialRequest';
 import { sendUserScanTrial } from '../../actions/UserActions';
 import { spinnerOff } from '../../actions/CommonActions';
 import { getCookie, setCookie } from '../../utils/helpers';

@@ -1,4 +1,5 @@
 /* global Transifex */
+import React, { useEffect, useRef, useState } from 'react';
 import {
   BrixelAvatar,
   BrixelButtonIcon,
@@ -19,7 +20,6 @@ import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
 import PropTypes from 'prop-types';
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -30,7 +30,7 @@ import {
   setActiveSinglePropertyActivePackage,
 } from '../../actions/PropertyActions';
 import { saveActiveSingleUser, setUserTypes } from '../../actions/UserActions';
-import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/navigationRoutes';
+import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/Utilities/navigationRoutes';
 import { setCookie } from '../../utils/helpers';
 import lazyWithRetry from '../LazyWithRetry';
 

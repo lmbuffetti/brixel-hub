@@ -12,8 +12,8 @@ import { bindActionCreators, compose } from 'redux';
 import sanitizeHtml from 'sanitize-html';
 import { getHistoryListings } from '../../../actions/HistoryActions';
 import { getNoteListings } from '../../../actions/NoteActions';
-import { feedMessage } from '../../../resources/dashboardHistory';
-import timelineActionStubs from '../../../resources/timelineActionStubs';
+import { feedMessage } from '../../../resources/Dashboard/dashboardHistory';
+import timelineActionStubs from '../../../resources/Utilities/timelineActionStubs';
 import { arrayMove } from '../../../utils/helpers';
 
 const SidebarBuyer = (props) => {

@@ -2,7 +2,7 @@
 import get from 'lodash/get';
 import { BestimateCH } from './Bestimate-CH';
 import { BestimatePT } from './Bestimate-PT';
-import { configureStore } from '../store';
+import { configureStore } from '../../store';
 
 // eslint-disable-next-line default-param-last
 export const BestimateQuestions = (type, country = '', propertyType) => {

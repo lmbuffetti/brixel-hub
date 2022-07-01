@@ -16,7 +16,7 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { keyify } from '../../utils/helpers';
-import { InputSheets } from '../../resources/inputSheets';
+import { InputSheets } from '../../resources/SingleProperty/inputSheets';
 
 const FactsQuestion = (props) => {
   const history = {

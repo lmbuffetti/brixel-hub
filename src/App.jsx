@@ -24,6 +24,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import { Helmet } from 'react-helmet';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
+import PageFooter from './components/Footer/PageFooter';
 import Loading from './components/Loading';
 import WizardCard from './components/Cards/WizardCard';
 import { checkToken, setUserTypes } from './actions/UserActions';
@@ -146,6 +147,7 @@ const App = (props) => {
   
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
+  const [showFooter, setShowFooter] = useState(false);
   // const [extraHeight, setExtraHeight] = useState(0);
   
   // USEREF TO MANAGE DOM ELEMENT
@@ -334,6 +336,15 @@ const App = (props) => {
         dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
+    
+    if (
+      !isFlow &&
+      !history.location.pathname.includes('sell') &&
+      (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer'))
+    ) {
+      setShowFooter(true);
+    }
+    
   }, [history.location.pathname, dashWrapperEl, [...el].length]);
   
   const calcHeaderHeight = useCallback(() => {
@@ -450,7 +461,7 @@ const App = (props) => {
         )
       }
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
+        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''} ${showFooter ? 'activeFooter' : ''}`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />
@@ -596,6 +607,13 @@ const App = (props) => {
                       }
                     </div>
                   </div>
+                  {
+                    showFooter && (
+                      <PageFooter
+                        activeSideBar={!isFlow}
+                      />
+                    )
+                  }
                 </div>
               </div>
             
