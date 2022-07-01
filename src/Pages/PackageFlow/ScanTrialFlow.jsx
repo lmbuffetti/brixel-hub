@@ -27,7 +27,7 @@ import queryString from 'query-string';
 import isArray from 'lodash/isArray';
 import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
 import { sendUserScanTrial } from '../../actions/UserActions';
-import { setLanguage, spinnerOff } from '../../actions/CommonActions';
+import { spinnerOff } from '../../actions/CommonActions';
 import { getCookie, setCookie } from '../../utils/helpers';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 
@@ -46,7 +46,6 @@ const ScanTrialFlow = (props) => {
     formValue,
     handleGetActiveSingleCompany,
     handleSendScanTrial,
-    handleSetLanguage,
     handleSpinnerOff,
     initForm,
     initialValues,
@@ -91,8 +90,6 @@ const ScanTrialFlow = (props) => {
     if (get(activeSingleCompany, 'stub', null)) {
       const getLang = getCookie('brixelLang');
       if (get(activeSingleCompany, 'language.code', null) && !getLang && currentIndex < 2) {
-        const companyLang = get(activeSingleCompany, 'language.code', 'en');
-        handleSetLanguage(companyLang.toLowerCase());
         if (!loggedInUser.id) {
           const companyPhone = {
             prefix: get(activeSingleCompany, 'contact.phone.prefix', ''),
@@ -549,7 +546,6 @@ ScanTrialFlow.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -598,7 +594,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 

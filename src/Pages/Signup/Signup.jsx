@@ -20,7 +20,7 @@ import Cookies from 'universal-cookie';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { setCookie } from '../../utils/helpers';
-import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
+import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import LoginSignup from '../../components/LoginSignup';
 import iconCalendar from '../../images/offer-flow/Brixel-Icons-calendar.png';
@@ -43,7 +43,6 @@ const Signup = (props) => {
     formValue,
     handleDoLogin,
     handleGetActiveSingleCompany,
-    handleSetLanguage,
     handleSpinnerOff,
     handleValidateUser,
     isTest,
@@ -166,10 +165,6 @@ const Signup = (props) => {
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
-      if (get(company, 'language.code', null)) {
-        const companyLang = get(company, 'language.code', 'en');
-        handleSetLanguage(companyLang.toLowerCase());
-      }
       changeFieldValue('company', company.stub);
     }
   }, [company]);
@@ -257,7 +252,6 @@ Signup.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
@@ -297,7 +291,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleDoLogin: bindActionCreators(doLogin, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),

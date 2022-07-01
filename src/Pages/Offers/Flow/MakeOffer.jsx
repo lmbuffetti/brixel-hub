@@ -27,7 +27,7 @@ import queryString from 'query-string';
 import isArray from 'lodash/isArray';
 import { MakeOfferQuestions } from '../../../resources/MakeOffer';
 import { sendUserScanTrial } from '../../../actions/UserActions';
-import { setLanguage, setModal, spinnerOff } from '../../../actions/CommonActions';
+import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getCookie, setCookie } from '../../../utils/helpers';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
@@ -53,7 +53,6 @@ const MakeOffer = (props) => {
     handleGetActiveSingleProperty,
     handleMultiUploadDocument,
     handleSetModal,
-    handleSetLanguage,
     handleSpinnerOff,
     initForm,
     initialValues,
@@ -141,8 +140,6 @@ const MakeOffer = (props) => {
     if (get(activeSingleCompany, 'stub', null)) {
       const getLang = getCookie('brixelLang');
       if (get(activeSingleCompany, 'language.code', null) && !getLang && currentIndex < 2) {
-        const companyLang = get(activeSingleCompany, 'language.code', 'en');
-        handleSetLanguage(companyLang.toLowerCase());
         if (!loggedInUser.id) {
           const companyPhone = {
             prefix: get(activeSingleCompany, 'contact.phone.prefix', ''),
@@ -602,7 +599,6 @@ MakeOffer.propTypes = {
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -652,7 +648,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveMakeOffer: bindActionCreators(saveMakeOffer, dispatch),
   handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

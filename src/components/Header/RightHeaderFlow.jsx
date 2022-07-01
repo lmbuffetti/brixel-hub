@@ -50,7 +50,6 @@ function RightHeaderFlow(props) {
     if (loggedInUser && loggedInUser.user) {
       const langUsr = loggedInUser.user.language;
       setCurrentLang(lang);
-      handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
     }
   }, [loggedInUser, lang]);
