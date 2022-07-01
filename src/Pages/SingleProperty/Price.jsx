@@ -26,7 +26,7 @@ import { connect } from 'react-redux';
 import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import { DateTime } from 'luxon';
 import { setHistory, setSplashType } from '../../actions/CommonActions';
-import { InputSheets } from '../../resources/inputSheets';
+import { InputSheets } from '../../resources/SingleProperty/inputSheets';
 import { calcPercentageProEstimation, completedBestimate } from '../../utils/helpers';
 
 // COMPONENTS

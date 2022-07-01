@@ -7,7 +7,7 @@ import {
 
 import {
   formatPrice,
-} from '../utils/helpers';
+} from '../../utils/helpers';
 
 export const createTimelineEntry = (item, userLang) => {
   const getHTMLDescription = () => {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Helpers,
 } from '@brixel/brixel-components';
-import { PackagesComparePlansTable } from '../resources/PackagesComparePlans';
+import { PackagesComparePlansTable } from '../resources/Dashboard/PackagesComparePlans';
 
 export const PackagesComparePlans = (props) => {
   const {

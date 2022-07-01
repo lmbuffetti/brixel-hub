@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ReduxField } from '@brixel/brixel-components/dist/form';
 import { deleteDocument, uploadDocument } from '../../../actions/UploadActions';
-import { IdentificationQuestions } from '../../../resources/Identification';
+import { IdentificationQuestions } from '../../../resources/Deals/Identification';
 
 const EditBuyerData = (props) => {
   /* const history = {

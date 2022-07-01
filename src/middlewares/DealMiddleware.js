@@ -34,11 +34,11 @@ import {
   GET_PAGE_DEALS,
 } from '../actions/types/PropertyTypes';
 
-import { exampleDeal } from '../resources/exampleDeal';
+import { exampleDeal } from '../resources/Deals/exampleDeal';
 
 import api from '../controllers/api/config';
 
-const ActionStubs = require('../resources/timelineActionStubs');
+const ActionStubs = require('../resources/Utilities/timelineActionStubs');
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {

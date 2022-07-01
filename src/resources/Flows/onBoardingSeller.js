@@ -7,12 +7,12 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
-import MapsWithModalManual from '../components/Map/MapsWithModalManual';
-import LoginSignup from '../components/LoginSignup';
+import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
+import LoginSignup from '../../components/LoginSignup';
 // import ResumeCard from '../components/ResumeCard';
-import { translateTo } from '../utils/translation';
-import { configureStore } from '../store';
-import { svgIcons } from './svgIcons';
+import { translateTo } from '../../utils/translation';
+import { configureStore } from '../../store';
+import { svgIcons } from '../Utilities/svgIcons';
 
 // VALIDATION OF FIELDS
 export const maxLengthNum = (val, name) => (value) => {

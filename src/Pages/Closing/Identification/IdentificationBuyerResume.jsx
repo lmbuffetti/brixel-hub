@@ -19,7 +19,7 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import EditBuyerData from './EditBuyerData';
-import { IdentificationQuestions } from '../../../resources/Identification';
+import { IdentificationQuestions } from '../../../resources/Deals/Identification';
 
 const IdentificationFlow = (props) => {
   /* const history = {

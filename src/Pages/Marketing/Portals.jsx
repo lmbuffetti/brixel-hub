@@ -21,7 +21,7 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import { setModal } from '../../actions/CommonActions';
-import { MarketingModal } from '../../resources/marketingModal';
+import { MarketingModal } from '../../resources/SingleProperty/marketingModal';
 
 const Portals = (props) => {
   const match = useParams();

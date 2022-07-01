@@ -34,7 +34,7 @@ import {
   setActiveSingleProperty,
   setEstimation,
 } from '../../actions/PropertyActions';
-import ArticlesList from '../../resources/homeArticles';
+import ArticlesList from '../../resources/Dashboard/homeArticles';
 import EmptyHubImg from '../../images/emptyHub.svg';
 // images
 import testdrive from '../../images/Market/testDriveSell.svg';

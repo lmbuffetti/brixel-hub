@@ -10,8 +10,8 @@ import {
   Validation,
   BrixelSelect,
 } from '@brixel/brixel-components/dist/form';
-import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
-import homesSvg from '../images/getstarted/svgs/homes.svg';
+import ResumeBestimate from '../../Pages/Bestimate/ResumeBestimate';
+import homesSvg from '../../images/getstarted/svgs/homes.svg';
 
 const { factsOptions } = FactsOptions;
 

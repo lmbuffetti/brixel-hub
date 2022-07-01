@@ -4,7 +4,7 @@ import {
   BrixelInputText,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
+import ResumeBestimate from '../../Pages/Bestimate/ResumeBestimate';
 
 // eslint-disable-next-line default-param-last
 export const BestimateCH = (type = null, propertyType) => {

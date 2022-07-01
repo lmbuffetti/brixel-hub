@@ -23,7 +23,7 @@ import { useParams } from 'react-router-dom';
 import { setModal } from '../../actions/CommonActions';
 import { updatePublishedReview } from '../../actions/PropertyActions';
 import CoverPropertyImage from '../../components/CoverPropertyImage';
-import { MarketingModal } from '../../resources/marketingModal';
+import { MarketingModal } from '../../resources/SingleProperty/marketingModal';
 
 const Page = (props) => {
   const match = useParams();

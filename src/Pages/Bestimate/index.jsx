@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import queryString from 'query-string';
-import { BestimateQuestions } from '../../resources/Bestimate';
+import { BestimateQuestions } from '../../resources/Flows/Bestimate';
 import { saveActiveSingleProperty } from '../../actions/PropertyActions';
 
 const Bestimate = (props) => {

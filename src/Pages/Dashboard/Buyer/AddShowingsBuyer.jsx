@@ -30,7 +30,7 @@ import {
   getActiveSinglePropertyBookings,
 } from '../../../actions/PropertyActions';
 import { spinnerSmallOff } from '../../../actions/CommonActions';
-import { QuestionsList } from '../../../resources/AddShowings';
+import { QuestionsList } from '../../../resources/SingleProperty/AddShowings';
 import 'react-input-range/lib/css/index.css';
 import { checkBrowser } from '../../../utils/helpers';
 import scheduleSvg from '../../../images/dashboard/scehdule.svg';

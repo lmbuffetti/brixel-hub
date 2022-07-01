@@ -9,10 +9,10 @@ import {
   Validation,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import ClipboardImg from '../images/scanTrial/clipboard.png';
+import ClipboardImg from '../../images/scanTrial/clipboard.png';
 // eslint-disable-next-line import/no-cycle
-import IdentificationBuyerResume from '../Pages/Closing/Identification/IdentificationBuyerResume';
-import { configureStore } from '../store';
+import IdentificationBuyerResume from '../../Pages/Closing/Identification/IdentificationBuyerResume';
+import { configureStore } from '../../store';
 
 const { factsOptions } = FactsOptions;
 

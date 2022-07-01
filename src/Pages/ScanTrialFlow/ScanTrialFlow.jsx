@@ -25,7 +25,7 @@ import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/Bri
 import isArray from 'lodash/isArray';
 import queryString from 'query-string';
 import { checkBrowser } from '../../utils/helpers';
-import { ScanTrialQuestions } from '../../resources/ScanTrialRequest';
+import { ScanTrialQuestions } from '../../resources/Flows/ScanTrialRequest';
 import { sendScanTrialRequest } from '../../actions/PropertyActions';
 
 const ScanTrialFlow = (props) => {

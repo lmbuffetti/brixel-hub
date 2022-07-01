@@ -3,10 +3,10 @@ import {
   BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import { svgIcons } from './svgIcons';
-import { translateTo } from '../utils/translation';
+import { svgIcons } from '../Utilities/svgIcons';
+import { translateTo } from '../../utils/translation';
 
-import homesSvg from '../images/getstarted/svgs/homes.svg';
+import homesSvg from '../../images/getstarted/svgs/homes.svg';
 // QUESTION LISTS
 export const QuestionsList = (lang) => [
   {

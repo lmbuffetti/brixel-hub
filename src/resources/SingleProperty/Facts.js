@@ -13,7 +13,7 @@ import {
   BrixelTextArea,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import { configureStore } from '../store';
+import { configureStore } from '../../store';
 
 const { factsOptions } = FactsOptions;
 

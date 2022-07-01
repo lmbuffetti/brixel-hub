@@ -7,14 +7,14 @@ import {
   Validation,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import LoginSignup from '../components/LoginSignup';
+import LoginSignup from '../../components/LoginSignup';
 // import ResumeCard from '../components/ResumeCard';
-import { translateTo } from '../utils/translation';
-import { configureStore } from '../store';
-import { svgIcons } from './svgIcons';
+import { translateTo } from '../../utils/translation';
+import { configureStore } from '../../store';
+import { svgIcons } from '../Utilities/svgIcons';
 
 import { BestimateQuestions } from './Bestimate';
-import MapsWithModalManual from '../components/Map/MapsWithModalManual';
+import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
 
 const { factsOptions } = FactsOptions;
 

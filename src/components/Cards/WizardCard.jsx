@@ -7,7 +7,7 @@ import {
   BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import { setWizard } from '../../actions/CommonActions';
-import WizardText from '../../resources/Wizard';
+import WizardText from '../../resources/Dashboard/Wizard';
 import { setCookie } from '../../utils/helpers';
 
 const WizardCard = (props) => {

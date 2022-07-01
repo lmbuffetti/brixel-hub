@@ -50,7 +50,7 @@ import {
 import ProgressBar from '../../components/ProgressBar';
 import Timeline from '../../components/Timeline';
 
-const ActionStubs = require('../../resources/timelineActionStubs');
+const ActionStubs = require('../../resources/Utilities/timelineActionStubs');
 
 const SingleDeal = (props) => {
   const history = {

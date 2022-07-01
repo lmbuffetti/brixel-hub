@@ -13,8 +13,8 @@ import {
   BrixelTextArea,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import Maps from '../components/Map/Maps';
-import { configureStore } from '../store';
+import Maps from '../../components/Map/Maps';
+import { configureStore } from '../../store';
 
 const componentsList = {
   BrixelCheckbox,

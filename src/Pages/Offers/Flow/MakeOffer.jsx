@@ -25,7 +25,7 @@ import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/Bri
 import { FinancialCalculator } from '@brixel/brixel-configuration-partner/dist/FinancialFormulas';
 import queryString from 'query-string';
 import isArray from 'lodash/isArray';
-import { MakeOfferQuestions } from '../../../resources/MakeOffer';
+import { MakeOfferQuestions } from '../../../resources/Deals/MakeOffer';
 import { sendUserScanTrial } from '../../../actions/UserActions';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getCookie, setCookie } from '../../../utils/helpers';

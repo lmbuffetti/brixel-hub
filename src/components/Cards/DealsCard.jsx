@@ -10,7 +10,7 @@ import {
 import {
   DateTime,
 } from 'luxon';
-import TimelineActionStubs from '../../resources/timelineActionStubs';
+import TimelineActionStubs from '../../resources/Utilities/timelineActionStubs';
 import api from '../../controllers/api/config';
 
 const DealsCard = (props) => {

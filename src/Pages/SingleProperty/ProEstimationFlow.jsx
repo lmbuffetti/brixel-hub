@@ -24,7 +24,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   keyify, calcPercentageProEstimation, calcPercentageFacts,
 } from '../../utils/helpers';
-import { InputSheets } from '../../resources/inputSheets';
+import { InputSheets } from '../../resources/SingleProperty/inputSheets';
 import { getEstimation, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import {
   preventExitFromScreen, setUnsavedChangesModal, setModal, setSplashType,

@@ -33,7 +33,7 @@ import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/onBoardingEstimation';
+import { QuestionsList } from '../../resources/Flows/onBoardingEstimation';
 import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 import { createEstimation } from '../../actions/EstimationActions';

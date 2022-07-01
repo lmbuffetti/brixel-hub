@@ -65,6 +65,14 @@
   }
 }
 
+.activeFooter {
+  .supportBtn {
+    @media (min-width: $responsive-medium) {
+      bottom: 80px;
+    }
+  }
+}
+
 .marketHome {
   .supportBtn {
     @media (max-width: $responsive-medium) {

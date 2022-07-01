@@ -6,8 +6,8 @@ import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
 import has from 'lodash/has';
 import { translateTo } from './translation';
 import { configureStore } from '../store';
-import { InputSheets } from '../resources/inputSheets';
-import { BestimateQuestions } from '../resources/Bestimate';
+import { InputSheets } from '../resources/SingleProperty/inputSheets';
+import { BestimateQuestions } from '../resources/Flows/Bestimate';
 
 const cookies = new Cookies();
 

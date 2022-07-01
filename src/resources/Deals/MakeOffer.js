@@ -13,10 +13,10 @@ import {
   BrixelMultiUploadFile,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import FinanceCertificate from '../Pages/Offers/Flow/FinanceCertificate';
-import Key4Registration from '../Pages/Offers/Flow/Key4Registration';
-import ClipboardImg from '../images/scanTrial/clipboard.png';
-import { configureStore } from '../store';
+import FinanceCertificate from '../../Pages/Offers/Flow/FinanceCertificate';
+import Key4Registration from '../../Pages/Offers/Flow/Key4Registration';
+import ClipboardImg from '../../images/scanTrial/clipboard.png';
+import { configureStore } from '../../store';
 
 const { factsOptions } = FactsOptions;
 
