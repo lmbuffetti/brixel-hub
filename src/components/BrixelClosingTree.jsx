@@ -35,7 +35,7 @@ const BrixelClosingTree = (props) => {
   // STATE
   const userType = isBuyer ? 'buyer' : 'seller';
   const [showTabSection, setShowTabSection] = useState(null);
-  const [collapsed, setCollapsed] = useState(null);
+  const [collapsed, setCollapsed] = useState({});
 
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
@@ -174,6 +174,11 @@ const BrixelClosingTree = (props) => {
         </div>
       </div>
     );
+  }
+  
+  const onCollapse = (stageName) => {
+    console.log(stageName, collapsed);
+    setCollapsed({...collapsed, [stageName]: !get(collapsed, stageName, false)})
   }
 
   const personsInfo = (usrType, classNamePersons = '') => (
@@ -485,10 +490,10 @@ const BrixelClosingTree = (props) => {
                 </div>
                 <div className="collExBtn px-2">
                   <BrixelIcon
-                    icon="arrow-down"
+                    icon={collapsed['stageOffer'] ? "arrow-down" :"arrow-up"}
                     color="dark"
                     iconWidth="w-fix-16"
-                    onClick={()=>{setCollapsed(!collapsed)}}
+                    onClick={()=> onCollapse('stageOffer')}
                   />
                 </div>
               </div>
@@ -742,7 +747,7 @@ const BrixelClosingTree = (props) => {
             {
               closingStage.map((stage, i) => (
                 <div
-                  className={`mb-3 shadow-3dp ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${collapsed ? 'collapsed' : ''}`}
+                  className={`mb-3 shadow-3dp ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${collapsed[stage.stageName] ? 'collapsed' : ''}`}
                   key={`clsStg_${i.toString()}`}
                 >
                   <div className="row m-0">
