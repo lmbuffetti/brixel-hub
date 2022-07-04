@@ -225,7 +225,7 @@ const BrixelClosingTree = (props) => {
           <>
             <div className="secBuyer">
 
-              <div className="secHead dis-f jc-b">
+              <div className="secHead dis-f jc-b brdSmallBottom brdSmallRight brdAltGrey100 p-2">
                 <div className="secTitle">
                   Buyer
                 </div>
@@ -258,7 +258,7 @@ const BrixelClosingTree = (props) => {
                 </div>
               </div>
 
-              <div className="secDetails">
+              <div className="secDetails p-2 brdSmallRight brdAltGrey100">
                 {
                   get(activeSingleOffer, 'offer.amount', 0) > 0 &&
                     get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
@@ -428,7 +428,7 @@ const BrixelClosingTree = (props) => {
         return (
           <>
             <div className="secBuyer">
-              <div className="secHead dis-f jc-b">
+              <div className="secHead dis-f jc-b brdSmallBottom brdSmallRight brdAltGrey100 p-2">
                 <div className="secTitle">
                   Seller
                 </div>
@@ -467,7 +467,7 @@ const BrixelClosingTree = (props) => {
                 </div>
               </div>
 
-              <div className="secDetails">
+              <div className="secDetails p-2">
                 {
                   get(activeSingleClosing, 'stageOffer.active', null) === false ? (
                     <></>
@@ -697,11 +697,11 @@ const BrixelClosingTree = (props) => {
         <div className="dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
 
-            <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-2 py-2">
+            {/* <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-2 py-2">
               <span className="w-perc-40 tt-up">Process</span>
               <span className="w-perc-30 px-2 tt-up">Buyer</span>
               <span className="w-perc-30 pl-2 tt-up">Seller</span>
-            </div>
+            </div> */}
 
             <BrixelTabs
               className="hide-lg ov-h"
@@ -716,18 +716,18 @@ const BrixelClosingTree = (props) => {
             {
               closingStage.map((stage, i) => (
                 <div
-                  className="mb-3 brdSmall"
+                  className={`mb-3 shadow-3dp ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'}`}
                   key={`clsStg_${i.toString()}`}
                 >
                   <div className="row m-0">
-                    <div className="col-12 col-md-4 shadow-1dp">
-                      {stage.title}
-                      <div className="fsize-300" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
+                    <div className="col-12 col-md-4 p-0-i brdSmallRight brdAltGrey100">
+                      <div className="brdSmallBottom brdAltGrey100 p-2"> <span className={`brdCircle bgGreen400 dis-ib h-fix-24 w-fix-24 txtWhite ta-c ff-mono fsize300`}>{i + 1}</span><span className="fsize-400 fweight600"> {stage.title}</span></div>
+                      <div className="fsize-300 p-2" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
                     </div>
-                    <div className="col-12 col-md-4 shadow-1dp">
+                    <div className="col-12 col-md-4 p-0-i">
                       {buyerSection(stage.stageName)}
                     </div>
-                    <div className="col-12 col-md-4 shadow-1dp">
+                    <div className="col-12 col-md-4 p-0-i">
                       {sellerSection(stage.stageName)}
                     </div>
                     {
