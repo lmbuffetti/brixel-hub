@@ -35,6 +35,7 @@ const BrixelClosingTree = (props) => {
   // STATE
   const userType = isBuyer ? 'buyer' : 'seller';
   const [showTabSection, setShowTabSection] = useState(null);
+  const [collapsed, setCollapsed] = useState(null);
 
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
@@ -225,10 +226,7 @@ const BrixelClosingTree = (props) => {
           <>
             <div className="secBuyer">
 
-              <div className="secHead dis-f jc-b brdSmallBottom brdSmallRight brdAltGrey100 p-2">
-                <div className="secTitle">
-                  Buyer
-                </div>
+              <div className="secHead brdSmallBottom brdAltGrey100 p-2">
                 <div className="secStatus">
                   {
                     get(activeSingleClosing, 'stageOffer.active', null) === false ? (
@@ -240,17 +238,30 @@ const BrixelClosingTree = (props) => {
                     ) : (
                       <>
                         { get(activeSingleOffer, 'offer.amount', 0) > 0 &&
-                          get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
-                          <>
-                            <BrixelIcon
-                              icon="check-small-fill"
-                              color="green"
-                              className="mr-1"
-                              iconWidth="w-fix-16"
-                            />
-                            <span className="fsize-300 fsize-lg-400 txtGreen400">Sent</span>
-                          </>
-                        )
+                          get(activeSingleOffer, 'offer.status', '') !== 'rejected' ? (
+                            <div className="dis-f a-c jc-b w-perc-100">
+                              <div className="dis-f a-c">
+                                <BrixelIcon
+                                  icon="check-small-fill"
+                                  color="green"
+                                  className="mr-1"
+                                  iconWidth="w-fix-24"
+                                />
+                                <span>Buyer</span>
+                              </div>
+                              <span className="fsize-300 fsize-lg-400 txtGreen400">Sent</span>
+                            </div>
+                          ) : (
+                            <>
+                              <BrixelIcon
+                                icon="check-small"
+                                className="mr-1"
+                                color="altGrey"
+                                iconWidth="w-fix-24"
+                              />
+                              <span>Buyer</span>
+                            </>
+                          )
                         }
                       </>
                     )
@@ -258,14 +269,14 @@ const BrixelClosingTree = (props) => {
                 </div>
               </div>
 
-              <div className="secDetails p-2 brdSmallRight brdAltGrey100">
+              <div className="secDetails p-2 brdAltGrey100">
                 {
                   get(activeSingleOffer, 'offer.amount', 0) > 0 &&
                     get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
                     <>
                       {
                         get(activeSingleOffer, 'offer.createdAt', null) && (
-                          <p className="fsize-300 txtDark200 mt-2">
+                          <p className="fsize-300 txtDark200">
                             {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                           </p>
                         )
@@ -278,7 +289,7 @@ const BrixelClosingTree = (props) => {
                   isBuyer && (
                     <BrixelButtonSecondary
                       rounded
-                      className="mt-2"
+                      className=""
                       label="Add offer"
                       onClick={() => onClickOffer('add')}
                     />
@@ -428,32 +439,39 @@ const BrixelClosingTree = (props) => {
         return (
           <>
             <div className="secBuyer">
-              <div className="secHead dis-f jc-b brdSmallBottom brdSmallRight brdAltGrey100 p-2">
-                <div className="secTitle">
-                  Seller
-                </div>
-                <div className="secStatus">
+              <div className="secHead dis-f jc-b brdSmallBottom brdAltGrey100 p-2">
+                <div className="secStatus w-perc-100">
                   {
                     get(activeSingleClosing, 'stageOffer.active', null) === false ? (
                       <BrixelIcon
                         icon="locked"
                         color="dark"
-                        className="mb-1"
+                        iconWidth="w-fix-16"
                       />
                     ) : (
                       <>
                         { !get(activeSingleOffer, 'offer.status', null) || !status[get(activeSingleOffer, 'offer.status', '')] ? (
                           <>
+                            <BrixelIcon
+                              icon="check-small"
+                              className="mr-1"
+                              color="altGrey"
+                              iconWidth="w-fix-24"
+                            />
+                            <span>Seller</span>
                           </>
                         ) : (
                           <>
-                            <div className="">
-                              <BrixelIcon
-                                icon={status[get(activeSingleOffer, 'offer.status', '')].icon}
-                                color={status[get(activeSingleOffer, 'offer.status', '')].color}
-                                className="mr-1"
-                                iconWidth="w-fix-16"
-                              />
+                            <div className="dis-f a-c jc-b w-perc-100">
+                              <div className="dis-f a-c">
+                                <BrixelIcon
+                                  icon={status[get(activeSingleOffer, 'offer.status', '')].icon}
+                                  color={status[get(activeSingleOffer, 'offer.status', '')].color}
+                                  className="mr-1"
+                                  iconWidth="w-fix-24"
+                                />
+                                <span>Seller</span>
+                              </div>
                               <span className={`${status[get(activeSingleOffer, 'offer.status', '')].colorText} fsize-300 fsize-lg-400`}>
                                 {status[get(activeSingleOffer, 'offer.status', '')].label}
                               </span>
@@ -464,6 +482,14 @@ const BrixelClosingTree = (props) => {
                       </>
                     )
                   }
+                </div>
+                <div className="collExBtn px-2">
+                  <BrixelIcon
+                    icon="arrow-down"
+                    color="dark"
+                    iconWidth="w-fix-16"
+                    onClick={()=>{setCollapsed(!collapsed)}}
+                  />
                 </div>
               </div>
 
@@ -480,7 +506,7 @@ const BrixelClosingTree = (props) => {
                         <>
                           {
                             get(activeSingleOffer, 'offer.reviewedAt', null) && (
-                              <p className="fsize-300 txtDark200 mt-2">
+                              <p className="fsize-300 txtDark200">
                                 {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                               </p>
                             )
@@ -489,7 +515,7 @@ const BrixelClosingTree = (props) => {
                             get(activeSingleOffer, 'offer.status', '') === 'pending' && !isBuyer && (
                               <BrixelButtonSecondary
                                 rounded
-                                className="ml-a ml-lg-0 mt-2"
+                                className="ml-a ml-lg-0"
                                 label="Review offer"
                                 onClick={() => onClickOffer('review')}
                               />
@@ -533,7 +559,7 @@ const BrixelClosingTree = (props) => {
                         </div>
                         {
                           get(activeSingleOffer, 'offer.reviewedAt', null) && (
-                            <p className="fsize-300 txtDark200 mt-2">
+                            <p className="fsize-300 txtDark200">
                               {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
                             </p>
                           )
@@ -716,15 +742,15 @@ const BrixelClosingTree = (props) => {
             {
               closingStage.map((stage, i) => (
                 <div
-                  className={`mb-3 shadow-3dp ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'}`}
+                  className={`mb-3 shadow-3dp ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${collapsed ? 'collapsed' : ''}`}
                   key={`clsStg_${i.toString()}`}
                 >
                   <div className="row m-0">
                     <div className="col-12 col-md-4 p-0-i brdSmallRight brdAltGrey100">
-                      <div className="brdSmallBottom brdAltGrey100 p-2"> <span className={`brdCircle bgGreen400 dis-ib h-fix-24 w-fix-24 txtWhite ta-c ff-mono fsize300`}>{i + 1}</span><span className="fsize-400 fweight600"> {stage.title}</span></div>
+                      <div className="brdSmallBottom brdAltGrey100 p-2"> <span className={`brdCircle bgGreen400 dis-ib h-fix-24 w-fix-24 txtWhite ta-c ff-mono fsize300`}>{i + 1}</span><span className="fsize-400 fweight-600 pl-1"> {stage.title}</span></div>
                       <div className="fsize-300 p-2" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
                     </div>
-                    <div className="col-12 col-md-4 p-0-i">
+                    <div className="col-12 col-md-4 p-0-i brdSmallRight brdAltGrey100">
                       {buyerSection(stage.stageName)}
                     </div>
                     <div className="col-12 col-md-4 p-0-i">
