@@ -15,7 +15,7 @@ const query = `
       ...on placement_default_Entry {
         slug
         title
-        placementContent {
+        placementContent(limit: 3) {
           ...on pages_default_Entry {
             id
             slug
