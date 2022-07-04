@@ -184,7 +184,7 @@ const App = (props) => {
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
-        meta: `Browser Info: ${browserDetection().debug}`,
+        meta: `Browser Info: ${browserDetection().debug}\n Language: ${cookies.get('brixelLang')}`,
         url: window.location.href,
         apiResource: '',
       };
