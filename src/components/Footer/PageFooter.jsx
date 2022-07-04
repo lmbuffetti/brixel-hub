@@ -25,23 +25,29 @@ function PageFooter(props) {
     else setActiveCompanyData(CompaniesData.default.footer);
   }, [activeSingleCompany.id]);
   
-
   return (
     <>
       <footer className={`w-perc-100 ${className} ${activeSideBar ? 'footerWrap' : ''}`}>
         <div className="dis-f a-t jc-b p-3 txtAltGrey400 brdSmallTop brdLight200">
           <div>
             {
-              get(activeCompanyData, 'leftLink', []).map((link, i) => (
+              get(activeSingleCompany, 'links.privacy', null) && (
                 <a
-                  key={`link${i.toString()}`}
-                  href={link.link}
-                  className={i > 0 ? 'ml-2' : ''}
+                  href={get(activeSingleCompany, 'links.privacy', null)}
                 >
-                  {link.label}
+                  Privacy Policy
                 </a>
-              
-              ))
+              )
+            }
+            {
+              get(activeSingleCompany, 'links.privacy', null) && (
+                <a
+                  href={get(activeSingleCompany, 'links.terms', null)}
+                  className="ml-2"
+                >
+                  Terms and Conditions
+                </a>
+              )
             }
           </div>
           {

@@ -165,7 +165,7 @@ const App = (props) => {
     if (loggedInUser.user && localTransifex) {
       const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
       handleSetLanguage(lang);
-      if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
+      if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang || 'en');
     } else if (activeSingleCompany.id && !loggedInUser.user) {
       const lang = cookies.get('brixelLang') || activeSingleCompany.language.code;
       handleSetLanguage(lang);
@@ -184,7 +184,7 @@ const App = (props) => {
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
-        meta: `Browser Info: ${browserDetection().debug}`,
+        meta: `Browser Info: ${browserDetection().debug}\n Language: ${cookies.get('brixelLang')}`,
         url: window.location.href,
         apiResource: '',
       };
