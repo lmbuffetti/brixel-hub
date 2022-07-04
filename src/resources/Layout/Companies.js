@@ -7,7 +7,7 @@ export const CompaniesData = {
     footer: {
       leftLink: [
         {
-          label: 'AGBs',
+          label: 'Privacy policy',
           link: '',
         }, {
           label: 'Datenschutz',
@@ -21,7 +21,7 @@ export const CompaniesData = {
     footer: {
       leftLink: [
         {
-          label: 'AGBs',
+          label: 'Privacy Policy',
           link: '',
         }, {
           label: 'Datenschutz',

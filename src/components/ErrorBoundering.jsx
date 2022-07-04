@@ -25,6 +25,7 @@ class ErrorBoundary extends Component {
       const {
         activeSingleProperty,
         handleSendSlackNotifications,
+        language,
         loggedInUser,
         pageError,
       } = this.props;
@@ -33,7 +34,7 @@ class ErrorBoundary extends Component {
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
-        meta: `Browser Info: ${browserDetection().debug}\n Language: ${cookies.get('brixelLang')}\n Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
+        meta: `Browser Info: ${browserDetection().debug}\n Language: ${language || cookies.get('brixelLang')}\n Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
         url: window.location.href,
         apiResource: '',
       };
@@ -73,12 +74,14 @@ ErrorBoundary.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   children: PropTypes.oneOfType([PropTypes.any]).isRequired,
   handleSendSlackNotifications: PropTypes.func.isRequired,
-  pageError: PropTypes.bool.isRequired,
+  language: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  pageError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  language: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   pageError: get(state, 'common.setPageData.pageError', false),
 });

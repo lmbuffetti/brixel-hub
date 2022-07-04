@@ -26,6 +26,8 @@ function PageFooter(props) {
   }, [activeSingleCompany.id]);
   
 
+  console.log(activeSingleCompany);
+  
   return (
     <>
       <footer className={`w-perc-100 ${className} ${activeSideBar ? 'footerWrap' : ''}`}>
