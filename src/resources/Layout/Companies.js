@@ -5,29 +5,11 @@ import LogoKey4 from '../../images/Companies/ubsKey4/key4Logo.svg';
 export const CompaniesData = {
   baloise: {
     footer: {
-      leftLink: [
-        {
-          label: 'Privacy policy',
-          link: '',
-        }, {
-          label: 'Datenschutz',
-          link: '',
-        }
-      ],
       logos: [LogoBaloise],
     },
   },
   ubs_key4: {
     footer: {
-      leftLink: [
-        {
-          label: 'Privacy Policy',
-          link: '',
-        }, {
-          label: 'Datenschutz',
-          link: '',
-        }
-      ],
       logos: [LogoUBS, LogoKey4],
     },
   },
