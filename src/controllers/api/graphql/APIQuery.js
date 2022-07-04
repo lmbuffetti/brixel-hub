@@ -2,8 +2,6 @@ import axios from 'axios';
 import queryString from 'query-string';
 import { failureHandler, successHandler } from '../utils/api.helper';
 
-// const CONTENT_API_URL = `https://${ process.env.NEXT_PUBLIC_APP_HOSTNAME }/graphql`
-
 const query = `
   query HubContentQuery(
     $siteHandle: String!
@@ -12,6 +10,7 @@ const query = `
     placementEntries(
       site: [$siteHandle]
       slug: [$placementSlug]
+      limit: 3
     ) {
       ...on placement_default_Entry {
         slug
