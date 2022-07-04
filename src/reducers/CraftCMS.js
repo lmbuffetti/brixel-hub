@@ -5,7 +5,7 @@ import {
 } from '../actions/types/CraftCMS';
 
 export const defaultState = {
-  content: {},
+  content: [],
 };
 
 export default handleActions(

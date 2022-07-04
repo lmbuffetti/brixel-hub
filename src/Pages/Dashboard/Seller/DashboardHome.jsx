@@ -95,8 +95,8 @@ const DashboardHome = (props) => {
   useEffect(() => {
     if (activeSingleCompany.id) {
       const data = {
-        partner: 'baloise',
-        language: 'en',
+        partner: activeSingleCompany.stub,
+        language: userLang,
       };
       handleGetContentCraftCMS(data)
     }

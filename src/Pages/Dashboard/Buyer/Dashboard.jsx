@@ -77,6 +77,8 @@ const Dashboard = (props) => {
     if (activeLeads && activeLeads.company && activeLeads.company !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads.company });
     } else if (activeSingleProperty.id) {
+      handleGetActiveSingleCompany({ id: activeSingleProperty.company });
+    } else {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
     if (dealID !== activeSingleDeal.id || !dealID) {
@@ -86,7 +88,7 @@ const Dashboard = (props) => {
       if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
       handleGetBuyerDeal({ id: propID, actionStub });
     }
-  }, [propID]);
+  }, [propID, activeSingleProperty.id]);
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists' && loggedInUser.id) {
