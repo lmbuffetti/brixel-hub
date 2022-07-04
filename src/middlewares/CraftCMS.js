@@ -35,7 +35,6 @@ const checkCommon = (store) => (next) => (action) => {
       }
       api.craftCMS.getHubContent(data)
         .then((res) => {
-          console.log(res);
           store.dispatch({ type: SET_CONTENT, payload: get(res, 'data.data.placementEntries[0].placementContent', [])})
           if (smallLoader) {
             store.dispatch({
