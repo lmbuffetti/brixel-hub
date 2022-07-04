@@ -4,8 +4,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
+import Cookies from 'universal-cookie';
 import browserDetection from '../utils/browserDetection';
 import { sendSlackNotification } from '../actions/CommonActions';
+
+const cookies = new Cookies();
 
 class ErrorBoundary extends Component {
   // eslint-disable-next-line react/state-in-constructor
@@ -30,7 +33,7 @@ class ErrorBoundary extends Component {
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
-        meta: `Browser Info: ${browserDetection().debug}\n Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
+        meta: `Browser Info: ${browserDetection().debug}\n Language: ${cookies.get('brixelLang')}\n  Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
         url: window.location.href,
         apiResource: '',
       };
