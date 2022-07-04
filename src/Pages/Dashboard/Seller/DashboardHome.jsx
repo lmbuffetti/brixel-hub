@@ -20,6 +20,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
+import { getContent } from '../../../actions/CraftCMS';
 import { getActiveSinglePropertyDealsCount, getPageDeals, getEstimation } from '../../../actions/PropertyActions';
 import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
@@ -58,6 +59,7 @@ const DashboardHome = (props) => {
     estimation,
     formValue,
     handleGetActiveSinglePropertyDealsCount,
+    handleGetContentCraftCMS,
     handleGetPageDeals,
     handleGetEstimation,
     handleSetModal,
@@ -89,6 +91,17 @@ const DashboardHome = (props) => {
       handleGetPageDeals({ id: propID });
     }
   }, [progressState.step]);
+  
+  useEffect(() => {
+    if (activeSingleCompany.id) {
+      const data = {
+        partner: 'baloise',
+        language: 'de',
+      };
+      handleGetContentCraftCMS(data)
+    }
+  }, [activeSingleCompany.id]);
+  
 
   useEffect(() => {
     if (get(activeSinglePropertyDeals, 'visit')) {
@@ -818,6 +831,7 @@ DashboardHome.propTypes = {
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyDealsCount: PropTypes.func.isRequired,
+  handleGetContentCraftCMS: PropTypes.func.isRequired,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -858,6 +872,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetContentCraftCMS: bindActionCreators(getContent, dispatch),
 });
 
 export default compose(

@@ -16,6 +16,7 @@ import PropertyMiddleware from '../middlewares/PropertyMiddleware';
 import SearchProfile from '../middlewares/SearchProfileMiddleware';
 import ImageMiddleware from '../middlewares/UploadMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
+import CraftCMS from '../middlewares/CraftCMS';
 import { rootReducer } from '../reducers';
 
 const enhancers = [];
@@ -37,6 +38,7 @@ if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || 
 const composedEnhancers = compose(
   applyMiddleware(
     ...middlewares,
+    CraftCMS,
     CommonMiddleware,
     CompanyMiddleware,
     DealMiddleware,
