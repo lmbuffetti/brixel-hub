@@ -13,27 +13,28 @@ const cookies = new Cookies();
 class ErrorBoundary extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = { hasError: false };
-
+  
   static getDerivedStateFromError() {
     // Update state to show the fallback UI during the next render phase
     return { hasError: true };
   }
-
+  
   componentDidCatch(error, info) {
     if (typeof window !== 'undefined') {
       const url = get(window, 'location.href', '');
       const {
         activeSingleProperty,
         handleSendSlackNotifications,
+        language,
         loggedInUser,
         pageError,
       } = this.props;
       // logging the error details
-      const channel = 'frontend-bugs';
+      const channel = 'frontend-dev';
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
-        meta: `Browser Info: ${browserDetection().debug}\n Language: ${cookies.get('brixelLang')}\n  Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
+        meta: `Browser Info: ${browserDetection().debug}\n Language: ${language || cookies.get('brixelLang')}\n Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
         url: window.location.href,
         apiResource: '',
       };
@@ -49,7 +50,7 @@ class ErrorBoundary extends Component {
       }
     }
   }
-
+  
   render() {
     const {
       hasError,
@@ -73,12 +74,14 @@ ErrorBoundary.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   children: PropTypes.oneOfType([PropTypes.any]).isRequired,
   handleSendSlackNotifications: PropTypes.func.isRequired,
-  pageError: PropTypes.bool.isRequired,
+  language: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  pageError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  language: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   pageError: get(state, 'common.setPageData.pageError', false),
 });
