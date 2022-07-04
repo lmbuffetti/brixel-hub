@@ -273,8 +273,8 @@ const MarketCategoryListSeller = (props) => {
                           openSupport(e);
                         }}
                       >
-                          <span>&nbsp;support</span>
-                        </span>
+                        <span>&nbsp;support</span>
+                      </span>
                     </div>
                   </div>
                 </>
@@ -295,15 +295,15 @@ const MarketCategoryListSeller = (props) => {
                     <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
                   
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
-                        <span
-                          className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
-                          onClick={() => {
-                            setCookie('brixelMarketBestimate', true);
-                            setBestimateMessage(true);
-                          }}
-                        >
-                          <span>Thanks, not now</span>
-                        </span>
+                      <span
+                        className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
+                        onClick={() => {
+                          setCookie('brixelMarketBestimate', true);
+                          setBestimateMessage(true);
+                        }}
+                      >
+                        <span>Thanks, not now</span>
+                      </span>
                       <BrixelButtonPrimary
                         rounded
                         label="Get free Bestimate&reg;"
@@ -342,14 +342,14 @@ const MarketCategoryListSeller = (props) => {
               <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
             
               <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
-                  <span
-                    className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
-                    onClick={() => {
-                      onCloseBestimateResult();
-                    }}
-                  >
-                    <span>Thanks, not now</span>
-                  </span>
+                <span
+                  className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
+                  onClick={() => {
+                    onCloseBestimateResult();
+                  }}
+                >
+                  <span>Thanks, not now</span>
+                </span>
                 <BrixelButtonPrimary
                   rounded
                   label="Contact support"

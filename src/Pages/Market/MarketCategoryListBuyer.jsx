@@ -176,17 +176,17 @@ const MarketCategoryListBuyer = (props) => {
                   </div>
                   <div className="dis-f mb-2">
                     <div className="dis-f a-c min-w-fix-64 jc-fe">
-                        <span className="category-tag bgPrimary300">
-                          Pre
-                        </span>
+                      <span className="category-tag bgPrimary300">
+                        Pre
+                      </span>
                     </div>
                     <span className="max-w-fix-424 txtDark700 pl-2"> Discover exclusive properties which are not on the market yet, but waiting for your first move.</span>
                   </div>
                   <div className="dis-f">
                     <div className="dis-f a-c min-w-fix-64 jc-fe">
-                        <span className="category-tag bgRed400">
-                          Premium
-                        </span>
+                      <span className="category-tag bgRed400">
+                        Premium
+                      </span>
                     </div>
                     <span className="max-w-fix-424 txtDark700 pl-2"> Explore our Premium properties with 3D tour, detailed documentation and verified informations.</span>
                   </div>
@@ -241,9 +241,9 @@ const MarketCategoryListBuyer = (props) => {
                         className="brdSmall brdRadius dis-f a-c jc-c brdPrimary400 min-w-fix-80 h-fix-80 ml-4 cur-poi"
                         onClick={() => history.push('/buy/wishlist')}
                       >
-                          <span className="txtGreen400 fweight-600 fsize-500">
-                            + {get(wishlistProperties, 'data', []).length - numWishProp}
-                          </span>
+                        <span className="txtGreen400 fweight-600 fsize-500">
+                          + {get(wishlistProperties, 'data', []).length - numWishProp}
+                        </span>
                       </div>
                     )
                   }
