@@ -96,7 +96,7 @@ const DashboardHome = (props) => {
     if (activeSingleCompany.id) {
       const data = {
         partner: 'baloise',
-        language: 'de',
+        language: 'en',
       };
       handleGetContentCraftCMS(data)
     }
