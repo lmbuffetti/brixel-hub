@@ -34,7 +34,7 @@ import { createActiveSingleProperty, saveActiveSingleProperty } from '../../acti
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
 import { QuestionsList } from '../../resources/onBoardingEstimation';
-import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
+import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 import { createEstimation } from '../../actions/EstimationActions';
 
@@ -59,7 +59,6 @@ const GetStartedEstimation = (props) => {
     handleCreateEstimation,
     // handleSaveActiveSingleProperty,
     // handleSaveActiveSingleUser,
-    handleSetLanguage,
     handleSpinnerOn,
     handleSpinnerOff,
     handleValidateUser,
@@ -81,16 +80,16 @@ const GetStartedEstimation = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
-
+  
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-
+  
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-
+  
   useEffect(() => {
     if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
       changeFieldValue('properties.extraFeatures.equippedKitchen', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equippedKitchen'));
@@ -123,7 +122,7 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
     }
   }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
-
+  
   const getCurrency = () => {
     const result = {};
     if (get(formValue, 'location.countryCode', '')) {
@@ -133,13 +132,13 @@ const GetStartedEstimation = (props) => {
     }
     return result;
   };
-
+  
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     getCurrency();
     if (get(formValue, 'location.countryCode', null) !== 'ch') changeFieldValue('properties.building.conditionStatus', 'used');
   }, [get(history, 'location.pathname', null)]);
-
+  
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = cloneDeep(formValue);
@@ -266,11 +265,11 @@ const GetStartedEstimation = (props) => {
       await handleValidateUser(data);
     }
   };
-
+  
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
   }, [get(loggedInUser, 'user.id', null)]);
-
+  
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -288,7 +287,7 @@ const GetStartedEstimation = (props) => {
     }
     return newIndex;
   };
-
+  
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -333,10 +332,10 @@ const GetStartedEstimation = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-
+  
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
-
+  
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
@@ -389,7 +388,7 @@ const GetStartedEstimation = (props) => {
               document.body.prepend(fakeInput);
               fakeInput.focus();
             }
-
+            
             setTimeout(() => {
               const fakeInput = document.getElementById('fakeInput');
               const getCurStep = document.getElementById(`step-${defId}`);
@@ -422,7 +421,7 @@ const GetStartedEstimation = (props) => {
     }
     return null;
   };
-
+  
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     setOldIndex(currentIndex);
@@ -436,7 +435,7 @@ const GetStartedEstimation = (props) => {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
-
+  
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     if (get(history, 'location.pathname', '').includes('success') && questions[currentIndex + 1]) {
@@ -445,7 +444,7 @@ const GetStartedEstimation = (props) => {
       }, 500);
     }
   }, [get(history, 'location', null)]);
-
+  
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
@@ -454,7 +453,7 @@ const GetStartedEstimation = (props) => {
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({ stub: defComp });
+      handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
     } else if (!isTest) {
       const companyUser = get(loggedInUser, 'users.company.stub', null);
@@ -477,7 +476,7 @@ const GetStartedEstimation = (props) => {
       });
     }
   }, []);
-
+  
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
@@ -489,7 +488,7 @@ const GetStartedEstimation = (props) => {
       setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
   }, [lang]);
-
+  
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
     if (currentIndex > 2) {
@@ -504,7 +503,7 @@ const GetStartedEstimation = (props) => {
       }
     }
   }, [get(formValue, 'location.countryCode', '')]);
-
+  
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
     if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
@@ -514,14 +513,19 @@ const GetStartedEstimation = (props) => {
     if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
       changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
     }
+    if ((get(formValue, 'properties.propertyType', null) === 'Commercial') && (formValue.location.countryCode === 'PT')) {
+      changeFieldValue('properties.typology.grossArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
+      const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
+      changeFieldValue('properties.typology.livingArea.value', livingSpace);
+    }
   }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
-
+  
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset('Property');
     history.push(`/${propID}/home`);
   };
-
+  
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
@@ -544,7 +548,7 @@ const GetStartedEstimation = (props) => {
       setQuestions(newQuest);
     }
   }, [formValue]);
-
+  
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
     if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
@@ -553,16 +557,11 @@ const GetStartedEstimation = (props) => {
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
   }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
-
+  
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
       let getLang = cookie.get('brixelLang');
-      if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
-        const companyLang = get(company, 'language.code', 'en');
-        handleSetLanguage(companyLang.toLowerCase());
-        getLang = companyLang.toLowerCase();
-      }
       const companyCountry = get(company, 'country.code', 'CH');
       setQuestions(QuestionsList(getLang, companyCountry));
       changeFieldValue('location.countryCode', companyCountry);
@@ -571,7 +570,7 @@ const GetStartedEstimation = (props) => {
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
   }, [get(company, 'id', null)]);
-
+  
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
@@ -581,7 +580,7 @@ const GetStartedEstimation = (props) => {
     else label = 'Next';
     return label;
   };
-
+  
   const progressBarCalc = () => {
     let num = 0;
     questions.forEach((item) => {
@@ -602,108 +601,109 @@ const GetStartedEstimation = (props) => {
     });
     return (currentIndex * 100) / (num - 1);
   };
-
+  
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}`}>
-      {
-        get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
-          <div className="pos-r">
-            <BrixelProgressBar
-              large
-              classProgressBar="container"
-              className="brdRadius"
-              saturation={500}
-              color="green"
-              barBackground="light"
-              backgroundSaturation={200}
-              progressValue={progressBarCalc()}
-            />
-          </div>
-        )
-      }
-    
-      <div
-        className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
-      >
-        <form
-          id="multiStepForm"
-          autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
-          onSubmit={(e) => changeStep(null, e)}
+    <>
+      <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}`}>
+        {
+          get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
+            <div className="pos-r">
+              <BrixelProgressBar
+                large
+                classProgressBar="container"
+                className="brdRadius"
+                saturation={500}
+                color="green"
+                barBackground="light"
+                backgroundSaturation={200}
+                progressValue={progressBarCalc()}
+              />
+            </div>
+          )
+        }
+        
+        <div
+          className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
         >
-          <div ref={multiStepSlidesRef} className="multiStepSlides">
-            <div ref={singleStepRef} className="singleStep pt-5 jc-c">
-              <div className="subcontainer m-a">
-                {
-                  get(quest, 'inputs', null) && (
-                    <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap">
-                      {
-                        quest.titleGreen && (
-                          <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
-                        )
-                      }
-                      {
-                        quest.title && (
-                          <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                        )
-                      }
-                      {
-                        quest.subtitle && (
-                          <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
-                      }
-                      <div className={`${quest.className} w-perc-100 `}>
-                        <MultiFileldsReduxForm
-                          form="GetStarted"
-                          disableNextBtn={false}
-                          formValue={formValue}
-                          inputs={quest.inputs}
-                          onClick={() => changeStep()}
-                          onCloseGoBack={() => changeStep('back')}
-                          onClickDisabled={!checkValidateField()}
-                          onSubmit={() => changeStep()}
-                          showSendButton={quest.showSendButton}
-                          showErrors={showError}
-                          disableDelay={quest.history !== 'createProfile'}
-                          skipPhone
-                        />
-                      </div>
-                  
-                    </div>
-                  )
-                }
-                {
-                  get(quest, 'cardType', null) === 'loadComponent' && (
-                    React.createElement(
-                      quest.component,
-                      {
-                        formName: 'GetStarted',
-                        initialValue: formValue,
-                        ...quest,
-                        onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
-                      },
-                    )
-                  )
-                }
-                {
-                  (get(quest, 'cardType', null) === 'card') && (
-                    <div className="scaleAnim ta-c">
-                      <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
-                      <h5
-                        className="fadeAnim mt-2 ta-c"
-                        dangerouslySetInnerHTML={{ __html: quest.title }}
-                      />
-                      {
-                        quest.subtitle && (
-                          <h6
-                            className="fadeAnim mt-2 ta-c"
-                            dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+          <form
+            id="multiStepForm"
+            autoComplete="off"
+            className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+            onSubmit={(e) => changeStep(null, e)}
+          >
+            <div ref={multiStepSlidesRef} className="multiStepSlides">
+              <div ref={singleStepRef} className="singleStep pt-5 jc-c">
+                <div className="subcontainer m-a">
+                  {
+                    get(quest, 'inputs', null) && (
+                      <div id={`step-${currentIndex}`} className="dis-fl-col flex-wrap">
+                        {
+                          quest.titleGreen && (
+                            <h3 className="txtGreen400 w-perc-100">{quest.titleGreen}</h3>
+                          )
+                        }
+                        {
+                          quest.title && (
+                            <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          )
+                        }
+                        {
+                          quest.subtitle && (
+                            <p className="mb-5 ta-c txtDark200 w-perc-100 px-3 px-sm-2" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                        }
+                        <div className={`${quest.className} w-perc-100 `}>
+                          <MultiFileldsReduxForm
+                            form="GetStarted"
+                            disableNextBtn={false}
+                            formValue={formValue}
+                            inputs={quest.inputs}
+                            onClick={() => changeStep()}
+                            onCloseGoBack={() => changeStep('back')}
+                            onClickDisabled={!checkValidateField()}
+                            onSubmit={() => changeStep()}
+                            showSendButton={quest.showSendButton}
+                            showErrors={showError}
+                            disableDelay={quest.history !== 'createProfile'}
+                            skipPhone
                           />
-                        )
-                      }
-                    </div>
-                  )
-                }
-                {/* {
+                        </div>
+                      
+                      </div>
+                    )
+                  }
+                  {
+                    get(quest, 'cardType', null) === 'loadComponent' && (
+                      React.createElement(
+                        quest.component,
+                        {
+                          formName: 'GetStarted',
+                          initialValue: formValue,
+                          ...quest,
+                          onClick: () => (questions[currentIndex + 1] ? changeStep() : closeWindow()),
+                        },
+                      )
+                    )
+                  }
+                  {
+                    (get(quest, 'cardType', null) === 'card') && (
+                      <div className="scaleAnim ta-c">
+                        <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                        <h5
+                          className="fadeAnim mt-2 ta-c"
+                          dangerouslySetInnerHTML={{ __html: quest.title }}
+                        />
+                        {
+                          quest.subtitle && (
+                            <h6
+                              className="fadeAnim mt-2 ta-c"
+                              dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                            />
+                          )
+                        }
+                      </div>
+                    )
+                  }
+                  {/* {
                   get(quest, 'history', null) === 'resume' && (
                     <div className="max-w-fix-344 m-a">
                       <BrixelButtonPrimary
@@ -718,57 +718,58 @@ const GetStartedEstimation = (props) => {
                     </div>
                   )
                 } */}
+                </div>
               </div>
             </div>
-          </div>
-          {
-            get(quest, 'history', null) !== 'resume' && (
-              <>
-                {
-                  get(quest, 'history', null) !== 'createProfile' && (
-                    <div
-                      className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
-                    >
-                      <div className="pos-r">
-                        <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c h-fix-40">
-                          {
-                            (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
-                              <BrixelButtonIcon
-                                className="backBtn pos-a-fix x-l-0 x-t-0"
-                                icon="arrow-left-small"
-                                onClick={() => changeStep('back')}
-                                theme="light"
-                                secondary
-                              />
-                            )
-                          }
-                          {
-                            (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
-                              <BrixelButtonPrimary
-                                className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
-                                disabled={!checkValidateField()}
-                                rounded
-                                theme="green"
-                                themeSat={500}
-                                label={buttonLabel()}
-                                rightIcon="arrow-right-small"
-                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                                onShowError={() => setShowError(true)}
-                              />
-                            )
-                          }
+            {
+              get(quest, 'history', null) !== 'resume' && (
+                <>
+                  {
+                    get(quest, 'history', null) !== 'createProfile' && (
+                      <div
+                        className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                      >
+                        <div className="pos-r">
+                          <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c h-fix-40">
+                            {
+                              (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                                <BrixelButtonIcon
+                                  className="backBtn pos-a-fix x-l-0 x-t-0"
+                                  icon="arrow-left-small"
+                                  onClick={() => changeStep('back')}
+                                  theme="light"
+                                  secondary
+                                />
+                              )
+                            }
+                            {
+                              (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
+                                <BrixelButtonPrimary
+                                  className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
+                                  disabled={!checkValidateField()}
+                                  rounded
+                                  theme="green"
+                                  themeSat={500}
+                                  label={buttonLabel()}
+                                  rightIcon="arrow-right-small"
+                                  onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                  onShowError={() => setShowError(true)}
+                                />
+                              )
+                            }
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )
-                }
-              </>
-            )
-          }
-        </form>
+                    )
+                  }
+                </>
+              )
+            }
+          </form>
+        </div>
+      
       </div>
-  
-    </div>
+    </>
   );
 };
 
@@ -784,7 +785,6 @@ GetStartedEstimation.propTypes = {
   handleCreateEstimation: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
@@ -885,7 +885,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),
