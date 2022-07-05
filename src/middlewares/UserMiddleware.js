@@ -52,16 +52,24 @@ const checkUser = (store) => (next) => (action) => {
       if (data) data = Object.keys(data).length > 0 ? data : undefined;
       api.user.validateToken(data)
         .then((response) => {
-          if (response.data && response.data.statusCode && response.data.statusCode === 401 && (get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
-            removeCookie('brixelToken');
-            window.location.assign('/tokeninput');
-          } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
-            window.location.assign(`${baseByData.logoutUrl}?url=${get(window, 'location.href', '')}`);
+          if (response.data.valid === true) {
+            api.user.getUserByToken(data)
+              .then((res) => {  
+                api.user.getUser(res.data.id)
+                  .then((res2) => { 
+                    if (get(res2, 'data.language', '').includes('en')) res2.data.language = 'en';
+                    store.dispatch({ type: SET_LOGGED_IN_USER, payload: {user: res2.data} });
+                    if (!hideLoad) store.dispatch({ type: SPINNER_OFF });    
+                  });        
+              });
+            store.dispatch({ type: SPINNER_OFF });
           } else {
-            if (get(response, 'data.user.language', '').includes('en')) response.data.user.language = 'en';
-            store.dispatch({ type: SET_LOGGED_IN_USER, payload: response.data });
+            if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
+              removeCookie('brixelToken');
+              window.location.assign('/tokeninput');
+            } else window.location.assign(`${baseByData.logoutUrl}?url=${get(window, 'location.href', '')}`);
+            if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
           }
-          if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           if (get(window, 'location.href', '').includes('localhost')) {
