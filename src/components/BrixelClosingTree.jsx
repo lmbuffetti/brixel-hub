@@ -8,7 +8,7 @@ import {
 } from 'react-redux';
 import { DateTime } from 'luxon';
 import {
-  BrixelButtonSecondary, BrixelIcon, Helpers, BrixelTabs,
+  BrixelButtonSecondary, BrixelIcon, Helpers,
 } from '@brixel/brixel-components';
 import ReviewOffer from '../Pages/Offers/ReviewOffer';
 import { setSplashType } from '../actions/CommonActions';
@@ -36,6 +36,8 @@ const BrixelClosingTree = (props) => {
   const userType = isBuyer ? 'buyer' : 'seller';
   const [showTabSection, setShowTabSection] = useState(null);
   const [collapsed, setCollapsed] = useState({});
+  const [collapsedOffer, setCollapsedOffer] = useState(null);
+  const [collapsedId, setCollapsedId] = useState(null);
 
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
@@ -311,54 +313,61 @@ const BrixelClosingTree = (props) => {
               <div className="secStatus">
                 {
                   get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
-                    <>
+                    <div className="dis-f jc-b">
+                      <span>Buyer</span>
                       <BrixelIcon
                         icon="locked"
                         color="dark"
-                        className="mb-1"
+                        iconWidth="w-fix-24"
                       />
-                    </>
+                    </div>
                   ) : (
-                    <div>
-                      <div className="dis-f a-c jc-fe jc-fs-lg">
-                        {
-                          get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length > 0 && (
-                            <BrixelIcon
-                              icon={status[statusIdentification('buyer')].icon}
-                              color={status[statusIdentification('buyer')].color}
-                              iconWidth="w-fix-16"
-                            />
-                          )
-                        }
-                        {
-                          statusIdentification('buyer') === 'accepted' && (
-                            <span className="ml-1 txtGreen400 fsize-300 fsize-lg-400">Verified</span>
-                          )
-                        }
-                        {
-                          statusIdentification('buyer') === 'pending' && (
-                            <span className="ml-1 txtYellow400 fsize-300 fsize-lg-400">Pending</span>
-                          )
-                        }
+                    <div className="dis-f jc-b w-perc-100">
+                      <div className="dis-f jc-b w-perc-100">
+                        <div className="">
+                          {
+                            get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length > 0 ? (
+                              <BrixelIcon
+                                icon={status[statusIdentification('buyer')].icon}
+                                color={status[statusIdentification('buyer')].color}
+                                iconWidth="w-fix-24"
+                                className="mr-1"
+                              />
+                            ) : (
+                              <BrixelIcon
+                                icon="check-small"
+                                color="altGrey"
+                                className="mr-1"
+                                iconWidth="w-fix-24"
+                              />
+                            )
+                          }
+                          <span>Buyer</span>
+                        </div>
+                        <div className="div">
+                          {
+                            statusIdentification('buyer') === 'accepted' && (
+                              <span className="ml-1 txtGreen400 fsize-300 fsize-lg-400">Verified</span>
+                            )
+                          }
+                          {
+                            statusIdentification('buyer') === 'pending' && (
+                              <span className="ml-1 txtYellow400 fsize-300 fsize-lg-400">Pending</span>
+                            )
+                          }
+                        </div>
                       </div>
                       {
                         get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length === 0 && (
-                          <div className="dis-f a-c jc-fe jc-fs-lg">
+                          <div className="">
                             {
                               isBuyer ? (
                                 <>
                                 </>
                               ) : (
-                                <>
-                                  <BrixelIcon
-                                    icon={status[statusIdentification('buyer')].icon}
-                                    color={status[statusIdentification('buyer')].color}
-                                    iconWidth="w-fix-16"
-                                  />
-                                  <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
-                                    Pending
-                                  </span>
-                                </>
+                                <span className={`${status[statusIdentification('buyer')].colorText}`}>
+                                  Pending
+                                </span>
                               )
                             }
                           </div>
@@ -370,56 +379,67 @@ const BrixelClosingTree = (props) => {
               </div>
             </div>
             <div className="secDetails">
-              {
-                get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
-                  <>
-                  </>
-                ) : (
-                  <div>
-                    {
-                      get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length === 0 && (
-                        <div className="dis-f a-c jc-fe jc-fs-lg">
-                          {
-                            isBuyer ? (
-                              <BrixelButtonSecondary
-                                className="mt-2"
-                                rounded
-                                label="Add buyer"
-                                onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification/`)}
-                              />
-                            ) : (
-                              <>
-                              </>
-                            )
-                          }
-                        </div>
-                      )
-                    }
-                    {personsInfo('buyer', '')}
-                  </div>
-                )
-              }
+              <div className="p-2">
+                {
+                  get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
+                    <>
+                    </>
+                  ) : (
+                    <div>
+                      {
+                        get(activeSingleClosing, 'stageIdentification.buyer.persons', []).length === 0 ? (
+                          <div className="">
+                            {
+                              isBuyer ? (
+                                <BrixelButtonSecondary
+                                  rounded
+                                  label="Add buyer"
+                                  onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification/`)}
+                                />
+                              ) : (
+                                <>
+                                </>
+                              )
+                            }
+                          </div>
+                        ) : (
+                          <>{personsInfo('buyer', '')} </>
+                        )
+                      }
+                    </div>
+                  )
+                }
+              </div>
             </div>
           </>
         );
       case 'stageFinance':
         return (
           <>
-            {
-              get(activeSingleClosing, 'stageFinance.active', null) === false ? (
-                <>
-                  <BrixelIcon
-                    icon="locked"
-                    color="dark"
-                    className="mb-1"
-                  />
-                </>
-              ) : (
-                <>
-                  {/* TODO */}
-                </>
-              )
-            }
+            <div className="secHead dis-f jc-b p-2 h-fix-56">
+              <span>Buyer</span>
+              {
+                get(activeSingleClosing, 'stageFinance.active', null) === false ? (
+                  <>
+                    <BrixelIcon
+                      icon="locked"
+                      color="dark"
+                      iconWidth="w-fix-24"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <BrixelIcon
+                      icon="locked"
+                      color="dark"
+                      iconWidth="w-fix-24"
+                    />
+                  </>
+                )
+              }
+            </div>
+            <div className="secDetails">
+            </div>
           </>
         );
       default:
@@ -428,32 +448,41 @@ const BrixelClosingTree = (props) => {
             {
               get(activeSingleClosing, `${stage}.active`, null) ? (
                 <>
-                  <BrixelIcon
-                    icon="check-small-fill"
-                    color="green"
-                    className="mb-1"
-                    iconWidth="w-fix-16"
-                  />
-                  <span className="fsize-200 txtGreen400">Locked</span>
-                  {
-                    get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
-                      <span className="fsize-100 txtDark200">
-                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
-                      </span>
-                    ) : (
-                      <span className="fsize-100 txtDark200">-</span>
-                    )
-                  }
+                  <div className="secHead dis-f jc-b p-2 h-fix-56">
+                    <span>Buyer</span>
+                    <BrixelIcon
+                      icon="check-small-fill"
+                      color="green"
+                      className="mb-1"
+                      iconWidth="w-fix-16"
+                    />
+                    <span className="fsize-200 txtGreen400">Locked</span>
+                  </div>
+                  <div className="secDetails">
+                    {
+                      get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
+                        <span className="fsize-100 txtDark200">
+                          {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                        </span>
+                      ) : (
+                        <span className="fsize-100 txtDark200">-</span>
+                      )
+                    }
+                  </div>
                 </>
               ) : (
-                <div
-                  className="pos-r"
-                >
-                  <BrixelIcon
-                    icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
-                    color="dark"
-                  />
-                </div>
+                <>
+                  <div className="secHead dis-f jc-b p-2 h-fix-56">
+                    <span>Buyer</span>
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
+                      color="dark"
+                      iconWidth="w-fix-24"
+                    />
+                  </div>
+                  <div className="secDetails">
+                  </div>
+                </>
               )
             }
           </>
@@ -467,8 +496,8 @@ const BrixelClosingTree = (props) => {
         return (
           <>
 
-            <div className="secHead dis-f jc-b p-2 h-fix-56">
-              <div className="secStatus w-perc-100">
+            <div className="secHead dis-f jc-b h-fix-56">
+              <div className="secStatus p-2 w-perc-100">
                 {
                   get(activeSingleClosing, 'stageOffer.active', null) === false ? (
                     <BrixelIcon
@@ -513,12 +542,12 @@ const BrixelClosingTree = (props) => {
               </div>
 
               {
-                windowDimensions.width >= 1026 && (
-                  <div className="collExBtn px-2">
+                windowDimensions.width >= 1026 &&  get(activeSingleClosing, 'stageOffer.active', null) !== false && (
+                  <div className="collExBtn px-2 dis-f a-c brdSmallLeft brdAltGrey100">
                     <BrixelIcon
-                      icon={collapsed['stageOffer'] ? "arrow-down" :"arrow-up"}
-                      color="dark"
-                      iconWidth="w-fix-16"
+                      icon="dropdown"
+                      color="altGrey"
+                      className={collapsed['stageOffer'] ? "" : "rotateIcon"}
                       onClick={()=> onCollapse('stageOffer')}
                     />
                   </div>
@@ -620,133 +649,190 @@ const BrixelClosingTree = (props) => {
       case 'stageIdentification':
         return (
           <>
-            {
-              get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
-                <>
-                  <BrixelIcon
-                    icon="locked"
-                    color="dark"
-                    className="mb-1"
-                  />
-                </>
-              ) : (
-                <div>
-                  <div className="dis-f a-c jc-fe jc-fs-lg">
-                    {
-                      get(activeSingleClosing, 'stageIdentification.seller.persons', []).length > 0 && (
-                        <BrixelIcon
-                          icon={status[statusIdentification('seller')].icon}
-                          color={status[statusIdentification('seller')].color}
-                          iconWidth="w-fix-16"
-                        />
-                      )
-                    }
-
-                    {
-                      statusIdentification('seller') === 'accepted' && (
-                        <span className="ml-1 txtGreen400">Verified</span>
-                      )
-                    }
-                    {
-                      statusIdentification('seller') === 'pending' && (
-                        <span className="ml-1 txtYellow400">Pending</span>
-                      )
-                    }
-                  </div>
-                  {
-                    get(activeSingleClosing, 'stageIdentification.seller.persons', []).length === 0 && (
-                      <div className="dis-f a-c jc-fe jc-fs-lg">
-                        {
-                          !isBuyer ? (
-                            <BrixelButtonSecondary
-                              className="mt-2"
-                              rounded
-                              label="Add seller"
-                              onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
-                            />
-                          ) : (
-                            <>
+            <div className="secHead dis-f jc-b h-fix-56">
+              <div className="secStatus p-2 w-perc-100">
+                {
+                  get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
+                    <div className="dis-f jc-b">
+                      <span>Seller</span>
+                      <BrixelIcon
+                        icon="locked"
+                        color="dark"
+                        iconWidth="w-fix-24"
+                      />
+                    </div>
+                  ) : (
+                    <div className="dis-f jc-b">
+                      <div className="dis-f jc-b w-perc-100">
+                        <div className="">
+                          {
+                            get(activeSingleClosing, 'stageIdentification.seller.persons', []).length > 0 ? (
                               <BrixelIcon
-                                icon={status[statusIdentification('buyer')].icon}
-                                color={status[statusIdentification('buyer')].color}
-                                iconWidth="w-fix-16"
+                                icon={status[statusIdentification('seller')].icon}
+                                color={status[statusIdentification('seller')].color}
+                                iconWidth="w-fix-24"
+                                className="mr-1"
                               />
-                              <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
-                                Pending
-                              </span>
-                            </>
-                          )
-                        }
+                            ) : (
+                              <>
+                                <BrixelIcon
+                                  icon={status[statusIdentification('buyer')].icon}
+                                  color={status[statusIdentification('buyer')].color}
+                                  iconWidth="w-fix-24"
+                                  className="mr-1"
+                                />
+                              </>
+                            )
+                          }
+                          <span>Seller</span>
+                        </div>
+                        <div className="">
+                          {
+                            statusIdentification('seller') === 'accepted' && (
+                              <span className="ml-1 txtGreen400">Verified</span>
+                            )
+                          }
+                          {
+                            statusIdentification('seller') === 'pending' && (
+                              <span className="ml-1 txtYellow400">Pending</span>
+                            )
+                          }
+                        </div>
                       </div>
-                    )
-                  }
-                  {
-                    !showTabSection && (
-                      <>
-                        {personsInfo('seller', 'mt-2 mx-2 mx-lg-0')}
-                      </>
-                    )
-                  }
-                </div>
-              )
-            }
+                      {
+                        get(activeSingleClosing, 'stageIdentification.seller.persons', []).length === 0 && (
+                          <div className="">
+                            {
+                              !isBuyer ? (
+                                <></>
+                              ) : (
+                                <>
+                                  <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
+                                    Pending
+                                  </span>
+                                </>
+                              )
+                            }
+                          </div>
+                        )
+                      }
+                    </div>
+                  )
+                }
+              </div>
+              {
+                windowDimensions.width >= 1026 && get(activeSingleClosing, 'stageIdentification.active', null) !== false && (
+                  <div className="collExBtn px-2 dis-f a-c brdSmallLeft brdAltGrey100">
+                    <BrixelIcon
+                      icon="dropdown"
+                      color="altGrey"
+                      className={collapsed['stageIdentification'] ? "" : "rotateIcon"}
+                      onClick={()=> onCollapse('stageIdentification')}
+                    />
+                  </div>
+                )
+              }
+            </div>
+            <div className="secDetails">
+              <div className="p-2">
+                {
+                  get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
+                    <>
+                    </>
+                  ) : (
+                    <div>
+                      {
+                        get(activeSingleClosing, 'stageIdentification.seller.persons', []).length === 0 && (
+                          <div className="dis-f a-c jc-fe jc-fs-lg">
+                            {
+                              !isBuyer ? (
+                                <BrixelButtonSecondary
+                                  rounded
+                                  label="Add seller"
+                                  onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
+                                />
+                              ) : (
+                                <>
+                                </>
+                              )
+                            }
+                          </div>
+                        )
+                      }
+                      {personsInfo('seller', '')}
+                    </div>
+                  )
+                }
+              </div>
+            </div>
           </>
         );
       case 'stageFinance':
         return (
           <>
-            {
-              get(activeSingleClosing, 'stageFinance.active', null) === false ? (
-                <>
-                  <BrixelIcon
-                    icon="locked"
-                    color="dark"
-                    className="mb-1"
-                  />
-                </>
-              ) : (
-                <>
-                  {/* TODO */}
-                </>
-              )
-            }
+            <div className="secHead dis-f jc-b p-2 h-fix-56">
+              <span>Seller</span>
+              {
+                get(activeSingleClosing, 'stageFinance.active', null) === false ? (
+                  <>
+                    <BrixelIcon
+                      icon="locked"
+                      color="dark"
+                      iconWidth="w-fix-24"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <BrixelIcon
+                      icon="locked"
+                      color="dark"
+                      iconWidth="w-fix-24"
+                    />
+                  </>
+                )
+              }
+            </div>
+            <div className="secDetails">
+            </div>
           </>
         );
       default:
         return (
           <>
-            {
-              get(activeSingleClosing, `${stage}.active`, null) ? (
-                <>
-                  <BrixelIcon
-                    icon="check-small-fill"
-                    color="green"
-                    className="mb-1"
-                    iconWidth="w-fix-16"
-                  />
-                  <span className="fsize-200 txtGreen400">Locked</span>
-                  {
-                    get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
-                      <span className="fsize-100 txtDark200">
-                        {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
-                      </span>
-                    ) : (
-                      <span className="fsize-100 txtDark200">-</span>
-                    )
-                  }
-                </>
-              ) : (
-                <div
-                  className="pos-r"
-                >
-                  <BrixelIcon
-                    icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
-                    color="dark"
-                    iconWidth={get(activeSingleClosing, `${stage}.active`, null) ? 'w-fix-16' : ''}
-                  />
-                </div>
-              )
-            }
+            <div className="secHead dis-f jc-b p-2 h-fix-56">
+              <span>Seller</span>
+              {
+                get(activeSingleClosing, `${stage}.active`, null) ? (
+                  <>
+                    <BrixelIcon
+                      icon="check-small-fill"
+                      color="green"
+                      iconWidth="w-fix-24"
+                    />
+                    <span className="fsize-200 txtGreen400">Locked</span>
+                    {
+                      get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
+                        <span className="fsize-100 txtDark200">
+                          {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                        </span>
+                      ) : (
+                        <span className="fsize-100 txtDark200">-</span>
+                      )
+                    }
+                  </>
+                ) : (
+                  <div className="pos-r">
+                    <BrixelIcon
+                      icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
+                      color="dark"
+                      iconWidth="w-fix-24"
+                    />
+                  </div>
+                )
+              }
+            </div>
+            <div className="secDetails">
+            </div>
           </>
         );
     }
@@ -754,7 +840,7 @@ const BrixelClosingTree = (props) => {
 
   return (
     <>
-      <div className={`brdRadius shadow-1dp w-perc-100 max-w-fix-1200 ${className} px-0 pt-0 px-lg-3 pt-lg-3 bgWhite closingTree`}>
+      <div className={`w-perc-100 max-w-fix-1200 ${className} px-0 pt-0 px-lg-3 pt-lg-3 closingTree`}>
         <div className="dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
 
@@ -764,26 +850,26 @@ const BrixelClosingTree = (props) => {
               <span className="w-perc-30 pl-2 tt-up">Seller</span>
             </div> */}
 
-            <BrixelTabs
-              className="hide-lg ov-h"
-              classNameUl="ov-y-h"
-              labels={['Buyer', 'Seller']}
-              clicksList={['buyer', 'seller']}
-              onClick={(val) => setShowTabSection(val)}
-              activeTab={showTabSection}
-              fullWidth
-            />
+            {/*  <BrixelTabs
+                className="hide-lg ov-h"
+                classNameUl="ov-y-h"
+                labels={['Buyer', 'Seller']}
+                clicksList={['buyer', 'seller']}
+                onClick={(val) => setShowTabSection(val)}
+                activeTab={showTabSection}
+                fullWidth
+              /> */}
 
             {
               closingStage.map((stage, i) => (
                 <div
-                  className={`tableWrapper mb-3 shadow-3dp ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${collapsed[stage.stageName] ? 'collapsed' : ''}`}
+                  className={`tableWrapper brdRadius mb-3 shadow-3dp ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${collapsed[stage.stageName] || (i === 0 && collapsedOffer) || (i === 1 && collapsedId)  ? 'collapsed' : ''}`}
                   key={`clsStg_${i.toString()}`}
                 >
 
                   <div className="tableItem">
                     <div className="secHead p-2 h-fix-56 dis-f jc-b">
-                      <div className="div">
+                      <div className="">
                         <span
                           className={`brdCircle bgGreen400 dis-ib h-fix-24 w-fix-24 txtWhite ta-c ff-mono fsize300`}>
                           {i + 1}
@@ -793,17 +879,48 @@ const BrixelClosingTree = (props) => {
                         </span>
                       </div>
                       {
-                        windowDimensions.width < 1026 && (
-                          <div className="collExBtn px-2">
-                            <BrixelIcon
-                              icon={collapsed['stageOffer'] ? "arrow-down" :"arrow-up"}
-                              color="dark"
-                              iconWidth="w-fix-16"
-                              onClick={()=> onCollapse('stageOffer')}
-                            />
-                          </div>
+                        get(activeSingleClosing, `${stage.stageName}.active`, null) ? (
+                          <>
+                            {
+                              windowDimensions.width < 1026 && i === 0 && (
+                                <div className="collExBtn pl-2">
+                                  <BrixelIcon
+                                    icon="dropdown"
+                                    color="altGrey"
+                                    className={collapsedOffer ? "" : "rotateIcon"}
+                                    onClick={()=> setCollapsedOffer(!collapsedOffer)}
+                                  />
+                                </div>
+                              )
+                            }
+                            {
+                              windowDimensions.width < 1026 && i === 1 && (
+                                <div className="collExBtn pl-2">
+                                  <BrixelIcon
+                                    icon="dropdown"
+                                    color="altGrey"
+                                    className={collapsedId ? "" : "rotateIcon"}
+                                    onClick={()=> setCollapsedId(!collapsedId)}
+                                  />
+                                </div>
+                              )
+                            }
+                          </>
+                        ) : (
+                          <>
+                            {
+                              windowDimensions.width < 1026 && (
+                                <BrixelIcon
+                                  icon="locked"
+                                  color="dark"
+                                  iconWidth="w-fix-24"
+                                />
+                              )
+                            }
+                          </>
                         )
                       }
+
                     </div>
                     <div className="secDetails closed">
                       <span className="p-2 dis-b fsize-300" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
@@ -815,19 +932,12 @@ const BrixelClosingTree = (props) => {
                   <div className="tableItem">
                     {sellerSection(stage.stageName)}
                   </div>
-                  {
-                    stage.stageName === 'stageIdentification' && (
-                      <>
-                        {personsInfo(showTabSection, 'mb-2 mx-2 mx-lg-0')}
-                      </>
-                    )
-                  }
 
                 </div>
               ))
             }
 
-            {
+            {/*   {
               closingStage.map((stage, i) => (
                 <div
                   className={`offer-container dis-fl-row jc-b ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${closingStage.length > i + 1 ? 'brdSmallBottom brdAltGrey100' : ''} flex-wrap`}
@@ -863,7 +973,7 @@ const BrixelClosingTree = (props) => {
 
                 </div>
               ))
-            }
+            } */}
           </div>
         </div>
       </div>
