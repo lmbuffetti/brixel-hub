@@ -342,6 +342,8 @@ const App = (props) => {
       (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer'))
     ) {
       setShowFooter(true);
+    } else {
+      setShowFooter(false);
     }
     
   }, [history.location.pathname, dashWrapperEl, [...el].length]);
