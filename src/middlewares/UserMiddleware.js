@@ -95,25 +95,28 @@ const checkUser = (store) => (next) => (action) => {
       api.user.getToken(data, { rememberMe: true })
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
-            setCookie('brixelToken', res.data.token);
-            if (addProperty) {
-              const dataProperty = action.payload;
-              dataProperty.token = res.data.token;
-              dataProperty.owner = res.data.user.id;
-              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
-            } else if (addSearchProfile) {
-              const dataProfile = action.payload;
-              dataProfile.token = res.data.token;
-              dataProfile.dataSearchProfile.user = res.data.user.id;
-              store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
-            } else if (redirectTo) {
-              store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
-            } else if (createEstimation) {
-              const dataProperty = action.payload;
-              dataProperty.token = res.data.token;
-              dataProperty.owner = res.data.user.id;
-              store.dispatch({ type: CREATE_ESTIMATION, payload: dataProperty });
-            }
+            api.user.getUserByToken(action.payload)
+              .then((res1) => { 
+                setCookie('brixelToken', res.data.token);
+                if (addProperty) {
+                  const dataProperty = action.payload;
+                  dataProperty.token = res.data.token;
+                  dataProperty.owner = res1.data.id;
+                  store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
+                } else if (addSearchProfile) {
+                  const dataProfile = action.payload;
+                  dataProfile.token = res.data.token;
+                  dataProfile.dataSearchProfile.user = res1.data.id;
+                  store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
+                } else if (redirectTo) {
+                  store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+                } else if (createEstimation) {
+                  const dataProperty = action.payload;
+                  dataProperty.token = res.data.token;
+                  dataProperty.owner = res1.data.id;
+                  store.dispatch({ type: CREATE_ESTIMATION, payload: dataProperty });
+                }
+              });
           } else {
             const alertProps = {
               message: 'Email and password combination are invalid.',
