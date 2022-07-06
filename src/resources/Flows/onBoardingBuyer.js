@@ -55,25 +55,6 @@ export const QuestionsList = (lang, type) => {
 
   return [
     {
-      conditions: [{
-        name: 'owner',
-        value: null,
-      }],
-      background: 'bgCardGreen',
-      history: 'createProfile',
-      component: LoginSignup,
-      signupTitle: translateTo('Create your profile to save your progress.'),
-      loginTitle: translateTo('Login to your profile to save your progress.'),
-      cardType: 'createProfile',
-      inputs: [{
-        skipPhone: true,
-        component: LoginSignup,
-        name: 'register.name',
-        validation: [Validation.required],
-      }],
-      hideSearchProfile: true,
-    },
-    {
       title: type === 'searchProfile' ? translateTo('Property Type') : translateTo('What kind of property would you like to buy?'),
       subtitle: translateTo('Choose between apartment, house and building land.'),
       history: 'propertyType',
