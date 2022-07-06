@@ -799,9 +799,9 @@ const BrixelClosingTree = (props) => {
               <span className="w-perc-40 tt-up">Process</span>
               <span className="w-perc-30 px-2 tt-up">Buyer</span>
               <span className="w-perc-30 pl-2 tt-up">Seller</span>
-            </div> */}
+            </div>
 
-            {/*  <BrixelTabs
+             <BrixelTabs
                 className="hide-lg ov-h"
                 classNameUl="ov-y-h"
                 labels={['Buyer', 'Seller']}
