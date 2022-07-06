@@ -84,49 +84,15 @@
 /* on boarding custom styles*/
 .flowWrapper {
   min-height: 100%;
+  .innerWrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
   .packageFlow {
 
     #multiStepForm {
 
-      .brixel-checkbox-icon.radioBtnImg,
-      .brixel-radio-button-icon.radioBtnImg {
-        /*todo styleguide*/
-        label .textLabel {
-          @media (min-width: $responsive-small) {
-            // @include fontStyle(500);
-          }
-        }
-      }
-
-      .brixel-input-step input {
-        // @include fontStyle(600);
-      }
-
-      .brixel-text-input-container .password-trigger,
-      .brixel-text-input-container .validation-icon {
-        // top: 14px;
-      }
-      .brixel-select .dropdown {
-        // height: 46px;
-        .selElement {
-          span {
-           // font-weight: 500;
-           // color: map_get($darkColor, 200);
-          }
-        }
-      }
-      .brixel-select {
-        .mobile-version {
-          select {
-           // @include fontStyle(500);
-          }
-        }
-      }
-      .brixel-select .mobile-version,
-      .brixel-text-input {
-       // @include fontStyle(500);
-       // height: 48px;
-      }
       .extraFeature {
         flex-wrap: wrap;
         display: flex;
@@ -367,7 +333,7 @@
         }
       }
 
-      &.resume {
+      /* &.resume {
         #multiStepForm {
           .multiStepSlides {
 
@@ -386,7 +352,7 @@
             }
           }
         }
-      }
+      } */
 
       .signUpScreen {
 

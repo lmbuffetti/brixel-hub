@@ -29,20 +29,21 @@
 
 .supportBtn {
   position: relative;
+
   @media (max-width: $responsive-medium) {
     background-color: transparent;
     padding-right: 16px;
     padding-top: 24px;
     padding-bottom: 24px;
     #supportBox {
-      bottom: 60px !important;
+      // bottom: 60px !important;
     }
   }
   #supportBox {
     position: absolute;
     z-index: 5;
     padding: 0;
-    bottom: -16px;
+    //bottom: -16px;
     animation: scaleUp $default-time $default-easing forwards;
 
     .send-message {

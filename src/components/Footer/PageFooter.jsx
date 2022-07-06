@@ -19,21 +19,22 @@ function PageFooter(props) {
   } = props;
   // STATE
   const [activeCompanyData, setActiveCompanyData] = useState({});
-  
+
   useEffect(() => {
     if (CompaniesData[activeSingleCompany.stub]) setActiveCompanyData(CompaniesData[activeSingleCompany.stub].footer);
     else setActiveCompanyData(CompaniesData.default.footer);
   }, [activeSingleCompany.id]);
-  
+
   return (
     <>
-      <footer className={`w-perc-100 ${className} ${activeSideBar ? 'footerWrap' : ''}`}>
-        <div className="dis-f a-t jc-b p-3 txtAltGrey400 brdSmallTop brdLight200">
+      <footer className={`footerWrap w-perc-100 ${className} ${activeSideBar ? 'leftPadding' : ''}`}>
+        <div className="a-t jc-b p-1 p-sm-2 brdSmallTop brdAltGrey100">
           <div>
             {
               get(activeSingleCompany, 'links.privacy', null) && (
                 <a
                   href={get(activeSingleCompany, 'links.privacy', null)}
+                  className="fsize-300 txtAltGrey400 link"
                 >
                   Privacy Policy
                 </a>
@@ -43,7 +44,7 @@ function PageFooter(props) {
               get(activeSingleCompany, 'links.privacy', null) && (
                 <a
                   href={get(activeSingleCompany, 'links.terms', null)}
-                  className="ml-2"
+                  className="ml-2 fsize-300 txtAltGrey400 link"
                 >
                   Terms and Conditions
                 </a>
@@ -52,8 +53,8 @@ function PageFooter(props) {
           </div>
           {
             get(activeCompanyData, 'logos', []).length > 0 && (
-              <div className="dis-f a-c">
-                <span className="mr-2">Powered by</span>
+              <div className="dis-f jc-c a-c max-h-fix-20">
+                <span className="mr-2 fsize-300 txtAltGrey400">Powered by</span>
                 {
                   get(activeCompanyData, 'logos', []).map((logo, i) => (
                     <img
@@ -67,8 +68,8 @@ function PageFooter(props) {
               </div>
             )
           }
-          <div>
-            @Brixel {new Date().getFullYear()}
+          <div className="ta-r">
+            <span className="fsize-300 txtAltGrey400">@Brixel {new Date().getFullYear()}</span>
           </div>
         </div>
       </footer>

@@ -9,7 +9,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
   BrixelProgressBar,
-  DataByCountry,
+  DataByCountry, translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -41,6 +41,7 @@ import { createEstimation } from '../../actions/EstimationActions';
 const cookie = new Cookies();
 
 const GetStartedEstimation = (props) => {
+  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -604,7 +605,7 @@ const GetStartedEstimation = (props) => {
 
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -750,7 +751,7 @@ const GetStartedEstimation = (props) => {
                                   rounded
                                   theme="green"
                                   themeSat={500}
-                                  label={buttonLabel()}
+                                  label={translateTo(buttonLabel())}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                   onShowError={() => setShowError(true)}

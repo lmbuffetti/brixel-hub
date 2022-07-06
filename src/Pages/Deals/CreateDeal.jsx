@@ -41,18 +41,18 @@ const CreateDeal = (props) => {
   };
   const {
     activeSingleProperty,
+    activeSingleCompany,
     handleCreateDeal,
     formValue,
     destroyForm,
-    loggedInUser,
   } = props;
-
+  
   const {
     factsOptions,
   } = FactsOptions;
-
+  
   useEffect(() => () => destroyForm(), []);
-
+  
   const actionOptions = [
     {
       label: 'Marked Page as favorite',
@@ -75,13 +75,13 @@ const CreateDeal = (props) => {
       value: 'phone-call',
     },
   ];
-
+  
   const checkValidateField = () => {
     let isValid = false;
     if (get(formValue, 'email', null) && get(formValue, 'name', null) && get(formValue, 'stage', null) && get(formValue, 'actionStub', null)) isValid = true;
     return isValid;
   };
-
+  
   const createNewDeal = () => {
     const payload = {
       link: `/${activeSingleProperty.id}/prospects`,
@@ -89,13 +89,13 @@ const CreateDeal = (props) => {
       leadName: formValue.name,
       leadEmail: formValue.email,
       leadPhone: formValue.phone,
-      company: loggedInUser.user.company.id,
+      company: activeSingleCompany.stub,
       stage: formValue.stage,
       actionStub: formValue.actionStub,
     };
     handleCreateDeal(payload);
   };
-
+  
   return (
     <SplashScreen
       closeLink={`/${activeSingleProperty.id}/prospects`}
@@ -212,8 +212,8 @@ const CreateDeal = (props) => {
 
 CreateDeal.propTypes = {
   destroyForm: PropTypes.func.isRequired,
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
   handleCreateDeal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
 };
@@ -222,6 +222,7 @@ CreateDeal.defaultProps = {};
 
 const mapStateToProps = (state) => ({
   isLoading: get(state, 'common.isLoading', 0) > 0,
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', null),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.CreateDeal.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),

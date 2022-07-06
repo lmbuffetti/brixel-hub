@@ -125,7 +125,7 @@ function RightHeaderFlow(props) {
   return (
     <div className="dis-f a-c">
       {
-        !loggedInUser.token ? (
+        !loggedInUser.id ? (
           <div className="">
             <BrixelDropdown
               noBorder
@@ -172,7 +172,7 @@ RightHeaderFlow.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   lang: get(state, 'common.language', ''),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   pageState: get(state, 'common.setPageData', {}),
   property: get(state, 'property.activeSingleProperty', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
