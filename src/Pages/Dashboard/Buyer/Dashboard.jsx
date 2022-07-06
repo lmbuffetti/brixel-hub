@@ -91,6 +91,7 @@ const Dashboard = (props) => {
   }, [propID, activeSingleProperty.id]);
 
   useEffect(() => {
+    console.log(propID + '');
     if (propID && propID !== 'propertyLists' && loggedInUser.id) {
       const data = {
         fullVersion: false,
@@ -160,7 +161,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany.id', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', []),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
