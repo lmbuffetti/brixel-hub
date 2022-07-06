@@ -31,10 +31,12 @@ import { translateTo } from '@brixel/brixel-components';
 const cookie = new Cookies();
 
 const GetStarted = (props) => {
+  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
   };
+  
   // PROPS
   const {
     changeFieldValue,
@@ -111,9 +113,9 @@ const GetStarted = (props) => {
     }
     setCompanyURL(defComp);
   }, []);
-
+  
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted buyerHub notranslate">
+    <div id="bodyModalWrapper" className={`withHeader getStarted buyerHub ${isOpenTransifex ? '' : 'notranslate'}`}>
       <div
         className={`bodyModal ${get(quest, 'history', '')}`}
       >
