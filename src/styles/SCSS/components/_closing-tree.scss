@@ -67,6 +67,7 @@
 .tableWrapper {
   display: flex;
   background-color: white;
+  position: relative;
 
   &.locked {
     filter: grayscale(1);
@@ -91,6 +92,13 @@
       }
     }
     flex-direction: column;
+
+    .collExBtn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      border: 0;
+    }
   }
   .tableItem {
     width: 33.33%;
