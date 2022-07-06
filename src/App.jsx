@@ -174,13 +174,9 @@ const App = (props) => {
       Transifex.live.onReady(() => {
         setIsLoaded(true);
       });
-    } else {
-      setIsLoaded(true);
-      const element = document.getElementsByTagName('BODY')[0];
-      element.classList.remove('txlive');
     }
     if (typeof Transifex !== 'undefined') {
-      const channel = 'frontend-dev';
+      const channel = 'frontend-bugs';
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
@@ -191,6 +187,9 @@ const App = (props) => {
       Transifex.live.onError(function (err) {
         data.meta += `${JSON.stringify(err)} - ${data.meta}`;
         handleSendSlackNotifications({ data, channel });
+        setIsLoaded(true);
+        const element = document.getElementsByTagName('BODY')[0];
+        element.classList.remove('txlive');
       });
     }
   }, [localTransifex, loggedInUser, activeSingleCompany.id]);
@@ -343,6 +342,8 @@ const App = (props) => {
       (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer'))
     ) {
       setShowFooter(true);
+    } else {
+      setShowFooter(false);
     }
     
   }, [history.location.pathname, dashWrapperEl, [...el].length]);

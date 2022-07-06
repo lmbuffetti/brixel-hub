@@ -52,16 +52,24 @@ const checkUser = (store) => (next) => (action) => {
       if (data) data = Object.keys(data).length > 0 ? data : undefined;
       api.user.validateToken(data)
         .then((response) => {
-          if (response.data && response.data.statusCode && response.data.statusCode === 401 && (get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
-            removeCookie('brixelToken');
-            window.location.assign('/tokeninput');
-          } else if (response.data && response.data.statusCode && response.data.statusCode === 401) {
-            window.location.assign(`${baseByData.logoutUrl}?url=${get(window, 'location.href', '')}`);
+          if (response.data.valid === true) {
+            api.user.getUserByToken(data)
+              .then((res) => {  
+                api.user.getUser(res.data.id)
+                  .then((res2) => { 
+                    if (get(res2, 'data.language', '').includes('en')) res2.data.language = 'en';
+                    store.dispatch({ type: SET_LOGGED_IN_USER, payload: {user: res2.data} });
+                    if (!hideLoad) store.dispatch({ type: SPINNER_OFF });    
+                  });        
+              });
+            store.dispatch({ type: SPINNER_OFF });
           } else {
-            if (get(response, 'data.user.language', '').includes('en')) response.data.user.language = 'en';
-            store.dispatch({ type: SET_LOGGED_IN_USER, payload: response.data });
+            if ((get(window, 'location.hostname', '').includes('localhost') || get(window, 'location.hostname', '').includes('192.168'))) {
+              removeCookie('brixelToken');
+              window.location.assign('/tokeninput');
+            } else window.location.assign(`${baseByData.logoutUrl}?url=${get(window, 'location.href', '')}`);
+            if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
           }
-          if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
         })
         .catch(() => {
           if (get(window, 'location.href', '').includes('localhost')) {
@@ -87,25 +95,28 @@ const checkUser = (store) => (next) => (action) => {
       api.user.getToken(data, { rememberMe: true })
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
-            setCookie('brixelToken', res.data.token);
-            if (addProperty) {
-              const dataProperty = action.payload;
-              dataProperty.token = res.data.token;
-              dataProperty.owner = res.data.user.id;
-              store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
-            } else if (addSearchProfile) {
-              const dataProfile = action.payload;
-              dataProfile.token = res.data.token;
-              dataProfile.dataSearchProfile.user = res.data.user.id;
-              store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
-            } else if (redirectTo) {
-              store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
-            } else if (createEstimation) {
-              const dataProperty = action.payload;
-              dataProperty.token = res.data.token;
-              dataProperty.owner = res.data.user.id;
-              store.dispatch({ type: CREATE_ESTIMATION, payload: dataProperty });
-            }
+            api.user.getUserByToken(action.payload)
+              .then((res1) => { 
+                setCookie('brixelToken', res.data.token);
+                if (addProperty) {
+                  const dataProperty = action.payload;
+                  dataProperty.token = res.data.token;
+                  dataProperty.owner = res1.data.id;
+                  store.dispatch({ type: CREATE_ACTIVE_SINGLE_PROPERTY, payload: dataProperty });
+                } else if (addSearchProfile) {
+                  const dataProfile = action.payload;
+                  dataProfile.token = res.data.token;
+                  dataProfile.dataSearchProfile.user = res1.data.id;
+                  store.dispatch({ type: CREATE_USER_SEARCH_PROFILE, payload: dataProfile });
+                } else if (redirectTo) {
+                  store.dispatch({ type: REDIRECT_TO, payload: { history: redirectTo } });
+                } else if (createEstimation) {
+                  const dataProperty = action.payload;
+                  dataProperty.token = res.data.token;
+                  dataProperty.owner = res1.data.id;
+                  store.dispatch({ type: CREATE_ESTIMATION, payload: dataProperty });
+                }
+              });
           } else {
             const alertProps = {
               message: 'Email and password combination are invalid.',
