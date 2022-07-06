@@ -337,7 +337,6 @@ const App = (props) => {
     }
 
     if (
-      !isFlow &&
       !history.location.pathname.includes('sell') &&
       (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer'))
     ) {
