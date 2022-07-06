@@ -49,7 +49,7 @@ const GetStarted = (props) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [companyURL, setCompanyURL] = useState('');
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  const [quest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
 
   const singleStepRef = useRef(null);
@@ -60,6 +60,11 @@ const GetStarted = (props) => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
+  
+  useEffect(() => {
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0])
+  }, [lang]);
+  
 
   // FUNCTION TO SAVE DATA
   useEffect(() => {
