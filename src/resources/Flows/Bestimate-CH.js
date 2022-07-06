@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { translateTo } from '@brixel/brixel-components';
 import {
   BrixelInputStepNumber,
   BrixelInputText,
@@ -10,8 +11,8 @@ import ResumeBestimate from '../../Pages/Bestimate/ResumeBestimate';
 export const BestimateCH = (type = null, propertyType) => {
   const bestimate = [
     {
-      title: type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'Please tell us some more details' : 'How many bathrooms does the property have?'}` : 'Step 1',
-      extraInfo: 'We need some extra information about your property.',
+      title: translateTo(type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'Please tell us some more details' : 'How many bathrooms does the property have?'}` : 'Step 1'),
+      extraInfo: translateTo('We need some extra information about your property.'),
       history: type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'step1' : 'bathrooms'}` : '',
       cardType: 'step1',
       className: type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : ''}` : '',
@@ -31,16 +32,16 @@ export const BestimateCH = (type = null, propertyType) => {
           unit: 'm2',
           minLengthNum: 1,
           maxLengthNum: 99999,
-          labelLeft: 'Lot Size',
+          labelLeft: translateTo('Lot Size'),
           placeholder: 'e.g. 140',
           validation: [Validation.required],
         },
         {
           component: BrixelInputStepNumber,
           className: 'two-cols',
-          label: type === 'getStarted' ? null : 'How many bathrooms does the property have?',
+          label: translateTo(type === 'getStarted' ? null : 'How many bathrooms does the property have?'),
           name: 'properties.typology.bathrooms',
-          labelLeft: `${type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'Bathrooms' : ''}` : 'Bathrooms'}`,
+          labelLeft: translateTo(`${type === 'getStarted' ? `${propertyType !== 'Apartment' ? 'Bathrooms' : ''}` : 'Bathrooms'}`),
           step: 1,
           classNameBox: `${type === 'getStarted' ? `${propertyType !== 'Apartment' ? '' : 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius px-2 px-sm-5 py-5 m-a'}` : ''}`,
           min: 0,
@@ -55,10 +56,10 @@ export const BestimateCH = (type = null, propertyType) => {
   if (type !== 'getStarted') {
     bestimate.push(
       {
-        title: 'Result Page',
+        title: translateTo('Result Page'),
         toSave: true,
         vCentered: true,
-        subtitle: 'Sales strategy & price',
+        subtitle: translateTo('Sales strategy & price'),
         history: 'resumeFlow',
         cardType: 'loadComponent',
         component: ResumeBestimate,
