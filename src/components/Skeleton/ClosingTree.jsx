@@ -17,7 +17,7 @@ const ClosingTree = (props) => {
         alt="Sckeleton Card Loading"
         id="cartello"
         src={SkeletonClosingCard}
-        className={`notranslate w-perc-100 bgWhite ${className}`}
+        className={`notranslate brdRadius w-perc-100 bgWhite ${className}`}
       />
     </>
   );

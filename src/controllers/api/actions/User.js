@@ -4,13 +4,8 @@ import ep from '../../endPoints.constant';
 
 class Property extends Base {
   validateToken(token) {
-    const url = ep.user.tokenValidationWithUser();
+    const url = ep.user.validateToken();
     return this.apiClient.get(url, { token });
-  }
-
-  getToken(data, remeberMe) {
-    const url = ep.user.getToken();
-    return this.apiClient.get(url, { type: 'login' }, remeberMe, {}, data);
   }
 
   recoverPassword(email) {
@@ -18,9 +13,21 @@ class Property extends Base {
     return this.apiClient.put(url, {}, {});
   }
 
+  getUserByToken(token) {
+    const url = ep.user.userByToken();
+    return this.apiClient.get(url, {
+      token,
+    });
+  }
+
   createUser(data) {
     const url = ep.user.createUser();
     return this.apiClient.post(url, {}, data);
+  }
+
+  getUser(id) {
+    const url = ep.user.userById(id);
+    return this.apiClient.get(url, {});
   }
 
   updateUser(id, data) {
