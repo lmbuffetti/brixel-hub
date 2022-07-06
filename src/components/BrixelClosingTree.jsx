@@ -55,7 +55,7 @@ const BrixelClosingTree = (props) => {
       onClick: (action) => onClickOffer(action),
       stageName: 'stageOffer',
       subtitle: get(activeSingleOffer, 'offer.amount', 0) > 0 ?
-        `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
+        `<span class="fsize-400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="fsize-400 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
         'Add your first offer to start.',
       title: 'Offer',
     },
@@ -141,9 +141,9 @@ const BrixelClosingTree = (props) => {
     const stageText = cloneDeep(closingStage);
     if (get(activeSingleDeal, 'id', null)) {
       if (get(activeSingleOffer, 'offer.status', '') === 'rejected') {
-        stageText[0].subtitle = `<span class="ff-mono fsize-300 txtRed400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1 txtRed400">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span><span class="ml-1 txtRed400">(Rejected)</span>`;
+        stageText[0].subtitle = `<span class="fsize-400 txtRed400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="fsize-400 ml-1 txtRed400">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span><span class="ml-1 txtRed400">(Rejected)</span>`;
       } else if (get(activeSingleOffer, 'offer.amount', 0) > 0) {
-        stageText[0].subtitle = `<span class="ff-mono fsize-300">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-300 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>`;
+        stageText[0].subtitle = `<span class="fsize-400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="fsize-400 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>`;
       }
       if (statusIdentification(userType) === 'pending' && (!showTabSection || (showTabSection === userType))) {
         stageText[1].subtitle = 'Identification currently being verified';
@@ -156,16 +156,16 @@ const BrixelClosingTree = (props) => {
 
   if (!activeSingleDeal.id) {
     return (
-      <div className={`closing-tree brdRadius shadow-1dp dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
+      <div className={`closing-tree dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
         <div className="body dis-fl-row">
-          <div className="phases dis-fl-col h-perc-100 w-perc-100 px-sm-5 px-1 txtDark700 bgWhite">
+          <div className="phases dis-fl-col h-perc-100 w-perc-100">
             {
               sectionNumber.map((item, i) => (
                 <div
                   key={`sctNm_${i.toString()}`}
                   className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}
                 >
-                  <div className="hide dis-b-md mt-6">
+                  <div className="hide dis-b-md">
                     <ClosingTree />
                   </div>
                 </div>
@@ -850,7 +850,7 @@ const BrixelClosingTree = (props) => {
 
                     </div>
                     <div className="secDetails closed">
-                      <span className="p-2 dis-b fsize-300" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
+                      <span className="p-2 dis-b fsize-400" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
                     </div>
                   </div>
                   <div className="tableItem">
