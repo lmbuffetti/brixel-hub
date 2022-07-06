@@ -1049,3 +1049,11 @@ input::-webkit-date-and-time-value {
     @include fontStyle(900);
   }
 }
+
+.p-0-i {
+  padding: 0 !important;
+}
+
+.rotateIcon {
+  transform: rotate(180deg);
+}

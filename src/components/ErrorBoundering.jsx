@@ -63,6 +63,19 @@ class ErrorBoundary extends Component {
       return (
         <BrixelPage500
           errorMessage="You can try again or go back to the dashboard"
+          buttons={[
+            {
+              label: 'Go to the dashboard',
+              type: 'primary',
+              onClick: () => window.location.assign('/'),
+            },
+            {
+              className: 'ml-2',
+              label: 'Try again',
+              type: 'secondary',
+              onClick: () => window.location.reload(),
+            }
+          ]}
         />
       );
     }
