@@ -9,7 +9,6 @@ import last from 'lodash/last';
 import get from 'lodash/get';
 import { DataByCountry } from '@brixel/brixel-components';
 import { formatNum } from '../../utils/helpers';
-import { generalTranslate } from '../../utils/translation';
 
 function RangePriceChart(props) {
   const {
@@ -20,7 +19,6 @@ function RangePriceChart(props) {
     title,
     showTopLabel,
     subtitle,
-    lang,
   } = props;
   const cfg = {
     barTransitionDuration: 800,
@@ -270,10 +268,10 @@ function RangePriceChart(props) {
             let titleTooltip = '';
             switch (type) {
               case 'priceRange':
-                titleTooltip = generalTranslate(lang, 'Median price');
+                titleTooltip = 'Median price';
                 break;
               case 'priceM2':
-                titleTooltip = generalTranslate(lang, 'Median price/m2');
+                titleTooltip = 'Median price/m2';
                 break;
               default:
                 titleTooltip = '';
@@ -350,12 +348,10 @@ RangePriceChart.propTypes = {
   subtitle: PropTypes.bool,
   title: PropTypes.string,
   type: PropTypes.string.isRequired,
-  lang: PropTypes.string,
 };
 
 RangePriceChart.defaultProps = {
   bestimate: null,
-  lang: 'en',
   showTopLabel: true,
   subtitle: false,
   title: null,

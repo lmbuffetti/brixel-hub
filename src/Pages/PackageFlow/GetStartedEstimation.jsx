@@ -41,6 +41,7 @@ import { createEstimation } from '../../actions/EstimationActions';
 const cookie = new Cookies();
 
 const GetStartedEstimation = (props) => {
+  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -604,7 +605,7 @@ const GetStartedEstimation = (props) => {
 
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')} notranslate`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">

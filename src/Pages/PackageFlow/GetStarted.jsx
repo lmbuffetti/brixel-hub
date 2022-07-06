@@ -26,14 +26,17 @@ import { QuestionsList } from '../../resources/Flows/onBoarding';
 import { spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
+import { translateTo } from '@brixel/brixel-components';
 
 const cookie = new Cookies();
 
 const GetStarted = (props) => {
+  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
   };
+  
   // PROPS
   const {
     changeFieldValue,
@@ -48,7 +51,7 @@ const GetStarted = (props) => {
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
   const [companyURL, setCompanyURL] = useState('');
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  const [quest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
 
   const singleStepRef = useRef(null);
@@ -59,6 +62,11 @@ const GetStarted = (props) => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
+  
+  useEffect(() => {
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0])
+  }, [lang]);
+  
 
   // FUNCTION TO SAVE DATA
   useEffect(() => {
@@ -105,9 +113,9 @@ const GetStarted = (props) => {
     }
     setCompanyURL(defComp);
   }, []);
-
+  
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
+    <div id="bodyModalWrapper" className={`withHeader getStarted buyerHub ${isOpenTransifex ? '' : 'notranslate'}`}>
       <div
         className={`bodyModal ${get(quest, 'history', '')}`}
       >
@@ -126,7 +134,10 @@ const GetStarted = (props) => {
                       <div className="ta-c max-w-fix-456 m-a">
                         {
                           quest.title && (
-                            <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-800 fweight-600 txtDark700 px-1 px-sm-0`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            <h3
+                              className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-800 fweight-600 txtDark700 px-1 px-sm-0`}
+                              dangerouslySetInnerHTML={{ __html: translateTo(quest.title) }}
+                            />
                           )
                         }
                       </div>

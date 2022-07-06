@@ -10,7 +10,7 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   DataByCountry,
-} from '@brixel/brixel-components';
+  translateTo } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
   initializeForm,
@@ -41,6 +41,7 @@ import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserA
 const cookie = new Cookies();
 
 const GetStartedSeller = (props) => {
+  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -536,7 +537,7 @@ const GetStartedSeller = (props) => {
 
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -664,7 +665,7 @@ const GetStartedSeller = (props) => {
                             disabled={!checkValidateField()}
                             rounded
                             theme="green"
-                            label={buttonLabel()}
+                            label={translateTo(buttonLabel())}
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}

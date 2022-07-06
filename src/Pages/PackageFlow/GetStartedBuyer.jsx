@@ -9,7 +9,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
   BrixelProgressBar,
-} from '@brixel/brixel-components';
+  translateTo } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
   initializeForm,
@@ -40,6 +40,7 @@ import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 const cookie = new Cookies();
 
 const GetStartedBuyer = (props) => {
+  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -465,7 +466,7 @@ const GetStartedBuyer = (props) => {
 
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
         {
           (get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile') && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -612,7 +613,7 @@ const GetStartedBuyer = (props) => {
                                   saturation={400}
                                   theme="green"
                                   rounded
-                                  label={buttonLabel()}
+                                  label={translateTo(buttonLabel())}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                 />
@@ -622,7 +623,7 @@ const GetStartedBuyer = (props) => {
                                   disabled={!checkValidateField()}
                                   rounded
                                   theme="green"
-                                  label={buttonLabel()}
+                                  label={translateTo(buttonLabel())}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                   onShowError={() => setShowError(true)}

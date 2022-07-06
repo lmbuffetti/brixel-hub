@@ -10,7 +10,7 @@ import { factsOptions } from '@brixel/brixel-components/dist/constants/Facts';
 import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
 import LoginSignup from '../../components/LoginSignup';
 // import ResumeCard from '../components/ResumeCard';
-import { translateTo } from '../../utils/translation';
+import { translateTo } from '@brixel/brixel-components';
 import { configureStore } from '../../store';
 import { svgIcons } from '../Utilities/svgIcons';
 
@@ -18,7 +18,7 @@ import { svgIcons } from '../Utilities/svgIcons';
 export const maxLengthNum = (val, name) => (value) => {
   let error = null;
   if (value && value >= val) {
-    error = name === 'year' ? `Year can't be after ${val}` : `The ${name} have to be less then ${val}`;
+    error = name === 'year' ? translateTo(`Year can't be after ${val}`) : translateTo(`The ${name} have to be less then ${val}`);
   }
   return error;
 };
@@ -26,7 +26,7 @@ export const maxLengthNum = (val, name) => (value) => {
 export const minLengthNum = (val, name) => (value) => {
   let error = null;
   if (value && value <= val) {
-    error = name === 'year' ? `Too old! year can't be before ${val}` : `The ${name} have to be more then ${val}`;
+    error = name === 'year' ? translateTo(`Too old! year can't be before ${val}`) : translateTo(`The ${name} have to be more then ${val}`);
   }
   return error;
 };
@@ -43,12 +43,12 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   if (configureStore && !propType) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
-  let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
-  if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
+  let livingAreaTitle = country === 'PT' ? translateTo('What is the gross area size?') : translateTo('What is the living space size?');
+  if (propertyType === 'Commercial') livingAreaTitle = translateTo('What is the floor size?');
   const question = [
     {
-      title: translateTo(lang, 'What type of property do you have?'),
-      /* subtitle: translateTo(lang, 'Choose between apartment, house, building land and commercial.'), */
+      title: translateTo('What type of property do you have?'),
+      /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
       history: 'propertyType',
       footerWidth: 'max-w-fix-992',
       inputs: [{
@@ -68,38 +68,38 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         isHorizontal: true,
         options: [
           {
-            label: translateTo(lang, 'Apartment'),
+            label: translateTo('Apartment'),
             value: 'Apartment',
             img: svgIcons.apartment,
             color: 'blue',
           },
           {
-            label: translateTo(lang, 'House'),
+            label: translateTo('House'),
             value: 'House',
             img: svgIcons.house,
             color: 'blue',
           },
           {
-            label: translateTo(lang, 'Building Land'),
+            label: translateTo('Building Land'),
             value: 'Building land',
             img: svgIcons.land,
             color: 'blue',
           },
           {
-            label: translateTo(lang, 'Commercial'),
+            label: translateTo('Commercial'),
             value: 'Commercial',
             img: svgIcons.commercial,
             color: 'blue',
           },
         ],
       }],
-      successMessage: translateTo(lang, 'Ok. Got it.'),
+      successMessage: translateTo('Ok. Got it.'),
     },
   ];
   if (propertyType === 'Apartment' || propertyType === 'House') {
     question.push(
       {
-        title: translateTo(lang, 'How many rooms?'),
+        title: translateTo('How many rooms?'),
         history: 'allRooms',
         cardType: 'allRooms',
         footerWidth: 'max-w-fix-384',
@@ -124,7 +124,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             }
           },
         ],
-        successMessage: translateTo(lang, 'This is a nice number.'),
+        successMessage: translateTo('This is a nice number.'),
       },
       {
         title: livingAreaTitle,
@@ -151,10 +151,10 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             }
           },
         ],
-        successMessage: translateTo(lang, 'Great living space.'),
+        successMessage: translateTo('Great living space.'),
       },
       {
-        title: translateTo(lang, 'What is the construction year?'),
+        title: translateTo('What is the construction year?'),
         history: 'constructionYear',
         cardType: 'constructionYear',
         footerWidth: 'max-w-fix-384',
@@ -165,14 +165,14 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             name: 'properties.building.built',
             type: 'number',
             classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-            placeholder: translateTo(lang, 'e.g. 1990'),
+            placeholder: translateTo('e.g. 1990'),
             validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
             maxLengthNum: 9999,
             minLengthNum: 999,
             large: true,
           },
         ],
-        successMessage: translateTo(lang, 'A good year for real estate.'),
+        successMessage: translateTo('A good year for real estate.'),
       },
     );
   }
@@ -199,7 +199,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             large: true,
           },
         ],
-        successMessage: translateTo(lang, 'Great living space.'),
+        successMessage: translateTo('Great living space.'),
       },
       {
         title: 'What is the Usable lot size?',
@@ -221,7 +221,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             large: true,
           },
         ],
-        successMessage: translateTo(lang, 'Great living space.'),
+        successMessage: translateTo('Great living space.'),
       },
     );
   }
@@ -243,7 +243,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             validation: [Validation.required],
           },
         ],
-        successMessage: translateTo(lang, 'Great living space.'),
+        successMessage: translateTo('Great living space.'),
       },
       {
         title: 'What\'s the floor space of the property?',
@@ -265,10 +265,10 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             large: true,
           },
         ],
-        successMessage: translateTo(lang, 'Great living space.'),
+        successMessage: translateTo('Great living space.'),
       },
       {
-        title: translateTo(lang, 'What is the construction year?'),
+        title: translateTo('What is the construction year?'),
         history: 'constructionYear',
         cardType: 'constructionYear',
         footerWidth: 'max-w-fix-384',
@@ -279,20 +279,20 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             name: 'properties.building.built',
             type: 'number',
             classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-            placeholder: translateTo(lang, 'e.g. 1990'),
+            placeholder: translateTo('e.g. 1990'),
             validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
             maxLengthNum: 9999,
             minLengthNum: 999,
             large: true,
           },
         ],
-        successMessage: translateTo(lang, 'A good year for real estate.'),
+        successMessage: translateTo('A good year for real estate.'),
       },
     );
   }
   question.push(
     {
-      title: translateTo(lang, 'What is the location?'),
+      title: translateTo('What is the location?'),
       history: 'locationInput',
       cardType: 'locationInput',
       footerWidth: 'max-w-fix-600',
@@ -316,7 +316,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       ],
     },
     {
-      title: translateTo(lang, 'Is this your correct location?'),
+      title: translateTo('Is this your correct location?'),
       history: 'locationInputResume',
       cardType: 'locationInputResume',
       footerWidth: 'max-w-fix-600',
@@ -343,7 +343,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   if (country === 'PT') {
     question.push(
       {
-        title: translateTo(lang, 'Property condition'),
+        title: translateTo('Property condition'),
         history: 'propertyCondition',
         cardType: 'propertyCondition',
         footerWidth: 'max-w-fix-384',
@@ -368,8 +368,8 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       background: 'bgCardGreen',
       history: 'createProfile',
       component: LoginSignup,
-      signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
-      loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
+      signupTitle: translateTo('Create your profile to save your progress.'),
+      loginTitle: translateTo('Login to your profile to save your progress.'),
       cardType: 'createProfile',
       inputs: [{
         skipPhone: true,
