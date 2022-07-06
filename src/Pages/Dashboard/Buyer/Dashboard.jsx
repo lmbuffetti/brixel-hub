@@ -91,7 +91,6 @@ const Dashboard = (props) => {
   }, [propID, activeSingleProperty.id]);
 
   useEffect(() => {
-    console.log(propID + '');
     if (propID && propID !== 'propertyLists' && loggedInUser.id) {
       const data = {
         fullVersion: false,
