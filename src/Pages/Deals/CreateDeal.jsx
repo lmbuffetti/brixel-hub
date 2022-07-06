@@ -46,13 +46,13 @@ const CreateDeal = (props) => {
     formValue,
     destroyForm,
   } = props;
-
+  
   const {
     factsOptions,
   } = FactsOptions;
-
+  
   useEffect(() => () => destroyForm(), []);
-
+  
   const actionOptions = [
     {
       label: 'Marked Page as favorite',
@@ -75,13 +75,13 @@ const CreateDeal = (props) => {
       value: 'phone-call',
     },
   ];
-
+  
   const checkValidateField = () => {
     let isValid = false;
     if (get(formValue, 'email', null) && get(formValue, 'name', null) && get(formValue, 'stage', null) && get(formValue, 'actionStub', null)) isValid = true;
     return isValid;
   };
-
+  
   const createNewDeal = () => {
     const payload = {
       link: `/${activeSingleProperty.id}/prospects`,
@@ -95,7 +95,7 @@ const CreateDeal = (props) => {
     };
     handleCreateDeal(payload);
   };
-
+  
   return (
     <SplashScreen
       closeLink={`/${activeSingleProperty.id}/prospects`}
