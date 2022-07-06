@@ -156,17 +156,17 @@ const BrixelClosingTree = (props) => {
 
   if (!activeSingleDeal.id) {
     return (
-      <div className={`closing-tree dis-fl-col w-perc-100 max-w-fix-1056 ${className}`}>
+      <div className={`closing-tree max-w-fix-1200 dis-fl-col w-perc-100 ${className}`}>
         <div className="body dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100">
             {
               sectionNumber.map((item, i) => (
                 <div
                   key={`sctNm_${i.toString()}`}
-                  className={`offer-container py-3 dis-fl-row a-c jc-b ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}
+                  className={`offer-container ${get(activeSingleClosing, 'stageOffer.active', null) ? 'active' : 'locked'}`}
                 >
                   <div className="hide dis-b-md">
-                    <ClosingTree />
+                    <ClosingTree className="bgWhite my-3 shadow-3dp brdRadius" />
                   </div>
                 </div>
               ))
