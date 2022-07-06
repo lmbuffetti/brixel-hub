@@ -41,10 +41,10 @@ const CreateDeal = (props) => {
   };
   const {
     activeSingleProperty,
+    activeSingleCompany,
     handleCreateDeal,
     formValue,
     destroyForm,
-    loggedInUser,
   } = props;
 
   const {
@@ -89,7 +89,7 @@ const CreateDeal = (props) => {
       leadName: formValue.name,
       leadEmail: formValue.email,
       leadPhone: formValue.phone,
-      company: loggedInUser.user.company.id,
+      company: activeSingleCompany.stub,
       stage: formValue.stage,
       actionStub: formValue.actionStub,
     };
@@ -212,8 +212,8 @@ const CreateDeal = (props) => {
 
 CreateDeal.propTypes = {
   destroyForm: PropTypes.func.isRequired,
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  loggedInUser: PropTypes.object.isRequired,
   handleCreateDeal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
 };
@@ -222,6 +222,7 @@ CreateDeal.defaultProps = {};
 
 const mapStateToProps = (state) => ({
   isLoading: get(state, 'common.isLoading', 0) > 0,
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', null),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.CreateDeal.values', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
