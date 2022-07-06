@@ -26,6 +26,7 @@ import { QuestionsList } from '../../resources/Flows/onBoarding';
 import { spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
+import { translateTo } from '../../utils/translation';
 
 const cookie = new Cookies();
 
@@ -107,7 +108,7 @@ const GetStarted = (props) => {
   }, []);
 
   return (
-    <div id="bodyModalWrapper" className="withHeader getStarted buyerHub">
+    <div id="bodyModalWrapper" className="withHeader getStarted buyerHub notranslate">
       <div
         className={`bodyModal ${get(quest, 'history', '')}`}
       >
@@ -126,7 +127,10 @@ const GetStarted = (props) => {
                       <div className="ta-c max-w-fix-456 m-a">
                         {
                           quest.title && (
-                            <h3 className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-800 fweight-600 txtDark700 px-1 px-sm-0`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            <h3
+                              className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-800 fweight-600 txtDark700 px-1 px-sm-0`}
+                              dangerouslySetInnerHTML={{ __html: translateTo(quest.title) }}
+                            />
                           )
                         }
                       </div>

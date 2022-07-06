@@ -8,9 +8,9 @@ import { translateTo } from '../../utils/translation';
 
 import homesSvg from '../../images/getstarted/svgs/homes.svg';
 // QUESTION LISTS
-export const QuestionsList = (lang) => [
+export const QuestionsList = () => [
   {
-    title: translateTo(lang, 'Hello, what can we do for you?'),
+    title: translateTo('Hello, what can we do for you?'),
     history: '',
     vCentered: true,
     bgImg: homesSvg,
@@ -30,26 +30,26 @@ export const QuestionsList = (lang) => [
       isHorizontal: true,
       options: [
         {
-          label: 'I want to start <b style="vertical-align:revert">selling</b>',
+          label: translateTo('I want to start <b style="vertical-align:revert">selling</b>'),
           value: 'seller',
           img: svgIcons.selling,
           color: 'blue',
         },
         {
-          label: 'I want to <b style="vertical-align:revert">estimate</b> a property',
+          label: translateTo('I want to <b style="vertical-align:revert">estimate</b> a property'),
           value: 'estimation',
           img: svgIcons.estimate,
           color: 'green',
         },
         {
-          label: 'I want to <b style="vertical-align:revert">buy</b> a property',
+          label: translateTo('I want to <b style="vertical-align:revert">buy</b> a property'),
           value: 'buyer',
           img: svgIcons.buy,
           color: 'red',
         },
       ],
     }],
-    successMessage: translateTo(lang, 'Ok. Got it.'),
+    successMessage: translateTo('Ok. Got it.'),
   },
   {
     history: 'savingData',
