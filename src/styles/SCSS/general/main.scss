@@ -615,6 +615,11 @@ sub {
   &:not([class*=txt]) {
     color: map_get($primaryColor, 400);
   }
+  &:focus,
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
 }
 
 .transY-100 {

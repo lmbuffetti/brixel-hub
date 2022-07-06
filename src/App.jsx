@@ -494,7 +494,9 @@ const App = (props) => {
                       <MenuSidebar />
                     )
                   }
-                  <div className="w-perc-100 innerWrap">
+                  <div
+                    className="w-perc-100 innerWrap"
+                  >
                     <Routes>
                       <Route path="/500" element={<ErrorBoundering />} />
                       { /* SECTION: ONBOARDING */}
@@ -570,43 +572,44 @@ const App = (props) => {
                       }
                       <Route path="*" element={<Navigate to="/sell" />} />
                     </Routes>
-                    <div
-                      className="dis-fl-col a-b jc-fe supportBtn"
-                    >
-                      {
-                        showSupport && (
-                          <Support
-                            layout="floatable"
-                            expanded
-                            isFixed
-                            onClose={() => setShowSupport(false)}
-                          />
-                        )
-                      }
-                      {
-                        !showSupport && (
-                          <div
-                            className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
-                            onClick={() => setShowSupport(!showSupport)}
-                          >
-                            <div className="dis-f jc-b a-c">
-                              {
-                                teamAvatars.map((imgTeam, i) => (
-                                  <img
-                                    key={`avt_${i.toString()}`}
-                                    src={`${baseByData.shortPath}${imgTeam.path}`}
-                                    alt="Support Team"
-                                    className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
-                                  />
-                                ))
-                              }
-                            </div>
-                            <span className="ml-2 txtDark700 fweight-500">Support</span>
-                          </div>
-                        )
-                      }
-                    </div>
                   </div>
+                  <div
+                    className="dis-fl-col a-b jc-fe supportBtn"
+                  >
+                    {
+                      showSupport && (
+                        <Support
+                          layout="floatable"
+                          expanded
+                          isFixed
+                          onClose={() => setShowSupport(false)}
+                        />
+                      )
+                    }
+                    {
+                      !showSupport && (
+                        <div
+                          className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                          onClick={() => setShowSupport(!showSupport)}
+                        >
+                          <div className="dis-f jc-b a-c">
+                            {
+                              teamAvatars.map((imgTeam, i) => (
+                                <img
+                                  key={`avt_${i.toString()}`}
+                                  src={`${baseByData.shortPath}${imgTeam.path}`}
+                                  alt="Support Team"
+                                  className="w-fix-32 mr-1-neg square brdLarge brdWhite brdCircle"
+                                />
+                              ))
+                            }
+                          </div>
+                          <span className="ml-2 txtDark700 fweight-500">Support</span>
+                        </div>
+                      )
+                    }
+                  </div>
+
                   {
                     showFooter && (
                       <PageFooter
@@ -614,6 +617,7 @@ const App = (props) => {
                       />
                     )
                   }
+
                 </div>
               </div>
 

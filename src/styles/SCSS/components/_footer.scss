@@ -1,14 +1,31 @@
-footer {
+footer.footerWrap {
   position: sticky;
   left: 0;
   bottom: 0;
   z-index: 100;
+
+
+
+
   > div {
     background: #F7F6F5;
+    display: flex;
+
+    @media (max-width: $responsive-small) {
+      flex-direction: column;
+    }
+
+    > div {
+      width: 33.33%;
+      @media (max-width: $responsive-small) {
+       width: 100%;
+       text-align: center;
+      }
+    }
   }
-  &.footerWrap {
+  &.leftPadding {
     @media (min-width: $responsive-medium) {
-      padding-left: 236px;
+       padding-left: 236px;
     }
   }
 }
