@@ -162,12 +162,13 @@ const App = (props) => {
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
+    let lang = 'en';
     if (loggedInUser.user && localTransifex) {
-      const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
+      lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
       handleSetLanguage(lang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang || 'en');
     } else if (activeSingleCompany.id && !loggedInUser.user) {
-      const lang = cookies.get('brixelLang') || activeSingleCompany.language.code;
+      lang = cookies.get('brixelLang') || activeSingleCompany.language.code;
       handleSetLanguage(lang);
     }
     if (typeof Transifex !== 'undefined') {

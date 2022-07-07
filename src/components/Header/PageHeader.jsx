@@ -4,7 +4,7 @@ import {
   BrixelAvatar,
   BrixelButtonIcon,
   BrixelIcon,
-  FactsOptions,
+  FactsOptions, translateTo,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import {
@@ -338,8 +338,12 @@ function PageHeader(props) {
                             openMenu && (
                               <div className="hubMenu">
                                 <ul>
-                                  <li onClick={() => onClickMenu('/sell')}>Sell</li>
-                                  <li onClick={() => onClickMenu('/buy')}>Buy</li>
+                                  <li onClick={() => onClickMenu('/sell')}>
+                                    {translateTo('Sell', lang)}
+                                  </li>
+                                  <li onClick={() => onClickMenu('/buy')}>
+                                    {translateTo('Buy', lang)}
+                                  </li>
                                 </ul>
                               </div>
                             )
@@ -355,6 +359,7 @@ function PageHeader(props) {
                           smallLayout={windowDimensions.width < 1025 ? !!isFlow : !isFlow}
                           xSmallMobile={windowDimensions.width < 480}
                           stepIndexProgress={history.location.pathname.includes('welcomeSeller') ? 0 : stepIndexProgrss}
+                          lang={lang}
                         />
                       </div>
                     )
@@ -385,20 +390,22 @@ function PageHeader(props) {
                       propID !== 'buy' && propID !== 'sell' && !get(history, 'location.pathname', null).includes('buyer/')
                     ) && (
                       <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
-                        <span className="hide dis-b-md">Your Plan:&nbsp;</span>
+                        <span className="hide dis-b-md">
+                          {translateTo('Your Plan:', lang)}
+                        </span>
                         {
                           has(ownerProperties, 'total') || get(activeSingleProperty, 'id', null) ? (
                             <span
                               className="fweight-600 td-u-colored dis-f cur-poi"
                               onClick={() => onUpgrade()}
                             >
-                              {packageName}
+                              {translateTo(packageName, lang)}
                             </span>
                           ) : (
                             <span
                               className="fweight-600 dis-f cur-poi txtLight400 bgLight400"
                             >
-                              Loading...
+                              {translateTo('Loading...', lang)}
                             </span>
                           )
                         }
@@ -494,19 +501,19 @@ function PageHeader(props) {
                                       className="link txtDark700 fweight-500 fsize-300 mb-2"
                                       href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                                     >
-                                      Password
+                                      {translateTo('Password', lang)}
                                     </a>
                                     <a
                                       className="link txtDark700 fweight-500 fsize-300 mb-2"
                                       href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                                     >
-                                      Preferences
+                                      {translateTo('Preferences', lang)}
                                     </a>
                                     <a
                                       className="link txtDark700 fweight-500 fsize-300"
                                       href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                     >
-                                      Logout
+                                      {translateTo('Logout', lang)}
                                     </a>
                                   </div>
                                 </>
@@ -531,12 +538,12 @@ function PageHeader(props) {
                                         propID && userType === 'seller' && (
                                           <div>
                                             <div className="ws-nw flex-nowrap dis-f a-c txtDark700">
-                                              <span>Your Plan:&nbsp;</span>
+                                              <span>{translateTo('Your Plan:', lang)}</span>
                                               <span
                                                 className="fweight-600 td-u-colored dis-f cur-poi"
                                                 onClick={() => onUpgrade()}
                                               >
-                                                {packageName}
+                                                {translateTo(packageName, lang)}
                                               </span>
                                             </div>
                                           </div>
@@ -576,19 +583,19 @@ function PageHeader(props) {
                                         className="link txtDark700 fweight-500 fsize-300 mb-2"
                                         href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                                       >
-                                        Password
+                                        {translateTo('Password', lang)}
                                       </a>
                                       <a
                                         className="link txtDark700 fweight-500 fsize-300 mb-2"
                                         href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                                       >
-                                        Preferences
+                                        {translateTo('Preferences', lang)}
                                       </a>
                                       <a
                                         className="link txtDark700 fweight-500 fsize-300"
                                         href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                       >
-                                        Logout
+                                        {translateTo('Logout', lang)}
                                       </a>
                                     </div>
                                   </div>
@@ -614,7 +621,7 @@ function PageHeader(props) {
               getCurrentRoute().title && (
                 <div className="dis-fl-row a-c jc-b">
                   <h4 className="fweight-700 pt-2">
-                    {getCurrentRoute().title}
+                    {translateTo(getCurrentRoute().title, lang)}
                   </h4>
                 </div>
               )

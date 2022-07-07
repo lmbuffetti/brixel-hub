@@ -8,15 +8,15 @@ export const PackageFlow = (lang) => [
       name: 'signup',
       value: true,
     }],
-    title: translateTo('Welcome to the home of your home.'),
-    subtitle: translateTo('You earned the <span class=txtGreen400>"Newcomer"</span> Award and +100 Brixels.'),
+    title: translateTo('Welcome to the home of your home.', lang),
+    subtitle: translateTo('You earned the <span class=txtGreen400>"Newcomer"</span> Award and +100 Brixels.', lang),
     history: 'rewardsStep',
     cardType: 'RewardsStep',
     background: 'bgBlue100',
     img: brixelComingTown,
   },
   {
-    title: translateTo('What do you need the market check for?'),
+    title: translateTo('What do you need the market check for?', lang),
     component: BrixelRadioButton,
     history: 'ownerType',
     inputs: [
@@ -28,38 +28,38 @@ export const PackageFlow = (lang) => [
     ],
     options: [
       {
-        label: translateTo('I would like to sell my property'),
+        label: translateTo('I would like to sell my property', lang),
         value: 'seller',
       },
       {
-        label: translateTo('Because of an inheritance or transfer within the family'),
+        label: translateTo('Because of an inheritance or transfer within the family', lang),
         value: 'inheritance',
       },
       {
-        label: translateTo("I just want to know the price development of my property. I don't want to sell"),
+        label: translateTo("I just want to know the price development of my property. I don't want to sell", lang),
         value: 'price-development',
       },
       {
-        label: translateTo('I would like to conclude or renew my mortgage'),
+        label: translateTo('I would like to conclude or renew my mortgage', lang),
         value: 'mortgage',
       },
       {
-        label: translateTo('I would like to buy a property'),
+        label: translateTo('I would like to buy a property', lang),
         value: 'buyer',
       },
       {
-        label: translateTo('Just out of curiosity'),
+        label: translateTo('Just out of curiosity', lang),
         value: 'curiosity',
       },
       {
-        label: translateTo('Other reason'),
+        label: translateTo('Other reason', lang),
         value: 'other',
       },
     ],
     icons: true,
   },
   {
-    title: translateTo('When do you want to sell?'),
+    title: translateTo('When do you want to sell?', lang),
     component: BrixelRadioButton,
     conditions: [{
       name: 'ownerType',
@@ -75,22 +75,22 @@ export const PackageFlow = (lang) => [
     ],
     options: [
       {
-        label: translateTo('As soon as possible'),
+        label: translateTo('As soon as possible', lang),
         value: 'asap',
       },
       {
-        label: translateTo('In a few months'),
+        label: translateTo('In a few months', lang),
         value: 'few-months',
       },
       {
-        label: translateTo("I don't want to sell now"),
+        label: translateTo("I don't want to sell now", lang),
         value: 'no-sell',
       },
     ],
     icons: true,
   },
   {
-    title: translateTo('When do you want to sell?'),
+    title: translateTo('When do you want to sell?', lang),
     component: BrixelRadioButton,
     conditions: [{
       name: 'ownerType',
@@ -106,11 +106,11 @@ export const PackageFlow = (lang) => [
     ],
     options: [
       {
-        label: translateTo('I am a first time buyer'),
+        label: translateTo('I am a first time buyer', lang),
         value: 'first-time-buyer',
       },
       {
-        label: translateTo('I already own a property'),
+        label: translateTo('I already own a property', lang),
         value: 'owned-property',
       },
     ],

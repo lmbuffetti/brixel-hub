@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelIcon, BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelButtonIcon, Helpers, translateTo } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import {
@@ -19,6 +19,7 @@ const Support = (props) => {
     hideClose,
     isFixed,
     isSmallLoading,
+    lang,
     layout,
     onClose,
     requestDone,
@@ -74,7 +75,7 @@ const Support = (props) => {
               {
                 layout !== 'floatable' ? (
                   <div>
-                    <p className="txtDark200 mb-2">Need support?</p>
+                    <p className="txtDark200 mb-2">{translateTo('Need support?', lang)}</p>
                     <h5 className="txtDark700">{companyLegalName}</h5>
                   </div>
                 ) : (
@@ -97,7 +98,7 @@ const Support = (props) => {
                     }
                     {
                       layout !== 'floatable' && (
-                        <span className="ml-2 txtLight400">Support</span>
+                        <span className="ml-2 txtLight400">{translateTo('Support', lang)}</span>
                       )
                     }
                   </div>
@@ -157,7 +158,9 @@ const Support = (props) => {
               }
               {
                 layout === 'floatable' && (
-                  <span className="mb-2 fweight-600 px-3 pt-1">How can we help?</span>
+                  <span className="mb-2 fweight-600 px-3 pt-1">
+                    {translateTo('How can we help?', lang)}
+                  </span>
                 )
               }
             </div>
@@ -219,8 +222,10 @@ const Support = (props) => {
                 requestDone ? (
                   <>
                     <p className="txtWhite fweight-400 fsize-300 lh-22 pr-2">
-                      <span>Thanks for your message.</span>
-                      <span className="dis-b"> We&apos;ll get back to you shortly.</span>
+                      <span>{translateTo('Thanks for your message.', lang)}</span>
+                      <span className="dis-b">
+                        {translateTo('We\'ll get back to you shortly.', lang)}
+                      </span>
                     </p>
                     <BrixelIcon
                       icon="tick"
@@ -232,7 +237,7 @@ const Support = (props) => {
                   <>
                     <BrixelTextArea
                       className="w-perc-100 pr-2"
-                      placeholder="Write us a message"
+                      placeholder={translateTo("Write us a message", lang)}
                       input={{
                         name: 'supportMessage',
                         value: supportMessage,
@@ -263,21 +268,22 @@ const Support = (props) => {
 Support.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  layout: PropTypes.string,
+  expanded: PropTypes.bool,
   handleSendSupportMessage: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
   hideClose: PropTypes.bool,
   isFixed: PropTypes.bool,
-  expanded: PropTypes.bool,
-  requestDone: PropTypes.bool.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
+  layout: PropTypes.string,
   onClose: PropTypes.func,
+  requestDone: PropTypes.bool.isRequired,
 };
 
 Support.defaultProps = {
-  hideClose: true,
-  layout: 'support',
-  isFixed: true,
   expanded: false,
+  hideClose: true,
+  isFixed: true,
+  layout: 'support',
   onClose: () => '',
 };
 
@@ -285,6 +291,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany.id', null) ? get(state, 'companies.activeSingleCompany', null) : get(state, 'user.loggedInUser.user.company', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', ''),
+  lang: get(state, 'common.language', 'en'),
   requestDone: get(state, 'common.requestDone', false),
 });
 
