@@ -613,7 +613,7 @@ const App = (props) => {
                   </div>
 
                   {
-                    showFooter && (
+                    showFooter && !isSecLevel && (
                       <PageFooter
                         activeSideBar={!isFlow}
                       />
