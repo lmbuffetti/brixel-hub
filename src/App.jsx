@@ -481,6 +481,7 @@ const App = (props) => {
                   ref={dashContentRef}
                 >
                   <PageHeader
+                    showFooter={showFooter}
                     changeZIndex={(index) => { setZIndex(index); }}
                     isFlow={isFlow}
                   />

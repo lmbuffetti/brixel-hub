@@ -62,6 +62,7 @@ function PageHeader(props) {
     packagesProperty,
     userType,
     windowDimensions,
+    showFooter,
   } = props;
   // STATE
   const [langMenu, setLangMenu] = useState([]);
@@ -85,6 +86,10 @@ function PageHeader(props) {
   let propID = history.location.pathname.split('/')[1];
   if (propID === 'buyer') propID = history.location.pathname.split('/')[2];
   if (propID === 'home' || propID === 'seller') propID = null;
+
+  // FOOTER HEIGHT
+  const footer = document.getElementsByClassName('footerWrap')[0];
+  const footerHeight =  footer ? footer.offsetHeight : '';
 
   useEffect(() => {
     if (activeSingleProperty.id) {
@@ -233,10 +238,10 @@ function PageHeader(props) {
   // add shadow header on body scroll
   useEffect(() => {
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
-    const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
+    // const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 5) {
+        /*  if (dashContentEl.scrollTop > 5) {
           dashWrapperEl.classList.add('scrollingHeader');
         } else {
           dashWrapperEl.classList.remove('scrollingHeader');
@@ -245,7 +250,7 @@ function PageHeader(props) {
           dashWrapperEl.classList.add('longScroll');
         } else {
           dashWrapperEl.classList.remove('longScroll');
-        }
+        } */
         if (showMobileMenu) {
           dashContentEl.classList.add('menuOn');
           dashContentEl.style.overflowY = 'hidden';
@@ -467,7 +472,7 @@ function PageHeader(props) {
 
                         <div
                           className="mobile-menu w-perc-100 dis-fl-col a-c zIndex3"
-                          style={{ height: showMobileMenu ? windowDimensions.height - 67 : '0px' }}
+                          style={{ height: showMobileMenu ? (showFooter ? windowDimensions.height - footerHeight : windowDimensions.height ) : '0px' }}
                         >
                           <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
                             {
@@ -636,6 +641,7 @@ PageHeader.propTypes = {
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  showFooter: PropTypes.bool.isRequired,
 };
 
 PageHeader.defaultProps = {

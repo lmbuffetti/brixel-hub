@@ -501,7 +501,7 @@ const SingleDeal = (props) => {
                 </div>
 
                 {/* bottom panel */}
-                <div className="bottom dis-fl-col dis-fl-row-sm brdSmall brdAltGrey100 brdRadius bgLight100 px-2 w-perc-100 h-perc-100 py-3 pos-r">
+                <div className="bottom dis-fl-col dis-fl-row-sm w-perc-100 h-perc-100 py-3 pos-r">
                   <OptionsDropdown
                     btnClass="shadow-3dp"
                     className="pos-a-fix x-t-0 x-r-0 mt-2-neg"
@@ -510,7 +510,7 @@ const SingleDeal = (props) => {
                   <Timeline
                     countryLang={userLang}
                     isDeal
-                    className="col-12 col-sm-6"
+                    className="col-12 col-sm-6 p-0"
                   />
                   <div className="dis-fl-col-md col-12 col-sm-6">
                     {
@@ -567,7 +567,7 @@ const SingleDeal = (props) => {
                     }
 
                     <span className="overline mb-3">Offer</span>
-                    <div className="brdRadius shadow-1dp pos-r dis-fl-col p-small-12 w-perc-100">
+                    <div className="brdRadius shadow-1dp pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
                       <div className="dis-fl-row jc-b">
                         <div className="dis-f a-c">
                           <BrixelIcon
