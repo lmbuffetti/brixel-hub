@@ -483,6 +483,7 @@ const App = (props) => {
                   ref={dashContentRef}
                 >
                   <PageHeader
+                    showFooter={showFooter}
                     changeZIndex={(index) => { setZIndex(index); }}
                     isFlow={isFlow}
                   />
@@ -615,7 +616,7 @@ const App = (props) => {
                   </div>
 
                   {
-                    showFooter && (
+                    showFooter && !isSecLevel && (
                       <PageFooter
                         activeSideBar={!isFlow}
                       />
