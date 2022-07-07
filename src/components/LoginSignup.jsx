@@ -43,10 +43,11 @@ const LoginSignup = (props) => {
     handleRecoverPassword,
     handleSetFormError,
     isSmallLoading,
-    onChangeLogin,
-    onDisableValidation,
+    lang,
     loggedInUser,
     notification,
+    onChangeLogin,
+    onDisableValidation,
     onSubmit,
     skipPhone,
   } = props;
@@ -204,23 +205,6 @@ const LoginSignup = (props) => {
     <div className="signUpScreen pos-r dis-f flex-wrap w-perc-100">
       <div className="m-a mt-0 max-w-fix-600 w-perc-100">
         <div className="mr-a ml-a onBoardingSignUp">
-          {/* {
-            (loginPage === 'register' || loginPage === 'login') && (
-              <h3 className="txtWhite fweight-600 ta-c mb-5">
-                {
-                  loginPage === 'register' && (
-                    <> {translateTo(lang, 'Create free profile to save')} </>
-                  )
-                }
-                {
-                  loginPage === 'login' && (
-                    <> {translateTo(lang, 'Login to your profile to save your progress.')} </>
-                  )
-                }
-              </h3>
-            )
-          } */}
-
           {
             (loginPage === 'register' || loginPage === 'login' || loginPage === 'reset') && (
               <>
@@ -231,7 +215,7 @@ const LoginSignup = (props) => {
                         {
                           get(formError, 'state', false) && (
                             <p className="txtRed400">
-                              {translateTo(get(formError, 'message', ''))}
+                              {translateTo(get(formError, 'message', ''), lang)}
                             </p>
                           )
                         }
@@ -239,10 +223,11 @@ const LoginSignup = (props) => {
                           company={company}
                           formName="GetStarted"
                           showErrors={showErrors}
+                          lang={lang}
                         />
                         <p className="mt-1">
                           <BrixelButtonText
-                            label={translateTo("Forgot password?")}
+                            label={translateTo("Forgot password?", lang)}
                             onClick={() => changeScreen('reset')}
                           />
                         </p>
@@ -255,14 +240,14 @@ const LoginSignup = (props) => {
                         {
                           get(formError, 'state', false) && (
                             <p className="txtRed400">
-                              {translateTo(get(formError, 'message', ''))}
+                              {translateTo(get(formError, 'message', ''), lang)}
                             </p>
                           )
                         }
                         {
                           get(notification[0], 'state', false) && get(notification[0], 'type', '') === 'done' && (
                             <p className="txtGreen400">
-                              {translateTo('Registration complete.')}
+                              {translateTo('Registration complete.', lang)}
                             </p>
                           )
                         }
@@ -272,6 +257,7 @@ const LoginSignup = (props) => {
                           company={company}
                           formName="GetStarted"
                           showErrors={showErrors}
+                          lang={lang}
                           // validateEmail
                           skipPhone={skipPhone}
                         />
@@ -292,6 +278,7 @@ const LoginSignup = (props) => {
                           company={company}
                           formName="GetStarted"
                           showErrors={showErrors}
+                          lang={lang}
                         />
                         {
                           get(notification[0], 'label', null) && (
@@ -301,7 +288,7 @@ const LoginSignup = (props) => {
                               </p>
                               <BrixelButtonText
                                 className="mt-2 ml-a mr-a"
-                                label={translateTo('Resend password')}
+                                label={translateTo('Resend password', lang)}
                                 onClick={() => onSubmitForm()}
                               />
                             </>
@@ -313,7 +300,7 @@ const LoginSignup = (props) => {
                   <BrixelButtonPrimary
                     rounded
                     className="ml-a mr-a mt-2 mb-2 minimum-w-210"
-                    label={translateTo(PrimaryButton().label)}
+                    label={translateTo(PrimaryButton().label, lang)}
                     onClick={!disabledButton ? PrimaryButton().action : () => ''}
                     isLoading={isSmallLoading === 'recoverPassword'}
                   />
@@ -322,10 +309,10 @@ const LoginSignup = (props) => {
                   {
                     (loginPage === 'register' || loginPage === 'reset') && (
                       <p className="txtWhite">
-                        <span>{translateTo('Already have an account?')}</span>
+                        <span>{translateTo('Already have an account?', lang)}</span>
                         <span>&nbsp;</span>
                         <span className="cur-poi td-u txtWhite" onClick={() => changeScreen('login')}>
-                          <span>{translateTo('Login here')}</span>
+                          <span>{translateTo('Login here', lang)}</span>
                         </span>
                       </p>
                     )
@@ -333,12 +320,12 @@ const LoginSignup = (props) => {
                   {
                     loginPage === 'login' && (
                       <p className="txtWhite">
-                        <span>{translateTo('Login or')}</span>
+                        <span>{translateTo('Login or', lang)}</span>
                         <span
                           className="cur-poi td-u txtWhite ml-small-4"
                           onClick={() => changeScreen('register')}
                         >
-                          <span>{translateTo('create profile here')}</span>
+                          <span>{translateTo('create profile here', lang)}</span>
                         </span>
                       </p>
                     )
@@ -375,36 +362,36 @@ const LoginSignup = (props) => {
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">
-                    {translateTo('"Absolutely perfect and uncomplicated"')}
+                    {translateTo('"Absolutely perfect and uncomplicated"', lang)}
                   </h2>
 
                   <h5 className="ta-c txtPrimary400">M. Hardegger</h5>
                   <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('House sold')}
+                    {translateTo('House sold', lang)}
                   </p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">
-                    {translateTo('"We would sell with Brixel again anytime."')}
+                    {translateTo('"We would sell with Brixel again anytime."', lang)}
                   </h2>
 
                   <h5 className="ta-c txtPrimary400">F. Pfiffner</h5>
                   <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved CHF 30&apos;700')}
+                    {translateTo('Saved CHF 30&apos;700', lang)}
                   </p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">
-                    {translateTo('"Excellent service with flexible fees."')}
+                    {translateTo('"Excellent service with flexible fees."', lang)}
                   </h2>
 
                   <h5 className="ta-c txtPrimary400">M. Callaghan</h5>
                   <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved CHF 44&apos;050')}
+                    {translateTo('Saved CHF 44&apos;050', lang)}
                   </p>
                 </div>
               </Slider>
@@ -413,7 +400,7 @@ const LoginSignup = (props) => {
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">
-                    {translateTo('"Always quick in responding, friendly, professional."')}
+                    {translateTo('"Always quick in responding, friendly, professional."', lang)}
                   </h2>
 
                   <h5 className="ta-c txtPrimary400">Katrien Willems</h5>
@@ -423,24 +410,24 @@ const LoginSignup = (props) => {
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">
-                    {translateTo('"Everything went incredibly well, it doesn\'t even seem real!"')}
+                    {translateTo('"Everything went incredibly well, it doesn\'t even seem real!"', lang)}
                   </h2>
 
                   <h5 className="ta-c txtPrimary400">Luca Benussi</h5>
                   <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved 18.400€')}
+                    {translateTo('Saved 18.400€', lang)}
                   </p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
                   <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600">
-                    {translateTo('"The sale was done even faster than expected."')}
+                    {translateTo('"The sale was done even faster than expected."', lang)}
                   </h2>
 
                   <h5 className="ta-c txtPrimary400">Márcia Traça</h5>
                   <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved 13.000€')}
+                    {translateTo('Saved 13.000€', lang)}
                   </p>
                 </div>
               </Slider>
@@ -463,6 +450,7 @@ LoginSignup.propTypes = {
   handleRecoverPassword: PropTypes.func.isRequired,
   handleSetFormError: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChangeLogin: PropTypes.func,
@@ -480,8 +468,8 @@ LoginSignup.defaultProps = {
 
 const mapStateToProps = (state, ownProps) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
-  formError: get(state, 'common.formError', {}),
   errorValue: get(state, `brixelForm.${ownProps.formName}.syncErrors`, {}),
+  formError: get(state, 'common.formError', {}),
   formValue: get(state, `brixelForm.${ownProps.formName}.values`, {}),
   isSmallLoading: get(state, 'common.isSmallLoading', ''),
   lang: get(state, 'common.language', {}),
