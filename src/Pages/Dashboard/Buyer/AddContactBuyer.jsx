@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
-import { BrixelIcon, BrixelModal } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelModal, translateTo } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { createPropertyVisitBooking } from '../../../actions/PropertyActions';
@@ -26,6 +26,7 @@ const AddContactBuyer = (props) => {
   const {
     activeSingleProperty,
     isSmallLoading,
+    lang,
   } = props;
   const [currentStep, setCurrentStep] = useState('message');
   const [action, setAction] = useState(null);
@@ -41,7 +42,7 @@ const AddContactBuyer = (props) => {
     if (currentStep === 'message') {
       btn = [
         {
-          name: 'Send',
+          name: translateTo('Send', lang),
           func: () => setAction('send'),
           btnType: 'Primary',
           className: 'mr-1',
@@ -66,8 +67,8 @@ const AddContactBuyer = (props) => {
         currentStep === 'message' && (
           <div className="dis-fl-col test">
             <section className="titleSection">
-              <h4 className="mb-2 txtDark700">About you</h4>
-              <h5 className="heading6 txtDark700">How can we reach you?</h5>
+              <h4 className="mb-2 txtDark700">{translateTo('About you', lang)}</h4>
+              <h5 className="heading6 txtDark700">{translateTo('How can we reach you?', lang)}</h5>
               <div className="min-h-
               fix-320"
               >
@@ -86,26 +87,28 @@ const AddContactBuyer = (props) => {
           <div id="messageSent" className="dis-fl-col jc-b h-perc-100 mb-2-neg">
             <section className="titleSection">
               <h6 className="mb-1 txtGreen400 dis-f a-bl">
-                YOUR MESSAGE WAS SENT
+                {translateTo('YOUR MESSAGE WAS SENT', lang)}
               </h6>
-              <h4 className="mb-2 txtDark700">Thank you</h4>
-              <h5 className="heading6 txtDark700">We will contact you as soon as possible.</h5>
+              <h4 className="mb-2 txtDark700">{translateTo('Thank you', lang)}</h4>
+              <h5 className="heading6 txtDark700">
+                {translateTo('We will contact you as soon as possible.', lang)}
+              </h5>
             </section>
             <section
               className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg"
             >
-              <p className="mb-2"><b>Here are 3 tips for a smooth process</b></p>
+              <p className="mb-2"><b>{translateTo('Here are 3 tips for a smooth process', lang)}</b></p>
 
               <ul>
                 <li>
                   <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700} />
                   <div>
-                    <span>Make sure you visited the</span>&nbsp;
+                    <span>{translateTo('Make sure you visited the', lang)}</span>&nbsp;
                     <span
                       className="txtPrimary400 cur-poi"
                       onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}/explore/tour`, '_blank')}
                     >
-                      <span>3D Tour</span>
+                      <span>{translateTo('3D Tour', lang)}</span>
                     </span>
                   </div>
                 </li>
@@ -117,11 +120,11 @@ const AddContactBuyer = (props) => {
                     saturation={200}
                     saturationTxt={700}
                   />
-                  Do not forget to favorite the property to keep all the information in one place
+                  {translateTo('Do not forget to favorite the property to keep all the information in one place', lang)}
                 </li>
                 <li className="redIcon">
                   <BrixelIcon icon="money" color="green" background="green" saturation={200} saturationTxt={700} />
-                  Get in touch with your bank about financing before you visit
+                  {translateTo('Get in touch with your bank about financing before you visit', lang)}
                 </li>
               </ul>
             </section>
@@ -134,6 +137,7 @@ const AddContactBuyer = (props) => {
 
 AddContactBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
 };
 
@@ -147,6 +151,7 @@ const mapStateToProps = (state) => {
     activeSingleCompany,
     formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
+    lang: get(state, 'common.language', 'en'),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     userLang: get(state, 'user.loggedInUser.language', 'en'),
   });

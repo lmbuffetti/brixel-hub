@@ -463,7 +463,7 @@ const App = (props) => {
         )
       }
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''} ${showFooter ? 'activeFooter' : ''}`}
+        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''} ${showFooter ? 'activeFooter' : ''} notranslate`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />
@@ -696,6 +696,7 @@ const App = (props) => {
           {
             modal.state && modal.type === 'bestimate' && (
               <BestimateCardOverlay
+                lang={lang}
                 activeSinglePropertyId={activeSingleProperty.id}
                 clearEstimation={false}
                 type="modal"

@@ -67,6 +67,7 @@ DealsDashboardBuyer.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
+  lang: get(state, 'common.language', 'en'),
 });
 
 export default compose(
