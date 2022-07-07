@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelIcon, FactsOptions,
+  BrixelIcon, FactsOptions, translateTo,
 } from '@brixel/brixel-components';
 
 const { factsOptions } = FactsOptions;
@@ -9,6 +9,7 @@ const { factsOptions } = FactsOptions;
 const ProgressSellerStage = (props) => {
   const {
     className,
+    lang,
     smallLayout,
     stepIndexProgress,
     xSmallMobile,
@@ -17,11 +18,11 @@ const ProgressSellerStage = (props) => {
   const convertLabel = (progress) => {
     switch (progress.value) {
       case 'sales-lead':
-        return 'Onboarding';
+        return translateTo('Onboarding', lang);
       case 'advertising':
-        return 'Marketing';
+        return translateTo('Marketing', lang);
       default:
-        return progress.label;
+        return translateTo(progress.label, lang);
     }
   };
 
@@ -64,6 +65,7 @@ const ProgressSellerStage = (props) => {
 ProgressSellerStage.propTypes = {
   className: PropTypes.string,
   smallLayout: PropTypes.bool,
+  lang: PropTypes.string.isRequired,
   xSmallMobile: PropTypes.bool,
   stepIndexProgress: PropTypes.number.isRequired,
 };

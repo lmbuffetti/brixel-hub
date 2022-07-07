@@ -8,9 +8,9 @@ import { translateTo } from '@brixel/brixel-components';
 
 import homesSvg from '../../images/getstarted/svgs/homes.svg';
 // QUESTION LISTS
-export const QuestionsList = () => [
+export const QuestionsList = (lang) => [
   {
-    title: translateTo('Hello, what can we do for you?'),
+    title: translateTo('Hello, what can we do for you?', lang),
     history: '',
     vCentered: true,
     bgImg: homesSvg,
@@ -30,26 +30,26 @@ export const QuestionsList = () => [
       isHorizontal: true,
       options: [
         {
-          label: translateTo('I want to start <b style="vertical-align:revert">selling</b>'),
+          label: translateTo('I want to start <b style="vertical-align:revert">selling</b>', lang),
           value: 'seller',
           img: svgIcons.selling,
           color: 'blue',
         },
         {
-          label: translateTo('I want to <b style="vertical-align:revert">estimate</b> a property'),
+          label: translateTo('I want to <b style="vertical-align:revert">estimate</b> a property', lang),
           value: 'estimation',
           img: svgIcons.estimate,
           color: 'green',
         },
         {
-          label: translateTo('I want to <b style="vertical-align:revert">buy</b> a property'),
+          label: translateTo('I want to <b style="vertical-align:revert">buy</b> a property', lang),
           value: 'buyer',
           img: svgIcons.buy,
           color: 'red',
         },
       ],
     }],
-    successMessage: translateTo('Ok. Got it.'),
+    successMessage: translateTo('Ok. Got it.', lang),
   },
   {
     history: 'savingData',

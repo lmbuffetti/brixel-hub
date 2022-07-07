@@ -14,40 +14,41 @@ import { translateTo } from '@brixel/brixel-components';
 import { configureStore } from '../../store';
 import { svgIcons } from '../Utilities/svgIcons';
 
-// VALIDATION OF FIELDS
-export const maxLengthNum = (val, name) => (value) => {
-  let error = null;
-  if (value && value >= val) {
-    error = name === 'year' ? translateTo(`Year can't be after ${val}`) : translateTo(`The ${name} have to be less then ${val}`);
-  }
-  return error;
-};
-
-export const minLengthNum = (val, name) => (value) => {
-  let error = null;
-  if (value && value <= val) {
-    error = name === 'year' ? translateTo(`Too old! year can't be before ${val}`) : translateTo(`The ${name} have to be more then ${val}`);
-  }
-  return error;
-};
-
-const minLengthNumYear = minLengthNum(1500, 'year');
-const maxLengthNumRooms = maxLengthNum(31, 'rooms');
-const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
-const maxLengthNumYear = maxLengthNum(2031, 'year');
-
 // QUESTION LISTS
 // eslint-disable-next-line default-param-last
 export const QuestionsList = (lang, country = 'CH', propType) => {
+  
+  // VALIDATION OF FIELDS
+  const maxLengthNum = (val, name) => (value) => {
+    let error = null;
+    if (value && value >= val) {
+      error = translateTo(name === 'year' ? `Year can't be after ${val}` : `The ${name} have to be less then ${val}`, lang);
+    }
+    return error;
+  };
+  
+  const minLengthNum = (val, name) => (value) => {
+    let error = null;
+    if (value && value <= val) {
+      error = translateTo(name === 'year' ? `Too old! year can't be before ${val}` : `The ${name} have to be more then ${val}`, lang);
+    }
+    return error;
+  };
+  
+  const minLengthNumYear = minLengthNum(1500, 'year');
+  const maxLengthNumRooms = maxLengthNum(31, 'rooms');
+  const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
+  const maxLengthNumYear = maxLengthNum(2031, 'year');
+  
   let propertyType = propType;
   if (configureStore && !propType) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
-  let livingAreaTitle = country === 'PT' ? translateTo('What is the gross area size?') : translateTo('What is the living space size?');
-  if (propertyType === 'Commercial') livingAreaTitle = translateTo('What is the floor size?');
+  let livingAreaTitle = translateTo(country === 'PT' ? 'What is the gross area size?' : 'What is the living space size?', lang);
+  if (propertyType === 'Commercial') livingAreaTitle = translateTo('What is the floor size?', lang);
   const question = [
     {
-      title: translateTo('What type of property do you have?'),
+      title: translateTo('What type of property do you have?', lang),
       /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
       history: 'propertyType',
       footerWidth: 'max-w-fix-992',
@@ -68,32 +69,32 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         isHorizontal: true,
         options: [
           {
-            label: translateTo('Apartment'),
+            label: translateTo('Apartment', lang),
             value: 'Apartment',
             img: svgIcons.apartment,
             color: 'blue',
           },
           {
-            label: translateTo('House'),
+            label: translateTo('House', lang),
             value: 'House',
             img: svgIcons.house,
             color: 'blue',
           },
           {
-            label: translateTo('Building Land'),
+            label: translateTo('Building Land', lang),
             value: 'Building land',
             img: svgIcons.land,
             color: 'blue',
           },
           {
-            label: translateTo('Commercial'),
+            label: translateTo('Commercial', lang),
             value: 'Commercial',
             img: svgIcons.commercial,
             color: 'blue',
           },
         ],
       }],
-      successMessage: translateTo('Ok. Got it.'),
+      successMessage: translateTo('Ok. Got it.', lang),
     },
   ];
   if (propertyType === 'Apartment' || propertyType === 'House') {
@@ -119,12 +120,12 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             startFrom: 3,
             large: true,
             tooltip: {
-              label: 'What is this?',
-              description: country === 'PT' ? 'Enter the number of rooms, including rooms with a minimum surface of 9 m² (+1). Kitchen and bathrooms are not counted as a proper room.' : 'Enter the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.',
+              label: translateTo('What is this?', lang),
+              description: translateTo(country === 'PT' ? 'Enter the number of rooms, including rooms with a minimum surface of 9 m² (+1). Kitchen and bathrooms are not counted as a proper room.' : 'Enter the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.', lang),
             }
           },
         ],
-        successMessage: translateTo('This is a nice number.'),
+        successMessage: translateTo('This is a nice number.', lang),
       },
       {
         title: livingAreaTitle,
@@ -146,15 +147,15 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             maxLengthNum: 9999,
             large: true,
             tooltip: {
-              label: 'What is this?',
-              description: country === 'PT' ? 'It is the total area measured by the external perimeter and axes of the walls or other separating elements of the building or property, including closed private balconies, basements, and private attics with the same use as the building or property. Open balconies, garages, and storage are excluded.' : 'The net living space is the part of the usable surface, which is specified for the primary use of the building. Included are entrance and courtyard, mobile walls, interior stairs, and fireplace. Excluded are external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms.',
+              label: translateTo('What is this?', lang),
+              description: translateTo(country === 'PT' ? 'It is the total area measured by the external perimeter and axes of the walls or other separating elements of the building or property, including closed private balconies, basements, and private attics with the same use as the building or property. Open balconies, garages, and storage are excluded.' : 'The net living space is the part of the usable surface, which is specified for the primary use of the building. Included are entrance and courtyard, mobile walls, interior stairs, and fireplace. Excluded are external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms.', lang),
             }
           },
         ],
-        successMessage: translateTo('Great living space.'),
+        successMessage: translateTo('Great living space.', lang),
       },
       {
-        title: translateTo('What is the construction year?'),
+        title: translateTo('What is the construction year?', lang),
         history: 'constructionYear',
         cardType: 'constructionYear',
         footerWidth: 'max-w-fix-384',
@@ -165,14 +166,14 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             name: 'properties.building.built',
             type: 'number',
             classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-            placeholder: translateTo('e.g. 1990'),
+            placeholder: translateTo('e.g. 1990', lang),
             validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
             maxLengthNum: 9999,
             minLengthNum: 999,
             large: true,
           },
         ],
-        successMessage: translateTo('A good year for real estate.'),
+        successMessage: translateTo('A good year for real estate.', lang),
       },
     );
   }
@@ -199,7 +200,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             large: true,
           },
         ],
-        successMessage: translateTo('Great living space.'),
+        successMessage: translateTo('Great living space.', lang),
       },
       {
         title: 'What is the Usable lot size?',
@@ -221,7 +222,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             large: true,
           },
         ],
-        successMessage: translateTo('Great living space.'),
+        successMessage: translateTo('Great living space.', lang),
       },
     );
   }
@@ -243,7 +244,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             validation: [Validation.required],
           },
         ],
-        successMessage: translateTo('Great living space.'),
+        successMessage: translateTo('Great living space.', lang),
       },
       {
         title: 'What\'s the floor space of the property?',
@@ -265,10 +266,10 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             large: true,
           },
         ],
-        successMessage: translateTo('Great living space.'),
+        successMessage: translateTo('Great living space.', lang),
       },
       {
-        title: translateTo('What is the construction year?'),
+        title: translateTo('What is the construction year?', lang),
         history: 'constructionYear',
         cardType: 'constructionYear',
         footerWidth: 'max-w-fix-384',
@@ -279,20 +280,20 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             name: 'properties.building.built',
             type: 'number',
             classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-            placeholder: translateTo('e.g. 1990'),
+            placeholder: translateTo('e.g. 1990', lang),
             validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
             maxLengthNum: 9999,
             minLengthNum: 999,
             large: true,
           },
         ],
-        successMessage: translateTo('A good year for real estate.'),
+        successMessage: translateTo('A good year for real estate.', lang),
       },
     );
   }
   question.push(
     {
-      title: translateTo('What is the location?'),
+      title: translateTo('What is the location?', lang),
       history: 'locationInput',
       cardType: 'locationInput',
       footerWidth: 'max-w-fix-600',
@@ -316,7 +317,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       ],
     },
     {
-      title: translateTo('Is this your correct location?'),
+      title: translateTo('Is this your correct location?', lang),
       history: 'locationInputResume',
       cardType: 'locationInputResume',
       footerWidth: 'max-w-fix-600',
@@ -343,7 +344,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   if (country === 'PT') {
     question.push(
       {
-        title: translateTo('Property condition'),
+        title: translateTo('Property condition', lang),
         history: 'propertyCondition',
         cardType: 'propertyCondition',
         footerWidth: 'max-w-fix-384',
@@ -368,8 +369,8 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       background: 'bgCardGreen',
       history: 'createProfile',
       component: LoginSignup,
-      signupTitle: translateTo('Create your profile to save your progress.'),
-      loginTitle: translateTo('Login to your profile to save your progress.'),
+      signupTitle: translateTo('Create your profile to save your progress.', lang),
+      loginTitle: translateTo('Login to your profile to save your progress.', lang),
       cardType: 'createProfile',
       inputs: [{
         skipPhone: true,
