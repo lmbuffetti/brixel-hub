@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, translateTo } from '@brixel/brixel-components';
 import { destroy } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
@@ -18,6 +18,7 @@ const MenuSidebar = (props) => {
   };
   const {
     activeSingleDeal,
+    lang,
     onClickLink,
     userType,
     windowDimensions,
@@ -71,7 +72,7 @@ const MenuSidebar = (props) => {
                                 icon={nav.icon}
                               />
         
-                              <span className="pl-1">{nav.title}</span>
+                              <span className="pl-1">{translateTo(nav.title, lang)}</span>
       
                             </Link>
                             {
@@ -88,7 +89,7 @@ const MenuSidebar = (props) => {
                                           className={`fsize-400 fweight-400  ${history.location.pathname.includes(submenu.name) ? 'txtBlue700' : 'txtDark700'}`}
                                         >
                                           <span className="dot" />
-                                          <span className="pl-4">{submenu.title}</span>
+                                          <span className="pl-4">{translateTo(submenu.title, lang)}</span>
                                         </Link>
                                       </li>
                                     ))
@@ -113,6 +114,7 @@ const MenuSidebar = (props) => {
 
 MenuSidebar.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   onClickLink: PropTypes.func,
   userType: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
@@ -125,6 +127,7 @@ MenuSidebar.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
+  lang: get(state, 'common.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
   userType: get(state, 'user.userTypes', ''),
 });

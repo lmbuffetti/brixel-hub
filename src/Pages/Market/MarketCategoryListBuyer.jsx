@@ -10,7 +10,7 @@ import {
   BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  BrixelTabs,
+  BrixelTabs, translateTo,
 } from '@brixel/brixel-components';
 import { initializeForm } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
@@ -67,8 +67,9 @@ const MarketCategoryListBuyer = (props) => {
 
   // PROPS
   const {
-    initialValues,
     initForm,
+    initialValues,
+    lang,
     ownerEstimations,
     preMarketStats,
     premiumEuropeProperties,
@@ -76,8 +77,8 @@ const MarketCategoryListBuyer = (props) => {
     setSplashScreen,
     splashScreenType,
     userSearchProfiles,
-    wishlistProperties,
     windowDimensions,
+    wishlistProperties,
   } = props;
   // STATE
   const [numWishProp, setWishProp] = useState(4);
@@ -163,8 +164,10 @@ const MarketCategoryListBuyer = (props) => {
                   />
                 </div>
                 <div className="dis-fl-col jc-c a-c pb-2">
-                  <h3>Welcome 🖐 </h3>
-                  <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
+                  <h3>{translateTo('Welcome 🖐', lang)}</h3>
+                  <span className="txtDark200 pt-2 pb-5">
+                    {translateTo('This is our Brixel market. A place where you can do great things.', lang)}
+                  </span>
                   <div className="mb-5">
                     <div className="dis-f mb-2">
                       <div className="dis-f a-c min-w-fix-64 jc-fe">
@@ -173,27 +176,33 @@ const MarketCategoryListBuyer = (props) => {
                           color="red"
                         />
                       </div>
-                      <span className="max-w-fix-424 txtDark700 pl-2"> Manage your favorites and buy your new home directly on Brixel.</span>
+                      <span className="max-w-fix-424 txtDark700 pl-2">
+                        {translateTo('Manage your favorites and buy your new home directly on Brixel.', lang)}
+                      </span>
                     </div>
                     <div className="dis-f mb-2">
                       <div className="dis-f a-c min-w-fix-64 jc-fe">
                         <span className="category-tag bgPrimary300">
-                          Pre
+                          {translateTo('Pre', lang)}
                         </span>
                       </div>
-                      <span className="max-w-fix-424 txtDark700 pl-2"> Discover exclusive properties which are not on the market yet, but waiting for your first move.</span>
+                      <span className="max-w-fix-424 txtDark700 pl-2">
+                        {translateTo('Discover exclusive properties which are not on the market yet, but waiting for your first move.', lang)}
+                      </span>
                     </div>
                     <div className="dis-f">
                       <div className="dis-f a-c min-w-fix-64 jc-fe">
                         <span className="category-tag bgRed400">
-                          Premium
+                          {translateTo('Premium', lang)}
                         </span>
                       </div>
-                      <span className="max-w-fix-424 txtDark700 pl-2"> Explore our Premium properties with 3D tour, detailed documentation and verified informations.</span>
+                      <span className="max-w-fix-424 txtDark700 pl-2">
+                        {translateTo('Explore our Premium properties with 3D tour, detailed documentation and verified informations.', lang)}
+                      </span>
                     </div>
                   </div>
                   <BrixelButtonPrimary
-                    label="ok, got it!"
+                    label={translateTo('ok, got it!', lang)}
                     rounded
                     onClick={() => onCloseWelcome()}
                   />
@@ -208,7 +217,7 @@ const MarketCategoryListBuyer = (props) => {
                 <BrixelTabs
                   className="mb-2"
                   clicksList={topTab.map((item) => item.value)}
-                  labels={topTab.map((item) => item.label)}
+                  labels={topTab.map((item) => translateTo(item.label, lang))}
                   activeTab={activeTopTab}
                   onClick={(tab) => setActiveTopTab(tab)}
                 />
@@ -227,6 +236,7 @@ const MarketCategoryListBuyer = (props) => {
                             {
                               i < numWishProp && (
                                 <MarketCardSmall
+                                  lang={lang}
                                   type="fav"
                                   item={fav}
                                 />
@@ -271,6 +281,7 @@ const MarketCategoryListBuyer = (props) => {
                                   <MarketCardSmall
                                     key={`ownPro_${i.toString()}`}
                                     type="estimation"
+                                    lang={lang}
                                     estimation={fav.result}
                                     item={fav.data}
                                   />
@@ -283,6 +294,7 @@ const MarketCategoryListBuyer = (props) => {
                             {
                               get(ownerEstimations, 'data', []).map((fav, i) => (
                                 <MarketCardSmall
+                                  lang={lang}
                                   key={`ownEst_${i.toString()}`}
                                   type="estimation"
                                   estimation={fav.result}
@@ -339,19 +351,21 @@ const MarketCategoryListBuyer = (props) => {
               <div className="dis-f jc-fe-lg pt-1 pt-lg-9 mt-9 mt-lg-10 infoBannerMarketBuyer">
                 <div className="w-perc-md-50 w-perc-100">
                   <h3 className="max-w-fix-320 fweight-600 fsize-800">
-                    <span>There are</span>
+                    <span>{translateTo('There are', lang)}</span>
                     <span className="mx-small-4 txtBlue700">{preMarketStats.total}</span>
-                    <span className="mx-small-4 txtBlue700">new properties</span>
-                    <span>on our Pre-Market.</span>
+                    <span className="mx-small-4 txtBlue700">
+                      {translateTo('new properties', lang)}
+                    </span>
+                    <span>{translateTo('on our Pre-Market.', lang)}</span>
                   </h3>
                   <h5 className="fweight-400 mt-3 txtDark700">
-                    Be ahead of the market.
+                    {translateTo('Be ahead of the market.', lang)}
                   </h5>
                   <BrixelButtonPrimary
                     onClick={() => setSplashScreen('marketOverlayCarousel')}
                     className="mt-3 mt-lg-5"
                     rounded
-                    label="Rate them now"
+                    label={translateTo('Rate them now', lang)}
                   />
                 </div>
 
@@ -408,6 +422,7 @@ MarketCategoryListBuyer.propTypes = {
   estimation: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   ownerEstimations: PropTypes.object.isRequired,
   preMarketStats: PropTypes.object.isRequired,
   premiumEuropeProperties: PropTypes.object.isRequired,
@@ -429,8 +444,6 @@ const mapStateToProps = (state) => {
   const userCompany = get(state, 'user.loggedInUser.user.comapny', {});
   return ({
     estimation: get(state, 'property.estimation', {}),
-    favoritesProperties: get(state, 'market.favoritesProperties', {}),
-    formValue: get(state, 'brixelForm.GetStarted.values', {}),
     initialValues: {
       ...initVal,
       countryCode: get(initVal, 'location[0].countryCode', get(userCompany, 'country.code', 'CH')),
@@ -443,12 +456,8 @@ const mapStateToProps = (state) => {
       },
       locations: get(state, 'user.userSearchProfiles[0].location', []),
     },
-    isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    lang: get(state, 'user.loggedInUser.user.language', 'en'),
-    loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    newProperties: get(state, 'market.newProperties', {}),
+    lang: get(state, 'common.language', 'en'),
     ownerEstimations: get(state, 'market.ownerEstimations', {}),
-    preMarketProperties: get(state, 'market.preMarketProperties', {}),
     preMarketStats: get(state, 'market.preMarketStats', {}),
     premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
     premiumProperties: get(state, 'market.premiumProperties', {}),

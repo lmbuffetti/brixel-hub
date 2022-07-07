@@ -68,7 +68,7 @@ function PageHeader(props) {
   const [langSel, setSelLang] = useState(lang);
   const [openMenu, setOpenMenu] = useState(false);
   const [packageName, setPackageName] = useState('Basic');
-  const [section, setSection] = useState('Sell');
+  const [section, setSection] = useState(translateTo('Sell', lang));
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -258,8 +258,8 @@ function PageHeader(props) {
   }, [showMobileMenu]);
 
   useEffect(() => {
-    if (userType === 'seller' || propID === 'sell') setSection('Sell');
-    else setSection('Buy');
+    if (userType === 'seller' || propID === 'sell') setSection(translateTo('Sell', lang));
+    else setSection(translateTo('Buy', lang));
   }, [get(history, 'location', null), userType]);
 
   const urlBackAction = () => {
@@ -658,7 +658,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
-  lang: get(state, 'common.language', []),
+  lang: get(state, 'common.language', 'en'),
   languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),

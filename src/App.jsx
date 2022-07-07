@@ -17,7 +17,7 @@ import Cookies from 'universal-cookie';
 import {
   BrixelIcon,
   BrixelModal,
-  BrixelNotification,
+  BrixelNotification, translateTo,
 } from '@brixel/brixel-components';
 import { reset } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -125,6 +125,7 @@ const App = (props) => {
     handleSetWindowsDimension,
     isLoading,
     isSmallLoading,
+    lang,
     loggedInUser,
     modal,
     notification,
@@ -162,14 +163,14 @@ const App = (props) => {
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
-    let lang = 'en';
+    let userLang = 'en';
     if (loggedInUser.user && localTransifex) {
-      lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
-      handleSetLanguage(lang);
+      userLang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
+      handleSetLanguage(userLang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang || 'en');
     } else if (activeSingleCompany.id && !loggedInUser.user) {
-      lang = cookies.get('brixelLang') || activeSingleCompany.language.code;
-      handleSetLanguage(lang);
+      userLang = cookies.get('brixelLang') || activeSingleCompany.language.code;
+      handleSetLanguage(userLang);
     }
     if (typeof Transifex !== 'undefined') {
       Transifex.live.onReady(() => {
@@ -604,7 +605,9 @@ const App = (props) => {
                                 ))
                               }
                             </div>
-                            <span className="ml-2 txtDark700 fweight-500">Support</span>
+                            <span className="ml-2 txtDark700 fweight-500">
+                              {translateTo('Support', lang)}
+                            </span>
                           </div>
                         )
                       }
@@ -796,6 +799,7 @@ App.propTypes = {
   handleSetWindowsDimension: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -820,6 +824,7 @@ const mapStateToProps = (state) => ({
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', []),
