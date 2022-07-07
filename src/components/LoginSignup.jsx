@@ -353,7 +353,7 @@ const LoginSignup = (props) => {
           </div>
         </div>
       </div>
-      <div className="w-perc-100 w-perc-md-50 dis-f a-c py-2 pt-md-0 pb-md-10">
+      <div className="w-perc-100 w-perc-lg-50 dis-f a-c py-2 pt-md-0 pb-md-10">
         <div className="max-w-fix-304 w-perc-100 ml-a mr-a testimonialsSlide">
 
           {

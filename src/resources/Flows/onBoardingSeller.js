@@ -17,7 +17,7 @@ import { svgIcons } from '../Utilities/svgIcons';
 // QUESTION LISTS
 // eslint-disable-next-line default-param-last
 export const QuestionsList = (lang, country = 'CH', propType) => {
-  
+
   // VALIDATION OF FIELDS
   const maxLengthNum = (val, name) => (value) => {
     let error = null;
@@ -26,7 +26,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
     }
     return error;
   };
-  
+
   const minLengthNum = (val, name) => (value) => {
     let error = null;
     if (value && value <= val) {
@@ -34,12 +34,12 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
     }
     return error;
   };
-  
+
   const minLengthNumYear = minLengthNum(1500, 'year');
   const maxLengthNumRooms = maxLengthNum(31, 'rooms');
   const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
   const maxLengthNumYear = maxLengthNum(2031, 'year');
-  
+
   let propertyType = propType;
   if (configureStore && !propType) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
