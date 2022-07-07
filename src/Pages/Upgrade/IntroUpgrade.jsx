@@ -247,7 +247,7 @@ const IntroUpgrade = (props) => {
         </div>
       </section>
 
-      <section className="container contact-section py-6">
+      <section className="container contact-section py-3 py-md-6">
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">Do you want to upgrade or change plans?</h3>
 
         <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
@@ -299,8 +299,8 @@ const IntroUpgrade = (props) => {
 
       <hr className="lighter my-2 my-ms-5" />
 
-      <section className="container testimonial py-6">
-        <h3 className="ta-c fweight-600 mb-8 fsize-600 fsize-sm-700">You’re in good company</h3>
+      <section className="container testimonial py-3 py-md-6 pb-8">
+        <h3 className="ta-c fweight-600 mb-3 mb-md-8 fsize-600 fsize-sm-700">You’re in good company</h3>
 
         <div className="w-perc-100 ml-a mr-a testimonialsSlide">
 
@@ -364,9 +364,9 @@ const IntroUpgrade = (props) => {
 
       </section>
 
-      <section className="compairePlans bgLight100 py-9" id="comparePlan">
+      <section className="compairePlans bgLight100 py-3 py-md-9" id="comparePlan">
         <div className="container">
-          <h3 className="ta-c mb-7 fweight-600 fsize-600 fsize-sm-700">Compare all plans</h3>
+          <h3 className="ta-c mb-3 mb-md-7 fweight-600 fsize-600 fsize-sm-700">Compare all plans</h3>
           <PackagesComparePlans
             packages={filteredPackages}
           />
@@ -374,7 +374,7 @@ const IntroUpgrade = (props) => {
 
       </section>
 
-      <section className="container testdrive-teaser dis-f jc-c bgWhite">
+      <section className="testdrive-teaser dis-f jc-c bgWhite pb-2">
 
         {
           propID === 'company' ? (
