@@ -28,7 +28,7 @@ function PageFooter(props) {
   return (
     <>
       <footer className={`footerWrap w-perc-100 ${className} ${activeSideBar ? 'leftPadding' : ''}`}>
-        <div className="a-t jc-b p-1 p-sm-2 brdSmallTop brdAltGrey100">
+        <div className="a-t jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdAltGrey100">
           <div>
             {
               get(activeSingleCompany, 'links.privacy', null) && (
