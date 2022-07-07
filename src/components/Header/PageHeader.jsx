@@ -467,7 +467,7 @@ function PageHeader(props) {
 
                         <div
                           className="mobile-menu w-perc-100 dis-fl-col a-c zIndex3"
-                          style={{ height: showMobileMenu ? windowDimensions.height : '0px' }}
+                          style={{ height: showMobileMenu ? windowDimensions.height - 67 : '0px' }}
                         >
                           <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
                             {

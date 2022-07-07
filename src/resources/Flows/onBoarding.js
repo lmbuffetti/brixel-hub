@@ -24,7 +24,7 @@ export const QuestionsList = (lang) => [
       validation: [Validation.required],
       icons: true,
       cardLayout: true,
-      svgWidth: 'max-w-fix-96 max-w-fix-md-168',
+      svgWidth: 'max-w-fix-64 max-w-fix-md-168',
       svgSupport: true,
       pdClass: 'py-1 pb-sm-5 pt-sm-4',
       isHorizontal: true,

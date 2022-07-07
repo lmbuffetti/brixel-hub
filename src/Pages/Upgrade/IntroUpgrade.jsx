@@ -98,13 +98,13 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-  
+
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
       handleGetActiveSingleCompany({ id: loggedInUser.company.id });
     }
   }, [propID, loggedInUser.id]);
-  
+
   useEffect(() => {
     if (get(activeSingleProperty, 'company.id', '')) {
       handleGetActiveCompanyPackages({ id: activeSingleProperty.company.id, smallLoader: 'getPackages' });
@@ -167,7 +167,7 @@ const IntroUpgrade = (props) => {
       </section>
 
       <section className="container packages py-6">
-        <div className="dis-fl-col dis-fl-row-md pb-3 jc-c">
+        <div className="dis-fl-col dis-fl-row-md pb-3 jc-c a-c a-t-md">
           {
             filteredPackages.length === 0 ? (
               <>
