@@ -8,7 +8,7 @@ import {
 } from 'react-redux';
 import { DateTime } from 'luxon';
 import {
-  BrixelButtonSecondary, BrixelIcon, Helpers,
+  BrixelButtonSecondary, BrixelIcon, Helpers, translateTo,
 } from '@brixel/brixel-components';
 import ReviewOffer from '../Pages/Offers/ReviewOffer';
 import { setSplashType } from '../actions/CommonActions';
@@ -27,9 +27,9 @@ const BrixelClosingTree = (props) => {
     className,
     dealID,
     isBuyer,
+    lang,
     propID,
     setSplashScreen,
-    userLang,
     windowDimensions,
   } = props;
   // STATE
@@ -56,43 +56,43 @@ const BrixelClosingTree = (props) => {
       stageName: 'stageOffer',
       subtitle: get(activeSingleOffer, 'offer.amount', 0) > 0 ?
         `<span class="fsize-400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="fsize-400 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
-        'Add your first offer to start.',
-      title: 'Offer',
+        translateTo('Add your first offer to start.', lang),
+      title: translateTo('Offer', lang),
     },
     {
       name: 'identification',
       button: (action) => onClickOffer(action),
       stageName: 'stageIdentification',
-      subtitle: 'Submit ID and personal information.',
-      title: 'Identification',
+      subtitle: translateTo('Submit ID and personal information.', lang),
+      title: translateTo('Identification', lang),
     },
     {
       name: 'lock',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageLock',
-      subtitle: 'Reserve the property for closing.',
-      title: 'Lock',
+      subtitle: translateTo('Reserve the property for closing.', lang),
+      title: translateTo('Lock', lang),
     },
     {
       name: 'finance',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageFinance',
-      subtitle: 'Plan early for your financial situation.',
-      title: 'Finance',
+      subtitle: translateTo('Plan early for your financial situation.', lang),
+      title: translateTo('Finance', lang),
     },
     {
       name: 'contract',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageContract',
-      subtitle: 'Approve the terms of the contract.',
-      title: 'Contract',
+      subtitle: translateTo('Approve the terms of the contract.', lang),
+      title: translateTo('Contract', lang),
     },
     {
       name: 'notary',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageNotary',
-      subtitle: 'Sign the contract at the notary.',
-      title: 'Notary',
+      subtitle: translateTo('Sign the contract at the notary.', lang),
+      title: translateTo('Notary', lang),
     },
   ]);
 
@@ -141,14 +141,14 @@ const BrixelClosingTree = (props) => {
     const stageText = cloneDeep(closingStage);
     if (get(activeSingleDeal, 'id', null)) {
       if (get(activeSingleOffer, 'offer.status', '') === 'rejected') {
-        stageText[0].subtitle = `<span class="fsize-400 txtRed400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="fsize-400 ml-1 txtRed400">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span><span class="ml-1 txtRed400">(Rejected)</span>`;
+        stageText[0].subtitle = `<span class="fsize-400 txtRed400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="fsize-400 ml-1 txtRed400">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span><span class="ml-1 txtRed400">${translateTo('(Rejected)', lang)}</span>`;
       } else if (get(activeSingleOffer, 'offer.amount', 0) > 0) {
         stageText[0].subtitle = `<span class="fsize-400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="fsize-400 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>`;
       }
       if (statusIdentification(userType) === 'pending' && (!showTabSection || (showTabSection === userType))) {
-        stageText[1].subtitle = 'Identification currently being verified';
+        stageText[1].subtitle = translateTo('Identification currently being verified', lang);
       } else {
-        stageText[1].subtitle = 'Submit ID and personal information.';
+        stageText[1].subtitle = translateTo('Submit ID and personal information.', lang);
       }
     }
     setClosingStage(stageText);
@@ -251,9 +251,9 @@ const BrixelClosingTree = (props) => {
                                 className="mr-1"
                                 iconWidth="w-fix-24"
                               />
-                              <span>Buyer</span>
+                              <span>{translateTo('Buyer', lang)}</span>
                             </div>
-                            <span className="fsize-300 fsize-lg-400 txtGreen400">Sent</span>
+                            <span className="fsize-300 fsize-lg-400 txtGreen400">{translateTo('Sent', lang)}</span>
                           </div>
                         ) : (
                           <>
@@ -263,7 +263,7 @@ const BrixelClosingTree = (props) => {
                               color="altGrey"
                               iconWidth="w-fix-24"
                             />
-                            <span>Buyer</span>
+                            <span>{translateTo('Buyer', lang)}</span>
                           </>
                         )
                       }
@@ -282,7 +282,7 @@ const BrixelClosingTree = (props) => {
                       {
                         get(activeSingleOffer, 'offer.createdAt', null) && (
                           <p className="fsize-300 txtDark200">
-                            {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                            {DateTime.fromMillis(activeSingleOffer.offer.createdAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                           </p>
                         )
                       }
@@ -295,7 +295,7 @@ const BrixelClosingTree = (props) => {
                     <BrixelButtonSecondary
                       rounded
                       className=""
-                      label="Add offer"
+                      label={translateTo('Add offer', lang)}
                       onClick={() => onClickOffer('add')}
                     />
                   )
@@ -313,7 +313,7 @@ const BrixelClosingTree = (props) => {
                 {
                   get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
                     <div className="dis-f jc-b">
-                      <span>Buyer</span>
+                      <span>{translateTo('Buyer', lang)}</span>
                       <BrixelIcon
                         icon="locked"
                         color="dark"
@@ -341,17 +341,17 @@ const BrixelClosingTree = (props) => {
                               />
                             )
                           }
-                          <span>Buyer</span>
+                          <span>{translateTo('Buyer', lang)}</span>
                         </div>
                         <div className="div">
                           {
                             statusIdentification('buyer') === 'accepted' && (
-                              <span className="ml-1 txtGreen400 fsize-300 fsize-lg-400">Verified</span>
+                              <span className="ml-1 txtGreen400 fsize-300 fsize-lg-400">{translateTo('Verified', lang)}</span>
                             )
                           }
                           {
                             statusIdentification('buyer') === 'pending' && (
-                              <span className="ml-1 txtYellow400 fsize-300 fsize-lg-400">Pending</span>
+                              <span className="ml-1 txtYellow400 fsize-300 fsize-lg-400">{translateTo('Pending', lang)}</span>
                             )
                           }
                         </div>
@@ -362,7 +362,7 @@ const BrixelClosingTree = (props) => {
                             {
                               isBuyer && (
                                 <span className={`${status[statusIdentification('buyer')].colorText}`}>
-                                  Pending
+                                  {translateTo('Pending', lang)}
                                 </span>
                               )
                             }
@@ -386,7 +386,7 @@ const BrixelClosingTree = (props) => {
                               isBuyer && (
                                 <BrixelButtonSecondary
                                   rounded
-                                  label="Add buyer"
+                                  label={translateTo('Add buyer', lang)}
                                   onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/buyer/identification/`)}
                                 />
                               )
@@ -418,13 +418,13 @@ const BrixelClosingTree = (props) => {
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
-                      <span>Buyer</span>
+                      <span>{translateTo('Buyer', lang)}</span>
                     </div>
-                    <span className="fsize-200">Manual Step</span>
+                    <span className="fsize-200">{translateTo('Manual Step', lang)}</span>
                   </>
                 ) : (
                   <>
-                    <span>Buyer</span>
+                    <span>{translateTo('Buyer', lang)}</span>
                     <BrixelIcon
                       icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
                       color="dark"
@@ -452,15 +452,15 @@ const BrixelClosingTree = (props) => {
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
-                      <span>Buyer</span>
+                      <span>{translateTo('Buyer', lang)}</span>
                     </div>
-                    <span className="fsize-200">Manual Step</span>
+                    <span className="fsize-200">{translateTo('Manual Step', lang)}</span>
                   </div>
                   <div className="secDetails">
                     {
                       get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
                         <span className="fsize-100 txtDark200">
-                          {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                          {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                         </span>
                       ) : (
                         <></>
@@ -471,7 +471,7 @@ const BrixelClosingTree = (props) => {
               ) : (
                 <>
                   <div className="secHead dis-f jc-b p-2 h-fix-56">
-                    <span>Buyer</span>
+                    <span>{translateTo('Buyer', lang)}</span>
                     <BrixelIcon
                       icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
                       color="dark"
@@ -512,7 +512,7 @@ const BrixelClosingTree = (props) => {
                             color="altGrey"
                             iconWidth="w-fix-24"
                           />
-                          <span>Seller</span>
+                          <span>{translateTo('Seller', lang)}</span>
                         </>
                       ) : (
                         <>
@@ -524,10 +524,10 @@ const BrixelClosingTree = (props) => {
                                 className="mr-1"
                                 iconWidth="w-fix-24"
                               />
-                              <span>Seller</span>
+                              <span>{translateTo('Seller', lang)}</span>
                             </div>
                             <span className={`${status[get(activeSingleOffer, 'offer.status', '')].colorText} fsize-300 fsize-lg-400`}>
-                              {status[get(activeSingleOffer, 'offer.status', '')].label}
+                              {translateTo(status[get(activeSingleOffer, 'offer.status', '')].label, lang)}
                             </span>
                           </div>
                         </>
@@ -565,7 +565,7 @@ const BrixelClosingTree = (props) => {
                           {
                             get(activeSingleOffer, 'offer.reviewedAt', null) && (
                               <p className="fsize-300 txtDark200">
-                                {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                                {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                               </p>
                             )
                           }
@@ -574,7 +574,7 @@ const BrixelClosingTree = (props) => {
                               <BrixelButtonSecondary
                                 rounded
                                 className=""
-                                label="Review offer"
+                                label={translateTo('Review offer', lang)}
                                 onClick={() => onClickOffer('review')}
                               />
                             )
@@ -619,7 +619,7 @@ const BrixelClosingTree = (props) => {
                         {
                           get(activeSingleOffer, 'offer.reviewedAt', null) && (
                             <p className="fsize-300 txtDark200">
-                              {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                              {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                             </p>
                           )
                         }
@@ -649,7 +649,7 @@ const BrixelClosingTree = (props) => {
                 {
                   get(activeSingleClosing, 'stageIdentification.active', null) === false ? (
                     <div className="dis-f jc-b">
-                      <span>Seller</span>
+                      <span>{translateTo('Seller', lang)}</span>
                       <BrixelIcon
                         icon="locked"
                         color="dark"
@@ -679,7 +679,7 @@ const BrixelClosingTree = (props) => {
                               </>
                             )
                           }
-                          <span>Seller</span>
+                          <span>{translateTo('Seller', lang)}</span>
                         </div>
                         <div className="">
                           {
@@ -738,7 +738,7 @@ const BrixelClosingTree = (props) => {
                               !isBuyer && (
                                 <BrixelButtonSecondary
                                   rounded
-                                  label="Add seller"
+                                  label={translateTo('Add seller', lang)}
                                   onClick={() => history.push(`/packageFlow/${propID}/${dealID}/closing/seller/identification/`)}
                                 />
                               )
@@ -768,13 +768,13 @@ const BrixelClosingTree = (props) => {
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
-                      <span>Seller</span>
+                      <span>{translateTo('Seller', lang)}</span>
                     </div>
                     <span className="fsize-200">Manual Step</span>
                   </>
                 ) : (
                   <>
-                    <span>Seller</span>
+                    <span>{translateTo('Seller', lang)}</span>
                     <BrixelIcon
                       icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
                       color="dark"
@@ -802,13 +802,13 @@ const BrixelClosingTree = (props) => {
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
-                      <span>Seller</span>
+                      <span>{translateTo('Seller', lang)}</span>
                     </div>
-                    <span className="fsize-200">Manual Step</span>
+                    <span className="fsize-200">{translateTo('Manual Step', lang)}</span>
                   </>
                 ) : (
                   <>
-                    <span>Seller</span>
+                    <span>{translateTo('Seller', lang)}</span>
                     <BrixelIcon
                       icon={get(activeSingleClosing, `${stage}.active`, null) ? 'check-small' : 'locked'}
                       color="dark"
@@ -822,7 +822,7 @@ const BrixelClosingTree = (props) => {
               {
                 get(activeSingleClosing, `${stage}.active`, null) && get(activeSingleClosing, `${stage}.completedBySeller.completedAt`, null) ? (
                   <span className="fsize-100 txtDark200">
-                    {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                    {DateTime.fromMillis(activeSingleClosing[stage].completedBySeller.completedAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                   </span>
                 ) : (
                   <> </>
@@ -843,13 +843,13 @@ const BrixelClosingTree = (props) => {
             {/* <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-2 py-2">
               <span className="w-perc-40 tt-up">Process</span>
               <span className="w-perc-30 px-2 tt-up">Buyer</span>
-              <span className="w-perc-30 pl-2 tt-up">Seller</span>
+              <span className="w-perc-30 pl-2 tt-up">{translateTo('Seller', lang)}</span>
             </div>
 
              <BrixelTabs
                 className="hide-lg ov-h"
                 classNameUl="ov-y-h"
-                labels={['Buyer', 'Seller']}
+                labels={['Buyer', '{translateTo('Seller', lang)}']}
                 clicksList={['buyer', 'seller']}
                 onClick={(val) => setShowTabSection(val)}
                 activeTab={showTabSection}
@@ -960,9 +960,9 @@ BrixelClosingTree.propTypes = {
   className: PropTypes.string,
   dealID: PropTypes.string.isRequired,
   isBuyer: PropTypes.bool,
+  lang: PropTypes.string.isRequired,
   propID: PropTypes.string.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
-  userLang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -976,7 +976,7 @@ const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleOffer: get(state, 'deal.activeSingleDeal.closing.stageOffer', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

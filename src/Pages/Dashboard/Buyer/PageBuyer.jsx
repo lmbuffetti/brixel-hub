@@ -142,6 +142,7 @@ PageBuyer.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

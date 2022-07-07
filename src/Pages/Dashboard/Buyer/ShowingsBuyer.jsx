@@ -171,8 +171,8 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
-  lang: get(state, 'user.loggedInUser.language', 'en'),
   userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
