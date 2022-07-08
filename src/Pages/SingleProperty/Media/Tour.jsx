@@ -14,6 +14,7 @@ const Tour = (props) => {
   // PROPS
   const {
     formValue,
+    lang,
     handleSetModal,
   } = props;
   // URL PARAMS
@@ -75,6 +76,7 @@ const Tour = (props) => {
             ) : (
               <div className="tour brixel-upgrade-message rewardsSplash">
                 <BrixelUpgradeMessage
+                  lang={lang}
                   onOpentour={(url) => open3dTour(url)}
                   unlockFunction={false}
                   title="Do you want a 3D tour for your property?"
@@ -95,6 +97,7 @@ const Tour = (props) => {
 
 Tour.propTypes = {
   formValue: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   handleSetModal: PropTypes.func.isRequired,
 };
 
@@ -104,6 +107,7 @@ Tour.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', { }),
 });
 

@@ -4,7 +4,7 @@ import React, {
 import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import cloneDeep from 'lodash/cloneDeep';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, translateTo } from '@brixel/brixel-components';
 
 const ProgressBar = (props) => {
   const {
@@ -12,6 +12,7 @@ const ProgressBar = (props) => {
     id,
     input,
     isArrayValue,
+    lang,
     options,
     progressState,
     progressStateArray,
@@ -109,15 +110,15 @@ const ProgressBar = (props) => {
         !readOnly && (
           <div className="dis-fl-row a-c jc-b mb-2">
             <div className="progress a-c dis-fl-row">
-              <span className="title overline tt-up">Progress{`${progressBarState || isArrayValue ? ':' : ''}`}</span>&nbsp;
-              <span className="state overline tt-up">{hoverLabel || progressBarState}</span>
+              <span className="title overline tt-up">{translateTo(`Progress${progressBarState || isArrayValue ? ':' : ''}`, lang)}</span>&nbsp;
+              <span className="state overline tt-up">{translateTo(hoverLabel || progressBarState, lang)}</span>
             </div>
           </div>
         )
       }
       {
         readOnly && (
-          <span className="read-only-state fsize-300 txtDark700 mb-1">{progressBarStateLabel || 'No progress'}</span>
+          <span className="read-only-state fsize-300 txtDark700 mb-1">{translateTo(progressBarStateLabel || 'No progress', lang)}</span>
         )
       }
       <div className={`bars dis-fl-row ${readOnly ? 'h-fix-8' : 'h-fix-16'}`}>
@@ -162,7 +163,7 @@ const ProgressBar = (props) => {
                   key={`prgBr_${i.toString()}`}
                   className="selectedProgressItem"
                 >
-                  <span className="fweight-600 txtLight100 fsize-200 mr-1">{item}</span>
+                  <span className="fweight-600 txtLight100 fsize-200 mr-1">{translateTo(item, lang)}</span>
                   <BrixelIcon
                     icon="close"
                     color="light"
@@ -185,6 +186,7 @@ ProgressBar.propTypes = {
   id: PropTypes.string,
   input: PropTypes.object,
   isArrayValue: PropTypes.bool,
+  lang: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   progressState: PropTypes.string,
   progressStateArray: PropTypes.arrayOf(PropTypes.string),

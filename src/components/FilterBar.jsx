@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import {
   BrixelIcon, BrixelButtonText,
-  FactsOptions, useOutsideAlerter,
+  FactsOptions, useOutsideAlerter, translateTo,
 } from '@brixel/brixel-components';
 
 const {
@@ -31,6 +31,7 @@ const FilterBar = (props) => {
     dealsFilter,
     filterDeals,
     filterModalData,
+    lang,
   } = props;
 
   const [filterMenu, setFilterMenu] = useState(false);
@@ -99,7 +100,7 @@ const FilterBar = (props) => {
                 className="ml-2"
                 theme="Dark"
                 rounded
-                label={`${getLabel()}`}
+                label={translateTo(`${getLabel()}`, lang)}
                 leftIcon="filter"
                 onClick={() => setFilterMenu(!filterMenu)}
               />
@@ -107,7 +108,7 @@ const FilterBar = (props) => {
                 filterMenu && (
                   <div className="filterHolder w-fix-240 brdRadius bgWhite pos-a x-r zIndex3 shadow-3dp pb-2">
                     <div className="p-2">
-                      <div className="body2 fweight-500 txtDark700">Filter</div>
+                      <div className="body2 fweight-500 txtDark700">{translateTo('Filter', lang)}</div>
                       <BrixelIcon
                         className="pos-a x-r cur-poi mt-2 mr-2 fsize-400"
                         icon="close"
@@ -127,11 +128,11 @@ const FilterBar = (props) => {
                             onClick={() => {
                               setFilterMenu(!filterMenu);
                               setActiveData({
-                                label: item.label,
+                                label: translateTo(item.label, lang),
                                 status: item.value,
                               });
                               processFilter('', activeSortOrderType, activeSortDirection, activeCompany, {
-                                label: item.label,
+                                label: translateTo(item.label, lang),
                                 status: item.value,
                               });
                             }}
@@ -144,7 +145,7 @@ const FilterBar = (props) => {
                                 />
                               )
                             }
-                            <span className="statusLabel txtDark700">{item.label}</span>
+                            <span className="statusLabel txtDark700">{translateTo(item.label, lang)}</span>
                           </div>
                         </div>
                       ))
@@ -169,6 +170,7 @@ FilterBar.propTypes = {
   dealsFilter: PropTypes.bool,
   filterDeals: PropTypes.object,
   filterModalData: PropTypes.string,
+  lang: PropTypes.string.isRequired,
 };
 
 FilterBar.defaultProps = {

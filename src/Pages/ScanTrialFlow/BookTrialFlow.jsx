@@ -100,6 +100,7 @@ const BookTrialFlow = (props) => {
             <h2 className="mb-3 mb-sm-6 ta-c fweight-600 fsize-600 fsize-sm-800">When do you want us to visit?</h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
               <Accordion
+                lang={lang}
                 color="dark"
                 saturationTxt={400}
                 title="Book online"
@@ -280,7 +281,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.scanFlow.values', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   syncErrors: get(state, 'brixelForm.scanFlow.syncErrors', {}),
-  lang: get(state, 'user.loggedInUser.user.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

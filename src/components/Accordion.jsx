@@ -12,10 +12,10 @@ const Accordion = (props) => {
     onExpand,
     paddingContent,
     saturationTxt,
+    singleItem,
     smallRightIcon,
     title,
     titleClass,
-    singleItem,
   } = props;
 
   const [open, setOpen] = useState(isExpanded);

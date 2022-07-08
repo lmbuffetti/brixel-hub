@@ -39,10 +39,11 @@ const Photos = (props) => {
     activeSingleProperty,
     changeFieldValue,
     formValue,
-    handleMultiUploadImg,
     handleDeleteImg,
+    handleMultiUploadImg,
     imageType,
     isSmallLoading,
+    lang,
     loggedInUser,
     windowDimensions,
   } = props;
@@ -286,6 +287,7 @@ const Photos = (props) => {
           {
             get(activeSingleProperty, 'servicePackages', []).length === 0 && (
               <BrixelUpgradeMessage
+                lang={lang}
                 unlockFunction={false}
                 title="You don't have a plan?"
                 description="Accurate floor plans are important for your potential buyers. Request a free photo shooting by one of our experts to get your own plan."
@@ -316,6 +318,7 @@ Photos.propTypes = {
   handleMultiUploadImg: PropTypes.func.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -325,6 +328,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   imageType: get(state, 'images.imageType', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', { }),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

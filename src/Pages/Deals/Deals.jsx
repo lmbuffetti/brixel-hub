@@ -331,6 +331,7 @@ const Deals = (props) => {
                     {
                       !emptyDeals && (
                         <FilterBar
+                          lang={lang}
                           sortBarType="deals"
                           activeSortDirection=""
                           activeSortOrderType=""
@@ -381,6 +382,7 @@ const Deals = (props) => {
                             (!activeTab || activeTab === subkey) && (
                               <div className="pr-2">
                                 <DealsTitle
+                                  lang={lang}
                                   title={subkey}
                                   total={get(filteredDeals, `${key}.${subkey}`, []).length}
                                 />
@@ -576,13 +578,13 @@ Deals.propTypes = {
   activeSinglePropertyDeals: PropTypes.object,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSaveDeal: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetSingleDeal: PropTypes.func.isRequired,
   saveMultipleDeals: PropTypes.func.isRequired,
   setActiveSinglePropertyDeals: PropTypes.func.isRequired,
   setPreventExit: PropTypes.func.isRequired,
   smallLoader: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 

@@ -59,8 +59,8 @@ const SingleDeal = (props) => {
   };
   const match = useParams();
   const {
-    activeSingleDeal,
     activeDealHistoryList,
+    activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyDeals,
     getActiveDeal,
@@ -68,11 +68,11 @@ const SingleDeal = (props) => {
     getHistoryList,
     handleSaveDeal,
     handleSaveMultipleDeal,
+    lang,
     setActiveSingleDealHistory,
     setActiveSingleDealOwnerHistory,
     setDeal,
     setDealNotes,
-    userLang,
     windowDimensions,
   } = props;
 
@@ -303,7 +303,7 @@ const SingleDeal = (props) => {
   };
 
   const getOfferText = () => {
-    if (has(activeSingleDeal, 'closing.stageOffer.offer.status')) return `${get(activeSingleDeal, 'closing.stageOffer.offer.currency', '')} ${formatPrice(get(activeSingleDeal, 'closing.stageOffer.offer.amount'), userLang)}`;
+    if (has(activeSingleDeal, 'closing.stageOffer.offer.status')) return `${get(activeSingleDeal, 'closing.stageOffer.offer.currency', '')} ${formatPrice(get(activeSingleDeal, 'closing.stageOffer.offer.amount'), lang)}`;
     return 'No offer';
   };
 
@@ -315,7 +315,7 @@ const SingleDeal = (props) => {
       ${(typeof get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') === 'string' && get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '').includes('-')) ? get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') : DateTime.fromMillis(
     get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', ''),
     {
-      locale: userLang,
+      locale: lang,
     },
   ).toFormat('yyyy-MM-dd')}
     </span></span>      </br><span>Marital status: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', '')} </span>
@@ -446,7 +446,7 @@ const SingleDeal = (props) => {
                           <span className="subtitle fsize-200 txtDark200">Signed Up</span>
                           {
                             get(activeSingleDeal, 'user.createdAt', null) ? (
-                              <span className="value txtDark700">{DateTime.fromMillis(activeSingleDeal.user.createdAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}</span>
+                              <span className="value txtDark700">{DateTime.fromMillis(activeSingleDeal.user.createdAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}</span>
                             ) : (
                               <span className="value txtDark700">-</span>
                             )
@@ -462,6 +462,7 @@ const SingleDeal = (props) => {
                     {
                       activeSingleDeal.id && (
                         <ProgressBar
+                          lang={lang}
                           className="mb-3"
                           options={factsOptions.progressBarDealsOptions}
                           progressState={has(activeSingleDeal, 'stage') ? activeSingleDeal.stage : ''}
@@ -508,7 +509,7 @@ const SingleDeal = (props) => {
                     showMobile
                   />
                   <Timeline
-                    countryLang={userLang}
+                    countryLang={lang}
                     isDeal
                     className="col-12 col-sm-6 p-0"
                   />
@@ -528,7 +529,7 @@ const SingleDeal = (props) => {
                                 saturationTxt={700}
                                 className="mr-2"
                               />
-                              <span className={`txt${getTextColor()}`}>{DateTime.fromMillis(activeSingleDeal.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}</span>
+                              <span className={`txt${getTextColor()}`}>{DateTime.fromMillis(activeSingleDeal.visit, { locale: lang }).toFormat('d LLL yyyy, H:mm')}</span>
                             </div>
                             {
                               activeDealFeedback.createdAt && (
@@ -633,19 +634,19 @@ SingleDeal.propTypes = {
   setActiveSingleDealOwnerHistory: PropTypes.func.isRequired,
   setDeal: PropTypes.func.isRequired,
   setDealNotes: PropTypes.func.isRequired,
-  userLang: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 SingleDeal.defaultProps = {};
 
 const mapStateToProps = (state) => ({
+  activeDealHistoryList: get(state, 'deal.activeSingleDealHistory', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
-  activeDealHistoryList: get(state, 'deal.activeSingleDealHistory', {}),
   isSuperAdmin: get(state, 'common.superAdmin', false),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

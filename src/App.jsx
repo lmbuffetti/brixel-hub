@@ -642,6 +642,7 @@ const App = (props) => {
           {
             modal.state && !modal.type && !modal.small && (
               <BrixelModalFullScreen
+                lang={lang}
                 title={modal.title}
                 onClose={() => {
                   handleSetModal({ state: false });
@@ -686,6 +687,7 @@ const App = (props) => {
           {
             modal.state && modal.type === 'confirmExit' && (
               <WarningScreen
+                lang={lang}
                 saveFunc={() => modal.saveFunc()}
                 title={modal.title}
                 formName={modal.formName}

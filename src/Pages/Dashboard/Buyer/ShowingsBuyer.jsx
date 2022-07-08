@@ -30,8 +30,8 @@ const ShowingsBuyer = (props) => {
     handleGetActiveSinglePropertyBookings,
     handleSetActiveSinglePropertyBookings,
     isSmallLoading,
+    lang,
     loggedInUser,
-    userLang,
   } = props;
   // STATE
   const [bookingSlot, setBookingSlot] = useState([]);
@@ -118,7 +118,8 @@ const ShowingsBuyer = (props) => {
                         className="w-perc-100 max-w-fix-360"
                       >
                         <BrixelInfoSlot
-                          title={DateTime.fromISO(extractDate(day.slot.slot), { locale: userLang }).toFormat('cccc - dd LLL yyyy')}
+                          lang={lang}
+                          title={DateTime.fromISO(extractDate(day.slot.slot), { locale: lang }).toFormat('cccc - dd LLL yyyy')}
                           subtitle={extractDate(day.slot.slot, true)}
                         />
                       </div>
@@ -159,8 +160,8 @@ ShowingsBuyer.propTypes = {
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  userLang: PropTypes.string.isRequired,
 };
 
 ShowingsBuyer.defaultProps = {
@@ -173,7 +174,6 @@ const mapStateToProps = (state) => ({
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -52,6 +52,7 @@ const IntroUpgrade = (props) => {
     handleGetActiveCompanyPackages,
     activeSinglePropertyPackage,
     handleGetActiveSingleCompany,
+    lang,
     loggedInUser,
     packages,
     scrollHash,
@@ -368,6 +369,7 @@ const IntroUpgrade = (props) => {
         <div className="container">
           <h3 className="ta-c mb-3 mb-md-7 fweight-600 fsize-600 fsize-sm-700">Compare all plans</h3>
           <PackagesComparePlans
+            lang={lang}
             packages={filteredPackages}
           />
         </div>
@@ -392,7 +394,7 @@ const IntroUpgrade = (props) => {
               </div>
             </div>
           ) : (
-            <BoxTrialTestDirve isLarge />
+            <BoxTrialTestDirve lang={lang} isLarge />
           )
         }
 
@@ -407,10 +409,11 @@ IntroUpgrade.propTypes = {
   activeSingleCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleGetActiveCompanyPackages: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
-  handleGetActiveCompanyPackages: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
   scrollHash: PropTypes.string,
@@ -426,6 +429,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   packages: get(state, 'companies.activeSingleCompanyPackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),

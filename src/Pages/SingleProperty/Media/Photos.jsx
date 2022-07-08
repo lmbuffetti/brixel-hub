@@ -40,10 +40,11 @@ const Photos = (props) => {
     activeSingleProperty,
     changeFieldValue,
     formValue,
-    handleMultiUploadImg,
     handleDeleteImg,
+    handleMultiUploadImg,
     imageType,
     isSmallLoading,
+    lang,
     loggedInUser,
     windowDimensions,
   } = props;
@@ -307,6 +308,7 @@ const Photos = (props) => {
           </div>
 
           <BrixelUpgradeMessage
+            lang={lang}
             unlockFunction={false}
             title="Do you want to capture your property in its best possible light?"
             description="High-quality photos help you to stand out in the market. Request a free on-site appointment by one of our experts to get a free photo shooting."
@@ -336,6 +338,7 @@ Photos.propTypes = {
   handleMultiUploadImg: PropTypes.func.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -345,6 +348,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   imageType: get(state, 'images.imageType', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', { }),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
