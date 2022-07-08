@@ -33,11 +33,12 @@ const Facts = (props) => {
     changeFieldValue,
     formValue,
     handleSaveData,
+    lang,
     windowDimensions,
   } = props;
 
   // STATE
-  const [Questions, setQuestions] = useState(InputSheets(formValue));
+  const [Questions, setQuestions] = useState(InputSheets('facts', lang));
   const [selectedQuest, setSelectedQuest] = useState(null);
   // PARAMS URL
   const propID = get(match, 'propID', null);
@@ -81,8 +82,8 @@ const Facts = (props) => {
     }
     if (selectedQuest) {
       const findCurrentId = Questions.findIndex((quest) => quest.history === selectedQuest.history);
-      const quest = InputSheets(formValue)[findCurrentId];
-      setQuestions(InputSheets(formValue));
+      const quest = InputSheets('facts', lang)[findCurrentId];
+      setQuestions(InputSheets('facts', lang));
       setSelectedQuest(quest);
     }
   }, [formValue]);
@@ -233,6 +234,7 @@ Facts.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSaveData: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -248,6 +250,7 @@ const mapStateToProps = (state) => ({
   singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
   notification: get(state, 'common.notification', []),
   initial: get(state, 'brixelForm.Property.initial', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

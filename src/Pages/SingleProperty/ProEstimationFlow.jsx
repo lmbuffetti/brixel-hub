@@ -48,6 +48,7 @@ const ProEstimationFlow = (props) => {
     initForm,
     initialValues,
     isSmallLoading,
+    lang,
   } = props;
   // STATE
   const [Questions, setQuestions] = useState([]);
@@ -117,7 +118,7 @@ const ProEstimationFlow = (props) => {
     }
     if (Object.keys(initialValues).length > 0 && Object.keys(formValue).length > 0) {
       keyChanged.forEach((item) => {
-        InputSheets('proEstimation').forEach((singleQuest) => {
+        InputSheets('proEstimation', lang).forEach((singleQuest) => {
           singleQuest.inputs.forEach((input) => {
             if (input.condition) {
               if (input.condition.name) {
@@ -141,7 +142,7 @@ const ProEstimationFlow = (props) => {
       });
     }
     const questList = [];
-    InputSheets('proEstimation').forEach((singleQuest) => {
+    InputSheets('proEstimation', lang).forEach((singleQuest) => {
       singleQuest.inputs.forEach((input) => {
         if (input.isProEstimation) {
           let mergeCondition = [];
@@ -337,6 +338,7 @@ ProEstimationFlow.propTypes = {
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.object.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -344,6 +346,7 @@ const mapStateToProps = (state) => ({
   errorValue: get(state, 'brixelForm.formFlow.syncErrors', {}),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.formFlow.values', {}),
+  lang: get(state, 'common.language', 'en'),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {
