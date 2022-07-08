@@ -123,7 +123,7 @@ const SellerSidebar = (props) => {
 
   const convertFeedMessage = (stub, type, history) => {
     if (activeSingleProperty.id) {
-      const data = feedMessage(loggedInUser, history, activeCompanyPackages, activeSingleProperty);
+      const data = feedMessage(loggedInUser, history, activeCompanyPackages, activeSingleProperty, lang);
       if (data[stub] && data[stub][type]) return data[stub][type];
       if (history.content) return data.note[type];
       return data.default[type];
