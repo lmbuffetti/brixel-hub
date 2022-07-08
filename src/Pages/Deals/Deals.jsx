@@ -41,7 +41,7 @@ const Deals = (props) => {
     setActiveSinglePropertyDeals,
     setPreventExit,
     smallLoader,
-    userLang,
+    lang,
     windowDimensions,
   } = props;
   
@@ -482,22 +482,23 @@ const Deals = (props) => {
                                                               className={`list-item pos-r ${!item.active ? 'archived' : ''} ${activeIndexDeal === k && activeOrgColumn === subkey ? 'enabled' : ''}`}
                                                             >
                                                               <DealsCard
+                                                                archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                                archived={!item.active}
                                                                 avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
                                                                 className={`${!item.active ? 'bgLight100' : 'bgWhite'} dealCard`}
-                                                                profileId={get(item, 'user.id', '')}
-                                                                name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
+                                                                date={DateTime.fromMillis(item.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
+                                                                feedback={get(item, 'visitFeedback')}
                                                                 hasMessage={item.actionStub}
-                                                                date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
+                                                                isNew={get(item, 'newSeller')}
+                                                                isWinner={get(item, 'winner')}
+                                                                lang={lang}
+                                                                lastAction={has(item, 'lastAction') ? item.lastAction : {}}
+                                                                name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
+                                                                offer={has(item, 'closing.stageOffer') ? item.closing.stageOffer : {}}
                                                                 parentOnClick={() => openDeal(item.id)}
-                                                                archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                                profileId={get(item, 'user.id', '')}
                                                                 stage={item.stage}
                                                                 visit={item.visit}
-                                                                archived={!item.active}
-                                                                isWinner={get(item, 'winner')}
-                                                                isNew={get(item, 'newSeller')}
-                                                                lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                                offer={has(item, 'closing.stageOffer') ? item.closing.stageOffer : {}}
-                                                                feedback={get(item, 'visitFeedback')}
                                                               />
                                                             </div>
                                                           )
@@ -525,20 +526,21 @@ const Deals = (props) => {
                                                         className={`list-item pos-r ${!item.active ? 'archived' : ''}`}
                                                       >
                                                         <DealsCard
+                                                          archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                          archived={!item.active}
                                                           avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
                                                           className={!item.active ? 'bgLight100' : 'bgWhite'}
-                                                          profileId={get(item, 'user.id', '')}
-                                                          name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
+                                                          date={DateTime.fromMillis(item.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                                           hasMessage={item.actionStub}
-                                                          date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
+                                                          isNew={get(item, 'newSeller')}
+                                                          isWinner={get(item, 'winner')}
+                                                          lang={lang}
+                                                          lastAction={has(item, 'lastAction') ? item.lastAction : {}}
+                                                          name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
                                                           parentOnClick={() => openDeal(item.id)}
-                                                          archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                          profileId={get(item, 'user.id', '')}
                                                           stage={item.stage}
                                                           visit={item.visit}
-                                                          archived={!item.active}
-                                                          isWinner={get(item, 'winner')}
-                                                          isNew={get(item, 'newSeller')}
-                                                          lastAction={has(item, 'lastAction') ? item.lastAction : {}}
                                                         />
                                                       </div>
                                                     </React.Fragment>
@@ -580,7 +582,7 @@ Deals.propTypes = {
   setActiveSinglePropertyDeals: PropTypes.func.isRequired,
   setPreventExit: PropTypes.func.isRequired,
   smallLoader: PropTypes.object.isRequired,
-  userLang: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -593,9 +595,9 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', null),
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'property.activeSingleProperty', {}),
+  lang: get(state, 'common.language', 'en'),
   notification: get(state, 'common.notification', []),
   smallLoader: get(state, 'common.isSmallLoading', {}),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

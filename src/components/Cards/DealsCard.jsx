@@ -5,7 +5,7 @@ import has from 'lodash/has';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   BrixelButtonIcon, BrixelAvatar, BrixelStatus, BrixelIcon,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import {
   DateTime,
@@ -35,18 +35,18 @@ const DealsCard = (props) => {
 
   const returnMessage = () => {
     if (Object.keys(lastAction).length > 0) {
-      if (lastAction.actionStub === 'user-add-favorite') return 'Marked page as favorite';
-      if (lastAction.actionStub === 'user-schedule') return 'Requested showing';
-      if (lastAction.actionStub === 'user-get-document') return 'Requested documents';
-      if (lastAction.actionStub === 'user-phone-call') return 'Made a phone call';
-      if (lastAction.actionStub === 'user-portal-create-deal') return 'Interacted through portal';
-      if (lastAction.actionStub === 'user-portal') return 'Interacted through portal';
-      if (lastAction.actionStub === 'user-message') return 'Sent a message';
-      if (lastAction.actionStub === 'user-portal-create-message') return `<span><span>Sent new message on</span> <span>${lastAction.meta.portal}</span></span>`;
+      if (lastAction.actionStub === 'user-add-favorite') return translateTo('Marked page as favorite', lang);
+      if (lastAction.actionStub === 'user-schedule') return translateTo('Requested showing', lang);
+      if (lastAction.actionStub === 'user-get-document') return translateTo('Requested documents', lang);
+      if (lastAction.actionStub === 'user-phone-call') return translateTo('Made a phone call', lang);
+      if (lastAction.actionStub === 'user-portal-create-deal') return translateTo('Interacted through portal', lang);
+      if (lastAction.actionStub === 'user-portal') return translateTo('Interacted through portal', lang);
+      if (lastAction.actionStub === 'user-message') return translateTo('Sent a message', lang);
+      if (lastAction.actionStub === 'user-portal-create-message') return `<span><span>${translateTo('Sent new message on', lang)}</span> <span>${lastAction.meta.portal}</span></span>`;
       if (lastAction.actionStub === 'user-send-message') {
-        return `"${lastAction.meta.message}"`;
+        return translateTo(`"${lastAction.meta.message}"`, lang);
       }
-    } else if (offer === '') return 'Made an offer';
+    } else if (offer === '') return translateTo('Made an offer', lang);
     return '';
   };
   
@@ -81,7 +81,7 @@ const DealsCard = (props) => {
   };
 
   const getVisit = () => {
-    if (visit < +new Date().setHours(0, 0, 0, 0)) return 'Visited';
+    if (visit < +new Date().setHours(0, 0, 0, 0)) return translateTo('Visited', lang);
     return DateTime.fromMillis(visit, { locale: lang }).toFormat('d LLL yyyy, H:mm');
   };
 
@@ -93,8 +93,8 @@ const DealsCard = (props) => {
   };
 
   const getFeedback = () => {
-    if (feedback.isInterested === true) return 'Still interested 👍';
-    if (feedback.isInterested === false) return 'Not interested anymore 👎';
+    if (feedback.isInterested === true) return translateTo('Still interested 👍', lang);
+    if (feedback.isInterested === false) return translateTo('Not interested anymore 👎', lang);
     return 'Visited';
   };
 
@@ -136,7 +136,7 @@ const DealsCard = (props) => {
                       className="mr-1"
                       iconWidth="w-fix-16"
                     />
-                    <span className="fsize-300 txtDark700">No date</span>
+                    <span className="fsize-300 txtDark700">{translateTo('No date', lang)}</span>
                   </div>
                 ) : (
                   (get(feedback, 'isInterested') === true || get(feedback, 'isInterested') === false) ? (
@@ -183,7 +183,7 @@ const DealsCard = (props) => {
                           className="mr-1"
                           iconWidth="w-fix-16"
                         />
-                        <span className="fsize-300 txtDark200">No offer</span>
+                        <span className="fsize-300 txtDark200">{translateTo('No offer', lang)}</span>
                       </>
                     )
                   }
@@ -211,7 +211,7 @@ const DealsCard = (props) => {
             }
             {
               isWinner && (
-                <span className="cardTag green ml-1"> Winner </span>
+                <span className="cardTag green ml-1">{translateTo('Winner', lang)}</span>
               )
             }
           </div>
