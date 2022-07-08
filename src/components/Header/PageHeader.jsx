@@ -331,7 +331,7 @@ function PageHeader(props) {
                           <div className="dis-f titleSection txtDark700" onClick={() => setOpenMenu(!openMenu)}>
                             <span>{section}</span>
                             <BrixelIcon
-                              icon="dropdown"
+                              icon={openMenu ? "dropdown-open" : "dropdown-close"}
                             />
                           </div>
                           {
