@@ -15,7 +15,8 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelIcon,
-  BrixelButtonIcon, translateTo,
+  BrixelButtonIcon,
+  translateTo,
 } from '@brixel/brixel-components';
 import {
   BrixelInputText,
@@ -51,6 +52,7 @@ export const MapsWithModalManual = (props) => {
     google,
     handleUpdateCountry,
     init,
+    lang,
     latitude,
     longitude,
     minHeight,
@@ -252,7 +254,7 @@ export const MapsWithModalManual = (props) => {
               setLoclist([]);
               changeFieldValue(formName, 'locationsList', []);
               if (showErrorLoc) {
-                setErrorResult(`We can't find that location please try again or contact our <a href="mailto:${get(activeSingleCompany, 'contact.email', 'support@brixel.io')}">support team</a>`);
+                setErrorResult(translateTo(`We can't find that location please try again or contact our <a href="mailto:${get(activeSingleCompany, 'contact.email', 'support@brixel.io')}">support team</a>`, lang));
               }
               setLoadingAddress(false);
               // setZiplist([]);
@@ -445,7 +447,7 @@ export const MapsWithModalManual = (props) => {
                         validate: [Validation.required],
                       }}
                       labels={{
-                        label: translateTo('Street name'),
+                        label: translateTo('Street name', lang),
                       }}
                       meta={{
                         invalid: true,
@@ -498,11 +500,11 @@ export const MapsWithModalManual = (props) => {
                         invalid: true,
                         dirty: true,
                         message: {
-                          error: translateTo('Please insert a valid zip code'),
+                          error: translateTo('Please insert a valid zip code', lang),
                         },
                       }}
                       labels={{
-                        label: translateTo('Zip code'),
+                        label: translateTo('Zip code', lang),
                       }}
                       component={BrixelInputText}
                     />
@@ -519,7 +521,7 @@ export const MapsWithModalManual = (props) => {
                         name: 'location.city',
                       }}
                       labels={{
-                        label: translateTo('City'),
+                        label: translateTo('City', lang),
                       }}
                       component={BrixelInputText}
                     />
@@ -538,7 +540,7 @@ export const MapsWithModalManual = (props) => {
                       options: country,
                     }}
                     labels={{
-                      label: translateTo('Country'),
+                      label: translateTo('Country', lang),
                     }}
                     component={BrixelSelect}
                   />
@@ -557,14 +559,14 @@ export const MapsWithModalManual = (props) => {
                     <BrixelButtonSecondary
                       rounded
                       className="mr-3"
-                      label={translateTo("Cancel")}
+                      label={translateTo("Cancel", lang)}
                       onClick={() => closeModal()}
                     />
                     <BrixelButtonPrimary
                       rounded
                       theme="green"
                       themeSat={500}
-                      label={translateTo("Save Address")}
+                      label={translateTo("Save Address", lang)}
                       onClick={() => saveCurrentLocation()}
                       isLoading={loadingAddress}
                     />
@@ -594,7 +596,7 @@ export const MapsWithModalManual = (props) => {
                     className="search-box"
                     type="search"
                     ref={inputSearch}
-                    label={translateTo("Address")}
+                    label={translateTo("Address", lang)}
                     disabled={disabled}
                     placeholder="Write street name"
                     input={{
@@ -677,7 +679,7 @@ export const MapsWithModalManual = (props) => {
               <span className="fweight-400 txtDark200 fsize-200 dis-b">{get(formValue, 'location.cityZip', '')}</span>
             </div>
             <BrixelButtonSecondary
-              label={translateTo("Edit")}
+              label={translateTo("Edit", lang)}
               rounded
               small={windowDimensions.width < 590}
               onClick={() => setShowManualInput(true)}
@@ -704,6 +706,7 @@ MapsWithModalManual.propTypes = {
   history: PropTypes.object.isRequired,
   init: PropTypes.object.isRequired,
   input: PropTypes.object,
+  lang: PropTypes.string.isRequired,
   latitude: PropTypes.number.isRequired,
   longitude: PropTypes.number.isRequired,
   minHeight: PropTypes.number,

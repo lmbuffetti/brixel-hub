@@ -618,6 +618,7 @@ const App = (props) => {
                   {
                     showFooter && !isSecLevel && (
                       <PageFooter
+                        lang={lang}
                         activeSideBar={!isFlow}
                       />
                     )

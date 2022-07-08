@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Geocode from 'react-geocode';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, translateTo } from '@brixel/brixel-components';
 import { BrixelInputText, change } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -34,6 +34,7 @@ export const MapsCities = (props) => {
     handleUpdateCountry,
     init,
     input,
+    lang,
     latitude,
     longitude,
     multipleFieldSearch,
@@ -299,9 +300,9 @@ export const MapsCities = (props) => {
                   className="search-box"
                   type="search"
                   ref={inputSearch}
-                  label="Zip / City"
+                  label={translateTo('Zip / City', lang)}
                   disabled={disabled}
-                  placeholder="Search for zip or city..."
+                  placeholder={translateTo('Search for zip or city...', lang)}
                   input={{
                     onChange: (e) => (disabled ? '' : changeFieldValue(formName, 'location.searchAddress', e)),
                     onBlur: () => '',
@@ -414,20 +415,21 @@ MapsCities.propTypes = {
   formName: PropTypes.string,
   formValue: PropTypes.object.isRequired,
   google: PropTypes.object.isRequired,
-  init: PropTypes.object.isRequired,
-  multipleFieldSearch: PropTypes.bool,
   handleUpdateCountry: PropTypes.func.isRequired,
+  init: PropTypes.object.isRequired,
   input: PropTypes.object,
-  longitude: PropTypes.number.isRequired,
+  lang: PropTypes.string.isRequired,
   latitude: PropTypes.number.isRequired,
-  showMessageToChangeAddress: PropTypes.bool,
-  selCountry: PropTypes.string.isRequired,
-  similarProperties: PropTypes.arrayOf(PropTypes.object),
-  showMap: PropTypes.bool,
-  showSearchLocation: PropTypes.bool,
-  zoom: PropTypes.number,
+  longitude: PropTypes.number.isRequired,
   minHeight: PropTypes.number,
+  multipleFieldSearch: PropTypes.bool,
+  selCountry: PropTypes.string.isRequired,
+  showMap: PropTypes.bool,
+  showMessageToChangeAddress: PropTypes.bool,
+  showSearchLocation: PropTypes.bool,
+  similarProperties: PropTypes.arrayOf(PropTypes.object),
   subMinHeight: PropTypes.string,
+  zoom: PropTypes.number,
 };
 
 MapsCities.defaultProps = {
