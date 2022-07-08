@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelIcon,
-  FormatValue,
+  FormatValue, translateTo,
 } from '@brixel/brixel-components';
 import {
   change,
@@ -23,6 +23,7 @@ const PageBuyer = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    lang,
   } = props;
   // URL PARAMS
 
@@ -42,11 +43,11 @@ const PageBuyer = (props) => {
     <>
       <div className="hide dis-f-lg jc-b max-w-fix-768">
 
-        <h3 className="mb-3 hide dis-b-lg">Brixel Page</h3>
+        <h3 className="mb-3 hide dis-b-lg">{translateTo('Brixel Page', lang)}</h3>
         <div className="">
           <BrixelButtonPrimary
             leftIcon="eye"
-            label={activeSingleProperty.published ? 'Open' : 'Preview'}
+            label={translateTo(activeSingleProperty.published ? 'Open' : 'Preview', lang)}
             rounded
             onClick={() => onClickPreview()}
           />
@@ -58,11 +59,11 @@ const PageBuyer = (props) => {
           <div className="pos-r">
             <div className="dis-f backPanel hide-lg">
               <div className="dis-f jc-b a-bl w-perc-100 pt-small-2">
-                <h5 className="sectionTitle">Brixel Page</h5>
+                <h5 className="sectionTitle">{translateTo('Brixel Page', lang)}</h5>
                 <div className="">
                   <BrixelButtonPrimary
                     leftIcon="eye"
-                    label="Preview"
+                    label={translateTo('Preview', lang)}
                     rounded
                     onClick={() => onClickPreview()}
                   />
