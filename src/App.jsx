@@ -723,7 +723,7 @@ const App = (props) => {
 
           {
             get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
-              <WizardCard />
+              <WizardCard lang={lang} />
             )
           }
 
