@@ -7,7 +7,7 @@ import {
   BrixelButtonPrimary, translateTo,
 } from '@brixel/brixel-components';
 import { setWizard } from '../../actions/CommonActions';
-import WizardText from '../../resources/Dashboard/Wizard';
+import { WizardText } from '../../resources/Dashboard/Wizard';
 import { setCookie } from '../../utils/helpers';
 
 const WizardCard = (props) => {
@@ -21,7 +21,7 @@ const WizardCard = (props) => {
   const [posY, setPosY] = useState(0);
   const [text, setText] = useState({});
   const [el, setEl] = useState(null);
-  const currentWizard = WizardText[wizard.type];
+  const currentWizard = WizardText(lang)[wizard.type];
 
   useEffect(() => {
     if (wizard.step > 0) {

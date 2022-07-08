@@ -57,8 +57,8 @@ const AddShowingsBuyer = (props) => {
     loggedInUser,
     userLang,
   } = props;
-  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [questions, setQuestions] = useState(QuestionsList(lang));
+  const [quest, setQuest] = useState(QuestionsList(lang)[0]);
   const [showError, setShowError] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [action, setAction] = useState(null);
@@ -199,7 +199,7 @@ const AddShowingsBuyer = (props) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    const newQuestions = QuestionsList();
+    const newQuestions = QuestionsList(lang);
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       newQuestions[newIndex].conditions.map((cond) => {
@@ -218,7 +218,7 @@ const AddShowingsBuyer = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList(lang);
     let newIndex = currentIndex;
     setShowError(false);
     setAction(act);
@@ -271,7 +271,7 @@ const AddShowingsBuyer = (props) => {
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((qst) => {
+      QuestionsList(lang).map((qst) => {
         if (qst.condition) {
           let isValid = true;
           qst.condition.map((item) => {

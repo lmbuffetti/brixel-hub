@@ -33,6 +33,7 @@ const IdentificationFlow = (props) => {
     dealID,
     formValue,
     isSmallLoading,
+    lang,
     onBack,
     onClick,
     syncErrors,
@@ -44,7 +45,7 @@ const IdentificationFlow = (props) => {
   const [stepForm, setStepForm] = useState(0);
   const [agreeToProceed, setAgreeToProceed] = useState([]);
 
-  const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'userData');
+  const getBuyerData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'userData');
 
   const onClickEdit = (id, formStep = 0) => {
     setStepResume('editProfile');
@@ -416,6 +417,7 @@ IdentificationFlow.propTypes = {
   dealID: PropTypes.string.isRequired,
   formValue: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   onBack: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   syncErrors: PropTypes.object.isRequired,
@@ -429,6 +431,7 @@ IdentificationFlow.defaultProps = {
 const mapStateToProps = (state) => ({
   syncErrors: get(state, 'brixelForm.Identification.syncErrors', {}),
   formValue: get(state, 'brixelForm.Identification.values', {}),
+  lang: get(state, 'common.language', 'en'),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 

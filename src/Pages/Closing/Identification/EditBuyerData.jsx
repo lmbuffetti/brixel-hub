@@ -26,6 +26,7 @@ const EditBuyerData = (props) => {
     initialValues,
     handleDeleteDocument,
     handleUploadDocument,
+    lang,
     loggedInUser,
     profileId,
     userType,
@@ -37,10 +38,10 @@ const EditBuyerData = (props) => {
   const propID = get(match, 'propID', null);
 
   useEffect(() => {
-    const getBuyerNameData = IdentificationQuestions(true).find((quest) => quest.history === 'userName');
-    const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'userData');
+    const getBuyerNameData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'userName');
+    const getBuyerData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'userData');
     const fullFormBuyerData = getBuyerNameData.inputs.concat(getBuyerData.inputs);
-    const getUploadData = IdentificationQuestions(true).find((quest) => quest.history === 'document');
+    const getUploadData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'document');
     const formDataUpload = get(getUploadData, 'inputs', []);
     switch (forceStep) {
       case 1:
@@ -205,6 +206,7 @@ EditBuyerData.propTypes = {
   handleDeleteDocument: PropTypes.func.isRequired,
   handleUploadDocument: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   profileId: PropTypes.number.isRequired,
   userType: PropTypes.string.isRequired,
@@ -216,6 +218,7 @@ EditBuyerData.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Identification.values', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValues: get(state, 'brixelForm.Identification.initialValues', {}),
 });

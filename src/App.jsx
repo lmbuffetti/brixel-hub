@@ -20,7 +20,7 @@ import {
   BrixelNotification, translateTo,
 } from '@brixel/brixel-components';
 import { reset } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import { Helmet } from 'react-helmet';
 import BestimateCardOverlay from './components/BestimateCardOverlay';

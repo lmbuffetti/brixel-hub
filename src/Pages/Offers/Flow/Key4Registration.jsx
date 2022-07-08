@@ -8,7 +8,7 @@ import {
   BrixelButtonPrimary,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import { FinancialCalculator } from '@brixel/brixel-configuration-partner/dist/FinancialFormulas';
+import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 
 const Key4Registration = (props) => {
   const {
