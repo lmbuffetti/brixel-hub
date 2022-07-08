@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import { translateTo } from '@brixel/brixel-components';
 import cloneDeep from 'lodash/cloneDeep';
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
@@ -130,16 +131,18 @@ const EditBuyerData = (props) => {
     <div>
       <>
         <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-          Who is the {userType} of the property?
+          {translateTo(`Who is the ${userType} of the property?`, lang)}
         </h2>
         <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
           <div className="p-2 p-sm-5">
             {
               forceStep === 0 && (
                 <>
-                  <h3 className="fweight-600 fsize-600">{get(formValue, `persons[${profileId}]`, null) ? 'Edit Person' : 'Add Person'}</h3>
+                  <h3 className="fweight-600 fsize-600">
+                    {translateTo(get(formValue, `persons[${profileId}]`, null) ? 'Edit Person' : 'Add Person', lang)}
+                  </h3>
                   <h6 className="mb-3 txtAltGrey700 fweight-400">
-                    Fill the information below
+                    {translateTo('Fill the information below', lang)}
                   </h6>
                 </>
               )
@@ -183,8 +186,8 @@ const EditBuyerData = (props) => {
                       }}
                       labels={{
                         icons: field.icons,
-                        label: field.label,
-                        labelLeft: field.labelLeft,
+                        label: translateTo(field.label, lang),
+                        labelLeft: translateTo(field.labelLeft, lang),
                         labelType: field.labelType,
                       }}
                     />

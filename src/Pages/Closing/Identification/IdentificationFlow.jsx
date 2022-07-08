@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelProgressBar,
+  BrixelProgressBar, translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -460,7 +460,7 @@ const IdentificationFlow = (props) => {
                         className={`mt-3 mb-3 m-a noWrap ${quest.history}`}
                         rounded
                         theme="green"
-                        label="Back to hub"
+                        label={translateTo('Back to hub', lang)}
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
                         onClick={() => (userType === 'buyer' ? history.push(`/buyer/${propID}/closing`) : history.push(`/${propID}/closing/${dealID}`))}
@@ -476,7 +476,7 @@ const IdentificationFlow = (props) => {
                         rounded
                         theme="green"
                         themeSat={600}
-                        label={buttonLabel()}
+                        label={translateTo(buttonLabel(), lang)}
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
                         rightIcon="arrow-right-small"
@@ -513,7 +513,7 @@ const IdentificationFlow = (props) => {
                           disabled={!checkValidateField()}
                           rounded
                           theme="green"
-                          label={buttonLabel()}
+                          label={translateTo(buttonLabel(), lang)}
                           isLoading={isSmallLoading.sendData}
                           rightIcon="arrow-right-small"
                           onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

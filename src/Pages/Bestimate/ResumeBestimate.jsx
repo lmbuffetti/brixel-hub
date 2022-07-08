@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import { bindActionCreators, compose } from 'redux';
-import { Helpers } from '@brixel/brixel-components';
+import { Helpers, translateTo } from '@brixel/brixel-components';
 import { useParams } from 'react-router-dom';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { createEstimation, generateEstimation } from '../../actions/EstimationActions';
@@ -26,6 +26,7 @@ function ResumeBestimate(props) {
     handleGetEstimation,
     handleGetMarketCheck,
     history,
+    lang,
     marketData,
   } = props;
   // URL PARAMS
@@ -92,34 +93,45 @@ function ResumeBestimate(props) {
             {
               get(estimation, 'result.value', null) ? (
                 <>
-                  <h5 className="ta-c mb-5">We proudly present you your Bestimate<sup>&reg;</sup>.</h5>
+                  <h5 className="ta-c mb-5">
+                    {translateTo('We proudly present you your Bestimate<sup>&reg;</sup>.', lang)}
+                  </h5>
                   {
                     condition.higherValue && (
                       <>
                         {
                           get(activeSingleProperty, 'location.countryCode', null) === 'PT' ? (
                             <>
-                              <p className="ta-c mb-1 txtDark700">Your property is worth</p>
+                              <p className="ta-c mb-1 txtDark700">
+                                {translateTo('Your property is worth', lang)}</p>
                               <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.value, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
                             </>
                           ) : (
                             <>
-                              <p className="ta-c mb-1 txtDark700">Your property is worth up to</p>
+                              <p className="ta-c mb-1 txtDark700">
+                                {translateTo('Your property is worth up to', lang)}
+                              </p>
                               <p className="heading4 ff-mono txtGreen400 fweight-600 ta-c mb-1">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
                             </>
                           )
                         }
-                        <p className="body2 ta-c mb-5 txtDark700">Based on similar transactions.</p>
-                        <p className="fweight-400 ta-c mb-1 txtDark700">Similar properties are currently worth between</p>
+                        <p className="body2 ta-c mb-5 txtDark700">
+                          {translateTo('Based on similar transactions.', lang)}
+                        </p>
+                        <p className="fweight-400 ta-c mb-1 txtDark700">
+                          {translateTo('Similar properties are currently worth between', lang)}
+                        </p>
                         <div className="ta-c mb-5">
                           <p className="ff-mono txtPrimary700 fweight-600 ta-c">{get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.lowerValue, get(activeSingleCompany, 'country.currency', 'CHF'))} - {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(condition.higherValue, get(activeSingleCompany, 'country.currency', 'CHF'))}</p>
                           {
                             get(activeSingleProperty, 'location.countryCode', null) === 'PT' && (
-                              <p className="fsize-200"><span>minimun value</span><span className="mx-2" /><span>maximun value</span></p>
+                              <p className="fsize-200"><span>{translateTo('minimun value', lang)}</span><span className="mx-2" /><span>{translateTo('maximun value', lang)}</span></p>
                             )
                           }
                         </div>
-                        <p className="fweight-400 ta-c txtDark700">Your Bestimate<sup>&reg;</sup> compared to local market data</p>
+                        <p className="fweight-400 ta-c txtDark700">
+                          {translateTo('Your Bestimate<sup>&reg;</sup> compared to local market data', lang)}
+                        </p>
                       </>
                     )
                   }
@@ -138,12 +150,16 @@ function ResumeBestimate(props) {
                 </>
               ) : (
                 <>
-                  <h5 className="ta-c mb-5">We proudly present you your Bestimate<sup>&reg;</sup>.</h5>
-                  <p>We Will contact you</p>
+                  <h5 className="ta-c mb-5">
+                    {translateTo('We proudly present you your Bestimate<sup>&reg;</sup>.', lang)}
+                  </h5>
+                  <p>{translateTo('We Will contact you', lang)}</p>
                 </>
               )
             }
-            <p className="body2 mt-5 txtDark700">The Bestimate<sup>&reg;</sup> is your free price indication. <br /> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.</p>
+            <p className="body2 mt-5 txtDark700">
+              {translateTo('The Bestimate<sup>&reg;</sup> is your free price indication. <br /> It is based on comparable transaction data. Due to the few inputs it does not replace any professional estimation but just gives you a quick orientation.', lang)}
+            </p>
           </>
         ) : (
           <>
@@ -151,9 +167,11 @@ function ResumeBestimate(props) {
               get(marketData, 'priceDistribution', null) ? (
                 <div className="dis-fl-col a-c jc-c">
                   <img src={emptyHouseImg} alt="Empty Market Data" />
-                  <h5 className="mt-3 mb-2">Dude. Where&apos;s my data?</h5>
-                  <p className="ta-c txtDark200 max-w-fix-320 m-a">Unfortunately there is not enough data available to
-                    calculate your result
+                  <h5 className="mt-3 mb-2">
+                    {translateTo('Dude. Where&apos;s my data?', lang)}
+                  </h5>
+                  <p className="ta-c txtDark200 max-w-fix-320 m-a">
+                    {translateTo('Unfortunately there is not enough data available to calculate your result', lang)}
                   </p>
                 </div>
               ) : (
@@ -180,6 +198,7 @@ ResumeBestimate.propTypes = {
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetMarketCheck: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   marketData: PropTypes.object.isRequired,
 };
 
@@ -191,6 +210,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   condition: get(state, 'property.estimation.result', {}),
   estimation: get(state, 'property.estimation', {}),
+  lang: get(state, 'common.language', 'en'),
   marketData: get(state, 'property.marketCheck', {}),
 });
 
