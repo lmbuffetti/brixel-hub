@@ -5,18 +5,19 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import {
   BrixelIcon,
-  BrixelButtonPrimary,
+  BrixelButtonPrimary, translateTo,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 
 const Key4Registration = (props) => {
   const {
-    activeSinglePropertyDocs,
     activeSingleProperty,
+    activeSinglePropertyDocs,
     formValue,
-    onClick,
+    lang,
     loggedInUser,
+    onClick,
   } = props;
   // COUNTRY
   let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
@@ -78,11 +79,13 @@ const Key4Registration = (props) => {
         affordability < maxAffordability && loanToValueRatio < maxLoanRatio ? (
           <>
             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-              Learn within 48 hours if you can afford your desired home.
+              {translateTo('Learn within 48 hours if you can afford your desired home.', lang)}
             </h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
               <div className="p-5">
-                <p className="fsize-500 txtDark700">Please prepare the following documents to apply for your certificate:</p>
+                <p className="fsize-500 txtDark700">
+                  {translateTo('Please prepare the following documents to apply for your certificate:', lang)}
+                </p>
 
                 <div className="mt-3">
                   <div className="dis-f a-c">
@@ -93,7 +96,9 @@ const Key4Registration = (props) => {
                       color="primary"
                       saturationTxt={300}
                     />
-                    <p className="txtDark700">Latest tax declaration</p>
+                    <p className="txtDark700">
+                      {translateTo('Latest tax declaration', lang)}
+                    </p>
                   </div>
                   <div className="dis-f a-c mt-2">
                     <BrixelIcon
@@ -103,7 +108,9 @@ const Key4Registration = (props) => {
                       color="primary"
                       saturationTxt={300}
                     />
-                    <p className="txtDark700">Latest proof of income, incl. proof of bonus if applicable</p>
+                    <p className="txtDark700">
+                      {translateTo('Latest proof of income, incl. proof of bonus if applicable', lang)}
+                    </p>
                   </div>
                   <div className="dis-f a-c mt-2">
                     <BrixelIcon
@@ -113,7 +120,9 @@ const Key4Registration = (props) => {
                       color="primary"
                       saturationTxt={300}
                     />
-                    <p className="txtDark700">Pension fund statement</p>
+                    <p className="txtDark700">
+                      {translateTo('Pension fund statement', lang)}
+                    </p>
                   </div>
 
                   <div className="dis-f a-c mt-2">
@@ -125,7 +134,9 @@ const Key4Registration = (props) => {
                       saturationTxt={300}
                     />
                     <p className="dis-f flex-wrap a-c txtDark700">
-                      <span>Property exposé</span>
+                      <span>
+                        {translateTo('Property exposé', lang)}
+                      </span>
                       {
                         getSellerBrochure() && (
                           <a
@@ -134,7 +145,7 @@ const Key4Registration = (props) => {
                             target="_blank"
                             rel="noreferrer"
                           >
-                            download here
+                            {translateTo('download here', lang)}
                           </a>
                         )
                       }
@@ -146,14 +157,14 @@ const Key4Registration = (props) => {
             </div>
             <div className="max-w-fix-600 mx-a mt-3">
               <p className="fsize-300 txtDark700">
-                <span>By clicking the button you allow us to send the following data to key4: your offer price, property type, property address, type of residence (main type of residence), your equity capital, and your gross annual income. The Privacy Statement applicable to key4 can be found on the</span>
+                <span>{translateTo('By clicking the button you allow us to send the following data to key4: your offer price, property type, property address, type of residence (main type of residence), your equity capital, and your gross annual income. The Privacy Statement applicable to key4 can be found on the', lang)}</span>
                 <a
                   href={linkInfoKey4()}
                   target="_blank"
                   rel="noreferrer"
                   className="ml-small-4 txtDark400 td-u mt-small-4-neg dis-ib"
                 >
-                  <p className="fsize-300 txtDark700">key4 website</p>
+                  <p className="fsize-300 txtDark700">{translateTo('key4 website', lang)}</p>
                 </a>
               </p>
               <BrixelButtonPrimary
@@ -165,19 +176,19 @@ const Key4Registration = (props) => {
               />
 
               <p className="mt-3 fs-i txtDark400 fsize-200">
-                Please note that Brixel will be compensated for your referral when you conclude a mortgage with key4.
+                {translateTo('Please note that Brixel will be compensated for your referral when you conclude a mortgage with key4.', lang)}
               </p>
             </div>
           </>
         ) : (
           <>
             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-              Unfortunately, your budget is not sufficient
+              {translateTo('Unfortunately, your budget is not sufficient', lang)}
             </h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
               <div className="p-5">
                 <h5>
-                  Based on the details you have provided, financing your dream home is not quite possible yet.
+                  {translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}
                 </h5>
               </div>
             </div>
@@ -189,17 +200,19 @@ const Key4Registration = (props) => {
 };
 
 Key4Registration.propTypes = {
-  activeSinglePropertyDocs: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyDocs: PropTypes.arrayOf(PropTypes.object).isRequired,
   formValue: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDocs: get(state, 'property.activeSingleProperty.documents', []),
   formValue: get(state, 'brixelForm.offerFlow.values', {}),
-  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 

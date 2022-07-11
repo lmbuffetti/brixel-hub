@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelProgressBar,
+  BrixelProgressBar, translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -512,7 +512,7 @@ const MakeOffer = (props) => {
                         rounded
                         theme="green"
                         themeSat={600}
-                        label={buttonLabel()}
+                        label={translateTo(buttonLabel(), lang)}
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
                         rightIcon="arrow-right-small"
@@ -555,7 +555,7 @@ const MakeOffer = (props) => {
                                 theme="green"
                                 themeSat={600}
                                 rounded
-                                label={buttonLabel()}
+                                label={translateTo(buttonLabel(), lang)}
                                 rightIcon="arrow-right-small"
                                 onClick={() => buttonContinueClick()}
                               />
@@ -567,7 +567,7 @@ const MakeOffer = (props) => {
                                 isLoading={isSmallLoading.sendData}
                                 theme="green"
                                 themeSat={600}
-                                label={buttonLabel()}
+                                label={translateTo(buttonLabel(), lang)}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                 onShowError={() => setShowError(true)}
