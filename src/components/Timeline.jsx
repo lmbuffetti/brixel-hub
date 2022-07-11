@@ -15,7 +15,7 @@ import {
 } from 'redux';
 import {
   BrixelIcon, BrixelButtonPrimary, BrixelDropdownMini,
-  BrixelButtonIcon, useOutsideAlerter, BrixelAvatar,
+  BrixelButtonIcon, useOutsideAlerter, BrixelAvatar, translateTo,
 } from '@brixel/brixel-components';
 import BrixelTextEditor from '@brixel/brixel-components/dist/components/Form/BrixelTextEditor';
 import get from 'lodash/get';
@@ -77,8 +77,8 @@ const Timeline = (props) => {
     handleSaveNote,
     isDeal,
     isSmallLoading,
+    lang,
     loggedInUser,
-    userLang,
   } = props;
 
   const noteRef = useRef(null);
@@ -109,7 +109,7 @@ const Timeline = (props) => {
     if (isDeal === true && has(activeDeal, 'user.id')) {
       if (activeDealOwnerHistoryList.total > 0 && activeDealOwnerHistoryList.data.length > 0) {
         forEach(activeDealOwnerHistoryList.data, (item) => {
-          array.push(createTimelineEntry(item, userLang));
+          array.push(createTimelineEntry(item, lang));
         });
       }
 
@@ -118,7 +118,7 @@ const Timeline = (props) => {
         forEach(activeDealHistoryList.data, (item) => {
           // We need to call this stub on the history api to process
           // the visit feedback on the deal but we don't need it on the timeline
-          if (item.actionStub !== 'deal-feedback-visit') array.push(createTimelineEntry(item, userLang));
+          if (item.actionStub !== 'deal-feedback-visit') array.push(createTimelineEntry(item, lang));
         });
       }
 
@@ -133,14 +133,14 @@ const Timeline = (props) => {
       if (activePropertyHistoryList.total > 0 && activePropertyHistoryList.data.length > 0) {
         forEach(activePropertyHistoryList.data, (item) => {
           // We ignore page object updates (besides the price), document updates, favorites, schedules and adding packages
-          array.push(createTimelineEntry(item, userLang));
+          array.push(createTimelineEntry(item, lang));
         });
       }
 
       if (activePropertyOwnerHistoryList.total > 0 && activePropertyOwnerHistoryList.data.length > 0) {
         forEach(activePropertyOwnerHistoryList.data, (item) => {
           // We want to get the user recovery and welcome to Brixel messages
-          array.push(createTimelineEntry(item, userLang));
+          array.push(createTimelineEntry(item, lang));
         });
       }
 
@@ -281,14 +281,14 @@ const Timeline = (props) => {
 
   return (
     <div className={`timeline dis-fl-col ${className}`}>
-      <span className="title overline tt-up mb-3">History</span>
+      <span className="title overline tt-up mb-3">{translateTo('History', lang)}</span>
       <div className="events-container w-perc-100 dis-fl-col a-c">
-        <div ref={noteWrapperRef} className="add-note-container w-perc-100 dis-fl-col pb-2 mb-1 md-lg-4">
+        <div ref={noteWrapperRef} className="add-note-container p-2 bgWhite brdRadius w-perc-100 dis-fl-col pb-2 mb-2 md-lg-4">
           <div className="text-container dis-fl-row">
             <BrixelAvatar
-              avatarImg={get(loggedInUser, 'user.avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'user.avatar[0]', '').thumbnailPath : null}
-              name={get(loggedInUser, 'user.name', loggedInUser.user.email)}
-              profileId={get(loggedInUser, 'user.id', '')}
+              avatarImg={get(loggedInUser, 'avatar[0]', '') ? getConfigEnv.shortPath + get(loggedInUser, 'avatar[0]', '').thumbnailPath : null}
+              name={get(loggedInUser, 'name', loggedInUser.email)}
+              profileId={get(loggedInUser, 'id', '')}
             />
             <BrixelTextEditor
               editorClassName="new-note"
@@ -309,7 +309,7 @@ const Timeline = (props) => {
             <BrixelButtonPrimary
               small
               rounded
-              label="Add"
+              label={translateTo('Add', lang)}
               disabled={!newNote}
               onClick={() => addNewNote(newNote)}
               isLoading={isSmallLoading.saveNote}
@@ -340,7 +340,7 @@ const Timeline = (props) => {
                         className="description fsize-300"
                         onClick={(e) => contentClickHandler(e)}
                         dangerouslySetInnerHTML={{
-                          __html: event.description,
+                          __html: translateTo(event.description, lang),
                         }}
                       />
                       <div className="dis-fl-row">
@@ -394,7 +394,7 @@ const Timeline = (props) => {
                               { get(find(event.history, (el) => (el.type === 'create')), 'author.name', 'BOT') }
                             </span>
                             <span className="fsize-100 txtDark200">
-                              {DateTime.fromMillis(event.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                              {DateTime.fromMillis(event.createdAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                             </span>
                           </div>
                         )
@@ -430,7 +430,7 @@ const Timeline = (props) => {
                                 saturationTxt={400}
                                 rounded
                                 small
-                                label="Cancel"
+                                label={translateTo('Cancel', lang)}
                                 onClick={() => {
                                   setEditNoteText();
                                   setCurrentInitialValue('');
@@ -442,7 +442,7 @@ const Timeline = (props) => {
                                 className="mr-1"
                               />
                               <BrixelButtonPrimary
-                                label="Save"
+                                label={translateTo('Save', lang)}
                                 rounded
                                 small
                                 onClick={(e) => {
@@ -506,7 +506,7 @@ const Timeline = (props) => {
                                         links={
                                           [
                                             {
-                                              label: `${event.pinned ? 'Remove pin' : 'Pin to top'}`,
+                                              label: translateTo(`${event.pinned ? 'Remove pin' : 'Pin to top'}`, lang),
                                               clickFunc: (e) => {
                                                 handlePinNote(e, event);
                                                 setNoteOptionsOpen({
@@ -516,7 +516,7 @@ const Timeline = (props) => {
                                               },
                                             },
                                             {
-                                              label: 'Edit',
+                                              label: translateTo('Edit', lang),
                                               clickFunc: () => {
                                                 setEditNoteText(event.content);
                                                 setCurrentInitialValue(event.content);
@@ -531,7 +531,7 @@ const Timeline = (props) => {
                                               },
                                             },
                                             {
-                                              label: 'Delete',
+                                              label: translateTo('Delete', lang),
                                               className: 'txtRed400',
                                               clickFunc: (e) => {
                                                 deleteNote(e, event);
@@ -579,8 +579,8 @@ Timeline.propTypes = {
   handleSaveNote: PropTypes.func.isRequired,
   isDeal: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  userLang: PropTypes.string.isRequired,
 };
 
 Timeline.defaultProps = {
@@ -599,8 +599,8 @@ const mapStateToProps = (state) => ({
   activePropertyOwnerHistoryList: get(state, 'property.activeSinglePropertyOwnerHistory', {}),
   activeSingleCompany: get(state, 'companies.activeSingleCompany', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

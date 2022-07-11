@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers, translateTo } from '@brixel/brixel-components';
 import { has } from 'lodash';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
@@ -41,7 +41,7 @@ const Deals = (props) => {
     setActiveSinglePropertyDeals,
     setPreventExit,
     smallLoader,
-    userLang,
+    lang,
     windowDimensions,
   } = props;
   
@@ -325,12 +325,13 @@ const Deals = (props) => {
             <div className="dis-f jc-b">
               <div className="dis-f jc-fe-md w-perc-100 pt-3 pt-lg-0">
                 <div className="dis-fl-row a-c zIndex3 jc-b w-perc-100">
-                  <h4 className="ml-md-1 fweight-700 hide-lg">Prospects</h4>
-                  <h3 className="mb-3 hide dis-b-lg">Prospects</h3>
+                  <h4 className="ml-md-1 fweight-700 hide-lg">{translateTo('Prospects', lang)}</h4>
+                  <h3 className="mb-3 hide dis-b-lg">{translateTo('Prospects', lang)}</h3>
                   <div className="dis-fl-row a-c zIndex3">
                     {
                       !emptyDeals && (
                         <FilterBar
+                          lang={lang}
                           sortBarType="deals"
                           activeSortDirection=""
                           activeSortOrderType=""
@@ -345,7 +346,7 @@ const Deals = (props) => {
                       icon="plus"
                       className="ml-1"
                       onClick={() => createNewDeal()}
-                      label="Add Deal"
+                      label={translateTo('Add Deal', lang)}
                       tooltipWidth="88"
                     />
                   </div>
@@ -357,7 +358,7 @@ const Deals = (props) => {
               windowDimensions.width <= 1024 && (
                 <BrixelTabs
                   className="mt-3"
-                  labels={['Interested', 'Visits', 'Offers']}
+                  labels={[translateTo('Interested', lang), translateTo('Visits', lang), translateTo('Offers', lang)]}
                   clicksList={['interested', 'visits', 'offers']}
                   onClick={(val) => mobileTabsDeal(val)}
                   fullWidth
@@ -381,7 +382,8 @@ const Deals = (props) => {
                             (!activeTab || activeTab === subkey) && (
                               <div className="pr-2">
                                 <DealsTitle
-                                  title={subkey}
+                                  lang={lang}
+                                  title={translateTo(subkey, lang)}
                                   total={get(filteredDeals, `${key}.${subkey}`, []).length}
                                 />
                               </div>
@@ -410,12 +412,12 @@ const Deals = (props) => {
                               activeSinglePropertyDeals && emptyDeals && smallLoader.loadDeal === false && (
                                 <div className="emptyMessage dis-f w-perc-100 jc-c">
                                   <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
-                                    <h5> No deals yet?</h5>
+                                    <h5>{translateTo('No deals yet?', lang)}</h5>
                                     <p className="p-3 txtDark700">
-                                      Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.
+                                      {translateTo('Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.', lang)}
                                     </p>
                                     <BrixelButtonPrimary
-                                      label="Manage listings"
+                                      label={translateTo('Manage listings', lang)}
                                       rounded
                                       onClick={() => history.push(`/${activeSingleProperty.id}/marketing/page`)}
                                     />
@@ -446,7 +448,7 @@ const Deals = (props) => {
                                                 {
                                                   (emptyDeals && smallLoader.loadDeal) && (
                                                     <>
-                                                      <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{subkey}</span>
+                                                      <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{translateTo(subkey, lang)}</span>
                                                       <img src={DealSkelton} alt="skelton deals" />
                                                       { subkey === 'interested' && (<img className="mt-3 mb-2" src={DealSkelton} alt="skelton deals" />)}
                                                     </>
@@ -482,22 +484,23 @@ const Deals = (props) => {
                                                               className={`list-item pos-r ${!item.active ? 'archived' : ''} ${activeIndexDeal === k && activeOrgColumn === subkey ? 'enabled' : ''}`}
                                                             >
                                                               <DealsCard
+                                                                archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                                archived={!item.active}
                                                                 avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
                                                                 className={`${!item.active ? 'bgLight100' : 'bgWhite'} dealCard`}
-                                                                profileId={get(item, 'user.id', '')}
-                                                                name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
+                                                                date={DateTime.fromMillis(item.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
+                                                                feedback={get(item, 'visitFeedback')}
                                                                 hasMessage={item.actionStub}
-                                                                date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
+                                                                isNew={get(item, 'newSeller')}
+                                                                isWinner={get(item, 'winner')}
+                                                                lang={lang}
+                                                                lastAction={has(item, 'lastAction') ? item.lastAction : {}}
+                                                                name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
+                                                                offer={has(item, 'closing.stageOffer') ? item.closing.stageOffer : {}}
                                                                 parentOnClick={() => openDeal(item.id)}
-                                                                archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                                profileId={get(item, 'user.id', '')}
                                                                 stage={item.stage}
                                                                 visit={item.visit}
-                                                                archived={!item.active}
-                                                                isWinner={get(item, 'winner')}
-                                                                isNew={get(item, 'newSeller')}
-                                                                lastAction={has(item, 'lastAction') ? item.lastAction : {}}
-                                                                offer={has(item, 'closing.stageOffer') ? item.closing.stageOffer : {}}
-                                                                feedback={get(item, 'visitFeedback')}
                                                               />
                                                             </div>
                                                           )
@@ -516,7 +519,7 @@ const Deals = (props) => {
                                                             className="mb-3 dis-fl-row jc-c"
                                                           >
                                                             <span className="fsize-200 txtLight400">
-                                                              Archived
+                                                              {translateTo('Archived', lang)}
                                                             </span>
                                                           </div>
                                                         )
@@ -525,20 +528,21 @@ const Deals = (props) => {
                                                         className={`list-item pos-r ${!item.active ? 'archived' : ''}`}
                                                       >
                                                         <DealsCard
+                                                          archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                          archived={!item.active}
                                                           avatarImg={get(item, 'user.avatar[0]') ? get(item, 'user.avatar[0].thumbnailPath', '') : null}
                                                           className={!item.active ? 'bgLight100' : 'bgWhite'}
-                                                          profileId={get(item, 'user.id', '')}
-                                                          name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
+                                                          date={DateTime.fromMillis(item.updatedAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}
                                                           hasMessage={item.actionStub}
-                                                          date={DateTime.fromMillis(item.updatedAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}
+                                                          isNew={get(item, 'newSeller')}
+                                                          isWinner={get(item, 'winner')}
+                                                          lang={lang}
+                                                          lastAction={has(item, 'lastAction') ? item.lastAction : {}}
+                                                          name={Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name) === 'No Name' ? get(item.user, 'email', '') : Helpers.userNameVal(item.user.firstName, item.user.lastName, item.user.name)}
                                                           parentOnClick={() => openDeal(item.id)}
-                                                          archOnClick={() => archiveDeal(item.id, item.stage, key)}
+                                                          profileId={get(item, 'user.id', '')}
                                                           stage={item.stage}
                                                           visit={item.visit}
-                                                          archived={!item.active}
-                                                          isWinner={get(item, 'winner')}
-                                                          isNew={get(item, 'newSeller')}
-                                                          lastAction={has(item, 'lastAction') ? item.lastAction : {}}
                                                         />
                                                       </div>
                                                     </React.Fragment>
@@ -574,13 +578,13 @@ Deals.propTypes = {
   activeSinglePropertyDeals: PropTypes.object,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSaveDeal: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   resetSingleDeal: PropTypes.func.isRequired,
   saveMultipleDeals: PropTypes.func.isRequired,
   setActiveSinglePropertyDeals: PropTypes.func.isRequired,
   setPreventExit: PropTypes.func.isRequired,
   smallLoader: PropTypes.object.isRequired,
-  userLang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -593,9 +597,9 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', null),
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'property.activeSingleProperty', {}),
+  lang: get(state, 'common.language', 'en'),
   notification: get(state, 'common.notification', []),
   smallLoader: get(state, 'common.isSmallLoading', {}),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

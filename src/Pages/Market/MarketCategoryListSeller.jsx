@@ -11,7 +11,7 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
-  BrixelButtonText,
+  BrixelButtonText, translateTo,
 } from '@brixel/brixel-components';
 import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -66,6 +66,7 @@ const MarketCategoryListSeller = (props) => {
     handleSetActiveSingleProperty,
     handleSetHistory,
     isSmallLoading,
+    lang,
     loggedInUser,
     notification,
     ownerProperties,
@@ -236,6 +237,7 @@ const MarketCategoryListSeller = (props) => {
           <BestimateCardOverlay
             activeSinglePropertyId={activeSingleProperty.customID}
             setBestimateMessage={(val) => setBestimateMessage(val)}
+            lang={lang}
             clearEstimation
           />
         )
@@ -243,7 +245,7 @@ const MarketCategoryListSeller = (props) => {
     
       {/* SECTION: bestimate teaser */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateTeaser' && (
+        (!bestimateMessage && splashScreenType === 'bestimateTeaser') && (
           <SplashScreen
             className="result-popup centered"
             closeOutside={false}
@@ -260,20 +262,24 @@ const MarketCategoryListSeller = (props) => {
                     />
                   </div>
                   <div className="dis-fl-col jc-c a-c pb-2">
-                    <h3>Generating your estimation... </h3>
-                    <span className="max-w-fix-448 ta-c txtDark700 py-2"> Our experts are validating the data and generating an estimation report just for you. </span>
+                    <h3>{translateTo('Generating your estimation...', lang)}</h3>
+                    <span className="max-w-fix-448 ta-c txtDark700 py-2">
+                      {translateTo('Our experts are validating the data and generating an estimation report just for you.', lang)}
+                    </span>
                   
                     <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
                   
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
-                      <span>If you have any questions please contact our </span>
+                      <span>
+                        {translateTo('If you have any questions please contact our', lang)}
+                      </span>
                       <span
                         className="cur-poi link txtPrimary400"
                         onClick={(e) => {
                           openSupport(e);
                         }}
                       >
-                        <span>&nbsp;support</span>
+                        <span className="ml-small-4">{translateTo('support', lang)}</span>
                       </span>
                     </div>
                   </div>
@@ -289,8 +295,11 @@ const MarketCategoryListSeller = (props) => {
                     />
                   </div>
                   <div className="dis-fl-col jc-c a-c pb-2">
-                    <h3 className="ta-c">Get a free price indication. </h3>
-                    <span className="max-w-fix-448 ta-c txtDark700 py-2">Compare your property to real transaction data to better define the pricing.</span>
+                    <h3 className="ta-c">
+                      {translateTo('Get a free price indication.', lang)}</h3>
+                    <span className="max-w-fix-448 ta-c txtDark700 py-2">
+                      {translateTo('Compare your property to real transaction data to better define the pricing.', lang)}
+                    </span>
                   
                     <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
                   
@@ -302,11 +311,11 @@ const MarketCategoryListSeller = (props) => {
                           setBestimateMessage(true);
                         }}
                       >
-                        <span>Thanks, not now</span>
+                        <span>{translateTo('Thanks, not now', lang)}</span>
                       </span>
                       <BrixelButtonPrimary
                         rounded
-                        label="Get free Bestimate&reg;"
+                        label={translateTo('Get free Bestimate®', lang)}
                         className="m-a"
                         onClick={() => onBestimateFlow()}
                         rightIcon="arrow-right"
@@ -322,7 +331,7 @@ const MarketCategoryListSeller = (props) => {
     
       {/* SECTION: bestimate missing */}
       {
-        !bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending') && (
+        (!bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending')) && (
           <SplashScreen
             className="result-popup centered"
             closeOutside={false}
@@ -336,8 +345,10 @@ const MarketCategoryListSeller = (props) => {
               />
             </div>
             <div className="dis-fl-col jc-c a-c pb-2">
-              <h3>Bestimate&reg; is missing 🙁 </h3>
-              <span className="max-w-fix-448 ta-c txtDark700 py-2"> We could not calculate your Bestimate&reg;. No problem. Our support team will do it for you manually. </span>
+              <h3>{translateTo('Bestimate® is missing 🙁', lang)}</h3>
+              <span className="max-w-fix-448 ta-c txtDark700 py-2">
+                {translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}
+              </span>
             
               <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
             
@@ -348,11 +359,11 @@ const MarketCategoryListSeller = (props) => {
                     onCloseBestimateResult();
                   }}
                 >
-                  <span>Thanks, not now</span>
+                  <span>{translateTo('Thanks, not now', lang)}</span>
                 </span>
                 <BrixelButtonPrimary
                   rounded
-                  label="Contact support"
+                  label={translateTo('Contact support', lang)}
                   className="m-a"
                   onClick={(e) => openSupport(e)}
                   rightIcon="arrow-right"
@@ -368,12 +379,16 @@ const MarketCategoryListSeller = (props) => {
           <div className="px-2 px-md-0 mb-5 mb-sm-3">
             <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
               <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
-              <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">Anybody home?</h4>
-              <h5 className="ta-c fSizePx18 mb-2 m-a">For using the Brixel Hub you need at least one property.</h5>
+              <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">
+                {translateTo('Anybody home?', lang)}
+              </h4>
+              <h5 className="ta-c fSizePx18 mb-2 m-a">
+                {translateTo('For using the Brixel Hub you need at least one property.', lang)}
+              </h5>
               <BrixelButtonPrimary
                 rounded
                 className="m-a mt-3"
-                label="+ Add new"
+                label={translateTo('+ Add new', lang)}
                 onClick={() => history.push(`/packageFlow/getStarted?company==${get(loggedInUser, 'company.stub', '')}`)}
               />
             </div>
@@ -383,10 +398,12 @@ const MarketCategoryListSeller = (props) => {
             <div className="dis-f a-c jc-b">
               <h1 className="fsize-400 fsize-sm-700">
                 <span>{ownerProperties.total}</span>
-                <span className="ml-small-4">{ownerProperties.total === 1 ? 'Property' : 'Properties'} added by you</span>
+                <span className="ml-small-4">
+                  {translateTo(`${ownerProperties.total === 1 ? 'Property' : 'Properties'} added by you`, lang)}
+                </span>
               </h1>
               <BrixelButtonText
-                label="+ Add new"
+                label={translateTo('+ Add new', lang)}
                 theme="dark"
                 labelClass="ws-nw"
                 themeSat={700}
@@ -413,24 +430,36 @@ const MarketCategoryListSeller = (props) => {
                                 <img width="176" height="158" src={testdrive} alt="testdrive" />
                               </div>
                               <div className="ml-md-5">
-                                <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">Test drive our service. No strings attached.</h3>
+                                <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">
+                                  {translateTo('Test drive our service. No strings attached.', lang)}
+                                </h3>
                                 <h5 className="fweight-400 fsize-300 fsize-md-400 mt-1 mb-1 mb-sm-3 txtBlue700">
                                   {
                                     companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
                                       <>
-                                        <span>Get the full Brixel experience worth</span>
+                                        <span>
+                                          {translateTo('Get the full Brixel experience worth', lang)}
+                                        </span>
                                         <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
                                       </>
                                     ) : (
-                                      <span>Get the full Brixel experience</span>
+                                      <span>
+                                        {translateTo('Get the full Brixel experience', lang)}
+                                      </span>
                                     )
                                   }
                                 </h5>
                                 <div>
                                   <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
-                                    <li>Personal consultation</li>
-                                    <li className="ml-0 ml-md-3">Free 3D tour & HD photos</li>
-                                    <li className="ml-0 ml-md-3">Full estimation by an expert</li>
+                                    <li>
+                                      {translateTo('Personal consultation', lang)}
+                                    </li>
+                                    <li className="ml-0 ml-md-3">
+                                      {translateTo('Free 3D tour & HD photos', lang)}
+                                    </li>
+                                    <li className="ml-0 ml-md-3">
+                                      {translateTo('Full estimation by an expert', lang)}
+                                    </li>
                                   </ul>
                                 </div>
                             
@@ -445,6 +474,7 @@ const MarketCategoryListSeller = (props) => {
                           item={prop}
                           onSetActiveProperty={(id) => setPropertyId(id)}
                           bookProp={() => bookNow()}
+                          lang={lang}
                         />
                       </div>
                     ))
@@ -469,7 +499,7 @@ const MarketCategoryListSeller = (props) => {
             {
               ownerProperties.total > 0 && (
                 <BrixelButtonSecondary
-                  label="View all"
+                  label={translateTo('View all', lang)}
                   rounded
                   rightIcon="arrow-simple-right"
                   className="m-a mt-3"
@@ -485,7 +515,7 @@ const MarketCategoryListSeller = (props) => {
       <div className="bgLight100 pt-6 pt-sm-8 pb-4 pb-sm-7">
         <div className="container">
           <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
-            Boost your private sale with an upgrade.
+            {translateTo('Boost your private sale with an upgrade.', lang)}
           </h3>
         
           <div className="dis-fl-col dis-fl-row-sm jc-c pkgsWrap">
@@ -506,7 +536,7 @@ const MarketCategoryListSeller = (props) => {
                         className={`${pkg.type} bgWhite txtDark700 mb-2 mb-sm-0 mx-0 mx-sm-2 w-perc-100 brdSmall brdRadius py-3 px-4 min-h-fix-248 cur-poi max-w-fix-400 w-perc-100`}
                       >
                         <div className="dis-f jc-b a-c">
-                          <h4 className="fweight-500 txtDark700">{pkg.name}</h4>
+                          <h4 className="fweight-500 txtDark700">{translateTo(pkg.name, lang)}</h4>
                           {
                             (activeSinglePropertyActivePackage.stub === pkg.stub || (!activeSinglePropertyActivePackage.stub && pkg.type === 'basic')) && (
                               <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
@@ -517,15 +547,17 @@ const MarketCategoryListSeller = (props) => {
                           pkg.price.total > 0 ? (
                             <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
                               <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                              <small className="ml-1 fsize-300 txtDark700">incl. VAT</small>
+                              <small className="ml-1 fsize-300 txtDark700">
+                                {translateTo('incl. VAT', lang)}
+                              </small>
                             </p>
                           ) : (
                             <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
-                              Free
+                              {translateTo('Free', lang)}
                             </p>
                           )
                         }
-                        <p className="txtDark700">{pkg.description}</p>
+                        <p className="txtDark700">{translateTo(pkg.description, lang)}</p>
                       </div>
                     ))
                   }
@@ -537,14 +569,14 @@ const MarketCategoryListSeller = (props) => {
           <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
             <BrixelButtonPrimary
               rounded
-              label="Upgrade your plan"
+              label={translateTo('Upgrade your plan', lang)}
               onClick={() => window.location.assign(`/${get(ownerProperties, 'data[0].id', 'company')}/upgrade`)}
           
             />
-            <span className="mx-sm-1 mt-2 my-sm-0">or</span>
+            <span className="mx-sm-1 mt-2 my-sm-0">{translateTo('or', lang)}</span>
             <BrixelButtonText
               rounded
-              label="compare all plans"
+              label={translateTo('compare all plans', lang)}
               onClick={() => window.location.assign(`/${get(ownerProperties, 'data[0].id', 'company')}/upgrade#comparePlan`)}
               theme="AltGrey"
               themeSat={700}
@@ -556,7 +588,7 @@ const MarketCategoryListSeller = (props) => {
     
       <div className="mt-6 mt-sm-10">
         <div className="container">
-          <h4 className="mb-4 fweight-600 txtDark700">This may interest you</h4>
+          <h4 className="mb-4 fweight-600 txtDark700">{translateTo('This may interest you', lang)}</h4>
         
           <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
             {
@@ -568,9 +600,9 @@ const MarketCategoryListSeller = (props) => {
                   <a className="txtDark700 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
                     <img src={article.img} alt={`Article ${i}`} />
                   </a>
-                  {article.title && (<h5 className=" fweight-600 mb-1">{article.title}</h5>)}
-                  <p className="mb-2 txtDark700">{article.desc}</p>
-                  <a className="txtDark700 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">Read more</a>
+                  {article.title && (<h5 className=" fweight-600 mb-1">{translateTo(article.title, lang)}</h5>)}
+                  <p className="mb-2 txtDark700">{translateTo(article.desc, lang)}</p>
+                  <a className="txtDark700 td-u fsize-300" href={article.url} target="_blank" rel="noreferrer">{translateTo('Read more', lang)}</a>
                 </div>
               ))
             }
@@ -617,6 +649,7 @@ MarketCategoryListSeller.propTypes = {
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
   ownerProperties: PropTypes.object.isRequired,
@@ -630,7 +663,6 @@ MarketCategoryListSeller.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
-  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleCompanyPackages: get(state, 'companies.activeSingleCompanyPackages', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyActivePackage: get(state, 'property.activeSinglePropertyActivePackage', {}),
@@ -638,20 +670,14 @@ const mapStateToProps = (state) => ({
   bestimate: get(state, 'property.estimation.result', {}),
   companyListings: get(state, 'companies.companyListings.data', []),
   estimation: get(state, 'property.estimation', {}),
-  favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
-  newProperties: get(state, 'market.newProperties', {}),
   notification: get(state, 'common.notification', []),
-  ownerEstimations: get(state, 'market.ownerEstimations', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
-  preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   skeleton: get(state, 'common.skeleton', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
-  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
-  windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

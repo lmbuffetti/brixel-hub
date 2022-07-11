@@ -7,7 +7,7 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   FormatValue,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
@@ -28,6 +28,7 @@ const DashboardPropertyCard = (props) => {
     estimation,
     formValue,
     handleSetModal,
+    lang,
     smallLayout,
     type,
   } = props;
@@ -51,7 +52,7 @@ const DashboardPropertyCard = (props) => {
                   to={`/${activeSingleProperty.id}/property/photos`}
                   className="pos-a-fix x-r-1 x-b-1 brdRadiusLrg px-2 bgWhite p-small-10 txtDark700 opacity-08"
                 >
-                  Edit
+                  {translateTo('Edit', lang)}
                 </Link>
               )
             }
@@ -78,7 +79,7 @@ const DashboardPropertyCard = (props) => {
                       <div className="dis-f w-perc-100 jc-b">
                         <div className="brdSmallRight brdAltGrey200 pr-2">
                           <h6 className="ff-mono txtAltGrey400 fsize-300">
-                            Living area
+                            {translateTo('Living area', lang)}
                           </h6>
                           <p className="fsize-500 fSizePx20">
                             {get(activeSingleProperty, 'properties.typology.livingArea.value', 0)}m2
@@ -86,7 +87,7 @@ const DashboardPropertyCard = (props) => {
                         </div>
                         <div className="ml-2 brdSmallRight brdAltGrey200 pr-2">
                           <h6 className="ff-mono txtAltGrey400 fsize-300">
-                            Rooms
+                            {translateTo('Rooms', lang)}
                           </h6>
                           <p className="fsize-500 fSizePx20">
                             {FormatValue.formatRooms(get(activeSingleProperty, 'properties.typology.bedrooms', 0), get(activeSingleProperty, 'location.countryCode', 'CH'))
@@ -95,7 +96,7 @@ const DashboardPropertyCard = (props) => {
                         </div>
                         <div className="ml-2 brdSmallRight-sm brdAltGrey200 pr-2 mr-1">
                           <h6 className="ff-mono txtAltGrey400 fsize-300">
-                            Year built
+                            {translateTo('Year built', lang)}
                           </h6>
                           <p className="fsize-500 fSizePx20">
                             {get(activeSingleProperty, 'properties.building.built', 0)}
@@ -106,7 +107,7 @@ const DashboardPropertyCard = (props) => {
                       <BrixelButtonSecondary
                         className="as-fs mt-2 mt-a-sm mb-a w-auto-sm w-perc-100"
                         rounded
-                        label="View"
+                        label={translateTo('View', lang)}
                         onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
                       />
 
@@ -130,7 +131,7 @@ const DashboardPropertyCard = (props) => {
                                 padding="p-small-8"
                               />
                               <span className="pl-1 pr-2 txtBlue700 fsize-300">
-                                3D-Tour
+                                {translateTo('3D-Tour', lang)}
                               </span>
                             </button>
                           </div>
@@ -189,7 +190,9 @@ const DashboardPropertyCard = (props) => {
                           iconSize="large"
                         />
                         <div className="ml-2 dis-fl-col">
-                          <span className="txtLight600 fsize-300">Your Price</span>
+                          <span className="txtLight600 fsize-300">
+                            {translateTo('Your Price', lang)}
+                          </span>
                           <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
                             <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
                             <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
@@ -199,7 +202,7 @@ const DashboardPropertyCard = (props) => {
                       <BrixelButtonPrimary
                         className="mt-2 mt-sm-0 mr-a mr-sm-0 mb-3 mb-sm-0"
                         rounded
-                        label="Open"
+                        label={translateTo('Open', lang)}
                         onClick={() => window.open(`${baseByData.pageUrl}${activeSingleProperty.stub}`, '_blank')}
                       />
                     </div>
@@ -220,7 +223,9 @@ const DashboardPropertyCard = (props) => {
                                 iconSize="large"
                               />
                               <div className="ml-2 dis-fl-col">
-                                <span className="txtLight600 fsize-300"> Your Price</span>
+                                <span className="txtLight600 fsize-300">
+                                  {translateTo('Your Price', lang)}
+                                </span>
                                 <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 fweight-600">
                                   <span>{get(activeSingleProperty, 'price.currency', 0)}</span>
                                   <span className="ml-1">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', 0))}</span>
@@ -244,14 +249,18 @@ const DashboardPropertyCard = (props) => {
                                     iconSize="large"
                                   />
                                   <div className="dis-fl-col pl-2 mr-1">
-                                    <span className="txtLight600 fsize-300">Pro estimation</span>
+                                    <span className="txtLight600 fsize-300">
+                                      {translateTo('Pro estimation', lang)}
+                                    </span>
                                     <Link to={`/${activeSingleProperty.id}/property/price`} className="txtBlue700 no-state fweight-600">
                                       {get(activeSingleProperty, 'proEstimation.currency', 0)} {Helpers.formatNumberValue(get(activeSingleProperty, 'proEstimation.value', 0), get(activeSingleProperty, 'proEstimation.currency', 0))}
                                     </Link>
                                   </div>
                                   <div className="tagBg dis-fl-row-sm hide a-c">
                                     <span className="activeDot" />
-                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700"> Set your price </Link>
+                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700">
+                                      {translateTo('Set your price', lang)}
+                                    </Link>
                                   </div>
                                 </div>
                               ) : (
@@ -267,18 +276,20 @@ const DashboardPropertyCard = (props) => {
                                     iconSize="large"
                                   />
                                   <div className="dis-fl-col pl-2 mr-1">
-                                    <span className="txtLight600 fsize-300">Your Bestimate</span>
+                                    <span className="txtLight600 fsize-300">
+                                      {translateTo('Your Bestimate', lang)}
+                                    </span>
                                     {
                                       !get(estimation, 'status', null) || !completedBestimate(formValue) && !get(estimation, 'status', '') === 'processed' && (
                                         <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
-                                          Get Estimation
+                                          {translateTo('Get Estimation', lang)}
                                         </Link>
                                       )
                                     }
                                     {
                                       get(estimation, 'status', '') === 'pending' && completedBestimate(formValue) && (
                                         <span className="txtBlue700 fweight-600">
-                                          Pending
+                                          {translateTo('Pending', lang)}
                                         </span>
                                       )
                                     }
@@ -298,7 +309,9 @@ const DashboardPropertyCard = (props) => {
                                   </div>
                                   <div className="tagBg dis-fl-row-sm hide a-c">
                                     <span className="activeDot" />
-                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700"> Set your price </Link>
+                                    <Link to={`/${activeSingleProperty.id}/property/price`} className="px-2 no-state txtBlue700">
+                                      {translateTo('Set your price', lang)}
+                                    </Link>
                                   </div>
                                 </div>
                               )
@@ -323,6 +336,7 @@ DashboardPropertyCard.propTypes = {
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSetModal: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   smallLayout: PropTypes.bool,
   type: PropTypes.string,
 };

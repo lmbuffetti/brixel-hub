@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   BrixelButtonSecondary,
-  BrixelIcon,
+  BrixelIcon, translateTo,
 } from '@brixel/brixel-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
@@ -19,6 +19,7 @@ const DashboardPropertyCardSold = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    lang,
     loggedInUser,
   } = props;
 
@@ -30,7 +31,7 @@ const DashboardPropertyCardSold = (props) => {
       >
         <div className="pos-r zIndex2 h-perc-100 dis-fl-col jc-b">
           <h2 className="mb-6 mb-sm-3 txtWhite fweight-600 customFsize">
-            <span>Congratulations on your sale</span>
+            <span>{translateTo('Congratulations on your sale', lang)}</span>
             <span>, {loggedInUser && (<>{loggedInUser.firstName}</>)} 🎉 </span>
           </h2>
 
@@ -42,7 +43,7 @@ const DashboardPropertyCardSold = (props) => {
                 rounded
                 bgTransparent
                 onClick={() => history.push(`/${get(activeSingleProperty, 'id', '')}/property/tour`)}
-                label="3D-Tour"
+                label={translateTo('3D-Tour', lang)}
                 className="mr-2"
               />
               <BrixelIcon
@@ -66,6 +67,7 @@ const DashboardPropertyCardSold = (props) => {
 
 DashboardPropertyCardSold.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
 

@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon, translateTo } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { setModal } from '../../../actions/CommonActions';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
@@ -14,6 +14,7 @@ const Tour = (props) => {
   // PROPS
   const {
     formValue,
+    lang,
     handleSetModal,
   } = props;
   // URL PARAMS
@@ -39,12 +40,12 @@ const Tour = (props) => {
 
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">3D tour</h3>
+      <h3 className="mb-3 hide dis-b-lg">{translateTo('3D tour', lang)}</h3>
       <div className="tourWrapper h-perc-lg-100">
         <div className="secondLevel dis-fl-col">
           <div className="dis-f backPanel hide-lg">
             <h5 className="sectionTitle">
-              3D tour
+              {translateTo('3D tour', lang)}
             </h5>
           </div>
           {
@@ -68,18 +69,19 @@ const Tour = (props) => {
                       className="m-a opacity8"
                       onClick={() => open3dTour()}
                     />
-                    <p className="ta-c txtWhite mt-2">Start 3D tour</p>
+                    <p className="ta-c txtWhite mt-2">{translateTo('Start 3D tour', lang)}</p>
                   </div>
                 </div>
               </div>
             ) : (
               <div className="tour brixel-upgrade-message rewardsSplash">
                 <BrixelUpgradeMessage
+                  lang={lang}
                   onOpentour={(url) => open3dTour(url)}
                   unlockFunction={false}
-                  title="Do you want a 3D tour for your property?"
-                  description="A 3D tour helps you to avoid unnecessary showings and increases the attention of your property in the market. Request a free scan by one of our experts to get your own tour."
-                  btnLabel="Request scan"
+                  title={translateTo('Do you want a 3D tour for your property?', lang)}
+                  description={translateTo('A 3D tour helps you to avoid unnecessary showings and increases the attention of your property in the market. Request a free scan by one of our experts to get your own tour.', lang)}
+                  btnLabel={translateTo('Request scan', lang)}
                   redirectUrl={`/${formValue.id}/trialRequest`}
                   virtualTour="https://my.matterport.com/show/?m=ctWod3ggrZi&help=0&hl=2&nt=1&play=1&brand=0&mls=2&mt=0&wh=0"
                   trialRequest
@@ -95,6 +97,7 @@ const Tour = (props) => {
 
 Tour.propTypes = {
   formValue: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   handleSetModal: PropTypes.func.isRequired,
 };
 
@@ -104,6 +107,7 @@ Tour.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', { }),
 });
 

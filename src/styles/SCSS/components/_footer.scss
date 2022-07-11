@@ -16,7 +16,8 @@ footer.footerWrap {
     }
 
     > div {
-      width: 33.33%;
+      flex-grow: 1;
+      flex-basis: 0;
       @media (max-width: $responsive-small) {
        width: 100%;
        text-align: center;

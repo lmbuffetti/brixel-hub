@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import {
   BrixelButtonPrimary,
-  FactsOptions,
+  FactsOptions, translateTo,
 } from '@brixel/brixel-components';
 import {
   BrixelRadioButton,
@@ -31,6 +31,7 @@ const WelecomeOnboardingStage = (props) => {
   const {
     activeSingleProperty,
     changeFieldValue,
+    lang,
   } = props;
 
   const onChangeStep = () => {
@@ -95,9 +96,9 @@ const WelecomeOnboardingStage = (props) => {
               }
 
               <p className="txtDark700 mt-4 mt-sm-7 fweight-600 fsize-600 fsize-sm-700 max-w-fix-424 mx-a">
-                <span>Great.</span>
+                <span>{translateTo('Great.', lang)}</span>
                 <span className="mx-small-4">&ldquo;{activeSingleProperty.title}&rdquo;</span>
-                <span>is ready.</span>
+                <span>{translateTo('is ready.', lang)}</span>
               </p>
 
               <p className="mt-3 txtBlack max-w-fix-448 m-a fweight-400 fsize-500 fsize-sm-600">
@@ -107,7 +108,7 @@ const WelecomeOnboardingStage = (props) => {
               <BrixelButtonPrimary
                 className="mx-a mt-5"
                 rounded
-                label="Yes, let's go."
+                label={translateTo('Yes, let\'s go.', lang)}
                 rightIcon="arrow-right-small"
                 onClick={() => onChangeStep()}
               />
@@ -119,7 +120,7 @@ const WelecomeOnboardingStage = (props) => {
       return (
         <div>
           <div className="ta-c mb-6">
-            <h3 className="fweight-600 txtDark700">Choose your next step</h3>
+            <h3 className="fweight-600 txtDark700">{translateTo('Choose your next step', lang)}</h3>
           </div>
           <BrixelRadioButton
             design={{
@@ -134,22 +135,22 @@ const WelecomeOnboardingStage = (props) => {
             disableDelay
             options={[
               {
-                title: 'Test drive our service',
-                label: 'Because you would not buy a car without driving it.',
+                title: translateTo('Test drive our service', lang),
+                label: translateTo('Because you would not buy a car without driving it.', lang),
                 value: 'testDrive',
                 img: '',
                 color: 'blue',
               },
               {
-                title: 'Explore the tool on your own',
-                label: 'For all the explorers who like to click things.',
+                title: translateTo('Explore the tool on your own', lang),
+                label: translateTo('For all the explorers who like to click things.', lang),
                 value: 'overview',
                 img: '',
                 color: 'blue',
               },
               {
-                title: 'Talk to a human',
-                label: 'Yes, a real human expert who is happy to help.',
+                title: translateTo('Talk to a human', lang),
+                label: translateTo('Yes, a real human expert who is happy to help.', lang),
                 value: 'discuss',
                 img: '',
                 color: 'blue',
@@ -170,6 +171,7 @@ const WelecomeOnboardingStage = (props) => {
 WelecomeOnboardingStage.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({

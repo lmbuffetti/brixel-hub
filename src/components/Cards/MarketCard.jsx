@@ -14,7 +14,7 @@ import {
   BrixelIcon,
   FormatValue,
   Helpers,
-  ProgressRing,
+  ProgressRing, translateTo,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -49,6 +49,7 @@ const MarketCard = (props) => {
     handleGetPackageProperty,
     isSmallLoading,
     item,
+    lang,
     layout,
     onSetActiveProperty,
     preventClick,
@@ -246,7 +247,9 @@ const MarketCard = (props) => {
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                             onClick={() => tag === 'pre-market' && history.push(`/${item.id}/marketing/portals`)}
                           >
-                            <span className="type">{getTypeText(tag)}</span>
+                            <span className="type">
+                              {translateTo(getTypeText(tag), lang)}
+                            </span>
                           </p>
                         ))
                       }
@@ -263,7 +266,7 @@ const MarketCard = (props) => {
                       <h6
                         className="fweight-600 fsize-500 fsize-sm-600 mb-small-4 txtDark700 ellipsis two w-perc-100 ta-l mb-2 notranslate"
                       >
-                        {get(item, 'title', '')}
+                        {translateTo(get(item, 'title', ''), lang)}
                       </h6>
                       <div>
                         <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight brdLight400 mr-2 pr-2 dis-ib notranslate">
@@ -277,7 +280,7 @@ const MarketCard = (props) => {
                           }
                         </span>
                         <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2 brdLight400 dis-ib">
-                          {get(item, 'properties.propertyType', '')}
+                          {translateTo(get(item, 'properties.propertyType', ''), lang)}
                         </span>
                         <span className="fsize-300 txtAltGrey700 mb-1 ta-l brdSmallRight mr-2 pr-2  brdLight400 dis-ib notranslate">
                           {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
@@ -312,7 +315,8 @@ const MarketCard = (props) => {
                               iconSize="large"
                             />
                             <div className="ml-2 dis-fl-col">
-                              <span className="txtLight600 fsize-300"> Your Price</span>
+                              <span className="txtLight600 fsize-300">
+                                {translateTo('Your Price', lang)}</span>
                               <Link to={`/${item.id}/property/price`} className="txtBlue700 fweight-600">
                                 <span>{get(item, 'price.currency', 0)}</span>
                                 <span className="ml-1">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', 0))}</span>
@@ -334,11 +338,11 @@ const MarketCard = (props) => {
                             iconSize="large"
                           />
                           <div className="dis-fl-col">
-                            <span className="txtLight600 fsize-300">Your Bestimate</span>
+                            <span className="txtLight600 fsize-300">{translateTo('Your Bestimate', lang)}</span>
                             {
                               ((get(item, 'estimation.status', '') === 'pending' && completedBestimate(item)) || (get(item, 'properties.propertyType', null) === 'Commercial' || get(item, 'properties.propertyType', null) === 'Building land')) ? (
                                 <span className="txtBlue700 fweight-600">
-                                  Pending
+                                  {translateTo('Pending', lang)}
                                 </span>
                               ) : (
                                 <>
@@ -348,7 +352,7 @@ const MarketCard = (props) => {
                                         to={`/${item.id}/singleFlow/achievement/bestimate/step1?url=/sell`}
                                         className="txtBlue700 fweight-600"
                                       >
-                                        Get Estimation
+                                        {translateTo('Get Estimation', lang)}
                                       </Link>
                                     )
                                   }
@@ -391,10 +395,10 @@ const MarketCard = (props) => {
                                   </div>
                                 </div>
                                 <div className="pl-2">
-                                  <span className="txtLight600 fsize-300 dis-b">Pro estimation</span>
+                                  <span className="txtLight600 fsize-300 dis-b">{translateTo('Pro estimation', lang)}</span>
                                   <span className="txtBlue700 fweight-600 dis-b">
                                     <span>{calcPercentageProEstimation('', item).realPerc}% </span>
-                                    <span> complete</span>
+                                    <span>{translateTo('complete', lang)}</span>
                                   </span>
                                 </div>
                               </div>
@@ -434,7 +438,7 @@ const MarketCard = (props) => {
                             key={`itmTgs_${i.toString()}`}
                             className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                           >
-                            <span className="type">{getTypeText(tag)}</span>
+                            <span className="type">{translateTo(getTypeText(tag), lang)}</span>
                           </p>
                         ))
                       }
@@ -471,7 +475,7 @@ const MarketCard = (props) => {
                         </div>
                       ) : (
                         <span className="txtGreen400 fsize-500">
-                          {get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request'}
+                          {translateTo(get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request', lang)}
                         </span>
                       )
                     }
@@ -482,7 +486,7 @@ const MarketCard = (props) => {
                     <div className="dis-f a-c flex-wrap">
                       <div className="div pt-small-2">
                         <span>
-                          {get(item, 'properties.propertyType', '')}
+                          {translateTo(get(item, 'properties.propertyType', ''), lang)}
                         </span>
                       </div>
                       <div className="notranslate">
@@ -538,16 +542,16 @@ const MarketCard = (props) => {
                         {
                           get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
                             <>
-                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>Your property is visible on our pre-market.</span> <a href="/${item.id}/marketing/portals" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">Learn more.</a>` }} />
+                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${item.id}/marketing/portals" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
                             </>
                           ) : (
                             <>
-                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: '<span>Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.</span>' }} />
+                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.', lang)}</span>` }} />
                               <a
                                 href={`/${item.id}/marketing/portals`}
                                 className="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u p-0 btnInline"
                               >
-                                Change it here.
+                                {translateTo('Change it here.', lang)}
                               </a>
                             </>
                           )
@@ -561,7 +565,7 @@ const MarketCard = (props) => {
                     >
                       <div className="dis-fl-row-sm">
                         <p className="pl-1 fsize-300 txtLight600">
-                          <span>Your property is visible on our market.</span>
+                          <span>{translateTo('Your property is visible on our market.', lang)}</span>
                         </p>
                       </div>
                     </div>
@@ -572,7 +576,7 @@ const MarketCard = (props) => {
                     isSmallLoading[`loadPackage${get(item, 'id', '')}`] === false && (
                       <div>
                         <span>
-                          Your plan:
+                          {translateTo('Your plan:', lang)}
                         </span>
                         <span
                           className="ml-1 td-u cur-poi"
@@ -587,13 +591,13 @@ const MarketCard = (props) => {
                     <BrixelButtonSecondary
                       className="ml-sm-2 my-1 my-sm-0"
                       rounded
-                      label="Edit"
+                      label={translateTo('Edit', lang)}
                       onClick={() => history.push(`/${item.id}/home`)}
                     />
                     <BrixelButtonPrimary
                       className="ml-sm-2"
                       rounded
-                      label="Request test drive"
+                      label={translateTo('Request test drive', lang)}
                       onClick={() => history.push(`/${item.id}/trialRequest?url=/sell`)}
                     />
                   </div>
@@ -616,6 +620,7 @@ MarketCard.propTypes = {
   handleGetPackageProperty: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   item: PropTypes.object,
+  lang: PropTypes.string.isRequired,
   layout: PropTypes.string,
   onSetActiveProperty: PropTypes.func,
   preventClick: PropTypes.bool,

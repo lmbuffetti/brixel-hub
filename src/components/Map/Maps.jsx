@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { translateTo } from '@brixel/brixel-components';
 /* eslint-disable array-callback-return */
 import React, {
   useState, createRef, useEffect, useRef,
@@ -38,6 +39,7 @@ export const ComponentMap = (props) => {
     handleUpdateCountry,
     init,
     input,
+    lang,
     latitude,
     longitude,
     multipleFieldSearch,
@@ -334,7 +336,7 @@ export const ComponentMap = (props) => {
                   className="search-box"
                   type="text"
                   ref={inputSearch}
-                  label="Address"
+                  label={translateTo('Address', lang)}
                   disabled={disabled}
                   placeholder="Write street name"
                   input={{
@@ -411,6 +413,7 @@ ComponentMap.propTypes = {
   multipleFieldSearch: PropTypes.bool,
   handleUpdateCountry: PropTypes.func.isRequired,
   input: PropTypes.object,
+  lang: PropTypes.string.isRequired,
   longitude: PropTypes.number.isRequired,
   latitude: PropTypes.number.isRequired,
   onSubmit: PropTypes.func,

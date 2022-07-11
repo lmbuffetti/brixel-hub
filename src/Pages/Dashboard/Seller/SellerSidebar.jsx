@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { BrixelIcon, ProgressRing } from '@brixel/brixel-components';
+import { BrixelIcon, ProgressRing, translateTo } from '@brixel/brixel-components';
 import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -29,6 +29,7 @@ const SellerSidebar = (props) => {
     documents,
     handleGetHistoryFeed,
     handleGetNoteListings,
+    lang,
     loggedInUser,
     progressStep,
   } = props;
@@ -122,7 +123,7 @@ const SellerSidebar = (props) => {
 
   const convertFeedMessage = (stub, type, history) => {
     if (activeSingleProperty.id) {
-      const data = feedMessage(loggedInUser, history, activeCompanyPackages, activeSingleProperty);
+      const data = feedMessage(loggedInUser, history, activeCompanyPackages, activeSingleProperty, lang);
       if (data[stub] && data[stub][type]) return data[stub][type];
       if (history.content) return data.note[type];
       return data.default[type];
@@ -151,7 +152,8 @@ const SellerSidebar = (props) => {
           progressStep.step === 1 && (
             <div>
               <div className="p-3">
-                <p className="fweight-600 txtDark700 mb-2">Tasks</p>
+                <p className="fweight-600 txtDark700 mb-2">
+                  {translateTo('Tasks', lang)}</p>
 
                 <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen300">
                   <div>
@@ -168,9 +170,13 @@ const SellerSidebar = (props) => {
                   </div>
                   <div className="ml-3 fsize-300">
                     <span>{countMandatoryDocuments()}</span>
-                    <span className="ml-small-4">of</span>
+                    <span className="ml-small-4">
+                      {translateTo('of', lang)}
+                    </span>
                     <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
-                    <span className="ml-small-4">uplaoded on your docubox</span>
+                    <span className="ml-small-4">
+                      {translateTo('uplaoded on your docubox', lang)}
+                    </span>
 
                     <Link
                       className="dis-b mt-1 fsize-300 td-u"
@@ -178,7 +184,7 @@ const SellerSidebar = (props) => {
                         pathname: `/${propID}/docubox`,
                       }}
                     >
-                      Upload
+                      {translateTo('Upload', lang)}
                     </Link>
                   </div>
                 </div>
@@ -195,7 +201,9 @@ const SellerSidebar = (props) => {
                   />
                   <div className="ml-3 fsize-300">
                     <span>{calcPercentageProEstimation().realPerc}%</span>
-                    <span className="ml-small-4">of Pro Estimation complete</span>
+                    <span className="ml-small-4">
+                      {translateTo('of Pro Estimation complete', lang)}
+                    </span>
 
                     <Link
                       className="dis-b mt-1 fsize-300 td-u"
@@ -203,7 +211,7 @@ const SellerSidebar = (props) => {
                         pathname: calcPercentageProEstimation().realPerc < 100 ? `/${propID}/property/price/formFlow` : `/${propID}/property/price`,
                       }}
                     >
-                      {calcPercentageProEstimation().realPerc < 100 ? 'Next step' : 'View'}
+                      {translateTo(calcPercentageProEstimation().realPerc < 100 ? 'Next step' : 'View', lang)}
                     </Link>
 
                   </div>
@@ -216,7 +224,9 @@ const SellerSidebar = (props) => {
         }
 
         <div className="p-3">
-          <p className="fweight-600 txtDark700 mb-2">Feed</p>
+          <p className="fweight-600 txtDark700 mb-2">
+            {translateTo('Feed', lang)}
+          </p>
 
           {
             fullUpdates.map((history, i) => (
@@ -238,7 +248,7 @@ const SellerSidebar = (props) => {
                 <div className="pl-2 desc">
                   <p
                     className="fsize-300 txtDark600 dont-break-out"
-                    dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history), typeof history.actionStub === 'undefined') }}
+                    dangerouslySetInnerHTML={{ __html: translateTo(parseNote(convertFeedMessage(history.actionStub, 'message', history), typeof history.actionStub === 'undefined'), lang) }}
                   />
                   {
                     !isNaN(get(history, 'createdAt', null)) && (
@@ -267,14 +277,15 @@ const SellerSidebar = (props) => {
 };
 
 SellerSidebar.propTypes = {
-  activeSingleProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeSingleProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
+  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
   handleGetNoteListings: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   progressStep: PropTypes.object,
 };
@@ -286,10 +297,11 @@ SellerSidebar.defaultProps = {
 const mapStateToProps = (state) => ({
   activeCompanyPackages: get(state, 'companies.activeSingleCompany.servicePackages', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  documents: get(state, 'property.activeSingleProperty.documents', []),
   activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory.data', []),
   activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
   activeSingleUserHistory: get(state, 'history.activeSingleUserHistory.data', []),
+  documents: get(state, 'property.activeSingleProperty.documents', []),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
 });
 

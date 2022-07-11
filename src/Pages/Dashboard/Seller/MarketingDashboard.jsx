@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Suspense } from 'react';
+import PropTypes from 'prop-types';
 import {
   Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import { translateTo } from '@brixel/brixel-components';
+import get from 'lodash/get';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
 import last from 'lodash/last';
 import Sticker from 'react-stickyfill';
 import lazyWithRetry from '../../../components/LazyWithRetry';
@@ -16,12 +17,15 @@ const Page = lazyWithRetry(() => import('../../Marketing/Page'));
 
 const Portals = lazyWithRetry(() => import('../../Marketing/Portals'));
 
-const MarketingDashboard = () => {
+const MarketingDashboard = (props) => {
   const history = {
     push: useNavigate(),
     location: useLocation(),
   };
   const match = useParams();
+  const {
+    lang,
+  } = props;
   // URL PARAMS
   const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
@@ -30,7 +34,7 @@ const MarketingDashboard = () => {
     <div className="listings-container dis-f jc-fs h-perc-lg-100 a-t" id="listingsDashaboard">
       <Sticker>
         <div className="w-perc-100">
-          <h3 className="mb-3 hide dis-b-lg">Marketing</h3>
+          <h3 className="mb-3 hide dis-b-lg">{translateTo('Marketing', lang)}</h3>
           <div className="dis-f a-t flex-wrap max-w-fix-1280">
             <div className="pr-md-1 w-perc-100 w-perc-md-50">
               <Page />
@@ -55,13 +59,15 @@ const MarketingDashboard = () => {
 };
 
 MarketingDashboard.propTypes = {
+  lang: PropTypes.string.isRequired,
 };
 
 MarketingDashboard.defaultProps = {
 
 };
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
+  lang: get(state, 'common.language', 'en'),
 });
 
 export default compose(

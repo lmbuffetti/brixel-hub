@@ -13,7 +13,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonText,
   BrixelAvatar,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 
@@ -26,17 +26,19 @@ const ContactBuyer = (props) => {
   // PROPS
   const {
     contacts,
+    lang,
   } = props;
   // URL PARAMS
   const propID = get(match, 'propID', null);
 
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">Contact</h3>
+      <h3 className="mb-3 hide dis-b-lg">
+        {translateTo('Contact', lang)}</h3>
       <div className="dis-f h-perc-lg-100">
         <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
           <div className="dis-fl-col backPanel hide-lg">
-            <h5 className="sectionTitle">Contact</h5>
+            <h5 className="sectionTitle">{translateTo('Contact', lang)}</h5>
           </div>
           <div className="boxCard">
             <div className="dis-f jc-b">
@@ -49,12 +51,14 @@ const ContactBuyer = (props) => {
                 />
                 <div>
                   <h5 className="ml-3 mb-0">
-                    <span className="dis-b">Hello, I am</span>
+                    <span className="dis-b">
+                      {translateTo('Hello, I am', lang)}
+                    </span>
                     <span className="dis-b">{get(contacts, 'name', '') ? get(contacts, 'name', '') : 'No Name'}</span>
                   </h5>
                   {
                     get(contacts, 'company', null) && (
-                      <p className="ml-3"><span>from</span><span>&nbsp;{contacts.company}</span></p>
+                      <p className="ml-3"><span>{translateTo('from', lang)}</span><span>&nbsp;{contacts.company}</span></p>
                     )
                   }
                 </div>
@@ -84,17 +88,17 @@ const ContactBuyer = (props) => {
                 className="ml-2"
                 onClick={() => history.push(`/buyer/${propID}/property/contact/add`)}
                 leftIcon="mail"
-                label="Ask a question"
+                label={translateTo('Ask a question', lang)}
               />
             </div>
 
             {
               get(contacts, 'generalInformation', null) && (
                 <div className="mb-4">
-                  <h6 className="overline mb-2 mt-1">INFO</h6>
+                  <h6 className="overline mb-2 mt-1">{translateTo('INFO', lang)}</h6>
 
                   <p>
-                    {get(contacts, 'generalInformation', '')}
+                    {translateTo(get(contacts, 'generalInformation', ''), lang)}
                   </p>
                 </div>
               )
@@ -103,13 +107,13 @@ const ContactBuyer = (props) => {
             <div className="dis-f">
               <BrixelButtonPrimary
                 rounded
-                label="Schedule visit"
+                label={translateTo('Schedule visit', lang)}
                 onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
               />
               <BrixelButtonSecondary
                 className="ml-2"
                 rounded
-                label="Make an offer"
+                label={translateTo('Make an offer', lang)}
                 onClick={() => history.push(`/buyer/${propID}/deal`)}
               />
             </div>
@@ -123,10 +127,12 @@ const ContactBuyer = (props) => {
 
 ContactBuyer.propTypes = {
   contacts: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   contacts: get(state, 'property.activeSingleProperty.contacts[0]', {}),
+  lang: get(state, 'common.language', 'en'),
 });
 
 export default compose(

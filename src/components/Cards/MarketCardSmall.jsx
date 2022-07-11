@@ -5,7 +5,7 @@ import get from 'lodash/get';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon, Helpers } from '@brixel/brixel-components';
+import { BrixelIcon, Helpers, translateTo } from '@brixel/brixel-components';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
 import { setActiveSingleProperty, setEstimation } from '../../actions/PropertyActions';
@@ -24,6 +24,7 @@ const MarketCardSmall = (props) => {
     handleSetActiveSingleProperty,
     handleSetEstimation,
     handleSetSplashType,
+    lang,
     item,
     skeleton,
     showAddess,
@@ -127,7 +128,7 @@ const MarketCardSmall = (props) => {
                         </p>
                       ) : (
                         <p className="txtLight400">
-                          Pending
+                          {translateTo('Pending', lang)}
                         </p>
                       )
                     }
@@ -144,12 +145,13 @@ const MarketCardSmall = (props) => {
 
 MarketCardSmall.propTypes = {
   className: PropTypes.string,
-  readOnly: PropTypes.bool,
   estimation: PropTypes.object,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetEstimation: PropTypes.func.isRequired,
   handleSetSplashType: PropTypes.func.isRequired,
   item: PropTypes.object,
+  lang: PropTypes.string.isRequired,
+  readOnly: PropTypes.bool,
   showAddess: PropTypes.bool,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,

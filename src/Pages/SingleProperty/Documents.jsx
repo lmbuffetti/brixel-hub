@@ -17,7 +17,7 @@ import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
 import {
   BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdownMini,
-  useOutsideAlerter,
+  useOutsideAlerter, translateTo,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
@@ -46,7 +46,7 @@ const Documents = (props) => {
     handleDeleteDocument,
     isBuyer,
     isSmallLoading,
-    userLang,
+    lang,
     userType,
   } = props;
   const [documentOptionsOpen, setDocumentOptionsOpen] = useState({ id: null, active: false });
@@ -236,12 +236,12 @@ const Documents = (props) => {
 
   return (
     <div className={`h-perc-lg-100 ${isBuyer ? 'secondLevel' : ''}`}>
-      <h3 className="mb-3 hide dis-b-lg">Docubox</h3>
+      <h3 className="mb-3 hide dis-b-lg">{translateTo('Docubox', lang)}</h3>
       {
         isBuyer && (
           <div className="pos-r hide-lg">
             <div className="dis-f backPanel">
-              <h5 className="sectionTitle">Docubox</h5>
+              <h5 className="sectionTitle">{translateTo('Docubox', lang)}</h5>
             </div>
           </div>
         )
@@ -253,7 +253,7 @@ const Documents = (props) => {
               mandatoryDocuments && (
                 <div className="mandatory-documents mb-5">
                   <p className="fweight-500 fsize-500 txtGreen700 mb-4">
-                    <span>You have uploaded</span><span> {countMandatoryDocuments()} </span><span>of</span><span> {mandatoryDocuments.length} </span><span>documents.</span>
+                    <span>{translateTo('You have uploaded', lang)}</span><span> {countMandatoryDocuments()} </span><span>{translateTo('of', lang)}</span><span> {mandatoryDocuments.length} </span><span>{translateTo('documents.', lang)}</span>
                   </p>
                   {
                     mandatoryDocuments.map((element, j) => (
@@ -281,19 +281,19 @@ const Documents = (props) => {
                             }
                             {
                               mandatoryDocumentExists(element) === true && (
-                                <span className="txtDark700 dont-break-out">{element}</span>
+                                <span className="txtDark700 dont-break-out">{translateTo(element, lang)}</span>
                               )
                             }
                             {
                               mandatoryDocumentExists(element) === false && (
-                                <span className="txtDark700 dont-break-out">{element}</span>
+                                <span className="txtDark700 dont-break-out">{translateTo(element, lang)}</span>
                               )
                             }
                           </div>
                           {
                             mandatoryDocumentExists(element) === false && (
                               <div className="upload-wrapper cur-poi pl-2 pos-r">
-                                <BrixelButtonPrimary rounded theme="white" label="Upload" />
+                                <BrixelButtonPrimary rounded theme="white" label={translateTo('Upload', lang)} />
                                 <input accept="application/pdf, image/png, image/jpeg" multiple className="cur-poi upload" type="file" name="document" id={`documentInput${j}`} onChange={(e) => loadFile(e, element, j)} />
                               </div>
                             )
@@ -315,8 +315,8 @@ const Documents = (props) => {
             processedDocuments && Object.keys(processedDocuments).length < 1 && userType === 'buyer' && (
               <div>
                 <img className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
-                <h5 className="mt-3 mb-2 ta-c">No documents available.</h5>
-                <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">Please contact the seller for further documents about this property.</p>
+                <h5 className="mt-3 mb-2 ta-c">{translateTo('No documents available.', lang)}</h5>
+                <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">{translateTo('Please contact the seller for further documents about this property.', lang)}</p>
               </div>
             )
           }
@@ -397,9 +397,9 @@ const Documents = (props) => {
                                           <span className="date body2 txtDark200">
                                             {
                                               !isNaN(+doc.createdAt) ? (
-                                                <>{DateTime.fromMillis(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                                <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
                                               ) : (
-                                                <>{DateTime.fromISO(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                                <>{DateTime.fromISO(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
                                               )
                                             }
                                           </span>
@@ -438,31 +438,31 @@ const Documents = (props) => {
                                             links={userType !== 'buyer' ?
                                               [
                                                 {
-                                                  label: isCopied ? 'Copied' : 'Copy Link',
+                                                  label: translateTo(isCopied ? 'Copied' : 'Copy Link', lang),
                                                   clickFunc: () => copyLinkToClipboard(doc.id),
                                                 },
                                                 {
-                                                  label: 'View',
+                                                  label: translateTo('View', lang),
                                                   clickFunc: (e) => openDocument(e, doc.id),
                                                 },
                                                 userType !== 'buyer' && {
-                                                  label: 'Edit',
+                                                  label: translateTo('Edit', lang),
                                                   clickFunc: (e) => {
                                                     manageDocument(e, doc.id);
                                                   },
                                                 },
                                                 userType !== 'buyer' && {
-                                                  label: 'Remove',
+                                                  label: translateTo('Remove', lang),
                                                   className: 'txtRed400',
                                                   clickFunc: (e) => deleteDocs(e, doc.id),
                                                 },
                                               ] : [
                                                 {
-                                                  label: isCopied ? 'Copied' : 'Copy Link',
+                                                  label: translateTo(isCopied ? 'Copied' : 'Copy Link', lang),
                                                   clickFunc: () => copyLinkToClipboard(doc.id),
                                                 },
                                                 {
-                                                  label: 'View',
+                                                  label: translateTo('View', lang),
                                                   clickFunc: (e) => openDocument(e, doc.id),
                                                 },
                                               ]}
@@ -499,9 +499,9 @@ const Documents = (props) => {
                                       <span className="date body2 txtDark200">
                                         {
                                           !isNaN(+doc.createdAt) ? (
-                                            <>{DateTime.fromMillis(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                            <>{DateTime.fromMillis(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
                                           ) : (
-                                            <>{DateTime.fromISO(doc.createdAt, { locale: userLang }).toFormat('dd LLL yyyy, H:mm')}</>
+                                            <>{DateTime.fromISO(doc.createdAt, { locale: lang }).toFormat('dd LLL yyyy, H:mm')}</>
                                           )
                                         }
                                       </span>
@@ -544,31 +544,31 @@ const Documents = (props) => {
                                         links={userType !== 'buyer' ?
                                           [
                                             {
-                                              label: isCopied ? 'Copied' : 'Copy Link',
+                                              label: translateTo(isCopied ? 'Copied' : 'Copy Link', lang),
                                               clickFunc: () => copyLinkToClipboard(doc.id),
                                             },
                                             {
-                                              label: 'View',
+                                              label: translateTo('View', lang),
                                               clickFunc: (e) => openDocument(e, doc.id),
                                             },
                                             {
-                                              label: 'Edit',
+                                              label: translateTo('Edit', lang),
                                               clickFunc: (e) => {
                                                 manageDocument(e, doc.id);
                                               },
                                             },
                                             {
-                                              label: 'Remove',
+                                              label: translateTo('Remove', lang),
                                               className: 'txtRed400',
                                               clickFunc: (e) => deleteDocs(e, doc.id),
                                             },
                                           ] : [
                                             {
-                                              label: isCopied ? 'Copied' : 'Copy Link',
+                                              label: translateTo(isCopied ? 'Copied' : 'Copy Link', lang),
                                               clickFunc: () => copyLinkToClipboard(doc.id),
                                             },
                                             {
-                                              label: 'View',
+                                              label: translateTo('View', lang),
                                               clickFunc: (e) => openDocument(e, doc.id),
                                             },
                                           ]}
@@ -599,13 +599,13 @@ const Documents = (props) => {
                     (!documentLists || (documentLists.length === 0)) && (
                       <div>
                         <img className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
-                        <h5 className="mt-3 mb-2">Upload your first document</h5>
+                        <h5 className="mt-3 mb-2">{translateTo('Upload your first document', lang)}</h5>
                       </div>
                     )
                   }
-                  <span className="body2 txtDark200 max-width-220">Choose .pdf .jpeg .png with max. 10 MB size</span>
+                  <span className="body2 txtDark200 max-width-220">{translateTo('Choose .pdf .jpeg .png with max. 10 MB size', lang)}</span>
                   <BrixelButtonPrimary
-                    label="upload"
+                    label={translateTo('upload', lang)}
                     rightIcon="upload"
                     rounded
                     className="mt-3"
@@ -628,7 +628,7 @@ Documents.propTypes = {
   isBuyer: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  userLang: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   userType: PropTypes.string.isRequired,
 };
 
@@ -640,7 +640,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
+  lang: get(state, 'user.loggedInUser.language', 'en'),
   userType: get(state, 'user.userTypes', ''),
 });
 

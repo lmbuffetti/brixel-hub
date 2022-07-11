@@ -7,7 +7,7 @@ import {
 import get from 'lodash/get';
 // import has from 'lodash/has';
 import {
-  BrixelButtonBox,
+  BrixelButtonBox, translateTo,
   // FormatValue,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
@@ -35,8 +35,7 @@ const HomeDashboard = (props) => {
   // PROPS
   const {
     formValue,
-    // loggedInUser,
-    // property,
+    lang,
     windowDimensions,
   } = props;
   // STATE
@@ -82,9 +81,9 @@ const HomeDashboard = (props) => {
                     verticalView
                     bgTransparent
                     icon="calculator"
-                    label="Price"
+                    label={translateTo('Price', lang)}
                     labelClass="fweight-400"
-                    subtitle="On request"
+                    subtitle={translateTo('On request', lang)}
                     subtitleClass="fsize-200 pt-small-6 txtDark200"
                     className="w-perc-100 mr-1 shadow-1dp brdMedium brdTrans p-2"
                     colorIcon="primary700"
@@ -95,9 +94,9 @@ const HomeDashboard = (props) => {
                     verticalView
                     bgTransparent
                     icon="document"
-                    label="Facts"
+                    label={translateTo('Facts', lang)}
                     labelClass="fweight-400"
-                    subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>complete</span>`}
+                    subtitle={`<span>${get(formValue, 'inputSheet.totalComplete', 0)}%</span>&nbsp;<span>${translateTo('complete', lang)}</span>`}
                     subtitleClass="fsize-200 pt-small-6 txtPrimary700"
                     className="w-perc-100 ml-1 shadow-1dp brdMedium brdTrans p-2"
                     colorIcon="primary700"
@@ -111,9 +110,9 @@ const HomeDashboard = (props) => {
                     verticalView
                     bgTransparent
                     icon="gallery"
-                    label="Photos"
+                    label={translateTo('Photos', lang)}
                     labelClass="fweight-400"
-                    subtitle={`<span>${calcLenght(get(formValue, 'photos', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'photos', [])) !== 1 ? 'Files' : 'File'}</span>`}
+                    subtitle={`<span>${calcLenght(get(formValue, 'photos', []))}</span>&nbsp;<span>${translateTo(calcLenght(get(formValue, 'photos', [])) !== 1 ? 'Files' : 'File', lang)}</span>`}
                     subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'photos', [])) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
                     className={`w-perc-100 mr-1 shadow-1dp brdMedium ${getFact() === 'photos' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                     colorIcon="primary700"
@@ -125,9 +124,9 @@ const HomeDashboard = (props) => {
                     verticalView
                     bgTransparent
                     icon="plans"
-                    label="Plans"
+                    label={translateTo('Plans', lang)}
                     labelClass="fweight-400"
-                    subtitle={`<span>${calcLenght(get(formValue, 'floorPlans', []))}</span>&nbsp;<span>${calcLenght(get(formValue, 'floorPlans', [])) !== 1 ? 'Files' : 'File'}</span>`}
+                    subtitle={`<span>${calcLenght(get(formValue, 'floorPlans', []))}</span>&nbsp;<span>${translateTo(calcLenght(get(formValue, 'floorPlans', [])) !== 1 ? 'Files' : 'File', lang)}</span>`}
                     subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'floorPlans', [])) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
                     className={`w-perc-100 ml-1 shadow-1dp brdMedium ${getFact() === 'floorPlans' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                     colorIcon="primary700"
@@ -140,9 +139,9 @@ const HomeDashboard = (props) => {
                     verticalView
                     bgTransparent
                     icon="tour"
-                    label="3D tour"
+                    label={translateTo('3D tour', lang)}
                     labelClass="fweight-400 pb-small-6"
-                    subtitle={get(formValue, 'virtual.matterport', null) ? 'Available' : 'Not set'}
+                    subtitle={translateTo(get(formValue, 'virtual.matterport', null) ? 'Available' : 'Not set', lang)}
                     subtitleClass={`fsize-200 txt${get(formValue, 'virtual.matterport', null) ? 'Green' : 'Red'}400`}
                     className={`w-perc-100 shadow-1dp mr-1 brdMedium ${getFact() === 'tour' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                     colorIcon="primary700"
@@ -179,6 +178,7 @@ const HomeDashboard = (props) => {
 
 HomeDashboard.propTypes = {
   formValue: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -187,7 +187,7 @@ HomeDashboard.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
-  langConfig: get(state, 'common.language', ''),
+  lang: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

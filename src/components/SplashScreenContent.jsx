@@ -364,7 +364,7 @@ const SplashScreen = (props) => {
       <div className={`middle-part ${type === 'marketOverlayCarousel' ? 'slider-card' : 'static-card'} ${showContent ? 'opacity10' : 'opacity0'} ${type !== 'marketOverlayCarousel' ? '' : 'pos-r zIndex1'} ${type !== 'marketOverlayCarousel' ? 'fullScreenCard' : ''}`} id="wizard-preMarketOverlay-parent">
         {
           get(wizard, 'type', null) && type === 'marketOverlayCarousel' && (
-            <WizardCard />
+            <WizardCard lang={lang} />
           )
         }
         {
@@ -396,6 +396,7 @@ const SplashScreen = (props) => {
                         {
                           activeSlide >= 0 && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.map((item, i) => (
                             <MarketCardPreMarket
+                              lang={lang}
                               key={`mrkCrd_${i.toString()}`}
                               item={item}
                               activeIndex={activeSlide}
@@ -455,6 +456,7 @@ const SplashScreen = (props) => {
           type !== 'marketOverlayCarousel' && (
             <div className="carousel3d open m-0 h-perc-100" id="overlayCarousel">
               <MarketCardOverlay
+                lang={lang}
                 item={activeMarketOverlayProperty}
                 onToggleCard={(val) => setFullScreenCard(val)}
                 fullCard
@@ -575,7 +577,7 @@ const mapStateToProps = (state) => ({
   activeMarketOverlayPropertyLists: get(state, 'property.activeMarketOverlayPropertyLists', null),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  lang: get(state, 'user.loggedInUser.user.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   preMarketStats: get(state, 'market.preMarketStats', {}),

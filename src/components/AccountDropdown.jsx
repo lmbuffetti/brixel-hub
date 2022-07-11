@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { BrixelDropdown, BrixelAvatar } from '@brixel/brixel-components';
+import { BrixelDropdown, BrixelAvatar, translateTo } from '@brixel/brixel-components';
 import { BrixelSelect } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
 import { setUnsavedChangesModal } from '../actions/CommonActions';
@@ -87,19 +87,19 @@ const AccountDropdown = (props) => {
       },
       {
         href: `${baseByData().loginBasePath}/account/profile?url=${get(window, 'location.href', '')}`,
-        label: 'Personal Information',
+        label: translateTo('Personal Information', lang),
       },
       {
         href: `${baseByData().loginBasePath}/account/account?url=${get(window, 'location.href', '')}`,
-        label: 'Password',
+        label: translateTo('Password', lang),
       },
       {
         href: `${baseByData().loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`,
-        label: 'Preferences',
+        label: translateTo('Preferences', lang),
       },
       {
         href: `${baseByData().loginBasePath}/logout?url=${get(window, 'location.href', '')}`,
-        label: 'Logout',
+        label: translateTo('Logout', lang),
       },
     ]
   ), [langMenu, langSel, loggedInUser]);

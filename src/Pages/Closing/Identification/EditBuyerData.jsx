@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+import { translateTo } from '@brixel/brixel-components';
 import cloneDeep from 'lodash/cloneDeep';
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
@@ -26,6 +27,7 @@ const EditBuyerData = (props) => {
     initialValues,
     handleDeleteDocument,
     handleUploadDocument,
+    lang,
     loggedInUser,
     profileId,
     userType,
@@ -37,10 +39,10 @@ const EditBuyerData = (props) => {
   const propID = get(match, 'propID', null);
 
   useEffect(() => {
-    const getBuyerNameData = IdentificationQuestions(true).find((quest) => quest.history === 'userName');
-    const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'userData');
+    const getBuyerNameData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'userName');
+    const getBuyerData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'userData');
     const fullFormBuyerData = getBuyerNameData.inputs.concat(getBuyerData.inputs);
-    const getUploadData = IdentificationQuestions(true).find((quest) => quest.history === 'document');
+    const getUploadData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'document');
     const formDataUpload = get(getUploadData, 'inputs', []);
     switch (forceStep) {
       case 1:
@@ -129,16 +131,18 @@ const EditBuyerData = (props) => {
     <div>
       <>
         <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-          Who is the {userType} of the property?
+          {translateTo(`Who is the ${userType} of the property?`, lang)}
         </h2>
         <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
           <div className="p-2 p-sm-5">
             {
               forceStep === 0 && (
                 <>
-                  <h3 className="fweight-600 fsize-600">{get(formValue, `persons[${profileId}]`, null) ? 'Edit Person' : 'Add Person'}</h3>
+                  <h3 className="fweight-600 fsize-600">
+                    {translateTo(get(formValue, `persons[${profileId}]`, null) ? 'Edit Person' : 'Add Person', lang)}
+                  </h3>
                   <h6 className="mb-3 txtAltGrey700 fweight-400">
-                    Fill the information below
+                    {translateTo('Fill the information below', lang)}
                   </h6>
                 </>
               )
@@ -182,8 +186,8 @@ const EditBuyerData = (props) => {
                       }}
                       labels={{
                         icons: field.icons,
-                        label: field.label,
-                        labelLeft: field.labelLeft,
+                        label: translateTo(field.label, lang),
+                        labelLeft: translateTo(field.labelLeft, lang),
                         labelType: field.labelType,
                       }}
                     />
@@ -205,6 +209,7 @@ EditBuyerData.propTypes = {
   handleDeleteDocument: PropTypes.func.isRequired,
   handleUploadDocument: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   profileId: PropTypes.number.isRequired,
   userType: PropTypes.string.isRequired,
@@ -216,6 +221,7 @@ EditBuyerData.defaultProps = {
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Identification.values', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValues: get(state, 'brixelForm.Identification.initialValues', {}),
 });

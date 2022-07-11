@@ -11,7 +11,7 @@ import {
   BrixelIcon,
   FormatValue,
   BrixelButtonSecondary,
-  BrixelButtonText,
+  BrixelButtonText, translateTo,
 } from '@brixel/brixel-components';
 import {
   BrixelSwitchButton,
@@ -35,6 +35,7 @@ const Page = (props) => {
     handleSetModal,
     handleUpdatePublishedReview,
     isSmallLoading,
+    lang,
     modal,
   } = props;
   // STATE
@@ -148,9 +149,9 @@ const Page = (props) => {
     <>
       <div className="bgWhite p-4 brdRadius">
         <div className="dis-f jc-b a-c mb-2">
-          <h5>Your Brixel Page</h5>
+          <h5>{translateTo('Your Brixel Page', lang)}</h5>
           <div className={`brdSmall px-2 py-1 brd${status.color} txt${status.color} brdRadius`}>
-            {status.text}
+            {translateTo(status.text, lang)}
           </div>
         </div>
 
@@ -158,7 +159,7 @@ const Page = (props) => {
           {
             status.state === 'published' ? (
               <div className="dis-f a-c">
-                <h6>Share your page</h6>
+                <h6>{translateTo('Share your page', lang)}</h6>
                 <div className="dis-f jc-c a-c">
                   <a
                     href={`https://www.facebook.com/sharer/sharer.php?u=${baseByData.pageUrl}${formValue.stub}`}
@@ -187,7 +188,7 @@ const Page = (props) => {
                 </div>
               </div>
             ) : (
-              <p>Present your property with an unique property website.</p>
+              <p>{translateTo('Present your property with an unique property website.', lang)}</p>
             )
           }
         </div>
@@ -205,7 +206,7 @@ const Page = (props) => {
           </div>
           <div className="cardPageInfo">
             <div className="w-fix-80 bgPrimary400 opacity5 h-fix-8 mb-1" />
-            <h6>{formValue.title}</h6>
+            <h6>{translateTo(formValue.title, lang)}</h6>
             <div className="dis-f jc-b a-c mt-2">
               <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
               <div className="w-fix-40 bgLight400 opacity5 h-fix-8" />
@@ -240,13 +241,13 @@ const Page = (props) => {
               <>
                 <BrixelButtonPrimary
                   rounded
-                  label="View your page"
+                  label={translateTo('View your page', lang)}
                   rightIcon="eye"
                   onClick={() => onClickPreview()}
                   className="mb-1 mr-2"
                 />
                 <BrixelButtonText
-                  label="Take Page offline"
+                  label={translateTo('Take Page offline')}
                   theme="red"
                   rounded
                   onClick={() => onClickRequest('unpublishPage', 'request')}
@@ -258,7 +259,7 @@ const Page = (props) => {
               <>
                 <BrixelButtonSecondary
                   rounded
-                  label="Preview your page"
+                  label={translateTo('Preview your page', lang)}
                   rightIcon="eye"
                   onClick={() => onClickPreview()}
                   className="mb-1 mr-2"
@@ -266,7 +267,7 @@ const Page = (props) => {
                 {
                   status.state !== 'review' && (
                     <BrixelButtonPrimary
-                      label="Request to publish"
+                      label={translateTo('Request to publish', lang)}
                       rounded
                       onClick={() => onClickRequest('publishPage', 'request')}
                       isLoading={isSmallLoading.pageReview}
@@ -284,10 +285,10 @@ const Page = (props) => {
       {
         status.state === 'published' && (
           <div className="pos-r w-perc-100 bgWhite p-3 my-5 brdRadius shadow-1dp">
-            <h4 className="mb-3">Request visits</h4>
+            <h4 className="mb-3">{translateTo('Request visits', lang)}</h4>
             <BrixelSwitchButton
               className="body2 row-reverse jc-b mt-2"
-              label="Allow people to request visits on Brixel Page"
+              label={translateTo('Allow people to request visits on Brixel Page', lang)}
               input={{
                 onChange: (val) => changeFieldValue('allowVisits', val),
                 name: 'allowVisits',
@@ -308,6 +309,7 @@ Page.propTypes = {
   handleSetModal: PropTypes.func.isRequired,
   handleUpdatePublishedReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   modal: PropTypes.object.isRequired,
 };
 
@@ -316,6 +318,7 @@ const mapStateToProps = (state) => ({
   company: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   modal: get(state, 'common.modal', {}),
 });
 

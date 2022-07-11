@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
-  BrixelButtonText,
+  BrixelButtonText, translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -45,6 +45,7 @@ const ScanTrialFlow = (props) => {
     initForm,
     initialValues,
     isSmallLoading,
+    lang,
     loggedInUser,
     handleReset,
   } = props;
@@ -391,7 +392,7 @@ const ScanTrialFlow = (props) => {
                         rounded
                         theme="green"
                         themeSat={600}
-                        label={buttonLabel()}
+                        label={translateTo(buttonLabel(), lang)}
                         disabled={!checkValidateField()}
                         rightIcon="arrow-right-small"
                         onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
@@ -420,7 +421,7 @@ const ScanTrialFlow = (props) => {
                                 theme="green"
                                 themeSat={600}
                                 rounded
-                                label={buttonLabel()}
+                                label={translateTo(buttonLabel(), lang)}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                               />
@@ -434,7 +435,7 @@ const ScanTrialFlow = (props) => {
                                       rounded
                                       theme="green"
                                       themeSat={600}
-                                      label={buttonLabel()}
+                                      label={translateTo(buttonLabel(), lang)}
                                       rightIcon="arrow-right-small"
                                       onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
                                       onShowError={() => setShowError(true)}
@@ -452,7 +453,7 @@ const ScanTrialFlow = (props) => {
                     get(quest, 'showExitText', null) && (
                       <div className="w-perc-100 a-c dis-fl-row m-a jc-c mt-2">
                         <BrixelButtonText
-                          label="Not now"
+                          label={translateTo('Not now', lang)}
                           theme="dark"
                           saturation={200}
                           onClick={() => closeWindow()}
@@ -475,12 +476,13 @@ ScanTrialFlow.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleReset: PropTypes.func.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -513,6 +515,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'brixelForm.scanFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.scanFlow.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
+    lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     initialValues: initVal,
   });

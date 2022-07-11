@@ -25,6 +25,7 @@ const WelcomeSeller = (props) => {
     handleGetActiveSingleProperty,
     handleSetPageData,
     handleSpinnerOff,
+    lang,
   } = props;
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
@@ -67,7 +68,9 @@ const WelcomeSeller = (props) => {
               <div className="subcontainer m-a">
                 <div id="step-1" className="dis-f flex-wrap">
                   <div className="ta-c m-a max-w-fix-880 w-perc-100">
-                    <WelecomeOnboardingStage />
+                    <WelecomeOnboardingStage
+                      lang={lang}
+                    />
                   </div>
                 </div>
               </div>
@@ -83,10 +86,12 @@ WelcomeSeller.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSetPageData: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  lang: get(state, 'common.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

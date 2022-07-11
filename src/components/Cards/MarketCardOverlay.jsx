@@ -10,7 +10,7 @@ import {
   BrixelButtonIcon,
   BrixelIcon,
   Helpers,
-  FormatValue,
+  FormatValue, translateTo,
 } from '@brixel/brixel-components';
 // import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { bindActionCreators, compose } from 'redux';
@@ -26,7 +26,7 @@ import {
 } from '../../actions/PropertyActions';
 import { mapStyles } from '../../constants/map';
 
-const MarketCard = (props) => {
+const MarketCardOverlay = (props) => {
   // PROPS
   const {
     // history,
@@ -34,9 +34,7 @@ const MarketCard = (props) => {
     className,
     fullCard,
     item,
-    // preventClick,
-    // setMarketOverlayProperty,
-    // setSplashScreen,
+    lang,
     propertyList,
     onToggleCard,
     skeleton,
@@ -186,7 +184,7 @@ const MarketCard = (props) => {
                       key={`itm_${i.toString()}`}
                       className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                     >
-                      <span className="type">{getTypeText(tag)}</span>
+                      <span className="type">{translateTo(getTypeText(tag), lang)}</span>
                     </p>
                   ))
                 }
@@ -197,18 +195,8 @@ const MarketCard = (props) => {
         <div className="info dis-fl-col jc-b p-2 p-sm-3">
           <div className="dis-f jc-b a-c">
             <h5 className="txtDark700 ellipsis one notranslate mb-2">
-              {get(item, 'title', '')}
+              {translateTo(get(item, 'title', ''), lang)}
             </h5>
-            {/*
-              fullScreenCard && (
-                <BrixelButtonPrimary
-                  onClick={() => window.open(`${baseByData.pageUrl}${item.stub}`, '_blank')}
-                  rounded
-                  label="Go to hub"
-                  rightIcon="arrow-right-small"
-                />
-              )
-            */}
           </div>
 
           <div className="mid dis-fl-col fsize-300 pt-1 pb-3 txtDark400">
@@ -219,7 +207,7 @@ const MarketCard = (props) => {
                   {
                     ((fullScreenCard && !get(item, 'tags', []).includes('pre-market')) || !fullScreenCard) && (
                       <>
-                        <span className="fsize-100 txtDark500 pb-small-4">Price</span>
+                        <span className="fsize-100 txtDark500 pb-small-4">{translateTo('Price', lang)}</span>
                         <div className="dis-f a-c jc-b">
                           {
                             get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
@@ -235,7 +223,7 @@ const MarketCard = (props) => {
                                 </div>
                               </>
                             ) : (
-                              <span className="txtGreen400 fweight-500 ff-mono">On Request</span>
+                              <span className="txtGreen400 fweight-500 ff-mono">{translateTo('On Request', lang)}</span>
                             )
                           }
                         </div>
@@ -254,7 +242,7 @@ const MarketCard = (props) => {
                       </span>
                     </div>
                     <div className="dis-fl-col">
-                      <span className="fsize-100 txtDark500 pb-small-4"> Living space</span>
+                      <span className="fsize-100 txtDark500 pb-small-4">{translateTo('Living space', lang)}</span>
                       {
                         get(item, 'properties.typology.livingArea.value', 0) && (
                           <span className="notranslate">
@@ -267,7 +255,7 @@ const MarketCard = (props) => {
                       }
                     </div>
                     <div className="dis-fl-col">
-                      <span className="fsize-100 txtDark500 pb-small-4"> Year</span>
+                      <span className="fsize-100 txtDark500 pb-small-4">{translateTo('Year', lang)}</span>
                       <span className="notranslate txtDark500 ff-mono"> {get(item, 'properties.building.built', '0000')} </span>
                     </div>
 
@@ -279,7 +267,7 @@ const MarketCard = (props) => {
                         {
                           !get(item, 'tags', []).includes('pre-market') && fullExtraFeatures(item).length > 0 && (
                             <div className="mt-5">
-                              <span className="fsize-100 txtDark500 pb-small-4 mt-5">Highlights</span>
+                              <span className="fsize-100 txtDark500 pb-small-4 mt-5">{translateTo('Highlights', lang)}</span>
                               <div className="row mx-0 pt-1">
                                 {
                                   fullExtraFeatures(item).map((key, i) => (
@@ -292,10 +280,10 @@ const MarketCard = (props) => {
                                         saturationTxt={700}
                                       />
                                       <div className="fsize-300 pl-2 txtDark500">
-                                        <span className="dis-b">{get(key, 'label', '')}</span>
+                                        <span className="dis-b">{translateTo(get(key, 'label', ''), lang)}</span>
                                         {
                                           get(key, 'subtitle', null) && (
-                                            <span className="">{get(key, 'subtitle', '')}</span>
+                                            <span className="">{translateTo(get(key, 'subtitle', ''), lang)}</span>
                                           )
                                         }
                                       </div>
@@ -309,8 +297,10 @@ const MarketCard = (props) => {
                         {
                           get(item, 'tags', []).includes('pre-market') && (
                             <div className="mt-5">
-                              <h6 className="fsize-100 fweight-400 txtDark500 pb-small-4">About Pre-Market</h6>
-                              <p className="txtDark700">This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.</p>
+                              <h6 className="fsize-100 fweight-400 txtDark500 pb-small-4">{translateTo('About Pre-Market', lang)}</h6>
+                              <p className="txtDark700">
+                                {translateTo('This property is not yet on sale and exclusively visible for registered buyers on Brixel. You can favorite this property to get informed about all updates from the owner.', lang)}
+                              </p>
                             </div>
                           )
                         }
@@ -322,12 +312,13 @@ const MarketCard = (props) => {
                   fullScreenCard && (
                     <div className="flex-50 pl-0 pl-sm-3">
                       { /* SECTION: LOCATION */}
-                      <h6 className="fsize-100 txtDark500 pb-small-4">Location</h6>
+                      <h6 className="fsize-100 txtDark500 pb-small-4">{translateTo('Location', lang)}</h6>
                       {
                         get(item, 'tags', []).includes('pre-market') ? (
                           <p
                             className="mb-2 fsize-300 txtDark500"
-                          >{get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}
+                          >
+                            {get(item, 'location.zip', null) ? `${get(item, 'location.zip', '')} ` : ''}{get(item, 'location.city', '')}
                           </p>
                         ) : (
                           <p
@@ -367,20 +358,20 @@ const MarketCard = (props) => {
                       !get(item, 'tags', []).includes('pre-market') && (
                         <>
                           <div className="mt-5 max-w-fix-536">
-                            <h6 className="fsize-100 fweight-400 txtDark500 pb-small-4">Learn more</h6>
+                            <h6 className="fsize-100 fweight-400 txtDark500 pb-small-4">{translateTo('Learn more', lang)}</h6>
                             <ul className="darkCheckList dis-in txtDark500">
 
-                              <li>See all photos.</li>
-                              <li>Take virtual visit.</li>
-                              <li>Access documents.</li>
-                              <li>Schedule visit &amp; contact seller.</li>
+                              <li>{translateTo('See all photos.', lang)}</li>
+                              <li>{translateTo('Take virtual visit.', lang)}</li>
+                              <li>{translateTo('Access documents.', lang)}</li>
+                              <li>{translateTo('Schedule visit & contact seller.', lang)}</li>
                             </ul>
                           </div>
                           <div className="dis-f jc-c mt-5">
                             <BrixelButtonSecondary
                               onClick={() => window.open(`${baseByData.pageUrl}${item.stub}`, '_blank')}
                               rounded
-                              label="Open full page"
+                              label={translateTo('Open full page', lang)}
                               leftIcon="link-open"
                             />
                           </div>
@@ -410,19 +401,20 @@ const MarketCard = (props) => {
 //                 )
 //               }
 
-MarketCard.propTypes = {
+MarketCardOverlay.propTypes = {
   // history: PropTypes.object.isRequired,
   activeIndex: PropTypes.number,
   className: PropTypes.string,
   fullCard: PropTypes.bool,
   item: PropTypes.object,
-  propertyList: PropTypes.arrayOf(PropTypes.object),
+  lang: PropTypes.string.isRequired,
   onToggleCard: PropTypes.func,
+  propertyList: PropTypes.arrayOf(PropTypes.object),
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
 };
 
-MarketCard.defaultProps = {
+MarketCardOverlay.defaultProps = {
   activeIndex: 0,
   className: '',
   fullCard: false,
@@ -446,4 +438,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-)(MarketCard);
+)(MarketCardOverlay);

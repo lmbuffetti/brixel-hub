@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MarkerWithLabel } from '@googlemaps/markerwithlabel';
-import { FormatValue, Helpers } from '@brixel/brixel-components';
+import { FormatValue, Helpers, translateTo } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { cutValue } from '../../utils/helpers';
 import CoverPropertyImage from '../CoverPropertyImage';
@@ -25,6 +25,7 @@ const MarkerComponent = (props) => {
     activeProperty,
     data,
     google,
+    lang,
     onClick,
     onMarker,
     optMap,
@@ -116,7 +117,7 @@ const MarkerComponent = (props) => {
                   <span className="fsize-300 fweight-600">{Helpers.formatNumberValue(get(page, 'price.total', 0), get(page, 'price.currency', ''))}</span>
                 </>
               ) : (
-                <span className="txtGreen400 fsize-300 fweight-500">On Request</span>
+                <span className="txtGreen400 fsize-300 fweight-500">{translateTo('On Request', lang)}</span>
               )
             }
 
@@ -248,12 +249,12 @@ const MarkerComponent = (props) => {
 MarkerComponent.propTypes = {
   activeProperty: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  parentMarker: PropTypes.arrayOf(PropTypes.string).isRequired,
   google: PropTypes.object.isRequired,
-  optMap: PropTypes.object.isRequired,
-  // icon: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   onMarker: PropTypes.func.isRequired,
+  optMap: PropTypes.object.isRequired,
+  parentMarker: PropTypes.arrayOf(PropTypes.string).isRequired,
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   type: PropTypes.string,

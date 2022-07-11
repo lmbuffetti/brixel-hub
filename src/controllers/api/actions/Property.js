@@ -29,7 +29,7 @@ class Property extends Base {
   }
 
   getPropertySimplified(id) {
-    const url = ep.property.mapPageById(id);
+    const url = ep.property.pageByIdPublic(id);
     return this.apiClient.get(url, {});
   }
 

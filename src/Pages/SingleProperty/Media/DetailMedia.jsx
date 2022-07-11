@@ -11,7 +11,7 @@ import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import {
   BrixelButtonIcon,
   BrixelButtonSecondary,
-  BrixelButtonText,
+  BrixelButtonText, translateTo,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import {
@@ -36,6 +36,7 @@ const DetailMedia = (props) => {
     changeFieldValue,
     handleDeleteImg,
     isSmallLoading,
+    lang,
   } = props;
   // STATE
   const [rotation, setRotation] = useState(0);
@@ -131,7 +132,9 @@ const DetailMedia = (props) => {
         <div className="max-h-perc-100">
           <div className="image-detail">
             <div className="dis-f jc-b w-perc-100 mb-3">
-              <h5 className="">{mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan'}</h5>
+              <h5 className="">
+                {translateTo(mediaType === 'photos' ? 'Edit photo' : 'Edit floor plan', lang)}
+              </h5>
               <div className="">
                 <BrixelButtonIcon
                   ghost
@@ -165,7 +168,7 @@ const DetailMedia = (props) => {
                   <BrixelButtonText
                     rounded
                     leftIcon="star-fill"
-                    label="Set as cover"
+                    label={translateTo('Set as cover', lang)}
                     onClick={(e) => handleCoverPhoto(e, formValue[mediaType][idImg])}
                   />
                 )
@@ -185,7 +188,7 @@ const DetailMedia = (props) => {
                         rounded
                         theme="red"
                         rightIcon="bin"
-                        label="delete?"
+                        label={translateTo('delete?', lang)}
                         isLoading={isSmallLoading === 'delete'}
                         onClick={() => deleteImage()}
                       />
@@ -205,11 +208,11 @@ const DetailMedia = (props) => {
               form="Property"
               input={{
                 name: `${mediaType}[${idImg}].description`,
-                placeholder: 'Describe the photo',
+                placeholder: translateTo('Describe the photo', lang),
                 type: 'text',
               }}
               labels={{
-                label: 'Description',
+                label: translateTo('Description', lang),
               }}
               component={BrixelTextArea}
               design={{
@@ -226,15 +229,17 @@ const DetailMedia = (props) => {
 DetailMedia.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleRotateImg: PropTypes.func.isRequired,
   handleDeleteImg: PropTypes.func.isRequired,
+  handleRotateImg: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'brixelForm.Property.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', { }),
 });
 

@@ -1,39 +1,15 @@
-import {Helpers} from '@brixel/brixel-components';
+import { Helpers, translateTo } from '@brixel/brixel-components';
 import { has, tail } from 'lodash';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 
-const offerText = (offerMeta, currency, activeSingleProperty) => {
+const offerText = (offerMeta, currency, activeSingleProperty, lang) => {
   let answerText = '';
-  answerText += `<span> You made an offer of </span> <span class="fweight-500">${get(offerMeta, 'offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', activeSingleProperty.price.currency))}</br></span>`;
-  /* if (get(offerMeta, 'offer.buyer') && Object.keys(offerMeta.offer.buyer).length > 0) {
-    answerText += `</br><span>Your details </br></span>
-      <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span>
-      ${(typeof get(offerMeta, 'offer.buyer.dateBirth', '') === 'string' && get(offerMeta, 'offer.buyer.dateBirth', '').includes('-')) ? get(offerMeta, 'offer.buyer.dateBirth', '') : DateTime.fromMillis(
-    get(offerMeta, 'offer.buyer.dateBirth', ''),
-    {
-      locale: userLang,
-    },
-  ).toFormat('yyyy-MM-dd')}
-    </span></span><span>Marital status: </span><span>${get(offerMeta, 'offer.buyer.maritialStatus', '')} </span>
-      </br><span>Place of origin: </span><span>${get(offerMeta, 'offer.buyer.placeOfOrigin', '')} </span>
-      </br><span>Type of purchase: </span><span>${get(offerMeta, 'offer.buyer.typeOfPurchase', '')} </span>`;
-  }
-  if (get(offerMeta, 'offer.location') && Object.keys(offerMeta.offer.location).length > 0) {
-    answerText += `</br><span>Your location: </br></span>
-      <span>${get(offerMeta, 'offer.location.street', '')} </span>
-      <span>${get(offerMeta, 'offer.location.streetNumber', '')} </span>
-      <span>, ${get(offerMeta, 'offer.location.zipCode', '')} </span>
-      <span>${get(offerMeta, 'offer.location.City', '')} </span>`;
-  }
-
-  if (get(offerMeta, 'offer.financeCertificate') === 0 || get(offerMeta, 'offer.financeCertificate') === 1) {
-    answerText += `</br><span>Financial certificate: </span><span>${offerMeta.offer.financeCertificate === 1 ? 'Yes' : 'No'} </span>`;
-  } */
-  return answerText || 'Created offer';
+  answerText += `<span>${translateTo('You made an offer of', lang)}</span> <span class="fweight-500 ml-small-4">${get(offerMeta, 'offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', activeSingleProperty.price.currency))}</br></span>`;
+  return answerText || translateTo('Created offer', lang);
 }
 
-export const feedMessage = (user, history, packages, activeSingleProperty) => {
+export const feedMessage = (user, history, packages, activeSingleProperty, lang) => {
   let filtPackages = {};
   if (get(history, 'meta.servicePackage', null)) filtPackages = packages.find((item) => history.meta.servicePackage === item.id);
   let dates = '';
@@ -43,7 +19,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       dates += `<span class="tidy-dates">•${date}</span>`;
     });
     if (has(history, 'meta.message')) {
-      dates += `<span>Message: </span><span>${history.meta.message.replace(/&lt;br&gt;/g," ")}</span>`;
+      dates += `<span>${translateTo('Message:', lang)}</span><span class="ml-small-4">${history.meta.message.replace(/&lt;br&gt;/g," ")}</span>`;
     }
   }
   return ({
@@ -53,7 +29,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'Property created',
+      message: translateTo('Property created', lang),
       icon: 'tag',
     },
     'page-listed': {
@@ -62,7 +38,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'Page published to the Portal',
+      message: translateTo('Page published to the Portal', lang),
       icon: 'tag',
     },
     'page-published': {
@@ -71,7 +47,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'Page Published',
+      message: translateTo('Page Published', lang),
       icon: 'tag',
     },
     'page-scan-trial': {
@@ -80,7 +56,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'Test drive request (Trial)',
+      message: translateTo('Test drive request (Trial)', lang),
       icon: 'tag',
     },
     'page-start-service-package': {
@@ -89,7 +65,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>${get(filtPackages, 'name', '')}</span> <span>started</span>`,
+      message: `<span>${get(filtPackages, 'name', '')}</span> <span>${translateTo('started', lang)}</span>`,
       icon: 'tag',
     },
     'page-stop-service-package': {
@@ -98,7 +74,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>${get(filtPackages, 'name', '')}</span> <span>stopped</span>`,
+      message: `<span>${get(filtPackages, 'name', '')}</span> <span>${translateTo('stopped', lang)}</span>`,
       icon: 'tag',
     },
     'page-unlisted': {
@@ -107,7 +83,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'Page unpublished to the Portal',
+      message: translateTo('Page unpublished to the Portal', lang),
       icon: 'tag',
     },
     'page-unpublished': {
@@ -116,7 +92,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'Page Unpublished',
+      message: translateTo('Page Unpublished', lang),
       icon: 'tag',
     },
     'pro-estimation-complete': {
@@ -125,7 +101,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorIconSat: 100,
       colorBgIconSat: 400,
       colorIcon: 'AltBlue',
-      message: 'Pro Estimation completed',
+      message: translateTo('Pro Estimation completed', lang),
       icon: 'chart',
     },
     'user-create-estimation': {
@@ -134,7 +110,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorIconSat: 100,
       colorBgIconSat: 700,
       colorIcon: 'Blue',
-      message: 'Bestimate®️ calculated',
+      message: translateTo('Bestimate®️ calculated', lang),
       icon: 'chart',
     },
     'user-register': {
@@ -152,7 +128,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'Congratulations, your property has been sold.',
+      message: translateTo('Congratulations, your property has been sold.', lang),
       icon: 'tag',
     },
     'deal-make-offer': {
@@ -161,7 +137,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: offerText(history.meta || {}, user.language, activeSingleProperty),
+      message: offerText(history.meta || {}, user.language, activeSingleProperty, lang),
       icon: 'money',
     },
     'deal-review-offer': {
@@ -170,7 +146,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>Your offer of</span><span class="ml-small-4">${get(history, 'meta.offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency', activeSingleProperty.price.currency))}</span><span class="ml-small-4">was</span><span class="ml-small-4">${get(history, 'meta.offer.status', '')}</span>`,
+      message: `<span>${translateTo('Your offer of', lang)}</span><span class="ml-small-4">${get(history, 'meta.offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency', activeSingleProperty.price.currency))}</span><span class="ml-small-4">${translateTo('was', lang)}</span><span class="ml-small-4">${translateTo(get(history, 'meta.offer.status', ''), lang)}</span>`,
       icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-thin' : 'tick',
     },
     'deal-feedback-visit-email': {
@@ -179,7 +155,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'Visit feedback email sent',
+      message: translateTo('Visit feedback email sent', lang),
       icon: 'mail-open',
     },
     'deal-confirm-visit-email': {
@@ -188,7 +164,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'Confirm visit email sent',
+      message: translateTo('Confirm visit email sent', lang),
       icon: 'mail-open',
     },
     'user-send-message': {
@@ -197,7 +173,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: 'You sent a message',
+      message: translateTo('You sent a message', lang),
       icon: 'mail-open',
     },
     'update-deal': {
@@ -206,7 +182,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>Your visit is confirmed:<span class="ml-small-4"></br><span>${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}</span>`,
+      message: `<span>${translateTo('Your visit is confirmed:', lang)}<span class="ml-small-4"></br><span>${get(history, 'meta.state', null) ? DateTime.fromMillis(get(history, 'meta.state', 0)).toFormat('dd LLL yyyy, hh:mm', user.language) : 0}</span>`,
       icon: 'calendar',
     },
     'user-schedule': {
@@ -215,7 +191,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>You requested a visit</span></br><span>${dates}</span>`,
+      message: `<span>${translateTo('You requested a visit', lang)}</span></br><span>${dates}</span>`,
       icon: 'calendar',
     },
     note: {

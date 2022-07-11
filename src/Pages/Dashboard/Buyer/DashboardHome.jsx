@@ -2,7 +2,7 @@
 import {
   AddToCalendar,
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
+  BrixelButtonSecondary, translateTo,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
@@ -45,9 +45,12 @@ const DashboardHome = (props) => {
     handleGetContentCraftCMS,
     handleGetUserSearchProfiles,
     isSmallLoading,
+    lang,
     loggedInUser,
     searchProfile,
     userLang,
+    userTypes,
+    searchProfile,
     userTypes,
   } = props;
   // STATE
@@ -95,12 +98,12 @@ const DashboardHome = (props) => {
         break;
       }
       case 'start': {
-        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', { locale: userLang}).toFormat('yyyy-LL-dd', { locale: userLang});
+        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', { locale: lang}).toFormat('yyyy-LL-dd', { locale: lang});
         const start = `${visitAccepted.slot.split( ' ')[1]}`;
         return `${date}T${start}`;
       }
       case 'end': {
-        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', { locale: userLang}).toFormat('yyyy-LL-dd', { locale: userLang});
+        const date = DateTime.fromFormat(visitAccepted.slot.split( ' ')[0], 'yyyy-LL-dd', { locale: lang}).toFormat('yyyy-LL-dd', { locale: lang});
         const end = `${visitAccepted.slot.split( ' ')[2] ? visitAccepted.slot.split( ' ')[2] : visitAccepted.slot.split( ' ')[1]}`;
         return `${date}T${end}`;
       }
@@ -116,14 +119,14 @@ const DashboardHome = (props) => {
     <div className="rewards-container" id="rewardsDashboard">
 
       <h4 className="mb-3 hide dis-b-lg fweight-600">
-        <span>Welcome back</span>
+        <span>{translateTo('Welcome back', lang)}</span>
         <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
       </h4>
       <div className="dis-f a-c w-perc-100 mt-1">
         {
           get(visitAccepted, 'slot', '').split( ' ')[0] && (
             <h5 className="pr-2 txtGreen400 fweight-600">
-              {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', { locale: userLang})}
+              {DateTime.fromMillis(activeSingleDeal.visit).toFormat('dd LLL yyyy, hh:mm', { locale: lang})}
             </h5>
           )
         }
@@ -148,11 +151,11 @@ const DashboardHome = (props) => {
                       >
                         <div className="dis-fl-col max-w-perc-100">
                           <h5 className="fweight-600">
-                            Your visit is confirmed
+                            {translateTo('Your visit is confirmed', lang)}
                           </h5>
                           <div className="dis-f a-c max-w-perc-80 mt-1">
                             <h5 className="pr-2 txtGreen400 fweight-600 mb-3">
-                              {!isNaN(+visitAccepted) ? DateTime.fromMillis(visitAccepted).toFormat('dd LLL yyyy, hh:mm', userLang) : visitAccepted}
+                              {!isNaN(+visitAccepted) ? DateTime.fromMillis(visitAccepted).toFormat('dd LLL yyyy, hh:mm', lang) : visitAccepted}
                             </h5>
                           </div>
 
@@ -160,10 +163,10 @@ const DashboardHome = (props) => {
                             !isNaN(+visitAccepted) && (
                               <div className="mt-a">
                                 <AddToCalendar
-                                  title={`Visit ${activeSingleProperty.title}`}
+                                  title={translateTo(`Visit ${activeSingleProperty.title}`, lang)}
                                   timestamp={visitAccepted}
                                   location={formatCalendar('location')}
-                                  userLang={userLang}
+                                  lang={lang}
                                 />
                               </div>
                             )
@@ -180,11 +183,11 @@ const DashboardHome = (props) => {
                             >
                               <div className="dis-fl-col">
                                 <h5 className="fweight-600">
-                                  Thanks for your request.
+                                  {translateTo('Thanks for your request.', lang)}
                                 </h5>
                                 <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
                                   <p className="pr-2 fsize-300">
-                                    We will contact you as soon as possible for confirmation.
+                                    {translateTo('We will contact you as soon as possible for confirmation.', lang)}
                                   </p>
                                 </div>
 
@@ -194,7 +197,7 @@ const DashboardHome = (props) => {
                                   }}
                                   className="mt-a as-fs"
                                   rounded
-                                  label="show dates"
+                                  label={translateTo('show dates', lang)}
                                 />
                               </div>
                             </div>
@@ -202,11 +205,11 @@ const DashboardHome = (props) => {
                             <div className="cardWithBg" style={{ backgroundImage: `url(${scheduleSvg})` }}>
                               <div className="dis-fl-col ">
                                 <h5 className="fweight-600">
-                                  Visit your future home
+                                  {translateTo('Visit your future home', lang)}
                                 </h5>
                                 <div className="dis-f a-c max-w-perc-70 mt-1 mb-3">
                                   <p className="pr-2 fsize-300">
-                                    Book a visit with the current owner.
+                                    {translateTo('Book a visit with the current owner.', lang)}
                                   </p>
                                 </div>
 
@@ -214,7 +217,7 @@ const DashboardHome = (props) => {
                                   onClick={() => history.push(`/buyer/${propID}/scheduleVisit`)}
                                   className="mt-a as-fs"
                                   rounded
-                                  label="add dates"
+                                  label={translateTo('add dates', lang)}
                                 />
                               </div>
                             </div>
@@ -235,11 +238,11 @@ const DashboardHome = (props) => {
                   >
                     <div className="dis-fl-col max-w-perc-70">
                       <h5 className="fweight-600">
-                        Check financing
+                        {translateTo('Check financing', lang)}
                       </h5>
                       <div className="dis-f a-c w-perc-100 mt-1 mb-3">
                         <p className="pr-2 fsize-300">
-                          Assess whether you can afford your desired property.
+                          {translateTo('Assess whether you can afford your desired property.', lang)}
                         </p>
                       </div>
 
@@ -247,7 +250,7 @@ const DashboardHome = (props) => {
                         rounded
                         onClick={() => ''}
                         className="mt-a as-fs"
-                        label="Calculate now"
+                        label={translateTo('Calculate now', lang)}
                       />
                     </div>
                   </div>
@@ -285,10 +288,10 @@ const DashboardHome = (props) => {
                     <div className="dis-fl-col max-w-perc-100">
                       <div className="w-perc-100 mt-1 max-w-fix-400">
                         <span className="pr-2 w-perc-100 fsize-600 fweight-600">
-                          Looking for other homes?
+                          {translateTo('Looking for other homes?', lang)}
                         </span>
                         <p className="mt-1 mb-2">
-                          Explore our properties.
+                          {translateTo('Explore our properties.', lang)}
                         </p>
                       </div>
 
@@ -297,17 +300,17 @@ const DashboardHome = (props) => {
                         onClick={() => history.push(`/buy`)}
                         className="mt-2 as-fs"
                         rounded
-                        label="Go to our market"
+                        label={translateTo('Go to our market', lang)}
                       />
                     </div>
                   ) : (
                     <div className="dis-fl-col max-w-perc-100">
                       <div className="w-perc-100 mt-1 max-w-fix-400">
                         <span className="pr-2 w-perc-100 fsize-600 fweight-600">
-                          Looking for other homes?
+                          {translateTo('Looking for other homes?', lang)}
                         </span>
                         <p className="mt-1">
-                          Create your search profile and find properties which are not yet on the market.
+                          {translateTo('Create your search profile and find properties which are not yet on the market.', lang)}
                         </p>
                       </div>
 
@@ -316,7 +319,7 @@ const DashboardHome = (props) => {
                         onClick={() => history.push(`/buy`)}
                         className="mt-2 as-fs"
                         rounded
-                        label="Create a search profile"
+                        label={translateTo('Create a search profile', lang)}
                       />
                     </div>
                   )
@@ -342,9 +345,9 @@ DashboardHome.propTypes = {
   handleGetContentCraftCMS: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   searchProfile: PropTypes.object.isRequired,
-  userLang: PropTypes.string.isRequired,
   userTypes: PropTypes.string,
 };
 
@@ -360,6 +363,7 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
   craftCMS: get(state, 'craftCMS.content', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'commong.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   searchProfile: get(state, 'user.userSearchProfiles[0]', {}),
   userLang: get(state, 'user.loggedInUser.user.language', 'en'),

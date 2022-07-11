@@ -11,7 +11,7 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   Helpers,
-  ProgressRing,
+  ProgressRing, translateTo,
 } from '@brixel/brixel-components';
 import {
   BrixelInputText,
@@ -47,6 +47,7 @@ const Price = (props) => {
     handleGetEstimation,
     handleGenerateBestimate,
     handleSetHistory,
+    lang,
     proEstimation,
     setSplashScreen,
   } = props;
@@ -130,16 +131,16 @@ const Price = (props) => {
 
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">Price</h3>
+      <h3 className="mb-3 hide dis-b-lg">{translateTo('Price', lang)}</h3>
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
 
         <div className="dis-fl-col backPanel dis-b hide-lg">
-          <h5 className="sectionTitle">Price</h5>
+          <h5 className="sectionTitle">{translateTo('Price', lang)}</h5>
         </div>
 
         <div className="dis-fl-col dis-fl-row-lg a-t jc-b">
           <div className="boxCard dis-fl-col mr-2 w-perc-100 mb-5 mb-lg-0">
-            <h5>Listing price</h5>
+            <h5>{translateTo('Listing price', lang)}</h5>
 
             <div className="dis-f jc-b a-c mt-3">
               <ReduxField
@@ -155,7 +156,7 @@ const Price = (props) => {
                   options: factsOptions.currency,
                 }}
                 labels={{
-                  label: 'Currency',
+                  label: translateTo('Currency', lang),
                 }}
               />
               <ReduxField
@@ -163,7 +164,7 @@ const Price = (props) => {
                 form="Property"
                 component={BrixelInputText}
                 input={{
-                  placeholder: '700\'000',
+                  placeholder: translateTo('700\'000'),
                   name: 'price.total',
                   unit: get(formValue, 'price.currency', ''),
                 }}
@@ -172,7 +173,7 @@ const Price = (props) => {
                   formatType: 'price',
                 }}
                 labels={{
-                  label: 'Price',
+                  label: translateTo('Price', lang),
                 }}
               />
             </div>
@@ -190,7 +191,7 @@ const Price = (props) => {
                   options: factsOptions.propertyStatus,
                 }}
                 labels={{
-                  label: 'Status',
+                  label: translateTo('Status', lang),
                 }}
               />
             </div>
@@ -202,16 +203,16 @@ const Price = (props) => {
               get(activeSingleProperty, 'properties.propertyType', '') === 'Apartment' ||
                 get(proEstimation, 'value', 0) > 0) && (
                 <div className="dis-fl-col boxCard mb-5 pb-5">
-                  <h5 className="mb-3">Pro Estimation</h5>
+                  <h5 className="mb-3">{translateTo('Pro Estimation', lang)}</h5>
 
                   <div>
                     {
                       get(proEstimation, 'value', 0) <= 0 ? (
                         <p className="txtDark700">
-                          <span dangerouslySetInnerHTML={{ __html: percComplete === 100 ? 'Your estimation is being calculated. You will receive an email with the result' : 'Complete your inputs to <span class="txtRed400 fweight-700">unlock</span> your professional estimation.' }} />
+                          <span dangerouslySetInnerHTML={{ __html: translateTo(percComplete === 100 ? 'Your estimation is being calculated. You will receive an email with the result' : 'Complete your inputs to <span class="txtRed400 fweight-700">unlock</span> your professional estimation.', lang) }} />
                         </p>
                       ) : (
-                        <p className="txtDark700">This is your estimated value for your property.</p>
+                        <p className="txtDark700">{translateTo('This is your estimated value for your property.', lang)}</p>
                       )
                     }
                   </div>
@@ -228,7 +229,7 @@ const Price = (props) => {
                             <div className="pos-r zIndex1">
                               {
                                 calcPercentageProEstimation().realPerc === 100 && (
-                                  <p className="ff-mono fweight-700 fsize-400 txtYellow400">pending</p>
+                                  <p className="ff-mono fweight-700 fsize-400 txtYellow400">{translateTo('pending', lang)}</p>
                                 )
                               }
                             </div>
@@ -240,7 +241,9 @@ const Price = (props) => {
                           />
                         </>
                       ) : (
-                        <span className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1 notranslate">{Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
+                        <span className="ff-mono fsize-600 fweight-700 txtPrimary700 ml-1 notranslate">
+                          {Helpers.formatNumberValue(get(proEstimation, 'value', 0).toFixed(0), get(estimation, 'result.currency', ''))}
+                        </span>
                       )
                     }
 
@@ -282,7 +285,7 @@ const Price = (props) => {
                                     <BrixelButtonSecondary
                                       rounded
                                       className="mt-2 w-fit"
-                                      label="Edit inputs"
+                                      label={translateTo('Edit inputs', lang)}
                                       ghost
                                       onClick={() => history.push(`/${propID}/property/price/formFlow`)}
                                     />
@@ -305,10 +308,10 @@ const Price = (props) => {
                               showIconComplete={calcPercentageProEstimation().realPerc === 100}
                             />
                             <div className="ml-2">
-                              <p className="fsize-300 txtDark700">Estimation inputs</p>
+                              <p className="fsize-300 txtDark700">{translateTo('Estimation inputs', lang)}</p>
                               <p className={`ff-mono fweight-700 ${calcPercentageProEstimation().realPerc === 100 ? 'txtGreen600' : 'txtPrimary700'}`}>
                                 <span className="mr-1 notranslate">{calcPercentageProEstimation().realPerc}%</span>
-                                <span>completed</span>
+                                <span>{translateTo('completed', lang)}</span>
                               </p>
                             </div>
                           </div>
@@ -318,7 +321,7 @@ const Price = (props) => {
                               <BrixelButtonSecondary
                                 rounded
                                 className="mt-5 w-fit"
-                                label="Edit inputs"
+                                label={translateTo('Edit inputs', lang)}
                                 ghost
                                 onClick={() => history.push(`/${propID}/property/price/formFlow`)}
                               />
@@ -326,7 +329,7 @@ const Price = (props) => {
                               <BrixelButtonPrimary
                                 rounded
                                 className="w-fit mt-5"
-                                label="Complete now"
+                                label={translateTo('Complete now', lang)}
                                 onClick={() => history.push(`/${propID}/property/price/formFlow`)}
                               />
                             )
@@ -343,8 +346,8 @@ const Price = (props) => {
               {
                 get(estimation, 'result.higherValue', 0) > 0 ? (
                   <>
-                    <h5 className="mb-3">Bestimate®</h5>
-                    <p className="txtDark700">Your property is worth up to</p>
+                    <h5 className="mb-3">{translateTo('Bestimate®', lang)}</h5>
+                    <p className="txtDark700">{translateTo('Your property is worth up to', lang)}</p>
 
                     <div className="dis-f a-c w-perc-100 mt-3 ">
                       <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
@@ -356,7 +359,7 @@ const Price = (props) => {
                     <BrixelButtonSecondary
                       rounded
                       className="mt-5 w-fit"
-                      label="Open"
+                      label={translateTo('Open', lang)}
                       ghost
                       onClick={() => openBestimate()}
                     />
@@ -366,11 +369,11 @@ const Price = (props) => {
                     {
                       ((get(estimation, 'status', null) !== 'pending' || !bestimateflowCompleted) && ((get(activeSingleProperty, 'properties.propertyType', '') === 'House' || get(activeSingleProperty, 'properties.propertyType', '') === 'Apartment'))) ? (
                         <>
-                          <h5 className="mb-3">Get a free price indication.</h5>
-                          <p className="txtDark700">Compare your property to real transaction data to better define the pricing.</p>
+                          <h5 className="mb-3">{translateTo('Get a free price indication.', lang)}</h5>
+                          <p className="txtDark700">{translateTo('Compare your property to real transaction data to better define the pricing.', lang)}</p>
                           <BrixelButtonPrimary
                             rounded
-                            label="Get free Bestimate&reg;"
+                            label={translateTo('Get free Bestimate®')}
                             className="mt-3 w-fit"
                             onClick={() => onBestimateFlow()}
                             rightIcon="arrow-right"
@@ -378,12 +381,12 @@ const Price = (props) => {
                         </>
                       ) : (
                         <>
-                          <h5 className="mb-3">Bestimate® is missing 🙁</h5>
-                          <p className="txtDark700">We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.</p>
+                          <h5 className="mb-3">{translateTo('Bestimate® is missing 🙁', lang)}</h5>
+                          <p className="txtDark700">{translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}</p>
                           <BrixelButtonSecondary
                             rounded
                             className="mt-3 w-fit"
-                            label="Contact support"
+                            label={translateTo('Contact support', lang)}
                             onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/property/price`)}
                           />
                         </>
@@ -407,6 +410,7 @@ Price.propTypes = {
   handleGenerateBestimate: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleSetHistory: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   proEstimation: PropTypes.object,
   setSplashScreen: PropTypes.func.isRequired,
 };
@@ -419,6 +423,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
+  lang: get(state, 'common.language', 'en'),
   proEstimation: get(state, 'brixelForm.Property.values.proEstimation', {}),
 });
 

@@ -21,7 +21,7 @@
   #supportBox {
     &.fixed {
       position: fixed;
-      bottom: 48px;
+      bottom: 0;
       right: $step;
     }
   }
@@ -35,6 +35,7 @@
     padding-right: 16px;
     padding-top: 24px;
     padding-bottom: 24px;
+    height: 94px;
     #supportBox {
       // bottom: 60px !important;
     }

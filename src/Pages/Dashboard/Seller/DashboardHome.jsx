@@ -6,7 +6,7 @@ import {
   BrixelIcon,
   BrixelProgressBar,
   FactsOptions,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import get from 'lodash/get';
@@ -64,10 +64,10 @@ const DashboardHome = (props) => {
     handleGetEstimation,
     handleSetModal,
     isSmallLoading,
+    lang,
     loggedInUser,
     onProgressStep,
     splashScreenType,
-    userLang,
     userTypes,
     windowDimensions,
   } = props;
@@ -182,9 +182,11 @@ const DashboardHome = (props) => {
           onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
         >
           <div className="w-perc-100 max-w-fix-208">
-            <h5 className="mb-2 fSizePx18 fweight-600">Test drive our service. No strings attached.</h5>
+            <h5 className="mb-2 fSizePx18 fweight-600">
+              {translateTo('Test drive our service. No strings attached.', lang)}
+            </h5>
             <p className="fsize-300 txtDark700">
-              <span>Get the full Brixel experience worth</span>
+              <span>{translateTo('Get the full Brixel experience worth', lang)}</span>
               <span className="ml-small-4">
                 {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
               </span>
@@ -193,7 +195,7 @@ const DashboardHome = (props) => {
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
               className="mt-3"
               rounded
-              label="Book now"
+              label={translateTo('Book now', lang)}
             />
           </div>
           <div className="w-perc-100 max-w-fix-136">
@@ -207,15 +209,19 @@ const DashboardHome = (props) => {
           className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
         >
           <div className="w-perc-100 max-w-fix-208">
-            <h5 className="mb-2 fSizePx18 fweight-600">Get in touch and find out more</h5>
-            <p className="fsize-300 txtDark700">Chat to one of our team members now.</p>
+            <h5 className="mb-2 fSizePx18 fweight-600">
+              {translateTo('Get in touch and find out more', lang)}
+            </h5>
+            <p className="fsize-300 txtDark700">
+              {translateTo('Chat to one of our team members now.', lang)}
+            </p>
             <BrixelButtonPrimary
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/home`)}
               className="mt-3"
               rounded
               theme="blue"
               themeSat={700}
-              label="Contact us"
+              label={translateTo('Contact us', lang)}
             />
           </div>
           <div className="w-perc-100 max-w-fix-136">
@@ -235,6 +241,7 @@ const DashboardHome = (props) => {
       {
         splashScreenType === 'bestimateResult' && get(estimation, 'status', 'active') !== 'pending' && (
           <BestimateCardOverlay
+            lang={lang}
             activeSinglePropertyId={activeSingleProperty.customID}
             clearEstimation
           />
@@ -244,7 +251,7 @@ const DashboardHome = (props) => {
       {
         progressState.step < 5 && (
           <h4 className="mb-3 hide dis-b-lg fweight-600">
-            <span>Welcome back</span>
+            <span>{translateTo('Welcome back', lang)}</span>
             <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
           </h4>
         )
@@ -256,6 +263,7 @@ const DashboardHome = (props) => {
             {
               activeSingleProperty.id && propID && propID.length > 9 && (
                 <ProgressSellerStage
+                  lang={lang}
                   className="mb-3"
                   smallLayout
                   xSmallMobile={windowDimensions.width <= 520}
@@ -271,7 +279,9 @@ const DashboardHome = (props) => {
         {
           progressState.step === 1 && (
             <>
-              <DashboardPropertyCard />
+              <DashboardPropertyCard
+                lang={lang}
+              />
 
               <div
                 className="bgGreen100 shadow-2dp brdRadius p-2 p-sm-3 cardWithBg testDriveImg"
@@ -279,9 +289,13 @@ const DashboardHome = (props) => {
               >
                 <div className="dis-f a-t jc-b">
                   <div>
-                    <h4 className="mb-2 fweight-600">Test drive our service. No strings attached.</h4>
+                    <h4 className="mb-2 fweight-600">
+                      {translateTo('Test drive our service. No strings attached.', lang)}
+                    </h4>
                     <p className="fsize-300 txtDark700 max-w-perc-70">
-                      <span>Get the full Brixel experience worth</span>
+                      <span>
+                        {translateTo('Get the full Brixel experience worth', lang)}
+                      </span>
                       <span className="ml-small-4">
                         {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
                       </span>
@@ -292,7 +306,7 @@ const DashboardHome = (props) => {
                         onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
                         className="as-fs min-w-fix-144"
                         rounded
-                        label="Book now"
+                        label={translateTo('Book now', lang)}
                       />
 
                       <BrixelButtonSecondary
@@ -301,7 +315,7 @@ const DashboardHome = (props) => {
                         rounded
                         bgTransparent
                         themeSat={700}
-                        label="Contact us"
+                        label={translateTo('Contact us', lang)}
                       />
                     </div>
 
@@ -316,7 +330,9 @@ const DashboardHome = (props) => {
         {
           progressState.step === 2 && (
             <>
-              <DashboardPropertyCard />
+              <DashboardPropertyCard
+                lang={lang}
+              />
 
               {boxScanTrial()}
 
@@ -328,10 +344,12 @@ const DashboardHome = (props) => {
                   className="shadow-2dp bgRed100 brdRadius dis-f jc-b pt-2 px-2 px-sm-3 mr-sm-1 pb-3 w-perc-100 mb-2 mb-sm-0 w-perc-sm-50 cur-poi"
                 >
                   <div className="dis-fl-col">
-                    <span className="fsize-400 txtRed400">Facts</span>
+                    <span className="fsize-400 txtRed400">
+                      {translateTo('Facts', lang)}
+                    </span>
 
                     <span className="fsize-500 fsize-md-600 fweight-600 txtRed700 mb-2 mt-1">
-                      {(calcPercentageFacts().realPerc * 100) / 40 > 100 ? 'Completed relevant facts' : 'Complete relevant facts'}
+                      {translateTo((calcPercentageFacts().realPerc * 100) / 40 > 100 ? 'Completed relevant facts' : 'Complete relevant facts', lang)}
                     </span>
 
                     <BrixelProgressBar
@@ -358,7 +376,7 @@ const DashboardHome = (props) => {
                       <span
                         onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
                       >
-                        Description
+                        {translateTo('Description', lang)}
                       </span>
                       {
                         !completeDescritpion() && (
@@ -370,11 +388,11 @@ const DashboardHome = (props) => {
                               state: true,
                               small: true,
                               classTitle: 'txtPrimary400',
-                              title: 'How to add your description',
+                              title: translateTo('How to add your description', lang),
                               body: `<ol>
-                            <li>Add a title</li>
-                            <li>Add a description with min. 300 characters incl. spaces</li>
-                            <li>Describe location with min. 160 characters incl. spaces</li>
+                            <li>${translateTo('Add a title', lang)}</li>
+                            <li>${translateTo('Add a description with min. 300 characters incl. spaces', lang)}</li>
+                            <li>${translateTo('Describe location with min. 160 characters incl. spaces', lang)}</li>
                           </ol>`,
                             })}
                           />
@@ -386,7 +404,7 @@ const DashboardHome = (props) => {
                       onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
                       className="fsize-500 fsize-md-600 fweight-600 txtPrimary700 mb-2 mt-1"
                     >
-                      {completeDescritpion() ? 'Thanks for adding your description!\n' : 'Add your description'}
+                      {translateTo(completeDescritpion() ? 'Thanks for adding your description!' : 'Add your description', lang)}
                     </span>
 
                   </div>
@@ -414,7 +432,9 @@ const DashboardHome = (props) => {
                           color="blue"
                           saturationTxt={700}
                         />
-                        <span className="txtDark700 fweight-600 pl-1">Media</span>
+                        <span className="txtDark700 fweight-600 pl-1">
+                          {translateTo('Media', lang)}
+                        </span>
                       </div>
                       <div className="px-3 py-2 h-perc-100">
                         <div>
@@ -422,7 +442,7 @@ const DashboardHome = (props) => {
                             className="dis-f jc-b a-c"
                             onClick={() => history.push(`/${activeSingleProperty.id}/property/photos`)}
                           >
-                            <span>Photos</span>
+                            <span>{translateTo('Photos', lang)}</span>
                             <BrixelIcon
                               icon="check-small-fill"
                               color={get(activeSingleProperty, 'photos', []).length > 5 ? 'blue' : 'light'}
@@ -433,7 +453,7 @@ const DashboardHome = (props) => {
                             className="dis-f jc-b a-c"
                             onClick={() => history.push(`/${activeSingleProperty.id}/property/floorplans`)}
                           >
-                            <span>Plans</span>
+                            <span>{translateTo('Plans', lang)}</span>
                             <BrixelIcon
                               icon="check-small-fill"
                               color={get(activeSingleProperty, 'floorPlans', []).length >= 1 ? 'blue' : 'light'}
@@ -444,7 +464,7 @@ const DashboardHome = (props) => {
                             className="dis-f jc-b a-c"
                             onClick={() => history.push(`/${activeSingleProperty.id}/property/tour`)}
                           >
-                            <span>3d tour</span>
+                            <span>{translateTo('3d tour', lang)}</span>
                             <BrixelIcon
                               icon="check-small-fill"
                               color={get(activeSingleProperty, 'virtual.matterport', []).length > 1 ? 'blue' : 'light'}
@@ -459,7 +479,8 @@ const DashboardHome = (props) => {
                           className="txtHoverDark200 txtLight700 px-3 py-1 wHover"
                           onClick={() => history.push(`/${activeSingleProperty.id}/property/photos`)}
                         >
-                          <span className="text"> View</span> <span className="arrow-symbol">&#62; </span>
+                          <span className="text">{translateTo('View', lang)}</span>
+                          <span className="arrow-symbol ml-1">&#62; </span>
                         </div>
                       </div>
                     </div>
@@ -472,10 +493,12 @@ const DashboardHome = (props) => {
                 >
                   <div className="dis-f-md a-b h-perc-100">
                     <div className="dis-fl-col mb-a">
-                      <span className="fsize-400 txtBlue400">Brixel Page</span>
+                      <span className="fsize-400 txtBlue400">
+                        {translateTo('Brixel Page', lang)}
+                      </span>
 
                       <span className="fsize-500 fsize-md-600 fweight-600 txtBlue700 mb-2 mt-1">
-                        Preview your property website
+                        {translateTo('Preview your property website', lang)}
                       </span>
                     </div>
                     <div
@@ -505,7 +528,10 @@ const DashboardHome = (props) => {
             <>
               <div className="dis-f jc-b flex-wrap">
                 <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-md-1 pr-lg-0 pr-xl-1">
-                  <DashboardPropertyCard smallLayout />
+                  <DashboardPropertyCard
+                    lang={lang}
+                    smallLayout
+                  />
                 </div>
                 <div
                   className="w-perc-100 w-perc-md-30 w-perc-lg-100 w-perc-xl-30 pl-md-1 pl-lg-0 pl-xl-1 mt-md-0 mt-lg-3 mt-xl-0"
@@ -521,7 +547,9 @@ const DashboardHome = (props) => {
                           color="blue"
                           saturationTxt={700}
                         />
-                        <span className="txtDark700 fweight-600 pl-1">Marketing</span>
+                        <span className="txtDark700 fweight-600 pl-1">
+                          {translateTo('Marketing', lang)}
+                        </span>
                       </div>
                       <div className="px-3">
                         {
@@ -544,7 +572,7 @@ const DashboardHome = (props) => {
                       <div className="linkWrap">
                         <span className="hr lighter" />
                         <div className="px-3 py-1 txtLight700 wHover">
-                          <span className="text">View</span>
+                          <span className="text">{translateTo('View', lang)}</span>
                           <span className="arrow-symbol ml-1">&#62; </span>
                         </div>
                       </div>
@@ -563,7 +591,9 @@ const DashboardHome = (props) => {
                     icon="interested"
                     color="red"
                   />
-                  <h6 className="mt-xs-2 fweight-400">Interested</h6>
+                  <h6 className="mt-xs-2 fweight-400">
+                    {translateTo('Interested', lang)}
+                  </h6>
                   <p className="fSizePx64 fweight-600 txtRed700 mt-xs-3">
                     {get(activeSinglePropertyDealsCount, 'Interested.total', '')}
                   </p>
@@ -577,7 +607,9 @@ const DashboardHome = (props) => {
                     icon="visited"
                     color="blue"
                   />
-                  <h6 className="mt-xs-2 fweight-400">Visits</h6>
+                  <h6 className="mt-xs-2 fweight-400">
+                    {translateTo('Visits', lang)}
+                  </h6>
                   <p className="fSizePx64 fweight-600 txtBlue700 mt-xs-3">
                     {get(activeSinglePropertyDealsCount, 'Visit.total', '')}
                   </p>
@@ -591,7 +623,9 @@ const DashboardHome = (props) => {
                     icon="offers"
                     color="primary"
                   />
-                  <h6 className="mt-xs-2 fweight-400">Offers</h6>
+                  <h6 className="mt-xs-2 fweight-400">
+                    {translateTo('Offers', lang)}
+                  </h6>
                   <p className="fSizePx64 fweight-600 txtPrimary400 mt-xs-3">
                     {get(activeSinglePropertyDealsCount, 'Offer.total', '')}
                   </p>
@@ -609,14 +643,16 @@ const DashboardHome = (props) => {
                           color="blue"
                           saturationTxt={400}
                         />
-                        <h5 className="ml-2 ml-sm-3 fsize-500">Confirmed visits</h5>
+                        <h5 className="ml-2 ml-sm-3 fsize-500">
+                          {translateTo('Confirmed visits', lang)}
+                        </h5>
                       </div>
                       {
                         visitLists.length > 0 && (
                           <BrixelButtonPrimary
                             className="ml-a ml-sm-0"
                             rounded
-                            label="All"
+                            label={translateTo('All', lang)}
                             onClick={() => history.push('')}
                           />
                         )
@@ -627,7 +663,9 @@ const DashboardHome = (props) => {
                         <div
                           className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
                         >
-                          <h5 className="ta-c mx-a">You don&apos;t have any visits</h5>
+                          <h5 className="ta-c mx-a">
+                            {translateTo('You don\'t have any visits', lang)}
+                          </h5>
                         </div>
                       )
                     }
@@ -655,14 +693,14 @@ const DashboardHome = (props) => {
                             className={`${classWidthTable(1)} ${!visit.past ? 'txtPrimary400' : 'txtLight600'} order-3 order-md-2 cur-poi`}
                             onClick={() => history.push(`/${activeSingleProperty.id}/prospect/${visit.id}`)}
                           >
-                            {DateTime.fromMillis(visit.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}
+                            {DateTime.fromMillis(visit.visit, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
                           </p>
                           <p className={`${classWidthTable(2)} ta-r ta-l-md order-2 order-md-3`}>
                             {
                               visit.visit > DateTime.now().toMillis() ? (
-                                <span className="txtDark700">Upcoming</span>
+                                <span className="txtDark700">{translateTo('Upcoming', lang)}</span>
                               ) : (
-                                <span className="txtLight600">Past</span>
+                                <span className="txtLight600">{translateTo('Past', lang)}</span>
                               )
                             }
                           </p>
@@ -696,7 +734,7 @@ const DashboardHome = (props) => {
                               className="ml-a ml-md-0 txtLight600 fsize-400"
                               onClick={() => history.push(`/${activeSingleProperty.id}/prospects/${visit.id}/deal`)}
                             >
-                              {visit.visit > DateTime.now().toMillis() ? 'View' : 'Review'}
+                              {translateTo(visit.visit > DateTime.now().toMillis() ? 'View' : 'Review', lang)}
                             </button>
                           </p>
                         </div>
@@ -716,7 +754,7 @@ const DashboardHome = (props) => {
 
               <div className="brdRadius brdSmall brdGreen400 p-2 mb-3 ">
                 <h6 className="fweight-400 fsize-300">
-                  You successfully sold this property and transfered it to the new owner. You can still access your photos, 3D tour, and all documents for your memory.
+                  {translateTo('You successfully sold this property and transfered it to the new owner. You can still access your photos, 3D tour, and all documents for your memory.', lang)}
                 </h6>
               </div>
 
@@ -730,11 +768,11 @@ const DashboardHome = (props) => {
                     >
                       <div className="dis-fl-col max-w-perc-100">
                         <span className="fsize-300 txtGreen400">
-                          Review
+                          {translateTo('Review', lang)}
                         </span>
                         <div className="dis-f w-perc-100 fsize-600 fweight-600 mt-1">
                           <span className="pr-1">
-                            We appreciate your stars.
+                            {translateTo('We appreciate your stars.', lang)}
                           </span>
                           <img
                             src={reviewSaleSvg}
@@ -746,7 +784,7 @@ const DashboardHome = (props) => {
                           onClick={() => ''}
                           className="mt-2 as-fs"
                           rounded
-                          label="Review us on Google"
+                          label={translateTo('Review us on Google', lang)}
                         />
                       </div>
                     </button>
@@ -760,11 +798,11 @@ const DashboardHome = (props) => {
                     >
                       <div className="dis-fl-col max-w-perc-100">
                         <span className="fsize-300 txtGreen400">
-                          Feedback
+                          {translateTo('Feedback', lang)}
                         </span>
                         <div className="dis-f w-perc-100 fsize-600 fweight-600 mt-1">
                           <span className="pr-2">
-                            Let us know how we did
+                            {translateTo('Let us know how we did', lang)}
                           </span>
                           <img
                             src={surveySaleSvg}
@@ -776,7 +814,7 @@ const DashboardHome = (props) => {
                           onClick={() => ''}
                           className="mt-2 as-fs"
                           rounded
-                          label="Fill our survey"
+                          label={translateTo('Fill our survey', lang)}
                         />
                       </div>
                     </button>
@@ -791,7 +829,7 @@ const DashboardHome = (props) => {
                 <div className="dis-fl-col max-w-perc-100">
                   <div className="dis-f mt-1">
                     <span className="pr-2 max-w-fix-440 fsize-500 fweight-600 ">
-                      Find and add your new home
+                      {translateTo('Find and add your new home', lang)}
                     </span>
                   </div>
 
@@ -800,7 +838,7 @@ const DashboardHome = (props) => {
                       onClick={() => history.push(`/buy`)}
                       className="as-fs"
                       rounded
-                      label="Search market"
+                      label={translateTo('Search market', lang)}
                     />
 
                     <BrixelButtonSecondary
@@ -808,7 +846,7 @@ const DashboardHome = (props) => {
                       onClick={() => history.push(`/packageFlow/getStarted?company=${activeSingleCompany.stub}`)}
                       className="as-fs ml-sm-2 mt-1 mt-sm-0"
                       rounded
-                      label="Add new property"
+                      label={translateTo('Add new property', lang)}
                     />
                   </div>
                 </div>
@@ -839,7 +877,7 @@ DashboardHome.propTypes = {
   onProgressStep: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
-  userLang: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -860,9 +898,9 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
-  userLang: get(state, 'user.loggedInUser.user.language', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

@@ -5,7 +5,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonText,
-  BrixelProgressLineDots,
+  BrixelProgressLineDots, translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -39,6 +39,7 @@ const Bestimate = (props) => {
     initialValues,
     initialValuesPage,
     handleReset,
+    lang,
   } = props;
   // STATE
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -299,7 +300,7 @@ const Bestimate = (props) => {
                       disabled={!checkValidateField()}
                       saturation={400}
                       color="light"
-                      label={buttonLabel()}
+                      label={translateTo(buttonLabel(), lang)}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                     />
@@ -308,7 +309,7 @@ const Bestimate = (props) => {
                       className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''} ${currentIndex === 0 ? 'ml-a' : ''}`}
                       disabled={!checkValidateField()}
                       rounded
-                      label={buttonLabel()}
+                      label={translateTo(buttonLabel(), lang)}
                       rightIcon="arrow-right-small"
                       onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                     />
@@ -329,11 +330,12 @@ Bestimate.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleReset: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   initialValuesPage: PropTypes.object.isRequired,
-  handleReset: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -345,6 +347,7 @@ const mapStateToProps = (state) => {
     formValue: get(state, 'brixelForm.GamingFlow.values', {}),
     initialValuesPage: get(state, 'brixelForm.Property.initialValues', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
+    lang: get(state, 'common.language', 'en'),
     initialValues: {
       id: get(state, 'property.activeSingleProperty.id', null),
       properties: {

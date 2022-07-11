@@ -1,3 +1,4 @@
+import { translateTo } from '@brixel/brixel-components';
 import React, { useEffect, useState } from 'react';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
@@ -16,6 +17,7 @@ function PageFooter(props) {
     activeSideBar,
     activeSingleCompany,
     className,
+    lang,
   } = props;
   // STATE
   const [activeCompanyData, setActiveCompanyData] = useState({});
@@ -28,7 +30,7 @@ function PageFooter(props) {
   return (
     <>
       <footer className={`footerWrap w-perc-100 ${className} ${activeSideBar ? 'leftPadding' : ''}`}>
-        <div className="a-t jc-b p-1 p-sm-2 brdSmallTop brdAltGrey100">
+        <div className="a-t jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdAltGrey100">
           <div>
             {
               get(activeSingleCompany, 'links.privacy', null) && (
@@ -36,7 +38,7 @@ function PageFooter(props) {
                   href={get(activeSingleCompany, 'links.privacy', null)}
                   className="fsize-300 txtAltGrey400 link"
                 >
-                  Privacy Policy
+                  {translateTo('Privacy Policy', lang)}
                 </a>
               )
             }
@@ -46,7 +48,7 @@ function PageFooter(props) {
                   href={get(activeSingleCompany, 'links.terms', null)}
                   className="ml-2 fsize-300 txtAltGrey400 link"
                 >
-                  Terms and Conditions
+                  {translateTo('Terms and Conditions', lang)}
                 </a>
               )
             }
@@ -54,7 +56,9 @@ function PageFooter(props) {
           {
             get(activeCompanyData, 'logos', []).length > 0 && (
               <div className="dis-f jc-c a-c max-h-fix-20">
-                <span className="mr-2 fsize-300 txtAltGrey400">Powered by</span>
+                <span className="mr-2 fsize-300 txtAltGrey400">
+                  {translateTo('Powered by', lang)}
+                </span>
                 {
                   get(activeCompanyData, 'logos', []).map((logo, i) => (
                     <img
@@ -81,6 +85,7 @@ PageFooter.propTypes = {
   activeSideBar: PropTypes.bool,
   activeSingleCompany: PropTypes.object.isRequired,
   className: PropTypes.string,
+  lang: PropTypes.string.isRequired,
 };
 
 PageFooter.defaultProps = {
@@ -90,6 +95,7 @@ PageFooter.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
+  lang: get(state, 'common.language', {}),
 });
 
 export default connect(mapStateToProps, null)(PageFooter);

@@ -14,7 +14,7 @@ import get from 'lodash/get';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelButtonText,
+  BrixelButtonText, translateTo,
 } from '@brixel/brixel-components';
 import BrixelSwitchButton from '@brixel/brixel-components/dist/components/Form/BrixelSwitchButton';
 import {
@@ -57,8 +57,8 @@ const AddShowingsBuyer = (props) => {
     loggedInUser,
     userLang,
   } = props;
-  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [questions, setQuestions] = useState(QuestionsList(lang));
+  const [quest, setQuest] = useState(QuestionsList(lang)[0]);
   const [showError, setShowError] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [action, setAction] = useState(null);
@@ -199,7 +199,7 @@ const AddShowingsBuyer = (props) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    const newQuestions = QuestionsList();
+    const newQuestions = QuestionsList(lang);
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       newQuestions[newIndex].conditions.map((cond) => {
@@ -218,7 +218,7 @@ const AddShowingsBuyer = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList(lang);
     let newIndex = currentIndex;
     setShowError(false);
     setAction(act);
@@ -271,7 +271,7 @@ const AddShowingsBuyer = (props) => {
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((qst) => {
+      QuestionsList(lang).map((qst) => {
         if (qst.condition) {
           let isValid = true;
           qst.condition.map((item) => {
@@ -419,7 +419,7 @@ const AddShowingsBuyer = (props) => {
                                             <div className="time fsize-300">
                                               {
                                                 val.isAllDay ? (
-                                                  <span>All day</span>
+                                                  <span>{translateTo('All day', lang)}</span>
                                                 ) : (
                                                   <>
                                                     <span>{val.start}</span>
@@ -457,7 +457,7 @@ const AddShowingsBuyer = (props) => {
                                           saturation={400}
                                           className="mt-1 fsize-300"
                                           color="green"
-                                          label="Choose another date"
+                                          label={translateTo('Choose another date', lang)}
                                           rightIcon="calendar"
                                           onClick={() => {
                                             setShowResizer(false);
@@ -475,7 +475,9 @@ const AddShowingsBuyer = (props) => {
                         {
                           chooseDatesOpen && (
                             <div className="dis-fl-col a-c jc-b">
-                              <span className="fsize-400 fweight-400 mb-3">Choose your date</span>
+                              <span className="fsize-400 fweight-400 mb-3">
+                                {translateTo('Choose your date', lang)}
+                              </span>
                               <BrixelDatePicker
                                 hideInput
                                 ref1={datePicker}
@@ -495,7 +497,7 @@ const AddShowingsBuyer = (props) => {
                           showResizer && (
                             <div>
                               <div id="rzSlider" className="modalWindow" ref={hoursRef}>
-                                <h6>Choose your time </h6>
+                                <h6>{translateTo('Choose your time', lang)}</h6>
                                 <p
                                   className="mt-4 mb-2 mb-lg-0 mt-lg-0x"
                                 >
@@ -512,7 +514,7 @@ const AddShowingsBuyer = (props) => {
                                 />
                                 <div className="dis-f a-c mt-4 mb-lg-0">
                                   <BrixelSwitchButton
-                                    label="I'm available all day"
+                                    label={translateTo('I\'m available all day', lang)}
                                     input={{
                                       onChange: (e) => handleChange(e),
                                     }}
@@ -542,7 +544,9 @@ const AddShowingsBuyer = (props) => {
                         {
                           get(quest, 'history', '') === 'success' &&
                           <div className="dis-fl-col a-c">
-                            <span className="mb-2">We will contact you as soon as possible</span>
+                            <span className="mb-2">
+                              {translateTo('We will contact you as soon as possible', lang)}
+                            </span>
                             {
                               scheduleVisitFree.map((val, i) => (
                                 <div
@@ -556,7 +560,7 @@ const AddShowingsBuyer = (props) => {
                                     <div className="time fsize-300">
                                       {
                                         val.isAllDay ? (
-                                          <span>All day</span>
+                                          <span>{translateTo('All day', lang)}</span>
                                         ) : (
                                           <>
                                             {
@@ -615,7 +619,7 @@ const AddShowingsBuyer = (props) => {
                           disabled={!checkValidateField()}
                           rounded
                           theme="green"
-                          label={buttonLabel()}
+                          label={translateTo(buttonLabel(), lang)}
                           rightIcon="arrow-right-small"
                           onClick={(e) => (getClickFunc(e))}
                           isLoading={isSmallLoading.scheduleVisit}
@@ -672,7 +676,7 @@ const mapStateToProps = (state) => {
     formValue: get(state, 'brixelForm.Showings.values', {}),
     initialValues,
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    lang: get(state, 'user.loggedInUser.user.language', ''),
+    lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     userLang: get(state, 'user.loggedInUser.language', 'en'),
   });

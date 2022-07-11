@@ -7,7 +7,7 @@ import {
 import get from 'lodash/get';
 import {
   BrixelButtonBox,
-  BrixelButtonIcon,
+  BrixelButtonIcon, translateTo,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -32,6 +32,7 @@ const PropertyBuyerDashboard = (props) => {
   const {
     activeSingleDeal,
     formValue,
+    lang,
     windowDimensions,
   } = props;
   // STATE
@@ -79,7 +80,7 @@ const PropertyBuyerDashboard = (props) => {
                       verticalView
                       bgTransparent
                       icon="message"
-                      label="Contact"
+                      label={translateTo('Contact', lang)}
                       labelClass="fweight-400"
                       subtitle={get(formValue, 'contacts[0].name', '')}
                       subtitleClass="fsize-200 pt-small-6"
@@ -95,7 +96,7 @@ const PropertyBuyerDashboard = (props) => {
                       verticalView
                       bgTransparent
                       icon="copy-link"
-                      label="Page"
+                      label={translateTo('Page', lang)}
                       labelClass="fweight-400"
                       subtitle=""
                       subtitleClass="fsize-200 pt-small-6"
@@ -109,9 +110,9 @@ const PropertyBuyerDashboard = (props) => {
                       verticalView
                       bgTransparent
                       icon="folder"
-                      label="Docubox"
+                      label={translateTo('Docubox', lang)}
                       labelClass="fweight-400"
-                      subtitle={`<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate))}</span>&nbsp;<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) !== 1 ? 'Files' : 'File'}</span>`}
+                      subtitle={`<span>${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate))}</span>&nbsp;<span>${translateTo(calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) !== 1 ? 'Files' : 'File', lang)}</span>`}
                       subtitleClass={`fsize-200 pt-small-6 ${calcLenght(get(formValue, 'documents', []).filter((i) => !i.isPrivate)) >= 1 ? 'txtPrimary700' : 'txtDark200'}`}
                       className={`w-perc-100 shadow-1dp ml-1 brdMedium ${getFact() === 'docubox' ? 'brdPrimary400 bgWhite' : 'brdTrans'} p-2`}
                       colorIcon="primary700"
@@ -125,7 +126,7 @@ const PropertyBuyerDashboard = (props) => {
                       verticalView
                       bgTransparent
                       icon="calendar"
-                      label="Showings"
+                      label={translateTo('Showings', lang)}
                       labelClass={`fweight-400 ${windowDimensions.width <= 1024 ? 'w-perc-50' : 'w-perc-25'}`}
                       subtitle=""
                       subtitleClass="fsize-200 pt-small-6"
@@ -141,7 +142,7 @@ const PropertyBuyerDashboard = (props) => {
                           verticalView
                           bgTransparent
                           icon="money"
-                          label="Closing"
+                          label={translateTo('Closing', lang)}
                           labelClass="fweight-400 w-perc-50"
                           subtitle=""
                           subtitleClass="fsize-200 pt-small-6"
@@ -189,6 +190,7 @@ const PropertyBuyerDashboard = (props) => {
 PropertyBuyerDashboard.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -198,7 +200,7 @@ PropertyBuyerDashboard.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   formValue: get(state, 'property.activeSingleProperty', {}),
-  langConfig: get(state, 'common.language', ''),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),

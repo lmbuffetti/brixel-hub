@@ -8,7 +8,7 @@ import {
   BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelButtonIcon,
+  BrixelButtonIcon, translateTo,
 } from '@brixel/brixel-components';
 import { reset } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
@@ -22,6 +22,7 @@ const WarningScreen = (props) => {
     handleSetModal,
     initialValue,
     isSmallLoading,
+    lang,
     onClose,
     saveFunc,
   } = props;
@@ -63,15 +64,15 @@ const WarningScreen = (props) => {
               icon="alert"
               color="red"
             />
-            <span className="heading3 ml-3">Oops!</span>
+            <span className="heading3 ml-3">{translateTo('Oops!', lang)}</span>
           </div>
         </div>
         <div className="modal-body ta-l bgLight100">
-          <div>You have unsaved changes</div>
+          <div>{translateTo('You have unsaved changes', lang)}</div>
         </div>
         <div className="modal-footer dis-f jc-b jc-fe-md bgWhite jc-b">
           <BrixelButtonSecondary
-            label="Discard and exit"
+            label={translateTo('Discard and exit', lang)}
             rounded
             theme="red"
             onClick={() => closeAndReset()}
@@ -80,7 +81,7 @@ const WarningScreen = (props) => {
           <BrixelButtonPrimary
             className="ml-2"
             rounded
-            label="Save and exit"
+            label={translateTo('Save and exit', lang)}
             onClick={() => saveData()}
             isLoading={isSmallLoading.saveData}
           />
@@ -96,6 +97,7 @@ WarningScreen.propTypes = {
   handleSetModal: PropTypes.func.isRequired,
   initialValue: PropTypes.string.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   saveFunc: PropTypes.func,
 };
