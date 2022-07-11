@@ -48,9 +48,6 @@ const DashboardHome = (props) => {
     lang,
     loggedInUser,
     searchProfile,
-    userLang,
-    userTypes,
-    searchProfile,
     userTypes,
   } = props;
   // STATE
@@ -67,7 +64,7 @@ const DashboardHome = (props) => {
     if (activeSingleCompany.id) {
       const data = {
         partner: activeSingleCompany.stub,
-        language: userLang,
+        language: lang,
       };
       handleGetContentCraftCMS(data)
     }
@@ -366,7 +363,6 @@ const mapStateToProps = (state) => ({
   lang: get(state, 'commong.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   searchProfile: get(state, 'user.userSearchProfiles[0]', {}),
-  userLang: get(state, 'user.loggedInUser.user.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

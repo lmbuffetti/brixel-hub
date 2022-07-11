@@ -96,7 +96,7 @@ const DashboardHome = (props) => {
     if (activeSingleCompany.id) {
       const data = {
         partner: activeSingleCompany.stub,
-        language: userLang,
+        language: lang,
       };
       handleGetContentCraftCMS(data)
     }
