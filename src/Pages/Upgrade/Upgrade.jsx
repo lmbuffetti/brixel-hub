@@ -15,6 +15,7 @@ const Upgrade = (props) => {
   const {
     activeSingleCompany,
     handleGetActiveSingleCompanyPackages,
+    lang,
   } = props;
   // STATE
 
@@ -63,6 +64,7 @@ const Upgrade = (props) => {
                     React.createElement(
                       quest.component,{
                         ...quest,
+                        lang,
                       },
                     )
                   )
@@ -80,6 +82,7 @@ const Upgrade = (props) => {
 
 Upgrade.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   handleGetActiveSingleCompanyPackages: PropTypes.func.isRequired,
 };
 
@@ -87,6 +90,7 @@ const mapStateToProps = (state) => {
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
+    lang: get(state, 'common.language', 'en'),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
   });
 };
