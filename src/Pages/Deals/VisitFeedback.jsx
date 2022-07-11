@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   Helpers,
-  BrixelIcon,
+  BrixelIcon, translateTo,
 } from '@brixel/brixel-components';
 import {
   BrixelCheckbox,
@@ -132,7 +132,7 @@ const VisitFeedback = (props) => {
                   status ? (
                     <div id="step-0" className="dis-fl-col flex-wrap">
                       <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                        We&apos;re glad you are still interested.
+                        {translateTo('We\'re glad you are still interested.', lang)}
                       </h2>
                       <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5 w-perc-100 mb-5">
                         <div className=" multiFieldWrap w-perc-100 ">
@@ -140,8 +140,8 @@ const VisitFeedback = (props) => {
                             <div className="ml-0 mr-a dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
                               
                               <div>
-                                <h6>Do you want to make an offer?</h6>
-                                <p>Make your offer online and have a proof of financing ready.</p>
+                                <h6>{translateTo('Do you want to make an offer?', lang)}</h6>
+                                <p>{translateTo('Make your offer online and have a proof of financing ready.', lang)}</p>
                                 <BrixelButtonPrimary
                                   onClick={() => history.push(`/packageFlow/${activeSingleProperty.id}/makeOffer`)}
                                   rounded
@@ -151,7 +151,7 @@ const VisitFeedback = (props) => {
                               </div>
                               
                               <p className="mt-5">
-                                You can contact us if you have any specific questions to the owner.
+                                {translateTo('You can contact us if you have any specific questions to the owner.', lang)}
                               </p>
                               
                               <div className="my-3">
@@ -196,17 +196,17 @@ const VisitFeedback = (props) => {
                         successMessage ? (
                           <div id="step-0" className="dis-fl-col flex-wrap">
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                              Thank you. Your feedback has been sent.
+                              {translateTo('Thank you. Your feedback has been sent.', lang)}
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
                                 <div className="dis-f jc-b h-perc-100 a-t">
                                   <div className="ml-0 mr-a pr-10 dis-f-col jc-b w-perc-100 pos-r" tabIndex="-1">
                                     <p>
-                                      Thank you for your feedback.
+                                      {translateTo('Thank you for your feedback.', lang)}
                                     </p>
                                     <p className="mt-1">
-                                      Do you want to share any specific reasons or a comment to the owner?
+                                      {translateTo('Do you want to share any specific reasons or a comment to the owner?', lang)}
                                     </p>
                                     
                                     <div className="mt-3">
@@ -240,8 +240,8 @@ const VisitFeedback = (props) => {
                                       }
                                     </div>
                                     
-                                    <h6>Still looking for your dream home?</h6>
-                                    <p>Check your Brixel market to find other properties.</p>
+                                    <h6>{translateTo('Still looking for your dream home?', lang)}</h6>
+                                    <p>{translateTo('Check your Brixel market to find other properties.', lang)}</p>
                                   </div>
                                 </div>
                               </div>
@@ -256,7 +256,7 @@ const VisitFeedback = (props) => {
                         ) : (
                           <>
                             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                              Thank you for your feedback.
+                              {translateTo('Thank you for your feedback.', lang)}
                             </h2>
                             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5 w-perc-100 mb-5">
                               <div className=" multiFieldWrap w-perc-100 ">
@@ -271,12 +271,12 @@ const VisitFeedback = (props) => {
                                       input={{
                                         name: 'reasons',
                                         options: [
-                                          { label: 'Price', value: 'price' },
-                                          { label: 'Location', value: 'location' },
-                                          { label: 'Floor plan', value: 'floorPlan' },
-                                          { label: 'Condition', value: 'condition' },
-                                          { label: 'Better alternative', value: 'betterAlternative' },
-                                          { label: 'Other', value: 'other' },
+                                          { label: translateTo('Price', lang), value: 'price' },
+                                          { label: translateTo('Location', lang), value: 'location' },
+                                          { label: translateTo('Floor plan', lang), value: 'floorPlan' },
+                                          { label: translateTo('Condition', lang), value: 'condition' },
+                                          { label: translateTo('Better alternative', lang), value: 'betterAlternative' },
+                                          { label: translateTo('Other', lang), value: 'other' },
                                         ],
                                         validate: [Validation.required]
                                       }}
@@ -289,7 +289,7 @@ const VisitFeedback = (props) => {
                                       component={BrixelTextArea}
                                       form="visitFeedback"
                                       labels={{
-                                        label: 'Do you want to add anything (Optional)',
+                                        label: translateTo('Do you want to add anything (Optional)', lang),
                                       }}
                                       input={{
                                         name: 'otherReason',
@@ -305,13 +305,13 @@ const VisitFeedback = (props) => {
                                           }}
                                           form="visitFeedback"
                                           labels={{
-                                            label: 'Do you want to get noticed if the price changes?',
+                                            label: translateTo('Do you want to get noticed if the price changes?', lang),
                                           }}
                                           input={{
                                             name: 'priceChangeAlert',
                                             options: [
-                                              { label: 'Yes', value: true },
-                                              { label: 'No', value: false },
+                                              { label: translateTo('Yes', lang), value: true },
+                                              { label: translateTo('No', lang), value: false },
                                             ],
                                             validate: [Validation.required]
                                           }}
@@ -328,7 +328,7 @@ const VisitFeedback = (props) => {
                               isLoading={isSmallLoading.sendVisit}
                               rounded
                               className="w-fit m-a"
-                              label="Send"
+                              label={translateTo('Send', lang)}
                             />
                           </>
                         )

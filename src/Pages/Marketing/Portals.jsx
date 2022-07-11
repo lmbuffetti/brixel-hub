@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelButtonText,
-  BrixelStatus,
+  BrixelStatus, translateTo,
 } from '@brixel/brixel-components';
 import {
   ReduxField,
@@ -36,6 +36,7 @@ const Portals = (props) => {
     handleSetModal,
     handleUpdatePortalsReview,
     isSmallLoading,
+    lang,
     modal,
     portals,
   } = props;
@@ -149,30 +150,30 @@ const Portals = (props) => {
     <>
       <div className="bgWhite p-4 brdRadius">
         <div className="dis-f jc-b a-c mb-2">
-          <h5>Publish on portals</h5>
+          <h5>{translateTo('Publish on portals', lang)}</h5>
           <div className={`brdSmall px-2 py-1 brd${status.color} txt${status.color} brdRadius`}>
-            {status.text}
+            {translateTo(status.text, lang)}
           </div>
         </div>
 
         <div className="mb-4">
           {
             checkPortalsOnline() ? (
-              <p>Your property is published on following portals:</p>
+              <p>{translateTo('Your property is published on following portals:', lang)}</p>
             ) : (
               <div>
                 <p>
-                  Reach a wide audience and publish your property on the biggest portals
+                  {translateTo('Reach a wide audience and publish your property on the biggest portals', lang)}
                 </p>
                 <ul className="checkList fsize-300 green mt-2 txtAltGrey700">
-                  <li>Manage all your listings in one place</li>
+                  <li>{translateTo('Manage all your listings in one place', lang)}</li>
                   <li>Publish all your listings with one click</li>
                   <li>Valid for 6 months</li>
                   {
                     get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
-                      <li>Idealista, Imovirtual, Casa Sapo, SuperCasa and many more.</li>
+                      <li>{translateTo('Idealista, Imovirtual, Casa Sapo, SuperCasa and many more.', lang)}</li>
                     ) : (
-                      <li>Homegate, ImmoScout24, Comparis, Newhome and many more.</li>
+                      <li>{translateTo('Homegate, ImmoScout24, Comparis, Newhome and many more.', lang)}</li>
                     )
                   }
                 </ul>
@@ -198,7 +199,7 @@ const Portals = (props) => {
                             href={portals[`${key}Url`]}
                             className="dis-f a-c"
                           >
-                            <span className="fsize-300">{key}</span>
+                            <span className="fsize-300">{translateTo(key, lang)}</span>
                             <BrixelStatus
                               color="green"
                             />
@@ -207,7 +208,7 @@ const Portals = (props) => {
                           <div
                             className="dis-f a-c singlePortal"
                           >
-                            <span className="fsize-300">{key}</span>
+                            <span className="fsize-300">{translateTo(key, lang)}</span>
                             <BrixelStatus
                               color="red"
                             />
@@ -231,7 +232,7 @@ const Portals = (props) => {
                       href={customPortals[`${key}Url`]}
                       className="dis-f a-c"
                     >
-                      <span className="fsize-300">{key}</span>
+                      <span className="fsize-300">{translateTo(key, lang)}</span>
                       <BrixelStatus
                         color="green"
                       />
@@ -247,14 +248,14 @@ const Portals = (props) => {
           checkPortalsOnline() && !formValue.portalsReview && (
             <>
               <div>
-                <p className="fweight-500 txtDark700 mb-1 mt-5">Portals description</p>
-                <span className="txtDark200">Add a description text which is shown on portals only.</span>
+                <p className="fweight-500 txtDark700 mb-1 mt-5">{translateTo('Portals description', lang)}</p>
+                <span className="txtDark200">{translateTo('Add a description text which is shown on portals only.', lang)}</span>
               </div>
               <ReduxField
                 form="Property"
                 input={{
                   name: 'description.portalHighlight',
-                  placeholder: 'Add text',
+                  placeholder: translateTo('Add text', lang),
                 }}
                 design={{
                   className: 'mt-2',
@@ -270,7 +271,7 @@ const Portals = (props) => {
             checkPortalsOnline() ? (
               <>
                 <BrixelButtonText
-                  label="Take Page offline"
+                  label={translateTo('Take Page offline', lang)}
                   theme="red"
                   rounded
                   onClick={() => onClickRequest('unpublishPortals', 'request')}
@@ -282,7 +283,7 @@ const Portals = (props) => {
                 {
                   status.state !== 'review' && (
                     <BrixelButtonPrimary
-                      label="Request to publish"
+                      label={translateTo('Request to publish', lang)}
                       rounded
                       onClick={() => onClickRequest('publishPortals', 'request')}
                       isLoading={isSmallLoading.pageReview}
@@ -302,7 +303,7 @@ const Portals = (props) => {
           <div className="bgWhite brdRadius p-4 mt-2">
             <BrixelSwitchButton
               isReversed
-              label="Pre-market"
+              label={translateTo('Pre-market', lang)}
               className="mb-3 boldLabel"
               input={{
                 onChange: (val) => changeFieldValue('preMarketVisible', val),
@@ -313,11 +314,10 @@ const Portals = (props) => {
             {
               get(activeSingleProperty, 'preMarketVisible', false) === true ? (
                 <p className="txtDark700">
-                  Your property is visible on our pre-market.
-                  Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.
+                  {translateTo('Your property is visible on our pre-market. Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang)}
                 </p>
               ) : (
-                <p className="txtDark700" dangerouslySetInnerHTML={{ __html: 'Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.' }} />
+                <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang) }} />
               )
             }
           </div>
@@ -338,6 +338,7 @@ Portals.propTypes = {
   handleSetModal: PropTypes.func.isRequired,
   handleUpdatePortalsReview: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   modal: PropTypes.object.isRequired,
   portals: PropTypes.object.isRequired,
 };
@@ -351,6 +352,7 @@ const mapStateToProps = (state) => {
     companyPortals: get(state, 'companies.activeSingleCompany.availablePortals', {}),
     customPortals: get(activeSingleProperty, 'customPortals', {}),
     formValue,
+    lang: get(state, 'common.language', 'en'),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     modal: get(state, 'common.modal', {}),
     portals: get(activeSingleProperty, 'portals', {}),

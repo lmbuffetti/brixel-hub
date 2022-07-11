@@ -331,7 +331,7 @@ const SingleDeal = (props) => {
     }
 
     if (get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 1) {
-      answerText += `</br></br><span>${translateTo('Financial certificate:', lang)}</span><span>${translateTo(activeSingleDeal.closing.stageOffer.offer.financeCertificate === 1 ? 'Yes' : 'No', lang)} </span>`;
+      answerText += `</br></br><span>${translateTo('Financial certificate:', lang)}</span><span class="ml-small-4">${translateTo(activeSingleDeal.closing.stageOffer.offer.financeCertificate === 1 ? 'Yes' : 'No', lang)} </span>`;
     }
     return answerText;
   };
