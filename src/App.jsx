@@ -104,6 +104,7 @@ const WarningScreen = lazyWithRetry(() => import('./components/WarningScreen'));
 const cookies = new Cookies();
 
 const App = (props) => {
+  const isOpenTransifex = cookies.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -463,7 +464,7 @@ const App = (props) => {
         )
       }
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''} ${showFooter ? 'activeFooter' : ''} notranslate`}
+        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''} ${showFooter ? 'activeFooter' : ''} ${isOpenTransifex ? '' : 'notranslate'}`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />

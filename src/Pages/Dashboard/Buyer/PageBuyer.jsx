@@ -135,6 +135,7 @@ const PageBuyer = (props) => {
 
 PageBuyer.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 PageBuyer.defaultProps = {
