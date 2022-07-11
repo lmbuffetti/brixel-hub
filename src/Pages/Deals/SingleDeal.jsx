@@ -311,7 +311,7 @@ const SingleDeal = (props) => {
     let answerText = '';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.buyer') && Object.keys(activeSingleDeal.closing.stageOffer.offer.buyer).length > 0) {
       answerText += `<span>${translateTo('Buyer details:', lang)}</span></br>
-      <span class="dis-b"><span>${translateTo('Date of birth', lang)}<span class="lh-in">:</span> </span><span class="fweight-500">
+      <span class="dis-b"><span>${translateTo('Date of birth:', lang)}</span><span class="fweight-500">
       ${(typeof get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') === 'string' && get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '').includes('-')) ? get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') : DateTime.fromMillis(
     get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', ''),
     {
