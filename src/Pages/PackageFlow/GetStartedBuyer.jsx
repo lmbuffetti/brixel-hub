@@ -9,7 +9,8 @@ import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
   BrixelProgressBar,
-  translateTo } from '@brixel/brixel-components';
+  translateTo,
+} from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
   initializeForm,
