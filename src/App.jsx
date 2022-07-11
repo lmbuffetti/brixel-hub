@@ -168,7 +168,7 @@ const App = (props) => {
       handleSetLanguage(userLang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang || 'en');
     } else if (activeSingleCompany.id && !loggedInUser.user) {
-      userLang = cookies.get('brixelLang') || activeSingleCompany.language.code;
+      userLang = cookies.get('brixelLang') || activeSingleCompany.language.code || 'en';
       handleSetLanguage(userLang);
     }
     if (typeof Transifex !== 'undefined') {
