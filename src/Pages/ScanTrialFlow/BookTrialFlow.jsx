@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelIcon,
-  Helpers,
+  Helpers, translateTo,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import {
@@ -96,14 +96,14 @@ const BookTrialFlow = (props) => {
       {
         get(formValue, 'analysis', '') === 'on-site' ? (
           <>
-            <h2 className="ta-c fweight-600 fsize-600 fsize-sm-800">We are ready 🚀.</h2>
-            <h2 className="mb-3 mb-sm-6 ta-c fweight-600 fsize-600 fsize-sm-800">When do you want us to visit?</h2>
+            <h2 className="ta-c fweight-600 fsize-600 fsize-sm-800">{translateTo('We are ready 🚀.', lang)}</h2>
+            <h2 className="mb-3 mb-sm-6 ta-c fweight-600 fsize-600 fsize-sm-800">{translateTo('When do you want us to visit?', lang)}</h2>
             <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
               <Accordion
                 lang={lang}
                 color="dark"
                 saturationTxt={400}
-                title="Book online"
+                title={translateTo('Book online', lang)}
                 titleClass="fsize-500 w-perc-100 jc-b py-3 px-2 px-sm-5"
                 contentClass="pb-3"
                 paddingContent="px-2 px-sm-5"
@@ -137,7 +137,7 @@ const BookTrialFlow = (props) => {
                         dirty: get(syncErrors, 'dateBook', '') !== true,
                         showErrors: showError,
                         message: {
-                          error: 'Please select a date',
+                          error: translateTo('Please select a date', lang)
                         },
                       }}
                     />
@@ -167,7 +167,7 @@ const BookTrialFlow = (props) => {
                         dirty: get(syncErrors, 'hourBook', '') !== true,
                         showErrors: showError,
                         message: {
-                          error: 'Please insert an hour',
+                          error: translateTo('Please insert an hour', lang),
                         },
                       }}
                     />
@@ -206,7 +206,7 @@ const BookTrialFlow = (props) => {
                           dirty: get(syncErrors, 'phone', '') !== true,
                           showErrors: showError,
                           message: {
-                            error: 'Please insert a valid phone',
+                            error: translateTo('Please insert a valid phone', lang),
                           },
                         }}
                       />
@@ -214,41 +214,41 @@ const BookTrialFlow = (props) => {
                   )
                 }
                 <p className="mt-2">
-                  <span>Alternatively you can call us on</span>
+                  <span>{translateTo('Alternatively you can call us on', lang)}</span>
                   {
                     phone && (
                       <a href={`tel:${Helpers.telephoneFormat(phone)}`} className="ml-1 txtDark400 cur-poi td-u">{Helpers.telephoneFormat(phone)}</a>
                     )
                   }
                 </p>
-                <p>We are reachable Mo - Fr, 09:00 to 18:00.</p>
+                <p>{translateTo('We are reachable Mo - Fr, 09:00 to 18:00.', lang)}</p>
               </Accordion>
             </div>
           </>
         ) : (
           <>
-            <h2 className="mb-1 ta-c fsize-600 fsize-sm-800 fweight-600">We are ready from</h2>
-            <h2 className="mb-3 mb-sm-6 ta-c fsize-600 fsize-sm-800 fweight-600">Mo - Fr, 09:00 to 18:00.</h2>
+            <h2 className="mb-1 ta-c fsize-600 fsize-sm-800 fweight-600">{translateTo('We are ready from', lang)}</h2>
+            <h2 className="mb-3 mb-sm-6 ta-c fsize-600 fsize-sm-800 fweight-600">{translateTo('Mo - Fr, 09:00 to 18:00.', lang)}</h2>
             <div>
               <div className="max-w-fix-600 dis-fl-col dis-fl-row-sm ml-a mr-a dis-f a-t jc-b">
                 <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
                   <img className="max-w-fix-120 max-w-fix-sm-144" src={PhoneImg} alt="Phone" />
                   <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">Phone</h4>
-                  <p>You can call us on</p>
+                  <p>{translateTo('You can call us on', lang)}</p>
                   <p>
                     <a className="txtDark700 td-u" href={`tel:${phone}`}>{Helpers.telephoneFormat(phone)}</a>
                   </p>
                 </div>
                 <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
                   <img className="max-w-fix-120 max-w-fix-sm-144" src={VidelCallImg} alt="Phone" />
-                  <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">Video call</h4>
-                  <p>We use Whereby – a safe and easy tool. No installation needed.</p>
+                  <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">{translateTo('Video call', lang)}</h4>
+                  <p>{translateTo('We use Whereby – a safe and easy tool. No installation needed.', lang)}</p>
                   {
                     whereby && (
                       <BrixelButtonPrimary
                         className="mx-a mt-3"
                         rounded
-                        label="Start video call"
+                        label={translateTo('Start video call', lang)}
                         onClick={() => openWhereByVideoCall()}
                         rightIcon="arrow-right-small"
                       />

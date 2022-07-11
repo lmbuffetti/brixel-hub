@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { translateTo } from '@brixel/brixel-components';
 import React from 'react';
 import { compose } from 'redux';
 import get from 'lodash/get';
@@ -11,6 +12,7 @@ const ResumeTrialFlow = (props) => {
   // PROPS
   const {
     formValue,
+    lang,
   } = props;
 
   return (
@@ -20,8 +22,8 @@ const ResumeTrialFlow = (props) => {
         get(formValue, 'analysis', '') === 'on-site' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
             <img width="164" src={GreenHouseImg} alt="Resume" />
-            <h4 className="fweight-400 ta-c mt-3">Thanks for booking your on-site appointment.</h4>
-            <p className="ta-c mt-2">You will get an e-mail with a confirmation and more details.</p>
+            <h4 className="fweight-400 ta-c mt-3">{translateTo('hanks for booking your on-site appointment.', lang)}</h4>
+            <p className="ta-c mt-2">{translateTo('You will get an e-mail with a confirmation and more details.', lang)}</p>
           </div>
         )
       }
@@ -30,7 +32,8 @@ const ResumeTrialFlow = (props) => {
         get(formValue, 'analysis', '') === 'remote' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
             <img src={ScheduleImg} alt="Resume" />
-            <p className="ta-c mt-2">Thank you for completing your video call.
+            <p className="ta-c mt-2">
+              {translateTo('Thank you for completing your video call.', lang)}
             </p>
           </div>
         )
@@ -42,10 +45,12 @@ const ResumeTrialFlow = (props) => {
 
 ResumeTrialFlow.propTypes = {
   formValue: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.scanFlow.values', {}),
+  lang: get(state, 'common.language', 'en'),
 });
 
 export default compose(

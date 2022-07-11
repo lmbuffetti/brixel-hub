@@ -5,7 +5,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
 import {
-  BrixelButtonIcon,
+  BrixelButtonIcon, translateTo,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import AnalyseImg from '../../images/scanTrial/analyse.png';
@@ -16,7 +16,10 @@ import { setWindowDimensions } from '../../actions/CommonActions';
 
 const IntroScanFlow = (props) => {
   // PROPS
-  const { windowDimensions } = props;
+  const {
+    lang,
+    windowDimensions,
+  } = props;
 
   const sliderInstance = useRef(null);
 
@@ -46,7 +49,7 @@ const IntroScanFlow = (props) => {
     <main id="rewards" className="introScanFlow pb-2 pb-sm-4 h-perc-100 txtDark700 mt-3">
 
       <h2 className="mb-0 mb-lg-5 ta-c fweight-600">
-        How it works
+        {translateTo('How it works', lang)}
       </h2>
       { windowDimensions.width < 1024 && (
         <Slider ref={sliderInstance} {...settingSlider()}>
@@ -57,9 +60,9 @@ const IntroScanFlow = (props) => {
                 <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-r-0" />
                 <div className="roundDot ml-a mr-a" />
               </div>
-              <h4 className="fweight-600 my-3 mb-1">We analyse</h4>
+              <h4 className="fweight-600 my-3 mb-1">{translateTo('We analyse', lang)}</h4>
               <p className="max-w-fix-280 m-a">
-                We estimate your property and define the sales process with you.
+                {translateTo('We estimate your property and define the sales process with you.', lang)}
               </p>
             </div>
           </div>
@@ -71,9 +74,9 @@ const IntroScanFlow = (props) => {
                 <hr className="divider-line-mobile" />
                 <div className="roundDot ml-a mr-a" />
               </div>
-              <h4 className="fweight-600 my-3 mb-1">We deliver</h4>
+              <h4 className="fweight-600 my-3 mb-1">{translateTo('We deliver', lang)}</h4>
               <p className="max-w-fix-280 m-a">
-                We capture your property and create your personal Brixel Page.
+                {translateTo('We capture your property and create your personal Brixel Page.', lang)}
               </p>
             </div>
           </div>
@@ -85,9 +88,9 @@ const IntroScanFlow = (props) => {
                 <hr className="divider-line-mobile" />
                 <div className="roundDot ml-a mr-a" />
               </div>
-              <h4 className="fweight-600 my-3 mb-1">You test</h4>
+              <h4 className="fweight-600 my-3 mb-1">{translateTo('You test', lang)}</h4>
               <p className="max-w-fix-280 m-a">
-                You review our work and can test our full service on the market.
+                {translateTo('You review our work and can test our full service on the market.', lang)}
               </p>
             </div>
           </div>
@@ -99,9 +102,9 @@ const IntroScanFlow = (props) => {
                 <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-l-0" />
                 <div className="roundDot ml-a mr-a" />
               </div>
-              <h4 className="fweight-600 my-3 mb-1">You decide</h4>
+              <h4 className="fweight-600 my-3 mb-1">{translateTo('You decide', lang)}</h4>
               <p className="max-w-fix-280 m-a">
-                If you are happy, you book one of our service packages or withdraw without any costs.
+                {translateTo('If you are happy, you book one of our service packages or withdraw without any costs.', lang)}
               </p>
             </div>
           </div>
@@ -147,9 +150,9 @@ const IntroScanFlow = (props) => {
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={AnalyseImg} alt="text-1" /> */}
                   <div className="roundDot ml-a mr-a" />
-                  <h4 className="fweight-600 my-3 mb-1">We analyse</h4>
+                  <h4 className="fweight-600 my-3 mb-1">{translateTo('We analyse', lang)}</h4>
                   <p className="max-w-fix-280 m-a">
-                    We estimate your property and define the sales process with you.
+                    {translateTo('We estimate your property and define the sales process with you.', lang)}
                   </p>
                 </div>
               </div>
@@ -158,9 +161,9 @@ const IntroScanFlow = (props) => {
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={DeliverImg} alt="text-1" /> */}
                   <div className="roundDot ml-a mr-a" />
-                  <h4 className="fweight-600 my-3 mb-1">We deliver</h4>
+                  <h4 className="fweight-600 my-3 mb-1">{translateTo('We deliver', lang)}</h4>
                   <p className="max-w-fix-280 m-a">
-                    We capture your property and create your personal Brixel Page.
+                    {translateTo('We capture your property and create your personal Brixel Page.', lang)}
                   </p>
                 </div>
               </div>
@@ -169,9 +172,9 @@ const IntroScanFlow = (props) => {
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={YourTestImg} alt="text-1" /> */}
                   <div className="roundDot ml-a mr-a" />
-                  <h4 className="fweight-600 my-3 mb-1">You test</h4>
+                  <h4 className="fweight-600 my-3 mb-1">{translateTo('You test', lang)}</h4>
                   <p className="max-w-fix-280 m-a">
-                    You can review our work before you decide.
+                    {translateTo('You can review our work before you decide.', lang)}
                   </p>
                 </div>
               </div>
@@ -180,9 +183,9 @@ const IntroScanFlow = (props) => {
                 <div className="brdRadius ov-h ta-c">
                   {/* <img className="w-perc-100 max-w-fix-144" src={DecideImg} alt="text-1" /> */}
                   <div className="roundDot ml-a mr-a" />
-                  <h4 className="fweight-600 my-3 mb-1">You decide</h4>
+                  <h4 className="fweight-600 my-3 mb-1">{translateTo('You decide', lang)}</h4>
                   <p className="max-w-fix-280 m-a">
-                    Start with Brixel One if you are happy with our work or withdraw without any costs.
+                    {translateTo('Start with Brixel One if you are happy with our work or withdraw without any costs.', lang)}
                   </p>
                 </div>
               </div>
@@ -197,10 +200,12 @@ const IntroScanFlow = (props) => {
 };
 
 IntroScanFlow.propTypes = {
+  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  lang: get(state, 'common.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
