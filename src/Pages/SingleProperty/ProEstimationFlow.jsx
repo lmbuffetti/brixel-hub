@@ -172,9 +172,13 @@ const ProEstimationFlow = (props) => {
     });
     setQuestions(questList);
     const percentageComplete = calcPercentageProEstimation('formFlow');
-    if (percComplete < percentageComplete.realPerc && percentageComplete.realPerc === 100) setSendNotification(true);
     setPercComplete(percentageComplete.realPerc);
   }, [formValue]);
+  
+  useEffect(() => {
+    setSendNotification(percComplete >= 100);
+  }, [percComplete]);
+  
 
   // CHECK IF FIELD IS VALID
   const checkValidateField = (act) => {
@@ -338,7 +342,7 @@ ProEstimationFlow.propTypes = {
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
-  lang: PropTypes.object.string.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
