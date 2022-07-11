@@ -10,7 +10,7 @@ import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  FactsOptions,
+  FactsOptions, translateTo,
 } from '@brixel/brixel-components';
 import {
   BrixelInputText,
@@ -40,11 +40,12 @@ const CreateDeal = (props) => {
     location: useLocation(),
   };
   const {
-    activeSingleProperty,
     activeSingleCompany,
-    handleCreateDeal,
-    formValue,
+    activeSingleProperty,
     destroyForm,
+    formValue,
+    lang,
+    handleCreateDeal,
   } = props;
   
   const {
@@ -104,7 +105,7 @@ const CreateDeal = (props) => {
     >
       <div className="add-deal-container w-perc-100 h-perc-100 dis-fl-col p-2 p-lg-0">
         <div className="dis-f jc-b a-c mb-4">
-          <h5>Create new deal</h5>
+          <h5>{translateTo('Create new deal', lang)}</h5>
           <div>
             <BrixelButtonIcon
               ghost
@@ -125,7 +126,7 @@ const CreateDeal = (props) => {
               placeholder: 'Name',
             }}
             labels={{
-              label: 'Name',
+              label: translateTo('Name', lang),
             }}
             component={BrixelInputText}
           />
@@ -140,7 +141,7 @@ const CreateDeal = (props) => {
               type: 'email',
             }}
             labels={{
-              label: 'Email',
+              label: translateTo('Email', lang),
             }}
             component={BrixelInputText}
           />
@@ -155,7 +156,7 @@ const CreateDeal = (props) => {
               placeholder: '123456789',
             }}
             labels={{
-              label: 'Phone',
+              label: translateTo('Phone', lang),
             }}
             inputFormat={{
               formatType: 'tel',
@@ -169,13 +170,13 @@ const CreateDeal = (props) => {
             }}
             input={{
               name: 'stage',
-              placeholder: 'Select deal stage',
+              placeholder: translateTo('Select deal stage', lang),
               options: factsOptions.progressBarDealsOptions,
               progressState: '',
               readOnly: false,
             }}
             labels={{
-              label: 'Stage',
+              label: translateTo('Stage', lang),
             }}
             component={ProgressBar}
           />
@@ -186,11 +187,11 @@ const CreateDeal = (props) => {
             }}
             input={{
               name: 'actionStub',
-              placeholder: 'Select deal action',
+              placeholder: translateTo('Select deal action', lang),
               options: actionOptions,
             }}
             labels={{
-              label: 'Action',
+              label: translateTo('Action', lang),
             }}
             component={BrixelSelect}
           />
@@ -200,7 +201,7 @@ const CreateDeal = (props) => {
             disabled={!checkValidateField()}
             rounded
             onClick={() => createNewDeal()}
-            label="Create deal"
+            label={translateTo('Create deal', lang)}
             className="as-fe"
             rightIcon="arrow-right-small"
           />
@@ -216,6 +217,7 @@ CreateDeal.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   handleCreateDeal: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 CreateDeal.defaultProps = {};
@@ -225,6 +227,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', null),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.CreateDeal.values', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
 });
 
