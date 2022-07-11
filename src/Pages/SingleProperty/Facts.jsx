@@ -10,7 +10,7 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   BrixelButtonText,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
@@ -133,13 +133,13 @@ const Facts = (props) => {
 
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">Facts</h3>
+      <h3 className="mb-3 hide dis-b-lg">{translateTo('Facts', lang)}</h3>
       <div className="dis-f h-perc-lg-100">
         <div
           className={`secondLevel w-perc-100 h-perc-lg-100 ${getFact() !== 'facts' && windowDimensions.width >= 1024 ? 'hide' : 'dis-fl-col'}`}
         >
           <div className="dis-fl-col backPanel hide-lg">
-            <h5 className="sectionTitle">Facts</h5>
+            <h5 className="sectionTitle">{translateTo('Facts', lang)}</h5>
           </div>
           <div className="boxCard flex-1">
             <div className="dis-fl-col">

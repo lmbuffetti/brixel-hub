@@ -40,8 +40,6 @@ import { getImageType } from './actions/UploadActions';
 import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 import lazyWithRetry from './components/LazyWithRetry';
-// SIGNUP
-const Signup = lazyWithRetry(() => import('./Pages/Signup/Signup'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazyWithRetry(() => import('./Pages/PackageFlow/GetStarted'));
@@ -275,14 +273,11 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('trialRequest') ||
-      history.location.pathname.includes('upgrade') ||
-      history.location.pathname.includes('signup')
-    ) {
+      history.location.pathname.includes('upgrade')    ) {
       if (
         history.location.pathname.includes('packageFlow') ||
         history.location.pathname.includes('scheduleVisit') ||
-        history.location.pathname.includes('visitFeedback') ||
-        history.location.pathname.includes('signup')
+        history.location.pathname.includes('visitFeedback')
       ) {
         setClassMain('flowContainer packageFlow w-perc-100');
       } else {
@@ -381,8 +376,7 @@ const App = (props) => {
         !history.location.pathname.includes('packageFlow') &&
         !history.location.pathname.includes('scheduleVisit') &&
         !history.location.pathname.includes('visitFeedback') &&
-        !history.location.pathname.includes('onBoarding') &&
-        !history.location.pathname.includes('signup')
+        !history.location.pathname.includes('onBoarding')
       ) data = { hideLoad: true };
       handleCheckToken(data);
     }
@@ -513,9 +507,6 @@ const App = (props) => {
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
                       <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
 
-                      {/* SECTION: SIGNUP */}
-                      <Route path="/signup" element={<Signup />} />
-
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
 
@@ -530,7 +521,6 @@ const App = (props) => {
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
-                        !history.location.pathname.includes('signup') &&
                         (
                           <>
                             <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
@@ -566,7 +556,6 @@ const App = (props) => {
                         !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
-                        !history.location.pathname.includes('signup') &&
                         (
                           <>
                             <Route path="/buyer/:propID/*" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />

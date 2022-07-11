@@ -47,7 +47,6 @@ const Key4Registration = (props) => {
     const channelType = 'Brixel';
     const useCase = 'NEW_HOME_BUYER';
     const subtype = 'FINANCIAL_CERTIFICATE';
-    const lang = loggedInUser.language;
     const campID = `Brixel-FinancialCertificate-CH-${lang}-BrixelPage-${activeSingleProperty.id}-${loggedInUser.id}`;
     const objectUsage = 'MAIN_RESIDENCE';
     // const riskProfile = 'BALANCED';

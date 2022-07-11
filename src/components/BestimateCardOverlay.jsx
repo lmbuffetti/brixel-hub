@@ -101,9 +101,7 @@ const BestimateCardOverlay = (props) => {
               </>
             ) : (
               <>
-                <h3>
-                  {translateTo('This is your Bestimate<sup>®</sup>', lang)}
-                </h3>
+                <h3 dangerouslySetInnerHTML={{ __html: translateTo('This is your Bestimate<sup>®</sup>', lang) }} />
                 <>
                   <p className="ta-c mt-2 txtDark700">
                     {translateTo('Your property is worth up to', lang)}

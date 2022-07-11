@@ -14,7 +14,7 @@ import get from 'lodash/get';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
+  BrixelButtonSecondary, translateTo,
 } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -151,12 +151,12 @@ const Photos = (props) => {
 
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">Floor Plans</h3>
+      <h3 className="mb-3 hide dis-b-lg">{translateTo('Floor Plans', lang)}</h3>
       <div className="plansWrapper dis-f">
         <div className="secondLevel dis-fl-col">
           <div className="dis-f backPanel hide-lg">
             <h5 className="sectionTitle">
-              Floor Plans
+              {translateTo('Floor Plans', lang)}
             </h5>
           </div>
           <div className={`boxCard mb-5 ${(!fixPhotos || (fixPhotos && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
@@ -198,7 +198,7 @@ const Photos = (props) => {
                                     rounded
                                     theme="red"
                                     rightIcon="bin"
-                                    label="delete?"
+                                    label={translateTo('delete?', lang)}
                                     className={`${confirmDelete === i ? '' : 'hide'}`}
                                     onClick={() => deleteImage(item.id)}
                                     isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
@@ -227,7 +227,7 @@ const Photos = (props) => {
                             {
                               item.description && (
                                 <p className="ta-l mt-1 fsize-200 txtDark700 w-prec-100">
-                                  {Truncate(item.description, 60)}
+                                  {translateTo(Truncate(item.description, 60), lang)}
                                 </p>
                               )
                             }
@@ -267,14 +267,14 @@ const Photos = (props) => {
                     (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
                       <div>
                         <img className="w-perc-100 h-fix-120" src={uploadFloorPlansEmpty} alt="Empty State" />
-                        <h5 className="mt-3 mb-2">Upload your floor Plans</h5>
+                        <h5 className="mt-3 mb-2">{translateTo('Upload your floor Plans', lang)}</h5>
                       </div>
                     )
                   }
-                  <span className="body2 txtDark200 max-width-220">Choose .jpeg .png .pdf with max. 10 MB size</span>
+                  <span className="body2 txtDark200 max-width-220">{translateTo('Choose .jpeg .png .pdf with max. 10 MB size', lang)}</span>
                   <BrixelButtonPrimary
                     rounded
-                    label="upload"
+                    label={translateTo('upload', lang)}
                     rightIcon="upload"
                     className="mt-3"
                     isLoading={isSmallLoading.uploadMedia}
@@ -289,9 +289,9 @@ const Photos = (props) => {
               <BrixelUpgradeMessage
                 lang={lang}
                 unlockFunction={false}
-                title="You don't have a plan?"
-                description="Accurate floor plans are important for your potential buyers. Request a free photo shooting by one of our experts to get your own plan."
-                btnLabel="Request photo shoot"
+                title={translateTo('You don\'t have a plan?', lang)}
+                description={translateTo('Accurate floor plans are important for your potential buyers. Request a free photo shooting by one of our experts to get your own plan.', lang)}
+                btnLabel={translateTo('Request photo shoot', lang)}
                 redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
                 trialRequest
               />
