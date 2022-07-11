@@ -47,8 +47,8 @@ function RightHeaderFlow(props) {
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
-    if (loggedInUser && loggedInUser.user) {
-      const langUsr = loggedInUser.user.language;
+    if (loggedInUser && loggedInUser.language) {
+      const langUsr = loggedInUser.language;
       setCurrentLang(lang);
       setCookie('brixelLang', langUsr);
     }
