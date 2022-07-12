@@ -17,7 +17,8 @@ import {
   getActiveSinglePropertyBookings,
 } from '../../../actions/PropertyActions';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
-import ArticlesBox from '../../../components/ArticlesBox';
+import ArticlesBox from '../../../components/CraftCMS/ArticlesBox';
+import BannerBox from '../../../components/CraftCMS/BannerBox';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 
 import Loading from '../../../components/Loading';
@@ -239,6 +240,12 @@ const DashboardHome = (props) => {
                   </div>
                 </button>
               </div>
+              
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="verwalte-deine-immobilie"
+              />
   
               <ArticlesBox
                 activeSingleCompany={activeSingleCompany}

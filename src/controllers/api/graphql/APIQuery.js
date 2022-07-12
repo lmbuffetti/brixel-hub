@@ -1,39 +1,7 @@
 import axios from 'axios';
 import queryString from 'query-string';
 import { failureHandler, successHandler } from '../utils/api.helper';
-
-const query = `
-  query HubContentQuery(
-    $siteHandle: String!
-    $placementSlug: String!
-  ) {
-    placementEntries(
-      site: [$siteHandle]
-      slug: [$placementSlug]
-      limit: 3
-    ) {
-      ...on placement_default_Entry {
-        slug
-        title
-        placementContent(limit: 3) {
-          ...on pages_default_Entry {
-            id
-            slug
-            url
-            title
-            previewCopy
-            mainImage {
-              url
-              width
-              height
-              alt
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+import { articlesQuery, bannersQuery } from './query.costants';
 
 class ApiClient {
   constructor({ baseURL }) {
@@ -54,13 +22,22 @@ class ApiClient {
     data,
   }) {
     const siteHandle = `${ data.partner }${ data.language[ 0 ].toUpperCase() }${ data.language.slice( 1 ).toLowerCase() }`;
-    const { placementSlug } = data;
+    const { placementSlug, queryType } = data;
     let baseUrl = this.baseURL;
+    let query = articlesQuery;
+    switch (queryType) {
+      case 'banners':
+        query = bannersQuery;
+        break;
+      default:
+        query = articlesQuery;
+    }
     const body = JSON.stringify( {
       query,
       variables: {
         siteHandle,
         placementSlug,
+        bannerSlug: placementSlug,
       },
     } );
     const config = {

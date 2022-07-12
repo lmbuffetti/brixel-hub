@@ -1,18 +1,16 @@
 import get from 'lodash/get';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import api from '../controllers/api/graphql';
-import ContentCard from './Cards/ContentCard';
+import api from '../../controllers/api/graphql';
 
-const ArticlesBox = (props) => {
+const BannerBox = (props) => {
   const {
     activeSingleCompany,
     lang,
     placementSlug,
-    title,
   } = props;
 
-  const [articles, setArticles] = useState([]);
+  const [banner, setBanner] = useState([]);
 
   useEffect(() => {
     if (activeSingleCompany.stub) {
@@ -20,46 +18,37 @@ const ArticlesBox = (props) => {
         placementSlug,
         partner: activeSingleCompany.stub,
         language: lang,
+        queryType: 'banners'
       };
       api.craftCMS.getHubContent(data)
         .then((res) => {
-          setArticles(get(res, 'data.data.placementEntries[0].placementContent', []))
+          setBanner(get(res, 'data.data.bannersEntries[0]', {}))
         });
     }
   }, [activeSingleCompany]);
 
-  if (articles.length === 0) return <></>;
+  if (!banner.title) return <></>;
   
   return (
     <div className="mt-6">
       {
-        title && (
-          <h4>{title}</h4>
+        banner.title && (
+          <h4>{banner.title}</h4>
         )
       }
   
       <div className="row-cols-3-gut-8 my-3">
-        {
-          articles.map((card) => (
-            <ContentCard
-              key={ card.id }
-              image={ card.mainImage[ 0 ] }
-              title={ card.title }
-              previewCopy={ card.previewCopy }
-              href={ card.url }
-            />
-          ))
-        }
+      
       </div>
     </div>
   );
 };
 
-ArticlesBox.propTypes = {
+BannerBox.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   placementSlug: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
 
-export default ArticlesBox;
+export default BannerBox;
