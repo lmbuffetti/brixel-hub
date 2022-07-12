@@ -9,6 +9,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
   BrixelProgressBar,
+  translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -31,16 +32,16 @@ import has from 'lodash/has';
 import isArray from 'lodash/isArray';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 import { setCookie, checkBrowser } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/onBoardingBuyer';
-import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
+import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
+import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 
 const cookie = new Cookies();
 
 const GetStartedBuyer = (props) => {
+  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -55,7 +56,6 @@ const GetStartedBuyer = (props) => {
     handleDoLogin,
     handleGetActiveSingleCompany,
     handleCreateSearchProfile,
-    handleSetLanguage,
     handleSpinnerOff,
     handleSpinnerOn,
     handleValidateUser,
@@ -331,7 +331,7 @@ const GetStartedBuyer = (props) => {
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({ stub: defComp });
+      handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
     } else {
       handleGetActiveSingleCompany({ stub: 'default' });
@@ -438,12 +438,7 @@ const GetStartedBuyer = (props) => {
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
-      let getLang = cookie.get('brixelLang');
-      if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
-        const companyLang = get(company, 'language.code', 'en');
-        handleSetLanguage(companyLang.toLowerCase());
-        getLang = companyLang.toLowerCase();
-      }
+      const getLang = cookie.get('brixelLang');
       const companyCountry = get(company, 'country.code', 'CH');
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
@@ -457,7 +452,7 @@ const GetStartedBuyer = (props) => {
       changeFieldValue('register.phone.prefix', countryPhoneCode.dial_code);
     }
     if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
-  }, [company]);
+  }, [get(company, 'id', null)]);
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
@@ -471,8 +466,8 @@ const GetStartedBuyer = (props) => {
   };
 
   return (
-    <PartialErrorBoundering>
-      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+    <>
+      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
         {
           (get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile') && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -619,7 +614,7 @@ const GetStartedBuyer = (props) => {
                                   saturation={400}
                                   theme="green"
                                   rounded
-                                  label={buttonLabel()}
+                                  label={translateTo(buttonLabel())}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                 />
@@ -629,7 +624,7 @@ const GetStartedBuyer = (props) => {
                                   disabled={!checkValidateField()}
                                   rounded
                                   theme="green"
-                                  label={buttonLabel()}
+                                  label={translateTo(buttonLabel())}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                   onShowError={() => setShowError(true)}
@@ -685,7 +680,7 @@ const GetStartedBuyer = (props) => {
           )
         }
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 
@@ -698,7 +693,6 @@ GetStartedBuyer.propTypes = {
   handleCreateSearchProfile: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
@@ -779,7 +773,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),

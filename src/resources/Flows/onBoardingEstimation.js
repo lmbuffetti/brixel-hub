@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { FactsOptions } from '@brixel/brixel-components';
+import { FactsOptions, translateTo } from '@brixel/brixel-components';
 import {
   BrixelRadioButton,
   BrixelInputStepNumber,
@@ -7,52 +7,57 @@ import {
   Validation,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import LoginSignup from '../components/LoginSignup';
+import LoginSignup from '../../components/LoginSignup';
 // import ResumeCard from '../components/ResumeCard';
-import { translateTo } from '../utils/translation';
-import { configureStore } from '../store';
-import { svgIcons } from './svgIcons';
+import { configureStore } from '../../store';
+import { svgIcons } from '../Utilities/svgIcons';
 
 import { BestimateQuestions } from './Bestimate';
-import MapsWithModalManual from '../components/Map/MapsWithModalManual';
+import MapsWithModalManual from '../../components/Map/MapsWithModalManual';
 
 const { factsOptions } = FactsOptions;
 
-// VALIDATION OF FIELDS
-export const maxLengthNum = (val, name) => (value) => {
-  let error = null;
-  if (value && value >= val) {
-    error = name === 'year' ? `Year can't be after ${val}` : `The ${name} have to be less then ${val}`;
-  }
-  return error;
-};
-
-export const minLengthNum = (val, name) => (value) => {
-  let error = null;
-  if (value && value <= val) {
-    error = name === 'year' ? `Too old! year can't be before ${val}` : `The ${name} have to be more then ${val}`;
-  }
-  return error;
-};
-
-const minLengthNumYear = minLengthNum(1500, 'year');
-const maxLengthNumRooms = maxLengthNum(31, 'rooms');
-const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
-const maxLengthNumYear = maxLengthNum(2031, 'year');
-
 // QUESTION LISTS
 export const QuestionsList = (lang, country = 'CH') => {
+  
+  // VALIDATION OF FIELDS
+  const maxLengthNum = (val, name) => (value) => {
+    let error = null;
+    if (value && value >= val) {
+      error = translateTo(name === 'year' ? `Year can't be after ${val}` : `The ${name} have to be less then ${val}`, lang);
+    }
+    return error;
+  };
+  
+  const minLengthNum = (val, name) => (value) => {
+    let error = null;
+    if (value && value <= val) {
+      error = translateTo(name === 'year' ? `Too old! year can't be before ${val}` : `The ${name} have to be more then ${val}`, lang);
+    }
+    return error;
+  };
+  
+  const minLengthNumYear = minLengthNum(1500, 'year');
+  const maxLengthNumRooms = maxLengthNum(31, 'rooms');
+  const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
+  const maxLengthNumYear = maxLengthNum(2031, 'year');
+  
   let propertyType = '';
   if (configureStore) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
-  let livingAreaTitle = country === 'PT' ? translateTo(lang, 'What is the gross area size?') : translateTo(lang, 'What is the living space size?');
-  if (propertyType === 'Commercial') livingAreaTitle = translateTo(lang, 'What is the floor size?');
+  let livingAreaTitle = translateTo(country === 'PT' ? 'What is the gross area size?' : 'What is the living space size?', lang);
+  if (propertyType === 'Commercial') livingAreaTitle = translateTo( 'What is the floor size?', lang);
   const countryCode = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', '');
+  
+  const userTypeEstimation = factsOptions.userTypeEstimation.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
 
   return [
     {
-      title: translateTo(lang, 'What is the estimation for?'),
+      title: translateTo( 'What is the estimation for?', lang),
       history: 'estimationType',
       footerWidth: 'max-w-fix-464',
       inputs: [{
@@ -65,13 +70,13 @@ export const QuestionsList = (lang, country = 'CH') => {
         validation: [Validation.required],
         large: true,
         icons: true,
-        options: factsOptions.userTypeEstimation,
+        options: userTypeEstimation,
       }],
-      successMessage: translateTo(lang, 'Ok. Got it.'),
+      successMessage: translateTo( 'Ok. Got it.', lang),
     },
     {
-      title: translateTo(lang, 'What type of property do you want to estimate?'),
-      /* subtitle: translateTo(lang, 'Choose between apartment and house.'), */
+      title: translateTo( 'What type of property do you want to estimate?', lang),
+      /* subtitle: translateTo( 'Choose between apartment and house.'), */
       history: 'propertyType',
       footerWidth: 'max-w-fix-584',
       inputs: [{
@@ -91,23 +96,23 @@ export const QuestionsList = (lang, country = 'CH') => {
         isHorizontal: true,
         options: [
           {
-            label: translateTo(lang, 'Apartment'),
+            label: translateTo( 'Apartment', lang),
             value: 'Apartment',
             img: svgIcons.apartment,
             color: 'blue',
           },
           {
-            label: translateTo(lang, 'House'),
+            label: translateTo( 'House', lang),
             value: 'House',
             img: svgIcons.house,
             color: 'blue',
           },
         ],
       }],
-      successMessage: translateTo(lang, 'Ok. Got it.'),
+      successMessage: translateTo( 'Ok. Got it.', lang),
     },
     {
-      title: translateTo(lang, 'How many rooms?'),
+      title: translateTo( 'How many rooms?', lang),
       history: 'allRooms',
       cardType: 'allRooms',
       footerWidth: 'max-w-fix-384',
@@ -115,7 +120,7 @@ export const QuestionsList = (lang, country = 'CH') => {
         {
           component: BrixelInputStepNumber,
           classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius px-2 px-sm-5 py-5 m-a',
-          label: 'Number of rooms',
+          label: translateTo('Number of rooms', lang),
           name: 'properties.typology.bedrooms',
           validation: [maxLengthNumRooms, Validation.required],
           step: 0.5,
@@ -126,12 +131,16 @@ export const QuestionsList = (lang, country = 'CH') => {
           fluid: true,
           startFrom: 3,
           large: true,
+          tooltip: {
+            label: translateTo('What is this?', lang),
+            description: translateTo(country === 'PT' ? 'Enter the number of rooms, including rooms with a minimum surface of 9 m² (+1). Kitchen and bathrooms are not counted as a proper room.' : 'Enter the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.', lang),
+          }
         },
       ],
-      successMessage: translateTo(lang, 'This is a nice number.'),
+      successMessage: translateTo( 'This is a nice number.', lang),
     },
     {
-      title: livingAreaTitle,
+      title: translateTo(livingAreaTitle, lang),
       history: 'livingSpace',
       cardType: 'livingSpace',
       footerWidth: 'max-w-fix-384',
@@ -143,7 +152,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           }],
           component: BrixelInputText,
           classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
-          label: country === 'PT' ? 'Gross area' : 'Net living space',
+          label: translateTo(country === 'PT' ? 'Gross area' : 'Net living space', lang),
           name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
@@ -151,6 +160,10 @@ export const QuestionsList = (lang, country = 'CH') => {
           placeholder: '117',
           maxLengthNum: 9999,
           large: true,
+          tooltip: {
+            label: translateTo('What is this?', lang),
+            description: translateTo(country === 'PT' ? 'It is the total area measured by the external perimeter and axes of the walls or other separating elements of the building or property, including closed private balconies, basements, and private attics with the same use as the building or property. Open balconies, garages, and storage are excluded.' : 'The net living space is the part of the usable surface, which is specified for the primary use of the building. Included are entrance and courtyard, mobile walls, interior stairs, and fireplace. Excluded are external walls, internal walls, chimney, balcony, patio, attic, basement, rooms with room height under 1.2 m, and storerooms.', lang),
+          }
         },
         {
           condition: [{
@@ -159,41 +172,41 @@ export const QuestionsList = (lang, country = 'CH') => {
           }],
           component: BrixelInputText,
           classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
-          label: 'Floor space',
+          label: translateTo('Floor space', lang),
           name: 'properties.typology.floorSpace.value',
           type: 'number',
           validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
           unit: 'm2',
-          placeholder: translateTo(lang, 'e.g. 120'),
+          placeholder: translateTo( 'e.g. 120', lang),
           maxLengthNum: 9999,
           large: true,
         },
       ],
-      successMessage: translateTo(lang, 'Great living space.'),
+      successMessage: translateTo( 'Great living space.', lang),
     },
     {
-      title: translateTo(lang, 'What is the construction year?'),
+      title: translateTo( 'What is the construction year?', lang),
       history: 'constructionYear',
       cardType: 'constructionYear',
       footerWidth: 'max-w-fix-384',
       inputs: [
         {
           component: BrixelInputText,
-          label: 'Construction year',
+          label: translateTo('Construction year', lang),
           name: 'properties.building.built',
           type: 'number',
           classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
-          placeholder: translateTo(lang, 'e.g. 1990'),
+          placeholder: translateTo( 'e.g. 1990', lang),
           validation: [Validation.positiveNumber, maxLengthNumYear, minLengthNumYear, Validation.required],
           maxLengthNum: 9999,
           minLengthNum: 999,
           large: true,
         },
       ],
-      successMessage: translateTo(lang, 'A good year for real estate.'),
+      successMessage: translateTo( 'A good year for real estate.', lang),
     },
     {
-      title: translateTo(lang, 'What is the location?'),
+      title: translateTo( 'What is the location?', lang),
       history: 'locationInput',
       cardType: 'locationInput',
       footerWidth: 'max-w-fix-600',
@@ -214,10 +227,10 @@ export const QuestionsList = (lang, country = 'CH') => {
           },
         },
       ],
-      successMessage: translateTo(lang, 'That is an interesting location.'),
+      successMessage: translateTo( 'That is an interesting location.', lang),
     },
     {
-      title: translateTo(lang, 'Is this your correct location?'),
+      title: translateTo( 'Is this your correct location?', lang),
       history: 'locationInputResume',
       cardType: 'locationInputResume',
       footerWidth: 'max-w-fix-600',
@@ -242,7 +255,7 @@ export const QuestionsList = (lang, country = 'CH') => {
     },
     /* {
       hideProgress: true,
-      title: `${translateTo(lang, 'Great, Your property was created!')} 🎉`,
+      title: `${translateTo( 'Great, Your property was created!')} 🎉`,
       history: 'resume',
       cardType: 'loadComponent',
       component: ResumeCard,
@@ -258,8 +271,8 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'createProfile',
       background: 'bgCardGreen',
       component: LoginSignup,
-      signupTitle: translateTo(lang, 'Create your profile to save your progress.'),
-      loginTitle: translateTo(lang, 'Login to your profile to save your progress.'),
+      signupTitle: translateTo( 'Create your profile to save your progress.', lang),
+      loginTitle: translateTo( 'Login to your profile to save your progress.', lang),
       cardType: 'createProfile',
       inputs: [{
         skipPhone: true,

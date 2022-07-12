@@ -22,7 +22,6 @@ const PropertyBuyerDashboard = lazyWithRetry(() => import('./PropertyBuyerDashbo
 const DealsDashboardBuyer = lazyWithRetry(() => import('./DealsDashboardBuyer'));
 
 const Documents = lazyWithRetry(() => import('../../SingleProperty/Documents'));
-const PartialErrorBoundering = lazyWithRetry(() => import('../../../components/PartialErrorBoundering'));
 
 const Financing = lazyWithRetry(() => import('./Financing'));
 
@@ -110,7 +109,7 @@ const Dashboard = (props) => {
   const sectionClass = get(history, 'location.pathname', '/').split('/');
 
   return (
-    <PartialErrorBoundering>
+    <>
       <div className={`dashboardContainer mt-0 mt-md-3 dis-f jc-b ${sectionClass[2]}`} id="dashboard">
         <div className="w-perc-100">
           <Suspense fallback="">
@@ -133,7 +132,7 @@ const Dashboard = (props) => {
           )
         }
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 
@@ -159,7 +158,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany.id', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', []),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {

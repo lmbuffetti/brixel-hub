@@ -1,8 +1,17 @@
-<svg width="885" height="56" viewBox="0 0 885 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M65 0H0V20H65V0Z" fill="#D8D8D8"/>
-<path d="M483 0H418V20H483V0Z" fill="#D8D8D8"/>
-<path d="M799 0H734V20H799V0Z" fill="#D8D8D8"/>
-<path d="M151 42H0V56H151V42Z" fill="#D8D8D8" fill-opacity="0.8"/>
-<path d="M569 42H418V56H569V42Z" fill="#D8D8D8" fill-opacity="0.8"/>
-<path d="M885 42H734V56H885V42Z" fill="#D8D8D8" fill-opacity="0.8"/>
+<svg width="1117" height="133" viewBox="0 0 1117 133" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M166 102H14V109H166V102Z" fill="#D8D8D8"/>
+<path d="M193 83H14V95H193V83Z" fill="#D8D8D8"/>
+<path d="M545 102H393V109H545V102Z" fill="#D8D8D8"/>
+<path d="M572 83H393V95H572V83Z" fill="#D8D8D8"/>
+<path d="M914 102H762V109H914V102Z" fill="#D8D8D8"/>
+<path d="M941 83H762V95H941V83Z" fill="#D8D8D8"/>
+<path d="M207 23H55V39H207V23Z" fill="#D8D8D8" fill-opacity="0.9"/>
+<path d="M582 23H430V39H582V23Z" fill="#D8D8D8" fill-opacity="0.9"/>
+<circle cx="26" cy="31" r="12" fill="#D9D9D9"/>
+<circle cx="401" cy="31" r="12" fill="#D9D9D9"/>
+<path d="M955 23H803V39H955V23Z" fill="#D8D8D8" fill-opacity="0.9"/>
+<circle cx="774" cy="31" r="12" fill="#D9D9D9"/>
+<line y1="-0.5" x2="133" y2="-0.5" transform="matrix(5.40104e-09 1 1 -3.53762e-07 373 0)" stroke="#EDEDED"/>
+<line x1="1116.31" y1="56.5" y2="56.5" stroke="#EDEDED"/>
+<line y1="-0.5" x2="133" y2="-0.5" transform="matrix(3.61455e-08 1 1 -5.28611e-08 746 0)" stroke="#EDEDED"/>
 </svg>

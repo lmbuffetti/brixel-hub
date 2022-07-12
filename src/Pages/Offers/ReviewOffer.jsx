@@ -8,7 +8,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelIcon,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import {
   BrixelTextArea,
@@ -34,6 +34,7 @@ const ReviewOffer = (props) => {
     handleSetActiveSingleDeal,
     handleSmallSpinner,
     isSmallLoading,
+    lang,
     setSplashScreen,
   } = props;
   // STATE
@@ -93,7 +94,7 @@ const ReviewOffer = (props) => {
           {
             activeSingleDeal.id === 'sample' && (
               <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200 ex-tag">
-                Example only
+                {translateTo('Example only', lang)}
               </div>
             )
           }
@@ -112,9 +113,9 @@ const ReviewOffer = (props) => {
                   <>
                     {
                       success === 'accepted' ? (
-                        <h3 className="ta-c">Accept offer 👍</h3>
+                        <h3 className="ta-c">{translateTo('Accept offer 👍', lang)}</h3>
                       ) : (
-                        <h3 className="ta-c">Decline offer 👎</h3>
+                        <h3 className="ta-c">{translateTo('Decline offer 👎', lang)}</h3>
                       )
                     }
 
@@ -122,7 +123,7 @@ const ReviewOffer = (props) => {
 
                 <p className="mt-5">Your offer was transmitted to the owner. You will get feedback via e-mail.</p> */}
 
-                    <h6 className="fsize-200 pb-1 mt-5">Asking Price</h6>
+                    <h6 className="fsize-200 pb-1 mt-5">{translateTo('Asking Price', lang)}</h6>
                     {
                       get(activeSingleProperty, 'price.total', 0) > 0 ? (
                         <p className="txtDark700 fweight-400">
@@ -130,11 +131,11 @@ const ReviewOffer = (props) => {
                           <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
                         </p>
                       ) : (
-                        <p className="txtDark700 fweight-400">On Request</p>
+                        <p className="txtDark700 fweight-400">{translateTo('On Request', lang)}</p>
                       )
                     }
 
-                    <h6 className="fsize-200 pb-1 pt-3">Offer Price</h6>
+                    <h6 className="fsize-200 pb-1 pt-3">{translateTo('Offer Price', lang)}</h6>
 
                     {
                       success === 'accepted' ? (
@@ -165,10 +166,10 @@ const ReviewOffer = (props) => {
                       }}
                       input={{
                         name: 'note',
-                        placeholder: 'Add comment or note for buyer',
+                        placeholder: translateTo('Add comment or note for buyer', lang),
                       }}
                       labels={{
-                        label: 'Message',
+                        label: translateTo('Message', lang),
                       }}
                     />
 
@@ -182,12 +183,11 @@ const ReviewOffer = (props) => {
                         {
                           success === 'accepted' ? (
                             <>
-                              You hearby accept this offer. Legally this is non-biding but needed for the process to be continued.
+                              {translateTo('You hearby accept this offer. Legally this is non-biding but needed for the process to be continued.', lang)}
                             </>
                           ) : (
                             <>
-                              You hearby decline this offer. Legally this is non-biding but needed for the process to be
-                              continued.
+                              {translateTo('You hearby decline this offer. Legally this is non-biding but needed for the process to be continued.', lang)}
                             </>
                           )
                         }
@@ -204,7 +204,7 @@ const ReviewOffer = (props) => {
                       />
                       <BrixelButtonPrimary
                         rounded
-                        label="Send"
+                        label={translateTo('Send', lang)}
                         isLoading={isSmallLoading.saveOffer === true}
                         onClick={() => saveData('saveNote')}
                       />
@@ -212,9 +212,9 @@ const ReviewOffer = (props) => {
                   </>
                 ) : (
                   <>
-                    <h3 className="ta-c">Review offer</h3>
+                    <h3 className="ta-c">{translateTo('Review offer', lang)}</h3>
                     <div className="w-perc-100 mt-5">
-                      <h6 className="fsize-200 pb-1">Asking Price</h6>
+                      <h6 className="fsize-200 pb-1">{translateTo('Asking Price', lang)}</h6>
                       {
                         get(activeSingleProperty, 'price.total', 0) > 0 ? (
                           <p className="txtDark700 fweight-400">
@@ -222,11 +222,11 @@ const ReviewOffer = (props) => {
                             <span className="ff-mono fSizePx20">{Helpers.formatNumberValue(get(activeSingleProperty, 'price.total', 0), get(activeSingleProperty, 'price.currency', ''))}</span>
                           </p>
                         ) : (
-                          <p className="txtDark700 fweight-400">On Request</p>
+                          <p className="txtDark700 fweight-400">{translateTo('On Request', lang)}</p>
                         )
                       }
 
-                      <h6 className="fsize-200 pb-1 pt-3">Offer Price</h6>
+                      <h6 className="fsize-200 pb-1 pt-3">{translateTo('Offer Price', lang)}</h6>
 
                       <p className="txtDark700 fweight-400 txtGreen400">
                         <span className="mr-small-4">{get(activeSingleOffer, 'offer.currency', '')}</span>
@@ -239,7 +239,7 @@ const ReviewOffer = (props) => {
                             onClick={() => window.open(`${baseByData.shortPath}${get(activeSingleOffer, 'offer.documents[0].path', '')}`, '_blank')}
                             className="cur-poi"
                           >
-                            <h6 className="fsize-200 pb-1 pt-3">Proof of financing from bank</h6>
+                            <h6 className="fsize-200 pb-1 pt-3">{translateTo('Proof of financing from bank', lang)}</h6>
                             <div className="dis-f a-c">
                               <BrixelIcon
                                 className="mr-1"
@@ -255,7 +255,7 @@ const ReviewOffer = (props) => {
                         )
                       }
 
-                      <h6 className="fsize-200 pb-1 pt-3">Message</h6>
+                      <h6 className="fsize-200 pb-1 pt-3">{translateTo('Message', lang)}</h6>
                       <p className="txtDark700"><i>{get(activeSingleOffer, 'offer.noteByBuyer', '-') || '-'}</i></p>
 
                       <div className="dis-f mt-5">
@@ -266,7 +266,7 @@ const ReviewOffer = (props) => {
                         />
 
                         <p className="txtLight700 ml-2">
-                          This is a non-binding offer. The buyer will be notified about your decision.
+                          {translateTo('This is a non-binding offer. The buyer will be notified about your decision.', lang)}
                         </p>
 
                       </div>
@@ -277,7 +277,7 @@ const ReviewOffer = (props) => {
                       <BrixelButtonSecondary
                         rounded
                         theme="red"
-                        label="Decline 👎"
+                        label={translateTo('Decline 👎', lang)}
                         onClick={() => saveData('rejected')}
                         isLoading={isSmallLoading.saveOffer === true}
                       />
@@ -285,7 +285,7 @@ const ReviewOffer = (props) => {
                         ghost
                         theme="green"
                         rounded
-                        label="Accept 👍"
+                        label={translateTo('Accept 👍', lang)}
                         onClick={() => saveData('accepted')}
                         isLoading={isSmallLoading.saveOffer === true}
                       />
@@ -299,9 +299,9 @@ const ReviewOffer = (props) => {
             <div className="dis-fl-col jc-c pb-2 px-7">
               {
                 get(activeSingleOffer, 'offer.status', null) === 'accepted' ? (
-                  <h3 className="ta-c txtGreen400">Offer accepted 👍</h3>
+                  <h3 className="ta-c txtGreen400">{translateTo('Offer accepted 👍', lang)}</h3>
                 ) : (
-                  <h3 className="ta-c txtRed400">Offer declined 👎</h3>
+                  <h3 className="ta-c txtRed400">{translateTo('Offer declined 👎', lang)}</h3>
                 )
               }
 
@@ -320,7 +320,7 @@ const ReviewOffer = (props) => {
                       onClick={() => window.open(`${baseByData.shortPath}${get(activeSingleOffer, 'offer.documents[0].path', '')}`, '_blank')}
                       className="cur-poi"
                     >
-                      <h6 className="fsize-200 pb-1 pt-3">Proof of financing from bank</h6>
+                      <h6 className="fsize-200 pb-1 pt-3">{translateTo('Proof of financing from bank', lang)}</h6>
                       <div className="dis-f a-c">
                         <BrixelIcon
                           className="mr-1"
@@ -353,11 +353,11 @@ const ReviewOffer = (props) => {
                     {
                       get(activeSingleOffer, 'offer.status', null) === 'accepted' ? (
                         <>
-                          You accepted this non-binding offer. To proceed with the closing continue with identification.
+                          {translateTo('You accepted this non-binding offer. To proceed with the closing continue with identification.', lang)}
                         </>
                       ) : (
                         <>
-                          You declined this non-binding offer. The buyer was informed about your decision.
+                          {translateTo('You declined this non-binding offer. The buyer was informed about your decision.', lang)}
                         </>
                       )
                     }
@@ -386,11 +386,12 @@ ReviewOffer.propTypes = {
   activeSingleOffer: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
+  formValue: PropTypes.object.isRequired,
   handleReviewOffer: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
-  formValue: PropTypes.object.isRequired,
   handleSmallSpinner: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
 };
 
@@ -401,6 +402,7 @@ const mapStateToProps = (state) => ({
   errors: get(state, 'brixelForm.Offer.syncErrors', {}),
   formValue: get(state, 'brixelForm.Offer.values', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

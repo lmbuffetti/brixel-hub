@@ -5,7 +5,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonIcon,
-  ProgressRing,
+  ProgressRing, translateTo,
 } from '@brixel/brixel-components';
 import {
   initializeForm,
@@ -24,7 +24,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {
   keyify, calcPercentageProEstimation, calcPercentageFacts,
 } from '../../utils/helpers';
-import { InputSheets } from '../../resources/inputSheets';
+import { InputSheets } from '../../resources/SingleProperty/inputSheets';
 import { getEstimation, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import {
   preventExitFromScreen, setUnsavedChangesModal, setModal, setSplashType,
@@ -48,6 +48,7 @@ const ProEstimationFlow = (props) => {
     initForm,
     initialValues,
     isSmallLoading,
+    lang,
   } = props;
   // STATE
   const [Questions, setQuestions] = useState([]);
@@ -117,7 +118,7 @@ const ProEstimationFlow = (props) => {
     }
     if (Object.keys(initialValues).length > 0 && Object.keys(formValue).length > 0) {
       keyChanged.forEach((item) => {
-        InputSheets('proEstimation').forEach((singleQuest) => {
+        InputSheets('proEstimation', lang).forEach((singleQuest) => {
           singleQuest.inputs.forEach((input) => {
             if (input.condition) {
               if (input.condition.name) {
@@ -141,7 +142,7 @@ const ProEstimationFlow = (props) => {
       });
     }
     const questList = [];
-    InputSheets('proEstimation').forEach((singleQuest) => {
+    InputSheets('proEstimation', lang).forEach((singleQuest) => {
       singleQuest.inputs.forEach((input) => {
         if (input.isProEstimation) {
           let mergeCondition = [];
@@ -171,9 +172,13 @@ const ProEstimationFlow = (props) => {
     });
     setQuestions(questList);
     const percentageComplete = calcPercentageProEstimation('formFlow');
-    if (percComplete < percentageComplete.realPerc && percentageComplete.realPerc === 100) setSendNotification(true);
     setPercComplete(percentageComplete.realPerc);
   }, [formValue]);
+  
+  useEffect(() => {
+    setSendNotification(percComplete >= 100);
+  }, [percComplete]);
+  
 
   // CHECK IF FIELD IS VALID
   const checkValidateField = (act) => {
@@ -226,7 +231,7 @@ const ProEstimationFlow = (props) => {
                   />
                 </div>
                 <div className="mt-4 pb-3">
-                  <h4>Pro Estimation inputs</h4>
+                  <h4>{translateTo('Pro Estimation inputs', lang)}</h4>
                 </div>
                 <MultiFileldsReduxForm
                   autofocus={false}
@@ -259,12 +264,12 @@ const ProEstimationFlow = (props) => {
                     showIcon={false}
                   />
                   <div className="ml-2">
-                    <p className="hide dis-b-sm">Inputs</p>
+                    <p className="hide dis-b-sm">{translateTo('Inputs', lang)}</p>
                     <p className="ff-mono fweight-700 txtPrimary700">
                       <span className="mr-1 notranslate dis-b dis-ib-sm">
                         {percComplete}%
                       </span>
-                      <span>completed</span>
+                      <span>{translateTo('completed', lang)}</span>
                     </p>
                   </div>
                 </div>
@@ -286,7 +291,7 @@ const ProEstimationFlow = (props) => {
                               className="noWrap mr-2 hide dis-b-sm"
                               saturation={400}
                               theme="red"
-                              label="Discard"
+                              label={translateTo('Discard', lang)}
                               onClick={() => (savedBtn ? '' : handleReset(initialValues))}
                             />
                           </>
@@ -297,7 +302,7 @@ const ProEstimationFlow = (props) => {
                         className={savedBtn || isSmallLoading.saveData ? 'notranslate' : 'noWrap'}
                         saturation={400}
                         theme={savedBtn ? 'green' : 'primary'}
-                        label="Save"
+                        label={translateTo('Save', lang)}
                         onClick={() => (savedBtn ? '' : saveData())}
                         isLoading={isSmallLoading.saveData}
                         isSaved={savedBtn}
@@ -310,7 +315,7 @@ const ProEstimationFlow = (props) => {
                         className="noWrap"
                         saturation={400}
                         theme="primary"
-                        label="Close"
+                        label={translateTo('Close', lang)}
                         onClick={() => closeWindow()}
                       />
                     </>
@@ -337,6 +342,7 @@ ProEstimationFlow.propTypes = {
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -344,6 +350,7 @@ const mapStateToProps = (state) => ({
   errorValue: get(state, 'brixelForm.formFlow.syncErrors', {}),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.formFlow.values', {}),
+  lang: get(state, 'common.language', 'en'),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   packagesProperty: get(state, 'property.packagesProperty', []),
   initialValues: {

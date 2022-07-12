@@ -10,13 +10,12 @@ import has from 'lodash/has';
 import Slider from 'react-slick';
 import {
   BrixelButtonIcon,
-  BrixelButtonText,
+  BrixelButtonText, translateTo,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { setWindowDimensions } from '../actions/CommonActions';
 import MarketCard from './Cards/MarketCard';
-import PartialErrorBoundering from './PartialErrorBoundering';
 
 const CarouselWrapper = (props) => {
   const history = {
@@ -158,7 +157,7 @@ const CarouselWrapper = (props) => {
 
   if (layout === 'singleOwnCard') {
     return (
-      <PartialErrorBoundering>
+      <>
         <div className={`${className} carousel-wrapper pos-r`}>
 
           <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
@@ -173,12 +172,14 @@ const CarouselWrapper = (props) => {
                       item={card}
                       preventClick={preventClick}
                       onSetActiveProperty={(id) => onSetActiveProperty(id)}
+                      lang={lang}
                     />
                   ))
                 }
                 {
                   items && items.length > 0 && items.map((item, i) => (
                     <MarketCard
+                      lang={lang}
                       layout={layout}
                       type={type}
                       key={`mkCrd_${i.toString()}`}
@@ -218,7 +219,7 @@ const CarouselWrapper = (props) => {
               <div className="dis-fl-row-sm hide a-c jc-c pt-1">
                 <BrixelButtonText
                   className="fsize-300 show-all pos-r mr-1"
-                  label="+ Add new"
+                  label={translateTo('+ Add new', lang)}
                   theme="blue"
                   themeSat={700}
                   onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
@@ -227,7 +228,7 @@ const CarouselWrapper = (props) => {
                   theme="blue"
                   themeSat={700}
                   className="fsize-300 show-all pos-r"
-                  label={`<span>View all</span> <span class="ml-1">(${total})</span>`}
+                  label={`<span>${translateTo('View all', lang)}</span> <span class="ml-1">(${total})</span>`}
                   onClick={() => showAll()}
                 />
               </div>
@@ -246,7 +247,7 @@ const CarouselWrapper = (props) => {
                   />
                   <div className="fsize-300 txtPrimary400 ml-3 mr-3">
                     <span>{activeSlide + 1}</span>
-                    <span className="ml-small-4 mr-small-4">of</span>
+                    <span className="ml-small-4 mr-small-4">{translateTo('of', lang)}</span>
                     <span>{total}</span>
                   </div>
                   <BrixelButtonIcon
@@ -262,18 +263,20 @@ const CarouselWrapper = (props) => {
             }
           </div>
         </div>
-      </PartialErrorBoundering>
+      </>
     );
   }
   return (
-    <PartialErrorBoundering>
+    <>
       <div className={`${className} carousel-wrapper pos-r`}>
         <div className={`${subtitle ? '' : 'mb-3'} dis-fl-col dis-fl-row-sm a-c-sm jc-b`}>
-          <h4 className={`title fweight-600 fsize-600 ${theme === 'light' ? 'txtWhite' : ''}`}>{title}</h4>
+          <h4 className={`title fweight-600 fsize-600 ${theme === 'light' ? 'txtWhite' : ''}`}>
+            {translateTo(title, lang)}
+          </h4>
           <div className="mt-1 mt-sm-0 dis-f a-c">
             <BrixelButtonText
               className="fsize-300 show-all pos-r mr-1"
-              label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
+              label={`<span>${translateTo('Show all', lang)}</span> <span class="ml-1">(${total})</span>`}
               onClick={() => showAll()}
               theme={theme === 'light' ? 'white' : null}
               themeSat={0}
@@ -305,7 +308,7 @@ const CarouselWrapper = (props) => {
         {
           subtitle && (
             <h6 className={`${theme === 'light' ? 'txtWhite' : ''} mb-3`}>
-              {subtitle}
+              {translateTo(subtitle, lang)}
             </h6>
           )
         }
@@ -313,6 +316,7 @@ const CarouselWrapper = (props) => {
           {
             !items && numCard.map((card, i) => (
               <MarketCard
+                lang={lang}
                 type={type}
                 key={`nmCrd_${i.toString()}`}
                 item={card}
@@ -324,6 +328,7 @@ const CarouselWrapper = (props) => {
           {
             items && items.length > 0 && items.map((item, i) => (
               <MarketCard
+                lang={lang}
                 type={type}
                 key={`mktCrd_${i.toString()}`}
                 item={item}
@@ -334,7 +339,7 @@ const CarouselWrapper = (props) => {
           }
         </Slider>
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 
@@ -372,7 +377,7 @@ CarouselWrapper.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  lang: get(state, 'user.loggedInUser.user.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

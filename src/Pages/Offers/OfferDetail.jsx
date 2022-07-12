@@ -3,7 +3,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import { BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
+import { BrixelButtonIcon, Helpers, translateTo } from '@brixel/brixel-components';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { setSplashType } from '../../actions/CommonActions';
 import BrixelClosingTree from '../../components/BrixelClosingTree';
@@ -20,6 +20,7 @@ const OfferDetail = (props) => {
     activeSingleProperty,
     handleGetActiveSingleDeal,
     isBuyer,
+    lang,
     windowDimensions,
   } = props;
   // PARAMS
@@ -57,7 +58,7 @@ const OfferDetail = (props) => {
                   {
                     activeSingleDeal.id === 'sample' && (
                       <div className="ml-2 brdRadiusSmall brdSmall bgPrimary200 txtPrimary400 p-small-4 fsize-200 ex-tag">
-                        Example only
+                        {translateTo('Example only', lang)}
                       </div>
                     )
                   }
@@ -81,9 +82,9 @@ const OfferDetail = (props) => {
               </>
             ) : (
               <div>
-                <h3 className="mb-3 hide dis-b-lg">Closing</h3>
+                <h3 className="mb-3 hide dis-b-lg">{translateTo('Closing', lang)}</h3>
                 <div className="dis-fl-col backPanel hide-lg">
-                  <h5 className="sectionTitle">Closing</h5>
+                  <h5 className="sectionTitle">{translateTo('Closing', lang)}</h5>
                 </div>
               </div>
             )
@@ -92,6 +93,7 @@ const OfferDetail = (props) => {
             propID={propID}
             dealID={dealID}
             isBuyer={isBuyer}
+            lang={lang}
             offer={{}}
           />
         </div>
@@ -101,10 +103,11 @@ const OfferDetail = (props) => {
 };
 
 OfferDetail.propTypes = {
-  activeSingleProperty: PropTypes.object.isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   handleGetActiveSingleDeal: PropTypes.func.isRequired,
   isBuyer: PropTypes.bool,
+  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -115,6 +118,7 @@ OfferDetail.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
+  lang: get(state, 'common.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

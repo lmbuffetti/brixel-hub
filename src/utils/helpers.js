@@ -3,11 +3,11 @@ import Cookies from 'universal-cookie';
 import get from 'lodash/get';
 import isArray from 'lodash/isArray';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
+import { translateTo } from '@brixel/brixel-components';
 import has from 'lodash/has';
-import { translateTo } from './translation';
 import { configureStore } from '../store';
-import { InputSheets } from '../resources/inputSheets';
-import { BestimateQuestions } from '../resources/Bestimate';
+import { InputSheets } from '../resources/SingleProperty/inputSheets';
+import { BestimateQuestions } from '../resources/Flows/Bestimate';
 
 const cookies = new Cookies();
 
@@ -241,7 +241,7 @@ export const clearUrl = (string) => string.replace(/\/\//g, '/');
 
 export const arrayMonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-export const formatDate = (date, type = 'extended', lang = 'en') => {
+export const formatDate = (date, type = 'extended') => {
   let formattedDate;
   const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
   const month = date.getMonth();
@@ -251,7 +251,7 @@ export const formatDate = (date, type = 'extended', lang = 'en') => {
     const monthNum = realMonth < 10 ? `0${realMonth}` : realMonth;
     formattedDate = `${day}-${monthNum}-${year}`;
   } else {
-    formattedDate = `${day} ${translateTo(lang, arrayMonth[month])} ${year}`;
+    formattedDate = `${day} ${translateTo(arrayMonth[month])} ${year}`;
   }
   return formattedDate;
 };

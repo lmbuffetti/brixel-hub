@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import { BrixelButtonPrimary, Helpers } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, Helpers, translateTo } from '@brixel/brixel-components';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -14,11 +14,12 @@ const BoxTrialTestDirve = (props) => {
     location: useLocation(),
   };
   const {
-    activeSingleProperty,
     activeSingleCompany,
+    activeSingleProperty,
     className,
-    windowDimensions,
     isLarge,
+    lang,
+    windowDimensions,
   } = props;
 
   const bookNow = () => {
@@ -51,9 +52,11 @@ const BoxTrialTestDirve = (props) => {
         )
       }
       <div className={`${isLarge ? 'pl-0 pl-md-3 mr-a' : ''} ta-c ta-l-md`}>
-        <h3 className={`${isLarge ? 'fsize-700 pb-2' : 'fsize-500 pb-1'} txtDark700 fweight-600 `}>Test drive our service. <br /> No strings attached.</h3>
+        <h3 className={`${isLarge ? 'fsize-700 pb-2' : 'fsize-500 pb-1'} txtDark700 fweight-600 `}>
+          {translateTo('Test drive our service. No strings attached.', lang)}
+        </h3>
         <p className={`txtDark700 ${isLarge ? 'fSizePx18 fsize-sm-500 fweight-400 mb-3 px-2 px-sm-0' : ''}`}>
-          <span>Get the full Brixel experience</span>
+          <span>{translateTo('Get the full Brixel experience', lang)}</span>
           <span className="dis-b">worth {activeSingleCompany && get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}</span>
         </p>
         <div className="dis-f jc-c jc-fs-md">
@@ -61,7 +64,7 @@ const BoxTrialTestDirve = (props) => {
             onClick={() => bookNow()}
             rounded
             theme="Red"
-            label="Book Now"
+            label={translateTo('Book Now', lang)}
             className={`${isLarge ? 'mt-1' : 'mt-3'}`}
           />
         </div>
@@ -75,8 +78,9 @@ BoxTrialTestDirve.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   className: PropTypes.string,
-  windowDimensions: PropTypes.object.isRequired,
   isLarge: PropTypes.bool,
+  lang: PropTypes.string.isRequired,
+  windowDimensions: PropTypes.object.isRequired,
 };
 
 BoxTrialTestDirve.defaultProps = {

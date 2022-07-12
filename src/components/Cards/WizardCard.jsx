@@ -4,15 +4,16 @@ import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  BrixelButtonPrimary,
+  BrixelButtonPrimary, translateTo,
 } from '@brixel/brixel-components';
 import { setWizard } from '../../actions/CommonActions';
-import WizardText from '../../resources/Wizard';
+import { WizardText } from '../../resources/Dashboard/Wizard';
 import { setCookie } from '../../utils/helpers';
 
 const WizardCard = (props) => {
   const {
     handleSetWizard,
+    lang,
     wizard,
   } = props;
 
@@ -20,7 +21,7 @@ const WizardCard = (props) => {
   const [posY, setPosY] = useState(0);
   const [text, setText] = useState({});
   const [el, setEl] = useState(null);
-  const currentWizard = WizardText[wizard.type];
+  const currentWizard = WizardText(lang)[wizard.type];
 
   useEffect(() => {
     if (wizard.step > 0) {
@@ -67,8 +68,8 @@ const WizardCard = (props) => {
         }}
       >
         <small className="mb-1 dis-b fsize-300 txtDark400"><span>Step</span> <span>{wizard.step}</span> <span>of</span> <span>{Object.keys(currentWizard).length}</span></small>
-        <h5 className="mb-1 fweight-600">{text.title}</h5>
-        <p className="fsize-300 txtDark700">{text.description}</p>
+        <h5 className="mb-1 fweight-600">{translateTo(text.title, lang)}</h5>
+        <p className="fsize-300 txtDark700">{translateTo(text.description, lang)}</p>
         <BrixelButtonPrimary
           className="mt-3"
           rounded
@@ -96,6 +97,7 @@ const WizardCard = (props) => {
 
 WizardCard.propTypes = {
   handleSetWizard: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   wizard: PropTypes.object.isRequired,
 };
 

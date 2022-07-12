@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, translateTo } from '@brixel/brixel-components';
 import {
   BrixelTextArea,
   BrixelInputText,
@@ -160,13 +160,13 @@ function ContactForm(props) {
                         placeholder: 'Your full name',
                       }}
                       labels={{
-                        label: 'Name',
+                        label: translateTo('Name', lang),
                       }}
                       meta={{
                         dirty: get(formValue, 'userName', null),
                         invalid: get(errorValue, 'userName', true) !== true,
                         message: {
-                          error: 'Please insert a name',
+                          error: translateTo('Please insert a name', lang),
                         },
                         showErrors,
                       }}
@@ -188,7 +188,7 @@ function ContactForm(props) {
                             formatType: 'tel',
                           }}
                           labels={{
-                            label: 'Phone',
+                            label: translateTo('Phone', lang),
                           }}
                         />
                       </div>
@@ -203,16 +203,16 @@ function ContactForm(props) {
                             name: 'userEmail',
                             type: 'email',
                             validate: [Validation.isEmail, Validation.required],
-                            placeholder: 'Your email address',
+                            placeholder: translateTo('Your email address', lang),
                           }}
                           labels={{
-                            label: 'Email',
+                            label: translateTo('Email', lang),
                           }}
                           meta={{
                             dirty: get(formValue, 'userEmail', null),
                             invalid: get(errorValue, 'userEmail', true) !== true,
                             message: {
-                              error: 'Please insert a valid email',
+                              error: translateTo('Please insert a valid email', lang),
                             },
                             showErrors,
                           }}
@@ -228,17 +228,17 @@ function ContactForm(props) {
                       }}
                       input={{
                         name: 'userMessage',
-                        placeholder: scheduleVisit ? 'Let us know about important schedule information' : 'Let us know how we can help you',
+                        placeholder: translateTo(scheduleVisit ? 'Let us know about important schedule information' : 'Let us know how we can help you', lang),
                         validate: scheduleVisit ? null : [Validation.required],
                       }}
                       labels={{
-                        label: 'Message',
+                        label: translateTo('Message', lang),
                       }}
                       meta={{
                         dirty: get(formValue, 'userMessage', null),
                         invalid: get(errorValue, 'userMessage', true) !== true,
                         message: {
-                          error: 'Please insert a valid message',
+                          error: translateTo('Please insert a valid message', lang),
                         },
                         showErrors,
                       }}
@@ -255,31 +255,31 @@ function ContactForm(props) {
           <div id="messageSent" className="dis-fl-col jc-b h-perc-100 mb-2-neg">
             <section className="titleSection">
               <h6 className="mb-1 txtGreen400 dis-f a-bl">
-                YOUR MESSAGE WAS SENT
+                {translateTo('YOUR MESSAGE WAS SENT', lang)}
               </h6>
-              <h4 className="mb-2 txtDark700">Thank you</h4>
-              <h5 className="heading6 txtDark700">We will contact you as soon as possible.</h5>
+              <h4 className="mb-2 txtDark700">{translateTo('Thank you', lang)}</h4>
+              <h5 className="heading6 txtDark700">{translateTo('We will contact you as soon as possible.', lang)}</h5>
             </section>
             <section className="bodySection mx-2-neg px-2 bgWhite shadow-1dp brdRadiusTop pt-2 pb-4 mx-sm-5-neg px-sm-5 mb-1-neg">
-              <p className="mb-2"><b>Here are 3 tips for a smooth process</b></p>
+              <p className="mb-2"><b>{translateTo('Here are 3 tips for a smooth process', lang)}</b></p>
 
               <ul>
                 <li>
                   <BrixelIcon icon="tour" color="green" background="green" saturation={200} saturationTxt={700} />
                   <div>
-                    <span>Make sure you visited the</span>&nbsp;
+                    <span>{translateTo('Make sure you visited the', lang)}</span>&nbsp;
                     <span className="txtPrimary400 cur-poi" onClick={() => history.push('../explore/tour')}>
-                      <span>3D Tour</span>
+                      <span>{translateTo('3D Tour', lang)}</span>
                     </span>
                   </div>
                 </li>
                 <li className="redIcon">
                   <BrixelIcon icon="favorite-house" color="green" background="green" saturation={200} saturationTxt={700} />
-                  Do not forget to favorite the property to keep all the information in one place
+                  {translateTo('Do not forget to favorite the property to keep all the information in one place', lang)}
                 </li>
                 <li className="redIcon">
                   <BrixelIcon icon="money" color="green" background="green" saturation={200} saturationTxt={700} />
-                  Get in touch with your bank about financing before you visit
+                  {translateTo('Get in touch with your bank about financing before you visit', lang)}
                 </li>
               </ul>
             </section>

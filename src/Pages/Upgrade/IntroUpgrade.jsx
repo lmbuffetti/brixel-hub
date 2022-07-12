@@ -15,7 +15,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelButtonText,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
 import Slider from 'react-slick';
@@ -52,6 +52,7 @@ const IntroUpgrade = (props) => {
     handleGetActiveCompanyPackages,
     activeSinglePropertyPackage,
     handleGetActiveSingleCompany,
+    lang,
     loggedInUser,
     packages,
     scrollHash,
@@ -98,13 +99,13 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-  
+
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
       handleGetActiveSingleCompany({ id: loggedInUser.company.id });
     }
   }, [propID, loggedInUser.id]);
-  
+
   useEffect(() => {
     if (get(activeSingleProperty, 'company.id', '')) {
       handleGetActiveCompanyPackages({ id: activeSingleProperty.company.id, smallLoader: 'getPackages' });
@@ -162,12 +163,12 @@ const IntroUpgrade = (props) => {
       <section className="intro container">
 
         <h2 className="mb-3 mb-lg-5 fsize-600 fsize-md-800 fweight-600">
-          Boost your private sale with an upgrade.
+          {translateTo('Boost your private sale with an upgrade.', lang)}
         </h2>
       </section>
 
       <section className="container packages py-6">
-        <div className="dis-fl-col dis-fl-row-md pb-3 jc-c">
+        <div className="dis-fl-col dis-fl-row-md pb-3 jc-c a-c a-t-md">
           {
             filteredPackages.length === 0 ? (
               <>
@@ -187,11 +188,11 @@ const IntroUpgrade = (props) => {
                         <div className="dis-f jc-b a-c">
                           <h5 className="fweight-600 fsize-700">{pkg.name}</h5>
                           {pkg.stub === packageName.stub && (
-                            <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">Your plan</div>
+                            <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">{translateTo('Your plan', lang)}</div>
                           )}
                         </div>
                         <p className="mt-4 txtDark700">
-                          {pkg.description}
+                          {translateTo(pkg.description, lang)}
                         </p>
 
                         <ul className="checked mt-4 txtDark700">
@@ -201,7 +202,7 @@ const IntroUpgrade = (props) => {
                                 key={`pkgDtl_${f.toString()}`}
                                 className={i > 0 && f === 0 ? 'fweight-600' : ''}
                               >
-                                {detail.description}
+                                {translateTo(detail.description, lang)}
                               </li>
                             ))
                           }
@@ -211,18 +212,18 @@ const IntroUpgrade = (props) => {
                         pkg.price.total > 0 ? (
                           <h6 className="px-4 py-2 txtWhite">
                             <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                            <small>incl. VAT</small>
+                            <small>{translateTo('incl. VAT', lang)}</small>
                           </h6>
                         ) : (
                           <h6 className="px-4 py-2 txtWhite">
-                            Free
+                            {translateTo('Free', lang)}
                           </h6>
                         )
                       }
                       {
                         pkg.type === 'one' && get(activeSingleCompany, 'meta.additionalPackage.price', 0) > 0 && (
                           <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg ta-c">
-                            <span>Let us handle all showings for additional</span>
+                            <span>{translateTo('Let us handle all showings for additional', lang)}</span>
                             <span className="ml-small-4">
                               {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.additionalPackage.price', 0), get(activeSingleCompany, 'country.currency', ''))}.
                             </span>
@@ -241,34 +242,36 @@ const IntroUpgrade = (props) => {
             rounded
             ghost
             theme="dark"
-            label="Compare all details"
+            label={translateTo('Compare all details', lang)}
             onClick={() => scrollTo('comparePlan')}
           />
         </div>
       </section>
 
-      <section className="container contact-section py-6">
-        <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">Do you want to upgrade or change plans?</h3>
+      <section className="container contact-section py-3 py-md-6">
+        <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">{translateTo('Do you want to upgrade or change plans?', lang)}</h3>
 
         <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
             <img className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
-              <h6>Call Us</h6>
+              <h6>{translateTo('Call Us', lang)}</h6>
               <BrixelButtonText
+                bgTransparent
                 onClick={() => window.location.assign(Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''), false, false, true))}
                 className="ml-a mr-a"
                 label={Helpers.telephoneFormat(get(activeSingleCompany, 'contact.phone', ''))}
               />
             </div>
           </div>
-          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
             <img className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
-              <h6>Write Us</h6>
+              <h6>{translateTo('Write Us', lang)}</h6>
               <BrixelButtonText
+                bgTransparent
                 onClick={() => window.location.assign(`mailto:${get(activeSingleCompany, 'contact.email', '')}`)}
                 className="ml-a mr-a"
                 label={get(activeSingleCompany, 'contact.email', '')}
@@ -277,15 +280,16 @@ const IntroUpgrade = (props) => {
           </div>
           {
             propID !== 'company' && (
-              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c">
+              <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
                 <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
                 <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
 
-                  <h6>Not Sure</h6>
+                  <h6>{translateTo('Not Sure', lang)}</h6>
                   <BrixelButtonText
+                    bgTransparent
                     onClick={() => openNewFlow(`/${activeSingleProperty.id}/trialRequest`)}
                     className="ml-a mr-a"
-                    label="Test drive our service"
+                    label={translateTo('Test drive our service', lang)}
                   />
                 </div>
               </div>
@@ -296,8 +300,8 @@ const IntroUpgrade = (props) => {
 
       <hr className="lighter my-2 my-ms-5" />
 
-      <section className="container testimonial py-6">
-        <h3 className="ta-c fweight-600 mb-8 fsize-600 fsize-sm-700">You’re in good company</h3>
+      <section className="container testimonial py-3 py-md-6 pb-8">
+        <h3 className="ta-c fweight-600 mb-3 mb-md-8 fsize-600 fsize-sm-700">{translateTo('You’re in good company', lang)}</h3>
 
         <div className="w-perc-100 ml-a mr-a testimonialsSlide">
 
@@ -306,52 +310,52 @@ const IntroUpgrade = (props) => {
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;Absolutely perfect and uncomplicated&quot;</i></h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Absolutely perfect and uncomplicated"', lang)}</i></h2>
 
-                  <h5 className="ta-c txtPrimary400 fweight-600">M. Hardegger</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">House sold</p>
+                  <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('M. Hardegger', lang)}</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">{translateTo('House sold', lang)}</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;We would sell with Brixel again anytime.&quot;</i></h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"We would sell with Brixel again anytime."', lang)}</i></h2>
 
-                  <h5 className="ta-c txtPrimary400 fweight-600">F. Pfiffner</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">Saved CHF 30&apos;700</p>
+                  <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('F. Pfiffner', lang)}</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved CHF 30\'700', lang)}</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;Excellent service with flexible fees.&quot;</i></h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Excellent service with flexible fees."', lang)}</i></h2>
 
-                  <h5 className="ta-c txtPrimary400 fweight-600">M. Callaghan</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">Saved CHF 44&apos;050</p>
+                  <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('M. Callaghan', lang)}</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved CHF 44\'050', lang)}</p>
                 </div>
               </Slider>
             ) : (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;Always quick in responding, friendly, professional.&quot;</i></h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Always quick in responding, friendly, professional."', lang)}</i></h2>
 
-                  <h5 className="ta-c txtPrimary400 fweight-600">Katrien Willems</h5>
+                  <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Katrien Willems', lang)}</h5>
                   <p className="ta-c txtPrimary400 fsize-500" />
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;Everything went incredibly well, it doesn&apos;t even seem real!&quot;</i></h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Everything went incredibly well, it doesn\'t even seem real!"', lang)}</i></h2>
 
-                  <h5 className="ta-c txtPrimary400 fweight-600">Luca Benussi</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">Saved 18.400€</p>
+                  <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Luca Benussi', lang)}</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved 18.400€', lang)}</p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
                   <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>&quot;The sale was done even faster than expected.&quot;</i></h2>
+                  <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"The sale was done even faster than expected."', lang)}</i></h2>
 
-                  <h5 className="ta-c txtPrimary400 fweight-600">Márcia Traça</h5>
-                  <p className="ta-c txtPrimary400 fsize-500">Saved 13.000€</p>
+                  <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Márcia Traça', lang)}</h5>
+                  <p className="ta-c txtPrimary400 fsize-500">{translateTo('Saved 13.000€', lang)}</p>
                 </div>
               </Slider>
             )
@@ -361,35 +365,36 @@ const IntroUpgrade = (props) => {
 
       </section>
 
-      <section className="compairePlans bgLight100 py-9" id="comparePlan">
+      <section className="compairePlans bgLight100 py-3 py-md-9" id="comparePlan">
         <div className="container">
-          <h3 className="ta-c mb-7 fweight-600 fsize-600 fsize-sm-700">Compare all plans</h3>
+          <h3 className="ta-c mb-3 mb-md-7 fweight-600 fsize-600 fsize-sm-700">{translateTo('Compare all plans', lang)}</h3>
           <PackagesComparePlans
+            lang={lang}
             packages={filteredPackages}
           />
         </div>
 
       </section>
 
-      <section className="container testdrive-teaser dis-f jc-c bgWhite">
+      <section className="testdrive-teaser dis-f jc-c bgWhite pb-2">
 
         {
           propID === 'company' ? (
             <div className="px-2 px-md-0 mt-5 mt-sm-3">
               <div className="p-2 px-sm-3 bgWhite min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
                 <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
-                <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">Anybody home?</h4>
-                <h5 className="ta-c fSizePx18 mb-2 m-a">For using the Brixel Hub you need at least one property.</h5>
+                <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">{translateTo('Anybody home?', lang)}</h4>
+                <h5 className="ta-c fSizePx18 mb-2 m-a">{translateTo('For using the Brixel Hub you need at least one property.', lang)}</h5>
                 <BrixelButtonPrimary
                   rounded
                   className="m-a mt-3"
-                  label="+ Add new"
+                  label={translateTo('+ Add new', lang)}
                   onClick={() => history.push(`/packageFlow/getStarted?company==${get(loggedInUser, 'company.stub', '')}`)}
                 />
               </div>
             </div>
           ) : (
-            <BoxTrialTestDirve isLarge />
+            <BoxTrialTestDirve lang={lang} isLarge />
           )
         }
 
@@ -404,10 +409,11 @@ IntroUpgrade.propTypes = {
   activeSingleCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleGetActiveCompanyPackages: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
-  handleGetActiveCompanyPackages: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
   scrollHash: PropTypes.string,
@@ -423,6 +429,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   packages: get(state, 'companies.activeSingleCompanyPackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),

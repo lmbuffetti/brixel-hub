@@ -8,7 +8,7 @@ import pullAt from 'lodash/pullAt';
 import {
   BrixelButtonIcon,
   FormatValue,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -23,6 +23,7 @@ const MarketCardMap = (props) => {
     handleUpdateFavorites,
     isSmallLoading,
     item,
+    lang,
     loggedInUser,
     onClick,
     onHover,
@@ -147,7 +148,7 @@ const MarketCardMap = (props) => {
                           key={`tag_${i.toString()}`}
                           className={`type-tag pos-r non-favorite fsize-200 fweight-500 txtWhite mr-1 bg${getColor(tag)}`}
                         >
-                          <span className="type">{getTypeText(tag)}</span>
+                          <span className="type">{translateTo(getTypeText(tag), lang)}</span>
                         </p>
                       ))
                     }
@@ -165,7 +166,7 @@ const MarketCardMap = (props) => {
                   onMouseEnter={(e) => onHover(e)}
                   onMouseLeave={() => onHover(null)}
                 >
-                  {get(item, 'title', '')}
+                  {translateTo(get(item, 'title', ''), lang)}
                 </h6>
                 <span className="notranslate fsize-300 txtDark700">
                   {get(item, 'location.zip', '')} {get(item, 'location.city', '')}
@@ -187,49 +188,12 @@ const MarketCardMap = (props) => {
                   onClick={() => onChangeFavorite()}
                   isLoading={isSmallLoading === `favorite-${item.id}`}
                 />
-                {/*
-                <BrixelButtonIcon
-                  icon="options-vertical"
-                  className="ml-a"
-                  theme="dark"
-                  ghost
-                  onClick={() => {
-                    setOptionsOpen(!optionsOpen);
-                  }}
-                />
-                {/*
-                  optionsOpen && (
-                    <BrixelDropdownMini
-                      rightAligned
-                      topOffset={48}
-                      links={
-                        [
-                          {
-                            label: 'Action 1',
-                            clickFunc: () => { console.log('action 1'); },
-                            className: 'txtPrimary400',
-                          },
-                          {
-                            label: 'Action 2',
-                            clickFunc: () => { console.log('action 2'); },
-                            className: 'txtPrimary400',
-                          },
-                          {
-                            label: 'Action 3',
-                            clickFunc: () => { console.log('action 3'); },
-                            className: 'txtPrimary400',
-                          },
-                        ]
-                      }
-                    />
-                  )
-                */}
               </div>
             </div>
             <div className="mid dis-fl-row a-c fsize-300 txtDark400 py-2">
               <div>
                 <span>
-                  {get(item, 'properties.propertyType', '')}
+                  {translateTo(get(item, 'properties.propertyType', ''), lang)}
                 </span>
                 <span className="px-1 notranslate"> &middot; </span>
                 <span>
@@ -283,6 +247,7 @@ MarketCardMap.propTypes = {
   handleUpdateFavorites: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   onHover: PropTypes.func.isRequired,

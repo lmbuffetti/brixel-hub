@@ -8,7 +8,7 @@ import {
   BrixelAvatar,
   Helpers,
   BrixelStatus,
-  ListingsHeaderFilter,
+  ListingsHeaderFilter, translateTo,
 } from '@brixel/brixel-components';
 import { compose } from 'redux';
 import { DateTime } from 'luxon';
@@ -21,8 +21,8 @@ const OfferListings = (props) => {
     activeSingleProperty,
     data,
     getConfigEnv,
+    lang,
     onChangeLocation,
-    userLang,
   } = props;
   // URL PARAMS
 
@@ -52,10 +52,11 @@ const OfferListings = (props) => {
         {
           get(data[0], 'deal', null) === 'sample' && (
             <div className="ta-c txtDark700">
-              <h5 className="ta-c">There are no offers yet.</h5>
-              <p className="ta-c max-w-fix-544 ml-a mr-a mt-3 mb-5">As soon as a buyer makes a first offer it will appear here.
-                You can manage the whole closing process directly here. Until the notary. <b>Feel free to explore our example offer.</b>
-              </p>
+              <h5 className="ta-c">{translateTo('There are no offers yet.', lang)}</h5>
+              <p
+                dangerouslySetInnerHTML={{ __html: translateTo('As soon as a buyer makes a first offer it will appear here. You can manage the whole closing process directly here. Until the notary. <b>Feel free to explore our example offer.</b>', lang) }}
+                className="ta-c max-w-fix-544 ml-a mr-a mt-3 mb-5"
+              />
             </div>
           )
         }
@@ -64,6 +65,7 @@ const OfferListings = (props) => {
           <div className="content-wrapper pos-r w-perc-100">
             <div className="listings-container">
               <ListingsHeaderFilter
+                lang={lang}
                 className="users-filter"
                 searchType="Users"
                 labels={[
@@ -125,7 +127,7 @@ const OfferListings = (props) => {
                               <div className="row-section pl-1 dis-f a-c date">
                                 {
                                   get(offer, 'offer.createdAt', null) ? (
-                                    <span className="date txtDark200">{DateTime.fromMillis(offer.offer.createdAt, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}</span>
+                                    <span className="date txtDark200">{DateTime.fromMillis(offer.offer.createdAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}</span>
                                   ) : (
                                     <span className="date txtDark200">-</span>
                                   )
@@ -173,13 +175,13 @@ OfferListings.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   getConfigEnv: PropTypes.object.isRequired,
   onChangeLocation: PropTypes.func.isRequired,
-  userLang: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 OfferListings.defaultProps = {};
 
 const mapStateToProps = (state) => ({
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
 });
 
 export default compose(

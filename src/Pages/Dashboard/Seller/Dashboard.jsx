@@ -118,6 +118,7 @@ const Dashboard = (props) => {
     if (
       !get(history, 'location.pathname', '').includes('facts') &&
       !get(history, 'location.pathname', '').includes('achievement') &&
+      !get(history, 'location.pathname', '').includes('docubox') &&
       get(activeSingleProperty, 'id', null)
     ) {
       handleReset(initialValues);
@@ -331,32 +332,34 @@ const Dashboard = (props) => {
   const sectionClass = get(history, 'location.pathname', '/').split('/');
 
   return (
-    <div className={`dashboardContainer mt-0 mt-md-3 dis-f jc-b ${sectionClass[2]}`} id="dashboard">
-      <div className="w-perc-100">
-        <Suspense fallback={<Loading isLoading />}>
-          {/* teaserScreens && isEligible(activeSingleProperty) && () */}
-          { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-          <Routes>
-            <Route path="/home" element={<DashboardHome onProgressStep={(step) => setProgressStep(step)} />} />
-            <Route path="/property/*" element={<PropertyDashboard />} />
-            <Route path="/docubox/*" element={<Documents />} />
-            <Route path="/marketing/*" element={<MarketingDashboard />} />
-            <Route path="/prospects/*" element={<Deals />} />
-            <Route path="/closing/*" element={<DashboardOffer />} />
-            <Route path="/upgrade/*" element={<Upgrade />} />
-            <Route path="/trialRequest/*" element={<ScanTrialFlow />} />
-            <Route path="/no-property" element={<EmptyProperty />} />
-          </Routes>
-        </Suspense>
+    <>
+      <div className={`dashboardContainer mt-0 mt-md-3 dis-f jc-b ${sectionClass[2]}`} id="dashboard">
+        <div className="w-perc-100">
+          <Suspense fallback={<Loading isLoading />}>
+            {/* teaserScreens && isEligible(activeSingleProperty) && () */}
+            { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+            <Routes>
+              <Route path="/home" element={<DashboardHome onProgressStep={(step) => setProgressStep(step)} />} />
+              <Route path="/property/*" element={<PropertyDashboard />} />
+              <Route path="/docubox/*" element={<Documents />} />
+              <Route path="/marketing/*" element={<MarketingDashboard />} />
+              <Route path="/prospects/*" element={<Deals />} />
+              <Route path="/closing/*" element={<DashboardOffer />} />
+              <Route path="/upgrade/*" element={<Upgrade />} />
+              <Route path="/trialRequest/*" element={<ScanTrialFlow />} />
+              <Route path="/no-property" element={<EmptyProperty />} />
+            </Routes>
+          </Suspense>
+        </div>
+        {
+          get(history, 'location.pathname', '').includes('home') && (
+            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+              <SellerSidebar progressStep={progressStep} />
+            </div>
+          )
+        }
       </div>
-      {
-        get(history, 'location.pathname', '').includes('home') && (
-          <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
-            <SellerSidebar progressStep={progressStep} />
-          </div>
-        )
-      }
-    </div>
+    </>
   );
 };
 

@@ -10,6 +10,7 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   DataByCountry,
+  translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -31,17 +32,17 @@ import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/onBoardingEstimation';
-import { setLanguage, spinnerOff, spinnerOn } from '../../actions/CommonActions';
+import { QuestionsList } from '../../resources/Flows/onBoardingEstimation';
+import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 import { createEstimation } from '../../actions/EstimationActions';
 
 const cookie = new Cookies();
 
 const GetStartedEstimation = (props) => {
+  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -60,7 +61,6 @@ const GetStartedEstimation = (props) => {
     handleCreateEstimation,
     // handleSaveActiveSingleProperty,
     // handleSaveActiveSingleUser,
-    handleSetLanguage,
     handleSpinnerOn,
     handleSpinnerOff,
     handleValidateUser,
@@ -455,7 +455,7 @@ const GetStartedEstimation = (props) => {
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({ stub: defComp });
+      handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
     } else if (!isTest) {
       const companyUser = get(loggedInUser, 'users.company.stub', null);
@@ -515,6 +515,11 @@ const GetStartedEstimation = (props) => {
     if (get(formValue, 'properties.typology.floorSpace.value', 0) > 0) {
       changeFieldValue('properties.typology.livingArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
     }
+    if ((get(formValue, 'properties.propertyType', null) === 'Commercial') && (formValue.location.countryCode === 'PT')) {
+      changeFieldValue('properties.typology.grossArea.value', get(formValue, 'properties.typology.floorSpace.value', 0));
+      const livingSpace = Math.round(get(formValue, 'properties.typology.grossArea.value', 0) * 0.85);
+      changeFieldValue('properties.typology.livingArea.value', livingSpace);
+    }
   }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
 
   // FUNCTION TO CLOSE
@@ -559,11 +564,6 @@ const GetStartedEstimation = (props) => {
   useEffect(() => {
     if (get(company, 'stub', null)) {
       let getLang = cookie.get('brixelLang');
-      if (get(company, 'language.code', null) && !getLang && currentIndex < 2) {
-        const companyLang = get(company, 'language.code', 'en');
-        handleSetLanguage(companyLang.toLowerCase());
-        getLang = companyLang.toLowerCase();
-      }
       const companyCountry = get(company, 'country.code', 'CH');
       setQuestions(QuestionsList(getLang, companyCountry));
       changeFieldValue('location.countryCode', companyCountry);
@@ -571,7 +571,7 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('company', company.stub);
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
-  }, [company]);
+  }, [get(company, 'id', null)]);
 
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
@@ -605,8 +605,8 @@ const GetStartedEstimation = (props) => {
   };
 
   return (
-    <PartialErrorBoundering>
-      <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}`}>
+    <>
+      <div id="bodyModalWrapper" className={`withHeader getStarted  ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -752,7 +752,7 @@ const GetStartedEstimation = (props) => {
                                   rounded
                                   theme="green"
                                   themeSat={500}
-                                  label={buttonLabel()}
+                                  label={translateTo(buttonLabel())}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                   onShowError={() => setShowError(true)}
@@ -771,7 +771,7 @@ const GetStartedEstimation = (props) => {
         </div>
 
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 
@@ -787,7 +787,6 @@ GetStartedEstimation.propTypes = {
   handleCreateEstimation: PropTypes.func.isRequired,
   handleDoLogin: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   handleSpinnerOn: PropTypes.func.isRequired,
   handleValidateUser: PropTypes.func.isRequired,
@@ -888,7 +887,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleValidateUser: bindActionCreators(validateUser, dispatch),

@@ -57,7 +57,7 @@ import {
   cutValue, roundFifty, roundFiveThousand,
 } from '../utils/helpers';
 
-const ActionStubs = require('../resources/timelineActionStubs');
+const ActionStubs = require('../resources/Utilities/timelineActionStubs');
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {

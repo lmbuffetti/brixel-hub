@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary, translateTo } from '@brixel/brixel-components';
 import defaultCover from '../images/3d-tour-placeholder.jpg';
 import { isEligible } from '../utils/helpers';
 
@@ -20,6 +20,7 @@ const BrixelUpgradeMessage = (props) => {
     description,
     descriptionConfirm,
     isSmallLoading,
+    lang,
     onClick,
     onClose,
     onOpentour,
@@ -66,9 +67,6 @@ const BrixelUpgradeMessage = (props) => {
               ghost
               onClick={() => onClose()}
             />
-            {/* <h5 className="ml-2 body fweight-500 sectionTitle">
-              Porperty
-            </h5> */}
           </div>
         )
       }
@@ -82,14 +80,14 @@ const BrixelUpgradeMessage = (props) => {
               <BrixelButtonPrimary
                 rounded
                 className="mr-1"
-                label="Cancel"
+                label={translateTo('Cancel', lang)}
                 theme="white"
                 onClick={() => setShowUnlockMessage(false)}
               />
               <BrixelButtonPrimary
                 rounded
                 className="ml-1"
-                label="Order now"
+                label={translateTo('Order now', lang)}
                 isLoading={isSmallLoading.saveData}
                 onClick={() => onClick()}
               />
@@ -120,7 +118,7 @@ const BrixelUpgradeMessage = (props) => {
                         className="m-a opacity8"
                         onClick={() => onOpentour(virtualTour)}
                       />
-                      <p className="ta-c txtWhite mt-2">Example 3D-Tour</p>
+                      <p className="ta-c txtWhite mt-2">{translateTo('Example 3D-Tour', lang)}</p>
                     </div>
                   </div>
                 </div>
@@ -146,10 +144,11 @@ BrixelUpgradeMessage.propTypes = {
   className: PropTypes.string,
   description: PropTypes.string,
   descriptionConfirm: PropTypes.string,
-  onOpentour: PropTypes.func,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   onClose: PropTypes.func,
+  onOpentour: PropTypes.func,
   redirectUrl: PropTypes.string,
   showClose: PropTypes.bool,
   title: PropTypes.string,

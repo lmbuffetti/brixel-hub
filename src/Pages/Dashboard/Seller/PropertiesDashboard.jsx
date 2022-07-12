@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary, FormatValue,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -25,6 +25,7 @@ const HomeDashboard = (props) => {
     form,
     handleGetUserProperties,
     handleSpinnerOff,
+    lang,
     loggedInUser,
     userProperties,
   } = props;
@@ -147,18 +148,18 @@ const HomeDashboard = (props) => {
 
                     <div className="dis-f w-perc-100 min-w-fix-360 max-w-fix-600 mt-1 mt-sm-0 px-2 jc-b ml-a">
                       <div className="px-1">
-                        <h6 className="fsize-100 txtDark200">Price</h6>
+                        <h6 className="fsize-100 txtDark200">{translateTo('Price', lang)}</h6>
                         <div className="txtGreen400 ff-mono">{showPrice(property)}</div>
                       </div>
 
                       <div className="px-1">
-                        <h6 className="fsize-100 txtDark200 ws-nw">Rooms</h6>
+                        <h6 className="fsize-100 txtDark200 ws-nw">{translateTo('Rooms', lang)}</h6>
                         <span className="ff-mono txtDark700">
                           {FormatValue.formatRooms(get(property, 'properties.typology.bedrooms', 0), get(property, 'location.countryCode', 'CH'))}
                         </span>
                       </div>
                       <div className="px-1">
-                        <h6 className="fsize-100 txtDark200 ws-nw">Living space</h6>
+                        <h6 className="fsize-100 txtDark200 ws-nw">{translateTo('Living space', lang)}</h6>
                         {
                           get(property, 'location.countryCode', '') === 'PT' && get(property, 'properties.typology.grossArea.value', 0) > 0 ? (
                             <span className="ff-mono txtDark700">{get(property, 'properties.typology.grossArea.value', '0')} m</span>
@@ -168,7 +169,7 @@ const HomeDashboard = (props) => {
                         }
                       </div>
                       <div className="px-1">
-                        <h6 className="fsize-100 txtDark200 ws-nw">Year</h6>
+                        <h6 className="fsize-100 txtDark200 ws-nw">{translateTo('Year', lang)}</h6>
                         <span className="ff-mono txtDark700">
                           {get(property, 'properties.building.built', '0000')}
                         </span>
@@ -181,14 +182,6 @@ const HomeDashboard = (props) => {
             </div>
           </div>
         </div>
-        {/* <div className={`backButton jc-c mb-2 ${openCloseColumn() === 'closed' ? 'dis-b' : 'hide'}`}>
-          <BrixelButtonIcon
-            ghost
-            icon="arrow-simple-left"
-            noBorder
-            onClick={() => history.push('../facts')}
-          />
-        </div> */}
         {
           getFact() !== 'property' && (
             <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`} />
@@ -203,7 +196,7 @@ HomeDashboard.propTypes = {
   form: PropTypes.object.isRequired,
   handleGetUserProperties: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
-  // isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   userProperties: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
@@ -211,8 +204,7 @@ HomeDashboard.propTypes = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   form: get(state, 'brixelForm', {}),
-  // isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  langConfig: get(state, 'common.language', ''),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   property: get(state, 'property.activeSingleProperty', {}),
   userProperties: get(state, 'user.userProperties', []),

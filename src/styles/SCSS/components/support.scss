@@ -21,7 +21,7 @@
   #supportBox {
     &.fixed {
       position: fixed;
-      bottom: 48px;
+      bottom: 0;
       right: $step;
     }
   }
@@ -29,20 +29,22 @@
 
 .supportBtn {
   position: relative;
+
   @media (max-width: $responsive-medium) {
     background-color: transparent;
     padding-right: 16px;
     padding-top: 24px;
     padding-bottom: 24px;
+    height: 94px;
     #supportBox {
-      bottom: 60px !important;
+      // bottom: 60px !important;
     }
   }
   #supportBox {
     position: absolute;
     z-index: 5;
     padding: 0;
-    bottom: -16px;
+    //bottom: -16px;
     animation: scaleUp $default-time $default-easing forwards;
 
     .send-message {
@@ -62,6 +64,14 @@
   }
   .lh-22 {
     line-height: 22px;
+  }
+}
+
+.activeFooter {
+  .supportBtn {
+    @media (min-width: $responsive-medium) {
+      bottom: 80px;
+    }
   }
 }
 

@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { translateTo } from '@brixel/brixel-components';
 import {
   BrixelInputText,
   BrixelTextArea,
@@ -6,9 +7,9 @@ import {
   Validation,
 } from '@brixel/brixel-components/dist/form';
 
-export const QuestionsList = () => [
+export const QuestionsList = (lang) => [
   {
-    title: 'Request a visit to your future home',
+    title: translateTo('Request a visit to your future home', lang),
     history: 'visitDates',
     className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
     inputs: [
@@ -18,7 +19,7 @@ export const QuestionsList = () => [
         classNameBox: 'ml-a mr-a',
         classBoxWrapper: 'mt-2',
         ReduxFieldClass: '',
-        label: 'Choose your date',
+        label: translateTo('Choose your date', lang),
         name: 'visitDates',
         showFullSelectDate: true,
         large: true,
@@ -28,14 +29,14 @@ export const QuestionsList = () => [
     ],
   },
   {
-    title: 'How can we reach you?',
+    title: translateTo('How can we reach you?', lang),
     history: 'contactInfo',
     className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
     inputs: [
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        label: 'Name',
+        label: translateTo('Name', lang),
         name: 'name',
         validation: [Validation.required],
         pdClass: 'py-3 py-md-5',
@@ -43,7 +44,7 @@ export const QuestionsList = () => [
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        label: 'Phone',
+        label: translateTo('Phone', lang),
         name: 'phone',
         pdClass: 'py-3 py-md-5',
         type: 'text',
@@ -53,7 +54,7 @@ export const QuestionsList = () => [
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        label: 'Email',
+        label: translateTo('Email', lang),
         name: 'email',
         validation: [Validation.isEmail, Validation.required],
         pdClass: 'py-3 py-md-5',
@@ -61,14 +62,14 @@ export const QuestionsList = () => [
       {
         component: BrixelTextArea,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        label: 'Message',
+        label: translateTo('Message', lang),
         name: 'message',
         pdClass: 'py-3 py-md-5',
       },
     ],
   },
   {
-    title: 'Thank you for your request',
+    title: translateTo('Thank you for your request', lang),
     className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
     history: 'success',
     toSave: true,

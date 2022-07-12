@@ -18,7 +18,6 @@ import '../../styles/SCSS/pages/market.scss';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
 import { updateFavorite } from '../../actions/UserActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 
 const MarketCategoryListSeller = lazyWithRetry(() => import('./MarketCategoryListSeller'));
 
@@ -61,7 +60,7 @@ const MarketSeller = (props) => {
   }, [loggedInUser]);
 
   return (
-    <PartialErrorBoundering>
+    <>
       <Suspense fallback="">
         <div className="market-container sellerPage" id="market">
           {/* premarket overlay */}
@@ -72,7 +71,7 @@ const MarketSeller = (props) => {
           </Routes>
         </div>
       </Suspense>
-    </PartialErrorBoundering>
+    </>
   );
 };
 

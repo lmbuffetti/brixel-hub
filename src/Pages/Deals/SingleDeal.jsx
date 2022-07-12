@@ -29,7 +29,7 @@ import {
   FactsOptions,
   useOutsideAlerter,
   BrixelDropdownMini,
-  BrixelIcon,
+  BrixelIcon, translateTo,
 } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/form';
 import {
@@ -50,7 +50,7 @@ import {
 import ProgressBar from '../../components/ProgressBar';
 import Timeline from '../../components/Timeline';
 
-const ActionStubs = require('../../resources/timelineActionStubs');
+const ActionStubs = require('../../resources/Utilities/timelineActionStubs');
 
 const SingleDeal = (props) => {
   const history = {
@@ -59,8 +59,8 @@ const SingleDeal = (props) => {
   };
   const match = useParams();
   const {
-    activeSingleDeal,
     activeDealHistoryList,
+    activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyDeals,
     getActiveDeal,
@@ -68,11 +68,11 @@ const SingleDeal = (props) => {
     getHistoryList,
     handleSaveDeal,
     handleSaveMultipleDeal,
+    lang,
     setActiveSingleDealHistory,
     setActiveSingleDealOwnerHistory,
     setDeal,
     setDealNotes,
-    userLang,
     windowDimensions,
   } = props;
 
@@ -226,17 +226,17 @@ const SingleDeal = (props) => {
                 links={
                   [
                     {
-                      label: get(activeSingleDeal, 'winner', null) ? 'Remove winner' : 'Winner',
+                      label: translateTo(get(activeSingleDeal, 'winner', null) ? 'Remove winner' : 'Winner', lang),
                       clickFunc: () => { winDeal(); setOptionsOpen(false); },
                       className: 'txtPrimary400',
                     },
                     {
-                      label: get(activeSingleDeal, 'newSeller', null) ? 'Mark as read' : 'Mark as new',
+                      label: translateTo(get(activeSingleDeal, 'newSeller', null) ? 'Mark as read' : 'Mark as new', lang),
                       clickFunc: () => { newDeal(); setOptionsOpen(false); },
                       className: 'txtPrimary400',
                     },
                     {
-                      label: get(activeSingleDeal, 'active', null) ? 'Archive' : 'Unarchive',
+                      label: translateTo(get(activeSingleDeal, 'active', null) ? 'Archive' : 'Unarchive', lang),
                       clickFunc: () => { archiveDeal(); setOptionsOpen(false); },
                       className: 'txtPrimary400',
                     },
@@ -303,35 +303,35 @@ const SingleDeal = (props) => {
   };
 
   const getOfferText = () => {
-    if (has(activeSingleDeal, 'closing.stageOffer.offer.status')) return `${get(activeSingleDeal, 'closing.stageOffer.offer.currency', '')} ${formatPrice(get(activeSingleDeal, 'closing.stageOffer.offer.amount'), userLang)}`;
-    return 'No offer';
+    if (has(activeSingleDeal, 'closing.stageOffer.offer.status')) return `${get(activeSingleDeal, 'closing.stageOffer.offer.currency', '')} ${formatPrice(get(activeSingleDeal, 'closing.stageOffer.offer.amount'), lang)}`;
+    return translateTo('No offer', lang);
   };
 
   const getCompleteOffer = () => {
     let answerText = '';
     if (get(activeSingleDeal, 'closing.stageOffer.offer.buyer') && Object.keys(activeSingleDeal.closing.stageOffer.offer.buyer).length > 0) {
-      answerText += `<span>Buyer details: </br></span>
-      <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span class="fweight-500">
+      answerText += `<span>${translateTo('Buyer details:', lang)}</span></br>
+      <span class="dis-b"><span>${translateTo('Date of birth:', lang)}</span><span class="fweight-500">
       ${(typeof get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') === 'string' && get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '').includes('-')) ? get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', '') : DateTime.fromMillis(
     get(activeSingleDeal, 'closing.stageOffer.offer.buyer.dateBirth', ''),
     {
-      locale: userLang,
+      locale: lang,
     },
   ).toFormat('yyyy-MM-dd')}
-    </span></span>      </br><span>Marital status: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', '')} </span>
-      </br><span>Place of origin: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.placeOfOrigin', '')} </span>
-      </br><span>Type of purchase: </span><span>${get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', '')} </span>`;
+    </span></span>      </br><span>${translateTo('Marital status:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.maritialStatus', ''), lang)} </span>
+      </br><span>${translateTo('Place of origin:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.placeOfOrigin', ''), lang)} </span>
+      </br><span>${translateTo('Type of purchase:', lang)}</span><span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.buyer.typeOfPurchase', ''), lang)} </span>`;
     }
     if (get(activeSingleDeal, 'closing.stageOffer.offer.location') && Object.keys(activeSingleDeal.closing.stageOffer.offer.location).length > 0) {
-      answerText += `</br></br><span>Buyer location: </br></span>
-      <span>${get(activeSingleDeal, 'closing.stageOffer.offer.location.street', '')} </span>
-      <span>${get(activeSingleDeal, 'closing.stageOffer.offer.location.streetNumber', '')} </span>
-      <span>, ${get(activeSingleDeal, 'closing.stageOffer.offer.location.zipCode', '')} </span>
-      <span>${get(activeSingleDeal, 'closing.stageOffer.offer.location.City', '')} </span>`;
+      answerText += `</br></br><span>${translateTo('Buyer location:', lang)}</span></br>
+      <span>${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.location.street', ''), lang)}</span>
+      <span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.location.streetNumber', ''), lang)}</span>
+      <span class="ml-small-4">${translateTo(`, ${get(activeSingleDeal, 'closing.stageOffer.offer.location.zipCode', '')}`, lang)} </span>
+      <span class="ml-small-4">${translateTo(get(activeSingleDeal, 'closing.stageOffer.offer.location.City', ''), lang)}</span>`;
     }
 
     if (get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.financeCertificate') === 1) {
-      answerText += `</br></br><span>Financial certificate: </span><span>${activeSingleDeal.closing.stageOffer.offer.financeCertificate === 1 ? 'Yes' : 'No'} </span>`;
+      answerText += `</br></br><span>${translateTo('Financial certificate:', lang)}</span><span class="ml-small-4">${translateTo(activeSingleDeal.closing.stageOffer.offer.financeCertificate === 1 ? 'Yes' : 'No', lang)} </span>`;
     }
     return answerText;
   };
@@ -339,16 +339,16 @@ const SingleDeal = (props) => {
   const getCompleteFeedback = () => {
     let answerText = '';
     if (get(activeDealFeedback, 'meta.visitFeedback.reasons', []) && activeDealFeedback.meta.visitFeedback.reasons.length > 0) {
-      answerText += 'Main reason: ';
+      answerText += translateTo('Main reason:', lang);
       activeDealFeedback.meta.visitFeedback.reasons.forEach((answer, key) => {
-        answerText += `<span>${answer}${key !== (activeDealFeedback.meta.visitFeedback.reasons.length - 1) ? ', ' : ''} </span>`;
+        answerText += `<span>${translateTo(`${answer}${key !== (activeDealFeedback.meta.visitFeedback.reasons.length - 1) ? ', ' : ''}`, lang)}</span>`;
       });
     }
     if (get(activeDealFeedback, 'meta.visitFeedback.otherReason', '') && activeDealFeedback.meta.visitFeedback.otherReason.length > 0) {
-      answerText += `</br><span>Additional note: </br></span><span>${activeDealFeedback.meta.visitFeedback.otherReason} </span>`;
+      answerText += `</br><span>${translateTo('Additional note:', lang)}</br></span><span>${translateTo(activeDealFeedback.meta.visitFeedback.otherReason, lang)} </span>`;
     }
     if (get(activeDealFeedback, 'meta.visitFeedback.priceChangeAlert') === true || get(activeDealFeedback, 'meta.visitFeedback.priceChangeAlert') === false) {
-      answerText += `</br><span>Price update: </span><span>${activeDealFeedback.meta.visitFeedback.priceChangeAlert === true ? 'Yes' : 'No'} </span>`;
+      answerText += `</br><span>${translateTo('Price update:', lang)}</span><span>${translateTo(activeDealFeedback.meta.visitFeedback.priceChangeAlert === true ? 'Yes' : 'No', lang)}</span>`;
     }
     return answerText;
   };
@@ -408,12 +408,12 @@ const SingleDeal = (props) => {
                         }
                         {
                           get(activeSingleDeal, 'winner', null) && (
-                            <span className="cardTag green mr-2"> Winner </span>
+                            <span className="cardTag green mr-2">{translateTo('Winner', lang)}</span>
                           )
                         }
                         {
                           !activeSingleDeal.active && (
-                            <span className="cardTag"> Archived </span>
+                            <span className="cardTag">{translateTo('Archived', lang)}</span>
                           )
                         }
                       </div>
@@ -424,13 +424,13 @@ const SingleDeal = (props) => {
                 {/* middle panel */}
                 <div className="mid p-2 dis-fl-row flex-wrap mb-lg-2 pos-r">
                   <div className="left dis-fl-col col-7 p-0 min-w-perc-100 min-w-perc-lg-0">
-                    <span className="fsize-200 overline tt-up mb-2">Information</span>
+                    <span className="fsize-200 overline tt-up mb-2">{translateTo('Information', lang)}</span>
 
                     <div className="detail-part dis-fl-row">
 
                       <div className="dis-fl-col col-6 p-0">
                         <div className="dis-fl-col ta-l mb-2">
-                          <span className="subtitle fsize-200 txtDark200">Phone</span>
+                          <span className="subtitle fsize-200 txtDark200">{translateTo('Phone', lang)}</span>
                           {
                             get(activeSingleDeal, 'user.phone.number', null) ? (
                               <span className="value txtDark700">{Helpers.telephoneFormat(activeSingleDeal.user.phone)}</span>
@@ -443,10 +443,10 @@ const SingleDeal = (props) => {
 
                       <div className="dis-fl-col col-6 p-0">
                         <div className="dis-fl-col ta-l mb-2">
-                          <span className="subtitle fsize-200 txtDark200">Signed Up</span>
+                          <span className="subtitle fsize-200 txtDark200">{translateTo('Signed Up', lang)}</span>
                           {
                             get(activeSingleDeal, 'user.createdAt', null) ? (
-                              <span className="value txtDark700">{DateTime.fromMillis(activeSingleDeal.user.createdAt, { locale: userLang }).toFormat('dd LLL yy, H:mm')}</span>
+                              <span className="value txtDark700">{DateTime.fromMillis(activeSingleDeal.user.createdAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}</span>
                             ) : (
                               <span className="value txtDark700">-</span>
                             )
@@ -462,6 +462,7 @@ const SingleDeal = (props) => {
                     {
                       activeSingleDeal.id && (
                         <ProgressBar
+                          lang={lang}
                           className="mb-3"
                           options={factsOptions.progressBarDealsOptions}
                           progressState={has(activeSingleDeal, 'stage') ? activeSingleDeal.stage : ''}
@@ -472,10 +473,10 @@ const SingleDeal = (props) => {
                     }
 
                     <div className="mb-3 hide">
-                      <span className="overline mb-2">Showings</span>
+                      <span className="overline mb-2">{translateTo('Showings', lang)}</span>
                       <BrixelButtonSecondary
                         className="p-0 as-fs"
-                        label="Add date"
+                        label={translateTo('Add date', lang)}
                         rounded
                         color="light"
                         saturation={700}
@@ -485,10 +486,10 @@ const SingleDeal = (props) => {
                       />
                     </div>
                     <div className="hide">
-                      <span className="overline mb-2">Offers</span>
+                      <span className="overline mb-2">{translateTo('Offers', lang)}</span>
                       <BrixelButtonSecondary
                         className="p-0 as-fs"
-                        label="Add offer"
+                        label={translateTo('Add offer', lang)}
                         rounded
                         color="light"
                         saturation={700}
@@ -501,22 +502,22 @@ const SingleDeal = (props) => {
                 </div>
 
                 {/* bottom panel */}
-                <div className="bottom dis-fl-col dis-fl-row-sm brdSmall brdAltGrey100 brdRadius bgLight100 px-2 w-perc-100 h-perc-100 py-3 pos-r">
+                <div className="bottom dis-fl-col dis-fl-row-sm w-perc-100 h-perc-100 py-3 pos-r">
                   <OptionsDropdown
                     btnClass="shadow-3dp"
                     className="pos-a-fix x-t-0 x-r-0 mt-2-neg"
                     showMobile
                   />
                   <Timeline
-                    countryLang={userLang}
+                    countryLang={lang}
                     isDeal
-                    className="col-12 col-sm-6"
+                    className="col-12 col-sm-6 p-0"
                   />
                   <div className="dis-fl-col-md col-12 col-sm-6">
                     {
                       (get(activeSingleDeal, 'visit', null) && get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
                         <>
-                          <span className="overline mb-3">Visit</span>
+                          <span className="overline mb-3">{translateTo('Visit', lang)}</span>
                           <div className="visit-container brdRadius shadow-1dp dis-fl-col p-small-12">
                             <div className="dis-f a-c">
                               <BrixelIcon
@@ -528,7 +529,7 @@ const SingleDeal = (props) => {
                                 saturationTxt={700}
                                 className="mr-2"
                               />
-                              <span className={`txt${getTextColor()}`}>{DateTime.fromMillis(activeSingleDeal.visit, { locale: userLang }).toFormat('d LLL yyyy, H:mm')}</span>
+                              <span className={`txt${getTextColor()}`}>{DateTime.fromMillis(activeSingleDeal.visit, { locale: lang }).toFormat('d LLL yyyy, H:mm')}</span>
                             </div>
                             {
                               activeDealFeedback.createdAt && (
@@ -536,9 +537,9 @@ const SingleDeal = (props) => {
                                   <div className={`mt-1 dis-fl-row jc-b ${showFullFeedback === true ? 'mb-2' : ''}`}>
                                     {
                                       activeDealFeedback.meta.visitFeedback.isInterested === true ? (
-                                        <span className="txtDark700 fsize-300">Still interested 👍</span>
+                                        <span className="txtDark700 fsize-300">{translateTo('Still interested 👍', lang)}</span>
                                       ) : (
-                                        <span className="txtDark700 fsize-300">Not interested anymore 👎</span>
+                                        <span className="txtDark700 fsize-300">{translateTo('Not interested anymore 👎', lang)}</span>
                                       )
                                     }
                                     <BrixelIcon
@@ -567,7 +568,7 @@ const SingleDeal = (props) => {
                     }
 
                     <span className="overline mb-3">Offer</span>
-                    <div className="brdRadius shadow-1dp pos-r dis-fl-col p-small-12 w-perc-100">
+                    <div className="brdRadius shadow-1dp pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
                       <div className="dis-fl-row jc-b">
                         <div className="dis-f a-c">
                           <BrixelIcon
@@ -586,7 +587,7 @@ const SingleDeal = (props) => {
                         has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
                           <div className="dis-fl-col">
                             <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
-                              <span className="txtDark700 fsize-300">Offer details: </span>
+                              <span className="txtDark700 fsize-300">{translateTo('Offer details:', lang)}</span>
                               <BrixelIcon
                                 fontSize={8}
                                 icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
@@ -633,19 +634,19 @@ SingleDeal.propTypes = {
   setActiveSingleDealOwnerHistory: PropTypes.func.isRequired,
   setDeal: PropTypes.func.isRequired,
   setDealNotes: PropTypes.func.isRequired,
-  userLang: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
 SingleDeal.defaultProps = {};
 
 const mapStateToProps = (state) => ({
+  activeDealHistoryList: get(state, 'deal.activeSingleDealHistory', {}),
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
-  activeDealHistoryList: get(state, 'deal.activeSingleDealHistory', {}),
   isSuperAdmin: get(state, 'common.superAdmin', false),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

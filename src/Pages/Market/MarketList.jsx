@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText, translateTo } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -20,7 +20,6 @@ import MarketCardMap from '../../components/Cards/MarketCardMap';
 import Pagination from '../../components/Pagination';
 import { setSplashType, setWindowDimensions } from '../../actions/CommonActions';
 import { setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 
 const MarketMap = lazyWithRetry(() => import('./MarketMap'));
 
@@ -42,6 +41,7 @@ const MarketList = (props) => {
     handleGetPremiumProperties,
     handleGetSellerProperties,
     handleGetWishlistProperties,
+    lang,
     lastViewedProperties,
     loggedInUser,
     newProperties,
@@ -51,8 +51,8 @@ const MarketList = (props) => {
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
-    wishlistProperties,
     windowDimensions,
+    wishlistProperties,
   } = props;
   // URL PARAMS
   const catName = get(match, 'cat', null);
@@ -287,11 +287,11 @@ const MarketList = (props) => {
   }, []);
 
   return (
-    <PartialErrorBoundering>
+    <>
       <div className="container">
         <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
           <BrixelButtonPrimary
-            label="Map View"
+            label={translateTo('Map View', lang)}
             rounded
             theme="dark"
             leftIcon="roadmap"
@@ -314,53 +314,32 @@ const MarketList = (props) => {
                 <div className="mt-2 pr-0 pr-lg-3">
                   <div className="dis-f jc-b a-b">
                     <div>
-                      <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
-                      <span className="fsize-300"><span>There are </span> <span className="fweight-600 notranslate"> {getTotal() ? getTotal() : '-'}</span> <span className="fweight-600">properties</span> <span>available</span></span>
+                      <h4 className="dis-b fweight-700 pb-small-4">
+                        {translateTo(getTitle(), lang)}
+                      </h4>
+                      <span className="fsize-300">
+                        <span>{translateTo('There are', lang)}</span>
+                        <span className="fweight-600 notranslate ml-small-4">
+                          {getTotal() ? getTotal() : '-'}
+                        </span>
+                        <span className="fweight-600 ml-small-4">{translateTo('properties', lang)}</span>
+                        <span className="ml-small-4">{translateTo('available', lang)}</span>
+                      </span>
                     </div>
                     <BrixelButtonText
                       className="fsize-300 show-all pos-r"
-                      label="+ Add new"
+                      label={translateTo('+ Add new', lang)}
                       onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
                     />
                   </div>
                 </div>
               </div>
-              {
-              /*
-             <div className="dis-f jc-b">
-              <div className="dis-f a-t">
-                <BrixelButtonSecondary
-                  label="All"
-                  rounded
-                  theme="light"
-                  themeSat={500}
-                  className="fsize-300 mr-1"
-                />
-                <BrixelButtonSecondary
-                  label="More Filter"
-                  rounded
-                  theme="light"
-                  themeSat={500}
-                  className="fsize-300 mr-1"
-                />
-              </div>
-              <div className="div">
-                <BrixelButtonSecondary
-                  label="Sort by relevance"
-                  rounded
-                  theme="light"#
-                  themeSat={500}
-                  className="fsize-300 mr-1"
-                />
-              </div>
-            </div>
-               */
-              }
             </div>
 
             {
               propertyListings.map((page, i) => (
                 <MarketCardMap
+                  lang={lang}
                   type="own"
                   key={`prop_${i.toString()}`}
                   item={page}
@@ -408,7 +387,7 @@ const MarketList = (props) => {
           </div>
         </div>
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 
@@ -423,6 +402,7 @@ MarketList.propTypes = {
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   lastViewedProperties: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   newProperties: PropTypes.object.isRequired,
@@ -432,8 +412,8 @@ MarketList.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-  wishlistProperties: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  wishlistProperties: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {
@@ -443,6 +423,7 @@ MarketList.defaultProps = {
 const mapStateToProps = (state) => ({
   allProperties: get(state, 'market.allProperties', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
+  lang: get(state, 'common.language', 'en'),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
@@ -450,8 +431,8 @@ const mapStateToProps = (state) => ({
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
-  wishlistProperties: get(state, 'market.wishlistProperties', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  wishlistProperties: get(state, 'market.wishlistProperties', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

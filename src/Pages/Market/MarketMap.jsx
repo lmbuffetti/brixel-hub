@@ -6,7 +6,6 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { setWindowDimensions } from '../../actions/CommonActions';
 import MarketMapComponent from '../../components/Map/MarketMapComponent';
-import PartialErrorBoundering from '../../components/PartialErrorBoundering';
 
 const MarketMap = (props) => {
   // PROPS
@@ -20,7 +19,7 @@ const MarketMap = (props) => {
   } = props;
 
   return (
-    <PartialErrorBoundering>
+    <>
       <div className="map-inner">
         {
           properties.length > 0 && (
@@ -37,7 +36,7 @@ const MarketMap = (props) => {
           )
         }
       </div>
-    </PartialErrorBoundering>
+    </>
   );
 };
 

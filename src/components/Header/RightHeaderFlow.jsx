@@ -47,10 +47,9 @@ function RightHeaderFlow(props) {
 
   // FUNCTION TO CHECK IF USER IS LOGGED IN
   useEffect(() => {
-    if (loggedInUser && loggedInUser.user) {
-      const langUsr = loggedInUser.user.language;
+    if (loggedInUser && loggedInUser.language) {
+      const langUsr = loggedInUser.language;
       setCurrentLang(lang);
-      handleSetLanguage(lang);
       setCookie('brixelLang', langUsr);
     }
   }, [loggedInUser, lang]);
@@ -126,7 +125,7 @@ function RightHeaderFlow(props) {
   return (
     <div className="dis-f a-c">
       {
-        !loggedInUser.token ? (
+        !loggedInUser.id ? (
           <div className="">
             <BrixelDropdown
               noBorder
@@ -173,7 +172,7 @@ RightHeaderFlow.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   lang: get(state, 'common.language', ''),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
   pageState: get(state, 'common.setPageData', {}),
   property: get(state, 'property.activeSingleProperty', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),

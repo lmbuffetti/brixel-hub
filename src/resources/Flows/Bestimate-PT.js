@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {
-  FactsOptions,
+  FactsOptions, translateTo,
 } from '@brixel/brixel-components';
 import {
   BrixelCheckbox,
@@ -10,16 +10,34 @@ import {
   Validation,
   BrixelSelect,
 } from '@brixel/brixel-components/dist/form';
-import ResumeBestimate from '../Pages/Bestimate/ResumeBestimate';
-import homesSvg from '../images/getstarted/svgs/homes.svg';
+import ResumeBestimate from '../../Pages/Bestimate/ResumeBestimate';
+import homesSvg from '../../images/getstarted/svgs/homes.svg';
 
 const { factsOptions } = FactsOptions;
 
-export const BestimatePT = (type = null) => {
+export const BestimatePT = (type = null, propertyType, lang) => {
+  const conditionStatus = factsOptions.conditionStatus.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
+  const energyEfficiencyOptions = factsOptions.energyEfficiencyOptions.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
+  const solarOrientation = factsOptions.solarOrientation.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
+  const extraFeatureBestimatePT = factsOptions.extraFeatureBestimatePT.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
+  
+  
   const bestimate = [
     {
-      title: type === 'getStarted' ? 'Please tell us some more details' : 'Step 1',
-      extraInfo: 'We need some extra information about your property.',
+      title: translateTo(type === 'getStarted' ? 'Please tell us some more details' : 'Step 1', lang),
+      extraInfo: translateTo('We need some extra information about your property.', lang),
       history: 'step1',
       cardType: 'step1',
       className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
@@ -29,17 +47,17 @@ export const BestimatePT = (type = null) => {
           className: 'pos-r zIndex6',
           classBoxWrapper: 'two-cols',
           component: BrixelSelect,
-          label: type === 'getStarted' ? 'Condition' : 'Property condition',
+          label: translateTo(type === 'getStarted' ? 'Condition' : 'Property condition', lang),
           name: 'properties.building.conditionStatus',
-          options: factsOptions.conditionStatus,
+          options: conditionStatus,
           validation: [Validation.required],
         },
         {
           component: BrixelInputText,
           className: '',
           classBoxWrapper: 'two-cols mt-5',
-          label: type === 'getStarted' ? null : 'What\'s the gross area of the property?',
-          labelLeft: 'Gross area',
+          label: translateTo(type === 'getStarted' ? null : 'What\'s the gross area of the property?', lang),
+          labelLeft: translateTo('Gross area', lang),
           placeholder: '120',
           unit: 'm2',
           minLengthNum: 1,
@@ -55,19 +73,19 @@ export const BestimatePT = (type = null) => {
             noValue: 'Apartment',
           }],
           classBoxWrapper: 'two-cols mt-5',
-          label: type === 'getStarted' ? null : 'What\'s the lot size?',
+          label: translateTo(type === 'getStarted' ? null : 'What\'s the lot size?', lang),
           name: 'properties.typology.lotArea.value',
           type: 'number',
           unit: 'm2',
           minLengthNum: 1,
           maxLengthNum: 99999,
-          labelLeft: 'Lot Size',
-          placeholder: 'e.g. 140',
+          labelLeft: translateTo('Lot Size', lang),
+          placeholder: translateTo('e.g. 140', lang),
         },
       ],
     },
     {
-      title: type === 'getStarted' ? 'Any secondary room?' : 'Step 2',
+      title: translateTo(type === 'getStarted' ? 'Any secondary room?' : 'Step 2', lang),
       className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
       footerWidth: 'max-w-fix-544',
       history: 'step2',
@@ -76,9 +94,9 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputStepNumber,
           className: 'two-cols',
-          label: type === 'getStarted' ? null : 'How many bathrooms does the property have?',
+          label: translateTo(type === 'getStarted' ? null : 'How many bathrooms does the property have?', lang),
           name: 'properties.typology.bathrooms',
-          labelLeft: 'Bathrooms',
+          labelLeft: translateTo('Bathrooms', lang),
           step: 1,
           min: 0,
           max: 15,
@@ -88,45 +106,45 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputText,
           classBoxWrapper: 'two-cols mt-5',
-          label: type === 'getStarted' ? null : 'What\'s the surface of the balcony?',
+          label: translateTo(type === 'getStarted' ? null : 'What\'s the surface of the balcony?', lang),
           name: 'properties.typology.balconyArea.value',
           type: 'number',
           unit: 'm2',
           minLengthNum: 1,
           maxLengthNum: 9999,
-          labelLeft: 'Balcony',
-          placeholder: 'e.g. 140',
+          labelLeft: translateTo('Balcony'),
+          placeholder: translateTo('e.g. 140'),
         },
         {
           component: BrixelInputText,
           className: '',
           classBoxWrapper: 'two-cols mt-5',
-          label: type === 'getStarted' ? null : 'What\'s the surface of the terrace?',
+          label: translateTo(type === 'getStarted' ? null : 'What\'s the surface of the terrace?', lang),
           name: 'properties.typology.terraceArea.value',
           type: 'number',
           unit: 'm2',
           minLengthNum: 1,
           maxLengthNum: 9999,
-          labelLeft: 'Terrace',
-          placeholder: 'e.g. 140',
+          labelLeft: translateTo('Terrace', lang),
+          placeholder: translateTo('e.g. 140', lang),
         },
         {
           component: BrixelInputText,
           className: '',
           classBoxWrapper: 'two-cols mt-5',
-          label: type === 'getStarted' ? null : 'What\'s the size of the garden?',
+          label: translateTo(type === 'getStarted' ? null : 'What\'s the size of the garden?', lang),
           name: 'properties.typology.gardenArea.value',
           type: 'number',
           unit: 'm2',
           minLengthNum: 1,
           maxLengthNum: 9999,
-          labelLeft: 'Garden',
-          placeholder: 'e.g. 140',
+          labelLeft: translateTo('Garden', lang),
+          placeholder: translateTo('e.g. 140', lang),
         },
       ],
     },
     {
-      title: type === 'getStarted' ? 'Only a few inputs left.' : 'Step 3',
+      title: translateTo(type === 'getStarted' ? 'Only a few inputs left.' : 'Step 3', lang),
       bgImg: homesSvg,
       vCentered: true,
       className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
@@ -137,9 +155,9 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputStepNumber,
           className: 'two-cols',
-          label: type === 'getStarted' ? null : 'How many garage parking lots belong to the property?',
+          label: translateTo(type === 'getStarted' ? null : 'How many garage parking lots belong to the property?', lang),
           name: 'properties.parking.garage',
-          labelLeft: 'Garage parking',
+          labelLeft: translateTo('Garage parking', lang),
           step: 1,
           startFrom: 0,
           min: 0,
@@ -150,7 +168,7 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputStepNumber,
           className: 'two-cols',
-          label: type === 'getStarted' ? null : 'How many external parking lots belong to the property?',
+          label: translateTo(type === 'getStarted' ? null : 'How many external parking lots belong to the property?', lang),
           name: 'properties.parking.outside',
           labelLeft: 'External parking',
           step: 1,
@@ -162,21 +180,21 @@ export const BestimatePT = (type = null) => {
         {
           component: BrixelInputQuality,
           classBoxWrapper: 'two-cols mt-5',
-          label: type === 'getStarted' ? 'Energy efficiency' : 'What\'s the energy efficiency of the property?',
+          label: translateTo(type === 'getStarted' ? 'Energy efficiency' : 'What\'s the energy efficiency of the property?', lang),
           name: 'properties.energy.efficiency',
-          options: factsOptions.energyEfficiencyOptions,
+          options: energyEfficiencyOptions,
         },
         {
           component: BrixelCheckbox,
           classBoxWrapper: 'two-cols mt-5',
-          label: type === 'getStarted' ? 'Solar orientation' : 'What is the solar orientation?',
+          label: translateTo(type === 'getStarted' ? 'Solar orientation' : 'What is the solar orientation?', lang),
           name: 'properties.building.solarOrientarion',
-          options: factsOptions.solarOrientation,
+          options: solarOrientation,
         },
       ],
     },
     {
-      title: 'Which extra features do you have?',
+      title: translateTo('Which extra features do you have?'),
       vCentered: true,
       history: 'step4',
       className: type === 'getStarted' ? 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5' : '',
@@ -188,11 +206,11 @@ export const BestimatePT = (type = null) => {
           className: 'extraFeature',
           component: BrixelCheckbox,
           icons: false,
-          label: type === 'getStarted' ? null : '',
+          label: translateTo(type === 'getStarted' ? null : '', lang),
           name: 'properties.extraFeaturesBestimatePT',
           pdClass: 'p-1',
           iconClass: 'p-small-17 fSizePx22 bgPrimary400 txtWhite brdRadius mr-1',
-          options: factsOptions.extraFeatureBestimatePT,
+          options: extraFeatureBestimatePT,
         },
       ],
     },
@@ -200,10 +218,10 @@ export const BestimatePT = (type = null) => {
   if (type !== 'getStarted') {
     bestimate.push(
       {
-        title: 'Result Page',
+        title: translateTo('Result Page', lang),
         toSave: true,
         vCentered: true,
-        subtitle: 'Sales strategy & price',
+        subtitle: translateTo('Sales strategy & price', lang),
         history: 'resumeFlow',
         cardType: 'loadComponent',
         component: ResumeBestimate,

@@ -17,18 +17,19 @@ import Cookies from 'universal-cookie';
 import {
   BrixelIcon,
   BrixelModal,
-  BrixelNotification,
+  BrixelNotification, translateTo,
 } from '@brixel/brixel-components';
 import { reset } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
 import { Helmet } from 'react-helmet';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
+import PageFooter from './components/Footer/PageFooter';
 import Loading from './components/Loading';
 import WizardCard from './components/Cards/WizardCard';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
-  setLanguage, setModal, setWindowDimensions, setScreenNotification,
+  setLanguage, setModal, setWindowDimensions, setScreenNotification, sendSlackNotification,
 } from './actions/CommonActions';
 import {
   setActiveSingleDeal,
@@ -39,10 +40,6 @@ import { getImageType } from './actions/UploadActions';
 import SplashScreen from './components/SplashScreen';
 import Support from './components/Support';
 import lazyWithRetry from './components/LazyWithRetry';
-
-import PartialErrorBoundering from './components/PartialErrorBoundering';
-// SIGNUP
-const Signup = lazyWithRetry(() => import('./Pages/Signup/Signup'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazyWithRetry(() => import('./Pages/PackageFlow/GetStarted'));
@@ -60,6 +57,7 @@ import AppleTouch120 from './images/apple-touch-icon-120x120.png';
 import AppleTouch152 from './images/apple-touch-icon-152x152.png';
 import AppleTouch180 from './images/apple-touch-icon-180x180.png';
 import AppleTouch76 from './images/apple-touch-icon-76x76.png';
+import browserDetection from './utils/browserDetection';
 
 // GENERAL COMPONENTS
 const PageHeader = lazyWithRetry(() => import('./components/Header/PageHeader'));
@@ -104,6 +102,7 @@ const WarningScreen = lazyWithRetry(() => import('./components/WarningScreen'));
 const cookies = new Cookies();
 
 const App = (props) => {
+  const isOpenTransifex = cookies.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -111,9 +110,11 @@ const App = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    activeSingleCompany,
     handleCheckToken,
     handleGetImageType,
     handleReset,
+    handleSendSlackNotifications,
     handleSetActiveSingleDeal,
     handleSetActiveSingleProperty,
     handleSetLanguage,
@@ -123,6 +124,7 @@ const App = (props) => {
     handleSetWindowsDimension,
     isLoading,
     isSmallLoading,
+    lang,
     loggedInUser,
     modal,
     notification,
@@ -139,42 +141,60 @@ const App = (props) => {
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
-  
+
   const [isSecLevel, setIsSecLevel] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
-  
+
   const [zIndex, setZIndex] = useState(1);
   const [isFlow, setIsFlow] = useState(false);
+  const [showFooter, setShowFooter] = useState(false);
   // const [extraHeight, setExtraHeight] = useState(0);
-  
+
   // USEREF TO MANAGE DOM ELEMENT
   const dashContentRef = useRef(null);
   const dashWrapperRef = useRef(null);
   const dashWrapperEl = dashWrapperRef.current;
   const el = document.getElementsByClassName('thirdLevel');
-  
+
   useEffect(() => {
     smoothscrollPolyfill.polyfill();
   }, []);
-  
+
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
   useEffect(() => {
+    let userLang = 'en';
     if (loggedInUser.user && localTransifex) {
-      const lang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
-      handleSetLanguage(lang);
-      if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang);
+      userLang = loggedInUser.user.language === 'en_US' ? 'en' : loggedInUser.user.language;
+      handleSetLanguage(userLang);
+      if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang || 'en');
+    } else if (activeSingleCompany.id && !loggedInUser.user) {
+      userLang = cookies.get('brixelLang') || activeSingleCompany.language.code || 'en';
+      handleSetLanguage(userLang);
     }
     if (typeof Transifex !== 'undefined') {
       Transifex.live.onReady(() => {
         setIsLoaded(true);
       });
-    } else {
-      setIsLoaded(true);
-      const element = document.getElementsByTagName('BODY')[0];
-      element.classList.remove('txlive');
     }
-  }, [localTransifex, loggedInUser]);
-  
+    if (typeof Transifex !== 'undefined') {
+      const channel = 'frontend-bugs';
+      const data = {
+        user: get(loggedInUser, 'id', ''),
+        page: get(activeSingleProperty, 'id', ''),
+        meta: `Browser Info: ${browserDetection().debug}\n Language: ${cookies.get('brixelLang')}`,
+        url: window.location.href,
+        apiResource: '',
+      };
+      Transifex.live.onError(function (err) {
+        data.meta += `${JSON.stringify(err)} - ${data.meta}`;
+        handleSendSlackNotifications({ data, channel });
+        setIsLoaded(true);
+        const element = document.getElementsByTagName('BODY')[0];
+        element.classList.remove('txlive');
+      });
+    }
+  }, [localTransifex, loggedInUser, activeSingleCompany.id]);
+
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
     if (((get(activeSingleProperty, 'owner.id', 'a') === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
@@ -184,7 +204,7 @@ const App = (props) => {
     }
     if (!activeSingleProperty.documents) handleSetActiveSingleDeal({});
   }, [activeSingleProperty.id]);
-  
+
   const bodyModal = document.getElementById('bodyModalWrapper');
   useEffect(() => {
     const hubDash = document.getElementsByClassName('hubDashboard')[0];
@@ -196,7 +216,7 @@ const App = (props) => {
       }
     }
   }, [bodyModal]);
-  
+
   // FUNCTION USED TO SEND THE DATA TO HANALITYCS
   useEffect(() => {
     if (get(history, 'location.pathname', '') === '/' || !get(history, 'location.pathname', '')) {
@@ -224,7 +244,7 @@ const App = (props) => {
     const scrollFlow = document.getElementsByClassName('flowScrollWrap')[0];
     if (scrollFlow) scrollFlow.scrollTop = 0;
   }, [history.location]);
-  
+
   // FUNCTION TO MANAGE THE REDIRECT FROM REDUX REDUCER
   useEffect(() => {
     if (get(redirectTo, 'history', null)) {
@@ -243,7 +263,7 @@ const App = (props) => {
       window.location.assign(redirectTo.url);
     }
   }, [redirectTo]);
-  
+
   // FUCNTION TO SEPARATE THE DESIGN IN BASE OF HISTORY LOCATION (packageFLow, onBoarding, upgrade)
   useEffect(() => {
     if (
@@ -253,14 +273,11 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('trialRequest') ||
-      history.location.pathname.includes('upgrade') ||
-      history.location.pathname.includes('signup')
-    ) {
+      history.location.pathname.includes('upgrade')    ) {
       if (
         history.location.pathname.includes('packageFlow') ||
         history.location.pathname.includes('scheduleVisit') ||
-        history.location.pathname.includes('visitFeedback') ||
-        history.location.pathname.includes('signup')
+        history.location.pathname.includes('visitFeedback')
       ) {
         setClassMain('flowContainer packageFlow w-perc-100');
       } else {
@@ -292,7 +309,7 @@ const App = (props) => {
       setIsFlow(false);
       setZIndex(1);
     }
-    
+
     // add class to container when secondlevel visible on mobile
     if (
       (
@@ -316,13 +333,23 @@ const App = (props) => {
         dashWrapperEl.classList.remove('secondLevelActive');
       }
     }
+
+    if (
+      !history.location.pathname.includes('sell') &&
+      (!history.location.pathname.includes('buy') || history.location.pathname.includes('buyer'))
+    ) {
+      setShowFooter(true);
+    } else {
+      setShowFooter(false);
+    }
+
   }, [history.location.pathname, dashWrapperEl, [...el].length]);
-  
+
   const calcHeaderHeight = useCallback(() => {
     const head = document.getElementsByClassName('hubDasHeader');
     return head[0] ? head[0].offsetHeight : 0;
   }, []);
-  
+
   const headerCalc = useCallback(() => {
     let contentHeight;
     if (!isFlow) {
@@ -333,14 +360,14 @@ const App = (props) => {
           contentHeight = windowDimensions.height;
         }
       } else {
-        contentHeight = '100vh';
+        contentHeight = windowDimensions.height;
       }
     } else {
       contentHeight = 'auto';
     }
     return contentHeight;
   }, [isFlow, calcHeaderHeight, windowDimensions]);
-  
+
   // DID MOUNT TO CHECK THE USER TOKEN AND INITIALIZE THE WINDOW SIZE LISTENER
   useEffect(() => {
     if (cookies && cookies.get('brixelToken')) {
@@ -349,14 +376,13 @@ const App = (props) => {
         !history.location.pathname.includes('packageFlow') &&
         !history.location.pathname.includes('scheduleVisit') &&
         !history.location.pathname.includes('visitFeedback') &&
-        !history.location.pathname.includes('onBoarding') &&
-        !history.location.pathname.includes('signup')
+        !history.location.pathname.includes('onBoarding')
       ) data = { hideLoad: true };
       handleCheckToken(data);
     }
     handleGetImageType({ smallLoader: 'imgType' });
   }, []);
-  
+
   const contentLayout = useCallback(() => {
     if (!isFlow) {
       if (isSecLevel) {
@@ -370,7 +396,7 @@ const App = (props) => {
     }
     return null;
   }, [isFlow, windowDimensions]);
-  
+
   useEffect(() => {
     window.addEventListener('resize', () => {
       handleSetWindowsDimension({
@@ -381,7 +407,7 @@ const App = (props) => {
       calcHeaderHeight();
     });
   }, [window]);
-  
+
   const overflowClass = useCallback(() => {
     if (history.location.pathname.includes('prospects') && !history.location.pathname.includes('offers')) {
       // if (windowDimensions.width <= 1024) return 'ov-y-a ov-x-h';
@@ -389,7 +415,7 @@ const App = (props) => {
     }
     return 'ov-y-a ov-x-h';
   }, []);
-  
+
   // add class to body when loading enabled
   useEffect(() => {
     const loadingClass = document.getElementsByClassName('elem-loader')[0];
@@ -400,7 +426,7 @@ const App = (props) => {
       body.classList.remove('bodyLoading');
     }
   });
-  
+
   // CONDITION TO VIEW THE ELEMENTS AFTER LOADING
   if (
     !loggedInUser ||
@@ -411,9 +437,9 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     );
   }
-  
+
   return (
-    <PartialErrorBoundering>
+    <>
       <Helmet>
         <link rel="apple-touch-icon" href={AppleTouch76} />
         <link rel="apple-touch-icon" sizes="76x76" href={AppleTouch76} />
@@ -432,7 +458,7 @@ const App = (props) => {
         )
       }
       <main
-        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''}`}
+        className={`${!isFlow ? 'hubDashboard h-perc-100' : 'flowWrapper'} dis-fl-row jc-b ${history.location.pathname.includes('upgrade/packages') ? 'upgradePackages' : ''} ${showFooter ? 'activeFooter' : ''} ${isOpenTransifex ? '' : 'notranslate'}`}
         ref={dashWrapperRef}
       >
         <Loading isLoading={isLoading} />
@@ -452,6 +478,7 @@ const App = (props) => {
                   ref={dashContentRef}
                 >
                   <PageHeader
+                    showFooter={showFooter}
                     changeZIndex={(index) => { setZIndex(index); }}
                     isFlow={isFlow}
                   />
@@ -465,7 +492,9 @@ const App = (props) => {
                       <MenuSidebar />
                     )
                   }
-                  <div className="w-perc-100 innerWrap h-perc-100">
+                  <div
+                    className="w-perc-100 innerWrap"
+                  >
                     <Routes>
                       <Route path="/500" element={<ErrorBoundering />} />
                       { /* SECTION: ONBOARDING */}
@@ -477,17 +506,14 @@ const App = (props) => {
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
                       <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
-                      
-                      {/* SECTION: SIGNUP */}
-                      <Route path="/signup" element={<Signup />} />
-                      
+
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
-                      
+
                       { /* SECTION: CLOSING FLOWS */}
                       <Route path="/packageFlow/:id/makeOffer/*" element={<MakeOffer />} />
                       <Route path="/packageFlow/:propID/:dealID/closing/:userType/identification/*" element={<IdentificationFlow />} />
-                      
+
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
@@ -495,7 +521,6 @@ const App = (props) => {
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
                         !history.location.pathname.includes('buyer') &&
-                        !history.location.pathname.includes('signup') &&
                         (
                           <>
                             <Route path="/sell/*" element={<ProtectedRoute><MarketSeller /></ProtectedRoute>} />
@@ -505,7 +530,7 @@ const App = (props) => {
                                   get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
                                   get(history, 'location.pathname', '').split('/')[1].length > 18) ||
                                 get(history, 'location.pathname', '').split('/')[1] === 'company') && (
-                                
+
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
@@ -531,7 +556,6 @@ const App = (props) => {
                         !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
-                        !history.location.pathname.includes('signup') &&
                         (
                           <>
                             <Route path="/buyer/:propID/*" element={<ProtectedRoute><DashboardBuyer /></ProtectedRoute>} />
@@ -572,18 +596,30 @@ const App = (props) => {
                                 ))
                               }
                             </div>
-                            <span className="ml-2 txtDark700 fweight-500">Support</span>
+                            <span className="ml-2 txtDark700 fweight-500">
+                              {translateTo('Support', lang)}
+                            </span>
                           </div>
                         )
                       }
                     </div>
                   </div>
+
+                  {
+                    showFooter && !isSecLevel && (
+                      <PageFooter
+                        lang={lang}
+                        activeSideBar={!isFlow}
+                      />
+                    )
+                  }
+
                 </div>
               </div>
-            
+
             </div>
           </div>
-          
+
           { /* SECTION: ACHIVEMENT FLOW */ }
           <Routes>
             <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
@@ -592,10 +628,11 @@ const App = (props) => {
             <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
             <Route path="*" element={null} />
           </Routes>
-          
+
           {
             modal.state && !modal.type && !modal.small && (
               <BrixelModalFullScreen
+                lang={lang}
                 title={modal.title}
                 onClose={() => {
                   handleSetModal({ state: false });
@@ -636,10 +673,11 @@ const App = (props) => {
               </BrixelModal>
             )
           }
-          
+
           {
             modal.state && modal.type === 'confirmExit' && (
               <WarningScreen
+                lang={lang}
                 saveFunc={() => modal.saveFunc()}
                 title={modal.title}
                 formName={modal.formName}
@@ -647,17 +685,18 @@ const App = (props) => {
               />
             )
           }
-          
+
           {
             modal.state && modal.type === 'bestimate' && (
               <BestimateCardOverlay
+                lang={lang}
                 activeSinglePropertyId={activeSingleProperty.id}
                 clearEstimation={false}
                 type="modal"
               />
             )
           }
-          
+
           { /* SPLASH SCREEN */}
           {
             (splashScreenType === 'marketOverlay' || splashScreenType === 'marketOverlayCarousel') && (
@@ -668,19 +707,19 @@ const App = (props) => {
               />
             )
           }
-          
+
           {
             has(splashScreenType, 'component') && (
               React.createElement(splashScreenType.component, splashScreenType.props)
             )
           }
-          
+
           {
             get(wizard, 'type', null) && get(wizard, 'type', '') !== 'preMarketOverlay' && (
-              <WizardCard />
+              <WizardCard lang={lang} />
             )
           }
-          
+
           { /* SECTION: GENERAL NOTIFICATION - use redux notification to populate */}
           {
             notification && notification.length > 0 &&
@@ -707,7 +746,7 @@ const App = (props) => {
               </div>
             )
           }
-          
+
           {
             !history.location.pathname.includes('docubox') &&
             notification && (notification.small || notification.state) && (
@@ -723,7 +762,7 @@ const App = (props) => {
               </>
             )
           }
-          
+
           {/* Splash screens for single deal, create new deal and edit document */}
           <Routes>
             <Route
@@ -735,15 +774,17 @@ const App = (props) => {
           </Routes>
         </Suspense>
       </main>
-    </PartialErrorBoundering>
+    </>
   );
 };
 
 App.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSendSlackNotifications: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
@@ -753,11 +794,12 @@ App.propTypes = {
   handleSetWindowsDimension: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
-  redirectTo: PropTypes.object,
   pageError: PropTypes.bool.isRequired,
+  redirectTo: PropTypes.object,
   splashScreenType: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   teamAvatars: PropTypes.arrayOf(PropTypes.object).isRequired,
   userTypes: PropTypes.string,
@@ -772,10 +814,12 @@ App.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   config: get(state, 'common.config', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', []),
@@ -794,6 +838,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
+  handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
   handleSetActiveSingleDeal: bindActionCreators(setActiveSingleDeal, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
