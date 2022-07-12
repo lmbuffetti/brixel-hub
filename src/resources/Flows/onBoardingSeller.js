@@ -119,6 +119,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             fluid: true,
             startFrom: 3,
             large: true,
+            //tooltip location changed
             tooltip: {
               label: translateTo('What is this?', lang),
               description: translateTo(country === 'PT' ? 'Enter the number of rooms, including rooms with a minimum surface of 9 m² (+1). Kitchen and bathrooms are not counted as a proper room.' : 'Enter the number of rooms that have a minimum surface of 8 m². Kitchen and bathrooms are not counted as a proper room.', lang),
