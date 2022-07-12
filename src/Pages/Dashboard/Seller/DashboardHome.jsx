@@ -95,6 +95,7 @@ const DashboardHome = (props) => {
   useEffect(() => {
     if (activeSingleCompany.id) {
       const data = {
+        placementSlug: 'buyer-hub-home-sold-partner',
         partner: activeSingleCompany.stub,
         language: lang,
       };

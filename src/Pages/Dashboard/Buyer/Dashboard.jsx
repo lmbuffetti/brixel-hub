@@ -73,7 +73,7 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', { });
+    const activeLeads = get(activeSingleProperty.company, 'pageLeads[0]', { });
     if (activeLeads && activeLeads.company && activeLeads.company !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads.company });
     } else if (activeSingleProperty.id) {
@@ -173,12 +173,12 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('Property', data)));
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetUserPagesDeals: bindActionCreators(getUserPagesDeals, dispatch),
-  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(

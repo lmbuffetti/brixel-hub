@@ -54,7 +54,7 @@ class ApiClient {
     data,
   }) {
     const siteHandle = `${ data.partner }${ data.language[ 0 ].toUpperCase() }${ data.language.slice( 1 ).toLowerCase() }`;
-    const placementSlug = 'example-hub-screen';
+    const { placementSlug } = data;
     let baseUrl = this.baseURL;
     const body = JSON.stringify( {
       query,

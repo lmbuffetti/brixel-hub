@@ -13,12 +13,11 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { DateTime } from 'luxon';
-import { getContent } from '../../../actions/CraftCMS';
 import {
   getActiveSinglePropertyBookings,
 } from '../../../actions/PropertyActions';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
-import ContentCard from '../../../components/Cards/ContentCard';
+import ArticlesBox from '../../../components/ArticlesBox';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 
 import Loading from '../../../components/Loading';
@@ -40,9 +39,7 @@ const DashboardHome = (props) => {
     activeSingleDeal,
     activeSingleProperty,
     activeSinglePropertyBookingSlots,
-    craftCMS,
     handleGetActiveSinglePropertyBookings,
-    handleGetContentCraftCMS,
     handleGetUserSearchProfiles,
     isSmallLoading,
     lang,
@@ -59,17 +56,6 @@ const DashboardHome = (props) => {
       setVisitAccepted(get(activeSingleDeal, 'visit', 0));
     }
   }, [activeSingleDeal]);
-  
-  useEffect(() => {
-    if (activeSingleCompany.id) {
-      const data = {
-        partner: activeSingleCompany.stub,
-        language: lang,
-      };
-      handleGetContentCraftCMS(data)
-    }
-  }, [activeSingleCompany.id]);
-
 
   useEffect(() => {
     if (propID && loggedInUser.id) {
@@ -254,26 +240,18 @@ const DashboardHome = (props) => {
                 </button>
               </div>
   
-              {
-                craftCMS.length > 0 && (
-                  <div className="mt-6">
-                    <h4>About your home</h4>
-                    <div className="row-cols-3-gut-8 my-3">
-                      {
-                        craftCMS.map((card) => (
-                          <ContentCard
-                            key={ card.id }
-                            image={ card.mainImage[ 0 ] }
-                            title={ card.title }
-                            previewCopy={ card.previewCopy }
-                            href={ card.url }
-                          />
-                        ))
-                      }
-                    </div>
-                  </div>
-                )
-              }
+              <ArticlesBox
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="buyer-hub-home-sold-partner"
+              />
+  
+              <ArticlesBox
+                title="About your home"
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="buyer-hub-home-sold-articles"
+              />
               
               <div
                 onClick={() => history.push(`/buy`)}
@@ -337,9 +315,7 @@ DashboardHome.propTypes = {
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyBookingSlots: PropTypes.arrayOf(PropTypes.object).isRequired,
-  craftCMS: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
-  handleGetContentCraftCMS: PropTypes.func.isRequired,
   handleGetUserSearchProfiles: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
@@ -358,7 +334,6 @@ const mapStateToProps = (state) => ({
   activeSingleDeal: get(state, 'deal.activeSingleDeal', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
-  craftCMS: get(state, 'craftCMS.content', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'commong.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
@@ -371,7 +346,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetUserSearchProfiles: bindActionCreators(getUserSearchProfiles, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handleGetContentCraftCMS: bindActionCreators(getContent, dispatch),
 });
 
 export default compose(

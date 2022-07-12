@@ -72,7 +72,7 @@ export default {
     // mapPageById: (id) => `/map/property/${id}`,
     packagePage: (id) => `/pageServicePackage/10/0?pageID=${id}&order=createdAt&direction=ASC`,
     pageById: (id) => `/page/${id}`,
-    pageByIdPublic: (id) => `/page/${id}/publicpart`,
+    pageByIdPublic: (id) => `/map/property/${id}`,
     pageByStub: (stub) => `/page/stub/${stub}`,
     pageDeals: (id, data) => `/page/${id}/deals${data}`,
     pageDealsCount: (id) => `/page/${id}/dealsCount?countDealsBy=newSeller`,
