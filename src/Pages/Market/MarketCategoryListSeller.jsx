@@ -389,7 +389,7 @@ const MarketCategoryListSeller = (props) => {
                 rounded
                 className="m-a mt-3"
                 label={translateTo('+ Add new', lang)}
-                onClick={() => history.push(`/packageFlow/getStarted?company==${get(loggedInUser, 'company.stub', '')}`)}
+                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
               />
             </div>
           </div>
