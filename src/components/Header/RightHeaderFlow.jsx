@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* global Transifex */
 import React, {
-  useState, useEffect, useCallback,
+  useState, useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -27,7 +27,6 @@ function RightHeaderFlow(props) {
     loggedInUser,
   } = props;
 
-  const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
   // GET URL PARAMS
   const fullURL = get(history, 'location.pathname', '').split('/');
   const propID = fullURL[2];
@@ -87,13 +86,13 @@ function RightHeaderFlow(props) {
   }, []);
 
   // FUNCTION TO SET THE LANGUAGE WHEN SELECTED
-  const newLang = useCallback((e, langCode) => {
+  const newLang = (e, langCode) => {
     e.stopPropagation();
     setCurrentLang(langCode.value);
     handleSetLanguage(langCode.value);
     if (typeof Transifex !== 'undefined') Transifex.live.translateTo(langCode.value);
     setCookie('brixelLang', langCode.value);
-  }, [localTransifex]);
+  };
 
   const closeOverlay = () => {
     if (

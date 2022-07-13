@@ -30,6 +30,7 @@ import {
   setActiveSinglePropertyActivePackage,
 } from '../../actions/PropertyActions';
 import { saveActiveSingleUser, setUserTypes } from '../../actions/UserActions';
+import { setLanguage } from '../../actions/CommonActions';
 import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/Utilities/navigationRoutes';
 import { setCookie } from '../../utils/helpers';
 import lazyWithRetry from '../LazyWithRetry';
@@ -54,15 +55,16 @@ function PageHeader(props) {
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
     handleSetActiveSinglePropertyActivePackage,
+    handleSetLanguage,
     handleSetUserTypes,
     isFlow,
     lang,
     loggedInUser,
     ownerProperties,
     packagesProperty,
+    showFooter,
     userType,
     windowDimensions,
-    showFooter,
   } = props;
   // STATE
   const [langMenu, setLangMenu] = useState([]);
@@ -142,13 +144,14 @@ function PageHeader(props) {
   const newLang = (langCode) => {
     // handleChangeLanguage(lang);
     const defLangCode = get(langCode, 'value', null) ? langCode.value : langCode;
+    setSelLang(defLangCode);
+    localStorage.setItem('lang', defLangCode);
+    setCookie('brixelLang', defLangCode);
+    handleSetLanguage(defLangCode);
     if (typeof Transifex !== 'undefined') {
       setTimeout(() => {
         Transifex.live.translateTo(defLangCode);
       }, 100);
-      setSelLang(defLangCode);
-      localStorage.setItem('lang', defLangCode);
-      setCookie('brixelLang', defLangCode);
     }
     if (get(loggedInUser, 'user.id', null)) {
       const userData = {
@@ -640,15 +643,16 @@ PageHeader.propTypes = {
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyActivePackage: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   isFlow: PropTypes.bool,
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   ownerProperties: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showFooter: PropTypes.bool.isRequired,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
-  showFooter: PropTypes.bool.isRequired,
 };
 
 PageHeader.defaultProps = {
@@ -683,6 +687,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetActiveSinglePropertyActivePackage: bindActionCreators(setActiveSinglePropertyActivePackage, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 
