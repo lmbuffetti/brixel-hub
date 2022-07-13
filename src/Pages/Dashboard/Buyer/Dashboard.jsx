@@ -77,7 +77,7 @@ const Dashboard = (props) => {
     if (activeLeads && activeLeads.company && activeLeads.company !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads.company });
     } else if (activeSingleProperty.id) {
-      handleGetActiveSingleCompany({ id: activeSingleProperty.company });
+      handleGetActiveSingleCompany({ id: activeSingleProperty.company.id });
     } else {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }

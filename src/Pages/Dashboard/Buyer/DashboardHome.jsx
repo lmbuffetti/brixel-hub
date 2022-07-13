@@ -57,6 +57,10 @@ const DashboardHome = (props) => {
       setVisitAccepted(get(activeSingleDeal, 'visit', 0));
     }
   }, [activeSingleDeal]);
+  
+  useEffect(() => {
+  
+  }, [activeSingleProperty]);
 
   useEffect(() => {
     if (propID && loggedInUser.id) {
@@ -115,6 +119,7 @@ const DashboardHome = (props) => {
           )
         }
       </div>
+      
       <div className="max-w-fix-760 dis-fl-col pr-md-2">
         {
           progressState.step === 1 && (
@@ -243,6 +248,7 @@ const DashboardHome = (props) => {
               
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
+                title="Plane deine nächsten Schritte."
                 className="mt-6"
                 lang={lang}
                 placementSlug="buyer-hub-home-sold-banner-top"
@@ -259,6 +265,13 @@ const DashboardHome = (props) => {
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="buyer-hub-home-sold-articles"
+              />
+  
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-6"
+                lang={lang}
+                placementSlug="buyer-hub-home-sold-banner-bottom"
               />
               
               <div

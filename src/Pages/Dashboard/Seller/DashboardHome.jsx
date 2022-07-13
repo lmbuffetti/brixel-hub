@@ -26,6 +26,8 @@ import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import DashboardPropertyCardSold from '../../../components/Cards/DashboardPropertyCardSold';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
+import ArticlesBox from '../../../components/CraftCMS/ArticlesBox';
+import BannerBox from '../../../components/CraftCMS/BannerBox';
 
 import Loading from '../../../components/Loading';
 import ProgressSellerStage from '../../../components/ProgressSellerStage';
@@ -852,6 +854,27 @@ const DashboardHome = (props) => {
                   </div>
                 </div>
               </div>
+  
+              <ArticlesBox
+                title="Plane deine nächsten Schritte."
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-sold-partner"
+              />
+  
+              <ArticlesBox
+                title="Wissenswertes rund ums Eigenheim"
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-sold-article"
+              />
+  
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-6"
+                lang={lang}
+                placementSlug="seller-hub-home-sold-banner-bottom"
+              />
 
             </>
           )

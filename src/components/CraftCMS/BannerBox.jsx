@@ -10,6 +10,7 @@ const BannerBox = (props) => {
     className,
     lang,
     placementSlug,
+    title,
   } = props;
 
   const [banner, setBanner] = useState([]);
@@ -32,23 +33,38 @@ const BannerBox = (props) => {
   if (!banner.title) return <></>;
   
   return (
-    <div className={`pos-r p-5 brdRadius bgWhite ${className}`}>
-      <div className="dis-f a-t">
-        <div>
-          <img src={banner.mainImage[0].url} alt={banner.mainImage[0].alt} />
+    <div className={className}>
+      {
+        title && (
+          <h5 className="mb-3">{title}</h5>
+        )
+      }
+      <div className="pos-r p-5 brdRadius bgWhite">
+        <div className="dis-f a-t">
+          {
+            get(banner, 'mainImage[0].url', null) && (
+              <div>
+                <img src={get(banner, 'mainImage[0].url', '')} alt={banner.mainImage[0].alt} />
+              </div>
+            )
+          }
+          <div className="ml-4">
+            <h5>{banner.title}</h5>
+            <p className="fsize-300 my-3">{banner.description}</p>
+            <BrixelButtonPrimary
+              rounded
+              onClick={() => window.open(banner.buttonLink, '_blank')}
+              label={banner.buttonLabel}
+            />
+          </div>
         </div>
-        <div className="ml-4">
-          <h5>{banner.title}</h5>
-          <p className="fsize-300 my-3">{banner.description}</p>
-          <BrixelButtonPrimary
-            rounded
-            onClick={() => window.open(banner.buttonLink, '_blank')}
-            label={banner.buttonLabel}
-          />
-        </div>
-      </div>
-      <div className="pos-a-fix x-r-2 x-t-2 w-fix-72">
-        <img src={banner.logo[0].url} alt={banner.logo[0].alt} />
+        {
+          get(banner, 'logo[0].url', null) && (
+            <div className="pos-a-fix x-r-2 x-t-2 w-fix-72">
+              <img src={banner.logo[0].url} alt={banner.logo[0].alt} />
+            </div>
+          )
+        }
       </div>
     </div>
   );
@@ -59,6 +75,7 @@ BannerBox.propTypes = {
   className: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
   placementSlug: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default BannerBox;
