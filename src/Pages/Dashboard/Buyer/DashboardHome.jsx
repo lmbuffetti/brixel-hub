@@ -243,8 +243,9 @@ const DashboardHome = (props) => {
               
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
+                className="mt-6"
                 lang={lang}
-                placementSlug="verwalte-deine-immobilie"
+                placementSlug="buyer-hub-home-sold-banner-top"
               />
   
               <ArticlesBox
@@ -342,7 +343,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  lang: get(state, 'commong.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   searchProfile: get(state, 'user.userSearchProfiles[0]', {}),
 });
