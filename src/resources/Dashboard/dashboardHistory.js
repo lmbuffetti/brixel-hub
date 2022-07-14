@@ -5,7 +5,8 @@ import { DateTime } from 'luxon';
 
 const offerText = (offerMeta, currency, activeSingleProperty, lang) => {
   let answerText = '';
-  answerText += `<span>${translateTo('You made an offer of', lang)}</span> <span class="fweight-500 ml-small-4">${get(offerMeta, 'offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', activeSingleProperty.price.currency))}</br></span>`;
+  const defaultCurrency = get(activeSingleProperty, 'price.currency', '');
+  answerText += `<span>${translateTo('You made an offer of', lang)}</span> <span class="fweight-500 ml-small-4">${get(offerMeta, 'offer.currency', defaultCurrency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', defaultCurrency))}</br></span>`;
   return answerText || translateTo('Created offer', lang);
 }
 
