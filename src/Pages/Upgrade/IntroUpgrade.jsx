@@ -384,7 +384,7 @@ const IntroUpgrade = (props) => {
                   rounded
                   className="m-a mt-3"
                   label="+ Add new"
-                  onClick={() => history.push(`/packageFlow/getStarted?company==${get(loggedInUser, 'company.stub', '')}`)}
+                  onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
                 />
               </div>
             </div>
