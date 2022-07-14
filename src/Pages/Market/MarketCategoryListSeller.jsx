@@ -229,6 +229,15 @@ const MarketCategoryListSeller = (props) => {
     }
   };
 
+  const getCompanyStub = () => {
+    // TODO: Company management for "Add new" property flow
+    if (ownerProperties.total === 0) return get(loggedInUser, 'company.stub', '')
+    else {
+      const company = companyListings.find((cmp) => cmp.id === get(ownerProperties, 'data[0].company', ''));
+      return company.stub;
+    }
+  };
+
   return (
     <Suspense fallback="">
       {/* SECTION: bestimate result */}
@@ -389,7 +398,7 @@ const MarketCategoryListSeller = (props) => {
                 rounded
                 className="m-a mt-3"
                 label={translateTo('+ Add new', lang)}
-                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+                onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
               />
             </div>
           </div>
@@ -407,7 +416,7 @@ const MarketCategoryListSeller = (props) => {
                 theme="dark"
                 labelClass="ws-nw"
                 themeSat={700}
-                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+                onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
               />
             </div>
           
