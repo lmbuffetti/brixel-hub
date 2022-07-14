@@ -302,7 +302,7 @@ const DashboardPropertyCard = (props) => {
                                           })}
                                           className="txtBlue700 no-state fweight-600 fsize-400 ml-1-neg"
                                         >
-                                          {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', '').toFixed(0), get(estimation, 'currency', ''))}
+                                          {get(estimation, 'result.currency', '')} {Helpers.formatNumberValue(get(estimation, 'result.higherValue', '').toFixed(0), get(estimation, 'result.currency', ''))}
                                         </button>
                                       )
                                     }
