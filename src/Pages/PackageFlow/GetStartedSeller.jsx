@@ -536,9 +536,17 @@ const GetStartedSeller = (props) => {
     return (currentIndex * 100) / (num - 1);
   };
 
+  // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
+  const getStartedEl = document.querySelector('.getStarted');
+  useEffect(() => {
+    setTimeout(() => {
+      if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
+    }, 350);
+  }, [quest]);
+
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -558,7 +566,7 @@ const GetStartedSeller = (props) => {
         }
 
         <div
-          className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
+          className={`bodyModal container ${currentIndex ? '' : ''} ${get(quest, 'history', '')}`}
         >
 
           <form
