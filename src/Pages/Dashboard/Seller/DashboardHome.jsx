@@ -326,6 +326,20 @@ const DashboardHome = (props) => {
                   {/* <img src={testDriveImg} alt="Test Drive" /> */}
                 </div>
               </div>
+  
+              <ArticlesBox
+                title="Wissenswertes rund um den Immobilienverkauf"
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-article"
+              />
+  
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-3"
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-banner-bottom"
+              />
             </>
           )
         }
