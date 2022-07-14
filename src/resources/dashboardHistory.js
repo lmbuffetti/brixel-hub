@@ -47,6 +47,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       dates += `<span>Message: </span><span>${history.meta.message.replace(/&lt;br&gt;/g," ")}</span>`;
     }
   }
+  const defaultCurrency = get(activeSingleProperty, 'price.currency', '');
   return ({
     'page-create': {
       className: 'brdGreen100',
@@ -171,7 +172,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty) => {
       colorBgIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>Your offer of</span><span class="ml-small-4">${get(history, 'meta.offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency', activeSingleProperty.price.currency))}</span><span class="ml-small-4">was</span><span class="ml-small-4">${get(history, 'meta.offer.status', '')}</span>`,
+      message: `<span>Your offer of</span><span class="ml-small-4">${get(history, 'meta.offer.currency', defaultCurrency)} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency', defaultCurrency))}</span><span class="ml-small-4">was</span><span class="ml-small-4">${get(history, 'meta.offer.status', '')}</span>`,
       icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-thin' : 'tick',
     },
     'deal-feedback-visit-email': {
