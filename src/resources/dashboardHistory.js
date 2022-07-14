@@ -5,7 +5,8 @@ import { DateTime } from 'luxon';
 
 const offerText = (offerMeta, currency, activeSingleProperty) => {
   let answerText = '';
-  answerText += `<span> You made an offer of </span> <span class="fweight-500">${get(offerMeta, 'offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', activeSingleProperty.price.currency))}</br></span>`;
+  const defaultCurrency = get(activeSingleProperty, 'price.currency', '');
+  answerText += `<span> You made an offer of </span> <span class="fweight-500">${get(offerMeta, 'offer.currency', defaultCurrency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', defaultCurrency))}</br></span>`;
   /* if (get(offerMeta, 'offer.buyer') && Object.keys(offerMeta.offer.buyer).length > 0) {
     answerText += `</br><span>Your details </br></span>
       <span class="dis-b"><span>Date of birth<span class="lh-in">:</span> </span><span>
