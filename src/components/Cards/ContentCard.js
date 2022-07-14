@@ -11,19 +11,20 @@ const ContentCard = (props) => {
   } = props;
 
   return (
-    <div>
+    <div className="mb-3 mb-sm-0">
       <a href={href} target="_blank" rel="noreferrer">
-        <img src={image.url} alt={image.alt} />
+        <img width="100%" src={image.url} alt={image.alt} />
       </a>
       <a href={href} target="_blank" rel="noreferrer">
-        <h5 className="mt-2 mb-4 txtGreen400">{title}</h5>
+        <h5 className="mt-2 mb-2 mb-sm-5 txtBlue400 fweight-600">{title}</h5>
       </a>
       <p className="fsize-300">{previewCopy}</p>
       <BrixelButtonSecondary
         bgTransparent
-        className="mt-2"
+        className="mt-2 mt-sm-4"
         rounded
         label="Read more"
+        theme="blue"
         onClick={window.open(href, '_blank')}
       />
     </div>

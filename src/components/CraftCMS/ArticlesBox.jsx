@@ -27,19 +27,20 @@ const ArticlesBox = (props) => {
           setArticles(get(res, 'data.data.placementEntries[0].placementContent', []))
         });
     }
+
   }, [activeSingleCompany]);
 
   if (articles.length === 0) return <></>;
-  
+
   return (
-    <div className="mt-6">
+    <div className="mt-5">
       {
         title && (
-          <h4>{title}</h4>
+          <h5 className="fweight-600">{title}</h5>
         )
       }
-  
-      <div className="row-cols-3-gut-8 my-3">
+
+      <div className="row-cols-sm-3-gut-4 my-3">
         {
           articles.map((card) => (
             <ContentCard

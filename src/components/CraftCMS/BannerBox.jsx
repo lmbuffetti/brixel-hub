@@ -31,7 +31,7 @@ const BannerBox = (props) => {
   }, [activeSingleCompany, lang]);
 
   if (!banner.title) return <></>;
-  
+
   return (
     <div className={className}>
       {
@@ -39,17 +39,15 @@ const BannerBox = (props) => {
           <h5 className="mb-3">{title}</h5>
         )
       }
-      <div className="pos-r p-5 brdRadius bgWhite">
-        <div className="dis-f a-t">
+      <div className="pos-r p-3 p-sm-5 brdRadius bgWhite">
+        <div className="dis-fl-col dis-fl-row-sm a-t">
           {
             get(banner, 'mainImage[0].url', null) && (
-              <div>
-                <img src={get(banner, 'mainImage[0].url', '')} alt={banner.mainImage[0].alt} />
-              </div>
+              <img className="" width="124" src={get(banner, 'mainImage[0].url', '')} alt={banner.mainImage[0].alt} />
             )
           }
-          <div className="ml-4">
-            <h5>{banner.title}</h5>
+          <div className="ml-0 ml-sm-4">
+            <h5 className="mt-3 mt-sm-0 fweight-600">{banner.title}</h5>
             <p className="fsize-300 my-3">{banner.description}</p>
             <BrixelButtonPrimary
               rounded
