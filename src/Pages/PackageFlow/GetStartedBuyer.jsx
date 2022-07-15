@@ -738,8 +738,8 @@ const mapStateToProps = (state, ownProps) => {
           unit: 'm2',
         },
       },
-      owner: get(state, 'user.loggedInUser.id', null),
-      user: get(state, 'user.loggedInUser.id', null),
+      owner: get(state, 'user.loggedInUser.user.id', null),
+      user: get(state, 'user.loggedInUser.user.id', null),
       login: {},
       finance: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
