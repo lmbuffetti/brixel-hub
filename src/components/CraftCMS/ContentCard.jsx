@@ -25,7 +25,7 @@ const ContentCard = (props) => {
         rounded
         label="Read more"
         theme="blue"
-        onClick={window.open(href, '_blank')}
+        onClick={() => window.open(href, '_blank')}
       />
     </div>
   );
