@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import api from '../../controllers/api/graphql';
-import ContentCard from '../Cards/ContentCard';
+import ContentCard from './ContentCard';
 
 const ArticlesBox = (props) => {
   const {
