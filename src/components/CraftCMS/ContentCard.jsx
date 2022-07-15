@@ -12,11 +12,11 @@ const ContentCard = (props) => {
 
   return (
     <div className="mb-3 mb-sm-0">
-      <a href={href} target="_blank" rel="noreferrer">
+      <a className="dis-f h-fix-sm-112 a-b" href={href} target="_blank" rel="noreferrer">
         <img width="100%" src={image.url} alt={image.alt} />
       </a>
       <a href={href} target="_blank" rel="noreferrer">
-        <h5 className="mt-2 mb-2 mb-sm-5 txtBlue400 fweight-600">{title}</h5>
+        <h5 className="mt-2 mb-2 mb-sm-3 txtBlue400 fweight-600">{title}</h5>
       </a>
       <p className="fsize-300">{previewCopy}</p>
       <BrixelButtonSecondary
