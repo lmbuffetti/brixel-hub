@@ -745,7 +745,7 @@ const mapStateToProps = (state, ownProps) => {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'PT'),
       },
       login: {},
-      owner: get(state, 'user.loggedInUser.id', null),
+      owner: get(state, 'user.loggedInUser.user.id', null),
       properties: {
         propertyType,
         typology: {
@@ -767,7 +767,7 @@ const mapStateToProps = (state, ownProps) => {
           number: '',
         },
       },
-      signup: get(state, 'user.loggedInUser.id', null) !== null,
+      signup: get(state, 'user.loggedInUser.user.id', null) !== null,
     },
     isLoading: get(state, 'common.isLoading', 0) > 0,
     lang: get(state, 'common.language', 'en'),

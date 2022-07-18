@@ -49,11 +49,13 @@ const IntroUpgrade = (props) => {
     activeSingleCompany,
     activeSingleCompanyPackages,
     activeSingleProperty,
+    companyListings,
     handleGetActiveCompanyPackages,
     activeSinglePropertyPackage,
     handleGetActiveSingleCompany,
     lang,
     loggedInUser,
+    ownerProperties,
     packages,
     scrollHash,
   } = props;
@@ -147,6 +149,15 @@ const IntroUpgrade = (props) => {
   const openNewFlow = (url) => {
     localStorage.setItem('backUrlBis', `/${activeSingleProperty.id}/upgrade`);
     history.push(url);
+  };
+
+  const getCompanyStub = () => {
+    // TODO: Company management for "Add new" property flow
+    if (ownerProperties.total === 0) return get(loggedInUser, 'company.stub', '')
+    else {
+      const company = companyListings.find((cmp) => cmp.id === get(ownerProperties, 'data[0].company', ''));
+      return company.stub;
+    }
   };
 
   useEffect(() => {
@@ -389,7 +400,7 @@ const IntroUpgrade = (props) => {
                   rounded
                   className="m-a mt-3"
                   label={translateTo('+ Add new', lang)}
-                  onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+                  onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
                 />
               </div>
             </div>
@@ -409,12 +420,14 @@ IntroUpgrade.propTypes = {
   activeSingleCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyPackage: PropTypes.arrayOf(PropTypes.object).isRequired,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetActiveCompanyPackages: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  ownerProperties: PropTypes.object.isRequired,
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
   scrollHash: PropTypes.string,
 };
@@ -428,9 +441,11 @@ const mapStateToProps = (state) => ({
   activeSingleCompanyPackages: get(state, 'companies.activeSingleCompanyPackages', []),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
+  companyListings: get(state, 'companies.companyListings.data', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  ownerProperties: get(state, 'market.ownerProperties', {}),
   packages: get(state, 'companies.activeSingleCompanyPackages', []),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

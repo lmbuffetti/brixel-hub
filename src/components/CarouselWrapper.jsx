@@ -25,11 +25,13 @@ const CarouselWrapper = (props) => {
   // PROPS
   const {
     className,
+    companyListings,
     items,
     lang,
     layout,
     loggedInUser,
     onSetActiveProperty,
+    ownerProperties,
     setActiveSingleCompany,
     setPropertyId,
     slideToGo,
@@ -155,6 +157,15 @@ const CarouselWrapper = (props) => {
     }
   }, [activeSlide]);
 
+  const getCompanyStub = () => {
+    // TODO: Company management for "Add new" property flow
+    if (ownerProperties.total === 0) return get(loggedInUser, 'company.stub', '')
+    else {
+      const company = companyListings.find((cmp) => cmp.id === get(ownerProperties, 'data[0].company', ''));
+      return company.stub;
+    }
+  };
+
   if (layout === 'singleOwnCard') {
     return (
       <>
@@ -222,7 +233,7 @@ const CarouselWrapper = (props) => {
                   label={translateTo('+ Add new', lang)}
                   theme="blue"
                   themeSat={700}
-                  onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+                  onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
                 />
                 <BrixelButtonText
                   theme="blue"
@@ -345,12 +356,14 @@ const CarouselWrapper = (props) => {
 
 CarouselWrapper.propTypes = {
   className: PropTypes.string,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string.isRequired,
   layout: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   onSetActiveProperty: PropTypes.func,
   setActiveSingleCompany: PropTypes.func,
+  ownerProperties: PropTypes.object.isRequired,
   setPropertyId: PropTypes.func,
   slideToGo: PropTypes.number,
   subtitle: PropTypes.string,
@@ -377,9 +390,11 @@ CarouselWrapper.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  companyListings: get(state, 'companies.companyListings.data', []),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  ownerProperties: get(state, 'market.ownerProperties', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

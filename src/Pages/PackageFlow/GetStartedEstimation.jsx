@@ -837,7 +837,7 @@ const mapStateToProps = (state, ownProps) => {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       },
       login: {},
-      owner: get(state, 'user.loggedInUser.id', null),
+      owner: get(state, 'user.loggedInUser.user.id', null),
       properties: {
         building: {
           conditionStatus: get(formValue, 'location.countryCode', '').toLowerCase() !== 'ch' ? 'used' : '',

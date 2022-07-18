@@ -32,6 +32,7 @@ const MarketList = (props) => {
   // PROPS
   const {
     allProperties,
+    companyListings,
     favoritesProperties,
     handleGetAllProperties,
     handleGetFavoritesProperties,
@@ -272,6 +273,15 @@ const MarketList = (props) => {
     } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
   };
 
+  const getCompanyStub = () => {
+    // TODO: Company management for "Add new" property flow
+    if (ownerProperties.total === 0) return get(loggedInUser, 'company.stub', '')
+    else {
+      const company = companyListings.find((cmp) => cmp.id === get(ownerProperties, 'data[0].company', ''));
+      return company.stub;
+    }
+  };
+
   useEffect(() => {
     const catList = document.getElementsByClassName('market-container')[0];
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
@@ -329,7 +339,7 @@ const MarketList = (props) => {
                     <BrixelButtonText
                       className="fsize-300 show-all pos-r"
                       label={translateTo('+ Add new', lang)}
-                      onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
+                      onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
                     />
                   </div>
                 </div>
@@ -393,6 +403,7 @@ const MarketList = (props) => {
 
 MarketList.propTypes = {
   allProperties: PropTypes.object.isRequired,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   favoritesProperties: PropTypes.object.isRequired,
   handleGetAllProperties: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
@@ -422,6 +433,7 @@ MarketList.defaultProps = {
 
 const mapStateToProps = (state) => ({
   allProperties: get(state, 'market.allProperties', {}),
+  companyListings: get(state, 'companies.companyListings.data', []),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
   lang: get(state, 'common.language', 'en'),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
