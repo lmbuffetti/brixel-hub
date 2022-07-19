@@ -138,7 +138,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             component: BrixelInputText,
             classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
             className: '',
-            label: country === 'PT' ? 'Gross area' : 'Net living space',
+            label: translateTo(country === 'PT' ? 'Gross area' : 'Net living space', lang),
             name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
             type: 'number',
             validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
