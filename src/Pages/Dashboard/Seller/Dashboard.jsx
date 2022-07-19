@@ -57,7 +57,7 @@ const DashboardOffer = lazyWithRetry(() => import('../../Offers/DashboardOffer')
 // UPGRADE
 const Upgrade = lazyWithRetry(() => import('../../Upgrade/Upgrade'));
 
-const ScanTrialFlow = lazyWithRetry(() => import('../../ScanTrialFlow/ScanTrialFlow'));
+const ScanTrialFlow = lazyWithRetry(() => import('../../ContactFlow/ScanTrial/ScanTrialFlow'));
 
 const Dashboard = (props) => {
   const history = {
