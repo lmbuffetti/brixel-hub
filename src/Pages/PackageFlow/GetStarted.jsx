@@ -36,7 +36,7 @@ const GetStarted = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
-  
+
   // PROPS
   const {
     changeFieldValue,
@@ -62,11 +62,11 @@ const GetStarted = (props) => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-  
+
   useEffect(() => {
     setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0])
   }, [lang]);
-  
+
 
   // FUNCTION TO SAVE DATA
   useEffect(() => {
@@ -113,9 +113,17 @@ const GetStarted = (props) => {
     }
     setCompanyURL(defComp);
   }, []);
-  
+
+  // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
+  const getStartedEl = document.querySelector('.getStarted');
+  useEffect(() => {
+    setTimeout(() => {
+      if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
+    }, 350);
+  }, [quest]);
+
   return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted buyerHub ${isOpenTransifex ? '' : 'notranslate'}`}>
+    <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans buyerHub  ${isOpenTransifex ? '' : 'notranslate'}`}>
       <div
         className={`bodyModal ${get(quest, 'history', '')}`}
       >
@@ -197,7 +205,7 @@ const mapStateToProps = (state, ownProps) => {
       channel,
       changeCountry: get(state, 'companies.activeSingleCompany.country.code', 'all'),
       company: get(state, 'companies.activeSingleCompany.stub', null),
-      owner: get(state, 'user.loggedInUser.id', null),
+      owner: get(state, 'user.loggedInUser.user.id', null),
     },
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser', {}),

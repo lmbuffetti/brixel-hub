@@ -27,6 +27,7 @@ import {
   REDIRECT_TO,
   SET_FORM_ERROR,
   SET_SCREEN_NOTIFICATION,
+  SET_LANGUAGE,
 } from '../actions/types/CommonTypes';
 
 import { CREATE_USER_SEARCH_PROFILE } from '../actions/types/SearchProfileTypes';
@@ -54,13 +55,13 @@ const checkUser = (store) => (next) => (action) => {
         .then((response) => {
           if (response.data.valid === true) {
             api.user.getUserByToken(data)
-              .then((res) => {  
+              .then((res) => {
                 api.user.getUser(res.data.id)
-                  .then((res2) => { 
+                  .then((res2) => {
                     if (get(res2, 'data.language', '').includes('en')) res2.data.language = 'en';
                     store.dispatch({ type: SET_LOGGED_IN_USER, payload: {user: res2.data} });
-                    if (!hideLoad) store.dispatch({ type: SPINNER_OFF });    
-                  });        
+                    if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
+                  });
               });
             store.dispatch({ type: SPINNER_OFF });
           } else {
@@ -96,7 +97,7 @@ const checkUser = (store) => (next) => (action) => {
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
             api.user.getUserByToken(action.payload)
-              .then((res1) => { 
+              .then((res1) => {
                 setCookie('brixelToken', res.data.token);
                 if (addProperty) {
                   const dataProperty = action.payload;
@@ -241,6 +242,7 @@ const checkUser = (store) => (next) => (action) => {
             userData.user = response.data;
             if (get(userData, 'user.language', '').includes('en')) userData.user.language = 'en';
             store.dispatch({ type: SET_LOGGED_IN_USER, payload: userData });
+            store.dispatch({ type: SET_LANGUAGE, payload: userData.user.language });
           }
         })
         .catch(() => {

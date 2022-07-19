@@ -5,7 +5,8 @@ import { DateTime } from 'luxon';
 
 const offerText = (offerMeta, currency, activeSingleProperty, lang) => {
   let answerText = '';
-  answerText += `<span>${translateTo('You made an offer of', lang)}</span> <span class="fweight-500 ml-small-4">${get(offerMeta, 'offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', activeSingleProperty.price.currency))}</br></span>`;
+  const defaultCurrency = get(activeSingleProperty, 'price.currency', '');
+  answerText += `<span>${translateTo('You made an offer of', lang)}</span> <span class="fweight-500 ml-small-4">${get(offerMeta, 'offer.currency', defaultCurrency)} ${Helpers.formatNumberValue(get(offerMeta, 'offer.amount', 0), get(offerMeta, 'offer.currency', defaultCurrency))}</br></span>`;
   return answerText || translateTo('Created offer', lang);
 }
 
@@ -22,6 +23,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       dates += `<span>${translateTo('Message:', lang)}</span><span class="ml-small-4">${history.meta.message.replace(/&lt;br&gt;/g," ")}</span>`;
     }
   }
+  const defaultCurrency = get(activeSingleProperty, 'price.currency', '');
   return ({
     'page-create': {
       className: 'brdGreen100',
@@ -146,7 +148,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       colorBgIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorIconSat: 100,
       colorBgIconSat: 400,
-      message: `<span>${translateTo('Your offer of', lang)}</span><span class="ml-small-4">${get(history, 'meta.offer.currency', activeSingleProperty.price.currency)} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency', activeSingleProperty.price.currency))}</span><span class="ml-small-4">${translateTo('was', lang)}</span><span class="ml-small-4">${translateTo(get(history, 'meta.offer.status', ''), lang)}</span>`,
+      message: `<span>${translateTo('Your offer of', lang)}</span><span class="ml-small-4">${get(history, 'meta.offer.currency', defaultCurrency)} ${Helpers.formatNumberValue(get(history, 'meta.offer.amount'), get(history, 'meta.offer.currency', defaultCurrency))}</span><span class="ml-small-4">${translateTo('was', lang)}</span><span class="ml-small-4">${translateTo(get(history, 'meta.offer.status', ''), lang)}</span>`,
       icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-thin' : 'tick',
     },
     'deal-feedback-visit-email': {

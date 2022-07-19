@@ -465,9 +465,17 @@ const GetStartedBuyer = (props) => {
     return label;
   };
 
+  // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
+  const getStartedEl = document.querySelector('.getStarted');
+  useEffect(() => {
+    setTimeout(() => {
+      if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
+    }, 350);
+  }, [quest]);
+
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
         {
           (get(quest, 'inputs', null) && get(quest, 'history', null) !== 'createProfile') && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -486,17 +494,17 @@ const GetStartedBuyer = (props) => {
         }
 
         <div
-          className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
+          className={`bodyModal container ${get(quest, 'history', '')}`}
         >
 
           <form
             id="multiStepForm"
             autoComplete="off"
-            className={`interactive dis-fl-col jc-b ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+            className={`interactive dis-fl-col jc-b`}
             onSubmit={(e) => changeStep(null, e)}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">
-              <div ref={singleStepRef} className={`singleStep pt-5 jc-c ${get(quest, 'vCentered', null) ? 'vertCentered' : ''} ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
+              <div ref={singleStepRef} className={`singleStep pt-5 jc-c`}>
                 <div className="subcontainer m-a">
                   {
                     get(quest, 'inputs', null) && (
@@ -730,8 +738,8 @@ const mapStateToProps = (state, ownProps) => {
           unit: 'm2',
         },
       },
-      owner: get(state, 'user.loggedInUser.id', null),
-      user: get(state, 'user.loggedInUser.id', null),
+      owner: get(state, 'user.loggedInUser.user.id', null),
+      user: get(state, 'user.loggedInUser.user.id', null),
       login: {},
       finance: {
         currency: get(state, 'companies.activeSingleCompany.country.currency', {}),
