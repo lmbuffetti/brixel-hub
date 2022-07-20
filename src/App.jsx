@@ -114,7 +114,6 @@ const App = (props) => {
     handleCheckToken,
     handleGetImageType,
     handleReset,
-    handleSendSlackNotifications,
     handleSetActiveSingleDeal,
     handleSetActiveSingleProperty,
     handleSetLanguage,
@@ -186,6 +185,7 @@ const App = (props) => {
       };
       Transifex.live.onError(function (err) {
         data.meta += `${JSON.stringify(err)} - ${data.meta}`;
+        // eslint-disable-next-line no-console
         console.error(data, err);
         setIsLoaded(true);
         const element = document.getElementsByTagName('BODY')[0];
@@ -783,7 +783,6 @@ App.propTypes = {
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
-  handleSendSlackNotifications: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,
