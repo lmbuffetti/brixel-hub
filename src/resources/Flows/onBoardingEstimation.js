@@ -19,7 +19,7 @@ const { factsOptions } = FactsOptions;
 
 // QUESTION LISTS
 export const QuestionsList = (lang, country = 'CH') => {
-  
+
   // VALIDATION OF FIELDS
   const maxLengthNum = (val, name) => (value) => {
     let error = null;
@@ -28,7 +28,7 @@ export const QuestionsList = (lang, country = 'CH') => {
     }
     return error;
   };
-  
+
   const minLengthNum = (val, name) => (value) => {
     let error = null;
     if (value && value <= val) {
@@ -36,12 +36,12 @@ export const QuestionsList = (lang, country = 'CH') => {
     }
     return error;
   };
-  
+
   const minLengthNumYear = minLengthNum(1500, 'year');
   const maxLengthNumRooms = maxLengthNum(31, 'rooms');
   const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
   const maxLengthNumYear = maxLengthNum(2031, 'year');
-  
+
   let propertyType = '';
   if (configureStore) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
@@ -49,7 +49,7 @@ export const QuestionsList = (lang, country = 'CH') => {
   let livingAreaTitle = translateTo(country === 'PT' ? 'What is the gross area size?' : 'What is the living space size?', lang);
   if (propertyType === 'Commercial') livingAreaTitle = translateTo( 'What is the floor size?', lang);
   const countryCode = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', '');
-  
+
   const userTypeEstimation = factsOptions.userTypeEstimation.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
@@ -143,7 +143,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo(livingAreaTitle, lang),
       history: 'livingSpace',
       cardType: 'livingSpace',
-      footerWidth: 'max-w-fix-384',
+      footerWidth: 'max-w-fix-400',
       inputs: [
         {
           condition: [{
@@ -151,7 +151,7 @@ export const QuestionsList = (lang, country = 'CH') => {
             noValue: 'Commercial',
           }],
           component: BrixelInputText,
-          classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+          classNameBox: 'brdRadius max-w-fix-400 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
           label: translateTo(country === 'PT' ? 'Gross area' : 'Net living space', lang),
           name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
           type: 'number',
