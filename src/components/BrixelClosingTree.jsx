@@ -420,7 +420,11 @@ const BrixelClosingTree = (props) => {
                       />
                       <span>{translateTo('Buyer', lang)}</span>
                     </div>
-                    <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                    {
+                      get(activeSingleClosing, `${stage}.buyer.status`, null) !== true && (
+                        <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                      )
+                    }
                   </>
                 ) : (
                   <>
@@ -454,7 +458,11 @@ const BrixelClosingTree = (props) => {
                       />
                       <span>{translateTo('Buyer', lang)}</span>
                     </div>
-                    <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                    {
+                      get(activeSingleClosing, `${stage}.buyer.status`, null) !== true && (
+                        <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                      )
+                    }
                   </div>
                   <div className="secDetails">
                     {
@@ -718,7 +726,11 @@ const BrixelClosingTree = (props) => {
                       />
                       <span>{translateTo('Seller', lang)}</span>
                     </div>
-                    <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                    {
+                      get(activeSingleClosing, `${stage}.seller.status`, null) !== true && (
+                        <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                      )
+                    }
                   </>
                 ) : (
                   <>
@@ -752,7 +764,11 @@ const BrixelClosingTree = (props) => {
                       />
                       <span>{translateTo('Seller', lang)}</span>
                     </div>
-                    <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                    {
+                      get(activeSingleClosing, `${stage}.seller.status`, null) !== true && (
+                        <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                      )
+                    }
                   </>
                 ) : (
                   <>
