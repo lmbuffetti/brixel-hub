@@ -177,7 +177,6 @@ const App = (props) => {
       });
     }
     if (typeof Transifex !== 'undefined') {
-      const channel = 'frontend-bugs';
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
@@ -187,7 +186,7 @@ const App = (props) => {
       };
       Transifex.live.onError(function (err) {
         data.meta += `${JSON.stringify(err)} - ${data.meta}`;
-        handleSendSlackNotifications({ data, channel });
+        console.error(data, err);
         setIsLoaded(true);
         const element = document.getElementsByTagName('BODY')[0];
         element.classList.remove('txlive');
