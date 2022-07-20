@@ -131,12 +131,12 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         title: livingAreaTitle,
         history: 'livingSpace',
         cardType: 'livingSpace',
-        footerWidth: 'max-w-fix-384',
+        footerWidth: 'max-w-fix-400',
         showSendButton: false,
         inputs: [
           {
             component: BrixelInputText,
-            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+            classNameBox: 'brdRadius max-w-fix-400 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
             className: '',
             label: translateTo(country === 'PT' ? 'Gross area' : 'Net living space', lang),
             name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
