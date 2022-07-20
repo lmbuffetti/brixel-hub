@@ -422,7 +422,7 @@ const BrixelClosingTree = (props) => {
                     </div>
                     {
                       get(activeSingleClosing, `${stage}.buyer.status`, null) !== true && (
-                        <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                        <span className="txtYellow400">{translateTo('Pending', lang)}</span>
                       )
                     }
                   </>
@@ -460,7 +460,7 @@ const BrixelClosingTree = (props) => {
                     </div>
                     {
                       get(activeSingleClosing, `${stage}.buyer.status`, null) !== true && (
-                        <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                        <span className="txtYellow400">{translateTo('Pending', lang)}</span>
                       )
                     }
                   </div>
@@ -728,7 +728,7 @@ const BrixelClosingTree = (props) => {
                     </div>
                     {
                       get(activeSingleClosing, `${stage}.seller.status`, null) !== true && (
-                        <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                        <span className="txtYellow400">{translateTo('Pending', lang)}</span>
                       )
                     }
                   </>
@@ -766,7 +766,7 @@ const BrixelClosingTree = (props) => {
                     </div>
                     {
                       get(activeSingleClosing, `${stage}.seller.status`, null) !== true && (
-                        <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
+                        <span className="txtYellow400">{translateTo('Pending', lang)}</span>
                       )
                     }
                   </>
