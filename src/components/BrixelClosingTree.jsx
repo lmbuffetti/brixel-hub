@@ -420,7 +420,7 @@ const BrixelClosingTree = (props) => {
                       />
                       <span>{translateTo('Buyer', lang)}</span>
                     </div>
-                    <span className="fsize-200">{translateTo('Manual Step', lang)}</span>
+                    <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
                   </>
                 ) : (
                   <>
@@ -454,7 +454,7 @@ const BrixelClosingTree = (props) => {
                       />
                       <span>{translateTo('Buyer', lang)}</span>
                     </div>
-                    <span className="fsize-200">{translateTo('Manual Step', lang)}</span>
+                    <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
                   </div>
                   <div className="secDetails">
                     {
@@ -718,7 +718,7 @@ const BrixelClosingTree = (props) => {
                       />
                       <span>{translateTo('Seller', lang)}</span>
                     </div>
-                    <span className="fsize-200">Manual Step</span>
+                    <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
                   </>
                 ) : (
                   <>
@@ -752,7 +752,7 @@ const BrixelClosingTree = (props) => {
                       />
                       <span>{translateTo('Seller', lang)}</span>
                     </div>
-                    <span className="fsize-200">{translateTo('Manual Step', lang)}</span>
+                    <span className="fsize-200 txtYellow400">{translateTo('Pending', lang)}</span>
                   </>
                 ) : (
                   <>
