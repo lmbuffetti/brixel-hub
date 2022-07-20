@@ -413,8 +413,8 @@ const BrixelClosingTree = (props) => {
                   <>
                     <div>
                       <BrixelIcon
-                        icon="check-small"
-                        color="altGrey"
+                        icon={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'check-small-fill' : 'check-small'}
+                        color={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'green' : 'altGrey'}
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
@@ -447,8 +447,8 @@ const BrixelClosingTree = (props) => {
                   <div className="secHead dis-f jc-b p-2 h-fix-56">
                     <div>
                       <BrixelIcon
-                        icon="check-small"
-                        color="altGrey"
+                        icon={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'check-small-fill' : 'check-small'}
+                        color={get(activeSingleClosing, `${stage}.buyer.status`, null) ? 'green' : 'altGrey'}
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
@@ -587,58 +587,6 @@ const BrixelClosingTree = (props) => {
                 }
               </div>
             </div>
-
-
-            {/* {
-              get(activeSingleClosing, 'stageOffer.active', null) === false ? (
-                <>
-                  <BrixelIcon
-                    icon="locked"
-                    color="dark"
-                    className="mb-1"
-                  />
-                </>
-              ) : (
-                <>
-                  {
-                    !get(activeSingleOffer, 'offer.status', null) || !status[get(activeSingleOffer, 'offer.status', '')] ? (
-                      <></>
-                    ) : (
-                      <>
-                        <div className="dis-f a-c jc-fe jc-fs-lg">
-                          <BrixelIcon
-                            icon={status[get(activeSingleOffer, 'offer.status', '')].icon}
-                            color={status[get(activeSingleOffer, 'offer.status', '')].color}
-                            className="mr-1"
-                            iconWidth="w-fix-16"
-                          />
-                          <span className={`${status[get(activeSingleOffer, 'offer.status', '')].colorText} fsize-300 fsize-lg-400`}>
-                            {status[get(activeSingleOffer, 'offer.status', '')].label}
-                          </span>
-                        </div>
-                        {
-                          get(activeSingleOffer, 'offer.reviewedAt', null) && (
-                            <p className="fsize-300 txtDark200">
-                              {DateTime.fromMillis(activeSingleOffer.offer.reviewedAt, { locale: lang }).toFormat('d LLL yyyy, H:mm')}
-                            </p>
-                          )
-                        }
-                        {
-                          get(activeSingleOffer, 'offer.status', '') === 'pending' && !isBuyer && (
-                            <BrixelButtonSecondary
-                              rounded
-                              className=" mt-2"
-                              label="Review offer"
-                              onClick={() => onClickOffer('review')}
-                            />
-                          )
-                        }
-                      </>
-                    )
-                  }
-                </>
-              )
-            } */}
           </>
         );
       case 'stageIdentification':
@@ -763,8 +711,8 @@ const BrixelClosingTree = (props) => {
                   <>
                     <div>
                       <BrixelIcon
-                        icon="check-small"
-                        color="altGrey"
+                        icon={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'check-small-fill' : 'check-small'}
+                        color={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'green' : 'altGrey'}
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
@@ -797,8 +745,8 @@ const BrixelClosingTree = (props) => {
                   <>
                     <div>
                       <BrixelIcon
-                        icon="check-small"
-                        color="altGrey"
+                        icon={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'check-small-fill' : 'check-small'}
+                        color={get(activeSingleClosing, `${stage}.seller.status`, null) ? 'green' : 'altGrey'}
                         className="mr-1"
                         iconWidth="w-fix-24"
                       />
