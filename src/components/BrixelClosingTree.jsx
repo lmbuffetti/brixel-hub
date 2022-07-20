@@ -48,53 +48,59 @@ const BrixelClosingTree = (props) => {
       });
     }
   }, []);
-
-  const [closingStage, setClosingStage] = useState([
+  
+  const closingDefaultText = [
     {
       name: 'offer',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageOffer',
       subtitle: get(activeSingleOffer, 'offer.amount', 0) > 0 ?
-        `<span class="fsize-400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="fsize-400 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
-        translateTo('Add your first offer to start.', lang),
-      title: translateTo('Offer', lang),
+        `<span class="ff-mono fsize-400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-400 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
+        'Add your first offer to start.',
+      title: 'Offer',
     },
     {
       name: 'identification',
       button: (action) => onClickOffer(action),
       stageName: 'stageIdentification',
-      subtitle: translateTo('Submit ID and personal information.', lang),
-      title: translateTo('Identification', lang),
+      subtitle: 'Submit ID and personal information.',
+      title: 'Identification',
     },
     {
       name: 'lock',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageLock',
-      subtitle: translateTo('Reserve the property for closing.', lang),
-      title: translateTo('Lock', lang),
+      subtitle: 'Reserve the property for closing.',
+      title: 'Lock',
+      statusText: 'Lock',
     },
     {
       name: 'finance',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageFinance',
-      subtitle: translateTo('Plan early for your financial situation.', lang),
-      title: translateTo('Finance', lang),
+      subtitle: 'Plan early for your financial situation.',
+      title: 'Finance',
+      statusText: 'Checked',
     },
     {
       name: 'contract',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageContract',
-      subtitle: translateTo('Approve the terms of the contract.', lang),
-      title: translateTo('Contract', lang),
+      subtitle: 'Approve the terms of the contract.',
+      title: 'Contract',
+      statusText: 'Approved',
     },
     {
       name: 'notary',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageNotary',
-      subtitle: translateTo('Sign the contract at the notary.', lang),
-      title: translateTo('Notary', lang),
+      subtitle: 'Sign the contract at the notary.',
+      title: 'Notary',
+      statusText: 'Signed',
     },
-  ]);
+  ];
+  
+  const [closingStage, setClosingStage] = useState(closingDefaultText);
 
   const status = {
     accepted: {
@@ -224,7 +230,7 @@ const BrixelClosingTree = (props) => {
     </>
   );
 
-  const buyerSection = (stage) => {
+  const buyerSection = (stage, id) => {
     switch (stage) {
       case 'stageOffer':
         return (
@@ -421,8 +427,10 @@ const BrixelClosingTree = (props) => {
                       <span>{translateTo('Buyer', lang)}</span>
                     </div>
                     {
-                      get(activeSingleClosing, `${stage}.buyer.status`, null) !== true && (
+                      get(activeSingleClosing, `${stage}.buyer.status`, null) !== true ? (
                         <span className="txtYellow400">{translateTo('Pending', lang)}</span>
+                      ) : (
+                        <span className="txtGreen400">{closingDefaultText[id].statusText}</span>
                       )
                     }
                   </>
@@ -459,8 +467,10 @@ const BrixelClosingTree = (props) => {
                       <span>{translateTo('Buyer', lang)}</span>
                     </div>
                     {
-                      get(activeSingleClosing, `${stage}.buyer.status`, null) !== true && (
+                      get(activeSingleClosing, `${stage}.buyer.status`, null) !== true ? (
                         <span className="txtYellow400">{translateTo('Pending', lang)}</span>
+                      ) : (
+                        <span className="txtGreen400">{closingDefaultText[id].statusText}</span>
                       )
                     }
                   </div>
@@ -496,7 +506,7 @@ const BrixelClosingTree = (props) => {
     }
   };
 
-  const sellerSection = (stage) => {
+  const sellerSection = (stage, id) => {
     switch (stage) {
       case 'stageOffer':
         return (
@@ -727,8 +737,10 @@ const BrixelClosingTree = (props) => {
                       <span>{translateTo('Seller', lang)}</span>
                     </div>
                     {
-                      get(activeSingleClosing, `${stage}.seller.status`, null) !== true && (
+                      get(activeSingleClosing, `${stage}.seller.status`, null) !== true ? (
                         <span className="txtYellow400">{translateTo('Pending', lang)}</span>
+                      ) : (
+                        <span className="txtGreen400">{closingDefaultText[id].statusText}</span>
                       )
                     }
                   </>
@@ -765,8 +777,10 @@ const BrixelClosingTree = (props) => {
                       <span>{translateTo('Seller', lang)}</span>
                     </div>
                     {
-                      get(activeSingleClosing, `${stage}.seller.status`, null) !== true && (
+                      get(activeSingleClosing, `${stage}.seller.status`, null) !== true ? (
                         <span className="txtYellow400">{translateTo('Pending', lang)}</span>
+                      ) : (
+                        <span className="txtGreen400">{closingDefaultText[id].statusText}</span>
                       )
                     }
                   </>
@@ -863,10 +877,10 @@ const BrixelClosingTree = (props) => {
                     </div>
                   </div>
                   <div className="tableItem">
-                    {buyerSection(stage.stageName)}
+                    {buyerSection(stage.stageName, i)}
                   </div>
                   <div className="tableItem">
-                    {sellerSection(stage.stageName)}
+                    {sellerSection(stage.stageName, i)}
                   </div>
 
                 </div>
