@@ -48,7 +48,7 @@ const BrixelClosingTree = (props) => {
       });
     }
   }, []);
-  
+
   const closingDefaultText = [
     {
       name: 'offer',
@@ -99,7 +99,7 @@ const BrixelClosingTree = (props) => {
       statusText: 'Signed',
     },
   ];
-  
+
   const [closingStage, setClosingStage] = useState(closingDefaultText);
 
   const status = {
@@ -560,9 +560,8 @@ const BrixelClosingTree = (props) => {
                 get(activeSingleClosing, 'stageOffer.active', null) !== false && (
                   <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
                     <BrixelIcon
-                      icon="dropdown"
+                      icon={collapsed['stageOffer'] ? "dropdown-open" : "dropdown-close"}
                       color="altGrey"
-                      className={collapsed['stageOffer'] ? "" : "rotateIcon"}
                       onClick={()=> onCollapse('stageOffer')}
                     />
                   </div>
@@ -679,18 +678,13 @@ const BrixelClosingTree = (props) => {
                   )
                 }
               </div>
-              {
-                get(activeSingleClosing, 'stageIdentification.active', null) !== false && (
-                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
-                    <BrixelIcon
-                      icon="dropdown"
-                      color="altGrey"
-                      className={collapsed['stageIdentification'] ? "" : "rotateIcon"}
-                      onClick={()=> onCollapse('stageIdentification')}
-                    />
-                  </div>
-                )
-              }
+              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
+                <BrixelIcon
+                  icon={collapsed['stageIdentification'] ? "dropdown-open" : "dropdown-close"}
+                  color="altGrey"
+                  onClick={()=> onCollapse('stageIdentification')}
+                />
+              </div>
             </div>
             <div className="secDetails">
               <div className="p-2">
@@ -759,18 +753,13 @@ const BrixelClosingTree = (props) => {
                   }
                 </div>
               </div>
-              {
-                get(activeSingleClosing, 'stageOffer.active', null) !== false && (
-                  <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
-                    <BrixelIcon
-                      icon="dropdown"
-                      color="altGrey"
-                      className={collapsed['stageOffer'] ? "" : "rotateIcon"}
-                      onClick={()=> onCollapse(stage)}
-                    />
-                  </div>
-                )
-              }
+              <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
+                <BrixelIcon
+                  icon={collapsed[stage] ? "dropdown-open" : "dropdown-close"}
+                  color="altGrey"
+                  onClick={()=> onCollapse(stage)}
+                />
+              </div>
             </div>
             <div className="secDetails">
             </div>
@@ -819,9 +808,8 @@ const BrixelClosingTree = (props) => {
                 get(activeSingleClosing, 'stageOffer.active', null) !== false && (
                   <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
                     <BrixelIcon
-                      icon="dropdown"
+                      icon={collapsed[stage] ? "dropdown-open" : "dropdown-close"}
                       color="altGrey"
-                      className={collapsed['stageOffer'] ? "" : "rotateIcon"}
                       onClick={()=> onCollapse(stage)}
                     />
                   </div>
