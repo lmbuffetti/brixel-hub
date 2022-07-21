@@ -18,10 +18,14 @@
       overflow-y: hidden;
     }
     .innerWrap {
+      display: flex;
+      flex-direction: column;
+
       @media (min-width: $responsive-medium) {
         padding-left: 236px;
       }
       .dashboardContainer {
+        flex: 1;
         @media (max-width: $responsive-medium) {
           padding-bottom: $step;
         }
@@ -29,7 +33,7 @@
     }
   }
   .innerWrap {
-    height: 100%;
+    flex: 1;
     z-index: 1;
 
     @media (max-width: $responsive-medium) {
@@ -48,9 +52,11 @@
 }
 .hubDasContent {
   .dashboardContainer {
-    margin: auto;
+    // margin: auto;
+    margin-top: 0;
 
     @media (min-width: $responsive-medium) {
+      height: 100%;
       padding: $step * 4 $step * 5;
       padding-top: $step * 3;
       padding-right: $step * 5;
@@ -92,6 +98,7 @@
       top: 0;
       max-width: 100%;
       padding: $step * 2;
+      padding-bottom: 90px;
     }
   }
 

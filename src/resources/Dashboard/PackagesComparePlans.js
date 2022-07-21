@@ -1,7 +1,7 @@
-import checkGreen from '../images/Upgrade/check-green.svg';
-import checkBlue from '../images/Upgrade/check-blue.svg';
-import checkRed from '../images/Upgrade/check-red.svg';
-import checkBlack from '../images/Upgrade/check-black.svg';
+import checkGreen from '../../images/Upgrade/check-green.svg';
+import checkBlue from '../../images/Upgrade/check-blue.svg';
+import checkRed from '../../images/Upgrade/check-red.svg';
+import checkBlack from '../../images/Upgrade/check-black.svg';
 
 export const PackagesComparePlansTable = [
   {

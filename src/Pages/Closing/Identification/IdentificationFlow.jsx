@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelProgressBar,
+  BrixelProgressBar, translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -26,7 +26,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';
 import { deleteDocument, multiUploadDocument } from '../../../actions/UploadActions';
 import { checkBrowser } from '../../../utils/helpers';
-import { IdentificationQuestions } from '../../../resources/Identification';
+import { IdentificationQuestions } from '../../../resources/Deals/Identification';
 import { getActiveSingleDeal, saveClosingIdentification } from '../../../actions/DealActions';
 import { spinnerOff, spinnerSmall } from '../../../actions/CommonActions';
 
@@ -63,13 +63,13 @@ const IdentificationFlow = (props) => {
   const userType = get(match, 'userType', null);
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState(IdentificationQuestions(false, userType));
+  const [questions, setQuestions] = useState(IdentificationQuestions(false, userType, lang));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   const [action, setAction] = useState('next');
   const [isEnter, setIsEnter] = useState(true);
   // SET QUEST TO FIRST QUESTION OF IdentificationQuestions()
-  const [quest, setQuest] = useState(IdentificationQuestions(false, userType)[0]);
+  const [quest, setQuest] = useState(IdentificationQuestions(false, userType, lang)[0]);
 
   // REFS
   const singleStepRef = useRef(null);
@@ -146,7 +146,7 @@ const IdentificationFlow = (props) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    const newQuestions = IdentificationQuestions(false, userType);
+    const newQuestions = IdentificationQuestions(false, userType, lang);
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       newQuestions[newIndex].conditions.map((cond) => {
@@ -195,7 +195,7 @@ const IdentificationFlow = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const newQuestions = IdentificationQuestions(false, userType);
+    const newQuestions = IdentificationQuestions(false, userType, lang);
     let newIndex = currentIndex;
     setShowError(false);
     setAction(act);
@@ -279,13 +279,13 @@ const IdentificationFlow = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = IdentificationQuestions(false, userType)[currentIndex];
+    const currentQuest = IdentificationQuestions(false, userType, lang)[currentIndex];
     if (currentQuest.effect === 'slideUp') {
-      setQuestions(IdentificationQuestions(false, userType));
-      setQuest(IdentificationQuestions(false, userType)[currentIndex - 1]);
+      setQuestions(IdentificationQuestions(false, userType, lang));
+      setQuest(IdentificationQuestions(false, userType, lang)[currentIndex - 1]);
     } else {
-      setQuestions(IdentificationQuestions(false, userType));
-      setQuest(IdentificationQuestions(false, userType)[currentIndex]);
+      setQuestions(IdentificationQuestions(false, userType, lang));
+      setQuest(IdentificationQuestions(false, userType, lang)[currentIndex]);
     }
   }, [lang]);
 
@@ -300,7 +300,7 @@ const IdentificationFlow = (props) => {
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      IdentificationQuestions(false, userType).map((quest) => {
+      IdentificationQuestions(false, userType, lang).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -460,7 +460,7 @@ const IdentificationFlow = (props) => {
                         className={`mt-3 mb-3 m-a noWrap ${quest.history}`}
                         rounded
                         theme="green"
-                        label="Back to hub"
+                        label={translateTo('Back to hub', lang)}
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
                         onClick={() => (userType === 'buyer' ? history.push(`/buyer/${propID}/closing`) : history.push(`/${propID}/closing/${dealID}`))}
@@ -476,7 +476,7 @@ const IdentificationFlow = (props) => {
                         rounded
                         theme="green"
                         themeSat={600}
-                        label={buttonLabel()}
+                        label={translateTo(buttonLabel(), lang)}
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
                         rightIcon="arrow-right-small"
@@ -513,7 +513,7 @@ const IdentificationFlow = (props) => {
                           disabled={!checkValidateField()}
                           rounded
                           theme="green"
-                          label={buttonLabel()}
+                          label={translateTo(buttonLabel(), lang)}
                           isLoading={isSmallLoading.sendData}
                           rightIcon="arrow-right-small"
                           onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}

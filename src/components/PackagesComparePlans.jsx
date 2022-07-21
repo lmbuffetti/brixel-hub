@@ -2,12 +2,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
-import { PackagesComparePlansTable } from '../resources/PackagesComparePlans';
+import { PackagesComparePlansTable } from '../resources/Dashboard/PackagesComparePlans';
 
 export const PackagesComparePlans = (props) => {
   const {
+    lang,
     packages,
   } = props;
 
@@ -122,18 +123,18 @@ export const PackagesComparePlans = (props) => {
             {
               extractTable('basic').map((pkg, i) => (
                 <th key={`xtrTbl_${i.toString()}`}>
-                  <span className="txGreen400">{pkg.name}</span>
+                  <span className="txGreen400">{translateTo(pkg.name, lang)}</span>
                   {
                     pkg.price.total > 0 ? (
                       <span className="fsize-500 dis-f a-b fweight-400">
                         <span>
                           {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                         </span>
-                        <span className="fsize-300 ml-1">incl. VAT</span>
+                        <span className="fsize-300 ml-1">{translateTo('incl. VAT', lang)}</span>
                       </span>
                     ) : (
                       <span className="fsize-500 dis-f a-b fweight-400">
-                        Free
+                        {translateTo('Free', lang)}
                       </span>
                     )
                   }
@@ -150,11 +151,11 @@ export const PackagesComparePlans = (props) => {
                         <span>
                           {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                         </span>
-                        <span className="fsize-300 ml-1">incl. VAT</span>
+                        <span className="fsize-300 ml-1">{translateTo('incl. VAT', lang)}</span>
                       </span>
                     ) : (
                       <span className="fsize-500 dis-f a-b fweight-400">
-                        Free
+                        {translateTo('Free', lang)}
                       </span>
                     )
                   }
@@ -171,11 +172,11 @@ export const PackagesComparePlans = (props) => {
                         <span>
                           {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                         </span>
-                        <span className="fsize-300 ml-1">incl. VAT</span>
+                        <span className="fsize-300 ml-1">{translateTo('incl. VAT', lang)}</span>
                       </span>
                     ) : (
                       <span className="fsize-500 dis-f a-b fweight-400">
-                        Free
+                        {translateTo('Free', lang)}
                       </span>
                     )
                   }
@@ -192,11 +193,11 @@ export const PackagesComparePlans = (props) => {
                         <span>
                           {pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}
                         </span>
-                        <span className="fsize-300 ml-1">incl. VAT</span>
+                        <span className="fsize-300 ml-1">{translateTo('incl. VAT', lang)}</span>
                       </span>
                     ) : (
                       <span className="fsize-500 dis-f a-b fweight-400">
-                        Free
+                        {translateTo('Free', lang)}
                       </span>
                     )
                   }
@@ -218,7 +219,7 @@ export const PackagesComparePlans = (props) => {
                           <>
                             <img className="pt-small-6" src={table.td.basic.img} alt="" />
                             {table.td.basic.desc && (
-                              <span className="pl-1">{table.td.basic.desc}</span>
+                              <span className="pl-1">{translateTo(table.td.basic.desc, lang)}</span>
                             )}
                           </>
                         )
@@ -234,7 +235,7 @@ export const PackagesComparePlans = (props) => {
                           <>
                             <img className="pt-small-6" src={table.td.private.img} alt="" />
                             {table.td.private.desc && (
-                              <span className="pl-1">{table.td.private.desc}</span>
+                              <span className="pl-1">{translateTo(table.td.private.desc, lang)}</span>
                             )}
                           </>
                         )
@@ -250,7 +251,7 @@ export const PackagesComparePlans = (props) => {
                           <>
                             <img className="pt-small-6" src={table.td.premium.img} alt="" />
                             {table.td.premium.desc && (
-                              <span className="pl-1">{table.td.premium.desc}</span>
+                              <span className="pl-1">{translateTo(table.td.premium.desc, lang)}</span>
                             )}
                           </>
                         )
@@ -266,7 +267,7 @@ export const PackagesComparePlans = (props) => {
                           <>
                             <img className="pt-small-6" src={table.td.one.img} alt="" />
                             {table.td.one.desc && (
-                              <span className="pl-1">{table.td.one.desc}</span>
+                              <span className="pl-1">{translateTo(table.td.one.desc, lang)}</span>
                             )}
                           </>
                         )
@@ -284,6 +285,7 @@ export const PackagesComparePlans = (props) => {
 };
 
 PackagesComparePlans.propTypes = {
+  lang: PropTypes.string.isRequired,
   packages: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 export default PackagesComparePlans;

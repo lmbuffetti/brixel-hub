@@ -3,14 +3,14 @@ import {
   BrixelRadioButton,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import { svgIcons } from './svgIcons';
-import { translateTo } from '../utils/translation';
+import { svgIcons } from '../Utilities/svgIcons';
+import { translateTo } from '@brixel/brixel-components';
 
-import homesSvg from '../images/getstarted/svgs/homes.svg';
+import homesSvg from '../../images/getstarted/svgs/homes.svg';
 // QUESTION LISTS
 export const QuestionsList = (lang) => [
   {
-    title: translateTo(lang, 'Hello, what can we do for you?'),
+    title: translateTo('Hello, what can we do for you?', lang),
     history: '',
     vCentered: true,
     bgImg: homesSvg,
@@ -24,32 +24,32 @@ export const QuestionsList = (lang) => [
       validation: [Validation.required],
       icons: true,
       cardLayout: true,
-      svgWidth: 'max-w-fix-96 max-w-fix-md-168',
+      svgWidth: 'max-w-fix-64 max-w-fix-md-168',
       svgSupport: true,
       pdClass: 'py-1 pb-sm-5 pt-sm-4',
       isHorizontal: true,
       options: [
         {
-          label: 'I want to start <b style="vertical-align:revert">selling</b>',
+          label: translateTo('I want to start <b style="vertical-align:revert">selling</b>', lang),
           value: 'seller',
           img: svgIcons.selling,
           color: 'blue',
         },
         {
-          label: 'I want to <b style="vertical-align:revert">estimate</b> a property',
+          label: translateTo('I want to <b style="vertical-align:revert">estimate</b> a property', lang),
           value: 'estimation',
           img: svgIcons.estimate,
           color: 'green',
         },
         {
-          label: 'I want to <b style="vertical-align:revert">buy</b> a property',
+          label: translateTo('I want to <b style="vertical-align:revert">buy</b> a property', lang),
           value: 'buyer',
           img: svgIcons.buy,
           color: 'red',
         },
       ],
     }],
-    successMessage: translateTo(lang, 'Ok. Got it.'),
+    successMessage: translateTo('Ok. Got it.', lang),
   },
   {
     history: 'savingData',

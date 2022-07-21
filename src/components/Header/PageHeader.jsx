@@ -1,9 +1,10 @@
 /* global Transifex */
+import React, { useEffect, useRef, useState } from 'react';
 import {
   BrixelAvatar,
   BrixelButtonIcon,
   BrixelIcon,
-  FactsOptions,
+  FactsOptions, translateTo,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import {
@@ -19,7 +20,6 @@ import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
 import PropTypes from 'prop-types';
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -30,7 +30,8 @@ import {
   setActiveSinglePropertyActivePackage,
 } from '../../actions/PropertyActions';
 import { saveActiveSingleUser, setUserTypes } from '../../actions/UserActions';
-import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/navigationRoutes';
+import { setLanguage } from '../../actions/CommonActions';
+import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/Utilities/navigationRoutes';
 import { setCookie } from '../../utils/helpers';
 import lazyWithRetry from '../LazyWithRetry';
 
@@ -54,12 +55,14 @@ function PageHeader(props) {
     handleSaveActiveSingleUser,
     handleSetActiveSingleProperty,
     handleSetActiveSinglePropertyActivePackage,
+    handleSetLanguage,
     handleSetUserTypes,
     isFlow,
     lang,
     loggedInUser,
     ownerProperties,
     packagesProperty,
+    showFooter,
     userType,
     windowDimensions,
   } = props;
@@ -68,7 +71,7 @@ function PageHeader(props) {
   const [langSel, setSelLang] = useState(lang);
   const [openMenu, setOpenMenu] = useState(false);
   const [packageName, setPackageName] = useState('Basic');
-  const [section, setSection] = useState('Sell');
+  const [section, setSection] = useState(translateTo('Sell', lang));
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -85,6 +88,10 @@ function PageHeader(props) {
   let propID = history.location.pathname.split('/')[1];
   if (propID === 'buyer') propID = history.location.pathname.split('/')[2];
   if (propID === 'home' || propID === 'seller') propID = null;
+
+  // FOOTER HEIGHT
+  const footer = document.getElementsByClassName('footerWrap')[0];
+  const footerHeight =  footer ? footer.offsetHeight : '';
 
   useEffect(() => {
     if (activeSingleProperty.id) {
@@ -137,13 +144,14 @@ function PageHeader(props) {
   const newLang = (langCode) => {
     // handleChangeLanguage(lang);
     const defLangCode = get(langCode, 'value', null) ? langCode.value : langCode;
+    setSelLang(defLangCode);
+    localStorage.setItem('lang', defLangCode);
+    setCookie('brixelLang', defLangCode);
+    handleSetLanguage(defLangCode);
     if (typeof Transifex !== 'undefined') {
       setTimeout(() => {
         Transifex.live.translateTo(defLangCode);
       }, 100);
-      setSelLang(defLangCode);
-      localStorage.setItem('lang', defLangCode);
-      setCookie('brixelLang', defLangCode);
     }
     if (get(loggedInUser, 'user.id', null)) {
       const userData = {
@@ -233,10 +241,10 @@ function PageHeader(props) {
   // add shadow header on body scroll
   useEffect(() => {
     const dashContentEl = document.getElementsByClassName('hubDasContent')[0];
-    const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
+    // const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
     if (dashContentEl) {
       dashContentEl.addEventListener('scroll', () => {
-        if (dashContentEl.scrollTop > 5) {
+        /*  if (dashContentEl.scrollTop > 5) {
           dashWrapperEl.classList.add('scrollingHeader');
         } else {
           dashWrapperEl.classList.remove('scrollingHeader');
@@ -245,7 +253,7 @@ function PageHeader(props) {
           dashWrapperEl.classList.add('longScroll');
         } else {
           dashWrapperEl.classList.remove('longScroll');
-        }
+        } */
         if (showMobileMenu) {
           dashContentEl.classList.add('menuOn');
           dashContentEl.style.overflowY = 'hidden';
@@ -258,8 +266,8 @@ function PageHeader(props) {
   }, [showMobileMenu]);
 
   useEffect(() => {
-    if (userType === 'seller' || propID === 'sell') setSection('Sell');
-    else setSection('Buy');
+    if (userType === 'seller' || propID === 'sell') setSection(translateTo('Sell', lang));
+    else setSection(translateTo('Buy', lang));
   }, [get(history, 'location', null), userType]);
 
   const urlBackAction = () => {
@@ -326,15 +334,19 @@ function PageHeader(props) {
                           <div className="dis-f titleSection txtDark700" onClick={() => setOpenMenu(!openMenu)}>
                             <span>{section}</span>
                             <BrixelIcon
-                              icon="dropdown"
+                              icon={openMenu ? "dropdown-open" : "dropdown-close"}
                             />
                           </div>
                           {
                             openMenu && (
                               <div className="hubMenu">
                                 <ul>
-                                  <li onClick={() => onClickMenu('/sell')}>Sell</li>
-                                  <li onClick={() => onClickMenu('/buy')}>Buy</li>
+                                  <li onClick={() => onClickMenu('/sell')}>
+                                    {translateTo('Sell', lang)}
+                                  </li>
+                                  <li onClick={() => onClickMenu('/buy')}>
+                                    {translateTo('Buy', lang)}
+                                  </li>
                                 </ul>
                               </div>
                             )
@@ -350,6 +362,7 @@ function PageHeader(props) {
                           smallLayout={windowDimensions.width < 1025 ? !!isFlow : !isFlow}
                           xSmallMobile={windowDimensions.width < 480}
                           stepIndexProgress={history.location.pathname.includes('welcomeSeller') ? 0 : stepIndexProgrss}
+                          lang={lang}
                         />
                       </div>
                     )
@@ -380,20 +393,22 @@ function PageHeader(props) {
                       propID !== 'buy' && propID !== 'sell' && !get(history, 'location.pathname', null).includes('buyer/')
                     ) && (
                       <div className="ws-nw flex-nowrap dis-f a-c txtDark700 pb-sm-1 pr-0 pr-sm-1 pr-lg-0 pb-lg-0 pr-lg-4">
-                        <span className="hide dis-b-md">Your Plan:&nbsp;</span>
+                        <span className="hide dis-b-md">
+                          {translateTo('Your Plan:', lang)}
+                        </span>
                         {
                           has(ownerProperties, 'total') || get(activeSingleProperty, 'id', null) ? (
                             <span
                               className="fweight-600 td-u-colored dis-f cur-poi"
                               onClick={() => onUpgrade()}
                             >
-                              {packageName}
+                              {translateTo(packageName, lang)}
                             </span>
                           ) : (
                             <span
                               className="fweight-600 dis-f cur-poi txtLight400 bgLight400"
                             >
-                              Loading...
+                              {translateTo('Loading...', lang)}
                             </span>
                           )
                         }
@@ -467,7 +482,7 @@ function PageHeader(props) {
 
                         <div
                           className="mobile-menu w-perc-100 dis-fl-col a-c zIndex3"
-                          style={{ height: showMobileMenu ? windowDimensions.height : '0px' }}
+                          style={{ height: showMobileMenu ? (showFooter ? windowDimensions.height - footerHeight : windowDimensions.height ) : '0px' }}
                         >
                           <div className="links dis-fl-col as-b jc-fe w-perc-100 ov-a">
                             {
@@ -489,19 +504,19 @@ function PageHeader(props) {
                                       className="link txtDark700 fweight-500 fsize-300 mb-2"
                                       href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                                     >
-                                      Password
+                                      {translateTo('Password', lang)}
                                     </a>
                                     <a
                                       className="link txtDark700 fweight-500 fsize-300 mb-2"
                                       href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                                     >
-                                      Preferences
+                                      {translateTo('Preferences', lang)}
                                     </a>
                                     <a
                                       className="link txtDark700 fweight-500 fsize-300"
                                       href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                     >
-                                      Logout
+                                      {translateTo('Logout', lang)}
                                     </a>
                                   </div>
                                 </>
@@ -526,12 +541,12 @@ function PageHeader(props) {
                                         propID && userType === 'seller' && (
                                           <div>
                                             <div className="ws-nw flex-nowrap dis-f a-c txtDark700">
-                                              <span>Your Plan:&nbsp;</span>
+                                              <span>{translateTo('Your Plan:', lang)}</span>
                                               <span
                                                 className="fweight-600 td-u-colored dis-f cur-poi"
                                                 onClick={() => onUpgrade()}
                                               >
-                                                {packageName}
+                                                {translateTo(packageName, lang)}
                                               </span>
                                             </div>
                                           </div>
@@ -571,19 +586,19 @@ function PageHeader(props) {
                                         className="link txtDark700 fweight-500 fsize-300 mb-2"
                                         href={`${baseByData.loginBasePath}/account/account?url=${get(window, 'location.href', '')}`}
                                       >
-                                        Password
+                                        {translateTo('Password', lang)}
                                       </a>
                                       <a
                                         className="link txtDark700 fweight-500 fsize-300 mb-2"
                                         href={`${baseByData.loginBasePath}/account/preferences?url=${get(window, 'location.href', '')}`}
                                       >
-                                        Preferences
+                                        {translateTo('Preferences', lang)}
                                       </a>
                                       <a
                                         className="link txtDark700 fweight-500 fsize-300"
                                         href={`${baseByData.loginBasePath}/logout?url=${get(window, 'location.href', '')}`}
                                       >
-                                        Logout
+                                        {translateTo('Logout', lang)}
                                       </a>
                                     </div>
                                   </div>
@@ -609,7 +624,7 @@ function PageHeader(props) {
               getCurrentRoute().title && (
                 <div className="dis-fl-row a-c jc-b">
                   <h4 className="fweight-700 pt-2">
-                    {getCurrentRoute().title}
+                    {translateTo(getCurrentRoute().title, lang)}
                   </h4>
                 </div>
               )
@@ -628,12 +643,14 @@ PageHeader.propTypes = {
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyActivePackage: PropTypes.func.isRequired,
+  handleSetLanguage: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   isFlow: PropTypes.bool,
   lang: PropTypes.oneOfType([PropTypes.any]),
   loggedInUser: PropTypes.object,
   ownerProperties: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
+  showFooter: PropTypes.bool.isRequired,
   userType: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -651,7 +668,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
-  lang: get(state, 'common.language', []),
+  lang: get(state, 'common.language', 'en'),
   languages: get(state, 'common.languages', []),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   ownerProperties: get(state, 'market.ownerProperties', {}),
@@ -670,6 +687,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSaveActiveSingleUser: bindActionCreators(saveActiveSingleUser, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetActiveSinglePropertyActivePackage: bindActionCreators(setActiveSinglePropertyActivePackage, dispatch),
+  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
 });
 

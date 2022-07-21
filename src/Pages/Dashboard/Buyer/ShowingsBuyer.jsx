@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonPrimary, translateTo } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
@@ -30,8 +30,8 @@ const ShowingsBuyer = (props) => {
     handleGetActiveSinglePropertyBookings,
     handleSetActiveSinglePropertyBookings,
     isSmallLoading,
+    lang,
     loggedInUser,
-    userLang,
   } = props;
   // STATE
   const [bookingSlot, setBookingSlot] = useState([]);
@@ -99,18 +99,18 @@ const ShowingsBuyer = (props) => {
   
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">Showings</h3>
+      <h3 className="mb-3 hide dis-b-lg">{translateTo('Showings', lang)}</h3>
       <div className="dis-f h-perc-lg-100">
         <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
           <div className="dis-fl-col backPanel hide-lg">
-            <h5 className="sectionTitle">Showings</h5>
+            <h5 className="sectionTitle">{translateTo('Showings', lang)}</h5>
           </div>
           <div className="boxCard flex-1">
             {
               bookingSlot.length > 0 ? (
                 <div className="dis-fl-col a-c min-h-fix-336">
                   <img src={showingsIMG} alt="Showing Buyer" />
-                  <h5 className="my-3">Thanks for your request.</h5>
+                  <h5 className="my-3">{translateTo('Thanks for your request.', lang)}</h5>
                   {
                     bookingSlot.map((day, g) => (
                       <div
@@ -118,25 +118,26 @@ const ShowingsBuyer = (props) => {
                         className="w-perc-100 max-w-fix-360"
                       >
                         <BrixelInfoSlot
-                          title={DateTime.fromISO(extractDate(day.slot.slot), { locale: userLang }).toFormat('cccc - dd LLL yyyy')}
+                          lang={lang}
+                          title={DateTime.fromISO(extractDate(day.slot.slot), { locale: lang }).toFormat('cccc - dd LLL yyyy')}
                           subtitle={extractDate(day.slot.slot, true)}
                         />
                       </div>
                     ))
                   }
                   <h6>
-                    We will contact you as soon as possible for confirmation.
+                    {translateTo('We will contact you as soon as possible for confirmation.', lang)}
                   </h6>
                 </div>
               ) : (
                 <div className="dis-fl-col a-c min-h-fix-336">
                   <img src={showingsEmpty} alt="Showing Buyer" />
-                  <h5 className="my-3">{formValue.allowVisits === false ? 'Right now there are no showings available' : 'Request your showing'}</h5>
+                  <h5 className="my-3">{translateTo(formValue.allowVisits === false ? 'Right now there are no showings available' : 'Request your showing', lang)}</h5>
                   {
                     formValue.allowVisits && (
                       <BrixelButtonPrimary
                         rounded
-                        label="Add dates"
+                        label={translateTo('Add dates', lang)}
                         rightIcon="calendar-add"
                         onClick={() => history.push(`/buyer/${propID}/property/showings/add`)}
                         className="mb-3"
@@ -159,8 +160,8 @@ ShowingsBuyer.propTypes = {
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   handleSetActiveSinglePropertyBookings: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  userLang: PropTypes.string.isRequired,
 };
 
 ShowingsBuyer.defaultProps = {
@@ -171,9 +172,8 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyBooking: get(state, 'property.activeSinglePropertyBooking', []),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
-  lang: get(state, 'user.loggedInUser.language', 'en'),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

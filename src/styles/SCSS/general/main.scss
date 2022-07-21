@@ -615,6 +615,11 @@ sub {
   &:not([class*=txt]) {
     color: map_get($primaryColor, 400);
   }
+  &:focus,
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
 }
 
 .transY-100 {
@@ -1037,7 +1042,7 @@ input::-webkit-date-and-time-value {
 }
 
 .addToCalendar {
-  .icon-dropdown {
+  .brixelIcon {
     svg >  path {
       fill: white !important;
     }
@@ -1048,4 +1053,12 @@ input::-webkit-date-and-time-value {
   @media (min-width: $responsive-small) {
     @include fontStyle(900);
   }
+}
+
+.p-0-i {
+  padding: 0 !important;
+}
+
+.rotateIcon {
+  transform: rotate(180deg);
 }

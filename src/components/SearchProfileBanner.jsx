@@ -9,7 +9,7 @@ import {
   BrixelIcon,
   Helpers,
   BrixelButtonIcon,
-  useOutsideAlerter,
+  useOutsideAlerter, translateTo,
 } from '@brixel/brixel-components';
 import {
   reset,
@@ -18,7 +18,7 @@ import {
 import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
-import { QuestionsList } from '../resources/onBoardingBuyer';
+import { QuestionsList } from '../resources/Flows/onBoardingBuyer';
 import { createUserSearchProfile, updateUserSearchProfile } from '../actions/SearchProfileActions';
 import { setWizard } from '../actions/CommonActions';
 
@@ -133,20 +133,24 @@ const SearchProfileBanner = (props) => {
             {
               !showWizard ? (
                 <>
-                  <span>Watch properties which are not even on the market yet. &nbsp;</span>
+                  <span>
+                    {translateTo('Watch properties which are not even on the market yet.', lang)}
+                  </span>
                   <a
-                    className="cur-poi link txtDark700 td-u fsize-500"
+                    className="cur-poi link txtDark700 td-u fsize-500 ml-small-4"
                     onClick={() => handleSetWizard({ type: 'preMarketOverlay', step: 1 })}
-                  >How it works
+                  >
+                    {translateTo('How it works', lang)}
                   </a>
                 </>
               ) : (
                 <>
-                  <span>This is a short Pre-Market explanation. &nbsp;</span>
+                  <span>{translateTo('This is a short Pre-Market explanation.', lang)}</span>
                   <a
-                    className="cur-poi link txtDark700 td-u fsize-500"
+                    className="cur-poi link txtDark700 td-u fsize-500 ml-small-4"
                     onClick={() => handleSetWizard({ type: 'wizard', step: 1 })}
-                  >Learn more
+                  >
+                    {translateTo('Learn more', lang)}
                   </a>
                 </>
               )
@@ -172,7 +176,7 @@ const SearchProfileBanner = (props) => {
                               get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
                                 <React.Fragment key={`usrSrc_${i.toString()}`}>
                                   {i > 0 && (<span>, </span>)}
-                                  <span>{item}</span>
+                                  <span>{translateTo(item, lang)}</span>
                                 </React.Fragment>
                               ))
                             }
@@ -189,7 +193,7 @@ const SearchProfileBanner = (props) => {
                               get(userSearchProfiles, 'location', []).map((item, i) => (
                                 <React.Fragment key={`usrLoc_${i.toString()}`}>
                                   {i > 0 && (<span>, </span>)}
-                                  <span>{item.name}</span>
+                                  <span>{translateTo(item, lang)}</span>
                                 </React.Fragment>
                               ))
                             }
@@ -321,7 +325,7 @@ const SearchProfileBanner = (props) => {
                                   get(userSearchProfiles, 'characteristics.propertyType', []).map((item, i) => (
                                     <React.Fragment key={`usrChr_${i.toString()}`}>
                                       {i > 0 && (<span>, </span>)}
-                                      <span>{item}</span>
+                                      <span>{translateTo(item, lang)}</span>
                                     </React.Fragment>
                                   ))
                                 }
@@ -338,7 +342,7 @@ const SearchProfileBanner = (props) => {
                                   get(userSearchProfiles, 'location', []).map((item, i) => (
                                     <React.Fragment key={`usrLoc_${i.toString()}`}>
                                       {i > 0 && (<span>, </span>)}
-                                      <span>{item.name}</span>
+                                      <span>{translateTo(item.name, lang)}</span>
                                     </React.Fragment>
                                   ))
                                 }
@@ -374,22 +378,22 @@ const SearchProfileBanner = (props) => {
                         <div
                           className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
                         >
-                          <span>Type</span>
+                          <span>{translateTo('Type', lang)}</span>
                         </div>
                         <div
                           className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
                         >
-                          <span>Location</span>
+                          <span>{translateTo('Location', lang)}</span>
                         </div>
                         <div
                           className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
                         >
-                          <span>Size</span>
+                          <span>{translateTo('Size', lang)}</span>
                         </div>
                         <div
                           className="brdFullRadius brdSmall brdLight200 py-1 px-3 mr-2"
                         >
-                          <span>Price</span>
+                          <span>{translateTo('Price', lang)}</span>
                         </div>
                       </div>
                     )
@@ -411,7 +415,7 @@ const SearchProfileBanner = (props) => {
                         <p className="fsize-600 fweight-600 txtBlue700">
                           <span>{preMarketStats.total}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
-                            Matching
+                            {translateTo('Matching', lang)}
                           </span>
                         </p>
                       </div>
@@ -429,7 +433,7 @@ const SearchProfileBanner = (props) => {
                         <p className="fsize-600 fweight-600 txtRed600">
                           <span>{preMarketStats.dislikedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg no-wrap">
-                            Don&apos;t like
+                            {translateTo('Don\'t like', lang)}
                           </span>
                         </p>
                       </div>
@@ -447,7 +451,7 @@ const SearchProfileBanner = (props) => {
                         <p className="fsize-600 fweight-600 txtPrimary600">
                           <span>{preMarketStats.likedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
-                            Likes
+                            {translateTo('Likes', lang)}
                           </span>
                         </p>
                       </div>
@@ -478,13 +482,13 @@ const SearchProfileBanner = (props) => {
                     rounded
                     theme="light"
                     themeSat={600}
-                    label="cancel"
+                    label={translateTo('cancel', lang)}
                     onClick={() => cancel()}
                   />
                   <BrixelButtonPrimary
                     className="mr-a-lg"
                     rounded
-                    label="Save and close filters"
+                    label={translateTo('Save and close filters', lang)}
                     onClick={() => saveData()}
                     isLoading={isSmallLoading.saveData}
                   />
@@ -530,7 +534,7 @@ const mapStateToProps = (state) => {
   return ({
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    lang: get(state, 'user.loggedInUser.user.language', 'en'),
+    lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     userSearchProfiles: searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile,
     splashScreenType: get(state, 'common.splashScreenType', ''),

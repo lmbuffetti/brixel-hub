@@ -109,28 +109,30 @@ const Dashboard = (props) => {
   const sectionClass = get(history, 'location.pathname', '/').split('/');
 
   return (
-    <div className={`dashboardContainer mt-0 mt-md-3 dis-f jc-b ${sectionClass[2]}`} id="dashboard">
-      <div className="w-perc-100">
-        <Suspense fallback="">
-          <Routes>
-            { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
-            <Route path="/home" element={<DashboardHome />} />
-            <Route path="/property/*" element={<PropertyBuyerDashboard />} />
-            <Route path="/docubox" element={<Documents />} />
-            <Route path="/financing" element={<Financing />} />
-            <Route path="/closing/*" element={<DealsDashboardBuyer />} />
-            <Route path="*" element={<Navigate to={`/buyer/${propID}/home`} />} />
-          </Routes>
-        </Suspense>
+    <>
+      <div className={`dashboardContainer mt-0 mt-md-3 dis-f jc-b ${sectionClass[2]}`} id="dashboard">
+        <div className="w-perc-100">
+          <Suspense fallback="">
+            <Routes>
+              { /* SECTION: ROUTES FOR ONLY LOGGED USER - MAIN HUB PAGES  */ }
+              <Route path="/home" element={<DashboardHome />} />
+              <Route path="/property/*" element={<PropertyBuyerDashboard />} />
+              <Route path="/docubox" element={<Documents />} />
+              <Route path="/financing" element={<Financing />} />
+              <Route path="/closing/*" element={<DealsDashboardBuyer />} />
+              <Route path="*" element={<Navigate to={`/buyer/${propID}/home`} />} />
+            </Routes>
+          </Suspense>
+        </div>
+        {
+          get(history, 'location.pathname', '').includes('home') && (
+            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+              <SidebarBuyer />
+            </div>
+          )
+        }
       </div>
-      {
-        get(history, 'location.pathname', '').includes('home') && (
-          <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
-            <SidebarBuyer />
-          </div>
-        )
-      }
-    </div>
+    </>
   );
 };
 
@@ -156,7 +158,7 @@ const mapStateToProps = (state) => ({
   activeSingleCompany: get(state, 'companies.activeSingleCompany.id', { }),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   favoritesProperties: get(state, 'market.favoritesProperties', []),
-  loggedInUser: get(state, 'user.loggedInUser', {}),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
 });
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {

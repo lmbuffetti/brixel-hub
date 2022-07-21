@@ -10,6 +10,7 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   DataByCountry,
+  translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -34,13 +35,14 @@ import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { titleProperty } from '../../utils/titleCreation';
 import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/onBoardingSeller';
+import { QuestionsList } from '../../resources/Flows/onBoardingSeller';
 import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
 
 const cookie = new Cookies();
 
 const GetStartedSeller = (props) => {
+  const isOpenTransifex = cookie.get('transifex_sidebar');
   const history = {
     push: useNavigate(),
     location: useLocation(),
@@ -79,16 +81,16 @@ const GetStartedSeller = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
-  
+
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-  
+
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-  
+
   const getCurrency = () => {
     const result = {};
     if (get(formValue, 'location.countryCode', '')) {
@@ -98,7 +100,7 @@ const GetStartedSeller = (props) => {
     }
     return result;
   };
-  
+
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     if (isLoading) return false;
@@ -191,11 +193,11 @@ const GetStartedSeller = (props) => {
       await handleValidateUser(data);
     }
   };
-  
+
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
   }, [get(loggedInUser, 'user.id', null)]);
-  
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -214,7 +216,7 @@ const GetStartedSeller = (props) => {
     }
     return newIndex;
   };
-  
+
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -259,10 +261,10 @@ const GetStartedSeller = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-  
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
-  
+
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
@@ -318,7 +320,7 @@ const GetStartedSeller = (props) => {
               document.body.prepend(fakeInput);
               fakeInput.focus();
             }
-            
+
             setTimeout(() => {
               const fakeInput = document.getElementById('fakeInput');
               const getCurStep = document.getElementById(`step-${defId}`);
@@ -351,7 +353,7 @@ const GetStartedSeller = (props) => {
     }
     return null;
   };
-  
+
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     setOldIndex(currentIndex);
@@ -365,7 +367,7 @@ const GetStartedSeller = (props) => {
       changeFieldValue('inputSheet', inputSheet);
     }
   }, [formValue]);
-  
+
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
@@ -397,7 +399,7 @@ const GetStartedSeller = (props) => {
       });
     }
   }, []);
-  
+
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
@@ -409,14 +411,14 @@ const GetStartedSeller = (props) => {
       setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
   }, [lang]);
-  
+
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
     if (get(initialValues, 'properties.propertyType', null)) {
       // changeStep();
     }
   }, [initialValues]);
-  
+
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
     if (currentIndex > 2) {
@@ -431,7 +433,7 @@ const GetStartedSeller = (props) => {
       }
     }
   }, [get(formValue, 'location.countryCode', '')]);
-  
+
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
     if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
@@ -450,13 +452,13 @@ const GetStartedSeller = (props) => {
       changeFieldValue('properties.typology.livingArea.value', livingSpace);
     }
   }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0), get(formValue, 'properties.typology.lotArea.value', 0)]);
-  
+
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset('Property');
     history.push(`/${propID}/home`);
   };
-  
+
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
@@ -480,7 +482,7 @@ const GetStartedSeller = (props) => {
       if (Object.keys(checkDiff).length > 0) setQuestions(newQuest);
     }
   }, [formValue]);
-  
+
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
     if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
@@ -489,7 +491,7 @@ const GetStartedSeller = (props) => {
       if (pageTitle && questions[currentIndex].history !== 'createProfile') changeFieldValue('pageTitle', pageTitle);
     }
   }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);
-  
+
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
@@ -502,7 +504,7 @@ const GetStartedSeller = (props) => {
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
   }, [get(company, 'id', null)]);
-  
+
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
@@ -512,7 +514,7 @@ const GetStartedSeller = (props) => {
     else label = 'Next';
     return label;
   };
-  
+
   const progressBarCalc = () => {
     let num = 0;
     questions.forEach((item) => {
@@ -533,10 +535,18 @@ const GetStartedSeller = (props) => {
     });
     return (currentIndex * 100) / (num - 1);
   };
-  
+
+  // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
+  const getStartedEl = document.querySelector('.getStarted');
+  useEffect(() => {
+    setTimeout(() => {
+      if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
+    }, 350);
+  }, [quest]);
+
   return (
     <>
-      <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'history', '')}`}>
+      <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
         {
           get(quest, 'inputs', null) && get(quest, 'history', '') !== 'createProfile' && get(quest, 'history', null) !== 'resume' && (
             <div className="pos-r">
@@ -551,14 +561,14 @@ const GetStartedSeller = (props) => {
                 progressValue={progressBarCalc()}
               />
             </div>
-          
+
           )
         }
-        
+
         <div
-          className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
+          className={`bodyModal container ${currentIndex ? '' : ''} ${get(quest, 'history', '')}`}
         >
-          
+
           <form
             id="multiStepForm"
             autoComplete="off"
@@ -601,7 +611,7 @@ const GetStartedSeller = (props) => {
                           skipPhone
                         />
                       </div>
-                    
+
                     )
                   }
                   {
@@ -664,7 +674,7 @@ const GetStartedSeller = (props) => {
                             disabled={!checkValidateField()}
                             rounded
                             theme="green"
-                            label={buttonLabel()}
+                            label={translateTo(buttonLabel())}
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}
@@ -735,7 +745,7 @@ const mapStateToProps = (state, ownProps) => {
         countryCode: get(state, 'companies.activeSingleCompany.country.code', 'PT'),
       },
       login: {},
-      owner: get(state, 'user.loggedInUser.id', null),
+      owner: get(state, 'user.loggedInUser.user.id', null),
       properties: {
         propertyType,
         typology: {
@@ -757,7 +767,7 @@ const mapStateToProps = (state, ownProps) => {
           number: '',
         },
       },
-      signup: get(state, 'user.loggedInUser.id', null) !== null,
+      signup: get(state, 'user.loggedInUser.user.id', null) !== null,
     },
     isLoading: get(state, 'common.isLoading', 0) > 0,
     lang: get(state, 'common.language', 'en'),

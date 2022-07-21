@@ -1,3 +1,4 @@
+import { translateTo } from '@brixel/brixel-components';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -13,19 +14,19 @@ const cookies = new Cookies();
 class ErrorBoundary extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = { hasError: false };
-  
+
   static getDerivedStateFromError() {
     // Update state to show the fallback UI during the next render phase
     return { hasError: true };
   }
-  
+
   componentDidCatch(error, info) {
     if (typeof window !== 'undefined') {
       const url = get(window, 'location.href', '');
       const {
         activeSingleProperty,
         handleSendSlackNotifications,
-        language,
+        lang,
         loggedInUser,
         pageError,
       } = this.props;
@@ -34,7 +35,7 @@ class ErrorBoundary extends Component {
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
-        meta: `Browser Info: ${browserDetection().debug}\n Language: ${language || cookies.get('brixelLang')}\n Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
+        meta: `Browser Info: ${browserDetection().debug}\n Language: ${lang || cookies.get('brixelLang')}\n Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
         url: window.location.href,
         apiResource: '',
       };
@@ -50,7 +51,7 @@ class ErrorBoundary extends Component {
       }
     }
   }
-  
+
   render() {
     const {
       hasError,
@@ -63,6 +64,19 @@ class ErrorBoundary extends Component {
       return (
         <BrixelPage500
           errorMessage="You can try again or go back to the dashboard"
+          buttons={[
+            {
+              label: translateTo('Go to the dashboard', this.props.lang),
+              type: 'primary',
+              onClick: () => window.location.assign('/'),
+            },
+            {
+              className: 'ml-2',
+              label: translateTo('Try again', this.props.lang),
+              type: 'secondary',
+              onClick: () => window.location.reload(),
+            }
+          ]}
         />
       );
     }
@@ -74,14 +88,14 @@ ErrorBoundary.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   children: PropTypes.oneOfType([PropTypes.any]).isRequired,
   handleSendSlackNotifications: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   pageError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
-  language: get(state, 'common.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   pageError: get(state, 'common.setPageData.pageError', false),
 });

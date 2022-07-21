@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelProgressBar,
+  BrixelProgressBar, translateTo,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -22,12 +22,12 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
-import { FinancialCalculator } from '@brixel/brixel-configuration-partner/dist/FinancialFormulas';
+import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import queryString from 'query-string';
 import isArray from 'lodash/isArray';
-import { MakeOfferQuestions } from '../../../resources/MakeOffer';
+import { MakeOfferQuestions } from '../../../resources/Deals/MakeOffer';
 import { sendUserScanTrial } from '../../../actions/UserActions';
-import { setLanguage, setModal, spinnerOff } from '../../../actions/CommonActions';
+import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getCookie, setCookie } from '../../../utils/helpers';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
@@ -53,12 +53,12 @@ const MakeOffer = (props) => {
     handleGetActiveSingleProperty,
     handleMultiUploadDocument,
     handleSetModal,
-    handleSetLanguage,
     handleSpinnerOff,
     initForm,
     initialValues,
     isSmallLoading,
     handleGetBuyerDeal,
+    lang,
     loggedInUser,
     handleReset,
   } = props;
@@ -70,8 +70,8 @@ const MakeOffer = (props) => {
   // STATE
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id))[0], (data) => handleSetModal(data));
-  const [questions, setQuestions] = useState(MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id), (data) => handleSetModal(data)));
+  const [quest, setQuest] = useState(MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id))[0], (data) => handleSetModal(data), lang);
+  const [questions, setQuestions] = useState(MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id), (data) => handleSetModal(data), lang));
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
@@ -141,8 +141,6 @@ const MakeOffer = (props) => {
     if (get(activeSingleCompany, 'stub', null)) {
       const getLang = getCookie('brixelLang');
       if (get(activeSingleCompany, 'language.code', null) && !getLang && currentIndex < 2) {
-        const companyLang = get(activeSingleCompany, 'language.code', 'en');
-        handleSetLanguage(companyLang.toLowerCase());
         if (!loggedInUser.id) {
           const companyPhone = {
             prefix: get(activeSingleCompany, 'contact.phone.prefix', ''),
@@ -374,7 +372,7 @@ const MakeOffer = (props) => {
     const newQuest = [];
     setOldIndex(currentIndex);
     if (formValue) {
-      MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id), (data) => handleSetModal(data)).map((quests) => {
+      MakeOfferQuestions((name, value) => changeFieldValue(name, value), (id) => setCurrentIndex(id), (data) => handleSetModal(data), lang).map((quests) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
@@ -514,7 +512,7 @@ const MakeOffer = (props) => {
                         rounded
                         theme="green"
                         themeSat={600}
-                        label={buttonLabel()}
+                        label={translateTo(buttonLabel(), lang)}
                         disabled={!checkValidateField()}
                         isLoading={isSmallLoading.sendData}
                         rightIcon="arrow-right-small"
@@ -557,7 +555,7 @@ const MakeOffer = (props) => {
                                 theme="green"
                                 themeSat={600}
                                 rounded
-                                label={buttonLabel()}
+                                label={translateTo(buttonLabel(), lang)}
                                 rightIcon="arrow-right-small"
                                 onClick={() => buttonContinueClick()}
                               />
@@ -569,7 +567,7 @@ const MakeOffer = (props) => {
                                 isLoading={isSmallLoading.sendData}
                                 theme="green"
                                 themeSat={600}
-                                label={buttonLabel()}
+                                label={translateTo(buttonLabel(), lang)}
                                 rightIcon="arrow-right-small"
                                 onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                 onShowError={() => setShowError(true)}
@@ -602,14 +600,14 @@ MakeOffer.propTypes = {
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
-  handleSetLanguage: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSpinnerOff: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  handleReset: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -652,7 +650,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
   handleSaveMakeOffer: bindActionCreators(saveMakeOffer, dispatch),
   handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
-  handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });

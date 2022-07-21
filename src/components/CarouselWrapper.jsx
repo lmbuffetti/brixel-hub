@@ -10,7 +10,7 @@ import has from 'lodash/has';
 import Slider from 'react-slick';
 import {
   BrixelButtonIcon,
-  BrixelButtonText,
+  BrixelButtonText, translateTo,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
@@ -25,11 +25,13 @@ const CarouselWrapper = (props) => {
   // PROPS
   const {
     className,
+    companyListings,
     items,
     lang,
     layout,
     loggedInUser,
     onSetActiveProperty,
+    ownerProperties,
     setActiveSingleCompany,
     setPropertyId,
     slideToGo,
@@ -155,45 +157,147 @@ const CarouselWrapper = (props) => {
     }
   }, [activeSlide]);
 
+  const getCompanyStub = () => {
+    // TODO: Company management for "Add new" property flow
+    if (ownerProperties.total === 0) return get(loggedInUser, 'company.stub', '')
+    else {
+      const company = companyListings.find((cmp) => cmp.id === get(ownerProperties, 'data[0].company', ''));
+      return company.stub;
+    }
+  };
+
   if (layout === 'singleOwnCard') {
     return (
-      <div className={`${className} carousel-wrapper pos-r`}>
-    
-        <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
-          <div className="py-2 px-0 pt-sm-3 pb-sm-1 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
-            <Slider ref={sliderInstance} {...settingSlider()}>
+      <>
+        <div className={`${className} carousel-wrapper pos-r`}>
+
+          <div className="carouselContainer pos-r max-w-fix-768 ml-a mr-a px-2 px-md-0">
+            <div className="py-2 px-0 pt-sm-3 pb-sm-1 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 pos-r">
+              <Slider ref={sliderInstance} {...settingSlider()}>
+                {
+                  !items && numCard.map((card, i) => (
+                    <MarketCard
+                      layout={layout}
+                      type={type}
+                      key={`nmCrd_${i.toString()}`}
+                      item={card}
+                      preventClick={preventClick}
+                      onSetActiveProperty={(id) => onSetActiveProperty(id)}
+                      lang={lang}
+                    />
+                  ))
+                }
+                {
+                  items && items.length > 0 && items.map((item, i) => (
+                    <MarketCard
+                      lang={lang}
+                      layout={layout}
+                      type={type}
+                      key={`mkCrd_${i.toString()}`}
+                      item={item}
+                      preventClick={preventClick}
+                      onSetActiveProperty={(id) => onSetActiveProperty(id)}
+                    />
+                  ))
+                }
+              </Slider>
+
               {
-                !items && numCard.map((card, i) => (
-                  <MarketCard
-                    layout={layout}
-                    type={type}
-                    key={`nmCrd_${i.toString()}`}
-                    item={card}
-                    preventClick={preventClick}
-                    onSetActiveProperty={(id) => onSetActiveProperty(id)}
-                  />
-                ))
+                items.length > 1 && (
+                  <>
+                    <BrixelButtonIcon
+                      onClick={() => moveSlide('prev')}
+                      className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c ml-7-neg ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                      icon="arrow-simple-left"
+                      theme="light"
+                      saturation={500}
+                      secondary
+                    />
+                    <BrixelButtonIcon
+                      onClick={() => moveSlide('next')}
+                      className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c mr-7-neg x-r ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                      icon="arrow-simple-right"
+                      theme="light"
+                      saturation={500}
+                      secondary
+                    />
+                  </>
+                )
               }
-              {
-                items && items.length > 0 && items.map((item, i) => (
-                  <MarketCard
-                    layout={layout}
-                    type={type}
-                    key={`mkCrd_${i.toString()}`}
-                    item={item}
-                    preventClick={preventClick}
-                    onSetActiveProperty={(id) => onSetActiveProperty(id)}
-                  />
-                ))
-              }
-            </Slider>
-        
+            </div>
+            <div className={`mt-1 dis-fl-col-sm a-c jc-c ${has(items[activeSlide], 'published') && items[activeSlide].published === false ? '' : ''}`}>
+
+              <div className="dis-fl-row-sm hide a-c jc-c pt-1">
+                <BrixelButtonText
+                  className="fsize-300 show-all pos-r mr-1"
+                  label={translateTo('+ Add new', lang)}
+                  theme="blue"
+                  themeSat={700}
+                  onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
+                />
+                <BrixelButtonText
+                  theme="blue"
+                  themeSat={700}
+                  className="fsize-300 show-all pos-r"
+                  label={`<span>${translateTo('View all', lang)}</span> <span class="ml-1">(${total})</span>`}
+                  onClick={() => showAll()}
+                />
+              </div>
+
+            </div>
             {
               items.length > 1 && (
+                <div className="dis-f a-c jc-c mt-2 hide-sm w-perc-100">
+                  <BrixelButtonIcon
+                    onClick={() => moveSlide('prev')}
+                    className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                    icon="arrow-simple-left"
+                    theme="light"
+                    saturation={500}
+                    secondary
+                  />
+                  <div className="fsize-300 txtPrimary400 ml-3 mr-3">
+                    <span>{activeSlide + 1}</span>
+                    <span className="ml-small-4 mr-small-4">{translateTo('of', lang)}</span>
+                    <span>{total}</span>
+                  </div>
+                  <BrixelButtonIcon
+                    onClick={() => moveSlide('next')}
+                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                    icon="arrow-simple-right"
+                    theme="light"
+                    saturation={500}
+                    secondary
+                  />
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </>
+    );
+  }
+  return (
+    <>
+      <div className={`${className} carousel-wrapper pos-r`}>
+        <div className={`${subtitle ? '' : 'mb-3'} dis-fl-col dis-fl-row-sm a-c-sm jc-b`}>
+          <h4 className={`title fweight-600 fsize-600 ${theme === 'light' ? 'txtWhite' : ''}`}>
+            {translateTo(title, lang)}
+          </h4>
+          <div className="mt-1 mt-sm-0 dis-f a-c">
+            <BrixelButtonText
+              className="fsize-300 show-all pos-r mr-1"
+              label={`<span>${translateTo('Show all', lang)}</span> <span class="ml-1">(${total})</span>`}
+              onClick={() => showAll()}
+              theme={theme === 'light' ? 'white' : null}
+              themeSat={0}
+            />
+            {
+              items && items.length > slideToShow && (
                 <>
                   <BrixelButtonIcon
                     onClick={() => moveSlide('prev')}
-                    className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c ml-7-neg ${activeSlide < 1 ? 'slick-disabled' : ''}`}
+                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-left"
                     theme="light"
                     saturation={500}
@@ -201,7 +305,7 @@ const CarouselWrapper = (props) => {
                   />
                   <BrixelButtonIcon
                     onClick={() => moveSlide('next')}
-                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small pos-a y-c mr-7-neg x-r ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
+                    className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
                     icon="arrow-simple-right"
                     theme="light"
                     saturation={500}
@@ -211,136 +315,55 @@ const CarouselWrapper = (props) => {
               )
             }
           </div>
-          <div className={`mt-1 dis-fl-col-sm a-c jc-c ${has(items[activeSlide], 'published') && items[activeSlide].published === false ? '' : ''}`}>
-        
-            <div className="dis-fl-row-sm hide a-c jc-c pt-1">
-              <BrixelButtonText
-                className="fsize-300 show-all pos-r mr-1"
-                label="+ Add new"
-                theme="blue"
-                themeSat={700}
-                onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
-              />
-              <BrixelButtonText
-                theme="blue"
-                themeSat={700}
-                className="fsize-300 show-all pos-r"
-                label={`<span>View all</span> <span class="ml-1">(${total})</span>`}
-                onClick={() => showAll()}
-              />
-            </div>
-      
-          </div>
-          {
-            items.length > 1 && (
-              <div className="dis-f a-c jc-c mt-2 hide-sm w-perc-100">
-                <BrixelButtonIcon
-                  onClick={() => moveSlide('prev')}
-                  className={`txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
-                  icon="arrow-simple-left"
-                  theme="light"
-                  saturation={500}
-                  secondary
-                />
-                <div className="fsize-300 txtPrimary400 ml-3 mr-3">
-                  <span>{activeSlide + 1}</span>
-                  <span className="ml-small-4 mr-small-4">of</span>
-                  <span>{total}</span>
-                </div>
-                <BrixelButtonIcon
-                  onClick={() => moveSlide('next')}
-                  className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
-                  icon="arrow-simple-right"
-                  theme="light"
-                  saturation={500}
-                  secondary
-                />
-              </div>
-            )
-          }
         </div>
-      </div>
-    );
-  }
-  return (
-    <div className={`${className} carousel-wrapper pos-r`}>
-      <div className={`${subtitle ? '' : 'mb-3'} dis-fl-col dis-fl-row-sm a-c-sm jc-b`}>
-        <h4 className={`title fweight-600 fsize-600 ${theme === 'light' ? 'txtWhite' : ''}`}>{title}</h4>
-        <div className="mt-1 mt-sm-0 dis-f a-c">
-          <BrixelButtonText
-            className="fsize-300 show-all pos-r mr-1"
-            label={`<span>Show all</span> <span class="ml-1">(${total})</span>`}
-            onClick={() => showAll()}
-            theme={theme === 'light' ? 'white' : null}
-            themeSat={0}
-          />
+        {
+          subtitle && (
+            <h6 className={`${theme === 'light' ? 'txtWhite' : ''} mb-3`}>
+              {translateTo(subtitle, lang)}
+            </h6>
+          )
+        }
+        <Slider ref={sliderInstance} {...settingSlider()}>
           {
-            items && items.length > slideToShow && (
-              <>
-                <BrixelButtonIcon
-                  onClick={() => moveSlide('prev')}
-                  className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide < 1 ? 'slick-disabled' : ''}`}
-                  icon="arrow-simple-left"
-                  theme="light"
-                  saturation={500}
-                  secondary
-                />
-                <BrixelButtonIcon
-                  onClick={() => moveSlide('next')}
-                  className={`mr-1 txtLight500 icnLight500 brdLight500 slick-arrow secondary small ${activeSlide >= items.length - 1 ? 'slick-disabled' : ''}`}
-                  icon="arrow-simple-right"
-                  theme="light"
-                  saturation={500}
-                  secondary
-                />
-              </>
-            )
+            !items && numCard.map((card, i) => (
+              <MarketCard
+                lang={lang}
+                type={type}
+                key={`nmCrd_${i.toString()}`}
+                item={card}
+                preventClick={preventClick}
+                onSetActiveProperty={(id) => onSetActiveProperty(id)}
+              />
+            ))
           }
-        </div>
+          {
+            items && items.length > 0 && items.map((item, i) => (
+              <MarketCard
+                lang={lang}
+                type={type}
+                key={`mktCrd_${i.toString()}`}
+                item={item}
+                preventClick={preventClick}
+                onSetActiveProperty={(id) => onSetActiveProperty(id)}
+              />
+            ))
+          }
+        </Slider>
       </div>
-      {
-        subtitle && (
-          <h6 className={`${theme === 'light' ? 'txtWhite' : ''} mb-3`}>
-            {subtitle}
-          </h6>
-        )
-      }
-      <Slider ref={sliderInstance} {...settingSlider()}>
-        {
-          !items && numCard.map((card, i) => (
-            <MarketCard
-              type={type}
-              key={`nmCrd_${i.toString()}`}
-              item={card}
-              preventClick={preventClick}
-              onSetActiveProperty={(id) => onSetActiveProperty(id)}
-            />
-          ))
-        }
-        {
-          items && items.length > 0 && items.map((item, i) => (
-            <MarketCard
-              type={type}
-              key={`mktCrd_${i.toString()}`}
-              item={item}
-              preventClick={preventClick}
-              onSetActiveProperty={(id) => onSetActiveProperty(id)}
-            />
-          ))
-        }
-      </Slider>
-    </div>
+    </>
   );
 };
 
 CarouselWrapper.propTypes = {
   className: PropTypes.string,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
   lang: PropTypes.string.isRequired,
   layout: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   onSetActiveProperty: PropTypes.func,
   setActiveSingleCompany: PropTypes.func,
+  ownerProperties: PropTypes.object.isRequired,
   setPropertyId: PropTypes.func,
   slideToGo: PropTypes.number,
   subtitle: PropTypes.string,
@@ -367,9 +390,11 @@ CarouselWrapper.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  lang: get(state, 'user.loggedInUser.user.language', 'en'),
+  companyListings: get(state, 'companies.companyListings.data', []),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  ownerProperties: get(state, 'market.ownerProperties', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

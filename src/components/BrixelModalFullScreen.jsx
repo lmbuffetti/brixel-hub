@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary, translateTo } from '@brixel/brixel-components';
 
 const BrixelModalFullScreen = (props) => {
   // PROPS
   const {
     children,
-    title,
+    lang,
     onClose,
+    title,
   } = props;
   // STATE
 
@@ -40,7 +41,7 @@ const BrixelModalFullScreen = (props) => {
             >
               <div className="subcontainer m-a">
                 <div>
-                  <h3 className="mb-5 ta-c">{title}</h3>
+                  <h3 className="mb-5 ta-c">{translateTo(title, lang)}</h3>
                   <div>
                     {children}
                   </div>
@@ -71,8 +72,9 @@ const BrixelModalFullScreen = (props) => {
 
 BrixelModalFullScreen.propTypes = {
   children: PropTypes.oneOfType([PropTypes.any]).isRequired,
-  title: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default BrixelModalFullScreen;

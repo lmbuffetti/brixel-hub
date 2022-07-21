@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, translateTo } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
 import orderBy from 'lodash/orderBy';
@@ -12,8 +12,8 @@ import { bindActionCreators, compose } from 'redux';
 import sanitizeHtml from 'sanitize-html';
 import { getHistoryListings } from '../../../actions/HistoryActions';
 import { getNoteListings } from '../../../actions/NoteActions';
-import { feedMessage } from '../../../resources/dashboardHistory';
-import timelineActionStubs from '../../../resources/timelineActionStubs';
+import { feedMessage } from '../../../resources/Dashboard/dashboardHistory';
+import timelineActionStubs from '../../../resources/Utilities/timelineActionStubs';
 import { arrayMove } from '../../../utils/helpers';
 
 const SidebarBuyer = (props) => {
@@ -26,6 +26,7 @@ const SidebarBuyer = (props) => {
     activeSinglePropertyHistory,
     activeSingleUserHistory,
     handleGetHistoryFeed,
+    lang,
     loggedInUser,
   } = props;
   const match = useParams();
@@ -90,7 +91,7 @@ const SidebarBuyer = (props) => {
 
   const convertFeedMessage = (stub, type, history) => {
     if (activeSingleProperty.id) {
-      const data = feedMessage(loggedInUser, history, activeCompanyPackages, activeSingleProperty);
+      const data = feedMessage(loggedInUser, history, activeCompanyPackages, activeSingleProperty, lang);
       if (data[stub] && data[stub][type]) return data[stub][type];
       if (history.content) return data.note[type];
       return data.default[type];
@@ -113,7 +114,9 @@ const SidebarBuyer = (props) => {
   return (
     <div className="seller-sidebar w-perc-100 max-w-fix-384 py-3 px-sm-2 px-3">
       <div className="updates dis-fl-col">
-        <p className="fweight-600 txtDark700 mb-2">Feed</p>
+        <p className="fweight-600 txtDark700 mb-2">
+          {translateTo('Feed', lang)}
+        </p>
         {
           fullUpdates.map((history, i) => (
             <React.Fragment key={`updt_${i.toString()}`}>
@@ -137,7 +140,7 @@ const SidebarBuyer = (props) => {
                     <div className="pl-2 desc">
                       <p
                         className="fsize-300 txtDark600 dont-break-out"
-                        dangerouslySetInnerHTML={{ __html: parseNote(convertFeedMessage(history.actionStub, 'message', history), typeof history.actionStub === 'undefined') }}
+                        dangerouslySetInnerHTML={{ __html: translateTo(parseNote(convertFeedMessage(history.actionStub, 'message', history), typeof history.actionStub === 'undefined'), lang)}}
                       />
                       {
                         get(history, 'createdAt', null) && !isNaN(+get(history, 'createdAt', null)) && (
@@ -170,11 +173,12 @@ const SidebarBuyer = (props) => {
 SidebarBuyer.propTypes = {
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeDealHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeSinglePropertyDeals: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSinglePropertyDeals: PropTypes.object.isRequired,
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
 
@@ -185,6 +189,7 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory.data', []),
   activeDealHistory: get(state, 'deal.activeSingleDealHistory.data', []),
   activeSingleUserHistory: get(state, 'history.activeSingleUserHistory.data', []),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
 });
 

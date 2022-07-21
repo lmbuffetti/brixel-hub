@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText, translateTo } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -32,6 +32,7 @@ const MarketList = (props) => {
   // PROPS
   const {
     allProperties,
+    companyListings,
     favoritesProperties,
     handleGetAllProperties,
     handleGetFavoritesProperties,
@@ -41,6 +42,7 @@ const MarketList = (props) => {
     handleGetPremiumProperties,
     handleGetSellerProperties,
     handleGetWishlistProperties,
+    lang,
     lastViewedProperties,
     loggedInUser,
     newProperties,
@@ -50,8 +52,8 @@ const MarketList = (props) => {
     setMarketOverlayProperty,
     setSplashScreen,
     userSearchProfiles,
-    wishlistProperties,
     windowDimensions,
+    wishlistProperties,
   } = props;
   // URL PARAMS
   const catName = get(match, 'cat', null);
@@ -271,6 +273,15 @@ const MarketList = (props) => {
     } else window.open(`${baseByData.pageUrl}${item.stub}`, '_blank');
   };
 
+  const getCompanyStub = () => {
+    // TODO: Company management for "Add new" property flow
+    if (ownerProperties.total === 0) return get(loggedInUser, 'company.stub', '')
+    else {
+      const company = companyListings.find((cmp) => cmp.id === get(ownerProperties, 'data[0].company', ''));
+      return company.stub;
+    }
+  };
+
   useEffect(() => {
     const catList = document.getElementsByClassName('market-container')[0];
     const scrollEl = document.getElementsByClassName('hubDasContent')[0];
@@ -286,131 +297,113 @@ const MarketList = (props) => {
   }, []);
 
   return (
-    <div className="container">
-      <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
-        <BrixelButtonPrimary
-          label="Map View"
-          rounded
-          theme="dark"
-          leftIcon="roadmap"
-          className={openMap ? 'slideOut' : ''}
-          onClick={() => { setOpenMap(true); }}
-        />
-      </div>
-      <div className="firstLevel dis-f">
-        <div className="property-list pb-md-3">
-          <div className="mb-3 dis-fl-col">
-            <div className="dis-fl-col pos-r">
-              <BrixelButtonIcon
-                secondary
-                small
-                theme="light"
-                onClick={() => handleMapClose()}
-                icon="arrow-simple-left"
-                className="pos-r"
-              />
-              <div className="mt-2 pr-0 pr-lg-3">
-                <div className="dis-f jc-b a-b">
-                  <div>
-                    <h4 className="dis-b fweight-700 pb-small-4">{getTitle()}</h4>
-                    <span className="fsize-300"><span>There are </span> <span className="fweight-600 notranslate"> {getTotal() ? getTotal() : '-'}</span> <span className="fweight-600">properties</span> <span>available</span></span>
+    <>
+      <div className="container">
+        <div className="maplink hide-lg pos-a x-c bt mb-3 zIndex1">
+          <BrixelButtonPrimary
+            label={translateTo('Map View', lang)}
+            rounded
+            theme="dark"
+            leftIcon="roadmap"
+            className={openMap ? 'slideOut' : ''}
+            onClick={() => { setOpenMap(true); }}
+          />
+        </div>
+        <div className="firstLevel dis-f">
+          <div className="property-list pb-md-3">
+            <div className="mb-3 dis-fl-col">
+              <div className="dis-fl-col pos-r">
+                <BrixelButtonIcon
+                  secondary
+                  small
+                  theme="light"
+                  onClick={() => handleMapClose()}
+                  icon="arrow-simple-left"
+                  className="pos-r"
+                />
+                <div className="mt-2 pr-0 pr-lg-3">
+                  <div className="dis-f jc-b a-b">
+                    <div>
+                      <h4 className="dis-b fweight-700 pb-small-4">
+                        {translateTo(getTitle(), lang)}
+                      </h4>
+                      <span className="fsize-300">
+                        <span>{translateTo('There are', lang)}</span>
+                        <span className="fweight-600 notranslate ml-small-4">
+                          {getTotal() ? getTotal() : '-'}
+                        </span>
+                        <span className="fweight-600 ml-small-4">{translateTo('properties', lang)}</span>
+                        <span className="ml-small-4">{translateTo('available', lang)}</span>
+                      </span>
+                    </div>
+                    <BrixelButtonText
+                      className="fsize-300 show-all pos-r"
+                      label={translateTo('+ Add new', lang)}
+                      onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
+                    />
                   </div>
-                  <BrixelButtonText
-                    className="fsize-300 show-all pos-r"
-                    label="+ Add new"
-                    onClick={() => history.push(`/packageFlow/getStarted?company=${get(loggedInUser, 'company.stub', '')}`)}
-                  />
                 </div>
               </div>
             </div>
+
             {
-              /*
-             <div className="dis-f jc-b">
-              <div className="dis-f a-t">
-                <BrixelButtonSecondary
-                  label="All"
-                  rounded
-                  theme="light"
-                  themeSat={500}
-                  className="fsize-300 mr-1"
+              propertyListings.map((page, i) => (
+                <MarketCardMap
+                  lang={lang}
+                  type="own"
+                  key={`prop_${i.toString()}`}
+                  item={page}
+                  onClick={() => openCard(page)}
+                  onHover={(val) => setActiveProperty(val !== null ? page.id : null)}
                 />
-                <BrixelButtonSecondary
-                  label="More Filter"
-                  rounded
-                  theme="light"
-                  themeSat={500}
-                  className="fsize-300 mr-1"
+              ))
+            }
+            {
+              propertyListings.length > 0 && (
+                <Pagination
+                  className="pr-3"
+                  totalItems={getTotal()}
+                  itemsPerPage={itemsPerPage}
+                  activePage={currentPage}
+                  paginate={(resultsPerPage, pageNumber) => updatePagination(resultsPerPage, pageNumber, sortOrderType, sortDirection)}
+                // we use the current values for the filters (stored in currentSearch, sortOrderType and sortDirection) in the moment the pagination is applied
                 />
-              </div>
-              <div className="div">
-                <BrixelButtonSecondary
-                  label="Sort by relevance"
-                  rounded
-                  theme="light"#
-                  themeSat={500}
-                  className="fsize-300 mr-1"
-                />
-              </div>
-            </div>
-               */
+              )
             }
           </div>
-        
-          {
-            propertyListings.map((page, i) => (
-              <MarketCardMap
-                type="own"
-                key={`prop_${i.toString()}`}
-                item={page}
-                onClick={() => openCard(page)}
-                onHover={(val) => setActiveProperty(val !== null ? page.id : null)}
+
+          <div className={`secondLevel p-0 map-wrapper ${openMap ? 'map-on' : ''}`}>
+            {
+              windowDimensions.width <= 1024 && !activeProperty && (
+                <BrixelButtonIcon
+                  ghost
+                  theme="dark"
+                  onClick={() => handleMapClose()}
+                  icon="close-small"
+                  className="pos-a-fix x-r-0 zIndex1 mt-10 mr-2"
+                />
+              )
+            }
+            <Suspense fallback="">
+              <MarketMap
+                type={catName}
+                activeProperty={activeProperty}
+                onActiveProperty={(val) => setActiveProperty(val)}
+                properties={propertyListings}
+                onMarker={(val) => setMarker(val)}
+                parentMarker={marker}
               />
-            ))
-          }
-          {
-            propertyListings.length > 0 && (
-              <Pagination
-                className="pr-3"
-                totalItems={getTotal()}
-                itemsPerPage={itemsPerPage}
-                activePage={currentPage}
-                paginate={(resultsPerPage, pageNumber) => updatePagination(resultsPerPage, pageNumber, sortOrderType, sortDirection)}
-                // we use the current values for the filters (stored in currentSearch, sortOrderType and sortDirection) in the moment the pagination is applied
-              />
-            )
-          }
-        </div>
-      
-        <div className={`secondLevel p-0 map-wrapper ${openMap ? 'map-on' : ''}`}>
-          {
-            windowDimensions.width <= 1024 && !activeProperty && (
-              <BrixelButtonIcon
-                ghost
-                theme="dark"
-                onClick={() => handleMapClose()}
-                icon="close-small"
-                className="pos-a-fix x-r-0 zIndex1 mt-10 mr-2"
-              />
-            )
-          }
-          <Suspense fallback="">
-            <MarketMap
-              type={catName}
-              activeProperty={activeProperty}
-              onActiveProperty={(val) => setActiveProperty(val)}
-              properties={propertyListings}
-              onMarker={(val) => setMarker(val)}
-              parentMarker={marker}
-            />
-          </Suspense>
+            </Suspense>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
 MarketList.propTypes = {
   allProperties: PropTypes.object.isRequired,
+  companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   favoritesProperties: PropTypes.object.isRequired,
   handleGetAllProperties: PropTypes.func.isRequired,
   handleGetFavoritesProperties: PropTypes.func.isRequired,
@@ -420,6 +413,7 @@ MarketList.propTypes = {
   handleGetPremiumProperties: PropTypes.func.isRequired,
   handleGetSellerProperties: PropTypes.func.isRequired,
   handleGetWishlistProperties: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   lastViewedProperties: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   newProperties: PropTypes.object.isRequired,
@@ -429,8 +423,8 @@ MarketList.propTypes = {
   setMarketOverlayProperty: PropTypes.func.isRequired,
   setSplashScreen: PropTypes.func.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
-  wishlistProperties: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
+  wishlistProperties: PropTypes.object.isRequired,
 };
 
 MarketList.defaultProps = {
@@ -439,7 +433,9 @@ MarketList.defaultProps = {
 
 const mapStateToProps = (state) => ({
   allProperties: get(state, 'market.allProperties', {}),
+  companyListings: get(state, 'companies.companyListings.data', []),
   favoritesProperties: get(state, 'market.favoritesProperties', {}),
+  lang: get(state, 'common.language', 'en'),
   lastViewedProperties: get(state, 'market.lastViewedProperties', {}),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   newProperties: get(state, 'market.newProperties', {}),
@@ -447,8 +443,8 @@ const mapStateToProps = (state) => ({
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   premiumProperties: get(state, 'market.premiumProperties', {}),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
-  wishlistProperties: get(state, 'market.wishlistProperties', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
+  wishlistProperties: get(state, 'market.wishlistProperties', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({

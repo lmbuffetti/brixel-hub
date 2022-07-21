@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { translateTo } from '@brixel/brixel-components';
 /* eslint-disable array-callback-return */
 import React, { useState, useEffect, useRef } from 'react';
 import get from 'lodash/get';
@@ -18,9 +19,10 @@ export const MarketMapComponent = (props) => {
   const {
     activeProperty,
     google,
-    properties,
+    lang,
     mapType,
     onActiveProperty,
+    properties,
     rad,
     showMap,
     subMinHeight,
@@ -149,8 +151,8 @@ export const MarketMapComponent = (props) => {
                 <div className="modalMaps">
                   <i style={{ backgroundImage: `url(${modalInfo.photo})` }} />
                   <div>
-                    <h4>{modalInfo.title}</h4>
-                    <h6>{modalInfo.subtitle}</h6>
+                    <h4>{translateTo(modalInfo.title, lang)}</h4>
+                    <h6>{translateTo(modalInfo.subtitle, lang)}</h6>
                     <p>{`${modalInfo.distance}m`}</p>
                   </div>
                 </div>
@@ -167,6 +169,7 @@ MarketMapComponent.propTypes = {
   activeProperty: PropTypes.string,
   google: PropTypes.object.isRequired,
   mapType: PropTypes.string,
+  lang: PropTypes.string.isRequired,
   onActiveProperty: PropTypes.func.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   rad: PropTypes.number,
@@ -190,6 +193,7 @@ MarketMapComponent.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  lang: get(state, 'common.language', 'en'),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 

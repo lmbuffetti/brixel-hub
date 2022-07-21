@@ -17,7 +17,7 @@ import {
   BrixelButtonIcon,
   BrixelIcon,
   BrixelButtonPrimary,
-  BrixelButtonSecondary,
+  BrixelButtonSecondary, translateTo,
 } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
@@ -40,10 +40,11 @@ const Photos = (props) => {
     activeSingleProperty,
     changeFieldValue,
     formValue,
-    handleMultiUploadImg,
     handleDeleteImg,
+    handleMultiUploadImg,
     imageType,
     isSmallLoading,
+    lang,
     loggedInUser,
     windowDimensions,
   } = props;
@@ -165,12 +166,12 @@ const Photos = (props) => {
 
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">Photos</h3>
+      <h3 className="mb-3 hide dis-b-lg">{translateTo('Photos', lang)}</h3>
       <div className="photosWrapper dis-f">
         <div className="secondLevel dis-fl-col">
           <div className="dis-f backPanel hide-lg">
             <h5 className="sectionTitle">
-              Photos
+              {translateTo('Photos', lang)}
             </h5>
           </div>
           <div className={`boxCard mb-5 ${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
@@ -208,7 +209,7 @@ const Photos = (props) => {
                                     rounded
                                     theme="red"
                                     rightIcon="bin"
-                                    label="delete?"
+                                    label={translateTo('delete?', lang)}
                                     className={`${confirmDelete === i ? '' : 'hide'}`}
                                     onClick={() => deleteImage(item.id)}
                                     isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
@@ -249,7 +250,7 @@ const Photos = (props) => {
                             {
                               item.description && (
                                 <p className="ta-l mt-1 fsize-200 txtDark700 w-prec-100">
-                                  {Truncate(item.description, 60)}
+                                  {translateTo(Truncate(item.description, 60), lang)}
                                 </p>
                               )
                             }
@@ -289,13 +290,13 @@ const Photos = (props) => {
                     (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
                       <div className="dis-fl-col">
                         <img className="h-fix-120" src={uploadPhotosEmpty} alt="Empty State" />
-                        <h5 className="mt-3 mb-2">Upload your first photo</h5>
+                        <h5 className="mt-3 mb-2">{translateTo('Upload your first photo', lang)}</h5>
                       </div>
                     )
                   }
-                  <span className="body2 txtDark200 max-width-220">Choose .jpeg .png with max. 10 MB size</span>
+                  <span className="body2 txtDark200 max-width-220">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
                   <BrixelButtonPrimary
-                    label="upload"
+                    label={translateTo('upload', lang)}
                     rightIcon="upload"
                     rounded
                     className="mt-3"
@@ -307,10 +308,11 @@ const Photos = (props) => {
           </div>
 
           <BrixelUpgradeMessage
+            lang={lang}
             unlockFunction={false}
-            title="Do you want to capture your property in its best possible light?"
-            description="High-quality photos help you to stand out in the market. Request a free on-site appointment by one of our experts to get a free photo shooting."
-            btnLabel="Request photo shoot"
+            title={translateTo('Do you want to capture your property in its best possible light?', lang)}
+            description={translateTo('High-quality photos help you to stand out in the market. Request a free on-site appointment by one of our experts to get a free photo shooting.', lang)}
+            btnLabel={translateTo('Request photo shoot', lang)}
             redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
             trialRequest
           />
@@ -336,6 +338,7 @@ Photos.propTypes = {
   handleMultiUploadImg: PropTypes.func.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
@@ -345,6 +348,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   imageType: get(state, 'images.imageType', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', { }),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

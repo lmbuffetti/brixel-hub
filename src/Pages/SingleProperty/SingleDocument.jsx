@@ -16,7 +16,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonText,
-  BrixelButtonSecondary,
+  BrixelButtonSecondary, translateTo,
 } from '@brixel/brixel-components';
 import {
   ReduxField,
@@ -32,6 +32,7 @@ import {
 
 // COMPONENTS
 import SplashScreen from '../../components/SplashScreen';
+import { requestDone } from '../../actions/CommonActions';
 
 const SingleDocument = (props) => {
   const history = {
@@ -45,7 +46,10 @@ const SingleDocument = (props) => {
     formValue,
     handleUpdateDocument,
     initialValues,
+    isRequestDone,
     isSmallLoading,
+    lang,
+    setRequestDone,
   } = props;
 
   const [activeDocument, setActiveDocument] = useState({});
@@ -53,6 +57,8 @@ const SingleDocument = (props) => {
   const [documentFolders, setDocumentFolders] = useState([]);
   const [newFolder, setNewFolder] = useState(false);
   const [docuementsType, setDocumentsType] = useState([]);
+
+  useEffect(() => () => setRequestDone(false), []);
 
   useEffect(() => {
     if (has(formValue, 'location.countryCode')) {
@@ -90,7 +96,7 @@ const SingleDocument = (props) => {
         const array = uniq(folderArrayAux);
         array.forEach((value, key) => {
           array[key] = {
-            label: value,
+            label: translateTo(value, lang),
             value,
             id: value.toLowerCase(),
           };
@@ -109,7 +115,7 @@ const SingleDocument = (props) => {
   }, [activeDocument]);
 
   useEffect(() => {
-    if (isSmallLoading.saveData === false) {
+    if (isSmallLoading.saveData === false && isRequestDone) {
       history.push(`/${activeSingleProperty.id}/docubox`);
     }
   }, [isSmallLoading]);
@@ -168,7 +174,9 @@ const SingleDocument = (props) => {
             <div className="single-document dis-fl-col">
               {/* top panel */}
               <div className="top dis-fl-row a-c jc-b mb-5">
-                <span className="name dis-b fsize-500 fweight-500 txtDark700">Edit document</span>
+                <span className="name dis-b fsize-500 fweight-500 txtDark700">
+                  {translateTo('Edit document', lang)}
+                </span>
                 <BrixelButtonIcon
                   icon="close-small"
                   ghost
@@ -192,7 +200,7 @@ const SingleDocument = (props) => {
                     placeholder: 'Name this document',
                   }}
                   labels={{
-                    label: 'Name',
+                    label: translateTo('Name', lang),
                   }}
                   component={BrixelInputText}
                 />
@@ -208,7 +216,7 @@ const SingleDocument = (props) => {
                     options: docuementsType,
                   }}
                   labels={{
-                    label: 'Type of document',
+                    label: translateTo('Type of document', lang),
                   }}
                   component={BrixelSelect}
                 />
@@ -222,11 +230,11 @@ const SingleDocument = (props) => {
                   input={{
                     name: `documents[${activeDocumentKey}].isPrivate`,
                     options: [{
-                      label: 'Private',
+                      label: translateTo('Private', lang),
                       value: 'Private',
                     },
                     {
-                      label: 'Public',
+                      label: translateTo('Public', lang),
                       value: 'Public',
                     }],
                   }}
@@ -248,7 +256,7 @@ const SingleDocument = (props) => {
                           placeholder: 'New folder name',
                         }}
                         labels={{
-                          label: 'New folder',
+                          label: translateTo('New folder', lang),
                         }}
                         component={BrixelInputText}
                       />
@@ -294,7 +302,7 @@ const SingleDocument = (props) => {
                       }
                       <BrixelButtonText
                         className={`edit as-fs ${documentFolders.length > 0 ? 'mt-1' : 'mt-3'}`}
-                        label="New folder"
+                        label={translateTo('New folder', lang)}
                         onClick={() => {
                           changeFieldValue(`documents[${activeDocumentKey}].folder`, '');
                           setNewFolder(true);
@@ -311,7 +319,7 @@ const SingleDocument = (props) => {
                   theme="dark"
                   rounded
                   small
-                  label="Cancel"
+                  label={translateTo('Cancel', lang)}
                   onClick={() => {
                     changeFieldValue('documents', initialValues.documents);
                     history.push(`/${activeSingleProperty.id}/docubox`);
@@ -319,7 +327,7 @@ const SingleDocument = (props) => {
                 />
                 <BrixelButtonPrimary
                   className="edit"
-                  label="Save"
+                  label={translateTo('Save', lang)}
                   rounded
                   small
                   disabled={checkDisabled()}
@@ -343,7 +351,10 @@ SingleDocument.propTypes = {
   formValue: PropTypes.object.isRequired,
   handleUpdateDocument: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isRequestDone: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
+  setRequestDone: PropTypes.func.isRequired,
 };
 
 SingleDocument.defaultProps = {};
@@ -352,9 +363,10 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   initialValues: get(state, 'property.activeSingleProperty', {}),
-  isSuperAdmin: get(state, 'common.superAdmin', false),
+  isRequestDone: get(state, 'common.requestDone', false),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  userLang: get(state, 'user.loggedInUser.language', 'en'),
+  isSuperAdmin: get(state, 'common.superAdmin', false),
+  lang: get(state, 'common.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -362,6 +374,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(change('Property', field, value));
   },
   handleUpdateDocument: bindActionCreators(updateDocument, dispatch),
+  setRequestDone: bindActionCreators(requestDone, dispatch),
 });
 
 export default compose(

@@ -10,7 +10,7 @@ import {
   BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  BrixelTabs,
+  BrixelTabs, translateTo,
 } from '@brixel/brixel-components';
 import { initializeForm } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
@@ -67,8 +67,9 @@ const MarketCategoryListBuyer = (props) => {
 
   // PROPS
   const {
-    initialValues,
     initForm,
+    initialValues,
+    lang,
     ownerEstimations,
     preMarketStats,
     premiumEuropeProperties,
@@ -76,8 +77,8 @@ const MarketCategoryListBuyer = (props) => {
     setSplashScreen,
     splashScreenType,
     userSearchProfiles,
-    wishlistProperties,
     windowDimensions,
+    wishlistProperties,
   } = props;
   // STATE
   const [numWishProp, setWishProp] = useState(4);
@@ -144,261 +145,276 @@ const MarketCategoryListBuyer = (props) => {
   };
 
   return (
-    <Suspense fallback="">
-      <div className="buyerMarket">
-        {/* SECTION: buyer welcome message  */}
-        {
-          splashScreenType === 'buyerWelcome' && (
-            <SplashScreen
-              className="result-popup centered"
-              closeOutside={false}
-            >
-              <div className="dis-f jc-fe mb-2">
-                <BrixelButtonIcon
-                  ghost
-                  theme="dark"
-                  icon="close-small"
-                  onClick={() => onCloseWelcome()}
-                />
-              </div>
-              <div className="dis-fl-col jc-c a-c pb-2">
-                <h3>Welcome 🖐 </h3>
-                <span className="txtDark200 pt-2 pb-5"> This is our Brixel market. A place where you can do great things. </span>
-                <div className="mb-5">
-                  <div className="dis-f mb-2">
-                    <div className="dis-f a-c min-w-fix-64 jc-fe">
-                      <BrixelIcon
-                        icon="favorite-fill"
-                        color="red"
-                      />
-                    </div>
-                    <span className="max-w-fix-424 txtDark700 pl-2"> Manage your favorites and buy your new home directly on Brixel.</span>
-                  </div>
-                  <div className="dis-f mb-2">
-                    <div className="dis-f a-c min-w-fix-64 jc-fe">
-                      <span className="category-tag bgPrimary300">
-                        Pre
-                      </span>
-                    </div>
-                    <span className="max-w-fix-424 txtDark700 pl-2"> Discover exclusive properties which are not on the market yet, but waiting for your first move.</span>
-                  </div>
-                  <div className="dis-f">
-                    <div className="dis-f a-c min-w-fix-64 jc-fe">
-                      <span className="category-tag bgRed400">
-                        Premium
-                      </span>
-                    </div>
-                    <span className="max-w-fix-424 txtDark700 pl-2"> Explore our Premium properties with 3D tour, detailed documentation and verified informations.</span>
-                  </div>
+    <>
+      <Suspense fallback="">
+        <div className="buyerMarket">
+          {/* SECTION: buyer welcome message  */}
+          {
+            splashScreenType === 'buyerWelcome' && (
+              <SplashScreen
+                className="result-popup centered"
+                closeOutside={false}
+              >
+                <div className="dis-f jc-fe mb-2">
+                  <BrixelButtonIcon
+                    ghost
+                    theme="dark"
+                    icon="close-small"
+                    onClick={() => onCloseWelcome()}
+                  />
                 </div>
-                <BrixelButtonPrimary
-                  label="ok, got it!"
-                  rounded
-                  onClick={() => onCloseWelcome()}
-                />
-              </div>
-            </SplashScreen>
-          )
-        }
-      
-        <div className="container">
-          {
-            topTab.length > 0 && (
-              <BrixelTabs
-                className="mb-2"
-                clicksList={topTab.map((item) => item.value)}
-                labels={topTab.map((item) => item.label)}
-                activeTab={activeTopTab}
-                onClick={(tab) => setActiveTopTab(tab)}
-              />
-            )
-          }
-        
-          {/* WHISHLIST */}
-          {
-            get(wishlistProperties, 'data', []).length > 0 && activeTopTab === 'wishlist' && (
-              <div>
-                <div className="dis-f jc-b">
-                  <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
-                    {
-                      get(wishlistProperties, 'data', []).map((fav, i) => (
-                        <React.Fragment key={`wsh_${i.toString()}`}>
-                          {
-                            i < numWishProp && (
-                              <MarketCardSmall
-                                type="fav"
-                                item={fav}
-                              />
-                            )
-                          }
-                        </React.Fragment>
-                      ))
-                    }
-                  </div>
-                  {
-                    get(wishlistProperties, 'data', []).length > numWishProp && (
-                      <div
-                        className="brdSmall brdRadius dis-f a-c jc-c brdPrimary400 min-w-fix-80 h-fix-80 ml-4 cur-poi"
-                        onClick={() => history.push('/buy/wishlist')}
-                      >
-                        <span className="txtGreen400 fweight-600 fsize-500">
-                          + {get(wishlistProperties, 'data', []).length - numWishProp}
+                <div className="dis-fl-col jc-c a-c pb-2">
+                  <h3>{translateTo('Welcome 🖐', lang)}</h3>
+                  <span className="txtDark200 pt-2 pb-5">
+                    {translateTo('This is our Brixel market. A place where you can do great things.', lang)}
+                  </span>
+                  <div className="mb-5">
+                    <div className="dis-f mb-2">
+                      <div className="dis-f a-c min-w-fix-64 jc-fe">
+                        <BrixelIcon
+                          icon="favorite-fill"
+                          color="red"
+                        />
+                      </div>
+                      <span className="max-w-fix-424 txtDark700 pl-2">
+                        {translateTo('Manage your favorites and buy your new home directly on Brixel.', lang)}
+                      </span>
+                    </div>
+                    <div className="dis-f mb-2">
+                      <div className="dis-f a-c min-w-fix-64 jc-fe">
+                        <span className="category-tag bgPrimary300">
+                          {translateTo('Pre', lang)}
                         </span>
                       </div>
-                    )
-                  }
+                      <span className="max-w-fix-424 txtDark700 pl-2">
+                        {translateTo('Discover exclusive properties which are not on the market yet, but waiting for your first move.', lang)}
+                      </span>
+                    </div>
+                    <div className="dis-f">
+                      <div className="dis-f a-c min-w-fix-64 jc-fe">
+                        <span className="category-tag bgRed400">
+                          {translateTo('Premium', lang)}
+                        </span>
+                      </div>
+                      <span className="max-w-fix-424 txtDark700 pl-2">
+                        {translateTo('Explore our Premium properties with 3D tour, detailed documentation and verified informations.', lang)}
+                      </span>
+                    </div>
+                  </div>
+                  <BrixelButtonPrimary
+                    label={translateTo('ok, got it!', lang)}
+                    rounded
+                    onClick={() => onCloseWelcome()}
+                  />
                 </div>
-              </div>
+              </SplashScreen>
             )
           }
-        
-          {/* ESTIMATIONS */}
-          {
-            get(ownerEstimations, 'data', []).length > 0 && activeTopTab === 'estimations' && (
-              <div>
-                <div className="dis-f a-c jc-b">
-                  <div className={showArrow() ? 'slide-with-arrow' : 'slide-without-arrow'}>
-                    {
-                      showArrow() ? (
-                        <Slider ref={sliderInstance} {...settingSlider}>
-                          {
-                            get(ownerEstimations, 'data', []).map((fav, i) => (
-                              <div
-                                key={`ownProp_${i.toString()}`}
-                                className="max-w-fix-sm-304"
-                              >
+
+          <div className="container">
+            {
+              topTab.length > 0 && (
+                <BrixelTabs
+                  className="mb-2"
+                  clicksList={topTab.map((item) => item.value)}
+                  labels={topTab.map((item) => translateTo(item.label, lang))}
+                  activeTab={activeTopTab}
+                  onClick={(tab) => setActiveTopTab(tab)}
+                />
+              )
+            }
+
+            {/* WHISHLIST */}
+            {
+              get(wishlistProperties, 'data', []).length > 0 && activeTopTab === 'wishlist' && (
+                <div>
+                  <div className="dis-f jc-b">
+                    <div className={`row-cols-${numWishProp}-gut-4 w-perc-100`}>
+                      {
+                        get(wishlistProperties, 'data', []).map((fav, i) => (
+                          <React.Fragment key={`wsh_${i.toString()}`}>
+                            {
+                              i < numWishProp && (
                                 <MarketCardSmall
-                                  key={`ownPro_${i.toString()}`}
-                                  type="estimation"
-                                  estimation={fav.result}
-                                  item={fav.data}
+                                  lang={lang}
+                                  type="fav"
+                                  item={fav}
                                 />
-                              </div>
-                            ))
-                          }
-                        </Slider>
-                      ) : (
-                        <div className={`row-cols-${ownerEstimations.total}-gut-4`}>
-                          {
-                            get(ownerEstimations, 'data', []).map((fav, i) => (
-                              <MarketCardSmall
-                                key={`ownEst_${i.toString()}`}
-                                type="estimation"
-                                estimation={fav.result}
-                                item={fav.data}
-                              />
-                            ))
-                          }
+                              )
+                            }
+                          </React.Fragment>
+                        ))
+                      }
+                    </div>
+                    {
+                      get(wishlistProperties, 'data', []).length > numWishProp && (
+                        <div
+                          className="brdSmall brdRadius dis-f a-c jc-c brdPrimary400 min-w-fix-80 h-fix-80 ml-4 cur-poi"
+                          onClick={() => history.push('/buy/wishlist')}
+                        >
+                          <span className="txtGreen400 fweight-600 fsize-500">
+                            + {get(wishlistProperties, 'data', []).length - numWishProp}
+                          </span>
                         </div>
                       )
                     }
                   </div>
-                  {
-                    showArrow() && (
-                      <div className="dis-f a-c jc-c w-perc-100 pl-2">
-                        <BrixelButtonIcon
-                          onClick={() => moveSlide('prev')}
-                          icon="arrow-simple-left"
-                          theme="light"
-                          saturation={400}
-                          secondary
-                          small
-                        />
-                        <BrixelButtonIcon
-                          className="ml-1"
-                          onClick={() => moveSlide('next')}
-                          icon="arrow-simple-right"
-                          theme="light"
-                          saturation={400}
-                          secondary
-                          small
-                        />
-                      </div>
-                    )
-                  }
+                </div>
+              )
+            }
+
+            {/* ESTIMATIONS */}
+            {
+              get(ownerEstimations, 'data', []).length > 0 && activeTopTab === 'estimations' && (
+                <div>
+                  <div className="dis-f a-c jc-b">
+                    <div className={showArrow() ? 'slide-with-arrow' : 'slide-without-arrow'}>
+                      {
+                        showArrow() ? (
+                          <Slider ref={sliderInstance} {...settingSlider}>
+                            {
+                              get(ownerEstimations, 'data', []).map((fav, i) => (
+                                <div
+                                  key={`ownProp_${i.toString()}`}
+                                  className="max-w-fix-sm-304"
+                                >
+                                  <MarketCardSmall
+                                    key={`ownPro_${i.toString()}`}
+                                    type="estimation"
+                                    lang={lang}
+                                    estimation={fav.result}
+                                    item={fav.data}
+                                  />
+                                </div>
+                              ))
+                            }
+                          </Slider>
+                        ) : (
+                          <div className={`row-cols-${ownerEstimations.total}-gut-4`}>
+                            {
+                              get(ownerEstimations, 'data', []).map((fav, i) => (
+                                <MarketCardSmall
+                                  lang={lang}
+                                  key={`ownEst_${i.toString()}`}
+                                  type="estimation"
+                                  estimation={fav.result}
+                                  item={fav.data}
+                                />
+                              ))
+                            }
+                          </div>
+                        )
+                      }
+                    </div>
+                    {
+                      showArrow() && (
+                        <div className="dis-f a-c jc-c w-perc-100 pl-2">
+                          <BrixelButtonIcon
+                            onClick={() => moveSlide('prev')}
+                            icon="arrow-simple-left"
+                            theme="light"
+                            saturation={400}
+                            secondary
+                            small
+                          />
+                          <BrixelButtonIcon
+                            className="ml-1"
+                            onClick={() => moveSlide('next')}
+                            icon="arrow-simple-right"
+                            theme="light"
+                            saturation={400}
+                            secondary
+                            small
+                          />
+                        </div>
+                      )
+                    }
+                  </div>
+                </div>
+              )
+            }
+
+          </div>
+
+          <div className={`${get(wishlistProperties, 'data', []).length <= 0 && get(ownerEstimations, 'data', []).length <= 0 ? 'mt-3-neg pt-3' : 'mt-5'} bgSvg bgOverlay`}>
+
+            <div className="container pt-3 pb-4 pb-lg-8">
+
+              {/* SEARCH PROFILE */}
+              <div className="">
+                <SearchProfileBanner
+                  preMarketStats={preMarketStats}
+                  onStatsFunc={{ matching: () => setSplashScreen('marketOverlayCarousel') }}
+                />
+              </div>
+
+              <div className="dis-f jc-fe-lg pt-1 pt-lg-9 mt-9 mt-lg-10 infoBannerMarketBuyer">
+                <div className="w-perc-md-50 w-perc-100">
+                  <h3 className="max-w-fix-320 fweight-600 fsize-800">
+                    <span>{translateTo('There are', lang)}</span>
+                    <span className="mx-small-4 txtBlue700">{preMarketStats.total}</span>
+                    <span className="mx-small-4 txtBlue700">
+                      {translateTo('new properties', lang)}
+                    </span>
+                    <span>{translateTo('on our Pre-Market.', lang)}</span>
+                  </h3>
+                  <h5 className="fweight-400 mt-3 txtDark700">
+                    {translateTo('Be ahead of the market.', lang)}
+                  </h5>
+                  <BrixelButtonPrimary
+                    onClick={() => setSplashScreen('marketOverlayCarousel')}
+                    className="mt-3 mt-lg-5"
+                    rounded
+                    label={translateTo('Rate them now', lang)}
+                  />
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+          {
+            windowDimensions.width < 1025 && (
+              <div className="bgBlue200">
+                <object width="100%" data={teaserAnimation}> </object>
+              </div>
+            )
+          }
+
+          <div className="mt-7 pb-8 container">
+            {
+              premiumProperties.total > 0 && (
+                <CarouselWrapper
+                  title="Premium properties"
+                  className="market-category-carousel"
+                  type="premium"
+                  items={premiumProperties.data}
+                  total={premiumProperties.total}
+                />
+              )
+            }
+          </div>
+  
+          {
+            premiumEuropeProperties.total > 0 && (
+              <div className="pt-7 pb-8 bgBlue700">
+                <div className="container">
+                  <CarouselWrapper
+                    theme="light"
+                    title="Explore"
+                    subtitle="Random Brixel properties all over Europe"
+                    className="market-category-carousel"
+                    type="premium"
+                    items={premiumEuropeProperties.data}
+                    total={premiumEuropeProperties.total}
+                  />
                 </div>
               </div>
             )
           }
-      
         </div>
-      
-        <div className={`${get(wishlistProperties, 'data', []).length <= 0 && get(ownerEstimations, 'data', []).length <= 0 ? 'mt-3-neg pt-3' : 'mt-5'} bgSvg bgOverlay`}>
-        
-          <div className="container pt-3 pb-4 pb-lg-8">
-          
-            {/* SEARCH PROFILE */}
-            <div className="">
-              <SearchProfileBanner
-                preMarketStats={preMarketStats}
-                onStatsFunc={{ matching: () => setSplashScreen('marketOverlayCarousel') }}
-              />
-            </div>
-          
-            <div className="dis-f jc-fe-lg pt-1 pt-lg-9 mt-9 mt-lg-10 infoBannerMarketBuyer">
-              <div className="w-perc-md-50 w-perc-100">
-                <h3 className="max-w-fix-320 fweight-600 fsize-800">
-                  <span>There are</span>
-                  <span className="mx-small-4 txtBlue700">{preMarketStats.total}</span>
-                  <span className="mx-small-4 txtBlue700">new properties</span>
-                  <span>on our Pre-Market.</span>
-                </h3>
-                <h5 className="fweight-400 mt-3 txtDark700">
-                  Be ahead of the market.
-                </h5>
-                <BrixelButtonPrimary
-                  onClick={() => setSplashScreen('marketOverlayCarousel')}
-                  className="mt-3 mt-lg-5"
-                  rounded
-                  label="Rate them now"
-                />
-              </div>
-          
-            </div>
-          </div>
-      
-        </div>
-        {
-          windowDimensions.width < 1025 && (
-            <div className="bgBlue200">
-              <object width="100%" data={teaserAnimation}> </object>
-            </div>
-          )
-        }
-      
-        <div className="mt-7 pb-8 container">
-          {
-            premiumProperties.total > 0 && (
-              <CarouselWrapper
-                title="Premium properties"
-                className="market-category-carousel"
-                type="premium"
-                items={premiumProperties.data}
-                total={premiumProperties.total}
-              />
-            )
-          }
-        </div>
-      
-        {
-          premiumEuropeProperties.total > 0 && (
-            <div className="pt-7 pb-8 bgBlue700">
-              <div className="container">
-                <CarouselWrapper
-                  theme="light"
-                  title="Explore"
-                  subtitle="Random Brixel properties all over Europe"
-                  className="market-category-carousel"
-                  type="premium"
-                  items={premiumEuropeProperties.data}
-                  total={premiumEuropeProperties.total}
-                />
-              </div>
-            </div>
-          )
-        }
-      </div>
-    </Suspense>
+      </Suspense>
+    </>
   );
 };
 
@@ -406,6 +422,7 @@ MarketCategoryListBuyer.propTypes = {
   estimation: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   ownerEstimations: PropTypes.object.isRequired,
   preMarketStats: PropTypes.object.isRequired,
   premiumEuropeProperties: PropTypes.object.isRequired,
@@ -427,8 +444,6 @@ const mapStateToProps = (state) => {
   const userCompany = get(state, 'user.loggedInUser.user.comapny', {});
   return ({
     estimation: get(state, 'property.estimation', {}),
-    favoritesProperties: get(state, 'market.favoritesProperties', {}),
-    formValue: get(state, 'brixelForm.GetStarted.values', {}),
     initialValues: {
       ...initVal,
       countryCode: get(initVal, 'location[0].countryCode', get(userCompany, 'country.code', 'CH')),
@@ -441,12 +456,8 @@ const mapStateToProps = (state) => {
       },
       locations: get(state, 'user.userSearchProfiles[0].location', []),
     },
-    isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    lang: get(state, 'user.loggedInUser.user.language', 'en'),
-    loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    newProperties: get(state, 'market.newProperties', {}),
+    lang: get(state, 'common.language', 'en'),
     ownerEstimations: get(state, 'market.ownerEstimations', {}),
-    preMarketProperties: get(state, 'market.preMarketProperties', {}),
     preMarketStats: get(state, 'market.preMarketStats', {}),
     premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
     premiumProperties: get(state, 'market.premiumProperties', {}),

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { FinancingCalculator } from '@brixel/brixel-components';
+import { FinancingCalculator, translateTo } from '@brixel/brixel-components';
 import {
   change,
   reset,
@@ -17,14 +17,15 @@ const Financing = (props) => {
   const {
     activeSingleProperty,
     handleSetModal,
+    lang,
   } = props;
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">Financing</h3>
+      <h3 className="mb-3 hide dis-b-lg">{translateTo('Financing', lang)}</h3>
       <div className="dis-f h-perc-lg-100">
         <div className="dis-fl-col w-perc-100 h-perc-lg-100">
           <div className="dis-fl-col backPanel hide-lg">
-            <h5 className="sectionTitle">Financing</h5>
+            <h5 className="sectionTitle">{translateTo('Financing', lang)}</h5>
           </div>
           <div>
             {
@@ -38,6 +39,7 @@ const Financing = (props) => {
                   onOpenModal={(text) => handleSetModal(text)}
                   openParentModal
                   className="max-w-fix-912"
+                  lang={lang}
                 />
               )
             }
@@ -50,6 +52,7 @@ const Financing = (props) => {
 
 Financing.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   handleSetModal: PropTypes.func.isRequired,
 };
 
@@ -58,6 +61,7 @@ Financing.defaultProps = {
 
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+  lang: get(state, 'common.language', 'en'),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 

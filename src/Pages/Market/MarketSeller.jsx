@@ -60,16 +60,18 @@ const MarketSeller = (props) => {
   }, [loggedInUser]);
 
   return (
-    <Suspense fallback="">
-      <div className="market-container sellerPage" id="market">
-        {/* premarket overlay */}
-        <Routes>
-          <Route path="/" element={<MarketCategoryListSeller />} />
-          <Route path="/:cat" element={<MarketList isSeller />} />
-          <Route path="*" element={<Navigate to="/sell" />} />
-        </Routes>
-      </div>
-    </Suspense>
+    <>
+      <Suspense fallback="">
+        <div className="market-container sellerPage" id="market">
+          {/* premarket overlay */}
+          <Routes>
+            <Route path="/" element={<MarketCategoryListSeller />} />
+            <Route path="/:cat" element={<MarketList isSeller />} />
+            <Route path="*" element={<Navigate to="/sell" />} />
+          </Routes>
+        </div>
+      </Suspense>
+    </>
   );
 };
 

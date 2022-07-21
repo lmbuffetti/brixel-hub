@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  BrixelIcon,
+  BrixelIcon, translateTo,
 } from '@brixel/brixel-components';
 
 const BrixelInfoSlot = (props) => {
@@ -10,6 +10,7 @@ const BrixelInfoSlot = (props) => {
     bgIcon,
     colorIcon,
     icon,
+    lang,
     subtitle,
     title,
   } = props;
@@ -24,10 +25,10 @@ const BrixelInfoSlot = (props) => {
         background={bgIcon}
       />
       <div className="ml-2">
-        <h6 className="fweight-400">{title}</h6>
+        <h6 className="fweight-400">{translateTo(title, lang)}</h6>
         {
           subtitle && (
-            <p className="fsize-100">{subtitle}</p>
+            <p className="fsize-100">{translateTo(subtitle, lang)}</p>
           )
         }
       </div>
@@ -40,6 +41,7 @@ BrixelInfoSlot.propTypes = {
   bgIcon: PropTypes.string,
   colorIcon: PropTypes.string,
   icon: PropTypes.string,
+  lang: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
   title: PropTypes.string.isRequired,
 };

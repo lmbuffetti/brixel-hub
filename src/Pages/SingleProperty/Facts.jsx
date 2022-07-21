@@ -10,14 +10,14 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   BrixelButtonText,
-  Helpers,
+  Helpers, translateTo,
 } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
 import { setPageData } from '../../actions/CommonActions';
-import { InputSheets } from '../../resources/inputSheets';
+import { InputSheets } from '../../resources/SingleProperty/inputSheets';
 import { calcPercentageFacts, checkBrowser } from '../../utils/helpers';
 
 // COMPONENTS
@@ -33,11 +33,12 @@ const Facts = (props) => {
     changeFieldValue,
     formValue,
     handleSaveData,
+    lang,
     windowDimensions,
   } = props;
 
   // STATE
-  const [Questions, setQuestions] = useState(InputSheets(formValue));
+  const [Questions, setQuestions] = useState(InputSheets('facts', lang));
   const [selectedQuest, setSelectedQuest] = useState(null);
   // PARAMS URL
   const propID = get(match, 'propID', null);
@@ -81,8 +82,8 @@ const Facts = (props) => {
     }
     if (selectedQuest) {
       const findCurrentId = Questions.findIndex((quest) => quest.history === selectedQuest.history);
-      const quest = InputSheets(formValue)[findCurrentId];
-      setQuestions(InputSheets(formValue));
+      const quest = InputSheets('facts', lang)[findCurrentId];
+      setQuestions(InputSheets('facts', lang));
       setSelectedQuest(quest);
     }
   }, [formValue]);
@@ -132,13 +133,13 @@ const Facts = (props) => {
 
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">Facts</h3>
+      <h3 className="mb-3 hide dis-b-lg">{translateTo('Facts', lang)}</h3>
       <div className="dis-f h-perc-lg-100">
         <div
           className={`secondLevel w-perc-100 h-perc-lg-100 ${getFact() !== 'facts' && windowDimensions.width >= 1024 ? 'hide' : 'dis-fl-col'}`}
         >
           <div className="dis-fl-col backPanel hide-lg">
-            <h5 className="sectionTitle">Facts</h5>
+            <h5 className="sectionTitle">{translateTo('Facts', lang)}</h5>
           </div>
           <div className="boxCard flex-1">
             <div className="dis-fl-col">
@@ -233,6 +234,7 @@ Facts.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   handleSaveData: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -248,6 +250,7 @@ const mapStateToProps = (state) => ({
   singleUserPropertyList: get(state, 'property.singleUserPropertyList', []),
   notification: get(state, 'common.notification', []),
   initial: get(state, 'brixelForm.Property.initial', {}),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });

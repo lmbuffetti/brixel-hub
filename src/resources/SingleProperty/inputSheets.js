@@ -1,5 +1,5 @@
-import { InputSheetsConfig } from '@brixel/brixel-configuration-partner/dist/InputSheets';
-import { ProEstimationConfig } from '@brixel/brixel-configuration-partner/dist/ProEstimation';
+import { InputSheetsConfig } from '@brixel/brixel-components/dist/configuration/InputSheets';
+import { ProEstimationConfig } from '@brixel/brixel-components/dist/configuration/ProEstimation';
 import { FactsOptions } from '@brixel/brixel-components';
 import {
   BrixelCheckbox,
@@ -13,8 +13,8 @@ import {
   BrixelTextArea,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import Maps from '../components/Map/Maps';
-import { configureStore } from '../store';
+import Maps from '../../components/Map/Maps';
+import { configureStore } from '../../store';
 
 const componentsList = {
   BrixelCheckbox,
@@ -30,11 +30,11 @@ const componentsList = {
   Validation,
 };
 
-export const InputSheets = (type = 'facts') => {
+export const InputSheets = (type = 'facts', lang) => {
   let Input = [];
   if (configureStore) {
-    if (type === 'proEstimation') Input = ProEstimationConfig('hub', configureStore.getState(), Maps, 'brixelForm', componentsList);
-    else Input = InputSheetsConfig('hub', configureStore.getState(), Maps, 'brixelForm', componentsList);
+    if (type === 'proEstimation') Input = ProEstimationConfig('hub', configureStore.getState(), Maps, 'brixelForm', componentsList, lang);
+    else Input = InputSheetsConfig('hub', configureStore.getState(), Maps, 'brixelForm', componentsList, lang);
   }
   const filteredInput = [];
   Input.forEach((item, i) => {

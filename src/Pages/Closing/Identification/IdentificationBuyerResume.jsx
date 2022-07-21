@@ -11,7 +11,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonText,
-  BrixelIcon,
+  BrixelIcon, translateTo,
 } from '@brixel/brixel-components';
 import {
   BrixelCheckbox,
@@ -19,7 +19,7 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import EditBuyerData from './EditBuyerData';
-import { IdentificationQuestions } from '../../../resources/Identification';
+import { IdentificationQuestions } from '../../../resources/Deals/Identification';
 
 const IdentificationFlow = (props) => {
   /* const history = {
@@ -33,6 +33,7 @@ const IdentificationFlow = (props) => {
     dealID,
     formValue,
     isSmallLoading,
+    lang,
     onBack,
     onClick,
     syncErrors,
@@ -44,7 +45,7 @@ const IdentificationFlow = (props) => {
   const [stepForm, setStepForm] = useState(0);
   const [agreeToProceed, setAgreeToProceed] = useState([]);
 
-  const getBuyerData = IdentificationQuestions(true).find((quest) => quest.history === 'userData');
+  const getBuyerData = IdentificationQuestions(true, userType, lang).find((quest) => quest.history === 'userData');
 
   const onClickEdit = (id, formStep = 0) => {
     setStepResume('editProfile');
@@ -122,7 +123,7 @@ const IdentificationFlow = (props) => {
                       rightIcon="arrow-right-small"
                       className="ml-a mr-a noWrap"
                       disabled={!validateInput(validateInput)}
-                      label="Next"
+                      label={translateTo('Next', lang)}
                     />
                   </div>
                 </div>
@@ -134,13 +135,12 @@ const IdentificationFlow = (props) => {
           stepResume === 'resume' && (
             <>
               <h2 className="fweight-600 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                Who is the {userType} of the property?
+                {translateTo(`Who is the ${userType} of the property?`, lang)}
               </h2>
               <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
                 <div className="p-2 p-sm-5">
                   <p className="mb-1">
-                    Please fill in the full name as it is stated in your ID. Add all people who are legally buying the property, e.g. your spouse
-                    or an investment partner.
+                    {translateTo('Please fill in the full name as it is stated in your ID. Add all people who are legally buying the property, e.g. your spouse or an investment partner.', lang)}
                   </p>
                   {
                     get(formValue, 'persons', []).map((buyer, i) => (
@@ -177,14 +177,14 @@ const IdentificationFlow = (props) => {
                   }
                   <BrixelButtonText
                     className="mt-2 mb-2"
-                    label="Add another person"
+                    label={translateTo('Add another person', lang)}
                     leftIcon="plus"
                     onClick={() => onClickEdit(get(formValue, 'persons', []).length)}
                   />
                   <hr className="brdAltGrey100" />
 
                   <p className="mt-3">
-                    Please give us your bank details to simplify the reservation process.
+                    {translateTo('Please give us your bank details to simplify the reservation process.', lang)}
                   </p>
 
                   <div className="w-perc-100">
@@ -225,8 +225,8 @@ const IdentificationFlow = (props) => {
                             }}
                             labels={{
                               icons: field.icons,
-                              label: field.label,
-                              labelLeft: field.labelLeft,
+                              label: translateTo(field.label, lang),
+                              labelLeft: translateTo(field.labelLeft, lang),
                               labelType: field.labelType,
                             }}
                           />
@@ -255,7 +255,7 @@ const IdentificationFlow = (props) => {
                       onClick={() => setStepResume('checkData')}
                       rightIcon="arrow-right-small"
                       className="ml-a mr-a noWrap"
-                      label="Next"
+                      label={translateTo('Next', lang)}
                     />
                   </div>
                 </div>
@@ -267,13 +267,15 @@ const IdentificationFlow = (props) => {
           stepResume === 'checkData' && (
             <>
               <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
-                Who is the {userType} of the property?
+                {translateTo(`Who is the ${userType} of the property?`, lang)}
               </h2>
               <div className="max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100">
                 <div className="p-2 p-sm-5">
-                  <h6 className="fweight-400">Great, thank you.</h6>
                   <h6 className="fweight-400">
-                    Are all these details correct? Please review all inputs as they will be later used for the notary.
+                    {translateTo('Great, thank you.', lang)}
+                  </h6>
+                  <h6 className="fweight-400">
+                    {translateTo('Are all these details correct? Please review all inputs as they will be later used for the notary.', lang)}
                   </h6>
 
                   {
@@ -302,7 +304,9 @@ const IdentificationFlow = (props) => {
                                 {
                                   data.name.includes('currentLivingAddress.address') ? (
                                     <>
-                                      <span className="fsize-300 txtAltGrey400">Address</span>
+                                      <span className="fsize-300 txtAltGrey400">
+                                        {translateTo('Address', lang)}
+                                      </span>
                                       <p className="fsize-300">
                                         <span>{get(formValue, `persons[${i}].currentLivingAddress.address`, '')}</span>
                                         {
@@ -367,10 +371,10 @@ const IdentificationFlow = (props) => {
                     input={{
                       name: 'agreeToProceed',
                       onChange: (val) => setAgreeToProceed(val),
-                      value: agreeToProceed,
+                      value: translateTo(agreeToProceed, lang),
                     }}
                     options={[{
-                      label: 'I hereby confirm that all the informations are correct to proceed with the sales process.',
+                      label: translateTo('I hereby confirm that all the informations are correct to proceed with the sales process.', lang),
                       value: true,
                     }]}
                   />
@@ -395,7 +399,7 @@ const IdentificationFlow = (props) => {
                       onClick={() => onClick()}
                       rightIcon="arrow-right-small"
                       className="ml-a mr-a noWrap"
-                      label="Save"
+                      label={translateTo('Save', lang)}
                       disabled={!agreeToProceed[0]}
                       isLoading={isSmallLoading.sendData}
                     />
@@ -416,6 +420,7 @@ IdentificationFlow.propTypes = {
   dealID: PropTypes.string.isRequired,
   formValue: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   onBack: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   syncErrors: PropTypes.object.isRequired,
@@ -429,6 +434,7 @@ IdentificationFlow.defaultProps = {
 const mapStateToProps = (state) => ({
   syncErrors: get(state, 'brixelForm.Identification.syncErrors', {}),
   formValue: get(state, 'brixelForm.Identification.values', {}),
+  lang: get(state, 'common.language', 'en'),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
 });
 

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { FactsOptions } from '@brixel/brixel-components';
+import { FactsOptions, translateTo } from '@brixel/brixel-components';
 import {
   BrixelRadioButton,
   BrixelInputText,
@@ -13,14 +13,14 @@ import {
   BrixelMultiUploadFile,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import FinanceCertificate from '../Pages/Offers/Flow/FinanceCertificate';
-import Key4Registration from '../Pages/Offers/Flow/Key4Registration';
-import ClipboardImg from '../images/scanTrial/clipboard.png';
-import { configureStore } from '../store';
+import FinanceCertificate from '../../Pages/Offers/Flow/FinanceCertificate';
+import Key4Registration from '../../Pages/Offers/Flow/Key4Registration';
+import ClipboardImg from '../../images/scanTrial/clipboard.png';
+import { configureStore } from '../../store';
 
 const { factsOptions } = FactsOptions;
 
-export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
+export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang) => {
   let formValue = {};
   let isPT;
   let countryName = '';
@@ -31,6 +31,31 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
     if (isPT) countryName = 'a Portuguese';
     if (countryCode === 'CH') countryName = 'a Swiss';
   }
+  
+  const martialStatus = factsOptions.martialStatus.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
+  
+  const matrimonialPropertyRegimePT = factsOptions.matrimonialPropertyRegimePT.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
+  
+  const matrimonialPropertyRegime = factsOptions.matrimonialPropertyRegime.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
+  
+  const purchaseTypePT = factsOptions.purchaseTypePT.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
+  
+  const purchaseType = factsOptions.purchaseType.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
 
   const TextForm = () => {
     const sendData = () => {
@@ -41,9 +66,9 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       <>
         <hr className="bgAltGrey200" />
         <p className="txtDark700 fsize-500 p-5">
-          <span>You don&apos;t have a proof of financing yet?</span>
+          <span>{translateTo('You don&apos;t have a proof of financing yet?', lang)}</span>
           <span className="cur-poi dis-b td-u" type="button" onClick={() => sendData()}>
-            <span>Apply now on key4</span>
+            <span>{translateTo('Apply now on key4', lang)}</span>
           </span>
         </p>
       </>
@@ -52,7 +77,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
 
   return [
     {
-      title: 'Set your price',
+      title: translateTo('Set your price', lang),
       history: 'priceInfo',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       inputs: [
@@ -63,7 +88,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           disabled: true,
           component: BrixelInputText,
           classNameBox: 'ml-0 mr-a pr-10',
-          label: 'Listing price',
+          label: translateTo('Listing price', lang),
           name: 'propertyPrice',
           validation: [Validation.required],
           pdClass: 'py-3 py-md-5',
@@ -75,7 +100,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           formatType: 'price',
           component: BrixelInputTextStep,
           classNameBox: 'ml-a mr-a',
-          label: 'Your offer',
+          label: translateTo('Your offer', lang),
           name: 'amount',
           validation: [Validation.required],
           pdClass: 'py-3 py-md-5',
@@ -83,26 +108,20 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         },
         {
           component: BrixelRadioButton,
-          label: 'Do you already have a financing certificate?',
+          label: translateTo('Do you already have a financing certificate?', lang),
           name: 'financeCertificate',
           large: true,
           validation: [Validation.required],
           options: [{
             value: 1,
-            label: 'Yes',
+            label: translateTo('Yes', lang),
           }, {
             value: 0,
-            label: 'No',
+            label: translateTo('No', lang),
           }],
-          modal: {
-            message: 'info',
-            info: true,
-            func: () => handleSetModal({
-              state: true,
-              small: true,
-              title: 'What is a proof of financing?',
-              body: '<p>A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.</p>',
-            }),
+          tooltip: {
+            label: translateTo('What is a proof of financing?', lang),
+            description: translateTo('A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.', lang),
           },
         },
       ],
@@ -112,7 +131,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         name: 'financeCertificate',
         value: 1,
       }],
-      title: 'Please tell us some more details',
+      title: translateTo('Please tell us some more details', lang),
       history: 'analysis',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
@@ -120,7 +139,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         {
           component: BrixelInputText,
           classNameBox: 'ml-a mr-a',
-          label: 'Your place of origin',
+          label: translateTo('Your place of origin', lang),
           name: 'buyer.placeOfOrigin',
           pdClass: 'py-3 py-md-5',
           large: true,
@@ -130,7 +149,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           className: '',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
-          label: 'Your date of birth',
+          label: translateTo('Your date of birth', lang),
           name: 'buyer.dateBirth',
           showFullSelectDate: true,
           large: true,
@@ -138,9 +157,9 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         {
           classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
-          label: 'Your marital status',
+          label: translateTo('Your marital status', lang),
           name: 'buyer.maritialStatus',
-          options: factsOptions.martialStatus,
+          options: martialStatus,
           pdClass: 'py-3 py-md-5',
           large: true,
         },
@@ -154,26 +173,26 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           }],
           classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
-          label: 'Your matrimonial property regime',
+          label: translateTo('Your matrimonial property regime', lang),
           name: 'buyer.matrimonialPropertyRegime',
-          options: isPT ? factsOptions.matrimonialPropertyRegimePT : factsOptions.matrimonialPropertyRegime,
+          options: isPT ? matrimonialPropertyRegimePT : matrimonialPropertyRegime,
           pdClass: 'py-3 py-md-5',
           large: true,
         },
         {
           classNameBox: 'ml-a mr-a',
           component: BrixelSelect,
-          label: 'Type of purchase',
+          label: translateTo('Type of purchase', lang),
           name: 'buyer.typeOfPurchase',
-          options: isPT ? factsOptions.purchaseTypePT : factsOptions.purchaseType,
+          options: isPT ? purchaseTypePT : purchaseType,
           pdClass: 'py-3 py-md-5',
           large: true,
         },
         {
           classNameBox: 'ml-a mr-a',
           component: BrixelTextArea,
-          label: 'Comment',
-          placeholder: 'Add an amount of your down payment and the date you would like to sign the contract and deed.',
+          label: translateTo('Comment', lang),
+          placeholder: translateTo('Add an amount of your down payment and the date you would like to sign the contract and deed.', lang),
           name: 'noteByBuyer',
           pdClass: 'py-3 py-md-5',
           large: true,
@@ -185,7 +204,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         name: 'financeCertificate',
         value: 1,
       }],
-      title: 'Where do you currently live?',
+      title: translateTo('Where do you currently live?', lang),
       history: 'location',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
@@ -196,7 +215,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           classWidthBox: 'w-perc-80',
           classBoxWrapper: 'pr-2',
           ReduxFieldClass: '',
-          label: 'Street',
+          label: translateTo('Street', lang),
           name: 'location.street',
           validation: [Validation.required],
           large: true,
@@ -207,7 +226,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           classWidthBox: 'w-perc-20',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
-          label: 'Nr',
+          label: translateTo('Nr', lang),
           name: 'location.streetNumber',
           large: true,
         },
@@ -218,7 +237,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           classBoxWrapper: 'pr-2 mt-3',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
-          label: 'Zip',
+          label: translateTo('Zip', lang),
           name: 'location.zipCode',
           validation: [Validation.required],
           large: true,
@@ -230,7 +249,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           classBoxWrapper: 'mt-3',
           classNameBox: 'ml-a mr-a',
           ReduxFieldClass: '',
-          label: 'City',
+          label: translateTo('City', lang),
           name: 'location.City',
           validation: [Validation.required],
           large: true,
@@ -248,7 +267,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           value: 0,
         },
       ],
-      title: 'Upload your proof of financing',
+      title: translateTo('Upload your proof of financing', lang),
       history: 'financingProof',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
@@ -258,7 +277,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           classNameBox: 'max-w-fix-600 ml-a mr-a',
           classBoxWrapper: 'p-5',
           ReduxFieldClass: '',
-          label: `Add a proof of financing by ${countryName} financial institution`,
+          label: translateTo(`Add a proof of financing by ${countryName} financial institution`, lang),
           name: 'document',
           theme: 'simple',
           validation: [Validation.required],
@@ -290,13 +309,13 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
         value: 0,
       }],
       showBackButton: true,
-      title: 'Please enter your financial data',
+      title: translateTo('Please enter your financial data', lang),
       history: 'financialData',
       className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
-          customHTML: '<p class="fsize-300 txtDark700">These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.</p>',
+          customHTML: `<p class="fsize-300 txtDark700">${translateTo('These data are needed to apply for your financing certificate. Brixel is not saving any of your financial data.', lang)}</p>`,
         },
         {
           currency: get(formValue, 'propertyPriceCurrency', 'CHF'),
@@ -304,7 +323,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           formatType: 'price',
           component: BrixelInputText,
           classNameBox: 'ml-a mr-a',
-          label: 'Your equity capital',
+          label: translateTo('Your equity capital', lang),
           name: 'financeBuyer.equity',
           validation: [Validation.required],
           pdClass: 'py-3 py-md-5',
@@ -315,8 +334,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
             func: () => handleSetModal({
               state: true,
               small: true,
-              title: 'What is the equity capital?',
-              body: '<p>This is the money you can contribute to the mortgage. It may come from savings, private pensions, occupational pension funds, inheritance etc. Lenders generally require a deposit of at least 20% of the price.</p>',
+              title: translateTo('What is the equity capital?', lang),
+              body: `<p>${translateTo('This is the money you can contribute to the mortgage. It may come from savings, private pensions, occupational pension funds, inheritance etc. Lenders generally require a deposit of at least 20% of the price.', lang)}</p>`,
             }),
           },
         },
@@ -327,7 +346,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
           component: BrixelInputText,
           large: true,
           classNameBox: 'max-w-fix-816 ml-a mr-a',
-          label: 'Your gross annual income',
+          label: translateTo('Your gross annual income', lang),
           name: 'financeBuyer.income',
           validation: [Validation.required],
           pdClass: 'py-3 py-md-5',
@@ -337,8 +356,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
             func: () => handleSetModal({
               state: true,
               small: true,
-              title: 'What is the gross annual income?',
-              body: '<p>This is the income of your household before deduction of social contributions, including 13th month salary and other salary components (e.g. bonuses).</p>',
+              title: translateTo('What is the gross annual income?', lang),
+              body: `<p>${translateTo('This is the income of your household before deduction of social contributions, including 13th month salary and other salary components (e.g. bonuses).', lang)}</p>`,
             }),
           },
         },
@@ -360,11 +379,11 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal) => {
       background: 'bgCardGreen',
       hideProgress: true,
       cardType: 'card',
-      title: 'Thank you',
+      title: translateTo('Thank you', lang),
       img: ClipboardImg,
       imgMaxWidth: 'max-w-fix-160',
       cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
-      subtitle: 'Your offer has been submitted to the seller and is currently pending. The seller will get back to you.',
+      subtitle: translateTo('Your offer has been submitted to the seller and is currently pending. The seller will get back to you.', lang),
       history: 'success',
       vCentered: true,
       toSave: true,

@@ -7,7 +7,7 @@ import {
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { BrixelIcon, translateTo } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import markerImg from '../../images/location/icon_location.svg';
@@ -25,6 +25,7 @@ export const ComponentMap = (props) => {
     formName,
     google,
     isDefView,
+    lang,
     latitude,
     longitude,
     mapType,
@@ -87,42 +88,6 @@ export const ComponentMap = (props) => {
           setStretViewAvailable(false);
         }
       });
-
-      /* Object.keys(mapCaptionData).map(async (keys) => {
-        await mapCaptionData[keys].keywordsInclude.map(async (query) => {
-          const placeRequest = {
-            location: center,
-            type: [query],
-            radius: 1000,
-          };
-          await service.nearbySearch(placeRequest, async (res) => {
-            const curPlace = selectedPlace;
-            compareArray(res, mapCaptionData[keys].keywordsExclude).map((val) => {
-              let photo;
-              if (val.photos && val.photos[0]) {
-                photo = val.photos[0].getUrl();
-              }
-              const urlImg = mapCaptionData[keys].iconSettings.icon.url;
-              const iconImg = images(`./${urlImg}`);
-              val.iconSettings = mapCaptionData[keys].iconSettings;
-              val.iconSettings.icon.newUrl = iconImg;
-              // ACTIVE ICON
-              const urlImgActive = mapCaptionData[keys].iconSettings.activeIcon.url;
-              val.iconSettings.icon.newUrlActive = images(`./${urlImgActive}`);
-              val.distance = getDistance({ lat: latitude, lng: longitude }, {
-                lat: val.geometry.location.lat(),
-                lng: val.geometry.location.lng(),
-              });
-              val.photo = photo;
-              curPlace.push(val);
-              return null;
-            });
-            setSelectedPlace([
-              ...selectedPlace,
-            ]);
-          });
-        });
-      }); */
     }
   };
 
@@ -350,8 +315,8 @@ export const ComponentMap = (props) => {
                 <div className="modalMaps">
                   <i style={{ backgroundImage: `url(${modalInfo.photo})` }} />
                   <div>
-                    <h4>{modalInfo.title}</h4>
-                    <h6>{modalInfo.subtitle}</h6>
+                    <h4>{translateTo(modalInfo.title, lang)}</h4>
+                    <h6>{translateTo(modalInfo.subtitle, lang)}</h6>
                     <p>{`${modalInfo.distance}m`}</p>
                   </div>
                 </div>
@@ -390,6 +355,7 @@ ComponentMap.propTypes = {
   formName: PropTypes.string,
   google: PropTypes.object.isRequired,
   isDefView: PropTypes.bool,
+  lang: PropTypes.string.isRequired,
   latitude: PropTypes.number.isRequired,
   longitude: PropTypes.number.isRequired,
   mapType: PropTypes.string,
@@ -427,6 +393,10 @@ ComponentMap.defaultProps = {
   zoom: 10,
 };
 
+const mapStateToProps = (state) => ({
+  lang: get(state, 'common.language', 'en'),
+});
+
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(form, field, value) {
     dispatch(change(form, field, value));
@@ -434,5 +404,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
 )(ComponentMap);
