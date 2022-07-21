@@ -160,7 +160,8 @@ const MarketCategoryListSeller = (props) => {
   useEffect(() => {
     if (has(ownerProperties, 'total')) {
       if (ownerProperties.total === 0) {
-        setActiveCompanyId(loggedInUser.company.id);
+        if (loggedInUser.company) setActiveCompanyId(loggedInUser.company.id);
+        else if (loggedInUser.companies) setActiveCompanyId(loggedInUser.companies[0])
       } else {
         setActiveCompanyId(ownerProperties.data[0].company.id || ownerProperties.data[0].company);
       }
