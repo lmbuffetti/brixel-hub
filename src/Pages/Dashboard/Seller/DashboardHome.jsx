@@ -114,8 +114,8 @@ const DashboardHome = (props) => {
       if (get(activeSingleProperty, 'sellerStatus', '') === 'success') {
         setProgressState({
           ...defState,
-          id: 4,
-          step: 5,
+          id: 5,
+          step: 6,
         });
       }
     }
@@ -511,7 +511,7 @@ const DashboardHome = (props) => {
         }
 
         {
-          progressState.step >= 3 && progressState.step < 5 && (
+          progressState.step >= 3 && progressState.step <= 5 && (
             <>
               <div className="dis-f jc-b flex-wrap">
                 <div className="w-perc-100 w-perc-md-70 w-perc-lg-100 w-perc-xl-70 pr-md-1 pr-lg-0 pr-xl-1">
@@ -735,7 +735,7 @@ const DashboardHome = (props) => {
         }
 
         {
-          progressState.step === 5 && (
+          progressState.step === 6 && (
             <>
               <DashboardPropertyCardSold />
 

@@ -18,6 +18,7 @@ import find from 'lodash/find';
 import { diff } from 'deep-object-diff';
 import has from 'lodash/has';
 import { change, initializeForm, reset } from '@brixel/brixel-components/dist/form';
+import { setUserTypes } from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 import Loading from '../../../components/Loading';
 import {
@@ -86,6 +87,7 @@ const Dashboard = (props) => {
     handleSaveActiveSingleProperty,
     handleSavePropertyVisitSchedule,
     handleSetScreenNotification,
+    handleSetUserTypes,
     handleSpinnerOff,
     imageType,
     initForm,
@@ -110,6 +112,8 @@ const Dashboard = (props) => {
       if (loggedInUser.user.id !== activeSingleProperty.owner.id && loggedInUser.user.id !== activeSingleProperty.owner) {
         history.push(`/buyer/${activeSingleProperty.id}/property`);
       }
+    } else {
+      handleSetUserTypes('seller');
     }
   }, [loggedInUser, activeSingleProperty]);
 
@@ -364,6 +368,7 @@ const Dashboard = (props) => {
 };
 
 Dashboard.propTypes = {
+  // handleSpinnerOn: PropTypes.func.isRequired,
   activeSingleCompany: PropTypes.object,
   activeSingleProperty: PropTypes.object,
   errorValue: PropTypes.object,
@@ -371,14 +376,17 @@ Dashboard.propTypes = {
   handleCreatePropertyVisitSchedule: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
-  handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
   handleGetActiveSinglePropertyBookings: PropTypes.func.isRequired,
+  handleGetActiveSinglePropertyEstimation: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
+  handleGetPackageProperty: PropTypes.func.isRequired,
+  handleGetPropertyListings: PropTypes.func.isRequired,
+  handleReset: PropTypes.func.isRequired,
   handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   handleSavePropertyVisitSchedule: PropTypes.func.isRequired,
-  handleGetPropertyListings: PropTypes.func.isRequired,
   handleSetScreenNotification: PropTypes.func.isRequired,
-  handleGetPackageProperty: PropTypes.func.isRequired,
+  handleSetUserTypes: PropTypes.func.isRequired,
+  handleSpinnerOff: PropTypes.func.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -386,10 +394,7 @@ Dashboard.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleReset: PropTypes.func.isRequired,
   userTypes: PropTypes.string,
-  // handleSpinnerOn: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultProps = {
@@ -488,14 +493,15 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSinglePropertyBookings: bindActionCreators(getActiveSinglePropertyBookings, dispatch),
   handleGetActiveSinglePropertyEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
-  handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
+  handleGetPropertyListings: bindActionCreators(getPropertyListings, dispatch),
   handleSaveActiveSingleProperty: bindActionCreators(saveActiveSingleProperty, dispatch),
   handleSaveData: bindActionCreators(setPageData, dispatch),
   handleSavePropertyVisitBooking: bindActionCreators(savePropertyVisitBooking, dispatch),
   handleSavePropertyVisitSchedule: bindActionCreators(savePropertyVisitSchedule, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetScreenNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
   handleSpinnerOn: bindActionCreators(spinnerOn, dispatch),
   handleUploadDocument: bindActionCreators(uploadDocument, dispatch),
