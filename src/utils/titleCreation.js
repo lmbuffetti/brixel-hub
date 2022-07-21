@@ -187,9 +187,14 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
       pageTitle = `${translatedPropertyType} ${typology} com ${livingSpace}m2, ${curLocation.city}`;
     }
   } else if (getCountry && propertyType) {
-    const randomNumber = Math.floor(Math.random() * adjective[lang].length);
-    pageTitle = `${adjective.en[randomNumber]} ${translatedPropertyType}`;
-    pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
+    if (adjective[lang]) {
+      const randomNumber = Math.floor(Math.random() * adjective[lang].length);
+      pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
+    } else {
+      const randomNumber = Math.floor(Math.random() * adjective.en.length);
+      pageTitle = `${adjective.en[randomNumber]} ${translatedPropertyType}`;
+      pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
+    }
     if (location.city) {
       pageTitle += ` in ${location.city}`;
     } else if (location.state) {
