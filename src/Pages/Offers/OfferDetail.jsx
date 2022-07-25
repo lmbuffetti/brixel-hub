@@ -73,7 +73,7 @@ const OfferDetail = (props) => {
                   }
                   {
                     get(activeSingleDeal, 'user.email', null) && (
-                      <a className="mr-3 txtDark700" href={`tel:${get(activeSingleDeal, 'user.phone', '')}`}>
+                      <a className="mr-3 txtDark700" href={`${Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''), false, false, true)}`}>
                         {Helpers.telephoneFormat(get(activeSingleDeal, 'user.phone', ''))}
                       </a>
                     )
