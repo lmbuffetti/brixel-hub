@@ -542,13 +542,13 @@ const MarketCard = (props) => {
                         {
                           get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
                             <>
-                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${item.id}/marketing/portals" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
+                              <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is visible on our pre-market.', lang)}</span> <a href="/${item.id}/marketing" class="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u lh-in btnInline">${translateTo('Learn more.', lang)}</a>` }} />
                             </>
                           ) : (
                             <>
                               <p className="pl-1 fsize-300 txtLight600" dangerouslySetInnerHTML={{ __html: `<span>${translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible to any buyers.', lang)}</span>` }} />
                               <a
-                                href={`/${item.id}/marketing/portals`}
+                                href={`/${item.id}/marketing`}
                                 className="fsize-300 fweight-500 txtBlue700 cur-poi ml-1 td-u p-0 btnInline"
                               >
                                 {translateTo('Change it here.', lang)}
