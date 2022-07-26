@@ -183,6 +183,16 @@ const App = (props) => {
         url: window.location.href,
         apiResource: '',
       };
+      // 1/50eb93d1440a03f385cb59e50531bf37a07077f8
+      fetch('https://rest.api.transifex.com/resource_translations?filter[resource]=o:wide-ventures:p:brixeltech:r:brixelio&filter[language]=l:it', {
+        method: 'get',
+        headers: new Headers({
+          'Authorization': 'Bearer 1/50eb93d1440a03f385cb59e50531bf37a07077f8',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data));
       Transifex.live.onError(function (err) {
         data.meta += `${JSON.stringify(err)} - ${data.meta}`;
         // eslint-disable-next-line no-console
