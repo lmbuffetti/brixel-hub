@@ -87,47 +87,218 @@
   }
 }
 
-.packageBox {
-  border: 1px solid map_get($lightColor, 200);
-  border-radius: $brd-radius-small;
-  max-width: 400px;
+.packageWrap.partnerPackage {
+  .packageBox {
+    border-top: $step * 2 solid;
+    border-radius: $brd-radius-small;
+    box-shadow: $shadow-4dp;
 
-  &:nth-child(1) {
-    @media (min-width: $responsive-medium) {
-      margin-right: $step * 2;
+    &.packageTwo {
+      display: flex;
+      flex-direction: row;
+
+      > div {
+        width: 50%;
+      }
     }
-  }
-  &:nth-child(2) {
-    @media (min-width: $responsive-medium) {
-      margin-left: $step  * 2;
-      margin-right: $step  * 2;
+
+    &:nth-child(1) {
+      border-color: map-get($darkColor, 700);
+      max-width: 400px;
+
+      @media (min-width: $responsive-medium) {
+        margin-right: $step * 2;
+      }
     }
-  }
-  &:nth-child(3) {
-    @media (min-width: $responsive-medium) {
-      margin-left: $step * 2;
+    &:nth-child(2) {
+      border-color: map-get($greenColor, 400);
+
+      .bgGreen100 {
+        background-color: rgba($color: map-get($greenColor, 100), $alpha: 0.5);
+      }
+
+      @media (min-width: $responsive-medium) {
+        margin-left: $step  * 3;
+        margin-right: $step  * 3;
+      }
+    }
+    &:nth-child(3) {
+      @media (min-width: $responsive-medium) {
+        margin-left: $step * 2;
+      }
+    }
+
+    h6 {
+      display: flex;
+      color: #FFF;
+      align-items: flex-end;
+      @include fontStyle(500,'normal',left);
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+      small {
+        @include fontStyle(300,'normal',left);
+        margin-left: $step;
+      }
     }
   }
 
-  h6 {
-    display: flex;
-    color: #FFF;
-    align-items: flex-end;
-    @include fontStyle(500,'normal',left);
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    small {
-      @include fontStyle(300,'normal',left);
-      margin-left: $step;
+  ul.checked {
+    padding: 0;
+
+    li {
+      display: flex;
+      position: relative;
+
+      &:before {
+        content: '';
+        -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/tick.svg?url');
+        mask-image: url('#{$imgRootpath}images/Icons/svg/tick.svg?url');
+        display: block;
+        mask-repeat: no-repeat;
+        -webkit-mask-repeat: no-repeat;
+        width: 22px;
+        height: 22px;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        left: 0;
+        background-color: map_get($darkColor, 700);
+      }
+
+      list-style: none;
+      margin-top: 0;
+      margin-bottom: 0;
+      &:not([class*='ml']) {
+        margin-left: 0;
+      }
+      padding: 0;
+      padding-left: $step * 4;
+      display: flex;
+      margin-top: $step;
+
+      span {
+        margin-left: $step;
+      }
+    }
+  }
+}
+
+.packageWrap.regularPackage {
+
+  .packageBox {
+    border: 1px solid map_get($lightColor, 200);
+    border-radius: $brd-radius-small;
+    max-width: 400px;
+
+    &:nth-child(1) {
+      @media (min-width: $responsive-medium) {
+        margin-right: $step * 2;
+      }
+    }
+    &:nth-child(2) {
+      @media (min-width: $responsive-medium) {
+        margin-left: $step  * 2;
+        margin-right: $step  * 2;
+      }
+    }
+    &:nth-child(3) {
+      @media (min-width: $responsive-medium) {
+        margin-left: $step * 2;
+      }
+    }
+
+    h6 {
+      display: flex;
+      color: #FFF;
+      align-items: flex-end;
+      @include fontStyle(500,'normal',left);
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+      small {
+        @include fontStyle(300,'normal',left);
+        margin-left: $step;
+      }
+    }
+
+    &.basic {
+      border-color: map_get($greenColor, 700);
+      h5 {
+        color: map_get($greenColor, 700);
+      }
+      h6 {
+        background-color: map_get($greenColor, 700);
+      }
+
+      ul.checked {
+        li {
+          &:before {
+            background-color: map_get($greenColor, 700);
+          }
+        }
+      }
+    }
+
+    &.private {
+      border-color: map_get($blueColor, 400);
+      h5 {
+        color: map_get($blueColor, 400);
+      }
+      h6 {
+        background-color: map_get($blueColor, 400);
+      }
+
+      ul.checked {
+        li {
+          &:before {
+            background-color: map_get($blueColor, 400);
+          }
+        }
+      }
+    }
+
+    &.premium {
+      border-color: map_get($redColor, 400);
+      h5 {
+        color: map_get($redColor, 400);
+      }
+      h6 {
+        background-color: map_get($redColor, 400);
+      }
+
+      ul.checked {
+        li {
+          &:before {
+            background-color: map_get($redColor, 400);
+          }
+        }
+      }
+    }
+
+    &.one {
+      border-color: map_get($darkColor, 400);
+      h5 {
+        color: map_get($darkColor, 400);
+      }
+      h6 {
+        background-color: map_get($darkColor, 400);
+      }
+
+      ul.checked {
+        li {
+          &:before {
+            background-color: map_get($darkColor, 400);
+          }
+        }
+      }
     }
   }
 
-  &.basic {
+  .basic {
     border-color: map_get($greenColor, 700);
-    h5 {
+    h4 {
       color: map_get($greenColor, 700);
     }
-    h6 {
+    h6:not([class*=bg]) {
       background-color: map_get($greenColor, 700);
     }
 
@@ -140,12 +311,12 @@
     }
   }
 
-  &.private {
+  .private {
     border-color: map_get($blueColor, 400);
-    h5 {
+    h4 {
       color: map_get($blueColor, 400);
     }
-    h6 {
+    h6:not([class*=bg]) {
       background-color: map_get($blueColor, 400);
     }
 
@@ -158,12 +329,12 @@
     }
   }
 
-  &.premium {
+  .premium {
     border-color: map_get($redColor, 400);
-    h5 {
+    h4 {
       color: map_get($redColor, 400);
     }
-    h6 {
+    h6:not([class*=bg]) {
       background-color: map_get($redColor, 400);
     }
 
@@ -176,148 +347,76 @@
     }
   }
 
-  &.one {
-    border-color: map_get($darkColor, 400);
-    h5 {
-      color: map_get($darkColor, 400);
+  .one {
+    border-color: map_get($darkColor, 700);
+    h4 {
+      color: map_get($darkColor, 700);
     }
-    h6 {
-      background-color: map_get($darkColor, 400);
+    h6:not([class*=bg]) {
+      background-color: map_get($darkColor, 700);
     }
 
     ul.checked {
       li {
         &:before {
-          background-color: map_get($darkColor, 400);
+          background-color: map_get($darkColor, 700);
         }
       }
     }
   }
-}
 
-.basic {
-  border-color: map_get($greenColor, 700);
-  h4 {
-    color: map_get($greenColor, 700);
-  }
-  h6:not([class*=bg]) {
-    background-color: map_get($greenColor, 700);
+  span {
+    &.basic {
+      color: map_get($primaryColor, 700);
+    }
+    &.private {
+      color: map_get($blueColor, 400);
+    }
+    &.premium {
+      color: map_get($redColor, 400);
+    }
+    &.one {
+      color: map_get($darkColor, 700);
+    }
   }
 
   ul.checked {
-    li {
-      &:before {
-        background-color: map_get($greenColor, 700);
-      }
-    }
-  }
-}
-
-.private {
-  border-color: map_get($blueColor, 400);
-  h4 {
-    color: map_get($blueColor, 400);
-  }
-  h6:not([class*=bg]) {
-    background-color: map_get($blueColor, 400);
-  }
-
-  ul.checked {
-    li {
-      &:before {
-        background-color: map_get($blueColor, 400);
-      }
-    }
-  }
-}
-
-.premium {
-  border-color: map_get($redColor, 400);
-  h4 {
-    color: map_get($redColor, 400);
-  }
-  h6:not([class*=bg]) {
-    background-color: map_get($redColor, 400);
-  }
-
-  ul.checked {
-    li {
-      &:before {
-        background-color: map_get($redColor, 400);
-      }
-    }
-  }
-}
-
-.one {
-  border-color: map_get($darkColor, 700);
-  h4 {
-    color: map_get($darkColor, 700);
-  }
-  h6:not([class*=bg]) {
-    background-color: map_get($darkColor, 700);
-  }
-
-  ul.checked {
-    li {
-      &:before {
-        background-color: map_get($darkColor, 700);
-      }
-    }
-  }
-}
-
-span {
-  &.basic {
-    color: map_get($primaryColor, 700);
-  }
-  &.private {
-    color: map_get($blueColor, 400);
-  }
-  &.premium {
-    color: map_get($redColor, 400);
-  }
-  &.one {
-    color: map_get($darkColor, 700);
-  }
-}
-
-ul.checked {
-  padding: 0;
-
-  li {
-    display: flex;
-    position: relative;
-
-    &:before {
-      content: '';
-      -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
-      mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
-      display: block;
-      mask-repeat: no-repeat;
-      -webkit-mask-repeat: no-repeat;
-      width: 22px;
-      height: 22px;
-      background-repeat: no-repeat;
-      background-position: center;
-      position: absolute;
-      left: 0;
-      background-color: map_get($primaryColor, 400);
-    }
-
-    list-style: none;
-    margin-top: 0;
-    margin-bottom: 0;
-    &:not([class*='ml']) {
-      margin-left: 0;
-    }
     padding: 0;
-    padding-left: $step * 4;
-    display: flex;
-    margin-top: $step * 2;
 
-    span {
-      margin-left: $step;
+    li {
+      display: flex;
+      position: relative;
+
+      &:before {
+        content: '';
+        -webkit-mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
+        mask-image: url('#{$imgRootpath}images/Icons/svg/check.svg?url');
+        display: block;
+        mask-repeat: no-repeat;
+        -webkit-mask-repeat: no-repeat;
+        width: 22px;
+        height: 22px;
+        background-repeat: no-repeat;
+        background-position: center;
+        position: absolute;
+        left: 0;
+        background-color: map_get($primaryColor, 400);
+      }
+
+      list-style: none;
+      margin-top: 0;
+      margin-bottom: 0;
+      &:not([class*='ml']) {
+        margin-left: 0;
+      }
+      padding: 0;
+      padding-left: $step * 4;
+      display: flex;
+      margin-top: $step * 2;
+
+      span {
+        margin-left: $step;
+      }
     }
   }
 }
