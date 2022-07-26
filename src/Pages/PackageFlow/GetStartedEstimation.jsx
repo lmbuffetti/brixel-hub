@@ -473,7 +473,7 @@ const GetStartedEstimation = (props) => {
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
       history.push({
-        pathname: `/packageFlow/getStartedEstimation/${get(companyByUrl, 'company', comapny.stub)}/${questions[0].history}`,
+        pathname: `/packageFlow/getStartedEstimation/${get(companyByUrl, 'company', company.stub)}/${questions[0].history}`,
         state: {},
       });
     }
