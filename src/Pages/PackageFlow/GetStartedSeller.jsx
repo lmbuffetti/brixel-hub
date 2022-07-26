@@ -81,6 +81,7 @@ const GetStartedSeller = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
+  const companyStub = get(match, 'companyStub', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -367,14 +368,24 @@ const GetStartedSeller = (props) => {
       changeFieldValue('inputSheet', inputSheet);
     }
   }, [formValue]);
+  
+  useEffect(() => {
+    if (company.stub) {
+      history.push({
+        pathname: `/packageFlow/getStarted/${company.stub}/${questions[0].history}`,
+        state: {},
+      });
+    }
+  }, [company.stub]);
+  
 
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
-    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
-    const companyCookie = cookie.get('brixelStubCompany') || null;
+    const companyByUrl = queryString.parse(get(history, 'location.search', companyStub));
+    const companyCookie = companyStub || cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    if (get(companyByUrl, 'company', companyCookie)) {
+    if (get(companyByUrl, 'company', companyCookie) && companyStub !== questions[0].history) {
       const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);

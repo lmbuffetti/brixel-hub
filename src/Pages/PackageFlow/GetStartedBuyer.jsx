@@ -19,7 +19,7 @@ import {
   destroy,
 } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -46,6 +46,7 @@ const GetStartedBuyer = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
+  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -75,7 +76,8 @@ const GetStartedBuyer = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
-  // const [roomValue, setRoomValue] = useState('');
+  
+  const companyStub = get(match, 'companyStub', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -322,14 +324,24 @@ const GetStartedBuyer = (props) => {
       }, 500);
     }
   }, [get(history, 'location', null)]);
-
+  
+  useEffect(() => {
+    if (company.stub) {
+      history.push({
+        pathname: `/packageFlow/getStarted/${company.stub}/${questions[0].history}`,
+        state: {},
+      });
+    }
+  }, [company.stub]);
+  
+  
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
-    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
-    const companyCookie = cookie.get('brixelStubCompany') || null;
+    const companyByUrl = queryString.parse(get(history, 'location.search', companyStub));
+    const companyCookie = companyStub || cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    if (get(companyByUrl, 'company', companyCookie)) {
+    if (get(companyByUrl, 'company', companyCookie) && companyStub !== questions[0].history) {
       const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
