@@ -501,6 +501,12 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
+                      { /* SECTION: ONBOARDING WITH COMPANY STUB */}
+                      <Route path="/packageFlow/:companyStub" element={<GetStarted />} />
+                      <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
+                      <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
+                      <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
+                      
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />

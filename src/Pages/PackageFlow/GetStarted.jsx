@@ -74,13 +74,13 @@ const GetStarted = (props) => {
     const userType = get(dataForm, 'userType', null);
     switch (userType) {
       case 'buyer':
-        history.push(`/packageFlow/getStartedBuyer?company=${companyURL}`);
+        history.push(`/packageFlow/getStartedBuyer/${companyURL}`);
         break;
       case 'estimation':
-        history.push(`/packageFlow/getStartedEstimation?company=${companyURL}`);
+        history.push(`/packageFlow/getStartedEstimation/${companyURL}`);
         break;
       case 'seller':
-        history.push(`/packageFlow/getStarted?company=${companyURL}`);
+        history.push(`/packageFlow/getStarted/${companyURL}`);
         break;
     }
   }, [formValue]);
@@ -111,6 +111,7 @@ const GetStarted = (props) => {
     } else {
       changeFieldValue('channel', channelCookie);
     }
+    history.push(`/packageFlow/${defComp}`);
     setCompanyURL(defComp);
   }, []);
 

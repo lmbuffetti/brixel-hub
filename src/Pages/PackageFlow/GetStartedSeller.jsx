@@ -283,7 +283,7 @@ const GetStartedSeller = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow');
+      history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -337,7 +337,7 @@ const GetStartedSeller = (props) => {
           }
           if (newQuestions[defId].history) {
             history.push({
-              pathname: `/packageFlow/getStarted/${newQuestions[defId].history}`,
+              pathname: `/packageFlow/getStarted/${company.stub}/${newQuestions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -394,7 +394,7 @@ const GetStartedSeller = (props) => {
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
       history.push({
-        pathname: `/packageFlow/getStarted/${questions[0].history}`,
+        pathname: `/packageFlow/getStarted/${get(companyByUrl, 'company', company.stub)}/${questions[0].history}`,
         state: {},
       });
     }

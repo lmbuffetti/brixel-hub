@@ -354,7 +354,7 @@ const GetStartedEstimation = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow');
+      history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -473,7 +473,7 @@ const GetStartedEstimation = (props) => {
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
       history.push({
-        pathname: `/packageFlow/getStartedEstimation/${questions[0].history}`,
+        pathname: `/packageFlow/getStartedEstimation/${get(companyByUrl, 'company', comapny.stub)}/${questions[0].history}`,
         state: {},
       });
     }
