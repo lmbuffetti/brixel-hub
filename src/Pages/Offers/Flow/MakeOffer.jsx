@@ -406,7 +406,7 @@ const MakeOffer = (props) => {
           get(quest, 'hideProgress', false) !== true && (
             <BrixelProgressBar
               large
-              classProgressBar="container"
+              classProgressBar="container topProgressBar"
               className="brdRadius"
               saturation={500}
               color="green"
@@ -608,6 +608,7 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValues: {
     ...get(state, 'brixelForm.offerFlow.values', {}),
+    financeCertificate: null,
     company: get(state, 'companies.activeSingleCompany.stub', null),
     id: get(state, 'property.activeSingleProperty.id', null),
     propertyLocation: get(state, 'property.activeSingleProperty.location', {}),

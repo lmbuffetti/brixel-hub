@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { FactsOptions, translateTo } from '@brixel/brixel-components';
+import { FactsOptions, translateTo, FinancingCalculator } from '@brixel/brixel-components';
 import {
   BrixelRadioButton,
   BrixelInputText,
@@ -372,6 +372,21 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
           },
         },
       ],
+    },
+    {
+      condition: [{
+        name: 'financeCertificate',
+        value: null,
+      }],
+      hideContinueBtn: true,
+      cardType: 'loadComponent',
+      history: 'key4Registration',
+      className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      footerWidth: 'max-w-fix-600',
+      component: FinancingCalculator,
+      country: 'CH',
+      propertyPrice: formValue.propertyPrice,
+      partner: formValue.company,
     },
     {
       condition: [{
