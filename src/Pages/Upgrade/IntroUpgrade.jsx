@@ -190,7 +190,7 @@ const IntroUpgrade = (props) => {
       <section className="container packages py-6">
         {
           filteredPackages.length === 0 ? (
-            <div className="dis-f">
+            <div className="dis-fl-col dis-fl-row-md pb-3 jc-c a-c">
               <SkeletonPackages className="w-perc-100 max-w-fix-400" type="big" />
               <SkeletonPackages className="mx-lg-4 w-perc-100 max-w-fix-400" type="big" />
               <SkeletonPackages className="w-perc-100 max-w-fix-400" type="big" />
@@ -200,7 +200,7 @@ const IntroUpgrade = (props) => {
               {
                 get(activeSingleCompany, 'stub') === "ubs_key4" || get(activeSingleCompany, 'stub') === "baloise" ? (
                   <>
-                    <div className="packageWrap a-s partnerPackage dis-fl-col dis-fl-row-md pb-3 jc-c">
+                    <div className="packageWrap a-s partnerPackage dis-fl-col dis-fl-row-lg pb-3 jc-c">
                       <>
                         {
                           filteredPackages.map((pkg, i) => (
@@ -264,7 +264,7 @@ const IntroUpgrade = (props) => {
                                 {
                                   pkg.price.total > 0 && (
                                     <BrixelButtonText
-                                      className="mt-3 ml-a mr-a"
+                                      className="mt-4 mb-2 mb-sm-0 ml-a mr-a"
                                       label="Mehr erfahren"
                                       theme="green"
                                     />
@@ -277,7 +277,7 @@ const IntroUpgrade = (props) => {
                                     <BrixelIcon
                                       icon="plus"
                                       color="green"
-                                      className="bgWhite pos-a y-c w-fix-48 h-fix-48 large ml-3-neg"
+                                      className="bgWhite pos-a-sm y-c w-fix-48 h-fix-48 large ml-sm-3-neg mobilePos"
                                       rounded
                                     />
                                     {

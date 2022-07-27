@@ -88,6 +88,11 @@
 }
 
 .packageWrap.partnerPackage {
+
+  @media (max-width: $responsive-small) {
+    align-content: center;
+    align-items: center;
+  }
   .packageBox {
     border-top: $step * 2 solid;
     border-radius: $brd-radius-small;
@@ -96,9 +101,28 @@
     &.packageTwo {
       display: flex;
       flex-direction: row;
+      max-width: 800px;
 
+      .mobilePos {
+        @media (max-width: $responsive-small) {
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+
+      @media (max-width: $responsive-small) {
+        max-width: 400px;
+        flex-direction: column;
+      }
       > div {
-        width: 50%;
+        max-width: 400px;
+        width: 100%;
+
+        @media (max-width: $responsive-small) {
+          width: 100%;
+        }
       }
     }
 
@@ -120,11 +144,6 @@
       @media (min-width: $responsive-medium) {
         margin-left: $step  * 3;
         margin-right: $step  * 3;
-      }
-    }
-    &:nth-child(3) {
-      @media (min-width: $responsive-medium) {
-        margin-left: $step * 2;
       }
     }
 
