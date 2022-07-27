@@ -153,7 +153,7 @@ const SidebarBuyer = (props) => {
                               )
                             }
                             {DateTime.fromMillis(history.createdAt, {
-                              locale: loggedInUser.language,
+                              locale: lang,
                             }).toFormat('d LLL yyyy, H:mm')}
                           </p>
                         )
