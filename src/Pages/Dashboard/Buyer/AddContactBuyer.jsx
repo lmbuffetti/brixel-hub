@@ -153,7 +153,6 @@ const mapStateToProps = (state) => {
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     lang: get(state, 'common.language', 'en'),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };
 
