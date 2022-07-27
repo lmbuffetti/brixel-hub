@@ -506,7 +506,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
-                      
+
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
@@ -602,7 +602,7 @@ const App = (props) => {
                               }
                             </div>
                             <span className="ml-2 txtDark700 fweight-500">
-                              {translateTo('Support', lang)}
+                              {translateTo('Brixel Support', lang)}
                             </span>
                           </div>
                         )

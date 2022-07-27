@@ -55,7 +55,6 @@ const AddShowingsBuyer = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
-    userLang,
   } = props;
   const [questions, setQuestions] = useState(QuestionsList(lang));
   const [quest, setQuest] = useState(QuestionsList(lang)[0]);
@@ -326,7 +325,7 @@ const AddShowingsBuyer = (props) => {
       {
         start: allDay ? null : startHour,
         end: allDay ? null : endHour,
-        slot: DateTime.fromMillis(date).toFormat('yyyy-MM-dd', { locale:  userLang}),
+        slot: DateTime.fromMillis(date).toFormat('yyyy-MM-dd', { locale:  lang}),
         date,
         isAllDay: allDay,
         normDate: date,
@@ -414,7 +413,7 @@ const AddShowingsBuyer = (props) => {
                                         >
                                           <div className="dis-fl-row a-c">
                                             <span className="day pr-1 fsize-300">
-                                              {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')},
+                                              {DateTime.fromMillis(val.date, { locale: lang }).toFormat('dd LLLL yyyy')},
                                             </span>
                                             <div className="time fsize-300">
                                               {
@@ -555,7 +554,7 @@ const AddShowingsBuyer = (props) => {
                                 >
                                   <div className="dis-fl-row a-c">
                                     <span className="day pr-1 fsize-300">
-                                      {DateTime.fromMillis(val.date, { locale: userLang }).toFormat('dd LLLL yyyy')},
+                                      {DateTime.fromMillis(val.date, { locale: lang }).toFormat('dd LLLL yyyy')},
                                     </span>
                                     <div className="time fsize-300">
                                       {
@@ -651,7 +650,6 @@ AddShowingsBuyer.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  userLang: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -678,7 +676,6 @@ const mapStateToProps = (state) => {
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    userLang: get(state, 'user.loggedInUser.language', 'en'),
   });
 };
 
