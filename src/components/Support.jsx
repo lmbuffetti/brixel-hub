@@ -59,6 +59,7 @@ const Support = (props) => {
 
   const sendMessage = () => {
     const data = {
+      company: activeSingleCompany.id,
       page: get(activeSingleProperty, 'id', ''),
       message: supportMessage,
       smallLoader: 'supportMessage',
