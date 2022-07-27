@@ -107,6 +107,16 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
           large: true,
         },
         {
+          condition: [
+            {
+              name: 'company',
+              noValue: 'baloise',
+            },
+            {
+              name: 'company',
+              noValue: 'ubs_key4',
+            }
+          ],
           component: BrixelRadioButton,
           label: translateTo('Do you already have a financing certificate?', lang),
           name: 'financeCertificate',
