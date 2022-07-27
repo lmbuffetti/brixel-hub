@@ -218,11 +218,34 @@ const IntroUpgrade = (props) => {
                                 </p>
 
                                 {
-                                  pkg.price.total > 0 ? (
+                                  get(pkg, 'price.total', 0) > 0 ? (
                                     <>
-                                      <span className="mt-2 dis-b txtAltGrey400 fsize-300">Originalpreis <span className="td-lt lh-in">CHF 90000</span></span>
+                                      {
+                                        get(pkg, 'price.discountTotal', 0) > 0 && (
+                                          <>
+                                            <span
+                                              className="mt-2 dis-b txtAltGrey400 fsize-300"
+                                            >
+                                              <span>{translateTo('Original price', lang)}</span>
+                                              <span className="td-lt lh-in ml-2">
+                                                <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
+                                                <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
+                                              </span>
+                                            </span>
+                                          </>
+                                        )
+                                      }
                                       <h3 className="pb-1 fweight-600">
-                                        <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                                        <span>
+                                          <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
+                                          {
+                                            get(pkg, 'price.discountTotal', 0) > 0 ? (
+                                              <span>{Helpers.formatNumberValue(pkg.price.discountTotal, get(pkg, 'price.currency', ''))}</span>
+                                            ) : (
+                                              <span>{Helpers.formatNumberValue(pkg.price.total, get(pkg, 'price.currency', ''))}</span>
+                                            )
+                                          }
+                                        </span>
                                         <sup className="fsize-300 pl-1">{translateTo('incl. VAT', lang)}</sup>
                                       </h3>
                                       <BrixelButtonPrimary
@@ -242,7 +265,7 @@ const IntroUpgrade = (props) => {
                                         theme="dark"
                                         themeSat="700"
                                         fullWidth
-                                        label={translateTo('Jetzt gratis starten', lang)}
+                                        label={translateTo('Try now for free', lang)}
                                         onClick={() => scrollTo('#')}
                                       />
                                     </>
@@ -265,7 +288,7 @@ const IntroUpgrade = (props) => {
                                   pkg.price.total > 0 && (
                                     <BrixelButtonText
                                       className="mt-4 mb-2 mb-sm-0 ml-a mr-a"
-                                      label="Mehr erfahren"
+                                      label={translateTo('Learn more', lang)}
                                       theme="green"
                                     />
                                   )
@@ -308,7 +331,9 @@ const IntroUpgrade = (props) => {
                                         </>
                                       )
                                     }
-                                    <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">Dein Partner in Finanzfragen</span>
+                                    <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
+                                      {translateTo('Your partner in financial matters', lang)}
+                                    </span>
                                     {
                                       get(activeCompanyData, 'logos', []).length > 0 && (
                                         <div className="dis-f ml-4">
