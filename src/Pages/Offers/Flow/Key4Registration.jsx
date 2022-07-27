@@ -67,8 +67,8 @@ const Key4Registration = (props) => {
 
   const linkInfoKey4 = () => {
     let url = 'https://key4.ch/en/privacy-statement/';
-    if (loggedInUser.language === 'it') url = 'https://key4.ch/it/privacy-statement/';
-    if (loggedInUser.language === 'de') url = 'https://key4.ch/de/privacy-statement/';
+    if (lang === 'it') url = 'https://key4.ch/it/privacy-statement/';
+    if (lang === 'de') url = 'https://key4.ch/de/privacy-statement/';
     return url;
   };
 
