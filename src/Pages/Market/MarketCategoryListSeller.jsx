@@ -26,7 +26,12 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
-import { getCompanyListing, setActiveSingleCompany, getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
+import {
+  getCompanyListing,
+  setActiveSingleCompany,
+  getActiveSingleCompanyPackages,
+  getActiveSingleCompany,
+} from '../../actions/CompanyActions';
 import {
   getEstimation,
   getPackageProperty,
@@ -58,6 +63,7 @@ const MarketCategoryListSeller = (props) => {
     bestimate,
     companyListings,
     estimation,
+    handleGetActiveSingleCompany,
     handleGetActiveCompanyPackages,
     handleGetCompanyListing,
     handleGetEstimation,
@@ -156,18 +162,23 @@ const MarketCategoryListSeller = (props) => {
       setPropertyId(ownerProperties.data[0].id);
     }
   }, [getCookie('brixelSplashHome'), ownerProperties, notification]);
-
+  
   useEffect(() => {
     if (has(ownerProperties, 'total')) {
       if (ownerProperties.total === 0) {
-        if (loggedInUser.company) setActiveCompanyId(loggedInUser.company.id);
-        else if (loggedInUser.companies) setActiveCompanyId(loggedInUser.companies[0])
+        let cmpID;
+        if (loggedInUser.company) cmpID = loggedInUser.company.id;
+        else if (loggedInUser.companies) cmpID = loggedInUser.companies[0];
+        handleGetActiveSingleCompany({id: cmpID});
+        setActiveCompanyId(cmpID);
       } else {
+        handleGetActiveSingleCompany({id: ownerProperties.data[0].company.id || ownerProperties.data[0].company});
         setActiveCompanyId(ownerProperties.data[0].company.id || ownerProperties.data[0].company);
       }
     }
   }, [ownerProperties, loggedInUser]);
-
+  
+  
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
@@ -652,6 +663,7 @@ MarketCategoryListSeller.propTypes = {
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetActiveCompanyPackages: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
@@ -691,8 +703,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   handleGetActiveCompanyPackages: bindActionCreators(getActiveSingleCompanyPackages, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),

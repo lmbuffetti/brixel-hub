@@ -16,6 +16,7 @@ import { initializeForm } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
@@ -67,9 +68,11 @@ const MarketCategoryListBuyer = (props) => {
 
   // PROPS
   const {
+    handleGetActiveSingleCompany,
     initForm,
     initialValues,
     lang,
+    loggedInUser,
     ownerEstimations,
     preMarketStats,
     premiumEuropeProperties,
@@ -106,6 +109,16 @@ const MarketCategoryListBuyer = (props) => {
       setTopTab(tabMenu);
     }
   }, [ownerEstimations.total, wishlistProperties.total]);
+  
+  useEffect(() => {
+    if (get(loggedInUser, 'id', null)) {
+      let cmpID;
+      if (loggedInUser.company) cmpID = loggedInUser.company.id;
+      else if (loggedInUser.companies) cmpID = loggedInUser.companies[0];
+      handleGetActiveSingleCompany({id: cmpID});
+    }
+  }, [loggedInUser.id]);
+  
 
   // Update data by user screen
   useEffect(() => {
@@ -420,9 +433,11 @@ const MarketCategoryListBuyer = (props) => {
 
 MarketCategoryListBuyer.propTypes = {
   estimation: PropTypes.object.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   ownerEstimations: PropTypes.object.isRequired,
   preMarketStats: PropTypes.object.isRequired,
   premiumEuropeProperties: PropTypes.object.isRequired,
@@ -457,6 +472,7 @@ const mapStateToProps = (state) => {
       locations: get(state, 'user.userSearchProfiles[0].location', []),
     },
     lang: get(state, 'common.language', 'en'),
+    loggedInUser: get(state, 'user.loggedInUser.user', {}),
     ownerEstimations: get(state, 'market.ownerEstimations', {}),
     preMarketStats: get(state, 'market.preMarketStats', {}),
     premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
@@ -472,8 +488,9 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  handleSetHistory: bindActionCreators(setHistory, dispatch),
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleSetHistory: bindActionCreators(setHistory, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
