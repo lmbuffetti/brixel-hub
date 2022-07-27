@@ -58,7 +58,7 @@ const checkUser = (store) => (next) => (action) => {
               .then((res) => {
                 api.user.getUser(res.data.id)
                   .then((res2) => {
-                    if (get(res2, 'data.language', '').includes('en')) res2.data.language = 'en';
+                    if (get(res2, 'data.user.language', '').includes('en')) res2.data.language = 'en';
                     store.dispatch({ type: SET_LOGGED_IN_USER, payload: {user: res2.data} });
                     if (!hideLoad) store.dispatch({ type: SPINNER_OFF });
                   });
