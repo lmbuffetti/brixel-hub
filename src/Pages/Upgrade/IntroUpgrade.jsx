@@ -213,41 +213,44 @@ const IntroUpgrade = (props) => {
                                 <div className="dis-f jc-b a-c">
                                   <h5 className="fweight-600">{pkg.name}</h5>
                                 </div>
-                                <p className="mt-4 txtDark700">
+                                <p className="mt-4 txtDark700 min-h-fix-md-80">
                                   {translateTo(pkg.description, lang)}
                                 </p>
 
                                 {
                                   get(pkg, 'price.total', 0) > 0 ? (
                                     <>
-                                      {
-                                        get(pkg, 'price.discountTotal', 0) > 0 && (
-                                          <>
-                                            <span
-                                              className="mt-2 dis-b txtAltGrey400 fsize-300"
-                                            >
-                                              <span>{translateTo('Original price', lang)}</span>
-                                              <span className="td-lt lh-in ml-2">
-                                                <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
-                                                <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
+                                      <div className="min-h-fix-sm-80 dis-fl-col jc-fe mb-1">
+                                        {
+                                          get(pkg, 'price.discountTotal', 0) > 0 && (
+                                            <>
+                                              <span
+                                                className="dis-b txtAltGrey400 fsize-300 mt-2 mt-sm-0"
+                                              >
+                                                <span>{translateTo('Original price', lang)}</span>
+                                                <span className="td-lt lh-in ml-2">
+                                                  <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
+                                                  <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
+                                                </span>
                                               </span>
-                                            </span>
-                                          </>
-                                        )
-                                      }
-                                      <h3 className="pb-1 fweight-600">
-                                        <span>
-                                          <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
-                                          {
-                                            get(pkg, 'price.discountTotal', 0) > 0 ? (
-                                              <span>{Helpers.formatNumberValue(pkg.price.discountTotal, get(pkg, 'price.currency', ''))}</span>
-                                            ) : (
-                                              <span>{Helpers.formatNumberValue(pkg.price.total, get(pkg, 'price.currency', ''))}</span>
-                                            )
-                                          }
-                                        </span>
-                                        <sup className="fsize-300 pl-1">{translateTo('incl. VAT', lang)}</sup>
-                                      </h3>
+                                            </>
+                                          )
+                                        }
+                                        <h3 className="fweight-600">
+                                          <span>
+                                            <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
+                                            {
+                                              get(pkg, 'price.discountTotal', 0) > 0 ? (
+                                                <span>{Helpers.formatNumberValue(pkg.price.discountTotal, get(pkg, 'price.currency', ''))}</span>
+                                              ) : (
+                                                <span>{Helpers.formatNumberValue(pkg.price.total, get(pkg, 'price.currency', ''))}</span>
+                                              )
+                                            }
+                                          </span>
+                                          <sup className="fsize-300 pl-1">{translateTo('incl. VAT', lang)}</sup>
+                                        </h3>
+                                      </div>
+
                                       <BrixelButtonPrimary
                                         rounded
                                         fullWidth
@@ -257,7 +260,7 @@ const IntroUpgrade = (props) => {
                                     </>
                                   ) : (
                                     <>
-                                      <h3 className="py-2 fweight-600 mt-2">
+                                      <h3 className="fweight-600 h-fix-80 mb-1 dis-f a-b">
                                         {translateTo('Free', lang)}
                                       </h3>
                                       <BrixelButtonSecondary
