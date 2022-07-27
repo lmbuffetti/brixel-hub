@@ -74,6 +74,24 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       </>
     );
   };
+  
+  const TextPartnerUpload = () => {
+    const sendData = () => {
+      changeVal('financeCertificate', 0);
+      changeIndex(1);
+    };
+    return (
+      <div className="bgWhit w-perc-100 mt-3 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5">
+        <p className="txtDark700">
+          <h6 className="mb-3">No. Order a proof of financing here.</h6>
+          <span>{translateTo('No problem. Our partner Baloise will provide you with a financing certificate free of charge. This is a non-binding offer.', lang)}</span>
+          <span className="cur-poi dis-b td-u" type="button" onClick={() => sendData()}>
+            <span>{translateTo('Apply now on key4', lang)}</span>
+          </span>
+        </p>
+      </div>
+    );
+  };
 
   return [
     {
@@ -136,6 +154,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
         },
       ],
     },
+    // FOR COMPANIES AND NOT FOR PARTNER
     {
       condition: [{
         name: 'financeCertificate',
@@ -370,6 +389,38 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
               body: `<p>${translateTo('This is the income of your household before deduction of social contributions, including 13th month salary and other salary components (e.g. bonuses).', lang)}</p>`,
             }),
           },
+        },
+      ],
+    },
+    // FOR PARTNER
+    {
+      condition: [{
+        name: 'financeCertificate',
+        value: null,
+      }],
+      title: translateTo('Do you have a recent proof of financing?', lang),
+      subtitle: translateTo('Do you have a recent proof of financing?', lang),
+      history: 'financingProof',
+      className: 'max-w-fix-600 ml-a mr-a dis-f flex-wrap',
+      footerWidth: 'max-w-fix-600',
+      inputs: [
+        {
+          component: BrixelMultiUploadFile,
+          title: 'test',
+          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5',
+          classBoxWrapper: '',
+          ReduxFieldClass: '',
+          label: translateTo(`Add a proof of financing from a ${countryName} financial institution`, lang),
+          name: 'document',
+          theme: 'simple',
+          validation: [Validation.required],
+        },
+        {
+          customComponent: TextPartnerUpload,
+          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5',
+          classBoxWrapper: 'mt-3',
+          ReduxFieldClass: '',
+          name: 'document',
         },
       ],
     },
