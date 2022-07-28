@@ -12,7 +12,7 @@ build site:
     paths:
       - node_modules/
   only:
-    - develop
+    - feature/financing-offer-partner
     - staging
     - master
   variables:
@@ -41,7 +41,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - develop
+    - feature/financing-offer-partner
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh

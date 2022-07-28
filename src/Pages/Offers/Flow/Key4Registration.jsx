@@ -91,46 +91,42 @@ const Key4Registration = (props) => {
                     <BrixelIcon
                       className="mr-2"
                       iconWidth="w-fix-32"
-                      icon="tax-declaration"
-                      color="primary"
-                      saturationTxt={300}
+                      icon="page"
+                      color="blue"
                     />
                     <p className="txtDark700">
                       {translateTo('Latest tax declaration', lang)}
                     </p>
                   </div>
-                  <div className="dis-f a-c mt-2">
+                  <div className="dis-f a-c mt-3">
                     <BrixelIcon
                       className="mr-2"
                       iconWidth="w-fix-32"
-                      icon="proof-income"
-                      color="primary"
-                      saturationTxt={300}
+                      icon="page"
+                      color="blue"
                     />
                     <p className="txtDark700">
                       {translateTo('Latest proof of income, incl. proof of bonus if applicable', lang)}
                     </p>
                   </div>
-                  <div className="dis-f a-c mt-2">
+                  <div className="dis-f a-c mt-3">
                     <BrixelIcon
                       className="mr-2"
                       iconWidth="w-fix-32"
-                      icon="pension"
-                      color="primary"
-                      saturationTxt={300}
+                      icon="page"
+                      color="blue"
                     />
                     <p className="txtDark700">
                       {translateTo('Pension fund statement', lang)}
                     </p>
                   </div>
 
-                  <div className="dis-f a-c mt-2">
+                  <div className="dis-f a-c mt-3">
                     <BrixelIcon
                       className="mr-2"
                       iconWidth="w-fix-32"
-                      icon="property-expose"
-                      color="primary"
-                      saturationTxt={300}
+                      icon="page"
+                      color="blue"
                     />
                     <p className="dis-f flex-wrap a-c txtDark700">
                       <span>
@@ -173,10 +169,14 @@ const Key4Registration = (props) => {
                 rightIcon="arrow-right"
                 onClick={() => onRegisterKey4()}
               />
-
-              <p className="mt-3 fs-i txtDark400 fsize-200">
-                {translateTo('Please note that Brixel will be compensated for your referral when you conclude a mortgage with key4.', lang)}
-              </p>
+  
+              {
+                get(formValue, 'company', null) !== 'ubs_key4' && (
+                  <p className="mt-3 fs-i txtDark400 fsize-200">
+                    {translateTo('Please note that Brixel will be compensated for your referral when you conclude a mortgage with key4.', lang)}
+                  </p>
+                )
+              }
             </div>
           </>
         ) : (

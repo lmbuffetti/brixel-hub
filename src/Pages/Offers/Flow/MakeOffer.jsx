@@ -268,6 +268,9 @@ const MakeOffer = (props) => {
         }
       });
     }
+    if (quest.history === 'financeCalculator') {
+      if (get(formValue, 'affordabilityCheck', null) === null) isValid = false;
+    }
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
@@ -381,7 +384,10 @@ const MakeOffer = (props) => {
     if (newQuest[currentIndex] && newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
-  }, [formValue]);
+    if (has(formValue, 'document') && get(formValue, 'document', []).length === 0) {
+      delete formValue.document;
+    }
+  }, [formValue, get(formValue, 'document', null)]);
   
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
@@ -608,6 +614,8 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValues: {
     ...get(state, 'brixelForm.offerFlow.values', {}),
+    affordabilityCheck: null,
+    loanValueCheck: null,
     financeCertificate: null,
     company: get(state, 'companies.activeSingleCompany.stub', null),
     id: get(state, 'property.activeSingleProperty.id', null),

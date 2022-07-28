@@ -15,8 +15,12 @@ import {
 import get from 'lodash/get';
 import FinanceCertificate from '../../Pages/Offers/Flow/FinanceCertificate';
 import Key4Registration from '../../Pages/Offers/Flow/Key4Registration';
+import BaloiseRegistration from '../../Pages/Offers/Flow/BaloiseRegistration';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import { configureStore } from '../../store';
+import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';
+import UBSLogoImg from '../../images/Companies/ubsKey4/ubsLogo.svg';
+import Key4LogoImg from '../../images/Companies/ubsKey4/key4Logo.svg';
 
 const { factsOptions } = FactsOptions;
 
@@ -75,21 +79,55 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
     );
   };
   
+  const successMessage = () => {
+    switch (formValue.company) {
+      case 'baloise':
+        return 'Your offer has been sent to the seller and will be reviewed by us. You will be informed as soon as possible.'
+      case 'ubs_key4':
+        return 'Your offer has been sent to the seller and will be reviewed by us. You will be informed as soon as possible.'
+      default:
+        return 'Your offer has been submitted to the seller and is currently pending. The seller will get back to you.'
+    }
+  }
+  
   const TextPartnerUpload = () => {
-    const sendData = () => {
-      changeVal('financeCertificate', 0);
-      changeIndex(1);
-    };
     return (
-      <div className="bgWhit w-perc-100 mt-3 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5">
-        <p className="txtDark700">
-          <h6 className="mb-3">No. Order a proof of financing here.</h6>
-          <span>{translateTo('No problem. Our partner Baloise will provide you with a financing certificate free of charge. This is a non-binding offer.', lang)}</span>
-          <span className="cur-poi dis-b td-u" type="button" onClick={() => sendData()}>
-            <span>{translateTo('Apply now on key4', lang)}</span>
-          </span>
-        </p>
-      </div>
+      <>
+        {
+          get(formValue, 'document', []).length === 0 && (
+            <div className="bgWhit w-perc-100 mt-3 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5">
+              <div className="txtDark700">
+                <h6 className="mb-3 fweight-600">
+                  {translateTo('No. Order a proof of financing here.', lang)}
+                </h6>
+                <span>
+                  {translateTo('No problem. Our partner Baloise will provide you with a financing certificate free of charge. This is a non-binding offer.', lang)}
+                </span>
+  
+                {
+                  formValue.company === 'baloise' && (
+                    <div className="dis-f a-c mt-3">
+                      <p className="txtAltGrey400 mr-2">In partnership with</p>
+                      <img src={BaloiseLogoImg} alt="Logo Baloise" />
+                    </div>
+                  )
+                }
+  
+                {
+                  formValue.company === 'ubs_key4' && (
+                    <div className="dis-f a-c mt-3">
+                      <p className="txtAltGrey400 mr-2">In partnership with</p>
+                      <img src={UBSLogoImg} alt="Logo UBS" />
+                      <img className="ml-2" src={Key4LogoImg} alt="Logo Key 4" />
+                    </div>
+                  )
+                }
+      
+              </div>
+            </div>
+          )
+        }
+      </>
     );
   };
 
@@ -392,6 +430,18 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
         },
       ],
     },
+    {
+      condition: [{
+        name: 'financeCertificate',
+        value: 0,
+      }],
+      hideContinueBtn: true,
+      cardType: 'loadComponent',
+      history: 'key4Registration',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      footerWidth: 'max-w-fix-600',
+      component: Key4Registration,
+    },
     // FOR PARTNER
     {
       condition: [{
@@ -406,14 +456,15 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       inputs: [
         {
           component: BrixelMultiUploadFile,
-          title: 'test',
+          topLabel: translateTo('Yes. Then upload it here directly.', lang),
+          topLabelClass: 'mb-3 fweight-600',
           classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5',
           classBoxWrapper: '',
           ReduxFieldClass: '',
           label: translateTo(`Add a proof of financing from a ${countryName} financial institution`, lang),
           name: 'document',
           theme: 'simple',
-          validation: [Validation.required],
+          acceptedFile: ['jpg', 'png', 'application/pdf'],
         },
         {
           customComponent: TextPartnerUpload,
@@ -425,24 +476,60 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       ],
     },
     {
-      condition: [{
-        name: 'financeCertificate',
-        value: null,
-      }],
-      hideContinueBtn: true,
+      condition: [
+        {
+          name: 'financeCertificate',
+          value: null,
+        },
+        {
+          name: 'document',
+          value: null,
+        }],
       cardType: 'loadComponent',
-      history: 'key4Registration',
+      history: 'financeCalculator',
       className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: FinancingCalculator,
       country: 'CH',
       propertyPrice: formValue.propertyPrice,
+      hideText: true,
+      customButton: [],
       partner: formValue.company,
+      onChangeValue: (aff, loan, affordabilityCheck, loanValueCheck) => {
+        formValue.affordability = aff;
+        formValue.loanToValueRatio = loan;
+        changeVal('affordabilityCheck', affordabilityCheck),
+        changeVal('loanValueCheck', loanValueCheck)
+      }
     },
+    // ONLY FOR BALOISE
+    {
+      condition: [
+        {
+          name: 'affordabilityCheck',
+          value: true,
+        },
+        {
+          name: 'loanValueCheck',
+          value: true,
+        },
+        {
+          name: 'company',
+          value: 'baloise',
+        },
+      ],
+      cardType: 'loadComponent',
+      history: 'uploadDocumentsBaloise',
+      className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      footerWidth: 'max-w-fix-600',
+      component: BaloiseRegistration,
+      country: 'CH',
+    },
+    // ONLY FOR UBS_KEY4
     {
       condition: [{
-        name: 'financeCertificate',
-        value: 0,
+        name: 'company',
+        value: 'ubs_key4',
       }],
       hideContinueBtn: true,
       cardType: 'loadComponent',
@@ -459,7 +546,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       img: ClipboardImg,
       imgMaxWidth: 'max-w-fix-160',
       cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
-      subtitle: translateTo('Your offer has been submitted to the seller and is currently pending. The seller will get back to you.', lang),
+      subtitle: translateTo(successMessage(), lang),
       history: 'success',
       vCentered: true,
       toSave: true,
