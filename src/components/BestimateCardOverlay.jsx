@@ -121,16 +121,18 @@ const BestimateCardOverlay = (props) => {
                 </div>
                 {
                   get(bestimate, 'alfredo', false) === true && (
-                    <span className="txtDark200 max-w-fix-480 mb-5">
-                      {translateTo('Bestimate<sup>®</sup> is a first price indication calculated with a few inputs. It is based on real property transactions, as well as an average of current market values. For a more accurate and complete estimation, we suggest booking an on-site appointment with one of our experts (limited to specific areas).', lang)}
-                    </span>
+                    <span
+                      dangerouslySetInnerHTML={{ __html: translateTo('Bestimate<sup>®</sup> is a first price indication calculated with a few inputs. It is based on real property transactions, as well as an average of current market values. For a more accurate and complete estimation, we suggest booking an on-site appointment with one of our experts (limited to specific areas).', lang)}}
+                      className="txtDark200 max-w-fix-480 mb-5"
+                    />
                   )
                 }
                 {
                   get(bestimate, 'iazi', false) === true && (
-                    <span className="txtDark200 max-w-fix-480 mb-5">
-                      {translateTo('Bestimate<sup>®</sup> is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.', lang)}
-                    </span>
+                    <span
+                      className="txtDark200 max-w-fix-480 mb-5"
+                      dangerouslySetInnerHTML={{ __html:  translateTo('Bestimate<sup>®</sup> is calculated based on similar transactions. This is a first price indication calculated with few inputs. To have a more accurate estimation we suggest to book our free on-site estimation.', lang)}}
+                    />
                   )
                 }
                 <BrixelButtonPrimary
