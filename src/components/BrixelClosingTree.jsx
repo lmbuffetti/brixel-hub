@@ -247,18 +247,18 @@ const BrixelClosingTree = (props) => {
                     />
                   ) : (
                     <>
-                      { get(activeSingleOffer, 'offer.amount', 0) > 0 &&
-                      get(activeSingleOffer, 'offer.status', '') !== 'rejected' ? (
-                        <div className="dis-f a-c jc-b w-perc-100">
+                      {
+                        get(activeSingleOffer, 'offer.amount', 0) > 0 && get(activeSingleOffer, 'offer.status', '') !== 'rejected' ? (
+                          <div className="dis-f a-c jc-b w-perc-100">
                             <div className="dis-f a-c">
-                            <BrixelIcon
+                              <BrixelIcon
                                 icon="check-small-fill"
                                 color="green"
                                 className="mr-1"
                                 iconWidth="w-fix-24"
                               />
-                            <span>{translateTo('Buyer', lang)}</span>
-                          </div>
+                              <span>{translateTo('Buyer', lang)}</span>
+                            </div>
                             <span className="fsize-300 fsize-lg-400 txtGreen400">{translateTo('Sent', lang)}</span>
                           </div>
                         ) : (
