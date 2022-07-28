@@ -36,7 +36,7 @@ const OfferListings = (props) => {
   return (
     <>
       <div className="w-perc-100 txtDark700 dealsListings">
-        <h3 className="mb-3 hide dis-b-lg">Closing</h3>
+        <h3 className="mb-3 hide dis-b-lg">{translateTo('Closing', lang)}</h3>
         {/* <div className="dis-f">
           <div className="fixedIcon w-perc-100">
             <BrixelButtonIcon
