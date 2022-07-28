@@ -180,9 +180,10 @@ const Facts = (props) => {
                             saturationTxt={400}
                             className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b fsize-400`}
                           />
-                          <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtDark200 td-lt' : 'txtDark200'}`}>
-                            {translateTo(quest.title, lang)}
-                          </h4>
+                          <h4
+                            className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtDark200 td-lt' : 'txtDark200'}`}
+                            dangerouslySetInnerHTML={{ __html: translateTo(quest.title, lang)}}
+                          />
                         </div>
                         <BrixelIcon
                           className="fsize-400 mr-1 onHover"
