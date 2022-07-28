@@ -210,7 +210,7 @@ export const PackagesComparePlans = (props) => {
           {
             PackagesComparePlansTable.map((table, i) => (
               <tr key={`tbl_${i.toString()}`}>
-                <th>{table.title}</th>
+                <th>{translateTo(table.title, lang)}</th>
                 {
                   extractTable('basic').map((pkg, f) => (
                     <td key={`bsc_${f.toString()}`}>

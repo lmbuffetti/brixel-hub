@@ -63,19 +63,19 @@ const Portals = (props) => {
   useEffect(() => {
     if (activeSingleProperty.portalsReview) {
       setStatus({
-        text: 'Review',
+        text: translateTo('Review', lang),
         color: 'Yellow400',
         state: 'review',
       });
     } else if (checkPortalsOnline()) {
       setStatus({
-        text: 'Published',
+        text: translateTo('Published', lang),
         color: 'Green400',
         state: 'published',
       });
     } else {
       setStatus({
-        text: 'Unpublished',
+        text: translateTo('Unpublished', lang),
         color: 'Red400',
         state: 'unpublished',
       });
@@ -112,21 +112,21 @@ const Portals = (props) => {
       multiBodyActions: type === 'success' ? [
         {
           btnType: 'Primary',
-          name: 'Ok thanks',
+          name: translateTo('Ok thanks', lang),
           round: true,
           func: () => handleSetModal({}),
         }
       ] : [
         {
           btnType: 'Secondary',
-          name: 'Cancel',
+          name: translateTo('Cancel', lang),
           round: true,
           className: 'mr-1',
           func: () => handleSetModal({}),
         },
         {
           btnType: 'Primary',
-          name: 'Confirm',
+          name: translateTo('Confirm', lang),
           round: true,
           className: 'ml-1',
           func: () => changeReviewStatus()
@@ -317,7 +317,7 @@ const Portals = (props) => {
                   {translateTo('Your property is visible on our pre-market. Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang)}
                 </p>
               ) : (
-                <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang) }} />
+                <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang) }} />
               )
             }
           </div>

@@ -56,47 +56,47 @@ const BrixelClosingTree = (props) => {
       stageName: 'stageOffer',
       subtitle: get(activeSingleOffer, 'offer.amount', 0) > 0 ?
         `<span class="ff-mono fsize-400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-400 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
-        'Add your first offer to start.',
-      title: 'Offer',
+        translateTo('Add your first offer to start.', lang),
+      title: translateTo( 'Offer', lang),
     },
     {
       name: 'identification',
       button: (action) => onClickOffer(action),
       stageName: 'stageIdentification',
-      subtitle: 'Submit ID and personal information.',
-      title: 'Identification',
+      subtitle: translateTo('Submit ID and personal information.', lang),
+      title: translateTo('Identification', lang),
     },
     {
       name: 'lock',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageLock',
-      subtitle: 'Reserve the property for closing.',
-      title: 'Lock',
-      statusText: 'Lock',
+      subtitle: translateTo('Reserve the property for closing.', lang),
+      title: translateTo('Lock', lang),
+      statusText: translateTo('Lock', lang),
     },
     {
       name: 'finance',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageFinance',
-      subtitle: 'Plan early for your financial situation.',
-      title: 'Finance',
-      statusText: 'Checked',
+      subtitle: translateTo('Plan early for your financial situation.', lang),
+      title: translateTo('Finance', lang),
+      statusText: translateTo('Checked', lang),
     },
     {
       name: 'contract',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageContract',
-      subtitle: 'Approve the terms of the contract.',
-      title: 'Contract',
-      statusText: 'Approved',
+      subtitle: translateTo('Approve the terms of the contract.', lang),
+      title: translateTo('Contract', lang),
+      statusText: translateTo('Approved', lang),
     },
     {
       name: 'notary',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageNotary',
-      subtitle: 'Sign the contract at the notary.',
-      title: 'Notary',
-      statusText: 'Signed',
+      subtitle: translateTo('Sign the contract at the notary.', lang),
+      title: translateTo('Notary', lang),
+      statusText: translateTo('Signed', lang),
     },
   ];
 
@@ -105,25 +105,25 @@ const BrixelClosingTree = (props) => {
   const status = {
     accepted: {
       icon: 'check-small-fill',
-      label: 'Accepted',
+      label: translateTo('Accepted', lang),
       color: 'green',
       colorText: 'txtGreen400',
     },
     rejected: {
       icon: 'close-circle',
-      label: 'Rejected',
+      label: translateTo('Rejected', lang),
       color: 'red',
       colorText: 'txtRed400',
     },
     pending: {
       icon: 'check-small',
-      label: 'Pending',
+      label: translateTo('Pending', lang),
       color: 'yellow',
       colorText: 'txtYellow400',
     },
     default: {
       icon: 'check-small',
-      label: '',
+      label: translateTo('', lang),
       color: 'dark',
       colorText: 'txtDark400',
     },
@@ -649,12 +649,12 @@ const BrixelClosingTree = (props) => {
                         <div className="">
                           {
                             statusIdentification('seller') === 'accepted' && (
-                              <span className="ml-1 txtGreen400">Verified</span>
+                              <span className="ml-1 txtGreen400">{translateTo('Verified', lang)}</span>
                             )
                           }
                           {
                             statusIdentification('seller') === 'pending' && (
-                              <span className="ml-1 txtYellow400">Pending</span>
+                              <span className="ml-1 txtYellow400">{translateTo('Pending', lang)}</span>
                             )
                           }
                         </div>
@@ -666,7 +666,7 @@ const BrixelClosingTree = (props) => {
                               !isBuyer && (
                                 <>
                                   <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
-                                    Pending
+                                    {translateTo('Pending', lang)}
                                   </span>
                                 </>
                               )

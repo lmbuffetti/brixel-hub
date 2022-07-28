@@ -475,9 +475,7 @@ const MarketCategoryListSeller = (props) => {
                                     <li>
                                       {translateTo('Personal consultation', lang)}
                                     </li>
-                                    <li className="ml-0 ml-md-3">
-                                      {translateTo('Free 3D tour & HD photos', lang)}
-                                    </li>
+                                    <li className="ml-0 ml-md-3" dangerouslySetInnerHTML={{ __html: translateTo('Free 3D tour &amp; HD photos', lang)}} />
                                     <li className="ml-0 ml-md-3">
                                       {translateTo('Full estimation by an expert', lang)}
                                     </li>

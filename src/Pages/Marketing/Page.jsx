@@ -247,7 +247,7 @@ const Page = (props) => {
                   className="mb-1 mr-2"
                 />
                 <BrixelButtonText
-                  label={translateTo('Take Page offline')}
+                  label={translateTo('Take Page offline', lang)}
                   theme="red"
                   rounded
                   onClick={() => onClickRequest('unpublishPage', 'request')}
