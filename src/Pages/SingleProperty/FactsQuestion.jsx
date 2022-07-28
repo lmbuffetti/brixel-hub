@@ -74,7 +74,7 @@ const FactsQuestion = (props) => {
       className="questContent"
     >
       <div className="dis-f a-c jc-b pos-r mb-3">
-        <h5>{translateTo(quest.title, lang)}</h5>
+        <h5 dangerouslySetInnerHTML={{ __html: translateTo(quest.title, lang)}} />
         <BrixelButtonIcon
           icon="close-small"
           ghost
