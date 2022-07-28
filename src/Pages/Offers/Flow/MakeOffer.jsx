@@ -560,7 +560,7 @@ const MakeOffer = (props) => {
                                 className={`mr-a ml-a noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 rounded
-                                isLoading={isSmallLoading.sendData}
+                                isLoading={isSmallLoading.sendData === true}
                                 theme="green"
                                 themeSat={600}
                                 label={translateTo(buttonLabel(), lang)}
