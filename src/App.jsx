@@ -744,6 +744,7 @@ const App = (props) => {
                         notification={not}
                         resetForm={(form, data) => handleReset(form, data)}
                         type={not.type}
+                        lang={lang}
                       />
                     </Fragment>
                   ))
