@@ -44,7 +44,7 @@ const Portals = (props) => {
   const [status, setStatus] = useState({});
   // URL PARAMS
   const propID = get(match, 'propID', null);
-
+  
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {
     let isOnline = false;
@@ -58,30 +58,30 @@ const Portals = (props) => {
     });
     return isOnline;
   };
-
+  
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
     if (activeSingleProperty.portalsReview) {
       setStatus({
-        text: 'Review',
+        text: translateTo('Review', lang),
         color: 'Yellow400',
         state: 'review',
       });
     } else if (checkPortalsOnline()) {
       setStatus({
-        text: 'Published',
+        text: translateTo('Published', lang),
         color: 'Green400',
         state: 'published',
       });
     } else {
       setStatus({
-        text: 'Unpublished',
+        text: translateTo('Unpublished', lang),
         color: 'Red400',
         state: 'unpublished',
       });
     }
   }, [activeSingleProperty]);
-
+  
   // CHANGE PORTALS REVIEW
   const changeReviewStatus = () => {
     const data = {
@@ -91,7 +91,7 @@ const Portals = (props) => {
     };
     handleUpdatePortalsReview(data);
   };
-
+  
   const onClickRequest = (state, type = 'request') => {
     const bodyText = MarketingModal[state][type].body.replace(':companyPrice', `${get(activeSingleCompany, 'country.currency')} ${get(activeSingleCompany, 'meta.portals.price')}`);
     handleSetModal({
@@ -112,21 +112,21 @@ const Portals = (props) => {
       multiBodyActions: type === 'success' ? [
         {
           btnType: 'Primary',
-          name: 'Ok thanks',
+          name: translateTo('Ok thanks', lang),
           round: true,
           func: () => handleSetModal({}),
         }
       ] : [
         {
           btnType: 'Secondary',
-          name: 'Cancel',
+          name: translateTo('Cancel', lang),
           round: true,
           className: 'mr-1',
           func: () => handleSetModal({}),
         },
         {
           btnType: 'Primary',
-          name: 'Confirm',
+          name: translateTo('Confirm', lang),
           round: true,
           className: 'ml-1',
           func: () => changeReviewStatus()
@@ -145,7 +145,7 @@ const Portals = (props) => {
       onClickRequest(stateText, 'success');
     }
   }, [isSmallLoading]);
-
+  
   return (
     <>
       <div className="bgWhite p-4 brdRadius">
@@ -155,7 +155,7 @@ const Portals = (props) => {
             {translateTo(status.text, lang)}
           </div>
         </div>
-
+        
         <div className="mb-4">
           {
             checkPortalsOnline() ? (
@@ -243,7 +243,7 @@ const Portals = (props) => {
             ))
           }
         </div>
-
+        
         {
           checkPortalsOnline() && !formValue.portalsReview && (
             <>
@@ -265,7 +265,7 @@ const Portals = (props) => {
             </>
           )
         }
-
+        
         <div className="dis-f a-c jc-fe mt-5">
           {
             checkPortalsOnline() ? (
@@ -294,10 +294,10 @@ const Portals = (props) => {
             )
           }
         </div>
-
+      
       </div>
-
-
+      
+      
       {
         get(activeSingleProperty, 'published', null) === false && (
           <div className="bgWhite brdRadius p-4 mt-2">
@@ -317,13 +317,13 @@ const Portals = (props) => {
                   {translateTo('Your property is visible on our pre-market. Registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang)}
                 </p>
               ) : (
-                <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang) }} />
+                <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('Your property is <strong class="lh-in fweight-600">not</strong> visible on our pre-market. If you make it visible, registered buyers can observe your property and will be informed if you want to go to market. We never share any exact address or personal data without your consent.', lang) }} />
               )
             }
           </div>
         )
       }
-
+    
     </>
   );
 };

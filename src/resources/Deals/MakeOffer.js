@@ -35,27 +35,27 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
     if (isPT) countryName = 'a Portuguese';
     if (countryCode === 'CH') countryName = 'a Swiss';
   }
-  
+
   const martialStatus = factsOptions.martialStatus.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   const matrimonialPropertyRegimePT = factsOptions.matrimonialPropertyRegimePT.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   const matrimonialPropertyRegime = factsOptions.matrimonialPropertyRegime.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   const purchaseTypePT = factsOptions.purchaseTypePT.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   const purchaseType = factsOptions.purchaseType.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
@@ -186,7 +186,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
             label: translateTo('No', lang),
           }],
           tooltip: {
-            label: translateTo('What is a proof of financing?', lang),
+            //label: translateTo('What is a proof of financing?', lang),
             description: translateTo('A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.', lang),
           },
         },

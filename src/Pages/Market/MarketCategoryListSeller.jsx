@@ -63,7 +63,7 @@ const MarketCategoryListSeller = (props) => {
     bestimate,
     companyListings,
     estimation,
-    handleGetActiveCompany,
+    handleGetActiveSingleCompany,
     handleGetActiveCompanyPackages,
     handleGetCompanyListing,
     handleGetEstimation,
@@ -85,12 +85,12 @@ const MarketCategoryListSeller = (props) => {
   } = props;
   
   const marketCookie = getCookie('brixelMarketBestimate');
-  const [activeCompanyId, setActiveCompanyId] = useState(null);
-  const [artByCountry, setArtByCountry] = useState(ArticlesList.default);
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
+  const [propertyId, setPropertyId] = useState(null);
+  const [activeCompanyId, setActiveCompanyId] = useState(null);
   const [companyDetail, setCompanyDetail] = useState({ });
   const [filteredPackages, setFilteredPackages] = useState([]);
-  const [propertyId, setPropertyId] = useState(null);
+  const [artByCountry, setArtByCountry] = useState(ArticlesList.default);
   
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
@@ -169,14 +169,15 @@ const MarketCategoryListSeller = (props) => {
         let cmpID;
         if (loggedInUser.company) cmpID = loggedInUser.company.id;
         else if (loggedInUser.companies) cmpID = loggedInUser.companies[0];
-        handleGetActiveCompany({id: cmpID});
+        handleGetActiveSingleCompany({id: cmpID});
         setActiveCompanyId(cmpID);
       } else {
-        handleGetActiveCompany({id: ownerProperties.data[0].company.id || ownerProperties.data[0].company});
+        handleGetActiveSingleCompany({id: ownerProperties.data[0].company.id || ownerProperties.data[0].company});
         setActiveCompanyId(ownerProperties.data[0].company.id || ownerProperties.data[0].company);
       }
     }
   }, [ownerProperties, loggedInUser]);
+  
   
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
@@ -474,9 +475,7 @@ const MarketCategoryListSeller = (props) => {
                                     <li>
                                       {translateTo('Personal consultation', lang)}
                                     </li>
-                                    <li className="ml-0 ml-md-3">
-                                      {translateTo('Free 3D tour & HD photos', lang)}
-                                    </li>
+                                    <li className="ml-0 ml-md-3" dangerouslySetInnerHTML={{ __html: translateTo('Free 3D tour &amp; HD photos', lang)}} />
                                     <li className="ml-0 ml-md-3">
                                       {translateTo('Full estimation by an expert', lang)}
                                     </li>
@@ -661,8 +660,8 @@ MarketCategoryListSeller.propTypes = {
   bestimate: PropTypes.object.isRequired,
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
-  handleGetActiveCompany: PropTypes.func.isRequired,
   handleGetActiveCompanyPackages: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
@@ -702,9 +701,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
-  handleGetActiveCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveCompanyPackages: bindActionCreators(getActiveSingleCompanyPackages, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),
