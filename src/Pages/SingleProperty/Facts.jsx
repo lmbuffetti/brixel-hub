@@ -153,7 +153,13 @@ const Facts = (props) => {
                   backgroundSaturation={100}
                   progressValue={get(formValue, 'inputSheet.totalComplete', 0)}
                 />
-                <h6 className="mt-1 ff-mono txtPrimary700"><span className="notranslate">{get(formValue, 'inputSheet.totalComplete', 0)}%</span><span>&nbsp;</span><span>complete</span></h6>
+                <h6 className="mt-1 ff-mono txtPrimary700">
+                  <span className="notranslate">
+                    {get(formValue, 'inputSheet.totalComplete', 0)}%
+                  </span>
+                  <span>&nbsp;</span>
+                  <span>{translateTo('complete', lang)}</span>
+                </h6>
               </div>
               <div className="inputSheet">
                 {
@@ -175,7 +181,7 @@ const Facts = (props) => {
                             className={`${checkSectionDone(quest) ? 'opacity10' : 'opacity0'} mx-1 dis-b fsize-400`}
                           />
                           <h4 className={`body ml-1 fweight-400 ${checkSectionDone(quest) ? 'txtDark200 td-lt' : 'txtDark200'}`}>
-                            {quest.title}
+                            {translateTo(quest.title, lang)}
                           </h4>
                         </div>
                         <BrixelIcon

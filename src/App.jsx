@@ -734,10 +734,11 @@ const App = (props) => {
                         handleSetNotification={(data) => handleSetNotification(data)}
                         isSmallLoading={isSmallLoading}
                         icon={not.icon}
-                        label={not.label}
+                        label={translateTo(not.label, lang)}
                         notification={not}
                         resetForm={(form, data) => handleReset(form, data)}
                         type={not.type}
+                        lang={lang}
                       />
                     </Fragment>
                   ))

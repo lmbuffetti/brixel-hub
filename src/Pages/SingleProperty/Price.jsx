@@ -40,6 +40,7 @@ const Price = (props) => {
     location: useLocation(),
   };
   const match = useParams();
+  
   const {
     activeSingleProperty,
     estimation,
@@ -60,6 +61,11 @@ const Price = (props) => {
   // PARAMS URL
   const propID = get(match, 'propID', null);
   const bestimateflowCompleted = completedBestimate(formValue);
+  
+  const propertyStatus = factsOptions.propertyStatus.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
@@ -188,7 +194,7 @@ const Price = (props) => {
                 }}
                 input={{
                   name: 'status',
-                  options: factsOptions.propertyStatus,
+                  options: propertyStatus,
                 }}
                 labels={{
                   label: translateTo('Status', lang),
