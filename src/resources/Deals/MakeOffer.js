@@ -538,6 +538,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       footerWidth: 'max-w-fix-600',
       component: Key4Registration,
     },
+    // GENERAL SAVING FUNCTION FOR EVERYONE
     {
       background: 'bgCardGreen',
       hideProgress: true,
