@@ -51,6 +51,7 @@ const MakeOffer = (props) => {
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleMultiUploadDocument,
+    handleSaveMakeOffer,
     handleSetModal,
     initForm,
     initialValues,
@@ -196,10 +197,11 @@ const MakeOffer = (props) => {
       ...dataForm,
       ...dataDocuments,
     };
-    if (get(formValue, 'financeCertificate', null) === 1) {
+    if (docs.length > 0) {
       handleMultiUploadDocument(data);
+    } else {
+      handleSaveMakeOffer();
     }
-    // handleSaveMakeOffer()
   };
   
   const progressBarCalc = () => {
@@ -595,6 +597,7 @@ MakeOffer.propTypes = {
   handleGetBuyerDeal: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSaveMakeOffer: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
