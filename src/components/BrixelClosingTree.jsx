@@ -37,7 +37,7 @@ const BrixelClosingTree = (props) => {
   const [showTabSection, setShowTabSection] = useState(null);
   const [collapsed, setCollapsed] = useState({});
   //const [collapsedNum, setCollapsedNum] = useState(null);
-
+  
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
     if (action === 'add') {
@@ -48,7 +48,7 @@ const BrixelClosingTree = (props) => {
       });
     }
   }, []);
-
+  
   const closingDefaultText = [
     {
       name: 'offer',
@@ -56,85 +56,85 @@ const BrixelClosingTree = (props) => {
       stageName: 'stageOffer',
       subtitle: get(activeSingleOffer, 'offer.amount', 0) > 0 ?
         `<span class="ff-mono fsize-400">${get(activeSingleOffer, 'offer.currency', 0)}</span><span class="ff-mono fsize-400 ml-1">${Helpers.formatNumberValue(get(activeSingleOffer, 'offer.amount', 0), get(activeSingleOffer, 'offer.currency', 0))}</span>` :
-        'Add your first offer to start.',
-      title: 'Offer',
+        translateTo('Add your first offer to start.', lang),
+      title: translateTo( 'Offer', lang),
     },
     {
       name: 'identification',
       button: (action) => onClickOffer(action),
       stageName: 'stageIdentification',
-      subtitle: 'Submit ID and personal information.',
-      title: 'Identification',
+      subtitle: translateTo('Submit ID and personal information.', lang),
+      title: translateTo('Identification', lang),
     },
     {
       name: 'lock',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageLock',
-      subtitle: 'Reserve the property for closing.',
-      title: 'Lock',
-      statusText: 'Lock',
+      subtitle: translateTo('Reserve the property for closing.', lang),
+      title: translateTo('Lock', lang),
+      statusText: translateTo('Lock', lang),
     },
     {
       name: 'finance',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageFinance',
-      subtitle: 'Plan early for your financial situation.',
-      title: 'Finance',
-      statusText: 'Checked',
+      subtitle: translateTo('Plan early for your financial situation.', lang),
+      title: translateTo('Finance', lang),
+      statusText: translateTo('Checked', lang),
     },
     {
       name: 'contract',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageContract',
-      subtitle: 'Approve the terms of the contract.',
-      title: 'Contract',
-      statusText: 'Approved',
+      subtitle: translateTo('Approve the terms of the contract.', lang),
+      title: translateTo('Contract', lang),
+      statusText: translateTo('Approved', lang),
     },
     {
       name: 'notary',
       onClick: (action) => onClickOffer(action),
       stageName: 'stageNotary',
-      subtitle: 'Sign the contract at the notary.',
-      title: 'Notary',
-      statusText: 'Signed',
+      subtitle: translateTo('Sign the contract at the notary.', lang),
+      title: translateTo('Notary', lang),
+      statusText: translateTo('Signed', lang),
     },
   ];
-
+  
   const [closingStage, setClosingStage] = useState(closingDefaultText);
-
+  
   const status = {
     accepted: {
       icon: 'check-small-fill',
-      label: 'Accepted',
+      label: translateTo('Accepted', lang),
       color: 'green',
       colorText: 'txtGreen400',
     },
     rejected: {
       icon: 'close-circle',
-      label: 'Rejected',
+      label: translateTo('Rejected', lang),
       color: 'red',
       colorText: 'txtRed400',
     },
     pending: {
       icon: 'check-small',
-      label: 'Pending',
+      label: translateTo('Pending', lang),
       color: 'yellow',
       colorText: 'txtYellow400',
     },
     default: {
       icon: 'check-small',
-      label: '',
+      label: translateTo('', lang),
       color: 'dark',
       colorText: 'txtDark400',
     },
   };
-
+  
   const statusIdentification = (usrType) => {
     if (get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'accepted';
     if (get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 && !get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'pending';
     return 'default';
   };
-
+  
   useEffect(() => {
     if (windowDimensions.width < 1024 && !showTabSection) {
       setShowTabSection('buyer');
@@ -142,7 +142,7 @@ const BrixelClosingTree = (props) => {
       setShowTabSection(null);
     }
   }, [windowDimensions]);
-
+  
   useEffect(() => {
     const stageText = cloneDeep(closingStage);
     if (get(activeSingleDeal, 'id', null)) {
@@ -159,7 +159,7 @@ const BrixelClosingTree = (props) => {
     }
     setClosingStage(stageText);
   }, [activeSingleOffer, showTabSection]);
-
+  
   if (!activeSingleDeal.id) {
     return (
       <div className={`closing-tree max-w-fix-1200 dis-fl-col w-perc-100 ${className}`}>
@@ -182,11 +182,11 @@ const BrixelClosingTree = (props) => {
       </div>
     );
   }
-
+  
   const onCollapse = (stageName) => {
     setCollapsed({...collapsed, [stageName]: !get(collapsed, stageName, false)})
   }
-
+  
   const personsInfo = (usrType, classNamePersons = '') => (
     <>
       {
@@ -229,13 +229,13 @@ const BrixelClosingTree = (props) => {
       }
     </>
   );
-
+  
   const buyerSection = (stage, id) => {
     switch (stage) {
       case 'stageOffer':
         return (
           <>
-
+            
             <div className="secHead p-2 h-fix-56">
               <div className="secStatus">
                 {
@@ -248,17 +248,17 @@ const BrixelClosingTree = (props) => {
                   ) : (
                     <>
                       { get(activeSingleOffer, 'offer.amount', 0) > 0 &&
-                        get(activeSingleOffer, 'offer.status', '') !== 'rejected' ? (
-                          <div className="dis-f a-c jc-b w-perc-100">
+                      get(activeSingleOffer, 'offer.status', '') !== 'rejected' ? (
+                        <div className="dis-f a-c jc-b w-perc-100">
                             <div className="dis-f a-c">
-                              <BrixelIcon
+                            <BrixelIcon
                                 icon="check-small-fill"
                                 color="green"
                                 className="mr-1"
                                 iconWidth="w-fix-24"
                               />
-                              <span>{translateTo('Buyer', lang)}</span>
-                            </div>
+                            <span>{translateTo('Buyer', lang)}</span>
+                          </div>
                             <span className="fsize-300 fsize-lg-400 txtGreen400">{translateTo('Sent', lang)}</span>
                           </div>
                         ) : (
@@ -278,12 +278,12 @@ const BrixelClosingTree = (props) => {
                 }
               </div>
             </div>
-
+            
             <div className="secDetails brdAltGrey100 closed">
               <div className="p-2">
                 {
                   get(activeSingleOffer, 'offer.amount', 0) > 0 &&
-                    get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
+                  get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
                     <>
                       {
                         get(activeSingleOffer, 'offer.createdAt', null) && (
@@ -308,7 +308,7 @@ const BrixelClosingTree = (props) => {
                 }
               </div>
             </div>
-
+          
           </>
         );
       case 'stageIdentification':
@@ -412,7 +412,7 @@ const BrixelClosingTree = (props) => {
       case 'stageFinance':
         return (
           <>
-
+            
             <div className="secHead dis-f jc-b p-2 h-fix-56">
               {
                 get(activeSingleClosing, 'stageFinance.active', null) ? (
@@ -505,7 +505,7 @@ const BrixelClosingTree = (props) => {
         );
     }
   };
-
+  
   const sellerSection = (stage, id) => {
     switch (stage) {
       case 'stageOffer':
@@ -555,7 +555,7 @@ const BrixelClosingTree = (props) => {
                   )
                 }
               </div>
-
+              
               {
                 get(activeSingleClosing, 'stageOffer.active', null) !== false && (
                   <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
@@ -568,7 +568,7 @@ const BrixelClosingTree = (props) => {
                 )
               }
             </div>
-
+            
             <div className="secDetails closed">
               <div className="p-2">
                 {
@@ -649,12 +649,12 @@ const BrixelClosingTree = (props) => {
                         <div className="">
                           {
                             statusIdentification('seller') === 'accepted' && (
-                              <span className="ml-1 txtGreen400">Verified</span>
+                              <span className="ml-1 txtGreen400">{translateTo('Verified', lang)}</span>
                             )
                           }
                           {
                             statusIdentification('seller') === 'pending' && (
-                              <span className="ml-1 txtYellow400">Pending</span>
+                              <span className="ml-1 txtYellow400">{translateTo('Pending', lang)}</span>
                             )
                           }
                         </div>
@@ -666,7 +666,7 @@ const BrixelClosingTree = (props) => {
                               !isBuyer && (
                                 <>
                                   <span className={`${status[statusIdentification('buyer')].colorText} ml-1 fsize-300 fsize-lg-400`}>
-                                    Pending
+                                    {translateTo('Pending', lang)}
                                   </span>
                                 </>
                               )
@@ -831,13 +831,13 @@ const BrixelClosingTree = (props) => {
         );
     }
   };
-
+  
   return (
     <>
       <div className={`w-perc-100 max-w-fix-1200 ${className} closingTree`}>
         <div className="dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
-
+            
             {/* <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-2 py-2">
               <span className="w-perc-40 tt-up">Process</span>
               <span className="w-perc-30 px-2 tt-up">Buyer</span>
@@ -853,14 +853,14 @@ const BrixelClosingTree = (props) => {
                 activeTab={showTabSection}
                 fullWidth
               /> */}
-
+            
             {
               closingStage.map((stage, i) => (
                 <div
                   className={`tableWrapper brdRadius mb-3 shadow-3dp ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${collapsed[stage.stageName]  ? 'collapsed' : ''}`}
                   key={`clsStg_${i.toString()}`}
                 >
-
+                  
                   <div className="tableItem">
                     <div className="secHead p-2 h-fix-56 dis-f jc-b">
                       <div className="">
@@ -890,7 +890,7 @@ const BrixelClosingTree = (props) => {
                           </>
                         )
                       }
-
+                    
                     </div>
                     <div className="secDetails closed">
                       <span className="p-2 dis-b fsize-400" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
@@ -902,11 +902,11 @@ const BrixelClosingTree = (props) => {
                   <div className="tableItem">
                     {sellerSection(stage.stageName, i)}
                   </div>
-
+                
                 </div>
               ))
             }
-
+            
             {/*   {
               closingStage.map((stage, i) => (
                 <div

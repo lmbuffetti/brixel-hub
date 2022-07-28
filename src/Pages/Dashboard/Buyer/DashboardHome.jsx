@@ -319,7 +319,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyBookingSlots: get(state, 'property.activeSinglePropertyBookingSlots', []),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
-  lang: get(state, 'commong.language', 'en'),
+  lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   searchProfile: get(state, 'user.userSearchProfiles[0]', {}),
 });
