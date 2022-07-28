@@ -141,7 +141,7 @@ const OfferListings = (props) => {
                                     color={getStatusColor(get(offer, 'offer.status', 0))}
                                   />
                                   <span className={`fsize-300 txt${getStatusColor(get(offer, 'offer.status', 0))}400 tt-c`}>
-                                    {get(offer, 'offer.status', 0)}
+                                    {translateTo(get(offer, 'offer.status', 0), lang)}
                                   </span>
                                 </div>
                               </div>

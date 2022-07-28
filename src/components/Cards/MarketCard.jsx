@@ -495,8 +495,8 @@ const MarketCard = (props) => {
                           <span className="notranslate">
                             {FormatValue.formatRooms(get(item, 'properties.typology.bedrooms', 0), get(item, 'location.countryCode', 'CH'))}
                           </span>
-                          <span className="notranslate">
-                            {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? ' Rooms' : ''}`}
+                          <span className="notranslate ml-1">
+                            {get(item, 'location.countryCode', 'CH') === 'PT' ? '' : `${get(item, 'properties.typology.bedrooms', 0) ? translateTo('Rooms', lang) : ''}`}
                           </span>
                         </span>
                         {

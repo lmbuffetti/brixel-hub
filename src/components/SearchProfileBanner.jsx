@@ -126,7 +126,7 @@ const SearchProfileBanner = (props) => {
 
   return (
     <>
-      <h4 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtDark700`}>{title}</h4>
+      <h4 className={`fweight-600 ${subtitle ? 'mb-2' : 'mb-1 mb-lg-3'} txtDark700`}>{translateTo(title, lang)}</h4>
       {
         subtitle && (
           <div className="mb-4 txtDark700 fsize-500">
