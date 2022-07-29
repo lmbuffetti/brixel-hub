@@ -37,7 +37,7 @@ const BrixelClosingTree = (props) => {
   const [showTabSection, setShowTabSection] = useState(null);
   const [collapsed, setCollapsed] = useState({});
   //const [collapsedNum, setCollapsedNum] = useState(null);
-  
+
   // TODO: add active/inactive lock logic
   const onClickOffer = useCallback((action) => {
     if (action === 'add') {
@@ -48,7 +48,7 @@ const BrixelClosingTree = (props) => {
       });
     }
   }, []);
-  
+
   const closingDefaultText = [
     {
       name: 'offer',
@@ -99,9 +99,9 @@ const BrixelClosingTree = (props) => {
       statusText: translateTo('Signed', lang),
     },
   ];
-  
+
   const [closingStage, setClosingStage] = useState(closingDefaultText);
-  
+
   const status = {
     accepted: {
       icon: 'check-small-fill',
@@ -128,13 +128,13 @@ const BrixelClosingTree = (props) => {
       colorText: 'txtDark400',
     },
   };
-  
+
   const statusIdentification = (usrType) => {
     if (get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'accepted';
     if (get(activeSingleClosing, `stageIdentification.${usrType}.persons`, []).length > 0 && !get(activeSingleClosing, `stageIdentification.${usrType}.completedBy`, null)) return 'pending';
     return 'default';
   };
-  
+
   useEffect(() => {
     if (windowDimensions.width < 1024 && !showTabSection) {
       setShowTabSection('buyer');
@@ -142,7 +142,7 @@ const BrixelClosingTree = (props) => {
       setShowTabSection(null);
     }
   }, [windowDimensions]);
-  
+
   useEffect(() => {
     const stageText = cloneDeep(closingStage);
     if (get(activeSingleDeal, 'id', null)) {
@@ -159,7 +159,7 @@ const BrixelClosingTree = (props) => {
     }
     setClosingStage(stageText);
   }, [activeSingleOffer, showTabSection]);
-  
+
   if (!activeSingleDeal.id) {
     return (
       <div className={`closing-tree max-w-fix-1200 dis-fl-col w-perc-100 ${className}`}>
@@ -182,11 +182,11 @@ const BrixelClosingTree = (props) => {
       </div>
     );
   }
-  
+
   const onCollapse = (stageName) => {
     setCollapsed({...collapsed, [stageName]: !get(collapsed, stageName, false)})
   }
-  
+
   const personsInfo = (usrType, classNamePersons = '') => (
     <>
       {
@@ -229,13 +229,13 @@ const BrixelClosingTree = (props) => {
       }
     </>
   );
-  
+
   const buyerSection = (stage, id) => {
     switch (stage) {
       case 'stageOffer':
         return (
           <>
-            
+
             <div className="secHead p-2 h-fix-56">
               <div className="secStatus">
                 {
@@ -247,38 +247,37 @@ const BrixelClosingTree = (props) => {
                     />
                   ) : (
                     <>
-                      { get(activeSingleOffer, 'offer.amount', 0) > 0 &&
-                      get(activeSingleOffer, 'offer.status', '') !== 'rejected' ? (
+                      { get(activeSingleOffer, 'offer.amount', 0) > 0 && get(activeSingleOffer, 'offer.status', '') !== 'rejected' ? (
                         <div className="dis-f a-c jc-b w-perc-100">
-                            <div className="dis-f a-c">
+                          <div className="dis-f a-c">
                             <BrixelIcon
-                                icon="check-small-fill"
-                                color="green"
-                                className="mr-1"
-                                iconWidth="w-fix-24"
-                              />
-                            <span>{translateTo('Buyer', lang)}</span>
-                          </div>
-                            <span className="fsize-300 fsize-lg-400 txtGreen400">{translateTo('Sent', lang)}</span>
-                          </div>
-                        ) : (
-                          <>
-                            <BrixelIcon
-                              icon="check-small"
+                              icon="check-small-fill"
+                              color="green"
                               className="mr-1"
-                              color="altGrey"
                               iconWidth="w-fix-24"
                             />
                             <span>{translateTo('Buyer', lang)}</span>
-                          </>
-                        )
+                          </div>
+                          <span className="fsize-300 fsize-lg-400 txtGreen400">{translateTo('Sent', lang)}</span>
+                        </div>
+                      ) : (
+                        <>
+                          <BrixelIcon
+                            icon="check-small"
+                            className="mr-1"
+                            color="altGrey"
+                            iconWidth="w-fix-24"
+                          />
+                          <span>{translateTo('Buyer', lang)}</span>
+                        </>
+                      )
                       }
                     </>
                   )
                 }
               </div>
             </div>
-            
+
             <div className="secDetails brdAltGrey100 closed">
               <div className="p-2">
                 {
@@ -308,7 +307,7 @@ const BrixelClosingTree = (props) => {
                 }
               </div>
             </div>
-          
+
           </>
         );
       case 'stageIdentification':
@@ -412,7 +411,7 @@ const BrixelClosingTree = (props) => {
       case 'stageFinance':
         return (
           <>
-            
+
             <div className="secHead dis-f jc-b p-2 h-fix-56">
               {
                 get(activeSingleClosing, 'stageFinance.active', null) ? (
@@ -505,7 +504,7 @@ const BrixelClosingTree = (props) => {
         );
     }
   };
-  
+
   const sellerSection = (stage, id) => {
     switch (stage) {
       case 'stageOffer':
@@ -555,7 +554,7 @@ const BrixelClosingTree = (props) => {
                   )
                 }
               </div>
-              
+
               {
                 get(activeSingleClosing, 'stageOffer.active', null) !== false && (
                   <div className="collExBtn p-2 dis-f a-c brdSmallLeft brdAltGrey100">
@@ -568,7 +567,7 @@ const BrixelClosingTree = (props) => {
                 )
               }
             </div>
-            
+
             <div className="secDetails closed">
               <div className="p-2">
                 {
@@ -831,13 +830,13 @@ const BrixelClosingTree = (props) => {
         );
     }
   };
-  
+
   return (
     <>
       <div className={`w-perc-100 max-w-fix-1200 ${className} closingTree`}>
         <div className="dis-fl-row">
           <div className="phases dis-fl-col h-perc-100 w-perc-100 txtDark700">
-            
+
             {/* <div className="hide header bgGreen100 brdRadius dis-f-lg jc-b a-c w-perc-100 px-2 py-2">
               <span className="w-perc-40 tt-up">Process</span>
               <span className="w-perc-30 px-2 tt-up">Buyer</span>
@@ -853,14 +852,14 @@ const BrixelClosingTree = (props) => {
                 activeTab={showTabSection}
                 fullWidth
               /> */}
-            
+
             {
               closingStage.map((stage, i) => (
                 <div
                   className={`tableWrapper brdRadius mb-3 shadow-3dp ${get(activeSingleClosing, `${stage.stageName}.active`, null) ? 'active' : 'locked'} ${collapsed[stage.stageName]  ? 'collapsed' : ''}`}
                   key={`clsStg_${i.toString()}`}
                 >
-                  
+
                   <div className="tableItem">
                     <div className="secHead p-2 h-fix-56 dis-f jc-b">
                       <div className="">
@@ -890,7 +889,7 @@ const BrixelClosingTree = (props) => {
                           </>
                         )
                       }
-                    
+
                     </div>
                     <div className="secDetails closed">
                       <span className="p-2 dis-b fsize-400" dangerouslySetInnerHTML={{ __html: stage.subtitle }} />
@@ -902,11 +901,11 @@ const BrixelClosingTree = (props) => {
                   <div className="tableItem">
                     {sellerSection(stage.stageName, i)}
                   </div>
-                
+
                 </div>
               ))
             }
-            
+
             {/*   {
               closingStage.map((stage, i) => (
                 <div
