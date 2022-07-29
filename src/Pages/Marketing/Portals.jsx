@@ -168,7 +168,11 @@ const Portals = (props) => {
                 <ul className="checkList fsize-300 green mt-2 txtAltGrey700">
                   <li>{translateTo('Manage all your listings in one place', lang)}</li>
                   <li>{translateTo('Publish all your listings with one click', lang)}</li>
-                  <li>{translateTo('Valid for 6 months', lang)}</li>
+                  <li>
+                    <span>{translateTo('Valid for', lang)}</span>
+                    <span className="mx-small-4">{get(activeSingleCompany, 'meta.portals.duration', 6)}</span>
+                    <span>{translateTo('months', lang)}</span>
+                  </li>
                   {
                     get(activeSingleProperty, 'location.countryCode', '') === 'PT' ? (
                       <li>{translateTo('Idealista, Imovirtual, Casa Sapo, SuperCasa and many more.', lang)}</li>
