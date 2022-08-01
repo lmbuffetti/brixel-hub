@@ -110,16 +110,16 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-
+  
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
-      handleGetActiveSingleCompany({ id: loggedInUser.company.id });
+      handleGetActiveSingleCompany({ id: get(loggedInUser, 'company.id',  loggedInUser.company)});
     }
   }, [propID, loggedInUser.id]);
-
+  
   useEffect(() => {
-    if (get(activeSingleProperty, 'company.id', '')) {
-      handleGetActiveCompanyPackages({ id: activeSingleProperty.company.id, smallLoader: 'getPackages' });
+    if (get(activeSingleProperty, 'id', null)) {
+      handleGetActiveCompanyPackages({ id: get(activeSingleProperty, 'company.id', activeSingleProperty.company) , smallLoader: 'getPackages' });
     }
   }, [activeSingleProperty.id]);
 
