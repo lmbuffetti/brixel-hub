@@ -101,10 +101,11 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-
+  
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
-      handleGetActiveSingleCompany({ id: get(loggedInUser, 'company.id',  loggedInUser.company)});
+      const company = get(loggedInUser, 'company.id',  loggedInUser.company) || loggedInUser.companies[0];
+      handleGetActiveSingleCompany({ id: company});
     }
   }, [propID, loggedInUser.id]);
 
