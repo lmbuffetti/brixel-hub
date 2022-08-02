@@ -120,7 +120,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
             label: translateTo('No', lang),
           }],
           tooltip: {
-            //label: translateTo('What is a proof of financing?', lang),
+            label: '',
             description: translateTo('A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.', lang),
           },
         },
