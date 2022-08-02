@@ -341,7 +341,7 @@ const GetStartedBuyer = (props) => {
     const companyByUrl = queryString.parse(get(history, 'location.search', companyStub));
     const companyCookie = companyStub || cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    if (get(companyByUrl, 'company', companyCookie) && companyStub !== questions[0].history) {
+    if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
