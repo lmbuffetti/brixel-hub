@@ -23,9 +23,9 @@ import Slider from 'react-slick';
 import { getPackageProperty } from '../../actions/PropertyActions';
 import { getActiveSingleCompany, getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
-import { CompaniesData } from '../../resources/Layout/Companies';
+// import { CompaniesData } from '../../resources/Layout/Companies';
 
-// import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
+import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
 import CallUsImg from '../../images/Upgrade/callUs.svg';
 import NotNowImg from '../../images/Upgrade/notNow.svg';
 import WrireUsImg from '../../images/Upgrade/writeUs.svg';
@@ -65,7 +65,7 @@ const IntroUpgrade = (props) => {
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [packageName, setPackageName] = useState({ });
   const propID = get(match, 'propID', null);
-  const [activeCompanyData, setActiveCompanyData] = useState({});
+  // const [activeCompanyData, setActiveCompanyData] = useState({});
 
   // SLIDER
   const sliderInstance = useRef(null);
@@ -95,10 +95,17 @@ const IntroUpgrade = (props) => {
   };
 
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (CompaniesData[activeSingleCompany.stub]) setActiveCompanyData(CompaniesData[activeSingleCompany.stub].footer);
     else setActiveCompanyData(CompaniesData.default.footer);
-  }, [activeSingleCompany.id]);
+  }, [activeSingleCompany.id]); */
+
+  const bookNow = () => {
+    if (activeSingleProperty.id) {
+      localStorage.setItem('backUrl', history.location.pathname);
+      history.push(`/${activeSingleProperty.id}/trialRequest`);
+    }
+  };
 
   const scrollTo = (id) => {
     document.body.classList.add('scrollSmooth');
@@ -110,14 +117,14 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-  
+
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
       const company = get(loggedInUser, 'company.id',  loggedInUser.company) || loggedInUser.companies[0];
       handleGetActiveSingleCompany({ id: company});
     }
   }, [propID, loggedInUser.id]);
-  
+
   useEffect(() => {
     if (get(activeSingleProperty, 'id', null)) {
       handleGetActiveCompanyPackages({ id: get(activeSingleProperty, 'company.id', activeSingleProperty.company) , smallLoader: 'getPackages' });
@@ -181,14 +188,15 @@ const IntroUpgrade = (props) => {
   return (
     <main id="rewards" className="introScanFlow pt-2 pt-sm-4 pb-2 pb-sm-4 h-perc-100 txtDark700">
 
-      <section className="intro container">
+      <section className="max-w-fix-1200 intro container">
 
         <h2 className="mb-3 mb-lg-5 fsize-600 fsize-md-800 fweight-600">
-          {translateTo('Boost your private sale with an upgrade.', lang)}
+          {translateTo('Boost your private sale with an upgrade.', lang)} <br/>
+          {translateTo('by Brixel.', lang)}
         </h2>
       </section>
 
-      <section className="container packages py-6">
+      <section className="max-w-fix-1200 container packages py-6">
         {
           filteredPackages.length === 0 ? (
             <div className="dis-fl-col dis-fl-row-md pb-3 jc-c a-c">
@@ -210,9 +218,9 @@ const IntroUpgrade = (props) => {
                               key={`fltPkg_${i.toString()}`}
                             >
 
-                              <div className="p-4">
+                              <div className="p-4 pb-4 pb-sm-5">
                                 <div className="dis-f jc-b a-c">
-                                  <h5 className="fweight-600">{pkg.name}</h5>
+                                  <h5 className={`fweight-600 fSizePx18 ${i === 1  ? 'txtGreen400' : ''}`}>{pkg.name}</h5>
                                 </div>
                                 <p className="mt-4 txtDark700 min-h-fix-md-80">
                                   {translateTo(pkg.description, lang)}
@@ -228,8 +236,8 @@ const IntroUpgrade = (props) => {
                                               <span
                                                 className="dis-b txtAltGrey400 fsize-300 mt-2 mt-sm-0"
                                               >
-                                                <span>{translateTo('Original price', lang)}</span>
-                                                <span className="td-lt lh-in ml-2">
+                                                <span className="">{translateTo('Original price', lang)}</span>
+                                                <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
                                                   <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
                                                   <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
                                                 </span>
@@ -237,7 +245,7 @@ const IntroUpgrade = (props) => {
                                             </>
                                           )
                                         }
-                                        <h3 className="fweight-600">
+                                        <h3 className="fweight-600 fsize-800">
                                           <span>
                                             <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
                                             {
@@ -288,7 +296,7 @@ const IntroUpgrade = (props) => {
                                     ))
                                   }
                                 </ul>
-                                {
+                                {/* {
                                   pkg.price.total > 0 && (
                                     <BrixelButtonText
                                       className="mt-4 mb-2 mb-sm-0 ml-a mr-a"
@@ -296,11 +304,11 @@ const IntroUpgrade = (props) => {
                                       theme="green"
                                     />
                                   )
-                                }
+                                } */}
                               </div>
                               {
                                 pkg.price.total > 0 && (
-                                  <div className="p-4 bgGreen100 dis-fl-col jc-fe pos-r">
+                                  <div className="p-4 pb-4 pb-sm-5 bgGreen100 dis-fl-col jc-fe pos-r">
                                     <BrixelIcon
                                       icon="plus"
                                       color="green"
@@ -335,7 +343,7 @@ const IntroUpgrade = (props) => {
                                         </>
                                       )
                                     }
-                                    <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
+                                    {/*  <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
                                       {translateTo('Your partner in financial matters', lang)}
                                     </span>
                                     {
@@ -357,7 +365,7 @@ const IntroUpgrade = (props) => {
                                           }
                                         </div>
                                       )
-                                    }
+                                    } */}
                                   </div>
                                 )
                               }
@@ -445,13 +453,26 @@ const IntroUpgrade = (props) => {
 
       </section>
 
-      <section className="container contact-section py-3 py-md-6">
+      <section className="max-w-fix-1200 container contact-section py-3 py-md-6">
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">{translateTo('Do you want to upgrade or change plans?', lang)}</h3>
 
-        <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
+        <div className="dis-fl-col dis-fl-row-md a-fs jc-b mt-8 max-w-fix-928 m-a">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
+            <img className="w-fix-56 w-fix-lg-104" src={BookOnlineImg} alt="Call Us" />
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
+
+              <h6>{translateTo('Book Online', lang)}</h6>
+              <BrixelButtonText
+                bgTransparent
+                onClick={() => bookNow()}
+                className="ml-a mr-a"
+                label={translateTo('Request Now', lang)}
+              />
+            </div>
+          </div>
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
             <img className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
-            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
               <h6>{translateTo('Call Us', lang)}</h6>
               <BrixelButtonText
@@ -464,7 +485,7 @@ const IntroUpgrade = (props) => {
           </div>
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
             <img className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
-            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
               <h6>{translateTo('Write Us', lang)}</h6>
               <BrixelButtonText
@@ -479,7 +500,7 @@ const IntroUpgrade = (props) => {
             propID !== 'company' && (
               <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
                 <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
-                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
                   <h6>{translateTo('Not Sure', lang)}</h6>
                   <BrixelButtonText
@@ -497,7 +518,7 @@ const IntroUpgrade = (props) => {
 
       <hr className="lighter my-2 my-ms-5" />
 
-      <section className="container testimonial py-3 py-md-6 pb-8">
+      <section className="max-w-fix-1200 container testimonial py-3 py-md-6 pb-8">
         <h3 className="ta-c fweight-600 mb-3 mb-md-8 fsize-600 fsize-sm-700">{translateTo('You’re in good company', lang)}</h3>
 
         <div className="w-perc-100 ml-a mr-a testimonialsSlide">
