@@ -19,6 +19,11 @@ class Property extends Base {
       token,
     });
   }
+  
+  getToken(data, remeberMe) {
+    const url = ep.user.getToken();
+    return this.apiClient.get(url, { type: 'login' }, remeberMe, {}, data);
+  }
 
   createUser(data) {
     const url = ep.user.createUser();

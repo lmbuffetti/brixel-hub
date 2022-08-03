@@ -42,7 +42,7 @@ const Page = (props) => {
   const [status, setStatus] = useState({});
   // URL PARAMS
   const propID = get(match, 'propID', null);
-
+  
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
     if (activeSingleProperty.publishReview) {
@@ -65,7 +65,7 @@ const Page = (props) => {
       });
     }
   }, [activeSingleProperty]);
-
+  
   // GET PAGE STATUS
   const changeReviewStatus = () => {
     const data = {
@@ -75,7 +75,7 @@ const Page = (props) => {
     };
     handleUpdatePublishedReview(data);
   };
-
+  
   // FUNCTION TO GO TO PREVIEW OR LIVE PAGE
   const onClickPreview = () => {
     let url;
@@ -87,7 +87,7 @@ const Page = (props) => {
       window.location.assign(url);
     }
   };
-
+  
   const onClickRequest = (state, type = 'request') => {
     handleSetModal({
       state: true,
@@ -129,7 +129,7 @@ const Page = (props) => {
       ]
     })
   };
-
+  
   useEffect(() => {
     if (get(modal, 'multiBodyActions', []).length > 1 && isSmallLoading.saveMarketingPage === true) {
       modal.multiBodyActions[1].isLoading = isSmallLoading.saveMarketingPage;
@@ -140,11 +140,11 @@ const Page = (props) => {
       onClickRequest(stateText, 'success');
     }
   }, [isSmallLoading]);
-
+  
   if (!status.state) {
     return <div />
   }
-
+  
   return (
     <>
       <div className="bgWhite p-4 brdRadius">
@@ -154,7 +154,7 @@ const Page = (props) => {
             {translateTo(status.text, lang)}
           </div>
         </div>
-
+        
         <div className="mb-4">
           {
             status.state === 'published' ? (
@@ -247,7 +247,7 @@ const Page = (props) => {
                   className="mb-1 mr-2"
                 />
                 <BrixelButtonText
-                  label={translateTo('Take Page offline')}
+                  label={translateTo('Take Page offline', lang)}
                   theme="red"
                   rounded
                   onClick={() => onClickRequest('unpublishPage', 'request')}
@@ -279,9 +279,9 @@ const Page = (props) => {
             )
           }
         </div>
-
+      
       </div>
-
+      
       {
         status.state === 'published' && (
           <div className="pos-r w-perc-100 bgWhite p-3 my-5 brdRadius shadow-1dp">

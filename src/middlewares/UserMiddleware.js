@@ -96,7 +96,7 @@ const checkUser = (store) => (next) => (action) => {
       api.user.getToken(data, { rememberMe: true })
         .then((res) => {
           if (typeof res.data.statusCode === 'undefined') {
-            api.user.getUserByToken(action.payload)
+            api.user.getUserByToken(res.data.token)
               .then((res1) => {
                 setCookie('brixelToken', res.data.token);
                 if (addProperty) {

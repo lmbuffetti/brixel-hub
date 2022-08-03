@@ -22,7 +22,7 @@ const ResumeTrialFlow = (props) => {
         get(formValue, 'analysis', '') === 'on-site' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
             <img width="164" src={GreenHouseImg} alt="Resume" />
-            <h4 className="fweight-400 ta-c mt-3">{translateTo('hanks for booking your on-site appointment.', lang)}</h4>
+            <h4 className="fweight-400 ta-c mt-3">{translateTo('Thanks for booking your on-site appointment.', lang)}</h4>
             <p className="ta-c mt-2">{translateTo('You will get an e-mail with a confirmation and more details.', lang)}</p>
           </div>
         )

@@ -11,7 +11,7 @@ export const PackagesComparePlans = (props) => {
     lang,
     packages,
   } = props;
-
+  
   const tableMobile = () => {
     // CONFIGS
     const tableSelector = 'table';
@@ -24,12 +24,12 @@ export const PackagesComparePlans = (props) => {
       const columnHeaders = table.querySelectorAll('thead th:not(:empty)');
       const rowHeaders = table.querySelectorAll('tbody th');
       const nextButton = document.createElement('button');
-
+      
       const showCurrentlyVisible = () => {
         // Get the Items we're going to show. The :not(:empty) query here is because sometimes you have empty <th>s in <thead>
         const currentlyVisibleColHeader = document.querySelector(`thead th:not(:empty):nth-of-type( ${currentVisibleColumn})`);
         const currentlyVisibleCells = document.querySelectorAll(`tbody td:nth-of-type(${currentVisibleColumn})`);
-
+        
         // Hide All The Cells
         allCells.forEach((cell) => {
           cell.style.display = 'none';
@@ -37,7 +37,7 @@ export const PackagesComparePlans = (props) => {
         if (currentlyVisibleColHeader) {
           // Show Currently Visible Col Header
           currentlyVisibleColHeader.style.display = 'block';
-
+          
           // Show Currently Visible Cells
           currentlyVisibleCells.forEach((cell) => {
             cell.style.display = 'flex';
@@ -49,15 +49,15 @@ export const PackagesComparePlans = (props) => {
           head.style.display = 'block';
         });
       };
-
+      
       const createButtons = () => {
         nextButton.style.display = 'none';
         nextButton.setAttribute('class', 'hide-md iconBtn txtLight400  icnLight400  brdLight400 brdSmall txtLight500 icnLight500 brdLight500 secondary small  secondary dis-f pos-a-fix x-r-2 mt-2 compare-btn-mobile');
-
+        
         nextButton.innerHTML = `
             <span class="brixelIcon normal leftIcon  brdRadius  "><i class="icon-arrow-simple-right  "><svg viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Icons/arrow-simple-right" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M6.30073008,21.3108287 C5.92317843,21.6737117 5.89767292,22.2888045 6.24376194,22.6846769 C6.58985095,23.0805494 7.17647762,23.1072925 7.55402928,22.7444095 L17.4954809,13.1892027 C17.8149636,12.8825699 18,12.4536403 18,12 C18,11.5463597 17.8149636,11.1174301 17.4949958,10.8103314 L7.55402928,1.25559052 C7.17647762,0.892707483 6.58985095,0.919450649 6.24376194,1.31532305 C5.89767292,1.71119545 5.92317843,2.32628827 6.30073008,2.6891713 L15.9879254,12 L6.30073008,21.3108287 Z" id="🎨-icon-color" fill="#32373C" transform="translate(12.000000, 12.000000) rotate(-360.000000) translate(-12.000000, -12.000000) "></path></g></svg></i></span>
           `;
-
+        
         table.parentNode.insertBefore(nextButton, table);
         nextButton.setAttribute('type', 'button');
         nextButton.addEventListener('click', () => {
@@ -65,35 +65,35 @@ export const PackagesComparePlans = (props) => {
           showCurrentlyVisible();
         });
       };
-
+      
       const updateTable = () => {
         // Get the Table's Width. Might as well go FULL Container Query over here.
         const tableWidth = table.getBoundingClientRect().width;
-
+        
         // If the table explodes off the viewport or is wider than the target breakpoint
         if (tableWidth > window.innerWidth || tableWidth < targetBreakpoint) {
-        // if (window.innerWidth < targetBreakpoint) {
+          // if (window.innerWidth < targetBreakpoint) {
           if (table.getAttribute('data-comparing') !== 'active') {
             // Set the comparison state to "Active"
             table.setAttribute('data-comparing', 'active');
-
+            
             // Show Next Button
             nextButton.style.display = 'flex';
-
+            
             // Show the currently visible column
             showCurrentlyVisible();
           }
         } else if (table.getAttribute('data-comparing') === 'active') {
           // Turn off comparing
           table.setAttribute('data-comparing', '');
-
+          
           // Hide the next button
           nextButton.style.display = 'none';
           // Remove styles from all cells, ergo, show all the cells
           allCells.forEach((cell) => {
             cell.style.display = '';
           });
-
+          
           // Remove styles from all row headers
           rowHeaders.forEach((row) => {
             row.style.display = '';
@@ -104,16 +104,16 @@ export const PackagesComparePlans = (props) => {
       updateTable();
     }
   };
-
+  
   useEffect(() => {
     if (packages.length > 0) {
       tableMobile();
       window.addEventListener('resize', () => tableMobile());
     }
   }, [packages]);
-
+  
   const extractTable = (pack) => packages.filter((pkg) => pkg.type === pack);
-
+  
   return (
     <div className="comparePlans pos-r">
       <table>
@@ -210,7 +210,7 @@ export const PackagesComparePlans = (props) => {
           {
             PackagesComparePlansTable.map((table, i) => (
               <tr key={`tbl_${i.toString()}`}>
-                <th>{table.title}</th>
+                <th>{translateTo(table.title, lang)}</th>
                 {
                   extractTable('basic').map((pkg, f) => (
                     <td key={`bsc_${f.toString()}`}>

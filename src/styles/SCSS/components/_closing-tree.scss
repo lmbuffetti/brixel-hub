@@ -19,6 +19,9 @@
 .closingTree {
   .locked {
     opacity: 0.6;
+    .brixelIcon {
+      pointer-events: none;
+    }
   }
  /*  .brixel-tabs {
     box-shadow: none;

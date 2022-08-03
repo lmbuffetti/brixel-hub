@@ -16,6 +16,7 @@ import { initializeForm } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import { setCookie, getCookie } from '../../utils/helpers';
 import SplashScreen from '../../components/SplashScreen';
@@ -62,14 +63,16 @@ const MarketCategoryListBuyer = (props) => {
     ],
     draggable: false,
   };
-
+  
   const sliderInstance = useRef(null);
-
+  
   // PROPS
   const {
+    handleGetActiveSingleCompany,
     initForm,
     initialValues,
     lang,
+    loggedInUser,
     ownerEstimations,
     preMarketStats,
     premiumEuropeProperties,
@@ -84,11 +87,11 @@ const MarketCategoryListBuyer = (props) => {
   const [numWishProp, setWishProp] = useState(4);
   const [activeTopTab, setActiveTopTab] = useState('wishlist');
   const [topTab, setTopTab] = useState([]);
-
+  
   useEffect(() => {
     if (get(userSearchProfiles, 'id', null)) initForm(initialValues);
   }, [get(userSearchProfiles, 'id', null)]);
-
+  
   const showArrow = () => {
     const selectResponsive = settingSlider.responsive.filter((itm) => windowDimensions.width < itm.breakpoint);
     if (selectResponsive[selectResponsive.length - 1]) {
@@ -96,7 +99,7 @@ const MarketCategoryListBuyer = (props) => {
     }
     return ownerEstimations.total > settingSlider.slidesToShow;
   };
-
+  
   useEffect(() => {
     if (has(ownerEstimations, 'total') && has(wishlistProperties, 'total')) {
       const tabMenu = [];
@@ -106,7 +109,17 @@ const MarketCategoryListBuyer = (props) => {
       setTopTab(tabMenu);
     }
   }, [ownerEstimations.total, wishlistProperties.total]);
-
+  
+  useEffect(() => {
+    if (get(loggedInUser, 'id', null)) {
+      let cmpID;
+      if (loggedInUser.company) cmpID = loggedInUser.company.id;
+      else if (loggedInUser.companies) cmpID = loggedInUser.companies[0];
+      handleGetActiveSingleCompany({id: cmpID});
+    }
+  }, [loggedInUser.id]);
+  
+  
   // Update data by user screen
   useEffect(() => {
     if (windowDimensions.width < 768) setWishProp(1);
@@ -114,20 +127,20 @@ const MarketCategoryListBuyer = (props) => {
     else if (windowDimensions.width < 1440) setWishProp(4);
     else setWishProp(4);
   }, [windowDimensions.width]);
-
+  
   // Update market card when bestimate changes
   useEffect(() => {
     if (getCookie('brixelSplashHome') === 'buyerWelcome') {
       setSplashScreen('buyerWelcome');
     }
   }, [getCookie('brixelSplashHome')]);
-
+  
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
     setCookie('brixelSplashHome', null);
     setSplashScreen('');
   };
-
+  
   useEffect(() => {
     const catList = document.getElementsByClassName('market-container')[0];
     if (catList) catList.classList.add('market-listings');
@@ -135,7 +148,7 @@ const MarketCategoryListBuyer = (props) => {
       if (catList) catList.classList.remove('market-listings');
     };
   }, []);
-
+  
   const moveSlide = (action) => {
     const slider = sliderInstance.current;
     if (slider) {
@@ -143,7 +156,7 @@ const MarketCategoryListBuyer = (props) => {
       else slider.slickPrev();
     }
   };
-
+  
   return (
     <>
       <Suspense fallback="">
@@ -210,7 +223,7 @@ const MarketCategoryListBuyer = (props) => {
               </SplashScreen>
             )
           }
-
+          
           <div className="container">
             {
               topTab.length > 0 && (
@@ -223,7 +236,7 @@ const MarketCategoryListBuyer = (props) => {
                 />
               )
             }
-
+            
             {/* WHISHLIST */}
             {
               get(wishlistProperties, 'data', []).length > 0 && activeTopTab === 'wishlist' && (
@@ -262,7 +275,7 @@ const MarketCategoryListBuyer = (props) => {
                 </div>
               )
             }
-
+            
             {/* ESTIMATIONS */}
             {
               get(ownerEstimations, 'data', []).length > 0 && activeTopTab === 'estimations' && (
@@ -333,13 +346,13 @@ const MarketCategoryListBuyer = (props) => {
                 </div>
               )
             }
-
+          
           </div>
-
+          
           <div className={`${get(wishlistProperties, 'data', []).length <= 0 && get(ownerEstimations, 'data', []).length <= 0 ? 'mt-3-neg pt-3' : 'mt-5'} bgSvg bgOverlay`}>
-
+            
             <div className="container pt-3 pb-4 pb-lg-8">
-
+              
               {/* SEARCH PROFILE */}
               <div className="">
                 <SearchProfileBanner
@@ -347,7 +360,7 @@ const MarketCategoryListBuyer = (props) => {
                   onStatsFunc={{ matching: () => setSplashScreen('marketOverlayCarousel') }}
                 />
               </div>
-
+              
               <div className="dis-f jc-fe-lg pt-1 pt-lg-9 mt-9 mt-lg-10 infoBannerMarketBuyer">
                 <div className="w-perc-md-50 w-perc-100">
                   <h3 className="max-w-fix-320 fweight-600 fsize-800">
@@ -368,10 +381,10 @@ const MarketCategoryListBuyer = (props) => {
                     label={translateTo('Rate them now', lang)}
                   />
                 </div>
-
+              
               </div>
             </div>
-
+          
           </div>
           {
             windowDimensions.width < 1025 && (
@@ -380,7 +393,7 @@ const MarketCategoryListBuyer = (props) => {
               </div>
             )
           }
-
+          
           <div className="mt-7 pb-8 container">
             {
               premiumProperties.total > 0 && (
@@ -394,7 +407,7 @@ const MarketCategoryListBuyer = (props) => {
               )
             }
           </div>
-  
+          
           {
             premiumEuropeProperties.total > 0 && (
               <div className="pt-7 pb-8 bgBlue700">
@@ -420,9 +433,11 @@ const MarketCategoryListBuyer = (props) => {
 
 MarketCategoryListBuyer.propTypes = {
   estimation: PropTypes.object.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
   ownerEstimations: PropTypes.object.isRequired,
   preMarketStats: PropTypes.object.isRequired,
   premiumEuropeProperties: PropTypes.object.isRequired,
@@ -457,6 +472,7 @@ const mapStateToProps = (state) => {
       locations: get(state, 'user.userSearchProfiles[0].location', []),
     },
     lang: get(state, 'common.language', 'en'),
+    loggedInUser: get(state, 'user.loggedInUser.user', {}),
     ownerEstimations: get(state, 'market.ownerEstimations', {}),
     preMarketStats: get(state, 'market.preMarketStats', {}),
     premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
@@ -472,8 +488,9 @@ const mapDispatchToProps = (dispatch) => ({
   initForm(value) {
     dispatch(initializeForm('GetStarted', value));
   },
-  handleSetHistory: bindActionCreators(setHistory, dispatch),
   handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleSetHistory: bindActionCreators(setHistory, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
   setPropertyEstimation: bindActionCreators(setEstimation, dispatch),
   setSplashScreen: bindActionCreators(setSplashType, dispatch),
