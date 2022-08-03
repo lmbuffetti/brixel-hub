@@ -159,10 +159,19 @@ const Contact = (props) => {
         } else if (input.validation) {
           if (err !== true && err !== false && err !== null && isValid) isValid = false;
         }
-      });
-      Object.keys(errorValue).forEach((key) => {
-        const err = get(errorValue, key, null);
-        if (err !== true && err !== false && isValid) isValid = false;
+        if (input.conditionsOr) {
+          input.conditionsOr.map((item) => {
+            if (has(item, 'value')) {
+              if ((item.value === 'isPositive' && get(formValue, item.name, 0) > 0) || get(formValue, item.name, 'a') === item.value) {
+                // if (err !== true && err !== false && isValid) isValid = false;
+              }
+            }
+            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
+              if (err !== true && err !== false && isValid) isValid = false;
+            }
+            return null;
+          });
+        }
       });
     }
     if (act === 'value') return isValid && isNotEmpty;
@@ -266,6 +275,7 @@ const Contact = (props) => {
         }
         return null;
       });
+      
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
@@ -515,6 +525,7 @@ const mapStateToProps = (state) => {
   const initVal = {
     ...get(state, 'brixelForm.contactFlow.values', {}),
     name: get(state, 'user.loggedInUser.user.name', null),
+    dayToReach: null,
     phone: {
       prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,
       number: get(state, 'user.loggedInUser.user.phone.number', ''),

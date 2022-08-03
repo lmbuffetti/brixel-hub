@@ -76,7 +76,7 @@ const DashboardSeller = lazyWithRetry(() => import('./Pages/Dashboard/Seller/Das
 const DashboardBuyer = lazyWithRetry(() => import('./Pages/Dashboard/Buyer/Dashboard'));
 
 // PARTNER
-const Contact = lazyWithRetry(() => import('./Pages/ContactFlow/Comapnies/Contact'));
+const Contact = lazyWithRetry(() => import('./Pages/ContactFlow/Companies/Contact'));
 
 // FLOW SELLER
 const Bestimate = lazyWithRetry(() => import('./Pages/Bestimate'));
