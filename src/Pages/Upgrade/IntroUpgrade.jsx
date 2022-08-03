@@ -308,7 +308,7 @@ const IntroUpgrade = (props) => {
                               </div>
                               {
                                 pkg.price.total > 0 && (
-                                  <div className="p-4 pb-4 pb-sm-5 bgGreen100 dis-fl-col jc-fe pos-r">
+                                  <div className="p-4 pb-4 pb-sm-5 bgGreen100 dis-fl-col jc-c pos-r">
                                     <BrixelIcon
                                       icon="plus"
                                       color="green"
