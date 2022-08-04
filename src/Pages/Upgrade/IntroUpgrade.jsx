@@ -23,9 +23,9 @@ import Slider from 'react-slick';
 import { getPackageProperty } from '../../actions/PropertyActions';
 import { getActiveSingleCompany, getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
-import { CompaniesData } from '../../resources/Layout/Companies';
+// import { CompaniesData } from '../../resources/Layout/Companies';
 
-// import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
+import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
 import CallUsImg from '../../images/Upgrade/callUs.svg';
 import NotNowImg from '../../images/Upgrade/notNow.svg';
 import WrireUsImg from '../../images/Upgrade/writeUs.svg';
@@ -65,7 +65,7 @@ const IntroUpgrade = (props) => {
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [packageName, setPackageName] = useState({ });
   const propID = get(match, 'propID', null);
-  const [activeCompanyData, setActiveCompanyData] = useState({});
+  // const [activeCompanyData, setActiveCompanyData] = useState({});
 
   // SLIDER
   const sliderInstance = useRef(null);
@@ -95,10 +95,17 @@ const IntroUpgrade = (props) => {
   };
 
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (CompaniesData[activeSingleCompany.stub]) setActiveCompanyData(CompaniesData[activeSingleCompany.stub].footer);
     else setActiveCompanyData(CompaniesData.default.footer);
-  }, [activeSingleCompany.id]);
+  }, [activeSingleCompany.id]); */
+
+  const bookNow = () => {
+    if (activeSingleProperty.id) {
+      localStorage.setItem('backUrl', history.location.pathname);
+      history.push(`/${activeSingleProperty.id}/trialRequest`);
+    }
+  };
 
   const scrollTo = (id) => {
     document.body.classList.add('scrollSmooth');
@@ -110,14 +117,14 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-  
+
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
       const company = get(loggedInUser, 'company.id',  loggedInUser.company) || loggedInUser.companies[0];
       handleGetActiveSingleCompany({ id: company});
     }
   }, [propID, loggedInUser.id]);
-  
+
   useEffect(() => {
     if (get(activeSingleProperty, 'id', null)) {
       handleGetActiveCompanyPackages({ id: get(activeSingleProperty, 'company.id', activeSingleProperty.company) , smallLoader: 'getPackages' });
@@ -178,30 +185,216 @@ const IntroUpgrade = (props) => {
     };
   }, []);
 
+  const partners = get(activeSingleCompany, 'stub') === "ubs_key4" || get(activeSingleCompany, 'stub') === "baloise";
+
   return (
     <main id="rewards" className="introScanFlow pt-2 pt-sm-4 pb-2 pb-sm-4 h-perc-100 txtDark700">
 
-      <section className="intro container">
+      <section className="max-w-fix-1200 intro container">
 
         <h2 className="mb-3 mb-lg-5 fsize-600 fsize-md-800 fweight-600">
-          {translateTo('Boost your private sale with an upgrade.', lang)}
+          {translateTo('Boost your private sale with an upgrade.', lang)} <br/>
+          {translateTo('by Brixel.', lang)}
         </h2>
       </section>
 
-      <section className="container packages py-6">
+      <section className="max-w-fix-1200 container packages py-6">
         {
           filteredPackages.length === 0 ? (
             <div className="dis-fl-col dis-fl-row-md pb-3 jc-c a-c">
-              <SkeletonPackages className="w-perc-100 max-w-fix-400" type="big" />
-              <SkeletonPackages className="mx-lg-4 w-perc-100 max-w-fix-400" type="big" />
-              <SkeletonPackages className="w-perc-100 max-w-fix-400" type="big" />
+              <SkeletonPackages className="mr-lg-2 w-perc-100 max-w-fix-400" type="big" />
+              {
+                partners && (
+                  <SkeletonPackages className="w-perc-100 max-w-fix-400" type="big" />
+                )
+              }
+              <SkeletonPackages className="ml-lg-2 w-perc-100 max-w-fix-400" type="big" />
             </div>
           ) : (
             <>
+              <div className="packageWrap a-s partnerPackage dis-fl-col dis-fl-row-lg pb-3 jc-c">
+                <>
+                  {
+                    filteredPackages.map((pkg, i) => (
+                      <div
+                        className={`packageBox bgWhite mb-2 mb-lg-0 w-perc-100 ${pkg.type} ${partners ? 'partners' : ''} ${ partners && i === 1 ? 'packageTwo' : ''} dis-fl-col jc-b pos-r`}
+                        key={`fltPkg_${i.toString()}`}
+                      >
+
+                        <div className="p-4 pb-4 pb-sm-5">
+                          <div className="dis-f jc-b a-c">
+                            <h5 className={`fweight-600 fSizePx18 ${i === 1  ? 'txtGreen400' : ''}`}>{pkg.name}</h5>
+                            {
+                              !partners && pkg.stub === packageName.stub && (
+                                <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">{translateTo('Your plan', lang)}</div>
+                              )
+                            }
+                          </div>
+                          <p className="mt-4 txtDark700 min-h-fix-md-80">
+                            {translateTo(pkg.description, lang)}
+                          </p>
+
+                          {
+                            get(pkg, 'price.total', 0) > 0 ? (
+                              <>
+                                <div className="min-h-fix-sm-80 dis-fl-col jc-fe mb-1">
+                                  {
+                                    get(pkg, 'price.discountTotal', 0) > 0 && (
+                                      <>
+                                        <span
+                                          className="dis-b txtAltGrey400 fsize-300 mt-2 mt-sm-0"
+                                        >
+                                          <span className="">{translateTo('Original price', lang)}</span>
+                                          <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
+                                            <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
+                                            <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
+                                          </span>
+                                        </span>
+                                      </>
+                                    )
+                                  }
+                                  <h3 className="fweight-600 fsize-800">
+                                    <span>
+                                      <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
+                                      {
+                                        get(pkg, 'price.discountTotal', 0) > 0 ? (
+                                          <span>{Helpers.formatNumberValue(pkg.price.discountTotal, get(pkg, 'price.currency', ''))}</span>
+                                        ) : (
+                                          <span>{Helpers.formatNumberValue(pkg.price.total, get(pkg, 'price.currency', ''))}</span>
+                                        )
+                                      }
+                                    </span>
+                                    <sup className="fsize-300 pl-1">{translateTo('incl. VAT', lang)}</sup>
+                                  </h3>
+                                </div>
+                                {
+                                  partners && (
+                                    <BrixelButtonPrimary
+                                      rounded
+                                      fullWidth
+                                      label={translateTo('Try now for free', lang)}
+                                      onClick={() => scrollTo('#')}
+                                    />
+                                  )
+                                }
+                              </>
+                            ) : (
+                              <>
+                                <h3 className="fweight-600 h-fix-80 mb-1 dis-f a-b fsize-800">
+                                  {translateTo('Free', lang)}
+                                </h3>
+                                {
+                                  partners && (
+                                    <BrixelButtonSecondary
+                                      rounded
+                                      theme="dark"
+                                      themeSat="700"
+                                      fullWidth
+                                      label={translateTo('Try now for free', lang)}
+                                      onClick={() => scrollTo('#')}
+                                    />
+                                  )
+                                }
+                              </>
+                            )
+                          }
+
+                          <ul className="checked mt-4 txtDark700">
+                            {
+                              pkg.details && get(pkg, 'details', []).map((detail, f) => (
+                                <li
+                                  key={`pkgDtl_${f.toString()}`}
+                                  className={i > 0 && f === 0 ? 'fweight-600' : ''}
+                                >
+                                  {translateTo(detail.description, lang)}
+                                </li>
+                              ))
+                            }
+                          </ul>
+                          {/* {
+                            pkg.price.total > 0 && (
+                              <BrixelButtonText
+                                className="mt-4 mb-2 mb-sm-0 ml-a mr-a"
+                                label={translateTo('Learn more', lang)}
+                                theme="green"
+                              />
+                            )
+                          } */}
+                        </div>
+                        {
+                          partners && pkg.price.total > 0 && (
+                            <div className="p-4 pb-4 pb-sm-5 bgGreen100 dis-fl-col jc-c pos-r">
+                              <BrixelIcon
+                                icon="plus"
+                                color="green"
+                                className="bgWhite pos-a-sm y-c w-fix-48 h-fix-48 large ml-sm-3-neg mobilePos"
+                                rounded
+                              />
+                              {
+                                get(activeSingleCompany, 'stub') === "ubs_key4" && (
+                                  <>
+                                    <span className="fweight-600 fsize-500 dis-b">Exclusive benefits for UBS clients</span>
+                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">You only pay if the property is sold.</span>
+                                    <ul className="checked mt-2 txtDark700">
+                                      <li>Support in terminating or transferring the mortgage</li>
+                                      <li>Investment and pension advice</li>
+                                      <li>Advice on the tax implications of selling real estate</li>
+                                      <li>Information on inheritance and estate planning</li>
+                                      <li>Checking the selling price</li>
+                                    </ul>
+                                  </>
+                                )
+                              }
+                              {
+                                get(activeSingleCompany, 'stub') === "baloise" && (
+                                  <>
+                                    <span className="fweight-600 fsize-500 dis-b">Exclusive benefits for Baloise clients</span>
+                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">You only pay if the property is sold.</span>
+                                    <ul className="checked mt-2 txtDark700">
+                                      <li>Clarification of the existing mortgage</li>
+                                      <li>Baloise gives you as a customer CHF 1,000 as a gift</li>
+                                      <li>Information on inheritance and estate planning</li>
+                                    </ul>
+                                  </>
+                                )
+                              }
+                              {/*  <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
+                                {translateTo('Your partner in financial matters', lang)}
+                              </span>
+                              {
+                                get(activeCompanyData, 'logos', []).length > 0 && (
+                                  <div className="dis-f ml-4">
+                                    {
+                                      get(activeCompanyData, 'logos', []).map((logo, x) => (
+                                        <>
+                                          <span className="max-h-fix-40 dis-b">
+                                            <img
+                                              key={`logo${x.toString()}`}
+                                              src={logo}
+                                              alt={`${activeSingleCompany.name} logo ${x}`}
+                                              className={`${x > 0 ? 'ml-2' : ''} h-perc-100`}
+                                            />
+                                          </span>
+                                        </>
+                                      ))
+                                    }
+                                  </div>
+                                )
+                              } */}
+                            </div>
+                          )
+                        }
+                      </div>
+                    ))
+                  }
+
+                </>
+              </div>
+
               {
-                get(activeSingleCompany, 'stub') === "ubs_key4" || get(activeSingleCompany, 'stub') === "baloise" ? (
+                get(activeSingleCompany, 'stub') === "ubs_key4" && get(activeSingleCompany, 'stub') === "baloise" ? (
                   <>
-                    <div className="packageWrap a-s partnerPackage dis-fl-col dis-fl-row-lg pb-3 jc-c">
+                    <div className="hide packageWrap a-s dis-fl-col dis-fl-row-lg pb-3 jc-c">
                       <>
                         {
                           filteredPackages.map((pkg, i) => (
@@ -210,9 +403,9 @@ const IntroUpgrade = (props) => {
                               key={`fltPkg_${i.toString()}`}
                             >
 
-                              <div className="p-4">
+                              <div className="p-4 pb-4 pb-sm-5">
                                 <div className="dis-f jc-b a-c">
-                                  <h5 className="fweight-600">{pkg.name}</h5>
+                                  <h5 className={`fweight-600 fSizePx18 ${i === 1  ? 'txtGreen400' : ''}`}>{pkg.name}</h5>
                                 </div>
                                 <p className="mt-4 txtDark700 min-h-fix-md-80">
                                   {translateTo(pkg.description, lang)}
@@ -228,8 +421,8 @@ const IntroUpgrade = (props) => {
                                               <span
                                                 className="dis-b txtAltGrey400 fsize-300 mt-2 mt-sm-0"
                                               >
-                                                <span>{translateTo('Original price', lang)}</span>
-                                                <span className="td-lt lh-in ml-2">
+                                                <span className="">{translateTo('Original price', lang)}</span>
+                                                <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
                                                   <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
                                                   <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
                                                 </span>
@@ -237,7 +430,7 @@ const IntroUpgrade = (props) => {
                                             </>
                                           )
                                         }
-                                        <h3 className="fweight-600">
+                                        <h3 className="fweight-600 fsize-800">
                                           <span>
                                             <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
                                             {
@@ -288,19 +481,10 @@ const IntroUpgrade = (props) => {
                                     ))
                                   }
                                 </ul>
-                                {
-                                  pkg.price.total > 0 && (
-                                    <BrixelButtonText
-                                      className="mt-4 mb-2 mb-sm-0 ml-a mr-a"
-                                      label={translateTo('Learn more', lang)}
-                                      theme="green"
-                                    />
-                                  )
-                                }
                               </div>
                               {
                                 pkg.price.total > 0 && (
-                                  <div className="p-4 bgGreen100 dis-fl-col jc-fe pos-r">
+                                  <div className="p-4 pb-4 pb-sm-5 bgGreen100 dis-fl-col jc-c pos-r">
                                     <BrixelIcon
                                       icon="plus"
                                       color="green"
@@ -335,7 +519,7 @@ const IntroUpgrade = (props) => {
                                         </>
                                       )
                                     }
-                                    <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
+                                    {/*  <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
                                       {translateTo('Your partner in financial matters', lang)}
                                     </span>
                                     {
@@ -357,7 +541,7 @@ const IntroUpgrade = (props) => {
                                           }
                                         </div>
                                       )
-                                    }
+                                    } */}
                                   </div>
                                 )
                               }
@@ -369,7 +553,7 @@ const IntroUpgrade = (props) => {
                   </>
                 ) : (
                   <>
-                    <div className="packageWrap regularPackage is-fl-col dis-fl-row-md pb-3 jc-c a-c a-t-md">
+                    {/* <div className="packageWrap regularPackage is-fl-col dis-fl-row-md pb-3 jc-c a-c a-t-md">
                       <>
                         {
                           filteredPackages.map((pkg, i) => (
@@ -427,8 +611,8 @@ const IntroUpgrade = (props) => {
                           ))
                         }
                       </>
-                    </div>
-                    <div className="dis-f jc-c mt-5">
+                    </div> */}
+                    {/* <div className="dis-f jc-c mt-5">
                       <BrixelButtonSecondary
                         rounded
                         ghost
@@ -436,22 +620,49 @@ const IntroUpgrade = (props) => {
                         label={translateTo('Compare all details', lang)}
                         onClick={() => scrollTo('comparePlan')}
                       />
-                    </div>
+                    </div> */}
                   </>
                 )
               }
             </>
           )}
 
+        {
+          !partners && (
+            <div className="dis-f jc-c mt-5">
+              <BrixelButtonSecondary
+                rounded
+                ghost
+                theme="dark"
+                label={translateTo('Compare all details', lang)}
+                onClick={() => scrollTo('comparePlan')}
+              />
+            </div>
+          )
+        }
+
       </section>
 
-      <section className="container contact-section py-3 py-md-6">
+      <section className="max-w-fix-1200 container contact-section py-3 py-md-6">
         <h3 className="ta-c fweight-600 fsize-600 fsize-sm-700">{translateTo('Do you want to upgrade or change plans?', lang)}</h3>
 
-        <div className="dis-fl-col dis-fl-row-md a-fs jc-sa mt-8 max-w-fix-920 m-a">
+        <div className="dis-fl-col dis-fl-row-md a-fs jc-b mt-8 max-w-fix-928 m-a">
+          <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
+            <img className="w-fix-56 w-fix-lg-104" src={BookOnlineImg} alt="Call Us" />
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
+
+              <h6>{translateTo('Book Online', lang)}</h6>
+              <BrixelButtonText
+                bgTransparent
+                onClick={() => bookNow()}
+                className="ml-a mr-a"
+                label={translateTo('Request Now', lang)}
+              />
+            </div>
+          </div>
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
             <img className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
-            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
               <h6>{translateTo('Call Us', lang)}</h6>
               <BrixelButtonText
@@ -464,7 +675,7 @@ const IntroUpgrade = (props) => {
           </div>
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
             <img className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
-            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+            <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
               <h6>{translateTo('Write Us', lang)}</h6>
               <BrixelButtonText
@@ -479,7 +690,7 @@ const IntroUpgrade = (props) => {
             propID !== 'company' && (
               <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
                 <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
-                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0">
+                <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
                   <h6>{translateTo('Not Sure', lang)}</h6>
                   <BrixelButtonText
@@ -497,7 +708,7 @@ const IntroUpgrade = (props) => {
 
       <hr className="lighter my-2 my-ms-5" />
 
-      <section className="container testimonial py-3 py-md-6 pb-8">
+      <section className="max-w-fix-1200 container testimonial py-3 py-md-6 pb-8">
         <h3 className="ta-c fweight-600 mb-3 mb-md-8 fsize-600 fsize-sm-700">{translateTo('You’re in good company', lang)}</h3>
 
         <div className="w-perc-100 ml-a mr-a testimonialsSlide">
