@@ -87,7 +87,7 @@
   }
 }
 
-.packageWrap.partnerPackage {
+.packageWrap {
 
   @media (max-width: $responsive-small) {
     align-content: center;
@@ -97,6 +97,28 @@
     border-top: $step * 2 solid;
     border-radius: $brd-radius-small;
     box-shadow: $shadow-4dp;
+    max-width: 400px;
+
+    &:nth-child(1) {
+      border-color: map-get($darkColor, 700);
+      max-width: 400px;
+
+      @media (min-width: $responsive-medium) {
+        margin-right: $step * 2;
+      }
+    }
+    &:nth-child(2) {
+      border-color: map-get($greenColor, 400);
+
+      .bgGreen100 {
+        background-color: rgba($color: map-get($greenColor, 100), $alpha: 0.5);
+      }
+
+      @media (min-width: $responsive-medium) {
+        margin-left: $step  * 3;
+        margin-right: $step  * 3;
+      }
+    }
 
     &.packageTwo {
       display: flex;
@@ -126,26 +148,6 @@
       }
     }
 
-    &:nth-child(1) {
-      border-color: map-get($darkColor, 700);
-      max-width: 400px;
-
-      @media (min-width: $responsive-medium) {
-        margin-right: $step * 2;
-      }
-    }
-    &:nth-child(2) {
-      border-color: map-get($greenColor, 400);
-
-      .bgGreen100 {
-        background-color: rgba($color: map-get($greenColor, 100), $alpha: 0.5);
-      }
-
-      @media (min-width: $responsive-medium) {
-        margin-left: $step  * 3;
-        margin-right: $step  * 3;
-      }
-    }
 
     h6 {
       display: flex;
@@ -239,79 +241,8 @@
       }
     }
 
-    &.basic {
-      border-color: map_get($greenColor, 700);
-      h5 {
-        color: map_get($greenColor, 700);
-      }
-      h6 {
-        background-color: map_get($greenColor, 700);
-      }
-
-      ul.checked {
-        li {
-          &:before {
-            background-color: map_get($greenColor, 700);
-          }
-        }
-      }
-    }
-
-    &.private {
-      border-color: map_get($blueColor, 400);
-      h5 {
-        color: map_get($blueColor, 400);
-      }
-      h6 {
-        background-color: map_get($blueColor, 400);
-      }
-
-      ul.checked {
-        li {
-          &:before {
-            background-color: map_get($blueColor, 400);
-          }
-        }
-      }
-    }
-
-    &.premium {
-      border-color: map_get($redColor, 400);
-      h5 {
-        color: map_get($redColor, 400);
-      }
-      h6 {
-        background-color: map_get($redColor, 400);
-      }
-
-      ul.checked {
-        li {
-          &:before {
-            background-color: map_get($redColor, 400);
-          }
-        }
-      }
-    }
-
-    &.one {
-      border-color: map_get($darkColor, 400);
-      h5 {
-        color: map_get($darkColor, 400);
-      }
-      h6 {
-        background-color: map_get($darkColor, 400);
-      }
-
-      ul.checked {
-        li {
-          &:before {
-            background-color: map_get($darkColor, 400);
-          }
-        }
-      }
-    }
   }
-
+/*
   .basic {
     border-color: map_get($greenColor, 700);
     h4 {
@@ -382,7 +313,7 @@
         }
       }
     }
-  }
+  } */
 
   span {
     &.basic {
