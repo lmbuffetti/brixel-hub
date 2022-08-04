@@ -15,7 +15,7 @@ import threeDotsHandSvg from '../../images/Contact/threeDotsHand.svg';
 import puzzleHandSvg from '../../images/Contact/puzzleHand.svg';
 import inheritanceContactSvg from '../../images/Contact/inheritanceContact.svg';
 // QUESTION LISTS
-export const QuestionsList = (lang, company) => {
+export const QuestionsList = (lang, company, isBuyer) => {
   let contact = [];
   let selectHours = []
   for (let i=8; i<=18; i++) {
@@ -29,31 +29,32 @@ export const QuestionsList = (lang, company) => {
     let nextDay = DateTime.now().plus({ days: i }).weekday;
     let newDay = {
       label: DateTime.now().plus({ days: i }).toFormat('dd LLL yyyy', { locale: lang}),
-      value: DateTime.now().plus({ days: i }).toFormat('dd LLL yyyy', { locale: 'en'}),
+      value: DateTime.now().plus({ days: i }).toFormat('dd-MM-yyyy', { locale: 'en'}),
     };
     if (nextDay === 6) {
       newDay = {
         label: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL yyyy', { locale: lang}),
-        value: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL yyyy', { locale: 'en'}),
+        value: DateTime.now().plus({ days: i + 2 }).toFormat('dd-MM-yyyy', { locale: 'en'}),
       };
-      i++;
+      i += 2;
     }
     if (nextDay === 7) {
       newDay = {
         label: DateTime.now().plus({ days: i + 1 }).toFormat('dd LLL yyyy', { locale: lang}),
-        value: DateTime.now().plus({ days: i + 1 }).toFormat('dd LLL yyyy', { locale: 'en'}),
+        value: DateTime.now().plus({ days: i + 1 }).toFormat('dd-MM-yyyy', { locale: 'en'}),
       };
-      i++;
+      i += 1;
+    }
+    const isToday = DateTime.now().plus({ days: i }).hasSame(DateTime.local(), "day");
+    if (isToday) {
+      newDay.label = 'Immediately';
     }
     selectDays.push(newDay);
   }
-  
-  let privacy;
-  if (company === 'baloise') {
-    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) may be transmitted to Basler Versicherung AG for the purpose of providing the consulting service.', lang);
+  if (!isBuyer) {
     contact = [
       {
-        title: translateTo('Plan your finances with Baloise.', lang),
+        title: translateTo('<span>Plan your finances with</span><span>Baloise.</span>', lang),
         subtitle: translateTo('Your advice on the following topics:', lang),
         history: 'baloiseContact',
         vCentered: true,
@@ -61,16 +62,16 @@ export const QuestionsList = (lang, company) => {
           {
             title: 'Questions about your existing mortgage',
             image: checkSvg,
-          },{
+          }, {
             title: 'Cancel or transfer your mortgage',
             image: dotsHandSvg,
-          },{
+          }, {
             title: 'Possibilities of interim financing',
             image: puzzleHandSvg,
-          },{
+          }, {
             title: 'Information on inheritance or estate planning',
             image: houseHandSvg,
-          },{
+          }, {
             title: 'Investing and pension planning',
             image: threeDotsHandSvg,
           },
@@ -78,38 +79,98 @@ export const QuestionsList = (lang, company) => {
       },
     ];
   }
-  if (company === 'ubs_key4') {
-    privacy = translateTo('By clicking the button you allow us to send the data you entered to UBS AG.', lang);
-    contact = [
+  let privacy;
+  
+  contact = [
+    {
+      title: translateTo(`<span>Plan your finances with</span><span class="ml-1">${company.name}.</span>`, lang),
+      subtitle: translateTo('Your advice on the following topics:', lang),
+      history: 'baloiseContact',
+      vCentered: true,
+      textsCard: [
+        {
+          title: 'Questions about your existing mortgages',
+          image: checkSvg,
+        }, {
+          title: 'Cancel or transfer your mortgage',
+          image: dotsHandSvg,
+        }, {
+          title: 'Possibilities of interim financing',
+          image: puzzleHandSvg,
+        }, {
+          title: 'Information on inheritance or estate planning',
+          image: houseHandSvg,
+        }, {
+          title: 'Investing and pension planning',
+          image: threeDotsHandSvg,
+        },
+      ],
+    },
+  ];
+  if (isBuyer) {
+    contact[0].textsCard = [
       {
-        title: translateTo('Plan your finacial situation with UBS.', lang),
-        subtitle: translateTo('Plan your financial situation with UBS. Get your personal consultation on the following topics:', lang),
-        history: 'ubsKey4Contact',
-        vCentered: true,
-        textsCard: [
-          {
-            title: 'Validate sale price',
-            image: checkSvg,
-          },{
-            title: 'Cancel or transfer your existing mortgage',
-            image: dotsHandSvg,
-          },{
-            title: 'Advice for interim financing',
-            image: puzzleHandSvg,
-          },{
-            title: 'Information on tax implications of the sale',
-            image: houseHandSvg,
-          },
-          {
-            title: 'Inheritance and estate planning',
-            image: inheritanceContactSvg,
-          },{
-            title: 'Investing and pension planning',
-            image: threeDotsHandSvg,
-          },
-        ],
-      },
+        title: 'Individual offer for your financing',
+        image: checkSvg,
+      }, {
+        title: 'Personal consultation by phone or on site',
+        image: dotsHandSvg,
+      }, {
+        title: 'Application for a financing certificate',
+        image: puzzleHandSvg,
+      }
     ];
+  }
+  
+  if (company.stub === 'baloise') {
+    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) may be transmitted to Basler Versicherung AG for the purpose of providing the consulting service.', lang);
+    if (!isBuyer) {
+      contact[0].textsCard = [
+        {
+          title: 'Questions about your existing mortgage',
+          image: checkSvg,
+        }, {
+          title: 'Cancel or transfer your mortgage',
+          image: dotsHandSvg,
+        }, {
+          title: 'Possibilities of interim financing',
+          image: puzzleHandSvg,
+        }, {
+          title: 'Information on inheritance or estate planning',
+          image: houseHandSvg,
+        }, {
+          title: 'Investing and pension planning',
+          image: threeDotsHandSvg,
+        },
+      ];
+    }
+  }
+  if (company.stub === 'ubs_key4') {
+    privacy = translateTo('By clicking the button you allow us to send the data you entered to UBS AG.', lang);
+    if (!isBuyer) {
+      contact[0].textsCard = [
+        {
+          title: 'Validate sale price',
+          image: checkSvg,
+        }, {
+          title: 'Cancel or transfer your existing mortgage',
+          image: dotsHandSvg,
+        }, {
+          title: 'Advice for interim financing',
+          image: puzzleHandSvg,
+        }, {
+          title: 'Information on tax implications of the sale',
+          image: houseHandSvg,
+        },
+        {
+          title: 'Inheritance and estate planning',
+          image: inheritanceContactSvg,
+        }, {
+          title: 'Investing and pension planning',
+          image: threeDotsHandSvg,
+        },
+      ];
+    }
   }
   contact.push(
     {
@@ -127,7 +188,20 @@ export const QuestionsList = (lang, company) => {
         validation: [Validation.required],
         large: true,
         icons: true,
-        options: [
+        options: isBuyer ? [
+          {
+            label: 'Individual offer for your financing',
+            value: 'Individual offer for your financing'
+          },
+          {
+            label: 'Personal consultation',
+            value: 'Personal consultation'
+          },
+          {
+            label: 'Application for a financing certificate',
+            value: 'Application for a financing certificate'
+          },
+        ] : [
           {
             label: 'Validate sale price',
             value: 'Validate sale price'

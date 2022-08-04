@@ -57,7 +57,8 @@ const Contact = (props) => {
     loggedInUser,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(QuestionsList(lang, activeSingleCompany.stub));
+  const isBuyer = get(formValue, 'type', '') === 'buyer';
+  const [questions, setQuestions] = useState(QuestionsList(lang, activeSingleCompany, isBuyer));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(formValue.analysis === 'remote' || urlParams.action === 'on-site' ? 3 : 0);
   const [quest, setQuest] = useState({});
@@ -66,7 +67,7 @@ const Contact = (props) => {
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
-  const BASEURL = get(history, 'location.pathname', '').includes('buyer') ? `/buyer/5e676f444285565def1626fa/contactFlow` : `/buyer/5e676f444285565def1626fa/contactFlow`;
+  const BASEURL = isBuyer ? `/buyer/5e676f444285565def1626fa/contactFlow` : `/5e676f444285565def1626fa/contactFlow`;
   
   // REF
   const singleStepRef = useRef(null);
@@ -78,7 +79,7 @@ const Contact = (props) => {
   
   useEffect(() => {
     handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
-    if (get(history, 'location.pathname', '').includes('buyer')) handleGetBuyerDeal({ id: propID, actionStub: null, });
+    if (isBuyer) handleGetBuyerDeal({ id: propID, actionStub: null, });
   }, [propID]);
   
   useEffect(() => {
@@ -260,6 +261,9 @@ const Contact = (props) => {
     if (loggedInUser.id && activeSingleCompany.id && activeSingleProperty.id) initForm(initialValues);
     const defId = checkCondition(currentIndex);
     if (defId !== currentIndex) changeStep();
+    if (activeSingleProperty.owner && loggedInUser.id) {
+      if (activeSingleProperty.owner !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
+    }
   }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id]);
   
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
@@ -267,7 +271,7 @@ const Contact = (props) => {
     setOldIndex(currentIndex);
     const newQuest = [];
     if (formValue && activeSingleCompany.stub) {
-      QuestionsList(lang, activeSingleCompany.stub).map((quests) => {
+      QuestionsList(lang, activeSingleCompany, isBuyer).map((quests) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
@@ -304,11 +308,11 @@ const Contact = (props) => {
     if (get(formValue, 'time.date', null) && get(formValue, 'time.hour', null)) {
       const timeDate = get(formValue, 'time.date', null);
       const timeHour = get(formValue, 'time.hour', '').split(' - ')[0];
-      const fullDate = DateTime.fromFormat(`${timeDate} ${timeHour}`, 'dd LLL yyyy HH:mm', {locale: 'en'}).toMillis();
+      const fullDate = DateTime.fromFormat(`${timeDate} ${timeHour}`, 'dd-MM-yyyy HH:mm', {locale: 'en'}).toMillis();
       if (fullDate !== get(formValue, 'time.timestamp', '')) changeFieldValue('time.timestamp', fullDate);
     } else if (get(formValue, 'time.date', null)) {
       const timeDate = get(formValue, 'time.date', null);
-      const fullDate = DateTime.fromFormat(timeDate, 'dd LLL yyyy', {locale: 'en'}).toMillis();
+      const fullDate = DateTime.fromFormat(timeDate, 'dd-MM-yyyy', {locale: 'en'}).toMillis();
       if (fullDate !== get(formValue, 'time.timestamp', '')) changeFieldValue('time.timestamp', fullDate);
     }
   }, [get(formValue, 'time.date', null), get(formValue, 'time.hour', null)]);
@@ -316,12 +320,12 @@ const Contact = (props) => {
   
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
-    let label;
-    if (currentIndex === 0) label = 'Arrange callback';
-    else if (currentIndex === questions.length - 1) label = 'Continue';
-    else label = 'Continue';
+    let label = 'Continue';
+    if (currentIndex === questions.length - 2) label = 'Save';
     return label;
   };
+  
+  if (!formValue.page) return '<div />';
   
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
@@ -555,6 +559,7 @@ const mapStateToProps = (state) => {
     page: get(state, 'property.activeSingleProperty.id', null),
     user: get(state, 'user.loggedInUser.user.id', null),
     deal: get(state, 'deal.activeSingleDeal.id', null),
+    type: get(state, 'user.userTypes', ''),
   };
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
