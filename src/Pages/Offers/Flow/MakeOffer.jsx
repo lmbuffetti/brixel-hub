@@ -152,7 +152,7 @@ const MakeOffer = (props) => {
   }, [currentIndex]);
   
   useEffect(() => {
-    if (isSmallLoading.sendData === false && questions[currentIndex + 1]) {
+    if (isSmallLoading.sendData === true && questions[currentIndex + 1]) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setQuest(questions[newIndex]);
@@ -200,7 +200,7 @@ const MakeOffer = (props) => {
     if (docs.length > 0) {
       handleMultiUploadDocument(data);
     } else {
-      handleSaveMakeOffer();
+      handleSaveMakeOffer(data);
     }
   };
   
@@ -574,6 +574,15 @@ const MakeOffer = (props) => {
                       )
                     }
                   </div>
+                  {
+                    quest.txtAfterNextButton && (
+                      <div className="max-w-fix-456 mx-a mt-2">
+                        <p>
+                          {quest.txtAfterNextButton}
+                        </p>
+                      </div>
+                    )
+                  }
                 </div>
               </div>
             )

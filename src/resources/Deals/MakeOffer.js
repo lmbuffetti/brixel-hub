@@ -32,8 +32,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
     formValue = get(configureStore.getState(), 'brixelForm.offerFlow.values', []);
     const countryCode = get(formValue, 'propertyLocation.countryCode', '');
     isPT = countryCode === 'PT';
-    if (isPT) countryName = 'a Portuguese';
-    if (countryCode === 'CH') countryName = 'a Swiss';
+    if (isPT) countryName = 'Portuguese';
+    if (countryCode === 'CH') countryName = 'Swiss';
   }
 
   const martialStatus = factsOptions.martialStatus.map((item) => ({
@@ -455,6 +455,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       footerWidth: 'max-w-fix-600',
       inputs: [
         {
+          acceptedFile: ['jpg', 'png', 'application/pdf'],
           component: BrixelMultiUploadFile,
           topLabel: translateTo('Yes. Then upload it here directly.', lang),
           topLabelClass: 'mb-3 fweight-600',
@@ -464,7 +465,6 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
           label: translateTo(`Add a proof of financing from a ${countryName} financial institution`, lang),
           name: 'document',
           theme: 'simple',
-          acceptedFile: ['jpg', 'png', 'application/pdf'],
         },
         {
           customComponent: TextPartnerUpload,
@@ -523,6 +523,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: BaloiseRegistration,
+      txtAfterNextButton: translateTo('By clicking the button you allow us to send the data you entered to Basler Versicherungen.', lang),
       country: 'CH',
     },
     // ONLY FOR UBS_KEY4
@@ -530,7 +531,10 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       condition: [{
         name: 'company',
         value: 'ubs_key4',
-      }],
+      },{
+        name: 'document',
+        value: null,
+      },],
       hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'key4Registration',
