@@ -25,30 +25,32 @@ export const QuestionsList = (lang, company) => {
     })
   }
   let selectDays = [];
-  for (let i=1; i<=6; i++) {
+  for (let i=0; i<=6; i++) {
     let nextDay = DateTime.now().plus({ days: i }).weekday;
     let newDay = {
-      value: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL', { locale: 'en'}),
-      label: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL', { locale: lang}),
+      label: DateTime.now().plus({ days: i }).toFormat('dd LLL yyyy', { locale: lang}),
+      value: DateTime.now().plus({ days: i }).toFormat('dd LLL yyyy', { locale: 'en'}),
     };
     if (nextDay === 6) {
       newDay = {
-        value: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL', { locale: 'en'}),
-        label: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL', { locale: lang}),
+        label: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL yyyy', { locale: lang}),
+        value: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL yyyy', { locale: 'en'}),
       };
       i++;
     }
     if (nextDay === 7) {
       newDay = {
-        value: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL', { locale: 'en'}),
-        label: DateTime.now().plus({ days: i + 2 }).toFormat('dd LLL', { locale: lang}),
+        label: DateTime.now().plus({ days: i + 1 }).toFormat('dd LLL yyyy', { locale: lang}),
+        value: DateTime.now().plus({ days: i + 1 }).toFormat('dd LLL yyyy', { locale: 'en'}),
       };
       i++;
     }
     selectDays.push(newDay);
   }
   
+  let privacy;
   if (company === 'baloise') {
+    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) may be transmitted to Basler Versicherung AG for the purpose of providing the consulting service.', lang);
     contact = [
       {
         title: translateTo('Plan your finances with Baloise.', lang),
@@ -77,6 +79,7 @@ export const QuestionsList = (lang, company) => {
     ];
   }
   if (company === 'ubs_key4') {
+    privacy = translateTo('By clicking the button you allow us to send the data you entered to UBS AG.', lang);
     contact = [
       {
         title: translateTo('Plan your finacial situation with UBS.', lang),
@@ -114,37 +117,36 @@ export const QuestionsList = (lang, company) => {
       history: 'topicsAdvice',
       vCentered: true,
       footerWidth: 'max-w-fix-384',
-      txtAfterNextButton: translateTo('By clicking the button you allow us to send the data you entered to Basler Versicherungen. You can find the data protection provisions applicable to Basler Versicherungen on the website.', lang),
       inputs: [{
         component: BrixelCheckbox,
         classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius py-6 px-5 m-a',
         pdClass: 'py-2 py-lg-3 px-2',
         label: '',
         ReduxFieldClass: 'max-w-fix-464 m-a',
-        name: 'topic',
+        name: 'topics',
         validation: [Validation.required],
         large: true,
         icons: true,
         options: [
           {
             label: 'Validate sale price',
-            value: 'validateSalePrice'
+            value: 'Validate sale price'
           },
           {
             label: 'Cancel or transfer your existing mortgage',
-            value: 'mortgage'
+            value: 'Cancel or transfer your existing mortgage'
           },
           {
             label: 'Advice for interim financing',
-            value: 'interimFinancing'
+            value: 'Advice for interim financing'
           },
           {
             label: 'Tax implications, inheritance, and estate planning',
-            value: 'tax'
+            value: 'Tax implications, inheritance, and estate planning'
           },
           {
-            label: 'Investment options or retirement planning ',
-            value: 'investments'
+            label: 'Investment options or retirement planning',
+            value: 'Investment options or retirement planning'
           }
         ],
       }],
@@ -155,6 +157,7 @@ export const QuestionsList = (lang, company) => {
       vCentered: true,
       footerWidth: 'max-w-fix-384',
       className: 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5',
+      txtAfterNextButton: privacy,
       inputs: [
         {
           component: BrixelSelect,
@@ -168,26 +171,26 @@ export const QuestionsList = (lang, company) => {
           options: [
             {
               label: 'Immediately',
-              value: 'now'
+              value: selectDays[0].value,
             },
-            selectDays[0],
             selectDays[1],
             selectDays[2],
+            selectDays[3],
           ],
         },
         {
           conditionsOr: [
             {
               name: 'time.date',
-              value: DateTime.now().plus({ days: 1 }).toFormat('dd LLL', { locale: 'en'}),
+              value: selectDays[1].value,
             },
             {
               name: 'time.date',
-              value: DateTime.now().plus({ days: 2 }).toFormat('dd LLL', { locale: 'en'}),
+              value: selectDays[2].value,
             },
             {
               name: 'time.date',
-              value: DateTime.now().plus({ days: 3 }).toFormat('dd LLL', { locale: 'en'}),
+              value: selectDays[3].value,
             }
           ],
           component: BrixelSelect,

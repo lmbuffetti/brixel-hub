@@ -518,6 +518,7 @@ const App = (props) => {
   
                       { /* PARTNER CONTACT FLOW */}
                       <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+                      <Route path="/buyer/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
 
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />

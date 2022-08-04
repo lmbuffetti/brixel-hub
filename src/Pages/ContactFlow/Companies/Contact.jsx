@@ -24,8 +24,10 @@ import has from 'lodash/has';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import isArray from 'lodash/isArray';
 import queryString from 'query-string';
+import { DateTime } from 'luxon';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
+import { getBuyerDeal } from '../../../actions/DealActions';
 import { checkBrowser } from '../../../utils/helpers';
 import { QuestionsList } from '../../../resources/Companies/Contact';
 
@@ -40,16 +42,19 @@ const Contact = (props) => {
   const {
     activeSingleCompany,
     activeSingleProperty,
+    changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
-    handleGetActiveSingleProperty,
     handleGetActiveSingleCompany,
+    handleGetActiveSingleProperty,
+    handleGetBuyerDeal,
+    handleReset,
     initForm,
     initialValues,
     isSmallLoading,
     lang,
-    handleReset,
+    loggedInUser,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(QuestionsList(lang, activeSingleCompany.stub));
@@ -61,18 +66,19 @@ const Contact = (props) => {
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
+  const BASEURL = get(history, 'location.pathname', '').includes('buyer') ? `/buyer/5e676f444285565def1626fa/contactFlow` : `/buyer/5e676f444285565def1626fa/contactFlow`;
   
   // REF
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
   
   useEffect(() => {
-    localStorage.setItem('brixelRegField', JSON.stringify({}));
     return () => destroyForm();
   }, []);
   
   useEffect(() => {
     handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
+    if (get(history, 'location.pathname', '').includes('buyer')) handleGetBuyerDeal({ id: propID, actionStub: null, });
   }, [propID]);
   
   useEffect(() => {
@@ -84,7 +90,7 @@ const Contact = (props) => {
   useEffect(() => {
     setIsEnter(true);
     if (get(questions, `[${currentIndex}].history`, null) && activeSingleCompany.stub) {
-      history.push(`/${propID}/contactFlow/${questions[currentIndex].history}`);
+      history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
   
@@ -111,7 +117,8 @@ const Contact = (props) => {
   
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-  
+    // eslint-disable-next-line no-console
+    console.log(formValue);
   };
   
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -196,7 +203,7 @@ const Contact = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push(`/${propID}/contactFlow/`);
+      history.push(`${BASEURL}/contactFlow/`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -228,7 +235,7 @@ const Contact = (props) => {
         }, 100);
         if (questions[defId].history) {
           history.push({
-            pathname: `/${propID}/contactFlow/${questions[defId].history}`,
+            pathname: `${BASEURL}/${questions[defId].history}`,
             state: get(history, 'location.state', {}),
           });
         }
@@ -250,10 +257,10 @@ const Contact = (props) => {
   };
   
   useEffect(() => {
-    initForm(initialValues);
+    if (loggedInUser.id && activeSingleCompany.id && activeSingleProperty.id) initForm(initialValues);
     const defId = checkCondition(currentIndex);
     if (defId !== currentIndex) changeStep();
-  }, [activeSingleProperty.id, activeSingleCompany.id]);
+  }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id]);
   
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
@@ -284,6 +291,28 @@ const Contact = (props) => {
     }
     if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
   }, [formValue, activeSingleCompany.id]);
+  
+  useEffect(() => {
+    if (get(formValue, 'time.timestamp', null)) {
+      const isToday = DateTime.fromMillis(get(formValue, 'time.timestamp', null)).hasSame(DateTime.local(), "day");
+      if (isToday) delete formValue.time.hour;
+    }
+  }, [get(formValue, 'time.timestamp', null)]);
+  
+  
+  useEffect(() => {
+    if (get(formValue, 'time.date', null) && get(formValue, 'time.hour', null)) {
+      const timeDate = get(formValue, 'time.date', null);
+      const timeHour = get(formValue, 'time.hour', '').split(' - ')[0];
+      const fullDate = DateTime.fromFormat(`${timeDate} ${timeHour}`, 'dd LLL yyyy HH:mm', {locale: 'en'}).toMillis();
+      if (fullDate !== get(formValue, 'time.timestamp', '')) changeFieldValue('time.timestamp', fullDate);
+    } else if (get(formValue, 'time.date', null)) {
+      const timeDate = get(formValue, 'time.date', null);
+      const fullDate = DateTime.fromFormat(timeDate, 'dd LLL yyyy', {locale: 'en'}).toMillis();
+      if (fullDate !== get(formValue, 'time.timestamp', '')) changeFieldValue('time.timestamp', fullDate);
+    }
+  }, [get(formValue, 'time.date', null), get(formValue, 'time.hour', null)]);
+  
   
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
@@ -499,43 +528,34 @@ const Contact = (props) => {
 Contact.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
+  handleGetActiveSingleProperty: PropTypes.func.isRequired,
+  handleGetBuyerDeal: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const history = {
-    location: window.location.href,
-  };
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
-  let bookType = get(history, 'location', '').replace(/\/$/, '');
-  if (bookType) {
-    if (bookType.includes('?url=')) bookType = bookType.split('?')[0];
-    bookType = bookType.split('/')[bookType.split('/').length - 1];
-  }
   const initVal = {
-    ...get(state, 'brixelForm.contactFlow.values', {}),
-    name: get(state, 'user.loggedInUser.user.name', null),
-    dayToReach: null,
     phone: {
       prefix: get(state, 'user.loggedInUser.user.phone.prefix', countryPhoneCode.dial_code) || countryPhoneCode.dial_code,
       number: get(state, 'user.loggedInUser.user.phone.number', ''),
     },
-    email: get(state, 'user.loggedInUser.user.email', null),
-    userID: get(state, 'user.loggedInUser.user.id', null),
+    company: get(state, 'companies.activeSingleCompany.id', null),
+    page: get(state, 'property.activeSingleProperty.id', null),
+    user: get(state, 'user.loggedInUser.user.id', null),
+    deal: get(state, 'deal.activeSingleDeal.id', null),
   };
-  if (!initVal.analysis) initVal.analysis = 'on-site';
-  if (bookType.includes('on-site')) initVal.analysis = 'on-site';
-  if (bookType.includes('remote')) initVal.analysis = 'remote';
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
@@ -561,6 +581,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form) {
     (dispatch(reset(form)));
   },
+  handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
 });
