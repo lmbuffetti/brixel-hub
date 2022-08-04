@@ -407,6 +407,8 @@ const MakeOffer = (props) => {
     else closeWindow();
   };
   
+  if (!formValue.id) return '<div />'
+  
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
       <div className="pos-r">
