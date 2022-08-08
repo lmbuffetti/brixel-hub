@@ -23,7 +23,6 @@ import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
-import queryString from 'query-string';
 import isArray from 'lodash/isArray';
 import { MakeOfferQuestions } from '../../../resources/Deals/MakeOffer';
 import { sendUserScanTrial } from '../../../actions/UserActions';
@@ -52,8 +51,8 @@ const MakeOffer = (props) => {
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleMultiUploadDocument,
+    handleSaveMakeOffer,
     handleSetModal,
-    handleSpinnerOff,
     initForm,
     initialValues,
     isSmallLoading,
@@ -78,11 +77,11 @@ const MakeOffer = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'id', null);
   const dealID = get(activeSingleDeal, 'id', null);
-
+  
   // REF
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-
+  
   useEffect(() => {
     if (activeSingleProperty.id !== propID) {
       const data = {
@@ -94,17 +93,18 @@ const MakeOffer = (props) => {
     }
     return () => destroyForm();
   }, []);
-
+  
   useEffect(() => {
     if (activeSingleDeal.id && (get(activeSingleDeal, 'closing.stageOffer.offer.status', null) && (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected'))) {
       history.push({ pathname: `/buyer/${propID}/closing/${activeSingleDeal.id}` });
     }
-  }, [activeSingleDeal.id]);
-
-  useEffect(() => {
+    if (get(activeSingleProperty, 'company', null)) {
+      const defComp = get(activeSingleProperty, 'company', 'default');
+      handleGetActiveSingleCompany({ id: defComp });
+    }
     if (activeSingleProperty.id && !activeSingleDeal.id) handleGetBuyerDeal({ id: activeSingleProperty.id });
-  }, [activeSingleProperty.id]);
-
+  }, [activeSingleDeal.id, activeSingleProperty.id]);
+  
   useEffect(() => {
     const cost = {
       equityCapital: get(formValue, 'financeBuyer.equity', null),
@@ -124,7 +124,7 @@ const MakeOffer = (props) => {
       changeFieldValue('loanToValueRatio', loanToValueRatio);
     }
   }, [get(formValue, 'financeBuyer.equity', null), get(formValue, 'financeBuyer.income', null)]);
-
+  
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(activeSingleCompany, 'stub', null)) {
@@ -142,7 +142,7 @@ const MakeOffer = (props) => {
       setCookie('brixelStubCompany', activeSingleCompany.stub);
     }
   }, [activeSingleCompany.id]);
-
+  
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
@@ -150,7 +150,7 @@ const MakeOffer = (props) => {
       history.push(`/packageFlow/${propID}/makeOffer/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
-
+  
   useEffect(() => {
     if (isSmallLoading.sendData === true && questions[currentIndex + 1]) {
       const newIndex = currentIndex + 1;
@@ -566,7 +566,7 @@ const MakeOffer = (props) => {
                                 className={`mr-a ml-a noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 rounded
-                                isLoading={isSmallLoading.sendData}
+                                isLoading={isSmallLoading.sendData === true}
                                 theme="green"
                                 themeSat={600}
                                 label={translateTo(buttonLabel(), lang)}
