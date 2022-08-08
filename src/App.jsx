@@ -205,7 +205,7 @@ const App = (props) => {
       handleSetUserTypes('buyer');
     }
     if (!activeSingleProperty.documents) handleSetActiveSingleDeal({});
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, loggedInUser]);
 
   const bodyModal = document.getElementById('bodyModalWrapper');
   useEffect(() => {

@@ -113,11 +113,6 @@ const Contact = (props) => {
     history.push(url || `/${propID}/home`);
   };
 
-  const goToFacts = () => {
-    handleReset('contactFlow');
-    history.push(`/${propID}/property/facts/propertyType`);
-  };
-
   // FUNCTION TO SAVE DATA
   const saveData = () => {
     handleSendMessageContact(formValue);
@@ -265,7 +260,7 @@ const Contact = (props) => {
     if (activeSingleProperty.owner && loggedInUser.id) {
       if (activeSingleProperty.owner !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
     }
-  }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id]);
+  }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id, isBuyer]);
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
@@ -323,10 +318,11 @@ const Contact = (props) => {
   const buttonLabel = () => {
     let label = 'Continue';
     if (currentIndex === questions.length - 2) label = 'Save';
+    if (currentIndex === questions.length - 1) label = 'Close';
     return label;
   };
 
-  if (!formValue.page) return '<div />';
+  if (!formValue.page) return ('<div />');
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
@@ -492,7 +488,7 @@ const Contact = (props) => {
                                 themeSat={600}
                                 label={translateTo(buttonLabel(), lang)}
                                 rightIcon="arrow-right-small"
-                                onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
+                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                 onShowError={() => setShowError(true)}
                               />
                             )

@@ -14,6 +14,8 @@ import dotsHandSvg from '../../images/Contact/dotsHand.svg';
 import threeDotsHandSvg from '../../images/Contact/threeDotsHand.svg';
 import puzzleHandSvg from '../../images/Contact/puzzleHand.svg';
 import inheritanceContactSvg from '../../images/Contact/inheritanceContact.svg';
+import ClipboardImg from '../../images/scanTrial/clipboard.png';
+
 // QUESTION LISTS
 export const QuestionsList = (lang, company, isBuyer) => {
   let contact = [];
@@ -51,36 +53,6 @@ export const QuestionsList = (lang, company, isBuyer) => {
     }
     selectDays.push(newDay);
   }
-  if (!isBuyer) {
-    contact = [
-      {
-        title: translateTo('<span>Plan your finances with</span><span>Baloise.</span>', lang),
-        subtitle: translateTo('Your advice on the following topics:', lang),
-        history: 'baloiseContact',
-        vCentered: true,
-        textsCard: [
-          {
-            title: 'Questions about your existing mortgage',
-            image: checkSvg,
-          }, {
-            title: 'Cancel or transfer your mortgage',
-            image: dotsHandSvg,
-          }, {
-            title: 'Possibilities of interim financing',
-            image: puzzleHandSvg,
-          }, {
-            title: 'Information on inheritance or estate planning',
-            image: houseHandSvg,
-          }, {
-            title: 'Investing and pension planning',
-            image: threeDotsHandSvg,
-          },
-        ],
-      },
-    ];
-  }
-  let privacy;
-
   contact = [
     {
       title: translateTo(`<span>Plan your finances with</span><span class="ml-1">${company.name}.</span>`, lang),
@@ -107,6 +79,8 @@ export const QuestionsList = (lang, company, isBuyer) => {
       ],
     },
   ];
+  let privacy;
+  
   if (isBuyer) {
     contact[0].textsCard = [
       {
@@ -290,12 +264,21 @@ export const QuestionsList = (lang, company, isBuyer) => {
         }
       ],
     },
+    // GENERAL SAVING FUNCTION FOR EVERYONE
     {
-      history: 'savingData',
-      cardType: 'updateProfile',
+      background: 'bgCardGreen',
+      hideProgress: true,
+      cardType: 'card',
+      title: translateTo('Thank you', lang),
+      img: ClipboardImg,
+      imgMaxWidth: 'max-w-fix-160',
+      cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
+      subtitle: `<span>${translateTo('We have forwarded your request. Our partner', lang)}</span><span class="mx-1">${company.name}</span><span>${translateTo('will contact you as soon as possible.', lang)}</span>`,
+      history: 'success',
+      vCentered: true,
       toSave: true,
-      action: 'updateUser',
     },
+
   )
   return contact;
 }
