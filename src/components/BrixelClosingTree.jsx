@@ -865,7 +865,7 @@ const BrixelClosingTree = (props) => {
                     <div className="secHead p-2 h-fix-56 dis-f jc-b">
                       <div className="">
                         <span
-                          className={`brdCircle bgGreen400 dis-ib h-fix-24 w-fix-24 txtWhite ta-c ff-mono fsize300`}>
+                          className="brdCircle bgGreen400 dis-if a-c jc-c h-fix-24 w-fix-24 txtWhite ta-c ff-mono fsize300">
                           {i + 1}
                         </span>
                         <span className="fsize-400 fweight-600 pl-1">
