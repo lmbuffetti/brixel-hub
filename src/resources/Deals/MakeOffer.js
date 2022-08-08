@@ -450,9 +450,10 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       }],
       title: translateTo('Do you have a recent proof of financing?', lang),
       subtitle: translateTo('Do you have a recent proof of financing?', lang),
-      history: 'financingProof',
+      history: 'financingProofPartner',
       className: 'max-w-fix-600 ml-a mr-a dis-f flex-wrap',
       footerWidth: 'max-w-fix-600',
+      buttonText: 'Request now',
       inputs: [
         {
           acceptedFile: ['jpg', 'png', 'application/pdf'],
@@ -494,7 +495,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       propertyPrice: formValue.propertyPrice,
       hideText: true,
       customButton: [],
-      unsuccessMessage: `<h6>${translateTo('Note', lang)}</h6><p>${translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}</p>`,
+      unsuccessMessage: `<h6 class="mt-3 mb-2 fweight-600">${translateTo('Note', lang)}</h6><p>${translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}</p>`,
       partner: formValue.company,
       onChangeValue: (aff, loan, affordabilityCheck, loanValueCheck) => {
         formValue.affordability = aff;
@@ -524,7 +525,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
       footerWidth: 'max-w-fix-600',
       component: BaloiseRegistration,
-      txtAfterNextButton: translateTo('<p>I agree that my data (surname, first name, address, telephone number, e-mail) as well as the information necessary for the proof of financing (address of the property, price of the property, URL of the property, tax declaration, proof of income and pension fund statement, form authorization to obtain information) are transmitted to Baloise Bank SoBa for the purpose of requesting a proof of financing.</p><p>Furthermore, I authorize Baloise Bank SoBa AG to transmit the feedback on my request for proof of financing to Brixel AG and, in order to check whether I am already a customer of Baloise Bank SoBa AG, to carry out a comparison with my relevant data available at Baloise Bank SoBa AG.</p>You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until the revocation.</p>', lang),
+      txtAfterNextButton: translateTo('<p>I agree that my data (surname, first name, address, telephone number, e-mail) as well as the information necessary for the proof of financing (address of the property, price of the property, URL of the property, tax declaration, proof of income and pension fund statement, form authorization to obtain information) are transmitted to Baloise Bank SoBa for the purpose of requesting a proof of financing.</p><p class="mt-1">Furthermore, I authorize Baloise Bank SoBa AG to transmit the feedback on my request for proof of financing to Brixel AG and, in order to check whether I am already a customer of Baloise Bank SoBa AG, to carry out a comparison with my relevant data available at Baloise Bank SoBa AG.</p><p class="mt-1">You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until the revocation.</p>', lang),
       country: 'CH',
     },
     // ONLY FOR UBS_KEY4

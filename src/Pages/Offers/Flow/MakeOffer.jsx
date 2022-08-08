@@ -74,6 +74,7 @@ const MakeOffer = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
+  const [isToSave, setIsToSave] = useState(true);
   // GET URL PARAMS
   const propID = get(match, 'id', null);
   const dealID = get(activeSingleDeal, 'id', null);
@@ -151,11 +152,13 @@ const MakeOffer = (props) => {
     }
   }, [currentIndex]);
   
+  // MOVE STEP FORWARD AFTER SAVING
   useEffect(() => {
     if (isSmallLoading.sendData === true && questions[currentIndex + 1]) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
-      // setQuest(questions[newIndex]);
+      setQuest(questions[newIndex]);
+      setIsToSave(true);
     }
   }, [isSmallLoading]);
   
@@ -198,10 +201,13 @@ const MakeOffer = (props) => {
       ...dataForm,
       ...dataDocuments,
     };
-    if (docs.length > 0) {
-      handleMultiUploadDocument(data);
-    } else {
-      handleSaveMakeOffer(data);
+    if (isToSave) {
+      setIsToSave(false);
+      if (docs.length > 0) {
+        handleMultiUploadDocument(data);
+      } else {
+        handleSaveMakeOffer(data);
+      }
     }
   };
   
@@ -398,8 +404,9 @@ const MakeOffer = (props) => {
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    if ((affordability > 33 || loanToValueRatio > maxLoanRatio) && questions[currentIndex].history === 'key4Registration') label = 'Close';
-    else if (currentIndex === questions.length - 2) label = 'Save';
+    if (get(formValue, 'affordabilityCheck', null) === false && get(formValue, 'loanValueCheck', null) === false && get(quest, 'history', '') === 'financeCalculator') label = 'Continue without proof of financing';
+    else if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
+    else if (get(questions, `[${currentIndex}].buttonText`, null)) label = get(questions, `[${currentIndex}].buttonText`, '');
     else if (currentIndex === questions.length - 1) label = 'Close';
     else label = 'Continue';
     return label;
@@ -583,9 +590,7 @@ const MakeOffer = (props) => {
                   {
                     quest.txtAfterNextButton && (
                       <div className="max-w-fix-456 mx-a mt-2">
-                        <p>
-                          {quest.txtAfterNextButton}
-                        </p>
+                        <div dangerouslySetInnerHTML={{ __html: quest.txtAfterNextButton }} />
                       </div>
                     )
                   }
