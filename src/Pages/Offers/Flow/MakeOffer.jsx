@@ -399,7 +399,7 @@ const MakeOffer = (props) => {
   const buttonLabel = () => {
     let label;
     if ((affordability > 33 || loanToValueRatio > maxLoanRatio) && questions[currentIndex].history === 'key4Registration') label = 'Close';
-    //else if (currentIndex === questions.length - 2) label = 'Save';
+    else if (currentIndex === questions.length - 2) label = 'Save';
     else if (currentIndex === questions.length - 1) label = 'Close';
     else label = 'Continue';
     return label;
