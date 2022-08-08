@@ -68,25 +68,25 @@ const Contact = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
   const BASEURL = isBuyer ? `/buyer/5e676f444285565def1626fa/contactFlow` : `/5e676f444285565def1626fa/contactFlow`;
-  
+
   // REF
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-  
+
   useEffect(() => {
     return () => destroyForm();
   }, []);
-  
+
   useEffect(() => {
     handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
     if (isBuyer) handleGetBuyerDeal({ id: propID, actionStub: null, });
   }, [propID]);
-  
+
   useEffect(() => {
     if (activeSingleProperty.company) handleGetActiveSingleCompany({ id: activeSingleProperty.company });
   }, [activeSingleProperty.company]);
-  
-  
+
+
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
@@ -94,7 +94,7 @@ const Contact = (props) => {
       history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
-  
+
   useEffect(() => {
     if (!isSmallLoading.sendData && (get(questions, `[${currentIndex + 1}].history`, null) === 'success')) {
       const newIndex = currentIndex + 1;
@@ -102,7 +102,7 @@ const Contact = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
-  
+
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     handleReset('contactFlow');
@@ -110,18 +110,18 @@ const Contact = (props) => {
     localStorage.removeItem('backUrl');
     history.push(url || `/${propID}/home`);
   };
-  
+
   const goToFacts = () => {
     handleReset('contactFlow');
     history.push(`/${propID}/property/facts/propertyType`);
   };
-  
+
   // FUNCTION TO SAVE DATA
   const saveData = () => {
     // eslint-disable-next-line no-console
     console.log(formValue);
   };
-  
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -144,7 +144,7 @@ const Contact = (props) => {
     }
     return newIndex;
   };
-  
+
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -185,7 +185,7 @@ const Contact = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-  
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
   // FUNCTION TO GO TO NEXT STEP
@@ -256,7 +256,7 @@ const Contact = (props) => {
     }
     return null;
   };
-  
+
   useEffect(() => {
     if (loggedInUser.id && activeSingleCompany.id && activeSingleProperty.id) initForm(initialValues);
     const defId = checkCondition(currentIndex);
@@ -265,7 +265,7 @@ const Contact = (props) => {
       if (activeSingleProperty.owner !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
     }
   }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id]);
-  
+
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     setOldIndex(currentIndex);
@@ -286,7 +286,7 @@ const Contact = (props) => {
         }
         return null;
       });
-      
+
       setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
@@ -295,15 +295,15 @@ const Contact = (props) => {
     }
     if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
   }, [formValue, activeSingleCompany.id]);
-  
+
   useEffect(() => {
     if (get(formValue, 'time.timestamp', null)) {
       const isToday = DateTime.fromMillis(get(formValue, 'time.timestamp', null)).hasSame(DateTime.local(), "day");
       if (isToday) delete formValue.time.hour;
     }
   }, [get(formValue, 'time.timestamp', null)]);
-  
-  
+
+
   useEffect(() => {
     if (get(formValue, 'time.date', null) && get(formValue, 'time.hour', null)) {
       const timeDate = get(formValue, 'time.date', null);
@@ -316,17 +316,17 @@ const Contact = (props) => {
       if (fullDate !== get(formValue, 'time.timestamp', '')) changeFieldValue('time.timestamp', fullDate);
     }
   }, [get(formValue, 'time.date', null), get(formValue, 'time.hour', null)]);
-  
-  
+
+
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label = 'Continue';
     if (currentIndex === questions.length - 2) label = 'Save';
     return label;
   };
-  
+
   if (!formValue.page) return '<div />';
-  
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
       {
@@ -346,12 +346,12 @@ const Contact = (props) => {
                         <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
                           {
                             quest.title && (
-                              <h2 className={`fsize-600 fsize-sm-800 fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                              <h2 className={`fsize-600 fsize-sm-700 fweight-600 max-w-fix-600 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                             )
                           }
                           {
                             quest.subtitle && (
-                              <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                              <p className="mb-5 ta-c txtDark200 w-perc-100 fsize-600 fsize-sm-700 fweight-400" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                           }
                           <div className={`${quest.className} w-perc-100`}>
                             <MultiFileldsReduxForm
@@ -368,7 +368,7 @@ const Contact = (props) => {
                               disableDelay
                             />
                           </div>
-                  
+
                         </div>
                       )
                     }
@@ -391,18 +391,20 @@ const Contact = (props) => {
                         <div>
                           {
                             quest.title && (
-                              <h2 className={`fsize-600 fsize-sm-800 fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                              <h2 className={`fsize-600 fsize-sm-700 fweight-600 max-w-fix-600 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                             )
                           }
                           {
                             quest.subtitle && (
-                              <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
+                              <p className="mb-5 fsize-600 fsize-sm-700 fweight-400 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                           }
                           <div className="dis-f a-t flex-wrap jc-c">
                             {
                               get(quest, 'textsCard', []).map((txtCard, i) => (
                                 <div key={`card${i.toString()}`} className="ta-c max-w-fix-280 m-5">
-                                  <img src={txtCard.image} alt={txtCard.title} />
+                                  <div className="h-fix-80 mb-3">
+                                    <img height={'100px'} src={txtCard.image} alt={txtCard.title} />
+                                  </div>
                                   <h5>{txtCard.title}</h5>
                                 </div>
                               ))
@@ -452,15 +454,15 @@ const Contact = (props) => {
               {
                 get(quest, 'history', null) !== 'createProfile' && (
                   <div
-                    className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                    className={`footerAction flowFooter ${get(quest, 'footerWidth', '')}  ${!checkValidateField() ? 'disabledNext' : 'normStep'}`}
                   >
                     <div className="pos-r">
-                      <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c mb-3 h-fix-40">
+                      <div className="w-perc-100 a-c dis-fl-row flex-wrap jc-c mb-3 h-fix-40">
                         <>
                           {
                             get(questions, `[${currentIndex - 1}].inputs`, null) && (
                               <BrixelButtonIcon
-                                className="backBtn ml-0 mr-a"
+                                className="backBtn ml-0"
                                 icon="arrow-left-small"
                                 onClick={() => changeStep('back')}
                                 theme="light"
@@ -471,7 +473,7 @@ const Contact = (props) => {
                           {
                             buttonLabel().toLowerCase() === 'skip' ? (
                               <BrixelButtonSecondary
-                                className={`noWrap mr-a ml-a ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 theme="green"
                                 themeSat={600}
@@ -498,8 +500,8 @@ const Contact = (props) => {
                       </div>
                       {
                         quest.txtAfterNextButton && (
-                          <div className="max-w-fix-456 mx-a mt-2">
-                            <p>
+                          <div className="mx-a mt-4">
+                            <p className="fsize-300 txtLight700">
                               {quest.txtAfterNextButton}
                             </p>
                           </div>

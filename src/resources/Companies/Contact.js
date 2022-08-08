@@ -80,7 +80,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     ];
   }
   let privacy;
-  
+
   contact = [
     {
       title: translateTo(`<span>Plan your finances with</span><span class="ml-1">${company.name}.</span>`, lang),
@@ -121,7 +121,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
       }
     ];
   }
-  
+
   if (company.stub === 'baloise') {
     privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) may be transmitted to Basler Versicherung AG for the purpose of providing the consulting service.', lang);
     if (!isBuyer) {
@@ -177,13 +177,14 @@ export const QuestionsList = (lang, company, isBuyer) => {
       title: translateTo('On what topics do you like to be advised?', lang),
       history: 'topicsAdvice',
       vCentered: true,
-      footerWidth: 'max-w-fix-384',
+      footerWidth: 'max-w-fix-544',
+      className: 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5',
       inputs: [{
         component: BrixelCheckbox,
-        classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius py-6 px-5 m-a',
+        //classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius py-6 px-5 m-a',
         pdClass: 'py-2 py-lg-3 px-2',
         label: '',
-        ReduxFieldClass: 'max-w-fix-464 m-a',
+        //ReduxFieldClass: 'max-w-fix-464 m-a',
         name: 'topics',
         validation: [Validation.required],
         large: true,
@@ -229,7 +230,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
       title: translateTo('What\'s the best time to reach you?', lang),
       history: 'timeToReachYou',
       vCentered: true,
-      footerWidth: 'max-w-fix-384',
+      footerWidth: 'max-w-fix-544',
       className: 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5',
       txtAfterNextButton: privacy,
       inputs: [
@@ -283,6 +284,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           name: 'phone',
           label: 'Phone number',
           formatType: 'tel',
+          large: true,
           pdClass: 'py-3 py-md-5',
           validation: [Validation.required],
         }
