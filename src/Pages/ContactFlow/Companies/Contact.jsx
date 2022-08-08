@@ -27,6 +27,7 @@ import queryString from 'query-string';
 import { DateTime } from 'luxon';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
+import { sendMessageContact } from '../../../actions/CommonActions';
 import { getBuyerDeal } from '../../../actions/DealActions';
 import { checkBrowser } from '../../../utils/helpers';
 import { QuestionsList } from '../../../resources/Companies/Contact';
@@ -50,6 +51,7 @@ const Contact = (props) => {
     handleGetActiveSingleProperty,
     handleGetBuyerDeal,
     handleReset,
+    handleSendMessageContact,
     initForm,
     initialValues,
     isSmallLoading,
@@ -96,7 +98,7 @@ const Contact = (props) => {
   }, [currentIndex]);
   
   useEffect(() => {
-    if (!isSmallLoading.sendData && (get(questions, `[${currentIndex + 1}].history`, null) === 'success')) {
+    if (isSmallLoading.sendData === true && (get(questions, `[${currentIndex + 1}].history`, null) === 'success')) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setQuest(questions[newIndex]);
@@ -118,8 +120,7 @@ const Contact = (props) => {
   
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-    // eslint-disable-next-line no-console
-    console.log(formValue);
+    handleSendMessageContact(formValue);
   };
   
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
@@ -539,6 +540,7 @@ Contact.propTypes = {
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
+  handleSendMessageContact: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -586,6 +588,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form) {
     (dispatch(reset(form)));
   },
+  handleSendMessageContact: bindActionCreators(sendMessageContact, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
