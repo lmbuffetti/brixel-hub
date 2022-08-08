@@ -70,7 +70,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       <>
         <hr className="bgAltGrey200" />
         <p className="txtDark700 fsize-500 p-5">
-          <span>{translateTo('You don&apos;t have a proof of financing yet?', lang)}</span>
+          <span>{translateTo("You don't have a proof of financing yet?", lang)}</span>
           <span className="cur-poi dis-b td-u" type="button" onClick={() => sendData()}>
             <span>{translateTo('Apply now on key4', lang)}</span>
           </span>
