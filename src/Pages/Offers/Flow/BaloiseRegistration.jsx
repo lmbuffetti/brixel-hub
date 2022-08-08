@@ -46,7 +46,7 @@ const Key4Registration = (props) => {
     Object.keys(documentUploading).map((key) => {
       uploadingFile.push(documentUploading[key]);
     })
-    changeFieldValue('document', uploadingFile);
+    changeFieldValue('documents', uploadingFile);
   }, [documentUploading]);
   
   

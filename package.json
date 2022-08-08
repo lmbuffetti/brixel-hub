@@ -17,6 +17,7 @@
     "lodash": "^4.17.21",
     "luxon": "^3.0.1",
     "node-js-marker-clusterer": "^1.0.0",
+    "npm": "^8.16.0",
     "prop-types": "^15.8.1",
     "query-string": "^7.1.1",
     "react": "^18.2.0",
@@ -40,10 +41,12 @@
     "redux-actions": "^2.6.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.1",
+    "run": "^1.4.0",
     "sanitize-html": "^2.7.1",
     "slick-carousel": "^1.8.1",
     "smoothscroll-polyfill": "^0.4.4",
     "sortablejs": "^1.15.0",
+    "start-dev": "^1.0.0",
     "universal-cookie": "^4.0.4"
   },
   "scripts": {

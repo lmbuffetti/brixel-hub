@@ -155,7 +155,7 @@ const MakeOffer = (props) => {
     if (isSmallLoading.sendData === true && questions[currentIndex + 1]) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
-      setQuest(questions[newIndex]);
+      // setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
   
@@ -173,7 +173,8 @@ const MakeOffer = (props) => {
   
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-    const docs = get(formValue, 'document', []);
+    const doc = get(formValue, 'document', []);
+    const docs = get(formValue, 'documents', doc);
     // eslint-disable-next-line no-return-assign
     docs.forEach((item, i) => docs[i].user = get(loggedInUser, 'id', null));
     const dataDocuments = {
@@ -386,10 +387,13 @@ const MakeOffer = (props) => {
     if (newQuest[currentIndex] && newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
+  }, [formValue, get(formValue, 'document', null)]);
+  
+  useEffect(() => {
     if (has(formValue, 'document') && get(formValue, 'document', []).length === 0) {
       delete formValue.document;
     }
-  }, [formValue, get(formValue, 'document', null)]);
+  }, [get(formValue, 'document', null)]);
   
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
@@ -408,7 +412,7 @@ const MakeOffer = (props) => {
   };
   
   if (!formValue.id) return '<div />'
-  
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
       <div className="pos-r">
