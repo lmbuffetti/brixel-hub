@@ -57,7 +57,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         className: 'radioBtnImg',
         classNameBox: 'max-w-fix-992 ml-a mr-a',
         ReduxFieldClass: '',
-        label: '',
+        label: translateTo('', lang),
         name: 'properties.propertyType',
         validation: [Validation.required],
         icons: true,
@@ -108,7 +108,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
           {
             component: BrixelInputStepNumber,
             classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius py-6 px-5 m-a',
-            label: 'Number of rooms',
+            label: translateTo('Number of rooms', lang),
             name: 'properties.typology.bedrooms',
             validation: [maxLengthNumRooms, Validation.required],
             step: 0.5,
@@ -131,14 +131,14 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         title: livingAreaTitle,
         history: 'livingSpace',
         cardType: 'livingSpace',
-        footerWidth: 'max-w-fix-384',
+        footerWidth: 'max-w-fix-400',
         showSendButton: false,
         inputs: [
           {
             component: BrixelInputText,
-            classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+            classNameBox: 'brdRadius max-w-fix-400 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
             className: '',
-            label: country === 'PT' ? 'Gross area' : 'Net living space',
+            label: translateTo(country === 'PT' ? 'Gross area' : 'Net living space', lang),
             name: country === 'PT' ? 'properties.typology.grossArea.value' : 'properties.typology.livingArea.value',
             type: 'number',
             validation: [Validation.isNumber, Validation.positiveNumber, maxLengthNumLivSpace, Validation.required],
@@ -162,7 +162,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         inputs: [
           {
             component: BrixelInputText,
-            label: 'Construction year',
+            label: translateTo('Construction year', lang),
             name: 'properties.building.built',
             type: 'number',
             classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
@@ -180,7 +180,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   if (propertyType === 'Building land') {
     question.push(
       {
-        title: 'What is the lot size of the building land?',
+        title: translateTo('What is the lot size of the building land?', lang),
         history: 'lotSize',
         cardType: 'lotSize',
         footerWidth: 'max-w-fix-384',
@@ -190,7 +190,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             component: BrixelInputText,
             classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
             className: '',
-            label: 'Lot size',
+            label: translateTo('Lot size', lang),
             name: 'properties.typology.lotArea.value',
             type: 'number',
             validation: [Validation.required],
@@ -203,7 +203,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         successMessage: translateTo('Great living space.', lang),
       },
       {
-        title: 'What is the Usable lot size?',
+        title: translateTo('What is the Usable lot size?', lang),
         history: 'usableLotSize',
         cardType: 'usableLotSize',
         footerWidth: 'max-w-fix-384',
@@ -213,7 +213,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             component: BrixelInputText,
             classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
             className: '',
-            label: 'Usable lot size',
+            label: translateTo('Usable lot size', lang),
             name: 'properties.typology.lotAreaUsable.value',
             type: 'number',
             unit: 'm2',
@@ -229,7 +229,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   if (propertyType === 'Commercial') {
     question.push(
       {
-        title: 'What kind of commercial property is it?',
+        title: translateTo('What kind of commercial property is it?', lang),
         history: 'commercialType',
         cardType: 'commercialType',
         footerWidth: 'max-w-fix-384',
@@ -247,7 +247,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         successMessage: translateTo('Great living space.', lang),
       },
       {
-        title: 'What\'s the floor space of the property?',
+        title: translateTo('What\'s the floor space of the property?', lang),
         history: 'commercialSize',
         cardType: 'commercialSize',
         footerWidth: 'max-w-fix-384',
@@ -257,7 +257,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             component: BrixelInputText,
             classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
             className: '',
-            label: 'Floor space',
+            label: translateTo('Floor space', lang),
             name: 'properties.typology.floorSpace.value',
             type: 'number',
             unit: 'm2',
@@ -276,7 +276,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         inputs: [
           {
             component: BrixelInputText,
-            label: 'Construction year',
+            label: translateTo('Construction year', lang),
             name: 'properties.building.built',
             type: 'number',
             classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',

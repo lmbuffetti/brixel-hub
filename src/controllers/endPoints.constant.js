@@ -109,5 +109,6 @@ export default {
     userById: (userId) => `/user/${userId}`,
     userByToken: () => '/user/',
     validateUser: (email) => `/user/validate/${email}`,
+    getToken: () => '/authentication/getToken',
   },
 };

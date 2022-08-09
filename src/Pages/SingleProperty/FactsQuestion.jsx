@@ -8,7 +8,7 @@ import unset from 'lodash/unset';
 import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonIcon } from '@brixel/brixel-components';
+import { BrixelButtonIcon, translateTo } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
   change,
@@ -27,24 +27,25 @@ const FactsQuestion = (props) => {
   const {
     formValue,
     initValues,
+    lang,
     quest,
   } = props;
   // PARAMS URL
   const propID = get(match, 'propID', null);
   const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
-
+  
   useEffect(() => {
     if (dashWrapperEl) dashWrapperEl.classList.add('secondLevelActive');
     return () => {
       if (dashWrapperEl) dashWrapperEl.classList.add('secondLevelActive');
     };
   }, [dashWrapperEl]);
-
+  
   useEffect(() => {
     const fieldsChanged = diff(initValues, formValue);
     const keyChanged = keyify(fieldsChanged);
     keyChanged.forEach((item) => {
-      InputSheets().forEach((singleQuest) => {
+      InputSheets('facts', lang).forEach((singleQuest) => {
         singleQuest.inputs.forEach((input) => {
           if (input.condition) {
             if (input.condition.name) {
@@ -67,20 +68,20 @@ const FactsQuestion = (props) => {
       });
     });
   }, [formValue]);
-
+  
   return (
     <div
       className="questContent"
     >
       <div className="dis-f a-c jc-b pos-r mb-3">
-        <h5>{quest.title}</h5>
+        <h5 dangerouslySetInnerHTML={{ __html: translateTo(quest.title, lang)}} />
         <BrixelButtonIcon
           icon="close-small"
           ghost
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
       </div>
-
+      
       <MultiFileldsReduxForm
         autofocus={false}
         classNameBox={quest.classNameBox}
@@ -99,6 +100,7 @@ const FactsQuestion = (props) => {
 FactsQuestion.propTypes = {
   formValue: PropTypes.object.isRequired,
   initValues: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   quest: PropTypes.object,
 };
 
@@ -110,6 +112,7 @@ const mapStateToProps = (state) => ({
   formValue: get(state, 'brixelForm.Property.values', {}),
   initValues: get(state, 'brixelForm.Property.initialValues', {}),
   errorValue: get(state, 'brixelForm.syncErrors', {}),
+  lang: get(state, 'common.language', 'en'),
 });
 
 const mapDispatchToProps = (dispatch) => ({

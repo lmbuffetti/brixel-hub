@@ -114,7 +114,6 @@ const App = (props) => {
     handleCheckToken,
     handleGetImageType,
     handleReset,
-    handleSendSlackNotifications,
     handleSetActiveSingleDeal,
     handleSetActiveSingleProperty,
     handleSetLanguage,
@@ -177,7 +176,6 @@ const App = (props) => {
       });
     }
     if (typeof Transifex !== 'undefined') {
-      const channel = 'frontend-bugs';
       const data = {
         user: get(loggedInUser, 'id', ''),
         page: get(activeSingleProperty, 'id', ''),
@@ -187,7 +185,8 @@ const App = (props) => {
       };
       Transifex.live.onError(function (err) {
         data.meta += `${JSON.stringify(err)} - ${data.meta}`;
-        handleSendSlackNotifications({ data, channel });
+        // eslint-disable-next-line no-console
+        console.error(data, err);
         setIsLoaded(true);
         const element = document.getElementsByTagName('BODY')[0];
         element.classList.remove('txlive');
@@ -502,6 +501,12 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
+                      { /* SECTION: ONBOARDING WITH COMPANY STUB */}
+                      <Route path="/packageFlow/:companyStub" element={<GetStarted />} />
+                      <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
+                      <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
+                      <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
+
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
@@ -597,7 +602,7 @@ const App = (props) => {
                               }
                             </div>
                             <span className="ml-2 txtDark700 fweight-500">
-                              {translateTo('Support', lang)}
+                              {translateTo('Brixel Support', lang)}
                             </span>
                           </div>
                         )
@@ -739,6 +744,7 @@ const App = (props) => {
                         notification={not}
                         resetForm={(form, data) => handleReset(form, data)}
                         type={not.type}
+                        lang={lang}
                       />
                     </Fragment>
                   ))
@@ -784,7 +790,6 @@ App.propTypes = {
   handleCheckToken: PropTypes.func.isRequired,
   handleGetImageType: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
-  handleSendSlackNotifications: PropTypes.func.isRequired,
   handleSetActiveSingleDeal: PropTypes.func.isRequired,
   handleSetActiveSingleProperty: PropTypes.func.isRequired,
   handleSetLanguage: PropTypes.func.isRequired,

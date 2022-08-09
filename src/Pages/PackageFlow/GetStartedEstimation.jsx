@@ -82,6 +82,7 @@ const GetStartedEstimation = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
+  const companyStub = get(match, 'companyStub', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -354,7 +355,7 @@ const GetStartedEstimation = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow');
+      history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -446,12 +447,22 @@ const GetStartedEstimation = (props) => {
       }, 500);
     }
   }, [get(history, 'location', null)]);
-
+  
+  useEffect(() => {
+    if (company.stub) {
+      history.push({
+        pathname: `/packageFlow/getStarted/${company.stub}/${questions[0].history}`,
+        state: {},
+      });
+    }
+  }, [company.stub]);
+  
+  
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
-    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
-    const companyCookie = cookie.get('brixelStubCompany') || null;
+    const companyByUrl = queryString.parse(get(history, 'location.search', companyStub));
+    const companyCookie = companyStub || cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
@@ -473,7 +484,7 @@ const GetStartedEstimation = (props) => {
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
       history.push({
-        pathname: `/packageFlow/getStartedEstimation/${questions[0].history}`,
+        pathname: `/packageFlow/getStartedEstimation/${get(companyByUrl, 'company', company.stub)}/${questions[0].history}`,
         state: {},
       });
     }

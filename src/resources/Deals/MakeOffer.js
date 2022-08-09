@@ -31,27 +31,27 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
     if (isPT) countryName = 'a Portuguese';
     if (countryCode === 'CH') countryName = 'a Swiss';
   }
-  
+
   const martialStatus = factsOptions.martialStatus.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   const matrimonialPropertyRegimePT = factsOptions.matrimonialPropertyRegimePT.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   const matrimonialPropertyRegime = factsOptions.matrimonialPropertyRegime.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   const purchaseTypePT = factsOptions.purchaseTypePT.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   const purchaseType = factsOptions.purchaseType.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
@@ -66,7 +66,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       <>
         <hr className="bgAltGrey200" />
         <p className="txtDark700 fsize-500 p-5">
-          <span>{translateTo('You don&apos;t have a proof of financing yet?', lang)}</span>
+          <span>{translateTo("You don't have a proof of financing yet?", lang)}</span>
           <span className="cur-poi dis-b td-u" type="button" onClick={() => sendData()}>
             <span>{translateTo('Apply now on key4', lang)}</span>
           </span>
@@ -120,7 +120,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
             label: translateTo('No', lang),
           }],
           tooltip: {
-            label: translateTo('What is a proof of financing?', lang),
+            label: '',
             description: translateTo('A proof of financing (also called financing certificate) is a non-binding assessment of your financial situation. You can use it to prove to us that you can afford the house or apartment.', lang),
           },
         },

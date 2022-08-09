@@ -26,7 +26,12 @@ import BestimateCardOverlay from '../../components/BestimateCardOverlay';
 import generatingBestimate from '../../images/Bestimate/generatingBestimate.svg';
 import startBestimate from '../../images/Bestimate/startBestimate.svg';
 import { setSplashType, setHistory } from '../../actions/CommonActions';
-import { getCompanyListing, setActiveSingleCompany, getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
+import {
+  getCompanyListing,
+  setActiveSingleCompany,
+  getActiveSingleCompanyPackages,
+  getActiveSingleCompany,
+} from '../../actions/CompanyActions';
 import {
   getEstimation,
   getPackageProperty,
@@ -58,6 +63,7 @@ const MarketCategoryListSeller = (props) => {
     bestimate,
     companyListings,
     estimation,
+    handleGetActiveSingleCompany,
     handleGetActiveCompanyPackages,
     handleGetCompanyListing,
     handleGetEstimation,
@@ -77,7 +83,7 @@ const MarketCategoryListSeller = (props) => {
     skeleton,
     splashScreenType,
   } = props;
-
+  
   const marketCookie = getCookie('brixelMarketBestimate');
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
   const [propertyId, setPropertyId] = useState(null);
@@ -85,15 +91,15 @@ const MarketCategoryListSeller = (props) => {
   const [companyDetail, setCompanyDetail] = useState({ });
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [artByCountry, setArtByCountry] = useState(ArticlesList.default);
-
+  
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
   }, [marketCookie]);
-
+  
   useEffect(() => {
     handleGetCompanyListing();
   }, []);
-
+  
   useEffect(() => {
     if (companyListings.length > 0) {
       if (propertyId) {
@@ -105,7 +111,7 @@ const MarketCategoryListSeller = (props) => {
       } else handleSetActiveSingleProperty({});
     }
   }, [propertyId, companyListings.length]);
-
+  
   useEffect(() => {
     if (activeSingleCompanyPackages.length > 0) {
       const packages = activeSingleCompanyPackages;
@@ -122,7 +128,7 @@ const MarketCategoryListSeller = (props) => {
       setFilteredPackages(filtPkg);
     }
   }, [activeSingleCompanyPackages, activeSinglePropertyPackage]);
-
+  
   // Update market card when bestimate changes
   useEffect(() => {
     if (getCookie('brixelSplashHome') === 'bestimateResult' && get(ownerProperties, 'data', []).length > 0) {
@@ -156,44 +162,50 @@ const MarketCategoryListSeller = (props) => {
       setPropertyId(ownerProperties.data[0].id);
     }
   }, [getCookie('brixelSplashHome'), ownerProperties, notification]);
-
+  
   useEffect(() => {
     if (has(ownerProperties, 'total')) {
       if (ownerProperties.total === 0) {
-        setActiveCompanyId(loggedInUser.company.id);
+        let cmpID;
+        if (loggedInUser.company) cmpID = loggedInUser.company.id;
+        else if (loggedInUser.companies) cmpID = loggedInUser.companies[0];
+        handleGetActiveSingleCompany({id: cmpID});
+        setActiveCompanyId(cmpID);
       } else {
+        handleGetActiveSingleCompany({id: ownerProperties.data[0].company.id || ownerProperties.data[0].company});
         setActiveCompanyId(ownerProperties.data[0].company.id || ownerProperties.data[0].company);
       }
     }
   }, [ownerProperties, loggedInUser]);
-
+  
+  
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
     setSplashScreen('');
     setPropertyEstimation({});
   };
-
+  
   const onCloseBestimateTeaser = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
     setSplashScreen('');
   };
-
+  
   const onBestimateFlow = () => {
     history.push(`/${activeMarketOverlayProperty.id}/singleFlow/achievement/bestimate/step1`);
     setMarketOverlayProperty({});
     setSplashScreen('');
     handleSetHistory({ source: '/sell' });
   };
-
+  
   const openSupport = (e) => {
     e.preventDefault();
     history.push({ state: { showSupport: true } });
     setSplashScreen('');
     setCookie('brixelSplashHome', null);
   };
-
+  
   useEffect(() => {
     const catList = document.getElementsByClassName('market-container')[0];
     if (catList) catList.classList.add('market-listings');
@@ -201,7 +213,7 @@ const MarketCategoryListSeller = (props) => {
       if (catList) catList.classList.remove('market-listings');
     };
   }, []);
-
+  
   useEffect(() => {
     if (companyListings && activeCompanyId) {
       const actCompany = companyListings.find((item) => item.id === activeCompanyId);
@@ -210,7 +222,7 @@ const MarketCategoryListSeller = (props) => {
       setArtByCountry(ArticlesList[actCountry] || ArticlesList.default);
     }
   }, [activeCompanyId, companyListings]);
-
+  
   useEffect(() => {
     if (activeCompanyId && !isSmallLoading.pkgComapny) {
       const dataCompany = {
@@ -220,15 +232,15 @@ const MarketCategoryListSeller = (props) => {
       handleGetActiveCompanyPackages(dataCompany);
     }
   }, [activeCompanyId]);
-
-
+  
+  
   const bookNow = () => {
     if (propertyId) {
       localStorage.setItem('backUrl', '/sell');
       history.push(`/${propertyId}/trialRequest?url${baseByData.hubUrl}sell`);
     }
   };
-
+  
   const getCompanyStub = () => {
     // TODO: Company management for "Add new" property flow
     if (ownerProperties.total === 0) return get(loggedInUser, 'company.stub', '')
@@ -237,7 +249,7 @@ const MarketCategoryListSeller = (props) => {
       return company.stub;
     }
   };
-
+  
   return (
     <Suspense fallback="">
       {/* SECTION: bestimate result */}
@@ -251,7 +263,7 @@ const MarketCategoryListSeller = (props) => {
           />
         )
       }
-    
+      
       {/* SECTION: bestimate teaser */}
       {
         (!bestimateMessage && splashScreenType === 'bestimateTeaser') && (
@@ -275,9 +287,9 @@ const MarketCategoryListSeller = (props) => {
                     <span className="max-w-fix-448 ta-c txtDark700 py-2">
                       {translateTo('Our experts are validating the data and generating an estimation report just for you.', lang)}
                     </span>
-                  
+                    
                     <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
-                  
+                    
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                       <span>
                         {translateTo('If you have any questions please contact our', lang)}
@@ -309,9 +321,9 @@ const MarketCategoryListSeller = (props) => {
                     <span className="max-w-fix-448 ta-c txtDark700 py-2">
                       {translateTo('Compare your property to real transaction data to better define the pricing.', lang)}
                     </span>
-                  
+                    
                     <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
-                  
+                    
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                       <span
                         className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
@@ -337,7 +349,7 @@ const MarketCategoryListSeller = (props) => {
           </SplashScreen>
         )
       }
-    
+      
       {/* SECTION: bestimate missing */}
       {
         (!bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending')) && (
@@ -358,9 +370,9 @@ const MarketCategoryListSeller = (props) => {
               <span className="max-w-fix-448 ta-c txtDark700 py-2">
                 {translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}
               </span>
-            
+              
               <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
-            
+              
               <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                 <span
                   className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
@@ -382,7 +394,7 @@ const MarketCategoryListSeller = (props) => {
           </SplashScreen>
         )
       }
-    
+      
       {
         ownerProperties.total === 0 ? (
           <div className="px-2 px-md-0 mb-5 mb-sm-3">
@@ -419,7 +431,7 @@ const MarketCategoryListSeller = (props) => {
                 onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
               />
             </div>
-          
+            
             {
               ownerProperties.total > 0 && (
                 <>
@@ -463,17 +475,15 @@ const MarketCategoryListSeller = (props) => {
                                     <li>
                                       {translateTo('Personal consultation', lang)}
                                     </li>
-                                    <li className="ml-0 ml-md-3">
-                                      {translateTo('Free 3D tour & HD photos', lang)}
-                                    </li>
+                                    <li className="ml-0 ml-md-3" dangerouslySetInnerHTML={{ __html: translateTo('Free 3D tour &amp; HD photos', lang)}} />
                                     <li className="ml-0 ml-md-3">
                                       {translateTo('Full estimation by an expert', lang)}
                                     </li>
                                   </ul>
                                 </div>
-                            
+                              
                               </div>
-                          
+                            
                             </div>
                           )
                         }
@@ -504,7 +514,7 @@ const MarketCategoryListSeller = (props) => {
                 </div>
               )
             }
-          
+            
             {
               ownerProperties.total > 0 && (
                 <BrixelButtonSecondary
@@ -516,17 +526,17 @@ const MarketCategoryListSeller = (props) => {
                 />
               )
             }
-        
+          
           </div>
         )
       }
-    
+      
       <div className="bgLight100 pt-6 pt-sm-8 pb-4 pb-sm-7">
         <div className="container">
           <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
             {translateTo('Boost your private sale with an upgrade.', lang)}
           </h3>
-        
+          
           <div className="dis-fl-col dis-fl-row-sm jc-c pkgsWrap">
             {
               (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
@@ -574,13 +584,13 @@ const MarketCategoryListSeller = (props) => {
               )
             }
           </div>
-        
+          
           <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
             <BrixelButtonPrimary
               rounded
               label={translateTo('Upgrade your plan', lang)}
               onClick={() => window.location.assign(`/${get(ownerProperties, 'data[0].id', 'company')}/upgrade`)}
-          
+            
             />
             <span className="mx-sm-1 mt-2 my-sm-0">{translateTo('or', lang)}</span>
             <BrixelButtonText
@@ -590,15 +600,15 @@ const MarketCategoryListSeller = (props) => {
               theme="AltGrey"
               themeSat={700}
             />
-        
+          
           </div>
         </div>
       </div>
-    
+      
       <div className="mt-6 mt-sm-10">
         <div className="container">
           <h4 className="mb-4 fweight-600 txtDark700">{translateTo('This may interest you', lang)}</h4>
-        
+          
           <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
             {
               artByCountry.map((article, i) => (
@@ -616,12 +626,12 @@ const MarketCategoryListSeller = (props) => {
               ))
             }
           </div>
-      
+        
         </div>
       </div>
-    
+      
       <span className="mt-4 mb-6 hr lighter" />
-    
+      
       <div className="mb-5 mb-sm-10">
         <div className="container">
           {
@@ -651,6 +661,7 @@ MarketCategoryListSeller.propTypes = {
   companyListings: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   handleGetActiveCompanyPackages: PropTypes.func.isRequired,
+  handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetCompanyListing: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   handleGetPackageProperty: PropTypes.func.isRequired,
@@ -690,8 +701,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   handleGetActiveCompanyPackages: bindActionCreators(getActiveSingleCompanyPackages, dispatch),
+  handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
+  handleGetCompanyListing: bindActionCreators(getCompanyListing, dispatch),
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleGetPackageProperty: bindActionCreators(getPackageProperty, dispatch),
   handleSetActiveSingleCompany: bindActionCreators(setActiveSingleCompany, dispatch),

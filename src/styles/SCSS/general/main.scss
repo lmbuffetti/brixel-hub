@@ -403,6 +403,8 @@ img {
   line-height: initial;
 }
 
+.a-s { align-content: stretch; align-items: stretch; }
+
 /* hide notification bar*/
 #bodyModalWrapper,
 .rewardsTop {
@@ -1061,4 +1063,8 @@ input::-webkit-date-and-time-value {
 
 .rotateIcon {
   transform: rotate(180deg);
+}
+
+.dis-if {
+  display: inline-flex;
 }
