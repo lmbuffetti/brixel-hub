@@ -552,8 +552,7 @@ const MakeOffer = (props) => {
                       )
                     }
                     {
-                      (
-                        ((get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton')) && (get(quest, 'hideContinueBtn', '') !== true || ((affordability > 33 || loanToValueRatio > maxLoanRatio) && questions[currentIndex].history === 'key4Registration'))) &&
+                      get(quest, 'hideContinueBtn', '') !== true &&
                       (
                         <>
                           {

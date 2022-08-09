@@ -61,7 +61,7 @@ const Key4Registration = (props) => {
     const Equity = get(formValue, 'financeBuyer.equity', 0);
     // eslint-disable-next-line max-len
     const url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}`;
-    window.location.assign(url);
+    window.open(url, '_blank');
     setTimeout(() => onClick(), 500);
   };
 
@@ -75,7 +75,7 @@ const Key4Registration = (props) => {
   return (
     <div>
       {
-        affordability < maxAffordability && loanToValueRatio < maxLoanRatio ? (
+        ((affordability < maxAffordability && loanToValueRatio < maxLoanRatio) || (get(formValue, 'affordabilityCheck', false) && get(formValue, 'loanValueCheck', false))) ? (
           <>
             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
               {translateTo('Learn within 48 hours if you can afford your desired home.', lang)}
