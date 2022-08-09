@@ -2,11 +2,19 @@ import { BrixelButtonPrimary } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { compose } from 'redux';
 import api from '../../controllers/api/graphql';
 
 const BannerBox = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleCompany,
+    activeSingleProperty,
     className,
     lang,
     placementSlug,
@@ -29,6 +37,23 @@ const BannerBox = (props) => {
         });
     }
   }, [activeSingleCompany, lang]);
+  
+  const onClickBanner = (url) => {
+    const mapObj = {
+      DOMAIN_HUB: '',
+      PAGE_ID: activeSingleProperty.id,
+      'http://': '',
+      'https://': '',
+    };
+    if (!url.includes('PAGE_ID')) {
+      window.open(url, '_blank');
+    } else {
+      const internalLink = url.replace(/PAGE_ID|DOMAIN_HUB|http:\/\/|https:\/\//gi, function(matched){
+        return mapObj[matched];
+      });
+      history.push(internalLink);
+    }
+  }
 
   if (!banner.title) return <></>;
 
@@ -49,11 +74,15 @@ const BannerBox = (props) => {
           <div className="ml-0 ml-sm-4">
             <h5 className="mt-3 mt-sm-0 fweight-600">{banner.title}</h5>
             <p className="fsize-300 my-3">{banner.description}</p>
-            <BrixelButtonPrimary
-              rounded
-              onClick={() => window.open(banner.buttonLink, '_blank')}
-              label={banner.buttonLabel}
-            />
+            {
+              banner.buttonLink && banner.buttonLabel && (
+                <BrixelButtonPrimary
+                  rounded
+                  onClick={() => onClickBanner(banner.buttonLink)}
+                  label={banner.buttonLabel}
+                />
+              )
+            }
           </div>
         </div>
         {
@@ -70,10 +99,21 @@ const BannerBox = (props) => {
 
 BannerBox.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   className: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
   placementSlug: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
 
-export default BannerBox;
+BannerBox.defaultProps = {
+  title: null,
+}
+
+const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
+});
+
+export default compose(
+  connect(mapStateToProps, null),
+)(BannerBox);
