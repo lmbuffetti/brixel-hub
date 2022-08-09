@@ -8,11 +8,11 @@ import {
   BrixelButtonIcon, translateTo,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import AnalyseImg from '../../images/scanTrial/analyse.png';
-import DeliverImg from '../../images/scanTrial/deliver.png';
-import YourTestImg from '../../images/scanTrial/your_test.png';
-import DecideImg from '../../images/scanTrial/decide.png';
-import { setWindowDimensions } from '../../actions/CommonActions';
+import AnalyseImg from '../../../images/scanTrial/analyse.png';
+import DeliverImg from '../../../images/scanTrial/deliver.png';
+import YourTestImg from '../../../images/scanTrial/your_test.png';
+import DecideImg from '../../../images/scanTrial/decide.png';
+import { setWindowDimensions } from '../../../actions/CommonActions';
 
 const IntroScanFlow = (props) => {
   // PROPS
