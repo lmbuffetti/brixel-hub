@@ -532,7 +532,7 @@ const GetStartedEstimation = (props) => {
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {

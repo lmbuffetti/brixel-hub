@@ -413,7 +413,7 @@ const GetStartedBuyer = (props) => {
     setOldIndex(currentIndex);
     const newQuest = [];
     if (formValue) {
-      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {

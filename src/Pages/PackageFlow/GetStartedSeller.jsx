@@ -201,7 +201,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       newQuestions[newIndex].conditions.map((cond) => {
@@ -268,7 +268,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
     setOldIndex(currentIndex);
     setShowError(false);
@@ -463,7 +463,7 @@ const GetStartedSeller = (props) => {
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
