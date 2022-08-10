@@ -100,7 +100,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   if (propertyType === 'Apartment' || propertyType === 'House') {
     question.push(
       {
-        title: translateTo('How many rooms?'),
+        title: translateTo('How many rooms?', lang),
         history: 'allRooms',
         cardType: 'allRooms',
         footerWidth: 'max-w-fix-384',
