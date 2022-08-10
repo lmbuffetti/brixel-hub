@@ -20,11 +20,14 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
+import { getContent } from '../../../actions/CraftCMS';
 import { getActiveSinglePropertyDealsCount, getPageDeals, getEstimation } from '../../../actions/PropertyActions';
 import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import DashboardPropertyCardSold from '../../../components/Cards/DashboardPropertyCardSold';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
+import ArticlesBox from '../../../components/CraftCMS/ArticlesBox';
+import BannerBox from '../../../components/CraftCMS/BannerBox';
 
 import Loading from '../../../components/Loading';
 import ProgressSellerStage from '../../../components/ProgressSellerStage';
@@ -58,6 +61,7 @@ const DashboardHome = (props) => {
     estimation,
     formValue,
     handleGetActiveSinglePropertyDealsCount,
+    handleGetContentCraftCMS,
     handleGetPageDeals,
     handleGetEstimation,
     handleSetModal,
@@ -89,6 +93,18 @@ const DashboardHome = (props) => {
       handleGetPageDeals({ id: propID });
     }
   }, [progressState.step]);
+  
+  useEffect(() => {
+    if (activeSingleCompany.id) {
+      const data = {
+        placementSlug: 'buyer-hub-home-sold-partner',
+        partner: activeSingleCompany.stub,
+        language: lang,
+      };
+      handleGetContentCraftCMS(data)
+    }
+  }, [activeSingleCompany.id]);
+  
 
   useEffect(() => {
     if (get(activeSinglePropertyDeals, 'visit')) {
@@ -310,6 +326,20 @@ const DashboardHome = (props) => {
                   {/* <img src={testDriveImg} alt="Test Drive" /> */}
                 </div>
               </div>
+  
+              <ArticlesBox
+                title="Wissenswertes rund um den Immobilienverkauf"
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-article"
+              />
+  
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-3"
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-banner-bottom"
+              />
             </>
           )
         }
@@ -838,6 +868,27 @@ const DashboardHome = (props) => {
                   </div>
                 </div>
               </div>
+  
+              <ArticlesBox
+                title="Plane deine nächsten Schritte."
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-sold-partner"
+              />
+  
+              <ArticlesBox
+                title="Wissenswertes rund ums Eigenheim"
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-sold-article"
+              />
+  
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-6"
+                lang={lang}
+                placementSlug="seller-hub-home-sold-banner-bottom"
+              />
 
             </>
           )
@@ -856,6 +907,7 @@ DashboardHome.propTypes = {
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyDealsCount: PropTypes.func.isRequired,
+  handleGetContentCraftCMS: PropTypes.func.isRequired,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -896,6 +948,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetContentCraftCMS: bindActionCreators(getContent, dispatch),
 });
 
 export default compose(

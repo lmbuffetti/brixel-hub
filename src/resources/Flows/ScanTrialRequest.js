@@ -4,9 +4,9 @@ import {
   BrixelInputText,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import IntroScanFlow from '../../Pages/ScanTrialFlow/IntroScanFlow';
-import BookTrialFlow from '../../Pages/ScanTrialFlow/BookTrialFlow';
-import ResumeTrialFlow from '../../Pages/ScanTrialFlow/ResumeTrialFlow';
+import IntroScanFlow from '../../Pages/ContactFlow/ScanTrial/IntroScanFlow';
+import BookTrialFlow from '../../Pages/ContactFlow/ScanTrial/BookTrialFlow';
+import ResumeTrialFlow from '../../Pages/ContactFlow/ScanTrial/ResumeTrialFlow';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import { svgIcons } from '../Utilities/svgIcons';
 

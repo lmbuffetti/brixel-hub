@@ -18,9 +18,9 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import { DateTime } from 'luxon';
 import { addDays } from 'date-fns';
-import Accordion from '../../components/Accordion';
-import PhoneImg from '../../images/TestDrive/phoneTrial.svg';
-import VidelCallImg from '../../images/TestDrive/VideoCall.svg';
+import Accordion from '../../../components/Accordion';
+import PhoneImg from '../../../images/TestDrive/phoneTrial.svg';
+import VidelCallImg from '../../../images/TestDrive/VideoCall.svg';
 
 const BookTrialFlow = (props) => {
   const {

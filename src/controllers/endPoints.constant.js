@@ -11,6 +11,7 @@ export default {
   common: {
     sendSlackNotification: (channel) => `/utils/sendCustomSlackMessage?channel=${channel}`,
     sendMessage: () => '/message',
+    sendMessageContact: () => '/contact/message',
     sendSupportMessage: () => '/support/message',
   },
   company: {

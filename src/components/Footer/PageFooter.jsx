@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { CompaniesData } from '../../resources/Layout/Companies';
+import { CompaniesData } from '../../resources/Companies/Companies';
 // import { connect } from 'react-redux';
 // import { useLocation, useNavigate } from 'react-router-dom';
 
