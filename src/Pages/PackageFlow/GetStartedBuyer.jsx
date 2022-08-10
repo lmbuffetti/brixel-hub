@@ -632,7 +632,7 @@ const GetStartedBuyer = (props) => {
                                   disabled={!checkValidateField()}
                                   rounded
                                   theme="green"
-                                  label={translateTo(buttonLabel())}
+                                  label={translateTo(buttonLabel(), lang)}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                   onShowError={() => setShowError(true)}

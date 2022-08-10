@@ -760,7 +760,7 @@ const GetStartedEstimation = (props) => {
                                   rounded
                                   theme="green"
                                   themeSat={500}
-                                  label={translateTo(buttonLabel())}
+                                  label={translateTo(buttonLabel(), lang)}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                   onShowError={() => setShowError(true)}
