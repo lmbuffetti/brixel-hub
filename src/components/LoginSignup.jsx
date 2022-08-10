@@ -355,7 +355,7 @@ const LoginSignup = (props) => {
         </div>
       </div>
       <div className="w-perc-100 w-perc-lg-50 dis-fl-col a-c jc-c py-2 pt-md-0 pb-md-10">
-        <div className="max-w-fix-400 dis-fl-col a-c jc-c ta-c w-perc-100 ml-a mr-a mb-6 mb-sm-10">
+        <div className="max-w-fix-304 dis-fl-col a-c jc-c ta-c w-perc-100 ml-a mr-a mb-6 mb-sm-10">
           <img width="100px" src={searchResultIcon} alt="search result" />
           <h2 className="fSizePx26-sm fsize-500 mt-3 fweight-600">Hundreds of <span className="txtGreen400 lh-no">potential buyers</span> are waiting for your property</h2>
         </div>
