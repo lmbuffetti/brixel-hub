@@ -56,6 +56,7 @@ import {
 import {
   cutValue, roundFifty, roundFiveThousand,
 } from '../utils/helpers';
+import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 
 const ActionStubs = require('../resources/Utilities/timelineActionStubs');
 
@@ -68,7 +69,7 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         getEstimation, token, redirectToUserFlow, redirectToRewards,
         redirectToHome, smallLoader, createEstimation, redirectToUrl,
-        extraLoading,
+        extraLoading, baloiseInfo, ubsInfo,
       } = objData;
       delete objData.getEstimation;
       delete objData.token;
@@ -78,6 +79,8 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.smallLoader;
       delete objData.extraLoading;
       delete objData.createEstimation;
+      delete objData.baloiseInfo;
+      delete objData.ubsInfo;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -120,6 +123,25 @@ const checkCommon = (store) => (next) => (action) => {
           } else {
             store.dispatch(change('GetStarted', 'pageID', res.data.id));
             store.dispatch(change('GetStarted', 'pageAnswer', res.data.packageFlowProcess));
+            if (baloiseInfo) {
+              let data = {
+                id: res.data.owner,
+              };
+              if (baloiseInfo === 'baloiseBank') set(data, 'termsBaloiseBank', true);
+              if (baloiseInfo === 'baloiseInsurance') set(data, 'termsBaloiseInsurance', true);
+              if (baloiseInfo === 'both') {
+                set(data, 'termsBaloiseBank', true);
+                set(data, 'termsBaloiseInsurance', true);
+              }
+              store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: data });
+            }
+            if (ubsInfo) {
+              let data = {
+                id: res.data.owner,
+              };
+              if (ubsInfo === 'ubsBank') set(data, 'termsUBS', true);
+              store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: data });
+            }
             if (createEstimation) {
               const data = {
                 owner: res.data.owner.id,

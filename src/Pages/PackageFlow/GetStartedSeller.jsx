@@ -11,6 +11,7 @@ import {
   BrixelProgressBar,
   DataByCountry,
   translateTo,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -103,7 +104,7 @@ const GetStartedSeller = (props) => {
   };
 
   // FUNCTION TO SAVE DATA
-  const saveData = async () => {
+  const saveData = async (action = '') => {
     if (isLoading) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
@@ -124,6 +125,10 @@ const GetStartedSeller = (props) => {
     }
     // PROPERTY DATA
     delete dataFormAnswer.login;
+    if (action === 'skip') {
+      delete dataFormAnswer.ubsInfo;
+      delete dataFormAnswer.baloiseInfo;
+    }
     const data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -184,6 +189,9 @@ const GetStartedSeller = (props) => {
         createUser: true,
         company,
         ignoreEmail: false,
+        termsBaloiseBank: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseBank',
+        termsBaloiseInsurance: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseInsurance',
+        termsUBS: get(dataFormAnswer, 'ubsInfo', false),
         seller: true,
         redirectTo: {
           pathname: '/packageFlow/getStarted/success',
@@ -267,8 +275,7 @@ const GetStartedSeller = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act, e, step = 1, skipValidation) => {
-    if (e) e.preventDefault();
+  const changeStep = (act, e, step = 1, skipValidation) => {    if (e) e.preventDefault();
     const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
     setOldIndex(currentIndex);
@@ -521,6 +528,7 @@ const GetStartedSeller = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
+    else if (get(quest, 'history', '') === 'baloiseInfo' || get(quest, 'history', '') === 'ubsInfo') label = 'Continue';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
@@ -661,7 +669,7 @@ const GetStartedSeller = (props) => {
               </div>
             </div>
             {
-              get(quest, 'history', null) !== 'createProfile' && (
+              get(quest, 'history', null) !== 'createProfile' && (get(quest, 'history', '') !== 'baloisePolicy' && get(quest, 'history', '') !== 'ubsPolicy') && (
                 <div
                   className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
                 >
@@ -679,7 +687,7 @@ const GetStartedSeller = (props) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || get(quest, 'history', null) === 'baloiseInfo' || get(quest, 'history', null) === 'ubsInfo') || action === 'back') && (
                           <BrixelButtonPrimary
                             className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
                             disabled={!checkValidateField()}
@@ -692,9 +700,76 @@ const GetStartedSeller = (props) => {
                           />
                         )
                       }
+                      {
+                        (get(quest, 'history', null) === 'baloiseInfo' || get(quest, 'history', null) === 'ubsInfo') && (
+                          <BrixelButtonText
+                            theme="light"
+                            label={translateTo('Skip', lang)}
+                            onClick={() => saveData('skip')}
+                          />
+                        )
+                      }
                     </div>
                   </div>
                 </div>
+              )
+            }
+            {
+              (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsInfo') && (
+                <>
+                  <div className="p-7 brdRadius bgWhite">
+                    {
+                      quest.title && (
+                        <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                      )
+                    }
+                    {
+                      quest.text.map((text, i) => (
+                        <div key={i.toString()}>
+                          <h6>{text.title}</h6>
+                          <span>{text.description}</span>
+                        </div>
+                      ))
+                    }
+                  </div>
+                  <div
+                    className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                  >
+                    <div className="pos-r">
+                      <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                        {
+                          (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                            <BrixelButtonIcon
+                              className="backBtn ml-0 mr-a"
+                              icon="arrow-left-small"
+                              onClick={() => changeStep('back')}
+                              theme="light"
+                              secondary
+                            />
+                          )
+                        }
+                        {
+                          get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
+                            <BrixelButtonPrimary
+                              className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                              disabled={!checkValidateField()}
+                              rounded
+                              theme="green"
+                              label={translateTo('Accept', lang)}
+                              onClick={() => saveData()}
+                              onShowError={() => setShowError(true)}
+                            />
+                          )
+                        }
+                        <BrixelButtonText
+                          theme="light"
+                          label={translateTo('Skip', lang)}
+                          onClick={() => saveData('skip')}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
               )
             }
           </form>
