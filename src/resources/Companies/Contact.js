@@ -48,7 +48,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
       i += 1;
     }
     const isToday = DateTime.now().plus({ days: i }).hasSame(DateTime.local(), "day");
-    if (isToday) {
+    if (isToday && company.stub === 'baloise') {
       newDay.label = 'Immediately';
     }
     selectDays.push(newDay);
@@ -217,7 +217,10 @@ export const QuestionsList = (lang, company, isBuyer) => {
           validation: [Validation.required],
           large: true,
           icons: true,
-          options: [
+          options: company.stub === 'ubs_key4' ? [
+            selectDays[1],
+            selectDays[2],
+          ] : [
             {
               label: 'Immediately',
               value: selectDays[0].value,
