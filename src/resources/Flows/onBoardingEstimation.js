@@ -362,6 +362,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           classNameBox: 'brdRadius max-w-fix-904 w-perc-100 px-2 px-sm-6 brdRadius fieldHolder bgWhite m-a',
           className: '',
           name: 'baloiseInfo',
+          label: translateTo('What is your customer relationship with Baloise?', lang),
           bulletPoints: {
             title: translateTo('What are my advantages?', lang),
             description: [

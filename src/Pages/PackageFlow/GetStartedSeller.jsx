@@ -669,7 +669,7 @@ const GetStartedSeller = (props) => {
                       {
                         (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
                           <BrixelButtonIcon
-                            className="backBtn ml-0 mr-a"
+                            className="backBtn pos-a x-l"
                             icon="arrow-left-small"
                             onClick={() => changeStep('back')}
                             theme="light"
@@ -680,7 +680,7 @@ const GetStartedSeller = (props) => {
                       {
                         get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || get(quest, 'history', null) === 'baloiseInfo') || action === 'back') && (
                           <BrixelButtonPrimary
-                            className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                            className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             disabled={!checkValidateField()}
                             rounded
                             theme="green"
@@ -695,6 +695,7 @@ const GetStartedSeller = (props) => {
                         (get(quest, 'history', null) === 'baloiseInfo') && (
                           <BrixelButtonText
                             theme="light"
+                            className='pos-a x-r'
                             label={translateTo('Skip', lang)}
                             onClick={() => saveData('skip')}
                           />

@@ -440,6 +440,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
           classNameBox: 'brdRadius max-w-fix-904 w-perc-100 px-2 px-sm-6 brdRadius fieldHolder bgWhite m-a',
           className: '',
           name: 'baloiseInfo',
+          label: translateTo('What is your customer relationship with Baloise?', lang),
           bulletPoints: {
             title: translateTo('What are my advantages?', lang),
             description: [
@@ -448,7 +449,6 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
               translateTo('You will be advised on your existing mortgage', lang),
             ]
           },
-          label: 'What is your customer relationship with Baloise?',
           options: [
             {
               label: translateTo('I am a customer of Baloise Insurance', lang),
