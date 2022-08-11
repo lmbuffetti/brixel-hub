@@ -82,17 +82,16 @@ const GetStartedSeller = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
-  const companyStub = get(match, 'companyStub', null);
-
+  
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-
+  
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-
+  
   const getCurrency = () => {
     const result = {};
     if (get(formValue, 'location.countryCode', '')) {
@@ -102,7 +101,7 @@ const GetStartedSeller = (props) => {
     }
     return result;
   };
-
+  
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
     if (isLoading) return false;
@@ -202,15 +201,15 @@ const GetStartedSeller = (props) => {
       await handleValidateUser(data);
     }
   };
-
+  
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
   }, [get(loggedInUser, 'user.id', null)]);
-
+  
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       newQuestions[newIndex].conditions.map((cond) => {
@@ -225,7 +224,7 @@ const GetStartedSeller = (props) => {
     }
     return newIndex;
   };
-
+  
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -270,14 +269,14 @@ const GetStartedSeller = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-
+  
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
-
+  
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
     setOldIndex(currentIndex);
     setShowError(false);
@@ -292,7 +291,7 @@ const GetStartedSeller = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push(`/packageFlow/${company.stub}`);
+      history.push('/packageFlow');
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -329,7 +328,7 @@ const GetStartedSeller = (props) => {
               document.body.prepend(fakeInput);
               fakeInput.focus();
             }
-
+            
             setTimeout(() => {
               const fakeInput = document.getElementById('fakeInput');
               const getCurStep = document.getElementById(`step-${defId}`);
@@ -346,7 +345,7 @@ const GetStartedSeller = (props) => {
           }
           if (newQuestions[defId].history) {
             history.push({
-              pathname: `/packageFlow/getStarted/${company.stub}/${newQuestions[defId].history}`,
+              pathname: `/packageFlow/getStarted/${newQuestions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -362,7 +361,7 @@ const GetStartedSeller = (props) => {
     }
     return null;
   };
-
+  
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     setOldIndex(currentIndex);
@@ -377,21 +376,11 @@ const GetStartedSeller = (props) => {
     }
   }, [formValue]);
   
-  useEffect(() => {
-    if (company.stub) {
-      history.push({
-        pathname: `/packageFlow/getStarted/${company.stub}/${questions[0].history}`,
-        state: {},
-      });
-    }
-  }, [company.stub]);
-  
-
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
-    const companyByUrl = queryString.parse(get(history, 'location.search', companyStub));
-    const companyCookie = companyStub || cookie.get('brixelStubCompany') || null;
+    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
+    const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
@@ -413,12 +402,12 @@ const GetStartedSeller = (props) => {
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
       history.push({
-        pathname: `/packageFlow/getStarted/${get(companyByUrl, 'company', company.stub)}/${questions[0].history}`,
+        pathname: `/packageFlow/getStarted/${questions[0].history}`,
         state: {},
       });
     }
   }, []);
-
+  
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
@@ -430,14 +419,14 @@ const GetStartedSeller = (props) => {
       setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
   }, [lang]);
-
+  
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
     if (get(initialValues, 'properties.propertyType', null)) {
       // changeStep();
     }
   }, [initialValues]);
-
+  
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
     if (currentIndex > 2) {
@@ -452,7 +441,7 @@ const GetStartedSeller = (props) => {
       }
     }
   }, [get(formValue, 'location.countryCode', '')]);
-
+  
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
     if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
@@ -471,18 +460,18 @@ const GetStartedSeller = (props) => {
       changeFieldValue('properties.typology.livingArea.value', livingSpace);
     }
   }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0), get(formValue, 'properties.typology.lotArea.value', 0)]);
-
+  
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset('Property');
     history.push(`/${propID}/home`);
   };
-
+  
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -501,7 +490,7 @@ const GetStartedSeller = (props) => {
       if (Object.keys(checkDiff).length > 0) setQuestions(newQuest);
     }
   }, [formValue]);
-
+  
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
     if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
@@ -510,7 +499,7 @@ const GetStartedSeller = (props) => {
       if (pageTitle && questions[currentIndex].history !== 'createProfile') changeFieldValue('pageTitle', pageTitle);
     }
   }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);
-
+  
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
@@ -523,7 +512,7 @@ const GetStartedSeller = (props) => {
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
   }, [get(company, 'id', null)]);
-
+  
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
@@ -534,7 +523,7 @@ const GetStartedSeller = (props) => {
     else label = 'Next';
     return label;
   };
-
+  
   const progressBarCalc = () => {
     let num = 0;
     questions.forEach((item) => {
@@ -555,7 +544,7 @@ const GetStartedSeller = (props) => {
     });
     return (currentIndex * 100) / (num - 1);
   };
-
+  
   // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
   const getStartedEl = document.querySelector('.getStarted');
   useEffect(() => {
@@ -563,7 +552,7 @@ const GetStartedSeller = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-
+  
   return (
     <>
       <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
@@ -581,14 +570,14 @@ const GetStartedSeller = (props) => {
                 progressValue={progressBarCalc()}
               />
             </div>
-
+          
           )
         }
-
+        
         <div
           className={`bodyModal container ${currentIndex ? '' : ''} ${get(quest, 'history', '')}`}
         >
-
+          
           <form
             id="multiStepForm"
             autoComplete="off"
@@ -631,7 +620,7 @@ const GetStartedSeller = (props) => {
                           skipPhone
                         />
                       </div>
-
+                    
                     )
                   }
                   {
@@ -694,7 +683,7 @@ const GetStartedSeller = (props) => {
                             disabled={!checkValidateField()}
                             rounded
                             theme="green"
-                            label={translateTo(buttonLabel())}
+                            label={translateTo(buttonLabel(), lang)}
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}
