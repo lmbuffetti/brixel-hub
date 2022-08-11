@@ -69,7 +69,7 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         getEstimation, token, redirectToUserFlow, redirectToRewards,
         redirectToHome, smallLoader, createEstimation, redirectToUrl,
-        extraLoading, baloiseInfo, ubsInfo,
+        extraLoading, baloiseInfo, termsUBS,
       } = objData;
       delete objData.getEstimation;
       delete objData.token;
@@ -80,7 +80,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete objData.extraLoading;
       delete objData.createEstimation;
       delete objData.baloiseInfo;
-      delete objData.ubsInfo;
+      delete objData.termsUBS;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
@@ -135,11 +135,11 @@ const checkCommon = (store) => (next) => (action) => {
               }
               store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: data });
             }
-            if (ubsInfo) {
+            if (termsUBS) {
               let data = {
                 id: res.data.owner,
               };
-              if (ubsInfo === 'ubsBank') set(data, 'termsUBS', true);
+              set(data, 'termsUBS', termsUBS);
               store.dispatch({ type: SAVE_ACTIVE_SINGLE_USER, payload: data });
             }
             if (createEstimation) {

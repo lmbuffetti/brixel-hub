@@ -161,10 +161,7 @@ const GetStartedEstimation = (props) => {
     }
     // PROPERTY DATA
     delete dataFormAnswer.login;
-    if (get(dataFormAnswer, 'estimationType', '') === 'seller' && action === 'skip') {
-      delete dataFormAnswer.ubsInfo;
-      delete dataFormAnswer.baloiseInfo;
-    }
+    if (get(dataFormAnswer, 'estimationType', '') === 'seller' && action === 'skip') delete dataFormAnswer.baloiseInfo;
     let data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -291,7 +288,7 @@ const GetStartedEstimation = (props) => {
       if (get(dataFormAnswer, 'estimationType', '') === 'seller') {
         if (get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseBank') set(data.user, 'termsBaloiseBank', true);
         if (get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseInsurance') set(data.user, 'termsBaloiseInsurance', true);
-        if (get(dataFormAnswer, 'ubsInfo', false) === true) set(data.user, 'termsUBS', true);
+        if (get(dataFormAnswer, 'ubsPolicy', false) === true) set(data.user, 'termsUBS', true);
       }
       // DISPATCH TO DO REGISTRATION USER
       await handleValidateUser(data);
@@ -608,7 +605,7 @@ const GetStartedEstimation = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
-    else if (get(quest, 'history', '') === 'baloiseInfo' || get(quest, 'history', '') === 'ubsInfo') label = 'Continue';
+    else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Next';
     else label = 'Next';
     return label;
@@ -789,7 +786,7 @@ const GetStartedEstimation = (props) => {
                     )
                   }
                   {
-                    (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsInfo') && (
+                    (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsPolicy') && (
                       <>
                         {
                           quest.title && (

@@ -401,6 +401,30 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
     {
       conditions: [{
         name: 'company',
+        value: 'ubs_key4',
+      }],
+      title: translateTo('Activate your UBS advantages now.', lang),
+      history: 'ubsPolicy',
+      cardType: 'ubsPolicy',
+      footerWidth: 'max-w-fix-384',
+      bulletPoints: {
+        title: translateTo('What are my advantages?', lang),
+        description: [
+          translateTo('You get CHF 2000 discount', lang),
+          translateTo('You pay only if the sale is successful', lang),
+          translateTo('Your selling price is checked', lang),
+        ]
+      },
+      text: [{
+        title: translateTo('Transmission of data to UBS', lang),
+        description: translateTo('I authorize Brixel to transmit my data to UBS AG in order to benefit from the joint advantage offer...', lang),
+      },]
+    }
+  );
+  question.push(
+    {
+      conditions: [{
+        name: 'company',
         value: 'baloise',
       }],
       title: translateTo('Activate your Baloise advantages now.', lang),
