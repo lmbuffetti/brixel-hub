@@ -497,11 +497,12 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       customButton: [],
       unsuccessMessage: `<h6 class="mt-3 mb-2 fweight-600">${translateTo('Note', lang)}</h6><p>${translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}</p>`,
       partner: formValue.company,
-      onChangeValue: (aff, loan, affordabilityCheck, loanValueCheck) => {
+      onChangeValue: (aff, loan, affordabilityCheck, loanValueCheck, finance) => {
         formValue.affordability = aff;
         formValue.loanToValueRatio = loan;
         changeVal('affordabilityCheck', affordabilityCheck),
         changeVal('loanValueCheck', loanValueCheck)
+        changeVal('finance', finance)
       }
     },
     // ONLY FOR BALOISE
