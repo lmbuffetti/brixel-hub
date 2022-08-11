@@ -13,7 +13,7 @@ import {
   destroy,
 } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -36,8 +36,7 @@ const GetStarted = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
-  const match = useParams();
-
+  
   // PROPS
   const {
     changeFieldValue,
@@ -54,50 +53,50 @@ const GetStarted = (props) => {
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
-  const companyStub = get(match, 'companyStub', null);
-
+  
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-
+  
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-
+  
   useEffect(() => {
     setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0])
   }, [lang]);
-
-
+  
+  
   // FUNCTION TO SAVE DATA
   useEffect(() => {
     const dataForm = cloneDeep(formValue);
     const userType = get(dataForm, 'userType', null);
     switch (userType) {
       case 'buyer':
-        history.push(`/packageFlow/getStartedBuyer/${companyURL}`);
+        history.push(`/packageFlow/getStartedBuyer?company=${companyURL}`);
         break;
       case 'estimation':
-        history.push(`/packageFlow/getStartedEstimation/${companyURL}`);
+        history.push(`/packageFlow/getStartedEstimation?company=${companyURL}`);
         break;
       case 'seller':
-        history.push(`/packageFlow/getStarted/${companyURL}`);
+        history.push(`/packageFlow/getStarted?company=${companyURL}`);
         break;
     }
   }, [formValue]);
-
+  
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
   }, [get(loggedInUser, 'user.id', null)]);
-
+  
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
-    const companyCookie = companyStub || cookie.get('brixelStubCompany') || null;
+    const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    const defComp = get(companyByUrl, 'company', companyCookie);
+    let defComp = companyCookie;
+    defComp = get(companyByUrl, 'company', companyCookie);
     if (get(companyByUrl, 'company', companyCookie)) {
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
@@ -112,10 +111,9 @@ const GetStarted = (props) => {
     } else {
       changeFieldValue('channel', channelCookie);
     }
-    if (defComp) history.push(`/packageFlow/${defComp}`);
     setCompanyURL(defComp);
   }, []);
-
+  
   // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
   const getStartedEl = document.querySelector('.getStarted');
   useEffect(() => {
@@ -123,7 +121,7 @@ const GetStarted = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-
+  
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans buyerHub  ${isOpenTransifex ? '' : 'notranslate'}`}>
       <div
@@ -146,7 +144,7 @@ const GetStarted = (props) => {
                           quest.title && (
                             <h3
                               className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-800 fweight-600 txtDark700 px-1 px-sm-0`}
-                              dangerouslySetInnerHTML={{ __html: translateTo(quest.title) }}
+                              dangerouslySetInnerHTML={{ __html: translateTo(quest.title, lang) }}
                             />
                           )
                         }
@@ -155,7 +153,7 @@ const GetStarted = (props) => {
                         quest.subtitle && (
                           <p className="mb-5 txtDark700" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       }
-
+                      
                       <MultiFileldsReduxForm
                         form="GetStarted"
                         className="w-perc-100"
@@ -169,7 +167,7 @@ const GetStarted = (props) => {
                         disableDelay
                       />
                     </div>
-
+                  
                   )
                 }
               </div>
