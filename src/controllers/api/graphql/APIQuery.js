@@ -22,7 +22,7 @@ class ApiClient {
     data,
   }) {
     const siteHandle = `${ data.partner }${ data.language[ 0 ].toUpperCase() }${ data.language.slice( 1 ).toLowerCase() }`;
-    const { placementSlug, queryType } = data;
+    const { bannerSlug, placementSlug, queryType } = data;
     let baseUrl = this.baseURL;
     let query = articlesQuery;
     switch (queryType) {
@@ -32,14 +32,22 @@ class ApiClient {
       default:
         query = articlesQuery;
     }
-    const body = JSON.stringify( {
+    let body = JSON.stringify( {
       query,
       variables: {
         siteHandle,
         placementSlug,
-        bannerSlug: placementSlug,
       },
     } );
+    if (bannerSlug) {
+      body = JSON.stringify( {
+        query,
+        variables: {
+          siteHandle,
+          bannerSlug,
+        },
+      } );
+    }
     const config = {
       url,
       method,

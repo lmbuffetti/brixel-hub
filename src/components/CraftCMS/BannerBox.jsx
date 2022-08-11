@@ -26,7 +26,7 @@ const BannerBox = (props) => {
   useEffect(() => {
     if (activeSingleCompany.stub) {
       const data = {
-        placementSlug,
+        bannerSlug: placementSlug,
         partner: activeSingleCompany.stub,
         language: lang,
         queryType: 'banners'

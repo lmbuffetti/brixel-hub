@@ -530,13 +530,23 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
     },
     // ONLY FOR UBS_KEY4
     {
-      condition: [{
-        name: 'company',
-        value: 'ubs_key4',
-      },{
-        name: 'document',
-        value: null,
-      },],
+      condition: [
+        {
+          name: 'company',
+          value: 'ubs_key4',
+        },{
+          name: 'document',
+          value: null,
+        },
+        {
+          name: 'affordabilityCheck',
+          value: true,
+        },
+        {
+          name: 'loanValueCheck',
+          value: true,
+        },
+      ],
       hideContinueBtn: true,
       cardType: 'loadComponent',
       history: 'key4Registration',

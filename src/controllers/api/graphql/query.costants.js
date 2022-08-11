@@ -1,63 +1,105 @@
 export const articlesQuery = `
-  query HubContentQuery(
-    $siteHandle: String!
-    $placementSlug: String!
+ query HubContentQuery(
+  $siteHandle: String!
+  $placementSlug: String!
+) {
+  placementEntries(
+    site: [$siteHandle]
+    slug: [$placementSlug]
   ) {
-    placementEntries(
-      site: [$siteHandle]
-      slug: [$placementSlug]
-      limit: 3
-    ) {
-      ...on placement_default_Entry {
-        slug
-        title
-        placementContent(limit: 3) {
-          ...on pages_default_Entry {
-            id
-            slug
+    ...on placement_default_Entry {
+      slug
+      title
+      placementContent {
+        ...on placementContent_pageEntryCard_BlockType {
+          id
+          typeHandle
+          cardLink {
+            typeHandle
+            available
             url
-            title
-            previewCopy
-            mainImage {
-              url
-              width
-              height
-              alt
+            text
+            target
+            element {
+              ...on pages_default_Entry {
+                id
+                title
+                previewCopy
+                mainImage {
+                  url
+                  alt
+                  width
+                  height
+                  focalPoint
+                  hasFocalPoint
+                }
+              }
             }
           }
+        }
+        ... on placementContent_externalLinkCard_BlockType {
+          id
+          typeHandle
+          cardLink {
+            typeHandle
+            url
+            text
+            target
+          }
+          mainImage {
+            url
+            alt
+            width
+            height
+            focalPoint
+            hasFocalPoint
+          }
+          cardTitle
+          previewCopy
         }
       }
     }
   }
+}
 `;
 
 export const bannersQuery = `
   query BannerQuery(
-    $siteHandle: String!,
-    $bannerSlug: String!
+  $siteHandle: String!,
+  $bannerSlug: String!
+) {
+  bannersEntries(
+    site: [$siteHandle],
+    slug: [$bannerSlug]
   ) {
-    bannersEntries(
-      site: [$siteHandle],
-      slug: [$bannerSlug]
-    ) {
-      ...on banners_default_Entry {
-        title
-        description
-        buttonLink
-        buttonLabel
-        mainImage {
-          url
-          width
-          height
-          alt
+    ...on banners_default_Entry {
+      title
+      description
+      bannerButton {
+        typeHandle
+        available
+        url
+        text
+        target
+        element {
+          id
+          title
         }
-        logo {
-          url
-          width
-          height
-          alt
-        }
+      }
+      mainImage {
+        url
+        width
+        height
+        alt
+      }
+      logo {
+        url
+        width
+        height
+        alt
       }
     }
   }
+}
+
 `
