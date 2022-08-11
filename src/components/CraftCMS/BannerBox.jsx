@@ -41,6 +41,7 @@ const BannerBox = (props) => {
   const onClickBanner = (url) => {
     const mapObj = {
       DOMAIN_HUB: '',
+      'DOMAIN.HUB': '',
       PAGE_ID: activeSingleProperty.id,
       'http://': '',
       'https://': '',
@@ -48,7 +49,7 @@ const BannerBox = (props) => {
     if (!url.includes('PAGE_ID')) {
       window.open(url, '_blank');
     } else {
-      const internalLink = url.replace(/PAGE_ID|DOMAIN_HUB|http:\/\/|https:\/\//gi, function(matched){
+      const internalLink = url.replace(/PAGE_ID|DOMAIN_HUB|DOMAIN.HUB|http:\/\/|https:\/\//gi, function(matched){
         return mapObj[matched];
       });
       history.push(internalLink);
@@ -75,11 +76,11 @@ const BannerBox = (props) => {
             <h5 className="mt-3 mt-sm-0 fweight-600">{banner.title}</h5>
             <p className="fsize-300 my-3">{banner.description}</p>
             {
-              banner.buttonLink && banner.buttonLabel && (
+              get(banner, 'bannerButton.text', null) && get(banner, 'bannerButton.url', null) && (
                 <BrixelButtonPrimary
                   rounded
-                  onClick={() => onClickBanner(banner.buttonLink)}
-                  label={banner.buttonLabel}
+                  onClick={() => onClickBanner(banner.bannerButton.url)}
+                  label={banner.bannerButton.text}
                 />
               )
             }
