@@ -161,10 +161,7 @@ const GetStartedEstimation = (props) => {
     }
     // PROPERTY DATA
     delete dataFormAnswer.login;
-    if (get(dataFormAnswer, 'estimationType', '') === 'seller' && action === 'skip') {
-      delete dataFormAnswer.ubsInfo;
-      delete dataFormAnswer.baloiseInfo;
-    }
+    if (get(dataFormAnswer, 'estimationType', '') === 'seller' && action === 'skip') delete dataFormAnswer.baloiseInfo;
     let data = {
       ...dataFormAnswer,
       packageFlowProcess: {

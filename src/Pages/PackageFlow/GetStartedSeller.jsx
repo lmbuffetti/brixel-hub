@@ -25,6 +25,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import queryString from 'query-string';
@@ -124,10 +125,7 @@ const GetStartedSeller = (props) => {
     }
     // PROPERTY DATA
     delete dataFormAnswer.login;
-    if (action === 'skip') {
-      delete dataFormAnswer.ubsInfo;
-      delete dataFormAnswer.baloiseInfo;
-    }
+    if (action === 'skip') delete dataFormAnswer.baloiseInfo;
     const data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -159,6 +157,9 @@ const GetStartedSeller = (props) => {
     if (formValue.owner && get(data, 'price.currency', null)) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
+      if (action === 'accept' && company === 'ubs_key4') {
+        set(data, 'termsUBS', true)
+      }
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
@@ -190,7 +191,7 @@ const GetStartedSeller = (props) => {
         ignoreEmail: false,
         termsBaloiseBank: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseBank',
         termsBaloiseInsurance: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseInsurance',
-        termsUBS: get(dataFormAnswer, 'ubsInfo', false),
+        termsUBS: get(dataFormAnswer, 'ubsPolicy', false),
         seller: true,
         redirectTo: {
           pathname: '/packageFlow/getStarted/success',
@@ -677,7 +678,7 @@ const GetStartedSeller = (props) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || get(quest, 'history', null) === 'baloiseInfo' || get(quest, 'history', null) === 'ubsInfo') || action === 'back') && (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || get(quest, 'history', null) === 'baloiseInfo') || action === 'back') && (
                           <BrixelButtonPrimary
                             className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
                             disabled={!checkValidateField()}
@@ -746,7 +747,7 @@ const GetStartedSeller = (props) => {
                               rounded
                               theme="green"
                               label={translateTo('Accept', lang)}
-                              onClick={() => saveData()}
+                              onClick={() => saveData('accept')}
                               onShowError={() => setShowError(true)}
                             />
                           )
