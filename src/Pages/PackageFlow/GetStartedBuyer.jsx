@@ -622,7 +622,7 @@ const GetStartedBuyer = (props) => {
                                   saturation={400}
                                   theme="green"
                                   rounded
-                                  label={translateTo(buttonLabel())}
+                                  label={translateTo(buttonLabel(), lang)}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                 />

@@ -144,7 +144,7 @@ const GetStarted = (props) => {
                           quest.title && (
                             <h3
                               className={`${quest.subtitle ? 'mb-1' : 'mb-5'} fsize-600 fsize-sm-800 fweight-600 txtDark700 px-1 px-sm-0`}
-                              dangerouslySetInnerHTML={{ __html: translateTo(quest.title) }}
+                              dangerouslySetInnerHTML={{ __html: translateTo(quest.title, lang) }}
                             />
                           )
                         }
