@@ -275,7 +275,8 @@ const GetStartedSeller = (props) => {
   const multiStepSlidesEl = multiStepSlidesRef.current;
 
   // FUNCTION TO GO TO NEXT STEP
-  const changeStep = (act, e, step = 1, skipValidation) => {    if (e) e.preventDefault();
+  const changeStep = (act, e, step = 1, skipValidation) => {
+    if (e) e.preventDefault();
     const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
     setOldIndex(currentIndex);

@@ -12,6 +12,7 @@ import {
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
+import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 
 const checkSearchProfile = (store) => (next) => (action) => {
   switch (action.type) {
@@ -45,9 +46,12 @@ const checkSearchProfile = (store) => (next) => (action) => {
       next(action);
       const token = get(action, 'payload.token', null);
       const addSearchProfile = get(action, 'payload.addSearchProfile', false);
-      const { redirectToUrl, smallLoader } = action.payload;
+      const { redirectToUrl, smallLoader, termsBaloiseBank, termsBaloiseInsurance, termsUBS } = action.payload;
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
       else store.dispatch({ type: SPINNER_ON });
+      delete action.payload.termsBaloiseBank;
+      delete action.payload.termsBaloiseInsurance;
+      delete action.payload.termsUBS;
       api.searchProfile.createSearchProfile(action.payload.dataSearchProfile, token)
         .then((res) => {
           store.dispatch({
@@ -61,6 +65,27 @@ const checkSearchProfile = (store) => (next) => (action) => {
             type: GET_USER_SEARCH_PROFILES,
             payload: res.data.user,
           });
+          if (termsBaloiseBank || termsBaloiseInsurance) {
+            const data = {
+              id: res.data.user,
+              termsBaloiseBank: true,
+              termsBaloiseInsurance: true,
+            }
+            store.dispatch({
+              type: SAVE_ACTIVE_SINGLE_USER,
+              payload: data,
+            });
+          }
+          if (termsUBS) {
+            const data = {
+              id: res.data.user,
+              termsUBS: true,
+            }
+            store.dispatch({
+              type: SAVE_ACTIVE_SINGLE_USER,
+              payload: data,
+            });
+          }
           if (redirectToUrl) {
             window.location.assign(redirectToUrl);
           } else if (addSearchProfile) {
