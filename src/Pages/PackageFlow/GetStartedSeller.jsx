@@ -518,7 +518,7 @@ const GetStartedSeller = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
-    else if (get(quest, 'history', '') === 'baloiseInfo' || get(quest, 'history', '') === 'ubsInfo') label = 'Continue';
+    else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
@@ -691,7 +691,7 @@ const GetStartedSeller = (props) => {
                         )
                       }
                       {
-                        (get(quest, 'history', null) === 'baloiseInfo' || get(quest, 'history', null) === 'ubsInfo') && (
+                        (get(quest, 'history', null) === 'baloiseInfo') && (
                           <BrixelButtonText
                             theme="light"
                             label={translateTo('Skip', lang)}
@@ -705,7 +705,7 @@ const GetStartedSeller = (props) => {
               )
             }
             {
-              (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsInfo') && (
+              (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsPolicy') && (
                 <>
                   <div className="p-7 brdRadius bgWhite">
                     {

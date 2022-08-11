@@ -300,6 +300,30 @@ export const QuestionsList = (lang, country = 'CH') => {
     {
       conditions: [{
         name: 'company',
+        value: 'ubs_key4',
+      }],
+      title: translateTo('Activate your UBS advantages now.', lang),
+      history: 'ubsPolicy',
+      cardType: 'ubsPolicy',
+      footerWidth: 'max-w-fix-384',
+      bulletPoints: {
+        title: translateTo('What are my advantages?', lang),
+        description: [
+          translateTo('You get CHF 2000 discount', lang),
+          translateTo('You pay only if the sale is successful', lang),
+          translateTo('Your selling price is checked', lang),
+        ]
+      },
+      text: [{
+        title: translateTo('Transmission of data to UBS', lang),
+        description: translateTo('I authorize Brixel to transmit my data to UBS AG in order to benefit from the joint advantage offer...', lang),
+      },]
+    }
+  );
+  question.push(
+    {
+      conditions: [{
+        name: 'company',
         value: 'baloise',
       },
       {
@@ -310,14 +334,12 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'baloisePolicy',
       cardType: 'baloisePolicy',
       footerWidth: 'max-w-fix-384',
-      canSkip: true,
       text: [{
         title: translateTo('Transmission of data to Baloise Insurance.', lang),
         description: translateTo('I hereby agree that my data (Surname, first name, phone number, e-mail) is transmitted to Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. so that I can receive newsletters or telephone contact regarding home financing, pension provision and assets. Furthermore, in order to check whether I am already a customer of Baloise Insurance Ltd. and/or Baloise Bank SoBa Ltd., I authorize Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. to compare with my relevant data held by Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. You can revoke this consent at any time in the future. If you no longer wish to receive the newsletter from Baloise Insurance Ltd and Baloise Bank SoBa Ltd, you can cancel this by clicking on the link provided in the respective newsletter. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until revocation.', lang),
       },]
     },
   );
-
   question.push(
     {
       conditions: [{
@@ -382,7 +404,6 @@ export const QuestionsList = (lang, country = 'CH') => {
       history: 'baloisePolicy',
       cardType: 'baloisePolicy',
       footerWidth: 'max-w-fix-384',
-      canSkip: true,
       text: [{
         title: translateTo('Transmission of data to Baloise Insurance.', lang),
         description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, phone number, e-mail) is transmitted to Basler Versicherung AG to check if I am eligible for the discount by comparing the data with my relevant data held by Basler Versicherung AG and to add the information that I use the Brixel service to my customer profile at Basler Versicherung AG to better meet my needs. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing based on the consent until revocation.', lang),
