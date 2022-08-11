@@ -78,16 +78,16 @@ const GetStartedBuyer = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
-  
+
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-  
+
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-  
+
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
     const dataForm = cloneDeep(formValue);
@@ -179,11 +179,11 @@ const GetStartedBuyer = (props) => {
       await handleValidateUser(data);
     }
   };
-  
+
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
   }, [get(loggedInUser, 'user.id', null)]);
-  
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -201,7 +201,7 @@ const GetStartedBuyer = (props) => {
     }
     return newIndex;
   };
-  
+
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -237,10 +237,10 @@ const GetStartedBuyer = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-  
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
-  
+
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
@@ -261,7 +261,7 @@ const GetStartedBuyer = (props) => {
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
-      
+
       // setPosition(newIndex);
       if (questions[defId].toSave) {
         saveData(get(questions[defId], 'action', null));
@@ -281,7 +281,7 @@ const GetStartedBuyer = (props) => {
           setQuest(newQuest);
           setCurrentIndex(defId);
         }
-        
+
         if (newQuest.history !== 'createProfile') {
           if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
             const fakeInput = document.createElement('input');
@@ -295,7 +295,7 @@ const GetStartedBuyer = (props) => {
             document.body.prepend(fakeInput);
             fakeInput.focus();
           }
-          
+
           setTimeout(() => {
             const fakeInput = document.getElementById('fakeInput');
             const getCurStep = document.getElementById(`step-${defId}`);
@@ -329,7 +329,7 @@ const GetStartedBuyer = (props) => {
     }
     return null;
   };
-  
+
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     if (get(history, 'location.pathname', '').includes('success') && questions[currentIndex + 1]) {
@@ -338,7 +338,7 @@ const GetStartedBuyer = (props) => {
       }, 500);
     }
   }, [get(history, 'location', null)]);
-  
+
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
@@ -368,7 +368,7 @@ const GetStartedBuyer = (props) => {
       });
     }
   }, []);
-  
+
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
@@ -380,14 +380,14 @@ const GetStartedBuyer = (props) => {
       setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
   }, [lang]);
-  
+
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
     if (get(initialValues, 'properties.propertyType', null)) {
       // changeStep();
     }
   }, [initialValues]);
-  
+
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
     setIsEnter(true);
@@ -406,7 +406,7 @@ const GetStartedBuyer = (props) => {
       }
     }
   }, [currentIndex]);
-  
+
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   /* useEffect(() => {
     let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
@@ -416,14 +416,14 @@ const GetStartedBuyer = (props) => {
     setRoomValue(bgSize+ 'vw');
 
   }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
-  
+
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset('Property');
     // history.push('/buy');
     history.push('/buy');
   };
-  
+
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     setOldIndex(currentIndex);
@@ -450,7 +450,7 @@ const GetStartedBuyer = (props) => {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
-  
+
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
@@ -469,7 +469,7 @@ const GetStartedBuyer = (props) => {
     }
     if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
   }, [get(company, 'id', null)]);
-  
+
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
@@ -481,7 +481,7 @@ const GetStartedBuyer = (props) => {
     else label = 'Next';
     return label;
   };
-  
+
   // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
   const getStartedEl = document.querySelector('.getStarted');
   useEffect(() => {
@@ -489,7 +489,7 @@ const GetStartedBuyer = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-  
+
   return (
     <>
       <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
@@ -509,11 +509,11 @@ const GetStartedBuyer = (props) => {
             </div>
           )
         }
-        
+
         <div
           className={`bodyModal container ${get(quest, 'history', '')}`}
         >
-          
+
           <form
             id="multiStepForm"
             autoComplete="off"
@@ -556,7 +556,7 @@ const GetStartedBuyer = (props) => {
                             skipPhone
                           />
                         </div>
-                      
+
                       </div>
                     )
                   }
@@ -667,30 +667,30 @@ const GetStartedBuyer = (props) => {
             {
               (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsPolicy') && (
                 <>
-                  <div className="p-7 brdRadius bgWhite">
-                    {
-                      quest.title && (
-                        <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                      )
-                    }
+                  {
+                    quest.title && (
+                      <h3 className={`fweight-600 max-w-fix-600 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                    )
+                  }
+                  <div className="brdRadius bgWhite max-w-fix-752 ml-a mr-a px-2 px-sm-6 pt-3 pb-6">
                     {
                       quest.text.map((text, i) => (
                         <div key={i.toString()}>
-                          <h6>{text.title}</h6>
-                          <span>{text.description}</span>
+                          <span className="fweight-500 my-3 dis-b">{text.title}</span>
+                          <span className="fsize-300 dis-b">{text.description}</span>
                         </div>
                       ))
                     }
                   </div>
                   <div
-                    className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                    className={`footerAction my-3 flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
                   >
                     <div className="pos-r">
                       <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                         {
                           get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
                             <BrixelButtonPrimary
-                              className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                              className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                               disabled={!checkValidateField()}
                               rounded
                               theme="green"
@@ -702,6 +702,7 @@ const GetStartedBuyer = (props) => {
                         }
                         <BrixelButtonText
                           theme="light"
+                          className="pos-a x-r"
                           label={translateTo('Skip', lang)}
                           onClick={() => saveData('skip')}
                         />

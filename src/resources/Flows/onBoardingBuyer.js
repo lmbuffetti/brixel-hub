@@ -33,7 +33,7 @@ export const QuestionsList = (lang, type) => {
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   const buyerLivingSituation = factsOptions.buyerLivingSituation.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
@@ -258,7 +258,7 @@ export const QuestionsList = (lang, type) => {
       title: translateTo('Activate your UBS advantages now.', lang),
       history: 'ubsPolicy',
       cardType: 'ubsPolicy',
-      footerWidth: 'max-w-fix-384',
+      footerWidth: 'max-w-fix-752',
       bulletPoints: {
         title: translateTo('What are my advantages?', lang),
         description: [
@@ -282,7 +282,7 @@ export const QuestionsList = (lang, type) => {
       title: translateTo('Benefit from the consulting services of our partner Baloise.', lang),
       history: 'baloisePolicy',
       cardType: 'baloisePolicy',
-      footerWidth: 'max-w-fix-384',
+      footerWidth: 'max-w-fix-752',
       text: [{
         title: translateTo('Transmission of data to Baloise Insurance.', lang),
         description: translateTo('I hereby agree that my data (Surname, first name, phone number, e-mail) is transmitted to Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. so that I can receive newsletters or telephone contact regarding home financing, pension provision and assets. Furthermore, in order to check whether I am already a customer of Baloise Insurance Ltd. and/or Baloise Bank SoBa Ltd., I authorize Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. to compare with my relevant data held by Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. You can revoke this consent at any time in the future. If you no longer wish to receive the newsletter from Baloise Insurance Ltd and Baloise Bank SoBa Ltd, you can cancel this by clicking on the link provided in the respective newsletter. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until revocation.', lang),

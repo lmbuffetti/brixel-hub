@@ -724,7 +724,9 @@ const GetStartedSeller = (props) => {
                       ))
                     }
                   </div>
-                  <div className={`footerAction py-3 flowFooter ${get(quest, 'footerWidth', '')}`}>
+                  <div
+                    className={`footerAction my-3 flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                  >
                     <div className="pos-r">
                       <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                         {
