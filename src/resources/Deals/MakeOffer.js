@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { FactsOptions, translateTo } from '@brixel/brixel-components';
+import { FactsOptions, translateTo, FinancingCalculator } from '@brixel/brixel-components';
 import {
   BrixelRadioButton,
   BrixelInputText,
@@ -15,8 +15,12 @@ import {
 import get from 'lodash/get';
 import FinanceCertificate from '../../Pages/Offers/Flow/FinanceCertificate';
 import Key4Registration from '../../Pages/Offers/Flow/Key4Registration';
+import BaloiseRegistration from '../../Pages/Offers/Flow/BaloiseRegistration';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import { configureStore } from '../../store';
+import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';
+import UBSLogoImg from '../../images/Companies/ubsKey4/ubsLogo.svg';
+import Key4LogoImg from '../../images/Companies/ubsKey4/key4Logo.svg';
 
 const { factsOptions } = FactsOptions;
 
@@ -28,8 +32,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
     formValue = get(configureStore.getState(), 'brixelForm.offerFlow.values', []);
     const countryCode = get(formValue, 'propertyLocation.countryCode', '');
     isPT = countryCode === 'PT';
-    if (isPT) countryName = 'a Portuguese';
-    if (countryCode === 'CH') countryName = 'a Swiss';
+    if (isPT) countryName = 'Portuguese';
+    if (countryCode === 'CH') countryName = 'Swiss';
   }
 
   const martialStatus = factsOptions.martialStatus.map((item) => ({
@@ -66,11 +70,63 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       <>
         <hr className="bgAltGrey200" />
         <p className="txtDark700 fsize-500 p-5">
-          <span>{translateTo("You don't have a proof of financing yet?", lang)}</span>
+          <span>{translateTo('You don\'t have a proof of financing yet?', lang)}</span>
           <span className="cur-poi dis-b td-u" type="button" onClick={() => sendData()}>
             <span>{translateTo('Apply now on key4', lang)}</span>
           </span>
         </p>
+      </>
+    );
+  };
+  
+  const successMessage = () => {
+    switch (formValue.company) {
+      case 'baloise':
+        return 'Your offer has been sent to the seller and will be reviewed by us. You will be informed as soon as possible.'
+      case 'ubs_key4':
+        return 'Your offer has been sent to the seller and will be reviewed by us. You will be informed as soon as possible.'
+      default:
+        return 'Your offer has been submitted to the seller and is currently pending. The seller will get back to you.'
+    }
+  }
+  
+  const TextPartnerUpload = () => {
+    return (
+      <>
+        {
+          get(formValue, 'document', []).length === 0 && (
+            <div className="bgWhit w-perc-100 mt-3 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5">
+              <div className="txtDark700">
+                <h6 className="mb-3 fweight-600">
+                  {translateTo('No. Order a proof of financing here.', lang)}
+                </h6>
+                <span>
+                  {translateTo('No problem. Our partner Baloise will provide you with a financing certificate free of charge. This is a non-binding offer.', lang)}
+                </span>
+  
+                {
+                  formValue.company === 'baloise' && (
+                    <div className="dis-f a-c mt-3">
+                      <p className="txtAltGrey400 mr-2">In partnership with</p>
+                      <img src={BaloiseLogoImg} alt="Logo Baloise" />
+                    </div>
+                  )
+                }
+  
+                {
+                  formValue.company === 'ubs_key4' && (
+                    <div className="dis-f a-c mt-3">
+                      <p className="txtAltGrey400 mr-2">In partnership with</p>
+                      <img src={UBSLogoImg} alt="Logo UBS" />
+                      <img className="ml-2" src={Key4LogoImg} alt="Logo Key 4" />
+                    </div>
+                  )
+                }
+      
+              </div>
+            </div>
+          )
+        }
       </>
     );
   };
@@ -107,6 +163,16 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
           large: true,
         },
         {
+          condition: [
+            {
+              name: 'company',
+              noValue: 'baloise',
+            },
+            {
+              name: 'company',
+              noValue: 'ubs_key4',
+            }
+          ],
           component: BrixelRadioButton,
           label: translateTo('Do you already have a financing certificate?', lang),
           name: 'financeCertificate',
@@ -126,6 +192,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
         },
       ],
     },
+    // FOR COMPANIES AND NOT FOR PARTNER
     {
       condition: [{
         name: 'financeCertificate',
@@ -375,6 +442,120 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       footerWidth: 'max-w-fix-600',
       component: Key4Registration,
     },
+    // FOR PARTNER
+    {
+      condition: [{
+        name: 'financeCertificate',
+        value: null,
+      }],
+      title: translateTo('Do you have a recent proof of financing?', lang),
+      subtitle: translateTo('Do you have a recent proof of financing?', lang),
+      history: 'financingProofPartner',
+      className: 'max-w-fix-600 ml-a mr-a dis-f flex-wrap',
+      footerWidth: 'max-w-fix-600',
+      buttonText: 'Request now',
+      inputs: [
+        {
+          acceptedFile: ['jpg', 'png', 'application/pdf'],
+          component: BrixelMultiUploadFile,
+          topLabel: translateTo('Yes. Then upload it here directly.', lang),
+          topLabelClass: 'mb-3 fweight-600',
+          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5',
+          classBoxWrapper: '',
+          ReduxFieldClass: '',
+          label: translateTo(`Add a proof of financing from a ${countryName} financial institution`, lang),
+          name: 'document',
+          theme: 'simple',
+        },
+        {
+          customComponent: TextPartnerUpload,
+          classNameBox: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-5',
+          classBoxWrapper: 'mt-3',
+          ReduxFieldClass: '',
+          name: 'document',
+        },
+      ],
+    },
+    {
+      condition: [
+        {
+          name: 'financeCertificate',
+          value: null,
+        },
+        {
+          name: 'document',
+          value: null,
+        }],
+      cardType: 'loadComponent',
+      history: 'financeCalculator',
+      className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      footerWidth: 'max-w-fix-600',
+      component: FinancingCalculator,
+      country: 'CH',
+      propertyPrice: formValue.propertyPrice,
+      hideText: true,
+      customButton: [],
+      unsuccessMessage: `<h6 class="mt-3 mb-2 fweight-600">${translateTo('Note', lang)}</h6><p>${translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}</p>`,
+      partner: formValue.company,
+      onChangeValue: (aff, loan, affordabilityCheck, loanValueCheck, finance) => {
+        formValue.affordability = aff;
+        formValue.loanToValueRatio = loan;
+        changeVal('affordabilityCheck', affordabilityCheck),
+        changeVal('loanValueCheck', loanValueCheck)
+        changeVal('finance', finance)
+      }
+    },
+    // ONLY FOR BALOISE
+    {
+      condition: [
+        {
+          name: 'affordabilityCheck',
+          value: true,
+        },
+        {
+          name: 'loanValueCheck',
+          value: true,
+        },
+        {
+          name: 'company',
+          value: 'baloise',
+        },
+      ],
+      cardType: 'loadComponent',
+      history: 'uploadDocumentsBaloise',
+      className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      footerWidth: 'max-w-fix-600',
+      component: BaloiseRegistration,
+      txtAfterNextButton: translateTo('<p>I agree that my data (surname, first name, address, telephone number, e-mail) as well as the information necessary for the proof of financing (address of the property, price of the property, URL of the property, tax declaration, proof of income and pension fund statement, form authorization to obtain information) are transmitted to Baloise Bank SoBa for the purpose of requesting a proof of financing.</p><p class="mt-1">Furthermore, I authorize Baloise Bank SoBa AG to transmit the feedback on my request for proof of financing to Brixel AG and, in order to check whether I am already a customer of Baloise Bank SoBa AG, to carry out a comparison with my relevant data available at Baloise Bank SoBa AG.</p><p class="mt-1">You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until the revocation.</p>', lang),
+      country: 'CH',
+    },
+    // ONLY FOR UBS_KEY4
+    {
+      condition: [
+        {
+          name: 'company',
+          value: 'ubs_key4',
+        },{
+          name: 'document',
+          value: null,
+        },
+        {
+          name: 'affordabilityCheck',
+          value: true,
+        },
+        {
+          name: 'loanValueCheck',
+          value: true,
+        },
+      ],
+      hideContinueBtn: true,
+      cardType: 'loadComponent',
+      history: 'key4Registration',
+      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+      footerWidth: 'max-w-fix-600',
+      component: Key4Registration,
+    },
+    // GENERAL SAVING FUNCTION FOR EVERYONE
     {
       background: 'bgCardGreen',
       hideProgress: true,
@@ -383,7 +564,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       img: ClipboardImg,
       imgMaxWidth: 'max-w-fix-160',
       cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
-      subtitle: translateTo('Your offer has been submitted to the seller and is currently pending. The seller will get back to you.', lang),
+      subtitle: translateTo(successMessage(), lang),
       history: 'success',
       vCentered: true,
       toSave: true,

@@ -73,13 +73,13 @@ const GetStartedSeller = (props) => {
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
-  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+  const [questions, setQuestions] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), null , company));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [oldIndex, setOldIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   const [action, setAction] = useState('next');
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
+  const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), null , company)[0]);
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
@@ -210,7 +210,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
-    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), null , company);
     if (get(newQuestions, `[${newIndex}].conditions`, null)) {
       let checkCond = true;
       newQuestions[newIndex].conditions.map((cond) => {
@@ -277,7 +277,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), null , company);
     let newIndex = currentIndex;
     setOldIndex(currentIndex);
     setShowError(false);
@@ -366,7 +366,7 @@ const GetStartedSeller = (props) => {
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     setOldIndex(currentIndex);
-    const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+    const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), null , company);
     if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
@@ -411,14 +411,8 @@ const GetStartedSeller = (props) => {
   
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
-    if (currentQuest.effect === 'slideUp') {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
-    } else {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
-    }
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), null , company));
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), null , company)[currentIndex - 1]);
   }, [lang]);
   
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
@@ -472,7 +466,7 @@ const GetStartedSeller = (props) => {
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'), null , company).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -506,7 +500,7 @@ const GetStartedSeller = (props) => {
     if (get(company, 'stub', null)) {
       const getLang = cookie.get('brixelLang');
       const companyCountry = get(company, 'country.code', 'CH');
-      setQuestions(QuestionsList(getLang, companyCountry));
+      setQuestions(QuestionsList(getLang, companyCountry, null , company));
       // changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);

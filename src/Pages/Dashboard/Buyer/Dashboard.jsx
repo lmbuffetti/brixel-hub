@@ -73,10 +73,12 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', { });
+    const activeLeads = get(activeSingleProperty.company, 'pageLeads[0]', { });
     if (activeLeads && activeLeads.company && activeLeads.company !== activeSingleCompany.id) {
       handleGetActiveSingleCompany({ id: activeLeads.company });
     } else if (activeSingleProperty.id) {
+      handleGetActiveSingleCompany({ id: activeSingleProperty.company });
+    } else {
       handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
     }
     if (dealID !== activeSingleDeal.id || !dealID) {
@@ -86,7 +88,7 @@ const Dashboard = (props) => {
       if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
       handleGetBuyerDeal({ id: propID, actionStub });
     }
-  }, [propID]);
+  }, [propID, activeSingleProperty.id]);
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists' && loggedInUser.id) {
@@ -171,12 +173,12 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('Property', data)));
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetUserPagesDeals: bindActionCreators(getUserPagesDeals, dispatch),
-  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(

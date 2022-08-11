@@ -52,6 +52,35 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   }
   let livingAreaTitle = translateTo(country === 'PT' ? 'What is the gross area size?' : 'What is the living space size?', lang);
   if (propertyType === 'Commercial') livingAreaTitle = translateTo('What is the floor size?', lang);
+  
+  const propertyTypeOptions = [
+    {
+      label: translateTo('Apartment', lang),
+      value: 'Apartment',
+      img: svgIcons.apartment,
+      color: 'blue',
+    },
+    {
+      label: translateTo('House', lang),
+      value: 'House',
+      img: svgIcons.house,
+      color: 'blue',
+    },
+    {
+      label: translateTo('Building Land', lang),
+      value: 'Building land',
+      img: svgIcons.land,
+      color: 'blue',
+    },
+  ];
+  if (company !== 'baloise') {
+    propertyTypeOptions.push({
+      label: translateTo('Commercial', lang),
+      value: 'Commercial',
+      img: svgIcons.commercial,
+      color: 'blue',
+    });
+  }
 
   const question = [
     {
@@ -74,32 +103,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
         svgWidth: 'max-w-fix-120 max-w-fix-sm-200',
         pdClass: 'py-sm-5',
         isHorizontal: true,
-        options: [
-          {
-            label: translateTo('Apartment', lang),
-            value: 'Apartment',
-            img: svgIcons.apartment,
-            color: 'blue',
-          },
-          {
-            label: translateTo('House', lang),
-            value: 'House',
-            img: svgIcons.house,
-            color: 'blue',
-          },
-          {
-            label: translateTo('Building Land', lang),
-            value: 'Building land',
-            img: svgIcons.land,
-            color: 'blue',
-          },
-          {
-            label: translateTo('Commercial', lang),
-            value: 'Commercial',
-            img: svgIcons.commercial,
-            color: 'blue',
-          },
-        ],
+        options: propertyTypeOptions,
       }],
       successMessage: translateTo('Ok. Got it.', lang),
     },
