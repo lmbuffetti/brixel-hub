@@ -11,6 +11,7 @@ import {
   BrixelProgressBar,
   DataByCountry,
   translateTo,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -24,6 +25,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
 import last from 'lodash/last';
 import isArray from 'lodash/isArray';
@@ -142,7 +144,7 @@ const GetStartedEstimation = (props) => {
   }, [get(history, 'location.pathname', null)]);
   
   // FUNCTION TO SAVE DATA
-  const saveData = async () => {
+  const saveData = async (action = '') => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     const { login, register, company } = dataForm;
@@ -159,6 +161,7 @@ const GetStartedEstimation = (props) => {
     }
     // PROPERTY DATA
     delete dataFormAnswer.login;
+    if (get(dataFormAnswer, 'estimationType', '') === 'seller' && action === 'skip') delete dataFormAnswer.baloiseInfo;
     let data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -208,8 +211,18 @@ const GetStartedEstimation = (props) => {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
       data.redirectToRewards = true;
-      if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') await handleCreateActiveSingleProperty(data);
-      else handleCreateEstimation(data);
+      if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') { 
+        await handleCreateActiveSingleProperty(data);}
+      else {
+        if (action === 'accept' && company === 'baloise') {
+          set(data, 'termsBaloiseBank', true);
+          set(data, 'termsBaloiseInsurance', true);
+        }
+        if (action === 'accept' && company === 'ubs_key4') {
+          set(data, 'termsUBS', true)
+        }
+        handleCreateEstimation(data);
+      }
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
@@ -262,6 +275,20 @@ const GetStartedEstimation = (props) => {
       if (buyerType.includes(get(dataForm, 'estimationType', ''))) {
         data.user.buyer = true;
         data.user.seller = false;
+      }
+      if (get(dataFormAnswer, 'estimationType', '') === 'buyer'){
+        if (action === 'accept' && company === 'baloise') {
+          set(data.user, 'termsBaloiseBank', true);
+          set(data.user, 'termsBaloiseInsurance', true);
+        }
+        if (action === 'accept' && company === 'ubs_key4') {
+          set(data.user, 'termsUBS', true)
+        }
+      }
+      if (get(dataFormAnswer, 'estimationType', '') === 'seller') {
+        if (get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseBank') set(data.user, 'termsBaloiseBank', true);
+        if (get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseInsurance') set(data.user, 'termsBaloiseInsurance', true);
+        if (get(dataFormAnswer, 'ubsPolicy', false) === true) set(data.user, 'termsUBS', true);
       }
       // DISPATCH TO DO REGISTRATION USER
       await handleValidateUser(data);
@@ -578,6 +605,7 @@ const GetStartedEstimation = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
+    else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Next';
     else label = 'Next';
     return label;
@@ -713,21 +741,6 @@ const GetStartedEstimation = (props) => {
                       </div>
                     )
                   }
-                  {/* {
-                  get(quest, 'history', null) === 'resume' && (
-                    <div className="max-w-fix-344 m-a">
-                      <BrixelButtonPrimary
-                        className={`mt-3 mb-2 m-a noWrap ${quest.history}`}
-                        rounded
-                        theme="green"
-                        label={buttonLabel()}
-                        disabled={!checkValidateField()}
-                        rightIcon="arrow-right-small"
-                        onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      />
-                    </div>
-                  )
-                } */}
                 </div>
               </div>
             </div>
@@ -735,7 +748,7 @@ const GetStartedEstimation = (props) => {
               get(quest, 'history', null) !== 'resume' && (
                 <>
                   {
-                    get(quest, 'history', null) !== 'createProfile' && (
+                    get(quest, 'history', null) !== 'createProfile' && (get(quest, 'history', '') !== 'baloisePolicy' && get(quest, 'history', '') !== 'ubsPolicy') && (
                       <div
                         className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
                       >
@@ -770,6 +783,53 @@ const GetStartedEstimation = (props) => {
                           </div>
                         </div>
                       </div>
+                    )
+                  }
+                  {
+                    (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsPolicy') && (
+                      <>
+                        <div className="p-7 brdRadius bgWhite">
+                          {
+                            quest.title && (
+                              <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            )
+                          }
+                          {
+                            quest.text.map((text, i) => (
+                              <div key={i.toString()}>
+                                <h6>{text.title}</h6>
+                                <span>{text.description}</span>
+                              </div>
+                            ))
+                          }
+                        </div>
+                        <div
+                          className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                        >
+                          <div className="pos-r">
+                            <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                              {
+                                get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
+                                  <BrixelButtonPrimary
+                                    className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                                    disabled={!checkValidateField()}
+                                    rounded
+                                    theme="green"
+                                    label={translateTo('Accept', lang)}
+                                    onClick={() => saveData('accept')}
+                                    onShowError={() => setShowError(true)}
+                                  />
+                                )
+                              }
+                              <BrixelButtonText
+                                theme="light"
+                                label={translateTo('Skip', lang)}
+                                onClick={() => saveData('skip')}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </>
                     )
                   }
                 </>

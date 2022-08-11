@@ -21,9 +21,12 @@ const { factsOptions } = FactsOptions;
 export const QuestionsList = (lang, type) => {
   let countryList = [];
   let formValue = {};
+  let company = null;
+
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
     formValue = get(configureStore.getState(), 'brixelForm.GetStarted.values', []);
+    company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
     // country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
   }
   const newExtraFeature = factsOptions.extraFeatureShort.map((item) => ({
@@ -36,7 +39,7 @@ export const QuestionsList = (lang, type) => {
     label: translateTo(item.label, lang)
   }));
 
-  return [
+  const question = [
     {
       title: translateTo(type === 'searchProfile' ? 'Property Type' : 'What kind of property would you like to buy?', lang),
       subtitle: translateTo('Choose between apartment, house and building land.', lang),
@@ -235,11 +238,56 @@ export const QuestionsList = (lang, type) => {
       }],
       hideSearchProfile: true,
     },
-    {
-      history: 'savingData',
-      cardType: 'createProfile',
-      toSave: true,
-      hideSearchProfile: true,
-    },
   ];
+  if ((company !== 'baloise') && (company !== 'ubs_key4')) {
+    question.push(
+      {
+        hideSearchProfile: true,
+        history: 'savingData',
+        cardType: 'createProfile',
+        toSave: true,
+      },
+    )
+  }
+  question.push(
+    {
+      conditions: [{
+        name: 'company',
+        value: 'ubs_key4',
+      }],
+      title: translateTo('Activate your UBS advantages now.', lang),
+      history: 'ubsPolicy',
+      cardType: 'ubsPolicy',
+      footerWidth: 'max-w-fix-384',
+      bulletPoints: {
+        title: translateTo('What are my advantages?', lang),
+        description: [
+          translateTo('You get CHF 2000 discount', lang),
+          translateTo('You pay only if the sale is successful', lang),
+          translateTo('Your selling price is checked', lang),
+        ]
+      },
+      text: [{
+        title: translateTo('Transmission of data to UBS', lang),
+        description: translateTo('I authorize Brixel to transmit my data to UBS AG in order to benefit from the joint advantage offer...', lang),
+      },]
+    }
+  );
+  question.push(
+    {
+      conditions: [{
+        name: 'company',
+        value: 'baloise',
+      }],
+      title: translateTo('Benefit from the consulting services of our partner Baloise.', lang),
+      history: 'baloisePolicy',
+      cardType: 'baloisePolicy',
+      footerWidth: 'max-w-fix-384',
+      text: [{
+        title: translateTo('Transmission of data to Baloise Insurance.', lang),
+        description: translateTo('I hereby agree that my data (Surname, first name, phone number, e-mail) is transmitted to Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. so that I can receive newsletters or telephone contact regarding home financing, pension provision and assets. Furthermore, in order to check whether I am already a customer of Baloise Insurance Ltd. and/or Baloise Bank SoBa Ltd., I authorize Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. to compare with my relevant data held by Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. You can revoke this consent at any time in the future. If you no longer wish to receive the newsletter from Baloise Insurance Ltd and Baloise Bank SoBa Ltd, you can cancel this by clicking on the link provided in the respective newsletter. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until revocation.', lang),
+      },]
+    },
+  )
+  return question;
 };
