@@ -43,8 +43,11 @@ export const QuestionsList = (lang, country = 'CH') => {
   const maxLengthNumYear = maxLengthNum(2031, 'year');
 
   let propertyType = '';
+  let company = null;
+
   if (configureStore) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
+    company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
   }
   let livingAreaTitle = translateTo(country === 'PT' ? 'What is the gross area size?' : 'What is the living space size?', lang);
   if (propertyType === 'Commercial') livingAreaTitle = translateTo( 'What is the floor size?', lang);
@@ -55,7 +58,7 @@ export const QuestionsList = (lang, country = 'CH') => {
     label: translateTo(item.label, lang)
   }));
 
-  return [
+  const question = [
     {
       title: translateTo( 'What is the estimation for?', lang),
       history: 'estimationType',
@@ -281,11 +284,151 @@ export const QuestionsList = (lang, country = 'CH') => {
         validation: [Validation.required],
       }],
     },
-    {
-      hideProgress: true,
-      history: 'savingData',
-      cardType: 'createProfile',
-      toSave: true,
-    },
   ];
+
+  if ((company !== 'baloise') && (company !== 'ubs_key4')) {
+    question.push(
+      {
+        hideProgress: true,
+        history: 'savingData',
+        cardType: 'createProfile',
+        toSave: true,
+      },
+    )
+  }
+  question.push(
+    {
+      conditions: [{
+        name: 'company',
+        value: 'baloise',
+      },
+      {
+        name: 'estimationType',
+        value: 'buyer',
+      }],
+      title: translateTo('Benefit from the consulting services of our partner Baloise.', lang),
+      history: 'baloisePolicy',
+      cardType: 'baloisePolicy',
+      footerWidth: 'max-w-fix-384',
+      canSkip: true,
+      text: [{
+        title: translateTo('Transmission of data to Baloise Insurance.', lang),
+        description: translateTo('I hereby agree that my data (Surname, first name, phone number, e-mail) is transmitted to Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. so that I can receive newsletters or telephone contact regarding home financing, pension provision and assets. Furthermore, in order to check whether I am already a customer of Baloise Insurance Ltd. and/or Baloise Bank SoBa Ltd., I authorize Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. to compare with my relevant data held by Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. You can revoke this consent at any time in the future. If you no longer wish to receive the newsletter from Baloise Insurance Ltd and Baloise Bank SoBa Ltd, you can cancel this by clicking on the link provided in the respective newsletter. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until revocation.', lang),
+      },]
+    },
+  );
+
+  question.push(
+    {
+      conditions: [{
+        name: 'company',
+        value: 'baloise',
+      },
+      {
+        name: 'estimationType',
+        value: 'seller',
+      }],
+      title: translateTo('Activate your Baloise advantages now.', lang),
+      history: 'baloiseInfo',
+      cardType: 'baloiseInfo',
+      footerWidth: 'max-w-fix-384',
+      inputs: [
+        {
+          component: BrixelRadioButton,
+          validation: [Validation.required],
+          classNameBox: 'brdRadius max-w-fix-384 px-2 px-sm-5 py-5 m-a fieldHolder bgWhite',
+          className: '',
+          name: 'baloiseInfo',
+          bulletPoints: {
+            title: translateTo('What are my advantages?', lang),
+            description: [
+              translateTo('You get CHF 1000 discount', lang),
+              translateTo('You pay only if the sale is successful', lang),
+              translateTo('You will be advised on your existing mortgage', lang),
+            ]
+          },
+          options: [
+            {
+              label: translateTo('I am a customer of Baloise Insurance', lang),
+              value: 'baloiseInsurance',
+            },
+            {
+              label: translateTo('I am a customer at Baloise Bank SoBa', lang),
+              value: 'baloiseBank',
+            },
+            {
+              label: translateTo('I am already a client of both', lang),
+              value: 'both',
+            },
+            {
+              label: translateTo('I am not yet a Baloise customer', lang),
+              value: 'notClient',
+            },
+          ],
+        },
+      ],
+    });
+  question.push(
+    {
+      conditions: [{
+        name: 'baloiseInfo',
+        value: 'both',
+      },
+      {
+        name: 'estimationType',
+        value: 'seller',
+      }],
+      title: translateTo('Almost there. Please accept the privacy policy.', lang),
+      history: 'baloisePolicy',
+      cardType: 'baloisePolicy',
+      footerWidth: 'max-w-fix-384',
+      canSkip: true,
+      text: [{
+        title: translateTo('Transmission of data to Baloise Insurance.', lang),
+        description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, phone number, e-mail) is transmitted to Basler Versicherung AG to check if I am eligible for the discount by comparing the data with my relevant data held by Basler Versicherung AG and to add the information that I use the Brixel service to my customer profile at Basler Versicherung AG to better meet my needs. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing based on the consent until revocation.', lang),
+      },
+      {
+        title: translateTo('Transmission of data to Baloise Bank SoBa.', lang),
+        description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, telephone number, e-mail) is transmitted to Baloise Bank SoBa AG to check if I am eligible for the discount by comparing the data with my relevant data held by Baloise Bank SoBa AG, and to add the information that I use the Brixel service to my customer profile at Baloise Bank SoBa AG to better meet my needs. For the aforementioned purposes, I release Baloise Bank SoBa AG as well as third parties commissioned by it from banking secrecy. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until revocation.', lang),
+      },]
+    },
+    {
+      conditions: [{
+        name: 'baloiseInfo',
+        value: 'baloiseInsurance',
+      },
+      {
+        name: 'estimationType',
+        value: 'seller',
+      }],
+      title: translateTo('Almost there. Please accept the privacy policy.', lang),
+      history: 'baloisePolicy',
+      cardType: 'baloisePolicy',
+      footerWidth: 'max-w-fix-384',
+      text: [{
+        title: translateTo('Transmission of data to Baloise Insurance.', lang),
+        description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, phone number, e-mail) is transmitted to Basler Versicherung AG to check if I am eligible for the discount by comparing the data with my relevant data held by Basler Versicherung AG and to add the information that I use the Brixel service to my customer profile at Basler Versicherung AG to better meet my needs. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing based on the consent until revocation.', lang),
+      },]
+    },
+    {
+      conditions: [{
+        name: 'baloiseInfo',
+        value: 'baloiseBank',
+      },
+      {
+        name: 'estimationType',
+        value: 'seller',
+      }],
+      title: translateTo('Almost there. Please accept the privacy policy.', lang),
+      history: 'baloisePolicy',
+      cardType: 'baloisePolicy',
+      footerWidth: 'max-w-fix-384',
+      text: [{
+        title: translateTo('Transmission of data to Baloise Bank SoBa.', lang),
+        description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, telephone number, e-mail) is transmitted to Baloise Bank SoBa AG to check if I am eligible for the discount by comparing the data with my relevant data held by Baloise Bank SoBa AG, and to add the information that I use the Brixel service to my customer profile at Baloise Bank SoBa AG to better meet my needs. For the aforementioned purposes, I release Baloise Bank SoBa AG as well as third parties commissioned by it from banking secrecy. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until revocation.', lang),
+      },]
+    },
+  );
+
+  return question;
 };
