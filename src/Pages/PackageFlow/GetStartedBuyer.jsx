@@ -19,7 +19,7 @@ import {
   destroy,
 } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -46,7 +46,6 @@ const GetStartedBuyer = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
-  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -76,18 +75,17 @@ const GetStartedBuyer = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
+  // const [roomValue, setRoomValue] = useState('');
   
-  const companyStub = get(match, 'companyStub', null);
-
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-
+  
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-
+  
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
     const dataForm = cloneDeep(formValue);
@@ -165,11 +163,11 @@ const GetStartedBuyer = (props) => {
       await handleValidateUser(data);
     }
   };
-
+  
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
   }, [get(loggedInUser, 'user.id', null)]);
-
+  
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -187,7 +185,7 @@ const GetStartedBuyer = (props) => {
     }
     return newIndex;
   };
-
+  
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -223,10 +221,10 @@ const GetStartedBuyer = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-
+  
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
-
+  
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
@@ -243,11 +241,11 @@ const GetStartedBuyer = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push(`/packageFlow/${company.stub}`);
+      history.push('/packageFlow');
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
-
+      
       // setPosition(newIndex);
       if (questions[defId].toSave) {
         saveData(get(questions[defId], 'action', null));
@@ -267,7 +265,7 @@ const GetStartedBuyer = (props) => {
           setQuest(newQuest);
           setCurrentIndex(defId);
         }
-
+        
         if (newQuest.history !== 'createProfile') {
           if (newQuest.inputs && !newQuest.inputs[0].options && !newQuest.inputs[0].startFrom) {
             const fakeInput = document.createElement('input');
@@ -281,7 +279,7 @@ const GetStartedBuyer = (props) => {
             document.body.prepend(fakeInput);
             fakeInput.focus();
           }
-
+          
           setTimeout(() => {
             const fakeInput = document.getElementById('fakeInput');
             const getCurStep = document.getElementById(`step-${defId}`);
@@ -298,7 +296,7 @@ const GetStartedBuyer = (props) => {
         }
         if (questions[defId].history) {
           history.push({
-            pathname: `/packageFlow/getStartedBuyer/${company.stub}${questions[defId].history}`,
+            pathname: `/packageFlow/getStartedBuyer/${questions[defId].history}`,
             state: get(history, 'location.state', {}),
           });
         }
@@ -315,7 +313,7 @@ const GetStartedBuyer = (props) => {
     }
     return null;
   };
-
+  
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     if (get(history, 'location.pathname', '').includes('success') && questions[currentIndex + 1]) {
@@ -325,21 +323,11 @@ const GetStartedBuyer = (props) => {
     }
   }, [get(history, 'location', null)]);
   
-  useEffect(() => {
-    if (company.stub) {
-      history.push({
-        pathname: `/packageFlow/getStarted/${company.stub}/${questions[0].history}`,
-        state: {},
-      });
-    }
-  }, [company.stub]);
-  
-  
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
-    const companyByUrl = queryString.parse(get(history, 'location.search', companyStub));
-    const companyCookie = companyStub || cookie.get('brixelStubCompany') || null;
+    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
+    const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       const defComp = get(companyByUrl, 'company', companyCookie);
@@ -359,12 +347,12 @@ const GetStartedBuyer = (props) => {
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
       history.push({
-        pathname: `/packageFlow/getstartedBuyer/${get(companyByUrl, 'company', company.stub)}/${questions[0].history}`,
+        pathname: `/packageFlow/getstartedBuyer/${questions[0].history}`,
         state: {},
       });
     }
   }, []);
-
+  
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
@@ -376,14 +364,14 @@ const GetStartedBuyer = (props) => {
       setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
   }, [lang]);
-
+  
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
     if (get(initialValues, 'properties.propertyType', null)) {
       // changeStep();
     }
   }, [initialValues]);
-
+  
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
     setIsEnter(true);
@@ -402,7 +390,7 @@ const GetStartedBuyer = (props) => {
       }
     }
   }, [currentIndex]);
-
+  
   // FUNCTION to MULTIPLY ROOMS IN BACKGROUND
   /* useEffect(() => {
     let roomValue = get(formValue, 'properties.typology.bedrooms', 2);
@@ -412,20 +400,20 @@ const GetStartedBuyer = (props) => {
     setRoomValue(bgSize+ 'vw');
 
   }, [get(formValue, 'properties.typology.bedrooms', 2)]); */
-
+  
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset('Property');
     // history.push('/buy');
     history.push('/buy');
   };
-
+  
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     setOldIndex(currentIndex);
     const newQuest = [];
     if (formValue) {
-      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -446,7 +434,7 @@ const GetStartedBuyer = (props) => {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
-
+  
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
@@ -465,7 +453,7 @@ const GetStartedBuyer = (props) => {
     }
     if (get(formValue, 'locations', []).length === 0) initForm(initialValues);
   }, [get(company, 'id', null)]);
-
+  
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
@@ -476,7 +464,7 @@ const GetStartedBuyer = (props) => {
     else label = 'Next';
     return label;
   };
-
+  
   // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
   const getStartedEl = document.querySelector('.getStarted');
   useEffect(() => {
@@ -484,7 +472,7 @@ const GetStartedBuyer = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-
+  
   return (
     <>
       <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
@@ -504,11 +492,11 @@ const GetStartedBuyer = (props) => {
             </div>
           )
         }
-
+        
         <div
           className={`bodyModal container ${get(quest, 'history', '')}`}
         >
-
+          
           <form
             id="multiStepForm"
             autoComplete="off"
@@ -551,7 +539,7 @@ const GetStartedBuyer = (props) => {
                             skipPhone
                           />
                         </div>
-
+                      
                       </div>
                     )
                   }
@@ -644,7 +632,7 @@ const GetStartedBuyer = (props) => {
                                   disabled={!checkValidateField()}
                                   rounded
                                   theme="green"
-                                  label={translateTo(buttonLabel())}
+                                  label={translateTo(buttonLabel(), lang)}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                   onShowError={() => setShowError(true)}
