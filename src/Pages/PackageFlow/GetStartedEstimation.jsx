@@ -84,16 +84,16 @@ const GetStartedEstimation = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
-  
+
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-  
+
   // DESTROY FORM ON EXIT
   useEffect(() => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
-  
+
   useEffect(() => {
     if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
       changeFieldValue('properties.extraFeatures.equippedKitchen', get(formValue, 'properties.extraFeaturesBestimatePT', []).includes('equippedKitchen'));
@@ -126,7 +126,7 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('properties.energy.efficiencyCertified', efficiencyCertified);
     }
   }, [get(formValue, 'properties.extraFeaturesBestimatePT', null)]);
-  
+
   const getCurrency = () => {
     const result = {};
     if (get(formValue, 'location.countryCode', '')) {
@@ -136,13 +136,13 @@ const GetStartedEstimation = (props) => {
     }
     return result;
   };
-  
+
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     getCurrency();
     if (get(formValue, 'location.countryCode', null) !== 'ch') changeFieldValue('properties.building.conditionStatus', 'used');
   }, [get(history, 'location.pathname', null)]);
-  
+
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
     const dataForm = cloneDeep(formValue);
@@ -211,7 +211,7 @@ const GetStartedEstimation = (props) => {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
       data.redirectToRewards = true;
-      if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') { 
+      if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') {
         await handleCreateActiveSingleProperty(data);}
       else {
         if (action === 'accept' && company === 'baloise') {
@@ -294,11 +294,11 @@ const GetStartedEstimation = (props) => {
       await handleValidateUser(data);
     }
   };
-  
+
   useEffect(() => {
     if (get(loggedInUser, 'user.id', null)) changeFieldValue('owner', get(loggedInUser, 'user.id', null));
   }, [get(loggedInUser, 'user.id', null)]);
-  
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -316,7 +316,7 @@ const GetStartedEstimation = (props) => {
     }
     return newIndex;
   };
-  
+
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -361,10 +361,10 @@ const GetStartedEstimation = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-  
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
-  
+
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
@@ -417,7 +417,7 @@ const GetStartedEstimation = (props) => {
               document.body.prepend(fakeInput);
               fakeInput.focus();
             }
-            
+
             setTimeout(() => {
               const fakeInput = document.getElementById('fakeInput');
               const getCurStep = document.getElementById(`step-${defId}`);
@@ -450,7 +450,7 @@ const GetStartedEstimation = (props) => {
     }
     return null;
   };
-  
+
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     setOldIndex(currentIndex);
@@ -464,7 +464,7 @@ const GetStartedEstimation = (props) => {
       changeStep('next', null, 1, true);
     }
   }, [formValue]);
-  
+
   // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
   useEffect(() => {
     if (get(history, 'location.pathname', '').includes('success') && questions[currentIndex + 1]) {
@@ -473,7 +473,7 @@ const GetStartedEstimation = (props) => {
       }, 500);
     }
   }, [get(history, 'location', null)]);
-  
+
   // ON DID MOUNT I GET THE COMPANY DATA
   useEffect(() => {
     // GET THE COMPANY BY URL OR COOKIE
@@ -505,7 +505,7 @@ const GetStartedEstimation = (props) => {
       });
     }
   }, []);
-  
+
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
@@ -517,7 +517,7 @@ const GetStartedEstimation = (props) => {
       setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
   }, [lang]);
-  
+
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
     if (currentIndex > 2) {
@@ -532,7 +532,7 @@ const GetStartedEstimation = (props) => {
       }
     }
   }, [get(formValue, 'location.countryCode', '')]);
-  
+
   // FUNCTION TO CALC THE LIVING SPACE FROM GROSS AREA
   useEffect(() => {
     if (get(formValue, 'properties.typology.grossArea.value', 0) > 0) {
@@ -548,13 +548,13 @@ const GetStartedEstimation = (props) => {
       changeFieldValue('properties.typology.livingArea.value', livingSpace);
     }
   }, [get(formValue, 'properties.typology.grossArea.value', 0), get(formValue, 'properties.typology.floorSpace.value', 0)]);
-  
+
   // FUNCTION TO CLOSE
   const closeWindow = () => {
     handleReset('Property');
     history.push(`/${propID}/home`);
   };
-  
+
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
     if (formValue) {
@@ -577,7 +577,7 @@ const GetStartedEstimation = (props) => {
       setQuestions(newQuest);
     }
   }, [formValue]);
-  
+
   // FUNCTION TO CHANGE THE TITLE ON CHANGING LOCATION
   useEffect(() => {
     if (get(formValue, 'properties.propertyType', null) && get(formValue, 'location.address', null)) {
@@ -586,7 +586,7 @@ const GetStartedEstimation = (props) => {
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
   }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
-  
+
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
@@ -599,7 +599,7 @@ const GetStartedEstimation = (props) => {
     }
     if (get(formValue, 'properties.propertyType', null) === null) initForm(initialValues);
   }, [get(company, 'id', null)]);
-  
+
   // DYNAMIC LABEL NEXT BUTTON
   const buttonLabel = () => {
     let label;
@@ -610,7 +610,7 @@ const GetStartedEstimation = (props) => {
     else label = 'Next';
     return label;
   };
-  
+
   const progressBarCalc = () => {
     let num = 0;
     questions.forEach((item) => {
@@ -631,7 +631,7 @@ const GetStartedEstimation = (props) => {
     });
     return (currentIndex * 100) / (num - 1);
   };
-  
+
   // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
   const getStartedEl = document.querySelector('.getStarted');
   useEffect(() => {
@@ -639,7 +639,7 @@ const GetStartedEstimation = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-  
+
   return (
     <>
       <div id="bodyModalWrapper" className={`withHeader getStarted slideUpTrans ${get(quest, 'background', '')} ${get(quest, 'history', '')}  ${isOpenTransifex ? '' : 'notranslate'}`}>
@@ -659,7 +659,7 @@ const GetStartedEstimation = (props) => {
             </div>
           )
         }
-        
+
         <div
           className={`bodyModal container ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUpScreen' : ''} ${get(quest, 'history', '')}`}
         >
@@ -705,7 +705,7 @@ const GetStartedEstimation = (props) => {
                             skipPhone
                           />
                         </div>
-                      
+
                       </div>
                     )
                   }
@@ -788,30 +788,28 @@ const GetStartedEstimation = (props) => {
                   {
                     (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsPolicy') && (
                       <>
-                        <div className="p-7 brdRadius bgWhite">
-                          {
-                            quest.title && (
-                              <h3 className={`fweight-600 max-w-fix-408 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                            )
-                          }
+                        {
+                          quest.title && (
+                            <h3 className={`fweight-600 max-w-fix-600 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          )
+                        }
+                        <div className="brdRadius bgWhite max-w-fix-752 ml-a mr-a px-2 px-sm-6 pt-3 pb-6">
                           {
                             quest.text.map((text, i) => (
                               <div key={i.toString()}>
-                                <h6>{text.title}</h6>
-                                <span>{text.description}</span>
+                                <span className="fweight-500 my-3 dis-b">{text.title}</span>
+                                <span className="fsize-300 dis-b">{text.description}</span>
                               </div>
                             ))
                           }
                         </div>
-                        <div
-                          className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
-                        >
+                        <div className={`footerAction py-3 flowFooter ${get(quest, 'footerWidth', '')}`}>
                           <div className="pos-r">
                             <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                               {
                                 get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
                                   <BrixelButtonPrimary
-                                    className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                                    className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                     disabled={!checkValidateField()}
                                     rounded
                                     theme="green"
@@ -823,6 +821,7 @@ const GetStartedEstimation = (props) => {
                               }
                               <BrixelButtonText
                                 theme="light"
+                                className="pos-a x-r"
                                 label={translateTo('Skip', lang)}
                                 onClick={() => saveData('skip')}
                               />
@@ -837,7 +836,7 @@ const GetStartedEstimation = (props) => {
             }
           </form>
         </div>
-      
+
       </div>
     </>
   );
