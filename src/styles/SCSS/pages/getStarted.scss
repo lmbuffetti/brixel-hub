@@ -556,3 +556,12 @@ body:not(.overlayOpen).locationInputResume {
     font-weight: 400;
   }
 }
+
+
+.bodyModal .bulletPointsStep {
+  ul {
+    li {
+      list-style: none;
+    }
+  }
+}
