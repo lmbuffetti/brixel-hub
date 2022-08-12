@@ -12,13 +12,14 @@ const ContentCard = (props) => {
     title,
   } = props;
 
-  const articleLink =()=> {window.open(`${hrefUrl}`, '_blank');}
-
   return (
     <div className="mb-3 mb-sm-0">
-      <div className="dis-f max-h-fix-sm-112 ov-h a-b cur-poi" onClick={()=> articleLink()} target="_blank" rel="noreferrer">
+      <a href={hrefUrl}
+        className="dis-f max-h-fix-sm-112 ov-h a-b cur-poi"
+        target="_blank" rel="noreferrer"
+      >
         <img width="100%" src={image.url} alt={image.alt} />
-      </div>
+      </a>
       <a href={hrefUrl} target="_blank" rel="noreferrer">
         <h5 className="mt-2 mb-2 mb-sm-3 txtDark700 fSizePx18 fweight-600 tt-break-hy">{title}</h5>
       </a>
