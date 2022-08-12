@@ -565,7 +565,29 @@ const MarketCategoryListSeller = (props) => {
                         {
                           pkg.price.total > 0 ? (
                             <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
-                              <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
+                              {
+                                get(pkg, 'price.discountTotal', 0) > 0 && (
+                                  <>
+                                    <span
+                                      className="dis-b txtAltGrey400 fsize-300 mt-2 mt-sm-0"
+                                    >
+                                      <span className="">{translateTo('Original price', lang)}</span>
+                                      <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
+                                        <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
+                                        <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
+                                      </span>
+                                    </span>
+                                  </>
+                                )
+                              }
+                              {/* <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span> */}
+                              {
+                                get(pkg, 'price.discountTotal', 0) > 0 ? (
+                                  <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.discountTotal, get(pkg, 'price.currency', ''))}</span>
+                                ) : (
+                                  <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, get(pkg, 'price.currency', ''))}</span>
+                                )
+                              }
                               <small className="ml-1 fsize-300 txtDark700">
                                 {translateTo('incl. VAT', lang)}
                               </small>
