@@ -73,7 +73,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       color: 'blue',
     },
   ];
-  if (company !== 'baloise') {
+  if (company && (company !== 'baloise' && company !== 'ubs')) {
     propertyTypeOptions.push({
       label: translateTo('Commercial', lang),
       value: 'Commercial',
