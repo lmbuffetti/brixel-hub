@@ -305,7 +305,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo('Activate your UBS advantages now.', lang),
       history: 'ubsPolicy',
       cardType: 'ubsPolicy',
-      footerWidth: 'max-w-fix-752',
+      footerWidth: 'max-w-fix-912',
       bulletPoints: {
         title: translateTo('What are my advantages?', lang),
         description: [
@@ -333,7 +333,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo('Benefit from the consulting services of our partner Baloise.', lang),
       history: 'baloisePolicy',
       cardType: 'baloisePolicy',
-      footerWidth: 'max-w-fix-904',
+      footerWidth: 'max-w-fix-752',
       text: [{
         title: translateTo('Transmission of data to Baloise Insurance.', lang),
         description: translateTo('I hereby agree that my data (Surname, first name, phone number, e-mail) is transmitted to Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. so that I can receive newsletters or telephone contact regarding home financing, pension provision and assets. Furthermore, in order to check whether I am already a customer of Baloise Insurance Ltd. and/or Baloise Bank SoBa Ltd., I authorize Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. to compare with my relevant data held by Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. You can revoke this consent at any time in the future. If you no longer wish to receive the newsletter from Baloise Insurance Ltd and Baloise Bank SoBa Ltd, you can cancel this by clicking on the link provided in the respective newsletter. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until revocation.', lang),
@@ -353,13 +353,13 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo('Activate your Baloise advantages now.', lang),
       history: 'baloiseInfo',
       cardType: 'baloiseInfo',
-      footerWidth: 'max-w-fix-904',
+      footerWidth: 'max-w-fix-912',
       inputs: [
         {
           component: BrixelRadioButton,
           validation: [Validation.required],
           ReduxFieldClass: 'py-4 py-lg-0 w-perc-100',
-          classNameBox: 'brdRadius max-w-fix-904 w-perc-100 px-2 px-sm-6 brdRadius fieldHolder bgWhite m-a',
+          classNameBox: 'brdRadius max-w-fix-912 w-perc-100 px-2 px-sm-6 brdRadius fieldHolder bgWhite m-a',
           className: '',
           name: 'baloiseInfo',
           label: translateTo('What is your customer relationship with Baloise?', lang),
