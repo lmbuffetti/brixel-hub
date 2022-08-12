@@ -328,7 +328,6 @@ const DashboardHome = (props) => {
               </div>
   
               <ArticlesBox
-                title="Wissenswertes rund um den Immobilienverkauf"
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-onboarding-article"
@@ -870,14 +869,12 @@ const DashboardHome = (props) => {
               </div>
   
               <ArticlesBox
-                title="Plane deine nächsten Schritte."
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-sold-partner"
               />
   
               <ArticlesBox
-                title="Wissenswertes rund ums Eigenheim"
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-sold-article"

@@ -8,8 +8,7 @@ const ArticlesBox = (props) => {
   const {
     activeSingleCompany,
     lang,
-    placementSlug,
-    title,
+    placementSlug
   } = props;
 
   const [placement, setPlacement] = useState([]);
@@ -37,7 +36,7 @@ const ArticlesBox = (props) => {
   return (
     <div className="mt-5">
       {
-        title && (
+        placement.title && (
           <h5 className="fweight-600">{placement.title}</h5>
         )
       }
@@ -64,8 +63,7 @@ const ArticlesBox = (props) => {
 ArticlesBox.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
-  placementSlug: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  placementSlug: PropTypes.string.isRequired
 };
 
 export default ArticlesBox;
