@@ -57,7 +57,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     {
       title: translateTo(`<span>Plan your finances with</span><span class="ml-1">${company.name}.</span>`, lang),
       subtitle: translateTo('Your advice on the following topics:', lang),
-      history: 'baloiseContact',
+      history: 'intro',
       vCentered: true,
       textsCard: [
         {

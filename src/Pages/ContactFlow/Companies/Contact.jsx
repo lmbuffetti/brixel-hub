@@ -69,7 +69,7 @@ const Contact = (props) => {
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
-  const BASEURL = isBuyer ? `/buyer/5e676f444285565def1626fa/contactFlow` : `/5e676f444285565def1626fa/contactFlow`;
+  const BASEURL = isBuyer ? `/buyer/${propID}/contactFlow` : `/${propID}/contactFlow`;
 
   // REF
   const singleStepRef = useRef(null);
