@@ -46,9 +46,11 @@ const ArticlesBox = (props) => {
             <ContentCard
               key={ get(card, 'id', '') }
               image={ get(card, 'mainImage[0]', null) }
-              title={ get(card, 'title', '') }
+              title={ get(card, 'cardTitle', '') }
               previewCopy={ get(card, 'previewCopy', '') }
-              href={ get(card, 'url', '') }
+              hrefUrl={ get(card, 'cardLink.url', '') }
+              hrefTitle={get(card, 'cardLink.text', '')}
+              hrefTarget={ get(card, 'cardLink.target', '') }
             />
           ))
         }
