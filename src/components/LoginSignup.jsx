@@ -384,7 +384,7 @@ const LoginSignup = (props) => {
 
                   <h5 className="ta-c txtPrimary400">F. Pfiffner</h5>
                   <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved CHF 30&#39;700', lang)}
+                    {translateTo("Saved CHF 30'700", lang)}
                   </p>
                 </div>
 
@@ -396,7 +396,7 @@ const LoginSignup = (props) => {
 
                   <h5 className="ta-c txtPrimary400">M. Callaghan</h5>
                   <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved CHF 44&#39;050', lang)}
+                    {translateTo("Saved CHF 44'050", lang)}
                   </p>
                 </div>
               </Slider>
