@@ -305,7 +305,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       title: translateTo('Activate your UBS advantages now.', lang),
       history: 'ubsPolicy',
       cardType: 'ubsPolicy',
-      footerWidth: 'max-w-fix-384',
+      footerWidth: 'max-w-fix-752',
       bulletPoints: {
         title: translateTo('What are my advantages?', lang),
         description: [

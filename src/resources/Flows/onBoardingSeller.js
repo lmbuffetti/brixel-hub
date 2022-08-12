@@ -52,7 +52,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   }
   let livingAreaTitle = translateTo(country === 'PT' ? 'What is the gross area size?' : 'What is the living space size?', lang);
   if (propertyType === 'Commercial') livingAreaTitle = translateTo('What is the floor size?', lang);
-  
+
   const propertyTypeOptions = [
     {
       label: translateTo('Apartment', lang),
@@ -410,7 +410,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       title: translateTo('Activate your UBS advantages now.', lang),
       history: 'ubsPolicy',
       cardType: 'ubsPolicy',
-      footerWidth: 'max-w-fix-384',
+      footerWidth: 'max-w-fix-752',
       bulletPoints: {
         title: translateTo('What are my advantages?', lang),
         description: [

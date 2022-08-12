@@ -12,6 +12,7 @@ import {
   DataByCountry,
   translateTo,
   BrixelButtonText,
+  BrixelIcon,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -716,6 +717,26 @@ const GetStartedSeller = (props) => {
                           <span className="fsize-300 dis-b">{text.description}</span>
                         </div>
                       ))
+                    }
+                    {
+                      quest.bulletPoints && (
+                        <div className="brdSmallLeft brdAltGrey100">
+                          <span className="mb-2">{quest.bulletPoints.title}</span>
+                          <ul>
+                            {
+                              quest.bulletPoints.description.map((bullet,k) => (
+                                <li
+                                  className="mb-2"
+                                  key={k.toString()}
+                                >
+                                  <BrixelIcon color="blue" icon="tick" className="mr-2"/>
+                                  {bullet}
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      )
                     }
                   </div>
                   <div
