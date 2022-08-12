@@ -149,7 +149,8 @@ const GetStartedSeller = (props) => {
       company,
       extraLoading: true,
     };
-    if (company !== 'baloise' && company !== 'ubs') set(data, 'redirectToUrl',  '/packageFlow/:pageID/welcomeSeller');
+    if (company !== 'baloise' && company !== 'ubs') set(data, 'redirectToUrl', '/packageFlow/:pageID/welcomeSeller');
+    else set(data, 'redirectToUrl', '/sell');
     if (formValue.pageID) data.id = formValue.pageID;
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
