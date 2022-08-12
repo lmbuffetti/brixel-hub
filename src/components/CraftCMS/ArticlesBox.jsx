@@ -44,11 +44,11 @@ const ArticlesBox = (props) => {
         {
           articles.map((card) => (
             <ContentCard
-              key={ get(card, 'cardLink.card.id', '') }
-              image={ get(card, 'cardLink.element.mainImage[0]', null) }
-              title={ get(card, 'cardLink.element.title', '') }
-              previewCopy={ get(card, 'cardLink.card.previewCopy', '') }
-              href={ get(card, 'cardLink.card.url', '') }
+              key={ get(card, 'id', '') }
+              image={ get(card, 'mainImage[0]', null) }
+              title={ get(card, 'title', '') }
+              previewCopy={ get(card, 'previewCopy', '') }
+              href={ get(card, 'url', '') }
             />
           ))
         }
