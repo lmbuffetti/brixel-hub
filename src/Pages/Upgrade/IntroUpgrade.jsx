@@ -246,14 +246,14 @@ const IntroUpgrade = (props) => {
                                         >
                                           <span className="">{translateTo('Original price', lang)}</span>
                                           <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
-                                            <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
+                                            <span>{get(pkg, 'price.currency', '')} </span>
                                             <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
                                           </span>
                                         </span>
                                       </>
                                     )
                                   }
-                                  <h3 className="fweight-600 fsize-800">
+                                  <h3 className="dis-f fweight-600 fsize-800">
                                     <span>
                                       <span className="mr-1">{get(pkg, 'price.currency', '')}</span>
                                       {
@@ -264,7 +264,7 @@ const IntroUpgrade = (props) => {
                                         )
                                       }
                                     </span>
-                                    <sup className="fsize-300 pl-1">{translateTo('incl. VAT', lang)}</sup>
+                                    <span className="fsize-300 pl-1 mt-a dis-ib mb-small-4">{translateTo('incl. VAT', lang)}</span>
                                   </h3>
                                 </div>
                                 {
