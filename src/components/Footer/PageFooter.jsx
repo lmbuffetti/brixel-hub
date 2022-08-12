@@ -56,9 +56,12 @@ function PageFooter(props) {
           {
             get(activeCompanyData, 'logos', []).length > 0 && (
               <div className="dis-f jc-c a-c max-h-fix-20">
-                <span className="mr-2 fsize-300 txtAltGrey400">
-                  {translateTo('Powered by', lang)}
-                </span>
+                {
+                  activeSingleCompany.stub === 'baloise' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Powered by', lang)}</span>
+                }
+                {
+                  activeSingleCompany.stub === 'ubs' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Your partner for financial questions', lang)}</span>
+                }
                 {
                   get(activeCompanyData, 'logos', []).map((logo, i) => (
                     <img
