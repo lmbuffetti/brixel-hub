@@ -16,7 +16,7 @@ const ContentCard = (props) => {
 
   return (
     <div className="mb-3 mb-sm-0">
-      <div className="dis-f max-h-fix-112 ov-h a-b cur-poi" onClick={()=> articleLink()} target="_blank" rel="noreferrer">
+      <div className="dis-f max-h-fix-sm-112 ov-h a-b cur-poi" onClick={()=> articleLink()} target="_blank" rel="noreferrer">
         <img width="100%" src={image.url} alt={image.alt} />
       </div>
       <a href={hrefUrl} target="_blank" rel="noreferrer">
