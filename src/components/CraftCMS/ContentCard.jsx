@@ -1,4 +1,4 @@
-import { BrixelButtonSecondary } from '@brixel/brixel-components';
+import { BrixelButtonText } from '@brixel/brixel-components';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,21 +12,22 @@ const ContentCard = (props) => {
     title,
   } = props;
 
+  const articleLink =()=> {window.open(`${hrefUrl}`, '_blank');}
+
   return (
     <div className="mb-3 mb-sm-0">
-      <a className="dis-f h-fix-sm-112 a-b" href={hrefUrl} target="_blank" rel="noreferrer">
+      <div className="dis-f max-h-fix-112 ov-h a-b cur-poi" onClick={()=> articleLink()} target="_blank" rel="noreferrer">
         <img width="100%" src={image.url} alt={image.alt} />
-      </a>
+      </div>
       <a href={hrefUrl} target="_blank" rel="noreferrer">
-        <h5 className="mt-2 mb-2 mb-sm-3 txtBlue400 fweight-600">{title}</h5>
+        <h5 className="mt-2 mb-2 mb-sm-3 txtDark700 fSizePx18 fweight-600 tt-break-hy">{title}</h5>
       </a>
       <p className="fsize-300">{previewCopy}</p>
-      <BrixelButtonSecondary
+      <BrixelButtonText
         bgTransparent
-        className="mt-2 mt-sm-4"
+        className="mt-2"
         rounded
         label={hrefTitle}
-        theme="blue"
         onClick={() => window.open(hrefUrl, hrefTarget)}
       />
     </div>

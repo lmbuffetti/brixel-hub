@@ -1,4 +1,4 @@
-import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import { BrixelButtonSecondary } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -37,7 +37,7 @@ const BannerBox = (props) => {
         });
     }
   }, [activeSingleCompany, lang]);
-  
+
   const onClickBanner = (url) => {
     const mapObj = {
       DOMAIN_HUB: '',
@@ -66,18 +66,13 @@ const BannerBox = (props) => {
         )
       }
       <div className="pos-r p-3 p-sm-5 brdRadius bgWhite">
-        <div className="dis-fl-col dis-fl-row-sm a-t">
-          {
-            get(banner, 'mainImage[0].url', null) && (
-              <img className="" width="124" src={get(banner, 'mainImage[0].url', '')} alt={banner.mainImage[0].alt} />
-            )
-          }
-          <div className="ml-0 ml-sm-4">
-            <h5 className="mt-3 mt-sm-0 fweight-600">{banner.title}</h5>
+        <div className="dis-fl-col dis-fl-row-sm a-c-sm jc-b">
+          <div className="max-w-fix-400">
+            <h5 className="mt-3 mt-sm-0 fweight-600 fsize-600">{banner.title}</h5>
             <p className="fsize-300 my-3">{banner.description}</p>
             {
               get(banner, 'bannerButton.text', null) && get(banner, 'bannerButton.url', null) && (
-                <BrixelButtonPrimary
+                <BrixelButtonSecondary
                   rounded
                   onClick={() => onClickBanner(banner.bannerButton.url)}
                   label={banner.bannerButton.text}
@@ -85,6 +80,13 @@ const BannerBox = (props) => {
               )
             }
           </div>
+          {
+            get(banner, 'mainImage[0].url', null) && (
+              <div className='ml-0 ml-sm-4 p-3 p-sm-0'>
+                <img className="" width="124" src={get(banner, 'mainImage[0].url', '')} alt={banner.mainImage[0].alt} />
+              </div>
+            )
+          }
         </div>
         {
           get(banner, 'logo[0].url', null) && (
