@@ -8,10 +8,10 @@ const ArticlesBox = (props) => {
   const {
     activeSingleCompany,
     lang,
-    placementSlug,
-    title,
+    placementSlug
   } = props;
 
+  const [placement, setPlacement] = useState([]);
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
@@ -24,7 +24,8 @@ const ArticlesBox = (props) => {
       };
       api.craftCMS.getHubContent(data)
         .then((res) => {
-          setArticles(get(res, 'data.data.placementEntries[0].placementContent', []))
+          setPlacement(get(res, 'data.data.placementEntries[0]', []));
+          setArticles(get(res, 'data.data.placementEntries[0].placementContent', []));
         });
     }
 
@@ -35,8 +36,8 @@ const ArticlesBox = (props) => {
   return (
     <div className="mt-5">
       {
-        title && (
-          <h5 className="fweight-600">{title}</h5>
+        placement.title && (
+          <h5 className="fweight-600">{placement.title}</h5>
         )
       }
 
@@ -62,8 +63,7 @@ const ArticlesBox = (props) => {
 ArticlesBox.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
-  placementSlug: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  placementSlug: PropTypes.string.isRequired
 };
 
 export default ArticlesBox;
