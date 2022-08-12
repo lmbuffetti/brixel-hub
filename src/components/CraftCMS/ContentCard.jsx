@@ -33,7 +33,7 @@ const ContentCard = (props) => {
 
 ContentCard.propTypes = {
   href: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.object.isRequired,
   previewCopy: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };
