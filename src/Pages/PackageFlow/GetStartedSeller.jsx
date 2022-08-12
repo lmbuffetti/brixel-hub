@@ -145,11 +145,11 @@ const GetStartedSeller = (props) => {
       createEstimation: true,
       published: false,
       addProperty: true,
-      redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
       // redirectToUrl: '/sell',
       company,
       extraLoading: true,
     };
+    if (company !== 'baloise' && company !== 'ubs') set(data, 'redirectToUrl',  '/packageFlow/:pageID/welcomeSeller');
     if (formValue.pageID) data.id = formValue.pageID;
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
