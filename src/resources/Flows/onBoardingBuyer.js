@@ -190,7 +190,7 @@ export const QuestionsList = (lang, type) => {
           component: BrixelInputText,
           classNameBox: `brdRadius fieldHolder bgWhite ${type === 'searchProfile' ? 'max-w-fix-320' : 'max-w-fix-600 px-2 px-sm-5 py-5 m-a'}`,
           className: '',
-          label: type === 'searchProfile' ? null : `Max. selling price in ${get(formValue, 'finance.currency', 'CHF')}`,
+          label: type === 'searchProfile' ? null : translateTo(`Max. selling price in ${get(formValue, 'finance.currency', 'CHF')}`, lang),
           placeholder: get(formValue, 'finance.currency', 'CHF') === 'CHF' ? '800’000' : '800.000',
           name: 'finance.price.totalMax',
           formatType: 'price',
