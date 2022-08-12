@@ -157,7 +157,7 @@ const GetStartedSeller = (props) => {
     if (formValue.owner && get(data, 'price.currency', null)) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
-      if (action === 'accept' && company === 'ubs_key4') {
+      if (action === 'accept' && company === 'ubs') {
         set(data, 'termsUBS', true)
       }
       await handleCreateActiveSingleProperty(data);

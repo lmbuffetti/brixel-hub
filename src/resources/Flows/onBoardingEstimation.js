@@ -286,7 +286,7 @@ export const QuestionsList = (lang, country = 'CH') => {
     },
   ];
 
-  if ((company !== 'baloise') && (company !== 'ubs_key4')) {
+  if ((company !== 'baloise') && (company !== 'ubs')) {
     question.push(
       {
         hideProgress: true,
@@ -300,7 +300,7 @@ export const QuestionsList = (lang, country = 'CH') => {
     {
       conditions: [{
         name: 'company',
-        value: 'ubs_key4',
+        value: 'ubs',
       }],
       title: translateTo('Activate your UBS advantages now.', lang),
       history: 'ubsPolicy',

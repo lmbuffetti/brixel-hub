@@ -123,7 +123,7 @@ const GetStartedBuyer = (props) => {
       set(data, 'termsBaloiseBank', true);
       set(data, 'termsBaloiseInsurance', true);
     }
-    if (action === 'accept' && company === 'ubs_key4') {
+    if (action === 'accept' && company === 'ubs') {
       set(data, 'termsUBS', true)
     }
     const page = get(formValue, 'signupScreen', null);
@@ -172,7 +172,7 @@ const GetStartedBuyer = (props) => {
         set(data.user, 'termsBaloiseBank', true);
         set(data.user, 'termsBaloiseInsurance', true);
       }
-      if (action === 'accept' && company === 'ubs_key4') {
+      if (action === 'accept' && company === 'ubs') {
         set(data.user, 'termsUBS', true)
       }
       // DISPATCH TO DO REGISTRATION USER

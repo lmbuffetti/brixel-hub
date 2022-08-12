@@ -171,7 +171,7 @@ const Key4Registration = (props) => {
               />
   
               {
-                get(formValue, 'company', null) !== 'ubs_key4' && (
+                get(formValue, 'company', null) !== 'ubs' && (
                   <p className="mt-3 fs-i txtDark400 fsize-200">
                     {translateTo('Please note that Brixel will be compensated for your referral when you conclude a mortgage with key4.', lang)}
                   </p>

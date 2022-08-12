@@ -119,7 +119,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
       ];
     }
   }
-  if (company.stub === 'ubs_key4') {
+  if (company.stub === 'ubs') {
     privacy = translateTo('By clicking the button you allow us to send the data you entered to UBS AG.', lang);
     if (!isBuyer) {
       contact[0].textsCard = [
@@ -217,7 +217,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           validation: [Validation.required],
           large: true,
           icons: true,
-          options: company.stub === 'ubs_key4' ? [
+          options: company.stub === 'ubs' ? [
             selectDays[1],
             selectDays[2],
           ] : [

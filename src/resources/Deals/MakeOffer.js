@@ -83,7 +83,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
     switch (formValue.company) {
       case 'baloise':
         return 'Your offer has been sent to the seller and will be reviewed by us. You will be informed as soon as possible.'
-      case 'ubs_key4':
+      case 'ubs':
         return 'Your offer has been sent to the seller and will be reviewed by us. You will be informed as soon as possible.'
       default:
         return 'Your offer has been submitted to the seller and is currently pending. The seller will get back to you.'
@@ -114,7 +114,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
                 }
   
                 {
-                  formValue.company === 'ubs_key4' && (
+                  formValue.company === 'ubs' && (
                     <div className="dis-f a-c mt-3">
                       <p className="txtAltGrey400 mr-2">In partnership with</p>
                       <img src={UBSLogoImg} alt="Logo UBS" />
@@ -170,7 +170,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
             },
             {
               name: 'company',
-              noValue: 'ubs_key4',
+              noValue: 'ubs',
             }
           ],
           component: BrixelRadioButton,
@@ -529,12 +529,12 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
       txtAfterNextButton: translateTo('<p>I agree that my data (surname, first name, address, telephone number, e-mail) as well as the information necessary for the proof of financing (address of the property, price of the property, URL of the property, tax declaration, proof of income and pension fund statement, form authorization to obtain information) are transmitted to Baloise Bank SoBa for the purpose of requesting a proof of financing.</p><p class="mt-1">Furthermore, I authorize Baloise Bank SoBa AG to transmit the feedback on my request for proof of financing to Brixel AG and, in order to check whether I am already a customer of Baloise Bank SoBa AG, to carry out a comparison with my relevant data available at Baloise Bank SoBa AG.</p><p class="mt-1">You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until the revocation.</p>', lang),
       country: 'CH',
     },
-    // ONLY FOR UBS_KEY4
+    // ONLY FOR UBS
     {
       condition: [
         {
           name: 'company',
-          value: 'ubs_key4',
+          value: 'ubs',
         },{
           name: 'document',
           value: null,
