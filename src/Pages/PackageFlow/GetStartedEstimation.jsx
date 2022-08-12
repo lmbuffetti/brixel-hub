@@ -218,7 +218,7 @@ const GetStartedEstimation = (props) => {
           set(data, 'termsBaloiseBank', true);
           set(data, 'termsBaloiseInsurance', true);
         }
-        if (action === 'accept' && company === 'ubs_key4') {
+        if (action === 'accept' && company === 'ubs') {
           set(data, 'termsUBS', true)
         }
         handleCreateEstimation(data);
@@ -281,7 +281,7 @@ const GetStartedEstimation = (props) => {
           set(data.user, 'termsBaloiseBank', true);
           set(data.user, 'termsBaloiseInsurance', true);
         }
-        if (action === 'accept' && company === 'ubs_key4') {
+        if (action === 'accept' && company === 'ubs') {
           set(data.user, 'termsUBS', true)
         }
       }

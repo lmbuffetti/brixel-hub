@@ -185,7 +185,7 @@ const IntroUpgrade = (props) => {
     };
   }, []);
 
-  const partners = get(activeSingleCompany, 'stub') === "ubs_key4" || get(activeSingleCompany, 'stub') === "baloise";
+  const partners = get(activeSingleCompany, 'stub') === "ubs" || get(activeSingleCompany, 'stub') === "baloise";
 
   return (
     <main id="rewards" className="introScanFlow pt-2 pt-sm-4 pb-2 pb-sm-4 h-perc-100 txtDark700">
@@ -331,7 +331,7 @@ const IntroUpgrade = (props) => {
                                 rounded
                               />
                               {
-                                get(activeSingleCompany, 'stub') === "ubs_key4" && (
+                                get(activeSingleCompany, 'stub') === "ubs" && (
                                   <>
                                     <span className="fweight-600 fsize-500 dis-b">Exclusive benefits for UBS clients</span>
                                     <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">You only pay if the property is sold.</span>
@@ -392,7 +392,7 @@ const IntroUpgrade = (props) => {
               </div>
 
               {
-                get(activeSingleCompany, 'stub') === "ubs_key4" && get(activeSingleCompany, 'stub') === "baloise" ? (
+                get(activeSingleCompany, 'stub') === "ubs" && get(activeSingleCompany, 'stub') === "baloise" ? (
                   <>
                     <div className="hide packageWrap a-s dis-fl-col dis-fl-row-lg pb-3 jc-c">
                       <>
@@ -492,7 +492,7 @@ const IntroUpgrade = (props) => {
                                       rounded
                                     />
                                     {
-                                      get(activeSingleCompany, 'stub') === "ubs_key4" && (
+                                      get(activeSingleCompany, 'stub') === "ubs" && (
                                         <>
                                           <span className="fweight-600 fsize-500 dis-b">Exclusive benefits for UBS clients</span>
                                           <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">You only pay if the property is sold.</span>
@@ -774,7 +774,7 @@ const IntroUpgrade = (props) => {
       </section>
 
       {
-        get(activeSingleCompany, 'stub') === "ubs_key4" || get(activeSingleCompany, 'stub') === "baloise" ? (
+        get(activeSingleCompany, 'stub') === "ubs" || get(activeSingleCompany, 'stub') === "baloise" ? (
           <>
           </>
         ) : (

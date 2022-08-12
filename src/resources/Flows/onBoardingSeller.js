@@ -73,7 +73,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       color: 'blue',
     },
   ];
-  if (company !== 'baloise') {
+  if (company && (company !== 'baloise' && company !== 'ubs')) {
     propertyTypeOptions.push({
       label: translateTo('Commercial', lang),
       value: 'Commercial',
@@ -391,7 +391,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       }],
     },
   );
-  if ((company !== 'baloise') && (company !== 'ubs_key4')) {
+  if ((company !== 'baloise') && (company !== 'ubs')) {
     question.push(
       {
         hideProgress: true,
@@ -405,7 +405,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
     {
       conditions: [{
         name: 'company',
-        value: 'ubs_key4',
+        value: 'ubs',
       }],
       title: translateTo('Activate your UBS advantages now.', lang),
       history: 'ubsPolicy',
