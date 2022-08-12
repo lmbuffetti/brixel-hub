@@ -12,6 +12,7 @@ const ArticlesBox = (props) => {
     title,
   } = props;
 
+  const [placement, setPlacement] = useState([]);
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
@@ -24,7 +25,8 @@ const ArticlesBox = (props) => {
       };
       api.craftCMS.getHubContent(data)
         .then((res) => {
-          setArticles(get(res, 'data.data.placementEntries[0].placementContent', []))
+          setPlacement(get(res, 'data.data.placementEntries[0]', []));
+          setArticles(get(res, 'data.data.placementEntries[0].placementContent', []));
         });
     }
 
@@ -36,7 +38,7 @@ const ArticlesBox = (props) => {
     <div className="mt-5">
       {
         title && (
-          <h5 className="fweight-600">{title}</h5>
+          <h5 className="fweight-600">{placement.title}</h5>
         )
       }
 
