@@ -83,9 +83,9 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   }
 
   const question = [
+    /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
     {
       title: translateTo('What type of property do you have?', lang),
-      /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
       history: 'propertyType',
       footerWidth: 'max-w-fix-992',
       inputs: [{
@@ -108,6 +108,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       successMessage: translateTo('Ok. Got it.', lang),
     },
   ];
+
   if (propertyType === 'Apartment' || propertyType === 'House') {
     question.push(
       {
@@ -434,14 +435,14 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       title: translateTo('Activate your Baloise advantages now.', lang),
       history: 'baloiseInfo',
       cardType: 'baloiseInfo',
-      footerWidth: 'max-w-fix-904',
+      footerWidth: 'max-w-fix-912',
       inputs: [
         {
           component: BrixelRadioButton,
           validation: [Validation.required],
           large: true,
           ReduxFieldClass: 'py-4 py-lg-0 w-perc-100',
-          classNameBox: 'brdRadius max-w-fix-904 w-perc-100 px-2 px-sm-6 brdRadius fieldHolder bgWhite m-a',
+          classNameBox: 'brdRadius max-w-fix-912 w-perc-100 px-2 px-sm-6 brdRadius fieldHolder bgWhite m-a',
           className: '',
           name: 'baloiseInfo',
           label: translateTo('What is your customer relationship with Baloise?', lang),
@@ -484,7 +485,6 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       history: 'baloisePolicy',
       cardType: 'baloisePolicy',
       footerWidth: 'max-w-fix-752',
-
       text: [{
         title: translateTo('Transmission of data to Baloise Insurance.', lang),
         description: translateTo('I hereby agree that my data (last name, first name, street, house number, zip code, phone number, e-mail) is transmitted to Basler Versicherung AG to check if I am eligible for the discount by comparing the data with my relevant data held by Basler Versicherung AG and to add the information that I use the Brixel service to my customer profile at Basler Versicherung AG to better meet my needs. You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing based on the consent until revocation.', lang),

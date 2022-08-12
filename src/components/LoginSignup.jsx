@@ -203,7 +203,7 @@ const LoginSignup = (props) => {
   }
 
   return (
-    <div className="signUpScreen pos-r dis-f flex-wrap w-perc-100">
+    <div className="signUpScreen pos-r dis-f jc-c flex-wrap w-perc-100">
       <div className="m-a mt-0 max-w-fix-600 w-perc-100">
         <div className="mr-a ml-a onBoardingSignUp">
           {

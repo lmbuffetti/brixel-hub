@@ -12,7 +12,6 @@ import {
   DataByCountry,
   translateTo,
   BrixelButtonText,
-  BrixelIcon,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -716,7 +715,7 @@ const GetStartedSeller = (props) => {
                     )
                   }
                   <div
-                    className={`brdRadius bgWhite ml-a mr-a px-2 px-sm-6 ${quest.bulletPoints ? 'dis-fl-col dis-fl-row-lg bulletPointsStep py-2 py-lg-0 max-w-fix-912' : 'max-w-fix-752 pt-3 pb-6'}`}
+                    className={`brdRadius bgWhite ml-a mr-a px-2 px-sm-6 ${quest.bulletPoints ? 'dis-fl-col dis-fl-row-lg bulletPointsStep jc-b py-2 py-lg-0 max-w-fix-912' : 'max-w-fix-752 pt-3 pb-6'}`}
                   >
                     {
                       quest.text.map((text, i) => (
@@ -731,16 +730,15 @@ const GetStartedSeller = (props) => {
                     }
                     {
                       quest.bulletPoints && (
-                        <div className="brdSmallLeft-lg brdAltGrey100 w-perc-lg-45 pl-lg-5 py-lg-3">
+                        <div className="brdSmallLeft-lg brdAltGrey100 w-perc-lg-45 pl-lg-5 py-lg-3 max-w-fix-lg-352">
                           <span className="my-3 dis-b">{quest.bulletPoints.title}</span>
-                          <ul>
+                          <ul className="">
                             {
                               quest.bulletPoints.description.map((bullet,k) => (
                                 <li
                                   className="mb-2"
                                   key={k.toString()}
                                 >
-                                  <BrixelIcon color="blue" icon="tick" className="mr-2"/>
                                   {bullet}
                                 </li>
                               ))
