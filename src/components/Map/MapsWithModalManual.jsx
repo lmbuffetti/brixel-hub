@@ -428,7 +428,7 @@ export const MapsWithModalManual = (props) => {
               />
               <div className="w-perc-100 px-2 px-sm-5 m-a pt-5 h-perc-100 ov-y-a pb-5 pb-sm-0">
                 <h3 className="mt-3 mb-5 w-perc-100 pr-4">
-                  {translateTo('Please edit your address manually.')}
+                  {translateTo('Please edit your address manually.', lang)}
                 </h3>
                 <div className="">
                   <div className="dis-f editLocation">
