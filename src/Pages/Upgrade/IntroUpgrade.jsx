@@ -225,7 +225,7 @@ const IntroUpgrade = (props) => {
                           <div className="dis-f jc-b a-c">
                             <h5 className={`fweight-600 fSizePx18 ${i === 1  ? 'txtGreen400' : ''}`}>{pkg.name}</h5>
                             {
-                              !partners && pkg.stub === packageName.stub && (
+                              !partners && get(pkg, 'stub', '') === get(packageName, 'stub', '') && (
                                 <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">{translateTo('Your plan', lang)}</div>
                               )
                             }
