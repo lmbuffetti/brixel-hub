@@ -22,8 +22,13 @@
     .flowScrollWrap {
       overflow-y: hidden;
     }
+    .footerWrap,
+    .hubDasHeader,
     .flowHeader {
       z-index: 1;
+    }
+    .innerWrap {
+      z-index: 2;
     }
   }
 
