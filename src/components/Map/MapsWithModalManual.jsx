@@ -470,7 +470,7 @@ export const MapsWithModalManual = (props) => {
                         name: 'location.streetNumber',
                       }}
                       labels={{
-                        label: translateTo(windowDimensions.width < 590 ? 'Nr.' : 'Number'),
+                        label: translateTo(windowDimensions.width < 590 ? 'Nr.' : 'Number', lang),
                       }}
                       component={BrixelInputText}
                     />
