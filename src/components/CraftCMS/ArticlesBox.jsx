@@ -35,16 +35,16 @@ const ArticlesBox = (props) => {
 
   return (
     <div className="mt-5">
-      <div className="dis-f jc-b">
+      <div className="dis-f flex-wrap jc-b">
         {
           placement.title && (
             <h5 className="fweight-600">{placement.title}</h5>
           )
         }
-        <div className="dis-f jc-fe flex-wrap">
+        <div className="dis-f a-c flex-wrap">
           {
             placement.subtitle && (
-              <h6 className="fsize-300 txtAltGrey400">{placement.subtitle}</h6>
+              <span className="fsize-300 txtAltGrey400">{placement.subtitle}</span>
             )
           }
           {
