@@ -535,20 +535,20 @@ const DashboardHome = (props) => {
                   </div>
                 </div>
               </div>
-  
+
               <ArticlesBox
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-onboarding-article"
               />
-  
+
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
                 className="mt-3"
                 lang={lang}
                 placementSlug="seller-hub-home-onboarding-banner-bottom"
               />
-              
+
             </>
           )
         }
@@ -773,20 +773,20 @@ const DashboardHome = (props) => {
                   </div>
                 )
               }
-              
+
               <ArticlesBox
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-onboarding-article"
               />
-  
+
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
                 className="mt-3"
                 lang={lang}
                 placementSlug="seller-hub-home-onboarding-banner-bottom"
               />
-              
+
             </>
           )
         }
@@ -867,7 +867,7 @@ const DashboardHome = (props) => {
               </div>
 
               <div
-                className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100"
+                className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100 min-h-fix-200 a-c"
                 style={{backgroundImage: `url(${marketNewHomeSvg})`, backgroundSize: 'auto 100%', backgroundPosition: 'right', backgroundRepeat: 'no-repeat'}}
               >
                 <div className="dis-fl-col max-w-perc-100">
