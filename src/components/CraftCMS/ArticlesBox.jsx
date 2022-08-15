@@ -29,7 +29,7 @@ const ArticlesBox = (props) => {
         });
     }
 
-  }, [activeSingleCompany]);
+  }, [activeSingleCompany, lang]);
 
   if (articles.length === 0) return <></>;
 
