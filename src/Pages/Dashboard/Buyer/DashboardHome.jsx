@@ -57,7 +57,7 @@ const DashboardHome = (props) => {
       setVisitAccepted(get(activeSingleDeal, 'visit', 0));
     }
   }, [activeSingleDeal]);
-  
+
   useEffect(() => {
     if (activeSingleProperty.sellerStatus === 'success') setProgressState({step: 5});
   }, [activeSingleProperty.sellerStatus, activeSingleProperty.progress]);
@@ -119,9 +119,9 @@ const DashboardHome = (props) => {
           )
         }
       </div>
-      
-      <div className="max-w-fix-760 dis-fl-col pr-md-2">
-        
+
+      <div className="max-w-fix-1024 dis-fl-col pr-md-2">
+
         <>
 
           <DashboardPropertyCard type="buy" />
@@ -253,7 +253,7 @@ const DashboardHome = (props) => {
                   lang={lang}
                   placementSlug="buyer-hub-home-onboarding-article"
                 />
-  
+
                 <BannerBox
                   activeSingleCompany={activeSingleCompany}
                   className="mt-6"
@@ -273,20 +273,20 @@ const DashboardHome = (props) => {
                   lang={lang}
                   placementSlug="buyer-hub-home-sold-banner-top"
                 />
-    
+
                 <ArticlesBox
                   activeSingleCompany={activeSingleCompany}
                   lang={lang}
                   placementSlug="buyer-hub-home-sold-partner"
                 />
-    
+
                 <ArticlesBox
                   title="About your home"
                   activeSingleCompany={activeSingleCompany}
                   lang={lang}
                   placementSlug="buyer-hub-home-sold-articles"
                 />
-    
+
                 <BannerBox
                   activeSingleCompany={activeSingleCompany}
                   className="mt-6"
@@ -313,7 +313,7 @@ const DashboardHome = (props) => {
                       {translateTo('Explore our properties.', lang)}
                     </p>
                   </div>
-          
+
                   <BrixelButtonSecondary
                     bgTransparent
                     onClick={() => history.push(`/buy`)}
@@ -332,7 +332,7 @@ const DashboardHome = (props) => {
                       {translateTo('Create your search profile and find properties which are not yet on the market.', lang)}
                     </p>
                   </div>
-          
+
                   <BrixelButtonSecondary
                     bgTransparent
                     onClick={() => history.push(`/buy`)}
