@@ -316,7 +316,7 @@ export const QuestionsList = (lang, country = 'CH') => {
       },
       text: [{
         title: translateTo('Transmission of data to UBS', lang),
-        description: translateTo('I authorize Brixel to transmit my data to UBS AG in order to benefit from the joint advantage offer...', lang),
+        description: translateTo('<span>I agree that my data (surname, first name, address, postal code, telephone number, e-mail) may be transmitted to UBS AG to verify my eligibility for the discount and to provide information that I am using the Brixel service to better meet my needs.</span><span class="dis-b mt-2">This consent can be revoked at any time for the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until the revocation.</span>', lang),
       },]
     }
   );

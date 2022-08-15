@@ -27,7 +27,6 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
-import last from 'lodash/last';
 import isArray from 'lodash/isArray';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
@@ -483,7 +482,7 @@ const GetStartedEstimation = (props) => {
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie) || companyStub !== get(questions, '[0].history', null)) {
       let defComp = get(companyByUrl, 'company', companyCookie);
-      if (companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
+      if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
       history.push(`/packageFlow/getStartedEstimation/${defComp}/${get(questions, '[0].history', null)}`);
@@ -499,13 +498,6 @@ const GetStartedEstimation = (props) => {
       setCookie('brixelChannelSignup', defChan);
     } else {
       changeFieldValue('channel', channelCookie);
-    }
-    const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
-      history.push({
-        pathname: `/packageFlow/getStartedEstimation/${company.stub}/${questions[0].history}`,
-        state: {},
-      });
     }
   }, []);
 

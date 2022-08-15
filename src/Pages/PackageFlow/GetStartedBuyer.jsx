@@ -25,7 +25,6 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
-import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
@@ -349,7 +348,7 @@ const GetStartedBuyer = (props) => {
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
       let defComp = get(companyByUrl, 'company', companyCookie);
-      if (companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
+      if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
       history.push(`/packageFlow/getStartedBuyer/${defComp}/${get(questions, '[0].history', null)}`);
@@ -363,13 +362,6 @@ const GetStartedBuyer = (props) => {
       setCookie('brixelChannelSignup', defChan);
     } else {
       changeFieldValue('channel', channelCookie);
-    }
-    const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
-      history.push({
-        pathname: `/packageFlow/getstartedBuyer/${company.stub}/${questions[0].history}`,
-        state: {},
-      });
     }
   }, []);
 
@@ -686,7 +678,7 @@ const GetStartedBuyer = (props) => {
                           key={i.toString()}
                         >
                           <span className="fweight-500 my-3 dis-b">{text.title}</span>
-                          <span className="fsize-300 dis-b">{text.description}</span>
+                          <p className="fsize-300 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
                         </div>
                       ))
                     }
