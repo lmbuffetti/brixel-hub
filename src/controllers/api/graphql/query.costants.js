@@ -8,8 +8,16 @@ export const articlesQuery = `
     slug: [$placementSlug]
   ) {
     ...on placement_default_Entry {
-      slug
+     slug
       title
+      mainTitle
+      subtitle
+      logo {
+        alt
+        url
+        width
+        height
+      }
       placementContent {
         ...on placementContent_pageEntryCard_BlockType {
           id
