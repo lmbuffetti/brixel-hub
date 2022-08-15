@@ -175,7 +175,7 @@ const SellerSidebar = (props) => {
                     </span>
                     <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
                     <span className="ml-small-4">
-                      {translateTo('uplaoded on your docubox', lang)}
+                      {translateTo('uploaded on your docubox', lang)}
                     </span>
 
                     <Link
