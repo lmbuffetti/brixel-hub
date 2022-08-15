@@ -11,16 +11,17 @@ footer.footerWrap {
     background: #F7F6F5;
     display: flex;
 
-    @media (max-width: $responsive-small) {
+    @media (max-width: $responsive-medium) {
       flex-direction: column;
     }
 
     > div {
       flex-grow: 1;
       flex-basis: 0;
-      @media (max-width: $responsive-small) {
+      @media (max-width: $responsive-medium) {
        width: 100%;
        text-align: center;
+       justify-content: center;
       }
     }
   }
