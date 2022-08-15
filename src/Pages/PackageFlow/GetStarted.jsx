@@ -13,7 +13,7 @@ import {
   destroy,
 } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
@@ -36,6 +36,7 @@ const GetStarted = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
+  const match = useParams();
   
   // PROPS
   const {
@@ -53,6 +54,7 @@ const GetStarted = (props) => {
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
+  const companyStub = get(match, 'companyStub', null);
   
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -95,9 +97,9 @@ const GetStarted = (props) => {
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    let defComp = companyCookie;
-    defComp = get(companyByUrl, 'company', companyCookie);
-    if (get(companyByUrl, 'company', companyCookie)) {
+    let defComp = get(companyByUrl, 'company', companyCookie);
+    if (companyStub !== 'getStarted') defComp = companyStub;
+    if (defComp) {
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
     } else {

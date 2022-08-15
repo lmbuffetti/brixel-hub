@@ -84,6 +84,7 @@ const GetStartedEstimation = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
+  const companyStub = get(match, 'companyStub', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -381,7 +382,7 @@ const GetStartedEstimation = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow');
+      history.push(`/packageFlow${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -434,7 +435,7 @@ const GetStartedEstimation = (props) => {
           }
           if (questions[defId].history) {
             history.push({
-              pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
+              pathname: `/packageFlow/getStartedEstimation/${company.stub}/${questions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -480,8 +481,9 @@ const GetStartedEstimation = (props) => {
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
+    if (get(companyByUrl, 'company', companyCookie) || companyStub !== get(questions, '[0].history', null)) {
+      let defComp = get(companyByUrl, 'company', companyCookie);
+      if (companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
     } else if (!isTest) {
@@ -500,7 +502,7 @@ const GetStartedEstimation = (props) => {
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
       history.push({
-        pathname: `/packageFlow/getStartedEstimation/${questions[0].history}`,
+        pathname: `/packageFlow/getStartedEstimation/${company.stub}/${questions[0].history}`,
         state: {},
       });
     }

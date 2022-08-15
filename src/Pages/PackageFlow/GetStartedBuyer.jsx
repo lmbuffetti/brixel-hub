@@ -20,7 +20,7 @@ import {
   destroy,
 } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -48,6 +48,7 @@ const GetStartedBuyer = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
+  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -78,6 +79,7 @@ const GetStartedBuyer = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
+  const companyStub = get(match, 'companyStub', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -257,7 +259,7 @@ const GetStartedBuyer = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow');
+      history.push(`/packageFlow${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -312,7 +314,7 @@ const GetStartedBuyer = (props) => {
         }
         if (questions[defId].history) {
           history.push({
-            pathname: `/packageFlow/getStartedBuyer/${questions[defId].history}`,
+            pathname: `/packageFlow/getStartedBuyer/${company.stub}/${questions[defId].history}`,
             state: get(history, 'location.state', {}),
           });
         }
@@ -346,7 +348,8 @@ const GetStartedBuyer = (props) => {
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
+      let defComp = get(companyByUrl, 'company', companyCookie);
+      if (companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
     } else {
@@ -363,7 +366,7 @@ const GetStartedBuyer = (props) => {
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
       history.push({
-        pathname: `/packageFlow/getstartedBuyer/${questions[0].history}`,
+        pathname: `/packageFlow/getstartedBuyer/${company.stub}/${questions[0].history}`,
         state: {},
       });
     }

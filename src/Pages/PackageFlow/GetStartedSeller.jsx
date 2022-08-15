@@ -83,6 +83,7 @@ const GetStartedSeller = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
+  const companyStub = get(match, 'companyStub', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -293,7 +294,7 @@ const GetStartedSeller = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow');
+      history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -347,7 +348,7 @@ const GetStartedSeller = (props) => {
           }
           if (newQuestions[defId].history) {
             history.push({
-              pathname: `/packageFlow/getStarted/${newQuestions[defId].history}`,
+              pathname: `/packageFlow/getStarted/${company.stub}/${newQuestions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -385,7 +386,8 @@ const GetStartedSeller = (props) => {
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
+      let defComp = get(companyByUrl, 'company', companyCookie);
+      if (companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
     } else if (!isTest) {
@@ -404,7 +406,7 @@ const GetStartedSeller = (props) => {
     const getCurrentUrl = last(history.location.pathname.split('/'));
     if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
       history.push({
-        pathname: `/packageFlow/getStarted/${questions[0].history}`,
+        pathname: `/packageFlow/getStarted/${company.stub}/${questions[0].history}`,
         state: {},
       });
     }
