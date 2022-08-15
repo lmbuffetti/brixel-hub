@@ -535,6 +535,20 @@ const DashboardHome = (props) => {
                   </div>
                 </div>
               </div>
+  
+              <ArticlesBox
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-article"
+              />
+  
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-3"
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-banner-bottom"
+              />
+              
             </>
           )
         }
@@ -759,6 +773,20 @@ const DashboardHome = (props) => {
                   </div>
                 )
               }
+              
+              <ArticlesBox
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-article"
+              />
+  
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-3"
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-banner-bottom"
+              />
+              
             </>
           )
         }

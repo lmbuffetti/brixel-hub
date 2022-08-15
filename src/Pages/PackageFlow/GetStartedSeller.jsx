@@ -150,7 +150,7 @@ const GetStartedSeller = (props) => {
       extraLoading: true,
     };
     if (company !== 'baloise' && company !== 'ubs') set(data, 'redirectToUrl', '/packageFlow/:pageID/welcomeSeller');
-    else set(data, 'redirectToUrl', '/sell');
+    else set(data, 'redirectToUrl', '/:pageID/home');
     if (formValue.pageID) data.id = formValue.pageID;
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
@@ -210,21 +210,24 @@ const GetStartedSeller = (props) => {
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
-    let newIndex = id;
-    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
-    if (get(newQuestions, `[${newIndex}].conditions`, null)) {
-      let checkCond = true;
-      newQuestions[newIndex].conditions.map((cond) => {
-        const val = get(formValue, cond.name, null);
-        if (has(cond, 'value') && val !== cond.value && checkCond) {
-          if (act === 'back') newIndex -= 1;
-          else newIndex += 1;
-          checkCond = false;
-        }
-        return null;
-      });
+    if (company.stub) {
+      let newIndex = id;
+      const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+      if (get(newQuestions, `[${newIndex}].conditions`, null)) {
+        let checkCond = true;
+        newQuestions[newIndex].conditions.map((cond) => {
+          const val = get(formValue, cond.name, null);
+          if (has(cond, 'value') && val !== cond.value && checkCond) {
+            if (act === 'back') newIndex -= 1;
+            else newIndex += 1;
+            checkCond = false;
+          }
+          return null;
+        });
+      }
+      return newIndex;
     }
-    return newIndex;
+    return null;
   };
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
@@ -367,14 +370,16 @@ const GetStartedSeller = (props) => {
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     setOldIndex(currentIndex);
-    const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
-    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
-      changeStep('next', null, 1, true);
-    }
-    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-    if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
-      inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
-      changeFieldValue('inputSheet', inputSheet);
+    if (company.stub) {
+      const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+      if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
+        changeStep('next', null, 1, true);
+      }
+      const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+      if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
+        inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
+        changeFieldValue('inputSheet', inputSheet);
+      }
     }
   }, [formValue]);
 
@@ -407,15 +412,17 @@ const GetStartedSeller = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
-    if (currentQuest.effect === 'slideUp') {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
-    } else {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+    if (company.stub) {
+      const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
+      if (currentQuest.effect === 'slideUp') {
+        setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+        setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
+      } else {
+        setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+        setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+      }
     }
-  }, [lang]);
+  }, [lang, company.stub]);
 
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
@@ -466,7 +473,7 @@ const GetStartedSeller = (props) => {
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
-    if (formValue) {
+    if (formValue && company.stub) {
       const newQuest = [];
       QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
@@ -549,6 +556,8 @@ const GetStartedSeller = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
+  
+  if (!formValue.id && !company.stub) return (<div />);
 
   return (
     <>

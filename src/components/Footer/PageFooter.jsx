@@ -59,6 +59,8 @@ function PageFooter(props) {
                 <a
                   href={get(activeSingleCompany, 'links.privacy', null)}
                   className="fsize-300 txtAltGrey400 link"
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   {translateTo('Privacy Policy', lang)}
                 </a>
@@ -69,6 +71,8 @@ function PageFooter(props) {
                 <a
                   href={get(activeSingleCompany, 'links.terms', null)}
                   className="ml-2 fsize-300 txtAltGrey400 link"
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   {translateTo('Terms and Conditions', lang)}
                 </a>
