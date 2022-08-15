@@ -273,7 +273,7 @@ const IntroUpgrade = (props) => {
                                       rounded
                                       fullWidth
                                       label={translateTo('Try now for free', lang)}
-                                      onClick={() => scrollTo('#')}
+                                      onClick={() => openNewFlow(`/${activeSingleProperty.id}/trialRequest`)}
                                     />
                                   )
                                 }
@@ -283,7 +283,7 @@ const IntroUpgrade = (props) => {
                                 <h3 className="fweight-600 h-fix-80 mb-1 dis-f a-b fsize-800">
                                   {translateTo('Free', lang)}
                                 </h3>
-                                {
+                                {/* {
                                   partners && (
                                     <BrixelButtonSecondary
                                       rounded
@@ -294,7 +294,7 @@ const IntroUpgrade = (props) => {
                                       onClick={() => scrollTo('#')}
                                     />
                                   )
-                                }
+                                } */}
                               </>
                             )
                           }

@@ -93,7 +93,7 @@ const DashboardHome = (props) => {
       handleGetPageDeals({ id: propID });
     }
   }, [progressState.step]);
-  
+
   useEffect(() => {
     if (activeSingleCompany.id) {
       const data = {
@@ -104,7 +104,7 @@ const DashboardHome = (props) => {
       handleGetContentCraftCMS(data)
     }
   }, [activeSingleCompany.id]);
-  
+
 
   useEffect(() => {
     if (get(activeSinglePropertyDeals, 'visit')) {
@@ -278,7 +278,7 @@ const DashboardHome = (props) => {
         )
       }
 
-      <div className="max-w-fix-760 dis-fl-col pr-md-2">
+      <div className="max-w-fix-1024 dis-fl-col pr-md-2">
         {
           progressState.step === 1 && (
             <>
@@ -326,13 +326,13 @@ const DashboardHome = (props) => {
                   {/* <img src={testDriveImg} alt="Test Drive" /> */}
                 </div>
               </div>
-  
+
               <ArticlesBox
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-onboarding-article"
               />
-  
+
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
                 className="mt-3"
@@ -895,19 +895,19 @@ const DashboardHome = (props) => {
                   </div>
                 </div>
               </div>
-  
+
               <ArticlesBox
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-sold-partner"
               />
-  
+
               <ArticlesBox
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-sold-article"
               />
-  
+
               <BannerBox
                 activeSingleCompany={activeSingleCompany}
                 className="mt-6"
