@@ -98,10 +98,11 @@ const GetStarted = (props) => {
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     let defComp = get(companyByUrl, 'company', companyCookie);
-    if (companyStub !== 'getStarted') defComp = companyStub;
+    if (companyStub) defComp = companyStub;
     if (defComp) {
       handleGetActiveSingleCompany({ stub: defComp });
       setCookie('brixelStubCompany', defComp);
+      history.push(`/packageFlow/${defComp}`);
     } else {
       handleGetActiveSingleCompany({ stub: 'default' });
       // changeFieldValue('location.countryCode', 'all');`

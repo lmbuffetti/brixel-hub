@@ -390,6 +390,7 @@ const GetStartedSeller = (props) => {
       if (companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
+      history.push(`/packageFlow/getStarted/${defComp}/${get(questions, '[0].history', null)}`);
     } else if (!isTest) {
       const companyUser = get(loggedInUser, 'users.company.stub', null);
       if (companyUser) handleGetActiveSingleCompany({ stub: companyUser });

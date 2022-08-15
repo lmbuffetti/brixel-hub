@@ -352,6 +352,7 @@ const GetStartedBuyer = (props) => {
       if (companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
+      history.push(`/packageFlow/getStartedBuyer/${defComp}/${get(questions, '[0].history', null)}`);
     } else {
       handleGetActiveSingleCompany({ stub: 'default' });
       // changeFieldValue('location.countryCode', 'all');`
