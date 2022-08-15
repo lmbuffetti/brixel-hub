@@ -18,7 +18,7 @@ const ContentCard = (props) => {
         className="dis-f max-h-fix-sm-120 max-h-fix-lg-144 ov-h a-b cur-poi"
         target="_blank" rel="noreferrer"
       >
-        <img width="100%" src={image.url} alt={image.alt} />
+        <img className="of-co max-h-fix-sm-120 max-h-fix-lg-144" width="100%" src={image.url} alt={image.alt} />
       </a>
       <a href={hrefUrl} target="_blank" rel="noreferrer">
         <h5 className="mt-2 mb-2 mb-sm-3 txtDark700 fSizePx18 fweight-600 tt-break-hy">{title}</h5>
