@@ -35,12 +35,25 @@ const ArticlesBox = (props) => {
 
   return (
     <div className="mt-5">
-      {
-        placement.title && (
-          <h5 className="fweight-600">{placement.title}</h5>
-        )
-      }
-
+      <div className="dis-f jc-b">
+        {
+          placement.title && (
+            <h5 className="fweight-600">{placement.title}</h5>
+          )
+        }
+        <div className="dis-f jc-fe flex-wrap">
+          {
+            placement.subtitle && (
+              <h6 className="fsize-300 txtAltGrey400">{placement.subtitle}</h6>
+            )
+          }
+          {
+            get(placement, 'logo[0]', null) && (
+              <img className="ml-2" src={placement.logo[0].url} alt={placement.logo[0].alt} />
+            )
+          }
+        </div>
+      </div>
       <div className="row-cols-sm-3-gut-4 my-3">
         {
           articles.map((card) => (
