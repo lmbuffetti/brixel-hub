@@ -124,6 +124,24 @@ const houseAdjective = {
     'Acolhedora',
     'Luminosa',
   ],
+  fr: [
+    'Magnifique',
+    'Charmant',
+    'Élégant',
+    'Prestigieux',
+    'Unique',
+    'Exquisite',
+    'Spacieux',
+    'Superbe',
+    'Merveilleux',
+    'Aimant',
+    'Superbe',
+    'Incroyable',
+    'Fabuleux',
+    'Sophistiqué',
+    'Moderne',
+    'Incroyable',
+  ]
 };
 
 const builadingLandAdjective = {
@@ -167,6 +185,24 @@ const builadingLandAdjective = {
     'Acolhedora',
     'Luminosa',
   ],
+  fr: [
+    'Magnifique',
+    'Charmante',
+    'Élégante',
+    'Prestigieuse',
+    'Unique',
+    'Exquisite',
+    'Spacieuse',
+    'Superbe',
+    'Merveilleuse',
+    'Aimante',
+    'Superbe',
+    'Incroyable',
+    'Fabuleuse',
+    'Sophistiquée',
+    'Moderne',
+    'Incroyable',
+  ]
 };
 
 export const titleProperty = (location, propertyType, lang, formValue) => {
