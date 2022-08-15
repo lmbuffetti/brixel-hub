@@ -357,7 +357,13 @@ const LoginSignup = (props) => {
       <div className="w-perc-100 w-perc-lg-50 dis-fl-col a-c jc-c py-2 pt-md-0 pb-md-10">
         <div className="max-w-fix-304 dis-fl-col a-c jc-c ta-c w-perc-100 ml-a mr-a mb-6 mb-sm-10">
           <img width="100px" src={searchResultIcon} alt="search result" />
-          <h2 className="fSizePx26-sm fsize-500 mt-3 fweight-600">{translateTo('Hundreds of', lang)} <span className="txtGreen400 lh-no">{translateTo('potential buyers', lang)}</span> {translateTo('are waiting for your property', lang)}</h2>
+          <h2
+            className="fSizePx26-sm fsize-500 mt-3 fweight-600"
+          >
+            <span>{translateTo('Hundreds of', lang)}</span>
+            <span className="txtGreen400 mx-1">{translateTo('potential buyers', lang)}</span>
+            <span>{translateTo('are waiting for your property', lang)}</span>
+          </h2>
         </div>
         <div className="max-w-fix-440 w-perc-100 ml-a mr-a testimonialsSlide">
 
