@@ -211,7 +211,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
         {
           component: BrixelSelect,
           pdClass: 'py-2 py-lg-3 px-2',
-          label: 'Time',
+          label: 'Date',
           ReduxFieldClass: 'max-w-fix-464 m-a',
           name: 'time.date',
           validation: [Validation.required],
@@ -247,7 +247,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           ],
           component: BrixelSelect,
           pdClass: 'py-2 py-lg-3 px-2',
-          label: 'Hour',
+          label: 'Time',
           ReduxFieldClass: 'max-w-fix-464 m-a',
           name: 'time.hour',
           validation: [Validation.required],
