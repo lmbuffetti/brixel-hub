@@ -30,8 +30,30 @@ function PageFooter(props) {
   return (
     <>
       <footer className={`footerWrap w-perc-100 ${className} ${activeSideBar ? 'leftPadding' : ''}`}>
-        <div className="a-t jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdAltGrey100">
-          <div>
+        <div className="dis-f flex-wrap jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdAltGrey100">
+          {
+            get(activeCompanyData, 'logos', []).length > 0 && (
+              <div className="dis-f a-c jc-c jc-fs-sm max-h-fix-20">
+                {
+                  activeSingleCompany.stub === 'baloise' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Powered by', lang)}</span>
+                }
+                {
+                  activeSingleCompany.stub === 'ubs' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Your partner for financial questions', lang)}</span>
+                }
+                {
+                  get(activeCompanyData, 'logos', []).map((logo, i) => (
+                    <img
+                      key={`logo${i.toString()}`}
+                      src={logo}
+                      alt={`${activeSingleCompany.name} logo ${i}`}
+                      className={i > 0 ? 'ml-2' : ''}
+                    />
+                  ))
+                }
+              </div>
+            )
+          }
+          <div className="dis-f jc-fe">
             {
               get(activeSingleCompany, 'links.privacy', null) && (
                 <a
@@ -52,31 +74,10 @@ function PageFooter(props) {
                 </a>
               )
             }
-          </div>
-          {
-            get(activeCompanyData, 'logos', []).length > 0 && (
-              <div className="dis-f jc-c a-c max-h-fix-20">
-                {
-                  activeSingleCompany.stub === 'baloise' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Powered by', lang)}</span>
-                }
-                {
-                  activeSingleCompany.stub === 'ubs' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Your partner for financial questions', lang)}</span>
-                }
-                {
-                  get(activeCompanyData, 'logos', []).map((logo, i) => (
-                    <img
-                      key={`logo${i.toString()}`}
-                      src={logo}
-                      alt={`${activeSingleCompany.name} logo ${i}`}
-                      className={i > 0 ? 'ml-2' : ''}
-                    />
-                  ))
-                }
-              </div>
-            )
-          }
-          <div className="ta-r">
-            <span className="fsize-300 txtAltGrey400">@Brixel {new Date().getFullYear()}</span>
+
+            <div className="ta-r ml-1">
+              <span className="fsize-300 txtAltGrey400">@Brixel {new Date().getFullYear()}</span>
+            </div>
           </div>
         </div>
       </footer>
