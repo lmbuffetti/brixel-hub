@@ -279,23 +279,9 @@ const IntroUpgrade = (props) => {
                                 }
                               </>
                             ) : (
-                              <>
-                                <h3 className="fweight-600 h-fix-80 mb-1 dis-f a-b fsize-800">
-                                  {translateTo('Free', lang)}
-                                </h3>
-                                {/* {
-                                  partners && (
-                                    <BrixelButtonSecondary
-                                      rounded
-                                      theme="dark"
-                                      themeSat="700"
-                                      fullWidth
-                                      label={translateTo('Try now for free', lang)}
-                                      onClick={() => scrollTo('#')}
-                                    />
-                                  )
-                                } */}
-                              </>
+                              <h3 className="fweight-600 h-fix-80 mb-1 dis-f a-b fsize-800">
+                                {translateTo('Free', lang)}
+                              </h3>
                             )
                           }
 
@@ -311,15 +297,6 @@ const IntroUpgrade = (props) => {
                               ))
                             }
                           </ul>
-                          {/* {
-                            pkg.price.total > 0 && (
-                              <BrixelButtonText
-                                className="mt-4 mb-2 mb-sm-0 ml-a mr-a"
-                                label={translateTo('Learn more', lang)}
-                                theme="green"
-                              />
-                            )
-                          } */}
                         </div>
                         {
                           partners && pkg.price.total > 0 && (
@@ -333,14 +310,18 @@ const IntroUpgrade = (props) => {
                               {
                                 get(activeSingleCompany, 'stub') === "ubs" && (
                                   <>
-                                    <span className="fweight-600 fsize-500 dis-b">Exclusive benefits for UBS clients</span>
-                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">You only pay if the property is sold.</span>
+                                    <span className="fweight-600 fsize-500 dis-b">
+                                      {translateTo('Exclusive benefits for UBS clients', lang)}
+                                    </span>
+                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
+                                      {translateTo('You only pay if the property is sold.', lang)}
+                                    </span>
                                     <ul className="checked mt-2 txtDark700">
-                                      <li>Support in terminating or transferring the mortgage</li>
-                                      <li>Investment and pension advice</li>
-                                      <li>Advice on the tax implications of selling real estate</li>
-                                      <li>Information on inheritance and estate planning</li>
-                                      <li>Checking the selling price</li>
+                                      <li>{translateTo('Support in terminating or transferring the mortgage', lang)}</li>
+                                      <li>{translateTo('Investment and pension advice', lang)}</li>
+                                      <li>{translateTo('Advice on the tax implications of selling real estate', lang)}</li>
+                                      <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
+                                      <li>{translateTo('Checking the selling price', lang)}</li>
                                     </ul>
                                   </>
                                 )
@@ -348,39 +329,19 @@ const IntroUpgrade = (props) => {
                               {
                                 get(activeSingleCompany, 'stub') === "baloise" && (
                                   <>
-                                    <span className="fweight-600 fsize-500 dis-b">Exclusive benefits for Baloise clients</span>
-                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">You only pay if the property is sold.</span>
+                                    <span className="fweight-600 fsize-500 dis-b">
+                                      {translateTo('Exclusive benefits for Baloise clients', lang)}
+                                    </span>
+                                    <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
+                                      {translateTo('You only pay if the property is sold.', lang)}</span>
                                     <ul className="checked mt-2 txtDark700">
-                                      <li>Clarification of the existing mortgage</li>
-                                      <li>Baloise gives you as a customer CHF 1,000 as a gift</li>
-                                      <li>Information on inheritance and estate planning</li>
+                                      <li>{translateTo('Clarification of the existing mortgage', lang)}</li>
+                                      <li>{translateTo('Baloise gives you as a customer CHF 1,000 as a gift', lang)}</li>
+                                      <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
                                     </ul>
                                   </>
                                 )
                               }
-                              {/*  <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
-                                {translateTo('Your partner in financial matters', lang)}
-                              </span>
-                              {
-                                get(activeCompanyData, 'logos', []).length > 0 && (
-                                  <div className="dis-f ml-4">
-                                    {
-                                      get(activeCompanyData, 'logos', []).map((logo, x) => (
-                                        <>
-                                          <span className="max-h-fix-40 dis-b">
-                                            <img
-                                              key={`logo${x.toString()}`}
-                                              src={logo}
-                                              alt={`${activeSingleCompany.name} logo ${x}`}
-                                              className={`${x > 0 ? 'ml-2' : ''} h-perc-100`}
-                                            />
-                                          </span>
-                                        </>
-                                      ))
-                                    }
-                                  </div>
-                                )
-                              } */}
                             </div>
                           )
                         }
@@ -392,7 +353,7 @@ const IntroUpgrade = (props) => {
               </div>
 
               {
-                get(activeSingleCompany, 'stub') === "ubs" && get(activeSingleCompany, 'stub') === "baloise" ? (
+                get(activeSingleCompany, 'stub') === "ubs" && get(activeSingleCompany, 'stub') === "baloise" && (
                   <>
                     <div className="hide packageWrap a-s dis-fl-col dis-fl-row-lg pb-3 jc-c">
                       <>
@@ -494,14 +455,18 @@ const IntroUpgrade = (props) => {
                                     {
                                       get(activeSingleCompany, 'stub') === "ubs" && (
                                         <>
-                                          <span className="fweight-600 fsize-500 dis-b">Exclusive benefits for UBS clients</span>
-                                          <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">You only pay if the property is sold.</span>
+                                          <span className="fweight-600 fsize-500 dis-b">
+                                            {translateTo('Exclusive benefits for UBS clients', lang)}
+                                          </span>
+                                          <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
+                                            {translateTo('You only pay if the property is sold.', lang)}
+                                          </span>
                                           <ul className="checked mt-2 txtDark700">
-                                            <li>Support in terminating or transferring the mortgage</li>
-                                            <li>Investment and pension advice</li>
-                                            <li>Advice on the tax implications of selling real estate</li>
-                                            <li>Information on inheritance and estate planning</li>
-                                            <li>Checking the selling price</li>
+                                            <li>{translateTo('Support in terminating or transferring the mortgage', lang)}</li>
+                                            <li>{translateTo('Investment and pension advice', lang)}</li>
+                                            <li>{translateTo('Advice on the tax implications of selling real estate', lang)}</li>
+                                            <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
+                                            <li>{translateTo('Checking the selling price', lang)}</li>
                                           </ul>
                                         </>
                                       )
@@ -509,12 +474,16 @@ const IntroUpgrade = (props) => {
                                     {
                                       get(activeSingleCompany, 'stub') === "baloise" && (
                                         <>
-                                          <span className="fweight-600 fsize-500 dis-b">Exclusive benefits for Baloise clients</span>
-                                          <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">You only pay if the property is sold.</span>
+                                          <span className="fweight-600 fsize-500 dis-b">
+                                            {translateTo('Exclusive benefits for Baloise clients', lang)}
+                                          </span>
+                                          <span className="fweight-600 mt-1 dis-b p-2 bgBlue100">
+                                            {translateTo('You only pay if the property is sold.', lang)}
+                                          </span>
                                           <ul className="checked mt-2 txtDark700">
-                                            <li>Clarification of the existing mortgage</li>
-                                            <li>Baloise gives you as a customer CHF 1,000 as a gift</li>
-                                            <li>Information on inheritance and estate planning</li>
+                                            <li>{translateTo('Clarification of the existing mortgage', lang)}</li>
+                                            <li>{translateTo('Baloise gives you as a customer CHF 1,000 as a gift', lang)}</li>
+                                            <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
                                           </ul>
                                         </>
                                       )
@@ -550,77 +519,6 @@ const IntroUpgrade = (props) => {
                         }
                       </>
                     </div>
-                  </>
-                ) : (
-                  <>
-                    {/* <div className="packageWrap regularPackage is-fl-col dis-fl-row-md pb-3 jc-c a-c a-t-md">
-                      <>
-                        {
-                          filteredPackages.map((pkg, i) => (
-                            <div
-                              className={`packageBox mb-2 mb-lg-0 w-perc-100 ${pkg.type} dis-fl-col jc-b pos-r`}
-                              key={`fltPkg_${i.toString()}`}
-                            >
-                              <div className="p-4">
-                                <div className="dis-f jc-b a-c">
-                                  <h5 className="fweight-600 fsize-700">{pkg.name}</h5>
-                                  {pkg.stub === packageName.stub && (
-                                    <div className="bgDark500 py-small-4 px-1 brdRadius txtWhite">{translateTo('Your plan', lang)}</div>
-                                  )}
-                                </div>
-                                <p className="mt-4 txtDark700">
-                                  {translateTo(pkg.description, lang)}
-                                </p>
-
-                                <ul className="checked mt-4 txtDark700">
-                                  {
-                                    pkg.details && get(pkg, 'details', []).map((detail, f) => (
-                                      <li
-                                        key={`pkgDtl_${f.toString()}`}
-                                        className={i > 0 && f === 0 ? 'fweight-600' : ''}
-                                      >
-                                        {translateTo(detail.description, lang)}
-                                      </li>
-                                    ))
-                                  }
-                                </ul>
-                              </div>
-                              {
-                                pkg.price.total > 0 ? (
-                                  <h6 className="px-4 py-2 txtWhite">
-                                    <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                                    <small>{translateTo('incl. VAT', lang)}</small>
-                                  </h6>
-                                ) : (
-                                  <h6 className="px-4 py-2 txtWhite">
-                                    {translateTo('Free', lang)}
-                                  </h6>
-                                )
-                              }
-                              {
-                                pkg.type === 'one' && get(activeSingleCompany, 'meta.additionalPackage.price', 0) > 0 && (
-                                  <span className="fsize-300 txtLight700 pos-a bt w-perc-100 mb-6-neg ta-c">
-                                    <span>{translateTo('Let us handle all showings for additional', lang)}</span>
-                                    <span className="ml-small-4">
-                                      {get(activeSingleCompany, 'country.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.additionalPackage.price', 0), get(activeSingleCompany, 'country.currency', ''))}.
-                                    </span>
-                                  </span>
-                                )
-                              }
-                            </div>
-                          ))
-                        }
-                      </>
-                    </div> */}
-                    {/* <div className="dis-f jc-c mt-5">
-                      <BrixelButtonSecondary
-                        rounded
-                        ghost
-                        theme="dark"
-                        label={translateTo('Compare all details', lang)}
-                        onClick={() => scrollTo('comparePlan')}
-                      />
-                    </div> */}
                   </>
                 )
               }
