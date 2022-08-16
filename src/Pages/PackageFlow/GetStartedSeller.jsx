@@ -30,7 +30,6 @@ import cloneDeep from 'lodash/cloneDeep';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { diff } from 'deep-object-diff';
 import isArray from 'lodash/isArray';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
@@ -426,7 +425,7 @@ const GetStartedSeller = (props) => {
   }, [lang, company.stub]);
 
   useEffect(() => {
-    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+    setQuest(questions[currentIndex]);
   }, [currentIndex]);
 
 
@@ -489,11 +488,7 @@ const GetStartedSeller = (props) => {
         }
         return null;
       });
-      const checkDiff = diff(quest, newQuest);
-      if (Object.keys(checkDiff).length > 0) {
-        setQuest(newQuest[currentIndex]);
-        setQuestions(newQuest);
-      }
+      setQuest(newQuest[currentIndex]);
     }
   }, [formValue]);
 
