@@ -678,7 +678,12 @@ const GetStartedBuyer = (props) => {
                           key={i.toString()}
                         >
                           <span className="fweight-500 my-3 dis-b">{text.title}</span>
-                          <p className="fsize-300 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
+                          {
+                            text.subtitle && (
+                              <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
+                            )
+                          }
+                          <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
                         </div>
                       ))
                     }
