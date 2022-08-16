@@ -162,7 +162,7 @@ const MarketCategoryListSeller = (props) => {
       setPropertyId(ownerProperties.data[0].id);
     }
   }, [getCookie('brixelSplashHome'), ownerProperties, notification]);
-  
+
   useEffect(() => {
     if (has(ownerProperties, 'total')) {
       if (ownerProperties.total === 0) {
@@ -177,8 +177,8 @@ const MarketCategoryListSeller = (props) => {
       }
     }
   }, [ownerProperties, loggedInUser]);
-  
-  
+
+
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
@@ -263,7 +263,7 @@ const MarketCategoryListSeller = (props) => {
           />
         )
       }
-    
+
       {/* SECTION: bestimate teaser */}
       {
         (!bestimateMessage && splashScreenType === 'bestimateTeaser') && (
@@ -287,9 +287,9 @@ const MarketCategoryListSeller = (props) => {
                     <span className="max-w-fix-448 ta-c txtDark700 py-2">
                       {translateTo('Our experts are validating the data and generating an estimation report just for you.', lang)}
                     </span>
-                  
+
                     <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
-                  
+
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                       <span>
                         {translateTo('If you have any questions please contact our', lang)}
@@ -321,9 +321,9 @@ const MarketCategoryListSeller = (props) => {
                     <span className="max-w-fix-448 ta-c txtDark700 py-2">
                       {translateTo('Compare your property to real transaction data to better define the pricing.', lang)}
                     </span>
-                  
+
                     <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
-                  
+
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                       <span
                         className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
@@ -349,7 +349,7 @@ const MarketCategoryListSeller = (props) => {
           </SplashScreen>
         )
       }
-    
+
       {/* SECTION: bestimate missing */}
       {
         (!bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending')) && (
@@ -370,9 +370,9 @@ const MarketCategoryListSeller = (props) => {
               <span className="max-w-fix-448 ta-c txtDark700 py-2">
                 {translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}
               </span>
-            
+
               <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
-            
+
               <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                 <span
                   className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
@@ -394,7 +394,7 @@ const MarketCategoryListSeller = (props) => {
           </SplashScreen>
         )
       }
-    
+
       {
         ownerProperties.total === 0 ? (
           <div className="px-2 px-md-0 mb-5 mb-sm-3">
@@ -431,7 +431,7 @@ const MarketCategoryListSeller = (props) => {
                 onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
               />
             </div>
-          
+
             {
               ownerProperties.total > 0 && (
                 <>
@@ -471,7 +471,7 @@ const MarketCategoryListSeller = (props) => {
                                   }
                                 </h5>
                                 <div>
-                                  <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
+                                  <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide ml-2">
                                     <li>
                                       {translateTo('Personal consultation', lang)}
                                     </li>
@@ -481,9 +481,9 @@ const MarketCategoryListSeller = (props) => {
                                     </li>
                                   </ul>
                                 </div>
-                            
+
                               </div>
-                          
+
                             </div>
                           )
                         }
@@ -514,7 +514,7 @@ const MarketCategoryListSeller = (props) => {
                 </div>
               )
             }
-          
+
             {
               ownerProperties.total > 0 && (
                 <BrixelButtonSecondary
@@ -526,17 +526,17 @@ const MarketCategoryListSeller = (props) => {
                 />
               )
             }
-        
+
           </div>
         )
       }
-    
+
       <div className="bgLight100 pt-6 pt-sm-8 pb-4 pb-sm-7">
         <div className="container">
           <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
             {translateTo('Boost your private sale with an upgrade.', lang)}
           </h3>
-        
+
           <div className="dis-fl-col dis-fl-row-sm jc-c pkgsWrap">
             {
               (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
@@ -564,12 +564,35 @@ const MarketCategoryListSeller = (props) => {
                         </div>
                         {
                           pkg.price.total > 0 ? (
-                            <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
-                              <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span>
-                              <small className="ml-1 fsize-300 txtDark700">
-                                {translateTo('incl. VAT', lang)}
-                              </small>
-                            </p>
+                            <div className="mt-1 mb-3 fsize-500 txtDark700 dis-fl-col">
+                              {
+                                get(pkg, 'price.discountTotal', 0) > 0 && (
+                                  <>
+                                    <span
+                                      className="dis-b txtAltGrey400 fsize-300 mt-2 mt-sm-0"
+                                    >
+                                      <span className="">{translateTo('Original price', lang)}</span>
+                                      <span className="td-lt lh-in ml-2 dis-ib pt-small-2">
+                                        <span>{get(pkg, 'price.currency', '')}</span> <span>{Helpers.formatNumberValue(get(pkg, 'price.total', 0), get(pkg, 'price.currency', ''))}</span>
+                                      </span>
+                                    </span>
+                                  </>
+                                )
+                              }
+                              {/* <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, pkg.price.currency)}</span> */}
+                              <div className="dis-f">
+                                {
+                                  get(pkg, 'price.discountTotal', 0) > 0 ? (
+                                    <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.discountTotal, get(pkg, 'price.currency', ''))}</span>
+                                  ) : (
+                                    <span>{pkg.price.currency} {Helpers.formatNumberValue(pkg.price.total, get(pkg, 'price.currency', ''))}</span>
+                                  )
+                                }
+                                <span className="ml-1 fsize-300 txtDark700 dis-f as-fe">
+                                  {translateTo('incl. VAT', lang)}
+                                </span>
+                              </div>
+                            </div>
                           ) : (
                             <p className="mt-1 mb-3 fsize-500 dis-f a-b txtDark700">
                               {translateTo('Free', lang)}
@@ -584,13 +607,13 @@ const MarketCategoryListSeller = (props) => {
               )
             }
           </div>
-        
+
           <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
             <BrixelButtonPrimary
               rounded
               label={translateTo('Upgrade your plan', lang)}
               onClick={() => window.location.assign(`/${get(ownerProperties, 'data[0].id', 'company')}/upgrade`)}
-          
+
             />
             <span className="mx-sm-1 mt-2 my-sm-0">{translateTo('or', lang)}</span>
             <BrixelButtonText
@@ -600,15 +623,15 @@ const MarketCategoryListSeller = (props) => {
               theme="AltGrey"
               themeSat={700}
             />
-        
+
           </div>
         </div>
       </div>
-    
+
       <div className="mt-6 mt-sm-10">
         <div className="container">
           <h4 className="mb-4 fweight-600 txtDark700">{translateTo('This may interest you', lang)}</h4>
-        
+
           <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
             {
               artByCountry.map((article, i) => (
@@ -626,12 +649,12 @@ const MarketCategoryListSeller = (props) => {
               ))
             }
           </div>
-      
+
         </div>
       </div>
-    
+
       <span className="mt-4 mb-6 hr lighter" />
-    
+
       <div className="mb-5 mb-sm-10">
         <div className="container">
           {

@@ -567,7 +567,6 @@ export const tobase64Handler = async (files, user, action, pageID, imgType, docT
   const mappedFiles = filePaths.map((base64File) => {
     if (action === 'documents') {
       let name = get(base64File, 'name', Date.now() / 1000);
-      if (docType && docType !== 'Generic') name = docType;
       return {
         name,
         user,

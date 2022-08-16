@@ -10,11 +10,13 @@ import lead from './LeadReducer';
 import property from './PropertyReducer';
 import user from './UserReducer';
 import notes from './NoteReducer';
+import craftCMS from './CraftCMS'
 
 export const rootReducer = combineReducers({
   brixelForm: formReduxer,
   common,
   companies,
+  craftCMS,
   deal,
   history,
   images: image,

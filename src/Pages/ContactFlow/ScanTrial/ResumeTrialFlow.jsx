@@ -5,8 +5,8 @@ import { compose } from 'redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import GreenHouseImg from '../../images/scanTrial/green_house.svg';
-import ScheduleImg from '../../images/scanTrial/schedule.svg';
+import GreenHouseImg from '../../../images/scanTrial/green_house.svg';
+import ScheduleImg from '../../../images/scanTrial/schedule.svg';
 
 const ResumeTrialFlow = (props) => {
   // PROPS

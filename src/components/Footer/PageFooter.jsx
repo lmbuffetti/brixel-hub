@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { CompaniesData } from '../../resources/Layout/Companies';
+import { CompaniesData } from '../../resources/Companies/Companies';
 // import { connect } from 'react-redux';
 // import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -30,35 +30,16 @@ function PageFooter(props) {
   return (
     <>
       <footer className={`footerWrap w-perc-100 ${className} ${activeSideBar ? 'leftPadding' : ''}`}>
-        <div className="a-t jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdAltGrey100">
-          <div>
-            {
-              get(activeSingleCompany, 'links.privacy', null) && (
-                <a
-                  href={get(activeSingleCompany, 'links.privacy', null)}
-                  className="fsize-300 txtAltGrey400 link"
-                >
-                  {translateTo('Privacy Policy', lang)}
-                </a>
-              )
-            }
-            {
-              get(activeSingleCompany, 'links.privacy', null) && (
-                <a
-                  href={get(activeSingleCompany, 'links.terms', null)}
-                  className="ml-2 fsize-300 txtAltGrey400 link"
-                >
-                  {translateTo('Terms and Conditions', lang)}
-                </a>
-              )
-            }
-          </div>
+        <div className="dis-f flex-wrap jc-b p-1 p-sm-2 px-sm-3 brdSmallTop brdAltGrey100">
           {
             get(activeCompanyData, 'logos', []).length > 0 && (
-              <div className="dis-f jc-c a-c max-h-fix-20">
-                <span className="mr-2 fsize-300 txtAltGrey400">
-                  {translateTo('Powered by', lang)}
-                </span>
+              <div className="dis-f a-c jc-c jc-fs-sm max-h-fix-20">
+                {
+                  activeSingleCompany.stub === 'baloise' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Powered by', lang)}</span>
+                }
+                {
+                  activeSingleCompany.stub === 'ubs' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Your partner for financial questions', lang)}</span>
+                }
                 {
                   get(activeCompanyData, 'logos', []).map((logo, i) => (
                     <img
@@ -72,8 +53,35 @@ function PageFooter(props) {
               </div>
             )
           }
-          <div className="ta-r">
-            <span className="fsize-300 txtAltGrey400">@Brixel {new Date().getFullYear()}</span>
+          <div className="dis-f jc-fe">
+            {
+              get(activeSingleCompany, 'links.privacy', null) && (
+                <a
+                  href={get(activeSingleCompany, 'links.privacy', null)}
+                  className="fsize-300 txtAltGrey400 link"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {translateTo('Privacy Policy', lang)}
+                </a>
+              )
+            }
+            {
+              get(activeSingleCompany, 'links.privacy', null) && (
+                <a
+                  href={get(activeSingleCompany, 'links.terms', null)}
+                  className="ml-2 fsize-300 txtAltGrey400 link"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {translateTo('Terms and Conditions', lang)}
+                </a>
+              )
+            }
+
+            <div className="ta-r ml-1">
+              <span className="fsize-300 txtAltGrey400">@Brixel {new Date().getFullYear()}</span>
+            </div>
           </div>
         </div>
       </footer>

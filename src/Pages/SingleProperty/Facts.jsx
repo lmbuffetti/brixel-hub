@@ -36,14 +36,14 @@ const Facts = (props) => {
     lang,
     windowDimensions,
   } = props;
-
+  
   // STATE
   const [Questions, setQuestions] = useState(InputSheets('facts', lang));
   const [selectedQuest, setSelectedQuest] = useState(null);
   // PARAMS URL
   const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
-
+  
   // FUNCTION TO CHECK IF MAIN SECTION IS FINISH OR NOT
   const checkSectionDone = (val, act = 'section') => {
     let sectionDone = true;
@@ -72,7 +72,7 @@ const Facts = (props) => {
     if (act === 'section') return sectionDone;
     return null;
   };
-
+  
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     if (calcPercentageFacts().calcPerc !== calcPercentageFacts().savedPerc) {
@@ -87,7 +87,7 @@ const Facts = (props) => {
       setSelectedQuest(quest);
     }
   }, [formValue]);
-
+  
   // ON CHANGE HISTORY SELECT THE CORRECT QUESTIONS
   useEffect(() => {
     if (history && !selectedQuest && getFact() !== 'facts') {
@@ -97,7 +97,7 @@ const Facts = (props) => {
       setSelectedQuest(null);
     }
   }, [history, getFact()]);
-
+  
   // ON CLICK SELECT THE RIGHT QUESTIONS AND CHANGE THE URL
   const onSelectQuest = (quest) => {
     // TODO
@@ -106,7 +106,7 @@ const Facts = (props) => {
       setSelectedQuest(quest);
     }, 0);
   };
-
+  
   // FUNCTION TO GO TO NEXT QUESTIONS LIST
   const onNextSection = (act) => {
     const findCurrentId = Questions.findIndex((quest) => quest.history === selectedQuest.history);
@@ -130,7 +130,7 @@ const Facts = (props) => {
     }
     return null;
   };
-
+  
   return (
     <>
       <h3 className="mb-3 hide dis-b-lg">{translateTo('Facts', lang)}</h3>
@@ -143,7 +143,7 @@ const Facts = (props) => {
           </div>
           <div className="boxCard flex-1">
             <div className="dis-fl-col">
-
+              
               <div className="mt-3 mb-3">
                 <BrixelProgressBar
                   rounded
@@ -193,7 +193,7 @@ const Facts = (props) => {
                           bgTransparent
                         />
                       </div>
-
+                    
                     </button>
                   ))
                 }

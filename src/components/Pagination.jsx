@@ -17,11 +17,11 @@ const Pagination = (props) => {
     totalItems,
   } = props;
   const pageNumbers = [];
-
+  
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i += 1) {
     pageNumbers.push(i);
   }
-
+  
   const processPagination = (val, action) => {
     if (action === 'results') {
       paginate(val.value, activePage);
@@ -34,7 +34,7 @@ const Pagination = (props) => {
       } else {
         paginationSkip = 0;
       }
-
+      
       paginate(itemsPerPage, paginationSkip);
     }
     const scrollEl = document.getElementsByClassName('content')[0];
@@ -44,7 +44,7 @@ const Pagination = (props) => {
       top: 0,
     });
   };
-
+  
   const processResults = () => {
     if (totalItems > 10) {
       if (activePage === '0') {
@@ -56,7 +56,7 @@ const Pagination = (props) => {
     }
     return totalItems;
   };
-
+  
   return (
     <>
       <p className={totalItems <= 10 ? 'pb-5 pb-lg-0' : ''}>
@@ -90,7 +90,7 @@ const Pagination = (props) => {
                 />
               )
             }
-
+            
             <ul className="page-number dis-f a-c">
               {
                 activePage !== 0 && (

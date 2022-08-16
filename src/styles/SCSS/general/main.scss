@@ -402,6 +402,11 @@ img {
 .lh-in {
   line-height: initial;
 }
+.lh-no {
+  line-height: normal;
+}
+
+.a-s { align-content: stretch; align-items: stretch; }
 
 /* hide notification bar*/
 #bodyModalWrapper,
@@ -1061,4 +1066,12 @@ input::-webkit-date-and-time-value {
 
 .rotateIcon {
   transform: rotate(180deg);
+}
+
+.dis-if {
+  display: inline-flex;
+}
+
+.of-co {
+  object-fit: cover;
 }

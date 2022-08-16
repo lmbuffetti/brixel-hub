@@ -11,6 +11,7 @@ export default {
   common: {
     sendSlackNotification: (channel) => `/utils/sendCustomSlackMessage?channel=${channel}`,
     sendMessage: () => '/message',
+    sendMessageContact: () => '/contact/message',
     sendSupportMessage: () => '/support/message',
   },
   company: {
@@ -110,5 +111,6 @@ export default {
     userByToken: () => '/user/',
     validateToken: () => '/authentication/validateToken',
     validateUser: (email) => `/user/validate/${email}`,
+    getToken: () => '/authentication/getToken',
   },
 };

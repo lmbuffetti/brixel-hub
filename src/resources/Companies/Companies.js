@@ -8,7 +8,7 @@ export const CompaniesData = {
       logos: [LogoBaloise],
     },
   },
-  ubs_key4: {
+  ubs: {
     footer: {
       logos: [LogoUBS, LogoKey4],
     },

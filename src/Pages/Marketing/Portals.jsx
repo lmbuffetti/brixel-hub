@@ -44,7 +44,7 @@ const Portals = (props) => {
   const [status, setStatus] = useState({});
   // URL PARAMS
   const propID = get(match, 'propID', null);
-
+  
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {
     let isOnline = false;
@@ -58,7 +58,7 @@ const Portals = (props) => {
     });
     return isOnline;
   };
-
+  
   // ASSIGN COLOR AND TEXT BY STATUS
   useEffect(() => {
     if (activeSingleProperty.portalsReview) {
@@ -81,7 +81,7 @@ const Portals = (props) => {
       });
     }
   }, [activeSingleProperty]);
-
+  
   // CHANGE PORTALS REVIEW
   const changeReviewStatus = () => {
     const data = {
@@ -91,7 +91,7 @@ const Portals = (props) => {
     };
     handleUpdatePortalsReview(data);
   };
-
+  
   const onClickRequest = (state, type = 'request') => {
     const bodyText = MarketingModal[state][type].body.replace(':companyPrice', `${get(activeSingleCompany, 'country.currency')} ${get(activeSingleCompany, 'meta.portals.price')}`);
     handleSetModal({
@@ -145,7 +145,7 @@ const Portals = (props) => {
       onClickRequest(stateText, 'success');
     }
   }, [isSmallLoading]);
-
+  
   return (
     <>
       <div className="bgWhite p-4 brdRadius">
@@ -155,7 +155,7 @@ const Portals = (props) => {
             {translateTo(status.text, lang)}
           </div>
         </div>
-
+        
         <div className="mb-4">
           {
             checkPortalsOnline() ? (
@@ -247,7 +247,7 @@ const Portals = (props) => {
             ))
           }
         </div>
-
+        
         {
           checkPortalsOnline() && !formValue.portalsReview && (
             <>
@@ -269,7 +269,7 @@ const Portals = (props) => {
             </>
           )
         }
-
+        
         <div className="dis-f a-c jc-fe mt-5">
           {
             checkPortalsOnline() ? (
@@ -298,10 +298,10 @@ const Portals = (props) => {
             )
           }
         </div>
-
+      
       </div>
-
-
+      
+      
       {
         get(activeSingleProperty, 'published', null) === false && (
           <div className="bgWhite brdRadius p-4 mt-2">
@@ -327,7 +327,7 @@ const Portals = (props) => {
           </div>
         )
       }
-
+    
     </>
   );
 };

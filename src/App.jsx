@@ -75,6 +75,9 @@ const DashboardSeller = lazyWithRetry(() => import('./Pages/Dashboard/Seller/Das
 // HUB DASHBOARD - BUYER
 const DashboardBuyer = lazyWithRetry(() => import('./Pages/Dashboard/Buyer/Dashboard'));
 
+// PARTNER
+const Contact = lazyWithRetry(() => import('./Pages/ContactFlow/Companies/Contact'));
+
 // FLOW SELLER
 const Bestimate = lazyWithRetry(() => import('./Pages/Bestimate'));
 
@@ -196,13 +199,13 @@ const App = (props) => {
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
-    if (((get(activeSingleProperty, 'owner.id', 'a') === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
+    if (((get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
       handleSetUserTypes('seller');
     } else {
       handleSetUserTypes('buyer');
     }
     if (!activeSingleProperty.documents) handleSetActiveSingleDeal({});
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, loggedInUser]);
 
   const bodyModal = document.getElementById('bodyModalWrapper');
   useEffect(() => {
@@ -272,6 +275,7 @@ const App = (props) => {
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('trialRequest') ||
+      history.location.pathname.includes('contactFlow') ||
       history.location.pathname.includes('upgrade')    ) {
       if (
         history.location.pathname.includes('packageFlow') ||
@@ -501,10 +505,20 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
+                      { /* SECTION: ONBOARDING WITH COMPANY STUB */}
+                      <Route path="/packageFlow/:companyStub" element={<GetStarted />} />
+                      <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
+                      <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
+                      <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
+
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
                       <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
+  
+                      { /* PARTNER CONTACT FLOW */}
+                      <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+                      <Route path="/buyer/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
 
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
@@ -529,7 +543,7 @@ const App = (props) => {
                                   get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
                                   get(history, 'location.pathname', '').split('/')[1].length > 18) ||
                                 get(history, 'location.pathname', '').split('/')[1] === 'company') && (
-
+    
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
@@ -596,7 +610,7 @@ const App = (props) => {
                               }
                             </div>
                             <span className="ml-2 txtDark700 fweight-500">
-                              {translateTo('Support', lang)}
+                              {translateTo('Brixel Support', lang)}
                             </span>
                           </div>
                         )

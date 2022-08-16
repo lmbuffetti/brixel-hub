@@ -11,6 +11,7 @@ import {
   BrixelProgressBar,
   DataByCountry,
   translateTo,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -24,8 +25,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
-import last from 'lodash/last';
 import isArray from 'lodash/isArray';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
@@ -82,6 +83,7 @@ const GetStartedEstimation = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
+  const companyStub = get(match, 'companyStub', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -142,7 +144,7 @@ const GetStartedEstimation = (props) => {
   }, [get(history, 'location.pathname', null)]);
 
   // FUNCTION TO SAVE DATA
-  const saveData = async () => {
+  const saveData = async (action = '') => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     const { login, register, company } = dataForm;
@@ -159,6 +161,7 @@ const GetStartedEstimation = (props) => {
     }
     // PROPERTY DATA
     delete dataFormAnswer.login;
+    if (get(dataFormAnswer, 'estimationType', '') === 'seller' && action === 'skip') delete dataFormAnswer.baloiseInfo;
     let data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -208,8 +211,18 @@ const GetStartedEstimation = (props) => {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
       data.redirectToRewards = true;
-      if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') await handleCreateActiveSingleProperty(data);
-      else handleCreateEstimation(data);
+      if (get(dataFormAnswer, 'estimationType', '') !== 'buyer') {
+        await handleCreateActiveSingleProperty(data);}
+      else {
+        if (action === 'accept' && company === 'baloise') {
+          set(data, 'termsBaloiseBank', true);
+          set(data, 'termsBaloiseInsurance', true);
+        }
+        if (action === 'accept' && company === 'ubs') {
+          set(data, 'termsUBS', true)
+        }
+        handleCreateEstimation(data);
+      }
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
       // IF USER DO THE LOG IN, DO THE LOGIN AND THEN SAVE DIRECTLY THE PAGE
@@ -262,6 +275,20 @@ const GetStartedEstimation = (props) => {
       if (buyerType.includes(get(dataForm, 'estimationType', ''))) {
         data.user.buyer = true;
         data.user.seller = false;
+      }
+      if (get(dataFormAnswer, 'estimationType', '') === 'buyer'){
+        if (action === 'accept' && company === 'baloise') {
+          set(data.user, 'termsBaloiseBank', true);
+          set(data.user, 'termsBaloiseInsurance', true);
+        }
+        if (action === 'accept' && company === 'ubs') {
+          set(data.user, 'termsUBS', true)
+        }
+      }
+      if (get(dataFormAnswer, 'estimationType', '') === 'seller') {
+        if (get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseBank') set(data.user, 'termsBaloiseBank', true);
+        if (get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseInsurance') set(data.user, 'termsBaloiseInsurance', true);
+        if (get(dataFormAnswer, 'ubsPolicy', false) === true) set(data.user, 'termsUBS', true);
       }
       // DISPATCH TO DO REGISTRATION USER
       await handleValidateUser(data);
@@ -354,7 +381,7 @@ const GetStartedEstimation = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow');
+      history.push(`/packageFlow${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -407,7 +434,7 @@ const GetStartedEstimation = (props) => {
           }
           if (questions[defId].history) {
             history.push({
-              pathname: `/packageFlow/getStartedEstimation/${questions[defId].history}`,
+              pathname: `/packageFlow/getStartedEstimation/${company.stub}/${questions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -453,10 +480,12 @@ const GetStartedEstimation = (props) => {
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
+    if (get(companyByUrl, 'company', companyCookie) || companyStub !== get(questions, '[0].history', null)) {
+      let defComp = get(companyByUrl, 'company', companyCookie);
+      if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
+      history.push(`/packageFlow/getStartedEstimation/${defComp}/${get(questions, '[0].history', null)}`);
     } else if (!isTest) {
       const companyUser = get(loggedInUser, 'users.company.stub', null);
       if (companyUser) handleGetActiveSingleCompany({ stub: companyUser });
@@ -469,13 +498,6 @@ const GetStartedEstimation = (props) => {
       setCookie('brixelChannelSignup', defChan);
     } else {
       changeFieldValue('channel', channelCookie);
-    }
-    const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
-      history.push({
-        pathname: `/packageFlow/getStartedEstimation/${questions[0].history}`,
-        state: {},
-      });
     }
   }, []);
 
@@ -532,7 +554,7 @@ const GetStartedEstimation = (props) => {
   useEffect(() => {
     if (formValue) {
       const newQuest = [];
-      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -578,6 +600,7 @@ const GetStartedEstimation = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
+    else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Next';
     else label = 'Next';
     return label;
@@ -713,21 +736,6 @@ const GetStartedEstimation = (props) => {
                       </div>
                     )
                   }
-                  {/* {
-                  get(quest, 'history', null) === 'resume' && (
-                    <div className="max-w-fix-344 m-a">
-                      <BrixelButtonPrimary
-                        className={`mt-3 mb-2 m-a noWrap ${quest.history}`}
-                        rounded
-                        theme="green"
-                        label={buttonLabel()}
-                        disabled={!checkValidateField()}
-                        rightIcon="arrow-right-small"
-                        onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      />
-                    </div>
-                  )
-                } */}
                 </div>
               </div>
             </div>
@@ -735,7 +743,7 @@ const GetStartedEstimation = (props) => {
               get(quest, 'history', null) !== 'resume' && (
                 <>
                   {
-                    get(quest, 'history', null) !== 'createProfile' && (
+                    get(quest, 'history', null) !== 'createProfile' && (get(quest, 'history', '') !== 'baloisePolicy' && get(quest, 'history', '') !== 'ubsPolicy') && (
                       <div
                         className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
                       >
@@ -760,7 +768,7 @@ const GetStartedEstimation = (props) => {
                                   rounded
                                   theme="green"
                                   themeSat={500}
-                                  label={translateTo(buttonLabel())}
+                                  label={translateTo(buttonLabel(), lang)}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                   onShowError={() => setShowError(true)}
@@ -770,6 +778,52 @@ const GetStartedEstimation = (props) => {
                           </div>
                         </div>
                       </div>
+                    )
+                  }
+                  {
+                    (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsPolicy') && (
+                      <>
+                        {
+                          quest.title && (
+                            <h3 className={`fweight-600 max-w-fix-600 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                          )
+                        }
+                        <div className="brdRadius bgWhite max-w-fix-752 ml-a mr-a px-2 px-sm-6 pt-3 pb-6">
+                          {
+                            quest.text.map((text, i) => (
+                              <div key={i.toString()}>
+                                <span className="fweight-500 my-3 dis-b">{text.title}</span>
+                                <span className="fsize-300 dis-b">{text.description}</span>
+                              </div>
+                            ))
+                          }
+                        </div>
+                        <div className={`footerAction py-3 flowFooter ${get(quest, 'footerWidth', '')}`}>
+                          <div className="pos-r">
+                            <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                              {
+                                get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
+                                  <BrixelButtonPrimary
+                                    className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
+                                    disabled={!checkValidateField()}
+                                    rounded
+                                    theme="green"
+                                    label={translateTo('Accept', lang)}
+                                    onClick={() => saveData('accept')}
+                                    onShowError={() => setShowError(true)}
+                                  />
+                                )
+                              }
+                              <BrixelButtonText
+                                theme="light"
+                                className="pos-a x-r"
+                                label={translateTo('Skip', lang)}
+                                onClick={() => saveData('skip')}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </>
                     )
                   }
                 </>

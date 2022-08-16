@@ -25,6 +25,8 @@ import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import DashboardPropertyCardSold from '../../../components/Cards/DashboardPropertyCardSold';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
+import ArticlesBox from '../../../components/CraftCMS/ArticlesBox';
+import BannerBox from '../../../components/CraftCMS/BannerBox';
 
 import Loading from '../../../components/Loading';
 import ProgressSellerStage from '../../../components/ProgressSellerStage';
@@ -95,7 +97,7 @@ const DashboardHome = (props) => {
       const mergedFeed = activeSinglePropertyDeals.visit.data.filter((visit) => get(visit, 'visit', null));
       let mergedFeedNew = mergedFeed.filter((visit) => visit.visit > DateTime.now().toMillis()).map((arr) => ({ ...arr, past: false }));
       let mergedFeedPast = mergedFeed.filter((visit) => visit.visit <= DateTime.now().toMillis()).map((arr) => ({ ...arr, past: true }));
-      mergedFeedNew = orderBy(mergedFeedNew, ['visit'], ['asc']);
+      mergedFeedNew = orderBy(mergedFeedNew, ['visit'], ['asc']);2
       mergedFeedPast = orderBy(mergedFeedPast, ['visit'], ['desc']);
       setVisitLists([...mergedFeedNew, ...mergedFeedPast]);
     }
@@ -262,7 +264,7 @@ const DashboardHome = (props) => {
         )
       }
 
-      <div className="max-w-fix-760 dis-fl-col pr-md-2">
+      <div className="max-w-fix-1024 dis-fl-col pr-md-2">
         {
           progressState.step === 1 && (
             <>
@@ -310,6 +312,19 @@ const DashboardHome = (props) => {
                   {/* <img src={testDriveImg} alt="Test Drive" /> */}
                 </div>
               </div>
+
+              <ArticlesBox
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-article"
+              />
+
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-3"
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-banner-bottom"
+              />
             </>
           )
         }
@@ -506,6 +521,20 @@ const DashboardHome = (props) => {
                   </div>
                 </div>
               </div>
+
+              <ArticlesBox
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-article"
+              />
+
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-3"
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-banner-bottom"
+              />
+
             </>
           )
         }
@@ -730,6 +759,20 @@ const DashboardHome = (props) => {
                   </div>
                 )
               }
+
+              <ArticlesBox
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-article"
+              />
+
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-3"
+                lang={lang}
+                placementSlug="seller-hub-home-onboarding-banner-bottom"
+              />
+
             </>
           )
         }
@@ -810,7 +853,7 @@ const DashboardHome = (props) => {
               </div>
 
               <div
-                className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100"
+                className="shadow-2dp brdRadius dis-f jc-b pt-2 px-2 px-sm-3 pb-3 w-perc-100 cur-poi ov-h mt-3 bgBlue100 min-h-fix-200 a-c"
                 style={{backgroundImage: `url(${marketNewHomeSvg})`, backgroundSize: 'auto 100%', backgroundPosition: 'right', backgroundRepeat: 'no-repeat'}}
               >
                 <div className="dis-fl-col max-w-perc-100">
@@ -838,6 +881,25 @@ const DashboardHome = (props) => {
                   </div>
                 </div>
               </div>
+
+              <ArticlesBox
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-sold-partner"
+              />
+
+              <ArticlesBox
+                activeSingleCompany={activeSingleCompany}
+                lang={lang}
+                placementSlug="seller-hub-home-sold-article"
+              />
+
+              <BannerBox
+                activeSingleCompany={activeSingleCompany}
+                className="mt-6"
+                lang={lang}
+                placementSlug="seller-hub-home-sold-banner-bottom"
+              />
 
             </>
           )

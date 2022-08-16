@@ -11,6 +11,7 @@ import {
   BrixelProgressBar,
   DataByCountry,
   translateTo,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -24,8 +25,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
+import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
-import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
@@ -81,6 +82,7 @@ const GetStartedSeller = (props) => {
   // const [roomValue, setRoomValue] = useState('');
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
+  const companyStub = get(match, 'companyStub', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -102,7 +104,7 @@ const GetStartedSeller = (props) => {
   };
 
   // FUNCTION TO SAVE DATA
-  const saveData = async () => {
+  const saveData = async (action = '') => {
     if (isLoading) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
@@ -123,6 +125,7 @@ const GetStartedSeller = (props) => {
     }
     // PROPERTY DATA
     delete dataFormAnswer.login;
+    if (action === 'skip') delete dataFormAnswer.baloiseInfo;
     const data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -142,11 +145,12 @@ const GetStartedSeller = (props) => {
       createEstimation: true,
       published: false,
       addProperty: true,
-      redirectToUrl: '/packageFlow/:pageID/welcomeSeller',
       // redirectToUrl: '/sell',
       company,
       extraLoading: true,
     };
+    if (company !== 'baloise' && company !== 'ubs') set(data, 'redirectToUrl', '/packageFlow/:pageID/welcomeSeller');
+    else set(data, 'redirectToUrl', '/:pageID/home');
     if (formValue.pageID) data.id = formValue.pageID;
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
@@ -154,6 +158,9 @@ const GetStartedSeller = (props) => {
     if (formValue.owner && get(data, 'price.currency', null)) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
+      if (action === 'accept' && company === 'ubs') {
+        set(data, 'termsUBS', true)
+      }
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
@@ -183,6 +190,9 @@ const GetStartedSeller = (props) => {
         createUser: true,
         company,
         ignoreEmail: false,
+        termsBaloiseBank: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseBank',
+        termsBaloiseInsurance: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseInsurance',
+        termsUBS: get(dataFormAnswer, 'ubsPolicy', false),
         seller: true,
         redirectTo: {
           pathname: '/packageFlow/getStarted/success',
@@ -200,21 +210,24 @@ const GetStartedSeller = (props) => {
 
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
-    let newIndex = id;
-    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
-    if (get(newQuestions, `[${newIndex}].conditions`, null)) {
-      let checkCond = true;
-      newQuestions[newIndex].conditions.map((cond) => {
-        const val = get(formValue, cond.name, null);
-        if (has(cond, 'value') && val !== cond.value && checkCond) {
-          if (act === 'back') newIndex -= 1;
-          else newIndex += 1;
-          checkCond = false;
-        }
-        return null;
-      });
+    if (company.stub) {
+      let newIndex = id;
+      const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+      if (get(newQuestions, `[${newIndex}].conditions`, null)) {
+        let checkCond = true;
+        newQuestions[newIndex].conditions.map((cond) => {
+          const val = get(formValue, cond.name, null);
+          if (has(cond, 'value') && val !== cond.value && checkCond) {
+            if (act === 'back') newIndex -= 1;
+            else newIndex += 1;
+            checkCond = false;
+          }
+          return null;
+        });
+      }
+      return newIndex;
     }
-    return newIndex;
+    return null;
   };
 
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
@@ -268,7 +281,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const newQuestions = QuestionsList('en', get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
     let newIndex = currentIndex;
     setOldIndex(currentIndex);
     setShowError(false);
@@ -283,7 +296,7 @@ const GetStartedSeller = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow');
+      history.push(`/packageFlow/${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -337,7 +350,7 @@ const GetStartedSeller = (props) => {
           }
           if (newQuestions[defId].history) {
             history.push({
-              pathname: `/packageFlow/getStarted/${newQuestions[defId].history}`,
+              pathname: `/packageFlow/getStarted/${company.stub}/${newQuestions[defId].history}`,
               state: get(history, 'location.state', {}),
             });
           }
@@ -357,14 +370,16 @@ const GetStartedSeller = (props) => {
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     setOldIndex(currentIndex);
-    const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
-    if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
-      changeStep('next', null, 1, true);
-    }
-    const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
-    if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
-      inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
-      changeFieldValue('inputSheet', inputSheet);
+    if (company.stub) {
+      const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+      if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
+        changeStep('next', null, 1, true);
+      }
+      const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
+      if (calcPercentageFacts('GetStarted').calcPerc !== calcPercentageFacts('GetStarted').savedPerc && inputSheet.totalComplete !== calcPercentageFacts('GetStarted').calcPerc) {
+        inputSheet.totalComplete = calcPercentageFacts('GetStarted').calcPerc;
+        changeFieldValue('inputSheet', inputSheet);
+      }
     }
   }, [formValue]);
 
@@ -375,9 +390,11 @@ const GetStartedSeller = (props) => {
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
+      let defComp = get(companyByUrl, 'company', companyCookie);
+      if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
+      history.push(`/packageFlow/getStarted/${defComp}/${get(questions, '[0].history', null)}`);
     } else if (!isTest) {
       const companyUser = get(loggedInUser, 'users.company.stub', null);
       if (companyUser) handleGetActiveSingleCompany({ stub: companyUser });
@@ -391,26 +408,21 @@ const GetStartedSeller = (props) => {
     } else {
       changeFieldValue('channel', channelCookie);
     }
-    const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
-      history.push({
-        pathname: `/packageFlow/getStarted/${questions[0].history}`,
-        state: {},
-      });
-    }
   }, []);
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
-    if (currentQuest.effect === 'slideUp') {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
-    } else {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+    if (company.stub) {
+      const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
+      if (currentQuest.effect === 'slideUp') {
+        setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+        setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
+      } else {
+        setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+        setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+      }
     }
-  }, [lang]);
+  }, [lang, company.stub]);
 
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
@@ -461,9 +473,9 @@ const GetStartedSeller = (props) => {
 
   // GET THE NEXT DATA IN BASE OF CURRENT ANSWER
   useEffect(() => {
-    if (formValue) {
+    if (formValue && company.stub) {
       const newQuest = [];
-      QuestionsList('en', get(formValue, 'location.countryCode', 'CH')).map((quest) => {
+      QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')).map((quest) => {
         if (quest.condition) {
           let isValid = true;
           quest.condition.map((item) => {
@@ -510,6 +522,7 @@ const GetStartedSeller = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 2}].toSave`, null)) label = 'Save';
+    else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
     return label;
@@ -543,6 +556,8 @@ const GetStartedSeller = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
+  
+  if (!formValue.id && !company.stub) return (<div />);
 
   return (
     <>
@@ -650,7 +665,7 @@ const GetStartedSeller = (props) => {
               </div>
             </div>
             {
-              get(quest, 'history', null) !== 'createProfile' && (
+              get(quest, 'history', null) !== 'createProfile' && (get(quest, 'history', '') !== 'baloisePolicy' && get(quest, 'history', '') !== 'ubsPolicy') && (
                 <div
                   className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
                 >
@@ -659,7 +674,7 @@ const GetStartedSeller = (props) => {
                       {
                         (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
                           <BrixelButtonIcon
-                            className="backBtn ml-0 mr-a"
+                            className="backBtn pos-a x-l"
                             icon="arrow-left-small"
                             onClick={() => changeStep('back')}
                             theme="light"
@@ -668,22 +683,115 @@ const GetStartedSeller = (props) => {
                         )
                       }
                       {
-                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
+                        get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || get(quest, 'history', null) === 'baloiseInfo') || action === 'back') && (
                           <BrixelButtonPrimary
-                            className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)}`}
+                            className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                             disabled={!checkValidateField()}
                             rounded
                             theme="green"
-                            label={translateTo(buttonLabel())}
+                            label={translateTo(buttonLabel(), lang)}
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}
                           />
                         )
                       }
+                      {
+                        (get(quest, 'history', null) === 'baloiseInfo') && (
+                          <BrixelButtonText
+                            theme="light"
+                            className='pos-a x-r'
+                            label={translateTo('Skip', lang)}
+                            onClick={() => saveData('skip')}
+                          />
+                        )
+                      }
                     </div>
                   </div>
                 </div>
+              )
+            }
+            {
+              (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsPolicy') && (
+                <>
+                  {
+                    quest.title && (
+                      <h3 className={`fweight-600 max-w-fix-600 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                    )
+                  }
+                  <div
+                    className={`brdRadius bgWhite ml-a mr-a px-2 px-sm-6 ${quest.bulletPoints ? 'dis-fl-col dis-fl-row-lg bulletPointsStep jc-b py-2 py-lg-0 max-w-fix-912' : 'max-w-fix-752 pt-3 pb-6'}`}
+                  >
+                    {
+                      quest.text.map((text, i) => (
+                        <div
+                          className={quest.bulletPoints ? 'w-perc-lg-55 py-lg-3 pr-lg-4' : ''}
+                          key={i.toString()}
+                        >
+                          <span className="fweight-500 my-3 dis-b">{text.title}</span>
+                          <p className="fsize-300 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
+                        </div>
+                      ))
+                    }
+                    {
+                      quest.bulletPoints && (
+                        <div className="brdSmallLeft-lg brdAltGrey100 w-perc-lg-45 pl-lg-5 py-lg-3 max-w-fix-lg-352">
+                          <span className="my-3 dis-b">{quest.bulletPoints.title}</span>
+                          <ul className="">
+                            {
+                              quest.bulletPoints.description.map((bullet,k) => (
+                                <li
+                                  className="mb-2"
+                                  key={k.toString()}
+                                >
+                                  {bullet}
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      )
+                    }
+                  </div>
+                  <div
+                    className={`footerAction my-3 flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                  >
+                    <div className="pos-r">
+                      <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                        {
+                          ((get(questions, `[${currentIndex - 1}].inputs`, null) && get(quest, 'history', null) !== 'ubsPolicy') || currentIndex === 0) && (
+                            <BrixelButtonIcon
+                              className="backBtn pos-a x-l"
+                              icon="arrow-left-small"
+                              onClick={() => changeStep('back')}
+                              theme="light"
+                              secondary
+                            />
+                          )
+                        }
+                        {
+                          get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
+                            <BrixelButtonPrimary
+                              className={`ml-a mr-a noWrap ${get(quest, 'history', null)}`}
+                              disabled={!checkValidateField()}
+                              rounded
+                              theme="green"
+                              label={translateTo('Accept', lang)}
+                              onClick={() => saveData('accept')}
+                              onShowError={() => setShowError(true)}
+                            />
+                          )
+                        }
+                        <BrixelButtonText
+                          theme="light"
+                          className="pos-a x-r"
+                          label={translateTo('Skip', lang)}
+                          onClick={() => saveData('skip')}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
               )
             }
           </form>

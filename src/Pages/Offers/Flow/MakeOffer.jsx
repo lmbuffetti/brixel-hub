@@ -23,7 +23,6 @@ import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
-import queryString from 'query-string';
 import isArray from 'lodash/isArray';
 import { MakeOfferQuestions } from '../../../resources/Deals/MakeOffer';
 import { sendUserScanTrial } from '../../../actions/UserActions';
@@ -52,8 +51,8 @@ const MakeOffer = (props) => {
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleMultiUploadDocument,
+    handleSaveMakeOffer,
     handleSetModal,
-    handleSpinnerOff,
     initForm,
     initialValues,
     isSmallLoading,
@@ -75,6 +74,7 @@ const MakeOffer = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
+  const [isToSave, setIsToSave] = useState(true);
   // GET URL PARAMS
   const propID = get(match, 'id', null);
   const dealID = get(activeSingleDeal, 'id', null);
@@ -84,17 +84,6 @@ const MakeOffer = (props) => {
   const multiStepSlidesRef = useRef(null);
   
   useEffect(() => {
-    localStorage.setItem('brixelRegField', JSON.stringify({}));
-    handleSpinnerOff();
-    const companyByUrl = queryString.parse(get(history, 'location.search', ''));
-    const companyCookie = getCookie('brixelStubCompany') || null;
-    if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
-      handleGetActiveSingleCompany({ stub: defComp });
-      setCookie('brixelStubCompany', defComp);
-    } else {
-      handleGetActiveSingleCompany({ stub: 'default' });
-    }
     if (activeSingleProperty.id !== propID) {
       const data = {
         fullVersion: false,
@@ -110,11 +99,12 @@ const MakeOffer = (props) => {
     if (activeSingleDeal.id && (get(activeSingleDeal, 'closing.stageOffer.offer.status', null) && (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected'))) {
       history.push({ pathname: `/buyer/${propID}/closing/${activeSingleDeal.id}` });
     }
-  }, [activeSingleDeal.id]);
-  
-  useEffect(() => {
+    if (get(activeSingleProperty, 'company', null)) {
+      const defComp = get(activeSingleProperty, 'company', 'default');
+      handleGetActiveSingleCompany({ id: defComp });
+    }
     if (activeSingleProperty.id && !activeSingleDeal.id) handleGetBuyerDeal({ id: activeSingleProperty.id });
-  }, [activeSingleProperty.id]);
+  }, [activeSingleDeal.id, activeSingleProperty.id]);
   
   useEffect(() => {
     const cost = {
@@ -149,6 +139,7 @@ const MakeOffer = (props) => {
           changeFieldValue('phone', companyPhone);
         }
       }
+      changeFieldValue('company', activeSingleCompany.stub);
       setCookie('brixelStubCompany', activeSingleCompany.stub);
     }
   }, [activeSingleCompany.id]);
@@ -161,11 +152,13 @@ const MakeOffer = (props) => {
     }
   }, [currentIndex]);
   
+  // MOVE STEP FORWARD AFTER SAVING
   useEffect(() => {
-    if (isSmallLoading.sendData === false && questions[currentIndex + 1]) {
+    if (isSmallLoading.sendData === true && questions[currentIndex + 1]) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
       setQuest(questions[newIndex]);
+      setIsToSave(true);
     }
   }, [isSmallLoading]);
   
@@ -183,7 +176,8 @@ const MakeOffer = (props) => {
   
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-    const docs = get(formValue, 'document', []);
+    const doc = get(formValue, 'document', []);
+    const docs = get(formValue, 'documents', doc);
     // eslint-disable-next-line no-return-assign
     docs.forEach((item, i) => docs[i].user = get(loggedInUser, 'id', null));
     const dataDocuments = {
@@ -207,10 +201,14 @@ const MakeOffer = (props) => {
       ...dataForm,
       ...dataDocuments,
     };
-    if (get(formValue, 'financeCertificate', null) === 1) {
-      handleMultiUploadDocument(data);
+    if (isToSave) {
+      setIsToSave(false);
+      if (docs.length > 0) {
+        handleMultiUploadDocument(data);
+      } else {
+        handleSaveMakeOffer(data);
+      }
     }
-    // handleSaveMakeOffer()
   };
   
   const progressBarCalc = () => {
@@ -271,14 +269,16 @@ const MakeOffer = (props) => {
             if (item.value && get(formValue, item.name, null) === item.value) {
               if (err !== true && err !== false && err !== null && isValid) isValid = false;
             }
-            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {
-              if (err !== true && err !== false && isValid) isValid = false;
+            if (item.noValue && get(formValue, item.name, null) !== item.noValue) {if (err !== true && err !== false && isValid) isValid = false;
             }
           });
         } else if (isValid) {
           isValid = get(errorValue, input.name, null) === true || get(errorValue, input.name, 'ayc') === 'ayc';
         }
       });
+    }
+    if (quest.history === 'financeCalculator') {
+      if (get(formValue, 'affordabilityCheck', null) === null) isValid = false;
     }
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
@@ -393,13 +393,20 @@ const MakeOffer = (props) => {
     if (newQuest[currentIndex] && newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
       changeStep('next', null, 1, true);
     }
-  }, [formValue]);
+  }, [formValue, get(formValue, 'document', null)]);
+  
+  useEffect(() => {
+    if (has(formValue, 'document') && get(formValue, 'document', []).length === 0) {
+      delete formValue.document;
+    }
+  }, [get(formValue, 'document', null)]);
   
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
-    if ((affordability > 33 || loanToValueRatio > maxLoanRatio) && questions[currentIndex].history === 'key4Registration') label = 'Close';
-    else if (currentIndex === questions.length - 2) label = 'Save';
+    if (get(formValue, 'affordabilityCheck', null) === false && get(formValue, 'loanValueCheck', null) === false && get(quest, 'history', '') === 'financeCalculator') label = 'Continue without proof of financing';
+    else if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
+    else if (get(questions, `[${currentIndex}].buttonText`, null)) label = get(questions, `[${currentIndex}].buttonText`, '');
     else if (currentIndex === questions.length - 1) label = 'Close';
     else label = 'Continue';
     return label;
@@ -411,6 +418,8 @@ const MakeOffer = (props) => {
     else closeWindow();
   };
   
+  if (!formValue.id && !activeSingleCompany.id) return '<div />'
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} trialRequest`}>
       <div className="pos-r">
@@ -418,7 +427,7 @@ const MakeOffer = (props) => {
           get(quest, 'hideProgress', false) !== true && (
             <BrixelProgressBar
               large
-              classProgressBar="container"
+              classProgressBar="container topProgressBar"
               className="brdRadius"
               saturation={500}
               color="green"
@@ -543,8 +552,7 @@ const MakeOffer = (props) => {
                       )
                     }
                     {
-                      (
-                        ((get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton')) && (get(quest, 'hideContinueBtn', '') !== true || ((affordability > 33 || loanToValueRatio > maxLoanRatio) && questions[currentIndex].history === 'key4Registration'))) &&
+                      get(quest, 'hideContinueBtn', '') !== true &&
                       (
                         <>
                           {
@@ -564,7 +572,7 @@ const MakeOffer = (props) => {
                                 className={`mr-a ml-a noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                 disabled={!checkValidateField()}
                                 rounded
-                                isLoading={isSmallLoading.sendData}
+                                isLoading={isSmallLoading.sendData === true}
                                 theme="green"
                                 themeSat={600}
                                 label={translateTo(buttonLabel(), lang)}
@@ -578,6 +586,13 @@ const MakeOffer = (props) => {
                       )
                     }
                   </div>
+                  {
+                    quest.txtAfterNextButton && (
+                      <div className="max-w-fix-456 mx-a mt-2">
+                        <div dangerouslySetInnerHTML={{ __html: quest.txtAfterNextButton }} />
+                      </div>
+                    )
+                  }
                 </div>
               </div>
             )
@@ -601,8 +616,8 @@ MakeOffer.propTypes = {
   handleGetBuyerDeal: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSaveMakeOffer: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
-  handleSpinnerOff: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -621,6 +636,10 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   initialValues: {
     ...get(state, 'brixelForm.offerFlow.values', {}),
+    affordabilityCheck: null,
+    loanValueCheck: null,
+    financeCertificate: null,
+    company: get(state, 'companies.activeSingleCompany.stub', null),
     id: get(state, 'property.activeSingleProperty.id', null),
     propertyLocation: get(state, 'property.activeSingleProperty.location', {}),
     amount: get(state, 'property.activeSingleProperty.price.total', 0) || 0,

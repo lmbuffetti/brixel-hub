@@ -13,6 +13,10 @@ import {
 } from '../actions/types/PropertyTypes';
 
 import {
+  SAVE_ACTIVE_SINGLE_USER,
+} from '../actions/types/UserTypes';
+
+import {
   SET_OWNED_PROPERTIES,
 } from '../actions/types/MarketTypes';
 
@@ -30,7 +34,7 @@ const checkEstimation = (store) => (next) => (action) => {
     case CREATE_ESTIMATION: {
       next(action);
       const {
-        generate, redirectTo, smallLoader,
+        generate, redirectTo, smallLoader, termsBaloiseBank, termsBaloiseInsurance, termsUBS,
       } = action.payload;
       let dataToSend = cloneDeep(action.payload);
       const token = get(action, 'payload.token', null);
@@ -57,9 +61,34 @@ const checkEstimation = (store) => (next) => (action) => {
       delete dataToSend.generate;
       delete dataToSend.smallLoader;
       delete dataToSend.token;
+      delete action.payload.termsBaloiseBank;
+      delete action.payload.termsBaloiseInsurance;
+      delete action.payload.termsUBS;
       api.estimation.createEstimation(dataToSend, token)
         .then((response) => {
           if (response.meta.normalizedStatus === 200) {
+            if (termsBaloiseBank || termsBaloiseInsurance) {
+              const data = {
+                id: dataToSend.owner,
+                termsBaloiseBank: true,
+                termsBaloiseInsurance: true,
+              }
+              store.dispatch({
+                type: SAVE_ACTIVE_SINGLE_USER,
+                payload: data,
+              });
+            }
+            if (termsUBS) {
+              const data = {
+                id: dataToSend.owner,
+                termsUBS: true,
+              }
+              store.dispatch({
+                type: SAVE_ACTIVE_SINGLE_USER,
+                payload: data,
+              });
+            }
+  
             if (generate === true) {
               store.dispatch({
                 type: GENERATE_ESTIMATION,
