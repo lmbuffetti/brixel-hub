@@ -780,7 +780,7 @@ const DashboardHome = (props) => {
         {
           progressState.step === 6 && (
             <>
-              <DashboardPropertyCardSold />
+              <DashboardPropertyCardSold lang={lang} />
 
               <div className="brdRadius brdSmall brdGreen400 p-2 mb-3 ">
                 <h6 className="fweight-400 fsize-300">

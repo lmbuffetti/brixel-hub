@@ -55,7 +55,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
   }
   contact = [
     {
-      title: translateTo(`<span>Plan your finances with</span><span class="ml-1">${company.name}.</span>`, lang),
+      title: `<span>${translateTo('Plan your finances with', lang)}</span><span class="ml-1">${company.name}.</span>`,
       subtitle: translateTo('Your advice on the following topics:', lang),
       history: 'intro',
       vCentered: true,
