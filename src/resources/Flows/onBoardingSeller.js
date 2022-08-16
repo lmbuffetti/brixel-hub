@@ -81,17 +81,18 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       color: 'blue',
     });
   }
-  
+
   const question = [
     /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
     {
       title: translateTo('What type of property do you have?', lang),
       history: 'propertyType',
-      footerWidth: 'max-w-fix-992',
+      footerWidth: `ml-a mr-a ${company !== 'baloise' && company !== 'ubs' ? 'max-w-fix-992' : 'max-w-fix-752'}`,
       inputs: [{
         component: BrixelRadioButton,
         className: 'radioBtnImg',
-        classNameBox: 'max-w-fix-992 ml-a mr-a',
+        classNameBox: `ml-a mr-a ${company !== 'baloise' && company !== 'ubs' ? 'max-w-fix-992' : 'max-w-fix-752'}`,
+        // classNameBox: '',
         ReduxFieldClass: '',
         label: translateTo('', lang),
         name: 'properties.propertyType',

@@ -49,7 +49,7 @@ const ArticlesBox = (props) => {
           }
           {
             get(placement, 'logo[0]', null) && (
-              <img className="ml-2" src={placement.logo[0].url} alt={placement.logo[0].alt} />
+              <img className="ml-2 h-fix-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
             )
           }
         </div>
