@@ -53,7 +53,7 @@ function PageFooter(props) {
               </div>
             )
           }
-          <div className="dis-f jc-fe">
+          <div className="dis-f jc-fe flex-wrap">
             {
               get(activeSingleCompany, 'links.privacy', null) && (
                 <a
