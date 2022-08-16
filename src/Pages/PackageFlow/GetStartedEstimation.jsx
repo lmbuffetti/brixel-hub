@@ -137,12 +137,6 @@ const GetStartedEstimation = (props) => {
     return result;
   };
 
-  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
-  useEffect(() => {
-    getCurrency();
-    if (get(formValue, 'location.countryCode', null) !== 'ch') changeFieldValue('properties.building.conditionStatus', 'used');
-  }, [get(history, 'location.pathname', null)]);
-
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
     const dataForm = cloneDeep(formValue);
@@ -450,6 +444,10 @@ const GetStartedEstimation = (props) => {
     }
     return null;
   };
+  
+  useEffect(() => {
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+  }, [currentIndex]);
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
@@ -581,7 +579,7 @@ const GetStartedEstimation = (props) => {
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
-  }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
+  }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
