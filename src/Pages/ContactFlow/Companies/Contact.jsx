@@ -399,11 +399,11 @@ const Contact = (props) => {
                           <div className="dis-f a-t flex-wrap jc-c">
                             {
                               get(quest, 'textsCard', []).map((txtCard, i) => (
-                                <div key={`card${i.toString()}`} className="ta-c max-w-fix-280 m-5">
+                                <div key={`card${i.toString()}`} className="ta-c col-md-4 p-5">
                                   <div className="h-fix-80 mb-3">
                                     <img height={'100px'} src={txtCard.image} alt={txtCard.title} />
                                   </div>
-                                  <h5>{txtCard.title}</h5>
+                                  <h5 className="max-w-fix-320 ml-a mr-a">{txtCard.title}</h5>
                                 </div>
                               ))
                             }

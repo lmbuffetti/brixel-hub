@@ -11,6 +11,7 @@ import { DateTime } from 'luxon';
 import checkSvg from '../../images/Contact/checkContact.svg';
 import houseHandSvg from '../../images/Contact/houseHand.svg';
 import dotsHandSvg from '../../images/Contact/dotsHand.svg';
+import taxInfo from '../../images/Contact/taxInfo.svg';
 import threeDotsHandSvg from '../../images/Contact/threeDotsHand.svg';
 import puzzleHandSvg from '../../images/Contact/puzzleHand.svg';
 import inheritanceContactSvg from '../../images/Contact/inheritanceContact.svg';
@@ -80,7 +81,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     },
   ];
   let privacy;
-  
+
   if (isBuyer) {
     contact[0].textsCard = [
       {
@@ -134,7 +135,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           image: puzzleHandSvg,
         }, {
           title: translateTo('Information on tax implications of the sale', lang),
-          image: houseHandSvg,
+          image: taxInfo,
         },
         {
           title: translateTo('Inheritance and estate planning', lang),
