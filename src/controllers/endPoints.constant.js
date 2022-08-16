@@ -111,6 +111,5 @@ export default {
     userByToken: () => '/user/',
     validateToken: () => '/authentication/validateToken',
     validateUser: (email) => `/user/validate/${email}`,
-    getToken: () => '/authentication/getToken',
   },
 };
