@@ -394,6 +394,7 @@ const GetStartedSeller = (props) => {
       if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
+      changeFieldValue('company', defComp);
       history.push(`/packageFlow/getStarted/${defComp}/${get(questions, '[0].history', null)}`);
     } else if (!isTest) {
       const companyUser = get(loggedInUser, 'users.company.stub', null);
@@ -423,13 +424,6 @@ const GetStartedSeller = (props) => {
       }
     }
   }, [lang, company.stub]);
-
-  // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
-  useEffect(() => {
-    if (get(initialValues, 'properties.propertyType', null)) {
-      // changeStep();
-    }
-  }, [initialValues]);
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
@@ -491,7 +485,10 @@ const GetStartedSeller = (props) => {
         return null;
       });
       const checkDiff = diff(quest, newQuest);
-      if (Object.keys(checkDiff).length > 0) setQuestions(newQuest);
+      if (Object.keys(checkDiff).length > 0) {
+        setQuest(newQuest[currentIndex]);
+        setQuestions(newQuest);
+      }
     }
   }, [formValue]);
 
