@@ -444,7 +444,7 @@ const GetStartedEstimation = (props) => {
     }
     return null;
   };
-  
+
   useEffect(() => {
     setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
   }, [currentIndex]);
@@ -749,7 +749,7 @@ const GetStartedEstimation = (props) => {
                         <div className="pos-r">
                           <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c h-fix-40">
                             {
-                              (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                              ((get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (get(quest, 'history', '') !== 'baloiseInfo'))  && (
                                 <BrixelButtonIcon
                                   className="backBtn pos-a-fix x-l-0 x-t-0"
                                   icon="arrow-left-small"
@@ -829,6 +829,13 @@ const GetStartedEstimation = (props) => {
                         <div className={`footerAction py-3 flowFooter ${get(quest, 'footerWidth', '')}`}>
                           <div className="pos-r">
                             <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                              <BrixelButtonIcon
+                                className="backBtn pos-a x-l"
+                                icon="arrow-left-small"
+                                onClick={() => changeStep('back')}
+                                theme="light"
+                                secondary
+                              />
                               {
                                 get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
                                   <BrixelButtonPrimary
