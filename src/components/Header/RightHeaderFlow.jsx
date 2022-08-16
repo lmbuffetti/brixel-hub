@@ -25,12 +25,14 @@ function RightHeaderFlow(props) {
     lang,
     languages,
     loggedInUser,
+    userType
   } = props;
 
   // GET URL PARAMS
   const fullURL = get(history, 'location.pathname', '').split('/');
-  const propID = fullURL[2];
+  let propID = fullURL[2];
   const dealID = fullURL[3];
+  const isBuyer = userType === 'buyer';
 
   // STATE
   const [currentLang, setCurrentLang] = useState(lang);
@@ -101,7 +103,6 @@ function RightHeaderFlow(props) {
     ) {
       history.push('/buy');
     } else if (history.location.pathname.toLowerCase().includes('makeoffer') || history.location.pathname.toLowerCase().includes('closing')) {
-      const userType = history.location.pathname.toLowerCase().includes('/buyer/') ? 'buyer' : 'seller';
       if (userType === 'seller') {
         history.push(`/${propID}/closing/${dealID}`);
       } else {
@@ -109,6 +110,10 @@ function RightHeaderFlow(props) {
       }
     } else if (history.location.pathname.toLowerCase().includes('schedulevisit')) {
       history.push(`/buyer/${propID}/home`);
+    } else if (history.location.pathname.toLowerCase().includes('contactflow')) {
+      const BASEURL = isBuyer ? '/buyer' : '';
+      propID = isBuyer ? fullURL[2] : fullURL[1];
+      history.push(`${BASEURL}/${propID}/home`);
     } else {
       let url = localStorage.getItem('backUrlBis');
       if (url) {
@@ -160,6 +165,7 @@ RightHeaderFlow.propTypes = {
   lang: PropTypes.string,
   languages: PropTypes.arrayOf(PropTypes.object),
   loggedInUser: PropTypes.object,
+  userType: PropTypes.string.isRequired,
 };
 
 RightHeaderFlow.defaultProps = {
@@ -174,6 +180,7 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   pageState: get(state, 'common.setPageData', {}),
   property: get(state, 'property.activeSingleProperty', {}),
+  userType: get(state, 'user.userTypes', ''),
   windowDimensions: get(state, 'common.windowDimensions', {}),
 });
 
