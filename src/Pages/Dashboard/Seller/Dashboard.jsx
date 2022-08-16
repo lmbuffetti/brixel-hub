@@ -446,7 +446,10 @@ const mapStateToProps = (state) => {
         searchAddress: get(state, 'property.activeSingleProperty.location.address', {}),
       },
       packageFlowProcess: get(state, 'property.activeSingleProperty.packageFlowProcess', {}),
-      price: get(state, 'property.activeSingleProperty.price', {}),
+      price:{
+        ...get(state, 'property.activeSingleProperty.price', {}),
+        total: get(state, 'property.activeSingleProperty.price.total', ''),
+      },
       proEstimation: get(state, 'property.activeSingleProperty.proEstimation', {}),
       status: get(state, 'property.activeSingleProperty.status', null),
       // language: get(state, 'property.activeSingleProperty.language', null),

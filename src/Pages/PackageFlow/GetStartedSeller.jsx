@@ -424,11 +424,11 @@ const GetStartedSeller = (props) => {
       }
     }
   }, [lang, company.stub]);
-  
+
   useEffect(() => {
     setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
   }, [currentIndex]);
-  
+
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
@@ -558,7 +558,7 @@ const GetStartedSeller = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-  
+
   if (!formValue.id && !company.stub) return (<div />);
 
   return (
@@ -730,8 +730,13 @@ const GetStartedSeller = (props) => {
                           className={quest.bulletPoints ? 'w-perc-lg-55 py-lg-3 pr-lg-4' : ''}
                           key={i.toString()}
                         >
-                          <span className="fweight-500 my-3 dis-b">{text.title}</span>
-                          <p className="fsize-300 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
+                          <span className="fweight-600 my-3 dis-b">{text.title}</span>
+                          {
+                            text.subtitle && (
+                              <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
+                            )
+                          }
+                          <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
                         </div>
                       ))
                     }

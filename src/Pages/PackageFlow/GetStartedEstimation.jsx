@@ -137,12 +137,6 @@ const GetStartedEstimation = (props) => {
     return result;
   };
 
-  // IF THE URL IS SUCCESS (SUCCESS CREATE USER) REDIRECT TO SECOND PART
-  useEffect(() => {
-    getCurrency();
-    if (get(formValue, 'location.countryCode', null) !== 'ch') changeFieldValue('properties.building.conditionStatus', 'used');
-  }, [get(history, 'location.pathname', null)]);
-
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
     const dataForm = cloneDeep(formValue);
@@ -450,6 +444,10 @@ const GetStartedEstimation = (props) => {
     }
     return null;
   };
+  
+  useEffect(() => {
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+  }, [currentIndex]);
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
@@ -581,7 +579,7 @@ const GetStartedEstimation = (props) => {
       const pageTitle = titleProperty(formValue.location, propertyType, lang, formValue);
       if (pageTitle) changeFieldValue('pageTitle', pageTitle);
     }
-  }, [get(formValue, 'properties.propertyType', null), formValue.location, lang]);
+  }, [get(formValue, 'properties.propertyType', null), get(formValue, 'location.city', null), lang]);
 
   // SET DATA BY COMPANY
   useEffect(() => {
@@ -789,14 +787,43 @@ const GetStartedEstimation = (props) => {
                             <h3 className={`fweight-600 max-w-fix-600 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
                           )
                         }
-                        <div className="brdRadius bgWhite max-w-fix-752 ml-a mr-a px-2 px-sm-6 pt-3 pb-6">
+                        <div
+                          className={`brdRadius bgWhite ml-a mr-a px-2 px-sm-6 ${quest.bulletPoints ? 'dis-fl-col dis-fl-row-lg bulletPointsStep jc-b py-2 py-lg-0 max-w-fix-912' : 'max-w-fix-752 pt-3 pb-6'}`}
+                        >
                           {
                             quest.text.map((text, i) => (
-                              <div key={i.toString()}>
+                              <div
+                                className={quest.bulletPoints ? 'w-perc-lg-55 py-lg-3 pr-lg-4' : ''}
+                                key={i.toString()}
+                              >
                                 <span className="fweight-500 my-3 dis-b">{text.title}</span>
-                                <span className="fsize-300 dis-b">{text.description}</span>
+                                {
+                                  text.subtitle && (
+                                    <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
+                                  )
+                                }
+                                <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
                               </div>
                             ))
+                          }
+                          {
+                            quest.bulletPoints && (
+                              <div className="brdSmallLeft-lg brdAltGrey100 w-perc-lg-45 pl-lg-5 py-lg-3 max-w-fix-lg-352">
+                                <span className="my-3 dis-b">{quest.bulletPoints.title}</span>
+                                <ul className="">
+                                  {
+                                    quest.bulletPoints.description.map((bullet,k) => (
+                                      <li
+                                        className="mb-2"
+                                        key={k.toString()}
+                                      >
+                                        {bullet}
+                                      </li>
+                                    ))
+                                  }
+                                </ul>
+                              </div>
+                            )
                           }
                         </div>
                         <div className={`footerAction py-3 flowFooter ${get(quest, 'footerWidth', '')}`}>

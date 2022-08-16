@@ -108,9 +108,10 @@ const Contact = (props) => {
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     handleReset('contactFlow');
-    const url = localStorage.getItem('backUrl');
+    // const url = localStorage.getItem('backUrl');
     localStorage.removeItem('backUrl');
-    history.push(url || `/${propID}/home`);
+    const BASEURL = isBuyer ? '/buyer' : '';
+    history.push(`${BASEURL}/${propID}/home`);
   };
 
   // FUNCTION TO SAVE DATA
