@@ -587,6 +587,7 @@ body:not(.overlayOpen).locationInputResume {
       span {
         margin-bottom: $step * 2;
         font-weight: 600;
+        color: map-get($darkColor, 700);
       }
     }
   }
