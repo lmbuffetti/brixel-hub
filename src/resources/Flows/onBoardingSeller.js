@@ -73,7 +73,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       color: 'blue',
     },
   ];
-  if (company && (company !== 'baloise' && company !== 'ubs')) {
+  if (company !== 'baloise' && company !== 'ubs') {
     propertyTypeOptions.push({
       label: translateTo('Commercial', lang),
       value: 'Commercial',
@@ -81,7 +81,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       color: 'blue',
     });
   }
-
+  
   const question = [
     /* subtitle: translateTo('Choose between apartment, house, building land and commercial.'), */
     {
