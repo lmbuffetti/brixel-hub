@@ -161,7 +161,7 @@ const Dashboard = (props) => {
       }
     }
     setLoadedProp(true);
-  }, [userTypes, propID]);
+  }, [propID]);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -181,7 +181,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (loadedProp && propID !== 'sell') {
+    if (loadedProp && propID !== 'sell' && activeSingleProperty.id) {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
           const isSellerUser = get(loggedInUser, 'user.seller', false);
@@ -200,10 +200,10 @@ const Dashboard = (props) => {
       }
     }
     const activeLeads = get(activeSingleProperty, 'company.id', get(activeSingleProperty, 'company', null));
-    if (activeLeads && activeLeads !== activeSingleCompany.id) {
+    if (activeLeads && activeLeads !== activeSingleCompany.id && activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: activeLeads, smallLoader: 'singleCompany' });
     }
-  }, [activeSingleProperty]);
+  }, [activeSingleProperty.id]);
 
   // FUNCTION TO GLOBAL SAVE - BUTTON SAVE ON NOTIFICATION BAR
   const saveData = () => {
