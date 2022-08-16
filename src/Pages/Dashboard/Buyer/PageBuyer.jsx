@@ -41,7 +41,7 @@ const PageBuyer = (props) => {
 
   return (
     <>
-      <div className="hide dis-f-lg jc-b max-w-fix-768">
+      <div className="hide dis-f-lg jc-b max-w-fix-1024">
 
         <h3 className="mb-3 hide dis-b-lg">{translateTo('Brixel Page', lang)}</h3>
         <div className="">
