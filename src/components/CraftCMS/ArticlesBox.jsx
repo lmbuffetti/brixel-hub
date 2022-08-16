@@ -37,8 +37,8 @@ const ArticlesBox = (props) => {
     <div className="mt-5">
       <div className="dis-f flex-wrap jc-b">
         {
-          placement.title && (
-            <h5 className="fweight-600">{placement.title}</h5>
+          placement.mainTitle && (
+            <h5 className="fweight-600">{placement.mainTitle}</h5>
           )
         }
         <div className="dis-f a-c flex-wrap">

@@ -20,7 +20,6 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
-import { getContent } from '../../../actions/CraftCMS';
 import { getActiveSinglePropertyDealsCount, getPageDeals, getEstimation } from '../../../actions/PropertyActions';
 import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
@@ -61,7 +60,6 @@ const DashboardHome = (props) => {
     estimation,
     formValue,
     handleGetActiveSinglePropertyDealsCount,
-    handleGetContentCraftCMS,
     handleGetPageDeals,
     handleGetEstimation,
     handleSetModal,
@@ -95,23 +93,11 @@ const DashboardHome = (props) => {
   }, [progressState.step]);
 
   useEffect(() => {
-    if (activeSingleCompany.id) {
-      const data = {
-        placementSlug: 'buyer-hub-home-sold-partner',
-        partner: activeSingleCompany.stub,
-        language: lang,
-      };
-      handleGetContentCraftCMS(data)
-    }
-  }, [activeSingleCompany.id]);
-
-
-  useEffect(() => {
     if (get(activeSinglePropertyDeals, 'visit')) {
       const mergedFeed = activeSinglePropertyDeals.visit.data.filter((visit) => get(visit, 'visit', null));
       let mergedFeedNew = mergedFeed.filter((visit) => visit.visit > DateTime.now().toMillis()).map((arr) => ({ ...arr, past: false }));
       let mergedFeedPast = mergedFeed.filter((visit) => visit.visit <= DateTime.now().toMillis()).map((arr) => ({ ...arr, past: true }));
-      mergedFeedNew = orderBy(mergedFeedNew, ['visit'], ['asc']);
+      mergedFeedNew = orderBy(mergedFeedNew, ['visit'], ['asc']);2
       mergedFeedPast = orderBy(mergedFeedPast, ['visit'], ['desc']);
       setVisitLists([...mergedFeedNew, ...mergedFeedPast]);
     }
@@ -932,7 +918,6 @@ DashboardHome.propTypes = {
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyDealsCount: PropTypes.func.isRequired,
-  handleGetContentCraftCMS: PropTypes.func.isRequired,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
@@ -973,7 +958,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetEstimation: bindActionCreators(getEstimation, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
-  handleGetContentCraftCMS: bindActionCreators(getContent, dispatch),
 });
 
 export default compose(

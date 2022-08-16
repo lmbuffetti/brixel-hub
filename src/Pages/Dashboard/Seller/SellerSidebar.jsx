@@ -278,7 +278,7 @@ const SellerSidebar = (props) => {
 
 SellerSidebar.propTypes = {
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeSingleProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,

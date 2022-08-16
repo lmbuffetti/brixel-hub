@@ -570,6 +570,7 @@ const GetStartedEstimation = (props) => {
         return null;
       });
       setQuestions(newQuest);
+      setQuest(newQuest[currentIndex]);
     }
   }, [formValue]);
 
