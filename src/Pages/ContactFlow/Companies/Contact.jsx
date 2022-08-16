@@ -323,7 +323,7 @@ const Contact = (props) => {
     return label;
   };
 
-  if (!formValue.page) return ('<div />');
+  if (!formValue.page) return (<div />);
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
