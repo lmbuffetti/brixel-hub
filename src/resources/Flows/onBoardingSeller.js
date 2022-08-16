@@ -436,6 +436,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
       history: 'baloiseInfo',
       cardType: 'baloiseInfo',
       footerWidth: 'max-w-fix-912',
+      noAutoStepForward: true,
       inputs: [
         {
           component: BrixelRadioButton,
