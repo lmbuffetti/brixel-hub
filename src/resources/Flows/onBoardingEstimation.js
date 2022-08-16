@@ -361,6 +361,7 @@ export const QuestionsList = (lang, country = 'CH') => {
           ReduxFieldClass: 'py-4 py-lg-0 w-perc-100',
           classNameBox: 'brdRadius max-w-fix-912 w-perc-100 px-2 px-sm-6 brdRadius fieldHolder bgWhite m-a',
           className: '',
+          large: true,
           name: 'baloiseInfo',
           label: translateTo('What is your customer relationship with Baloise?', lang),
           bulletPoints: {

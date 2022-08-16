@@ -614,7 +614,7 @@ const GetStartedBuyer = (props) => {
                   <div className="pos-r">
                     <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                       {
-                        (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                        ( (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (get(quest, 'history', '') !== 'baloiseInfo') ) && (
                           <BrixelButtonIcon
                             className="backBtn ml-0 mr-a"
                             icon="arrow-left-small"
