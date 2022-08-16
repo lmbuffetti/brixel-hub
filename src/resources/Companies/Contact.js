@@ -61,19 +61,19 @@ export const QuestionsList = (lang, company, isBuyer) => {
       vCentered: true,
       textsCard: [
         {
-          title: 'Questions about your existing mortgages',
+          title: translateTo('Questions about your existing mortgages', lang),
           image: checkSvg,
         }, {
-          title: 'Cancel or transfer your mortgage',
+          title: translateTo('Cancel or transfer your mortgage', lang),
           image: dotsHandSvg,
         }, {
-          title: 'Possibilities of interim financing',
+          title: translateTo('Possibilities of interim financing', lang),
           image: puzzleHandSvg,
         }, {
-          title: 'Information on inheritance or estate planning',
+          title: translateTo('Information on inheritance or estate planning', lang),
           image: houseHandSvg,
         }, {
-          title: 'Investing and pension planning',
+          title: translateTo('Investing and pension planning', lang),
           image: threeDotsHandSvg,
         },
       ],
@@ -84,13 +84,13 @@ export const QuestionsList = (lang, company, isBuyer) => {
   if (isBuyer) {
     contact[0].textsCard = [
       {
-        title: 'Individual offer for your financing',
+        title: translateTo('Individual offer for your financing', lang),
         image: checkSvg,
       }, {
-        title: 'Personal consultation by phone or on site',
+        title: translateTo('Personal consultation by phone or on site', lang),
         image: dotsHandSvg,
       }, {
-        title: 'Application for a financing certificate',
+        title: translateTo('Application for a financing certificate', lang),
         image: puzzleHandSvg,
       }
     ];
@@ -101,19 +101,19 @@ export const QuestionsList = (lang, company, isBuyer) => {
     if (!isBuyer) {
       contact[0].textsCard = [
         {
-          title: 'Questions about your existing mortgage',
+          title: translateTo('Questions about your existing mortgage', lang),
           image: checkSvg,
         }, {
-          title: 'Cancel or transfer your mortgage',
+          title: translateTo('Cancel or transfer your mortgage', lang),
           image: dotsHandSvg,
         }, {
-          title: 'Possibilities of interim financing',
+          title: translateTo('Possibilities of interim financing', lang),
           image: puzzleHandSvg,
         }, {
-          title: 'Information on inheritance or estate planning',
+          title: translateTo('Information on inheritance or estate planning', lang),
           image: houseHandSvg,
         }, {
-          title: 'Investing and pension planning',
+          title: translateTo('Investing and pension planning', lang),
           image: threeDotsHandSvg,
         },
       ];
@@ -124,23 +124,23 @@ export const QuestionsList = (lang, company, isBuyer) => {
     if (!isBuyer) {
       contact[0].textsCard = [
         {
-          title: 'Validate sale price',
+          title: translateTo('Validate sale price', lang),
           image: checkSvg,
         }, {
-          title: 'Cancel or transfer your existing mortgage',
+          title: translateTo('Cancel or transfer your existing mortgage', lang),
           image: dotsHandSvg,
         }, {
-          title: 'Advice for interim financing',
+          title: translateTo('Advice for interim financing', lang),
           image: puzzleHandSvg,
         }, {
-          title: 'Information on tax implications of the sale',
+          title: translateTo('Information on tax implications of the sale', lang),
           image: houseHandSvg,
         },
         {
-          title: 'Inheritance and estate planning',
+          title: translateTo('Inheritance and estate planning', lang),
           image: inheritanceContactSvg,
         }, {
-          title: 'Investing and pension planning',
+          title: translateTo('Investing and pension planning', lang),
           image: threeDotsHandSvg,
         },
       ];
@@ -165,36 +165,36 @@ export const QuestionsList = (lang, company, isBuyer) => {
         icons: true,
         options: isBuyer ? [
           {
-            label: 'Individual offer for your financing',
+            label: translateTo('Individual offer for your financing', lang),
             value: 'Individual offer for your financing'
           },
           {
-            label: 'Personal consultation',
+            label: translateTo('Personal consultation', lang),
             value: 'Personal consultation'
           },
           {
-            label: 'Application for a financing certificate',
+            label: translateTo('Application for a financing certificate', lang),
             value: 'Application for a financing certificate'
           },
         ] : [
           {
-            label: 'Validate sale price',
+            label: translateTo('Validate sale price', lang),
             value: 'Validate sale price'
           },
           {
-            label: 'Cancel or transfer your existing mortgage',
+            label: translateTo('Cancel or transfer your existing mortgage', lang),
             value: 'Cancel or transfer your existing mortgage'
           },
           {
-            label: 'Advice for interim financing',
+            label: translateTo('Advice for interim financing', lang),
             value: 'Advice for interim financing'
           },
           {
-            label: 'Tax implications, inheritance, and estate planning',
+            label: translateTo('Tax implications, inheritance, and estate planning', lang),
             value: 'Tax implications, inheritance, and estate planning'
           },
           {
-            label: 'Investment options or retirement planning',
+            label: translateTo('Investment options or retirement planning', lang),
             value: 'Investment options or retirement planning'
           }
         ],
