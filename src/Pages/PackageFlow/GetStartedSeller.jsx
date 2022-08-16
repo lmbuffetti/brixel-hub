@@ -372,7 +372,7 @@ const GetStartedSeller = (props) => {
     setOldIndex(currentIndex);
     if (company.stub) {
       const newQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
-      if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
+      if (newQuest[currentIndex].inputs && newQuest[currentIndex].inputs.length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex && !newQuest[currentIndex].noAutoStepForward) {
         changeStep('next', null, 1, true);
       }
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
@@ -424,6 +424,11 @@ const GetStartedSeller = (props) => {
       }
     }
   }, [lang, company.stub]);
+  
+  useEffect(() => {
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+  }, [currentIndex]);
+  
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
@@ -669,7 +674,7 @@ const GetStartedSeller = (props) => {
                   <div className="pos-r">
                     <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                       {
-                        (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                        (currentIndex !== questions.length - 2) && (
                           <BrixelButtonIcon
                             className="backBtn pos-a x-l"
                             icon="arrow-left-small"
@@ -755,17 +760,13 @@ const GetStartedSeller = (props) => {
                   >
                     <div className="pos-r">
                       <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
-                        {
-                          ((get(questions, `[${currentIndex - 1}].inputs`, null) && get(quest, 'history', null) !== 'ubsPolicy') || currentIndex === 0) && (
-                            <BrixelButtonIcon
-                              className="backBtn pos-a x-l"
-                              icon="arrow-left-small"
-                              onClick={() => changeStep('back')}
-                              theme="light"
-                              secondary
-                            />
-                          )
-                        }
+                        <BrixelButtonIcon
+                          className="backBtn pos-a x-l"
+                          icon="arrow-left-small"
+                          onClick={() => changeStep('back')}
+                          theme="light"
+                          secondary
+                        />
                         {
                           get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
                             <BrixelButtonPrimary
