@@ -154,6 +154,14 @@ const GetStartedSeller = (props) => {
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
+    const termsCompany = {
+      termsUBS: false,
+      termsBaloiseBank: false,
+      termsBaloiseInsurance: false,
+    }
+    if (action === 'accept' && company === 'ubs') {
+      termsCompany.termsUBS = true;
+    }
     if (formValue.owner && get(data, 'price.currency', null)) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
@@ -191,7 +199,7 @@ const GetStartedSeller = (props) => {
         ignoreEmail: false,
         termsBaloiseBank: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseBank',
         termsBaloiseInsurance: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseInsurance',
-        termsUBS: get(dataFormAnswer, 'ubsPolicy', false),
+        termsUBS: termsCompany.termsUBS,
         seller: true,
         redirectTo: {
           pathname: '/packageFlow/getStarted/success',
