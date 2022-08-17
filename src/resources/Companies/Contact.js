@@ -179,10 +179,6 @@ export const QuestionsList = (lang, company, isBuyer) => {
           },
         ] : [
           {
-            label: translateTo('Validate sale price', lang),
-            value: 'Validate sale price'
-          },
-          {
             label: translateTo('Cancel or transfer your existing mortgage', lang),
             value: 'Cancel or transfer your existing mortgage'
           },
