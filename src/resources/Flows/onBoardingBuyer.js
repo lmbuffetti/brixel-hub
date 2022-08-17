@@ -220,7 +220,7 @@ export const QuestionsList = (lang, type) => {
       successMessage: translateTo('This is a nice number.', lang),
     },
     {
-      conditions: [{
+      condition: [{
         name: 'owner',
         value: null,
       }],
@@ -251,7 +251,7 @@ export const QuestionsList = (lang, type) => {
   }
   question.push(
     {
-      conditions: [{
+      condition: [{
         name: 'company',
         value: 'ubs',
       }],
@@ -276,7 +276,7 @@ export const QuestionsList = (lang, type) => {
   );
   question.push(
     {
-      conditions: [{
+      condition: [{
         name: 'company',
         value: 'baloise',
       }],

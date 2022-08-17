@@ -446,8 +446,8 @@ const GetStartedEstimation = (props) => {
   };
 
   useEffect(() => {
-    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
-  }, [currentIndex]);
+    setQuest(questions[currentIndex]);
+  }, [currentIndex, questions]);
 
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
@@ -584,9 +584,7 @@ const GetStartedEstimation = (props) => {
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
-      let getLang = cookie.get('brixelLang');
       const companyCountry = get(company, 'country.code', 'CH');
-      setQuestions(QuestionsList(getLang, companyCountry));
       changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
@@ -748,19 +746,24 @@ const GetStartedEstimation = (props) => {
                       >
                         <div className="pos-r">
                           <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c h-fix-40">
+                            <BrixelButtonIcon
+                              className="backBtn pos-a-fix x-l-0 x-t-0"
+                              icon="arrow-left-small"
+                              onClick={() => changeStep('back')}
+                              theme="light"
+                              secondary
+                            />
                             {
-                              ((get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (get(quest, 'history', '') !== 'baloiseInfo'))  && (
-                                <BrixelButtonIcon
-                                  className="backBtn pos-a-fix x-l-0 x-t-0"
-                                  icon="arrow-left-small"
-                                  onClick={() => changeStep('back')}
-                                  theme="light"
-                                  secondary
-                                />
-                              )
-                            }
-                            {
-                              (get(quest, 'inputs', []).length > 1 || get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || (get(formValue, get(quest, 'inputs[0].name', ''), '') && get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other'))) && (
+                              get(quest, 'history', null) !== 'resume' &&
+                              (
+                                get(quest, 'inputs', []).length > 1 ||
+                                (
+                                  get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' ||
+                                  get(quest, 'history', null) === 'propertyType' ||
+                                  get(quest, 'history', null) === 'baloiseInfo'
+                                ) ||
+                                get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other')
+                              ) && (
                                 <BrixelButtonPrimary
                                   className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                   disabled={!checkValidateField()}
@@ -836,19 +839,15 @@ const GetStartedEstimation = (props) => {
                                 theme="light"
                                 secondary
                               />
-                              {
-                                get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
-                                  <BrixelButtonPrimary
-                                    className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
-                                    disabled={!checkValidateField()}
-                                    rounded
-                                    theme="green"
-                                    label={translateTo('Accept', lang)}
-                                    onClick={() => saveData('accept')}
-                                    onShowError={() => setShowError(true)}
-                                  />
-                                )
-                              }
+                              <BrixelButtonPrimary
+                                className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
+                                disabled={!checkValidateField()}
+                                rounded
+                                theme="green"
+                                label={translateTo('Accept', lang)}
+                                onClick={() => saveData('accept')}
+                                onShowError={() => setShowError(true)}
+                              />
                               <BrixelButtonText
                                 theme="light"
                                 className="pos-a x-r"
