@@ -23,7 +23,7 @@ import Slider from 'react-slick';
 import { getPackageProperty } from '../../actions/PropertyActions';
 import { getActiveSingleCompany, getActiveSingleCompanyPackages } from '../../actions/CompanyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
-// import { CompaniesData } from '../../resources/Layout/Companies';
+import { CompaniesData } from '../../resources/Companies/Companies';
 
 import BookOnlineImg from '../../images/Upgrade/bookOnline.svg';
 import CallUsImg from '../../images/Upgrade/callUs.svg';
@@ -65,7 +65,7 @@ const IntroUpgrade = (props) => {
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [packageName, setPackageName] = useState({ });
   const propID = get(match, 'propID', null);
-  // const [activeCompanyData, setActiveCompanyData] = useState({});
+  const [activeCompanyData, setActiveCompanyData] = useState({});
 
   // SLIDER
   const sliderInstance = useRef(null);
@@ -95,10 +95,10 @@ const IntroUpgrade = (props) => {
   };
 
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (CompaniesData[activeSingleCompany.stub]) setActiveCompanyData(CompaniesData[activeSingleCompany.stub].footer);
     else setActiveCompanyData(CompaniesData.default.footer);
-  }, [activeSingleCompany.id]); */
+  }, [activeSingleCompany.id]);
 
   const bookNow = () => {
     if (activeSingleProperty.id) {
@@ -323,6 +323,32 @@ const IntroUpgrade = (props) => {
                                       <li>{translateTo('Information on inheritance and estate planning', lang)}</li>
                                       <li>{translateTo('Checking the selling price', lang)}</li>
                                     </ul>
+
+                                    <div>
+                                      <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
+                                        {translateTo('Your partner for financial questions', lang)}
+                                      </span>
+                                      {
+                                        get(activeCompanyData, 'logos', []).length > 0 && (
+                                          <div className="dis-f ml-4">
+                                            {
+                                              get(activeCompanyData, 'logos', []).map((logo, x) => (
+                                                <>
+                                                  <div className="h-fix-32 dis-b">
+                                                    <img
+                                                      key={`logo${x.toString()}`}
+                                                      src={logo}
+                                                      alt={`${activeSingleCompany.name} logo ${x}`}
+                                                      className={`${x > 0 ? 'ml-4' : ''} h-perc-100`}
+                                                    />
+                                                  </div>
+                                                </>
+                                              ))
+                                            }
+                                          </div>
+                                        )
+                                      }
+                                    </div>
                                   </>
                                 )
                               }
@@ -488,29 +514,6 @@ const IntroUpgrade = (props) => {
                                         </>
                                       )
                                     }
-                                    {/*  <span className="dis-b ml-4 mt-4 txtAltGrey400 fsize-300 mb-1">
-                                      {translateTo('Your partner in financial matters', lang)}
-                                    </span>
-                                    {
-                                      get(activeCompanyData, 'logos', []).length > 0 && (
-                                        <div className="dis-f ml-4">
-                                          {
-                                            get(activeCompanyData, 'logos', []).map((logo, x) => (
-                                              <>
-                                                <span className="max-h-fix-40 dis-b">
-                                                  <img
-                                                    key={`logo${x.toString()}`}
-                                                    src={logo}
-                                                    alt={`${activeSingleCompany.name} logo ${x}`}
-                                                    className={`${x > 0 ? 'ml-2' : ''} h-perc-100`}
-                                                  />
-                                                </span>
-                                              </>
-                                            ))
-                                          }
-                                        </div>
-                                      )
-                                    } */}
                                   </div>
                                 )
                               }
