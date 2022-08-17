@@ -268,12 +268,9 @@ const DashboardHome = (props) => {
         {
           progressState.step === 1 && (
             <>
-              <DashboardPropertyCard
-                lang={lang}
-              />
 
               <div
-                className="bgGreen100 shadow-2dp brdRadius p-2 p-sm-3 cardWithBg testDriveImg"
+                className="bgGreen100 shadow-2dp brdRadius p-2 p-sm-3 mb-3 cardWithBg testDriveImg"
                 style={{ backgroundImage: `url(${testDriveImg})` }}
               >
                 <div className="dis-f a-t jc-b">
@@ -312,6 +309,12 @@ const DashboardHome = (props) => {
                   {/* <img src={testDriveImg} alt="Test Drive" /> */}
                 </div>
               </div>
+
+              <DashboardPropertyCard
+                lang={lang}
+              />
+
+              <span className="dis-b mt-2-neg"></span>
 
               <ArticlesBox
                 activeSingleCompany={activeSingleCompany}
