@@ -96,7 +96,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
       }
     ];
   }
-
+  let sellerTopics = [];
   if (company.stub === 'baloise') {
     privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) will be transmitted to Basler Versicherung AG and Baloise Bank SoBa AG for the purpose of providing the consulting service.', lang);
     if (!isBuyer) {
@@ -117,6 +117,24 @@ export const QuestionsList = (lang, company, isBuyer) => {
           title: translateTo('Investing and pension planning', lang),
           image: threeDotsHandSvg,
         },
+      ];
+      sellerTopics = [
+        {
+          label: translateTo('Cancel or transfer your existing mortgage', lang),
+          value: 'Cancel or transfer your existing mortgage'
+        },
+        {
+          label: translateTo('Advice for interim financing', lang),
+          value: 'Advice for interim financing'
+        },
+        {
+          label: translateTo('Tax implications, inheritance, and estate planning', lang),
+          value: 'Tax implications, inheritance, and estate planning'
+        },
+        {
+          label: translateTo('Investment options or retirement planning', lang),
+          value: 'Investment options or retirement planning'
+        }
       ];
     }
   }
@@ -145,8 +163,31 @@ export const QuestionsList = (lang, company, isBuyer) => {
           image: threeDotsHandSvg,
         },
       ];
+      sellerTopics = [
+        {
+          label: translateTo('Validate sale price', lang),
+          value: 'Validate sale price'
+        },
+        {
+          label: translateTo('Cancel or transfer your existing mortgage', lang),
+          value: 'Cancel or transfer your existing mortgage'
+        },
+        {
+          label: translateTo('Advice for interim financing', lang),
+          value: 'Advice for interim financing'
+        },
+        {
+          label: translateTo('Tax implications, inheritance, and estate planning', lang),
+          value: 'Tax implications, inheritance, and estate planning'
+        },
+        {
+          label: translateTo('Investment options or retirement planning', lang),
+          value: 'Investment options or retirement planning'
+        }
+      ]
     }
   }
+
   contact.push(
     {
       title: translateTo('On what topics do you like to be advised?', lang),
@@ -175,28 +216,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
             label: translateTo('Application for a financing certificate', lang),
             value: 'Application for a financing certificate'
           },
-        ] : [
-          {
-            label: translateTo('Validate sale price', lang),
-            value: 'Validate sale price'
-          },
-          {
-            label: translateTo('Cancel or transfer your existing mortgage', lang),
-            value: 'Cancel or transfer your existing mortgage'
-          },
-          {
-            label: translateTo('Advice for interim financing', lang),
-            value: 'Advice for interim financing'
-          },
-          {
-            label: translateTo('Tax implications, inheritance, and estate planning', lang),
-            value: 'Tax implications, inheritance, and estate planning'
-          },
-          {
-            label: translateTo('Investment options or retirement planning', lang),
-            value: 'Investment options or retirement planning'
-          }
-        ],
+        ] : sellerTopics,
       }],
     },
     {

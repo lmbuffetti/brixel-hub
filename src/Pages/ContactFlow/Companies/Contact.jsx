@@ -95,7 +95,8 @@ const Contact = (props) => {
     if (get(questions, `[${currentIndex}].history`, null) && activeSingleCompany.stub) {
       history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
-  }, [currentIndex]);
+    setQuest(questions[currentIndex])
+  }, [currentIndex, questions]);
 
   useEffect(() => {
     if (isSmallLoading.sendData === true && (get(questions, `[${currentIndex + 1}].history`, null) === 'success')) {
