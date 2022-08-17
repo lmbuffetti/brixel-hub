@@ -48,11 +48,13 @@ const ArticlesBox = (props) => {
               <span className="fsize-300 txtAltGrey400">{placement.subtitle}</span>
             )
           }
-          {
-            get(placement, 'logo[0]', null) && (
-              <img className="ml-2 h-fix-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
-            )
-          }
+          <div className="div">
+            {
+              get(placement, 'logo[0]', null) && (
+                <img className="ml-2 h-fix-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
+              )
+            }
+          </div>
         </div>
       </div>
       <div className="row-cols-sm-3-gut-4 my-3">
