@@ -50,7 +50,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     }
     const isToday = DateTime.now().plus({ days: i }).hasSame(DateTime.local(), "day");
     if (isToday && company.stub === 'baloise') {
-      newDay.label = 'Immediately';
+      newDay.label = translateTo('Immediately', lang);
     }
     selectDays.push(newDay);
   }
@@ -212,7 +212,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
         {
           component: BrixelSelect,
           pdClass: 'py-2 py-lg-3 px-2',
-          label: 'Date',
+          label: translateTo('Date', lang),
           ReduxFieldClass: 'max-w-fix-464 m-a',
           name: 'time.date',
           validation: [Validation.required],
@@ -223,7 +223,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
             selectDays[2],
           ] : [
             {
-              label: 'Immediately',
+              label: translateTo('Immediately', lang),
               value: selectDays[0].value,
             },
             selectDays[1],
@@ -248,7 +248,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           ],
           component: BrixelSelect,
           pdClass: 'py-2 py-lg-3 px-2',
-          label: 'Time',
+          label: translateTo('Time', lang),
           ReduxFieldClass: 'max-w-fix-464 m-a',
           name: 'time.hour',
           validation: [Validation.required],
@@ -260,7 +260,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           component: BrixelInputText,
           ReduxFieldClass: 'max-w-fix-464 m-a',
           name: 'phone',
-          label: 'Phone number',
+          label: translateTo('Phone number', lang),
           formatType: 'tel',
           large: true,
           pdClass: 'py-3 py-md-5',

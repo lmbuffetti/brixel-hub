@@ -413,20 +413,14 @@ const GetStartedSeller = (props) => {
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
     if (company.stub) {
-      const currentQuest = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex];
-      if (currentQuest.effect === 'slideUp') {
-        setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-        setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex - 1]);
-      } else {
-        setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-        setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
-      }
+      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
   }, [lang, company.stub]);
 
   useEffect(() => {
     setQuest(questions[currentIndex]);
-  }, [currentIndex]);
+  }, [currentIndex, questions]);
 
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
@@ -488,6 +482,7 @@ const GetStartedSeller = (props) => {
         }
         return null;
       });
+      setQuestions(newQuest);
       setQuest(newQuest[currentIndex]);
     }
   }, [formValue]);
@@ -504,10 +499,6 @@ const GetStartedSeller = (props) => {
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(company, 'stub', null)) {
-      const getLang = cookie.get('brixelLang');
-      const companyCountry = get(company, 'country.code', 'CH');
-      setQuestions(QuestionsList(getLang, companyCountry));
-      // changeFieldValue('location.countryCode', companyCountry);
       setCookie('brixelStubCompany', company.stub);
       changeFieldValue('company', company.stub);
     }
