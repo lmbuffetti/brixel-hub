@@ -396,9 +396,9 @@ const GetStartedSeller = (props) => {
     const companyByUrl = queryString.parse(get(history, 'location.search', ''));
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
-    if (get(companyByUrl, 'company', companyCookie)) {
-      let defComp = get(companyByUrl, 'company', companyCookie);
-      if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
+    let defComp = get(companyByUrl, 'company', companyCookie);
+    if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
+    if (defComp) {
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
       changeFieldValue('company', defComp);
