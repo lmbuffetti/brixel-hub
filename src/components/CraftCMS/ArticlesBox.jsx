@@ -8,7 +8,8 @@ const ArticlesBox = (props) => {
   const {
     activeSingleCompany,
     lang,
-    placementSlug
+    placementSlug,
+    className,
   } = props;
 
   const [placement, setPlacement] = useState([]);
@@ -34,14 +35,14 @@ const ArticlesBox = (props) => {
   if (articles.length === 0) return <></>;
 
   return (
-    <div className="mt-5">
+    <div className={`mt-5 ${className}`}>
       <div className="dis-f flex-wrap jc-b">
         {
           placement.mainTitle && (
             <h5 className="fweight-600">{placement.mainTitle}</h5>
           )
         }
-        <div className="dis-f a-c flex-wrap">
+        <div className="dis-f a-c flex-wrap mt-1 mt-sm-0">
           {
             placement.subtitle && (
               <span className="fsize-300 txtAltGrey400">{placement.subtitle}</span>
@@ -76,7 +77,8 @@ const ArticlesBox = (props) => {
 ArticlesBox.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
-  placementSlug: PropTypes.string.isRequired
+  placementSlug: PropTypes.string.isRequired,
+  className: PropTypes.string
 };
 
 export default ArticlesBox;
