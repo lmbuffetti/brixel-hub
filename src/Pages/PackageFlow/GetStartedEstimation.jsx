@@ -746,13 +746,17 @@ const GetStartedEstimation = (props) => {
                       >
                         <div className="pos-r">
                           <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c h-fix-40">
-                            <BrixelButtonIcon
-                              className="backBtn pos-a-fix x-l-0 x-t-0"
-                              icon="arrow-left-small"
-                              onClick={() => changeStep('back')}
-                              theme="light"
-                              secondary
-                            />
+                            {
+                              get(quest, 'history', '') !== 'baloiseInfo' && (
+                                <BrixelButtonIcon
+                                  className="backBtn pos-a-fix x-l-0 x-t-0"
+                                  icon="arrow-left-small"
+                                  onClick={() => changeStep('back')}
+                                  theme="light"
+                                  secondary
+                                />
+                              )
+                            }
                             {
                               get(quest, 'history', null) !== 'resume' &&
                               (
@@ -832,13 +836,17 @@ const GetStartedEstimation = (props) => {
                         <div className={`footerAction py-3 flowFooter ${get(quest, 'footerWidth', '')}`}>
                           <div className="pos-r">
                             <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
-                              <BrixelButtonIcon
-                                className="backBtn pos-a x-l"
-                                icon="arrow-left-small"
-                                onClick={() => changeStep('back')}
-                                theme="light"
-                                secondary
-                              />
+                              {
+                                get(quest, 'history', null) !== 'ubsPolicy' && (
+                                  <BrixelButtonIcon
+                                    className="backBtn pos-a x-l"
+                                    icon="arrow-left-small"
+                                    onClick={() => changeStep('back')}
+                                    theme="light"
+                                    secondary
+                                  />
+                                )
+                              }
                               <BrixelButtonPrimary
                                 className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                 disabled={!checkValidateField()}
