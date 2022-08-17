@@ -156,10 +156,8 @@ export const QuestionsList = (lang, company, isBuyer) => {
       className: 'bgWhite max-w-fix-544 m-a brdRadius px-2 px-sm-5 py-5',
       inputs: [{
         component: BrixelCheckbox,
-        //classNameBox: 'max-w-fix-384 w-perc-100 fieldHolder bgWhite brdRadius py-6 px-5 m-a',
         pdClass: 'py-2 py-lg-3 px-2',
         label: '',
-        //ReduxFieldClass: 'max-w-fix-464 m-a',
         name: 'topics',
         validation: [Validation.required],
         large: true,
@@ -178,6 +176,10 @@ export const QuestionsList = (lang, company, isBuyer) => {
             value: 'Application for a financing certificate'
           },
         ] : [
+          {
+            label: translateTo('Validate sale price', lang),
+            value: 'Validate sale price'
+          },
           {
             label: translateTo('Cancel or transfer your existing mortgage', lang),
             value: 'Cancel or transfer your existing mortgage'
