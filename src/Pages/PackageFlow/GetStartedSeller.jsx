@@ -751,13 +751,17 @@ const GetStartedSeller = (props) => {
                   >
                     <div className="pos-r">
                       <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
-                        <BrixelButtonIcon
-                          className="backBtn pos-a x-l"
-                          icon="arrow-left-small"
-                          onClick={() => changeStep('back')}
-                          theme="light"
-                          secondary
-                        />
+                        {
+                          get(quest, 'history', null) !== 'ubsPolicy' && (
+                            <BrixelButtonIcon
+                              className="backBtn pos-a x-l"
+                              icon="arrow-left-small"
+                              onClick={() => changeStep('back')}
+                              theme="light"
+                              secondary
+                            />
+                          )
+                        }
                         {
                           get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
                             <BrixelButtonPrimary
