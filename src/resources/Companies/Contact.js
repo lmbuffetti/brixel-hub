@@ -98,7 +98,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
   }
 
   if (company.stub === 'baloise') {
-    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) may be transmitted to Basler Versicherung AG for the purpose of providing the consulting service.', lang);
+    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) will be transmitted to Basler Versicherung AG and Baloise Bank SoBa AG for the purpose of providing the consulting service.', lang);
     if (!isBuyer) {
       contact[0].textsCard = [
         {
