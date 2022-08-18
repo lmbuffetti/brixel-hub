@@ -236,6 +236,10 @@ export const QuestionsList = (lang, company, isBuyer) => {
           validation: [Validation.required],
           large: true,
           icons: true,
+          tooltip: {
+            label: translateTo('When do we call back?', lang),
+            description: translateTo('We try to respect your preferred time as accurate as possible. However, we cannot guarantee to contact you at the exact time. Thank you for your flexibility.', lang),
+          },
           options: company.stub === 'ubs' ? [
             selectDays[1],
             selectDays[2],
@@ -265,6 +269,10 @@ export const QuestionsList = (lang, company, isBuyer) => {
             }
           ],
           component: BrixelSelect,
+          tooltip: {
+            label: translateTo('When do we call back?', lang),
+            description: translateTo('We try to respect your preferred time as accurate as possible. However, we cannot guarantee to contact you at the exact time. Thank you for your flexibility.', lang),
+          },
           pdClass: 'py-2 py-lg-3 px-2',
           label: translateTo('Time', lang),
           ReduxFieldClass: 'max-w-fix-464 m-a',
