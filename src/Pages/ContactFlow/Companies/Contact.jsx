@@ -96,7 +96,7 @@ const Contact = (props) => {
       history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
     setQuest(questions[currentIndex])
-  }, [currentIndex, questions]);
+  }, [currentIndex]);
 
   useEffect(() => {
     if (isSmallLoading.sendData === true && (get(questions, `[${currentIndex + 1}].history`, null) === 'success')) {
