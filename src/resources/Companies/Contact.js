@@ -139,7 +139,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
     }
   }
   if (company.stub === 'ubs') {
-    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) will be transmitted to UBS AG for the purpose of providing the consulting service.', lang);
+    privacy = translateTo('I agree that my data (surname, first name, address, telephone number, e-mail) will be transmitted to UBS Switzerland AG for the purpose of providing the consulting service.', lang);
     if (!isBuyer) {
       contact[0].textsCard = [
         {

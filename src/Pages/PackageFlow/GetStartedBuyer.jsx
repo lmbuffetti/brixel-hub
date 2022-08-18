@@ -677,7 +677,7 @@ const GetStartedBuyer = (props) => {
                           className={quest.bulletPoints ? 'w-perc-lg-55 py-lg-3 pr-lg-4' : ''}
                           key={i.toString()}
                         >
-                          <span className="fweight-500 my-3 dis-b">{text.title}</span>
+                          <span className="fweight-600 my-3 dis-b">{text.title}</span>
                           {
                             text.subtitle && (
                               <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
@@ -727,7 +727,7 @@ const GetStartedBuyer = (props) => {
                         }
                         <BrixelButtonText
                           theme="light"
-                          className="pos-a x-r"
+                          className="pos-sm-a x-r"
                           label={translateTo('Skip', lang)}
                           onClick={() => saveData('skip')}
                         />
