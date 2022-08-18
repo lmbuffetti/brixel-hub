@@ -696,7 +696,7 @@ const GetStartedSeller = (props) => {
                         (get(quest, 'history', null) === 'baloiseInfo') && (
                           <BrixelButtonText
                             theme="light"
-                            className='pos-a x-r'
+                            className='pos-a-sm x-r'
                             label={translateTo('Skip', lang)}
                             onClick={() => saveData('skip')}
                           />
@@ -762,7 +762,7 @@ const GetStartedSeller = (props) => {
                         {
                           get(quest, 'history', null) !== 'ubsPolicy' && (
                             <BrixelButtonIcon
-                              className="backBtn pos-a x-l"
+                              className="backBtn pos-a-sm x-l"
                               icon="arrow-left-small"
                               onClick={() => changeStep('back')}
                               theme="light"
@@ -785,7 +785,7 @@ const GetStartedSeller = (props) => {
                         }
                         <BrixelButtonText
                           theme="light"
-                          className="pos-a x-r"
+                          className="pos-a-sm x-r"
                           label={translateTo('Skip', lang)}
                           onClick={() => saveData('skip')}
                         />

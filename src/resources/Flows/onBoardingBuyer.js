@@ -270,7 +270,7 @@ export const QuestionsList = (lang, type) => {
       text: [{
         title: translateTo('Transmission of data to UBS', lang),
         subtitle: translateTo('The financing offers from UBS are only accessible to persons resident in Switzerland.', lang),
-        description: `<span>${translateTo('I agree that my data (surname, first name, telephone number, e-mail) is transmitted to UBS AG. Furthermore, to check whether I am already a client of UBS AG, I authorize UBS AG to compare my data with my existing data at UBS AG.', lang)}</span><span class="mt-1 dis-b">${translateTo('This consent can be revoked at any time for the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until revocation.', lang)}</span>`,
+        description: `<span>${translateTo('I agree that my data (surname, first name, telephone number, e-mail) is transmitted to UBS Switzerland AG. Furthermore, to check whether I am already a client of UBS Switzerland AG, I authorize UBS Switzerland AG to compare my data with my existing data at UBS Switzerland AG.', lang)}</span><span class="mt-1 dis-b">${translateTo('This consent can be revoked at any time for the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until revocation.', lang)}</span>`,
       },]
     }
   );
