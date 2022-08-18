@@ -96,7 +96,7 @@ const Contact = (props) => {
       history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
     setQuest(questions[currentIndex])
-  }, [currentIndex, questions]);
+  }, [currentIndex]);
 
   useEffect(() => {
     if (isSmallLoading.sendData === true && (get(questions, `[${currentIndex + 1}].history`, null) === 'success')) {
@@ -238,18 +238,6 @@ const Contact = (props) => {
             state: get(history, 'location.state', {}),
           });
         }
-        if (checkBrowser() > 0) {
-          if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
-          if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
-        } else {
-          if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-          if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) {
-            multiStepSlidesEl.scrollTo({
-              top: 0,
-              behavior: 'smooth',
-            });
-          }
-        }
       }
     }
     return null;
@@ -285,7 +273,7 @@ const Contact = (props) => {
         return null;
       });
 
-      setQuest(newQuest[currentIndex]);
+      // setQuest(newQuest[currentIndex]);
       setQuestions(newQuest);
     }
     if (get(newQuest, `[${currentIndex + 1}].inputs`, []).length === 1 && get(newQuest[currentIndex], 'inputs[0].options', []).length > 0 && get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), null) && !isArray(get(formValue, get(newQuest[currentIndex], 'inputs[0].name', ''), [])) && oldIndex <= currentIndex) {
