@@ -109,7 +109,7 @@ const MakeOffer = (props) => {
   useEffect(() => {
     const cost = {
       equityCapital: get(formValue, 'financeBuyer.equity', null),
-      grossIncome: get(formValue, 'financeBuyer.income', null),
+      netIncome: get(formValue, 'financeBuyer.income', null),
       fixedCost: 0,
     };
     let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
