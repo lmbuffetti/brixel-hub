@@ -202,11 +202,15 @@ const MakeOffer = (props) => {
       ...dataDocuments,
     };
     if (isToSave) {
-      setIsToSave(false);
-      if (docs.length > 0) {
-        handleMultiUploadDocument(data);
+      if (docs.length === 0 && activeSingleCompany.stub === 'ubs') {
+        history.push(`/buyer/${propID}/financingFlow`);
       } else {
-        handleSaveMakeOffer(data);
+        setIsToSave(false);
+        if (docs.length > 0) {
+          handleMultiUploadDocument(data);
+        } else {
+          handleSaveMakeOffer(data);
+        }
       }
     }
   };

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { FactsOptions, translateTo, FinancingCalculator } from '@brixel/brixel-components';
+import { FactsOptions, translateTo } from '@brixel/brixel-components';
 import {
   BrixelRadioButton,
   BrixelInputText,
@@ -15,7 +15,6 @@ import {
 import get from 'lodash/get';
 import FinanceCertificate from '../../Pages/Closing/Offers/Flow/FinanceCertificate';
 import Key4Registration from '../../Pages/Closing/Offers/Flow/Key4Registration';
-import BaloiseRegistration from '../../Pages/Closing/Offers/Flow/BaloiseRegistration';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import { configureStore } from '../../store';
 import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';
@@ -475,85 +474,6 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
           name: 'document',
         },
       ],
-    },
-    {
-      condition: [
-        {
-          name: 'financeCertificate',
-          value: null,
-        },
-        {
-          name: 'document',
-          value: null,
-        }],
-      cardType: 'loadComponent',
-      history: 'financeCalculator',
-      className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
-      footerWidth: 'max-w-fix-600',
-      component: FinancingCalculator,
-      country: 'CH',
-      propertyPrice: formValue.propertyPrice,
-      hideText: true,
-      customButton: [],
-      unsuccessMessage: `<h6 class="mt-3 mb-2 fweight-600">${translateTo('Note', lang)}</h6><p>${translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}</p>`,
-      partner: formValue.company,
-      onChangeValue: (aff, loan, affordabilityCheck, loanValueCheck, finance) => {
-        formValue.affordability = aff;
-        formValue.loanToValueRatio = loan;
-        changeVal('affordabilityCheck', affordabilityCheck),
-        changeVal('loanValueCheck', loanValueCheck)
-        changeVal('finance', finance)
-      }
-    },
-    // ONLY FOR BALOISE
-    {
-      condition: [
-        {
-          name: 'affordabilityCheck',
-          value: true,
-        },
-        {
-          name: 'loanValueCheck',
-          value: true,
-        },
-        {
-          name: 'company',
-          value: 'baloise',
-        },
-      ],
-      cardType: 'loadComponent',
-      history: 'uploadDocumentsBaloise',
-      className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
-      footerWidth: 'max-w-fix-600',
-      component: BaloiseRegistration,
-      txtAfterNextButton: translateTo('<p>I agree that my data (surname, first name, address, telephone number, e-mail) as well as the information necessary for the proof of financing (address of the property, price of the property, URL of the property, tax declaration, proof of income and pension fund statement, form authorization to obtain information) are transmitted to Baloise Bank SoBa for the purpose of requesting a proof of financing.</p><p class="mt-1">Furthermore, I authorize Baloise Bank SoBa AG to transmit the feedback on my request for proof of financing to Brixel AG and, in order to check whether I am already a customer of Baloise Bank SoBa AG, to carry out a comparison with my relevant data available at Baloise Bank SoBa AG.</p><p class="mt-1">You can revoke this consent at any time in the future. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until the revocation.</p>', lang),
-      country: 'CH',
-    },
-    // ONLY FOR UBS
-    {
-      condition: [
-        {
-          name: 'company',
-          value: 'ubs',
-        },{
-          name: 'document',
-          value: null,
-        },
-        {
-          name: 'affordabilityCheck',
-          value: true,
-        },
-        {
-          name: 'loanValueCheck',
-          value: true,
-        },
-      ],
-      hideContinueBtn: true,
-      cardType: 'loadComponent',
-      history: 'key4Registration',
-      className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
-      footerWidth: 'max-w-fix-600',
-      component: Key4Registration,
     },
     // GENERAL SAVING FUNCTION FOR EVERYONE
     {
