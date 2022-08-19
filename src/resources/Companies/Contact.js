@@ -236,7 +236,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           validation: [Validation.required],
           large: true,
           icons: true,
-          tooltip: {
+          tooltip: { //tooltip added
             label: translateTo('When do we call back?', lang),
             description: translateTo('We try to respect your preferred time as accurate as possible. However, we cannot guarantee to contact you at the exact time. Thank you for your flexibility.', lang),
           },
