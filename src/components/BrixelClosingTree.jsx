@@ -10,7 +10,7 @@ import { DateTime } from 'luxon';
 import {
   BrixelButtonSecondary, BrixelIcon, Helpers, translateTo,
 } from '@brixel/brixel-components';
-import ReviewOffer from '../Pages/Offers/ReviewOffer';
+import ReviewOffer from '../Pages/Closing/Offers/ReviewOffer';
 import { setSplashType } from '../actions/CommonActions';
 import ClosingTree from './Skeleton/ClosingTree';
 

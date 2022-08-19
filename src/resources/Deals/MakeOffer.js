@@ -13,9 +13,9 @@ import {
   BrixelMultiUploadFile,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import FinanceCertificate from '../../Pages/Offers/Flow/FinanceCertificate';
-import Key4Registration from '../../Pages/Offers/Flow/Key4Registration';
-import BaloiseRegistration from '../../Pages/Offers/Flow/BaloiseRegistration';
+import FinanceCertificate from '../../Pages/Closing/Offers/Flow/FinanceCertificate';
+import Key4Registration from '../../Pages/Closing/Offers/Flow/Key4Registration';
+import BaloiseRegistration from '../../Pages/Closing/Offers/Flow/BaloiseRegistration';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import { configureStore } from '../../store';
 import BaloiseLogoImg from '../../images/Companies/Baloise/BaloiseLogo.svg';

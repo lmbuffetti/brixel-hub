@@ -12,8 +12,8 @@ import {
   connect,
 } from 'react-redux';
 import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import OfferListings from '../../components/OfferListings';
-import { getOfferListings, setActiveSingleDeal } from '../../actions/DealActions';
+import OfferListings from '../../../components/OfferListings';
+import { getOfferListings, setActiveSingleDeal } from '../../../actions/DealActions';
 
 // COMPONENTS
 const OfferList = (props) => {

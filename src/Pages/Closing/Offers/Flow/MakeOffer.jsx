@@ -24,14 +24,14 @@ import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import isArray from 'lodash/isArray';
-import { MakeOfferQuestions } from '../../../resources/Deals/MakeOffer';
-import { sendUserScanTrial } from '../../../actions/UserActions';
-import { setModal, spinnerOff } from '../../../actions/CommonActions';
-import { getCookie, setCookie } from '../../../utils/helpers';
-import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { getActiveSingleProperty } from '../../../actions/PropertyActions';
-import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../actions/DealActions';
-import { multiUploadDocument } from '../../../actions/UploadActions';
+import { MakeOfferQuestions } from '../../../../resources/Deals/MakeOffer';
+import { sendUserScanTrial } from '../../../../actions/UserActions';
+import { setModal, spinnerOff } from '../../../../actions/CommonActions';
+import { getCookie, setCookie } from '../../../../utils/helpers';
+import { getActiveSingleCompany } from '../../../../actions/CompanyActions';
+import { getActiveSingleProperty } from '../../../../actions/PropertyActions';
+import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../../actions/DealActions';
+import { multiUploadDocument } from '../../../../actions/UploadActions';
 
 const MakeOffer = (props) => {
   const history = {

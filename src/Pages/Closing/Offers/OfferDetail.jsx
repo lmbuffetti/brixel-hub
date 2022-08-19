@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { BrixelButtonIcon, Helpers, translateTo } from '@brixel/brixel-components';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { setSplashType } from '../../actions/CommonActions';
-import BrixelClosingTree from '../../components/BrixelClosingTree';
-import { getActiveSingleDeal, setActiveSingleDeal } from '../../actions/DealActions';
+import { setSplashType } from '../../../actions/CommonActions';
+import BrixelClosingTree from '../../../components/BrixelClosingTree';
+import { getActiveSingleDeal, setActiveSingleDeal } from '../../../actions/DealActions';
 
 const OfferDetail = (props) => {
   const history = {
