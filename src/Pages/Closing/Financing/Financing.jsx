@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
+import queryString from 'query-string';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import isArray from 'lodash/isArray';
@@ -30,7 +31,7 @@ import { setModal, spinnerOff } from '../../../actions/CommonActions';
 import { getCookie, setCookie } from '../../../utils/helpers';
 import { getActiveSingleCompany } from '../../../actions/CompanyActions';
 import { getActiveSingleProperty } from '../../../actions/PropertyActions';
-import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../actions/DealActions';
+import { saveFinancingRequest, getActiveSingleDeal, getBuyerDeal } from '../../../actions/DealActions';
 import { multiUploadDocument } from '../../../actions/UploadActions';
 
 const Financing = (props) => {
@@ -48,10 +49,11 @@ const Financing = (props) => {
     destroyForm,
     errorValue,
     formValue,
+    initValues,
     handleGetActiveSingleCompany,
     handleGetActiveSingleProperty,
     handleMultiUploadDocument,
-    handleSaveMakeOffer,
+    handleSaveFinancingRequest,
     handleSetModal,
     initForm,
     initialValues,
@@ -147,10 +149,13 @@ const Financing = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
-    if (questions[currentIndex].history) {
+    if (questions[currentIndex].history && initValues.id) {
+      const urlData = queryString.parse(get(history, 'location.search', ''));
+      if (urlData.subtype) changeFieldValue('subtype', urlData.subtype);
       history.push(`/buyer/${propID}/financingFlow/${questions[currentIndex].history}`);
     }
-  }, [currentIndex]);
+  }, [currentIndex, initValues.id]);
+  
   
   // MOVE STEP FORWARD AFTER SAVING
   useEffect(() => {
@@ -163,7 +168,7 @@ const Financing = (props) => {
   }, [isSmallLoading]);
   
   useEffect(() => {
-    if (activeSingleProperty.id) initForm(initialValues);
+    if (activeSingleProperty.id && loggedInUser.id) initForm(initialValues);
   }, [loggedInUser.id, activeSingleProperty.id]);
   
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
@@ -190,7 +195,7 @@ const Financing = (props) => {
     const dataForm = cloneDeep(formValue);
     dataForm.id = dealID;
     dataForm.smallLoader = 'sendData';
-    dataForm.saveAction = 'makeOffer';
+    dataForm.saveAction = 'financing';
     dataForm.currency = dataForm.propertyPriceCurrency;
     delete dataForm.financeBuyer;
     delete dataForm.propertyLocation;
@@ -206,7 +211,7 @@ const Financing = (props) => {
       if (docs.length > 0) {
         handleMultiUploadDocument(data);
       } else {
-        handleSaveMakeOffer(data);
+        handleSaveFinancingRequest(data);
       }
     }
   };
@@ -611,12 +616,13 @@ Financing.propTypes = {
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  initValues: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
-  handleSaveMakeOffer: PropTypes.func.isRequired,
+  handleSaveFinancingRequest: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
@@ -631,6 +637,7 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', null),
   errorValue: get(state, 'brixelForm.offerFlow.syncErrors', {}),
   formValue: get(state, 'brixelForm.offerFlow.values', {}),
+  initValues: get(state, 'brixelForm.offerFlow.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', ''),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
@@ -638,14 +645,13 @@ const mapStateToProps = (state) => ({
     ...get(state, 'brixelForm.offerFlow.values', {}),
     affordabilityCheck: null,
     loanValueCheck: null,
-    financeCertificate: null,
     company: get(state, 'companies.activeSingleCompany.stub', null),
     id: get(state, 'property.activeSingleProperty.id', null),
     propertyLocation: get(state, 'property.activeSingleProperty.location', {}),
-    amount: get(state, 'property.activeSingleProperty.price.total', 0) || 0,
+    amount: get(state, 'brixelForm.offerFlow.values.amount', get(state, 'property.activeSingleProperty.price.total', 0)) || 0,
     propertyPrice: get(state, 'property.activeSingleProperty.price.total', 0) || 0,
     propertyPriceCurrency: get(state, 'property.activeSingleProperty.price.currency', ''),
-    noDocument: 0,
+    subtype: get(state, 'brixelForm.offerFlow.values.subtype', null),
   },
 });
 
@@ -667,7 +673,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleMultiUploadDocument: bindActionCreators(multiUploadDocument, dispatch),
-  handleSaveMakeOffer: bindActionCreators(saveMakeOffer, dispatch),
+  handleSaveFinancingRequest: bindActionCreators(saveFinancingRequest, dispatch),
   handleSendScanTrial: bindActionCreators(sendUserScanTrial, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),

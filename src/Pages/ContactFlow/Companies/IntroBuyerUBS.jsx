@@ -1,17 +1,26 @@
-import React, {} from 'react';
-// import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import React from 'react';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
 import { BrixelButtonSecondary, BrixelButtonText } from '@brixel/brixel-components';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 // LOGOS
 import key4Logo from '../../../images/Companies/ubsKey4/key4Logo.svg';
 import ubsLogo from '../../../images/Companies/ubsKey4/ubsLogo.svg';
 
 
-const IntroBuyerUBS = () => {
-
+const IntroBuyerUBS = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
+  const match = useParams();
   // PROPS
+  const {
+    onClick,
+  } = props;
+  // GET URL PARAMS
+  const propID = get(match, 'propID', null);
 
   return (
     <main className="introScanFlow pt-2 pt-md-4 pb-2 pb-md-4 h-perc-100 txtDark700">
@@ -68,16 +77,19 @@ const IntroBuyerUBS = () => {
           <div className="dis-fl-col dis-fl-row-md mt-3 mt-md-6 a-c a-md-b">
             <div className="w-perc-md-28 px-3 pt-2 pt-md-5 pb-0 ta-c">
               <BrixelButtonText
+                onClick={() => onClick()}
                 label="Arrange a callback"
               />
             </div>
             <div className="w-perc-md-44 px-3 pt-2 pt-md-5 pb-0 ta-c brdSmallRight-md brdSmallLeft-md brdLight300">
               <BrixelButtonText
+                onClick={() => history.push(`/buyer/${propID}/financingFlow`)}
                 label="Request a financing certificate"
               />
             </div>
             <div className="w-perc-md-28 px-3 pt-2 pt-md-5 pb-0 ta-c">
               <BrixelButtonText
+                onClick={() => history.push(`/buyer/${propID}/financingFlow?subtype=standard`)}
                 label="Request financing"
               />
             </div>
@@ -89,13 +101,10 @@ const IntroBuyerUBS = () => {
 };
 
 IntroBuyerUBS.propTypes = {
+  onClick: PropTypes.func.isRequired,
 };
 
 IntroBuyerUBS.defaultProps = {
   scrollHash: null,
 };
-
-
-export default compose(
-  connect(),
-)(IntroBuyerUBS);
+export default IntroBuyerUBS;
