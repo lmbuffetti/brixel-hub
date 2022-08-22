@@ -40,6 +40,9 @@ export default {
     getEstimationsList: (paginationLimit, paginationSkip, ownerId, data) => `/estimation/${paginationLimit}/${paginationSkip}?owner=${ownerId}${data}`,
     proEstimationNotification: (id) => `/estimation/${id}/completeProEstimation`,
   },
+  financing: {
+    financialCertificate: () => '/financialCertificateRequest',
+  },
   history: {
     getHistoryListOfParent: (paginationLimit, paginationSkip, data) => `/history/${paginationLimit}/${paginationSkip}${data}`,
   },
