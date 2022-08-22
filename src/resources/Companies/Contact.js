@@ -7,6 +7,7 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import { translateTo } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
+import lazyWithRetry from '../../components/LazyWithRetry';
 
 import checkSvg from '../../images/Contact/checkContact.svg';
 import houseHandSvg from '../../images/Contact/houseHand.svg';
@@ -16,6 +17,8 @@ import threeDotsHandSvg from '../../images/Contact/threeDotsHand.svg';
 import puzzleHandSvg from '../../images/Contact/puzzleHand.svg';
 import inheritanceContactSvg from '../../images/Contact/inheritanceContact.svg';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
+
+const IntroBuyerUBS = lazyWithRetry(() => import('../../Pages/ContactFlow/Companies/IntroBuyerUBS'));
 
 // QUESTION LISTS
 export const QuestionsList = (lang, company, isBuyer) => {
@@ -185,6 +188,15 @@ export const QuestionsList = (lang, company, isBuyer) => {
           value: 'Investment options or retirement planning'
         }
       ]
+    } else {
+      contact[0] = {
+        cardType: 'loadComponent',
+        history: 'intro',
+        className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
+        footerWidth: 'max-w-fix-600',
+        component: IntroBuyerUBS,
+        hideContinueBtn: true,
+      };
     }
   }
 

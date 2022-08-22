@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { translateTo } from '@brixel/brixel-components';
 import {
   BrixelRadioButton,
   BrixelInputText,
@@ -10,7 +11,7 @@ import ResumeTrialFlow from '../../Pages/ContactFlow/ScanTrial/ResumeTrialFlow';
 import ClipboardImg from '../../images/scanTrial/clipboard.png';
 import { svgIcons } from '../Utilities/svgIcons';
 
-export const ScanTrialQuestions = () => [
+export const ScanTrialQuestions = (lang) => [
   {
     cardType: 'loadComponent',
     history: 'introScanFlow',
@@ -22,14 +23,14 @@ export const ScanTrialQuestions = () => [
       name: 'userID',
       value: null,
     }],
-    title: 'Nice to meet you. Who are you?',
+    title: translateTo('Nice to meet you. Who are you?', lang),
     history: 'contactInfo',
     className: 'max-w-fix-600 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-2 p-sm-5',
     inputs: [
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        label: 'Name',
+        label: translateTo('Name', lang),
         name: 'name',
         validation: [Validation.required],
         pdClass: 'py-3 py-md-5',
@@ -37,7 +38,7 @@ export const ScanTrialQuestions = () => [
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        label: 'Email',
+        label: translateTo('Email', lang),
         name: 'email',
         validation: [Validation.isEmail, Validation.required],
         pdClass: 'py-3 py-md-5',
@@ -45,7 +46,7 @@ export const ScanTrialQuestions = () => [
       {
         component: BrixelInputText,
         classNameBox: 'max-w-fix-816 ml-a mr-a',
-        label: 'Phone',
+        label: translateTo('Phone', lang),
         name: 'phone',
         pdClass: 'py-3 py-md-5',
         type: 'text',
@@ -59,7 +60,7 @@ export const ScanTrialQuestions = () => [
       name: 'userID',
       value: null,
     }],
-    title: 'How do you want to do the analysis?',
+    title: translateTo('How do you want to do the analysis?', lang),
     history: 'analysis',
     inputs: [{
       component: BrixelRadioButton,
@@ -78,15 +79,15 @@ export const ScanTrialQuestions = () => [
       isHorizontal: true,
       options: [
         {
-          title: 'On-site',
-          label: 'We visit you to evaluate your property.\n',
+          title: translateTo('On-site', lang),
+          label: translateTo('We visit you to evaluate your property.', lang),
           value: 'on-site',
           img: svgIcons.onSite,
           color: 'blue',
         },
         {
-          title: 'Remote',
-          label: 'We get to know you and your property in a call.',
+          title: translateTo('Remote', lang),
+          label: translateTo('We get to know you and your property in a call.', lang),
           value: 'remote',
           img: svgIcons.remote,
           color: 'green',
@@ -96,7 +97,7 @@ export const ScanTrialQuestions = () => [
   },
   {
     cardType: 'loadComponent',
-    history: 'BookTrialFlow',
+    history: translateTo('BookTrialFlow', lang),
     component: BookTrialFlow,
     footerWidth: 'max-w-fix-600',
     inputs: [
@@ -168,11 +169,11 @@ export const ScanTrialQuestions = () => [
   {
     hideProgress: true,
     cardType: 'card',
-    title: 'Get Prepared',
+    title: translateTo('Get Prepared', lang),
     img: ClipboardImg,
     imgMaxWidth: 'max-w-fix-160',
     cardClass: 'max-w-fix-360 ml-a mr-a pb-5',
-    subtitle: 'The more we know the better. Please fill out as many facts as possible for preparation.',
+    subtitle: translateTo('The more we know the better. Please fill out as many facts as possible for preparation.', lang),
     history: 'success',
     vCentered: true,
     classWrapper: '',

@@ -53,7 +53,7 @@ const EmptyProperty = lazyWithRetry(() => import('./EmptyProperty'));
 
 const Documents = lazyWithRetry(() => import('../../SingleProperty/Documents'));
 
-const DashboardOffer = lazyWithRetry(() => import('../../Offers/DashboardOffer'));
+const DashboardOffer = lazyWithRetry(() => import('../../Closing/Offers/DashboardOffer'));
 
 // UPGRADE
 const Upgrade = lazyWithRetry(() => import('../../Upgrade/Upgrade'));

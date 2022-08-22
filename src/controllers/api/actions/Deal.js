@@ -62,6 +62,11 @@ class Deal extends Base {
     const url = ep.deal.closingIdentification(id, personType);
     return this.apiClient.post(url, {}, data);
   }
+  
+  saveFinanceCertificate(data) {
+    const url = ep.financing.financialCertificate();
+    return this.apiClient.post(url, {}, data);
+  }
 }
 
 export default Deal;

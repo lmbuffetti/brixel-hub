@@ -19,9 +19,9 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
-import SplashScreen from '../../components/SplashScreen';
-import { setSplashType, spinnerSmall } from '../../actions/CommonActions';
-import { saveReviewOffer, setActiveSingleDeal } from '../../actions/DealActions';
+import SplashScreen from '../../../components/SplashScreen';
+import { setSplashType, spinnerSmall } from '../../../actions/CommonActions';
+import { saveReviewOffer, setActiveSingleDeal } from '../../../actions/DealActions';
 
 const ReviewOffer = (props) => {
   const {

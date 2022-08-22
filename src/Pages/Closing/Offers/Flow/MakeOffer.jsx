@@ -24,14 +24,14 @@ import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import isArray from 'lodash/isArray';
-import { MakeOfferQuestions } from '../../../resources/Deals/MakeOffer';
-import { sendUserScanTrial } from '../../../actions/UserActions';
-import { setModal, spinnerOff } from '../../../actions/CommonActions';
-import { getCookie, setCookie } from '../../../utils/helpers';
-import { getActiveSingleCompany } from '../../../actions/CompanyActions';
-import { getActiveSingleProperty } from '../../../actions/PropertyActions';
-import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../actions/DealActions';
-import { multiUploadDocument } from '../../../actions/UploadActions';
+import { MakeOfferQuestions } from '../../../../resources/Deals/MakeOffer';
+import { sendUserScanTrial } from '../../../../actions/UserActions';
+import { setModal, spinnerOff } from '../../../../actions/CommonActions';
+import { getCookie, setCookie } from '../../../../utils/helpers';
+import { getActiveSingleCompany } from '../../../../actions/CompanyActions';
+import { getActiveSingleProperty } from '../../../../actions/PropertyActions';
+import { saveMakeOffer, getActiveSingleDeal, getBuyerDeal } from '../../../../actions/DealActions';
+import { multiUploadDocument } from '../../../../actions/UploadActions';
 
 const MakeOffer = (props) => {
   const history = {
@@ -109,7 +109,7 @@ const MakeOffer = (props) => {
   useEffect(() => {
     const cost = {
       equityCapital: get(formValue, 'financeBuyer.equity', null),
-      netIncome: get(formValue, 'financeBuyer.income', null),
+      income: get(formValue, 'financeBuyer.income', null),
       fixedCost: 0,
     };
     let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
@@ -202,11 +202,15 @@ const MakeOffer = (props) => {
       ...dataDocuments,
     };
     if (isToSave) {
-      setIsToSave(false);
-      if (docs.length > 0) {
-        handleMultiUploadDocument(data);
+      if (docs.length === 0 && activeSingleCompany.stub === 'ubs') {
+        history.push(`/buyer/${propID}/financingFlow`);
       } else {
-        handleSaveMakeOffer(data);
+        setIsToSave(false);
+        if (docs.length > 0) {
+          handleMultiUploadDocument(data);
+        } else {
+          handleSaveMakeOffer(data);
+        }
       }
     }
   };
