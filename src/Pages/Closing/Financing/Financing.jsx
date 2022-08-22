@@ -20,7 +20,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import cloneDeep from 'lodash/cloneDeep';
 import queryString from 'query-string';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
@@ -111,7 +110,7 @@ const Financing = (props) => {
   useEffect(() => {
     const cost = {
       equityCapital: get(formValue, 'financeBuyer.equity', null),
-      grossIncome: get(formValue, 'financeBuyer.income', null),
+      income: get(formValue, 'financeBuyer.income', null),
       fixedCost: 0,
     };
     let lowCountry = get(formValue, 'propertyLocation.countryCode', '');
@@ -192,16 +191,22 @@ const Financing = (props) => {
       smallLoader: 'sendData',
       user: get(loggedInUser, 'id', null),
     };
-    const dataForm = cloneDeep(formValue);
-    dataForm.id = dealID;
-    dataForm.smallLoader = 'sendData';
-    dataForm.saveAction = 'financing';
-    dataForm.currency = dataForm.propertyPriceCurrency;
-    delete dataForm.financeBuyer;
-    delete dataForm.propertyLocation;
-    delete dataForm.propertyPrice;
-    delete dataForm.propertyPriceCurrency;
-    delete dataForm.propertyLocation;
+    const dataForm = {
+      user: get(loggedInUser, 'id', null),
+      page: get(activeSingleProperty, 'id', null),
+      company: get(activeSingleCompany, 'id', null),
+      data: {
+        amount: get(formValue, 'amount', 0),
+        currency: get(activeSingleProperty, 'price.currency', ''),
+        netIncome: get(formValue, 'finance.netIncome', 0),
+        grossIncome: get(formValue, 'finance.grossIncome', 0),
+        equityCapital: get(formValue, 'finance.equityCapital', 0),
+        affordabilityCheck: get(formValue, 'affordabilityCheck', null),
+        affordability: get(formValue, 'affordability', null),
+        loanValueCheck: get(formValue, 'loanValueCheck', null),
+        loanToValueRatio: get(formValue, 'loanToValueRatio', null),
+      }
+    }
     const data = {
       ...dataForm,
       ...dataDocuments,

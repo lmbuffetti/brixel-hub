@@ -34,7 +34,7 @@ const Key4Registration = (props) => {
     const fixedCost = 0;
     const cost = {
       equityCapital,
-      grossIncome,
+      income: grossIncome,
       fixedCost,
     };
     const price = get(formValue, 'propertyPrice', 0);

@@ -55,10 +55,10 @@ const ScanTrialFlow = (props) => {
     handleReset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(ScanTrialQuestions());
+  const [questions, setQuestions] = useState(ScanTrialQuestions(lang));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
+  const [quest, setQuest] = useState(ScanTrialQuestions(lang)[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -335,7 +335,7 @@ const ScanTrialFlow = (props) => {
     const newQuest = [];
     setOldIndex(currentIndex);
     if (formValue) {
-      ScanTrialQuestions('en').map((quests) => {
+      ScanTrialQuestions(lang).map((quests) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
