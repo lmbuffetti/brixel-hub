@@ -610,6 +610,8 @@ const checkCommon = (store) => (next) => (action) => {
         smallLoader,
       } = objData;
       delete objData.smallLoader;
+      delete objData.actions;
+      delete objData.allImgs;
       if (smallLoader) {
         store.dispatch({
           type: SPINNER_SMALL,
