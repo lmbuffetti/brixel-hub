@@ -572,6 +572,7 @@ const mapStateToProps = (state) => {
     page: get(state, 'property.activeSingleProperty.id', null),
     user: get(state, 'user.loggedInUser.user.id', null),
     deal: get(state, 'deal.activeSingleDeal.id', null),
+    type: null,
     userType: get(state, 'user.userTypes', ''),
   };
   return ({

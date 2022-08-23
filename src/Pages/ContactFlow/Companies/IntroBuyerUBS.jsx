@@ -2,7 +2,7 @@ import { change} from '@brixel/brixel-components/dist/form';
 import React from 'react';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { BrixelButtonSecondary, BrixelButtonText } from '@brixel/brixel-components';
+import { BrixelButtonSecondary, BrixelButtonText, translateTo } from '@brixel/brixel-components';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { compose } from 'redux';
@@ -22,6 +22,7 @@ const IntroBuyerUBS = (props) => {
   const {
     changeFieldValue,
     onClick,
+    lang,
   } = props;
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
@@ -35,10 +36,10 @@ const IntroBuyerUBS = (props) => {
     <main className="introScanFlow pt-2 pt-md-4 pb-2 pb-md-4 h-perc-100 txtDark700">
       <div className="mb-5 mb-md-10">
         <h2 className={`fsize-600 fsize-md-700 fweight-600 max-w-fix-600 ta-c m-a  mb-1`}>
-          Your financing with UBS.
+          {translateTo('Your financing with UBS.', lang)}
         </h2>
         <h2 className={`fsize-600 fsize-md-700 fweight-400 max-w-fix-600 ta-c m-a mb-3 mb-md-6}`}>
-          How would you like to be advised?
+          {translateTo('How would you like to be advised?', lang)}
         </h2>
 
       </div>
@@ -53,7 +54,7 @@ const IntroBuyerUBS = (props) => {
             </div>
           </div>
           <div className="bulletPointsStep mb-4">
-            <ul>
+            <ul>{console.log()}
               <li className="mb-2 txtDark400 fsize-300"> Financing offer individually tailored to your needs and goals</li>
               <li className="mb-2 txtDark400 fsize-300">Free consultation at a branch office or via video call (including advice on tax implications of buying real estate)</li>
               <li className=" txtDark400 fsize-300">Attractive and flexible solutions, for example for construction financing or renovation projects</li>
@@ -113,11 +114,16 @@ const IntroBuyerUBS = (props) => {
 IntroBuyerUBS.propTypes = {
   changeFieldValue: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 IntroBuyerUBS.defaultProps = {
   scrollHash: null,
 };
+
+const mapStateToProps = (state) => ({
+  lang: get(state, 'common.language', 'en'),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeFieldValue(field, value) {
@@ -126,5 +132,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
 )(IntroBuyerUBS);

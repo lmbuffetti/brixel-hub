@@ -97,7 +97,7 @@ export const ScanTrialQuestions = (lang) => [
   },
   {
     cardType: 'loadComponent',
-    history: translateTo('BookTrialFlow', lang),
+    history: 'BookScanTrial',
     component: BookTrialFlow,
     footerWidth: 'max-w-fix-600',
     inputs: [

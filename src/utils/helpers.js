@@ -78,13 +78,16 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
         let isValid = true;
         if (mergeCondition.length > 0) {
           mergeCondition.forEach((item) => {
-            if (item.value && item.value !== get(formValue, item.name, null)) {
-              isValid = false;
-            } else if (item.noValue && item.noValue === get(formValue, item.name, null)) {
-              isValid = false;
+            if (isValid) {
+              if (item.value && item.value !== get(formValue, item.name, null)) {
+                isValid = false;
+              } else if (item.noValue && item.noValue === get(formValue, item.name, null)) {
+                isValid = false;
+              }
             }
           });
         }
+        console.log(isValid, mergeCondition, input);
         if (isValid) questList.push(input);
       }
     });
@@ -113,7 +116,7 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
       countTotal += 1;
     }
   });
-
+  console.log(countTotal);
   // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   const calPerc = Math.floor((countDone * 100) / countTotal);
   const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);

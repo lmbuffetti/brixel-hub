@@ -108,7 +108,7 @@ const Price = (props) => {
   }, [activeSingleProperty.id, bestimateflowCompleted]);
   
   useEffect(() => {
-    setPercComplete(calcPercentageProEstimation().realPerc);
+    setPercComplete(calcPercentageProEstimation('', activeSingleProperty).realPerc);
   }, [formValue]);
   
   const openBestimate = () => {
