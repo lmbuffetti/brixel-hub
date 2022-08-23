@@ -26,7 +26,7 @@ const IntroBuyerUBS = (props) => {
   } = props;
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
-  
+
   const onClickForwardContactFlow = (type) => {
     changeFieldValue('type', type);
     onClick()
@@ -54,7 +54,7 @@ const IntroBuyerUBS = (props) => {
             </div>
           </div>
           <div className="bulletPointsStep mb-4">
-            <ul>{console.log()}
+            <ul>
               <li className="mb-2 txtDark400 fsize-300"> Financing offer individually tailored to your needs and goals</li>
               <li className="mb-2 txtDark400 fsize-300">Free consultation at a branch office or via video call (including advice on tax implications of buying real estate)</li>
               <li className=" txtDark400 fsize-300">Attractive and flexible solutions, for example for construction financing or renovation projects</li>
