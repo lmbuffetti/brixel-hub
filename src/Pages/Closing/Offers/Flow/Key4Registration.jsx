@@ -69,7 +69,7 @@ const Key4Registration = (props) => {
     // eslint-disable-next-line max-len
     let url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}&riskProfile=${riskProfile}`;
     if (get(formValue, 'subtype', null)) {
-      const startDate = DateTime.now().toFormat('YYYY-MM');
+      const startDate = DateTime.now().toFormat('yyyy-MM');
       url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}&startDate=${startDate}`;
     }
     window.open(url, '_blank');
