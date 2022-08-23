@@ -471,12 +471,12 @@ const MarketCategoryListSeller = (props) => {
                                   }
                                 </h5>
                                 <div>
-                                  <ul className="checked mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide ml-2">
+                                  <ul className="checked markerDot mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
                                     <li>
                                       {translateTo('Personal consultation', lang)}
                                     </li>
-                                    <li className="ml-0 ml-md-3" dangerouslySetInnerHTML={{ __html: translateTo('Free 3D tour &amp; HD photos', lang)}} />
-                                    <li className="ml-0 ml-md-3">
+                                    <li className="pl-sm-2" dangerouslySetInnerHTML={{ __html: translateTo('Free 3D tour &amp; HD photos', lang)}} />
+                                    <li className="pl-sm-2">
                                       {translateTo('Full estimation by an expert', lang)}
                                     </li>
                                   </ul>

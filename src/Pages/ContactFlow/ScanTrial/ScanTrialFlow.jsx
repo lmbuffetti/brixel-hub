@@ -435,13 +435,14 @@ const ScanTrialFlow = (props) => {
                                           <BrixelButtonSecondary
                                             label={translateTo("Cancel", lang)}
                                             rounded
-                                            className="ml-a"
+                                            bgTransparent
+                                            className="ml-sm-a mb-1 mb-sm-0"
                                             onClick={() => closeWindow()}
                                           />
                                         )
                                       }
                                       <BrixelButtonPrimary
-                                        className={`noWrap ${questions[currentIndex].history === 'introScanTrial' ? 'ml-2' : 'ml-a'} mr-a ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                        className={`noWrap ${questions[currentIndex].history === 'introScanTrial' ? 'ml-sm-2 mr-sm-a' : 'ml-a mr-a'} ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                         disabled={!checkValidateField()}
                                         rounded
                                         theme="green"
