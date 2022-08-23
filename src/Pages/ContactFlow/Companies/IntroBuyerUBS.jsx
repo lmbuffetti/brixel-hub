@@ -47,7 +47,7 @@ const IntroBuyerUBS = (props) => {
         <div className="dis-fl-col w-perc-100 w-perc-md-50 mr-0 mr-md-2 shadow-2dp bgWhite brdRadius p-3 p-md-6 mb-3 mb-md-0">
           <div className="dis-f mb-3">
             <div className="w-perc-70 w-perc-md-55">
-              <h5 className="fweight-600 fSizePx18">Personal consultation on site or via video call.</h5>
+              <h5 className="fweight-600 fSizePx18"> {translateTo('Personal consultation on site or via video call.', lang)}</h5>
             </div>
             <div className="w-perc-30 w-perc-md-45 ta-r">
               <img className="h-fix-24 mt-small-4" alt='UBS Logo' src={ubsLogo} />
@@ -55,9 +55,9 @@ const IntroBuyerUBS = (props) => {
           </div>
           <div className="bulletPointsStep mb-4">
             <ul>
-              <li className="mb-2 txtDark400 fsize-300"> Financing offer individually tailored to your needs and goals</li>
-              <li className="mb-2 txtDark400 fsize-300">Free consultation at a branch office or via video call (including advice on tax implications of buying real estate)</li>
-              <li className=" txtDark400 fsize-300">Attractive and flexible solutions, for example for construction financing or renovation projects</li>
+              <li className="mb-2 txtDark400 fsize-300">{translateTo('Financing offer individually tailored to your needs and goals', lang)}</li>
+              <li className="mb-2 txtDark400 fsize-300">{translateTo('Free consultation at a branch office or via video call (including advice on tax implications of buying real estate)', lang)}</li>
+              <li className=" txtDark400 fsize-300">{translateTo('Attractive and flexible solutions, for example for construction financing or renovation projects', lang)}</li>
             </ul>
           </div>
           <div className="mt-a">
@@ -72,7 +72,7 @@ const IntroBuyerUBS = (props) => {
         <div className="w-perc-100 w-perc-md-50 ml-0 ml-md-2 shadow-2dp bgWhite brdRadius p-3 p-md-5">
           <div className="dis-f mb-3">
             <div className="w-perc-70 w-perc-md-55">
-              <h5 className="fweight-600 fSizePx18">Compare offers and apply for a mortgage online.</h5>
+              <h5 className="fweight-600 fSizePx18">{translateTo('Compare offers and apply for a mortgage online.', lang)}</h5>
             </div>
             <div className="w-perc-30 w-perc-md-45 ta-r">
               <img className="h-fix-24 mt-small-4" alt='Key4 Logo' src={key4Logo} />
@@ -80,28 +80,28 @@ const IntroBuyerUBS = (props) => {
           </div>
           <div className="bulletPointsStep">
             <ul>
-              <li className="mb-2 txtDark400 fsize-300"> Attractive independent mortgage offers from several providers that you can compare and combine</li>
-              <li className="mb-2 txtDark400 fsize-300">Personal consultation by phone or video call</li>
-              <li className=" txtDark400 fsize-300">Financing certificate sent to you online within 24 hours</li>
+              <li className="mb-2 txtDark400 fsize-300">{translateTo('Attractive independent mortgage offers from several providers that you can compare and combine', lang)}</li>
+              <li className="mb-2 txtDark400 fsize-300">{translateTo('Personal consultation by phone or video call', lang)}</li>
+              <li className=" txtDark400 fsize-300">{translateTo('Financing certificate sent to you online within 24 hours', lang)}</li>
             </ul>
           </div>
           <div className="dis-fl-col dis-fl-row-md mt-3 mt-md-6 a-c a-md-b">
             <div className="w-perc-md-28 px-3 pt-2 pt-md-5 pb-0 ta-c">
               <BrixelButtonText
                 onClick={() => onClickForwardContactFlow('key4')}
-                label="Arrange a callback"
+                label={translateTo('Arrange a callback', lang)}
               />
             </div>
             <div className="w-perc-md-44 px-3 pt-2 pt-md-5 pb-0 ta-c brdSmallRight-md brdSmallLeft-md brdLight300">
               <BrixelButtonText
                 onClick={() => history.push(`/buyer/${propID}/financingFlow`)}
-                label="Request a financing certificate"
+                label={translateTo('Request a financing certificate', lang)}
               />
             </div>
             <div className="w-perc-md-28 px-3 pt-2 pt-md-5 pb-0 ta-c">
               <BrixelButtonText
                 onClick={() => history.push(`/buyer/${propID}/financingFlow?subtype=standard`)}
-                label="Request financing"
+                label={translateTo('Request financing', lang)}
               />
             </div>
           </div>
