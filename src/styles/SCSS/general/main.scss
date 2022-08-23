@@ -1078,3 +1078,23 @@ input::-webkit-date-and-time-value {
 .h-fix-20 {
   height: 20px;
 }
+
+.markerDot {
+  display: block;
+  list-style: none;
+  li {
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+    &::before {
+      content: '';
+      height: 5px;
+      width: 5px;
+      position: absolute;
+      top: 10px;
+      left: 0px;
+      background: black;
+      border-radius: 50%;
+    }
+  }
+}
