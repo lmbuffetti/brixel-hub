@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 
 const ContentCard = (props) => {
   const {
-    hrefUrl,
-    hrefTitle,
+    hrefOnClick,
     hrefTarget,
+    hrefTitle,
+    hrefUrl,
     image,
     previewCopy,
     title,
@@ -29,16 +30,17 @@ const ContentCard = (props) => {
         className="mt-2"
         rounded
         label={hrefTitle}
-        onClick={() => window.open(hrefUrl, hrefTarget)}
+        onClick={() => hrefOnClick(hrefUrl, hrefTarget)}
       />
     </div>
   );
 };
 
 ContentCard.propTypes = {
-  hrefUrl: PropTypes.string.isRequired,
-  hrefTitle: PropTypes.string.isRequired,
+  hrefOnClick: PropTypes.func.isRequired,
   hrefTarget: PropTypes.string.isRequired,
+  hrefTitle: PropTypes.string.isRequired,
+  hrefUrl: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
   previewCopy: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,

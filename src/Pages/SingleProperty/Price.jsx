@@ -108,7 +108,7 @@ const Price = (props) => {
   }, [activeSingleProperty.id, bestimateflowCompleted]);
   
   useEffect(() => {
-    setPercComplete(calcPercentageProEstimation().realPerc);
+    setPercComplete(calcPercentageProEstimation('', activeSingleProperty).realPerc);
   }, [formValue]);
   
   const openBestimate = () => {
@@ -293,7 +293,7 @@ const Price = (props) => {
                                       className="mt-2 w-fit"
                                       label={translateTo('Edit inputs', lang)}
                                       ghost
-                                      onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                                      onClick={() => history.push(`/${propID}/property/price/proEstimation`)}
                                     />
                                   )
                                 }
@@ -329,14 +329,14 @@ const Price = (props) => {
                                 className="mt-5 w-fit"
                                 label={translateTo('Edit inputs', lang)}
                                 ghost
-                                onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                                onClick={() => history.push(`/${propID}/property/price/proEstimation`)}
                               />
                             ) : (
                               <BrixelButtonPrimary
                                 rounded
                                 className="w-fit mt-5"
                                 label={translateTo('Complete now', lang)}
-                                onClick={() => history.push(`/${propID}/property/price/formFlow`)}
+                                onClick={() => history.push(`/${propID}/property/price/proEstimation`)}
                               />
                             )
                           }

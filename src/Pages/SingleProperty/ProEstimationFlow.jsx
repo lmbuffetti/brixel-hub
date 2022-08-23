@@ -106,73 +106,75 @@ const ProEstimationFlow = (props) => {
 
   // FUNCTION TO REMOVE ALL SINGLE OBJECT FROM INPUT SHEETS
   useEffect(() => {
-    const fieldsChanged = diff(initialValues, formValue);
-    const toOmit = ['location.geometry', 'progress', 'inputSheet'];
-    const changeObj = omit(fieldsChanged, toOmit);
-    const keyChanged = keyify(changeObj);
-    if (initialValues.id && formValue.id && Object.keys(changeObj).length > 0) {
-      setUnsavedChange(true);
-      setSavedBtn(false);
-    } else {
-      setUnsavedChange(false);
-    }
-    if (Object.keys(initialValues).length > 0 && Object.keys(formValue).length > 0) {
-      keyChanged.forEach((item) => {
-        InputSheets('proEstimation', lang).forEach((singleQuest) => {
-          singleQuest.inputs.forEach((input) => {
-            if (input.condition) {
-              if (input.condition.name) {
-                if (input.condition.name === item) {
-                  if (input.condition.value && input.condition.value !== get(formValue, item, null)) {
-                    unset(formValue, input.name);
-                  }
-                }
-              } else {
-                input.condition.forEach((condition) => {
-                  if (condition.name === item) {
-                    if (condition.value && condition.value !== get(formValue, item, null)) {
+    if (formValue.id) {
+      const fieldsChanged = diff(initialValues, formValue);
+      const toOmit = ['location.geometry', 'progress', 'inputSheet'];
+      const changeObj = omit(fieldsChanged, toOmit);
+      const keyChanged = keyify(changeObj);
+      if (initialValues.id && formValue.id && Object.keys(changeObj).length > 0) {
+        setUnsavedChange(true);
+        setSavedBtn(false);
+      } else {
+        setUnsavedChange(false);
+      }
+      if (Object.keys(initialValues).length > 0 && Object.keys(formValue).length > 0) {
+        keyChanged.forEach((item) => {
+          InputSheets('proEstimation', lang).forEach((singleQuest) => {
+            singleQuest.inputs.forEach((input) => {
+              if (input.condition) {
+                if (input.condition.name) {
+                  if (input.condition.name === item) {
+                    if (input.condition.value && input.condition.value !== get(formValue, item, null)) {
                       unset(formValue, input.name);
                     }
                   }
-                });
-              }
-            }
-          });
-        });
-      });
-    }
-    const questList = [];
-    InputSheets('proEstimation', lang).forEach((singleQuest) => {
-      singleQuest.inputs.forEach((input) => {
-        if (input.isProEstimation) {
-          let mergeCondition = [];
-          if (input.condition && input.condition.name && input.condition.value) {
-            mergeCondition = [{ name: input.condition.name, value: input.condition.value }];
-          } else if (input.condition && input.condition.name && input.condition.noValue) {
-            mergeCondition = [{ name: input.condition.name, noValue: input.condition.noValue }];
-          } else if (input.condition) {
-            mergeCondition = input.condition;
-          }
-          if (input.proEstimationConditions) {
-            mergeCondition = mergeCondition.concat(input.proEstimationConditions);
-          }
-          let isValid = true;
-          if (mergeCondition.length > 0) {
-            mergeCondition.forEach((item) => {
-              if (item.value && item.value !== get(formValue, item.name, null)) {
-                isValid = false;
-              } else if (item.noValue && item.noValue === get(formValue, item.name, null)) {
-                isValid = false;
+                } else {
+                  input.condition.forEach((condition) => {
+                    if (condition.name === item) {
+                      if (condition.value && condition.value !== get(formValue, item, null)) {
+                        unset(formValue, input.name);
+                      }
+                    }
+                  });
+                }
               }
             });
+          });
+        });
+      }
+      const questList = [];
+      InputSheets('proEstimation', lang).forEach((singleQuest) => {
+        singleQuest.inputs.forEach((input) => {
+          if (input.isProEstimation) {
+            let mergeCondition = [];
+            if (input.condition && input.condition.name && input.condition.value) {
+              mergeCondition = [{ name: input.condition.name, value: input.condition.value }];
+            } else if (input.condition && input.condition.name && input.condition.noValue) {
+              mergeCondition = [{ name: input.condition.name, noValue: input.condition.noValue }];
+            } else if (input.condition) {
+              mergeCondition = input.condition;
+            }
+            if (input.proEstimationConditions) {
+              mergeCondition = mergeCondition.concat(input.proEstimationConditions);
+            }
+            let isValid = true;
+            if (mergeCondition.length > 0) {
+              mergeCondition.forEach((item) => {
+                if (item.value && item.value !== get(formValue, item.name, null)) {
+                  isValid = false;
+                } else if (item.noValue && item.noValue === get(formValue, item.name, null)) {
+                  isValid = false;
+                }
+              });
+            }
+            if (isValid) questList.push(input);
           }
-          if (isValid) questList.push(input);
-        }
+        });
       });
-    });
-    setQuestions(questList);
-    const percentageComplete = calcPercentageProEstimation('formFlow');
-    setPercComplete(percentageComplete.realPerc);
+      setQuestions(questList);
+      const percentageComplete = calcPercentageProEstimation('formFlow', {});
+      setPercComplete(percentageComplete.realPerc);
+    }
   }, [formValue]);
   
   useEffect(() => {

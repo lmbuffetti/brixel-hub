@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
+import { transformInternalLink } from '../../utils/helpers';
 import api from '../../controllers/api/graphql';
 
 const BannerBox = (props) => {
@@ -39,19 +40,10 @@ const BannerBox = (props) => {
   }, [activeSingleCompany, lang]);
 
   const onClickBanner = (url) => {
-    const mapObj = {
-      DOMAIN_HUB: '',
-      'DOMAIN.HUB': '',
-      PAGE_ID: activeSingleProperty.id,
-      'http://': '',
-      'https://': '',
-    };
     if (!url.includes('PAGE_ID')) {
       window.open(url, '_blank');
     } else {
-      const internalLink = url.replace(/PAGE_ID|DOMAIN_HUB|DOMAIN.HUB|http:\/\/|https:\/\//gi, function(matched){
-        return mapObj[matched];
-      });
+      const internalLink = transformInternalLink(url, { activeSingleProperty });
       history.push(internalLink);
     }
   }

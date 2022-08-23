@@ -373,7 +373,7 @@ const MarketCard = (props) => {
                           {
                             (get(item, 'properties.propertyType', '') === 'House' || get(item, 'properties.propertyType', '') === 'Apartment') && (
                               <div
-                                onClick={() => window.location.assign(`/${item.id}/property/price/formFlow`)}
+                                onClick={() => window.location.assign(`/${item.id}/property/price/proEstimation`)}
                                 className="dis-fl-row a-c ml-4 brdSmallLeft brdLight400 pl-4"
                               >
                                 <div className="hide dis-fl-row-sm">

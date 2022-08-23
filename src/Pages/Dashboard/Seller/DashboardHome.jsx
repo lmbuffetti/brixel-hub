@@ -317,6 +317,7 @@ const DashboardHome = (props) => {
               <span className="dis-b mt-2-neg"></span>
 
               <ArticlesBox
+                activeSingleProperty={activeSingleProperty}
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-onboarding-article"
@@ -526,6 +527,7 @@ const DashboardHome = (props) => {
               </div>
 
               <ArticlesBox
+                activeSingleProperty={activeSingleProperty}
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-onboarding-article"
@@ -764,6 +766,7 @@ const DashboardHome = (props) => {
               }
 
               <ArticlesBox
+                activeSingleProperty={activeSingleProperty}
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-onboarding-article"
@@ -886,18 +889,21 @@ const DashboardHome = (props) => {
               </div>
 
               <ArticlesBox
+                activeSingleProperty={activeSingleProperty}
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-sold-partner"
               />
 
               <ArticlesBox
+                activeSingleProperty={activeSingleProperty}
                 activeSingleCompany={activeSingleCompany}
                 lang={lang}
                 placementSlug="seller-hub-home-sold-article"
               />
 
               <BannerBox
+                activeSingleProperty={activeSingleProperty}
                 activeSingleCompany={activeSingleCompany}
                 className="mt-6"
                 lang={lang}

@@ -14,7 +14,7 @@ import { svgIcons } from '../Utilities/svgIcons';
 export const ScanTrialQuestions = (lang) => [
   {
     cardType: 'loadComponent',
-    history: 'introScanFlow',
+    history: 'introScanTrial',
     component: IntroScanFlow,
     hideProgress: true,
   },
@@ -97,7 +97,7 @@ export const ScanTrialQuestions = (lang) => [
   },
   {
     cardType: 'loadComponent',
-    history: translateTo('BookTrialFlow', lang),
+    history: 'BookScanTrial',
     component: BookTrialFlow,
     footerWidth: 'max-w-fix-600',
     inputs: [
