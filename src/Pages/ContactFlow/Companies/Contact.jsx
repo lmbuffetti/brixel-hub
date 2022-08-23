@@ -483,29 +483,35 @@ const Contact = (props) => {
                             )
                           }
                           {
-                            buttonLabel().toLowerCase() === 'skip' ? (
-                              <BrixelButtonSecondary
-                                className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                                disabled={!checkValidateField()}
-                                theme="green"
-                                themeSat={600}
-                                rounded
-                                label={translateTo(buttonLabel(), lang)}
-                                rightIcon="arrow-right-small"
-                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                              />
-                            ) : (
-                              <BrixelButtonPrimary
-                                className={`noWrap ml-a mr-a ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                                disabled={!checkValidateField()}
-                                rounded
-                                theme="green"
-                                themeSat={600}
-                                label={translateTo(buttonLabel(), lang)}
-                                rightIcon="arrow-right-small"
-                                onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                                onShowError={() => setShowError(true)}
-                              />
+                            quest.hideContinueBtn !== true && (
+                              <>
+                                {
+                                  buttonLabel().toLowerCase() === 'skip' ? (
+                                    <BrixelButtonSecondary
+                                      className={`noWrap ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                      disabled={!checkValidateField()}
+                                      theme="green"
+                                      themeSat={600}
+                                      rounded
+                                      label={translateTo(buttonLabel(), lang)}
+                                      rightIcon="arrow-right-small"
+                                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                    />
+                                  ) : (
+                                    <BrixelButtonPrimary
+                                      className={`noWrap ml-a mr-a ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                      disabled={!checkValidateField()}
+                                      rounded
+                                      theme="green"
+                                      themeSat={600}
+                                      label={translateTo(buttonLabel(), lang)}
+                                      rightIcon="arrow-right-small"
+                                      onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                                      onShowError={() => setShowError(true)}
+                                    />
+                                  )
+                                }
+                              </>
                             )
                           }
                         </>
