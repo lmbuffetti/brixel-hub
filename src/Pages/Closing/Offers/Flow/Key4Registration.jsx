@@ -7,6 +7,7 @@ import {
   BrixelIcon,
   BrixelButtonPrimary, translateTo,
 } from '@brixel/brixel-components';
+import { DateTime } from 'luxon';
 import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 
@@ -33,7 +34,7 @@ const Key4Registration = (props) => {
     const fixedCost = 0;
     const cost = {
       equityCapital,
-      grossIncome,
+      income: grossIncome,
       fixedCost,
     };
     const price = get(formValue, 'propertyPrice', 0);
@@ -44,9 +45,15 @@ const Key4Registration = (props) => {
   const getSellerBrochure = () => activeSinglePropertyDocs.find((itm) => itm.isBrochure);
 
   const onRegisterKey4 = () => {
+    let riskProfile;
+    let subtype = 'FINANCIAL_CERTIFICATE';
+    if (get(formValue, 'subtype', null)) {
+      subtype = get(formValue, 'subtype', null);
+    } else {
+      riskProfile = 'BALANCED';
+    }
     const channelType = 'Brixel';
     const useCase = 'NEW_HOME_BUYER';
-    const subtype = 'FINANCIAL_CERTIFICATE';
     const campID = `Brixel-FinancialCertificate-CH-${lang}-BrixelPage-${activeSingleProperty.id}-${loggedInUser.id}`;
     const objectUsage = 'MAIN_RESIDENCE';
     // const riskProfile = 'BALANCED';
@@ -57,10 +64,14 @@ const Key4Registration = (props) => {
     const streetName = get(activeSingleProperty, 'location.name', '');
     const streetNumber = get(activeSingleProperty, 'location.streetNumber', '');
     const objectType = get(activeSingleProperty, 'properties.propertyType', '') === 'Home' ? 'SINGLE_FAMILY_HOME' : 'APARTMENT';
-    const grossAnnualIncome = get(formValue, 'financeBuyer.income', 0);
-    const Equity = get(formValue, 'financeBuyer.equity', 0);
+    const grossAnnualIncome = get(formValue, 'financeBuyer.income', get(formValue, 'finance.newIncome', 0));
+    const Equity = get(formValue, 'financeBuyer.equity', get(formValue, 'finance.equityCapital', 0));
     // eslint-disable-next-line max-len
-    const url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}`;
+    let url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}&riskProfile=${riskProfile}`;
+    if (get(formValue, 'subtype', null)) {
+      const startDate = DateTime.now().toFormat('YYYY-MM');
+      url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}&startDate=${startDate}`;
+    }
     window.open(url, '_blank');
     setTimeout(() => onClick(), 500);
   };

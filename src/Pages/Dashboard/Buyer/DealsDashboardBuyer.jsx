@@ -11,7 +11,7 @@ import last from 'lodash/last';
 import isNumber from 'lodash/isNumber';
 import lazyWithRetry from '../../../components/LazyWithRetry';
 
-const OfferDetail = lazyWithRetry(() => import('../../Offers/OfferDetail'));
+const OfferDetail = lazyWithRetry(() => import('../../Closing/Offers/OfferDetail'));
 
 const DealsDashboardBuyer = (props) => {
   const history = {

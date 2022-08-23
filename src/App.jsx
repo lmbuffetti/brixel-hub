@@ -48,7 +48,8 @@ const GetStartedBuyer = lazyWithRetry(() => import('./Pages/PackageFlow/GetStart
 const GetStartedEstimation = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedEstimation'));
 const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialFlow'));
-const MakeOffer = lazyWithRetry(() => import('./Pages/Offers/Flow/MakeOffer'));
+const MakeOffer = lazyWithRetry(() => import('./Pages/Closing/Offers/Flow/MakeOffer'));
+const Financing = lazyWithRetry(() => import('./Pages/Closing/Financing/Financing'));
 const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identification/IdentificationFlow'));
 
 // IMAGES
@@ -270,6 +271,7 @@ const App = (props) => {
   useEffect(() => {
     if (
       history.location.pathname.includes('packageFlow') ||
+      history.location.pathname.includes('Flow') ||
       history.location.pathname.includes('scheduleVisit') ||
       history.location.pathname.includes('visitFeedback') ||
       history.location.pathname.includes('onBoarding') ||
@@ -279,6 +281,7 @@ const App = (props) => {
       history.location.pathname.includes('upgrade')    ) {
       if (
         history.location.pathname.includes('packageFlow') ||
+        history.location.pathname.includes('Flow') ||
         history.location.pathname.includes('scheduleVisit') ||
         history.location.pathname.includes('visitFeedback')
       ) {
@@ -377,6 +380,7 @@ const App = (props) => {
       let data = {};
       if (
         !history.location.pathname.includes('packageFlow') &&
+        !history.location.pathname.includes('Flow') &&
         !history.location.pathname.includes('scheduleVisit') &&
         !history.location.pathname.includes('visitFeedback') &&
         !history.location.pathname.includes('onBoarding')
@@ -515,6 +519,7 @@ const App = (props) => {
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
                       <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
+                      <Route path="/buyer/:id/financingFlow/*" element={<Financing />} />
   
                       { /* PARTNER CONTACT FLOW */}
                       <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
@@ -530,6 +535,7 @@ const App = (props) => {
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('Flow') &&
                         !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
@@ -566,6 +572,7 @@ const App = (props) => {
                       }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('Flow') &&
                         !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
@@ -638,7 +645,7 @@ const App = (props) => {
             <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
-            <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
+            <Route path="/:propID/property/price/proEstimation" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
             <Route path="*" element={null} />
           </Routes>
 

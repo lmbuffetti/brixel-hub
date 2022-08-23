@@ -248,6 +248,7 @@ const DashboardHome = (props) => {
             progressState.step < 5 && (
               <>
                 <ArticlesBox
+                  activeSingleProperty={activeSingleProperty}
                   title="Wissenswertes rund ums Eigenheim"
                   activeSingleCompany={activeSingleCompany}
                   lang={lang}
@@ -255,6 +256,7 @@ const DashboardHome = (props) => {
                 />
 
                 <BannerBox
+                  activeSingleProperty={activeSingleProperty}
                   activeSingleCompany={activeSingleCompany}
                   className="mt-6"
                   lang={lang}
@@ -267,6 +269,7 @@ const DashboardHome = (props) => {
             progressState.step === 5 && (
               <>
                 <BannerBox
+                  activeSingleProperty={activeSingleProperty}
                   activeSingleCompany={activeSingleCompany}
                   title="Plane deine nächsten Schritte."
                   className="mt-6"
@@ -275,12 +278,14 @@ const DashboardHome = (props) => {
                 />
 
                 <ArticlesBox
+                  activeSingleProperty={activeSingleProperty}
                   activeSingleCompany={activeSingleCompany}
                   lang={lang}
                   placementSlug="buyer-hub-home-sold-partner"
                 />
 
                 <ArticlesBox
+                  activeSingleProperty={activeSingleProperty}
                   title="About your home"
                   activeSingleCompany={activeSingleCompany}
                   lang={lang}
@@ -288,6 +293,7 @@ const DashboardHome = (props) => {
                 />
 
                 <BannerBox
+                  activeSingleProperty={activeSingleProperty}
                   activeSingleCompany={activeSingleCompany}
                   className="mt-6"
                   lang={lang}

@@ -53,7 +53,7 @@ const EmptyProperty = lazyWithRetry(() => import('./EmptyProperty'));
 
 const Documents = lazyWithRetry(() => import('../../SingleProperty/Documents'));
 
-const DashboardOffer = lazyWithRetry(() => import('../../Offers/DashboardOffer'));
+const DashboardOffer = lazyWithRetry(() => import('../../Closing/Offers/DashboardOffer'));
 
 // UPGRADE
 const Upgrade = lazyWithRetry(() => import('../../Upgrade/Upgrade'));
@@ -357,7 +357,7 @@ const Dashboard = (props) => {
         </div>
         {
           get(history, 'location.pathname', '').includes('home') && (
-            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+            <div className="historySidebar w-perc-100 max-w-fix-360">
               <SellerSidebar progressStep={progressStep} />
             </div>
           )

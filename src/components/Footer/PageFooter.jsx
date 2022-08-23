@@ -40,7 +40,7 @@ function PageFooter(props) {
                 {
                   activeSingleCompany.stub === 'ubs' && <span className="mr-2 fsize-300 txtAltGrey400">{translateTo('Your partner for financial questions', lang)}</span>
                 }
-                <div className="h-fix-24">
+                <div className="h-fix-20 h-fix-lg-24">
                   {
                     get(activeCompanyData, 'logos', []).map((logo, i) => (
                       <img

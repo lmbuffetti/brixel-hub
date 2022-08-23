@@ -1,12 +1,19 @@
 import get from 'lodash/get';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../../controllers/api/graphql';
+import { transformInternalLink } from '../../utils/helpers';
 import ContentCard from './ContentCard';
 
 const ArticlesBox = (props) => {
+  const history = {
+    push: useNavigate(),
+    location: useLocation(),
+  };
   const {
     activeSingleCompany,
+    activeSingleProperty,
     lang,
     placementSlug,
     className,
@@ -31,6 +38,15 @@ const ArticlesBox = (props) => {
     }
 
   }, [activeSingleCompany, lang]);
+  
+  const onClickBanner = (url, target) => {
+    if (!url.includes('PAGE_ID')) {
+      window.open(url, target);
+    } else {
+      const internalLink = transformInternalLink(url, { activeSingleProperty });
+      history.push(internalLink);
+    }
+  }
 
   if (articles.length === 0) return <></>;
 
@@ -42,7 +58,7 @@ const ArticlesBox = (props) => {
             <h5 className="fweight-600">{placement.mainTitle}</h5>
           )
         }
-        <div className="dis-f a-c flex-wrap mt-1 mt-sm-0">
+        <div className="dis-f a-c flex-wrap mt-1 mt-lg-0">
           {
             placement.subtitle && (
               <span className="fsize-300 txtAltGrey400">{placement.subtitle}</span>
@@ -51,7 +67,7 @@ const ArticlesBox = (props) => {
           <div className="div">
             {
               get(placement, 'logo[0]', null) && (
-                <img className="ml-2 h-fix-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
+                <img className="ml-2 h-fix-20 h-fix-lg-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
               )
             }
           </div>
@@ -68,6 +84,7 @@ const ArticlesBox = (props) => {
               hrefUrl={ get(card, 'cardLink.url', '') }
               hrefTitle={get(card, 'cardLink.text', '')}
               hrefTarget={ get(card, 'cardLink.target', '') }
+              hrefOnClick={(url, target) => onClickBanner(url, target)}
             />
           ))
         }
@@ -78,6 +95,7 @@ const ArticlesBox = (props) => {
 
 ArticlesBox.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   placementSlug: PropTypes.string.isRequired,
   className: PropTypes.string

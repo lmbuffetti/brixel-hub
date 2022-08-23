@@ -15,6 +15,7 @@ import {
   GET_BUYER_DEAL,
   SEND_VISIT_FEEDBACK,
   SAVE_CLOSING_IDENTIFICATION,
+  SAVE_FINANCING_REQUEST,
 } from './types/DealTypes';
 
 export const {
@@ -31,6 +32,7 @@ export const {
   getBuyerDeal,
   sendVisitFeedback,
   saveClosingIdentification,
+  saveFinancingRequest,
 } = createActions({
   [CREATE_DEAL]: (payload) => payload,
   [GET_ACTIVE_SINGLE_DEAL]: (payload) => payload,
@@ -45,4 +47,5 @@ export const {
   [SAVE_REVIEW_OFFER]: (payload) => payload,
   [SEND_VISIT_FEEDBACK]: (payload) => payload,
   [SAVE_CLOSING_IDENTIFICATION]: (payload) => payload,
+  [SAVE_FINANCING_REQUEST]: (payload) => payload,
 });
