@@ -40,7 +40,7 @@
       background-color: map-get($lightColor, 100);
     }
     .dashboardContainer {
-      padding-bottom: 100px;
+      // padding-bottom: 100px;
 
       @media (max-width: $responsive-medium) {
         background-color: map-get($lightColor, 100);

@@ -1,5 +1,11 @@
 
 .historySidebar {
+  @media (min-width: $responsive-large) {
+    display: flex;
+  }
+  @media (max-width: $responsive-large) {
+    display: none;
+  }
   @media (max-device-width: $responsive-large) {
     display: none;
   }
