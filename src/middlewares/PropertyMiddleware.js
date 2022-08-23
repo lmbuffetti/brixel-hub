@@ -144,7 +144,7 @@ const checkCommon = (store) => (next) => (action) => {
             }
             if (createEstimation) {
               const data = {
-                owner: res.data.owner.id,
+                owner: res.data.owner,
                 page: res.data.id,
                 generate: true,
                 redirectTo: redirectToUrl.replace(':pageID', res.data.id),
