@@ -435,6 +435,7 @@ const ScanTrialFlow = (props) => {
                                           <BrixelButtonSecondary
                                             label="cancel"
                                             rounded
+                                            bgTransparent
                                             className="ml-a"
                                             onClick={() => closeWindow()}
                                           />
