@@ -42,7 +42,7 @@ const ArticlesBox = (props) => {
             <h5 className="fweight-600">{placement.mainTitle}</h5>
           )
         }
-        <div className="dis-f a-c flex-wrap mt-1 mt-sm-0">
+        <div className="dis-f a-c flex-wrap mt-1 mt-lg-0">
           {
             placement.subtitle && (
               <span className="fsize-300 txtAltGrey400">{placement.subtitle}</span>
@@ -51,7 +51,7 @@ const ArticlesBox = (props) => {
           <div className="div">
             {
               get(placement, 'logo[0]', null) && (
-                <img className="ml-2 h-fix-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
+                <img className="ml-2 h-fix-20 h-fix-lg-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
               )
             }
           </div>

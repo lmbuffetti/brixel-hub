@@ -367,7 +367,7 @@ const Dashboard = (props) => {
         </div>
         {
           get(history, 'location.pathname', '').includes('home') && (
-            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+            <div className="historySidebar w-perc-100 max-w-fix-360">
               <SellerSidebar progressStep={progressStep} />
             </div>
           )

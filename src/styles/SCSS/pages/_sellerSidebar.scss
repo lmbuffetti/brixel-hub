@@ -1,3 +1,10 @@
+
+.historySidebar {
+  @media (max-device-width: $responsive-large) {
+    display: none;
+  }
+}
+
 .seller-sidebar {
   position: relative;
   &::before {
