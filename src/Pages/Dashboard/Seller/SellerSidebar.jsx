@@ -208,7 +208,7 @@ const SellerSidebar = (props) => {
                     <Link
                       className="dis-b mt-1 fsize-300 td-u"
                       to={{
-                        pathname: calcPercentageProEstimation().realPerc < 100 ? `/${propID}/property/price/formFlow` : `/${propID}/property/price`,
+                        pathname: calcPercentageProEstimation().realPerc < 100 ? `/${propID}/property/price/proEstimation` : `/${propID}/property/price`,
                       }}
                     >
                       {translateTo(calcPercentageProEstimation().realPerc < 100 ? 'Next step' : 'View', lang)}

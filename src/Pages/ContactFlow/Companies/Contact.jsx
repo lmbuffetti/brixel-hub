@@ -53,13 +53,14 @@ const Contact = (props) => {
     handleReset,
     handleSendMessageContact,
     initForm,
+    initValues,
     initialValues,
     isSmallLoading,
     lang,
     loggedInUser,
   } = props;
   // STATE
-  const isBuyer = get(formValue, 'type', '') === 'buyer';
+  const isBuyer = get(formValue, 'userType', '') === 'buyer';
   const [questions, setQuestions] = useState(QuestionsList(lang, activeSingleCompany, isBuyer));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(formValue.analysis === 'remote' || urlParams.action === 'on-site' ? 3 : 0);
@@ -263,6 +264,16 @@ const Contact = (props) => {
       if (activeSingleProperty.owner !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
     }
   }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id, isBuyer]);
+  
+  // ON CHANGE STEP LOAD THE ENTER EFFECT
+  useEffect(() => {
+    setIsEnter(true);
+    if (questions[currentIndex].history && initValues.id) {
+      const urlData = queryString.parse(get(history, 'location.search', ''));
+      if (urlData.type) changeFieldValue('type', urlData.type);
+      history.push(`${BASEURL}/${questions[currentIndex].history}`);
+    }
+  }, [currentIndex, initValues.id]);
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
@@ -314,8 +325,7 @@ const Contact = (props) => {
       if (fullDate !== get(formValue, 'time.timestamp', '')) changeFieldValue('time.timestamp', fullDate);
     }
   }, [get(formValue, 'time.date', null), get(formValue, 'time.hour', null)]);
-
-
+  
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label = 'Continue';
@@ -544,6 +554,7 @@ Contact.propTypes = {
   handleReset: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  initValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -561,13 +572,14 @@ const mapStateToProps = (state) => {
     page: get(state, 'property.activeSingleProperty.id', null),
     user: get(state, 'user.loggedInUser.user.id', null),
     deal: get(state, 'deal.activeSingleDeal.id', null),
-    type: get(state, 'user.userTypes', ''),
+    userType: get(state, 'user.userTypes', ''),
   };
   return ({
     activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.contactFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.contactFlow.values', {}),
+    initValues: get(state, 'brixelForm.offerFlow.initialValues', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),

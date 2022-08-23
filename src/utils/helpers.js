@@ -690,3 +690,21 @@ export const completedBestimate = (formValue) => {
   });
   return isValid;
 };
+
+export const transformInternalLink = (url, {activeSingleProperty}) => {
+  const mapObj = {
+    DOMAIN_HUB: '',
+    'DOMAIN.HUB': '',
+    PAGE_ID: activeSingleProperty.id,
+    'http://': '',
+    'https://': '',
+  };
+  if (!url.includes('PAGE_ID') && !url.includes('DOMAIN_HUB')) {
+    return url
+  } else {
+    const internalLink = url.replace(/PAGE_ID|DOMAIN_HUB|DOMAIN.HUB|http:\/\/|https:\/\//gi, function(matched){
+      return mapObj[matched];
+    });
+    return internalLink;
+  }
+}
