@@ -697,6 +697,7 @@ export const transformInternalLink = (url, {activeSingleProperty}) => {
   const mapObj = {
     DOMAIN_HUB: '',
     'DOMAIN.HUB': '',
+    'domain.hub': '',
     PAGE_ID: activeSingleProperty.id,
     'http://': '',
     'https://': '',
@@ -704,7 +705,7 @@ export const transformInternalLink = (url, {activeSingleProperty}) => {
   if (!url.includes('PAGE_ID') && !url.includes('DOMAIN_HUB')) {
     return url
   } else {
-    const internalLink = url.replace(/PAGE_ID|DOMAIN_HUB|DOMAIN.HUB|http:\/\/|https:\/\//gi, function(matched){
+    const internalLink = url.replace(/PAGE_ID|DOMAIN_HUB|DOMAIN.HUB|domain.hub|http:\/\/|https:\/\//gi, function(matched){
       return mapObj[matched];
     });
     return internalLink;

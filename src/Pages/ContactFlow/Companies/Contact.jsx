@@ -268,12 +268,15 @@ const Contact = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
-    if (questions[currentIndex].history && initValues.id) {
+    if (questions[currentIndex].history && initValues.company) {
       const urlData = queryString.parse(get(history, 'location.search', ''));
-      if (urlData.type) changeFieldValue('type', urlData.type);
+      if (urlData.type) {
+        changeFieldValue('type', urlData.type);
+        changeStep();
+      }
       history.push(`${BASEURL}/${questions[currentIndex].history}`);
     }
-  }, [currentIndex, initValues.id]);
+  }, [currentIndex, initValues]);
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
@@ -580,7 +583,7 @@ const mapStateToProps = (state) => {
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.contactFlow.syncErrors', {}),
     formValue: get(state, 'brixelForm.contactFlow.values', {}),
-    initValues: get(state, 'brixelForm.offerFlow.initialValues', {}),
+    initValues: get(state, 'brixelForm.contactFlow.initialValues', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
