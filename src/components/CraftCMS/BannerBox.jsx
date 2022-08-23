@@ -62,7 +62,6 @@ const BannerBox = (props) => {
           <div className="max-w-fix-512 w-perc-100">
             <h5 className="mt-3 mt-sm-0 fweight-600 fsize-600">{banner.title}</h5>
             <p className="fsize-300 my-3">{banner.description}</p>
-            {JSON.stringify(banner)}
             {
               get(banner, 'bannerButton.text', null) && get(banner, 'bannerButton.url', null) && (
                 <BrixelButtonSecondary
