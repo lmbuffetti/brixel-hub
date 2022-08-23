@@ -433,7 +433,7 @@ const ScanTrialFlow = (props) => {
                                       {
                                         questions[currentIndex].history === 'introScanTrial' && (
                                           <BrixelButtonSecondary
-                                            label={translateTo("Cancel"), lang}
+                                            label={translateTo("Cancel", lang)}
                                             rounded
                                             className="ml-a"
                                             onClick={() => closeWindow()}
