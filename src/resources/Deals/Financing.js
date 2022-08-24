@@ -16,11 +16,11 @@ export const QuestionsList = (changeVal, changeIndex, handleSetModal, lang) => {
   const successMessage = () => {
     switch (formValue.company) {
       case 'baloise':
-        return 'Your offer has been sent to the seller and will be reviewed by us. You will be informed as soon as possible.'
+        return 'We have forwarded your request. Our partner Baloise will contact you as soon as possible.'
       case 'ubs':
-        return 'Your offer has been sent to the seller and will be reviewed by us. You will be informed as soon as possible.'
+        return 'We have forwarded your request. Our partner UBS will contact you as soon as possible.'
       default:
-        return 'Your offer has been submitted to the seller and is currently pending. The seller will get back to you.'
+        return 'We have forwarded your request. Our partner will contact you as soon as possible.'
     }
   }
 
@@ -47,12 +47,14 @@ export const QuestionsList = (changeVal, changeIndex, handleSetModal, lang) => {
       customButton: [],
       unsuccessMessage: `<h6 class="mt-3 mb-2 fweight-600">${translateTo('Note', lang)}</h6><p>${translateTo('Based on the details you have provided, financing your dream home is not quite possible yet.', lang)}</p>`,
       partner: formValue.company,
-      onChangeValue: (aff, loan, affordabilityCheck, loanValueCheck, finance) => {
+      onChangeValue: (aff, loan, affordabilityCheck, loanValueCheck, finance, price) => {
         formValue.affordability = aff;
         formValue.loanToValueRatio = loan;
-        changeVal('affordabilityCheck', affordabilityCheck),
-        changeVal('loanValueCheck', loanValueCheck)
-        changeVal('finance', finance)
+        changeVal('affordabilityCheck', affordabilityCheck);
+        changeVal('loanValueCheck', loanValueCheck);
+        changeVal('finance', finance);
+        changeVal('amount', price);
+        changeVal('mortgageAmount', price - finance.equityCapital);
       }
     },
     // ONLY FOR BALOISE
