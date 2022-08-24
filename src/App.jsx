@@ -607,8 +607,7 @@ const App = (props) => {
                             <div className="dis-f jc-b a-c">
                               {
                                 teamAvatars.map((imgTeam, i) => (
-                                  <img
-                                    loading="lazy"
+                                  <img loading="lazy"
                                     key={`avt_${i.toString()}`}
                                     src={`${baseByData.shortPath}${imgTeam.path}`}
                                     alt="Support Team"

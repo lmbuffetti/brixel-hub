@@ -499,6 +499,7 @@ const Financing = (props) => {
                         initialValue: formValue,
                         ...quest,
                         onClick: (step = 1) => (questions[currentIndex + 1] ? changeStep('next', null, step, true) : closeWindow()),
+                        onCloseGoBack: () => changeStep('back'),
                         showError,
                       },
                     )
