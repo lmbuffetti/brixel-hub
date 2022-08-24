@@ -122,6 +122,12 @@ const GetStartedSeller = (props) => {
     if (dataFormAnswer.properties.propertyType === 'Building land' || dataFormAnswer.properties.propertyType === 'Commercial') {
       dataFormAnswer.properties.typology.bedrooms = 0;
     }
+    dataFormAnswer.properties.typology.bathrooms = 0;
+    dataFormAnswer.properties.parking = {
+      garage: 0,
+      outside: 0,
+      underground: 0,
+    };
     // PROPERTY DATA
     delete dataFormAnswer.login;
     if (action === 'skip') delete dataFormAnswer.baloiseInfo;

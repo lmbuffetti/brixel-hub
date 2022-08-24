@@ -192,7 +192,7 @@ const SellerSidebar = (props) => {
                 <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen300">
 
                   <ProgressRing
-                    progress={calcPercentageProEstimation(activeSingleProperty).realPerc}
+                    progress={calcPercentageProEstimation('', activeSingleProperty).realPerc}
                     size={48}
                     strokeWidth={10}
                     circleOneStroke="#DCF2E8"
@@ -200,7 +200,7 @@ const SellerSidebar = (props) => {
                     showIcon={false}
                   />
                   <div className="ml-3 fsize-300">
-                    <span>{calcPercentageProEstimation().realPerc}%</span>
+                    <span>{calcPercentageProEstimation('', activeSingleProperty).realPerc}%</span>
                     <span className="ml-small-4">
                       {translateTo('of Pro Estimation complete', lang)}
                     </span>
@@ -208,10 +208,10 @@ const SellerSidebar = (props) => {
                     <Link
                       className="dis-b mt-1 fsize-300 td-u"
                       to={{
-                        pathname: calcPercentageProEstimation(activeSingleProperty).realPerc < 100 ? `/${propID}/property/price/proEstimation` : `/${propID}/property/price`,
+                        pathname: calcPercentageProEstimation('', activeSingleProperty).realPerc < 100 ? `/${propID}/property/price/proEstimation` : `/${propID}/property/price`,
                       }}
                     >
-                      {translateTo(calcPercentageProEstimation(activeSingleProperty).realPerc < 100 ? 'Next step' : 'View', lang)}
+                      {translateTo(calcPercentageProEstimation('', activeSingleProperty).realPerc < 100 ? 'Next step' : 'View', lang)}
                     </Link>
 
                   </div>
