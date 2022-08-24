@@ -109,7 +109,7 @@ const ShowingsBuyer = (props) => {
             {
               bookingSlot.length > 0 ? (
                 <div className="dis-fl-col a-c min-h-fix-336">
-                  <img src={showingsIMG} alt="Showing Buyer" />
+                  <img loading="lazy" src={showingsIMG} alt="Showing Buyer" />
                   <h5 className="my-3">{translateTo('Thanks for your request.', lang)}</h5>
                   {
                     bookingSlot.map((day, g) => (
@@ -131,7 +131,7 @@ const ShowingsBuyer = (props) => {
                 </div>
               ) : (
                 <div className="dis-fl-col a-c min-h-fix-336">
-                  <img src={showingsEmpty} alt="Showing Buyer" />
+                  <img loading="lazy" src={showingsEmpty} alt="Showing Buyer" />
                   <h5 className="my-3">{translateTo(formValue.allowVisits === false ? 'Right now there are no showings available' : 'Request your showing', lang)}</h5>
                   {
                     formValue.allowVisits !== false && (

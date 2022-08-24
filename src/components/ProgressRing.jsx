@@ -30,7 +30,7 @@ const ProgressRing = (props) => {
     <div className="pos-r">
       {
         showIcon && (
-          <img width={size / 2.5} height={size / 2.5} className="factIcon pos-a xy-c" alt="factIcon" src={factIcon} />
+          <img loading="lazy" width={size / 2.5} height={size / 2.5} className="factIcon pos-a xy-c" alt="factIcon" src={factIcon} />
         )
       }
       <svg

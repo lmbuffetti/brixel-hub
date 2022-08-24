@@ -50,7 +50,7 @@ const IntroBuyerUBS = (props) => {
               <h5 className="fweight-600 fSizePx18"> {translateTo('Personal consultation on site or via video call.', lang)}</h5>
             </div>
             <div className="w-perc-30 w-perc-md-45 ta-r">
-              <img className="h-fix-24 mt-small-4" alt='UBS Logo' src={ubsLogo} />
+              <img loading="lazy" className="h-fix-24 mt-small-4" alt='UBS Logo' src={ubsLogo} />
             </div>
           </div>
           <div className="bulletPointsStep mb-4">
@@ -75,7 +75,7 @@ const IntroBuyerUBS = (props) => {
               <h5 className="fweight-600 fSizePx18">{translateTo('Compare offers and apply for a mortgage online.', lang)}</h5>
             </div>
             <div className="w-perc-30 w-perc-md-45 ta-r">
-              <img className="h-fix-24 mt-small-4" alt='Key4 Logo' src={key4Logo} />
+              <img loading="lazy" className="h-fix-24 mt-small-4" alt='Key4 Logo' src={key4Logo} />
             </div>
           </div>
           <div className="bulletPointsStep">

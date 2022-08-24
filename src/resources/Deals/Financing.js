@@ -12,7 +12,7 @@ export const QuestionsList = (changeVal, changeIndex, handleSetModal, lang) => {
   if (configureStore) {
     formValue = get(configureStore.getState(), 'brixelForm.offerFlow.values', []);
   }
-  
+
   const successMessage = () => {
     switch (formValue.company) {
       case 'baloise':
@@ -38,8 +38,8 @@ export const QuestionsList = (changeVal, changeIndex, handleSetModal, lang) => {
         }],
       cardType: 'loadComponent',
       history: 'financeCalculator',
-      className: 'ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100 p-3 p-sm-5',
-      footerWidth: 'max-w-fix-600',
+      className: 'max-w-fix-768 ml-a mr-a brdRadius bgWhite brdSmall brdAltGrey100',
+      footerWidth: 'max-w-fix-768',
       component: FinancingCalculator,
       country: 'CH',
       propertyPrice: formValue.propertyPrice,

@@ -316,6 +316,7 @@ function PageHeader(props) {
                   >
                     <div className={`${isFlow ? '' : 'brdSmallRight brdAltGrey200'} min-w-88 w-perc-100 h-fix-72 dis-f a-c pr-2`}>
                       <img
+                        loading="lazy"
                         onClick={() => {
                           handleSetUserTypes('seller');
                           handleSetActiveSingleProperty({});

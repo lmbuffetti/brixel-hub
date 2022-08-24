@@ -152,6 +152,7 @@ const DetailMedia = (props) => {
                   //   style={{ transform: `rotate(${rotation}deg)`, backgroundImage: `url(${getConfigEnv().shortPath}${formValue[mediaType][idImg].thumbnailPath})` }}
                   // />
                   <img
+                    loading="lazy"
                     className="max-w-perc-100 shadow-2dp brdRadius w-perc-100"
                     // style={{ transform: `rotate(${rotation}deg)` }}
                     src={imgUrl()}

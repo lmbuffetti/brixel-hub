@@ -67,7 +67,7 @@ const ArticlesBox = (props) => {
           <div className="div">
             {
               get(placement, 'logo[0]', null) && (
-                <img className="ml-2 h-fix-20 h-fix-lg-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
+                <img loading="lazy" className="ml-2 h-fix-20 h-fix-lg-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
               )
             }
           </div>

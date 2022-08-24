@@ -441,7 +441,7 @@ const ScanTrialFlow = (props) => {
                 {
                   (get(quest, 'cardType', null) === 'card') && (
                     <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                      <img src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
+                      <img loading="lazy" src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
                       <h2
                         className="fadeAnim fweight-600 ta-c"
                         dangerouslySetInnerHTML={{ __html: quest.title }}

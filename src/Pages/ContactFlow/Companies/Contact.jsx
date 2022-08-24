@@ -415,7 +415,7 @@ const Contact = (props) => {
                               get(quest, 'textsCard', []).map((txtCard, i) => (
                                 <div key={`card${i.toString()}`} className="ta-c col-md-4 p-2 p-sm-5">
                                   <div className="h-fix-80 mb-2 mb-sm-3">
-                                    <img height={'100px'} src={txtCard.image} alt={txtCard.title} />
+                                    <img loading="lazy" height={'100px'} src={txtCard.image} alt={txtCard.title} />
                                   </div>
                                   <h5 className="fsize-400 fsize-sm-500 max-w-fix-280 max-w-fix-sm-320 ml-a mr-a">{txtCard.title}</h5>
                                 </div>
@@ -428,7 +428,7 @@ const Contact = (props) => {
                     {
                       (get(quest, 'cardType', null) === 'card') && (
                         <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                          <img src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
+                          <img loading="lazy" src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
                           <h2
                             className="fadeAnim fweight-600 ta-c"
                             dangerouslySetInnerHTML={{ __html: quest.title }}

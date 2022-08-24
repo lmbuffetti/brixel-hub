@@ -356,7 +356,7 @@ const LoginSignup = (props) => {
       </div>
       <div className="w-perc-100 w-perc-lg-50 dis-fl-col a-c jc-c py-2 pt-md-0 pb-md-10">
         <div className="max-w-fix-304 dis-fl-col a-c jc-c ta-c w-perc-100 ml-a mr-a mb-6 mb-sm-10">
-          <img width="100px" src={searchResultIcon} alt="search result" />
+          <img loading="lazy" width="100px" src={searchResultIcon} alt="search result" />
           <h2
             className="fSizePx26-sm fsize-500 mt-3 fweight-600"
           >
@@ -371,7 +371,7 @@ const LoginSignup = (props) => {
             get(formValue, 'location.countryCode', '') === 'CH' ? (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"Absolutely perfect and uncomplicated"', lang)}
                   </h2>
@@ -383,7 +383,7 @@ const LoginSignup = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"We would sell with Brixel again anytime."', lang)}
                   </h2>
@@ -395,7 +395,7 @@ const LoginSignup = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"Excellent service with flexible fees."', lang)}
                   </h2>
@@ -409,7 +409,7 @@ const LoginSignup = (props) => {
             ) : (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"Always quick in responding, friendly, professional."', lang)}
                   </h2>
@@ -419,7 +419,7 @@ const LoginSignup = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"Everything went incredibly well, it doesn\'t even seem real!"', lang)}
                   </h2>
@@ -431,7 +431,7 @@ const LoginSignup = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"The sale was done even faster than expected."', lang)}
                   </h2>

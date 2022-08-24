@@ -336,6 +336,7 @@ const IntroUpgrade = (props) => {
                                                 <>
                                                   <div className="h-fix-32 dis-b">
                                                     <img
+                                                      loading="lazy"
                                                       key={`logo${x.toString()}`}
                                                       src={logo}
                                                       alt={`${activeSingleCompany.name} logo ${x}`}
@@ -549,7 +550,7 @@ const IntroUpgrade = (props) => {
 
         <div className="dis-fl-col dis-fl-row-md a-fs jc-b mt-8 max-w-fix-928 m-a">
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-            <img className="w-fix-56 w-fix-lg-104" src={BookOnlineImg} alt="Call Us" />
+            <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={BookOnlineImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
               <h6>{translateTo('Book Online', lang)}</h6>
@@ -562,7 +563,7 @@ const IntroUpgrade = (props) => {
             </div>
           </div>
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-            <img className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
+            <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={CallUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
               <h6>{translateTo('Call Us', lang)}</h6>
@@ -575,7 +576,7 @@ const IntroUpgrade = (props) => {
             </div>
           </div>
           <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-            <img className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
+            <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={WrireUsImg} alt="Call Us" />
             <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
               <h6>{translateTo('Write Us', lang)}</h6>
@@ -590,7 +591,7 @@ const IntroUpgrade = (props) => {
           {
             propID !== 'company' && (
               <div className="dis-fl-row dis-fl-col-md a-c  mb-2 mb-lg-0 ta-c-md">
-                <img className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
+                <img loading="lazy" className="w-fix-56 w-fix-lg-104" src={NotNowImg} alt="Call Us" />
                 <div className="dis-fl-col a-fs a-c-lg pl-2 pl-lg-0 mt-3">
 
                   <h6>{translateTo('Not Sure', lang)}</h6>
@@ -618,7 +619,7 @@ const IntroUpgrade = (props) => {
             get(activeSingleProperty, 'location.countryCode', '') === 'CH' ? (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
-                  <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Absolutely perfect and uncomplicated"', lang)}</i></h2>
 
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('M. Hardegger', lang)}</h5>
@@ -626,7 +627,7 @@ const IntroUpgrade = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
-                  <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"We would sell with Brixel again anytime."', lang)}</i></h2>
 
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('F. Pfiffner', lang)}</h5>
@@ -634,7 +635,7 @@ const IntroUpgrade = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
-                  <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Excellent service with flexible fees."', lang)}</i></h2>
 
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('M. Callaghan', lang)}</h5>
@@ -644,7 +645,7 @@ const IntroUpgrade = (props) => {
             ) : (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
-                  <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Always quick in responding, friendly, professional."', lang)}</i></h2>
 
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Katrien Willems', lang)}</h5>
@@ -652,7 +653,7 @@ const IntroUpgrade = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
-                  <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"Everything went incredibly well, it doesn\'t even seem real!"', lang)}</i></h2>
 
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Luca Benussi', lang)}</h5>
@@ -660,7 +661,7 @@ const IntroUpgrade = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2 max-w-fix-304">
-                  <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <img loading="lazy" src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
                   <h2 className="ta-c mb-2 fweight-600 fsize-600 fsize-sm-700"> <i>{translateTo('"The sale was done even faster than expected."', lang)}</i></h2>
 
                   <h5 className="ta-c txtPrimary400 fweight-600">{translateTo('Márcia Traça', lang)}</h5>
@@ -700,7 +701,7 @@ const IntroUpgrade = (props) => {
           propID === 'company' ? (
             <div className="px-2 px-md-0 mt-5 mt-sm-3">
               <div className="p-2 px-sm-3 bgWhite min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
-                <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
+                <img loading="lazy" className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
                 <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">{translateTo('Anybody home?', lang)}</h4>
                 <h5 className="ta-c fSizePx18 mb-2 m-a">{translateTo('For using the Brixel Hub you need at least one property.', lang)}</h5>
                 <BrixelButtonPrimary

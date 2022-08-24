@@ -79,7 +79,7 @@ const BestimateCardOverlay = (props) => {
                   {translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}
                 </span>
 
-                <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+                <img loading="lazy" src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
 
                 <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                   <span

@@ -217,7 +217,7 @@ export const PackagesComparePlans = (props) => {
                       {
                         table.td.basic && (
                           <>
-                            <img className="pt-small-6" src={table.td.basic.img} alt="" />
+                            <img loading="lazy" className="pt-small-6" src={table.td.basic.img} alt="" />
                             {table.td.basic.desc && (
                               <span className="pl-1">{translateTo(table.td.basic.desc, lang)}</span>
                             )}
@@ -233,7 +233,7 @@ export const PackagesComparePlans = (props) => {
                       {
                         table.td.private && (
                           <>
-                            <img className="pt-small-6" src={table.td.private.img} alt="" />
+                            <img loading="lazy" className="pt-small-6" src={table.td.private.img} alt="" />
                             {table.td.private.desc && (
                               <span className="pl-1">{translateTo(table.td.private.desc, lang)}</span>
                             )}
@@ -249,7 +249,7 @@ export const PackagesComparePlans = (props) => {
                       {
                         table.td.premium && (
                           <>
-                            <img className="pt-small-6" src={table.td.premium.img} alt="" />
+                            <img loading="lazy" className="pt-small-6" src={table.td.premium.img} alt="" />
                             {table.td.premium.desc && (
                               <span className="pl-1">{translateTo(table.td.premium.desc, lang)}</span>
                             )}
@@ -265,7 +265,7 @@ export const PackagesComparePlans = (props) => {
                       {
                         table.td.one && (
                           <>
-                            <img className="pt-small-6" src={table.td.one.img} alt="" />
+                            <img loading="lazy" className="pt-small-6" src={table.td.one.img} alt="" />
                             {table.td.one.desc && (
                               <span className="pl-1">{translateTo(table.td.one.desc, lang)}</span>
                             )}
