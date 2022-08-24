@@ -74,16 +74,13 @@ const ProEstimationFlow = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = () => {
-    const changeObj = diff(initialValues, formValue);
-    const objToSave = {};
-    Object.keys(changeObj).map((key) => {
-      objToSave[key] = get(formValue, key, {});
-      return null;
-    });
+    const objToSave = {properties: formValue.properties};
     if (estimation.id) {
       const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
       inputSheet.totalComplete = calcPercentageFacts().calcPerc;
       objToSave.inputSheet = inputSheet;
+      delete objToSave.location;
+      delete objToSave.changeCountry;
       const data = {
         id: activeSingleProperty.id,
         smallLoader: 'saveData',
