@@ -91,8 +91,6 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
       }
     });
   });
-  // eslint-disable-next-line no-console
-  console.log(questList, formValue);
   const Questions = questList;
   Questions.forEach((val) => {
     if (get(formValue, `inputSheet.skipSection[${val.name}]`, false)) {
@@ -117,9 +115,6 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
       countTotal += 1;
     }
   });
-  // eslint-disable-next-line no-console
-  console.log(countTotal, countDone);
-  // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   const calPerc = Math.floor((countDone * 100) / countTotal);
   const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);
   return {
