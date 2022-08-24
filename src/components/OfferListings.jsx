@@ -94,7 +94,7 @@ const OfferListings = (props) => {
                                   <div className="cur-poi" onClick={() => onChangeLocation(`/${activeSingleProperty.id}/closing/${offer.deal}`)}>
                                     {
                                       offer.deal === 'sample' ? (
-                                        <img width="40" alt="female avatar" src={femaleAvatar} />
+                                        <img loading="lazy" width="40" alt="female avatar" src={femaleAvatar} />
                                       ) : (
                                         <BrixelAvatar
                                           baseURL={getConfigEnv.shortPath}
@@ -154,7 +154,7 @@ const OfferListings = (props) => {
                     {
                       get(data[0], 'deal', null) === 'sample' && (
                         <>
-                          <img width="100%" alt="empty" src={emptyOffer} />
+                          <img loading="lazy" width="100%" alt="empty" src={emptyOffer} />
                         </>
                       )
                     }

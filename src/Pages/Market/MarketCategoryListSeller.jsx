@@ -288,7 +288,7 @@ const MarketCategoryListSeller = (props) => {
                       {translateTo('Our experts are validating the data and generating an estimation report just for you.', lang)}
                     </span>
 
-                    <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
+                    <img loading="lazy" src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
 
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                       <span>
@@ -322,7 +322,7 @@ const MarketCategoryListSeller = (props) => {
                       {translateTo('Compare your property to real transaction data to better define the pricing.', lang)}
                     </span>
 
-                    <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+                    <img loading="lazy" src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
 
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                       <span
@@ -371,7 +371,7 @@ const MarketCategoryListSeller = (props) => {
                 {translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}
               </span>
 
-              <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+              <img loading="lazy" src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
 
               <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                 <span
@@ -399,7 +399,7 @@ const MarketCategoryListSeller = (props) => {
         ownerProperties.total === 0 ? (
           <div className="px-2 px-md-0 mb-5 mb-sm-3">
             <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
-              <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
+              <img loading="lazy" className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
               <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">
                 {translateTo('Anybody home?', lang)}
               </h4>
@@ -448,7 +448,7 @@ const MarketCategoryListSeller = (props) => {
                               onClick={() => history.push(`/${prop.id}/trialRequest?url=/sell`)}
                             >
                               <div className="hide dis-b-md">
-                                <img width="176" height="158" src={testdrive} alt="testdrive" />
+                                <img loading="lazy" width="176" height="158" src={testdrive} alt="testdrive" />
                               </div>
                               <div className="ml-md-5">
                                 <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">
@@ -506,9 +506,9 @@ const MarketCategoryListSeller = (props) => {
                 <div className="marketSellBanner mb-10">
                   <div className="m-a w-perc-100">
                     <div className="brdRadius shadow-3dp p-2 mb-3 mt-3 pb-4">
-                      <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
+                      <img loading="lazy" className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
                       <hr className="lighter hide dis-b-sm pos-a-fix mt-4-neg max-w-perc-97" />
-                      <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
+                      <img loading="lazy" className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                     </div>
                   </div>
                 </div>
@@ -640,7 +640,7 @@ const MarketCategoryListSeller = (props) => {
                   className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
                 >
                   <a className="txtDark700 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
-                    <img src={article.img} alt={`Article ${i}`} />
+                    <img loading="lazy" src={article.img} alt={`Article ${i}`} />
                   </a>
                   {article.title && (<h5 className=" fweight-600 mb-1">{translateTo(article.title, lang)}</h5>)}
                   <p className="mb-2 txtDark700">{translateTo(article.desc, lang)}</p>

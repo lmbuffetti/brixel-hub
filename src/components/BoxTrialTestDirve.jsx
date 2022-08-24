@@ -38,12 +38,14 @@ const BoxTrialTestDirve = (props) => {
         isLarge ? (
           <div className="max-w-fix-144 min-h-fix-200 min-h-fix-sm-360 max-w-fix-sm-264 w-perc-100 ml-a mr-a mr-md-0 mb-2 mb-md-0">
             <img
+              loading="lazy"
               src={testdriveLarge}
               alt=""
             />
           </div>
         ) : (
           <img
+            loading="lazy"
             className={windowDimensions.width <= 590 ? 'dis-b mx-a' : ''}
             width={windowDimensions.width <= 590 ? 300 : 300}
             src={testDrive}

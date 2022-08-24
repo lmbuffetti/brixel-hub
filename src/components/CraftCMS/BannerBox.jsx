@@ -75,7 +75,7 @@ const BannerBox = (props) => {
           {
             get(banner, 'mainImage[0].url', null) && (
               <div className='ml-0 ml-sm-4 px-2 pb-1 pb-sm-0 p-sm-0 dis-f a-c jc-fe'>
-                <img className="w-fix-120" src={get(banner, 'mainImage[0].url', '')} alt={banner.mainImage[0].alt} />
+                <img loading="lazy" className="w-fix-120" src={get(banner, 'mainImage[0].url', '')} alt={banner.mainImage[0].alt} />
               </div>
             )
           }
@@ -83,7 +83,7 @@ const BannerBox = (props) => {
         {
           get(banner, 'logo[0].url', null) && (
             <div className="pos-a-fix x-r-2 x-t-2 w-fix-72">
-              <img src={banner.logo[0].url} alt={banner.logo[0].alt} />
+              <img loading="lazy" src={banner.logo[0].url} alt={banner.logo[0].alt} />
             </div>
           )
         }

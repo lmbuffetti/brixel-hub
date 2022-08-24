@@ -29,6 +29,7 @@ const CoverPropertyImage = (props) => {
       {
         coverPhoto && !loadDefImg ? (
           <img
+            loading="lazy"
             onClick={() => onClick()}
             onMouseEnter={(e) => onMouseEnter(e)}
             onMouseLeave={(e) => onMouseLeave(e)}
@@ -41,6 +42,7 @@ const CoverPropertyImage = (props) => {
           />
         ) : (
           <img
+            loading="lazy"
             onClick={() => onClick()}
             onMouseEnter={(e) => onMouseEnter(e)}
             onMouseLeave={(e) => onMouseLeave(e)}

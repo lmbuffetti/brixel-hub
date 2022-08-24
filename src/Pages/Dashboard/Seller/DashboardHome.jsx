@@ -188,7 +188,7 @@ const DashboardHome = (props) => {
             />
           </div>
           <div className="w-perc-100 max-w-fix-136">
-            <img src={bookTestDriveImg} alt="Book Test Drive" />
+            <img loading="lazy" src={bookTestDriveImg} alt="Book Test Drive" />
           </div>
         </div>
       </div>
@@ -215,6 +215,7 @@ const DashboardHome = (props) => {
           </div>
           <div className="w-perc-100 max-w-fix-136">
             <img
+              loading="lazy"
               src={contactTestDriveImg}
               alt="Book Test Drive"
             />
@@ -306,7 +307,7 @@ const DashboardHome = (props) => {
                     </div>
 
                   </div>
-                  {/* <img src={testDriveImg} alt="Test Drive" /> */}
+                  {/* <img loading="lazy" src={testDriveImg} alt="Test Drive" /> */}
                 </div>
               </div>
 
@@ -367,6 +368,7 @@ const DashboardHome = (props) => {
                   </div>
                   <div className="ml-2 ml-lg-5 w-perc-100 w-fix-xl-112 dis-f a-c">
                     <img
+                      loading="lazy"
                       src={(calcPercentageFacts().realPerc * 100) / 40 > 100 ? completedFactsImg : completeFactsImg}
                       alt="Complete Facts"
                     />
@@ -416,6 +418,7 @@ const DashboardHome = (props) => {
                   </div>
                   <div className="ml-2 ml-lg-5 w-perc-100 w-fix-xl-112 dis-f a-c">
                     <img
+                      loading="lazy"
                       onClick={() => history.push(`/${activeSingleProperty.id}/property/facts/description`)}
                       src={completeDescritpion() ? completedDescriptionImg : completeDescriptionImg}
                       alt="Complete Facts"
@@ -517,6 +520,7 @@ const DashboardHome = (props) => {
                         propertyType={get(formValue, 'properties.propertyType', undefined)}
                       />
                       <img
+                        loading="lazy"
                         className="pos-a-fix x-l-2 x-b-2 noRatio"
                         src={placeholderTextPropertyImg}
                         alt="placeholder property information"
@@ -811,6 +815,7 @@ const DashboardHome = (props) => {
                             {translateTo('We appreciate your stars.', lang)}
                           </span>
                           <img
+                            loading="lazy"
                             src={reviewSaleSvg}
                             alt="review Sale"
                           />
@@ -841,6 +846,7 @@ const DashboardHome = (props) => {
                             {translateTo('Let us know how we did', lang)}
                           </span>
                           <img
+                            loading="lazy"
                             src={surveySaleSvg}
                             alt="Survey Sale"
                           />

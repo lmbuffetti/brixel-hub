@@ -572,7 +572,7 @@ const GetStartedBuyer = (props) => {
                   {
                     (get(quest, 'cardType', null) === 'card') && (
                       <div className="scaleAnim ta-c">
-                        <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                        <img loading="lazy" src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                         <h5
                           className="fadeAnim mt-2 ta-c"
                           dangerouslySetInnerHTML={{ __html: quest.title }}

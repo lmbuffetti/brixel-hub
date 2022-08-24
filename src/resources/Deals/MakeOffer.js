@@ -107,7 +107,7 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
                   formValue.company === 'baloise' && (
                     <div className="dis-f a-c mt-3">
                       <p className="txtAltGrey400 mr-2">In partnership with</p>
-                      <img src={BaloiseLogoImg} alt="Logo Baloise" />
+                      <img loading="lazy" src={BaloiseLogoImg} alt="Logo Baloise" />
                     </div>
                   )
                 }
@@ -116,8 +116,8 @@ export const MakeOfferQuestions = (changeVal, changeIndex, handleSetModal, lang)
                   formValue.company === 'ubs' && (
                     <div className="dis-f a-c mt-3">
                       <p className="txtAltGrey400 mr-2">In partnership with</p>
-                      <img src={UBSLogoImg} alt="Logo UBS" />
-                      <img className="ml-2" src={Key4LogoImg} alt="Logo Key 4" />
+                      <img loading="lazy" src={UBSLogoImg} alt="Logo UBS" />
+                      <img loading="lazy" className="ml-2" src={Key4LogoImg} alt="Logo Key 4" />
                     </div>
                   )
                 }

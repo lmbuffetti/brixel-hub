@@ -314,7 +314,7 @@ const Documents = (props) => {
           {
             processedDocuments && Object.keys(processedDocuments).length < 1 && userType === 'buyer' && (
               <div>
-                <img className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
+                <img loading="lazy" className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
                 <h5 className="mt-3 mb-2 ta-c">{translateTo('No documents available.', lang)}</h5>
                 <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">{translateTo('Please contact the seller for further documents about this property.', lang)}</p>
               </div>
@@ -600,7 +600,7 @@ const Documents = (props) => {
                   {
                     (!documentLists || (documentLists.length === 0)) && (
                       <div>
-                        <img className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
+                        <img loading="lazy" className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
                         <h5 className="mt-3 mb-2">{translateTo('Upload your first document', lang)}</h5>
                       </div>
                     )

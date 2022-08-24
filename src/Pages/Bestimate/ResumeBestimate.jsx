@@ -166,7 +166,7 @@ function ResumeBestimate(props) {
             {
               get(marketData, 'priceDistribution', null) ? (
                 <div className="dis-fl-col a-c jc-c">
-                  <img src={emptyHouseImg} alt="Empty Market Data" />
+                  <img loading="lazy" src={emptyHouseImg} alt="Empty Market Data" />
                   <h5 className="mt-3 mb-2">
                     {translateTo('Dude. Where&apos;s my data?', lang)}
                   </h5>

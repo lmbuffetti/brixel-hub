@@ -44,6 +44,7 @@ function PageFooter(props) {
                   {
                     get(activeCompanyData, 'logos', []).map((logo, i) => (
                       <img
+                        loading="lazy"
                         key={`logo${i.toString()}`}
                         src={logo}
                         alt={`${activeSingleCompany.name} logo ${i}`}

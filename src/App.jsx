@@ -608,6 +608,7 @@ const App = (props) => {
                               {
                                 teamAvatars.map((imgTeam, i) => (
                                   <img
+                                    loading="lazy"
                                     key={`avt_${i.toString()}`}
                                     src={`${baseByData.shortPath}${imgTeam.path}`}
                                     alt="Support Team"

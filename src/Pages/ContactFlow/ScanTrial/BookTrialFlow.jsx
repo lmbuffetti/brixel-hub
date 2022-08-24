@@ -232,7 +232,7 @@ const BookTrialFlow = (props) => {
             <div>
               <div className="max-w-fix-600 dis-fl-col dis-fl-row-sm ml-a mr-a dis-f a-t jc-b">
                 <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
-                  <img className="max-w-fix-120 max-w-fix-sm-144" src={PhoneImg} alt="Phone" />
+                  <img loading="lazy" className="max-w-fix-120 max-w-fix-sm-144" src={PhoneImg} alt="Phone" />
                   <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">Phone</h4>
                   <p>{translateTo('You can call us on', lang)}</p>
                   <p>
@@ -240,7 +240,7 @@ const BookTrialFlow = (props) => {
                   </p>
                 </div>
                 <div className="w-perc-100 w-perc-sm-50 max-w-fix-sm-304 ta-c">
-                  <img className="max-w-fix-120 max-w-fix-sm-144" src={VidelCallImg} alt="Phone" />
+                  <img loading="lazy" className="max-w-fix-120 max-w-fix-sm-144" src={VidelCallImg} alt="Phone" />
                   <h4 className="mb-1 mb-1 fsize-500 fsize-sm-600">{translateTo('Video call', lang)}</h4>
                   <p>{translateTo('We use Whereby – a safe and easy tool. No installation needed.', lang)}</p>
                   {

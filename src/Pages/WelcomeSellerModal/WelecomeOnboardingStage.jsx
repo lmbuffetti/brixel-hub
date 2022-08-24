@@ -91,7 +91,7 @@ const WelecomeOnboardingStage = (props) => {
             <div className="dis-f-col jc-c a-c w-perc-100 pos-r pt-2">
               {
                 imgProperty && (
-                  <img width={315} src={imgProperty} alt={activeSingleProperty.title} />
+                  <img loading="lazy" width={315} src={imgProperty} alt={activeSingleProperty.title} />
                 )
               }
 
