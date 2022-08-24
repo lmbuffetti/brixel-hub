@@ -67,8 +67,8 @@ const Key4Registration = (props) => {
     const city = get(activeSingleProperty, 'location.city', '');
     const streetName = get(activeSingleProperty, 'location.name', '');
     const streetNumber = get(activeSingleProperty, 'location.streetNumber', '');
-    const objectType = get(activeSingleProperty, 'properties.propertyType', '') === 'Home' ? 'SINGLE_FAMILY_HOME' : 'APARTMENT';
-    const grossAnnualIncome = get(formValue, 'financeBuyer.income', get(formValue, 'finance.newIncome', 0));
+    const objectType = get(activeSingleProperty, 'properties.propertyType', '') === 'House' ? 'SINGLE_FAMILY_HOME' : 'APARTMENT';
+    const grossAnnualIncome = get(formValue, 'financeBuyer.income', get(formValue, 'finance.grossIncome', 0));
     const Equity = get(formValue, 'financeBuyer.equity', get(formValue, 'finance.equityCapital', 0));
     // eslint-disable-next-line max-len
     let url = `https://app.key4.ch/app/HVE/1?channelType=${channelType}&useCase=${useCase}&subtype=${subtype}&objectUsage=${objectUsage}&campID=${campID}&marketValue=${marketValue}&postalCode=${postalCode}&city=${city}&streetName=${streetName}&streetNumber=${streetNumber}&objectType=${objectType}&grossAnnualIncome=${grossAnnualIncome}&lang=${lang}&equity=${Equity}&riskProfile=${riskProfile}`;
