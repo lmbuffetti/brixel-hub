@@ -79,11 +79,11 @@ const Financing = (props) => {
   // GET URL PARAMS
   const propID = get(match, 'id', null);
   const dealID = get(activeSingleDeal, 'id', null);
-  
+
   // REF
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-  
+
   useEffect(() => {
     if (activeSingleProperty.id !== propID) {
       const data = {
@@ -95,7 +95,7 @@ const Financing = (props) => {
     }
     return () => destroyForm();
   }, []);
-  
+
   useEffect(() => {
     if (activeSingleDeal.id && (get(activeSingleDeal, 'closing.stageOffer.offer.status', null) && (get(activeSingleDeal, 'closing.stageOffer.offer.amount', 0) === 0 || get(activeSingleDeal, 'closing.stageOffer.offer.status', '') !== 'rejected'))) {
       //history.push({ pathname: `/buyer/${propID}/closing/${activeSingleDeal.id}` });
@@ -106,7 +106,7 @@ const Financing = (props) => {
     }
     if (activeSingleProperty.id && !activeSingleDeal.id) handleGetBuyerDeal({ id: activeSingleProperty.id });
   }, [activeSingleDeal.id, activeSingleProperty.id]);
-  
+
   useEffect(() => {
     const cost = {
       equityCapital: get(formValue, 'financeBuyer.equity', null),
@@ -126,7 +126,7 @@ const Financing = (props) => {
       changeFieldValue('loanToValueRatio', loanToValueRatio);
     }
   }, [get(formValue, 'financeBuyer.equity', null), get(formValue, 'financeBuyer.income', null)]);
-  
+
   // SET DATA BY COMPANY
   useEffect(() => {
     if (get(activeSingleCompany, 'stub', null)) {
@@ -144,7 +144,7 @@ const Financing = (props) => {
       setCookie('brixelStubCompany', activeSingleCompany.stub);
     }
   }, [activeSingleCompany.id]);
-  
+
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
@@ -154,8 +154,8 @@ const Financing = (props) => {
       history.push(`/buyer/${propID}/financingFlow/${questions[currentIndex].history}`);
     }
   }, [currentIndex, initValues.id]);
-  
-  
+
+
   // MOVE STEP FORWARD AFTER SAVING
   useEffect(() => {
     if (isSmallLoading.sendData === true && questions[currentIndex + 1]) {
@@ -165,11 +165,11 @@ const Financing = (props) => {
       setIsToSave(true);
     }
   }, [isSmallLoading]);
-  
+
   useEffect(() => {
     if (activeSingleProperty.id && loggedInUser.id) initForm(initialValues);
   }, [loggedInUser.id, activeSingleProperty.id]);
-  
+
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     handleReset('offerFlow');
@@ -177,7 +177,7 @@ const Financing = (props) => {
     localStorage.removeItem('backUrl');
     history.push(url || `/buyer/${propID}/closing/${dealID}`);
   };
-  
+
   // FUNCTION TO SAVE DATA
   const saveData = () => {
     const doc = get(formValue, 'document', []);
@@ -220,7 +220,7 @@ const Financing = (props) => {
       }
     }
   };
-  
+
   const progressBarCalc = () => {
     let num = 0;
     questions.forEach((item) => {
@@ -241,7 +241,7 @@ const Financing = (props) => {
     });
     return (currentIndex * 100) / (num);
   };
-  
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -264,7 +264,7 @@ const Financing = (props) => {
     }
     return newIndex;
   };
-  
+
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -293,10 +293,10 @@ const Financing = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-  
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
-  
+
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
@@ -350,7 +350,7 @@ const Financing = (props) => {
               document.body.prepend(fakeInput);
               fakeInput.focus();
             }
-            
+
             setTimeout(() => {
               const fakeInput = document.getElementById('fakeInput');
               const getCurStep = document.getElementById(`step-${defId}`);
@@ -376,7 +376,7 @@ const Financing = (props) => {
     }
     return null;
   };
-  
+
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     const newQuest = [];
@@ -404,13 +404,13 @@ const Financing = (props) => {
       changeStep('next', null, 1, true);
     }
   }, [formValue, get(formValue, 'document', null)]);
-  
+
   useEffect(() => {
     if (has(formValue, 'document') && get(formValue, 'document', []).length === 0) {
       delete formValue.document;
     }
   }, [get(formValue, 'document', null)]);
-  
+
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
@@ -421,13 +421,13 @@ const Financing = (props) => {
     else label = 'Continue';
     return label;
   };
-  
+
   const buttonContinueClick = () => {
     if ((affordability > 33 || loanToValueRatio > maxLoanRatio) && questions[currentIndex].history === 'key4Registration') closeWindow();
     else if (questions[currentIndex + 1]) changeStep();
     else closeWindow();
   };
-  
+
   if (!formValue.id && !activeSingleCompany.id) return '<div />'
 
   return (
@@ -448,7 +448,7 @@ const Financing = (props) => {
           )
         }
       </div>
-      
+
       <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
         <form
           id="multiStepForm"
@@ -486,7 +486,7 @@ const Financing = (props) => {
                           </div>
                         )
                       }
-                    
+
                     </div>
                   )
                 }
