@@ -42,6 +42,11 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
 
   let propertyType = propType;
   let company = null;
+  
+  const conditionStatus = factsOptions.conditionStatus.map((item) => ({
+    ...item,
+    label: translateTo(item.label, lang)
+  }));
 
   if (configureStore) {
     company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
@@ -365,7 +370,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
             classNameBox: 'brdRadius max-w-fix-384 w-perc-100 px-2 px-sm-5 py-5 brdRadius fieldHolder bgWhite m-a',
             component: BrixelRadioButton,
             name: 'properties.building.conditiontatus',
-            options: factsOptions.conditiontatus,
+            options: conditionStatus,
             validation: [Validation.required],
           }
         ],
