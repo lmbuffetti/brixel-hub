@@ -119,7 +119,7 @@ const MarketCategoryListBuyer = (props) => {
     }
   }, [loggedInUser.id]);
   
-
+  
   // Update data by user screen
   useEffect(() => {
     if (windowDimensions.width < 768) setWishProp(1);

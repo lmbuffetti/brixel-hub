@@ -55,6 +55,7 @@ const Tour = (props) => {
                   {
                     get(formValue, 'virtual.matterport', null) && (
                       <img
+                        loading="lazy"
                         className="dis-b w-perc-100"
                         src={`${baseByData.shortPath}${get(formValue, 'coverPhoto.path', '')}`}
                         alt="Cover"

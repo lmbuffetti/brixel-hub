@@ -266,7 +266,7 @@ const Photos = (props) => {
                   {
                     (!fixPhotos || (fixPhotos && fixPhotos.length === 0)) && (
                       <div>
-                        <img className="w-perc-100 h-fix-120" src={uploadFloorPlansEmpty} alt="Empty State" />
+                        <img loading="lazy" className="w-perc-100 h-fix-120" src={uploadFloorPlansEmpty} alt="Empty State" />
                         <h5 className="mt-3 mb-2">{translateTo('Upload your floor Plans', lang)}</h5>
                       </div>
                     )

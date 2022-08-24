@@ -175,7 +175,7 @@ const SellerSidebar = (props) => {
                     </span>
                     <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
                     <span className="ml-small-4">
-                      {translateTo('uplaoded on your docubox', lang)}
+                      {translateTo('uploaded on your docubox', lang)}
                     </span>
 
                     <Link
@@ -208,7 +208,7 @@ const SellerSidebar = (props) => {
                     <Link
                       className="dis-b mt-1 fsize-300 td-u"
                       to={{
-                        pathname: calcPercentageProEstimation().realPerc < 100 ? `/${propID}/property/price/formFlow` : `/${propID}/property/price`,
+                        pathname: calcPercentageProEstimation().realPerc < 100 ? `/${propID}/property/price/proEstimation` : `/${propID}/property/price`,
                       }}
                     >
                       {translateTo(calcPercentageProEstimation().realPerc < 100 ? 'Next step' : 'View', lang)}
@@ -278,7 +278,7 @@ const SellerSidebar = (props) => {
 
 SellerSidebar.propTypes = {
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeSingleProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,

@@ -24,9 +24,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import isArray from 'lodash/isArray';
 import queryString from 'query-string';
-import { checkBrowser } from '../../utils/helpers';
-import { ScanTrialQuestions } from '../../resources/Flows/ScanTrialRequest';
-import { sendScanTrialRequest } from '../../actions/PropertyActions';
+import { checkBrowser } from '../../../utils/helpers';
+import { ScanTrialQuestions } from '../../../resources/Flows/ScanTrialRequest';
+import { sendScanTrialRequest } from '../../../actions/PropertyActions';
 
 const ScanTrialFlow = (props) => {
   const history = {
@@ -50,26 +50,26 @@ const ScanTrialFlow = (props) => {
     handleReset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(ScanTrialQuestions());
+  const [questions, setQuestions] = useState(ScanTrialQuestions(lang));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(formValue.analysis === 'remote' || urlParams.action === 'on-site' ? 3 : 0);
-  const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
+  const [quest, setQuest] = useState(ScanTrialQuestions(lang)[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
-  
+
   // REF
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
-  
+
   useEffect(() => {
     localStorage.setItem('brixelRegField', JSON.stringify({}));
     return () => destroyForm();
   }, []);
-  
+
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
@@ -77,7 +77,7 @@ const ScanTrialFlow = (props) => {
       history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
-  
+
   useEffect(() => {
     if (!isSmallLoading.sendData && (questions[currentIndex + 1] && questions[currentIndex + 1].history === 'success')) {
       const newIndex = currentIndex + 1;
@@ -85,7 +85,7 @@ const ScanTrialFlow = (props) => {
       setQuest(questions[newIndex]);
     }
   }, [isSmallLoading]);
-  
+
   // ON CLOSE WINDOW GO BACK TO ORIGIN URL
   const closeWindow = () => {
     handleReset('scanFlow');
@@ -93,12 +93,12 @@ const ScanTrialFlow = (props) => {
     localStorage.removeItem('backUrl');
     history.push(url || `/${propID}/home`);
   };
-  
+
   const goToFacts = () => {
     handleReset('scanFlow');
     history.push(`/${propID}/property/facts/propertyType`);
   };
-  
+
   // FUNCTION TO SAVE DATA
   const saveData = () => {
     if (!saved) {
@@ -136,7 +136,7 @@ const ScanTrialFlow = (props) => {
       handleSendScanTrial(data);
     }
   };
-  
+
   // FUNCTION TO SHOW/HIDE BLOCK IN BASE OF JSON CONDITION
   const checkCondition = (id, act) => {
     let newIndex = id;
@@ -159,7 +159,7 @@ const ScanTrialFlow = (props) => {
     }
     return newIndex;
   };
-  
+
   // CHECK IF FIELDS IS VALID TO ENABLE NEXT BUTTON
   const checkValidateField = (act) => {
     let isValid = true;
@@ -191,7 +191,7 @@ const ScanTrialFlow = (props) => {
     if (act === 'value') return isValid && isNotEmpty;
     return isValid;
   };
-  
+
   const singleStepEl = singleStepRef.current;
   const multiStepSlidesEl = multiStepSlidesRef.current;
   // FUNCTION TO GO TO NEXT STEP
@@ -262,19 +262,19 @@ const ScanTrialFlow = (props) => {
     }
     return null;
   };
-  
+
   useEffect(() => {
     initForm(initialValues);
     const defId = checkCondition(currentIndex);
     if (defId !== currentIndex) changeStep();
   }, [activeSingleProperty]);
-  
+
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
     setOldIndex(currentIndex);
     const newQuest = [];
     if (formValue) {
-      ScanTrialQuestions('en').map((quests) => {
+      ScanTrialQuestions(lang).map((quests) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
@@ -297,7 +297,7 @@ const ScanTrialFlow = (props) => {
     }
     if (currentIndex === 0 && formValue.analysis === 'remote') changeStep();
   }, [formValue]);
-  
+
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label;
@@ -306,10 +306,10 @@ const ScanTrialFlow = (props) => {
     else label = 'Continue';
     return label;
   };
-  
+
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
-      
+
       <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
         <form
           id="multiStepForm"
@@ -347,7 +347,7 @@ const ScanTrialFlow = (props) => {
                           disableDelay
                         />
                       </div>
-                    
+
                     </div>
                   )
                 }
@@ -368,7 +368,7 @@ const ScanTrialFlow = (props) => {
                 {
                   (get(quest, 'cardType', null) === 'card') && (
                     <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                      <img src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
+                      <img loading="lazy" src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
                       <h2
                         className="fadeAnim fweight-600 ta-c"
                         dangerouslySetInnerHTML={{ __html: quest.title }}
@@ -429,17 +429,30 @@ const ScanTrialFlow = (props) => {
                               <>
                                 {
                                   (questions[currentIndex].history !== 'BookTrialFlow' || get(formValue, 'analysis', null) !== 'remote') && (
-                                    <BrixelButtonPrimary
-                                      className={`noWrap ml-a mr-a ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
-                                      disabled={!checkValidateField()}
-                                      rounded
-                                      theme="green"
-                                      themeSat={600}
-                                      label={translateTo(buttonLabel(), lang)}
-                                      rightIcon="arrow-right-small"
-                                      onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
-                                      onShowError={() => setShowError(true)}
-                                    />
+                                    <>
+                                      {
+                                        questions[currentIndex].history === 'introScanTrial' && (
+                                          <BrixelButtonSecondary
+                                            label={translateTo("Cancel", lang)}
+                                            rounded
+                                            bgTransparent
+                                            className="ml-sm-a mb-1 mb-sm-0"
+                                            onClick={() => closeWindow()}
+                                          />
+                                        )
+                                      }
+                                      <BrixelButtonPrimary
+                                        className={`noWrap ${questions[currentIndex].history === 'introScanTrial' ? 'ml-sm-2 mr-sm-a' : 'ml-a mr-a'} ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
+                                        disabled={!checkValidateField()}
+                                        rounded
+                                        theme="green"
+                                        themeSat={600}
+                                        label={translateTo(buttonLabel(), lang)}
+                                        rightIcon="arrow-right-small"
+                                        onClick={() => (questions[currentIndex + 1] ? changeStep() : goToFacts())}
+                                        onShowError={() => setShowError(true)}
+                                      />
+                                    </>
                                   )
                                 }
                               </>
@@ -535,7 +548,7 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset(form)));
   },
   handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),
-  
+
 });
 
 export default compose(

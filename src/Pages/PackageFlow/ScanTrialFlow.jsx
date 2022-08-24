@@ -55,10 +55,10 @@ const ScanTrialFlow = (props) => {
     handleReset,
   } = props;
   // STATE
-  const [questions, setQuestions] = useState(ScanTrialQuestions());
+  const [questions, setQuestions] = useState(ScanTrialQuestions(lang));
   // const [position, setPosition] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [quest, setQuest] = useState(ScanTrialQuestions()[0]);
+  const [quest, setQuest] = useState(ScanTrialQuestions(lang)[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -335,7 +335,7 @@ const ScanTrialFlow = (props) => {
     const newQuest = [];
     setOldIndex(currentIndex);
     if (formValue) {
-      ScanTrialQuestions('en').map((quests) => {
+      ScanTrialQuestions(lang).map((quests) => {
         if (quests.condition) {
           let isValid = true;
           quests.condition.map((item) => {
@@ -441,7 +441,7 @@ const ScanTrialFlow = (props) => {
                 {
                   (get(quest, 'cardType', null) === 'card') && (
                     <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                      <img src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
+                      <img loading="lazy" src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
                       <h2
                         className="fadeAnim fweight-600 ta-c"
                         dangerouslySetInnerHTML={{ __html: quest.title }}

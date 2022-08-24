@@ -28,6 +28,7 @@ import Testimonial3CH from '../images/getstarted/testimonial-3_CH.jpeg';
 import Testimonial1PT from '../images/getstarted/testimonial-1_PT.jpg';
 import Testimonial2PT from '../images/getstarted/testimonial-2_PT.jpg';
 import Testimonial3PT from '../images/getstarted/testimonial-3_PT.jpg';
+import searchResultIcon from '../images/getstarted/search-result.svg';
 import { translateTo } from '../utils/translation';
 
 // COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
@@ -202,7 +203,7 @@ const LoginSignup = (props) => {
   }
 
   return (
-    <div className="signUpScreen pos-r dis-f flex-wrap w-perc-100">
+    <div className="signUpScreen pos-r dis-f jc-c flex-wrap w-perc-100">
       <div className="m-a mt-0 max-w-fix-600 w-perc-100">
         <div className="mr-a ml-a onBoardingSignUp">
           {
@@ -353,15 +354,25 @@ const LoginSignup = (props) => {
           </div>
         </div>
       </div>
-      <div className="w-perc-100 w-perc-lg-50 dis-f a-c py-2 pt-md-0 pb-md-10">
-        <div className="max-w-fix-304 w-perc-100 ml-a mr-a testimonialsSlide">
+      <div className="w-perc-100 w-perc-lg-50 dis-fl-col a-c jc-c py-2 pt-md-0 pb-md-10">
+        <div className="max-w-fix-304 dis-fl-col a-c jc-c ta-c w-perc-100 ml-a mr-a mb-6 mb-sm-10">
+          <img loading="lazy" width="100px" src={searchResultIcon} alt="search result" />
+          <h2
+            className="fSizePx26-sm fsize-500 mt-3 fweight-600"
+          >
+            <span>{translateTo('Hundreds of', lang)}</span>
+            <span className="txtGreen400 mx-1">{translateTo('potential buyers', lang)}</span>
+            <span>{translateTo('are waiting for your property', lang)}</span>
+          </h2>
+        </div>
+        <div className="max-w-fix-440 w-perc-100 ml-a mr-a testimonialsSlide">
 
           {
             get(formValue, 'location.countryCode', '') === 'CH' ? (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">
+                  <img loading="lazy" src={Testimonial1CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"Absolutely perfect and uncomplicated"', lang)}
                   </h2>
 
@@ -372,34 +383,34 @@ const LoginSignup = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">
+                  <img loading="lazy" src={Testimonial2CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"We would sell with Brixel again anytime."', lang)}
                   </h2>
 
                   <h5 className="ta-c txtPrimary400">F. Pfiffner</h5>
                   <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved CHF 30&apos;700', lang)}
+                    {translateTo("Saved CHF 30'700", lang)}
                   </p>
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">
+                  <img loading="lazy" src={Testimonial3CH} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"Excellent service with flexible fees."', lang)}
                   </h2>
 
                   <h5 className="ta-c txtPrimary400">M. Callaghan</h5>
                   <p className="ta-c txtPrimary400 fsize-500">
-                    {translateTo('Saved CHF 44&apos;050', lang)}
+                    {translateTo("Saved CHF 44'050", lang)}
                   </p>
                 </div>
               </Slider>
             ) : (
               <Slider ref={sliderInstance} {...settingSlider}>
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">
+                  <img loading="lazy" src={Testimonial1PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"Always quick in responding, friendly, professional."', lang)}
                   </h2>
 
@@ -408,8 +419,8 @@ const LoginSignup = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">
+                  <img loading="lazy" src={Testimonial2PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"Everything went incredibly well, it doesn\'t even seem real!"', lang)}
                   </h2>
 
@@ -420,8 +431,8 @@ const LoginSignup = (props) => {
                 </div>
 
                 <div className="ta-c ml-a mr-a mb-2">
-                  <img src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
-                  <h2 className="ta-c mb-2 fweight-600">
+                  <img loading="lazy" src={Testimonial3PT} alt="Fabian Testimonial" className="max-w-fix-96 ml-a mr-a mb-3" />
+                  <h2 className="ta-c mb-2 fweight-600 fSizePx26-sm fsize-500">
                     {translateTo('"The sale was done even faster than expected."', lang)}
                   </h2>
 

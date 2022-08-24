@@ -10,7 +10,7 @@ import { DateTime } from 'luxon';
 import {
   BrixelButtonSecondary, BrixelIcon, Helpers, translateTo,
 } from '@brixel/brixel-components';
-import ReviewOffer from '../Pages/Offers/ReviewOffer';
+import ReviewOffer from '../Pages/Closing/Offers/ReviewOffer';
 import { setSplashType } from '../actions/CommonActions';
 import ClosingTree from './Skeleton/ClosingTree';
 
@@ -247,8 +247,8 @@ const BrixelClosingTree = (props) => {
                     />
                   ) : (
                     <>
-                      { get(activeSingleOffer, 'offer.amount', 0) > 0 &&
-                        get(activeSingleOffer, 'offer.status', '') !== 'rejected' ? (
+                      {
+                        get(activeSingleOffer, 'offer.amount', 0) > 0 && get(activeSingleOffer, 'offer.status', '') !== 'rejected' ? (
                           <div className="dis-f a-c jc-b w-perc-100">
                             <div className="dis-f a-c">
                               <BrixelIcon
@@ -283,7 +283,7 @@ const BrixelClosingTree = (props) => {
               <div className="p-2">
                 {
                   get(activeSingleOffer, 'offer.amount', 0) > 0 &&
-                    get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
+                  get(activeSingleOffer, 'offer.status', '') !== 'rejected' && (
                     <>
                       {
                         get(activeSingleOffer, 'offer.createdAt', null) && (
@@ -865,7 +865,7 @@ const BrixelClosingTree = (props) => {
                     <div className="secHead p-2 h-fix-56 dis-f jc-b">
                       <div className="">
                         <span
-                          className={`brdCircle bgGreen400 dis-ib h-fix-24 w-fix-24 txtWhite ta-c ff-mono fsize300`}>
+                          className="brdCircle bgGreen400 dis-if a-c jc-c h-fix-24 w-fix-24 txtWhite ta-c ff-mono fsize300">
                           {i + 1}
                         </span>
                         <span className="fsize-400 fweight-600 pl-1">

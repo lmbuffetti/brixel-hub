@@ -8,11 +8,11 @@ import {
   BrixelButtonIcon, translateTo,
 } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import AnalyseImg from '../../images/scanTrial/analyse.png';
-import DeliverImg from '../../images/scanTrial/deliver.png';
-import YourTestImg from '../../images/scanTrial/your_test.png';
-import DecideImg from '../../images/scanTrial/decide.png';
-import { setWindowDimensions } from '../../actions/CommonActions';
+import AnalyseImg from '../../../images/scanTrial/analyse.png';
+import DeliverImg from '../../../images/scanTrial/deliver.png';
+import YourTestImg from '../../../images/scanTrial/your_test.png';
+import DecideImg from '../../../images/scanTrial/decide.png';
+import { setWindowDimensions } from '../../../actions/CommonActions';
 
 const IntroScanFlow = (props) => {
   // PROPS
@@ -55,7 +55,7 @@ const IntroScanFlow = (props) => {
         <Slider ref={sliderInstance} {...settingSlider()}>
           <div className="">
             <div className="brdRadius ov-h ta-c">
-              <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={AnalyseImg} alt="text-1" />
+              <img loading="lazy" className="w-perc-100 max-w-fix-144 ml-a mr-a" src={AnalyseImg} alt="text-1" />
               <div className="pos-r my-1">
                 <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-r-0" />
                 <div className="roundDot ml-a mr-a" />
@@ -69,7 +69,7 @@ const IntroScanFlow = (props) => {
 
           <div className="">
             <div className="brdRadius ov-h ta-c">
-              <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DeliverImg} alt="text-1" />
+              <img loading="lazy" className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DeliverImg} alt="text-1" />
               <div className="pos-r my-1">
                 <hr className="divider-line-mobile" />
                 <div className="roundDot ml-a mr-a" />
@@ -83,7 +83,7 @@ const IntroScanFlow = (props) => {
 
           <div className="">
             <div className="brdRadius ov-h ta-c">
-              <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={YourTestImg} alt="text-1" />
+              <img loading="lazy" className="w-perc-100 max-w-fix-144 ml-a mr-a" src={YourTestImg} alt="text-1" />
               <div className="pos-r my-1">
                 <hr className="divider-line-mobile" />
                 <div className="roundDot ml-a mr-a" />
@@ -97,7 +97,7 @@ const IntroScanFlow = (props) => {
 
           <div className="">
             <div className="brdRadius ov-h ta-c">
-              <img className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DecideImg} alt="text-1" />
+              <img loading="lazy" className="w-perc-100 max-w-fix-144 ml-a mr-a" src={DecideImg} alt="text-1" />
               <div className="pos-r my-1">
                 <hr className="divider-line-mobile max-w-perc-50 pos-a-fix x-l-0" />
                 <div className="roundDot ml-a mr-a" />
@@ -117,25 +117,25 @@ const IntroScanFlow = (props) => {
               <div className="row">
                 <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-120" src={AnalyseImg} alt="text-1" />
+                    <img loading="lazy" className="w-perc-100 max-w-fix-120" src={AnalyseImg} alt="text-1" />
                   </div>
                 </div>
 
                 <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-120" src={DeliverImg} alt="text-1" />
+                    <img loading="lazy" className="w-perc-100 max-w-fix-120" src={DeliverImg} alt="text-1" />
                   </div>
                 </div>
 
                 <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-120" src={YourTestImg} alt="text-1" />
+                    <img loading="lazy" className="w-perc-100 max-w-fix-120" src={YourTestImg} alt="text-1" />
                   </div>
                 </div>
 
                 <div className="col-3 fadeIn">
                   <div className="ov-h ta-c">
-                    <img className="w-perc-100 max-w-fix-120" src={DecideImg} alt="text-1" />
+                    <img loading="lazy" className="w-perc-100 max-w-fix-120" src={DecideImg} alt="text-1" />
                   </div>
                 </div>
               </div>
@@ -148,7 +148,7 @@ const IntroScanFlow = (props) => {
 
               <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
-                  {/* <img className="w-perc-100 max-w-fix-144" src={AnalyseImg} alt="text-1" /> */}
+                  {/* <img loading="lazy" className="w-perc-100 max-w-fix-144" src={AnalyseImg} alt="text-1" /> */}
                   <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">{translateTo('We analyse', lang)}</h4>
                   <p className="max-w-fix-280 m-a">
@@ -159,7 +159,7 @@ const IntroScanFlow = (props) => {
 
               <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
-                  {/* <img className="w-perc-100 max-w-fix-144" src={DeliverImg} alt="text-1" /> */}
+                  {/* <img loading="lazy" className="w-perc-100 max-w-fix-144" src={DeliverImg} alt="text-1" /> */}
                   <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">{translateTo('We deliver', lang)}</h4>
                   <p className="max-w-fix-280 m-a">
@@ -170,7 +170,7 @@ const IntroScanFlow = (props) => {
 
               <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
-                  {/* <img className="w-perc-100 max-w-fix-144" src={YourTestImg} alt="text-1" /> */}
+                  {/* <img loading="lazy" className="w-perc-100 max-w-fix-144" src={YourTestImg} alt="text-1" /> */}
                   <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">{translateTo('You test', lang)}</h4>
                   <p className="max-w-fix-280 m-a">
@@ -181,7 +181,7 @@ const IntroScanFlow = (props) => {
 
               <div className="col-12 col-sm-3 mb-2 mb-sm-0 fadeIn">
                 <div className="brdRadius ov-h ta-c">
-                  {/* <img className="w-perc-100 max-w-fix-144" src={DecideImg} alt="text-1" /> */}
+                  {/* <img loading="lazy" className="w-perc-100 max-w-fix-144" src={DecideImg} alt="text-1" /> */}
                   <div className="roundDot ml-a mr-a" />
                   <h4 className="fweight-600 my-3 mb-1">{translateTo('You decide', lang)}</h4>
                   <p className="max-w-fix-280 m-a">

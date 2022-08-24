@@ -43,7 +43,6 @@ const Dashboard = (props) => {
     handleGetBuyerDeal,
     handleSetUserTypes,
     loggedInUser,
-    favoritesProperties,
   } = props;
 
   // GET URL PARAMS
@@ -73,20 +72,24 @@ const Dashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    const activeLeads = get(activeSingleProperty, 'pageLeads[0]', { });
-    if (activeLeads && activeLeads.company && activeLeads.company !== activeSingleCompany.id) {
-      handleGetActiveSingleCompany({ id: activeLeads.company });
-    } else if (activeSingleProperty.id) {
-      handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
+    if (activeSingleProperty.id) {
+      const activeLeads = get(activeSingleProperty.company, 'pageLeads[0]', {});
+      if (activeLeads && activeLeads.company && activeLeads.company !== activeSingleCompany.id) {
+        handleGetActiveSingleCompany({ id: activeLeads.company });
+      } else if (activeSingleProperty.id) {
+        handleGetActiveSingleCompany({ id: activeSingleProperty.company });
+      } else {
+        handleGetActiveSingleCompany({ id: get(loggedInUser, 'user.company.id', null) });
+      }
+      if (dealID !== activeSingleDeal.id || !dealID) {
+        let actionStub;
+        if (get(history, 'location.pathname', '').includes('showings')) actionStub = 'user-schedule';
+        if (get(history, 'location.pathname', '').includes('docubox')) actionStub = 'get-document';
+        if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
+        handleGetBuyerDeal({ id: propID, actionStub });
+      }
     }
-    if (dealID !== activeSingleDeal.id || !dealID) {
-      let actionStub;
-      if (get(history, 'location.pathname', '').includes('showings')) actionStub = 'user-schedule';
-      if (get(history, 'location.pathname', '').includes('docubox')) actionStub = 'get-document';
-      if (get(history, 'location.pathname', '').includes('contact')) actionStub = 'message';
-      handleGetBuyerDeal({ id: propID, actionStub });
-    }
-  }, [propID]);
+  }, [activeSingleProperty.id]);
 
   useEffect(() => {
     if (propID && propID !== 'propertyLists' && loggedInUser.id) {
@@ -97,7 +100,7 @@ const Dashboard = (props) => {
       };
       handleGetActiveSingleProperty(data);
     }
-  }, [propID, favoritesProperties, loggedInUser]);
+  }, [propID, loggedInUser]);
 
   // FUNCTION TO RESET FORM ON CHANGE SECTIONS - EXCEPT FOR FACTS AND ACHIEVEMENT FLOW
   useEffect(() => {
@@ -126,7 +129,7 @@ const Dashboard = (props) => {
         </div>
         {
           get(history, 'location.pathname', '').includes('home') && (
-            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+            <div className="historySidebar w-perc-100 max-w-fix-360">
               <SidebarBuyer />
             </div>
           )
@@ -140,7 +143,6 @@ Dashboard.propTypes = {
   activeSingleCompany: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   activeSingleDeal: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
-  favoritesProperties: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
   handleGetActiveSingleProperty: PropTypes.func.isRequired,
   handleGetBuyerDeal: PropTypes.func.isRequired,
@@ -171,12 +173,12 @@ const mapDispatchToProps = (dispatch) => ({
     (dispatch(reset('Property', data)));
   },
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
-  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
+  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleGetBuyerDeal: bindActionCreators(getBuyerDeal, dispatch),
   handleGetFavoritesProperties: bindActionCreators(getFavoritesProperties, dispatch),
   handleGetUserPagesDeals: bindActionCreators(getUserPagesDeals, dispatch),
-  handleGetActiveSingleProperty: bindActionCreators(getActiveSingleProperty, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
+  handleSpinnerOff: bindActionCreators(spinnerOff, dispatch),
 });
 
 export default compose(

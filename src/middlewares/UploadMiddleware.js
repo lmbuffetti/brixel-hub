@@ -31,7 +31,7 @@ import {
   SPINNER_SMALL,
   REQUEST_DONE,
 } from '../actions/types/CommonTypes';
-import { SAVE_CLOSING_IDENTIFICATION, SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
+import { SAVE_CLOSING_IDENTIFICATION, SAVE_FINANCING_REQUEST, SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -367,6 +367,19 @@ const checkCommon = (store) => (next) => (action) => {
           };
           data.smallLoader = smallLoader;
           store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
+        } else if (saveAction === 'financing') {
+          const dataOffer = action.payload;
+          delete dataOffer.document;
+          const document = [];
+          res.forEach((doc) => {
+            document.push(doc.data);
+          });
+          const data = {
+            ...dataOffer,
+            documents: document,
+          };
+          data.smallLoader = smallLoader;
+          store.dispatch({ type: SAVE_FINANCING_REQUEST, payload: data });
         } else if (saveAction === 'closingIdentification') {
           const dataIdentification = action.payload;
           dataIdentification.persons.forEach((person, id) => {

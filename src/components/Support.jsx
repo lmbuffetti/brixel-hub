@@ -87,6 +87,7 @@ const Support = (props) => {
                           {
                             teamAvatars.map((imgTeam, i) => (
                               <img
+                                loading="lazy"
                                 key={`rmAvt_${i.toString()}`}
                                 src={`${baseByData.shortPath}${imgTeam.path}`}
                                 alt="Support Team"
@@ -140,6 +141,7 @@ const Support = (props) => {
                     {
                       teamAvatars.map((imgTeam, i) => (
                         <img
+                          loading="lazy"
                           key={`tmAvt_${i.toString()}`}
                           src={`${baseByData.shortPath}${imgTeam.path}`}
                           alt="Support Team"

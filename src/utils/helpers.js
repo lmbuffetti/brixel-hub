@@ -78,10 +78,12 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
         let isValid = true;
         if (mergeCondition.length > 0) {
           mergeCondition.forEach((item) => {
-            if (item.value && item.value !== get(formValue, item.name, null)) {
-              isValid = false;
-            } else if (item.noValue && item.noValue === get(formValue, item.name, null)) {
-              isValid = false;
+            if (isValid) {
+              if (item.value && item.value !== get(formValue, item.name, null)) {
+                isValid = false;
+              } else if (item.noValue && item.noValue === get(formValue, item.name, null)) {
+                isValid = false;
+              }
             }
           });
         }
@@ -113,7 +115,7 @@ export const calcPercentageProEstimation = (form = 'Property', value = {}) => {
       countTotal += 1;
     }
   });
-
+  
   // const inputSheet = cloneDeep(get(formValue, 'inputSheet', {}) || {});
   const calPerc = Math.floor((countDone * 100) / countTotal);
   const savedPerc = Math.floor(get(formValue, 'inputSheet.totalComplete', 0) || 0);
@@ -567,7 +569,6 @@ export const tobase64Handler = async (files, user, action, pageID, imgType, docT
   const mappedFiles = filePaths.map((base64File) => {
     if (action === 'documents') {
       let name = get(base64File, 'name', Date.now() / 1000);
-      if (docType && docType !== 'Generic') name = docType;
       return {
         name,
         user,
@@ -691,3 +692,22 @@ export const completedBestimate = (formValue) => {
   });
   return isValid;
 };
+
+export const transformInternalLink = (url, {activeSingleProperty}) => {
+  const mapObj = {
+    DOMAIN_HUB: '',
+    'DOMAIN.HUB': '',
+    'domain.hub': '',
+    PAGE_ID: activeSingleProperty.id,
+    'http://': '',
+    'https://': '',
+  };
+  if (!url.includes('PAGE_ID') && !url.includes('DOMAIN_HUB')) {
+    return url
+  } else {
+    const internalLink = url.replace(/PAGE_ID|DOMAIN_HUB|DOMAIN.HUB|domain.hub|http:\/\/|https:\/\//gi, function(matched){
+      return mapObj[matched];
+    });
+    return internalLink;
+  }
+}

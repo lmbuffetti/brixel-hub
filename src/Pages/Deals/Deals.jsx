@@ -449,8 +449,8 @@ const Deals = (props) => {
                                                   (emptyDeals && smallLoader.loadDeal) && (
                                                     <>
                                                       <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{translateTo(subkey, lang)}</span>
-                                                      <img src={DealSkelton} alt="skelton deals" />
-                                                      { subkey === 'interested' && (<img className="mt-3 mb-2" src={DealSkelton} alt="skelton deals" />)}
+                                                      <img loading="lazy" src={DealSkelton} alt="skelton deals" />
+                                                      { subkey === 'interested' && (<img loading="lazy" className="mt-3 mb-2" src={DealSkelton} alt="skelton deals" />)}
                                                     </>
                                                   )
                                                 }
