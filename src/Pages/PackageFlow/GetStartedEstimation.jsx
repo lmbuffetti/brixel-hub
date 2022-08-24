@@ -156,6 +156,12 @@ const GetStartedEstimation = (props) => {
     // PROPERTY DATA
     delete dataFormAnswer.login;
     if (get(dataFormAnswer, 'estimationType', '') === 'seller' && action === 'skip') delete dataFormAnswer.baloiseInfo;
+    dataFormAnswer.properties.typology.bathrooms = 0;
+    dataFormAnswer.properties.parking = {
+      garage: 0,
+      outside: 0,
+      underground: 0,
+    };
     let data = {
       ...dataFormAnswer,
       packageFlowProcess: {

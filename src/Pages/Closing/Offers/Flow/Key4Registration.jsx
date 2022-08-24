@@ -67,7 +67,7 @@ const Key4Registration = (props) => {
     const city = get(activeSingleProperty, 'location.city', '');
     const streetName = get(activeSingleProperty, 'location.name', '');
     const streetNumber = get(activeSingleProperty, 'location.streetNumber', '');
-    const objectType = get(activeSingleProperty, 'properties.propertyType', '') === 'Home' ? 'SINGLE_FAMILY_HOME' : 'APARTMENT';
+    const objectType = get(activeSingleProperty, 'properties.propertyType', '') === 'House' ? 'SINGLE_FAMILY_HOME' : 'APARTMENT';
     const grossAnnualIncome = get(formValue, 'financeBuyer.income', get(formValue, 'finance.grossIncome', 0));
     const Equity = get(formValue, 'financeBuyer.equity', get(formValue, 'finance.equityCapital', 0));
     // eslint-disable-next-line max-len
