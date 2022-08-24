@@ -207,6 +207,7 @@ const Financing = (props) => {
         loanToValueRatio: get(formValue, 'loanToValueRatio', null),
       }
     }
+    if (get(formValue, 'subtype', null)) dataForm.data.mortgageAmount = formValue.mortgageAmount;
     const data = {
       ...dataForm,
       ...dataDocuments,
