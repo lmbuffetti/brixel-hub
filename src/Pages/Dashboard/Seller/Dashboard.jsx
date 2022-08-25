@@ -91,7 +91,6 @@ const Dashboard = (props) => {
     handleSpinnerOff,
     imageType,
     initForm,
-    initValues,
     initialValues,
     isLoading,
     isSmallLoading,
@@ -165,19 +164,11 @@ const Dashboard = (props) => {
 
   // INITIALIZE FORM
   useEffect(() => {
-    const changeInitialValue = diff(initialValues, initValues);
-    if (
-      typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null) && (
-        Object.keys(changeInitialValue).length > 1 ||
-        (Object.keys(changeInitialValue).length === 1 && Object.keys(changeInitialValue)[0] !== 'inputSheet') ||
-        propID !== formValue.id
-      )
-    ) {
-      if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty.id === propID) {
-        initForm(cloneDeep(initialValues));
-      }
+    // const changeInitialValue = diff(initialValues, initValues);
+    if (activeSingleProperty.id) {
+      initForm(cloneDeep(initialValues));
     }
-  }, [initialValues, propID]);
+  }, [activeSingleProperty, propID]);
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
@@ -399,7 +390,6 @@ Dashboard.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   imageType: PropTypes.arrayOf(PropTypes.object).isRequired,
   initForm: PropTypes.func.isRequired,
-  initValues: PropTypes.object.isRequired,
   initialValues: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isSmallLoading: PropTypes.object.isRequired,

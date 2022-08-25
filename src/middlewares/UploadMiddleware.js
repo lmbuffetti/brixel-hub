@@ -328,6 +328,7 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         actions,
         allImgs,
+        docs,
         pageID,
         saveAction,
         smallLoader,
@@ -337,6 +338,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.pageID;
       delete action.payload.smallLoader;
       delete action.payload.saveAction;
+      delete action.payload.docs;
       const calls = [];
       allImgs.forEach((img) => {
         calls.push(api.image.uploadDocument(img, null, get(img, 'idBuyer', null)));
@@ -398,7 +400,8 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
         } else {
           const data = {};
-          const filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
+          let filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
+          filesArray = docs || filesArray;
           res.forEach((resImg) => {
             filesArray.push(resImg.data);
           });
