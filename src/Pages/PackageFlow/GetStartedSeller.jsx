@@ -864,6 +864,7 @@ const mapStateToProps = (state, ownProps) => {
       properties: {
         propertyType,
         typology: {
+          bathrooms: 0,
           bedrooms: 3,
           livingArea: {
             unit: 'm2',
@@ -874,6 +875,11 @@ const mapStateToProps = (state, ownProps) => {
           floorSpace: {
             unit: 'm2',
           },
+        },
+        parking: {
+          garage: 0,
+          outside: 0,
+          underground: 0,
         },
       },
       register: {
