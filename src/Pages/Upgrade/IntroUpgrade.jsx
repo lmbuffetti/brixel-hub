@@ -117,7 +117,7 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-  
+
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
       const company = get(loggedInUser, 'company.id',  loggedInUser.company) || loggedInUser.companies[0];
@@ -334,13 +334,13 @@ const IntroUpgrade = (props) => {
                                             {
                                               get(activeCompanyData, 'logos', []).map((logo, x) => (
                                                 <>
-                                                  <div className="h-fix-32 dis-b">
+                                                  <div className="h-fix-24 dis-b">
                                                     <img
                                                       loading="lazy"
                                                       key={`logo${x.toString()}`}
                                                       src={logo}
                                                       alt={`${activeSingleCompany.name} logo ${x}`}
-                                                      className={`${x > 0 ? 'ml-4' : ''} h-perc-100`}
+                                                      className={`${x > 0 ? 'ml-2 brdSmallLeft brdAltGrey300 pl-2' : ''} h-perc-100`}
                                                     />
                                                   </div>
                                                 </>
