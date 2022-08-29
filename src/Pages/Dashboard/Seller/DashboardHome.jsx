@@ -237,9 +237,18 @@ const DashboardHome = (props) => {
           />
         )
       }
+  
+      {
+        progressState.step === 1 && (
+          <h4 className="mb-3 hide dis-b-lg fweight-600">
+            <span>{translateTo('Welcome', lang)}</span>
+            <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
+          </h4>
+        )
+      }
 
       {
-        progressState.step < 5 && (
+        progressState.step < 5 && progressState.step > 1 && (
           <h4 className="mb-3 hide dis-b-lg fweight-600">
             <span>{translateTo('Welcome back', lang)}</span>
             <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>

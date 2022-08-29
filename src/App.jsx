@@ -587,7 +587,11 @@ const App = (props) => {
                           </>
                         )
                       }
-                      <Route path="*" element={<Navigate to="/sell" />} />
+                      {
+                        !get(history, 'location.pathname', '').includes('Flow') && (
+                          <Route path="*" element={<Navigate to="/sell" />} />
+                        )
+                      }
                     </Routes>
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
