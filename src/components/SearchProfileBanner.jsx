@@ -193,7 +193,7 @@ const SearchProfileBanner = (props) => {
                               get(userSearchProfiles, 'location', []).map((item, i) => (
                                 <React.Fragment key={`usrLoc_${i.toString()}`}>
                                   {i > 0 && (<span>, </span>)}
-                                  <span>{translateTo(item, lang)}</span>
+                                  <span>{translateTo(item.name, lang)}</span>
                                 </React.Fragment>
                               ))
                             }

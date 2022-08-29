@@ -83,7 +83,7 @@ export const QuestionsList = (lang, type) => {
           ],
         },
       ],
-      successMessage: translateTo('Ok. Got it.'),
+      successMessage: translateTo('Ok. Got it.', lang),
     },
     {
       title: translateTo(type === 'searchProfile' ? 'Size' : 'How big should it be?', lang),

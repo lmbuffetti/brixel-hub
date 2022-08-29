@@ -256,7 +256,11 @@ const Documents = (props) => {
               mandatoryDocuments && (
                 <div className="mandatory-documents mb-5">
                   <p className="fweight-500 fsize-500 txtGreen700 mb-4">
-                    <span>{translateTo('You have uploaded', lang)}</span><span> {countMandatoryDocuments()} </span><span>{translateTo('of', lang)}</span><span> {mandatoryDocuments.length} </span><span>{translateTo('documents.', lang)}</span>
+                    <span>{translateTo('You have uploaded', lang)}</span>
+                    <span> {countMandatoryDocuments()} </span>
+                    <span>{translateTo('of', lang)}</span>
+                    <span> {mandatoryDocuments.length} </span>
+                    <span>{translateTo('documents.', lang)}</span>
                   </p>
                   {
                     mandatoryDocuments.map((element, j) => (

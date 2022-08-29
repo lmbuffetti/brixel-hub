@@ -117,7 +117,7 @@ const IntroUpgrade = (props) => {
       }
     }, 100);
   };
-
+  
   useEffect(() => {
     if (propID === 'company' && loggedInUser.id) {
       const company = get(loggedInUser, 'company.id',  loggedInUser.company) || loggedInUser.companies[0];

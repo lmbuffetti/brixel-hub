@@ -164,8 +164,7 @@ const Dashboard = (props) => {
 
   // INITIALIZE FORM
   useEffect(() => {
-    // const changeInitialValue = diff(initialValues, initValues);
-    if (activeSingleProperty.id) {
+    if (propID !== 'seller' && propID !== 'buyer' && propID && activeSingleProperty.id === propID) {
       initForm(cloneDeep(initialValues));
     }
   }, [activeSingleProperty, propID]);
@@ -433,7 +432,7 @@ const mapStateToProps = (state) => {
     initValues: get(state, 'brixelForm.Property.initialValues', {}),
     initialValues: {
       // booking: get(state, 'property.activeSinglePropertyBooking', []),
-      allowVisits: get(state, 'property.activeSingleProperty.allowVisits', false),
+      allowVisits: get(state, 'property.activeSingleProperty.allowVisits', true),
       changeCountry: get(state, 'property.activeSingleProperty.location.countryCode', {}),
       coverPhoto: get(state, 'property.activeSingleProperty.coverPhoto', {}),
       // customPortals: get(state, 'property.activeSingleProperty.customPortals', {}),

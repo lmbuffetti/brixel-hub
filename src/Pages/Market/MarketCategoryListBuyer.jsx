@@ -63,9 +63,9 @@ const MarketCategoryListBuyer = (props) => {
     ],
     draggable: false,
   };
-  
+
   const sliderInstance = useRef(null);
-  
+
   // PROPS
   const {
     handleGetActiveSingleCompany,
@@ -87,11 +87,11 @@ const MarketCategoryListBuyer = (props) => {
   const [numWishProp, setWishProp] = useState(4);
   const [activeTopTab, setActiveTopTab] = useState('wishlist');
   const [topTab, setTopTab] = useState([]);
-  
+
   useEffect(() => {
     if (get(userSearchProfiles, 'id', null)) initForm(initialValues);
   }, [get(userSearchProfiles, 'id', null)]);
-  
+
   const showArrow = () => {
     const selectResponsive = settingSlider.responsive.filter((itm) => windowDimensions.width < itm.breakpoint);
     if (selectResponsive[selectResponsive.length - 1]) {
@@ -99,7 +99,7 @@ const MarketCategoryListBuyer = (props) => {
     }
     return ownerEstimations.total > settingSlider.slidesToShow;
   };
-  
+
   useEffect(() => {
     if (has(ownerEstimations, 'total') && has(wishlistProperties, 'total')) {
       const tabMenu = [];
@@ -127,20 +127,20 @@ const MarketCategoryListBuyer = (props) => {
     else if (windowDimensions.width < 1440) setWishProp(4);
     else setWishProp(4);
   }, [windowDimensions.width]);
-  
+
   // Update market card when bestimate changes
   useEffect(() => {
     if (getCookie('brixelSplashHome') === 'buyerWelcome') {
       setSplashScreen('buyerWelcome');
     }
   }, [getCookie('brixelSplashHome')]);
-  
+
   const onCloseWelcome = () => {
     setCookie('brixelMarketWelcome', true);
     setCookie('brixelSplashHome', null);
     setSplashScreen('');
   };
-  
+
   useEffect(() => {
     const catList = document.getElementsByClassName('market-container')[0];
     if (catList) catList.classList.add('market-listings');
@@ -148,7 +148,7 @@ const MarketCategoryListBuyer = (props) => {
       if (catList) catList.classList.remove('market-listings');
     };
   }, []);
-  
+
   const moveSlide = (action) => {
     const slider = sliderInstance.current;
     if (slider) {
@@ -156,7 +156,7 @@ const MarketCategoryListBuyer = (props) => {
       else slider.slickPrev();
     }
   };
-  
+
   return (
     <>
       <Suspense fallback="">
@@ -223,7 +223,7 @@ const MarketCategoryListBuyer = (props) => {
               </SplashScreen>
             )
           }
-          
+
           <div className="container">
             {
               topTab.length > 0 && (
@@ -236,7 +236,7 @@ const MarketCategoryListBuyer = (props) => {
                 />
               )
             }
-            
+
             {/* WHISHLIST */}
             {
               get(wishlistProperties, 'data', []).length > 0 && activeTopTab === 'wishlist' && (
@@ -275,7 +275,7 @@ const MarketCategoryListBuyer = (props) => {
                 </div>
               )
             }
-            
+
             {/* ESTIMATIONS */}
             {
               get(ownerEstimations, 'data', []).length > 0 && activeTopTab === 'estimations' && (
@@ -346,13 +346,13 @@ const MarketCategoryListBuyer = (props) => {
                 </div>
               )
             }
-          
+
           </div>
-          
+
           <div className={`${get(wishlistProperties, 'data', []).length <= 0 && get(ownerEstimations, 'data', []).length <= 0 ? 'mt-3-neg pt-3' : 'mt-5'} bgSvg bgOverlay`}>
-            
+
             <div className="container pt-3 pb-4 pb-lg-8">
-              
+
               {/* SEARCH PROFILE */}
               <div className="">
                 <SearchProfileBanner
@@ -360,7 +360,7 @@ const MarketCategoryListBuyer = (props) => {
                   onStatsFunc={{ matching: () => setSplashScreen('marketOverlayCarousel') }}
                 />
               </div>
-              
+
               <div className="dis-f jc-fe-lg pt-1 pt-lg-9 mt-9 mt-lg-10 infoBannerMarketBuyer">
                 <div className="w-perc-md-50 w-perc-100">
                   <h3 className="max-w-fix-320 fweight-600 fsize-800">
@@ -381,10 +381,10 @@ const MarketCategoryListBuyer = (props) => {
                     label={translateTo('Rate them now', lang)}
                   />
                 </div>
-              
+
               </div>
             </div>
-          
+
           </div>
           {
             windowDimensions.width < 1025 && (
@@ -393,7 +393,7 @@ const MarketCategoryListBuyer = (props) => {
               </div>
             )
           }
-          
+
           <div className="mt-7 pb-8 container">
             {
               premiumProperties.total > 0 && (
@@ -407,7 +407,7 @@ const MarketCategoryListBuyer = (props) => {
               )
             }
           </div>
-          
+  
           {
             premiumEuropeProperties.total > 0 && (
               <div className="pt-7 pb-8 bgBlue700">
