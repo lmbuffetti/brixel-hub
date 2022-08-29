@@ -40,6 +40,7 @@ const Documents = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleProperty,
     formValue,
     handleMultiUploadDocument,
     loggedInUser,
@@ -144,6 +145,7 @@ const Documents = (props) => {
     const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id);
     imgList.then((res) => {
       handleMultiUploadDocument({
+        docs: activeSingleProperty.documents,
         allImgs: res,
         actions: 'documents',
         pageID: formValue.id || propID,
@@ -163,6 +165,7 @@ const Documents = (props) => {
     const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id, '', type);
     imgList.then((res) => {
       handleMultiUploadDocument({
+        docs: activeSingleProperty.documents,
         allImgs: res,
         actions: 'documents',
         pageID: formValue.id,
@@ -628,6 +631,7 @@ const Documents = (props) => {
 };
 
 Documents.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
@@ -643,6 +647,7 @@ Documents.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', { }),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),
