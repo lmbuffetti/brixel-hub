@@ -237,7 +237,7 @@ const DashboardHome = (props) => {
           />
         )
       }
-  
+
       {
         progressState.step === 1 && (
           <h4 className="mb-3 hide dis-b-lg fweight-600">
@@ -288,7 +288,7 @@ const DashboardHome = (props) => {
                     <h4 className="mb-2 fweight-600">
                       {translateTo('Test drive our service. No strings attached.', lang)}
                     </h4>
-                    <p className="fsize-300 txtDark700 max-w-perc-70">
+                    <p className="fsize-300 txtDark700 max-w-perc-70 max-w-perc-sm-100">
                       <span>
                         {translateTo('Get the full Brixel experience worth', lang)}
                       </span>

@@ -116,6 +116,7 @@ const Price = (props) => {
       component: BestimateCardOverlay,
       props: {
         clearEstimation: false,
+        lang: lang,
       },
     });
   };
