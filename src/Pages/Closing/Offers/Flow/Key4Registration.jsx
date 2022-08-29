@@ -99,7 +99,7 @@ const Key4Registration = (props) => {
             </h2>
             <div className="max-w-fix-600 ml-a mr-a">
               <p>
-                By clicking the button you allow us to send the following data to key4: property type, property address, type of residence (main type of residence), your equity capital, and your gross annual income. The Privacy Statement applicable to key4 can be found on the key4 website.
+                {translateTo('By clicking the button you allow us to send the following data to key4: property type, property address, type of residence (main type of residence), your equity capital, and your gross annual income. The Privacy Statement applicable to key4 can be found on the key4 website.', lang)}
               </p>
               <div className="max-w-fix-600 ml-a mr-a pos-r">
   
