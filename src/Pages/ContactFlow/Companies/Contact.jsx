@@ -332,7 +332,7 @@ const Contact = (props) => {
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label = 'Continue';
-    if (currentIndex === questions.length - 2) label = 'Save';
+    if (currentIndex === questions.length - 2) label = 'Send';
     if (currentIndex === questions.length - 1) label = 'Close';
     return label;
   };

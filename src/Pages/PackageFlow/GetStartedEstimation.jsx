@@ -941,17 +941,10 @@ const mapStateToProps = (state, ownProps) => {
       login: {},
       owner: get(state, 'user.loggedInUser.user.id', null),
       properties: {
-        building: {
-          conditionStatus: get(formValue, 'location.countryCode', '').toLowerCase() !== 'ch' ? 'used' : '',
-        },
         propertyType,
-        parking: {
-          garage: 0,
-          outside: 0,
-        },
         typology: {
+          bathrooms: 0,
           bedrooms: 3,
-          bathrooms: 1,
           livingArea: {
             unit: 'm2',
           },
@@ -961,6 +954,11 @@ const mapStateToProps = (state, ownProps) => {
           floorSpace: {
             unit: 'm2',
           },
+        },
+        parking: {
+          garage: 0,
+          outside: 0,
+          underground: 0,
         },
       },
       register: {
