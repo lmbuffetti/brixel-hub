@@ -1,5 +1,6 @@
 /* global ga, gtag, Transifex */
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
+import queryString from 'query-string';
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect, useState, useRef, useCallback, Fragment, Suspense,
@@ -142,6 +143,7 @@ const App = (props) => {
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
+  const [langURL, setLangURL] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
 
@@ -161,6 +163,8 @@ const App = (props) => {
 
   useEffect(() => {
     smoothscrollPolyfill.polyfill();
+    const queryURL = queryString.parse(get(history, 'location.search', ''));
+    if (get(queryURL, 'lang', null)) setLangURL(queryURL.lang.toLowerCase());
   }, []);
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
@@ -171,7 +175,7 @@ const App = (props) => {
       handleSetLanguage(userLang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang || 'en');
     } else if (activeSingleCompany.id && !loggedInUser.user) {
-      userLang = cookies.get('brixelLang') || activeSingleCompany.language.code || 'en';
+      userLang = cookies.get('brixelLang') || langURL || activeSingleCompany.language.code || 'en';
       handleSetLanguage(userLang);
     }
     if (typeof Transifex !== 'undefined') {
