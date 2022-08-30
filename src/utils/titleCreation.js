@@ -124,6 +124,24 @@ const houseAdjective = {
     'Acolhedora',
     'Luminosa',
   ],
+  fr: [
+    'Magnifique',
+    'Charmant',
+    'Élégant',
+    'Prestigieux',
+    'Unique',
+    'Exquisite',
+    'Spacieux',
+    'Superbe',
+    'Merveilleux',
+    'Aimant',
+    'Superbe',
+    'Incroyable',
+    'Fabuleux',
+    'Sophistiqué',
+    'Moderne',
+    'Incroyable',
+  ]
 };
 
 const builadingLandAdjective = {
@@ -167,7 +185,27 @@ const builadingLandAdjective = {
     'Acolhedora',
     'Luminosa',
   ],
+  fr: [
+    'Magnifique',
+    'Charmante',
+    'Élégante',
+    'Prestigieuse',
+    'Unique',
+    'Exquisite',
+    'Spacieuse',
+    'Superbe',
+    'Merveilleuse',
+    'Aimante',
+    'Superbe',
+    'Incroyable',
+    'Fabuleuse',
+    'Sophistiquée',
+    'Moderne',
+    'Incroyable',
+  ]
 };
+
+
 
 export const titleProperty = (location, propertyType, lang, formValue) => {
   const getCountry = get(location, 'countryCode', null);
@@ -180,7 +218,7 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
   if (getCountry === 'PT') {
     const bedrooms = get(formValue, 'properties.typology.bedrooms', null);
     const livingSpace = get(formValue, 'properties.typology.grossArea.value', get(formValue, 'properties.typology.livingArea.value', null));
-
+    
     const curLocation = get(formValue, 'location', null);
     if (bedrooms >= 0 && livingSpace && curLocation) {
       const typology = FormatValue.formatRooms(bedrooms, 'pt');
@@ -196,13 +234,21 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
       pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     }
     if (location.city) {
-      pageTitle += ` in ${location.city}`;
+      if (lang === 'fr') pageTitle += ` á ${location.city}`;
+      else if (lang === 'it') pageTitle += ` a ${location.city}`;
+      else  pageTitle += ` in ${location.city}`;
     } else if (location.state) {
-      pageTitle += ` in ${location.state}`;
+      if (lang === 'fr') pageTitle += ` á ${location.state}`;
+      else if (lang === 'it') pageTitle += ` a ${location.state}`;
+      else pageTitle += ` in ${location.state}`;
     } else if (location.country) {
-      pageTitle += ` in ${location.country}`;
+      if (lang === 'fr') pageTitle += ` á ${location.country}`;
+      else if (lang === 'it') pageTitle += ` a ${location.country}`;
+      else pageTitle += ` in ${location.country}`;
     } else {
-      pageTitle += ` in ${location.address}`;
+      if (lang === 'fr') pageTitle += ` á ${location.address}`;
+      else if (lang === 'it') pageTitle += ` a ${location.address}`;
+      else pageTitle += ` in ${location.address}`;
     }
   }
   return pageTitle;
