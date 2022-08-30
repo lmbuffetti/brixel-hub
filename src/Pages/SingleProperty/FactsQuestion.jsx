@@ -33,14 +33,14 @@ const FactsQuestion = (props) => {
   // PARAMS URL
   const propID = get(match, 'propID', null);
   const dashWrapperEl = document.getElementsByClassName('hubDashboard')[0];
-
+  
   useEffect(() => {
     if (dashWrapperEl) dashWrapperEl.classList.add('secondLevelActive');
     return () => {
       if (dashWrapperEl) dashWrapperEl.classList.add('secondLevelActive');
     };
   }, [dashWrapperEl]);
-
+  
   useEffect(() => {
     const fieldsChanged = diff(initValues, formValue);
     const keyChanged = keyify(fieldsChanged);
@@ -68,7 +68,7 @@ const FactsQuestion = (props) => {
       });
     });
   }, [formValue]);
-
+  
   return (
     <div
       className="questContent"
@@ -81,7 +81,7 @@ const FactsQuestion = (props) => {
           onClick={() => history.push(`/${propID}/property/facts`)}
         />
       </div>
-
+      
       <MultiFileldsReduxForm
         autofocus={false}
         classNameBox={quest.classNameBox}

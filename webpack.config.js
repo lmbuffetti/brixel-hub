@@ -109,18 +109,6 @@ const clientConfig = () => {
             },
             {
               loader: 'postcss-loader',
-              options: {
-                postcssOptions: {
-                  plugins: [
-                    [
-                      'autoprefixer',
-                      {
-                        // Options
-                      },
-                    ],
-                  ],
-                },
-              },
             },
           ],
         },
@@ -138,6 +126,9 @@ const clientConfig = () => {
                 ],
               },
             },
+            {
+              loader: 'astroturf/loader'
+            }
           ],
         },
         // Svg loader

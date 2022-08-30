@@ -14,6 +14,7 @@ const ClosingTree = (props) => {
   return (
     <>
       <img
+        loading="lazy"
         alt="Sckeleton Card Loading"
         id="cartello"
         src={SkeletonClosingCard}

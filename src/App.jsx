@@ -1,5 +1,6 @@
 /* global ga, gtag, Transifex */
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
+import queryString from 'query-string';
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   useEffect, useState, useRef, useCallback, Fragment, Suspense,
@@ -48,7 +49,8 @@ const GetStartedBuyer = lazyWithRetry(() => import('./Pages/PackageFlow/GetStart
 const GetStartedEstimation = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedEstimation'));
 const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialFlow'));
-const MakeOffer = lazyWithRetry(() => import('./Pages/Offers/Flow/MakeOffer'));
+const MakeOffer = lazyWithRetry(() => import('./Pages/Closing/Offers/Flow/MakeOffer'));
+const Financing = lazyWithRetry(() => import('./Pages/Closing/Financing/Financing'));
 const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identification/IdentificationFlow'));
 
 // IMAGES
@@ -74,6 +76,9 @@ const DashboardSeller = lazyWithRetry(() => import('./Pages/Dashboard/Seller/Das
 
 // HUB DASHBOARD - BUYER
 const DashboardBuyer = lazyWithRetry(() => import('./Pages/Dashboard/Buyer/Dashboard'));
+
+// PARTNER
+const Contact = lazyWithRetry(() => import('./Pages/ContactFlow/Companies/Contact'));
 
 // FLOW SELLER
 const Bestimate = lazyWithRetry(() => import('./Pages/Bestimate'));
@@ -138,6 +143,7 @@ const App = (props) => {
   // STATE
   // CONSTANT TO PREVENT TRANSIFEX ERROR
   const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
+  const [langURL, setLangURL] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [classMain, setClassMain] = useState('w-perc-100 pos-r hubContainer');
 
@@ -157,6 +163,8 @@ const App = (props) => {
 
   useEffect(() => {
     smoothscrollPolyfill.polyfill();
+    const queryURL = queryString.parse(get(history, 'location.search', ''));
+    if (get(queryURL, 'lang', null)) setLangURL(queryURL.lang.toLowerCase());
   }, []);
 
   // FUCNTION TO INITIALIZE TRANSIFEX AND LOAD THE TRANSLATIONS
@@ -167,7 +175,7 @@ const App = (props) => {
       handleSetLanguage(userLang);
       if (typeof Transifex !== 'undefined') Transifex.live.translateTo(lang || 'en');
     } else if (activeSingleCompany.id && !loggedInUser.user) {
-      userLang = cookies.get('brixelLang') || activeSingleCompany.language.code || 'en';
+      userLang = cookies.get('brixelLang') || langURL || activeSingleCompany.language.code || 'en';
       handleSetLanguage(userLang);
     }
     if (typeof Transifex !== 'undefined') {
@@ -196,13 +204,13 @@ const App = (props) => {
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
-    if (((get(activeSingleProperty, 'owner.id', 'a') === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
+    if (((get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b') || get(activeSingleProperty, 'owner', 'a') === get(loggedInUser, 'user.id', 'b')) && !get(history, 'location.pathname', '').includes('buyer')) || get(history, 'location.pathname', '').includes('seller')) {
       handleSetUserTypes('seller');
     } else {
       handleSetUserTypes('buyer');
     }
     if (!activeSingleProperty.documents) handleSetActiveSingleDeal({});
-  }, [activeSingleProperty.id]);
+  }, [activeSingleProperty.id, loggedInUser]);
 
   const bodyModal = document.getElementById('bodyModalWrapper');
   useEffect(() => {
@@ -267,14 +275,17 @@ const App = (props) => {
   useEffect(() => {
     if (
       history.location.pathname.includes('packageFlow') ||
+      history.location.pathname.includes('Flow') ||
       history.location.pathname.includes('scheduleVisit') ||
       history.location.pathname.includes('visitFeedback') ||
       history.location.pathname.includes('onBoarding') ||
       history.location.pathname.includes('upgrade') ||
       history.location.pathname.includes('trialRequest') ||
+      history.location.pathname.includes('contactFlow') ||
       history.location.pathname.includes('upgrade')    ) {
       if (
         history.location.pathname.includes('packageFlow') ||
+        history.location.pathname.includes('Flow') ||
         history.location.pathname.includes('scheduleVisit') ||
         history.location.pathname.includes('visitFeedback')
       ) {
@@ -373,6 +384,7 @@ const App = (props) => {
       let data = {};
       if (
         !history.location.pathname.includes('packageFlow') &&
+        !history.location.pathname.includes('Flow') &&
         !history.location.pathname.includes('scheduleVisit') &&
         !history.location.pathname.includes('visitFeedback') &&
         !history.location.pathname.includes('onBoarding')
@@ -436,7 +448,7 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     );
   }
-
+  
   return (
     <>
       <Helmet>
@@ -501,10 +513,21 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/*" element={<GetStartedEstimation />} />
+                      { /* SECTION: ONBOARDING WITH COMPANY STUB */}
+                      <Route path="/packageFlow/:companyStub" element={<GetStarted />} />
+                      <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
+                      <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
+                      <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
+
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
                       <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
+                      <Route path="/buyer/:id/financingFlow/*" element={<Financing />} />
+  
+                      { /* PARTNER CONTACT FLOW */}
+                      <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+                      <Route path="/buyer/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
 
                       { /* SECTION: INSERT TOKEN */}
                       <Route path="/tokeninput" element={<InsertToken />} />
@@ -516,6 +539,7 @@ const App = (props) => {
                       { /* SECTION: HUB DASHBOARD */ }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('Flow') &&
                         !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
@@ -529,7 +553,7 @@ const App = (props) => {
                                   get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
                                   get(history, 'location.pathname', '').split('/')[1].length > 18) ||
                                 get(history, 'location.pathname', '').split('/')[1] === 'company') && (
-
+    
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
@@ -552,6 +576,7 @@ const App = (props) => {
                       }
                       {
                         !history.location.pathname.includes('packageFlow') &&
+                        !history.location.pathname.includes('Flow') &&
                         !history.location.pathname.includes('scheduleVisit') &&
                         !history.location.pathname.includes('visitFeedback') &&
                         !history.location.pathname.includes('onBoarding') &&
@@ -562,7 +587,11 @@ const App = (props) => {
                           </>
                         )
                       }
-                      <Route path="*" element={<Navigate to="/sell" />} />
+                      {
+                        !get(history, 'location.pathname', '').includes('Flow') && (
+                          <Route path="*" element={<Navigate to="/sell" />} />
+                        )
+                      }
                     </Routes>
                     <div
                       className="dis-fl-col a-b jc-fe supportBtn"
@@ -586,7 +615,7 @@ const App = (props) => {
                             <div className="dis-f jc-b a-c">
                               {
                                 teamAvatars.map((imgTeam, i) => (
-                                  <img
+                                  <img loading="lazy"
                                     key={`avt_${i.toString()}`}
                                     src={`${baseByData.shortPath}${imgTeam.path}`}
                                     alt="Support Team"
@@ -596,7 +625,7 @@ const App = (props) => {
                               }
                             </div>
                             <span className="ml-2 txtDark700 fweight-500">
-                              {translateTo('Support', lang)}
+                              {translateTo('Brixel Support', lang)}
                             </span>
                           </div>
                         )
@@ -624,7 +653,7 @@ const App = (props) => {
             <Route path="/:propID/singleFlow/achievement/bestimate/*" element={<ProtectedRoute><Bestimate /></ProtectedRoute>} userTypes="seller" />
             <Route path="/buyer/:act/:propID/contact/add" element={<ProtectedRoute><AddContactBuyer /></ProtectedRoute>} />
             <Route path="/:propID/prospects/newDeal" element={<ProtectedRoute><CreateDeal /></ProtectedRoute>} />
-            <Route path="/:propID/property/price/formFlow" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
+            <Route path="/:propID/property/price/proEstimation" element={<ProtectedRoute><ProEstimationFlow /></ProtectedRoute>} />
             <Route path="*" element={null} />
           </Routes>
 

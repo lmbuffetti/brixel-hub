@@ -25,6 +25,7 @@ import {
   SET_OFFER_LISTINGS,
   UPDATE_DEALS_ORDER,
   UPDATE_MULTIPLE_DEALS,
+  SAVE_FINANCING_REQUEST,
 } from '../actions/types/DealTypes';
 
 import {
@@ -589,6 +590,52 @@ const checkCommon = (store) => (next) => (action) => {
               type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
+      break;
+    }
+    case SAVE_FINANCING_REQUEST: {
+      next(action);
+      const objData = cloneDeep(action.payload);
+      const {
+        smallLoader,
+      } = objData;
+      delete objData.smallLoader;
+      delete objData.actions;
+      delete objData.allImgs;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.deal.saveFinanceCertificate(objData)
+        .then((res) => {
+          if (!get(res.data, 'statusCode', null)) {
+            const { data } = res;
+            store.dispatch({ type: SET_ACTIVE_SINGLE_DEAL, payload: data });
+          }
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                [smallLoader]: 'done',
               },
             });
           } else {

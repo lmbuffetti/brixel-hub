@@ -11,6 +11,7 @@ import {
   SEND_SUPPORT_MESSAGE,
   SPINNER_SMALL,
   SEND_SLACK_NOTIFICATION,
+  SEND_MESSAGE_CONTACT,
 } from '../actions/types/CommonTypes';
 
 import api from '../controllers/api/config';
@@ -81,6 +82,41 @@ const checkCommon = (store) => (next) => (action) => {
               type: SPINNER_SMALL,
               payload: {
                 [smallLoader]: false,
+              },
+            });
+          } else {
+            store.dispatch({
+              type: SPINNER_OFF,
+            });
+          }
+        });
+      break;
+    }
+    // DISPATCH SEND MESSAGE CONTACT
+    case SEND_MESSAGE_CONTACT: {
+      next(action);
+      const data = cloneDeep(action.payload);
+      const { smallLoader } = data;
+      delete data.smallLoader;
+      if (smallLoader) {
+        store.dispatch({
+          type: SPINNER_SMALL,
+          payload: {
+            [smallLoader]: true,
+          },
+        });
+      } else {
+        store.dispatch({
+          type: SPINNER_ON,
+        });
+      }
+      api.common.sendMessageContact(data)
+        .then(() => {
+          if (smallLoader) {
+            store.dispatch({
+              type: SPINNER_SMALL,
+              payload: {
+                sendData: true,
               },
             });
           } else {

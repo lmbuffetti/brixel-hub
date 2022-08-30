@@ -289,7 +289,7 @@ const Photos = (props) => {
                   {
                     (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
                       <div className="dis-fl-col">
-                        <img className="h-fix-120" src={uploadPhotosEmpty} alt="Empty State" />
+                        <img loading="lazy" className="h-fix-120" src={uploadPhotosEmpty} alt="Empty State" />
                         <h5 className="mt-3 mb-2">{translateTo('Upload your first photo', lang)}</h5>
                       </div>
                     )

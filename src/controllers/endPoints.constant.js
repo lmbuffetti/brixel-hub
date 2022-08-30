@@ -9,8 +9,9 @@ export default {
     getPricePerSpace: (data) => `/marketData/pricesPerM2Distribution${data}`,
   },
   common: {
-    sendSlackNotification: (channel) => `/utils/sendCustomSlackMessage?channel=${channel}`,
     sendMessage: () => '/message',
+    sendMessageContact: () => '/contact/message',
+    sendSlackNotification: (channel) => `/utils/sendCustomSlackMessage?channel=${channel}`,
     sendSupportMessage: () => '/support/message',
   },
   company: {
@@ -36,8 +37,11 @@ export default {
     createEstimation: () => '/estimation/',
     estimationById: (id) => `/estimation/${id}`,
     generateEstimation: (id) => `/estimation/${id}/generate`,
-    proEstimationNotification: (id) => `/estimation/${id}/completeProEstimation`,
     getEstimationsList: (paginationLimit, paginationSkip, ownerId, data) => `/estimation/${paginationLimit}/${paginationSkip}?owner=${ownerId}${data}`,
+    proEstimationNotification: (id) => `/estimation/${id}/completeProEstimation`,
+  },
+  financing: {
+    financialCertificate: () => '/financialCertificateRequest',
   },
   history: {
     getHistoryListOfParent: (paginationLimit, paginationSkip, data) => `/history/${paginationLimit}/${paginationSkip}${data}`,
@@ -55,21 +59,21 @@ export default {
     ownedEstimations: (paginationLimit, paginationSkip, data) => `/market/list/ownedEstimations/${paginationLimit}/${paginationSkip}${data}`,
     ownedProperties: (paginationLimit, paginationSkip, data) => `/market/list/ownedPages/${paginationLimit}/${paginationSkip}${data}`,
     preMarket: (paginationLimit, paginationSkip, data) => `/market/list/preMarket/${paginationLimit}/${paginationSkip}${data}`,
-    premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
     preMarketStats: (query) => `/market/list/preMarketStats${query}`,
+    premium: (paginationLimit, paginationSkip, data) => `/market/list/premium/${paginationLimit}/${paginationSkip}${data}`,
   },
   note: {
-    singleNote: (id) => `/note/${id}`,
     createSingleNote: (type) => `/note/${type}`,
     getListOfNotes: (type, id, paginationLimit, paginationSkip, data) => `/note/${type}/${id}/${paginationLimit}/${paginationSkip}${data}`,
+    singleNote: (id) => `/note/${id}`,
   },
   property: {
+    // mapPageById: (id) => `/map/property/${id}`,
     addPage: () => '/page/',
     createPropertyVisit: () => '/scheduleVisit',
     createPropertyVisitSchedule: () => '/schedule',
     estimation: (id) => `/page/${id}/estimation`,
     getPageVisits: (id) => `/page/${id}/visit`,
-    // mapPageById: (id) => `/map/property/${id}`,
     packagePage: (id) => `/pageServicePackage/10/0?pageID=${id}&order=createdAt&direction=ASC`,
     pageById: (id) => `/page/${id}`,
     pageByIdPublic: (id) => `/page/${id}/publicpart`,

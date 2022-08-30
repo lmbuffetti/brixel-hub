@@ -40,6 +40,7 @@ const Documents = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleProperty,
     formValue,
     handleMultiUploadDocument,
     loggedInUser,
@@ -144,6 +145,7 @@ const Documents = (props) => {
     const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id);
     imgList.then((res) => {
       handleMultiUploadDocument({
+        docs: activeSingleProperty.documents,
         allImgs: res,
         actions: 'documents',
         pageID: formValue.id || propID,
@@ -163,6 +165,7 @@ const Documents = (props) => {
     const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id, '', type);
     imgList.then((res) => {
       handleMultiUploadDocument({
+        docs: activeSingleProperty.documents,
         allImgs: res,
         actions: 'documents',
         pageID: formValue.id,
@@ -318,7 +321,7 @@ const Documents = (props) => {
           {
             processedDocuments && Object.keys(processedDocuments).length < 1 && userType === 'buyer' && (
               <div>
-                <img className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
+                <img loading="lazy" className="h-fix-120" src={buyerDocumentsEmpty} alt="Empty Documents" />
                 <h5 className="mt-3 mb-2 ta-c">{translateTo('No documents available.', lang)}</h5>
                 <p className="max-w-fix-376 m-a ta-c txtDark200 fsize-300 mb-5">{translateTo('Please contact the seller for further documents about this property.', lang)}</p>
               </div>
@@ -396,6 +399,7 @@ const Documents = (props) => {
                                     </div>
                                     <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                       <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700 dont-break-out">{doc.name}</span>
+                                      <span className="body2 txtDark200 dont-break-out">{doc.type}</span>
                                       {
                                         get(doc, 'createdAt', null) ? (
                                           <span className="date body2 txtDark200">
@@ -498,6 +502,7 @@ const Documents = (props) => {
                                 </div>
                                 <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                   <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
+                                  <span className="body2 txtDark200 dont-break-out">{doc.type}</span>
                                   {
                                     get(doc, 'createdAt', null) ? (
                                       <span className="date body2 txtDark200">
@@ -602,7 +607,7 @@ const Documents = (props) => {
                   {
                     (!documentLists || (documentLists.length === 0)) && (
                       <div>
-                        <img className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
+                        <img loading="lazy" className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
                         <h5 className="mt-3 mb-2">{translateTo('Upload your first document', lang)}</h5>
                       </div>
                     )
@@ -626,6 +631,7 @@ const Documents = (props) => {
 };
 
 Documents.propTypes = {
+  activeSingleProperty: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleDeleteDocument: PropTypes.func.isRequired,
   handleMultiUploadDocument: PropTypes.func.isRequired,
@@ -641,6 +647,7 @@ Documents.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleProperty: get(state, 'property.activeSingleProperty', { }),
   formValue: get(state, 'brixelForm.Property.values', get(state, 'property.activeSingleProperty', {})),
   isSmallLoading: get(state, 'common.isSmallLoading', {}),
   loggedInUser: get(state, 'user.loggedInUser', {}),

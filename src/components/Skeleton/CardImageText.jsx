@@ -21,10 +21,11 @@ const CardImageText = (props) => {
     <>
       {
         (type === 'fav' || type === 'estimation') ? (
-          <img alt="card loading" src={SkeletonFav} />
+          <img loading="lazy" alt="card loading" src={SkeletonFav} />
         ) : (
           <>
             <img
+              loading="lazy"
               alt="Sckeleton Card Loading"
               id="cartello"
               src={type === 'own' ? windowDimensions.width < 590 ? SkeletonCardOwnMobile : SkeletonOwnCard : type === 'map-view' ? windowDimensions.width < 590 ? SkeletonCard : SkeletonMapCard : SkeletonCard}

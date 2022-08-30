@@ -31,7 +31,7 @@ import {
   SPINNER_SMALL,
   REQUEST_DONE,
 } from '../actions/types/CommonTypes';
-import { SAVE_CLOSING_IDENTIFICATION, SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
+import { SAVE_CLOSING_IDENTIFICATION, SAVE_FINANCING_REQUEST, SAVE_MAKE_OFFER } from '../actions/types/DealTypes';
 
 const checkCommon = (store) => (next) => (action) => {
   switch (action.type) {
@@ -328,6 +328,7 @@ const checkCommon = (store) => (next) => (action) => {
       const {
         actions,
         allImgs,
+        docs,
         pageID,
         saveAction,
         smallLoader,
@@ -337,6 +338,7 @@ const checkCommon = (store) => (next) => (action) => {
       delete action.payload.pageID;
       delete action.payload.smallLoader;
       delete action.payload.saveAction;
+      delete action.payload.docs;
       const calls = [];
       allImgs.forEach((img) => {
         calls.push(api.image.uploadDocument(img, null, get(img, 'idBuyer', null)));
@@ -367,6 +369,19 @@ const checkCommon = (store) => (next) => (action) => {
           };
           data.smallLoader = smallLoader;
           store.dispatch({ type: SAVE_MAKE_OFFER, payload: data });
+        } else if (saveAction === 'financing') {
+          const dataOffer = action.payload;
+          delete dataOffer.document;
+          const document = [];
+          res.forEach((doc) => {
+            document.push(doc.data);
+          });
+          const data = {
+            ...dataOffer,
+            documents: document,
+          };
+          data.smallLoader = smallLoader;
+          store.dispatch({ type: SAVE_FINANCING_REQUEST, payload: data });
         } else if (saveAction === 'closingIdentification') {
           const dataIdentification = action.payload;
           dataIdentification.persons.forEach((person, id) => {
@@ -385,7 +400,8 @@ const checkCommon = (store) => (next) => (action) => {
           store.dispatch({ type: SAVE_CLOSING_IDENTIFICATION, payload: data });
         } else {
           const data = {};
-          const filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
+          let filesArray = get(store.getState(), 'brixelForm.Property.values.documents', []);
+          filesArray = docs || filesArray;
           res.forEach((resImg) => {
             filesArray.push(resImg.data);
           });

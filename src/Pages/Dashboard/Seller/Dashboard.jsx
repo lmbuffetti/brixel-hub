@@ -53,12 +53,12 @@ const EmptyProperty = lazyWithRetry(() => import('./EmptyProperty'));
 
 const Documents = lazyWithRetry(() => import('../../SingleProperty/Documents'));
 
-const DashboardOffer = lazyWithRetry(() => import('../../Offers/DashboardOffer'));
+const DashboardOffer = lazyWithRetry(() => import('../../Closing/Offers/DashboardOffer'));
 
 // UPGRADE
 const Upgrade = lazyWithRetry(() => import('../../Upgrade/Upgrade'));
 
-const ScanTrialFlow = lazyWithRetry(() => import('../../ScanTrialFlow/ScanTrialFlow'));
+const ScanTrialFlow = lazyWithRetry(() => import('../../ContactFlow/ScanTrial/ScanTrialFlow'));
 
 const Dashboard = (props) => {
   const history = {
@@ -160,7 +160,7 @@ const Dashboard = (props) => {
       }
     }
     setLoadedProp(true);
-  }, [userTypes, propID]);
+  }, [propID]);
 
   // INITIALIZE FORM
   useEffect(() => {
@@ -171,7 +171,7 @@ const Dashboard = (props) => {
 
   // FUNCTION TO REDIRECT TO REWARDS PAGE OR LOAD EMPTY STATE (IF USER NO HAS PROPERTY) - LOAD COMPANY FRO SELECTED PROPERTY
   useEffect(() => {
-    if (loadedProp && propID !== 'sell') {
+    if (loadedProp && propID !== 'sell' && activeSingleProperty.id) {
       if ((typeof activeSingleProperty !== 'undefined' && get(activeSingleProperty, 'id', null)) || propID === 'no-property') {
         if ((!propID || propID === 'no-property') && get(activeSingleProperty, 'id', null)) {
           const isSellerUser = get(loggedInUser, 'user.seller', false);
@@ -190,10 +190,10 @@ const Dashboard = (props) => {
       }
     }
     const activeLeads = get(activeSingleProperty, 'company.id', get(activeSingleProperty, 'company', null));
-    if (activeLeads && activeLeads !== activeSingleCompany.id) {
+    if (activeLeads && activeLeads !== activeSingleCompany.id && activeSingleProperty.id) {
       handleGetActiveSingleCompany({ id: activeLeads, smallLoader: 'singleCompany' });
     }
-  }, [activeSingleProperty]);
+  }, [activeSingleProperty.id]);
 
   // FUNCTION TO GLOBAL SAVE - BUTTON SAVE ON NOTIFICATION BAR
   const saveData = () => {
@@ -357,7 +357,7 @@ const Dashboard = (props) => {
         </div>
         {
           get(history, 'location.pathname', '').includes('home') && (
-            <div className="hide dis-f-lg w-perc-100 max-w-fix-360">
+            <div className="historySidebar w-perc-100 max-w-fix-360">
               <SellerSidebar progressStep={progressStep} />
             </div>
           )
@@ -446,7 +446,10 @@ const mapStateToProps = (state) => {
         searchAddress: get(state, 'property.activeSingleProperty.location.address', {}),
       },
       packageFlowProcess: get(state, 'property.activeSingleProperty.packageFlowProcess', {}),
-      price: get(state, 'property.activeSingleProperty.price', {}),
+      price:{
+        ...get(state, 'property.activeSingleProperty.price', {}),
+        total: get(state, 'property.activeSingleProperty.price.total', ''),
+      },
       proEstimation: get(state, 'property.activeSingleProperty.proEstimation', {}),
       status: get(state, 'property.activeSingleProperty.status', null),
       // language: get(state, 'property.activeSingleProperty.language', null),

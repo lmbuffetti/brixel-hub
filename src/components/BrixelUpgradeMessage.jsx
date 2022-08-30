@@ -106,6 +106,7 @@ const BrixelUpgradeMessage = (props) => {
                 <div className="my-5">
                   <div className="pos-r brdRadius ov-h">
                     <img
+                      loading="lazy"
                       className="dis-b"
                       src={defaultCover}
                       alt="Cover"

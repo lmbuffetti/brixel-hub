@@ -6,7 +6,8 @@ const lazyWithRetry = (componentImport) => lazy(async () => {
       'page-has-been-force-refreshed',
     ) || 'false',
   );
-
+  const isBrowser = new Function("try { return this===window; }catch(e){ return false; }");
+  const isiOS = isBrowser() ? new Function("if ((/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)){ return true; }else{ return false; }") : new Function("return false;");
   try {
     const component = await componentImport();
 
@@ -17,14 +18,14 @@ const lazyWithRetry = (componentImport) => lazy(async () => {
 
     return component;
   } catch (error) {
-    if (!pageHasAlreadyBeenForceRefreshed || pageHasAlreadyBeenForceRefreshed === 'false') {
+    if ((!pageHasAlreadyBeenForceRefreshed || pageHasAlreadyBeenForceRefreshed === 'false') && !isiOS) {
       // Assuming that the user is not on the latest version of the application.
       // Let's refresh the page immediately.
       localStorage.setItem(
         'page-has-been-force-refreshed',
         'true',
       );
-      setTimeout(() => window.location.reload(), 1000);
+      setTimeout(() => window.location.reload(), 2000);
     }
 
     // The page has already been reloaded

@@ -10,6 +10,7 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   translateTo,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -19,11 +20,11 @@ import {
   destroy,
 } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import cloneDeep from 'lodash/cloneDeep';
-import last from 'lodash/last';
 import queryString from 'query-string';
 import Cookies from 'universal-cookie';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
@@ -46,6 +47,7 @@ const GetStartedBuyer = (props) => {
     push: useNavigate(),
     location: useLocation(),
   };
+  const match = useParams();
   // PROPS
   const {
     changeFieldValue,
@@ -76,6 +78,7 @@ const GetStartedBuyer = (props) => {
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
+  const companyStub = get(match, 'companyStub', null);
 
   const singleStepRef = useRef(null);
   const multiStepSlidesRef = useRef(null);
@@ -87,7 +90,7 @@ const GetStartedBuyer = (props) => {
   }, []);
 
   // FUNCTION TO SAVE DATA
-  const saveData = async () => {
+  const saveData = async (action = '') => {
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     setCookie('brixelSplashHome', 'buyerWelcome');
@@ -117,6 +120,13 @@ const GetStartedBuyer = (props) => {
       extraLoading: true,
       company,
     };
+    if (action === 'accept' && company === 'baloise') {
+      set(data, 'termsBaloiseBank', true);
+      set(data, 'termsBaloiseInsurance', true);
+    }
+    if (action === 'accept' && company === 'ubs') {
+      set(data, 'termsUBS', true)
+    }
     const page = get(formValue, 'signupScreen', null);
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
     handleSpinnerOn();
@@ -159,6 +169,13 @@ const GetStartedBuyer = (props) => {
           state: { hideClose: true },
         },
       };
+      if (action === 'accept' && company === 'baloise') {
+        set(data.user, 'termsBaloiseBank', true);
+        set(data.user, 'termsBaloiseInsurance', true);
+      }
+      if (action === 'accept' && company === 'ubs') {
+        set(data.user, 'termsUBS', true)
+      }
       // DISPATCH TO DO REGISTRATION USER
       await handleValidateUser(data);
     }
@@ -241,7 +258,7 @@ const GetStartedBuyer = (props) => {
       newIndex += step;
     }
     if (newIndex === -1) {
-      history.push('/packageFlow');
+      history.push(`/packageFlow${company.stub}`);
     } else {
       let defId = checkCondition(newIndex, act);
       if (defId !== newIndex) defId = checkCondition(defId, act);
@@ -296,7 +313,7 @@ const GetStartedBuyer = (props) => {
         }
         if (questions[defId].history) {
           history.push({
-            pathname: `/packageFlow/getStartedBuyer/${questions[defId].history}`,
+            pathname: `/packageFlow/getStartedBuyer/${company.stub}/${questions[defId].history}`,
             state: get(history, 'location.state', {}),
           });
         }
@@ -330,9 +347,11 @@ const GetStartedBuyer = (props) => {
     const companyCookie = cookie.get('brixelStubCompany') || null;
     const channelCookie = cookie.get('brixelChannelSignup') || null;
     if (get(companyByUrl, 'company', companyCookie)) {
-      const defComp = get(companyByUrl, 'company', companyCookie);
+      let defComp = get(companyByUrl, 'company', companyCookie);
+      if (companyStub && companyStub !== get(questions, '[0].history', null)) defComp = companyStub;
       handleGetActiveSingleCompany({ stub: defComp || 'default' });
       setCookie('brixelStubCompany', defComp);
+      history.push(`/packageFlow/getStartedBuyer/${defComp}/${get(questions, '[0].history', null)}`);
     } else {
       handleGetActiveSingleCompany({ stub: 'default' });
       // changeFieldValue('location.countryCode', 'all');`
@@ -343,13 +362,6 @@ const GetStartedBuyer = (props) => {
       setCookie('brixelChannelSignup', defChan);
     } else {
       changeFieldValue('channel', channelCookie);
-    }
-    const getCurrentUrl = last(history.location.pathname.split('/'));
-    if (getCurrentUrl !== questions[0].history || get(companyByUrl, 'company', null)) {
-      history.push({
-        pathname: `/packageFlow/getstartedBuyer/${questions[0].history}`,
-        state: {},
-      });
     }
   }, []);
 
@@ -459,6 +471,7 @@ const GetStartedBuyer = (props) => {
     let label;
     const inputName = get(quest, 'inputs[0].name', null);
     if (get(questions, `[${currentIndex + 1}].toSave`, null)) label = 'Save';
+    else if (get(quest, 'history', '') === 'baloiseInfo') label = 'Continue';
     else if (currentIndex === 0) label = 'Next';
     else if (get(quest, 'inputs[0].validation', null) === null && get(formValue, inputName, null) === null) label = 'Skip';
     else label = 'Next';
@@ -559,7 +572,7 @@ const GetStartedBuyer = (props) => {
                   {
                     (get(quest, 'cardType', null) === 'card') && (
                       <div className="scaleAnim ta-c">
-                        <img src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
+                        <img loading="lazy" src={quest.img} alt={quest.title} className="max-w-fix-232 mb-5" />
                         <h5
                           className="fadeAnim mt-2 ta-c"
                           dangerouslySetInnerHTML={{ __html: quest.title }}
@@ -594,14 +607,14 @@ const GetStartedBuyer = (props) => {
               </div>
             </div>
             {
-              get(quest, 'history', null) !== 'createProfile' && (
+              get(quest, 'history', null) !== 'createProfile' && (get(quest, 'history', '') !== 'baloisePolicy' && get(quest, 'history', '') !== 'ubsPolicy') && (
                 <div
                   className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
                 >
                   <div className="pos-r">
                     <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
                       {
-                        (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (
+                        ( (get(questions, `[${currentIndex - 1}].inputs`, null) || currentIndex === 0) && (get(quest, 'history', '') !== 'baloiseInfo') ) && (
                           <BrixelButtonIcon
                             className="backBtn ml-0 mr-a"
                             icon="arrow-left-small"
@@ -622,7 +635,7 @@ const GetStartedBuyer = (props) => {
                                   saturation={400}
                                   theme="green"
                                   rounded
-                                  label={translateTo(buttonLabel())}
+                                  label={translateTo(buttonLabel(), lang)}
                                   rightIcon="arrow-right-small"
                                   onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                                 />
@@ -647,6 +660,84 @@ const GetStartedBuyer = (props) => {
                 </div>
               )
             }
+            {
+              (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsPolicy') && (
+                <>
+                  {
+                    quest.title && (
+                      <h3 className={`fweight-600 max-w-fix-600 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                    )
+                  }
+                  <div
+                    className={`brdRadius bgWhite ml-a mr-a px-2 px-sm-6 ${quest.bulletPoints ? 'dis-fl-col dis-fl-row-lg bulletPointsStep jc-b py-2 py-lg-0 max-w-fix-912' : 'max-w-fix-752 pt-3 pb-6'}`}
+                  >
+                    {
+                      quest.text.map((text, i) => (
+                        <div
+                          className={quest.bulletPoints ? 'w-perc-lg-55 py-lg-3 pr-lg-4' : ''}
+                          key={i.toString()}
+                        >
+                          <span className="fweight-600 my-3 dis-b">{text.title}</span>
+                          {
+                            text.subtitle && (
+                              <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
+                            )
+                          }
+                          <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
+                        </div>
+                      ))
+                    }
+                    {
+                      quest.bulletPoints && (
+                        <div className="brdSmallLeft-lg brdAltGrey100 w-perc-lg-45 pl-lg-5 py-lg-3 max-w-fix-lg-352">
+                          <span className="my-3 dis-b">{quest.bulletPoints.title}</span>
+                          <ul className="">
+                            {
+                              quest.bulletPoints.description.map((bullet,k) => (
+                                <li
+                                  className="mb-2"
+                                  key={k.toString()}
+                                >
+                                  {bullet}
+                                </li>
+                              ))
+                            }
+                          </ul>
+                        </div>
+                      )
+                    }
+                  </div>
+                  <div
+                    className={`footerAction my-3 flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
+                  >
+                    <div className="pos-r">
+                      <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
+                        {
+                          get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType')) && (
+                            <BrixelButtonPrimary
+                              className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
+                              disabled={!checkValidateField()}
+                              rounded
+                              theme="green"
+                              label={translateTo('Accept', lang)}
+                              onClick={() => saveData('accept')}
+                              onShowError={() => setShowError(true)}
+                            />
+                          )
+                        }
+                        <BrixelButtonText
+                          theme="light"
+                          className="pos-sm-a x-r"
+                          label={translateTo('Skip', lang)}
+                          onClick={() => saveData('skip')}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+
           </form>
         </div>
         {/* signup flow */}

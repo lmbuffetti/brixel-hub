@@ -175,7 +175,7 @@ const SellerSidebar = (props) => {
                     </span>
                     <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
                     <span className="ml-small-4">
-                      {translateTo('uplaoded on your docubox', lang)}
+                      {translateTo('uploaded on your docubox', lang)}
                     </span>
 
                     <Link
@@ -192,7 +192,7 @@ const SellerSidebar = (props) => {
                 <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen300">
 
                   <ProgressRing
-                    progress={calcPercentageProEstimation().realPerc}
+                    progress={calcPercentageProEstimation('', activeSingleProperty).realPerc}
                     size={48}
                     strokeWidth={10}
                     circleOneStroke="#DCF2E8"
@@ -200,7 +200,7 @@ const SellerSidebar = (props) => {
                     showIcon={false}
                   />
                   <div className="ml-3 fsize-300">
-                    <span>{calcPercentageProEstimation().realPerc}%</span>
+                    <span>{calcPercentageProEstimation('', activeSingleProperty).realPerc}%</span>
                     <span className="ml-small-4">
                       {translateTo('of Pro Estimation complete', lang)}
                     </span>
@@ -208,10 +208,10 @@ const SellerSidebar = (props) => {
                     <Link
                       className="dis-b mt-1 fsize-300 td-u"
                       to={{
-                        pathname: calcPercentageProEstimation().realPerc < 100 ? `/${propID}/property/price/formFlow` : `/${propID}/property/price`,
+                        pathname: calcPercentageProEstimation('', activeSingleProperty).realPerc < 100 ? `/${propID}/property/price/proEstimation` : `/${propID}/property/price`,
                       }}
                     >
-                      {translateTo(calcPercentageProEstimation().realPerc < 100 ? 'Next step' : 'View', lang)}
+                      {translateTo(calcPercentageProEstimation('', activeSingleProperty).realPerc < 100 ? 'Next step' : 'View', lang)}
                     </Link>
 
                   </div>
@@ -278,7 +278,7 @@ const SellerSidebar = (props) => {
 
 SellerSidebar.propTypes = {
   activeCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  activeSingleProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,

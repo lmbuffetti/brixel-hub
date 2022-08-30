@@ -11,9 +11,9 @@ import {
   BrixelCheckbox,
   change,
 } from '@brixel/brixel-components/dist/form';
-import FinancingQuestionImg from '../../../images/Offer/financing_question.svg';
-import RegisterKey4Img from '../../../images/Offer/register_key4.svg';
-import UploadKey4Img from '../../../images/Offer/upload_key4.svg';
+import FinancingQuestionImg from '../../../../images/Offer/financing_question.svg';
+import RegisterKey4Img from '../../../../images/Offer/register_key4.svg';
+import UploadKey4Img from '../../../../images/Offer/upload_key4.svg';
 
 const FinanceCertificate = (props) => {
   const {
@@ -47,7 +47,7 @@ const FinanceCertificate = (props) => {
               <div className="dis-fl-col dis-fl-row-sm jc-b a-t">
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs ta-c">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
-                    <img src={FinancingQuestionImg} alt="Answer questions about financing" />
+                    <img loading="lazy" src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">
                     {translateTo('Answer questions about financing', lang)}
@@ -55,7 +55,7 @@ const FinanceCertificate = (props) => {
                 </div>
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs my-2 my-sm-0">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
-                    <img src={RegisterKey4Img} alt="Register on key4" />
+                    <img loading="lazy" src={RegisterKey4Img} alt="Register on key4" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">
                     {translateTo('Register on key4', lang)}
@@ -63,7 +63,7 @@ const FinanceCertificate = (props) => {
                 </div>
                 <div className="dis-f-col w-perc-100 flex-1 a-c jc-fs">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
-                    <img src={UploadKey4Img} alt="Upload documents on key4" />
+                    <img loading="lazy" src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">
                     {translateTo('Upload documents on key4', lang)}
@@ -107,7 +107,7 @@ const FinanceCertificate = (props) => {
               <div className="dis-fl-col dis-fl-row-sm jc-b a-t mt-3">
                 <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs ta-c">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
-                    <img src={FinancingQuestionImg} alt="Answer questions about financing" />
+                    <img loading="lazy" src={FinancingQuestionImg} alt="Answer questions about financing" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">
                     {translateTo('Prepare your documents', lang)}
@@ -115,7 +115,7 @@ const FinanceCertificate = (props) => {
                 </div>
                 <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs my-2 my-sm-0">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
-                    <img src={RegisterKey4Img} alt="Register on key4" />
+                    <img loading="lazy" src={RegisterKey4Img} alt="Register on key4" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">
                     {translateTo('Contact a financial provider', lang)}
@@ -123,7 +123,7 @@ const FinanceCertificate = (props) => {
                 </div>
                 <div className="w-perc-100 flex-1 dis-f-col a-c jc-fs">
                   <div className="m-a w-fix-80 h-fix-80 brdCircle bgBlue200 dis-f a-c jc-c mb-1">
-                    <img src={UploadKey4Img} alt="Upload documents on key4" />
+                    <img loading="lazy" src={UploadKey4Img} alt="Upload documents on key4" />
                   </div>
                   <p className="txtDark700 fsize-300 fweight-600 ta-c">
                     {translateTo('Attach the approval to your offer', lang)}

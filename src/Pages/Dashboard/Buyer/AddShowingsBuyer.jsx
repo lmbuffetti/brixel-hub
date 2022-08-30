@@ -370,7 +370,7 @@ const AddShowingsBuyer = (props) => {
         className={`bodyModal max-w-fix-600 pt-10 container ${questions[currentIndex].effect === 'slideUp' ? 'signUpScreen' : ''} ${get(quest, 'history', '')}`}
       >
         <div className="ov-h ta-c">
-          <img className="w-perc-100 max-w-fix-120" src={scheduleSvg} alt="text-1" />
+          <img loading="lazy" className="w-perc-100 max-w-fix-120" src={scheduleSvg} alt="text-1" />
         </div>
         <form
           id="multiStepForm"

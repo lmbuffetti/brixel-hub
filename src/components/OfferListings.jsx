@@ -25,14 +25,14 @@ const OfferListings = (props) => {
     onChangeLocation,
   } = props;
   // URL PARAMS
-
+  
   const getStatusColor = useCallback((status) => {
     if (status === 'pending') return 'Yellow';
     if (status === 'accepted') return 'Green';
     if (status === 'declined') return 'Red';
     return 'Red';
   }, []);
-
+  
   return (
     <>
       <div className="w-perc-100 txtDark700 dealsListings">
@@ -48,7 +48,7 @@ const OfferListings = (props) => {
             />
           </div>
         </div> */}
-
+        
         {
           get(data[0], 'deal', null) === 'sample' && (
             <div className="ta-c txtDark700">
@@ -60,7 +60,7 @@ const OfferListings = (props) => {
             </div>
           )
         }
-
+        
         <div className={`${get(data[0], 'deal', null) === 'sample' ? 'empty-state' : ''} offers listings-wrapper w-perc-100`}>
           <div className="content-wrapper pos-r w-perc-100">
             <div className="listings-container">
@@ -88,13 +88,13 @@ const OfferListings = (props) => {
                         data.map((offer, i) => (
                           <Fragment key={`off_${i.toString()}`}>
                             <div className="results fsize-300 row-cols-4 dis-f brdRadius shadow-1dp mb-2 px-1 py-small-12 bgWhite">
-
+                              
                               <div className="row-section pl-1 dis-f a-c name">
                                 <div className="wrapper dis-f a-c">
                                   <div className="cur-poi" onClick={() => onChangeLocation(`/${activeSingleProperty.id}/closing/${offer.deal}`)}>
                                     {
                                       offer.deal === 'sample' ? (
-                                        <img width="40" alt="female avatar" src={femaleAvatar} />
+                                        <img loading="lazy" width="40" alt="female avatar" src={femaleAvatar} />
                                       ) : (
                                         <BrixelAvatar
                                           baseURL={getConfigEnv.shortPath}
@@ -119,11 +119,11 @@ const OfferListings = (props) => {
                                   </div>
                                 </div>
                               </div>
-
+                              
                               <div className="row-section pl-1 dis-f a-c amount">
                                 <span className="date txtDark700">{get(offer, 'offer.currency', 0)} {Helpers.formatNumberValue(get(offer, 'offer.amount', 0), get(offer, 'offer.currency', 0))}</span>
                               </div>
-
+                              
                               <div className="row-section pl-1 dis-f a-c date">
                                 {
                                   get(offer, 'offer.createdAt', null) ? (
@@ -133,7 +133,7 @@ const OfferListings = (props) => {
                                   )
                                 }
                               </div>
-
+                              
                               <div className="row-section pl-1 dis-f a-c status">
                                 <div className="dis-f a-c w-perc-100 pr-1">
                                   <BrixelStatus
@@ -145,7 +145,7 @@ const OfferListings = (props) => {
                                   </span>
                                 </div>
                               </div>
-
+                            
                             </div>
                           </Fragment>
                         ))
@@ -154,7 +154,7 @@ const OfferListings = (props) => {
                     {
                       get(data[0], 'deal', null) === 'sample' && (
                         <>
-                          <img width="100%" alt="empty" src={emptyOffer} />
+                          <img loading="lazy" width="100%" alt="empty" src={emptyOffer} />
                         </>
                       )
                     }

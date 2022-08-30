@@ -5,8 +5,8 @@ import { compose } from 'redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import GreenHouseImg from '../../images/scanTrial/green_house.svg';
-import ScheduleImg from '../../images/scanTrial/schedule.svg';
+import GreenHouseImg from '../../../images/scanTrial/green_house.svg';
+import ScheduleImg from '../../../images/scanTrial/schedule.svg';
 
 const ResumeTrialFlow = (props) => {
   // PROPS
@@ -21,7 +21,7 @@ const ResumeTrialFlow = (props) => {
       {
         get(formValue, 'analysis', '') === 'on-site' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
-            <img width="164" src={GreenHouseImg} alt="Resume" />
+            <img loading="lazy" width="164" src={GreenHouseImg} alt="Resume" />
             <h4 className="fweight-400 ta-c mt-3">{translateTo('Thanks for booking your on-site appointment.', lang)}</h4>
             <p className="ta-c mt-2">{translateTo('You will get an e-mail with a confirmation and more details.', lang)}</p>
           </div>
@@ -31,7 +31,7 @@ const ResumeTrialFlow = (props) => {
       {
         get(formValue, 'analysis', '') === 'remote' && (
           <div className="max-w-fix-360 ml-a mr-a ta-c">
-            <img src={ScheduleImg} alt="Resume" />
+            <img loading="lazy" src={ScheduleImg} alt="Resume" />
             <p className="ta-c mt-2">
               {translateTo('Thank you for completing your video call.', lang)}
             </p>

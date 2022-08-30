@@ -381,7 +381,7 @@ const SplashScreen = (props) => {
                     <>
                       <div className="w-fix-424 brdRadius ov-h dis-fl-col jc-c a-c noMatchProperty m-a pb-5 mb-10">
                         <div className="bgBlue400 pt-6 w-perc-100 ta-c">
-                          <img src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
+                          <img loading="lazy" src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
                         </div>
                         <div className="p-2">
                           <h4 className="fweight-600 mb-1 mt-3">That’s it.</h4>
