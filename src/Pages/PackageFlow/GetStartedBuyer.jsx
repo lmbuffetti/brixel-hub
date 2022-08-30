@@ -50,6 +50,7 @@ const GetStartedBuyer = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     changeFieldValue,
     company,
     destroyForm,
@@ -169,12 +170,9 @@ const GetStartedBuyer = (props) => {
           state: { hideClose: true },
         },
       };
-      if (action === 'accept' && company === 'baloise') {
-        set(data.user, 'termsBaloiseBank', true);
-        set(data.user, 'termsBaloiseInsurance', true);
-      }
-      if (action === 'accept' && company === 'ubs') {
-        set(data.user, 'termsUBS', true)
+      if (activeSingleCompany.stub === 'baloise' || activeSingleCompany.stub === 'ubs') {
+        const userType = 'buyer';
+        set(data, 'redirectToUrl', `/termsConditionFlow/${activeSingleCompany.stub}/${userType}?url=/buy`);
       }
       // DISPATCH TO DO REGISTRATION USER
       await handleValidateUser(data);
@@ -784,6 +782,7 @@ const GetStartedBuyer = (props) => {
 };
 
 GetStartedBuyer.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
@@ -812,6 +811,7 @@ const mapStateToProps = (state, ownProps) => {
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
