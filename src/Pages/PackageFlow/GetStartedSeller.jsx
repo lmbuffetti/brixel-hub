@@ -11,7 +11,6 @@ import {
   BrixelProgressBar,
   DataByCountry,
   translateTo,
-  BrixelButtonText,
 } from '@brixel/brixel-components';
 import {
   MultiFileldsReduxForm,
@@ -50,6 +49,7 @@ const GetStartedSeller = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     changeFieldValue,
     company,
     destroyForm,
@@ -103,7 +103,7 @@ const GetStartedSeller = (props) => {
   };
 
   // FUNCTION TO SAVE DATA
-  const saveData = async (action = '') => {
+  const saveData = async () => {
     if (isLoading) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
@@ -130,7 +130,6 @@ const GetStartedSeller = (props) => {
     };
     // PROPERTY DATA
     delete dataFormAnswer.login;
-    if (action === 'skip') delete dataFormAnswer.baloiseInfo;
     const data = {
       ...dataFormAnswer,
       packageFlowProcess: {
@@ -160,20 +159,9 @@ const GetStartedSeller = (props) => {
     const page = get(formValue, 'signupScreen', null);
     handleSpinnerOn();
     // IF USER IS LOGGED IN SAVE DIRECTLY THE PAGE
-    const termsCompany = {
-      termsUBS: false,
-      termsBaloiseBank: false,
-      termsBaloiseInsurance: false,
-    }
-    if (action === 'accept' && company === 'ubs') {
-      termsCompany.termsUBS = true;
-    }
     if (formValue.owner && get(data, 'price.currency', null)) {
       data.owner = get(loggedInUser, 'user.id', '');
       // DISPATCH TO SAVE THE PROPERTY
-      if (action === 'accept' && company === 'ubs') {
-        set(data, 'termsUBS', true)
-      }
       await handleCreateActiveSingleProperty(data);
     } else if (page === 'login') {
       changeFieldValue('register.email', login.email);
@@ -189,6 +177,7 @@ const GetStartedSeller = (props) => {
       changeFieldValue('login.email', register.email);
       // IF USER DO THE SIGN UP, DO THE REGISTRATION AND THEN SAVE DIRECTLY THE PAGE
       // USER DATA
+      if (activeSingleCompany.stub === 'baloise' || activeSingleCompany.stub === 'ubs') set(data, 'redirectToUrl', `/termsConditionFlow/${activeSingleCompany.stub}/seller?url=/:pageID/home`);
       data.user = {
         ...register,
         email: register.email.toLowerCase(),
@@ -203,9 +192,6 @@ const GetStartedSeller = (props) => {
         createUser: true,
         company,
         ignoreEmail: false,
-        termsBaloiseBank: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseBank',
-        termsBaloiseInsurance: get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseInsurance',
-        termsUBS: termsCompany.termsUBS,
         seller: true,
         redirectTo: {
           pathname: '/packageFlow/getStarted/success',
@@ -667,7 +653,7 @@ const GetStartedSeller = (props) => {
               </div>
             </div>
             {
-              get(quest, 'history', null) !== 'createProfile' && (get(quest, 'history', '') !== 'baloisePolicy' && get(quest, 'history', '') !== 'ubsPolicy') && (
+              get(quest, 'history', null) !== 'createProfile' && (
                 <div
                   className={`footerAction flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
                 >
@@ -698,107 +684,9 @@ const GetStartedSeller = (props) => {
                           />
                         )
                       }
-                      {
-                        (get(quest, 'history', null) === 'baloiseInfo') && (
-                          <BrixelButtonText
-                            theme="light"
-                            className='pos-a-sm x-r'
-                            label={translateTo('Skip', lang)}
-                            onClick={() => saveData('skip')}
-                          />
-                        )
-                      }
                     </div>
                   </div>
                 </div>
-              )
-            }
-            {
-              (get(quest, 'history', null) === 'baloisePolicy' || get(quest, 'history', null) === 'ubsPolicy') && (
-                <>
-                  {
-                    quest.title && (
-                      <h3 className={`fweight-600 max-w-fix-600 ta-c fsize-600 fsize-sm-800 m-a ${quest.subtitle ? 'mb-1' : 'mb-5'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                    )
-                  }
-                  <div
-                    className={`brdRadius bgWhite ml-a mr-a px-2 px-sm-6 ${quest.bulletPoints ? 'dis-fl-col dis-fl-row-lg bulletPointsStep jc-b py-2 py-lg-0 max-w-fix-912' : 'max-w-fix-752 pt-3 pb-6'}`}
-                  >
-                    {
-                      quest.text.map((text, i) => (
-                        <div
-                          className={quest.bulletPoints ? 'w-perc-lg-55 py-lg-3 pr-lg-4' : ''}
-                          key={i.toString()}
-                        >
-                          <span className="fweight-600 my-3 dis-b">{text.title}</span>
-                          {
-                            text.subtitle && (
-                              <p className="fsize-300 fweight-500 mb-1 dis-b">{text.subtitle}</p>
-                            )
-                          }
-                          <p className="fsize-300 mb-2 dis-b" dangerouslySetInnerHTML={{ __html: text.description }} />
-                        </div>
-                      ))
-                    }
-                    {
-                      quest.bulletPoints && (
-                        <div className="brdSmallLeft-lg brdAltGrey100 w-perc-lg-45 pl-lg-5 py-lg-3 max-w-fix-lg-352">
-                          <span className="my-3 dis-b">{quest.bulletPoints.title}</span>
-                          <ul className="">
-                            {
-                              quest.bulletPoints.description.map((bullet,k) => (
-                                <li
-                                  className="mb-2"
-                                  key={k.toString()}
-                                >
-                                  {bullet}
-                                </li>
-                              ))
-                            }
-                          </ul>
-                        </div>
-                      )
-                    }
-                  </div>
-                  <div
-                    className={`footerAction my-3 flowFooter ${get(quest, 'footerWidth', '')} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
-                  >
-                    <div className="pos-r">
-                      <div className="w-perc-100 a-c dis-fl-row m-a flex-wrap jc-c">
-                        {
-                          get(quest, 'history', null) !== 'ubsPolicy' && (
-                            <BrixelButtonIcon
-                              className="backBtn pos-a-sm x-l"
-                              icon="arrow-left-small"
-                              onClick={() => changeStep('back')}
-                              theme="light"
-                              secondary
-                            />
-                          )
-                        }
-                        {
-                          get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType') || action === 'back') && (
-                            <BrixelButtonPrimary
-                              className={`ml-a mr-a noWrap ${get(quest, 'history', null)}`}
-                              disabled={!checkValidateField()}
-                              rounded
-                              theme="green"
-                              label={translateTo('Accept', lang)}
-                              onClick={() => saveData('accept')}
-                              onShowError={() => setShowError(true)}
-                            />
-                          )
-                        }
-                        <BrixelButtonText
-                          theme="light"
-                          className="pos-a-sm x-r"
-                          label={translateTo('Skip', lang)}
-                          onClick={() => saveData('skip')}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </>
               )
             }
           </form>
@@ -809,6 +697,7 @@ const GetStartedSeller = (props) => {
 };
 
 GetStartedSeller.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
@@ -842,6 +731,7 @@ const mapStateToProps = (state, ownProps) => {
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'PT');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
