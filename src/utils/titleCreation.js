@@ -205,6 +205,8 @@ const builadingLandAdjective = {
   ]
 };
 
+
+
 export const titleProperty = (location, propertyType, lang, formValue) => {
   const getCountry = get(location, 'countryCode', null);
   let adjective = aptAdjective;
@@ -232,13 +234,21 @@ export const titleProperty = (location, propertyType, lang, formValue) => {
       pageTitle = adjective[lang] ? `${adjective[lang][randomNumber]} ${translatedPropertyType}` : `${adjective.en[randomNumber]} ${translatedPropertyType}`;
     }
     if (location.city) {
-      pageTitle += ` in ${location.city}`;
+      if (lang === 'fr') pageTitle += ` á ${location.city}`;
+      else if (lang === 'it') pageTitle += ` a ${location.city}`;
+      else  pageTitle += ` in ${location.city}`;
     } else if (location.state) {
-      pageTitle += ` in ${location.state}`;
+      if (lang === 'fr') pageTitle += ` á ${location.state}`;
+      else if (lang === 'it') pageTitle += ` a ${location.state}`;
+      else pageTitle += ` in ${location.state}`;
     } else if (location.country) {
-      pageTitle += ` in ${location.country}`;
+      if (lang === 'fr') pageTitle += ` á ${location.country}`;
+      else if (lang === 'it') pageTitle += ` a ${location.country}`;
+      else pageTitle += ` in ${location.country}`;
     } else {
-      pageTitle += ` in ${location.address}`;
+      if (lang === 'fr') pageTitle += ` á ${location.address}`;
+      else if (lang === 'it') pageTitle += ` a ${location.address}`;
+      else pageTitle += ` in ${location.address}`;
     }
   }
   return pageTitle;
