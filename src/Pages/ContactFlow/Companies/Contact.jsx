@@ -93,7 +93,6 @@ const Contact = (props) => {
     if (activeSingleProperty.company) handleGetActiveSingleCompany({ id: activeSingleProperty.company });
   }, [activeSingleProperty.company]);
 
-
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
