@@ -47,14 +47,26 @@ const ArticlesBox = (props) => {
       history.push(internalLink);
     }
   }
+  const skeltons = document.querySelectorAll('.skeltonWrap');
 
-  if (get(activeSingleCompany, 'stub', '') !== 'ubs' && get(activeSingleCompany, 'stub', '') !== 'baloise' ) return <></>;
+  useEffect(() => {
+    if (skeltons) {
+      setTimeout(() => {
+        // skeltonWrap.classList.add('hide');
+        skeltons.forEach(function(o){
+          o.classList.add('hide');
+        });
+      }, 100);
+    }
+  }, [skeltons]);
+
+  if ((get(activeSingleCompany, 'stub', '') !== 'ubs' && get(activeSingleCompany, 'stub', '') !== 'baloise')) return <></>;
 
   return (
     <div className={`mt-5 ${className}`}>
-      <div className="dis-f flex-wrap jc-b">
-        {
-          articles.length !== 0 ? (
+      {
+        articles.length !== 0 ? (
+          <div className={`dis-f flex-wrap jc-b ${placement.mainTitle ? 'mb-3' : ''}`}>
             <>
               {
                 placement.mainTitle && (
@@ -76,33 +88,31 @@ const ArticlesBox = (props) => {
                 </div>
               </div>
             </>
-          ) : (
-            <div className='dis-f w-perc-100 h-fix-24 jc-b'>
-              <div className='w-perc-40 h-fix-24 skeletonBg'>
-              </div>
-              <div className='w-perc-20 h-fix-24 skeletonBg'>
-              </div>
-            </div>
-          )
-        }
-      </div>
-      <div className="row-cols-sm-3-gut-4 my-3">
+          </div>
+        ) : (
+          <div className='dis-f w-perc-100 h-fix-24 jc-b mb-3 skeltonWrap'>
+            <div className='w-perc-40 h-fix-24 skeletonBg'/>
+            <div className='w-perc-20 h-fix-24 skeletonBg'/>
+          </div>
+        )
+      }
+      <div className="row-cols-sm-3-gut-4 mb-3">
         {
-          articles.length === 0 ? (
+          !articles.length ? (
             <>
-              <div className=''>
+              <div className="skeltonWrap">
                 <div className="h-fix-144 skeletonBg"/>
                 <div className="h-fix-16 mt-2 skeletonBg"/>
                 <div className="h-fix-16 mt-2 skeletonBg"/>
                 <div className="h-fix-16 w-perc-50 mt-2 skeletonBg"/>
               </div>
-              <div className=''>
+              <div className='skeltonWrap'>
                 <div className="h-fix-144 skeletonBg"/>
                 <div className="h-fix-16 mt-2 skeletonBg"/>
                 <div className="h-fix-16 mt-2 skeletonBg"/>
                 <div className="h-fix-16 w-perc-50 mt-2 skeletonBg"/>
               </div>
-              <div className=''>
+              <div className='skeltonWrap'>
                 <div className="h-fix-144 skeletonBg"/>
                 <div className="h-fix-16 mt-2 skeletonBg"/>
                 <div className="h-fix-16 mt-2 skeletonBg"/>
@@ -138,7 +148,7 @@ ArticlesBox.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   placementSlug: PropTypes.string.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default ArticlesBox;

@@ -74,7 +74,7 @@ const BannerBox = (props) => {
           </div>
           {
             get(banner, 'mainImage[0].url', null) && (
-              <div className='ml-0 ml-sm-4 px-2 pb-1 pb-sm-0 p-sm-0 dis-f a-c jc-fe'>
+              <div className='ml-0 ml-sm-4 px-2 pb-1 pb-sm-0 p-sm-0 dis-f a-c jc-sm-fe'>
                 <img loading="lazy" className="w-fix-120" src={get(banner, 'mainImage[0].url', '')} alt={banner.mainImage[0].alt} />
               </div>
             )
