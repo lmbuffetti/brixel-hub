@@ -56,7 +56,7 @@ const ArticlesBox = (props) => {
         skeltons.forEach(function(o){
           o.classList.add('hide');
         });
-      }, 100);
+      }, 2000);
     }
   }, [skeltons]);
 
