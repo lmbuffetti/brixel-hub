@@ -38,7 +38,7 @@ const ArticlesBox = (props) => {
     }
 
   }, [activeSingleCompany, lang]);
-  
+
   const onClickBanner = (url, target) => {
     if (!url.includes('PAGE_ID')) {
       window.open(url, target);
@@ -48,45 +48,85 @@ const ArticlesBox = (props) => {
     }
   }
 
-  if (articles.length === 0) return <></>;
+  if (get(activeSingleCompany, 'stub', '') !== 'ubs' && get(activeSingleCompany, 'stub', '') !== 'baloise' ) return <></>;
 
   return (
     <div className={`mt-5 ${className}`}>
       <div className="dis-f flex-wrap jc-b">
         {
-          placement.mainTitle && (
-            <h5 className="fweight-600">{placement.mainTitle}</h5>
+          articles.length !== 0 ? (
+            <>
+              {
+                placement.mainTitle && (
+                  <h5 className="fweight-600">{placement.mainTitle}</h5>
+                )
+              }
+              <div className="dis-f a-c flex-wrap mt-1 mt-lg-0">
+                {
+                  placement.subtitle && (
+                    <span className="fsize-300 txtAltGrey400">{placement.subtitle}</span>
+                  )
+                }
+                <div className="div">
+                  {
+                    get(placement, 'logo[0]', null) && (
+                      <img loading="lazy" className="ml-0 ml-sm-2 h-fix-20 h-fix-lg-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
+                    )
+                  }
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className='dis-f w-perc-100 h-fix-24 jc-b'>
+              <div className='w-perc-40 h-fix-24 skeletonBg'>
+              </div>
+              <div className='w-perc-20 h-fix-24 skeletonBg'>
+              </div>
+            </div>
           )
         }
-        <div className="dis-f a-c flex-wrap mt-1 mt-lg-0">
-          {
-            placement.subtitle && (
-              <span className="fsize-300 txtAltGrey400">{placement.subtitle}</span>
-            )
-          }
-          <div className="div">
-            {
-              get(placement, 'logo[0]', null) && (
-                <img loading="lazy" className="ml-2 h-fix-20 h-fix-lg-24" src={placement.logo[0].url} alt={placement.logo[0].alt} />
-              )
-            }
-          </div>
-        </div>
       </div>
       <div className="row-cols-sm-3-gut-4 my-3">
         {
-          articles.map((card) => (
-            <ContentCard
-              key={ get(card, 'id', '') }
-              image={ get(card, 'mainImage[0]', null) }
-              title={ get(card, 'cardTitle', '') }
-              previewCopy={ get(card, 'previewCopy', '') }
-              hrefUrl={ get(card, 'cardLink.url', '') }
-              hrefTitle={get(card, 'cardLink.text', '')}
-              hrefTarget={ get(card, 'cardLink.target', '') }
-              hrefOnClick={(url, target) => onClickBanner(url, target)}
-            />
-          ))
+          articles.length === 0 ? (
+            <>
+              <div className=''>
+                <div className="h-fix-144 skeletonBg"/>
+                <div className="h-fix-16 mt-2 skeletonBg"/>
+                <div className="h-fix-16 mt-2 skeletonBg"/>
+                <div className="h-fix-16 w-perc-50 mt-2 skeletonBg"/>
+              </div>
+              <div className=''>
+                <div className="h-fix-144 skeletonBg"/>
+                <div className="h-fix-16 mt-2 skeletonBg"/>
+                <div className="h-fix-16 mt-2 skeletonBg"/>
+                <div className="h-fix-16 w-perc-50 mt-2 skeletonBg"/>
+              </div>
+              <div className=''>
+                <div className="h-fix-144 skeletonBg"/>
+                <div className="h-fix-16 mt-2 skeletonBg"/>
+                <div className="h-fix-16 mt-2 skeletonBg"/>
+                <div className="h-fix-16 w-perc-50 mt-2 skeletonBg"/>
+              </div>
+            </>
+          ) : (
+            <>
+              {
+                articles.map((card) => (
+                  <ContentCard
+                    key={ get(card, 'id', '') }
+                    image={ get(card, 'mainImage[0]', null) }
+                    title={ get(card, 'cardTitle', '') }
+                    previewCopy={ get(card, 'previewCopy', '') }
+                    hrefUrl={ get(card, 'cardLink.url', '') }
+                    hrefTitle={get(card, 'cardLink.text', '')}
+                    hrefTarget={ get(card, 'cardLink.target', '') }
+                    hrefOnClick={(url, target) => onClickBanner(url, target)}
+                  />
+                ))
+              }
+            </>
+          )
         }
       </div>
     </div>
