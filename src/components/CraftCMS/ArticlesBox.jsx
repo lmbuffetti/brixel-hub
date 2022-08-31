@@ -63,10 +63,10 @@ const ArticlesBox = (props) => {
   if ((get(activeSingleCompany, 'stub', '') !== 'ubs' && get(activeSingleCompany, 'stub', '') !== 'baloise')) return <></>;
 
   return (
-    <div className={`mt-5 ${className}`}>
+    <div className={className}>
       {
         articles.length !== 0 ? (
-          <div className={`dis-f flex-wrap jc-b ${placement.mainTitle ? 'mb-3' : ''}`}>
+          <div className={`dis-f flex-wrap jc-b mt-6 ${placement.mainTitle ? 'mb-3' : ''}`}>
             <>
               {
                 placement.mainTitle && (
@@ -90,7 +90,7 @@ const ArticlesBox = (props) => {
             </>
           </div>
         ) : (
-          <div className='dis-f w-perc-100 h-fix-24 jc-b mb-3 skeltonWrap'>
+          <div className='dis-f w-perc-100 h-fix-24 jc-b mb-3 skeltonWrap mt-6'>
             <div className='w-perc-40 h-fix-24 skeletonBg'/>
             <div className='w-perc-20 h-fix-24 skeletonBg'/>
           </div>
