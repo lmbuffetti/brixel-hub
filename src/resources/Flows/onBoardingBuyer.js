@@ -238,57 +238,12 @@ export const QuestionsList = (lang, type) => {
       }],
       hideSearchProfile: true,
     },
-  ];
-  if ((company !== 'baloise') && (company !== 'ubs')) {
-    question.push(
-      {
-        hideSearchProfile: true,
-        history: 'savingData',
-        cardType: 'createProfile',
-        toSave: true,
-      },
-    )
-  }
-  question.push(
     {
-      condition: [{
-        name: 'company',
-        value: 'ubs',
-      }],
-      title: translateTo('Activate your UBS advantages now.', lang),
-      history: 'ubsPolicy',
-      cardType: 'ubsPolicy',
-      footerWidth: 'max-w-fix-912',
-      bulletPoints: {
-        title: translateTo('What are my advantages?', lang),
-        description: [
-          translateTo('You get CHF 2000 discount', lang),
-          translateTo('You pay only if the sale is successful', lang),
-          translateTo('Your selling price is checked', lang),
-        ]
-      },
-      text: [{
-        title: translateTo('Transmission of data to UBS', lang),
-        subtitle: translateTo('The financing offers from UBS are only accessible to persons resident in Switzerland.', lang),
-        description: `<span>${translateTo('I agree that my data (surname, first name, telephone number, e-mail) is transmitted to UBS Switzerland AG. Furthermore, to check whether I am already a client of UBS Switzerland AG, I authorize UBS Switzerland AG to compare my data with my existing data at UBS Switzerland AG.', lang)}</span><span class="mt-1 dis-b">${translateTo('This consent can be revoked at any time for the future. The revocation of consent does not affect the legality of the data processing carried out based on the consent until revocation.', lang)}</span>`,
-      },]
-    }
-  );
-  question.push(
-    {
-      condition: [{
-        name: 'company',
-        value: 'baloise',
-      }],
-      title: translateTo('Benefit from the consulting services of our partner Baloise.', lang),
-      history: 'baloisePolicy',
-      cardType: 'baloisePolicy',
-      footerWidth: 'max-w-fix-752',
-      text: [{
-        title: translateTo('Transmission of data to Baloise Insurance.', lang),
-        description: translateTo('I hereby agree that my data (Surname, first name, phone number, e-mail) is transmitted to Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. so that I can receive newsletters or telephone contact regarding home financing, pension provision and assets. Furthermore, in order to check whether I am already a customer of Baloise Insurance Ltd. and/or Baloise Bank SoBa Ltd., I authorize Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. to compare with my relevant data held by Baloise Insurance Ltd. and Baloise Bank SoBa Ltd. You can revoke this consent at any time in the future. If you no longer wish to receive the newsletter from Baloise Insurance Ltd and Baloise Bank SoBa Ltd, you can cancel this by clicking on the link provided in the respective newsletter. The revocation of consent does not affect the legality of the data processing carried out on the basis of the consent until revocation.', lang),
-      },]
+      hideSearchProfile: true,
+      history: 'savingData',
+      cardType: 'createProfile',
+      toSave: true,
     },
-  )
+  ];
   return question;
 };

@@ -81,8 +81,12 @@ const Contact = (props) => {
   }, []);
 
   useEffect(() => {
-    handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
-    if (isBuyer) handleGetBuyerDeal({ id: propID, actionStub: null, });
+    let fullVersion = true;
+    if (isBuyer) {
+      fullVersion = false;
+      handleGetBuyerDeal({ id: propID, actionStub: null, });
+    }
+    handleGetActiveSingleProperty({ fullVersion, id: propID, multiLoader: !formValue.id });
   }, [propID]);
 
   useEffect(() => {
