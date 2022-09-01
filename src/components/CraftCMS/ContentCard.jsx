@@ -1,6 +1,7 @@
 import { BrixelButtonText } from '@brixel/brixel-components';
 import React from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 
 const ContentCard = (props) => {
   const {
@@ -12,15 +13,19 @@ const ContentCard = (props) => {
     previewCopy,
     title,
   } = props;
-
+  
   return (
     <div className="mb-3 mb-sm-0">
-      <a href={hrefUrl}
-        className="dis-f ov-h a-b cur-poi"
-        target="_blank" rel="noreferrer"
-      >
-        <img loading="lazy" className="of-co max-h-fix-sm-120 max-h-fix-lg-144" width="100%" src={image.url} alt={image.alt} />
-      </a>
+      {
+        get(image, 'url', null) && (
+          <a href={hrefUrl}
+            className="dis-f ov-h a-b cur-poi"
+            target="_blank" rel="noreferrer"
+          >
+            <img loading="lazy" className="of-co max-h-fix-sm-120 max-h-fix-lg-144" width="100%" src={image.url} alt={image.alt} />
+          </a>
+        )
+      }
       <a href={hrefUrl} target="_blank" rel="noreferrer">
         <h5 className="mt-2 mb-2 mb-sm-3 txtDark700 fSizePx18 fweight-600 tt-break-hy">{title}</h5>
       </a>
