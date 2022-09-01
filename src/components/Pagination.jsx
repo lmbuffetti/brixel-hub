@@ -73,7 +73,7 @@ const Pagination = (props) => {
                   bgTransparent
                   borderColor="light"
                   bodyScrollclass="content"
-                  selected={`${itemsPerPage} results`}
+                  selected={`${itemsPerPage} ${translateTo('results', lang)}`}
                   options={[{
                     label: '10',
                     value: 10,
