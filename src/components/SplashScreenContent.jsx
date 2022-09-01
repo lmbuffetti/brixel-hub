@@ -14,6 +14,7 @@ import {
   BrixelButtonIcon,
   BrixelButtonText,
   BrixelIcon,
+  translateTo,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
 import Slider from 'react-slick';
@@ -439,7 +440,7 @@ const SplashScreen = (props) => {
                               ghost
                               theme="dark"
                               onClick={() => changeProperty('forward')}
-                              label="Skip"
+                              label={translateTo("Skip", lang)}
                               disabled={activeSlide >= preMarketProperties.total}
                             />
                           )

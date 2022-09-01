@@ -67,14 +67,14 @@ const WizardCard = (props) => {
           top: posY,
         }}
       >
-        <small className="mb-1 dis-b fsize-300 txtDark400"><span>Step</span> <span>{wizard.step}</span> <span>of</span> <span>{Object.keys(currentWizard).length}</span></small>
+        <small className="mb-1 dis-b fsize-300 txtDark400"><span>{translateTo('Step', lang)}</span> <span>{wizard.step}</span> <span>{translateTo('of', lang)}</span> <span>{Object.keys(currentWizard).length}</span></small>
         <h5 className="mb-1 fweight-600">{translateTo(text.title, lang)}</h5>
         <p className="fsize-300 txtDark700">{translateTo(text.description, lang)}</p>
         <BrixelButtonPrimary
           className="mt-3"
           rounded
           onClick={() => onClickNext()}
-          label="Got it"
+          label={translateTo('Got it', lang)}
         />
       </div>
       {
