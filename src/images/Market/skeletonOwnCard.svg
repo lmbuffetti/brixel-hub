@@ -1,13 +1,31 @@
 <svg width="638" height="240" viewBox="0 0 638 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path opacity="0.7" d="M397 226H0V240H397V226Z" fill="#D8D8D8"/>
-<path d="M600 0H220V30H600V0Z" fill="#D8D8D8"/>
-<path d="M426 52H220V65H426V52Z" fill="#D8D8D8" fill-opacity="0.7"/>
-<path d="M397 144H279V157H397V144Z" fill="#D8D8D8" fill-opacity="0.7"/>
-<path d="M638 144H520V157H638V144Z" fill="#D8D8D8" fill-opacity="0.7"/>
-<path d="M384 166H279V179H384V166Z" fill="#D8D8D8" fill-opacity="0.7"/>
-<path d="M625 166H520V179H625V166Z" fill="#D8D8D8" fill-opacity="0.7"/>
-<path d="M243 184C255.703 184 266 173.703 266 161C266 148.297 255.703 138 243 138C230.297 138 220 148.297 220 161C220 173.703 230.297 184 243 184Z" fill="#D8D8D8"/>
-<path d="M484 184C496.703 184 507 173.703 507 161C507 148.297 496.703 138 484 138C471.297 138 461 148.297 461 161C461 173.703 471.297 184 484 184Z" fill="#D8D8D8"/>
+<path opacity="0.7" d="M397 226H0V240H397V226Z" class="svgcolor"/>
+<path d="M600 0H220V30H600V0Z" class="svgcolor"/>
+<path d="M426 52H220V65H426V52Z" class="svgcolor" fill-opacity="0.7"/>
+<path d="M397 144H279V157H397V144Z" class="svgcolor" fill-opacity="0.7"/>
+<path d="M638 144H520V157H638V144Z" class="svgcolor" fill-opacity="0.7"/>
+<path d="M384 166H279V179H384V166Z" class="svgcolor" fill-opacity="0.7"/>
+<path d="M625 166H520V179H625V166Z" class="svgcolor" fill-opacity="0.7"/>
+<path d="M243 184C255.703 184 266 173.703 266 161C266 148.297 255.703 138 243 138C230.297 138 220 148.297 220 161C220 173.703 230.297 184 243 184Z" class="svgcolor"/>
+<path d="M484 184C496.703 184 507 173.703 507 161C507 148.297 496.703 138 484 138C471.297 138 461 148.297 461 161C461 173.703 471.297 184 484 184Z" class="svgcolor"/>
 <line x1="429.5" y1="138" x2="429.5" y2="184" stroke="#DCDCDC"/>
-<rect width="184" height="184" fill="#D8D8D8"/>
+<rect class="svgcolor" width="184" height="184"/>
+<style>
+.svgcolor {
+    animation: skeleton-loading 500ms linear infinite alternate;
+  }
+
+@keyframes skeleton-loading {
+  0% {
+    fill: #CFD2D3;
+  }
+  50% {
+    fill: #EDEDED;
+  }
+  100% {
+    fill: #DEE0E0;
+  }
+}
+
+</style>
 </svg>
