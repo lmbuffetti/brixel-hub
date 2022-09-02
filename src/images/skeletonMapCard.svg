@@ -1,7 +1,25 @@
 <svg width="570" height="208" viewBox="0 0 570 208" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M291.84 0H12.16C5.44422 0 0 3.70646 0 8.27861V199.721C0 204.294 5.44422 208 12.16 208H291.84C298.556 208 304 204.294 304 199.721V8.27861C304 3.70646 298.556 0 291.84 0Z" fill="#D8D8D8"/>
-<path d="M570 13H320V30H570V13Z" fill="#D8D8D8"/>
-<path d="M570 43H320V55H570V43Z" fill="#D8D8D8"/>
-<path d="M570 84H320V96H570V84Z" fill="#D8D8D8"/>
-<path d="M570 169H320V190H570V169Z" fill="#D8D8D8"/>
+<path d="M291.84 0H12.16C5.44422 0 0 3.70646 0 8.27861V199.721C0 204.294 5.44422 208 12.16 208H291.84C298.556 208 304 204.294 304 199.721V8.27861C304 3.70646 298.556 0 291.84 0Z" class="svgcolor"/>
+<path d="M570 13H320V30H570V13Z" class="svgcolor"/>
+<path d="M570 43H320V55H570V43Z" class="svgcolor"/>
+<path d="M570 84H320V96H570V84Z" class="svgcolor"/>
+<path d="M570 169H320V190H570V169Z" class="svgcolor"/>
+<style>
+.svgcolor {
+    animation: skeleton-loading 500ms linear infinite alternate;
+  }
+
+@keyframes skeleton-loading {
+  0% {
+    fill: #CFD2D3;
+  }
+  50% {
+    fill: #EDEDED;
+  }
+  100% {
+    fill: #DEE0E0;
+  }
+}
+
+</style>
 </svg>
