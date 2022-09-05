@@ -55,6 +55,7 @@ const MarketCategoryListSeller = (props) => {
   };
   // PROPS
   const {
+    activeSingleCompany,
     activeMarketOverlayProperty,
     activeSingleCompanyPackages,
     activeSingleProperty,
@@ -243,7 +244,7 @@ const MarketCategoryListSeller = (props) => {
 
   const getCompanyStub = () => {
     // TODO: Company management for "Add new" property flow
-    if (ownerProperties.total === 0) return get(loggedInUser, 'company.stub', '')
+    if (ownerProperties.total === 0) return get(activeSingleCompany, 'stub', '')
     else {
       const company = companyListings.find((cmp) => cmp.id === get(ownerProperties, 'data[0].company', ''));
       return company.stub;
@@ -676,6 +677,7 @@ const MarketCategoryListSeller = (props) => {
 
 MarketCategoryListSeller.propTypes = {
   activeMarketOverlayProperty: PropTypes.object.isRequired,
+  activeSingleCompany: PropTypes.object.isRequired,
   activeSingleCompanyPackages: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyActivePackage: PropTypes.object.isRequired,
@@ -707,6 +709,7 @@ MarketCategoryListSeller.propTypes = {
 const mapStateToProps = (state) => ({
   activeMarketOverlayProperty: get(state, 'property.activeMarketOverlayProperty', {}),
   activeSingleCompanyPackages: get(state, 'companies.activeSingleCompanyPackages', []),
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyActivePackage: get(state, 'property.activeSinglePropertyActivePackage', {}),
   activeSinglePropertyPackage: get(state, 'property.activeSinglePropertyPackage', []),
