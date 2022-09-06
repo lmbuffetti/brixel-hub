@@ -163,7 +163,7 @@ const App = (props) => {
   const el = document.getElementsByClassName('thirdLevel');
 
   useEffect(() => {
-    smoothscrollPolyfill.polyfill();
+    if (smoothscrollPolyfill) smoothscrollPolyfill.polyfill();
     const queryURL = queryString.parse(get(history, 'location.search', ''));
     if (get(queryURL, 'lang', null)) setLangURL(queryURL.lang.toLowerCase());
   }, []);
