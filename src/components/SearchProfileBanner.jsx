@@ -134,7 +134,7 @@ const SearchProfileBanner = (props) => {
               !showWizard ? (
                 <>
                   <span>
-                    {translateTo('Watch properties which are not even on the market yet.', lang)}
+                    {translateTo('Watch properties which are not even on the market yet.', lang)}&nbsp;
                   </span>
                   <a
                     className="cur-poi link txtDark700 td-u fsize-500 ml-small-4"

@@ -103,9 +103,6 @@ const TermsCondition = (props) => {
     const data = {
       smallLoader: 'sendData',
       id: loggedInUser.id,
-      termsUBS: get(loggedInUser, 'termsUBS', false),
-      termsBaloiseBank: get(loggedInUser, 'termsBaloiseBank', false),
-      termsBaloiseInsurance: get(loggedInUser, 'termsBaloiseInsurance', false),
     }
     if (action === 'accept' && activeSingleCompany.stub === 'ubs') {
       data.termsUBS = true;

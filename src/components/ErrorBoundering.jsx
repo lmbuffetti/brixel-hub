@@ -11,6 +11,8 @@ import { sendSlackNotification } from '../actions/CommonActions';
 
 const cookies = new Cookies();
 
+const PageHasBeenForceRefreshed = "page-has-been-force-refreshed";
+
 class ErrorBoundary extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = { hasError: false };
@@ -21,32 +23,41 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, info) {
-    if (typeof window !== 'undefined') {
-      const url = get(window, 'location.href', '');
-      const {
-        activeSingleProperty,
-        handleSendSlackNotifications,
-        lang,
-        loggedInUser,
-        pageError,
-      } = this.props;
-      // logging the error details
-      const channel = 'frontend-dev';
-      const data = {
-        user: get(loggedInUser, 'id', ''),
-        page: get(activeSingleProperty, 'id', ''),
-        meta: `Browser Info: ${browserDetection().debug}\n Language: ${lang || cookies.get('brixelLang')}\n Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
-        url: window.location.href,
-        apiResource: '',
-      };
-      let txtError = '';
-      if (typeof error === 'string' && error) txtError = error;
-      if (!pageError) {
-        if (url && !url.includes('500') && !url.includes('localhost') && !txtError.includes('ChunkLoadError:') && !txtError.includes('Loading CSS chunk')) {
-          handleSendSlackNotifications({ data, channel });
-        } else {
-          // eslint-disable-next-line no-console
-          console.error(data);
+    const pageHasAlreadyBeenForceRefreshed = JSON.parse(
+      window.localStorage.getItem(PageHasBeenForceRefreshed) || "false"
+    );
+    if (pageHasAlreadyBeenForceRefreshed === false || pageHasAlreadyBeenForceRefreshed === 'false') {
+      window.localStorage.setItem(PageHasBeenForceRefreshed, "true");
+      return window.location.reload();
+    } else {
+      window.localStorage.setItem(PageHasBeenForceRefreshed, "false");
+      if (typeof window !== 'undefined') {
+        const url = get(window, 'location.href', '');
+        const {
+          activeSingleProperty,
+          handleSendSlackNotifications,
+          lang,
+          loggedInUser,
+          pageError,
+        } = this.props;
+        // logging the error details
+        const channel = 'frontend-dev';
+        const data = {
+          user: get(loggedInUser, 'id', ''),
+          page: get(activeSingleProperty, 'id', ''),
+          meta: `Browser Info: ${browserDetection().debug}\n Language: ${lang || cookies.get('brixelLang')}\n Cause: ${error}.\nStackTrace: ${get(info, 'componentStack', null)}`,
+          url: window.location.href,
+          apiResource: '',
+        };
+        let txtError = '';
+        if (typeof error === 'string' && error) txtError = error;
+        if (!pageError) {
+          if (url && !url.includes('500') && !url.includes('localhost') && !txtError.includes('ChunkLoadError:') && !txtError.includes('Loading CSS chunk')) {
+            handleSendSlackNotifications({ data, channel });
+          } else {
+            // eslint-disable-next-line no-console
+            console.error(data);
+          }
         }
       }
     }
