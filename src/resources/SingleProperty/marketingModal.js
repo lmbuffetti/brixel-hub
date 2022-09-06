@@ -3,7 +3,7 @@ import PublishPageImg from '../../images/Marketing/publishPage.svg';
 import UnpublishPageImg from '../../images/Marketing/unpublishPage.svg';
 import SuccessReview from '../../images/Marketing/successReview.svg';
 
-export const MarketingModal = (lang) => ({
+export const MarketingModalData = (lang) => ({
   publishPage: {
     request: {
       title: translateTo('Please confirm your request.', lang),
