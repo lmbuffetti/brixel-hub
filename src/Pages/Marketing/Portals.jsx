@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelButtonText,
-  BrixelStatus, translateTo,
+  BrixelStatus,
+  translateTo,
 } from '@brixel/brixel-components';
 import {
   ReduxField,
@@ -21,7 +22,7 @@ import {
 } from '@brixel/brixel-components/dist/form';
 import { updatePortalsReview } from '../../actions/PropertyActions';
 import { setModal } from '../../actions/CommonActions';
-import { MarketingModal } from '../../resources/SingleProperty/marketingModal';
+import { MarketingModalData } from '../../resources/SingleProperty/marketingModal';
 
 const Portals = (props) => {
   const match = useParams();
@@ -44,6 +45,7 @@ const Portals = (props) => {
   const [status, setStatus] = useState({});
   // URL PARAMS
   const propID = get(match, 'propID', null);
+  const MarketingModal = MarketingModalData(lang);
   
   // GET PORTALS STATUS
   const checkPortalsOnline = () => {
