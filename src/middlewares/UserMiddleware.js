@@ -236,6 +236,7 @@ const checkUser = (store) => (next) => (action) => {
       api.user.updateUser(id, objData)
         .then((response) => {
           if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: false } });
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { sentData: true } });
           else store.dispatch({ type: SPINNER_OFF });
           if (setLoggedInUser) {
             const userData = store.getState().user.loggedInUser;

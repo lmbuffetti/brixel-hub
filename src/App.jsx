@@ -47,6 +47,7 @@ const GetStarted = lazyWithRetry(() => import('./Pages/PackageFlow/GetStarted'))
 const GetStartedSeller = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedSeller'));
 const GetStartedBuyer = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedBuyer'));
 const GetStartedEstimation = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedEstimation'));
+const TermsCondition = lazyWithRetry(() => import('./Pages/PackageFlow/TermsCondition'));
 const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
 const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialFlow'));
 const MakeOffer = lazyWithRetry(() => import('./Pages/Closing/Offers/Flow/MakeOffer'));
@@ -162,7 +163,7 @@ const App = (props) => {
   const el = document.getElementsByClassName('thirdLevel');
 
   useEffect(() => {
-    smoothscrollPolyfill.polyfill();
+    if (smoothscrollPolyfill) smoothscrollPolyfill.polyfill();
     const queryURL = queryString.parse(get(history, 'location.search', ''));
     if (get(queryURL, 'lang', null)) setLangURL(queryURL.lang.toLowerCase());
   }, []);
@@ -448,7 +449,7 @@ const App = (props) => {
       <Loading isLoading={isLoading} />
     );
   }
-  
+
   return (
     <>
       <Helmet>
@@ -518,6 +519,7 @@ const App = (props) => {
                       <Route path="/packageFlow/getstarted/:companyStub/*" element={<GetStartedSeller />} />
                       <Route path="/packageFlow/getstartedBuyer/:companyStub/*" element={<GetStartedBuyer />} />
                       <Route path="/packageFlow/getstartedEstimation/:companyStub/*" element={<GetStartedEstimation />} />
+                      <Route path="/termsConditionFlow/:companyStub/:userType" element={<TermsCondition />} />
 
                       <Route path="/packageFlow/:propID/WelcomeSeller/*" element={<ProtectedRoute><WelcomeSeller /></ProtectedRoute>} />
                       <Route path="/packageFlow/testDrive/*" element={<ScanTrialFlow />} />

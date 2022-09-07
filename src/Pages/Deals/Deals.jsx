@@ -20,6 +20,7 @@ import { getPageDeals, setPageDeals } from '../../actions/PropertyActions';
 import DealsCard from '../../components/Cards/DealsCard';
 import DealsTitle from '../../components/DealsTitle';
 import FilterBar from '../../components/FilterBar';
+import DealSkeltonAnim from '../../images/deals-skelton-anim.svg';
 import DealSkelton from '../../images/deals-skelton.svg';
 import { getCookie, setCookie } from '../../utils/helpers';
 
@@ -44,7 +45,7 @@ const Deals = (props) => {
     lang,
     windowDimensions,
   } = props;
-  
+
   const [processedDeals, setProcessedDeals] = useState(null);
   const [activeDestColumn, setActiveDestColumn] = useState(null);
   const [activeIndexDeal, setActiveIndexDeal] = useState(-1);
@@ -55,7 +56,7 @@ const Deals = (props) => {
   const [filterStatus, setFilterStatus] = useState({
     status: getCookie('brixelFilterDeal') || 'all',
   });
-  
+
   const propID = get(match, 'propID', null);
 
   useEffect(() => {
@@ -410,19 +411,22 @@ const Deals = (props) => {
                           <div className="scrollContent">
                             {
                               activeSinglePropertyDeals && emptyDeals && smallLoader.loadDeal === false && (
-                                <div className="emptyMessage dis-f w-perc-100 jc-c">
-                                  <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
-                                    <h5>{translateTo('No deals yet?', lang)}</h5>
-                                    <p className="p-3 txtDark700">
-                                      {translateTo('Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.', lang)}
-                                    </p>
-                                    <BrixelButtonPrimary
-                                      label={translateTo('Manage listings', lang)}
-                                      rounded
-                                      onClick={() => history.push(`/${activeSingleProperty.id}/marketing/page`)}
-                                    />
+                                <>
+                                  <div className="emptyMessage dis-f w-perc-100 jc-c">
+                                    <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
+                                      <h5>{translateTo('No deals yet?', lang)}</h5>
+                                      <p className="p-3 txtDark700">
+                                        {translateTo('Your deals will appear as soon as any interested buyer interacts with your property. Make sure to publish your Brixel Page and your listings to receive deals.', lang)}
+                                      </p>
+                                      <BrixelButtonPrimary
+                                        label={translateTo('Manage listings', lang)}
+                                        rounded
+                                        onClick={() => history.push(`/${activeSingleProperty.id}/marketing/page`)}
+                                      />
+                                    </div>
                                   </div>
-                                </div>
+
+                                </>
                               )
                             }
                             {
@@ -446,7 +450,16 @@ const Deals = (props) => {
                                                 ref={provided.innerRef}
                                               >
                                                 {
-                                                  (emptyDeals && smallLoader.loadDeal) && (
+                                                  emptyDeals && smallLoader.loadDeal && (
+                                                    <>
+                                                      <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{translateTo(subkey, lang)}</span>
+                                                      <img loading="lazy" src={DealSkeltonAnim} alt="skelton deals" />
+                                                      { subkey === 'interested' && (<img loading="lazy" className="mt-3 mb-2" src={DealSkeltonAnim} alt="skelton deals" />)}
+                                                    </>
+                                                  )
+                                                }
+                                                {
+                                                  activeSinglePropertyDeals && emptyDeals && smallLoader.loadDeal === false && (
                                                     <>
                                                       <span className="fweight-500 fsize-500 txtLight400 mb-3 tt-c dis-b">{translateTo(subkey, lang)}</span>
                                                       <img loading="lazy" src={DealSkelton} alt="skelton deals" />

@@ -81,14 +81,17 @@ const Contact = (props) => {
   }, []);
 
   useEffect(() => {
-    handleGetActiveSingleProperty({ fullVersion: true, id: propID, multiLoader: !formValue.id });
-    if (isBuyer) handleGetBuyerDeal({ id: propID, actionStub: null, });
+    let fullVersion = true;
+    if (isBuyer) {
+      fullVersion = false;
+      handleGetBuyerDeal({ id: propID, actionStub: null, });
+    }
+    handleGetActiveSingleProperty({ fullVersion, id: propID, multiLoader: !formValue.id });
   }, [propID]);
 
   useEffect(() => {
     if (activeSingleProperty.company) handleGetActiveSingleCompany({ id: activeSingleProperty.company });
   }, [activeSingleProperty.company]);
-
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
@@ -243,13 +246,9 @@ const Contact = (props) => {
           if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
           if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
         } else {
-          if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-          if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) {
-            multiStepSlidesEl.scrollTo({
-              top: 0,
-              behavior: 'smooth',
-            });
-          }
+  
+          if (singleStepEl && typeof singleStepEl.scrollTo === 'function') singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+          if (multiStepSlidesEl && typeof multiStepSlidesEl.scrollTo === 'function') multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
     }
@@ -264,7 +263,7 @@ const Contact = (props) => {
       if (activeSingleProperty.owner !== loggedInUser.id) history.push(`/buyer/${propID}/contactFlow`);
     }
   }, [activeSingleProperty.id, activeSingleCompany.id, loggedInUser.id, isBuyer]);
-  
+
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
@@ -328,7 +327,7 @@ const Contact = (props) => {
       if (fullDate !== get(formValue, 'time.timestamp', '')) changeFieldValue('time.timestamp', fullDate);
     }
   }, [get(formValue, 'time.date', null), get(formValue, 'time.hour', null)]);
-  
+
   // FUNCTION TO LOAD DIFFERENT BUTTON LABEL BY STEP
   const buttonLabel = () => {
     let label = 'Continue';
@@ -413,11 +412,11 @@ const Contact = (props) => {
                           <div className="dis-f a-t flex-wrap jc-c">
                             {
                               get(quest, 'textsCard', []).map((txtCard, i) => (
-                                <div key={`card${i.toString()}`} className="ta-c col-md-4 p-2 p-sm-5">
+                                <div key={`card${i.toString()}`} className="ta-c col-12 col-sm-4 p-2 p-md-5">
                                   <div className="h-fix-80 mb-2 mb-sm-3">
                                     <img loading="lazy" height={'100px'} src={txtCard.image} alt={txtCard.title} />
                                   </div>
-                                  <h5 className="fsize-400 fsize-sm-500 max-w-fix-280 max-w-fix-sm-320 ml-a mr-a">{txtCard.title}</h5>
+                                  <h5 className="fsize-400 fsize-md-500 max-w-fix-280 max-w-fix-sm-320 ml-a mr-a">{txtCard.title}</h5>
                                 </div>
                               ))
                             }

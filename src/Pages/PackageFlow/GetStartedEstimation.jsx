@@ -51,6 +51,7 @@ const GetStartedEstimation = (props) => {
   const match = useParams();
   // PROPS
   const {
+    activeSingleCompany,
     changeFieldValue,
     company,
     destroyForm,
@@ -276,19 +277,9 @@ const GetStartedEstimation = (props) => {
         data.user.buyer = true;
         data.user.seller = false;
       }
-      if (get(dataFormAnswer, 'estimationType', '') === 'buyer'){
-        if (action === 'accept' && company === 'baloise') {
-          set(data.user, 'termsBaloiseBank', true);
-          set(data.user, 'termsBaloiseInsurance', true);
-        }
-        if (action === 'accept' && company === 'ubs') {
-          set(data.user, 'termsUBS', true)
-        }
-      }
-      if (get(dataFormAnswer, 'estimationType', '') === 'seller') {
-        if (get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseBank') set(data.user, 'termsBaloiseBank', true);
-        if (get(dataFormAnswer, 'baloiseInfo', '') === 'both' || get(dataFormAnswer, 'baloiseInfo', '') === 'baloiseInsurance') set(data.user, 'termsBaloiseInsurance', true);
-        if (get(dataFormAnswer, 'ubsPolicy', false) === true) set(data.user, 'termsUBS', true);
+      if (activeSingleCompany.stub === 'baloise' || activeSingleCompany.stub === 'ubs') {
+        const userType = data.user.buyer === true ? 'buyer' : 'seller';
+        set(data, 'redirectToUrl', `/termsConditionFlow/${activeSingleCompany.stub}/${userType}?url=/:pageID/home`);
       }
       // DISPATCH TO DO REGISTRATION USER
       await handleValidateUser(data);
@@ -442,8 +433,8 @@ const GetStartedEstimation = (props) => {
             if (singleStepEl && singleStepEl.scrollTop) singleStepEl.scrollTop = 0;
             if (multiStepSlidesEl && multiStepSlidesEl.scrollTop) multiStepSlidesEl.scrollTop = 0;
           } else {
-            if (singleStepEl && singleStepEl.scrollTo) singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
-            if (multiStepSlidesEl && multiStepSlidesEl.scrollTo) multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (singleStepEl && typeof singleStepEl.scrollTo === 'function') singleStepEl.scrollTo({ top: 0, behavior: 'smooth' });
+            if (multiStepSlidesEl && typeof multiStepSlidesEl.scrollTo === 'function') multiStepSlidesEl.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }
       }
@@ -888,6 +879,7 @@ const GetStartedEstimation = (props) => {
 GetStartedEstimation.propTypes = {
   // handleSaveActiveSingleProperty: PropTypes.func.isRequired,
   // handleSaveActiveSingleUser: PropTypes.func.isRequired,
+  activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   company: PropTypes.object.isRequired,
   destroyForm: PropTypes.func.isRequired,
@@ -921,6 +913,7 @@ const mapStateToProps = (state, ownProps) => {
   const companyCountryCode = get(state, 'companies.activeSingleCompany.country.code', 'CH');
   const countryPhoneCode = phonecode.find((code) => code.code === companyCountryCode);
   return ({
+    activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),

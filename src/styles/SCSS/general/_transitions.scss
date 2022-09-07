@@ -317,3 +317,16 @@
   }
 }
 
+
+.skeletonBg {
+  animation: skeleton-loading 500ms linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: map-get($lightColor, 200);
+  }
+  100% {
+    background-color: map-get($lightColor, 100);
+  }
+}

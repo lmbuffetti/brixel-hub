@@ -1,0 +1,84 @@
+<svg width="344" height="125" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <path d="M10.256 0h319.488c3.567 0 4.86.371 6.163 1.069a7.27 7.27 0 013.024 3.024C339.63 5.396 340 6.689 340 10.256v99.488c0 3.567-.371 4.86-1.069 6.163a7.27 7.27 0 01-3.024 3.024c-1.303.698-2.596 1.069-6.163 1.069H10.256c-3.567 0-4.86-.371-6.163-1.069a7.27 7.27 0 01-3.024-3.024C.37 114.604 0 113.311 0 109.744V10.256c0-3.567.371-4.86 1.069-6.163a7.27 7.27 0 013.024-3.024C5.396.37 6.689 0 10.256 0z" id="a"/>
+    <path id="d" d="M0 0h148v16H0z"/>
+    <path id="f" d="M0 0h204v14H0z"/>
+    <path id="h" d="M0 0h68v10H0z"/>
+    <path d="M20 0c11.046 0 20 8.954 20 20s-8.954 20-20 20S0 31.046 0 20 8.954 0 20 0z" id="j"/>
+    <filter x="-1%" y="-2.3%" width="101.9%" height="105.4%" filterUnits="objectBoundingBox" id="b">
+      <feOffset dy=".5" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+      <feColorMatrix values="0 0 0 0 0.376470588 0 0 0 0 0.380392157 0 0 0 0 0.439215686 0 0 0 0.16 0" in="shadowBlurOuter1" result="shadowMatrixOuter1"/>
+      <feOffset in="SourceAlpha" result="shadowOffsetOuter2"/>
+      <feGaussianBlur stdDeviation=".5" in="shadowOffsetOuter2" result="shadowBlurOuter2"/>
+      <feColorMatrix values="0 0 0 0 0.156862745 0 0 0 0 0.160784314 0 0 0 0 0.239215686 0 0 0 0.08 0" in="shadowBlurOuter2" result="shadowMatrixOuter2"/>
+      <feMerge>
+        <feMergeNode in="shadowMatrixOuter1"/>
+        <feMergeNode in="shadowMatrixOuter2"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <g transform="translate(2 2)">
+      <mask id="c" fill="#fff">
+        <use xlink:href="#a"/>
+      </mask>
+      <g fill-rule="nonzero">
+        <use fill="#000" filter="url(#b)" xlink:href="#a"/>
+        <use fill="#FFF" xlink:href="#a"/>
+      </g>
+      <path d="M10.256 0h319.488c3.567 0 4.86.371 6.163 1.069a7.27 7.27 0 013.024 3.024C339.63 5.396 340 6.689 340 10.256v99.488c0 3.567-.371 4.86-1.069 6.163a7.27 7.27 0 01-3.024 3.024c-1.303.698-2.596 1.069-6.163 1.069H10.256c-3.567 0-4.86-.371-6.163-1.069a7.27 7.27 0 01-3.024-3.024C.37 114.604 0 113.311 0 109.744V10.256c0-3.567.371-4.86 1.069-6.163a7.27 7.27 0 013.024-3.024C5.396.37 6.689 0 10.256 0z" fill="#FBFBFB" mask="url(#c)"/>
+      <path d="M10.256 0h319.488c3.567 0 4.86.371 6.163 1.069a7.27 7.27 0 013.024 3.024C339.63 5.396 340 6.689 340 10.256v99.488c0 3.567-.371 4.86-1.069 6.163a7.27 7.27 0 01-3.024 3.024c-1.303.698-2.596 1.069-6.163 1.069H10.256c-3.567 0-4.86-.371-6.163-1.069a7.27 7.27 0 01-3.024-3.024C.37 114.604 0 113.311 0 109.744V10.256c0-3.567.371-4.86 1.069-6.163a7.27 7.27 0 013.024-3.024C5.396.37 6.689 0 10.256 0z" mask="url(#c)"/>
+    </g>
+    <g transform="translate(74 18)">
+      <mask id="e" fill="#fff">
+        <use xlink:href="#d"/>
+      </mask>
+      <use class="svgcolor" xlink:href="#d"/>
+      <path mask="url(#e)" d="M0 0h148v16H0z"/>
+      <path mask="url(#e)" d="M0 0h148v16H0z"/>
+    </g>
+    <g>
+      <g transform="translate(74 42)">
+        <mask id="g" fill="#fff">
+          <use xlink:href="#f"/>
+        </mask>
+        <use fill="#EDEEEE" xlink:href="#f"/>
+        <path mask="url(#g)" d="M0 0h204v14H0z"/>
+        <path mask="url(#g)" d="M0 0h204v14H0z"/>
+      </g>
+      <g transform="translate(74 88)">
+        <mask id="i" fill="#fff">
+          <use xlink:href="#h"/>
+        </mask>
+        <use fill="#EDEEEE" xlink:href="#h"/>
+        <path mask="url(#i)" d="M0 0h68v10H0z"/>
+        <path mask="url(#i)" d="M0 0h68v10H0z"/>
+      </g>
+      <g transform="translate(18 18)">
+        <mask id="k" fill="#fff">
+          <use xlink:href="#j"/>
+        </mask>
+        <path d="M20 0c11.046 0 20 8.954 20 20s-8.954 20-20 20S0 31.046 0 20 8.954 0 20 0z" class="svgcolor" mask="url(#k)"/>
+      </g>
+    </g>
+  </g>
+<style>
+.svgcolor {
+    animation: skeleton-loading 500ms linear infinite alternate;
+  }
+
+@keyframes skeleton-loading {
+  0% {
+    fill: #CFD2D3;
+  }
+  50% {
+    fill: #EDEDED;
+  }
+  100% {
+    fill: #DEE0E0;
+  }
+}
+
+</style>
+</svg>
