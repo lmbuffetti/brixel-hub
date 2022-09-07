@@ -16,7 +16,7 @@ import { svgIcons } from '../Utilities/svgIcons';
 
 // QUESTION LISTS
 // eslint-disable-next-line default-param-last
-export const QuestionsList = (lang, country = 'CH', propType) => {
+export const QuestionsList = (lang, country = 'CH') => {
 
   // VALIDATION OF FIELDS
   const maxLengthNum = (val, name) => (value) => {
@@ -40,7 +40,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
   const maxLengthNumLivSpace = maxLengthNum(9999, 'living space');
   const maxLengthNumYear = maxLengthNum(2031, 'year');
 
-  let propertyType = propType;
+  let propertyType;
   let company = null;
   
   const conditionStatus = factsOptions.conditionStatus.map((item) => ({
@@ -52,7 +52,7 @@ export const QuestionsList = (lang, country = 'CH', propType) => {
     company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
   }
 
-  if (configureStore && !propType) {
+  if (configureStore) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
   }
   let livingAreaTitle = translateTo(country === 'PT' ? 'What is the gross area size?' : 'What is the living space size?', lang);

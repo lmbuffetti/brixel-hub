@@ -280,7 +280,7 @@ const GetStartedSeller = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
-    const newQuestions = QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'));
+    const newQuestions = questions;
     let newIndex = currentIndex;
     setOldIndex(currentIndex);
     setShowError(false);
