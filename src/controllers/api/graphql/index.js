@@ -1,7 +1,7 @@
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import getConfigEnvWeb from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import CraftCMS from '../actions/CraftCMS';
 import ApiClient from './APIQuery.js';
+const getConfigEnvWeb = require('@brixel/brixel-components/dist/configuration/SettingsWebpack');
 
 function apiFactory(
   {

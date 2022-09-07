@@ -1,4 +1,4 @@
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 
 import Common from '../actions/Common';
 import Company from '../actions/Company';
@@ -14,7 +14,7 @@ import Upload from '../actions/Upload';
 import User from '../actions/User';
 import ApiClient from './ApiClient';
 
-const getConfigEnvWeb = require('@brixel/brixel-configuration-partner/src/SettingsWebpack');
+const getConfigEnvWeb = require('@brixel/brixel-components/dist/configuration/SettingsWebpack');
 
 function apiFactory(
   {
