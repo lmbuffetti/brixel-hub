@@ -35,6 +35,7 @@ const SearchProfileBanner = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
+    onClose,
     onStatsFunc,
     preMarketStats,
     showWizard,
@@ -117,6 +118,11 @@ const SearchProfileBanner = (props) => {
   const cancel = () => {
     setShowSearchProfileForm(false);
   };
+  
+  const openLink = () => {
+    history.push('/buy/wishlist');
+    onClose();
+  }
 
   // Function to close the drawer menus when we click outside
   useOutsideAlerter(profileRef, {
@@ -438,7 +444,9 @@ const SearchProfileBanner = (props) => {
                         </p>
                       </div>
                     </div>
-                    <div className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2">
+                    <div
+                      className="dis-f a-c brdSmallLeft brdLight200 h-perc-100 pl-2 ml-2"
+                    >
                       <BrixelIcon
                         iconWidth="w-fix-32"
                         background="primary"
@@ -446,8 +454,12 @@ const SearchProfileBanner = (props) => {
                         color="primary"
                         rounded
                         icon="favorite"
+                        onClick={() => openLink()}
                       />
-                      <div className="ml-1 cur-poi" onClick={() => history.push('/buy/wishlist')}>
+                      <div
+                        className="ml-1 cur-poi"
+                        onClick={() => openLink()}
+                      >
                         <p className="fsize-600 fweight-600 txtPrimary600">
                           <span>{preMarketStats.likedTotal}</span>
                           <span className="fsize-400 fweight-400 txtDark700 dis-b mt-1-neg">
@@ -510,6 +522,7 @@ SearchProfileBanner.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
   onStatsFunc: PropTypes.object,
   preMarketStats: PropTypes.object.isRequired,
   showWizard: PropTypes.number,

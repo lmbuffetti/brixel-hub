@@ -260,13 +260,13 @@ const MarketCategoryListBuyer = (props) => {
                       }
                     </div>
                     {
-                      get(wishlistProperties, 'data', []).length > numWishProp && (
+                      get(wishlistProperties, 'total', 0) > numWishProp && (
                         <div
                           className="brdSmall brdRadius dis-f a-c jc-c brdPrimary400 min-w-fix-80 h-fix-80 ml-4 cur-poi"
                           onClick={() => history.push('/buy/wishlist')}
                         >
                           <span className="txtGreen400 fweight-600 fsize-500">
-                            + {get(wishlistProperties, 'data', []).length - numWishProp}
+                            + {get(wishlistProperties, 'total', 0) - numWishProp}
                           </span>
                         </div>
                       )
