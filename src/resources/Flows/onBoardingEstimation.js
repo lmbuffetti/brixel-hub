@@ -43,11 +43,11 @@ export const QuestionsList = (lang, country = 'CH') => {
   const maxLengthNumYear = maxLengthNum(2031, 'year');
 
   let propertyType = '';
-  let company = null;
+  // let company = null;
 
   if (configureStore) {
     propertyType = get(configureStore.getState(), 'brixelForm.GetStarted.values.properties.propertyType', '');
-    company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
+    // company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
   }
   let livingAreaTitle = translateTo(country === 'PT' ? 'What is the gross area size?' : 'What is the living space size?', lang);
   if (propertyType === 'Commercial') livingAreaTitle = translateTo( 'What is the floor size?', lang);

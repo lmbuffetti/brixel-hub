@@ -10,7 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const PurgecssPlugin = require('purgecss-webpack-plugin');
+const PurgeCSSPlugin = require('purgecss-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin');
 const safelistClass = require('./webapckSafelistClass');
 const CompressionPlugin = require("compression-webpack-plugin");
@@ -196,14 +196,14 @@ const clientConfig = () => {
       ],
     },
     plugins: [
-      /*new ESLintPlugin({
+      new ESLintPlugin({
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
         failOnWarning: !devMode,
         emitWarning: true,
         emitError: true,
         fix: true,
-      }),*/
+      }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
@@ -260,7 +260,7 @@ const clientConfig = () => {
   });
   if (!devMode) {
     config.plugins.push(
-      new PurgecssPlugin({
+      new PurgeCSSPlugin({
         paths: glob.sync([
           `${PATHS.src}/**/*`,
           `${PATHS.modules}/**/*`,

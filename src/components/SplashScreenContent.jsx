@@ -229,7 +229,6 @@ const SplashScreen = (props) => {
   });
 
   const closeOverlay = () => {
-    console.log('eh');
     setSplashScreen('');
     setMarketOverlayProperty({});
     handleSetActiveMarketOverlayPropertyLists(null);
@@ -272,7 +271,7 @@ const SplashScreen = (props) => {
     return findIndex > -1;
   };
 
-  const saveFavorite =() => {
+  const saveFavorite = (action) => {
     let property = activeMarketOverlayProperty;
     const slider = sliderInstance.current;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
@@ -281,7 +280,7 @@ const SplashScreen = (props) => {
       slider.slickGoTo(0);
     } else if (sliderInstance.current && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
       const data = {
-        act: checkFavorite() ? 'remove' : 'add',
+        act: action,
         id: property.id,
         property,
         data: {
@@ -444,8 +443,8 @@ const SplashScreen = (props) => {
                             iconWidth="w-fix-32"
                             saturation={200}
                             saturationTxt={400}
-                            onClick={() => saveFavorite()}
-                            icon="favorite"
+                            onClick={() => saveFavorite(checkFavorite() ? 'remove' : 'add')}
+                            icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
                             isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
                           />
                         </div>
@@ -517,7 +516,7 @@ const SplashScreen = (props) => {
                 rounded
                 secondary
                 theme="green"
-                onClick={() => saveFavorite()}
+                onClick={() => saveFavorite(checkFavorite() ? 'remove' : 'add')}
                 icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
                 isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
               />
