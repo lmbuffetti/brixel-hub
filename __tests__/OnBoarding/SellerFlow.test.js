@@ -7,7 +7,7 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
 import {
-  render, fireEvent, screen, waitFor,
+  render, fireEvent, screen, waitFor
 } from '../../configJest/testUtils';
 import SellerFlow from '../../src/Pages/PackageFlow/GetStartedSeller';
 
@@ -24,6 +24,10 @@ describe('Render Seller Flow', () => {
       },
       GetStarted: {
         values: {
+          id: '100000000000000000000000',
+          company: {
+            stub: 'brixel_portugal'
+          },
           pageID: '100000000000000000000000',
           test: true,
           location: {
@@ -52,9 +56,12 @@ describe('Render Seller Flow', () => {
     console.log('propertyType');
     const propType = screen.getAllByRole('radio')[0];
     await userEvent.click(propType);
+    console.log(screen.getByRole('button', { name: 'Next' }));
+    await waitFor(() => fireEvent.click(screen.getByRole('button', { name: 'Next' })), { timeout: 5000 });
 
     // BEDROOMS
     console.log('bedrooms');
+    await waitFor(() => screen.getByLabelText('Number of rooms'), { timeout: 5000 });
     const Rooms = screen.getByLabelText('Number of rooms');
     await userEvent.type(Rooms, '2');
     await fireEvent.click(screen.getAllByRole('button', { name: 'Next' })[0]);

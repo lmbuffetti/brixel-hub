@@ -68,7 +68,8 @@
     "eject": "react-scripts eject",
     "eslint": "eslint --fix --config .eslintrc --ignore-path .eslintignore .",
     "ncu": "ncu -x 'eslint-plugin-react'",
-    "ncu-u": "ncu -x 'eslint-plugin-react' -u"
+    "ncu-u": "ncu -x 'eslint-plugin-react' -u",
+    "cypress:open": "cypress run -- --browser chrome --spec './cypress/e2e/1-getting-started/todo.cy.js'"
   },
   "jest": {
     "verbose": true,

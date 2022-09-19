@@ -4,6 +4,9 @@ import { TextDecoder, TextEncoder } from 'util'
 global.TextEncoder = TextEncoder
 global.TextDecoder = TextDecoder
 
+import registerRequireContextHook from 'babel-plugin-require-context-hook/register';
+registerRequireContextHook();
+
 if (typeof window !== 'undefined') {
   window.matchMedia = window.matchMedia || function () {
     return {

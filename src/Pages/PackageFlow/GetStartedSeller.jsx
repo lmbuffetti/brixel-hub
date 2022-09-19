@@ -544,8 +544,9 @@ const GetStartedSeller = (props) => {
       if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-
-  if (!formValue.id && !company.stub) return (<div />);
+  
+  console.log(currentIndex);
+  if (!formValue.pageID && !company.stub) return (<div />);
 
   return (
     <>
@@ -575,7 +576,7 @@ const GetStartedSeller = (props) => {
           <form
             id="multiStepForm"
             autoComplete="off"
-            className="interactive dis-fl-col jc-b"
+            className="dis-fl-col jc-b"
             onSubmit={(e) => changeStep(null, e)}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">
@@ -674,7 +675,6 @@ const GetStartedSeller = (props) => {
                         get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || get(quest, 'history', null) === 'baloiseInfo') || action === 'back') && (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
-                            disabled={!checkValidateField()}
                             rounded
                             theme="green"
                             label={translateTo(buttonLabel(), lang)}
