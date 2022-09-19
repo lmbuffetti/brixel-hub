@@ -126,9 +126,6 @@ const clientConfig = () => {
                 ],
               },
             },
-            {
-              loader: 'astroturf/loader'
-            }
           ],
         },
         // Svg loader

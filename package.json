@@ -72,13 +72,16 @@
   },
   "jest": {
     "verbose": true,
+    "injectGlobals": true,
     "transformIgnorePatterns": [
       "<roodDir>/node_modules/",
       "<roodDir>/__tests__/(?!config)"
     ],
     "moduleFileExtensions": [
       "js",
-      "jsx"
+      "jsx",
+      "ts",
+      "tsx"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/configJest/setupTests.js"
