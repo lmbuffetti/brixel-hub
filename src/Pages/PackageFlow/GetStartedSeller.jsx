@@ -538,14 +538,13 @@ const GetStartedSeller = (props) => {
   };
 
   // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
-  const getStartedEl = document.querySelector('.getStarted');
   useEffect(() => {
     setTimeout(() => {
-      if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
+      const getStartedEl = document.querySelector('.getStarted');
+      if (getStartedEl && getStartedEl.classList) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
   
-  console.log(currentIndex);
   if (!formValue.pageID && !company.stub) return (<div />);
 
   return (
@@ -681,6 +680,7 @@ const GetStartedSeller = (props) => {
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}
+                            type="submit"
                           />
                         )
                       }

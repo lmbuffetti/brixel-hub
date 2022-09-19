@@ -17,7 +17,7 @@ describe('seller-onboarding', () => {
     // so we must tell it to visit our website with the `cy.visit()` command.
     // Since we want to visit the same URL at the start of all our tests,
     // we include it in our beforeEach function so that it runs before each test
-    cy.visit('https://wide:LXlovesZH@dev-hub.brixel.io/packageFlow/getStarted/brixel_portugal');
+    cy.visit('http://wide:LXlovesZH@localhost:5000/packageFlow/getStarted/brixel_portugal');
   })
 
   it('select property type', () => {
@@ -25,11 +25,30 @@ describe('seller-onboarding', () => {
   })
   
   it('rooms number', () => {
-    cy.get('button[type="button"]').click();
+    cy.get('button[type="submit"]').click();
   })
   
   it('living area', () => {
-    cy.get('input[type="text"]').type(124)
+    cy.get('input[type="number"]').type('124');
+    cy.get('button[type="submit"]').click();
+  })
+  
+  it('construction year', () => {
+    cy.get('input[type="number"]').type('2000');
+    cy.get('button[type="submit"]').click();
+  })
+  
+  it('address autocomplete', () => {
+    cy.get('input[role="search"]').type('Avenida');
+    cy.get('ul.resultAutoComplete li:first-child').should('exist').click();
+  })
+  
+  it('location recap', () => {
+    cy.get('button[type="submit"]').click();
+  })
+  
+  it('condition property', () => {
+    cy.get('[type="radio"]').first().check({ force: true });
   })
   
 })
