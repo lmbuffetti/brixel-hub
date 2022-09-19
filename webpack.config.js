@@ -32,7 +32,9 @@ const PATHS = {
   dist: path.join(__dirname, 'dist'),
 };
 
-const clientConfig = () => {
+const clientConfig = (env) => {
+  const testMode = env.TEST;
+  console.log(devMode, testMode);
   const config = ({
     mode: mode,
     devtool: devMode ? 'source-map' : 'source-map',
@@ -193,14 +195,6 @@ const clientConfig = () => {
       ],
     },
     plugins: [
-      // new ESLintPlugin({
-      //   extensions: ['js', 'jsx'],
-      //   failOnError: !devMode,
-      //   failOnWarning: !devMode,
-      //   emitWarning: true,
-      //   emitError: true,
-      //   fix: true,
-      // }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
@@ -255,7 +249,19 @@ const clientConfig = () => {
       hints: false
     },
   });
-  if (!devMode) {
+  if (!testMode) {
+    config.plugins.push(
+      new ESLintPlugin({
+        extensions: ['js', 'jsx'],
+        failOnError: !devMode,
+        failOnWarning: !devMode,
+        emitWarning: true,
+        emitError: true,
+        fix: true,
+      }),
+    )
+  }
+  if (!devMode && !testMode) {
     config.plugins.push(
       new PurgeCSSPlugin({
         paths: glob.sync([

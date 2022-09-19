@@ -46,6 +46,7 @@
   "scripts": {
     "start": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode development",
     "start-dev": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
+    "start-test": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env TEST --mode development",
     "start-prod": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode production",
     "test-build": "babel-node server/webpack.bundle",
     "build": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env DEV --mode production",
@@ -60,7 +61,7 @@
     "ncu-u": "ncu -x 'eslint-plugin-react' -u",
     "cypress:open": "cypress open",
     "e2e": "cypress run",
-    "test-cypress": "run-p --race start e2e"
+    "test-cypress": "run-p --race start-test e2e"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -103,6 +104,7 @@
     "postcss-split-css": "^1.0.2",
     "purgecss-webpack-plugin": "5.0.0",
     "react-dev-utils": "^12.0.1",
+    "react-scripts": "^5.0.1",
     "react-stickyfill": "^0.2.5",
     "regenerator-runtime": "^0.13.9",
     "resolve-url-loader": "^5.0.0",
