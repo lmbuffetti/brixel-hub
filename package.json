@@ -61,7 +61,8 @@
     "ncu-u": "ncu -x 'eslint-plugin-react' -u",
     "cypress:open": "cypress open",
     "e2e": "cypress run",
-    "test-cypress": "run-p --race start-test e2e"
+    "test-cypress": "run-p --race start-test e2e",
+    "start-react": "react-scripts start"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -115,5 +116,17 @@
     "webpack-dev-server": "^4.11.0",
     "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
