@@ -139,7 +139,7 @@ test integration:
     # install dependencies
     - npm install
     # start the server in the background
-    - npm run start:ci &
+    - npm run start-test &
     # run Cypress tests in parallel
     - npx cypress run --record --parallel --browser chrome --group "UI - Chrome"
   artifacts:
