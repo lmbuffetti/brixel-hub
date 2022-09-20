@@ -207,11 +207,6 @@ const clientConfig = (env) => {
         cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
         dangerouslyAllowCleanPatternsOutsideProject: true,
       }),
-      new CopyPlugin({
-        patterns: [
-          { from: './public/favicon.png', to: './' },
-        ],
-      }),
       // new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
         chunksSortMode: 'none',
@@ -258,6 +253,11 @@ const clientConfig = (env) => {
         emitWarning: true,
         emitError: true,
         fix: true,
+      }),
+      new CopyPlugin({
+        patterns: [
+          { from: './public/favicon.png', to: './' },
+        ],
       }),
     )
   }
