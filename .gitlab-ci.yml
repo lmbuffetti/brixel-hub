@@ -118,7 +118,6 @@ test integration branches:
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
-  parallel: 5
   cache:
     paths:
       - node_modules/
