@@ -141,7 +141,7 @@ test integration:
     # start the server in the background
     - npm run start-test &
     # run Cypress tests in parallel
-    - npx cypress run --record --parallel --browser chrome --group "UI - Chrome"
+    - npx cypress run --parallel --browser chrome --group "UI - Chrome"
   artifacts:
     when: always
     paths:

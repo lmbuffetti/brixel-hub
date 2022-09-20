@@ -104,6 +104,7 @@ const GetStartedSeller = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
+    console.log('saveDAta');
     if (isLoading) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);

@@ -45,7 +45,7 @@ describe('seller-onboarding', () => {
   })
   
   it('location recap', () => {
-    cy.get('.wrapMap').should('exist');
+    cy.url().should('contain', '/locationInputResume')
     cy.get('button[type="submit"]').click();
   })
   
@@ -58,7 +58,9 @@ describe('seller-onboarding', () => {
     cy.get('input[name="register.email"]').type('jestTest@brixel.io');
     cy.get('input[name="register.password"]').type('123456789');
     cy.get('input[name="register.privacy"]').check({ force: true });
-    cy.get('button[type="submit"]').click();
+    cy.wait(1000).then(() => {
+      cy.get('button[type="submit"]').click();
+    })
   })
   
 })
