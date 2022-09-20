@@ -84,10 +84,6 @@ test integration:
   cache:
     paths:
       - node_modules/
-  only:
-    - develop
-    - staging
-    - master
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   allow_failure: true
@@ -104,7 +100,9 @@ test integration:
       - always
   script:
     - if [ "$FOLDER" == "master" ]; then MODULE="-prod"; else MODULE=""; fi
-    - if [ "$FOLDER" == "staging" ]; then MODULE="-stage"; else MODULESS=""; fi
+    - if [ "$FOLDER" == "staging" ]; then MODULE="-stage"; else MODULE="test"; fi
+    - if [ "$FOLDER" == "master" ];
+    - if [ "MODULE" == "test" ]; then npm install; fi
     - npm run test-cypress
     # - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     # - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
