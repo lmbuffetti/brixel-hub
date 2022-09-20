@@ -116,7 +116,7 @@ test integration branches:
     expire_in: 1 day
 
 test integration:
-  image: node:14.18.1
+  image: cypress/browsers:node14.18.1-chrome85-ff81
   stage: test
   cache:
     paths:
@@ -136,10 +136,12 @@ test integration:
     - staging
     - master
   script:
-    - if [ "$FOLDER" == "master" ]; then MODULE="-prod"; else MODULE=""; fi
-    - if [ "$FOLDER" == "staging" ]; then MODULE="-stage"; else MODULE="test"; fi
     - npm install
     - npm run test-cypress
-    # - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
-    # - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
-    # - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+    # - ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+  artifacts:
+    when: always
+    paths:
+      - cypress/videos/**/*.mp4
+      - cypress/screenshots/**/*.png
+    expire_in: 1 day
