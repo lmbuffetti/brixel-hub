@@ -34,10 +34,9 @@ const PATHS = {
 
 const clientConfig = (env) => {
   const testMode = env.TEST;
-  console.log(devMode, testMode);
   const config = ({
     mode: mode,
-    devtool: devMode ? 'source-map' : 'source-map',
+    devtool: testMode ? 'hidden-source-map' : 'source-map',
     entry: {
       polyfill: '@babel/polyfill',
       main: [
@@ -96,7 +95,7 @@ const clientConfig = (env) => {
             {
               loader: 'css-loader',
               options: {
-                sourceMap: devMode,
+                sourceMap: devMode && !testMode,
                 importLoaders: 1,
               },
             },
@@ -106,7 +105,7 @@ const clientConfig = (env) => {
                 sassOptions: {
                   outputStyle: 'compressed',
                 },
-                sourceMap: devMode,
+                sourceMap: devMode && !testMode,
               },
             },
             {
@@ -201,13 +200,6 @@ const clientConfig = (env) => {
         filename: devMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
         chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
       }),
-      new CleanWebpackPlugin({
-        dry: false,
-        verbose: false,
-        cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
-        dangerouslyAllowCleanPatternsOutsideProject: true,
-      }),
-      // new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
         chunksSortMode: 'none',
         hash: true,
@@ -229,12 +221,6 @@ const clientConfig = (env) => {
         transifexKey: baseByData(getEnvBuild).transifexIdHub,
         googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
         facebookPixelId: baseByData(getEnvBuild).facebookPixel,
-      }),
-      new webpack.DefinePlugin({
-        NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
-        'process.env': {
-          NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
-        },
       }),
     ],
     resolve: {
@@ -258,6 +244,18 @@ const clientConfig = (env) => {
         patterns: [
           { from: './public/favicon.png', to: './' },
         ],
+      }),
+      new CleanWebpackPlugin({
+        dry: false,
+        verbose: false,
+        cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
+        dangerouslyAllowCleanPatternsOutsideProject: true,
+      }),
+      new webpack.DefinePlugin({
+        NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
+        'process.env': {
+          NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
+        },
       }),
     )
   }
