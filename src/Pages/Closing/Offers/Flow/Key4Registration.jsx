@@ -8,7 +8,7 @@ import {
   BrixelButtonPrimary, translateTo, BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import financingMortgageImg from '../../../../images/offer-flow/financingMortgage.svg';
 

@@ -16,7 +16,7 @@ import {
   change,
   destroy,
 } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { createPropertyVisitBooking } from '../actions/PropertyActions';
 import { sendMessage, spinnerSmall } from '../actions/CommonActions';
 

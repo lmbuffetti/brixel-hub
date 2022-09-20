@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import Cookies from 'universal-cookie';
 
 const cookie = new Cookies();

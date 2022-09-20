@@ -9,7 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { setWindowDimensions } from '../../actions/CommonActions';
 import MarkerComponent from './MarkerComponent';
 import { mapStyles } from '../../constants/map';

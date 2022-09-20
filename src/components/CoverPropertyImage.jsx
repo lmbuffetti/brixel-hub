@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import resumeApartment from '../images/BrxielComingTown/resumeApartement.svg';
 import resumeHouse from '../images/BrxielComingTown/resumeHouse.svg';
 

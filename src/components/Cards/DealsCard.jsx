@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import {
   BrixelButtonIcon, BrixelAvatar, BrixelStatus, BrixelIcon,
   Helpers, translateTo,

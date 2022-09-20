@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import {
   compose, bindActionCreators,
 } from 'redux';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { BrixelTextArea } from '@brixel/brixel-components/dist/form';
 import { sendSupportMessage } from '../actions/CommonActions';
 

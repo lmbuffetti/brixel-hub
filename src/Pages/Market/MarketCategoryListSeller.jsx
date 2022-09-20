@@ -14,7 +14,7 @@ import {
   BrixelButtonText, translateTo,
 } from '@brixel/brixel-components';
 import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import orderBy from 'lodash/orderBy';

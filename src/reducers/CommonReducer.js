@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import Cookies from 'universal-cookie';
 import { countryList } from '@brixel/brixel-components';
 

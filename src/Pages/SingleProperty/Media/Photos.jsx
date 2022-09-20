@@ -20,7 +20,7 @@ import {
   BrixelButtonSecondary, translateTo,
 } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { ReactSortable } from 'react-sortablejs';
 import { deleteImg, uploadImg, multiUploadImg } from '../../../actions/UploadActions';
 import DetailMedia from './DetailMedia';

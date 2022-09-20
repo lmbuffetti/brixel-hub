@@ -8,7 +8,7 @@ import {
   FactsOptions,
   Helpers, translateTo,
 } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
 import { DateTime } from 'luxon';

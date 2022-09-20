@@ -44,11 +44,20 @@ describe('seller-onboarding', () => {
   })
   
   it('location recap', () => {
+    cy.get('.wrapMap').should('exist');
     cy.get('button[type="submit"]').click();
   })
   
   it('condition property', () => {
     cy.get('[type="radio"]').first().check({ force: true });
+  })
+  
+  it('user register', () => {
+    cy.get('input[name="register.name"]').type('Test Automated');
+    cy.get('input[name="register.email"]').type('jestTest@brixel.io');
+    cy.get('input[name="register.password"]').type('123456789');
+    cy.get('input[name="register.privacy"]').check({ force: true });
+    cy.get('button[type="submit"]').click();
   })
   
 })
