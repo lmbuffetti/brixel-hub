@@ -28,7 +28,7 @@ import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import ArticlesBox from '../../../components/CraftCMS/ArticlesBox';
 import BannerBox from '../../../components/CraftCMS/BannerBox';
 
-import Loading from '../../../components/Loading';
+// import Loading from '../../../components/Loading';
 import ProgressSellerStage from '../../../components/ProgressSellerStage';
 import completeDescriptionImg from '../../../images/dashboard/complete_description.svg';
 import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
@@ -63,12 +63,12 @@ const DashboardHome = (props) => {
     handleGetPageDeals,
     handleGetEstimation,
     handleSetModal,
-    isSmallLoading,
+    // isSmallLoading,
     lang,
     loggedInUser,
     onProgressStep,
     splashScreenType,
-    userTypes,
+    // userTypes,
     windowDimensions,
   } = props;
   // STATE
@@ -159,9 +159,9 @@ const DashboardHome = (props) => {
   };
 
   // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
-  if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
+  /* if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
     return <Loading />;
-  }
+  } */
 
   const boxScanTrial = () => (
     <div className="dis-f flex-wrap">
@@ -239,11 +239,19 @@ const DashboardHome = (props) => {
       }
 
       {
-        progressState.step === 1 && (
-          <h4 className="mb-3 hide dis-b-lg fweight-600">
+        progressState.step === 1 ? (
+          <h4 className="mb-3 hide dis-fl-row-lg fweight-600">
             <span>{translateTo('Welcome', lang)}</span>
-            <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
+            {
+              loggedInUser.firstName ? (
+                <span className="ml-small-4"> {loggedInUser.firstName} 👋 </span>
+              ) : (
+                <div className="skeltonWrap skeletonBg ml-1 h-fix-32 w-fix-104"/>
+              )
+            }
           </h4>
+        ) : (
+          <div className="mb-3 hide dis-fl-row-lg skeltonWrap skeletonBg h-fix-32 w-fix-256"/>
         )
       }
 
@@ -944,13 +952,13 @@ DashboardHome.propTypes = {
   handleGetActiveSinglePropertyDealsCount: PropTypes.func.isRequired,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
+  // isSmallLoading: PropTypes.object.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   onProgressStep: PropTypes.func.isRequired,
   handleGetEstimation: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
-  userTypes: PropTypes.string,
+  // userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -968,8 +976,8 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
-  isLoading: get(state, 'common.isLoading', 0) > 0,
-  isSmallLoading: get(state, 'common.isSmallLoading', {}),
+  // isLoading: get(state, 'common.isLoading', 0) > 0,
+  // isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),
