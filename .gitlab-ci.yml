@@ -137,6 +137,7 @@ test integration:
     - master
   script:
     # install dependencies
+    - npm install
     - npm ci
     # start the server in the background
     - npm run start:ci &
