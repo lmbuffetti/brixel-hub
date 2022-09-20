@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { BrixelIcon, Helpers, translateTo } from '@brixel/brixel-components';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
-import { setActiveSingleProperty, setEstimation } from '../../actions/PropertyActions';
+import { setActiveMarketOverlayProperty, setActiveSingleProperty, setEstimation } from '../../actions/PropertyActions';
 import { setSplashType } from '../../actions/CommonActions';
 
 const MarketCardSmall = (props) => {
@@ -19,15 +19,17 @@ const MarketCardSmall = (props) => {
   // PROPS
   const {
     className,
-    readOnly,
     estimation,
     handleSetActiveSingleProperty,
     handleSetEstimation,
     handleSetSplashType,
-    lang,
     item,
-    skeleton,
+    lang,
+    readOnly,
+    setMarketOverlayProperty,
+    setSplashScreen,
     showAddess,
+    skeleton,
     type,
   } = props;
   // STATE
@@ -45,7 +47,10 @@ const MarketCardSmall = (props) => {
 
   const openCard = (e) => {
     if (e) e.preventDefault();
-    if (type !== 'estimation') {
+    if (isPreMarket) {
+      setSplashScreen('marketOverlay');
+      setMarketOverlayProperty(item);
+    } else if (type !== 'estimation') {
       history.push({
         pathname: `/buyer/${item.id}/home`,
         state: { section: 'Market' },
@@ -152,6 +157,8 @@ MarketCardSmall.propTypes = {
   item: PropTypes.object,
   lang: PropTypes.string.isRequired,
   readOnly: PropTypes.bool,
+  setMarketOverlayProperty: PropTypes.func.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
   showAddess: PropTypes.bool,
   skeleton: PropTypes.object.isRequired,
   type: PropTypes.string,
@@ -174,6 +181,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetSplashType: bindActionCreators(setSplashType, dispatch),
   handleSetActiveSingleProperty: bindActionCreators(setActiveSingleProperty, dispatch),
   handleSetEstimation: bindActionCreators(setEstimation, dispatch),
+  setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),
+  setSplashScreen: bindActionCreators(setSplashType, dispatch),
 });
 
 export default compose(

@@ -21,12 +21,12 @@ const { factsOptions } = FactsOptions;
 export const QuestionsList = (lang, type) => {
   let countryList = [];
   let formValue = {};
-  let company = null;
+  // let company = null;
 
   if (configureStore) {
     countryList = get(configureStore.getState(), 'common.country', []);
     formValue = get(configureStore.getState(), 'brixelForm.GetStarted.values', []);
-    company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
+    // company = get(configureStore.getState(), 'brixelForm.GetStarted.values.company', '');
     // country = get(configureStore.getState(), 'brixelForm.GetStarted.values.location.countryCode', 'CH');
   }
   const newExtraFeature = factsOptions.extraFeatureShort.map((item) => ({

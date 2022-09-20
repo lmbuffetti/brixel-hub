@@ -73,7 +73,6 @@ const TermsCondition = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
-  console.log(lang, activeSingleCompany, isBuyer)
   const [quest, setQuest] = useState(QuestionsList(lang, activeSingleCompany, isBuyer)[0]);
   // const [roomValue, setRoomValue] = useState('');
   
@@ -120,7 +119,6 @@ const TermsCondition = (props) => {
     let isValid = true;
     let isNotEmpty = false;
     if (get(quest, 'inputs', null)) {
-      console.log(quest.inputs);
       quest.inputs.forEach((input) => {
         const err = get(errorValue, input.name, null);
         const noEmpty = get(formValue, input.name, 'ayc');
