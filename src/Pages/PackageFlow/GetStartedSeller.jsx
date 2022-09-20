@@ -573,6 +573,7 @@ const GetStartedSeller = (props) => {
         >
 
           <form
+            noValidate
             id="multiStepForm"
             autoComplete="off"
             className="dis-fl-col jc-b"
