@@ -138,7 +138,6 @@ test integration:
   script:
     # install dependencies
     - npm install
-    - npm ci
     # start the server in the background
     - npm run start:ci &
     # run Cypress tests in parallel
