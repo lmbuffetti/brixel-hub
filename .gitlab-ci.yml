@@ -139,9 +139,7 @@ test integration:
     # install dependencies
     - npm install
     # start the server in the background
-    - npm run start-test &
-    # run Cypress tests in parallel
-    - npx cypress run --browser chrome
+    - npm run start-test && npx cypress run --browser chrome
   artifacts:
     when: always
     paths:
