@@ -46,8 +46,8 @@
   "scripts": {
     "start": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode development",
     "start-dev": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
+    "start-test": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env TEST --mode development",
     "start-prod": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode production",
-    "start-test": "react-scripts start",
     "test-build": "babel-node server/webpack.bundle",
     "build": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env DEV --mode production",
     "build-dev": "NODE_ENV=page-dev webpack --config webpack.config.js --env DEV --mode production",
@@ -84,7 +84,6 @@
     "cypress": "^10.8.0",
     "eslint": "8.23.1",
     "eslint-loader": "^4.0.2",
-    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -116,17 +115,5 @@
     "webpack-dev-server": "^4.11.0",
     "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }
