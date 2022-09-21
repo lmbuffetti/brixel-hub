@@ -138,13 +138,11 @@ pages:
   script:
     # install dependencies
     - npm install
-    - npm run build-test
-    - mv dist/* public
+    - npm run start-test
   artifacts:
     expire_in: 1 day
     paths:
       - node_modules
-      - public
 
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81

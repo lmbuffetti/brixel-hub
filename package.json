@@ -62,8 +62,8 @@
     "ncu-u": "ncu -x 'eslint-plugin-react' -u",
     "cypress:open": "cypress open",
     "e2e": "cypress run --e2e --headless",
-    "test-cypress": "run-p --race start-test e2e",
-    "test-component": "cypress open --component",
+    "test-cypress": "run-p --race e2e",
+    "test-component": "cypress run --component --headless",
     "test-e2e": "cypress open --e2e"
   },
   "devDependencies": {
