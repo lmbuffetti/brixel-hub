@@ -116,7 +116,7 @@ test integration branches:
       - cypress/screenshots/**/*.png
     expire_in: 1 day
 
-deploy test integration:
+pages:
   image: node:14.18.1
   stage: test
   cache:
@@ -141,9 +141,10 @@ deploy test integration:
     - npm run build-test
     - mv dist/* public
   artifacts:
-        expire_in: 1 day
-        paths:
-          - node_modules
+    expire_in: 1 day
+    paths:
+      - node_modules
+      - public
 
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
