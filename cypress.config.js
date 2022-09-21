@@ -1,6 +1,5 @@
 const { defineConfig } = require("cypress");
 const _ = require('lodash')
-const del = require('del')
 
 module.exports = defineConfig({
   requestTimeout: 480000,
@@ -21,12 +20,11 @@ module.exports = defineConfig({
           })
           if (!failures) {
             // delete the video if the spec passed and no tests retried
-            return del(results.video)
+            return delete results.video;
           }
         }
       })
-      return config;
-    },
+    }
   },
   
   component: {
