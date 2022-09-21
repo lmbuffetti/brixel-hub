@@ -116,13 +116,24 @@ test integration branches:
       - cypress/screenshots/**/*.png
     expire_in: 1 day
 
+install:
+  image: cypress/browsers:node12.14.1-chrome85-ff81
+  stage: build
+  script:
+    - npm ci
+
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
-  allow_failure: true
-  when: manual
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .cache/*
+      - cache/Cypress
+      - node_modules
+      - build
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -134,7 +145,7 @@ test integration:
     - staging
     - master
   script:
-    - npm install
+    - npm ci
     - npm run test-cypress
   artifacts:
     when: always
