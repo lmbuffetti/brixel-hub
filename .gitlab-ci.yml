@@ -17,8 +17,6 @@ build site:
       - staging
       - master
       - feature/cypress-integration
-    changes:
-      - package-lock.json
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   before_script:
@@ -37,7 +35,7 @@ build site:
     - if [ "$FOLDER" == "staging" ]; then build-stage; else MODULESS="dev"; fi
     - if [ "$FOLDER" == "develop" ]; then build-dev; else MODULESS="dev"; fi
   artifacts:
-    expire_in: 1 day
+    expire_in: 7 days
     paths:
       - dist
       - node_modules
