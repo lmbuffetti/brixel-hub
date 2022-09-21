@@ -6,6 +6,7 @@ module.exports = defineConfig({
   pageLoadTimeout: 120000,
   viewportHeight: 1080,
   viewportWidth: 1920,
+  retries: 3,
   
   e2e: {
     setupNodeEvents(on, config) {
