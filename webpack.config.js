@@ -201,26 +201,8 @@ const clientConfig = (env) => {
         chunkFilename: devMode || testMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
       }),
       new HtmlWebpackPlugin({
-        chunksSortMode: 'none',
-        hash: true,
-        inject: true,
         filename: './index.html',
         template: './public/index.html',
-        title: companyData.hub.title,
-        meta: {
-          keywords: companyData.hub.keywords,
-        },
-        minify: {
-          collapseWhitespace: true,
-          removeComments: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          useShortDoctype: true,
-        },
-        transifexKey: baseByData(getEnvBuild).transifexIdHub,
-        googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
-        facebookPixelId: baseByData(getEnvBuild).facebookPixel,
       }),
     ],
     resolve: {
@@ -287,6 +269,28 @@ const clientConfig = (env) => {
         },
         threshold: 10240,
         minRatio: 0.8,
+      }),
+      new HtmlWebpackPlugin({
+        chunksSortMode: 'none',
+        hash: true,
+        inject: true,
+        filename: './index.html',
+        template: './public/index.html',
+        title: companyData.hub.title,
+        meta: {
+          keywords: companyData.hub.keywords,
+        },
+        minify: {
+          collapseWhitespace: true,
+          removeComments: true,
+          removeRedundantAttributes: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          useShortDoctype: true,
+        },
+        transifexKey: baseByData(getEnvBuild).transifexIdHub,
+        googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
+        facebookPixelId: baseByData(getEnvBuild).facebookPixel,
       }),
     )
     config.optimization = {
