@@ -119,9 +119,6 @@ test integration branches:
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
-  cache:
-    paths:
-      - node_modules/
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   allow_failure: true
