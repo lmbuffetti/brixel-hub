@@ -36,6 +36,7 @@ build site:
     expire_in: 1 day
     paths:
       - dist
+      - node_modules
 
 deploy_dev:
   image: alpine
@@ -137,10 +138,12 @@ deploy test integration:
   script:
     # install dependencies
     - npm install
-    - npm run build
+    - npm run build-test
     - mv dist/* public
-    # start the server in the background
-    - npm run test-cypress
+  artifacts:
+        expire_in: 1 day
+        paths:
+          - node_modules
 
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
@@ -163,11 +166,6 @@ test integration:
     - staging
     - master
   script:
-    # install dependencies
-    - npm install
-    - npm run build
-    - mv dist/* public
-    # start the server in the background
     - npm run test-cypress
   artifacts:
     when: always
