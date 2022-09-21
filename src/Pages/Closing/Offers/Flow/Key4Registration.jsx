@@ -93,7 +93,7 @@ const Key4Registration = (props) => {
       {
         get(formValue, 'subtype', null) ? (
           <div className="max-w-fix-600 ml-a mr-a ta-c">
-            <img src={financingMortgageImg} about="Mortgage" />
+            <img src={financingMortgageImg} alt="Mortgage" />
             <h2 className="fweight-600 max-w-fix-464 ta-c m-a mb-3 fsize-600 fsize-sm-800 mb-sm-6">
               {translateTo('Get your mortgage offer on key4 by UBS.', lang)}
             </h2>

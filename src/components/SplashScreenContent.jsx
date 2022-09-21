@@ -31,7 +31,7 @@ import {
   getFavoritesProperties,
   getLastViewedProperties,
   getNewProperties,
-  getPremarketProperties,
+  getPremarketProperties, getPremarketStats, getPremiumProperties, getWishlistProperties,
 } from '../actions/MarketActions';
 import NoMorePropertiesImg from '../images/searchProfile/no-properties.svg';
 import SearchProfileBanner from './SearchProfileBanner';
@@ -52,7 +52,9 @@ const SplashScreen = (props) => {
     handleGetFavoritesProperties,
     handleGetNewProperties,
     handleGetPreMarketProperties,
+    handleGetPremarketStats,
     handleGetPremiumProperties,
+    handleGetWishlistProperties,
     handleMarkNotInterested,
     handleSetActiveMarketOverlayPropertyLists,
     handleSetWizard,
@@ -64,6 +66,7 @@ const SplashScreen = (props) => {
     preMarketStats,
     setMarketOverlayProperty,
     setSplashScreen,
+    splashScreen,
     type,
     userSearchProfiles,
     windowDimensions,
@@ -166,7 +169,7 @@ const SplashScreen = (props) => {
 
   useEffect(() => {
     const cookieWizardPreMarket = getCookie('wizardPreMarket');
-    if (activeMarketOverlayPropertyLists && !cookieWizardPreMarket) {
+    if (activeMarketOverlayPropertyLists && !cookieWizardPreMarket && splashScreen !== 'marketOverlay') {
       setTimeout(() => {
         handleSetWizard({ type: 'preMarketOverlay', step: 1 });
       }, 1500);
@@ -226,7 +229,7 @@ const SplashScreen = (props) => {
     },
   });
 
-  const closeOverlay = useCallback(() => {
+  const closeOverlay = () => {
     setSplashScreen('');
     setMarketOverlayProperty({});
     handleSetActiveMarketOverlayPropertyLists(null);
@@ -244,9 +247,21 @@ const SplashScreen = (props) => {
     handleGetPreMarketProperties(data);
     handleGetPremiumProperties(data);
     handleGetFavoritesProperties(data);
-  }, []);
+    const dataWishList = {
+      resultsPerPage: 10,
+      offset: 0,
+      order: 'updatedAt',
+      direction: 'DESC',
+      setAsSingle: true,
+      multiLoader: true,
+      ownerId: loggedInUser.id,
+      isBuyer: true,
+    };
+    handleGetWishlistProperties(dataWishList);
+    handleGetPremarketStats({ id: data.searchProfileId });
+  };
 
-  const checkFavorite = useCallback(() => {
+  const checkFavorite = () => {
     let findIndex = -1;
     if (favoritesProperties.data) {
       findIndex = favoritesProperties.data.findIndex((prop) => prop.id === activeMarketOverlayProperty.id);
@@ -255,9 +270,9 @@ const SplashScreen = (props) => {
       }
     }
     return findIndex > -1;
-  }, [favoritesProperties.data]);
+  };
 
-  const saveFavorite = useCallback(() => {
+  const saveFavorite = (action) => {
     let property = activeMarketOverlayProperty;
     const slider = sliderInstance.current;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) property = activeMarketOverlayPropertyLists[activeSlide];
@@ -266,7 +281,7 @@ const SplashScreen = (props) => {
       slider.slickGoTo(0);
     } else if (sliderInstance.current && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) {
       const data = {
-        act: checkFavorite() ? 'remove' : 'add',
+        act: action,
         id: property.id,
         property,
         data: {
@@ -296,9 +311,9 @@ const SplashScreen = (props) => {
       }, 500);
       setTotalSlide(totalSlide - 1);
     }
-  }, [activeMarketOverlayProperty, activeMarketOverlayPropertyLists, activeSlide]);
+  };
 
-  const notInterested = useCallback(() => {
+  const notInterested =() => {
     let propID = activeMarketOverlayProperty.id;
     const slider = sliderInstance.current;
     if (activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0) propID = activeMarketOverlayPropertyLists[activeSlide].id;
@@ -330,9 +345,9 @@ const SplashScreen = (props) => {
     } else {
       closeOverlay();
     }
-  }, [activeMarketOverlayProperty, activeMarketOverlayPropertyLists, activeSlide]);
+  };
 
-  const changeProperty = useCallback((act) => {
+  const changeProperty =(act) => {
     if (sliderInstance.current) {
       const slider = sliderInstance.current;
       if (act === 'back' && activeSlide > 0) slider.slickPrev();
@@ -344,7 +359,7 @@ const SplashScreen = (props) => {
         setActiveSlide(0);
       }
     }
-  }, [sliderInstance, preMarketProperties, activeSlide]);
+  };
 
   return (
     <>
@@ -372,6 +387,7 @@ const SplashScreen = (props) => {
           type === 'marketOverlayCarousel' && (
             <div className="container">
               <SearchProfileBanner
+                onClose={() => closeOverlay()}
                 title="Pre-Market"
                 subtitle="Watch properties which are not even on the market yet. How it works"
                 preMarketStats={newPreMarketStats}
@@ -428,8 +444,8 @@ const SplashScreen = (props) => {
                             iconWidth="w-fix-32"
                             saturation={200}
                             saturationTxt={400}
-                            onClick={() => saveFavorite()}
-                            icon="favorite"
+                            onClick={() => saveFavorite(checkFavorite() ? 'remove' : 'add')}
+                            icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
                             isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
                           />
                         </div>
@@ -469,20 +485,7 @@ const SplashScreen = (props) => {
       </div>
       {
         type !== 'marketOverlayCarousel' && (
-          <div className={`fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp ${activeMarketOverlayPropertyLists ? 'jc-b' : 'jc-c'} pos-r zIndex2`}>
-            {
-              activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
-                <BrixelButtonIcon
-                  rounded
-                  ghost
-                  theme="dark"
-                  onClick={() => changeProperty('back')}
-                  icon="arrow-left-small"
-                  disabled={activeSlide <= 0}
-                  className={activeMarketOverlayPropertyLists.length <= 1 ? 'opacity0' : ''}
-                />
-              )
-            }
+          <div className="fixed-footer dis-fl-row a-c pos-r w-perc-100 p-3 shadow-1dp jc-c pos-r zIndex2">
             <div className="dis-fl-row jc-c a-c">
               {
                 (activeMarketOverlayPropertyLists || !get(activeMarketOverlayProperty, 'tags', []).includes('premium')) && (
@@ -501,24 +504,11 @@ const SplashScreen = (props) => {
                 rounded
                 secondary
                 theme="green"
-                onClick={() => saveFavorite()}
+                onClick={() => saveFavorite(checkFavorite() ? 'remove' : 'add')}
                 icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
                 isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
               />
             </div>
-            {
-              activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
-                <BrixelButtonIcon
-                  rounded
-                  ghost
-                  theme="dark"
-                  onClick={() => changeProperty('forward')}
-                  icon="arrow-right-small"
-                  disabled={activeSlide >= preMarketProperties.total}
-                  className={activeMarketOverlayPropertyLists.length <= 1 ? 'opacity0' : ''}
-                />
-              )
-            }
           </div>
         )
       }
@@ -532,21 +522,24 @@ SplashScreen.propTypes = {
   closeLink: PropTypes.string,
   closeOutside: PropTypes.bool,
   favoritesProperties: PropTypes.object,
-  handleGetFavoritesProperties: PropTypes.func,
-  handleGetNewProperties: PropTypes.func,
-  handleGetPreMarketProperties: PropTypes.func,
-  handleGetPremiumProperties: PropTypes.func,
-  handleMarkNotInterested: PropTypes.func,
-  handleSetActiveMarketOverlayPropertyLists: PropTypes.func,
+  handleGetFavoritesProperties: PropTypes.func.isRequired,
+  handleGetNewProperties: PropTypes.func.isRequired,
+  handleGetPreMarketProperties: PropTypes.func.isRequired,
+  handleGetPremarketStats: PropTypes.func.isRequired,
+  handleGetPremiumProperties: PropTypes.func.isRequired,
+  handleGetWishlistProperties: PropTypes.func.isRequired,
+  handleMarkNotInterested: PropTypes.func.isRequired,
+  handleSetActiveMarketOverlayPropertyLists: PropTypes.func.isRequired,
   handleSetWizard: PropTypes.func.isRequired,
-  handleUpdateFavorites: PropTypes.func,
+  handleUpdateFavorites: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object,
   preMarketProperties: PropTypes.object,
   preMarketStats: PropTypes.object.isRequired,
-  setMarketOverlayProperty: PropTypes.func,
-  setSplashScreen: PropTypes.func,
+  setMarketOverlayProperty: PropTypes.func.isRequired,
+  setSplashScreen: PropTypes.func.isRequired,
+  splashScreen: PropTypes.string,
   type: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object),
   windowDimensions: PropTypes.object.isRequired,
@@ -559,17 +552,9 @@ SplashScreen.defaultProps = {
   closeLink: null,
   closeOutside: false,
   favoritesProperties: {},
-  handleGetFavoritesProperties: () => '',
-  handleGetNewProperties: () => '',
-  handleGetPreMarketProperties: () => '',
-  handleGetPremiumProperties: () => '',
-  handleMarkNotInterested: () => '',
-  handleSetActiveMarketOverlayPropertyLists: () => '',
-  handleUpdateFavorites: () => '',
   loggedInUser: {},
   preMarketProperties: {},
-  setMarketOverlayProperty: () => '',
-  setSplashScreen: () => '',
+  splashScreen: null,
   userSearchProfiles: null,
 };
 
@@ -582,6 +567,7 @@ const mapStateToProps = (state) => ({
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
   preMarketProperties: get(state, 'market.preMarketProperties', {}),
   preMarketStats: get(state, 'market.preMarketStats', {}),
+  splashScreen: get(state, 'common.splashScreenType', null),
   userSearchProfiles: get(state, 'user.userSearchProfiles', {}),
   wizard: get(state, 'common.wizard', {}),
   windowDimensions: get(state, 'common.windowDimensions', {}),
@@ -592,6 +578,9 @@ const mapDispatchToProps = (dispatch) => ({
   handleGetLastViewedProperties: bindActionCreators(getLastViewedProperties, dispatch),
   handleGetNewProperties: bindActionCreators(getNewProperties, dispatch),
   handleGetPreMarketProperties: bindActionCreators(getPremarketProperties, dispatch),
+  handleGetPremarketStats: bindActionCreators(getPremarketStats, dispatch),
+  handleGetPremiumProperties: bindActionCreators(getPremiumProperties, dispatch),
+  handleGetWishlistProperties: bindActionCreators(getWishlistProperties, dispatch),
   handleMarkNotInterested: bindActionCreators(addNotInterested, dispatch),
   handleSetActiveMarketOverlayPropertyLists: bindActionCreators(setActiveMarketOverlayPropertyLists, dispatch),
   handleSetWizard: bindActionCreators(setWizard, dispatch),
