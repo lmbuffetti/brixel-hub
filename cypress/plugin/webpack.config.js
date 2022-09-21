@@ -23,6 +23,16 @@ module.exports = {
       '../../src/styles/SCSS/styleguide/helpers.scss',
     ],
   },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'src'),
+    },
+    liveReload: true,
+    compress: false,
+    port: 5000,
+    historyApiFallback: true,
+    open: false,
+  },
   mode: 'development',
   devtool: false,
   resolve: {

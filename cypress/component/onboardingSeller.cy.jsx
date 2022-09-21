@@ -58,8 +58,11 @@ describe('Onboarding Seller', () => {
     cy.get('button[type="submit"]').click();
     cy.get('[type="radio"]').first().check({ force: true });
     cy.get('input[name="register.name"]').type('Test Automated');
-    cy.get('input[name="register.email"]').type('jestTest@brixel.io');
+    cy.get('input[name="register.email"]').type('jestTest+sellercomponent@brixel.io');
     cy.get('input[name="register.password"]').type('123456789');
     cy.get('input[name="register.privacy"]').check({ force: true });
+    cy.wait(1000).then(() => {
+      cy.get('button[type="submit"]').click();
+    })
   })
 })

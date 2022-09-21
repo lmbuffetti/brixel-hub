@@ -18,7 +18,7 @@ describe('seller-onboarding', () => {
     // Since we want to visit the same URL at the start of all our tests,
     // we include it in our beforeEach function so that it runs before each test
     // cy.task('log', 'Check the Seller Onboarding')
-    cy.visit('https://wide:LXlovesZH@dev-hub.brixel.io/packageFlow/getStarted/brixel_portugal/propertyType');
+    cy.visit('http://localhost:5000/packageFlow/getStarted/brixel_portugal/propertyType');
   })
 
   it('select property type', () => {
@@ -55,7 +55,7 @@ describe('seller-onboarding', () => {
   
   it('user register', () => {
     cy.get('input[name="register.name"]').type('Test Automated');
-    cy.get('input[name="register.email"]').type('jestTest@brixel.io');
+    cy.get('input[name="register.email"]').type('jestTest+sellerE2E@brixel.io');
     cy.get('input[name="register.password"]').type('123456789');
     cy.get('input[name="register.privacy"]').check({ force: true });
     cy.wait(1000).then(() => {
