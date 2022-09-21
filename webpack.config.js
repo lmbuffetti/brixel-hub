@@ -63,7 +63,7 @@ const clientConfig = (env) => {
         directory: path.join(__dirname, 'src'),
       },
       liveReload: true,
-      compress: !devMode,
+      compress: !devMode && !testMode,
       port: 5000,
       historyApiFallback: true,
       open: devMode,
@@ -72,7 +72,7 @@ const clientConfig = (env) => {
       publicPath: '/',
       path: BUILD_DIR,
       filename: 'js/[name].[fullhash].bundle.js',
-      chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[fullhash].js',
+      chunkFilename: (devMode || testMode) ? 'js/[name].js' : 'js/[name].[fullhash].js',
       globalObject: 'this',
     },
     stats: {
@@ -197,8 +197,8 @@ const clientConfig = (env) => {
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
-        filename: devMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
-        chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
+        filename: devMode || testMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
+        chunkFilename: devMode || testMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
       }),
       new HtmlWebpackPlugin({
         chunksSortMode: 'none',
