@@ -23,7 +23,7 @@ module.exports = defineConfig({
       webpackConfig: require('./cypress/plugin/webpack.config'),
       supportFile: 'cypress/support/component.js',
       specPattern: 'cypress/**/**/*.cy.{js,ts,jsx,tsx}',
-      setupNodeEvents(on, _) {
+      setupNodeEvents(on) {
         on('file:preprocessor', () => {
           on(
             'file:preprocessor',
