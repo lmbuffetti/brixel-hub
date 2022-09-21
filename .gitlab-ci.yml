@@ -116,34 +116,6 @@ test integration branches:
       - cypress/screenshots/**/*.png
     expire_in: 1 day
 
-pages:
-  image: node:14.18.1
-  stage: test
-  cache:
-    paths:
-      - node_modules/
-  variables:
-    FOLDER: $CI_COMMIT_REF_NAME
-  when: manual
-  before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  except:
-    - develop
-    - staging
-    - master
-  script:
-    # install dependencies
-    - npm install
-    - npm run start-test
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - node_modules
-
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
@@ -165,6 +137,7 @@ test integration:
     - staging
     - master
   script:
+    - npm install
     - npm run test-cypress
   artifacts:
     when: always
