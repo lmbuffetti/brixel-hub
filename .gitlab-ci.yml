@@ -138,6 +138,8 @@ test integration:
   script:
     # install dependencies
     - npm install
+    - npm run build
+    - mv dist/* public
     # start the server in the background
     - npm run test-cypress
   artifacts:
