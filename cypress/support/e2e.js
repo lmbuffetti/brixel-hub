@@ -16,15 +16,5 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
-import '../../src/styles/SCSS/general/main.scss';
-import '../../src/styles/SCSS/styleguide/grid.scss';
-import '../../src/styles/SCSS/styleguide/mainStyleguide.scss';
-import '../../src/styles/SCSS/styleguide/container.scss';
-import '../../src/styles/SCSS/styleguide/fontStyle.scss';
-import '../../src/styles/SCSS/styleguide/spacing.scss';
-import '../../src/styles/SCSS/styleguide/boxModel.scss';
-import '../../src/styles/SCSS/general/componentsLoad.scss';
-import '../../src/styles/SCSS/styleguide/helpers.scss';
-
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
