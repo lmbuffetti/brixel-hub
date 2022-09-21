@@ -135,7 +135,6 @@ test integration:
     - master
   script:
     - npm install
-    - cypress install
     - npm run test-cypress
   artifacts:
     when: always
