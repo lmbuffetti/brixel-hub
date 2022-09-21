@@ -139,7 +139,7 @@ test integration:
     # install dependencies
     - npm install
     # start the server in the background
-    - npm run test-component
+    - npm run test-cypress
   artifacts:
     when: always
     paths:
