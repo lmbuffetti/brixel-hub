@@ -738,7 +738,7 @@ const mapStateToProps = (state, ownProps) => {
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
-    initialValues: {
+    initialValues: ownProps.testValue ? ownProps.testValue : {
       ...get(state, 'brixelForm.GetStarted.initialValues', {}),
       channel,
       pageID: get(state, 'brixelForm.GetStarted.values.pageID', null),

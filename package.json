@@ -62,7 +62,8 @@
     "cypress:open": "cypress open",
     "e2e": "cypress run",
     "test-cypress": "run-p --race start-test e2e",
-    "start-react": "PORT=5000 react-scripts start"
+    "test-component": "cypress run --component",
+    "test-e2e": "cypress open --e2e"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",

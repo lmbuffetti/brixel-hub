@@ -18,9 +18,7 @@ describe('seller-onboarding', () => {
     // Since we want to visit the same URL at the start of all our tests,
     // we include it in our beforeEach function so that it runs before each test
     // cy.task('log', 'Check the Seller Onboarding')
-    cy.wait(10000).then(() => {
-      cy.visit('http://wide:LXlovesZH@localhost:5000/packageFlow/getStarted/brixel_portugal');
-    })
+    cy.visit('https://wide:LXlovesZH@dev-hub.brixel.io/packageFlow/getStarted/brixel_portugal/propertyType');
   })
 
   it('select property type', () => {
