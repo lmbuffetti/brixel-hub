@@ -29,32 +29,13 @@ install dependencies:
   script:
     - npm ci
 
-# Run the command to create the build for only specific branches
-build site:
-  image: node:14.18.1
-  stage: build
-  only:
-    refs:
-      - feature/cypress-integration
-      - staging
-      - master
-  variables:
-    FOLDER: $CI_COMMIT_REF_NAME
-  script:
-    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
-    - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
-    - if [ "$FOLDER" == "feature/cypress-integration" ]; then npm run build-dev; fi
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - dist
-
 # Run the cypress test
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
-  variables:
-    FOLDER: $CI_COMMIT_REF_NAME
+  cache:
+    paths:
+      - node_modules/
   only:
     refs:
       - develop
@@ -70,6 +51,29 @@ test integration:
       - cypress/videos/**/*.mp4
       - cypress/screenshots/**/*.png
     expire_in: 1 hour
+
+# Run the command to create the build for only specific branches
+build site:
+  image: node:14.18.1
+  stage: build
+  only:
+    refs:
+      - feature/cypress-integration
+      - staging
+      - master
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
+    - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
+    - if [ "$FOLDER" == "feature/cypress-integration" ]; then npm run build-dev; fi
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - dist
 
 # Deploy the build to develop
 deploy_dev:
