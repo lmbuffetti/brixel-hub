@@ -36,8 +36,6 @@ install dependencies:
     expire_in: 7 days
     paths:
       - node_modules
-      - .cache/*
-      - cache/Cypress
 
 build site:
   image: node:14.18.1
@@ -63,8 +61,8 @@ build site:
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_BUILD_REF_NAME
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
-    - if [ "$FOLDER" == "staging" ]; then build-stage; fi
-    - if [ "$FOLDER" == "feature/cypress-integration" ]; then build-dev; fi
+    - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
+    - if [ "$FOLDER" == "feature/cypress-integration" ]; then npm run build-dev; fi
   artifacts:
     expire_in: 1 hour
     paths:
@@ -134,4 +132,4 @@ test integration:
     paths:
       - cypress/videos/**/*.mp4
       - cypress/screenshots/**/*.png
-    expire_in: 1 day
+    expire_in: 1 hour
