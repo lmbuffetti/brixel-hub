@@ -1,24 +1,8 @@
 stages:
-  - install
   - test
   - testClean
   - build
   - deploy
-
-# Install dependencies step and save the node_modules to cache
-install dependencies:
-  image: node:14.18.1
-  stage: install
-  only:
-    refs:
-      - develop
-      - staging
-      - master
-      - feature/cypress-integration
-  variables:
-    FOLDER: $CI_COMMIT_REF_NAME
-  script:
-    - npm ci
 
 # Run the cypress test
 test integration:
@@ -43,8 +27,7 @@ test integration:
     - rm -rf cypress/videos/ cypress/screenshots/
     - npm ci
     - npm run test-cypress
-  allow_failure:
-    exit_codes: 77
+  allow_failure: true
   artifacts:
     when: on_failure
     paths:
@@ -75,6 +58,8 @@ build site:
     # As the previous stage is allowed to fail, skip this stage if the previous
     # did not complete successfully (i.e. did not create the html directory)
     - test -d $CI_OUTPUT_DIR || { echo "WARNING docs not built, stopping"; exit 77; }
+  allow_failure:
+    exit_codes: 77
   only:
     refs:
       - feature/cypress-integration
@@ -100,6 +85,8 @@ deploy_dev:
     # As the previous stage is allowed to fail, skip this stage if the previous
     # did not complete successfully (i.e. did not create the html directory)
     - test -d $CI_OUTPUT_DIR || { echo "WARNING docs not built, stopping"; exit 77; }
+  allow_failure:
+    exit_codes: 77
   only:
     - feature/cypress-integration
   script:
@@ -119,6 +106,8 @@ deploy_staging:
     # As the previous stage is allowed to fail, skip this stage if the previous
     # did not complete successfully (i.e. did not create the html directory)
     - test -d $CI_OUTPUT_DIR || { echo "WARNING docs not built, stopping"; exit 77; }
+  allow_failure:
+    exit_codes: 77
   only:
     - staging
   script:
@@ -137,6 +126,8 @@ deploy_master:
     # As the previous stage is allowed to fail, skip this stage if the previous
     # did not complete successfully (i.e. did not create the html directory)
     - test -d $CI_OUTPUT_DIR || { echo "WARNING docs not built, stopping"; exit 77; }
+  allow_failure:
+    exit_codes: 77
   only:
     - master
   script:
