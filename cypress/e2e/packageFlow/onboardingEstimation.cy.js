@@ -54,7 +54,7 @@ describe('buyer-onboarding', { retries: 1 }, () => {
   })
   
   it('property detail', () => {
-    cy.get('select[name="properties.building.conditionStatus"]').select('new')
+    cy.get('select[name="properties.building.conditionStatus"]').select('new', { force: true })
     cy.get('input[name="properties.typology.grossArea.value"]').type('120');
     cy.get('button[type="submit"]').click();
   })
@@ -68,7 +68,7 @@ describe('buyer-onboarding', { retries: 1 }, () => {
   })
   
   it('more detail', () => {
-    cy.get('button.inc').click();
+    cy.get('button.inc').click({ multiple: true });
     cy.get('input[name="properties.building.solarOrientarion"]').check({ force: true });
     cy.get('button[type="submit"]').click();
   })
@@ -80,7 +80,7 @@ describe('buyer-onboarding', { retries: 1 }, () => {
   
   it('user register', () => {
     cy.get('input[name="register.name"]').type('Test Automated');
-    cy.get('input[name="register.email"]').type('jestTest+buyerE2E@brixel.io');
+    cy.get('input[name="register.email"]').type('jestTest+estimationE2E@brixel.io');
     cy.get('input[name="register.password"]').type('123456789');
     cy.get('input[name="register.privacy"]').check({ force: true });
     cy.wait(1000).then(() => {
