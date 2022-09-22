@@ -1,7 +1,7 @@
 stages:
   - install
   - test
-  - testFail
+  - testClean
   - build
   - deploy
 
@@ -24,7 +24,7 @@ install dependencies:
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
-  retry: 2
+  # retry: 2
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   before_script:
@@ -52,9 +52,9 @@ test integration:
       - cypress/screenshots/**/*.png
     expire_in: 1 hour
 
-test integration fail:
+test integration remove user:
   image: node:14.18.1
-  stage: testFail
+  stage: testClean
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -62,10 +62,9 @@ test integration fail:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+    - if [ "$FOLDER" == "feature/cypress-integration" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
-    - rsync -av --delete --perms --links --verbose --progress cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress/
 
 # Run the command to create the build for only specific branches
 build site:
