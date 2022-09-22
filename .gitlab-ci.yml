@@ -38,6 +38,8 @@ test integration:
 test integration remove user:
   image: node:14.18.1
   stage: testClean
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -90,13 +92,14 @@ deploy_dev:
   only:
     - feature/cypress-integration
   script:
-    - echo "$BUILD_FAILURE_EXIT_CODE";
+    - $BUILD_FAILURE_EXIT_CODE;
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-hub
+    - rsync -av --delete --perms --links --verbose --progress cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress
 
 # Deploy the build to stage
 deploy_staging:
