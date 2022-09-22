@@ -48,7 +48,6 @@
     "start-dev": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
     "start-test": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env TEST --mode development",
     "start-prod": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode production",
-    "test-build": "babel-node server/webpack.bundle",
     "build": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env DEV --mode production",
     "build-test": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env TEST --mode production",
     "build-dev": "NODE_ENV=page-dev webpack --config webpack.config.js --env DEV --mode production",
@@ -58,14 +57,12 @@
     "start-updated": "rm -rf node_modules/@brixel && rm -rf package-lock.json && npm install && npx kill-port 5000 && NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
     "eject": "react-scripts eject",
     "eslint": "eslint --fix --config .eslintrc --ignore-path .eslintignore .",
-    "ncu": "ncu -x 'eslint-plugin-react'",
-    "ncu-u": "ncu -x 'eslint-plugin-react' -u",
+    "ncu-u": "ncu -x '' -u",
     "cypress:open": "cypress open",
     "e2e": "cypress run --e2e --headless",
     "test-cypress": "run-p --race start-test e2e",
     "test-component": "cypress run --component --headless",
-    "test-e2e": "cypress open --e2e",
-    "start-scripts": "PORT=5000 DISABLE_ESLINT_PLUGIN=true react-scripts start"
+    "test-e2e": "cypress open --e2e"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
