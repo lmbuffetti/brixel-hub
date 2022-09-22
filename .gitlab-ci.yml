@@ -32,10 +32,6 @@ install dependencies:
     - echo $CI_BUILD_REF_NAME
     - npm ci
     - npm run install-styleguide
-  artifacts:
-    expire_in: 7 days
-    paths:
-      - node_modules
 
 build site:
   image: node:14.18.1

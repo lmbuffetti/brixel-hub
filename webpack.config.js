@@ -200,10 +200,6 @@ const clientConfig = (env) => {
         filename: devMode || testMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
         chunkFilename: devMode || testMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
       }),
-      new HtmlWebpackPlugin({
-        filename: './index.html',
-        template: './public/index.html',
-      }),
     ],
     resolve: {
       extensions: ['.js', '.jsx'],
@@ -212,6 +208,14 @@ const clientConfig = (env) => {
       hints: false
     },
   });
+  if (testMode) {
+    config.plugins.push(
+      new HtmlWebpackPlugin({
+        filename: './index.html',
+        template: './public/index.html',
+      }),
+    )
+  }
   if (!testMode) {
     config.plugins.push(
       new ESLintPlugin({
@@ -238,6 +242,28 @@ const clientConfig = (env) => {
         'process.env': {
           NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
         },
+      }),
+      new HtmlWebpackPlugin({
+        chunksSortMode: 'none',
+        hash: true,
+        inject: true,
+        filename: './index.html',
+        template: './public/index.html',
+        title: companyData.hub.title,
+        meta: {
+          keywords: companyData.hub.keywords,
+        },
+        minify: {
+          collapseWhitespace: true,
+          removeComments: true,
+          removeRedundantAttributes: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          useShortDoctype: true,
+        },
+        transifexKey: baseByData(getEnvBuild).transifexIdHub,
+        googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
+        facebookPixelId: baseByData(getEnvBuild).facebookPixel,
       }),
     )
   }
@@ -269,28 +295,6 @@ const clientConfig = (env) => {
         },
         threshold: 10240,
         minRatio: 0.8,
-      }),
-      new HtmlWebpackPlugin({
-        chunksSortMode: 'none',
-        hash: true,
-        inject: true,
-        filename: './index.html',
-        template: './public/index.html',
-        title: companyData.hub.title,
-        meta: {
-          keywords: companyData.hub.keywords,
-        },
-        minify: {
-          collapseWhitespace: true,
-          removeComments: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          useShortDoctype: true,
-        },
-        transifexKey: baseByData(getEnvBuild).transifexIdHub,
-        googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
-        facebookPixelId: baseByData(getEnvBuild).facebookPixel,
       }),
     )
     config.optimization = {
