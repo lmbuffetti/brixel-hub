@@ -8,9 +8,6 @@ stages:
 install dependencies:
   image: node:14.18.1
   stage: install
-  cache:
-    paths:
-      - node_modules/
   only:
     refs:
       - develop
@@ -66,10 +63,8 @@ build site:
       - master
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
-  cache:
-    paths:
-      - node_modules/
   script:
+    - npm ci
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "feature/cypress-integration" ]; then npm run build-dev; fi
