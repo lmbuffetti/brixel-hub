@@ -62,7 +62,7 @@ test integration remove user:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - echo $BUILD_FAILURE_EXIT_CODE;
+    - echo "$BUILD_FAILURE_EXIT_CODE";
     - if [ "$FOLDER" == "feature/cypress-integration" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
@@ -103,6 +103,7 @@ deploy_dev:
   only:
     - feature/cypress-integration
   script:
+    - echo "$BUILD_FAILURE_EXIT_CODE";
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
