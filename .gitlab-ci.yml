@@ -27,9 +27,6 @@ install dependencies:
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
-    - echo $CI_JOB_STAGE
-    - echo $CI_COMMIT_REF_NAME
-    - echo $CI_BUILD_REF_NAME
     - npm ci
 
 # Run the command to create the build for only specific branches
@@ -44,9 +41,6 @@ build site:
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
-    - echo $CI_JOB_STAGE
-    - echo $CI_COMMIT_REF_NAME
-    - echo $CI_BUILD_REF_NAME
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "feature/cypress-integration" ]; then npm run build-dev; fi
