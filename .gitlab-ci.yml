@@ -1,6 +1,7 @@
 stages:
   - install
   - test
+  - testFail
   - build
   - deploy
 
@@ -42,21 +43,38 @@ test integration:
     - rm -rf cypress/videos/ cypress/screenshots/
     - npm ci
     - npm run test-cypress
-    - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
-    - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
-    - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
-
+  allow_failure:
+    exit_codes: 77
   artifacts:
-    when: on_success
+    when: on_failure
     paths:
       - cypress/videos/**/*.mp4
       - cypress/screenshots/**/*.png
     expire_in: 1 hour
 
+test integration fail:
+  image: node:14.18.1
+  stage: testFail
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+    - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+    - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+    - rsync -av --delete --perms --links --verbose --progress cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress/
+
 # Run the command to create the build for only specific branches
 build site:
   image: node:14.18.1
   stage: build
+  before_script:
+    # As the previous stage is allowed to fail, skip this stage if the previous
+    # did not complete successfully (i.e. did not create the html directory)
+    - test -d $CI_OUTPUT_DIR || { echo "WARNING docs not built, stopping"; exit 77; }
   only:
     refs:
       - feature/cypress-integration
@@ -78,6 +96,10 @@ build site:
 deploy_dev:
   image: alpine
   stage: deploy
+  before_script:
+    # As the previous stage is allowed to fail, skip this stage if the previous
+    # did not complete successfully (i.e. did not create the html directory)
+    - test -d $CI_OUTPUT_DIR || { echo "WARNING docs not built, stopping"; exit 77; }
   only:
     - feature/cypress-integration
   script:
@@ -87,13 +109,15 @@ deploy_dev:
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-hub
-    - rsync -av --delete --perms --links --verbose --progress cypress/screenshots/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress/screenshots/
-    - rsync -av --delete --perms --links --verbose --progress cypress/videos/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress/screenshots/
 
 # Deploy the build to stage
 deploy_staging:
   image: alpine
   stage: deploy
+  before_script:
+    # As the previous stage is allowed to fail, skip this stage if the previous
+    # did not complete successfully (i.e. did not create the html directory)
+    - test -d $CI_OUTPUT_DIR || { echo "WARNING docs not built, stopping"; exit 77; }
   only:
     - staging
   script:
@@ -108,6 +132,10 @@ deploy_staging:
 deploy_master:
   image: alpine
   stage: deploy
+  before_script:
+    # As the previous stage is allowed to fail, skip this stage if the previous
+    # did not complete successfully (i.e. did not create the html directory)
+    - test -d $CI_OUTPUT_DIR || { echo "WARNING docs not built, stopping"; exit 77; }
   only:
     - master
   script:
