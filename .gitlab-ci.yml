@@ -119,6 +119,7 @@ test integration:
     paths:
       - .cache/*
       - cache/Cypress
+      - /root/.cache/*
       - node_modules
       - build
   before_script:
@@ -141,4 +142,5 @@ test integration:
       - cypress/screenshots/**/*.png
       - .cache/*
       - cache/Cypress
+      - /root/.cache/*
     expire_in: 1 day
