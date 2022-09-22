@@ -31,14 +31,43 @@ build site:
     - echo $CI_BUILD_REF_NAME
     - npm ci
     - npm run install-styleguide
+  artifacts:
+    expire_in: 7 days
+    paths:
+      - node_modules
+      - .cache/*
+      - cache/Cypress
+
+install site:
+  image: node:14.18.1
+  stage: build
+  cache:
+    paths:
+      - node_modules/
+  only:
+    refs:
+      - develop
+      - staging
+      - master
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - echo $CI_JOB_STAGE
+    - echo $CI_COMMIT_REF_NAME
+    - echo $CI_BUILD_REF_NAME
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; else MODULE="dev"; fi
     - if [ "$FOLDER" == "staging" ]; then build-stage; else MODULESS="dev"; fi
     - if [ "$FOLDER" == "develop" ]; then build-dev; else MODULESS="dev"; fi
   artifacts:
-    expire_in: 7 days
+    expire_in: 1 hour
     paths:
       - dist
-      - node_modules
 
 deploy_dev:
   image: alpine
@@ -109,4 +138,6 @@ test integration:
     paths:
       - cypress/videos/**/*.mp4
       - cypress/screenshots/**/*.png
+      - .cache/*
+      - cache/Cypress
     expire_in: 1 day
