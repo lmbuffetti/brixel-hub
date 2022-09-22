@@ -23,6 +23,7 @@ install dependencies:
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
+  retry: 2
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   before_script:
