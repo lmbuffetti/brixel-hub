@@ -5,7 +5,7 @@ stages:
   - deploy
   - test
 
-build site:
+install dependencies:
   image: node:14.18.1
   stage: build
   cache:
@@ -38,7 +38,7 @@ build site:
       - .cache/*
       - cache/Cypress
 
-install site:
+build site:
   image: node:14.18.1
   stage: build
   cache:
