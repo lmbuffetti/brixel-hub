@@ -136,13 +136,11 @@ test integration:
     - master
   script:
     - npm ci
+    - rm -rf cypress/videos/ cypress/screenshots/
     - npm run test-cypress
   artifacts:
     when: on_success
     paths:
       - cypress/videos/**/*.mp4
       - cypress/screenshots/**/*.png
-      - .cache/*
-      - cache/Cypress
-      - /root/.cache/*
     expire_in: 1 day
