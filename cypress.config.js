@@ -10,8 +10,7 @@ module.exports = defineConfig({
   retries: 3,
   runMode: 3,
   videoCompression: false,
-  trashAssetsBeforeRuns: true,
-  // videoCompression: false,
+  video: false,
   
   e2e: {
     setupNodeEvents(on, config) {

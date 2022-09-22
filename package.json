@@ -59,7 +59,7 @@
     "eslint": "eslint --fix --config .eslintrc --ignore-path .eslintignore .",
     "ncu-u": "ncu -x '' -u",
     "cypress:open": "cypress open",
-    "e2e": "cypress run --e2e --headless",
+    "e2e": "cypress run --e2e --headless --browser chrome",
     "test-cypress": "run-p --race start-test e2e",
     "test-component": "cypress run --component --headless",
     "test-e2e": "cypress open --e2e"
