@@ -135,10 +135,9 @@ test integration:
     - staging
     - master
   script:
-    - npm ci
     - npm run test-cypress
   artifacts:
-    when: always
+    when: on_success
     paths:
       - cypress/videos/**/*.mp4
       - cypress/screenshots/**/*.png
