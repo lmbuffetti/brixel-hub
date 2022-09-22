@@ -44,7 +44,7 @@ test integration:
   script:
     - rm -rf cypress/videos/ cypress/screenshots/
     - npm ci
-    - npm run test-cypress
+    - npm run test-component
     - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
