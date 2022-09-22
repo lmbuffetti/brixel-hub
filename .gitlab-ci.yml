@@ -2,8 +2,8 @@ image: node:14.18.1
 
 stages:
   - install
-  - build
   - test
+  - build
   - deploy
 
 install dependencies:
@@ -31,14 +31,10 @@ install dependencies:
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_BUILD_REF_NAME
     - npm ci
-    - npm run install-styleguide
 
 build site:
   image: node:14.18.1
   stage: build
-  cache:
-    paths:
-      - node_modules/
   only:
     refs:
       - feature/cypress-integration
@@ -120,7 +116,6 @@ test integration:
     - staging
     - master
   script:
-    - npm ci
     - rm -rf cypress/videos/ cypress/screenshots/
     - npm run test-cypress
   artifacts:
