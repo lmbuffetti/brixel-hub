@@ -242,7 +242,7 @@ const DashboardHome = (props) => {
         progressState.step === 1 && (
           <h4 className="mb-3 hide dis-b-lg fweight-600">
             <span>{translateTo('Welcome', lang)}</span>
-            <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
+            <span className={`ml-small-4 ${loggedInUser.firstName && loggedInUser ? '' : 'skeletonBg dis-ib h-fix-32 w-fix-104 ml-1'}`}> {loggedInUser && loggedInUser.firstName && (<>{loggedInUser.firstName} 👋</>)} </span>
           </h4>
         )
       }
@@ -253,6 +253,12 @@ const DashboardHome = (props) => {
             <span>{translateTo('Welcome back', lang)}</span>
             <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
           </h4>
+        )
+      }
+
+      {
+        !progressState.step && (
+          <div className='mb-3 hide dis-b-lg skeletonBg h-fix-32 w-fix-256'/>
         )
       }
 
