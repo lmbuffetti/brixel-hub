@@ -62,7 +62,7 @@
     "ncu-u": "ncu -x 'eslint-plugin-react' -u",
     "cypress:open": "cypress open",
     "e2e": "cypress run --e2e --headless",
-    "test-cypress": "run-p --race start-scripts e2e",
+    "test-cypress": "run-p --race start-test e2e",
     "test-component": "cypress run --component --headless",
     "test-e2e": "cypress open --e2e",
     "start-scripts": "PORT=5000 DISABLE_ESLINT_PLUGIN=true react-scripts start"
