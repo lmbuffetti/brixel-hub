@@ -1,13 +1,14 @@
 image: node:14.18.1
 
 stages:
+  - install
   - build
   - test
   - deploy
 
 install dependencies:
   image: node:14.18.1
-  stage: build
+  stage: install
   cache:
     paths:
       - node_modules/
