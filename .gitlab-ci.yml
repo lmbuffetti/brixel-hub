@@ -1,11 +1,17 @@
-image: node:14.18.1
-
 stages:
   - install
   - test
   - build
   - deploy
 
+before_script:
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+# Install dependencies step and save the node_modules to cache
 install dependencies:
   image: node:14.18.1
   stage: install
@@ -20,18 +26,13 @@ install dependencies:
       - feature/cypress-integration
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
-  before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - echo $CI_JOB_STAGE
     - echo $CI_COMMIT_REF_NAME
     - echo $CI_BUILD_REF_NAME
     - npm ci
 
+# Run the command to create the build for only specific branches
 build site:
   image: node:14.18.1
   stage: build
@@ -42,12 +43,6 @@ build site:
       - master
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
-  before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - echo $CI_JOB_STAGE
     - echo $CI_COMMIT_REF_NAME
@@ -60,6 +55,29 @@ build site:
     paths:
       - dist
 
+# Run the cypress test
+test integration:
+  image: cypress/browsers:node12.14.1-chrome85-ff81
+  stage: test
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
+  only:
+    refs:
+      - develop
+      - staging
+      - master
+      - feature/cypress-integration
+  script:
+    - rm -rf cypress/videos/ cypress/screenshots/
+    - npm run test-cypress
+  artifacts:
+    when: on_success
+    paths:
+      - cypress/videos/**/*.mp4
+      - cypress/screenshots/**/*.png
+    expire_in: 1 hour
+
+# Deploy the build to develop
 deploy_dev:
   image: alpine
   stage: deploy
@@ -73,6 +91,7 @@ deploy_dev:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-hub
 
+# Deploy the build to stage
 deploy_staging:
   image: alpine
   stage: deploy
@@ -86,7 +105,7 @@ deploy_staging:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/staging/brixel-hub
 
-
+# Deploy the build to production
 deploy_master:
   image: alpine
   stage: deploy
@@ -99,28 +118,3 @@ deploy_master:
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.95.1:/srv/production/brixel-hub
-
-test integration:
-  image: cypress/browsers:node12.14.1-chrome85-ff81
-  stage: test
-  variables:
-    FOLDER: $CI_COMMIT_REF_NAME
-  before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  except:
-    - develop
-    - staging
-    - master
-  script:
-    - rm -rf cypress/videos/ cypress/screenshots/
-    - npm run test-cypress
-  artifacts:
-    when: on_success
-    paths:
-      - cypress/videos/**/*.mp4
-      - cypress/screenshots/**/*.png
-    expire_in: 1 hour
