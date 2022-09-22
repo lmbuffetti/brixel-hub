@@ -132,6 +132,7 @@ test integration:
     - staging
     - master
   script:
+    - npm ci
     - npm run test-cypress
   artifacts:
     when: always
