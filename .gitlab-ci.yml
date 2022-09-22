@@ -17,6 +17,8 @@ install dependencies:
       - staging
       - master
       - feature/cypress-integration
+    changes:
+      - package-lock.json
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   before_script:
