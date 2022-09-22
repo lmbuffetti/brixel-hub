@@ -66,7 +66,7 @@ const clientConfig = (env) => {
       compress: !devMode && !testMode,
       port: 5000,
       historyApiFallback: true,
-      open: devMode,
+      open: devMode && !testMode,
     },
     output: {
       publicPath: '/',

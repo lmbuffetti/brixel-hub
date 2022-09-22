@@ -92,6 +92,8 @@ deploy_dev:
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-hub
+    - rsync -av --delete --perms --links --verbose --progress cypress/screenshots/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress/screenshots/
+    - rsync -av --delete --perms --links --verbose --progress cypress/videos/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress/screenshots/
 
 # Deploy the build to stage
 deploy_staging:
