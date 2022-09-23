@@ -13,6 +13,8 @@ install:
     key: ${CI_COMMIT_REF_SLUG}
     paths:
       - cache/Cypress
+      - .cache/Cypress
+      - /root/.cache/Cypress
   only:
     refs:
       - develop
