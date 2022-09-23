@@ -63,4 +63,8 @@ describe('seller-onboarding', { retries: 4 }, () => {
     })
   })
   
+  it('welcome screen', () => {
+  
+  })
+  
 })

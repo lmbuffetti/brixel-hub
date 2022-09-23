@@ -5,3 +5,5 @@ brixel-hub.iml
 .DS_Store
 dist
 _accordion.scss
+./cypress/videos/*
+./cypress/screenshots/*
