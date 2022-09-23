@@ -2,9 +2,9 @@ const { defineConfig } = require("cypress");
 const _ = require('lodash')
 
 module.exports = defineConfig({
-  requestTimeout: 4800,
-  responseTimeout: 4800,
-  pageLoadTimeout: 4800,
+  requestTimeout: 480000,
+  responseTimeout: 480000,
+  pageLoadTimeout: 480000,
   viewportHeight: 1080,
   viewportWidth: 1920,
   retries: 3,
