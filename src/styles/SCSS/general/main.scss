@@ -404,6 +404,9 @@ img {
 .lh-no {
   line-height: normal;
 }
+.lh-50 {
+  line-height: 50px;
+}
 
 .a-s { align-content: stretch; align-items: stretch; }
 
@@ -1074,6 +1077,7 @@ input::-webkit-date-and-time-value {
 .of-co {
   object-fit: cover;
 }
+
 .h-fix-20 {
   height: 20px;
 }
