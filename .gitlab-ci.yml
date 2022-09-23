@@ -1,8 +1,26 @@
 stages:
+  - install
   - test
   - testClean
   - build
   - deploy
+
+# Run the cypress test
+install:
+  image: node:14.18.1
+  stage: install
+  only:
+    refs:
+      - develop
+      - staging
+      - master
+      - feature/cypress-integration
+  script:
+    - npm install
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - node_modules
 
 # Run the cypress test
 test integration:
