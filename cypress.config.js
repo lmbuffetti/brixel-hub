@@ -9,8 +9,6 @@ module.exports = defineConfig({
   viewportWidth: 1920,
   retries: 3,
   runMode: 3,
-  videoCompression: false,
-  video: false,
   
   e2e: {
     setupNodeEvents(on, config) {
