@@ -1,16 +1,22 @@
 stages:
-  - install
   - test
   - testClean
   - build
   - deploy
 
-# Run the install and then cypress test
-install & test:
+# Run the cypress test
+test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
-  stage: install
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
+  stage: test
+  retry: 2
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   only:
     refs:
       - develop
@@ -18,27 +24,22 @@ install & test:
       - master
       - feature/cypress-integration
   script:
-    - npm ci
     - rm -rf cypress/videos/ cypress/screenshots/
+    - npm ci
     - npm run test-cypress
   after_script:
-    - if [ "$CI_JOB_STATUS" == "success" ];
-      then echo 'This will only run on success';
+    - if [ "$CI_JOB_STATUS" == "success" ]; 
+        then echo 'This will only run on success';
       else
-      mkdir -p ~/.ssh;
-      echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa;
-      chmod 600 ~/.ssh/id_dsa;
-      echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config;
-      scp -r cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress;
+        mkdir -p ~/.ssh;
+        echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa;
+        chmod 600 ~/.ssh/id_dsa;
+        echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config;
+        scp -r cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress;
       fi
     - if [ "$FOLDER" == "feature/cypress-integration" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
-  artifacts:
-    when: on_success
-    expire_in: 1 week
-    paths:
-      - node_modules
 
 # Run the command to create the build for only specific branches
 build site:
@@ -52,6 +53,7 @@ build site:
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
+    - npm ci
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "feature/cypress-integration" ]; then npm run build-dev; fi
