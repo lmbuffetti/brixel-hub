@@ -43,7 +43,6 @@ test integration:
       - feature/cypress-integration
   script:
     - rm -rf cypress/videos/ cypress/screenshots/
-    - npm ci
     - npm run test-cypress
   after_script:
     - if [ "$CI_JOB_STATUS" == "success" ]; 
@@ -71,7 +70,6 @@ build site:
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
-    - npm ci
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "feature/cypress-integration" ]; then npm run build-dev; fi
