@@ -119,7 +119,7 @@ const SingleDeal = (props) => {
         actionStubs: ActionStubs.Deal,
         smallLoader: 'getDealHistory',
       };
-      getActiveDeal({ id: dealID, smallLoader: 'getDeal' });
+      getActiveDeal({ id: dealID, prop: activeSingleProperty.id, smallLoader: 'getDeal' });
       getDealNotes(payloadNote);
       getHistoryList(payloadDealHistory);
     }
