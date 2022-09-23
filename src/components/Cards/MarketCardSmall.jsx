@@ -47,7 +47,7 @@ const MarketCardSmall = (props) => {
 
   const openCard = (e) => {
     if (e) e.preventDefault();
-    if (isPreMarket) {
+    if (isPreMarket()) {
       setSplashScreen('marketOverlay');
       setMarketOverlayProperty(item);
     } else if (type !== 'estimation') {
