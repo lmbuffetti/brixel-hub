@@ -17,7 +17,6 @@ test integration:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-    - npm install rsync
   only:
     refs:
       - develop
@@ -30,7 +29,7 @@ test integration:
     - npm run test-cypress
   after_script:
     - if [ "$CI_JOB_STATUS" == "success" ]; then echo 'This will only run on success';
-      else rsync -av --delete --perms --links --verbose --progress cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress;
+      else npm install rsync; rsync -av --delete --perms --links --verbose --progress cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress;
       fi
     - if [ "$FOLDER" == "feature/cypress-integration" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
