@@ -9,6 +9,10 @@ stages:
 install:
   image: node:14.18.1
   stage: install
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - cache/Cypress
   only:
     refs:
       - develop
