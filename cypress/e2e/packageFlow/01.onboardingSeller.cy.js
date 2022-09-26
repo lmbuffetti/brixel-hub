@@ -11,7 +11,7 @@
 // please read our getting started guide:
 // https://on.cypress.io/introduction-to-cypress
 
-describe('seller-onboarding', { retries: 4 }, () => {
+describe('seller-onboarding', { retries: 1 }, () => {
   before(() => {
     // Cypress starts out with a blank slate for each test
     // so we must tell it to visit our website with the `cy.visit()` command.
