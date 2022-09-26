@@ -22,10 +22,12 @@ describe('buyer-onboarding', { retries: 1 }, () => {
   })
 
   it('select intention', () => {
+    cy.get('.estimationType', { timeout: 10000 }).should('be.visible');
     cy.get('[type="radio"]').first().check({ force: true });
   })
   
   it('select property type', () => {
+    cy.get('.propertyType', { timeout: 10000 }).should('be.visible');
     cy.get('.brixel-radio-button-icon', { timeout: 10000 }).should('be.visible');
     cy.get('[type="radio"]').first().check({ force: true });
   })
