@@ -42,7 +42,7 @@ describe('seller-onboarding', { retries: 1 }, () => {
   
   it('address autocomplete', () => {
     cy.get('input[role="search"]').type('Avenida');
-    cy.get('ul.resultAutoComplete li:first-child').should('exist').click();
+    cy.get('ul.resultAutoComplete li:first-child', { timeout: 10000 }).should('be.visible').click();
   })
   
   it('location recap', () => {

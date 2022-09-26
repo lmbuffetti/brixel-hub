@@ -38,7 +38,7 @@ describe('buyer-onboarding', { retries: 1 }, () => {
   it('address autocomplete', () => {
     cy.url().should('contain', '/locationInput');
     cy.get('input[role="search"]').type('Lisboa');
-    cy.get('ul.resultAutoComplete li:first-child').should('exist').click();
+    cy.get('ul.resultAutoComplete li:first-child', { timeout: 10000 }).should('be.visible').click();
     cy.wait(300).then(() => {
       cy.get('button[type="submit"]').not('.disabled').click();
     })
