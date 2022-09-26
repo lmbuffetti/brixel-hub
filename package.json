@@ -62,7 +62,7 @@
     "test-cypress": "run-p --race start-test e2e",
     "test-component": "cypress run --component --headless",
     "test-e2e": "cypress open --e2e",
-    "start-test": "http-server dist --port 5000"
+    "start-test": "http-server dist --port 5000 --proxy http://localhost:5000"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
