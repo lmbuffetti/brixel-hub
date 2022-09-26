@@ -30,7 +30,6 @@ build site:
 test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
-  retry: 2
   only:
     refs:
       - develop
