@@ -17,6 +17,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
+const { ServiceWorkerPlugin } = require('service-worker-webpack');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -199,6 +200,17 @@ const clientConfig = (env) => {
         // both options are optional
         filename: devMode || testMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
         chunkFilename: devMode || testMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
+      }),
+      new ServiceWorkerPlugin({
+        enableInDevelopment: false,
+        enableWorkboxLogging: false,
+        registration: {
+          path: './service-worker-brixel.js',
+        },
+        // workbox: new InjectManifest({
+        //   swSrc: './service-worker-brixel.js',
+        //   swDest: 'swBrixel.js',
+        // }),
       }),
     ],
     resolve: {

@@ -46,7 +46,6 @@
   "scripts": {
     "start": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode development",
     "start-dev": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
-    "start-test": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env TEST --mode development",
     "start-prod": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode production",
     "build": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env DEV --mode production",
     "build-test": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env TEST --mode production",
@@ -62,7 +61,8 @@
     "e2e": "cypress run --e2e --headless --browser chrome",
     "test-cypress": "run-p --race start-test e2e",
     "test-component": "cypress run --component --headless",
-    "test-e2e": "cypress open --e2e"
+    "test-e2e": "cypress open --e2e",
+    "start-test": "http-server dist"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
@@ -97,6 +97,7 @@
     "glob-all": "^3.3.0",
     "html-critical-webpack-plugin": "^2.1.0",
     "html-webpack-plugin": "^5.5.0",
+    "http-server": "^14.1.1",
     "ignore-loader": "^0.1.2",
     "json-loader": "^0.5.7",
     "mini-css-extract-plugin": "2.6.1",
@@ -113,12 +114,21 @@
     "regenerator-runtime": "^0.13.9",
     "resolve-url-loader": "^5.0.0",
     "sass-loader": "^13.0.2",
+    "service-worker-webpack": "0.0.11",
     "terser-webpack-plugin": "^5.3.6",
     "webpack": "5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^5.8.0",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "workbox-build": "^6.5.4",
+    "workbox-core": "^6.5.4",
+    "workbox-expiration": "^6.5.4",
+    "workbox-precaching": "^6.5.4",
+    "workbox-routing": "^6.5.4",
+    "workbox-strategies": "^6.5.4",
+    "workbox-webpack-plugin": "^6.5.4",
+    "workbox-window": "^6.5.4"
   },
   "browserslist": {
     "production": [
