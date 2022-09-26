@@ -58,7 +58,7 @@ const Key4Registration = (props) => {
     const channelType = 'Brixel';
     const useCase = 'NEW_HOME_BUYER';
     let campID = `Brixel-FinancialCertificate-CH-${lang}-BrixelPage-${activeSingleProperty.id}-${loggedInUser.id}`;
-    if (activeSingleCompany.stub === 'ubs') campID = 'BRIXEL-BUYER-CH-DEU';
+    if (activeSingleCompany.stub === 'ubs') campID = 'BRIXEL-BUYER-FINCER-CH-DEU';
     const objectUsage = 'MAIN_RESIDENCE';
     // const riskProfile = 'BALANCED';
     // const startDate = '2021-02';
