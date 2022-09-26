@@ -64,14 +64,4 @@ describe('seller-onboarding', { retries: 1 }, () => {
     })
   })
   
-  it('welcome screen step 1', () => {
-    cy.url().should('contain', '/welcomeSeller/sales-lead/step1');
-    cy.get('button[type="submit"]').click();
-  })
-  
-  it('welcome screen step 2', () => {
-    cy.url().should('contain', '/welcomeSeller/sales-lead/step2');
-    cy.get('[type="radio"]').first().check({ force: true });
-  })
-  
 })
