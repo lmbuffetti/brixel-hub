@@ -9,6 +9,12 @@ test integration:
   image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
   retry: 2
+  only:
+    refs:
+      - develop
+      - staging
+      - master
+      - feature/cypress-integration
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   before_script:
@@ -17,26 +23,16 @@ test integration:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  only:
-    refs:
-      - develop
-      - staging
-      - master
-      - feature/cypress-integration
   script:
     - rm -rf cypress/videos/ cypress/screenshots/
     - npm ci
     - npm run test-cypress
   after_script:
-    - if [ "$CI_JOB_STATUS" == "success" ]; 
-        then echo 'This will only run on success';
-      else
-        mkdir -p ~/.ssh;
-        echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa;
-        chmod 600 ~/.ssh/id_dsa;
-        echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config;
-        scp -r cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress;
-      fi
+    - mkdir -p ~/.ssh;
+    - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa;
+    - chmod 600 ~/.ssh/id_dsa;
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config;
+    - scp -r cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress;
     - if [ "$FOLDER" == "feature/cypress-integration" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
     - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
@@ -47,16 +43,16 @@ build site:
   stage: build
   only:
     refs:
-      - feature/cypress-integration
+      - develop
       - staging
       - master
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
     - npm ci
-    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
+    - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
-    - if [ "$FOLDER" == "feature/cypress-integration" ]; then npm run build-dev; fi
+    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
   artifacts:
     expire_in: 1 hour
     paths:
@@ -67,7 +63,7 @@ deploy_dev:
   image: alpine
   stage: deploy
   only:
-    - feature/cypress-integration
+    - develop
   script:
     - apk add --no-cache rsync openssh
     - mkdir -p ~/.ssh
