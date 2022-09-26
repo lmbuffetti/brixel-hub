@@ -58,13 +58,19 @@ describe('seller-onboarding', { retries: 1 }, () => {
     cy.get('input[name="register.email"]').type('jestTest+sellerE2E@brixel.io');
     cy.get('input[name="register.password"]').type('123456789');
     cy.get('input[name="register.privacy"]').check({ force: true });
-    cy.wait(1000).then(() => {
+    cy.wait(500).then(() => {
       cy.get('button[type="submit"]').click();
     })
   })
   
-  it('welcome screen', () => {
+  it('welcome screen step 1', () => {
+    cy.url().should('contain', '/welcomeSeller/sales-lead/step1');
+    cy.get('button[type="submit"]').click();
+  })
   
+  it('welcome screen step 2', () => {
+    cy.url().should('contain', '/welcomeSeller/sales-lead/step2');
+    cy.get('[type="radio"]').first().check({ force: true });
   })
   
 })

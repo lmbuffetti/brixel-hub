@@ -106,6 +106,7 @@ const WelecomeOnboardingStage = (props) => {
               </p>
 
               <BrixelButtonPrimary
+                type="submit"
                 className="mx-a mt-5"
                 rounded
                 label={translateTo('Yes, let\'s go.', lang)}
