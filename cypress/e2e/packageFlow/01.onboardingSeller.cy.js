@@ -22,6 +22,7 @@ describe('seller-onboarding', { retries: 1 }, () => {
   })
 
   it('select property type', () => {
+    cy.get('.brixel-radio-button-icon', { timeout: 10000 }).should('be.visible');
     cy.get('[type="radio"]').first().check({ force: true });
   })
   
