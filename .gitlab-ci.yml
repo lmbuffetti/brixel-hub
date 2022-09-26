@@ -47,7 +47,6 @@ test integration:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - rm -rf cypress/videos/ cypress/screenshots/
-    - npm ci
     - npm run test-cypress
   after_script:
     - mkdir -p ~/.ssh;
