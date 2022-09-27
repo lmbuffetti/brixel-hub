@@ -42,6 +42,7 @@ const clientConfig = (env) => {
       polyfill: '@babel/polyfill',
       main: [
         './src/index.jsx',
+        './service-worker-brixel.js',
         './src/styles/SCSS/general/main.scss',
       ],
       secondary: [
@@ -236,7 +237,6 @@ const clientConfig = (env) => {
       new CopyPlugin({
         patterns: [
           { from: './public/favicon.png', to: './' },
-          { from: './service-worker-brixel.js', to: './' },
           { from: './server.js', to: './' },
         ],
       }),
@@ -300,6 +300,7 @@ const clientConfig = (env) => {
         minRatio: 0.8,
       }),
       new InjectManifest({
+        mode: 'production',
         swSrc: './service-worker-brixel.js',
         maximumFileSizeToCacheInBytes: 500000000,
       }),
