@@ -17,7 +17,6 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
-const { ServiceWorkerPlugin } = require('service-worker-webpack');
 const {InjectManifest} = require('workbox-webpack-plugin');
 
 // const devMode = false;
@@ -241,13 +240,6 @@ const clientConfig = (env) => {
           { from: './service-worker-brixel.js', to: './' },
           { from: './server.js', to: './' },
         ],
-      }),
-      new ServiceWorkerPlugin({
-        enableInDevelopment: false,
-        enableWorkboxLogging: false,
-        registration: {
-          path: './service-worker-brixel.js',
-        },
       }),
       new webpack.DefinePlugin({
         NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
