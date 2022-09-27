@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import lazyWithRetry from './components/LazyWithRetry';
 import Loading from './components/Loading';
 import { configureStore } from './store';
+import { register, unregister } from '../serviceWorkerRegistration';
 const App = lazyWithRetry(() => import('./App'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
 
@@ -16,17 +17,22 @@ const container = document.getElementById('root');
 const root = createRoot(container);
 
 // INITILAIZE THE REACT DOM APP
-const AppDOM = () => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Suspense fallback={<Loading isLoading />}>
-        <ErrorBoundering>
-          <App />
-        </ErrorBoundering>
-      </Suspense>
-    </BrowserRouter>
-  </Provider>
-);
+const AppDOM = () => {
+  console.log(window.location.href);
+  if (typeof window !== 'undefined' && window.location.href.includes('.brixel.io')) register();
+  if (typeof window !== 'undefined' && window.location.href.includes('localhost')) unregister();
+  return(
+    <Provider store={store}>
+      <BrowserRouter>
+        <Suspense fallback={<Loading isLoading />}>
+          <ErrorBoundering>
+            <App />
+          </ErrorBoundering>
+        </Suspense>
+      </BrowserRouter>
+    </Provider>
+  );
+}
 
 root.render(<AppDOM />);
 

@@ -18,6 +18,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
 const {InjectManifest} = require('workbox-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -196,17 +197,20 @@ const clientConfig = (env) => {
       ],
     },
     plugins: [
+      new CleanWebpackPlugin({
+        dry: false,
+        verbose: false,
+        cleanOnceBeforeBuildPatterns: ['*'],
+        dangerouslyAllowCleanPatternsOutsideProject: true,
+      }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
         filename: devMode || testMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
         chunkFilename: devMode || testMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
       }),
-      new CleanWebpackPlugin({
-        dry: false,
-        verbose: false,
-        cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
-        dangerouslyAllowCleanPatternsOutsideProject: true,
+      new WebpackManifestPlugin({
+        writeToFileEmit: true,
       }),
     ],
     resolve: {
