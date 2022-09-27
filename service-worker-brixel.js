@@ -18,7 +18,6 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 const manifest = self.__WB_MANIFEST;
 if (manifest) {
-  console.log('precached', manifest);
   precacheAndRoute(manifest);
 }
 // This allows the web app to trigger skipWaiting via
