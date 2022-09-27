@@ -115,6 +115,7 @@
     "resolve-url-loader": "^5.0.0",
     "sass-loader": "^13.0.2",
     "service-worker-webpack": "0.0.11",
+    "sw-precache-webpack-plugin": "^1.0.0",
     "terser-webpack-plugin": "^5.3.6",
     "webpack": "5.74.0",
     "webpack-cli": "^4.10.0",

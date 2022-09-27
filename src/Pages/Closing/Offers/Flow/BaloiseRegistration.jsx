@@ -3,7 +3,7 @@ import { BrixelUploadFile, change } from '@brixel/brixel-components/dist/form';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import {
   BrixelIcon,
   translateTo,

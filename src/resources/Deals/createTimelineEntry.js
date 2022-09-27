@@ -2,9 +2,10 @@ import { translateTo } from '@brixel/brixel-components';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 
 import { DateTime } from 'luxon';
-import {
-  has, get, tail, isNaN,
-} from 'lodash';
+import has from 'lodash/has';
+import get from 'lodash/get';
+import tail from 'lodash/tail';
+import isNaN from 'lodash/isNaN';
 
 import {
   formatPrice,

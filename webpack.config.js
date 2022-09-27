@@ -18,6 +18,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
 const { ServiceWorkerPlugin } = require('service-worker-webpack');
+const {InjectManifest} = require('workbox-webpack-plugin');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -201,16 +202,11 @@ const clientConfig = (env) => {
         filename: devMode || testMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
         chunkFilename: devMode || testMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
       }),
-      new ServiceWorkerPlugin({
-        enableInDevelopment: false,
-        enableWorkboxLogging: false,
-        registration: {
-          path: './service-worker-brixel.js',
-        },
-        // workbox: new InjectManifest({
-        //   swSrc: './service-worker-brixel.js',
-        //   swDest: 'swBrixel.js',
-        // }),
+      new CleanWebpackPlugin({
+        dry: false,
+        verbose: false,
+        cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
+        dangerouslyAllowCleanPatternsOutsideProject: true,
       }),
     ],
     resolve: {
@@ -241,13 +237,17 @@ const clientConfig = (env) => {
       new CopyPlugin({
         patterns: [
           { from: './public/favicon.png', to: './' },
+          { from: './serviceWorkerRegistration.js', to: './' },
+          { from: './service-worker-brixel.js', to: './' },
+          { from: './server.js', to: './' },
         ],
       }),
-      new CleanWebpackPlugin({
-        dry: false,
-        verbose: false,
-        cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
-        dangerouslyAllowCleanPatternsOutsideProject: true,
+      new ServiceWorkerPlugin({
+        enableInDevelopment: false,
+        enableWorkboxLogging: false,
+        registration: {
+          path: './service-worker-brixel.js',
+        },
       }),
       new webpack.DefinePlugin({
         NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
@@ -308,6 +308,10 @@ const clientConfig = (env) => {
         threshold: 10240,
         minRatio: 0.8,
       }),
+      new InjectManifest({
+        swSrc: './service-worker-brixel.js',
+        maximumFileSizeToCacheInBytes: 500000000,
+      }),
     )
     config.optimization = {
       removeAvailableModules: true,
@@ -317,27 +321,6 @@ const clientConfig = (env) => {
         new TerserPlugin(),
         new CssMinimizerPlugin(),
       ],
-      splitChunks: {
-        chunks: 'async',
-        minSize: 20000,
-        minRemainingSize: 0,
-        minChunks: 1,
-        maxAsyncRequests: 30,
-        maxInitialRequests: 30,
-        enforceSizeThreshold: 50000,
-        cacheGroups: {
-          defaultVendors: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10,
-            reuseExistingChunk: true,
-          },
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
-        },
-      },
     };
   }
   return config;
