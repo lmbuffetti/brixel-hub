@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
   FactsOptions, translateTo,
@@ -106,6 +106,7 @@ const WelecomeOnboardingStage = (props) => {
               </p>
 
               <BrixelButtonPrimary
+                type="submit"
                 className="mx-a mt-5"
                 rounded
                 label={translateTo('Yes, let\'s go.', lang)}

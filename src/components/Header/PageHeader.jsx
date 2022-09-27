@@ -11,9 +11,9 @@ import {
   BrixelSelect,
   destroy,
 } from '@brixel/brixel-components/dist/form';
-import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
-import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import logoMobile from '@brixel/brixel-components/dist/configuration/images/logo_colors_icon_new.svg';
+import logo from '@brixel/brixel-components/dist/configuration/images/logo_colors_v2.svg';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';

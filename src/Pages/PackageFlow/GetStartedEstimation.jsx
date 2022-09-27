@@ -766,6 +766,7 @@ const GetStartedEstimation = (props) => {
                                 get(formValue, get(quest, 'inputs[0].name', ''), '').includes('other')
                               ) && (
                                 <BrixelButtonPrimary
+                                  type="submit"
                                   className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
                                   disabled={!checkValidateField()}
                                   rounded

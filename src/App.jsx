@@ -36,11 +36,11 @@ import {
   setActiveSingleDeal,
 } from './actions/DealActions';
 import { setActiveSingleProperty } from './actions/PropertyActions';
-
 import { getImageType } from './actions/UploadActions';
-import SplashScreen from './components/SplashScreen';
-import Support from './components/Support';
+
 import lazyWithRetry from './components/LazyWithRetry';
+const SplashScreen = lazyWithRetry(() => import('./components/SplashScreen'));
+const Support = lazyWithRetry(() => import('./components/Support'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazyWithRetry(() => import('./Pages/PackageFlow/GetStarted'));

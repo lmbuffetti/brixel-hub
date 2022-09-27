@@ -20,8 +20,8 @@ import {
   useOutsideAlerter, translateTo,
 } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
-import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
+import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import { useDropzone } from 'react-dropzone';
 import { DateTime } from 'luxon';
 import { uploadDocument, deleteDocument, multiUploadDocument } from '../../actions/UploadActions';

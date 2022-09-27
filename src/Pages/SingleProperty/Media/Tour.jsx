@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { BrixelButtonIcon, translateTo } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { setModal } from '../../../actions/CommonActions';
 import BrixelUpgradeMessage from '../../../components/BrixelUpgradeMessage';
 

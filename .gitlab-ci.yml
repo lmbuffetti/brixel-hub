@@ -1,20 +1,39 @@
-image: node:14.18.1
-
 stages:
   - build
   - deploy
   - test
 
+
+# Run the command to create the build for only specific branches
 build site:
   image: node:14.18.1
   stage: build
-  cache:
-    paths:
-      - node_modules/
   only:
-    - develop
-    - staging
-    - master
+    refs:
+      - develop
+      - staging
+      - master
+  variables:
+    FOLDER: $CI_COMMIT_REF_NAME
+  script:
+    - npm ci
+    - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
+    - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
+    - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - dist
+
+# Run the cypress test
+test integration:
+  image: cypress/browsers:node12.14.1-chrome85-ff81
+  stage: test
+  only:
+    refs:
+      - develop
+      - staging
+      - master
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   before_script:
@@ -23,20 +42,23 @@ build site:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  script:
-    - echo $CI_JOB_STAGE
-    - echo $CI_COMMIT_REF_NAME
-    - echo $CI_BUILD_REF_NAME
-    - if [ "$FOLDER" == "master" ]; then MODULE="prod"; else MODULE="dev"; fi
-    - if [ "$FOLDER" == "staging" ]; then MODULE="stage"; else MODULESS="dev"; fi
-    - npm install
-    - npm run install-styleguide
-    - npm run build-${MODULE}
-  artifacts:
-    expire_in: 1 day
-    paths:
-      - dist
+  when: manual
 
+  script:
+    - npm ci
+    - rm -rf cypress/videos/ cypress/screenshots/
+    - npm run test-cypress
+  after_script:
+    - mkdir -p ~/.ssh;
+    - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa;
+    - chmod 600 ~/.ssh/id_dsa;
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config;
+    - scp -r cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress;
+    - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+    - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+    - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
+
+# Deploy the build to develop
 deploy_dev:
   image: alpine
   stage: deploy
@@ -49,7 +71,9 @@ deploy_dev:
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/development/brixel-hub
+    - rsync -av --delete --perms --links --verbose --progress cypress/ ubuntu@3.124.80.14:/srv/development/brixel-hub/cypress
 
+# Deploy the build to stage
 deploy_staging:
   image: alpine
   stage: deploy
@@ -63,7 +87,7 @@ deploy_staging:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.80.14:/srv/staging/brixel-hub
 
-
+# Deploy the build to production
 deploy_master:
   image: alpine
   stage: deploy
@@ -76,33 +100,3 @@ deploy_master:
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -av --delete --perms --links --verbose --progress dist/ ubuntu@3.124.95.1:/srv/production/brixel-hub
-
-
-test integration:
-  image: node:14.18.1
-  stage: test
-  cache:
-    paths:
-      - node_modules/
-  only:
-    - develop
-    - staging
-    - master
-  variables:
-    FOLDER: $CI_COMMIT_REF_NAME
-  allow_failure: true
-  when: manual
-  before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  script:
-    - if [ "$FOLDER" == "master" ]; then MODULE="-prod"; else MODULE=""; fi
-    - if [ "$FOLDER" == "staging" ]; then MODULE="-stage"; else MODULESS=""; fi
-    - npm install
-    - npm run test${MODULE}
-    - if [ "$FOLDER" == "master" ]; then ssh ubuntu@3.124.95.1 'cd /srv/production/brixel-api; NODE_ENV=production node scripts/dataManagement/cleanJestTestsData.js delete'; fi
-    - if [ "$FOLDER" == "staging" ]; then ssh ubuntu@3.124.80.14 'cd /srv/staging/brixel-api; NODE_ENV=staging node scripts/dataManagement/cleanJestTestsData.js delete'; fi
-    - if [ "$FOLDER" == "develop" ]; then ssh ubuntu@3.124.80.14 'cd /srv/development/brixel-api; NODE_ENV=development node scripts/dataManagement/cleanJestTestsData.js delete'; fi

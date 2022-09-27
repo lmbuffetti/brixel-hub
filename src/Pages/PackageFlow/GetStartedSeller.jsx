@@ -538,14 +538,14 @@ const GetStartedSeller = (props) => {
   };
 
   // REMOVE FADEIN CLASS TO INITIATE ANIMATION FOR EVERY STEP
-  const getStartedEl = document.querySelector('.getStarted');
   useEffect(() => {
     setTimeout(() => {
-      if (getStartedEl) getStartedEl.classList.remove('slideUpTrans');
+      const getStartedEl = document.querySelector('.getStarted');
+      if (getStartedEl && getStartedEl.classList) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-
-  if (!formValue.id && !company.stub) return (<div />);
+  
+  if (!formValue.pageID && !company.stub) return (<div />);
 
   return (
     <>
@@ -573,9 +573,10 @@ const GetStartedSeller = (props) => {
         >
 
           <form
+            noValidate
             id="multiStepForm"
             autoComplete="off"
-            className="interactive dis-fl-col jc-b"
+            className="dis-fl-col jc-b"
             onSubmit={(e) => changeStep(null, e)}
           >
             <div ref={multiStepSlidesRef} className="multiStepSlides">
@@ -674,13 +675,13 @@ const GetStartedSeller = (props) => {
                         get(quest, 'history', null) !== 'resume' && (get(quest, 'inputs', []).length > 1 || (get(quest, 'inputs[0].component.name', '') !== 'BrixelRadioButton' || get(quest, 'history', null) === 'propertyType' || get(quest, 'history', null) === 'baloiseInfo') || action === 'back') && (
                           <BrixelButtonPrimary
                             className={`mr-a ml-a noWrap ${get(quest, 'history', null)}`}
-                            disabled={!checkValidateField()}
                             rounded
                             theme="green"
                             label={translateTo(buttonLabel(), lang)}
                             rightIcon="arrow-right-small"
                             onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
                             onShowError={() => setShowError(true)}
+                            type="submit"
                           />
                         )
                       }
@@ -736,7 +737,7 @@ const mapStateToProps = (state, ownProps) => {
     company: get(state, 'companies.activeSingleCompany', {}),
     errorValue: get(state, 'brixelForm.GetStarted.syncErrors', {}),
     formValue: get(state, 'brixelForm.GetStarted.values', {}),
-    initialValues: {
+    initialValues: ownProps.testValue ? ownProps.testValue : {
       ...get(state, 'brixelForm.GetStarted.initialValues', {}),
       channel,
       pageID: get(state, 'brixelForm.GetStarted.values.pageID', null),

@@ -2,7 +2,8 @@ import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { get, cloneDeep } from 'lodash';
+import get from 'lodash/get';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   connect,
 } from 'react-redux';

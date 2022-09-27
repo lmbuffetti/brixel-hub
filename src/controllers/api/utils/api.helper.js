@@ -1,10 +1,10 @@
-import { SET_FEATURE_FLAGS } from '../../../actions/types/CommonTypes';
 import {
   statuses,
 } from './httpErrors.constant';
 import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
 import { configureStore } from '../../../store';
+import { SET_FEATURE_FLAGS } from '../../../actions/types/CommonTypes';
 
 export const httpStatusNormalizer = ({
   status = 0,

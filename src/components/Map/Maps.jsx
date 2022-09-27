@@ -14,7 +14,7 @@ import { bindActionCreators, compose } from 'redux';
 import { BrixelInputText, change } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';

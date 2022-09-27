@@ -18,7 +18,7 @@ import {
   change,
   reset,
 } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { useParams } from 'react-router-dom';
 import { setModal } from '../../actions/CommonActions';
 import { updatePublishedReview } from '../../actions/PropertyActions';

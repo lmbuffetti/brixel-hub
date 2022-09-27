@@ -1,5 +1,6 @@
 import { Helpers, translateTo } from '@brixel/brixel-components';
-import { has, tail } from 'lodash';
+import has from 'lodash/has';
+import tail from 'lodash/tail';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 

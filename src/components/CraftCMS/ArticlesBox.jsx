@@ -21,6 +21,7 @@ const ArticlesBox = (props) => {
 
   const [placement, setPlacement] = useState([]);
   const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (activeSingleCompany.stub) {
@@ -34,6 +35,10 @@ const ArticlesBox = (props) => {
         .then((res) => {
           setPlacement(get(res, 'data.data.placementEntries[0]', []));
           setArticles(get(res, 'data.data.placementEntries[0].placementContent', []));
+          setIsLoading(false)
+        })
+        .catch(() => {
+          setIsLoading(false)
         });
     }
 
@@ -65,7 +70,7 @@ const ArticlesBox = (props) => {
   return (
     <div className={className}>
       {
-        articles.length !== 0 ? (
+        articles.length > 0 ? (
           <div className={`dis-f flex-wrap jc-b mt-6 ${placement.mainTitle ? 'mb-3' : ''}`}>
             <>
               {
@@ -98,7 +103,7 @@ const ArticlesBox = (props) => {
       }
       <div className="row-cols-sm-3-gut-4 mb-3">
         {
-          !articles.length ? (
+          isLoading ? (
             <>
               <div className="skeltonWrap">
                 <div className="h-fix-144 skeletonBg"/>
