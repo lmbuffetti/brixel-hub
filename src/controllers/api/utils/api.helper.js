@@ -1,8 +1,9 @@
-
-
 import {
   statuses,
 } from './httpErrors.constant';
+import { diff } from 'deep-object-diff';
+import get from 'lodash/get';
+import { configureStore } from '../../../store';
 
 export const httpStatusNormalizer = ({
   status = 0,
@@ -54,6 +55,18 @@ export const successHandler = (response, id) => {
     }),
     statusText: response.statusText,
   };
+
+  const store = configureStore;
+  const currentFeatureFlags = get(store.getState(), 'common.featureFlags');
+  const requestFlags = JSON.parse(response.headers['feature-flags'], (key, value) => value === 'true' ? true : value === 'false' ? false : value);
+  const checkDiff = diff(currentFeatureFlags, requestFlags);
+
+  if (Object.keys(checkDiff).length > 0) {
+    store.dispatch({
+      type: SET_FEATURE_FLAGS,
+      payload: requestFlags,
+    });
+  }
 
   return Promise.resolve({
     data,

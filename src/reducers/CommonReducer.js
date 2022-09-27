@@ -23,6 +23,7 @@ import {
   SET_SPLASH_TYPE,
   SET_HISTORY,
   SET_WIZARD,
+  SET_FEATURE_FLAGS,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -31,6 +32,7 @@ export const defaultState = {
   configUrl: getConfigEnv,
   country: countryList,
   errorMsg: {},
+  featureFlags: {},
   formError: {},
   history: {},
   isLoading: 1,
@@ -150,6 +152,10 @@ export default handleActions(
     [SET_WIZARD]: (state, action) => ({
       ...state,
       wizard: action.payload,
+    }),
+    [SET_FEATURE_FLAGS]: (state, action) => ({
+      ...state,
+      featureFlags: action.payload,
     }),
   },
   defaultState,
