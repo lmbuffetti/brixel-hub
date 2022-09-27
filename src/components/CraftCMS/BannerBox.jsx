@@ -35,7 +35,8 @@ const BannerBox = (props) => {
       api.craftCMS.getHubContent(data)
         .then((res) => {
           setBanner(get(res, 'data.data.bannersEntries[0]', {}))
-        });
+        })
+        .catch(() => {});
     }
   }, [activeSingleCompany, lang]);
 
