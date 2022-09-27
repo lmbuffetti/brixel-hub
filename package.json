@@ -60,7 +60,7 @@
     "cypress:open": "cypress open",
     "e2e": "cypress run --e2e --headless --browser chrome",
     "test-cypress": "run-p --race start-test e2e",
-    "test-component": "cypress run --component --headless",
+    "test-component": "cypress open --component",
     "test-e2e": "cypress open --e2e",
     "start-test": "node server.js"
   },
