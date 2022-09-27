@@ -18,7 +18,6 @@ const root = createRoot(container);
 
 // INITILAIZE THE REACT DOM APP
 const AppDOM = () => {
-  console.log(window.location.href);
   if (typeof window !== 'undefined' && window.location.href.includes('.brixel.io')) register();
   if (typeof window !== 'undefined' && window.location.href.includes('localhost')) unregister();
   return(
