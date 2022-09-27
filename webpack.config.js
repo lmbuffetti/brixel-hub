@@ -236,7 +236,6 @@ const clientConfig = (env) => {
       new CopyPlugin({
         patterns: [
           { from: './public/favicon.png', to: './' },
-          { from: './serviceWorkerRegistration.js', to: './' },
           { from: './service-worker-brixel.js', to: './' },
           { from: './server.js', to: './' },
         ],
