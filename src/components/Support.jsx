@@ -30,7 +30,7 @@ const Support = (props) => {
   const email = get(activeSingleCompany, 'contact.email', null);
   const whatsapp = get(activeSingleCompany, 'contact.whatsapp', null);
   const teamAvatars = get(activeSingleCompany, 'teamAvatars', []);
-  const companyLegalName = get(activeSingleCompany, 'legalName', get(activeSingleCompany, 'name', null));
+  const companyLegalName = get(activeSingleCompany, 'name', get(activeSingleCompany, 'name', null));
   // COLOR
   const colorLinkTextInfo = layout === 'onboarding' ? 'txtDark700' : 'txtDark700';
 
