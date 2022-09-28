@@ -15,7 +15,7 @@ import {
   change,
   reset,
 } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { updatePublishedReview } from '../../../actions/PropertyActions';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 

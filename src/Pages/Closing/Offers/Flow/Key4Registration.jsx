@@ -8,7 +8,7 @@ import {
   BrixelButtonPrimary, translateTo, BrixelButtonIcon,
 } from '@brixel/brixel-components';
 import { DateTime } from 'luxon';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';
 import financingMortgageImg from '../../../../images/offer-flow/financingMortgage.svg';
 
@@ -58,7 +58,7 @@ const Key4Registration = (props) => {
     const channelType = 'Brixel';
     const useCase = 'NEW_HOME_BUYER';
     let campID = `Brixel-FinancialCertificate-CH-${lang}-BrixelPage-${activeSingleProperty.id}-${loggedInUser.id}`;
-    if (activeSingleCompany.stub === 'ubs') campID = 'BRIXEL-BUYER-CH-DEU';
+    if (activeSingleCompany.stub === 'ubs') campID = 'BRIXEL-BUYER-FINCER-CH-DEU';
     const objectUsage = 'MAIN_RESIDENCE';
     // const riskProfile = 'BALANCED';
     // const startDate = '2021-02';

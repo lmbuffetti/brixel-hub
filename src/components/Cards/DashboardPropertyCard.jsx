@@ -12,7 +12,7 @@ import {
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { setModal, setSplashType } from '../../actions/CommonActions';
 import { completedBestimate } from '../../utils/helpers';
 import CoverPropertyImage from '../CoverPropertyImage';

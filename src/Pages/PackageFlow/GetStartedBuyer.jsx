@@ -628,6 +628,7 @@ const GetStartedBuyer = (props) => {
                             {
                               buttonLabel().toLowerCase() === 'skip' ? (
                                 <BrixelButtonSecondary
+                                  type="submit"
                                   className={`noWrap mr-a ml-5-neg ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                   disabled={!checkValidateField()}
                                   saturation={400}
@@ -639,6 +640,7 @@ const GetStartedBuyer = (props) => {
                                 />
                               ) : (
                                 <BrixelButtonPrimary
+                                  type="submit"
                                   className={`mr-a ml-5-neg noWrap ${get(quest, 'history', null)} ${buttonLabel().toLowerCase() === 'skip' ? 'skip' : ''}`}
                                   disabled={!checkValidateField()}
                                   rounded

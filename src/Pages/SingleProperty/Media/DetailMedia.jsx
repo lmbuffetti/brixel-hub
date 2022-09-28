@@ -7,7 +7,7 @@ import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {
   BrixelButtonIcon,
   BrixelButtonSecondary,

@@ -36,11 +36,11 @@ import {
   setActiveSingleDeal,
 } from './actions/DealActions';
 import { setActiveSingleProperty } from './actions/PropertyActions';
-
 import { getImageType } from './actions/UploadActions';
-import SplashScreen from './components/SplashScreen';
-import Support from './components/Support';
+
 import lazyWithRetry from './components/LazyWithRetry';
+const SplashScreen = lazyWithRetry(() => import('./components/SplashScreen'));
+const Support = lazyWithRetry(() => import('./components/Support'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
 // GET STARTED ADD ADD PROPERTY
 const GetStarted = lazyWithRetry(() => import('./Pages/PackageFlow/GetStarted'));
@@ -526,7 +526,7 @@ const App = (props) => {
                       <Route path="/visitFeedback/:dealID/:pageID" element={<VisitFeedback />} />
                       <Route path="/buyer/:propID/scheduleVisit" element={<ProtectedRoute><AddShowingsBuyer /></ProtectedRoute>} />
                       <Route path="/buyer/:id/financingFlow/*" element={<Financing />} />
-  
+
                       { /* PARTNER CONTACT FLOW */}
                       <Route path="/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
                       <Route path="/buyer/:propID/contactFlow/*" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
@@ -555,7 +555,7 @@ const App = (props) => {
                                   get(history, 'location.pathname', '').split('/')[1] !== 'buy' &&
                                   get(history, 'location.pathname', '').split('/')[1].length > 18) ||
                                 get(history, 'location.pathname', '').split('/')[1] === 'company') && (
-    
+
                                 <>
                                   <Route path="/:propID/*" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />
                                   <Route path="/:propID?/singleFlow" element={<ProtectedRoute><DashboardSeller /></ProtectedRoute>} />

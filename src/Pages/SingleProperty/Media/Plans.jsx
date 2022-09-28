@@ -17,7 +17,7 @@ import {
   BrixelButtonSecondary, translateTo,
 } from '@brixel/brixel-components';
 import { change } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { ReactSortable } from 'react-sortablejs';
 import cloneDeep from 'lodash/cloneDeep';
 import { diff } from 'deep-object-diff';

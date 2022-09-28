@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelTabs, Helpers, translateTo } from '@brixel/brixel-components';
-import { has } from 'lodash';
+import has from 'lodash/has';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 // import orderBy from 'lodash/orderBy';

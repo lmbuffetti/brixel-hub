@@ -27,7 +27,7 @@ import forEach from 'lodash/forEach';
 import last from 'lodash/last';
 import flatten from 'lodash/flatten';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import { DateTime } from 'luxon';
 import {
   createNote, saveActiveSingleNote,

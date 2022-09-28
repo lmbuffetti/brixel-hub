@@ -148,7 +148,8 @@
     "plugin:react/recommended",
     "plugin:react-redux/recommended",
     "eslint:recommended",
-    "plugin:import/recommended"
+    "plugin:import/recommended",
+    "plugin:cypress/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {

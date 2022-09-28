@@ -12,10 +12,10 @@ import {
   Helpers,
   FormatValue, translateTo,
 } from '@brixel/brixel-components';
-// import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+// import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
 import { setSplashType } from '../../actions/CommonActions';

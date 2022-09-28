@@ -18,7 +18,7 @@ import {
   change,
   reset,
 } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { useParams } from 'react-router-dom';
 import { setModal } from '../../actions/CommonActions';
 import { updatePublishedReview } from '../../actions/PropertyActions';
@@ -115,14 +115,14 @@ const Page = (props) => {
       ] : [
         {
           btnType: 'Secondary',
-          name: 'Cancel',
+          name: translateTo('Cancel', lang),
           round: true,
           className: 'mr-1',
           func: () => handleSetModal({}),
         },
         {
           btnType: 'Primary',
-          name: 'Send request',
+          name: translateTo('Send request', lang),
           round: true,
           className: 'ml-1',
           func: () => changeReviewStatus()

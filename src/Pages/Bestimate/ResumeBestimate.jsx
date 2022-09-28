@@ -9,7 +9,6 @@ import { Helpers, translateTo } from '@brixel/brixel-components';
 import { useParams } from 'react-router-dom';
 import { getEstimation, getMarketCheck, saveActiveSingleProperty } from '../../actions/PropertyActions';
 import { createEstimation, generateEstimation } from '../../actions/EstimationActions';
-import RangePriceChart from '../../components/Charts/RangePriceChart';
 import emptyHouseImg from '../../images/emptyHub.svg';
 import Loading from '../../components/Loading';
 
@@ -133,18 +132,6 @@ function ResumeBestimate(props) {
                           {translateTo('Your Bestimate<sup>&reg;</sup> compared to local market data', lang)}
                         </p>
                       </>
-                    )
-                  }
-                  {
-                    Object.keys(get(estimation, 'result', {})).length > 0 && (
-                      <div className="dis-f jc-c">
-                        <RangePriceChart
-                          properties={marketData.priceDistribution.chartRangePrice}
-                          type="bestimate"
-                          bestimate={estimation.result}
-                          showTopLabel={false}
-                        />
-                      </div>
                     )
                   }
                 </>

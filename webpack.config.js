@@ -17,6 +17,8 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
+const {InjectManifest} = require('workbox-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 // const devMode = false;
 const ROOT_DIR = path.resolve(__dirname, './');
@@ -32,14 +34,16 @@ const PATHS = {
   dist: path.join(__dirname, 'dist'),
 };
 
-const clientConfig = () => {
+const clientConfig = (env) => {
+  const testMode = env.TEST;
   const config = ({
     mode: mode,
-    devtool: devMode ? 'source-map' : 'source-map',
+    devtool: testMode ? 'hidden-source-map' : 'source-map',
     entry: {
       polyfill: '@babel/polyfill',
       main: [
         './src/index.jsx',
+        './service-worker-brixel.js',
         './src/styles/SCSS/general/main.scss',
       ],
       secondary: [
@@ -62,16 +66,16 @@ const clientConfig = () => {
         directory: path.join(__dirname, 'src'),
       },
       liveReload: true,
-      compress: !devMode,
+      compress: !devMode && !testMode,
       port: 5000,
       historyApiFallback: true,
-      open: devMode,
+      open: devMode && !testMode,
     },
     output: {
       publicPath: '/',
       path: BUILD_DIR,
       filename: 'js/[name].[fullhash].bundle.js',
-      chunkFilename: devMode ? 'js/[name].js' : 'js/[name].[fullhash].js',
+      chunkFilename: (devMode || testMode) ? 'js/[name].js' : 'js/[name].[fullhash].js',
       globalObject: 'this',
     },
     stats: {
@@ -94,7 +98,7 @@ const clientConfig = () => {
             {
               loader: 'css-loader',
               options: {
-                sourceMap: devMode,
+                sourceMap: devMode && !testMode,
                 importLoaders: 1,
               },
             },
@@ -104,7 +108,7 @@ const clientConfig = () => {
                 sassOptions: {
                   outputStyle: 'compressed',
                 },
-                sourceMap: devMode,
+                sourceMap: devMode && !testMode,
               },
             },
             {
@@ -193,6 +197,39 @@ const clientConfig = () => {
       ],
     },
     plugins: [
+      new CleanWebpackPlugin({
+        dry: false,
+        verbose: false,
+        cleanOnceBeforeBuildPatterns: ['*'],
+        dangerouslyAllowCleanPatternsOutsideProject: true,
+      }),
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: devMode || testMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
+        chunkFilename: devMode || testMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
+      }),
+      new WebpackManifestPlugin({
+        writeToFileEmit: true,
+      }),
+    ],
+    resolve: {
+      extensions: ['.js', '.jsx'],
+    },
+    performance: {
+      hints: false
+    },
+  });
+  if (testMode) {
+    config.plugins.push(
+      new HtmlWebpackPlugin({
+        filename: './index.html',
+        template: './public/index.html',
+      }),
+    )
+  }
+  if (!testMode) {
+    config.plugins.push(
       new ESLintPlugin({
         extensions: ['js', 'jsx'],
         failOnError: !devMode,
@@ -201,24 +238,18 @@ const clientConfig = () => {
         emitError: true,
         fix: true,
       }),
-      new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
-        filename: devMode ? 'css/[name].css' : 'css/[name].[fullhash].css',
-        chunkFilename: devMode ? 'css/[name]_[id].css' : 'css/[name]_[id].[chunkhash].css',
-      }),
-      new CleanWebpackPlugin({
-        dry: false,
-        verbose: false,
-        cleanOnceBeforeBuildPatterns: ['*', '!manifest.json'],
-        dangerouslyAllowCleanPatternsOutsideProject: true,
-      }),
       new CopyPlugin({
         patterns: [
           { from: './public/favicon.png', to: './' },
+          { from: './server.js', to: './' },
         ],
       }),
-      // new webpack.HotModuleReplacementPlugin(),
+      new webpack.DefinePlugin({
+        NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
+        'process.env': {
+          NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
+        },
+      }),
       new HtmlWebpackPlugin({
         chunksSortMode: 'none',
         hash: true,
@@ -241,21 +272,9 @@ const clientConfig = () => {
         googleAnalyticsId: baseByData(getEnvBuild).googleAnalyticsIdHub,
         facebookPixelId: baseByData(getEnvBuild).facebookPixel,
       }),
-      new webpack.DefinePlugin({
-        NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
-        'process.env': {
-          NODE_ENV: JSON.stringify(devMode ? 'development' : 'production'),
-        },
-      }),
-    ],
-    resolve: {
-      extensions: ['.js', '.jsx'],
-    },
-    performance: {
-      hints: false
-    },
-  });
-  if (!devMode) {
+    )
+  }
+  if (!devMode && !testMode) {
     config.plugins.push(
       new PurgeCSSPlugin({
         paths: glob.sync([
@@ -284,36 +303,20 @@ const clientConfig = () => {
         threshold: 10240,
         minRatio: 0.8,
       }),
+      new InjectManifest({
+        mode: 'production',
+        swSrc: './service-worker-brixel.js',
+        maximumFileSizeToCacheInBytes: 500000000,
+      }),
     )
     config.optimization = {
+      removeAvailableModules: true,
       nodeEnv: 'production',
       minimize: true,
       minimizer: [
         new TerserPlugin(),
         new CssMinimizerPlugin(),
       ],
-      splitChunks: {
-        chunks: 'all',
-        minSize: 20000,
-        maxSize: 25000,
-        minRemainingSize: 0,
-        minChunks: 1,
-        maxAsyncRequests: 30,
-        maxInitialRequests: 30,
-        enforceSizeThreshold: 50000,
-        cacheGroups: {
-          defaultVendors: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10,
-            reuseExistingChunk: true,
-          },
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
-        },
-      },
     };
   }
   return config;
