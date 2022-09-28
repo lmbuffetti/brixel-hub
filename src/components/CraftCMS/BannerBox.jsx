@@ -28,7 +28,7 @@ const BannerBox = (props) => {
     if (activeSingleCompany.stub) {
       const data = {
         bannerSlug: placementSlug,
-        partner: activeSingleCompany.stub.includes('brixel') ? 'brixel' : activeSingleCompany.stub,
+        partner: activeSingleCompany.type !== 'partner' ? 'brixel' : activeSingleCompany.stub,
         language: lang,
         queryType: 'banners'
       };

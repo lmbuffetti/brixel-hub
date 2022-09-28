@@ -27,7 +27,7 @@ const ArticlesBox = (props) => {
     if (activeSingleCompany.stub) {
       const data = {
         placementSlug,
-        partner: activeSingleCompany.stub.includes('brixel') ? 'brixel' : activeSingleCompany.stub,
+        partner: activeSingleCompany.type !== 'partner' ? 'brixel' : activeSingleCompany.stub,
         language: lang,
         queryType: 'articles'
       };
