@@ -33,14 +33,10 @@ self.addEventListener('message', (event) => {
 // This allows the web app to reload on every application update (deploy)
 self.addEventListener('installed', (event) => {
   if (event.isUpdate) {
-    if (confirm(`New content is available!. Click OK to refresh`)) {
-      window.location.reload();
-    }
+    window.location.reload();
   }
 });
 
 self.addEventListener('controlling', () => {
-  if (confirm(`New content is available!. Click OK to refresh`)) {
-    window.location.reload();
-  }
+  window.location.reload();
 });

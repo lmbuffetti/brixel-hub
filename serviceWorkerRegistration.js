@@ -32,7 +32,6 @@ export function register(config) {
     
     window.addEventListener('load', () => {
       const swUrl = `/service-worker-brixel.js`;
-      // const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
       
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -64,6 +63,9 @@ function registerValidSW(swUrl, config) {
           return;
         }
         installingWorker.onstatechange = () => {
+          if (installingWorker.state === 'controlling') {
+            window.location.reload();
+          }
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,
@@ -73,11 +75,15 @@ function registerValidSW(swUrl, config) {
                 'New content is available and will be used when all ' +
                 'tabs for this page are closed. See https://cra.link/PWA.'
               );
-              
+
               // Execute callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
               }
+
+              // New content is available and is installed, reload the page
+              window.location.reload();
+              
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
@@ -137,34 +143,3 @@ export function unregister() {
       });
   }
 }
-
-
-// import { Workbox } from 'workbox-window';
-
-// export default function registerServiceWorker() {
-
-//   // if (process.env.NODE_ENV !== 'production') {
-//   //   return;
-//   // }
-//   // if (process.env.NODE_ENV !== 'development') {
-//   //   return;
-//   // }
-//   // Check if the serviceWorker Object exists in the navigator object ( means if browser supports SW )
-//   if ('serviceWorker' in navigator) {
-//     const wb = new Workbox('./service-worker-brixel.js');
-
-//     wb.addEventListener('installed', event => {
-//       /**
-//        * We have the condition - event.isUpdate because we don't want to show
-//        * this message on the very first service worker installation,
-//        * only on the updated
-//        */
-//       if (event.isUpdate) {
-//         if (confirm(`New app update is available!. Click OK to refresh`)) {
-//           window.location.reload();
-//         }
-//       }
-//     });
-//     wb.register();
-//   }
-// }
