@@ -13,6 +13,7 @@ module.exports = defineConfig({
   
   e2e: {
     setupNodeEvents(on, config) {
+      require('@cypress/code-coverage/task')(on, config)
       on('after:spec', (spec, results) => {
         if (results && results.video) {
           // Do we have failures for any retry attempts?
@@ -25,6 +26,7 @@ module.exports = defineConfig({
           }
         }
       })
+      return config;
     }
   },
   

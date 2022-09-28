@@ -44,7 +44,7 @@
     "universal-cookie": "^4.0.4"
   },
   "scripts": {
-    "start": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode development",
+    "start-fast": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env TEST --mode development",
     "start-dev": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
     "start-prod": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode production",
     "build": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env DEV --mode production",
@@ -70,6 +70,7 @@
     "@babel/node": "^7.19.1",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-es2015": "^7.0.0-beta.53",
+    "@cypress/code-coverage": "^3.10.0",
     "@cypress/webpack-preprocessor": "^5.12.2",
     "@svgr/core": "^6.3.1",
     "@swc/cli": "^0.1.57",
