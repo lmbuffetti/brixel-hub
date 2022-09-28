@@ -12,6 +12,7 @@ module.exports = defineConfig({
   video: false,
   
   e2e: {
+    excludeSpecPattern: ['**/examples/*.spec.js'],
     setupNodeEvents(on, config) {
       require('@cypress/code-coverage/task')(on, config)
       on('after:spec', (spec, results) => {
@@ -25,7 +26,7 @@ module.exports = defineConfig({
             return delete results.video;
           }
         }
-      })
+      });
       return config;
     }
   },
