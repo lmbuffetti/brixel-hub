@@ -59,14 +59,16 @@ export const successHandler = (response, id) => {
 
   const store = configureStore;
   const currentFeatureFlags = get(store.getState(), 'common.featureFlags');
-  const requestFlags = JSON.parse(response.headers['feature-flags'], (key, value) => value === 'true' ? true : value === 'false' ? false : value);
-  const checkDiff = diff(currentFeatureFlags, requestFlags);
-
-  if (Object.keys(checkDiff).length > 0) {
-    store.dispatch({
-      type: SET_FEATURE_FLAGS,
-      payload: requestFlags,
-    });
+  if (response.headers['feature-flags']) {
+    const requestFlags = JSON.parse(response.headers['feature-flags'], (key, value) => value === 'true' ? true : value === 'false' ? false : value);
+    const checkDiff = diff(currentFeatureFlags, requestFlags);
+  
+    if (Object.keys(checkDiff).length > 0) {
+      store.dispatch({
+        type: SET_FEATURE_FLAGS,
+        payload: requestFlags,
+      });
+    }
   }
 
   return Promise.resolve({
@@ -88,9 +90,17 @@ export const validationErrorNormalizr = (data) => {
 };
 
 export const failureHandler = (error) => {
-  const errorResponse = error.data || error;
-  const data = errorResponse.errors;
-  const meta = {};
+  const {
+    data, status,
+  } = error;
+  const errorResponse = data || error;
+  const meta = {
+    status,
+    normalizedStatus: httpStatusNormalizer({
+      status,
+    }),
+    statusText: errorResponse,
+  };
   // eslint-disable-next-line prefer-promise-reject-errors
   return Promise.reject({
     data,
