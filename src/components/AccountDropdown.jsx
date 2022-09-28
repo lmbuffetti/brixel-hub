@@ -7,7 +7,7 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { BrixelDropdown, BrixelAvatar, translateTo } from '@brixel/brixel-components';
 import { BrixelSelect } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-configuration-partner/src/SettingsWebpack';
+import baseByData from '@brixel/brixel-components/dist/configuration/SettingsWebpack';
 import { setUnsavedChangesModal } from '../actions/CommonActions';
 import { saveActiveSingleUser } from '../actions/UserActions';
 import { setCookie } from '../utils/helpers';

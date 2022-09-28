@@ -124,7 +124,7 @@ const DashboardHome = (props) => {
 
         <>
 
-          <DashboardPropertyCard type="buy" />
+          <DashboardPropertyCard type="buy" lang={lang} />
 
           <div className="dis-fl-col dis-fl-row-sm">
 

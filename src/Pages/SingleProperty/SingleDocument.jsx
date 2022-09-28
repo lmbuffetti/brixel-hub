@@ -25,7 +25,7 @@ import {
   BrixelInputText,
   BrixelRadioButton,
 } from '@brixel/brixel-components/dist/form';
-import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
+import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import {
   updateDocument,
 } from '../../actions/UploadActions';

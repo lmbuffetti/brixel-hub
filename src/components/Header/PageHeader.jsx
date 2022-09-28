@@ -11,9 +11,9 @@ import {
   BrixelSelect,
   destroy,
 } from '@brixel/brixel-components/dist/form';
-import logoMobile from '@brixel/brixel-configuration-partner/src/images/logo_colors_icon_new.svg';
-import logo from '@brixel/brixel-configuration-partner/src/images/logo_colors_v2.svg';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import logoMobile from '@brixel/brixel-components/dist/configuration/images/logo_colors_icon_new.svg';
+import logo from '@brixel/brixel-components/dist/configuration/images/logo_colors_v2.svg';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
@@ -333,7 +333,7 @@ function PageHeader(props) {
 
                         <div className={`hubNavigation ${openMenu ? 'open' : 'close'}`} ref={menuHub}>
                           <div className="dis-f titleSection txtDark700" onClick={() => setOpenMenu(!openMenu)}>
-                            <span>{section}</span>
+                            <span>{translateTo(section, lang)}</span>
                             <BrixelIcon
                               icon={openMenu ? "dropdown-open" : "dropdown-close"}
                             />

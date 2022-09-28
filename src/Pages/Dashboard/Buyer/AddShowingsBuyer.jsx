@@ -605,7 +605,10 @@ const AddShowingsBuyer = (props) => {
                         <BrixelButtonIcon
                           className="pos-a ml-0"
                           icon="arrow-left-small"
-                          onClick={() => changeStep('back')}
+                          onClick={() => {
+                            setShowResizer(false);
+                            setChooseDatesOpen(true);
+                          }}
                           theme="light"
                           secondary
                         />

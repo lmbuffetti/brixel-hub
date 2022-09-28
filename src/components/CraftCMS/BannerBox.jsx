@@ -28,14 +28,15 @@ const BannerBox = (props) => {
     if (activeSingleCompany.stub) {
       const data = {
         bannerSlug: placementSlug,
-        partner: activeSingleCompany.stub,
+        partner: activeSingleCompany.type !== 'partner' ? 'brixel' : activeSingleCompany.stub,
         language: lang,
         queryType: 'banners'
       };
       api.craftCMS.getHubContent(data)
         .then((res) => {
           setBanner(get(res, 'data.data.bannersEntries[0]', {}))
-        });
+        })
+        .catch(() => {});
     }
   }, [activeSingleCompany, lang]);
 

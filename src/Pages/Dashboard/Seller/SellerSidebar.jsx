@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { BrixelIcon, ProgressRing, translateTo } from '@brixel/brixel-components';
-import documentConfig from '@brixel/brixel-configuration-partner/src/DocumentsConfig';
+import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import isNaN from 'lodash/isNaN';
@@ -223,10 +223,29 @@ const SellerSidebar = (props) => {
           )
         }
 
+        {
+          !get(progressStep, 'step', null) && (
+            <div className="p-3">
+              <div className="h-fix-24 mb-2 w-perc-100 skeletonBg" />
+              <div className="h-fix-96 mb-2 w-perc-100 skeletonBg brdRadius" />
+              <div className="h-fix-96 mb-3 w-perc-100 skeletonBg brdRadius" />
+            </div>
+          )
+        }
         <div className="p-3">
           <p className="fweight-600 txtDark700 mb-2">
             {translateTo('Feed', lang)}
           </p>
+
+          {
+            get(fullUpdates, null) && (
+              <div className="">
+                <div className="h-fix-96 mb-2 w-perc-100 skeletonBg brdRadius" />
+                <div className="h-fix-96 mb-3 w-perc-100 skeletonBg brdRadius" />
+              </div>
+            )
+          }
+
 
           {
             fullUpdates.map((history, i) => (
@@ -270,6 +289,7 @@ const SellerSidebar = (props) => {
               </div>
             ))
           }
+
         </div>
       </div>
     </div>

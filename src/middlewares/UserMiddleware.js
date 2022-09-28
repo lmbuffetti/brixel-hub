@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { change } from '@brixel/brixel-components/dist/form';
 import {
   CHECK_TOKEN,

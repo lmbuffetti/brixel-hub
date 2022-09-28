@@ -9,7 +9,7 @@ import set from 'lodash/set';
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText, translateTo } from '@brixel/brixel-components';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {
   getAllProperties, getFavoritesProperties, getLastViewedProperties,
   getNewProperties, getOwnedProperties, getPremarketProperties,

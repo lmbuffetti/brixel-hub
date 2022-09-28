@@ -13,7 +13,7 @@ import { bindActionCreators, compose } from 'redux';
 import { BrixelIcon, translateTo } from '@brixel/brixel-components';
 import { BrixelInputText, change } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';
 import { setCountryList } from '../../actions/CommonActions';

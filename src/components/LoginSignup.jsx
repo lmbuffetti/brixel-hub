@@ -17,7 +17,7 @@ import {
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import Slider from 'react-slick';
 import { setFormError } from '../actions/CommonActions';
 import { recoverPassword } from '../actions/UserActions';
@@ -304,6 +304,7 @@ const LoginSignup = (props) => {
                     label={translateTo(PrimaryButton().label, lang)}
                     onClick={!disabledButton ? PrimaryButton().action : () => ''}
                     isLoading={isSmallLoading === 'recoverPassword'}
+                    type="submit"
                   />
                 </div>
                 <div className="topBar fsize-400 p-2 ta-c">

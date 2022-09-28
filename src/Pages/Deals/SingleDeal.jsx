@@ -20,7 +20,7 @@ import {
 import {
   connect,
 } from 'react-redux';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import {
   BrixelAvatar,
   BrixelButtonIcon,

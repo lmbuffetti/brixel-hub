@@ -2,7 +2,7 @@ import has from 'lodash/has';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 
-import { set } from 'lodash';
+import set from 'lodash/set';
 
 import {
   SET_PROPERTY_OWNER_HISTORY_LISTINGS,

@@ -8,7 +8,7 @@ import get from 'lodash/get';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MarkerWithLabel } from '@googlemaps/markerwithlabel';
 import { FormatValue, Helpers, translateTo } from '@brixel/brixel-components';
-import baseByData from '@brixel/brixel-configuration-partner/src/Settings';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { cutValue } from '../../utils/helpers';
 import CoverPropertyImage from '../CoverPropertyImage';
 import {

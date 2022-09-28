@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import httpAdapter from 'axios/lib/adapters/http';
 import Cookies from 'universal-cookie';
 import get from 'lodash/get';
-import getConfigEnv from '@brixel/brixel-configuration-partner/src/Settings';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import {
   failureHandler, successHandler,
 } from '../utils/api.helper';

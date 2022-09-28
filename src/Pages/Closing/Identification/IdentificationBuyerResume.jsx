@@ -5,7 +5,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
-import { get, isNaN, isObject } from 'lodash';
+import get from 'lodash/get';
+import isNaN from 'lodash/isNaN';
+import isObject from 'lodash/isObject';
 import { connect } from 'react-redux';
 import {
   BrixelButtonIcon,

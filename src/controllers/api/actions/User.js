@@ -60,16 +60,6 @@ class Property extends Base {
     return this.apiClient.put(url, {}, data);
   }
 
-  getPublicUser(id) {
-    const url = ep.user.getPublicUser(id);
-    return this.apiClient.get(url, {});
-  }
-
-  getDocuments(id, data) {
-    const url = ep.user.getDocuments(id);
-    return this.apiClient.put(url, {}, data);
-  }
-
   getPropertiesOfUser(id, limit) {
     const url = ep.user.getPropertiesOfUser(id, limit);
     return this.apiClient.get(url, {});
