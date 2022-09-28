@@ -333,7 +333,7 @@ function PageHeader(props) {
 
                         <div className={`hubNavigation ${openMenu ? 'open' : 'close'}`} ref={menuHub}>
                           <div className="dis-f titleSection txtDark700" onClick={() => setOpenMenu(!openMenu)}>
-                            <span>{section}</span>
+                            <span>{translateTo(section, lang)}</span>
                             <BrixelIcon
                               icon={openMenu ? "dropdown-open" : "dropdown-close"}
                             />
