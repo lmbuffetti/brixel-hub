@@ -32,8 +32,8 @@ To run the test on local it is possibile to use Browser Mode (`open command`) or
 
 You have to run the following command:
 
-- On one terminal you can use `npm run start-test`
-- On second terminal, when the start is ready, you have to use `npm run test-e2e`
+- On terminal you have to use `npm run test-e2e`
+- Wait that the project is started
 - Now Cypress will open a Window when it is possible to choose the browser that you want to use for the test. 
 - After have chosen the browser you can click on which test you want to run
 - Here on the right you will have a visual test and on left the type of test is running.
