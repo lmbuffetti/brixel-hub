@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import get from 'lodash/get';
 import { BrixelIcon, BrixelModal } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import { createPropertyVisitBooking } from '../../../actions/PropertyActions';

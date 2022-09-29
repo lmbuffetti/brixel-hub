@@ -9,7 +9,7 @@ import {
   BrixelButtonBox,
   BrixelButtonIcon,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';

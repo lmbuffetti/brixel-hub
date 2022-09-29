@@ -8,7 +8,7 @@ import {
   FormatValue,
   Helpers,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';

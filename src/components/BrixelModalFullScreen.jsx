@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
-import { translateTo } from '../utils/translation';
+import translateTo from '../utils/translation';
 
 const BrixelModalFullScreen = (props) => {
   // PROPS

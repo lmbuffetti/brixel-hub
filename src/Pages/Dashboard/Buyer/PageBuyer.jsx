@@ -11,7 +11,7 @@ import {
   BrixelIcon,
   FormatValue,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import {
   change,
   reset,

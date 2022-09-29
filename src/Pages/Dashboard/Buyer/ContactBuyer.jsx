@@ -15,7 +15,7 @@ import {
   BrixelAvatar,
   Helpers,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 
 const ContactBuyer = (props) => {

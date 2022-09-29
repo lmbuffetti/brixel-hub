@@ -19,7 +19,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import { change } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { ReactSortable } from 'react-sortablejs';

@@ -10,7 +10,7 @@ import {
   Helpers,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import {
   BrixelInputText,
   BrixelInputDatePicker,

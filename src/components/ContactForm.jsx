@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import { BrixelIcon } from '@brixel/brixel-components';
-import { translateTo } from '../utils/translation';
+import translateTo from '../utils/translation';
 import {
   BrixelTextArea,
   BrixelInputText,

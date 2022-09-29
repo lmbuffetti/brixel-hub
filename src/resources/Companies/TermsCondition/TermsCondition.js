@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import {
   BrixelRadioButton,
   Validation,

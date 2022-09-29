@@ -8,7 +8,7 @@ import {
   FactsOptions,
   Helpers,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';

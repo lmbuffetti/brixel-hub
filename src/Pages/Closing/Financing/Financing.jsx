@@ -8,7 +8,7 @@ import {
   BrixelButtonPrimary,
   BrixelProgressBar,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import {
   MultiFileldsReduxForm,
   change,

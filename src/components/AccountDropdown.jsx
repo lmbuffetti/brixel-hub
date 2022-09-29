@@ -6,7 +6,7 @@ import { compose, bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { BrixelDropdown, BrixelAvatar } from '@brixel/brixel-components';
-import { translateTo } from '../utils/translation';
+import translateTo from '../utils/translation';
 import { BrixelSelect } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-components/dist/configuration/SettingsWebpack';
 import { setUnsavedChangesModal } from '../actions/CommonActions';

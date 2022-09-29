@@ -1,4 +1,4 @@
-import { translateTo } from '../utils/translation';
+import translateTo from '../utils/translation';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';

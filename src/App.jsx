@@ -21,7 +21,7 @@ import {
   BrixelModal,
   BrixelNotification,
 } from '@brixel/brixel-components';
-import { translateTo } from './utils/translation';
+import translateTo from './utils/translation';
 import { reset } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';

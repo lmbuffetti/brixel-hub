@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { BrixelIcon, ProgressRing } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import get from 'lodash/get';
 import has from 'lodash/has';

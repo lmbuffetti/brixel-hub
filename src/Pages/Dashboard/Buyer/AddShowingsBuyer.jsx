@@ -16,7 +16,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonText,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import BrixelSwitchButton from '@brixel/brixel-components/dist/components/Form/BrixelSwitchButton';
 import {
   initializeForm,

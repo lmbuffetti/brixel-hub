@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import { BrixelButtonPrimary } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import get from 'lodash/get';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';

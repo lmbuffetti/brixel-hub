@@ -9,7 +9,7 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import Slider from 'react-slick';
 import { BrixelButtonIcon, BrixelButtonText } from '@brixel/brixel-components';
-import { translateTo } from '../utils/translation';
+import translateTo from '../utils/translation';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { setWindowDimensions } from '../actions/CommonActions';

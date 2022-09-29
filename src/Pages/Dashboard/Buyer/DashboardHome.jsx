@@ -4,7 +4,7 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
 } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
 import PropTypes from 'prop-types';

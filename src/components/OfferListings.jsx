@@ -10,7 +10,7 @@ import {
   BrixelStatus,
   ListingsHeaderFilter,
 } from '@brixel/brixel-components';
-import { translateTo } from '../utils/translation';
+import translateTo from '../utils/translation';
 import { compose } from 'redux';
 import { DateTime } from 'luxon';
 import { connect } from 'react-redux';

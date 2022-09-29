@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
 import { BrixelIcon } from '@brixel/brixel-components';
-import { translateTo } from '../../../../utils/translation';
+import translateTo from '../../../../utils/translation';
 
 const Key4Registration = (props) => {
   const {

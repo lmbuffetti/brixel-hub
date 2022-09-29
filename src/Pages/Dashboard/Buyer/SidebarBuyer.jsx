@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { BrixelIcon } from '@brixel/brixel-components';
-import { translateTo } from '../../../utils/translation';
+import translateTo from '../../../utils/translation';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
 import orderBy from 'lodash/orderBy';

@@ -1,4 +1,4 @@
-import { translateTo } from '../utils/translation';
+import translateTo from '../utils/translation';
 import React from 'react';
 import PropTypes from 'prop-types';
 

@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Helpers } from '@brixel/brixel-components';
-import { translateTo } from '../utils/translation';
+import translateTo from '../utils/translation';
 import { PackagesComparePlansTable } from '../resources/Dashboard/PackagesComparePlans';
 
 export const PackagesComparePlans = (props) => {
