@@ -3,7 +3,6 @@ stages:
   - deploy
   - test
 
-
 # Run the command to create the build for only specific branches
 build site:
   image: node:14.18.1
