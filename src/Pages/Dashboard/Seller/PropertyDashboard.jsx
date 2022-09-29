@@ -6,10 +6,8 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 // import has from 'lodash/has';
-import {
-  BrixelButtonBox, translateTo,
-  // FormatValue,
-} from '@brixel/brixel-components';
+import { BrixelButtonBox } from '@brixel/brixel-components';
+import { translateTo } from '../../../utils/translation';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';

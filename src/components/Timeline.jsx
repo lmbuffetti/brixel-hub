@@ -14,9 +14,14 @@ import {
   compose, bindActionCreators,
 } from 'redux';
 import {
-  BrixelIcon, BrixelButtonPrimary, BrixelDropdownMini,
-  BrixelButtonIcon, useOutsideAlerter, BrixelAvatar, translateTo,
+  BrixelIcon,
+  BrixelButtonPrimary,
+  BrixelDropdownMini,
+  BrixelButtonIcon,
+  useOutsideAlerter,
+  BrixelAvatar,
 } from '@brixel/brixel-components';
+import { translateTo } from '../utils/translation';
 import BrixelTextEditor from '@brixel/brixel-components/dist/components/Form/BrixelTextEditor';
 import get from 'lodash/get';
 import has from 'lodash/has';

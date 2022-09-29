@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { translateTo } from '@brixel/brixel-components';
+import { translateTo } from '../../../utils/translation';
 import React from 'react';
 import { compose } from 'redux';
 import get from 'lodash/get';

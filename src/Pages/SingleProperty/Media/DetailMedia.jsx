@@ -11,9 +11,10 @@ import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {
   BrixelButtonIcon,
   BrixelButtonSecondary,
-  BrixelButtonText, translateTo,
+  BrixelButtonText,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import { translateTo } from '../../../utils/translation';
 import {
   BrixelTextArea,
   ReduxField,

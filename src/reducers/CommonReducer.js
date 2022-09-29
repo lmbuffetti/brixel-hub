@@ -24,6 +24,7 @@ import {
   SET_HISTORY,
   SET_WIZARD,
   SET_FEATURE_FLAGS,
+  SET_TRANSLATIONS,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -58,6 +59,7 @@ export const defaultState = {
   setPageData: null,
   skeleton: { },
   splashScreenType: '',
+  translation: {},
   unsavedChangesModal: {
     state: false, link: '',
   },
@@ -156,6 +158,10 @@ export default handleActions(
     [SET_FEATURE_FLAGS]: (state, action) => ({
       ...state,
       featureFlags: action.payload,
+    }),
+    [SET_TRANSLATIONS]: (state, action) => ({
+      ...state,
+      translations: action.payload,
     }),
   },
   defaultState,

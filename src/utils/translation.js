@@ -1,9 +1,10 @@
-/* global Transifex */
-export const translateTo = (word) => {
-  if (typeof Transifex !== 'undefined') {
-    if (Transifex && Transifex.live.getAllLanguages()) {
-      return Transifex.live.translateText(word);
-    }
-  }
-  return word;
+import get from 'lodash/get';
+import { translateTo } from '@brixel/brixel-components';
+import { configureStore } from '../store';
+const store = configureStore;
+const translateToComponent = (word) => {
+  const lang = get(store.getState(), 'common.language', 'en');
+  return translateTo(word, lang);
 };
+
+export default translateToComponent;

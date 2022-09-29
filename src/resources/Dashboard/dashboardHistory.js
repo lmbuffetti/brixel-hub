@@ -1,4 +1,5 @@
-import { Helpers, translateTo } from '@brixel/brixel-components';
+import { Helpers } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import has from 'lodash/has';
 import tail from 'lodash/tail';
 import get from 'lodash/get';

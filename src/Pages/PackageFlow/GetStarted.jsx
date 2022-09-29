@@ -26,7 +26,7 @@ import { QuestionsList } from '../../resources/Flows/onBoarding';
 import { spinnerOff } from '../../actions/CommonActions';
 import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 
 const cookie = new Cookies();
 

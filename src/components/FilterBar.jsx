@@ -13,9 +13,12 @@ import {
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import {
-  BrixelIcon, BrixelButtonText,
-  FactsOptions, useOutsideAlerter, translateTo,
+  BrixelIcon,
+  BrixelButtonText,
+  FactsOptions,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
+import { translateTo } from '../utils/translation';
 
 const {
   factsOptions,

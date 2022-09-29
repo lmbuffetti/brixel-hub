@@ -1,4 +1,4 @@
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import React, { useEffect, useState } from 'react';
 import get from 'lodash/get';
 import { connect } from 'react-redux';

@@ -8,8 +8,9 @@ import {
   BrixelIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
-  BrixelButtonIcon, translateTo,
+  BrixelButtonIcon,
 } from '@brixel/brixel-components';
+import { translateTo } from '../utils/translation';
 import { reset } from '@brixel/brixel-components/dist/form';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

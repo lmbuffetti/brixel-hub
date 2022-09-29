@@ -9,8 +9,9 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelIcon,
-  FormatValue, translateTo,
+  FormatValue,
 } from '@brixel/brixel-components';
+import { translateTo } from '../../../utils/translation';
 import {
   change,
   reset,

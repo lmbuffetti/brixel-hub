@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-  BrixelButtonPrimary, translateTo,
-} from '@brixel/brixel-components';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { setWizard } from '../../actions/CommonActions';
 import { WizardText } from '../../resources/Dashboard/Wizard';
 import { setCookie } from '../../utils/helpers';

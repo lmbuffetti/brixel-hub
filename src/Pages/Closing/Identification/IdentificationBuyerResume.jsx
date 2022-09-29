@@ -13,8 +13,9 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonText,
-  BrixelIcon, translateTo,
+  BrixelIcon,
 } from '@brixel/brixel-components';
+import { translateTo } from '../../../utils/translation';
 import {
   BrixelCheckbox,
   ReduxField,

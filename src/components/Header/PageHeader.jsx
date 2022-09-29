@@ -4,9 +4,10 @@ import {
   BrixelAvatar,
   BrixelButtonIcon,
   BrixelIcon,
-  FactsOptions, translateTo,
+  FactsOptions,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelSelect,
   destroy,

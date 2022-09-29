@@ -7,8 +7,9 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   FormatValue,
-  Helpers, translateTo,
+  Helpers,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

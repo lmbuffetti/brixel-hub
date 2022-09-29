@@ -10,8 +10,9 @@ import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
   BrixelButtonIcon,
-  FactsOptions, translateTo,
+  FactsOptions,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelInputText,
   BrixelSelect,

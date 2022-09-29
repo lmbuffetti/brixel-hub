@@ -8,8 +8,9 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelProgressBar, translateTo,
+  BrixelProgressBar,
 } from '@brixel/brixel-components';
+import { translateTo } from '../../../utils/translation';
 import {
   MultiFileldsReduxForm,
   change,

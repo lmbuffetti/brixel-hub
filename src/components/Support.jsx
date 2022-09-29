@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { BrixelIcon, BrixelButtonIcon, Helpers, translateTo } from '@brixel/brixel-components';
+import { BrixelIcon, BrixelButtonIcon, Helpers } from '@brixel/brixel-components';
+import { translateTo } from '../utils/translation';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
 import {

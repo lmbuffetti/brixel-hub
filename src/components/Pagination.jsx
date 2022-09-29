@@ -3,9 +3,8 @@ import React, {
   Fragment,
 } from 'react';
 import PropTypes from 'prop-types';
-import {
-  BrixelDropdown, BrixelButtonIcon, translateTo,
-} from '@brixel/brixel-components';
+import { BrixelDropdown, BrixelButtonIcon } from '@brixel/brixel-components';
+import { translateTo } from '../utils/translation';
 
 const Pagination = (props) => {
   const {

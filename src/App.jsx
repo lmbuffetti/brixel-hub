@@ -19,8 +19,9 @@ import Cookies from 'universal-cookie';
 import {
   BrixelIcon,
   BrixelModal,
-  BrixelNotification, translateTo,
+  BrixelNotification,
 } from '@brixel/brixel-components';
+import { translateTo } from './utils/translation';
 import { reset } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import smoothscrollPolyfill from 'smoothscroll-polyfill';
@@ -31,11 +32,14 @@ import Loading from './components/Loading';
 import WizardCard from './components/Cards/WizardCard';
 import { checkToken, setUserTypes } from './actions/UserActions';
 import {
-  setLanguage, setModal, setWindowDimensions, setScreenNotification, sendSlackNotification,
+  setLanguage,
+  setModal,
+  setWindowDimensions,
+  setScreenNotification,
+  sendSlackNotification,
+  setTranslations,
 } from './actions/CommonActions';
-import {
-  setActiveSingleDeal,
-} from './actions/DealActions';
+import { setActiveSingleDeal } from './actions/DealActions';
 import { setActiveSingleProperty } from './actions/PropertyActions';
 import { getImageType } from './actions/UploadActions';
 
@@ -116,8 +120,8 @@ const App = (props) => {
   };
   // PROPS
   const {
-    activeSingleProperty,
     activeSingleCompany,
+    activeSingleProperty,
     handleCheckToken,
     handleGetImageType,
     handleReset,
@@ -126,6 +130,7 @@ const App = (props) => {
     handleSetLanguage,
     handleSetModal,
     handleSetNotification,
+    handleSetTranslations,
     handleSetUserTypes,
     handleSetWindowsDimension,
     isLoading,
@@ -216,7 +221,7 @@ const App = (props) => {
           languagesList.forEach((lng, index) => {
             translations[lng.code] = res[index].data;
           })
-          localStorage.setItem('brixelTranslations', JSON.stringify(translations));
+          handleSetTranslations(translations);
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
@@ -843,6 +848,7 @@ App.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
+  handleSetTranslations: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   handleSetWindowsDimension: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
@@ -897,6 +903,7 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
+  handleSetTranslations: bindActionCreators(setTranslations, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });

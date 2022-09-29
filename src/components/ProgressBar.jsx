@@ -4,7 +4,8 @@ import React, {
 import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import cloneDeep from 'lodash/cloneDeep';
-import { BrixelIcon, translateTo } from '@brixel/brixel-components';
+import { BrixelIcon } from '@brixel/brixel-components';
+import { translateTo } from '../utils/translation';
 
 const ProgressBar = (props) => {
   const {

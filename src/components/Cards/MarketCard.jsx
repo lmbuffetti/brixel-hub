@@ -14,8 +14,9 @@ import {
   BrixelIcon,
   FormatValue,
   Helpers,
-  ProgressRing, translateTo,
+  ProgressRing,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';

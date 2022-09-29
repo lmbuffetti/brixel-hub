@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BrixelButtonIcon, BrixelButtonPrimary, translateTo } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
+import { translateTo } from '../utils/translation';
 
 const BrixelModalFullScreen = (props) => {
   // PROPS

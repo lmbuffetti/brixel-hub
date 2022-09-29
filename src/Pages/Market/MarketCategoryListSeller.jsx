@@ -11,8 +11,9 @@ import {
   BrixelButtonSecondary,
   BrixelButtonIcon,
   Helpers,
-  BrixelButtonText, translateTo,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { bindActionCreators, compose } from 'redux';

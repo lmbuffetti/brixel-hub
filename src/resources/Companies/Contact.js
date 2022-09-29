@@ -5,7 +5,7 @@ import {
   BrixelSelect,
   Validation,
 } from '@brixel/brixel-components/dist/form';
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { DateTime } from 'luxon';
 import lazyWithRetry from '../../components/LazyWithRetry';
 
