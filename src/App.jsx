@@ -1,5 +1,6 @@
 /* global ga, gtag, Transifex */
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
+import axios from 'axios';
 import queryString from 'query-string';
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
@@ -202,6 +203,28 @@ const App = (props) => {
       });
     }
   }, [localTransifex, loggedInUser, activeSingleCompany.id]);
+  
+  useEffect(() => {
+    if (typeof Transifex !== 'undefined') {
+      let languagesList = Transifex.live.getAllLanguages();
+      languagesList = languagesList.filter((lng) => lng.code !== 'en');
+      Promise.all(languagesList.map((res) => (
+        axios.get(`https://dev-api.brixel.io/i18n/translations/${res.code}.json`)
+      )))
+        .then((res) => {
+          const translations = {};
+          languagesList.forEach((lng, index) => {
+            translations[lng.code] = res[index].data;
+          })
+          localStorage.setItem('brixelTranslations', JSON.stringify(translations));
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log('Error Loading translation: ' + err);
+        });
+    }
+  }, [localTransifex]);
+  
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
