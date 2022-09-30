@@ -1,6 +1,5 @@
 /* global ga, gtag, Transifex */
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
-import axios from 'axios';
 import queryString from 'query-string';
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
@@ -21,6 +20,7 @@ import {
   BrixelModal,
   BrixelNotification,
 } from '@brixel/brixel-components';
+import { getTranslations } from '@brixel/brixel-components/dist/utils/TranslationsRedux.Functions';
 import translateTo from './utils/translation';
 import { reset } from '@brixel/brixel-components/dist/form';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
@@ -37,7 +37,6 @@ import {
   setWindowDimensions,
   setScreenNotification,
   sendSlackNotification,
-  setTranslations,
 } from './actions/CommonActions';
 import { setActiveSingleDeal } from './actions/DealActions';
 import { setActiveSingleProperty } from './actions/PropertyActions';
@@ -47,7 +46,7 @@ import lazyWithRetry from './components/LazyWithRetry';
 const SplashScreen = lazyWithRetry(() => import('./components/SplashScreen'));
 const Support = lazyWithRetry(() => import('./components/Support'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
-// GET STARTED ADD ADD PROPERTY
+// GET STARTED AND ADD PROPERTY
 const GetStarted = lazyWithRetry(() => import('./Pages/PackageFlow/GetStarted'));
 const GetStartedSeller = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedSeller'));
 const GetStartedBuyer = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedBuyer'));
@@ -130,7 +129,7 @@ const App = (props) => {
     handleSetLanguage,
     handleSetModal,
     handleSetNotification,
-    handleSetTranslations,
+    handleGetTranslations,
     handleSetUserTypes,
     handleSetWindowsDimension,
     isLoading,
@@ -213,20 +212,7 @@ const App = (props) => {
     if (typeof Transifex !== 'undefined') {
       let languagesList = Transifex.live.getAllLanguages();
       languagesList = languagesList.filter((lng) => lng.code !== 'en');
-      Promise.all(languagesList.map((res) => (
-        axios.get(`https://dev-api.brixel.io/i18n/translations/${res.code}.json`)
-      )))
-        .then((res) => {
-          const translations = {};
-          languagesList.forEach((lng, index) => {
-            translations[lng.code] = res[index].data;
-          })
-          handleSetTranslations(translations);
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.log('Error Loading translation: ' + err);
-        });
+      handleGetTranslations(languagesList);
     }
   }, [localTransifex]);
   
@@ -848,7 +834,7 @@ App.propTypes = {
   handleSetLanguage: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   handleSetNotification: PropTypes.func.isRequired,
-  handleSetTranslations: PropTypes.func.isRequired,
+  handleGetTranslations: PropTypes.func.isRequired,
   handleSetUserTypes: PropTypes.func.isRequired,
   handleSetWindowsDimension: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
@@ -895,6 +881,9 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form, value) {
     dispatch(reset(form, value));
   },
+  handleGetTranslations(langList) {
+    dispatch(getTranslations(langList))
+  },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
   handleSendSlackNotifications: bindActionCreators(sendSlackNotification, dispatch),
@@ -903,7 +892,6 @@ const mapDispatchToProps = (dispatch) => ({
   handleSetLanguage: bindActionCreators(setLanguage, dispatch),
   handleSetModal: bindActionCreators(setModal, dispatch),
   handleSetNotification: bindActionCreators(setScreenNotification, dispatch),
-  handleSetTranslations: bindActionCreators(setTranslations, dispatch),
   handleSetUserTypes: bindActionCreators(setUserTypes, dispatch),
   handleSetWindowsDimension: bindActionCreators(setWindowDimensions, dispatch),
 });
