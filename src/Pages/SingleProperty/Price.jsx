@@ -41,7 +41,7 @@ const Price = (props) => {
     location: useLocation(),
   };
   const match = useParams();
-  
+
   const {
     activeSingleProperty,
     estimation,
@@ -53,7 +53,7 @@ const Price = (props) => {
     proEstimation,
     setSplashScreen,
   } = props;
-  
+
   // STATE
   const [Questions, setQuestions] = useState(InputSheets(formValue));
   const [selectedQuest, setSelectedQuest] = useState(null);
@@ -62,12 +62,12 @@ const Price = (props) => {
   // PARAMS URL
   const propID = get(match, 'propID', null);
   const bestimateflowCompleted = completedBestimate(formValue);
-  
+
   const propertyStatus = factsOptions.propertyStatus.map((item) => ({
     ...item,
     label: translateTo(item.label, lang)
   }));
-  
+
   // ON CHANGE VALUE RE-CALC THE PERCENTAGE OF FACTS
   useEffect(() => {
     if (selectedQuest) {
@@ -77,7 +77,7 @@ const Price = (props) => {
       setSelectedQuest(quest);
     }
   }, [formValue]);
-  
+
   useEffect(() => {
     if (get(estimation, 'result.higherValue', 0) === 0 && activeSingleProperty.id && completedBestimate(activeSingleProperty)) {
       if (!has(estimation, 'result') && get(estimation, 'status', '') !== 'pending') {
@@ -107,11 +107,11 @@ const Price = (props) => {
       }
     }
   }, [activeSingleProperty.id, bestimateflowCompleted]);
-  
+
   useEffect(() => {
     setPercComplete(calcPercentageProEstimation('', activeSingleProperty).realPerc);
   }, [formValue]);
-  
+
   const openBestimate = () => {
     setSplashScreen({
       component: BestimateCardOverlay,
@@ -121,13 +121,13 @@ const Price = (props) => {
       },
     });
   };
-  
+
   const onBestimateFlow = () => {
     history.push(`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1?url=/${activeSingleProperty.id}/property/price`);
     setSplashScreen('');
     handleSetHistory({ source: `/${activeSingleProperty.id}/property/price` });
   };
-  
+
   const selectDocument = (id, action) => {
     const docs = get(activeSingleProperty, 'documents', []);
     const doc = docs.find((item) => item.id === id);
@@ -136,20 +136,20 @@ const Price = (props) => {
     if (action === 'date' && doc) return `${DateTime.fromMillis(doc.createdAt).toFormat('dd.MM.yyyy')}, ${DateTime.fromMillis(doc.createdAt).toFormat('hh:mm')}`;
     return null;
   };
-  
+
   return (
     <>
       <h3 className="mb-3 hide dis-b-lg">{translateTo('Price', lang)}</h3>
       <div className="secondLevel dis-fl-col w-perc-100 h-perc-lg-100">
-        
+
         <div className="dis-fl-col backPanel dis-b hide-lg">
           <h5 className="sectionTitle">{translateTo('Price', lang)}</h5>
         </div>
-        
+
         <div className="dis-fl-col dis-fl-row-lg a-t jc-b">
           <div className="boxCard dis-fl-col mr-2 w-perc-100 mb-5 mb-lg-0">
             <h5>{translateTo('Listing price', lang)}</h5>
-            
+
             <div className="dis-f jc-b a-c mt-3">
               <ReduxField
                 ReduxFieldClass="w-perc-40 w-perc-md-30 mr-1"
@@ -185,7 +185,7 @@ const Price = (props) => {
                 }}
               />
             </div>
-            
+
             <div className="dis-b-md">
               <ReduxField
                 ReduxFieldClass="w-perc-60 mt-2"
@@ -204,7 +204,7 @@ const Price = (props) => {
               />
             </div>
           </div>
-          
+
           <div className="ml-md-1 w-perc-100">
             {
               (get(activeSingleProperty, 'properties.propertyType', '') === 'House' ||
@@ -212,7 +212,7 @@ const Price = (props) => {
                 get(proEstimation, 'value', 0) > 0) && (
                 <div className="dis-fl-col boxCard mb-5 pb-5">
                   <h5 className="mb-3">{translateTo('Pro Estimation', lang)}</h5>
-                  
+
                   <div>
                     {
                       get(proEstimation, 'value', 0) <= 0 ? (
@@ -228,7 +228,7 @@ const Price = (props) => {
                     <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
                       {get(estimation, 'result.currency', '')}
                     </span>
-                    
+
                     {
                       get(proEstimation, 'value', 0) <= 0 ? (
                         <>
@@ -254,9 +254,9 @@ const Price = (props) => {
                         </span>
                       )
                     }
-                  
+
                   </div>
-                  
+
                   <div className="">
                     {
                       proEstimation && selectDocument(proEstimation.document, 'path') ? (
@@ -323,7 +323,7 @@ const Price = (props) => {
                               </p>
                             </div>
                           </div>
-                          
+
                           {
                             calcPercentageProEstimation().realPerc === 100 ? (
                               <BrixelButtonSecondary
@@ -349,21 +349,21 @@ const Price = (props) => {
                 </div>
               )
             }
-            
+
             <div className="boxCard dis-fl-col">
               {
                 get(estimation, 'result.higherValue', 0) > 0 ? (
                   <>
                     <h5 className="mb-3">{translateTo('Bestimate®', lang)}</h5>
                     <p className="txtDark700">{translateTo('Your property is worth up to', lang)}</p>
-                    
+
                     <div className="dis-f a-c w-perc-100 mt-3 ">
                       <span className="ff-mono fsize-600 fweight-700 txtPrimary700">
                         <span>{get(estimation, 'result.currency', '')}</span>
                         <span className="ml-1">{Helpers.formatNumberValue(get(estimation, 'result.higherValue', 0).toFixed(0), get(estimation, 'result.currency', ''))}</span>
                       </span>
                     </div>
-                    
+
                     <BrixelButtonSecondary
                       rounded
                       className="mt-5 w-fit"
