@@ -4,9 +4,13 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import {
-  BrixelButtonIcon, BrixelAvatar, BrixelStatus, BrixelIcon,
-  Helpers, translateTo,
+  BrixelButtonIcon,
+  BrixelAvatar,
+  BrixelStatus,
+  BrixelIcon,
+  Helpers,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   DateTime,
 } from 'luxon';

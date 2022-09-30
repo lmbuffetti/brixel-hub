@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   BrixelButtonSecondary,
-  BrixelIcon, translateTo,
+  BrixelIcon,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';

@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
-import { translateTo, FinancingCalculator } from '@brixel/brixel-components';
+import { FinancingCalculator } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import get from 'lodash/get';
 import Key4Registration from '../../Pages/Closing/Offers/Flow/Key4Registration';
 import BaloiseRegistration from '../../Pages/Closing/Offers/Flow/BaloiseRegistration';

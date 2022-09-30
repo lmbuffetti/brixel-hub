@@ -16,8 +16,8 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   BrixelButtonIcon,
-  translateTo,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelInputText,
   BrixelSelect,

@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
-  FactsOptions, translateTo,
+  FactsOptions,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelRadioButton,
   change,

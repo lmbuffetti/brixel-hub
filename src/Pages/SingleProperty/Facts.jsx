@@ -10,8 +10,9 @@ import {
   BrixelButtonIcon,
   BrixelProgressBar,
   BrixelButtonText,
-  Helpers, translateTo,
+  Helpers,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

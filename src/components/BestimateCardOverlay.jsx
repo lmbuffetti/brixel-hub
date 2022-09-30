@@ -9,8 +9,9 @@ import {
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  Helpers, translateTo,
+  Helpers,
 } from '@brixel/brixel-components';
+import translateTo from '../utils/translation';
 import has from 'lodash/has';
 import { setModal, setSplashType } from '../actions/CommonActions';
 import Loading from './Loading';

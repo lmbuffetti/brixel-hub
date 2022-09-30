@@ -4,7 +4,7 @@ import {
   Validation,
 } from '@brixel/brixel-components/dist/form';
 import { svgIcons } from '../Utilities/svgIcons';
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 
 import homesSvg from '../../images/getstarted/svgs/homes.svg';
 // QUESTION LISTS

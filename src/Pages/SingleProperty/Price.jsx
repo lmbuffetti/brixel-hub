@@ -11,8 +11,9 @@ import {
   BrixelButtonSecondary,
   BrixelIcon,
   Helpers,
-  ProgressRing, translateTo,
+  ProgressRing,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelInputText,
   BrixelSelect,

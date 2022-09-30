@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { FinancingCalculator, translateTo } from '@brixel/brixel-components';
+import { FinancingCalculator } from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
 import {
   change,
   reset,
