@@ -26,7 +26,7 @@ build site:
 
 # Run the cypress test
 test integration:
-  image: cypress/browsers:node12.14.1-chrome85-ff81
+  image: cypress/browsers:node16.17.1-chrome106-ff105-edge
   stage: test
   only:
     refs:
@@ -43,6 +43,7 @@ test integration:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   when: manual
   script:
+    - npm ci
     - rm -rf cypress/videos/ cypress/screenshots/
     - npm run test-cypress
   after_script:
