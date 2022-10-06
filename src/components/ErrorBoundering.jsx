@@ -16,22 +16,22 @@ const PageHasBeenForceRefreshed = "page-has-been-force-refreshed";
 class ErrorBoundary extends Component {
   // eslint-disable-next-line react/state-in-constructor
   state = { hasError: false };
-
+  
   static getDerivedStateFromError() {
     // Update state to show the fallback UI during the next render phase
     return { hasError: true };
   }
-
+  
   componentDidCatch(error, info) {
-    const pageHasAlreadyBeenForceRefreshed = JSON.parse(
-      window.localStorage.getItem(PageHasBeenForceRefreshed) || "false"
-    );
+    const pageHasAlreadyBeenForceRefreshed = window.sessionStorage.getItem(PageHasBeenForceRefreshed) || 'false';
     if (pageHasAlreadyBeenForceRefreshed === false || pageHasAlreadyBeenForceRefreshed === 'false') {
-      window.localStorage.setItem(PageHasBeenForceRefreshed, "true");
-      return window.location.reload();
+      window.sessionStorage.setItem(PageHasBeenForceRefreshed, "true");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } else {
-      window.localStorage.setItem(PageHasBeenForceRefreshed, "false");
       if (typeof window !== 'undefined') {
+        window.sessionStorage.setItem(PageHasBeenForceRefreshed, "false");
         const url = get(window, 'location.href', '');
         const {
           activeSingleProperty,
@@ -62,7 +62,7 @@ class ErrorBoundary extends Component {
       }
     }
   }
-
+  
   render() {
     const {
       hasError,
