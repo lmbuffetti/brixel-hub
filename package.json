@@ -56,8 +56,8 @@
     "eject": "react-scripts eject",
     "eslint": "eslint --fix --config .eslintrc --ignore-path .eslintignore .",
     "ncu-u": "ncu -x '' -u",
-    "e2e": "cypress run --e2e --headless --browser chrome",
-    "test-cypress": "run-p --race start-test e2e",
+    "e2e": "npx cypress run --e2e --headless --browser chrome",
+    "test-cypress": "npm run start-test & npm run e2e",
     "test-component": "cypress open --component",
     "test-e2e": "npm run start-fast & cypress open --e2e",
     "start-test": "node server.js"
