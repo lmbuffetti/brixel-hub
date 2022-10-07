@@ -20,7 +20,8 @@ clientsClaim();
 // Their URLs are injected into the manifest variable below.
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
-if (process.env.NODE_ENV === 'production') {
+const manifest = self.__WB_MANIFEST;
+if (process.env.NODE_ENV === 'production' && manifest) {
   precacheAndRoute(self.__WB_MANIFEST);
 }
 
