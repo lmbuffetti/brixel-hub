@@ -257,6 +257,7 @@ const clientConfig = (env) => {
         filename: './index.html',
         template: './public/index.html',
         title: companyData.hub.title,
+        cache: true,
         meta: {
           keywords: companyData.hub.keywords,
         },
