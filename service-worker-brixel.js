@@ -22,7 +22,7 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 const manifest = self.__WB_MANIFEST;
 if (process.env.NODE_ENV === 'production' && manifest) {
-  precacheAndRoute(self.__WB_MANIFEST);
+  precacheAndRoute(manifest);
 }
 
 // Set up App Shell-style routing, so that all navigation requests
