@@ -17,7 +17,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
-const { GenerateSW, InjectManifest } = require('workbox-webpack-plugin');
+const {InjectManifest} = require('workbox-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 // const devMode = false;
@@ -304,12 +304,11 @@ const clientConfig = (env) => {
         threshold: 10240,
         minRatio: 0.8,
       }),
-      new GenerateSW({
-        swDest: path.join('service-worker-brixel.js'),
-        cacheId: 'service-worker-brixel',
-        navigateFallback: '/index.html',
-        maximumFileSizeToCacheInBytes: 5000000,
-      })
+      new InjectManifest({
+        mode: 'production',
+        swSrc: './service-worker-brixel.js',
+        maximumFileSizeToCacheInBytes: 500000000,
+      }),
     )
     config.optimization = {
       removeAvailableModules: true,
