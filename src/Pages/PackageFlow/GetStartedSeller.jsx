@@ -544,7 +544,7 @@ const GetStartedSeller = (props) => {
       if (getStartedEl && getStartedEl.classList) getStartedEl.classList.remove('slideUpTrans');
     }, 350);
   }, [quest]);
-  
+
   if (!formValue.pageID && !company.stub) return (<div />);
 
   return (
