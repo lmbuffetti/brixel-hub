@@ -1,17 +1,11 @@
-import axios from 'axios';
-import queryString from 'query-string';
-import httpAdapter from 'axios/lib/adapters/http';
-import Cookies from 'universal-cookie';
-import get from 'lodash/get';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
-import {
-  failureHandler, successHandler,
-} from '../utils/api.helper';
+import axios from 'axios';
+import get from 'lodash/get';
+import queryString from 'query-string';
+import Cookies from 'universal-cookie';
+import { failureHandler, successHandler } from '../utils/api.helper';
 
 const cookies = new Cookies();
-
-// Axios instance setUp
-axios.defaults.adapter = httpAdapter;
 
 // Add a request interceptor
 axios.interceptors.request.use(
