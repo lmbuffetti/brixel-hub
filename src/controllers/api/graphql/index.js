@@ -5,10 +5,10 @@ const getConfigEnvWeb = require('@brixel/brixel-components/dist/configuration/Se
 
 function apiFactory(
   {
-    baseURL, brixelator,
+    baseURL,
   },
 ) {
-  const api = new ApiClient({ baseURL, brixelator });
+  const api = new ApiClient({ baseURL });
 
   return {
     craftCMS: new CraftCMS({ apiClient: api }),
