@@ -1,18 +1,16 @@
-//Set an array of sizes
-const sizes = ['iphone-6', 'macbook-15'];
-//Set an array of companies
-const companies = [
-  'brixel_portugal',
-];
+import Constants from '../../helpers/constants';
 
-describe('Find the logo on mobile and tablet for 2 different sites', () => {
-//for each company do the onboarding
+const { sizes, companies } = Constants;
+
+describe('Seller Onboarding', () => {
+  //for each company do the onboarding
   companies.forEach(company => {
     //This gives you some feedback in the Cypress side bar console on what URL you're at
     describe(`company: ${company}`, () => {
       
-      sizes.forEach(size => {
+      sizes.forEach((size) => {
         it('visit url', () => {
+          cy.viewport(size);
           cy.visit(`http://localhost:5000/packageFlow/getStarted/${company}/propertyType`);
         })
         
