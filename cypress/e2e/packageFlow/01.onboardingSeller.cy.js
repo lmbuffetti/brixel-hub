@@ -1,13 +1,13 @@
 //Set an array of sizes
 const sizes = ['iphone-6', 'macbook-15'];
 //Set an array of companies
-const comapnies = [
+const companies = [
   'brixel_portugal',
 ];
 
 describe('Find the logo on mobile and tablet for 2 different sites', () => {
 //for each company do the onboarding
-  comapnies.forEach(company => {
+  companies.forEach(company => {
     //This gives you some feedback in the Cypress side bar console on what URL you're at
     describe(`company: ${company}`, () => {
       
