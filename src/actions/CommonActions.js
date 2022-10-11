@@ -27,6 +27,7 @@ import {
   SET_WIZARD,
   SEND_SLACK_NOTIFICATION,
   SET_FEATURE_FLAGS,
+  SET_TRANSLATIONS,
 } from './types/CommonTypes';
 
 export const {
@@ -57,6 +58,7 @@ export const {
   setWizard,
   sendSlackNotification,
   setFeatureFlags,
+  setTranslations,
 } = createActions({
   [REDIRECT_TO]: (payload) => payload,
   [REQUEST_DONE]: (payload) => payload,
@@ -85,4 +87,5 @@ export const {
   [SET_WIZARD]: (payload) => payload,
   [SEND_SLACK_NOTIFICATION]: (payload) => payload,
   [SET_FEATURE_FLAGS]: (payload) => payload,
+  [SET_TRANSLATIONS]: (payload) => payload,
 });

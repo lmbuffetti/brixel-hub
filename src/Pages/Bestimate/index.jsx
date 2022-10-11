@@ -5,8 +5,9 @@ import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonText,
-  BrixelProgressLineDots, translateTo,
+  BrixelProgressLineDots,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   MultiFileldsReduxForm,
   reset,

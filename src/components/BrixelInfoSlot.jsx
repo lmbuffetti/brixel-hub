@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  BrixelIcon, translateTo,
-} from '@brixel/brixel-components';
+import { BrixelIcon } from '@brixel/brixel-components';
+import translateTo from '../utils/translation';
 
 const BrixelInfoSlot = (props) => {
   const {

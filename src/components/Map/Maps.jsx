@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 /* eslint-disable array-callback-return */
 import React, {
   useState, createRef, useEffect, useRef,

@@ -6,10 +6,8 @@ import {
 } from 'react-router-dom';
 import get from 'lodash/get';
 // import has from 'lodash/has';
-import {
-  BrixelButtonBox, translateTo,
-  // FormatValue,
-} from '@brixel/brixel-components';
+import { BrixelButtonBox } from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';
@@ -157,8 +155,8 @@ const HomeDashboard = (props) => {
         </div>
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
-              <Suspense fallback={<Loading isLoading />}>
+            <div className={`levelsWrapper w-perc-100 h-perc-md-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
+              <Suspense fallback={<Loading skeleton isLoading />}>
                 <Routes>
                   <Route path="/facts/*" element={<Facts />} />
                   <Route path="/price/*" element={<Price />} />

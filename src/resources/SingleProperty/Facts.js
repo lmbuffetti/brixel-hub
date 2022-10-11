@@ -1,9 +1,7 @@
 /* eslint-disable max-len */
 import get from 'lodash/get';
-import {
-  FactsOptions,
-  translateTo,
-} from '@brixel/brixel-components';
+import { FactsOptions } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelCheckbox,
   BrixelExtraFeature,

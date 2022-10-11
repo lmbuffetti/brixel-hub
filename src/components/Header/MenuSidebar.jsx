@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { BrixelIcon, translateTo } from '@brixel/brixel-components';
+import { BrixelIcon } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { destroy } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';

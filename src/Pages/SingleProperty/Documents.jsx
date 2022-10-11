@@ -16,9 +16,13 @@ import findIndex from 'lodash/findIndex';
 import uniq from 'lodash/uniq';
 import cloneDeep from 'lodash/cloneDeep';
 import {
-  BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelDropdownMini,
-  useOutsideAlerter, translateTo,
+  BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelIcon,
+  BrixelDropdownMini,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { bindActionCreators, compose } from 'redux';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';

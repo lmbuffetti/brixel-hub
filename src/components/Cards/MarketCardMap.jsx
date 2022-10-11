@@ -8,8 +8,9 @@ import pullAt from 'lodash/pullAt';
 import {
   BrixelButtonIcon,
   FormatValue,
-  Helpers, translateTo,
+  Helpers,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { updateFavorite } from '../../actions/UserActions';

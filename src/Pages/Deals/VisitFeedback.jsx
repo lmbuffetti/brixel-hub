@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonPrimary,
   Helpers,
-  BrixelIcon, translateTo,
+  BrixelIcon,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelCheckbox,
   BrixelTextArea,

@@ -14,9 +14,9 @@ import {
   BrixelButtonIcon,
   BrixelButtonText,
   BrixelIcon,
-  translateTo,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import translateTo from '../utils/translation';
 import Slider from 'react-slick';
 import get from 'lodash/get';
 import set from 'lodash/set';

@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
-import { BrixelButtonIcon, BrixelButtonPrimary, translateTo } from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonPrimary } from '@brixel/brixel-components';
+import translateTo from '../utils/translation';
 import defaultCover from '../images/3d-tour-placeholder.jpg';
 import { isEligible } from '../utils/helpers';
 

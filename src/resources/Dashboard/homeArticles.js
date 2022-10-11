@@ -8,7 +8,7 @@ module.exports = {
     },
     {
       img: 'https://brixel.ch/content/uploads/2020/12/makler-vertrag-950x550.png?x16148',
-      url: 'https://brixel.ch/magazin/ratgeber/die-mythen-der-immobilienmakler/',
+      url: 'https://brixel.ch/magazin/markt/wer-braucht-noch-den-makler/',
       title: 'Are you thinking about selling with an agent?',
       desc: 'We heard many stories. Read about false promises and disappointed customers.',
     },

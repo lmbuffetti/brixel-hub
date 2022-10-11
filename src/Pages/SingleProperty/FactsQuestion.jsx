@@ -8,7 +8,8 @@ import unset from 'lodash/unset';
 import { diff } from 'deep-object-diff';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrixelButtonIcon, translateTo } from '@brixel/brixel-components';
+import { BrixelButtonIcon } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   MultiFileldsReduxForm,
   change,

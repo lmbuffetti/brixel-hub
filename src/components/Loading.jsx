@@ -4,17 +4,32 @@ import logoNorm from '@brixel/brixel-components/dist/configuration/images/logo.s
 
 // COMPONENT FOR THE FULL SCREEN SPINNER
 function Loading(props) {
-  const { isLoading, isSmall } = props;
+  const { isLoading, isSmall, skeleton } = props;
   if (isLoading) {
     return (
-      <div className={`elem-loader elem-overlay ${isSmall ? 'small' : 'large'}`}>
-        <div className="loader">
-          <img loading="lazy" className="logo dis-b" src={logoNorm} alt="Brixel Logo" id="header-logo" />
-          <svg className="circular" viewBox="25 25 50 50">
-            <circle className="path" cx="50" cy="50" r="20" fill="none" strokeWidth="2" strokeMiterlimit="10" />
-          </svg>
-        </div>
-      </div>
+      <>
+        {
+          skeleton ? (
+            <div className="max-w-fix-1024">
+              <p className="h-fix-32 mb-3 skeletonBg w-fix-56"> </p>
+              <div className='w-perc-100 brdRadius skeletonBg h-fix-304'/>
+              <div className="dis-f mt-4">
+                <div className='w-perc-50 brdRadius skeletonBg mr-2 h-fix-304' />
+                <div className='w-perc-50 brdRadius skeletonBg ml-2 h-fix-304' />
+              </div>
+            </div>
+          ) : (
+            <div className={`elem-loader elem-overlay ${isSmall ? 'small' : 'large'}`}>
+              <div className="loader">
+                <img loading="lazy" className="logo dis-b" src={logoNorm} alt="Brixel Logo" id="header-logo" />
+                <svg className="circular" viewBox="25 25 50 50">
+                  <circle className="path" cx="50" cy="50" r="20" fill="none" strokeWidth="2" strokeMiterlimit="10" />
+                </svg>
+              </div>
+            </div>
+          )
+        }
+      </>
     );
   }
   return null;
@@ -23,10 +38,12 @@ function Loading(props) {
 Loading.propTypes = {
   isLoading: PropTypes.bool,
   isSmall: PropTypes.bool,
+  skeleton: PropTypes.bool,
 };
 
 Loading.defaultProps = {
   isLoading: false,
+  skeleton: false,
   isSmall: false,
 };
 

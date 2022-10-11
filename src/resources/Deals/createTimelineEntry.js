@@ -1,4 +1,4 @@
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 
 import { DateTime } from 'luxon';

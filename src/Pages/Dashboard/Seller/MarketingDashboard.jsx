@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Routes, Route, useLocation, useNavigate, useParams, Navigate,
 } from 'react-router-dom';
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
 import get from 'lodash/get';
 import { compose } from 'redux';
 import { connect } from 'react-redux';

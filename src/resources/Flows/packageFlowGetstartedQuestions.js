@@ -1,5 +1,5 @@
 import { BrixelRadioButton, Validation } from '@brixel/brixel-components/dist/form';
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import brixelComingTown from '../../images/BrxielComingTown/secondAwards.svg';
 
 export const PackageFlow = (lang) => [

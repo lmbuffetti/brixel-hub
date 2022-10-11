@@ -1,29 +1,31 @@
-import { handleActions } from 'redux-actions';
-import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
-import Cookies from 'universal-cookie';
 import { countryList } from '@brixel/brixel-components';
+import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
+import { handleActions } from 'redux-actions';
+import Cookies from 'universal-cookie';
 
 import {
-  REDIRECT_TO,
-  SPINNER_OFF,
-  SPINNER_ON,
-  SPINNER_SMALL_OFF,
-  SPINNER_SMALL,
-  SET_LANGUAGE,
-  SET_NOTIFICATION,
-  SET_PAGE_DATA, SET_MODAL,
   PREVENT_EXIT_FROM_SCREEN,
+  REDIRECT_TO,
   REQUEST_DONE,
+  SET_COUNTRY_LIST,
+  SET_FEATURE_FLAGS,
+  SET_FORM_ERROR,
+  SET_HISTORY,
+  SET_LANGUAGE,
+  SET_MODAL,
+  SET_NOTIFICATION,
+  SET_PAGE_DATA,
+  SET_SPLASH_TYPE,
+  SET_TRANSLATIONS,
   SET_UNSAVED_CHANGES_MODAL,
   SET_WINDOW_DIMENSIONS,
-  SET_COUNTRY_LIST,
-  SET_FORM_ERROR,
-  SKELETON_ON,
-  SKELETON_OFF,
-  SET_SPLASH_TYPE,
-  SET_HISTORY,
   SET_WIZARD,
-  SET_FEATURE_FLAGS,
+  SKELETON_OFF,
+  SKELETON_ON,
+  SPINNER_OFF,
+  SPINNER_ON,
+  SPINNER_SMALL,
+  SPINNER_SMALL_OFF,
 } from '../actions/types/CommonTypes';
 
 const cookie = new Cookies();
@@ -38,15 +40,7 @@ export const defaultState = {
   isLoading: 1,
   isSmallLoading: {},
   language: cookie.get('brixelLang') || 'en',
-  languages: [
-    { value: 'de', label: 'de' },
-    { value: 'dk', label: 'dk' },
-    { value: 'en', label: 'en' },
-    { value: 'it', label: 'it' },
-    { value: 'nl', label: 'nl' },
-    { value: 'pt', label: 'pt' },
-    { value: 'se', label: 'se' },
-  ],
+  languages: getConfigEnv.languages || [],
   modal: {
     state: false, title: '', body: '', action: {}, multiActions: [],
   },
@@ -58,6 +52,7 @@ export const defaultState = {
   setPageData: null,
   skeleton: { },
   splashScreenType: '',
+  translation: {},
   unsavedChangesModal: {
     state: false, link: '',
   },
@@ -156,6 +151,10 @@ export default handleActions(
     [SET_FEATURE_FLAGS]: (state, action) => ({
       ...state,
       featureFlags: action.payload,
+    }),
+    [SET_TRANSLATIONS]: (state, action) => ({
+      ...state,
+      translations: action.payload,
     }),
   },
   defaultState,

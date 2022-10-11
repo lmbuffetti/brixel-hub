@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import {
   BrixelButtonIcon,
   BrixelButtonPrimary,
-  BrixelButtonText, translateTo,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
 import {
   MultiFileldsReduxForm,
   change,

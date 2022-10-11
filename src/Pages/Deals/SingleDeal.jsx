@@ -29,8 +29,9 @@ import {
   FactsOptions,
   useOutsideAlerter,
   BrixelDropdownMini,
-  BrixelIcon, translateTo,
+  BrixelIcon,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { change } from '@brixel/brixel-components/dist/form';
 import {
   getActiveSingleDeal, saveActiveSingleDeal, updateMultipleDeals,

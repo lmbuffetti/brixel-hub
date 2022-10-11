@@ -1,7 +1,8 @@
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { FactsOptions, translateTo } from '@brixel/brixel-components';
+import { FactsOptions } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelRadioButton,
   BrixelInputText,
