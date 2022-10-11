@@ -1,48 +1,48 @@
 /* global ga, gtag, Transifex */
+// COMPONENTS
+import { BrixelIcon, BrixelModal, BrixelNotification } from '@brixel/brixel-components';
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
-import queryString from 'query-string';
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, useState, useRef, useCallback, Fragment, Suspense,
-} from 'react';
-import {
-  Routes, Route, useNavigate, useLocation, Navigate,
-} from 'react-router-dom';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import { reset } from '@brixel/brixel-components/dist/form';
+import { getTranslations } from '@brixel/brixel-components/dist/utils/TranslationsRedux.Functions';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import { bindActionCreators, compose } from 'redux';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Cookies from 'universal-cookie';
-// COMPONENTS
-import {
-  BrixelIcon,
-  BrixelModal,
-  BrixelNotification,
-} from '@brixel/brixel-components';
-import { getTranslations } from '@brixel/brixel-components/dist/utils/TranslationsRedux.Functions';
-import translateTo from './utils/translation';
-import { reset } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import smoothscrollPolyfill from 'smoothscroll-polyfill';
+import queryString from 'query-string';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { Fragment, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import BestimateCardOverlay from './components/BestimateCardOverlay';
-import PageFooter from './components/Footer/PageFooter';
-import Loading from './components/Loading';
-import WizardCard from './components/Cards/WizardCard';
-import { checkToken, setUserTypes } from './actions/UserActions';
+import { connect } from 'react-redux';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import smoothscrollPolyfill from 'smoothscroll-polyfill';
+import Cookies from 'universal-cookie';
 import {
+  sendSlackNotification,
   setLanguage,
   setModal,
-  setWindowDimensions,
   setScreenNotification,
-  sendSlackNotification,
+  setWindowDimensions,
 } from './actions/CommonActions';
 import { setActiveSingleDeal } from './actions/DealActions';
 import { setActiveSingleProperty } from './actions/PropertyActions';
 import { getImageType } from './actions/UploadActions';
+import { checkToken, setUserTypes } from './actions/UserActions';
+import BestimateCardOverlay from './components/BestimateCardOverlay';
+import WizardCard from './components/Cards/WizardCard';
+import PageFooter from './components/Footer/PageFooter';
 
 import lazyWithRetry from './components/LazyWithRetry';
+import Loading from './components/Loading';
+// IMAGES
+import Android192 from './images/android-icon-192x192.png';
+import AppleTouch120 from './images/apple-touch-icon-120x120.png';
+import AppleTouch152 from './images/apple-touch-icon-152x152.png';
+import AppleTouch180 from './images/apple-touch-icon-180x180.png';
+import AppleTouch76 from './images/apple-touch-icon-76x76.png';
+import browserDetection from './utils/browserDetection';
+import translateTo from './utils/translation';
+
 const SplashScreen = lazyWithRetry(() => import('./components/SplashScreen'));
 const Support = lazyWithRetry(() => import('./components/Support'));
 const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
@@ -57,14 +57,6 @@ const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialF
 const MakeOffer = lazyWithRetry(() => import('./Pages/Closing/Offers/Flow/MakeOffer'));
 const Financing = lazyWithRetry(() => import('./Pages/Closing/Financing/Financing'));
 const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identification/IdentificationFlow'));
-
-// IMAGES
-import Android192 from './images/android-icon-192x192.png';
-import AppleTouch120 from './images/apple-touch-icon-120x120.png';
-import AppleTouch152 from './images/apple-touch-icon-152x152.png';
-import AppleTouch180 from './images/apple-touch-icon-180x180.png';
-import AppleTouch76 from './images/apple-touch-icon-76x76.png';
-import browserDetection from './utils/browserDetection';
 
 // GENERAL COMPONENTS
 const PageHeader = lazyWithRetry(() => import('./components/Header/PageHeader'));
@@ -211,8 +203,10 @@ const App = (props) => {
   useEffect(() => {
     if (typeof Transifex !== 'undefined') {
       let languagesList = Transifex.live.getAllLanguages();
-      languagesList = languagesList.filter((lng) => lng.code !== 'en');
-      handleGetTranslations(languagesList);
+      if (languagesList) {
+        languagesList = languagesList.filter((lng) => lng.code !== 'en');
+        handleGetTranslations(languagesList);
+      }
     }
   }, [localTransifex]);
   

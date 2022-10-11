@@ -121,6 +121,7 @@
     "react-redux/no-unused-prop-types": 2,
     "react-redux/connect-prefer-named-arguments": 2,
     "react-redux/prefer-separate-component-file": 0,
+    "cypress/no-unnecessary-waiting": 0,
     "react/forbid-prop-types": [
       "error",
       {
