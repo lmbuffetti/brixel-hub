@@ -113,6 +113,7 @@ const App = (props) => {
   const {
     activeSingleCompany,
     activeSingleProperty,
+    config,
     handleCheckToken,
     handleGetImageType,
     handleReset,
@@ -127,6 +128,7 @@ const App = (props) => {
     isLoading,
     isSmallLoading,
     lang,
+    languages,
     loggedInUser,
     modal,
     notification,
@@ -201,14 +203,14 @@ const App = (props) => {
   }, [localTransifex, loggedInUser, activeSingleCompany.id]);
   
   useEffect(() => {
-    if (typeof Transifex !== 'undefined') {
-      let languagesList = Transifex.live.getAllLanguages();
+    if (languages.length > 0) {
+      let languagesList = languages;
       if (languagesList) {
         languagesList = languagesList.filter((lng) => lng.code !== 'en');
-        handleGetTranslations(languagesList);
+        handleGetTranslations(languagesList, config.apiPath);
       }
     }
-  }, [localTransifex]);
+  }, [languages]);
   
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
@@ -833,7 +835,9 @@ App.propTypes = {
   handleSetWindowsDimension: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  languages: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   notification: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -859,6 +863,7 @@ const mapStateToProps = (state) => ({
   isLoading: get(state, 'common.isLoading', 0) > 0,
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
   lang: get(state, 'common.language', 'en'),
+  languages: get(state, 'common.languages', '[]'),
   loggedInUser: get(state, 'user.loggedInUser', null),
   modal: get(state, 'common.modal', {}),
   notification: get(state, 'common.notification', []),
@@ -875,8 +880,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form, value) {
     dispatch(reset(form, value));
   },
-  handleGetTranslations(langList) {
-    dispatch(getTranslations(langList))
+  handleGetTranslations(langList, baseURL) {
+    dispatch(getTranslations(langList, baseURL))
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),

@@ -1,13 +1,4 @@
 export default {
-  brixelator: {
-    getConstructionYears: (data) => `/marketData/constructionYearDistribution${data}`,
-    getLivingSpaceDistribution: (data) => `/marketData/livingSpacesDistribution${data}`,
-    getMarketDays: (data) => `/marketData/daysOnMarketDistribution${data}`,
-    getMerged: (data) => `/merged/list${data}`,
-    getMergedBySubtype: (data) => `/merged/countBySubType${data}`,
-    getPriceDistribution: (data) => `/marketData/pricesDistribution${data}`,
-    getPricePerSpace: (data) => `/marketData/pricesPerM2Distribution${data}`,
-  },
   common: {
     sendMessage: () => '/message',
     sendMessageContact: () => '/contact/message',
@@ -68,7 +59,6 @@ export default {
     singleNote: (id) => `/note/${id}`,
   },
   property: {
-    // mapPageById: (id) => `/map/property/${id}`,
     addPage: () => '/page/',
     createPropertyVisit: () => '/scheduleVisit',
     createPropertyVisitSchedule: () => '/schedule',

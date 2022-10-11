@@ -1,17 +1,16 @@
-/* global Transifex */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useCallback } from 'react';
-import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import { BrixelAvatar, BrixelDropdown } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-components/dist/configuration/SettingsWebpack';
+import { BrixelSelect } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import { BrixelDropdown, BrixelAvatar } from '@brixel/brixel-components';
-import translateTo from '../utils/translation';
-import { BrixelSelect } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/SettingsWebpack';
+import React, { useCallback, useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, compose } from 'redux';
 import { setUnsavedChangesModal } from '../actions/CommonActions';
 import { saveActiveSingleUser } from '../actions/UserActions';
 import { setCookie } from '../utils/helpers';
+import translateTo from '../utils/translation';
 
 const AccountDropdown = (props) => {
   // PROPS
@@ -19,6 +18,7 @@ const AccountDropdown = (props) => {
     className,
     handleSaveActiveSingleUser,
     lang,
+    languages,
     loggedInUser,
     preventExit,
     setUnsavedModal,
@@ -28,36 +28,26 @@ const AccountDropdown = (props) => {
   const [langMenu, setLangMenu] = useState([]);
   const [langSel, setSelLang] = useState(lang);
   const [closeDropDown, setCloseDropdown] = useState(false);
-  const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
 
   // GET LANGUAGE LISTS
   useEffect(() => {
-    if (typeof Transifex !== 'undefined') {
-      if (Transifex.live.getAllLanguages()) {
-        const langHeader = [];
-        Transifex.live.getAllLanguages().map((lng, i) => {
-          langHeader[i] = lng;
-          langHeader[i].value = lng.code;
-          langHeader[i].label = lng.name;
-          return null;
-        });
-        setLangMenu(langHeader);
-      }
-    }
-  }, [localTransifex]);
+    const langHeader = [];
+    languages.map((lng, i) => {
+      langHeader[i] = lng;
+      langHeader[i].value = lng.code;
+      langHeader[i].label = lng.name;
+      return null;
+    });
+    setLangMenu(langHeader);
+  }, [languages]);
 
   // FUNCTION TO CHANGE  THE LANGUAGE
   const newLang = (langCode) => {
     // handleChangeLanguage(lang);
     const defLangCode = get(langCode, 'value', null) ? langCode.value : langCode;
-    if (typeof Transifex !== 'undefined') {
-      setTimeout(() => {
-        Transifex.live.translateTo(defLangCode);
-      }, 100);
-      setSelLang(defLangCode);
-      localStorage.setItem('lang', defLangCode);
-      setCookie('brixelLang', defLangCode);
-    }
+    setSelLang(defLangCode);
+    localStorage.setItem('lang', defLangCode);
+    setCookie('brixelLang', defLangCode);
     if (get(loggedInUser, 'user.id', null)) {
       const userData = {
         id: get(loggedInUser, 'user.id', null),
@@ -154,6 +144,7 @@ AccountDropdown.propTypes = {
   className: PropTypes.string,
   handleSaveActiveSingleUser: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
+  languages: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
   preventExit: PropTypes.bool.isRequired,
   setUnsavedModal: PropTypes.func.isRequired,
@@ -166,6 +157,7 @@ AccountDropdown.defaultProps = {
 const mapStateToProps = (state) => ({
   configUrl: get(state, 'common.configUrl', {}),
   lang: get(state, 'common.language', 'en'),
+  languages: get(state, 'common.languages', '[]'),
   loggedInUser: get(state, 'user.loggedInUser', {}),
   preventExit: get(state, 'common.preventExitFromScreen', false),
 });

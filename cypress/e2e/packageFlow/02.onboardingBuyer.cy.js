@@ -1,67 +1,70 @@
-/// <reference types="cypress" />
+import Constants from '../../helpers/constants';
 
-// Welcome to Cypress!
-//
-// This spec file contains a variety of sample tests
-// for a todo list app that are designed to demonstrate
-// the power of writing tests in Cypress.
-//
-// To learn more about how Cypress works and
-// what makes it such an awesome testing tool,
-// please read our getting started guide:
-// https://on.cypress.io/introduction-to-cypress
+const { sizes, companies } = Constants;
 
-describe('buyer-onboarding', { retries: 1 }, () => {
-  before(() => {
-    // Cypress starts out with a blank slate for each test
-    // so we must tell it to visit our website with the `cy.visit()` command.
-    // Since we want to visit the same URL at the start of all our tests,
-    // we include it in our beforeEach function so that it runs before each test
-    // cy.task('log', 'Check the Seller Onboarding')
-    cy.visit('http://localhost:5000/packageFlow/getStartedBuyer/brixel_portugal/propertyType');
-  })
+describe('Buyer Onboarding', () => {
+  //for each company do the onboarding
+  companies.forEach(company => {
+    //This gives you some feedback in the Cypress side bar console on what URL you're at
+    describe(`company: ${company}`, () => {
+      
+      sizes.forEach((size) => {
+        it('visit url', () => {
+          cy.viewport(size);
+          cy.visit(`http://localhost:5000/packageFlow/getStartedBuyer/${company}/propertyType`);
+        })
 
-  it('select property type', () => {
-    cy.get('[type="checkbox"]').check({ force: true });
-    cy.get('button[type="submit"]').click();
-  })
+        it('select property type', () => {
+          cy.viewport(size);
+          cy.get('[type="checkbox"]').check({ force: true });
+          cy.get('button[type="submit"]').click();
+        })
   
-  it('property size', () => {
-    cy.get('button[type="submit"]').click();
-  })
+        it('property size', () => {
+          cy.viewport(size);
+          cy.get('button[type="submit"]').click();
+        })
   
-  it('extra features', () => {
-    cy.get('[type="checkbox"]').check({ force: true });
-    cy.get('button[type="submit"]').not('.disabled').click();
-  })
+        it('extra features', () => {
+          cy.viewport(size);
+          cy.get('[type="checkbox"]').check({ force: true });
+          cy.get('button[type="submit"]').not('.disabled').click();
+        })
   
-  it('address autocomplete', () => {
-    cy.url().should('contain', '/locationInput');
-    cy.get('input[role="search"]').type('Lisboa');
-    cy.get('ul.resultAutoComplete li:first-child', { timeout: 10000 }).should('be.visible').click();
-    cy.wait(300).then(() => {
-      cy.get('button[type="submit"]').not('.disabled').click();
-    })
-  })
+        it('address autocomplete', () => {
+          cy.viewport(size);
+          cy.url().should('contain', '/locationInput');
+          cy.get('input[role="search"]').type('Lisboa');
+          cy.get('ul.resultAutoComplete li:first-child', { timeout: 10000 }).should('be.visible').click();
+          cy.wait(300).then(() => {
+            cy.get('button[type="submit"]').not('.disabled').click();
+          })
+        })
   
-  it('price', () => {
-    cy.url().should('contain', '/price');
-    cy.get('input[name="finance.price.totalMax"]').type('100000');
-    cy.get('button[type="submit"]').not('.disabled').click();
-  })
+        it('price', () => {
+          cy.viewport(size);
+          cy.url().should('contain', '/price');
+          cy.get('input[name="finance.price.totalMax"]').type('100000');
+          cy.get('button[type="submit"]').not('.disabled').click();
+        })
   
-  it('current situation', () => {
-    cy.get('[type="radio"]').first().check({ force: true });
-  })
+        it('current situation', () => {
+          cy.viewport(size);
+          cy.get('[type="radio"]').first().check({ force: true });
+        })
   
-  it('user register', () => {
-    cy.get('input[name="register.name"]').type('Test Automated');
-    cy.get('input[name="register.email"]').type('jestTest+buyerE2E@brixel.io');
-    cy.get('input[name="register.password"]').type('123456789');
-    cy.get('input[name="register.privacy"]').check({ force: true });
-    cy.wait(1000).then(() => {
-      cy.get('button[type="submit"]').click();
-    })
-  })
+        it('user register', () => {
+          cy.viewport(size);
+          cy.get('input[name="register.name"]').type('Test Automated');
+          cy.get('input[name="register.email"]').type('jestTest+buyerE2E@brixel.io');
+          cy.get('input[name="register.password"]').type('123456789');
+          cy.get('input[name="register.privacy"]').check({ force: true });
+          cy.wait(1000).then(() => {
+            cy.get('button[type="submit"]').click();
+          })
+        })
   
-})
+      });
+    });
+  });
+});

@@ -18,10 +18,10 @@ const getConfigEnvWeb = require('@brixel/brixel-components/dist/configuration/Se
 
 function apiFactory(
   {
-    baseURL, brixelator,
+    baseURL,
   },
 ) {
-  const api = new ApiClient({ baseURL, brixelator });
+  const api = new ApiClient({ baseURL });
 
   return {
     common: new Common({ apiClient: api }),
@@ -62,5 +62,4 @@ if (typeof window !== 'undefined') {
 export default apiFactory({
   baseURL: configUrl.apiRoot,
   // baseURL: 'http://localhost:46071/api/v3/',
-  brixelator: configUrl.brixelatorRoot,
 });
