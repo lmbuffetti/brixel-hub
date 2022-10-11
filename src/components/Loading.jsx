@@ -10,7 +10,14 @@ function Loading(props) {
       <>
         {
           skeleton ? (
-            <div>loading...</div>
+            <div className="max-w-fix-1024">
+              <p className="h-fix-32 mb-3 skeletonBg w-fix-56"> </p>
+              <div className='w-perc-100 brdRadius skeletonBg h-fix-304'/>
+              <div className="dis-f mt-4">
+                <div className='w-perc-50 brdRadius skeletonBg mr-2 h-fix-304' />
+                <div className='w-perc-50 brdRadius skeletonBg ml-2 h-fix-304' />
+              </div>
+            </div>
           ) : (
             <div className={`elem-loader elem-overlay ${isSmall ? 'small' : 'large'}`}>
               <div className="loader">

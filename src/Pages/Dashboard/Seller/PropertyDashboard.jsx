@@ -155,8 +155,8 @@ const HomeDashboard = (props) => {
         </div>
         {
           getFact() !== 'property' && (
-            <div className={`levelsWrapper w-perc-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
-              <Suspense fallback={<Loading isLoading />}>
+            <div className={`levelsWrapper w-perc-100 h-perc-md-100 zIndex2 ${openCloseColumn() === 'opened' ? 'ml-lg-1 closed' : 'opened'}`}>
+              <Suspense fallback={<Loading skeleton isLoading />}>
                 <Routes>
                   <Route path="/facts/*" element={<Facts />} />
                   <Route path="/price/*" element={<Price />} />
