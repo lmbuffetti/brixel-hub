@@ -43,7 +43,7 @@
   .listings-container .secondLevel {
     @media (min-width: $responsive-medium) {
       // opacity: 0.5;
-      // animation: fadeIn05 $default-time-long cubic-bezier(.39,.575,.565,1) forwards;
+      animation: fadeIn05 $default-time cubic-bezier(.39,.575,.565,1) forwards;
     }
   }
 
