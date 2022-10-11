@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { formReduxer } from '@brixel/brixel-components/dist/form';
+import translations from '@brixel/brixel-components/dist/Reducer/TranslationsReducer';
 import common from './CommonReducer';
 import companies from './CompanyReducer';
 import deal from './DealReducer';
@@ -14,6 +15,7 @@ import craftCMS from './CraftCMS'
 
 export const rootReducer = combineReducers({
   brixelForm: formReduxer,
+  translations,
   common,
   companies,
   craftCMS,

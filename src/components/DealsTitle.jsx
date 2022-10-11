@@ -1,4 +1,4 @@
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../utils/translation';
 import React from 'react';
 import PropTypes from 'prop-types';
 

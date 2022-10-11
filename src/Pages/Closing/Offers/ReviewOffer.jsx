@@ -8,8 +8,9 @@ import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelIcon,
-  Helpers, translateTo,
+  Helpers,
 } from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
 import {
   BrixelTextArea,
   change,

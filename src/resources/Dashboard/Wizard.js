@@ -1,4 +1,4 @@
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 
 export const WizardText = (lang) => ({
   preMarketOverlay: {

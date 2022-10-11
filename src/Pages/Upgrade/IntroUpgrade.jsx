@@ -16,8 +16,9 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   BrixelIcon,
-  Helpers, translateTo,
+  Helpers,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import { SkeletonPackages } from '@brixel/brixel-components/dist/skeleton';
 import Slider from 'react-slick';
 import { getPackageProperty } from '../../actions/PropertyActions';

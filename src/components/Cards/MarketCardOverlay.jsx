@@ -10,8 +10,9 @@ import {
   BrixelButtonIcon,
   BrixelIcon,
   Helpers,
-  FormatValue, translateTo,
+  FormatValue,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 // import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';

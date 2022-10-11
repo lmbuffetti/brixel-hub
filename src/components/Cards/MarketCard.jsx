@@ -1,39 +1,39 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import cloneDeep from 'lodash/cloneDeep';
-import orderBy from 'lodash/orderBy';
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import has from 'lodash/has';
-import set from 'lodash/set';
-import pullAt from 'lodash/pullAt';
-import compact from 'lodash/compact';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelIcon,
   FormatValue,
   Helpers,
-  ProgressRing, translateTo,
+  ProgressRing,
 } from '@brixel/brixel-components';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import cloneDeep from 'lodash/cloneDeep';
+import compact from 'lodash/compact';
+import get from 'lodash/get';
+import has from 'lodash/has';
+import orderBy from 'lodash/orderBy';
+import pullAt from 'lodash/pullAt';
+import set from 'lodash/set';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
-import CoverPropertyImage from '../CoverPropertyImage';
-import CardImageText from '../Skeleton/CardImageText';
-import {
-  calcPercentageProEstimation, setCookie, completedBestimate,
-} from '../../utils/helpers';
 import { setSplashType } from '../../actions/CommonActions';
 import { generateEstimation } from '../../actions/EstimationActions';
 import {
-  setActiveSingleProperty,
-  setEstimation,
+  getEstimation,
+  getPackageProperty,
   setActiveMarketOverlayProperty,
   setActiveMarketOverlayPropertyLists,
-  getEstimation, getPackageProperty,
+  setActiveSingleProperty,
+  setEstimation,
 } from '../../actions/PropertyActions';
+import { calcPercentageProEstimation, completedBestimate, setCookie } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
+import CoverPropertyImage from '../CoverPropertyImage';
+import CardImageText from '../Skeleton/CardImageText';
 
 const MarketCard = (props) => {
   const history = {
@@ -65,9 +65,7 @@ const MarketCard = (props) => {
   
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
-    if (!skeleton[type] && coverImgLoaded) {
-      setRemoveSkeleton(true);
-    }
+    setRemoveSkeleton(true);
   }, [skeleton, coverImgLoaded]);
   
   const isPreMarket = () => get(item, 'tags', []).includes('pre-market');

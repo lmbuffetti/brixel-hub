@@ -29,7 +29,7 @@ import Testimonial1PT from '../images/getstarted/testimonial-1_PT.jpg';
 import Testimonial2PT from '../images/getstarted/testimonial-2_PT.jpg';
 import Testimonial3PT from '../images/getstarted/testimonial-3_PT.jpg';
 import searchResultIcon from '../images/getstarted/search-result.svg';
-import { translateTo } from '../utils/translation';
+import translateTo from '../utils/translation';
 
 // COMPONENT FOR THE LOGIN/SIGN UP ON ONBOARDING
 const LoginSignup = (props) => {

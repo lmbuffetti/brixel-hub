@@ -9,20 +9,31 @@
 // resources are updated in the background.
 
 // To learn more about the benefits of this model and instructions on how to
-// opt-in, read https://cra.link/PWA
+// opt-in, read https://bit.ly/CRA-PWA
+
+import SWHelper from './src/utils/SWHelper';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
   // [::1] is the IPv6 localhost address.
   window.location.hostname === '[::1]' ||
   // 127.0.0.0/8 are considered localhost for IPv4.
-  window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+  window.location.hostname.match(
+    /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/,
+  ),
 );
 
+window.addEventListener('beforeunload', async () => {
+  if (window.swNeedUpdate) {
+    await SWHelper.skipWaiting();
+  }
+});
+
 export function register(config) {
-  if ((process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'development') && 'serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
-    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
+    const publicUrl = new URL('', window.location.href);
+    
     if (publicUrl.origin !== window.location.origin) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
@@ -31,22 +42,24 @@ export function register(config) {
     }
     
     window.addEventListener('load', () => {
-      const swUrl = `/service-worker-brixel.js`;
+      const swUrl = '/service-worker-brixel.js';
       
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
+        // eslint-disable-next-line no-use-before-define
         checkValidServiceWorker(swUrl, config);
         
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
-          console.log(
+          console.info(
             'This web app is being served cache-first by a service ' +
-            'worker. To learn more, visit https://cra.link/PWA'
+            'worker. To learn more, visit https://bit.ly/CRA-PWA',
           );
         });
       } else {
         // Is not localhost. Just register service worker
+        // eslint-disable-next-line no-use-before-define
         registerValidSW(swUrl, config);
       }
     });
@@ -56,39 +69,38 @@ export function register(config) {
 function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
-    .then((registration) => {
+    .then(registration => {
+      if (registration.waiting && registration.active) {
+        window.swNeedUpdate = true;
+      }
+      // eslint-disable-next-line no-param-reassign
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
           return;
         }
         installingWorker.onstatechange = () => {
-          if (installingWorker.state === 'controlling') {
-            window.location.reload();
-          }
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
-              console.log(
+              window.swNeedUpdate = true;
+              SWHelper.prepareCachesForUpdate().then();
+              console.info(
                 'New content is available and will be used when all ' +
-                'tabs for this page are closed. See https://cra.link/PWA.'
+                'tabs for this page are closed. See https://bit.ly/CRA-PWA.',
               );
-
+              
               // Execute callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
               }
-
-              // New content is available and is installed, reload the page
-              window.location.reload();
-              
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
-              console.log('Content is cached for offline use.');
+              console.info('Content is cached for offline use.');
               
               // Execute callback
               if (config && config.onSuccess) {
@@ -99,7 +111,7 @@ function registerValidSW(swUrl, config) {
         };
       };
     })
-    .catch((error) => {
+    .catch(error => {
       console.error('Error during service worker registration:', error);
     });
 }
@@ -109,7 +121,7 @@ function checkValidServiceWorker(swUrl, config) {
   fetch(swUrl, {
     headers: { 'Service-Worker': 'script' },
   })
-    .then((response) => {
+    .then(response => {
       // Ensure service worker exists, and that we really are getting a JS file.
       const contentType = response.headers.get('content-type');
       if (
@@ -117,7 +129,7 @@ function checkValidServiceWorker(swUrl, config) {
         (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
         // No service worker found. Probably a different app. Reload the page.
-        navigator.serviceWorker.ready.then((registration) => {
+        navigator.serviceWorker.ready.then(registration => {
           registration.unregister().then(() => {
             window.location.reload();
           });
@@ -128,17 +140,19 @@ function checkValidServiceWorker(swUrl, config) {
       }
     })
     .catch(() => {
-      console.log('No internet connection found. App is running in offline mode.');
+      console.error(
+        'No internet connection found. App is running in offline mode.',
+      );
     });
 }
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready
-      .then((registration) => {
-        registration.unregister();
+      .then(registration => {
+        registration.unregister().then();
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error.message);
       });
   }

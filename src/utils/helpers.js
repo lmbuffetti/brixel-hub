@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 import get from 'lodash/get';
 import isArray from 'lodash/isArray';
 import { isEmptyWithBool } from '@brixel/brixel-components/dist/utils/helper';
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from './translation';
 import has from 'lodash/has';
 import { configureStore } from '../store';
 import { InputSheets } from '../resources/SingleProperty/inputSheets';

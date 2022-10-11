@@ -1,4 +1,4 @@
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import PublishPageImg from '../../images/Marketing/publishPage.svg';
 import UnpublishPageImg from '../../images/Marketing/unpublishPage.svg';
 import SuccessReview from '../../images/Marketing/successReview.svg';

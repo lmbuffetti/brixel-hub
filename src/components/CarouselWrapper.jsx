@@ -8,10 +8,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import Slider from 'react-slick';
-import {
-  BrixelButtonIcon,
-  BrixelButtonText, translateTo,
-} from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonText } from '@brixel/brixel-components';
+import translateTo from '../utils/translation';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
 import { setWindowDimensions } from '../actions/CommonActions';

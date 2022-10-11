@@ -11,8 +11,8 @@ import {
   BrixelButtonPrimary,
   BrixelButtonText,
   BrixelStatus,
-  translateTo,
 } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   ReduxField,
   BrixelTextArea,

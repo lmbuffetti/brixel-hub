@@ -7,9 +7,10 @@ import { connect } from 'react-redux';
 import {
   BrixelButtonPrimary,
   BrixelIcon,
-  Helpers, translateTo,
+  Helpers,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
 import {
   BrixelInputText,
   BrixelInputDatePicker,

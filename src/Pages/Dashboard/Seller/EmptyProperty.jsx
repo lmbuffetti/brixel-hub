@@ -2,7 +2,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { BrixelButtonPrimary, translateTo } from '@brixel/brixel-components';
+import { BrixelButtonPrimary } from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import get from 'lodash/get';

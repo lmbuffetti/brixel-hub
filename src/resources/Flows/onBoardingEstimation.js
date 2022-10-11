@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
-import { FactsOptions, translateTo } from '@brixel/brixel-components';
+import { FactsOptions } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelRadioButton,
   BrixelInputStepNumber,

@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
 import cloneDeep from 'lodash/cloneDeep';
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */

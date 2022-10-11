@@ -9,8 +9,9 @@ import {
   BrixelIcon,
   Helpers,
   BrixelButtonIcon,
-  useOutsideAlerter, translateTo,
+  useOutsideAlerter,
 } from '@brixel/brixel-components';
+import translateTo from '../utils/translation';
 import {
   reset,
   MultiFileldsReduxForm,

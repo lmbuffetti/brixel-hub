@@ -15,7 +15,7 @@ build site:
   variables:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
-    - npm ci
+    - npm run install-styleguide
     - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
@@ -26,7 +26,7 @@ build site:
 
 # Run the cypress test
 test integration:
-  image: cypress/browsers:node12.14.1-chrome85-ff81
+  image: cypress/browsers:node16.17.1-chrome106-ff105-edge
   stage: test
   only:
     refs:
@@ -42,7 +42,6 @@ test integration:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   when: manual
-
   script:
     - npm ci
     - rm -rf cypress/videos/ cypress/screenshots/

@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
-  BrixelButtonText, translateTo,
+  BrixelButtonText,
 } from '@brixel/brixel-components';
+import translateTo from '../../../../utils/translation';
 import {
   BrixelCheckbox,
   change,

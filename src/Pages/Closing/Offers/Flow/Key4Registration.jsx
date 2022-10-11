@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 import get from 'lodash/get';
 import {
   BrixelIcon,
-  BrixelButtonPrimary, translateTo, BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelButtonIcon,
 } from '@brixel/brixel-components';
+import translateTo from '../../../../utils/translation';
 import { DateTime } from 'luxon';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { FinancialCalculator } from '@brixel/brixel-components/dist/utils/FinancialFormulas';

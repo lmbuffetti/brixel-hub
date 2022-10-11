@@ -68,7 +68,6 @@ export default {
     singleNote: (id) => `/note/${id}`,
   },
   property: {
-    // mapPageById: (id) => `/map/property/${id}`,
     addPage: () => '/page/',
     createPropertyVisit: () => '/scheduleVisit',
     createPropertyVisitSchedule: () => '/schedule',

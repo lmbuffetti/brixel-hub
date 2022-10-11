@@ -7,8 +7,9 @@ import {
 import get from 'lodash/get';
 import {
   BrixelButtonBox,
-  BrixelButtonIcon, translateTo,
+  BrixelButtonIcon,
 } from '@brixel/brixel-components';
+import translateTo from '../../../utils/translation';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import last from 'lodash/last';

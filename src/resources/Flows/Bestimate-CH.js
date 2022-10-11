@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { translateTo } from '@brixel/brixel-components';
+import translateTo from '../../utils/translation';
 import {
   BrixelInputStepNumber,
   BrixelInputText,

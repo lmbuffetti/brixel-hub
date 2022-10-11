@@ -17,7 +17,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const zlib = require("zlib");
-const {InjectManifest} = require('workbox-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 // const devMode = false;
@@ -211,6 +211,7 @@ const clientConfig = (env) => {
       }),
       new WebpackManifestPlugin({
         writeToFileEmit: true,
+        transifexKey: baseByData(getEnvBuild).transifexIdHub,
       }),
     ],
     resolve: {
@@ -257,6 +258,7 @@ const clientConfig = (env) => {
         filename: './index.html',
         template: './public/index.html',
         title: companyData.hub.title,
+        cache: true,
         meta: {
           keywords: companyData.hub.keywords,
         },
@@ -303,11 +305,13 @@ const clientConfig = (env) => {
         threshold: 10240,
         minRatio: 0.8,
       }),
-      new InjectManifest({
-        mode: 'production',
-        swSrc: './service-worker-brixel.js',
+      new GenerateSW({
+        swDest: 'service-worker-brixel.js',
+        cacheId: 'service-worker-brixel',
+        navigateFallback: '/index.html',
+        navigateFallbackAllowlist: [/^\/static/, /^\/dist/, /^\/public/],
         maximumFileSizeToCacheInBytes: 500000000,
-      }),
+      })
     )
     config.optimization = {
       removeAvailableModules: true,
