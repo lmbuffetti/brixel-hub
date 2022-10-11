@@ -113,6 +113,7 @@ const App = (props) => {
   const {
     activeSingleCompany,
     activeSingleProperty,
+    config,
     handleCheckToken,
     handleGetImageType,
     handleReset,
@@ -206,7 +207,7 @@ const App = (props) => {
       let languagesList = languages;
       if (languagesList) {
         languagesList = languagesList.filter((lng) => lng.code !== 'en');
-        handleGetTranslations(languagesList);
+        handleGetTranslations(languagesList, config.apiPath);
       }
     }
   }, [languages]);
@@ -834,6 +835,7 @@ App.propTypes = {
   handleSetWindowsDimension: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   isSmallLoading: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   languages: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -878,8 +880,8 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form, value) {
     dispatch(reset(form, value));
   },
-  handleGetTranslations(langList) {
-    dispatch(getTranslations(langList))
+  handleGetTranslations(langList, baseURL) {
+    dispatch(getTranslations(langList, baseURL))
   },
   handleCheckToken: bindActionCreators(checkToken, dispatch),
   handleGetImageType: bindActionCreators(getImageType, dispatch),
