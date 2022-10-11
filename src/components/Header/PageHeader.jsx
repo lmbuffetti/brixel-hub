@@ -1,5 +1,3 @@
-/* global Transifex */
-import React, { useEffect, useRef, useState } from 'react';
 import {
   BrixelAvatar,
   BrixelButtonIcon,
@@ -7,23 +5,21 @@ import {
   FactsOptions,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import {
-  BrixelSelect,
-  destroy,
-} from '@brixel/brixel-components/dist/form';
 import logoMobile from '@brixel/brixel-components/dist/configuration/images/logo_colors_icon_new.svg';
 import logo from '@brixel/brixel-components/dist/configuration/images/logo_colors_v2.svg';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import { BrixelSelect, destroy } from '@brixel/brixel-components/dist/form';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import orderBy from 'lodash/orderBy';
 import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
 /* eslint-disable react-hooks/exhaustive-deps */
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
+import { setLanguage } from '../../actions/CommonActions';
 import {
   getPackageProperty,
   getPackagesProperty,
@@ -31,9 +27,9 @@ import {
   setActiveSinglePropertyActivePackage,
 } from '../../actions/PropertyActions';
 import { saveActiveSingleUser, setUserTypes } from '../../actions/UserActions';
-import { setLanguage } from '../../actions/CommonActions';
 import { sidebarNavigationBuyer, sidebarNavigationSeller } from '../../resources/Utilities/navigationRoutes';
 import { setCookie } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 import lazyWithRetry from '../LazyWithRetry';
 
 const RightFlowHeader = lazyWithRetry(() => import('./RightHeaderFlow'));
@@ -60,6 +56,7 @@ function PageHeader(props) {
     handleSetUserTypes,
     isFlow,
     lang,
+    languages,
     loggedInUser,
     ownerProperties,
     packagesProperty,
@@ -78,7 +75,6 @@ function PageHeader(props) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProgressStage, setShowProgressStage] = useState(false);
   const [stepIndexProgrss, setIndexProgrss] = useState(0);
-  const localTransifex = typeof Transifex !== 'undefined' ? Transifex : null;
 
   // REF
   const profileMenu = useRef(null);
@@ -126,20 +122,16 @@ function PageHeader(props) {
 
   // GET LANGUAGE LISTS
   useEffect(() => {
-    if (typeof Transifex !== 'undefined') {
-      if (Transifex.live.getAllLanguages()) {
-        const langHeader = [];
-        Transifex.live.getAllLanguages().map((lng, i) => {
-          langHeader[i] = lng;
-          langHeader[i].value = lng.code;
-          langHeader[i].shortValue = lng.code;
-          langHeader[i].label = lng.name;
-          return null;
-        });
-        setLangMenu(langHeader);
-      }
-    }
-  }, [localTransifex]);
+    const langHeader = [];
+    languages.map((lng, i) => {
+      langHeader[i] = lng;
+      langHeader[i].value = lng.code;
+      langHeader[i].shortValue = lng.code;
+      langHeader[i].label = lng.name;
+      return null;
+    });
+    setLangMenu(langHeader);
+  }, [languages]);
 
   // FUNCTION TO CHANGE  THE LANGUAGE
   const newLang = (langCode) => {
@@ -149,11 +141,6 @@ function PageHeader(props) {
     localStorage.setItem('lang', defLangCode);
     setCookie('brixelLang', defLangCode);
     handleSetLanguage(defLangCode);
-    if (typeof Transifex !== 'undefined') {
-      setTimeout(() => {
-        Transifex.live.translateTo(defLangCode);
-      }, 100);
-    }
     if (get(loggedInUser, 'user.id', null)) {
       const userData = {
         id: get(loggedInUser, 'user.id', null),
@@ -301,7 +288,7 @@ function PageHeader(props) {
       setOpenMenu(false);
     },
   });
-
+  
   return (
     <>
       <header className={`bgOverlay hubDasHeader ${showMobileMenu ? 'menu-active' : ''} bgWhite`}>
@@ -649,6 +636,7 @@ PageHeader.propTypes = {
   handleSetUserTypes: PropTypes.func.isRequired,
   isFlow: PropTypes.bool,
   lang: PropTypes.oneOfType([PropTypes.any]),
+  languages: PropTypes.arrayOf(PropTypes.object).isRequired,
   loggedInUser: PropTypes.object,
   ownerProperties: PropTypes.object.isRequired,
   packagesProperty: PropTypes.arrayOf(PropTypes.object).isRequired,
