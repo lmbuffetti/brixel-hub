@@ -1,33 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-shadow */
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import {
-  BrixelButtonPrimary,
-  BrixelButtonText,
-} from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  change,
-  destroy,
-  reset,
-  initializeForm,
-} from '@brixel/brixel-components/dist/form';
+import { BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
+import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import cloneDeep from 'lodash/cloneDeep';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import isArray from 'lodash/isArray';
+import PropTypes from 'prop-types';
 import queryString from 'query-string';
-import { checkBrowser } from '../../../utils/helpers';
-import { ScanTrialQuestions } from '../../../resources/Flows/ScanTrialRequest';
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-shadow */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { sendScanTrialRequest } from '../../../actions/PropertyActions';
+import { ScanTrialQuestions } from '../../../resources/Flows/ScanTrialRequest';
+import { checkBrowser } from '../../../utils/helpers';
+import translateTo from '../../../utils/translation';
 
 const ScanTrialFlow = (props) => {
   const history = {
@@ -74,7 +65,7 @@ const ScanTrialFlow = (props) => {
   // ON CHANGE STEP LOAD THE ENTER EFFECT
   useEffect(() => {
     setIsEnter(true);
-    if (questions[currentIndex].history) {
+    if (questions[currentIndex].history && !get(urlParams, 'url', null)) {
       history.push(`/${propID}/trialRequest/${questions[currentIndex].history}`);
     }
   }, [currentIndex]);
@@ -424,7 +415,7 @@ const ScanTrialFlow = (props) => {
                             ) : (
                               <>
                                 {
-                                  (questions[currentIndex].history !== 'BookTrialFlow' || get(formValue, 'analysis', null) !== 'remote') && (
+                                  (questions[currentIndex].history !== 'BookTrialFlow' && get(formValue, 'analysis', null) !== 'remote') && (
                                     <>
                                       {
                                         questions[currentIndex].history === 'introScanTrial' && (

@@ -10,7 +10,7 @@
     "deep-object-diff": "^1.1.7",
     "draft-js": "^0.11.7",
     "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-react": "^7.31.9",
+    "eslint-plugin-react": "^7.31.10",
     "google-maps-react": "^2.0.6",
     "lodash": "^4.17.21",
     "luxon": "3.0.4",
