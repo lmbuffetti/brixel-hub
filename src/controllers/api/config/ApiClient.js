@@ -21,10 +21,9 @@ axios.interceptors.response.use(
 
 class ApiClient {
   constructor({
-    baseURL, brixelator,
+    baseURL,
   }) {
     this.baseURL = baseURL;
-    this.brixelator = brixelator;
     this.token = cookies.get('brixelToken') || window.localStorage.getItem('brixelToken');
   }
 
@@ -135,7 +134,7 @@ class ApiClient {
         baseUrl = getConfigEnv.shortPath;
         break;
       default:
-        baseUrl = this.brixelator;
+        baseUrl = this.baseURL;
     }
 
     const config = {
