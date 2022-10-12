@@ -151,7 +151,7 @@ const Photos = (props) => {
     }
   };
 
-  setTimeout(() => {setIsReady(true)}, 300);
+  setTimeout(() => {setIsReady(true)}, 200);
 
   return (
     <>

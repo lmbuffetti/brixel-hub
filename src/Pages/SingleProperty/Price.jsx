@@ -138,7 +138,7 @@ const Price = (props) => {
     return null;
   };
 
-  setTimeout(() => {setIsReady(true)}, 400);
+  setTimeout(() => {setIsReady(true)}, 300);
 
   return (
     <>
