@@ -16,8 +16,6 @@ const root = createRoot(container);
 // INITILAIZE THE REACT DOM APP
 const AppDOM = () => {
   if (typeof window !== 'undefined' && window.location.href.includes('.brixel.io')) {
-    // eslint-disable-next-line no-console
-    console.log('test');
     serviceWorkerRegistration.register({
       onUpdate: registration => {
         if (registration && registration.waiting) {
