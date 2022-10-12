@@ -1,12 +1,11 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import {
-  BrowserRouter,
-} from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import * as serviceWorkerRegistration from '../serviceWorkerRegistration';
 import lazyWithRetry from './components/LazyWithRetry';
 import { configureStore } from './store';
-import * as serviceWorkerRegistration from '../serviceWorkerRegistration';
+
 const App = lazyWithRetry(() => import('./App'));
 const ErrorBoundary = lazyWithRetry(() => import('./components/ErrorBoundering'));
 
@@ -17,6 +16,8 @@ const root = createRoot(container);
 // INITILAIZE THE REACT DOM APP
 const AppDOM = () => {
   if (typeof window !== 'undefined' && window.location.href.includes('.brixel.io')) {
+    // eslint-disable-next-line no-console
+    console.log('test');
     serviceWorkerRegistration.register({
       onUpdate: registration => {
         if (registration && registration.waiting) {
@@ -26,7 +27,9 @@ const AppDOM = () => {
       }
     });
   }
-  if (typeof window !== 'undefined' && window.location.href.includes('localhost')) serviceWorkerRegistration.unregister();
+  if (typeof window !== 'undefined' && window.location.href.includes('localhost')) {
+    serviceWorkerRegistration.unregister();
+  }
   return(
     <Provider store={store}>
       <BrowserRouter>
