@@ -13,7 +13,7 @@ module.exports = defineConfig({
   
   e2e: {
     setupNodeEvents(on, config) {
-      require('@cypress/code-coverage/task')(on, config)
+      require('./cypress/plugins/index.js')(on, config)
       return config;
     }
   },
@@ -23,7 +23,7 @@ module.exports = defineConfig({
       framework: 'react',
       bundler: 'webpack',
       // optionally pass in webpack config
-      webpackConfig: require('./cypress/plugin/webpack.config'),
+      webpackConfig: require('./cypress/plugins/webpack.config'),
       supportFile: 'cypress/support/component.js',
       specPattern: 'cypress/**/**/*.cy.{js,ts,jsx,tsx}',
       setupNodeEvents(on) {
