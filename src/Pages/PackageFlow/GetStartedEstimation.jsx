@@ -1,44 +1,36 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-shadow */
-import React, {
-  useState, useEffect, useRef,
-} from 'react';
-import PropTypes from 'prop-types';
 import {
-  BrixelButtonPrimary,
   BrixelButtonIcon,
+  BrixelButtonPrimary,
+  BrixelButtonText,
   BrixelProgressBar,
   DataByCountry,
-  BrixelButtonText,
 } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  initializeForm,
-  change,
-  reset,
-  destroy,
-} from '@brixel/brixel-components/dist/form';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import set from 'lodash/set';
-import cloneDeep from 'lodash/cloneDeep';
 import isArray from 'lodash/isArray';
+import set from 'lodash/set';
+import PropTypes from 'prop-types';
 import queryString from 'query-string';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import Cookies from 'universal-cookie';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { titleProperty } from '../../utils/titleCreation';
-import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/Flows/onBoardingEstimation';
 import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
-import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
+import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createEstimation } from '../../actions/EstimationActions';
+import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
+import { doLogin, saveActiveSingleUser, validateUser } from '../../actions/UserActions';
+import { QuestionsList } from '../../resources/Flows/onBoardingEstimation';
+import { calcPercentageFacts, checkBrowser, setCookie } from '../../utils/helpers';
+import { titleProperty } from '../../utils/titleCreation';
+import translateTo from '../../utils/translation';
 
 const cookie = new Cookies();
 
@@ -68,6 +60,7 @@ const GetStartedEstimation = (props) => {
     handleValidateUser,
     initForm,
     initialValues,
+    isLoading,
     isTest,
     lang,
     loggedInUser,
@@ -81,7 +74,7 @@ const GetStartedEstimation = (props) => {
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [showError, setShowError] = useState(false);
-  // const [roomValue, setRoomValue] = useState('');
+  const [loadingRequest, setLoadingRequest] = useState(false);
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
   const companyStub = get(match, 'companyStub', null);
@@ -94,6 +87,10 @@ const GetStartedEstimation = (props) => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
+  
+  useEffect(() => {
+    if (!isLoading) setLoadingRequest(false);
+  }, [isLoading]);
 
   useEffect(() => {
     if (get(formValue, 'properties.extraFeaturesBestimatePT', null)) {
@@ -140,6 +137,7 @@ const GetStartedEstimation = (props) => {
 
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
+    if (isLoading || loadingRequest) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     const { login, register, company } = dataForm;
@@ -282,6 +280,7 @@ const GetStartedEstimation = (props) => {
         set(data, 'redirectToUrl', `/termsConditionFlow/${activeSingleCompany.stub}/${userType}?url=/:pageID/home`);
       }
       // DISPATCH TO DO REGISTRATION USER
+      setLoadingRequest(true);
       await handleValidateUser(data);
     }
   };
@@ -895,6 +894,7 @@ GetStartedEstimation.propTypes = {
   handleValidateUser: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
@@ -962,6 +962,7 @@ const mapStateToProps = (state, ownProps) => {
       },
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
+    isLoading: get(state, 'common.isLoading', 0) > 0,
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
