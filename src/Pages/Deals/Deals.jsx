@@ -413,7 +413,7 @@ const Deals = (props) => {
                             {
                               activeSinglePropertyDeals && emptyDeals && smallLoader.loadDeal === false && (
                                 <>
-                                  <div className="emptyMessage dis-f w-perc-100 jc-c">
+                                  <div className="emptyMessage min-h-fix-224 dis-f w-perc-100 jc-c">
                                     <div className="max-w-fix-544 ta-c p-3 dis-fl-col a-c">
                                       <h5>{translateTo('No deals yet?', lang)}</h5>
                                       <p className="p-3 txtDark700">

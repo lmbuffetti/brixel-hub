@@ -74,7 +74,7 @@ const clientConfig = (env) => {
     output: {
       publicPath: '/',
       path: BUILD_DIR,
-      filename: 'js/[name].[fullhash].bundle.js',
+      filename: 'js/[name].bundle.js',
       chunkFilename: (devMode || testMode) ? 'js/[name].js' : 'js/[name].[fullhash].js',
       globalObject: 'this',
     },

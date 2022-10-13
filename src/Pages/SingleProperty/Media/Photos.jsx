@@ -55,6 +55,7 @@ const Photos = (props) => {
   const [confirmDelete, setConfirmDelete] = useState(null);
   const [btnActive, setBtnActive] = useState(null);
   const [newImages, setNewImages] = useState([]);
+  const [isReady, setIsReady] = useState(false);
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
   // REF
@@ -165,168 +166,184 @@ const Photos = (props) => {
     }
   };
 
+  setTimeout(() => {setIsReady(true)}, 200);
+
   return (
     <>
-      <h3 className="mb-3 hide dis-b-lg">{translateTo('Photos', lang)}</h3>
-      <div className="photosWrapper dis-f">
-        <div className="secondLevel dis-fl-col">
-          <div className="dis-f backPanel hide-lg">
-            <h5 className="sectionTitle">
-              {translateTo('Photos', lang)}
-            </h5>
-          </div>
-          <div className={`boxCard mb-5 ${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
-            <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
-              {
-                (fixPhotos && fixPhotos.length > 0) && (
-                  <>
-                    <ReactSortable
-                      scroll
-                      bubbleScroll
-                      tag="ul"
-                      className="image-list row-cols-2-gut-1 row-cols-lg-3-gut-1"
-                      list={cloneDeep(fixPhotos).concat(newImages)}
-                      setList={(order) => {
-                        changeOrder(order);
-                      }}
-                    >
-                      {
-                        fixPhotos.map((item, i) => (
-                          <li
-                            className="cur-poi pos-r"
-                            key={`pht_${i.toString()}`}
-                            data-id={JSON.stringify(item)}
-                          >
-                            <div
-                              className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
-                              onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : '')}
-                            >
-                              <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
-                                <div
-                                  className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
-                                  ref={wrappImg.current[i]}
-                                >
-                                  <BrixelButtonSecondary
-                                    rounded
-                                    theme="red"
-                                    rightIcon="bin"
-                                    label={translateTo('delete?', lang)}
-                                    className={`${confirmDelete === i ? '' : 'hide'}`}
-                                    onClick={() => deleteImage(item.id)}
-                                    isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
-                                  />
-                                  <BrixelButtonIcon
-                                    ghost
-                                    theme="red"
-                                    icon="bin"
-                                    className={`${confirmDelete === i ? 'hide' : ''}`}
-                                    onClick={() => onConfirmDelete(i)}
-                                  />
-                                  <BrixelButtonIcon
-                                    ghost
-                                    icon="edit"
-                                    className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
-                                    onClick={
-                                      () => {
-                                        history.push(`/${propID}/property/photos/${item.id}/edit/photos`);
-                                        scrollToTopEdit();
-                                      }
-                                    }
-                                  />
-                                </div>
-                                {
-                                  i === 0 && (
-                                    <div className="fixedActionsBtmRight">
-                                      <BrixelIcon
-                                        icon="star-fill"
-                                        color="primary"
-                                        saturationTxt={400}
-                                        className="fSizePx24"
-                                      />
-                                    </div>
-                                  )
-                                }
-                              </div>
-                            </div>
-                            {
-                              item.description && (
-                                <p className="ta-l mt-1 fsize-200 txtDark700 w-prec-100">
-                                  {translateTo(Truncate(item.description, 60), lang)}
-                                </p>
-                              )
-                            }
-                          </li>
-                        ))
-                      }
-                      {
-                        newImages.map((upImg, i) => (
-                          <li
-                            className="cur-poi pos-r"
-                            key={(fixPhotos.length + i).toString()}
-                            data-id={JSON.stringify(fixPhotos[0])}
-                          >
-                            {
-                              isSmallLoading.uploadMedia && (
-                                <div
-                                  className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
-                                >
-                                  <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${upImg.galleryThumbnailPath})` }} />
-                                </div>
-                              )
-                            }
-                          </li>
-                        ))
-                      }
-                    </ReactSortable>
-                  </>
-                )
-              }
-              <>
-                <div
-                  className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c mt-2 ta-c`}
-                  {...getRootProps()}
-                >
-                  <input {...getInputProps()} />
-                  {
-                    (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
-                      <div className="dis-fl-col">
-                        <img loading="lazy" className="h-fix-120" src={uploadPhotosEmpty} alt="Empty State" />
-                        <h5 className="mt-3 mb-2">{translateTo('Upload your first photo', lang)}</h5>
-                      </div>
-                    )
-                  }
-                  <span className="body2 txtDark200 max-width-220">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
-                  <BrixelButtonPrimary
-                    label={translateTo('upload', lang)}
-                    rightIcon="upload"
-                    rounded
-                    className="mt-3"
-                    isLoading={isSmallLoading.uploadMedia}
-                  />
+      {
+        isReady ? (
+          <>
+            <h3 className="mb-3 hide dis-b-lg">{translateTo('Photos', lang)}</h3>
+            <div className="photosWrapper dis-f">
+              <div className="secondLevel dis-fl-col">
+                <div className="dis-f backPanel hide-lg">
+                  <h5 className="sectionTitle">
+                    {translateTo('Photos', lang)}
+                  </h5>
                 </div>
-              </>
+                <div className={`boxCard mb-5 ${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyMedia' : ''}`}>
+                  <div className={`${fixPhotos && fixPhotos.length > 0 ? 'uploadPanel dis-fl-col' : 'empty-state dis-fl-col a-c'}`}>
+                    {
+                      (fixPhotos && fixPhotos.length > 0) && (
+                        <>
+                          <ReactSortable
+                            scroll
+                            bubbleScroll
+                            tag="ul"
+                            className="image-list row-cols-2-gut-1 row-cols-lg-3-gut-1"
+                            list={cloneDeep(fixPhotos).concat(newImages)}
+                            setList={(order) => {
+                              changeOrder(order);
+                            }}
+                          >
+                            {
+                              fixPhotos.map((item, i) => (
+                                <li
+                                  className="cur-poi pos-r"
+                                  key={`pht_${i.toString()}`}
+                                  data-id={JSON.stringify(item)}
+                                >
+                                  <div
+                                    className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
+                                    onClick={() => (windowDimensions.width < 1025 ? history.push(`/${propID}/property/photos/${item.id}/edit/photos`) : '')}
+                                  >
+                                    <div className="w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${item.tmpPath ? item.tmpPath : `${baseByData.shortPath}${item.galleryThumbnailPath}?${item.updatedAt}`})` }}>
+                                      <div
+                                        className={`photo-action a-c hide dis-f-md ${confirmDelete === i ? 'show' : 'hoverShow'}`}
+                                        ref={wrappImg.current[i]}
+                                      >
+                                        <BrixelButtonSecondary
+                                          rounded
+                                          theme="red"
+                                          rightIcon="bin"
+                                          label={translateTo('delete?', lang)}
+                                          className={`${confirmDelete === i ? '' : 'hide'}`}
+                                          onClick={() => deleteImage(item.id)}
+                                          isLoading={isSmallLoading.deleteMedia && btnActive === 'delete'}
+                                        />
+                                        <BrixelButtonIcon
+                                          ghost
+                                          theme="red"
+                                          icon="bin"
+                                          className={`${confirmDelete === i ? 'hide' : ''}`}
+                                          onClick={() => onConfirmDelete(i)}
+                                        />
+                                        <BrixelButtonIcon
+                                          ghost
+                                          icon="edit"
+                                          className={`ml-1 ${confirmDelete === i ? 'hide' : ''}`}
+                                          onClick={
+                                            () => {
+                                              history.push(`/${propID}/property/photos/${item.id}/edit/photos`);
+                                              scrollToTopEdit();
+                                            }
+                                          }
+                                        />
+                                      </div>
+                                      {
+                                        i === 0 && (
+                                          <div className="fixedActionsBtmRight">
+                                            <BrixelIcon
+                                              icon="star-fill"
+                                              color="primary"
+                                              saturationTxt={400}
+                                              className="fSizePx24"
+                                            />
+                                          </div>
+                                        )
+                                      }
+                                    </div>
+                                  </div>
+                                  {
+                                    item.description && (
+                                      <p className="ta-l mt-1 fsize-200 txtDark700 w-prec-100">
+                                        {translateTo(Truncate(item.description, 60), lang)}
+                                      </p>
+                                    )
+                                  }
+                                </li>
+                              ))
+                            }
+                            {
+                              newImages.map((upImg, i) => (
+                                <li
+                                  className="cur-poi pos-r"
+                                  key={(fixPhotos.length + i).toString()}
+                                  data-id={JSON.stringify(fixPhotos[0])}
+                                >
+                                  {
+                                    isSmallLoading.uploadMedia && (
+                                      <div
+                                        className="square media-image-container dis-fl-row a-c jc-b w-perc-100 shadow-2dp brdRadius ov-h"
+                                      >
+                                        <div className="perc-r w-perc-100 square dis-fl-row imgConver" style={{ backgroundImage: `url(${upImg.galleryThumbnailPath})` }} />
+                                      </div>
+                                    )
+                                  }
+                                </li>
+                              ))
+                            }
+                          </ReactSortable>
+                        </>
+                      )
+                    }
+                    <>
+                      <div
+                        className={`${(!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c mt-2 ta-c`}
+                        {...getRootProps()}
+                      >
+                        <input {...getInputProps()} />
+                        {
+                          (!fixPhotos || (isArray(fixPhotos) && fixPhotos.length === 0)) && (
+                            <div className="dis-fl-col">
+                              <img loading="lazy" className="h-fix-120" src={uploadPhotosEmpty} alt="Empty State" />
+                              <h5 className="mt-3 mb-2">{translateTo('Upload your first photo', lang)}</h5>
+                            </div>
+                          )
+                        }
+                        <span className="body2 txtDark200 max-width-220">{translateTo('Choose .jpeg .png with max. 10 MB size', lang)}</span>
+                        <BrixelButtonPrimary
+                          label={translateTo('upload', lang)}
+                          rightIcon="upload"
+                          rounded
+                          className="mt-3"
+                          isLoading={isSmallLoading.uploadMedia}
+                        />
+                      </div>
+                    </>
+                  </div>
+                </div>
+
+                <BrixelUpgradeMessage
+                  lang={lang}
+                  unlockFunction={false}
+                  title={translateTo('Do you want to capture your property in its best possible light?', lang)}
+                  description={translateTo('High-quality photos help you to stand out in the market. Request a free on-site appointment by one of our experts to get a free photo shooting.', lang)}
+                  btnLabel={translateTo('Request photo shoot', lang)}
+                  redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
+                  trialRequest
+                />
+
+              </div>
+              <Routes>
+                <Route
+                  path="/:imgId/edit/:editType"
+                  element={<DetailMedia />}
+                />
+                <Route path="*" element={null} />
+              </Routes>
+            </div>
+          </>
+        ) : (
+          <div className="secondLevel dis-fl-col">
+            <div className="max-w-fix-1024 mt-10 pt-1 pt-lg-0 mt-lg-0 h-perc-100">
+              <p className="h-fix-24 h-fix-lg-40 mb-3 skeletonBg w-perc-15"> </p>
+              <div className='w-perc-100 brdRadius skeletonBg h-fix-400'/>
+              <div className='w-perc-100 mt-5 brdRadius skeletonBg h-fix-296'/>
             </div>
           </div>
-
-          <BrixelUpgradeMessage
-            lang={lang}
-            unlockFunction={false}
-            title={translateTo('Do you want to capture your property in its best possible light?', lang)}
-            description={translateTo('High-quality photos help you to stand out in the market. Request a free on-site appointment by one of our experts to get a free photo shooting.', lang)}
-            btnLabel={translateTo('Request photo shoot', lang)}
-            redirectUrl={`/${activeSingleProperty.id}/trialRequest`}
-            trialRequest
-          />
-
-        </div>
-        <Routes>
-          <Route
-            path="/:imgId/edit/:editType"
-            element={<DetailMedia />}
-          />
-          <Route path="*" element={null} />
-        </Routes>
-      </div>
+        )
+      }
     </>
   );
 };
