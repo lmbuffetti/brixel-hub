@@ -1,42 +1,29 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-shadow */
-import React, {
-  useState, useEffect, useRef,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  BrixelButtonPrimary,
-  BrixelButtonIcon,
-  BrixelProgressBar,
-  DataByCountry,
-} from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  initializeForm,
-  change,
-  reset,
-  destroy,
-} from '@brixel/brixel-components/dist/form';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar, DataByCountry } from '@brixel/brixel-components';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import set from 'lodash/set';
-import cloneDeep from 'lodash/cloneDeep';
-import queryString from 'query-string';
-import Cookies from 'universal-cookie';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
 import isArray from 'lodash/isArray';
+import set from 'lodash/set';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import Cookies from 'universal-cookie';
+import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { titleProperty } from '../../utils/titleCreation';
-import { calcPercentageFacts, setCookie, checkBrowser } from '../../utils/helpers';
+import { doLogin, saveActiveSingleUser, validateUser } from '../../actions/UserActions';
 import { QuestionsList } from '../../resources/Flows/onBoardingSeller';
-import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
-import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
+import { calcPercentageFacts, checkBrowser, setCookie } from '../../utils/helpers';
+import { titleProperty } from '../../utils/titleCreation';
+import translateTo from '../../utils/translation';
 
 const cookie = new Cookies();
 
@@ -76,6 +63,7 @@ const GetStartedSeller = (props) => {
   const [oldIndex, setOldIndex] = useState(0);
   const [showError, setShowError] = useState(false);
   const [action, setAction] = useState('next');
+  const [loadingRequest, setLoadingRequest] = useState(false);
   // SET QUEST TO FIRST QUESTION OF QuestionsList()
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   // const [roomValue, setRoomValue] = useState('');
@@ -101,10 +89,15 @@ const GetStartedSeller = (props) => {
     }
     return result;
   };
+  
+  useEffect(() => {
+    if (!isLoading) setLoadingRequest(false);
+  }, [isLoading]);
+  
 
   // FUNCTION TO SAVE DATA
   const saveData = async () => {
-    if (isLoading) return false;
+    if (isLoading || loadingRequest) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     setCookie('brixelSplashHome', 'sellerWelcome');
@@ -199,6 +192,7 @@ const GetStartedSeller = (props) => {
         },
       };
       // DISPATCH TO DO REGISTRATION USER
+      setLoadingRequest(true);
       await handleValidateUser(data);
     }
   };

@@ -1,43 +1,30 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-shadow */
-import React, {
-  useState, useEffect, useRef, Fragment,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  BrixelButtonPrimary,
-  BrixelButtonIcon,
-  BrixelProgressBar,
-  BrixelButtonText,
-} from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  initializeForm,
-  change,
-  reset,
-  destroy,
-} from '@brixel/brixel-components/dist/form';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
-import set from 'lodash/set';
-import cloneDeep from 'lodash/cloneDeep';
-import queryString from 'query-string';
-import Cookies from 'universal-cookie';
-import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText, BrixelProgressBar } from '@brixel/brixel-components';
 import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
+import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
 import has from 'lodash/has';
 import isArray from 'lodash/isArray';
+import set from 'lodash/set';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
+import Cookies from 'universal-cookie';
+import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { setCookie, checkBrowser } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
-import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
-import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
+import { doLogin, validateUser } from '../../actions/UserActions';
+import { QuestionsList } from '../../resources/Flows/onBoardingBuyer';
+import { checkBrowser, setCookie } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 const cookie = new Cookies();
 
@@ -64,6 +51,7 @@ const GetStartedBuyer = (props) => {
     handleValidateUser,
     initForm,
     initialValues,
+    isLoading,
     lang,
     loggedInUser,
     handleReset,
@@ -78,6 +66,7 @@ const GetStartedBuyer = (props) => {
   const [quest, setQuest] = useState(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0]);
   const [isEnter, setIsEnter] = useState(true);
   const [showError, setShowError] = useState(false);
+  const [loadingRequest, setLoadingRequest] = useState(false);
   // const [roomValue, setRoomValue] = useState('');
   const companyStub = get(match, 'companyStub', null);
 
@@ -89,9 +78,14 @@ const GetStartedBuyer = (props) => {
     handleSpinnerOff();
     return () => destroyForm();
   }, []);
+  
+  useEffect(() => {
+    if (!isLoading) setLoadingRequest(false);
+  }, [isLoading]);
 
   // FUNCTION TO SAVE DATA
   const saveData = async (action = '') => {
+    if (isLoading || loadingRequest) return false;
     const dataForm = cloneDeep(formValue);
     const dataFormAnswer = cloneDeep(formValue);
     setCookie('brixelSplashHome', 'buyerWelcome');
@@ -175,6 +169,7 @@ const GetStartedBuyer = (props) => {
         set(data, 'redirectToUrl', `/termsConditionFlow/${activeSingleCompany.stub}/${userType}?url=/buy`);
       }
       // DISPATCH TO DO REGISTRATION USER
+      setLoadingRequest(true);
       await handleValidateUser(data);
     }
   };
@@ -243,6 +238,7 @@ const GetStartedBuyer = (props) => {
   // FUNCTION TO GO TO NEXT STEP
   const changeStep = (act, e, step = 1, skipValidation) => {
     if (e) e.preventDefault();
+    if (isLoading || loadingRequest) return false;
     let newIndex = currentIndex;
     setOldIndex(currentIndex);
     setShowError(false);
@@ -798,6 +794,7 @@ GetStartedBuyer.propTypes = {
   handleValidateUser: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
   handleReset: PropTypes.func.isRequired,
@@ -849,6 +846,7 @@ const mapStateToProps = (state, ownProps) => {
       },
       signup: get(state, 'user.loggedInUser.id', null) !== null,
     },
+    isLoading: get(state, 'common.isLoading', 0) > 0,
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
