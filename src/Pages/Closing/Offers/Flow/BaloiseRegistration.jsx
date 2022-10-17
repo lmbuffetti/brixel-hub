@@ -37,6 +37,13 @@ const Key4Registration = (props) => {
       label: 'Pension fund statement',
       name: 'pensionFund',
     },
+    {
+      icon: 'page',
+      iconColor: 'blue',
+      iconDone: 'check-thin',
+      label: 'ID copy and settlement permit if applicable',
+      name: 'idCopy',
+    },
   ];
   
   useEffect(() => {
