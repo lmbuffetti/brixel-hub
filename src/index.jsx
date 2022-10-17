@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorkerRegistration from '../serviceWorkerRegistration';
-import lazyWithRetry from './components/LazyWithRetry';
 import { configureStore } from './store';
 
-const App = lazyWithRetry(() => import('./App'));
-const ErrorBoundary = lazyWithRetry(() => import('./components/ErrorBoundering'));
+const App = lazy(() => import('./App'));
+const ErrorBoundary = lazy(() => import('./components/ErrorBoundering'));
 
 const store = configureStore;
 const container = document.getElementById('root');
@@ -31,9 +30,11 @@ const AppDOM = () => {
   return(
     <Provider store={store}>
       <BrowserRouter>
-        <ErrorBoundary>
-          <App />
-        </ErrorBoundary>
+        <Suspense>
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
+        </Suspense>
       </BrowserRouter>
     </Provider>
   );

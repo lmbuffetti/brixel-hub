@@ -47,7 +47,7 @@
     "start-fast": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env TEST --mode development",
     "start-dev": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV_LOCAL --mode development",
     "start-prod": "NODE_ENV=page-dev webpack serve --config webpack.config.js --progress profile --env DEV --mode production",
-    "build": "=page-dev webNODE_ENVpack --config webpack.config.js --progress --env DEV --mode production",
+    "build": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env DEV --mode production",
     "build-dev": "NODE_ENV=page-dev webpack --config webpack.config.js --progress --env DEV --mode production",
     "build-stage": "NODE_ENV=page-stage webpack --config webpack.config.js --progress --env STAGING --mode production",
     "build-prod": "NODE_ENV=page-prod webpack --config webpack.config.js --progress --env PROD --mode production",
