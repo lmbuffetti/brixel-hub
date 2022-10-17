@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Routes, Route, useLocation, useNavigate, useParams, Navigate,
@@ -26,35 +26,59 @@ const MarketingDashboard = (props) => {
   const {
     lang,
   } = props;
+  // useState
+  const [isReady, setIsReady] = useState(false);
   // URL PARAMS
   const propID = get(match, 'propID', null);
   const getFact = () => last(history.location.pathname.split('/'));
 
+  setTimeout(() => {setIsReady(true)}, 300);
+
   return (
-    <div className="listings-container dis-f jc-fs h-perc-lg-100 a-t" id="listingsDashaboard">
-      <Sticker>
-        <div className="w-perc-100">
-          <h3 className="mb-3 hide dis-b-lg">{translateTo('Marketing', lang)}</h3>
-          <div className="dis-f a-t flex-wrap max-w-fix-1280">
-            <div className="pr-md-1 w-perc-100 w-perc-md-50">
-              <Page />
-            </div>
-            <div className="mt-2 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50">
-              <Portals />
+    <>
+      {
+        isReady ? (
+          <div className="listings-container dis-f jc-fs h-perc-lg-100 a-t" id="listingsDashaboard">
+            <Sticker>
+              <div className="w-perc-100">
+                <h3 className="mb-3 hide dis-b-lg">{translateTo('Marketing', lang)}</h3>
+                <div className="dis-f a-t flex-wrap max-w-fix-1280">
+                  <div className="pr-md-1 w-perc-100 w-perc-md-50">
+                    <Page />
+                  </div>
+                  <div className="mt-2 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50">
+                    <Portals />
+                  </div>
+                </div>
+              </div>
+            </Sticker>
+            {
+              getFact() !== 'marketing' && (
+                <Suspense fallback={<Loading isLoading />}>
+                  <Routes>
+                    <Route path="*" element={<Navigate to={`/buyer/${propID}/marketing`} />} />
+                  </Routes>
+                </Suspense>
+              )
+            }
+          </div>
+        ) : (
+          <div className="listings-container h-perc-lg-100">
+            <div className="max-w-fix-1280 h-perc-100">
+              <p className="h-fix-24 hide dis-fl-row-lg h-fix-lg-40 mb-3 skeletonBg w-perc-15"> </p>
+              <div className="dis-fl-col dis-fl-row-lg">
+                <div className='w-perc-100 w-perc-lg-50 brdRadius skeletonBg mr-0 mr-lg-1 h-fix-304' />
+                <div className='w-perc-100 w-perc-lg-50 mt-2 mt-lg-0 brdRadius skeletonBg ml-0 ml-lg-1 h-fix-304' />
+              </div>
+              <div className="dis-fl-col dis-fl-row-lg mt-2">
+                <div className='w-perc-100 w-perc-lg-50 brdRadius mr-0 mr-lg-1 h-fix-304' />
+                <div className='w-perc-100 w-perc-lg-50 mt-2 mt-lg-0 brdRadius skeletonBg ml-0 ml-lg-1 h-fix-304' />
+              </div>
             </div>
           </div>
-        </div>
-      </Sticker>
-      {
-        getFact() !== 'marketing' && (
-          <Suspense fallback={<Loading isLoading />}>
-            <Routes>
-              <Route path="*" element={<Navigate to={`/buyer/${propID}/marketing`} />} />
-            </Routes>
-          </Suspense>
         )
       }
-    </div>
+    </>
   );
 };
 
