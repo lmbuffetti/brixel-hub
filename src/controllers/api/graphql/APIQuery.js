@@ -1,5 +1,5 @@
 import axios from 'axios';
-import queryString from 'query-string';
+import { parse, stringify } from 'qs';
 import { failureHandler, successHandler } from '../utils/api.helper';
 import { articlesQuery, bannersQuery } from './query.costants';
 
@@ -54,10 +54,9 @@ class ApiClient {
       baseURL: baseUrl,
       params : {},
       validateStatus: false,
-      paramsSerializer(p) {
-        return queryString.stringify(p, {
-          encode: true,
-        });
+      paramsSerializer: {
+        encode: parse,
+        serialize: stringify,
       },
       headers: {
         'Content-Type': 'application/json',

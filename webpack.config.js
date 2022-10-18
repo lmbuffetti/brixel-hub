@@ -311,6 +311,15 @@ const clientConfig = (env) => {
       })
     )
     config.optimization = {
+      splitChunks: {
+        chunks: 'async',
+        minSize: 2000,
+        minRemainingSize: 0,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        enforceSizeThreshold: 5000,
+      },
       emitOnErrors: true,
       concatenateModules: true,
       removeAvailableModules: true,
