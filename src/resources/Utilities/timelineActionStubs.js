@@ -45,12 +45,12 @@ module.exports = {
     'user-portal-create-message',
     'user-schedule',
   ],
-  DealOwnerPageDealsList: [
-    'deal-feedback-visit',
-    'deal-confirm-visit',
-    'deal-confirm-visit-email',
-    'deal-feedback-visit-email',
-  ],
+  // DealOwnerPageDealsList: [
+  //   'deal-feedback-visit',
+  //   'deal-confirm-visit',
+  //   'deal-confirm-visit-email',
+  //   'deal-feedback-visit-email',
+  // ],
   BuyerSidebarPage: [
     'user-send-message',
     'user-schedule',

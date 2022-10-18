@@ -59,7 +59,7 @@
     "e2e": "npx cypress run --e2e --headless --browser chrome",
     "test-cypress": "npm run start-test & npm run e2e",
     "test-component": "cypress open --component",
-    "test-e2e": "npm run start-fast & cypress open --e2e",
+    "test-e2e": "npm run start-fast & cypress open --e2e --env flags='{\"feature-a\":true,\"feature-b\":false}'",
     "start-test": "node server.js"
   },
   "devDependencies": {
