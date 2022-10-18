@@ -20,7 +20,6 @@ import has from 'lodash/has';
 import { change, initializeForm, reset } from '@brixel/brixel-components/dist/form';
 import { setUserTypes } from '../../../actions/UserActions';
 import lazyWithRetry from '../../../components/LazyWithRetry';
-//import Loading from '../../../components/Loading';
 import {
   getPropertyListings,
   getActiveSingleProperty,
