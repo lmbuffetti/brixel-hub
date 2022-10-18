@@ -1,13 +1,13 @@
-import translateTo from '../utils/translation';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Cookies from 'universal-cookie';
-import browserDetection from '../utils/browserDetection';
 import { sendSlackNotification } from '../actions/CommonActions';
+import browserDetection from '../utils/browserDetection';
+import translateTo from '../utils/translation';
 
 const cookies = new Cookies();
 
@@ -27,8 +27,8 @@ class ErrorBoundary extends Component {
     if (pageHasAlreadyBeenForceRefreshed === false || pageHasAlreadyBeenForceRefreshed === 'false') {
       window.sessionStorage.setItem(PageHasBeenForceRefreshed, "true");
       setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+        // window.location.reload();
+      }, 4000);
     } else {
       if (typeof window !== 'undefined') {
         window.sessionStorage.setItem(PageHasBeenForceRefreshed, "false");
