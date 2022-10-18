@@ -27,10 +27,9 @@ const devMode = process.argv[process.argv.length - 1] === 'development';
 const getEnvBuild = process.argv[process.argv.length - 3];
 const mode = devMode ?  'development' : 'production';
 
-
 const PATHS = {
   src: path.join(__dirname, 'src'),
-  modules: path.join(__dirname, 'node_modules/@brixel/brixel-components'),
+  modules: path.join(__dirname, 'node_modules/@brixel/brixel-components/dist'),
   dist: path.join(__dirname, 'dist'),
 };
 
@@ -198,10 +197,8 @@ const clientConfig = (env) => {
     },
     plugins: [
       new CleanWebpackPlugin({
-        dry: false,
-        verbose: false,
-        cleanOnceBeforeBuildPatterns: ['*'],
-        dangerouslyAllowCleanPatternsOutsideProject: true,
+        dry: true,
+        verbose: true,
       }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
@@ -314,7 +311,39 @@ const clientConfig = (env) => {
       })
     )
     config.optimization = {
+      splitChunks: {
+        chunks: 'async',
+        minSize: 20000,
+        minRemainingSize: 0,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        enforceSizeThreshold: 50000,
+        cacheGroups: {
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce: true
+          }
+        },
+      },
+      emitOnErrors: true,
+      concatenateModules: true,
       removeAvailableModules: true,
+      mergeDuplicateChunks: true,
+      portableRecords: true,
+      removeEmptyChunks: true,
       nodeEnv: 'production',
       minimize: true,
       minimizer: [

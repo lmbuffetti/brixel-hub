@@ -82,6 +82,7 @@ const SingleDeal = (props) => {
   const [activeDealFeedback, setActiveDealFeedback] = useState({});
   const [showFullFeedback, setShowFullFeedback] = useState(false);
   const [showFullOffer, setShowFullOffer] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   const {
     factsOptions,
@@ -362,200 +363,251 @@ const SingleDeal = (props) => {
     },
   });
 
+  setTimeout(() => {setIsReady(true)}, 300);
+
   return (
     <>
       {
-        activeSingleDeal.id && (
-          <div className="dashboardContainer mt-0 mt-md-3 dis-f jc-b" id="dashboard">
-            <div className="w-perc-100">
-              <div className="single-deal dis-fl-col">
-                {/* top panel */}
-                <div className="actions dis-fl-row jc-b pb-2">
-                  <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
-                    <BrixelButtonIcon
-                      icon="arrow-left-small"
-                      ghost
-                      theme="dark"
-                      onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
-                    />
-                  </div>
-                  <OptionsDropdown showDesktop />
-                </div>
-                <div className="top dis-fl-row jc-b mb-0 mb-lg-4">
-                  <div className="user dis-fl-row col-7 p-2 p-lg-0">
-                    <BrixelAvatar
-                      baseURL={get(getConfigEnv, 'shortPath', '')}
-                      name={Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', null), get(activeSingleDeal, 'user.lastName', null), get(activeSingleDeal, 'user.name', null)) === 'No Name' ? get(activeSingleDeal, 'user.email', '') : Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', null), get(activeSingleDeal, 'user.lastName', null), get(activeSingleDeal, 'user.name', null))}
-                      profileId={get(activeSingleDeal.user, 'id', '')}
-                    />
-                    <div className="title dis-fl-col ml-2">
-                      <span
-                        className={`name dis-b fsize-500 fweight-500 ${get(activeSingleDeal, 'user.name') ? 'txtDark700' : 'txtDark100'}`}
-                      >
-                        {Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', null), get(activeSingleDeal, 'user.lastName', null), get(activeSingleDeal, 'user.name', null))}
-                      </span>
-                      <div className="dis-f">
-                        {
-                          get(activeSingleDeal, 'user.email', null) && (
-                            <a
-                              className="txtDark700 link mr-2"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href={`mailto:${activeSingleDeal.user.email}?subject=From Brixel`}
+        isReady ? (
+          <>
+            {
+              activeSingleDeal.id && (
+                <div className="dashboardContainer mt-0 mt-md-3 dis-f jc-b" id="dashboard">
+                  <div className="w-perc-100">
+                    <div className="single-deal dis-fl-col">
+                      {/* top panel */}
+                      <div className="actions dis-fl-row jc-b pb-2">
+                        <div className="pt-2 pr-1 pr-lg-0 pt-lg-0">
+                          <BrixelButtonIcon
+                            icon="arrow-left-small"
+                            ghost
+                            theme="dark"
+                            onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+                          />
+                        </div>
+                        <OptionsDropdown showDesktop />
+                      </div>
+                      <div className="top dis-fl-row jc-b mb-0 mb-lg-4">
+                        <div className="user dis-fl-row col-7 p-2 p-lg-0">
+                          <BrixelAvatar
+                            baseURL={get(getConfigEnv, 'shortPath', '')}
+                            name={Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', null), get(activeSingleDeal, 'user.lastName', null), get(activeSingleDeal, 'user.name', null)) === 'No Name' ? get(activeSingleDeal, 'user.email', '') : Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', null), get(activeSingleDeal, 'user.lastName', null), get(activeSingleDeal, 'user.name', null))}
+                            profileId={get(activeSingleDeal.user, 'id', '')}
+                          />
+                          <div className="title dis-fl-col ml-2">
+                            <span
+                              className={`name dis-b fsize-500 fweight-500 ${get(activeSingleDeal, 'user.name') ? 'txtDark700' : 'txtDark100'}`}
                             >
-                              {activeSingleDeal.user.email}
-                            </a>
-                          )
-                        }
-                        {
-                          get(activeSingleDeal, 'winner', null) && (
-                            <span className="cardTag green mr-2">{translateTo('Winner', lang)}</span>
-                          )
-                        }
-                        {
-                          !activeSingleDeal.active && (
-                            <span className="cardTag">{translateTo('Archived', lang)}</span>
-                          )
-                        }
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* middle panel */}
-                <div className="mid p-2 dis-fl-row flex-wrap mb-lg-2 pos-r">
-                  <div className="left dis-fl-col col-7 p-0 min-w-perc-100 min-w-perc-lg-0">
-                    <span className="fsize-200 overline tt-up mb-2">{translateTo('Information', lang)}</span>
-
-                    <div className="detail-part dis-fl-row">
-
-                      <div className="dis-fl-col col-6 p-0">
-                        <div className="dis-fl-col ta-l mb-2">
-                          <span className="subtitle fsize-200 txtDark200">{translateTo('Phone', lang)}</span>
-                          {
-                            get(activeSingleDeal, 'user.phone.number', null) ? (
-                              <span className="value txtDark700">{Helpers.telephoneFormat(activeSingleDeal.user.phone)}</span>
-                            ) : (
-                              <span className="value txtDark700">-</span>
-                            )
-                          }
+                              {Helpers.userNameVal(get(activeSingleDeal, 'user.firstName', null), get(activeSingleDeal, 'user.lastName', null), get(activeSingleDeal, 'user.name', null))}
+                            </span>
+                            <div className="dis-f">
+                              {
+                                get(activeSingleDeal, 'user.email', null) && (
+                                  <a
+                                    className="txtDark700 link mr-2"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    href={`mailto:${activeSingleDeal.user.email}?subject=From Brixel`}
+                                  >
+                                    {activeSingleDeal.user.email}
+                                  </a>
+                                )
+                              }
+                              {
+                                get(activeSingleDeal, 'winner', null) && (
+                                  <span className="cardTag green mr-2">{translateTo('Winner', lang)}</span>
+                                )
+                              }
+                              {
+                                !activeSingleDeal.active && (
+                                  <span className="cardTag">{translateTo('Archived', lang)}</span>
+                                )
+                              }
+                            </div>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="dis-fl-col col-6 p-0">
-                        <div className="dis-fl-col ta-l mb-2">
-                          <span className="subtitle fsize-200 txtDark200">{translateTo('Signed Up', lang)}</span>
-                          {
-                            get(activeSingleDeal, 'user.createdAt', null) ? (
-                              <span className="value txtDark700">{DateTime.fromMillis(activeSingleDeal.user.createdAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}</span>
-                            ) : (
-                              <span className="value txtDark700">-</span>
-                            )
-                          }
+                      {/* middle panel */}
+                      <div className="mid p-2 dis-fl-row flex-wrap mb-lg-2 pos-r">
+                        <div className="left dis-fl-col col-7 p-0 min-w-perc-100 min-w-perc-lg-0">
+                          <span className="fsize-200 overline tt-up mb-2">{translateTo('Information', lang)}</span>
+
+                          <div className="detail-part dis-fl-row">
+
+                            <div className="dis-fl-col col-6 p-0">
+                              <div className="dis-fl-col ta-l mb-2">
+                                <span className="subtitle fsize-200 txtDark200">{translateTo('Phone', lang)}</span>
+                                {
+                                  get(activeSingleDeal, 'user.phone.number', null) ? (
+                                    <span className="value txtDark700">{Helpers.telephoneFormat(activeSingleDeal.user.phone)}</span>
+                                  ) : (
+                                    <span className="value txtDark700">-</span>
+                                  )
+                                }
+                              </div>
+                            </div>
+
+                            <div className="dis-fl-col col-6 p-0">
+                              <div className="dis-fl-col ta-l mb-2">
+                                <span className="subtitle fsize-200 txtDark200">{translateTo('Signed Up', lang)}</span>
+                                {
+                                  get(activeSingleDeal, 'user.createdAt', null) ? (
+                                    <span className="value txtDark700">{DateTime.fromMillis(activeSingleDeal.user.createdAt, { locale: lang }).toFormat('dd LLL yy, H:mm')}</span>
+                                  ) : (
+                                    <span className="value txtDark700">-</span>
+                                  )
+                                }
+
+                              </div>
+                            </div>
+
+                          </div>
 
                         </div>
-                      </div>
-
-                    </div>
-
-                  </div>
-                  <div className="right dis-fl-col col-5 p-0 min-w-perc-100 min-w-perc-lg-0">
-                    {
-                      activeSingleDeal.id && (
-                        <ProgressBar
-                          lang={lang}
-                          className="mb-3"
-                          options={factsOptions.progressBarDealsOptions}
-                          progressState={has(activeSingleDeal, 'stage') ? activeSingleDeal.stage : ''}
-                          readOnly={false}
-                          updateProgressBarFunc={(value) => progressChange(value)}
-                        />
-                      )
-                    }
-
-                    <div className="mb-3 hide">
-                      <span className="overline mb-2">{translateTo('Showings', lang)}</span>
-                      <BrixelButtonSecondary
-                        className="p-0 as-fs"
-                        label={translateTo('Add date', lang)}
-                        rounded
-                        color="light"
-                        saturation={700}
-                        bgTransparent
-                        leftIcon="calendar"
-                        onClick={() => ''}
-                      />
-                    </div>
-                    <div className="hide">
-                      <span className="overline mb-2">{translateTo('Offers', lang)}</span>
-                      <BrixelButtonSecondary
-                        className="p-0 as-fs"
-                        label={translateTo('Add offer', lang)}
-                        rounded
-                        color="light"
-                        saturation={700}
-                        bgTransparent
-                        leftIcon="money"
-                        onClick={() => ''}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* bottom panel */}
-                <div className="bottom dis-fl-col dis-fl-row-sm w-perc-100 h-perc-100 py-3 pos-r">
-                  <OptionsDropdown
-                    btnClass="shadow-3dp"
-                    className="pos-a-fix x-t-0 x-r-0 mt-2-neg"
-                    showMobile
-                  />
-                  <Timeline
-                    countryLang={lang}
-                    isDeal
-                    className="col-12 col-sm-6 p-0"
-                  />
-                  <div className="dis-fl-col-md col-12 col-sm-6">
-                    {
-                      (get(activeSingleDeal, 'visit', null) && get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
-                        <>
-                          <span className="overline mb-3">{translateTo('Visit', lang)}</span>
-                          <div className="visit-container brdRadius shadow-1dp dis-fl-col p-small-12">
-                            <div className="dis-f a-c">
-                              <BrixelIcon
-                                icon={getIcon()}
-                                noBorder
-                                background={getBackground()}
-                                saturation={getSaturation()}
-                                color={getColor()}
-                                saturationTxt={700}
-                                className="mr-2"
+                        <div className="right dis-fl-col col-5 p-0 min-w-perc-100 min-w-perc-lg-0">
+                          {
+                            activeSingleDeal.id && (
+                              <ProgressBar
+                                lang={lang}
+                                className="mb-3"
+                                options={factsOptions.progressBarDealsOptions}
+                                progressState={has(activeSingleDeal, 'stage') ? activeSingleDeal.stage : ''}
+                                readOnly={false}
+                                updateProgressBarFunc={(value) => progressChange(value)}
                               />
-                              <span className={`txt${getTextColor()}`}>{DateTime.fromMillis(activeSingleDeal.visit, { locale: lang }).toFormat('d LLL yyyy, H:mm')}</span>
+                            )
+                          }
+
+                          <div className="mb-3 hide">
+                            <span className="overline mb-2">{translateTo('Showings', lang)}</span>
+                            <BrixelButtonSecondary
+                              className="p-0 as-fs"
+                              label={translateTo('Add date', lang)}
+                              rounded
+                              color="light"
+                              saturation={700}
+                              bgTransparent
+                              leftIcon="calendar"
+                              onClick={() => ''}
+                            />
+                          </div>
+                          <div className="hide">
+                            <span className="overline mb-2">{translateTo('Offers', lang)}</span>
+                            <BrixelButtonSecondary
+                              className="p-0 as-fs"
+                              label={translateTo('Add offer', lang)}
+                              rounded
+                              color="light"
+                              saturation={700}
+                              bgTransparent
+                              leftIcon="money"
+                              onClick={() => ''}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* bottom panel */}
+                      <div className="bottom dis-fl-col dis-fl-row-sm w-perc-100 h-perc-100 py-3 pos-r">
+                        <OptionsDropdown
+                          btnClass="shadow-3dp"
+                          className="pos-a-fix x-t-0 x-r-0 mt-2-neg"
+                          showMobile
+                        />
+                        <Timeline
+                          countryLang={lang}
+                          isDeal
+                          className="col-12 col-sm-6 p-0"
+                        />
+                        <div className="dis-fl-col-md col-12 col-sm-6">
+                          {
+                            (get(activeSingleDeal, 'visit', null) && get(activeSingleDeal, 'visit', '').toString().length !== 0) && (
+                              <>
+                                <span className="overline mb-3">{translateTo('Visit', lang)}</span>
+                                <div className="visit-container brdRadius shadow-1dp dis-fl-col p-small-12">
+                                  <div className="dis-f a-c">
+                                    <BrixelIcon
+                                      icon={getIcon()}
+                                      noBorder
+                                      background={getBackground()}
+                                      saturation={getSaturation()}
+                                      color={getColor()}
+                                      saturationTxt={700}
+                                      className="mr-2"
+                                    />
+                                    <span className={`txt${getTextColor()}`}>{DateTime.fromMillis(activeSingleDeal.visit, { locale: lang }).toFormat('d LLL yyyy, H:mm')}</span>
+                                  </div>
+                                  {
+                                    activeDealFeedback.createdAt && (
+                                      <div className="dis-fl-col">
+                                        <div className={`mt-1 dis-fl-row jc-b ${showFullFeedback === true ? 'mb-2' : ''}`}>
+                                          {
+                                            activeDealFeedback.meta.visitFeedback.isInterested === true ? (
+                                              <span className="txtDark700 fsize-300">{translateTo('Still interested 👍', lang)}</span>
+                                            ) : (
+                                              <span className="txtDark700 fsize-300">{translateTo('Not interested anymore 👎', lang)}</span>
+                                            )
+                                          }
+                                          <BrixelIcon
+                                            fontSize={8}
+                                            icon={`${showFullFeedback === true ? 'arrow-simple-up' : 'dropdown'}`}
+                                            className="txtDark700 cur-poi"
+                                            onClick={() => setShowFullFeedback(!showFullFeedback)}
+                                          />
+                                        </div>
+                                        {
+                                          showFullFeedback && (
+                                            <div
+                                              className="txtDark700 fsize-300"
+                                              dangerouslySetInnerHTML={{
+                                                __html: getCompleteFeedback(),
+                                              }}
+                                            />
+                                          )
+                                        }
+                                      </div>
+                                    )
+                                  }
+                                </div>
+                              </>
+                            )
+                          }
+
+                          <span className="overline mb-3">Offer</span>
+                          <div className="brdRadius shadow-1dp pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
+                            <div className="dis-fl-row jc-b">
+                              <div className="dis-f a-c">
+                                <BrixelIcon
+                                  icon="money"
+                                  noBorder
+                                  background={getOfferBackground()}
+                                  saturation={getOfferSaturation()}
+                                  color={getOfferColor()}
+                                  saturationTxt={700}
+                                  className="mr-2"
+                                />
+                                <span className={`txt${getOfferTextColor()}`}>{getOfferText()}</span>
+                              </div>
                             </div>
                             {
-                              activeDealFeedback.createdAt && (
+                              has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
                                 <div className="dis-fl-col">
-                                  <div className={`mt-1 dis-fl-row jc-b ${showFullFeedback === true ? 'mb-2' : ''}`}>
-                                    {
-                                      activeDealFeedback.meta.visitFeedback.isInterested === true ? (
-                                        <span className="txtDark700 fsize-300">{translateTo('Still interested 👍', lang)}</span>
-                                      ) : (
-                                        <span className="txtDark700 fsize-300">{translateTo('Not interested anymore 👎', lang)}</span>
-                                      )
-                                    }
+                                  <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
+                                    <span className="txtDark700 fsize-300">{translateTo('Offer details:', lang)}</span>
                                     <BrixelIcon
                                       fontSize={8}
-                                      icon={`${showFullFeedback === true ? 'arrow-simple-up' : 'dropdown'}`}
-                                      className="txtDark700 cur-poi"
-                                      onClick={() => setShowFullFeedback(!showFullFeedback)}
+                                      icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
+                                      className="txtDark700 cur-poi pr-1"
+                                      onClick={() => setShowFullOffer(!showFullOffer)}
                                     />
                                   </div>
                                   {
-                                    showFullFeedback && (
+                                    showFullOffer && (
                                       <div
                                         className="txtDark700 fsize-300"
                                         dangerouslySetInnerHTML={{
-                                          __html: getCompleteFeedback(),
+                                          __html: getCompleteOffer(),
                                         }}
                                       />
                                     )
@@ -564,54 +616,62 @@ const SingleDeal = (props) => {
                               )
                             }
                           </div>
-                        </>
-                      )
-                    }
-
-                    <span className="overline mb-3">Offer</span>
-                    <div className="brdRadius shadow-1dp pos-r dis-fl-col bgWhite p-small-12 w-perc-100">
-                      <div className="dis-fl-row jc-b">
-                        <div className="dis-f a-c">
-                          <BrixelIcon
-                            icon="money"
-                            noBorder
-                            background={getOfferBackground()}
-                            saturation={getOfferSaturation()}
-                            color={getOfferColor()}
-                            saturationTxt={700}
-                            className="mr-2"
-                          />
-                          <span className={`txt${getOfferTextColor()}`}>{getOfferText()}</span>
                         </div>
                       </div>
-                      {
-                        has(activeSingleDeal, 'closing.stageOffer.offer.status') && (
-                          <div className="dis-fl-col">
-                            <div className={`mt-1 dis-fl-row jc-b ${showFullOffer === true ? 'mb-2' : ''}`}>
-                              <span className="txtDark700 fsize-300">{translateTo('Offer details:', lang)}</span>
-                              <BrixelIcon
-                                fontSize={8}
-                                icon={`${showFullOffer === true ? 'arrow-simple-up' : 'dropdown'}`}
-                                className="txtDark700 cur-poi pr-1"
-                                onClick={() => setShowFullOffer(!showFullOffer)}
-                              />
-                            </div>
-                            {
-                              showFullOffer && (
-                                <div
-                                  className="txtDark700 fsize-300"
-                                  dangerouslySetInnerHTML={{
-                                    __html: getCompleteOffer(),
-                                  }}
-                                />
-                              )
-                            }
-                          </div>
-                        )
-                      }
                     </div>
                   </div>
                 </div>
+              )
+            }
+          </>
+        ) : (
+          <div className="dashboardContainer mt-0 mt-md-3" id="dashboard">
+            <div className="pb-2">
+              <BrixelButtonIcon
+                icon="arrow-left-small"
+                ghost
+                theme="dark"
+                onClick={() => history.push(`/${activeSingleProperty.id}/prospects`)}
+              />
+            </div>
+            <div className="dis-f mt-2 mt-lg-0 p-2 p-lg-0 mb-lg-4">
+              <div className="w-fix-40 h-fix-40 brdCircle skeletonBg"></div>
+              <div className="div">
+                <div className='w-fix-96 skeletonBg h-fix-24 ml-2' />
+                <div className='w-fix-192 skeletonBg h-fix-16 mt-1 ml-2' />
+              </div>
+            </div>
+            <div className="py-2 px-lg-0 dis-f flex-wrap mb-lg-2 pos-r">
+              <div className="col-12 col-lg-7 pr-0">
+                <div className='w-fix-96 skeletonBg h-fix-24' />
+                <div className="dis-f">
+                  <div className="mt-2 dis-fl-col w-perc-50">
+                    <div className='w-fix-96 skeletonBg h-fix-8' />
+                    <div className='w-fix-192 skeletonBg h-fix-16 mt-1' />
+                  </div>
+                  <div className="mt-2 dis-fl-col w-perc-50">
+                    <div className='w-fix-96 skeletonBg h-fix-8' />
+                    <div className='w-fix-192 skeletonBg h-fix-16 mt-1' />
+                  </div>
+                </div>
+              </div>
+              <div className="col-5 px-lg-0 mt-3 mt-lg-0">
+                <div className='w-fix-96 skeletonBg h-fix-24' />
+                <div className="dis-f jc-b">
+                  <div className="mt-2 dis-fl-col">
+                    <div className='w-fix-192 skeletonBg h-fix-16 mt-1' />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="dis-fl-col dis-fl-row-sm jc-b py-3 px-2 mt-3 mt-lg-5 h-perc-100">
+              <div className="w-perc-100 w-perc-sm-50 pr-sm-2 h-perc-50">
+                <div className="w-fix-96 skeletonBg h-fix-8"></div>
+                <div className="w-perc-100 brdRadius skeletonBg h-perc-100 mt-3"></div>
+              </div>
+              <div className="w-perc-100 w-perc-sm-50 pl-sm-2 h-perc-50">
+                <div className="w-fix-96 skeletonBg h-fix-8"></div>
+                <div className="w-perc-100 brdRadius skeletonBg h-perc-100 mt-3"></div>
               </div>
             </div>
           </div>

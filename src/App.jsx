@@ -1,5 +1,4 @@
 /* global ga, gtag, Transifex */
-// COMPONENTS
 import { BrixelIcon, BrixelModal, BrixelNotification } from '@brixel/brixel-components';
 import BrixelPage500 from '@brixel/brixel-components/dist/components/BrixelPage500';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
@@ -9,8 +8,9 @@ import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
+// COMPONENTS
+import React, { Fragment, lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Fragment, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
@@ -31,8 +31,6 @@ import { checkToken, setUserTypes } from './actions/UserActions';
 import BestimateCardOverlay from './components/BestimateCardOverlay';
 import WizardCard from './components/Cards/WizardCard';
 import PageFooter from './components/Footer/PageFooter';
-
-import lazyWithRetry from './components/LazyWithRetry';
 import Loading from './components/Loading';
 // IMAGES
 import Android192 from './images/android-icon-192x192.png';
@@ -43,63 +41,63 @@ import AppleTouch76 from './images/apple-touch-icon-76x76.png';
 import browserDetection from './utils/browserDetection';
 import translateTo from './utils/translation';
 
-const SplashScreen = lazyWithRetry(() => import('./components/SplashScreen'));
-const Support = lazyWithRetry(() => import('./components/Support'));
-const ErrorBoundering = lazyWithRetry(() => import('./components/ErrorBoundering'));
+const SplashScreen = lazy(() => import('./components/SplashScreen'));
+const Support = lazy(() => import('./components/Support'));
+const ErrorBoundering = lazy(() => import('./components/ErrorBoundering'));
 // GET STARTED AND ADD PROPERTY
-const GetStarted = lazyWithRetry(() => import('./Pages/PackageFlow/GetStarted'));
-const GetStartedSeller = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedSeller'));
-const GetStartedBuyer = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedBuyer'));
-const GetStartedEstimation = lazyWithRetry(() => import('./Pages/PackageFlow/GetStartedEstimation'));
-const TermsCondition = lazyWithRetry(() => import('./Pages/PackageFlow/TermsCondition'));
-const WelcomeSeller = lazyWithRetry(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
-const ScanTrialFlow = lazyWithRetry(() => import('./Pages/PackageFlow/ScanTrialFlow'));
-const MakeOffer = lazyWithRetry(() => import('./Pages/Closing/Offers/Flow/MakeOffer'));
-const Financing = lazyWithRetry(() => import('./Pages/Closing/Financing/Financing'));
-const IdentificationFlow = lazyWithRetry(() => import('./Pages/Closing/Identification/IdentificationFlow'));
+const GetStarted = lazy(() => import('./Pages/PackageFlow/GetStarted'));
+const GetStartedSeller = lazy(() => import('./Pages/PackageFlow/GetStartedSeller'));
+const GetStartedBuyer = lazy(() => import('./Pages/PackageFlow/GetStartedBuyer'));
+const GetStartedEstimation = lazy(() => import('./Pages/PackageFlow/GetStartedEstimation'));
+const TermsCondition = lazy(() => import('./Pages/PackageFlow/TermsCondition'));
+const WelcomeSeller = lazy(() => import('./Pages/WelcomeSellerModal/WelcomeSeller'));
+const ScanTrialFlow = lazy(() => import('./Pages/PackageFlow/ScanTrialFlow'));
+const MakeOffer = lazy(() => import('./Pages/Closing/Offers/Flow/MakeOffer'));
+const Financing = lazy(() => import('./Pages/Closing/Financing/Financing'));
+const IdentificationFlow = lazy(() => import('./Pages/Closing/Identification/IdentificationFlow'));
 
 // GENERAL COMPONENTS
-const PageHeader = lazyWithRetry(() => import('./components/Header/PageHeader'));
+const PageHeader = lazy(() => import('./components/Header/PageHeader'));
 
-const MenuSidebar = lazyWithRetry(() => import('./components/Header/MenuSidebar'));
+const MenuSidebar = lazy(() => import('./components/Header/MenuSidebar'));
 
 // ADMIN ROUTES
-const ProtectedRoute = lazyWithRetry(() => import('./components/ProtectedRoute'));
+const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
 
-const InsertToken = lazyWithRetry(() => import('./Pages/InsertToken'));
+const InsertToken = lazy(() => import('./Pages/InsertToken'));
 
 // HUB DASHBOARD - SELLER
-const DashboardSeller = lazyWithRetry(() => import('./Pages/Dashboard/Seller/Dashboard'));
+const DashboardSeller = lazy(() => import('./Pages/Dashboard/Seller/Dashboard'));
 
 // HUB DASHBOARD - BUYER
-const DashboardBuyer = lazyWithRetry(() => import('./Pages/Dashboard/Buyer/Dashboard'));
+const DashboardBuyer = lazy(() => import('./Pages/Dashboard/Buyer/Dashboard'));
 
 // PARTNER
-const Contact = lazyWithRetry(() => import('./Pages/ContactFlow/Companies/Contact'));
+const Contact = lazy(() => import('./Pages/ContactFlow/Companies/Contact'));
 
 // FLOW SELLER
-const Bestimate = lazyWithRetry(() => import('./Pages/Bestimate'));
+const Bestimate = lazy(() => import('./Pages/Bestimate'));
 
-const ProEstimationFlow = lazyWithRetry(() => import('./Pages/SingleProperty/ProEstimationFlow'));
+const ProEstimationFlow = lazy(() => import('./Pages/SingleProperty/ProEstimationFlow'));
 
-const BrixelModalFullScreen = lazyWithRetry(() => import('./components/BrixelModalFullScreen'));
+const BrixelModalFullScreen = lazy(() => import('./components/BrixelModalFullScreen'));
 
-const SingleDocument = lazyWithRetry(() => import('./Pages/SingleProperty/SingleDocument'));
+const SingleDocument = lazy(() => import('./Pages/SingleProperty/SingleDocument'));
 
-const CreateDeal = lazyWithRetry(() => import('./Pages/Deals/CreateDeal'));
-const VisitFeedback = lazyWithRetry(() => import('./Pages/Deals/VisitFeedback'));
+const CreateDeal = lazy(() => import('./Pages/Deals/CreateDeal'));
+const VisitFeedback = lazy(() => import('./Pages/Deals/VisitFeedback'));
 
-const AddShowingsBuyer = lazyWithRetry(() => import('./Pages/Dashboard/Buyer/AddShowingsBuyer'));
+const AddShowingsBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddShowingsBuyer'));
 
-const AddContactBuyer = lazyWithRetry(() => import('./Pages/Dashboard/Buyer/AddContactBuyer'));
+const AddContactBuyer = lazy(() => import('./Pages/Dashboard/Buyer/AddContactBuyer'));
 
-const SingleDeal = lazyWithRetry(() => import('./Pages/Deals/SingleDeal'));
+const SingleDeal = lazy(() => import('./Pages/Deals/SingleDeal'));
 
-const MarketSeller = lazyWithRetry(() => import('./Pages/Market/MarketSeller'));
+const MarketSeller = lazy(() => import('./Pages/Market/MarketSeller'));
 
-const MarketBuyer = lazyWithRetry(() => import('./Pages/Market/MarketBuyer'));
+const MarketBuyer = lazy(() => import('./Pages/Market/MarketBuyer'));
 
-const WarningScreen = lazyWithRetry(() => import('./components/WarningScreen'));
+const WarningScreen = lazy(() => import('./components/WarningScreen'));
 
 const cookies = new Cookies();
 
