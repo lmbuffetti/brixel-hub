@@ -579,7 +579,7 @@ const DashboardHome = (props) => {
         {
           progressState.step >= 3 && progressState.step <= 5 && (
             <>
-              <div className="dis-f jc-b flex-wrap">
+              <div className="dis-fl-col dis-fl-row-md jc-b flex-wrap">
                 <div className="w-perc-100 w-perc-md-67 pr-md-1 pr-lg-0 pr-xl-1">
                   <DashboardPropertyCard
                     lang={lang}
@@ -587,7 +587,7 @@ const DashboardHome = (props) => {
                   />
                 </div>
                 <div
-                  className="w-perc-100 w-perc-md-33 pl-md-1 pl-lg-0 pl-xl-1 mt-md-0 mt-lg-3 mt-xl-0"
+                  className="w-perc-100 w-perc-md-33 pl-md-1 pl-lg-0 pl-xl-1 mt-xl-0"
                 >
                   <Link
                     to={`/${activeSingleProperty.id}/marketing`}

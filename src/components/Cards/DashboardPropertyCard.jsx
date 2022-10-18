@@ -178,7 +178,7 @@ const DashboardPropertyCard = (props) => {
               <>
                 {
                   smallLayout ? (
-                    <div className="dis-fl-col dis-fl-row-sm jc-b a-c w-perc-100">
+                    <div className="dis-fl-col dis-fl-row-sm flex-wrap jc-b a-c w-perc-100">
                       <div className="dis-f a-c mr-a mr-sm-0">
                         <BrixelIcon
                           background="blue"

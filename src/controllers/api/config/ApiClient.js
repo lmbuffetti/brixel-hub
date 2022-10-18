@@ -1,7 +1,7 @@
 import getConfigEnv from '@brixel/brixel-components/dist/configuration/Settings';
 import axios from 'axios';
 import get from 'lodash/get';
-import queryString from 'query-string';
+import { parse, stringify } from 'qs';
 import Cookies from 'universal-cookie';
 import { failureHandler, successHandler } from '../utils/api.helper';
 
@@ -143,10 +143,9 @@ class ApiClient {
       baseURL: baseUrl,
       params,
       validateStatus: false,
-      paramsSerializer(p) {
-        return queryString.stringify(p, {
-          encode: true,
-        });
+      paramsSerializer: {
+        encode: parse,
+        serialize: stringify,
       },
       headers: head,
       withCredentials: false,

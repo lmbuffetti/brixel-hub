@@ -664,7 +664,7 @@ const SingleDeal = (props) => {
                 </div>
               </div>
             </div>
-            <div className="dis-fl-col dis-fl-row-sm jc-b py-3 px-2 mt-3 mt-lg-5 h-perc-100">
+            <div className="dis-fl-col dis-fl-row-sm jc-b py-3 px-2 mt-3 mt-lg-5 h-perc-50">
               <div className="w-perc-100 w-perc-sm-50 pr-sm-2 h-perc-50">
                 <div className="w-fix-96 skeletonBg h-fix-8"></div>
                 <div className="w-perc-100 brdRadius skeletonBg h-perc-100 mt-3"></div>
