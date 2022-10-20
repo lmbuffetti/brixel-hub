@@ -85,23 +85,24 @@ const MarketCategoryListSeller = (props) => {
     skeleton,
     splashScreenType,
   } = props;
-  
+
   const marketCookie = getCookie('brixelMarketBestimate');
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
   const [propertyId, setPropertyId] = useState(null);
+  const [isReady, setIsReady] = useState(false);
   const [activeCompanyId, setActiveCompanyId] = useState(null);
   const [companyDetail, setCompanyDetail] = useState({ });
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [artByCountry, setArtByCountry] = useState(ArticlesList.default);
-  
+
   useEffect(() => {
     setBestimateMessage(marketCookie === 'true');
   }, [marketCookie]);
-  
+
   useEffect(() => {
     handleGetCompanyListing();
   }, []);
-  
+
   useEffect(() => {
     if (companyListings.length > 0) {
       if (propertyId) {
@@ -113,7 +114,7 @@ const MarketCategoryListSeller = (props) => {
       } else handleSetActiveSingleProperty({});
     }
   }, [propertyId, companyListings.length]);
-  
+
   useEffect(() => {
     if (activeSingleCompanyPackages.length > 0) {
       const packages = activeSingleCompanyPackages;
@@ -130,7 +131,7 @@ const MarketCategoryListSeller = (props) => {
       setFilteredPackages(filtPkg);
     }
   }, [activeSingleCompanyPackages, activeSinglePropertyPackage]);
-  
+
   // Update market card when bestimate changes
   useEffect(() => {
     if (getCookie('brixelSplashHome') === 'bestimateResult' && get(ownerProperties, 'data', []).length > 0) {
@@ -164,7 +165,7 @@ const MarketCategoryListSeller = (props) => {
       setPropertyId(ownerProperties.data[0].id);
     }
   }, [getCookie('brixelSplashHome'), ownerProperties, notification]);
-  
+
   useEffect(() => {
     if (has(ownerProperties, 'total')) {
       if (ownerProperties.total === 0) {
@@ -179,35 +180,35 @@ const MarketCategoryListSeller = (props) => {
       }
     }
   }, [ownerProperties, loggedInUser]);
-  
-  
+
+
   const onCloseBestimateResult = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
     setSplashScreen('');
     setPropertyEstimation({});
   };
-  
+
   const onCloseBestimateTeaser = () => {
     setCookie('brixelMarketBestimate', true);
     setBestimateMessage(true);
     setSplashScreen('');
   };
-  
+
   const onBestimateFlow = () => {
     history.push(`/${activeMarketOverlayProperty.id}/singleFlow/achievement/bestimate/step1`);
     setMarketOverlayProperty({});
     setSplashScreen('');
     handleSetHistory({ source: '/sell' });
   };
-  
+
   const openSupport = (e) => {
     e.preventDefault();
     history.push({ state: { showSupport: true } });
     setSplashScreen('');
     setCookie('brixelSplashHome', null);
   };
-  
+
   useEffect(() => {
     const catList = document.getElementsByClassName('market-container')[0];
     if (catList) catList.classList.add('market-listings');
@@ -215,7 +216,7 @@ const MarketCategoryListSeller = (props) => {
       if (catList) catList.classList.remove('market-listings');
     };
   }, []);
-  
+
   useEffect(() => {
     if (companyListings && activeCompanyId) {
       const actCompany = companyListings.find((item) => item.id === activeCompanyId);
@@ -224,7 +225,7 @@ const MarketCategoryListSeller = (props) => {
       setArtByCountry(ArticlesList[actCountry] || ArticlesList.default);
     }
   }, [activeCompanyId, companyListings]);
-  
+
   useEffect(() => {
     if (activeCompanyId && !isSmallLoading.pkgComapny) {
       const dataCompany = {
@@ -234,15 +235,15 @@ const MarketCategoryListSeller = (props) => {
       handleGetActiveCompanyPackages(dataCompany);
     }
   }, [activeCompanyId]);
-  
-  
+
+
   const bookNow = () => {
     if (propertyId) {
       localStorage.setItem('backUrl', '/sell');
       history.push(`/${propertyId}/trialRequest?url${baseByData.hubUrl}sell`);
     }
   };
-  
+
   const getCompanyStub = () => {
     // TODO: Company management for "Add new" property flow
     if (ownerProperties.total === 0) return get(activeSingleCompany, 'stub', '')
@@ -251,7 +252,11 @@ const MarketCategoryListSeller = (props) => {
       return company.stub;
     }
   };
-  
+
+  useEffect(()=> {
+    if (ownerProperties.total !== 0 && ownerProperties.total === undefined) setIsReady(true);
+  }, [])
+
   return (
     <Suspense fallback="">
       {/* SECTION: bestimate result */}
@@ -265,7 +270,7 @@ const MarketCategoryListSeller = (props) => {
           />
         )
       }
-      
+
       {/* SECTION: bestimate teaser */}
       {
         (!bestimateMessage && splashScreenType === 'bestimateTeaser') && (
@@ -289,9 +294,9 @@ const MarketCategoryListSeller = (props) => {
                     <span className="max-w-fix-448 ta-c txtDark700 py-2">
                       {translateTo('Our experts are validating the data and generating an estimation report just for you.', lang)}
                     </span>
-                    
-                    <img loading="lazy" src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
-                    
+
+                    <img src={generatingBestimate} alt="Generating Bestimate" className="w-fix-160 my-5" />
+
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                       <span>
                         {translateTo('If you have any questions please contact our', lang)}
@@ -323,9 +328,9 @@ const MarketCategoryListSeller = (props) => {
                     <span className="max-w-fix-448 ta-c txtDark700 py-2">
                       {translateTo('Compare your property to real transaction data to better define the pricing.', lang)}
                     </span>
-                    
-                    <img loading="lazy" src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
-                    
+
+                    <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+
                     <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                       <span
                         className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
@@ -351,7 +356,7 @@ const MarketCategoryListSeller = (props) => {
           </SplashScreen>
         )
       }
-      
+
       {/* SECTION: bestimate missing */}
       {
         (!bestimateMessage && splashScreenType === 'bestimateResult' && (bestimate.higherValue === 0 || get(estimation, 'status', 'active') === 'pending')) && (
@@ -372,9 +377,9 @@ const MarketCategoryListSeller = (props) => {
               <span className="max-w-fix-448 ta-c txtDark700 py-2">
                 {translateTo('We could not calculate your Bestimate®. No problem. Our support team will do it for you manually.', lang)}
               </span>
-              
-              <img loading="lazy" src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
-              
+
+              <img src={startBestimate} alt="Generating Bestimate" className="w-fix-96 my-5" />
+
               <div className="dis-fl-col dis-fl-row-sm jc-c a-c pos-r w-perc-100">
                 <span
                   className="pos-a-fix-sm mb-2 mb-sm-0 x-l-0 txtPrimary400 fweight-500 cur-poi"
@@ -396,12 +401,12 @@ const MarketCategoryListSeller = (props) => {
           </SplashScreen>
         )
       }
-      
+
       {
         ownerProperties.total === 0 ? (
           <div className="px-2 px-md-0 mb-5 mb-sm-3">
             <div className="p-2 px-sm-3 brdRadius brdSmall brdLight200 bgWhite shadow-2dp min-h-fix-240 max-w-fix-800 ml-a mr-a pos-r mb-8 py-5 py-3">
-              <img loading="lazy" className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
+              <img className="ml-a mr-a dis-b" width="80" src={EmptyHubImg} alt="Emtpy Hub" />
               <h4 className="ta-c mt-3 mb-2 fweight-700 mb-2">
                 {translateTo('Anybody home?', lang)}
               </h4>
@@ -433,7 +438,7 @@ const MarketCategoryListSeller = (props) => {
                 onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
               />
             </div>
-            
+
             {
               ownerProperties.total > 0 && (
                 <>
@@ -443,60 +448,94 @@ const MarketCategoryListSeller = (props) => {
                         className="shadow-3dp p-2 mt-3 brdRadiusSmall"
                         key={`ownProp_${i.toString()}`}
                       >
+
                         {
-                          i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) && (
-                            <div
-                              className="w-perc-100 dis-f a-c jc-fs bgBlue100 brdRadiusSmall px-2 px-md-6 mb-2 mb-sm-3 cur-poi"
-                              onClick={() => history.push(`/${prop.id}/trialRequest?url=/sell`)}
-                            >
-                              <div className="hide dis-b-md">
-                                <img loading="lazy" width="176" height="158" src={testdrive} alt="testdrive" />
-                              </div>
-                              <div className="ml-md-5">
-                                <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">
-                                  {translateTo('Test drive our service. No strings attached.', lang)}
-                                </h3>
-                                <h5 className="fweight-400 fsize-300 fsize-md-400 mt-1 mb-1 mb-sm-3 txtBlue700">
-                                  {
-                                    companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
-                                      <>
-                                        <span>
-                                          {translateTo('Get the full Brixel experience worth', lang)}
-                                        </span>
-                                        <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
-                                      </>
-                                    ) : (
-                                      <span>
-                                        {translateTo('Get the full Brixel experience', lang)}
-                                      </span>
-                                    )
-                                  }
-                                </h5>
-                                <div>
-                                  <ul className="checked markerDot mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
-                                    <li>
-                                      {translateTo('Personal consultation', lang)}
-                                    </li>
-                                    <li className="pl-sm-2" dangerouslySetInnerHTML={{ __html: translateTo('Free 3D tour &amp; HD photos', lang)}} />
-                                    <li className="pl-sm-2">
-                                      {translateTo('Full estimation by an expert', lang)}
-                                    </li>
-                                  </ul>
+                          isReady ? (
+                            <>
+                              {
+                                i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) ? (
+                                  <div
+                                    className="w-perc-100 dis-f bgBlue100 brdRadiusSmall px-2 pl-md-0 pr-md-6 mb-2 mb-sm-3 cur-poi"
+                                    onClick={() => history.push(`/${prop.id}/trialRequest?url=/sell`)}
+                                  >
+                                    <div className="hide dis-b-md">
+                                      <img width="176" height="158" src={testdrive} alt="testdrive" />
+                                    </div>
+                                    <div className="ml-md-5">
+                                      <h3 className="fsize-500 fsize-md-700 fweight-600 pt-2">
+                                        {translateTo('Test drive our service. No strings attached.', lang)}
+                                      </h3>
+                                      <h5 className="fweight-400 fsize-300 fsize-md-400 mt-1 mb-1 mb-sm-3 txtBlue700">
+                                        {
+                                          companyDetail && get(companyDetail, 'meta.teaserPackage.price', 0) > 0 ? (
+                                            <>
+                                              <span>
+                                                {translateTo('Get the full Brixel experience worth', lang)}
+                                              </span>
+                                              <span className="ml-small-4">{get(companyDetail, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(companyDetail, 'meta.teaserPackage.price', ''), get(companyDetail, 'meta.teaserPackage.currency', ''))}.</span>
+                                            </>
+                                          ) : (
+                                            <span>
+                                              {translateTo('Get the full Brixel experience', lang)}
+                                            </span>
+                                          )
+                                        }
+                                      </h5>
+                                      <div>
+                                        <ul className="checked markerDot mt-1 mt-md-4 txtDark700 dis-fl-row-sm fsize-400 mb-2 hide">
+                                          <li>
+                                            {translateTo('Personal consultation', lang)}
+                                          </li>
+                                          <li className="pl-sm-2" dangerouslySetInnerHTML={{ __html: translateTo('Free 3D tour &amp; HD photos', lang)}} />
+                                          <li className="pl-sm-2">
+                                            {translateTo('Full estimation by an expert', lang)}
+                                          </li>
+                                        </ul>
+                                      </div>
+
+                                    </div>
+
+                                  </div>
+                                ) : (
+                                  <div className='w-perc-100 dis-f ov-h brdRadius skeletonBg h-fix-md-152 mb-4'>
+                                    <div className="w-fix-216 skeletonBgInner hide dis-b-md" />
+                                    <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
+                                      <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
+                                      <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
+                                      <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
+                                    </div>
+                                  </div>
+                                )
+                              }
+
+                              <MarketCard
+                                layout="singleOwnCard"
+                                type="own"
+                                item={prop}
+                                onSetActiveProperty={(id) => setPropertyId(id)}
+                                bookProp={() => bookNow()}
+                                lang={lang}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <div className="m-a w-perc-100">
+                                <div className='w-perc-100 dis-f brdRadius skeletonBg h-fix-md-152 mb-4 ov-h'>
+                                  <div className="w-fix-216 hide dis-b-md skeletonBgInner" />
+                                  <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
+                                    <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
+                                    <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
+                                    <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
+                                  </div>
                                 </div>
-                              
+                                <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
+                                <hr className="lighter hide dis-b-sm pos-a-fix mt-4-neg max-w-perc-97" />
+                                <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                               </div>
-                            
-                            </div>
+
+                            </>
                           )
                         }
-                        <MarketCard
-                          layout="singleOwnCard"
-                          type="own"
-                          item={prop}
-                          onSetActiveProperty={(id) => setPropertyId(id)}
-                          bookProp={() => bookNow()}
-                          lang={lang}
-                        />
                       </div>
                     ))
                   }
@@ -508,15 +547,23 @@ const MarketCategoryListSeller = (props) => {
                 <div className="marketSellBanner mb-10">
                   <div className="m-a w-perc-100">
                     <div className="brdRadius shadow-3dp p-2 mb-3 mt-3 pb-4">
-                      <img loading="lazy" className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
+                      <div className='w-perc-100 ov-h dis-f brdRadius skeletonBg h-fix-md-152 mb-4'>
+                        <div className="w-fix-216 hide dis-b-md skeletonBgInner" />
+                        <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
+                          <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
+                          <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
+                          <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
+                        </div>
+                      </div>
+                      <img className="hide dis-b-sm" src={skeletonOwnCard} alt="marketSkelton" />
                       <hr className="lighter hide dis-b-sm pos-a-fix mt-4-neg max-w-perc-97" />
-                      <img loading="lazy" className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
+                      <img className="hide-sm m-a dis-b" src={marketSkeltonMobile} alt="marketSkelton" />
                     </div>
                   </div>
                 </div>
               )
             }
-            
+
             {
               ownerProperties.total > 0 && (
                 <BrixelButtonSecondary
@@ -528,17 +575,17 @@ const MarketCategoryListSeller = (props) => {
                 />
               )
             }
-          
+
           </div>
         )
       }
-      
+
       <div className="bgLight100 pt-6 pt-sm-8 pb-4 pb-sm-7">
         <div className="container">
           <h3 className="ta-c mb-7 max-w-fix-416 fsize-600 fsize-sm-800 fweight-600 m-a">
             {translateTo('Boost your private sale with an upgrade.', lang)}
           </h3>
-          
+
           <div className="dis-fl-col dis-fl-row-sm jc-c pkgsWrap">
             {
               (filteredPackages.length === 0 && (isSmallLoading.loadPackages !== false || skeleton.own)) ? (
@@ -609,13 +656,13 @@ const MarketCategoryListSeller = (props) => {
               )
             }
           </div>
-          
+
           <div className="dis-fl-col dis-fl-row-sm jc-c a-c mt-4">
             <BrixelButtonPrimary
               rounded
               label={translateTo('Upgrade your plan', lang)}
               onClick={() => window.location.assign(`/${get(ownerProperties, 'data[0].id', 'company')}/upgrade`)}
-            
+
             />
             <span className="mx-sm-1 mt-2 my-sm-0">{translateTo('or', lang)}</span>
             <BrixelButtonText
@@ -625,15 +672,15 @@ const MarketCategoryListSeller = (props) => {
               theme="AltGrey"
               themeSat={700}
             />
-          
+
           </div>
         </div>
       </div>
-      
+
       <div className="mt-6 mt-sm-10">
         <div className="container">
           <h4 className="mb-4 fweight-600 txtDark700">{translateTo('This may interest you', lang)}</h4>
-          
+
           <div className="dis-fl-col dis-fl-row-sm a-t flex-wrap">
             {
               artByCountry.map((article, i) => (
@@ -642,7 +689,7 @@ const MarketCategoryListSeller = (props) => {
                   className={`dis-fl-col jc-b a-t w-perc-100 w-perc-sm-50 mb-3 mb-sm-0 ${i % 2 === 0 ? 'pr-0 pr-sm-2' : 'pl-0 pl-sm-2'}`}
                 >
                   <a className="txtDark700 td-u fsize-300 mb-3 dis-b" href={article.url} target="_blank" rel="noreferrer">
-                    <img loading="lazy" src={article.img} alt={`Article ${i}`} />
+                    <img src={article.img} alt={`Article ${i}`} />
                   </a>
                   {article.title && (<h5 className=" fweight-600 mb-1">{translateTo(article.title, lang)}</h5>)}
                   <p className="mb-2 txtDark700">{translateTo(article.desc, lang)}</p>
@@ -651,12 +698,12 @@ const MarketCategoryListSeller = (props) => {
               ))
             }
           </div>
-        
+
         </div>
       </div>
-      
+
       <span className="mt-4 mb-6 hr lighter" />
-      
+
       <div className="mb-5 mb-sm-10">
         <div className="container">
           {
