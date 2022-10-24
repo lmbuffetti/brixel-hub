@@ -89,7 +89,6 @@ const MarketCategoryListSeller = (props) => {
   const marketCookie = getCookie('brixelMarketBestimate');
   const [bestimateMessage, setBestimateMessage] = useState(marketCookie === 'true');
   const [propertyId, setPropertyId] = useState(null);
-  const [isReady, setIsReady] = useState(false);
   const [activeCompanyId, setActiveCompanyId] = useState(null);
   const [companyDetail, setCompanyDetail] = useState({ });
   const [filteredPackages, setFilteredPackages] = useState([]);
@@ -252,10 +251,6 @@ const MarketCategoryListSeller = (props) => {
       return company.stub;
     }
   };
-
-  useEffect(()=> {
-    if (ownerProperties.total !== 0 && ownerProperties.total === undefined) setIsReady(true);
-  }, [])
 
   return (
     <Suspense fallback="">
@@ -438,7 +433,6 @@ const MarketCategoryListSeller = (props) => {
                 onClick={() => history.push(`/packageFlow/getStarted?company=${getCompanyStub()}`)}
               />
             </div>
-
             {
               ownerProperties.total > 0 && (
                 <>
@@ -450,7 +444,7 @@ const MarketCategoryListSeller = (props) => {
                       >
 
                         {
-                          isReady ? (
+                          ownerProperties.total > 0 ? (
                             <>
                               {
                                 i === 0 && ((prop.servicePackage && prop.servicePackage.length === 0) || (get(prop, 'servicePackage[0].servicePackage.type', '') === 'basic')) ? (
