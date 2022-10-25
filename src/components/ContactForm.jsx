@@ -1,25 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { compose, bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
 import { BrixelIcon } from '@brixel/brixel-components';
-import translateTo from '../utils/translation';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import {
-  BrixelTextArea,
   BrixelInputText,
-  Validation,
-  ReduxField,
-  initializeForm,
+  BrixelTextArea,
   change,
   destroy,
+  initializeForm,
+  ReduxField,
+  Validation,
 } from '@brixel/brixel-components/dist/form';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
-import { createPropertyVisitBooking } from '../actions/PropertyActions';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { sendMessage, spinnerSmall } from '../actions/CommonActions';
+import { createPropertyVisitBooking } from '../actions/PropertyActions';
+import translateTo from '../utils/translation';
 
 function ContactForm(props) {
   const history = {
@@ -328,7 +328,7 @@ const mapStateToProps = (state) => {
     errorValue: get(state, 'brixelForm.ContactForm.syncErrors', {}),
     formValue: get(state, 'brixelForm.ContactForm.values', {}),
     isSmallLoading: get(state, 'common.isSmallLoading', {}),
-    lang: get(state, 'common.language.code', 'de'),
+    lang: get(state, 'common.language', 'de'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     initialValues: {
       userName: get(loggedInUser, 'name', {}),

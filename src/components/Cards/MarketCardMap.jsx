@@ -1,19 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
-import set from 'lodash/set';
+import { BrixelButtonIcon, FormatValue, Helpers } from '@brixel/brixel-components';
 import compact from 'lodash/compact';
+import get from 'lodash/get';
 import pullAt from 'lodash/pullAt';
-import {
-  BrixelButtonIcon,
-  FormatValue,
-  Helpers,
-} from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import { bindActionCreators, compose } from 'redux';
+import set from 'lodash/set';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators, compose } from 'redux';
 import { updateFavorite } from '../../actions/UserActions';
+import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 import CardImageText from '../Skeleton/CardImageText';
 
@@ -224,14 +220,14 @@ const MarketCardMap = (props) => {
             </div>
             <div className="bottom m-a ml-0 mb-0 dis-f a-c fsize-400">
               {
-                get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
+                get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' && !item.tags.includes('pre-market') ? (
                   <>
                     <span className="notranslate fsize-400 txtDark700 fweight-600">{get(item, 'price.currency', '')} &nbsp; </span>
                     <span className="notranslate fsize-400 txtDark700 fweight-600">{Helpers.formatNumberValue(get(item, 'price.total', 0), get(item, 'price.currency', ''))}</span>
                   </>
                 ) : (
                   <span className="txtGreen400 fsize-300 fweight-500">
-                    {get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request'}
+                    {translateTo(get(item, 'status', null) === 'sold' ? 'Sold' : 'On Request', lang)}
                   </span>
                 )
               }

@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import { BrixelButtonPrimary, BrixelButtonText } from '@brixel/brixel-components';
+import { BrixelCheckbox, change } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import {
-  BrixelButtonPrimary,
-  BrixelButtonText,
-} from '@brixel/brixel-components';
-import translateTo from '../../../../utils/translation';
-import {
-  BrixelCheckbox,
-  change,
-} from '@brixel/brixel-components/dist/form';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import FinancingQuestionImg from '../../../../images/Offer/financing_question.svg';
 import RegisterKey4Img from '../../../../images/Offer/register_key4.svg';
 import UploadKey4Img from '../../../../images/Offer/upload_key4.svg';
+import translateTo from '../../../../utils/translation';
 
 const FinanceCertificate = (props) => {
   const {
@@ -98,11 +92,9 @@ const FinanceCertificate = (props) => {
             </div>
           ) : (
             <div className="p-5">
-              <p className="txtDark700">
-                {translateTo('No problem.<br /> We suggest checking your financing as soon as possible.', lang)}
-              </p>
+              <p className="txtDark700" dangerouslySetInnerHTML={{ __html: translateTo('No problem.<br /> We suggest checking your financing as soon as possible.', lang)}} />
               <p className="txtDark700 pt-2">
-                {translateTo('A pre-approved mortgage gets you ahead of unqualified buyers. That&apos;s how you can get one:', lang)}
+                {translateTo('A pre-approved mortgage gets you ahead of unqualified buyers. That\'s how you can get one:', lang)}
               </p>
 
               <div className="dis-fl-col dis-fl-row-sm jc-b a-t mt-3">
