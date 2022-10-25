@@ -21,7 +21,6 @@ const FinanceCertificate = (props) => {
   const [checkedBox, setCheckedBox] = useState(false);
 
   const continueWithoutCert = () => {
-    console.log('eh')
     if (checkedBox) {
       changeFieldValue('financeCertificate', 1);
       changeFieldValue('noDocument', 1);
