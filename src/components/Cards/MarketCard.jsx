@@ -62,14 +62,14 @@ const MarketCard = (props) => {
   // STATE
   const [coverImgLoaded, setCoverImgLoaded] = useState(false);
   const [removeSkeleton, setRemoveSkeleton] = useState(false);
-  
+
   // TODO: Based on "type" prop, sent by the category, open each property on buyer dashboard/seller dashboard/page, etc.
   useEffect(() => {
     setRemoveSkeleton(true);
   }, [skeleton, coverImgLoaded]);
-  
+
   const isPreMarket = () => get(item, 'tags', []).includes('pre-market');
-  
+
   // Process tags
   useEffect(() => {
     const result = [];
@@ -83,13 +83,13 @@ const MarketCard = (props) => {
       set(item, 'tags', pullAt(compact(result), [0, 1]));
     }
   }, [get(item, 'tags', [])]);
-  
+
   useEffect(() => {
     if (layout === 'singleOwnCard') {
       handleGetPackageProperty({ id: get(item, 'id', null), smallLoader: `loadPackage${get(item, 'id', '')}`, addToOwnerProp: true });
     }
   }, [layout, item]);
-  
+
   const openCard = (e) => {
     if (e) e.preventDefault();
     if (!preventClick) {
@@ -114,7 +114,7 @@ const MarketCard = (props) => {
       // TODO: Estimation opens overlay
     }
   };
-  
+
   const openBestimateOverlay = (e, location, estim, page, action) => {
     if (e) e.preventDefault();
     onSetActiveProperty(page.id);
@@ -144,7 +144,7 @@ const MarketCard = (props) => {
       }
     }
   };
-  
+
   const selectActiveServicePackage = () => {
     let basicPackage = null;
     if (companyListings.length > 0) {
@@ -169,12 +169,12 @@ const MarketCard = (props) => {
     }
     return basicPackage;
   };
-  
+
   const checkFavorite = () => {
     const findIndex = favoritesProperties.findIndex((prop) => prop.id === get(item, 'id', null));
     return findIndex > -1;
   };
-  
+
   // eslint-disable-next-line consistent-return
   const getTypeText = (text) => {
     switch (text) {
@@ -193,7 +193,7 @@ const MarketCard = (props) => {
       default:
     }
   };
-  
+
   // eslint-disable-next-line consistent-return
   const getColor = (text) => {
     switch (text) {
@@ -212,7 +212,7 @@ const MarketCard = (props) => {
       default:
     }
   };
-  
+
   return (
     <>
       {
@@ -254,7 +254,7 @@ const MarketCard = (props) => {
                     </div>
                   )
                 }
-                
+
                 <div className="info dis-fl-col pl-sm-4 pl-0 w-perc-100 jc-b">
                   <div>
                     <div
@@ -460,7 +460,7 @@ const MarketCard = (props) => {
                     </span>
                   </div>
                   <div className="bottom a-c txtDark700 px-3 mt-2 mb-2">
-                    
+
                     {
                       item && get(item, 'price.total', 0) !== 0 && get(item, 'status', null) === 'on-sale' ? (
                         <div className="txtGreen400 dis-f a-b">
@@ -477,7 +477,7 @@ const MarketCard = (props) => {
                         </span>
                       )
                     }
-                  
+
                   </div>
                   <span className="hr lighter" />
                   <div className="mid dis-fl-row a-c fsize-300 px-3 pt-1 txtDark400 pb-2">
@@ -520,23 +520,23 @@ const MarketCard = (props) => {
             )
           }
         </div>
-        
+
         {
           type === 'own' && (
             <>
               <span className="hr mt-3 lighter mb-1" />
-              
+
               <div
                 className={`dis-fl-col dis-fl-row-sm a-c-sm jc-b-sm flex-wrap ${has(item, 'published') && item.published === false ? '' : ''}`}
               >
-                
+
                 {
                   has(item, 'published') && item.published === false ? (
                     <div
                       className="dis-fl-col dis-fl-row-sm"
                     >
                       <div className="dis-fl-row-sm">
-                        
+
                         {
                           get(item, 'tags', []).length > 0 && item.tags.includes('pre-market') ? (
                             <>
@@ -554,7 +554,7 @@ const MarketCard = (props) => {
                             </>
                           )
                         }
-                      
+
                       </div>
                     </div>
                   ) : (

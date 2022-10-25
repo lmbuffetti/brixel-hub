@@ -1,42 +1,33 @@
 /* global Transifex */
-import React, {
-  useRef, useState, useEffect, useCallback,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  bindActionCreators,
-  compose,
-} from 'redux';
-import {
-  connect,
-} from 'react-redux';
-import {
-  BrixelButtonIcon,
-  BrixelButtonText,
-  BrixelIcon,
-  useOutsideAlerter,
-} from '@brixel/brixel-components';
-import translateTo from '../utils/translation';
-import Slider from 'react-slick';
+import { BrixelButtonIcon, BrixelButtonText, BrixelIcon, useOutsideAlerter } from '@brixel/brixel-components';
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import cloneDeep from 'lodash/cloneDeep';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Slider from 'react-slick';
+import { bindActionCreators, compose } from 'redux';
 import { setSplashType, setWizard } from '../actions/CommonActions';
-import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } from '../actions/PropertyActions';
-import { updateFavorite, addNotInterested } from '../actions/UserActions';
-import MarketCardOverlay from './Cards/MarketCardOverlay';
-import MarketCardPreMarket from './Cards/MarketCardPreMarket';
 import {
   getFavoritesProperties,
   getLastViewedProperties,
   getNewProperties,
-  getPremarketProperties, getPremarketStats, getPremiumProperties, getWishlistProperties,
+  getPremarketProperties,
+  getPremarketStats,
+  getPremiumProperties,
+  getWishlistProperties,
 } from '../actions/MarketActions';
+import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } from '../actions/PropertyActions';
+import { addNotInterested, updateFavorite } from '../actions/UserActions';
 import NoMorePropertiesImg from '../images/searchProfile/no-properties.svg';
-import SearchProfileBanner from './SearchProfileBanner';
-import WizardCard from './Cards/WizardCard';
 import { getCookie } from '../utils/helpers';
+import translateTo from '../utils/translation';
+import MarketCardOverlay from './Cards/MarketCardOverlay';
+import MarketCardPreMarket from './Cards/MarketCardPreMarket';
+import WizardCard from './Cards/WizardCard';
+import SearchProfileBanner from './SearchProfileBanner';
 
 const SplashScreen = (props) => {
   const history = {
@@ -401,8 +392,8 @@ const SplashScreen = (props) => {
                           <img loading="lazy" src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
                         </div>
                         <div className="p-2">
-                          <h4 className="fweight-600 mb-1 mt-3">That’s it.</h4>
-                          <p className="mt-2 fsize-500">There are no more properties right now. Come back later to find new ones.</p>
+                          <h4 className="fweight-600 mb-1 mt-3">{translateTo('That’s it.', lang)}</h4>
+                          <p className="mt-2 fsize-500">{translateTo('There are no more properties right now. Come back later to find new ones.', lang)}</p>
                         </div>
                       </div>
                     </>
