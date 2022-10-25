@@ -1,9 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
-import React, {
-  Fragment,
-} from 'react';
+import { BrixelButtonIcon, BrixelDropdown } from '@brixel/brixel-components';
 import PropTypes from 'prop-types';
-import { BrixelDropdown, BrixelButtonIcon } from '@brixel/brixel-components';
+import React, { Fragment } from 'react';
 import translateTo from '../utils/translation';
 
 const Pagination = (props) => {
@@ -72,7 +70,7 @@ const Pagination = (props) => {
                   bgTransparent
                   borderColor="light"
                   bodyScrollclass="content"
-                  selected={`${itemsPerPage} ${translateTo('results', lang)}`}
+                  selected={translateTo(`${itemsPerPage} results`, lang)}
                   options={[{
                     label: '10',
                     value: 10,
