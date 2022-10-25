@@ -70,7 +70,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@cypress/code-coverage": "^3.10.0",
-    "@cypress/webpack-preprocessor": "^5.14.0",
+    "@cypress/webpack-preprocessor": "^5.15.0",
     "@svgr/core": "^6.5.0",
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.3.9",
