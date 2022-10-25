@@ -1,27 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
 import {
+  BrixelButtonIcon,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
   BrixelIcon,
   Helpers,
-  BrixelButtonIcon,
   useOutsideAlerter,
 } from '@brixel/brixel-components';
-import translateTo from '../utils/translation';
-import {
-  reset,
-  MultiFileldsReduxForm,
-} from '@brixel/brixel-components/dist/form';
+import { MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import cloneDeep from 'lodash/cloneDeep';
-import { QuestionsList } from '../resources/Flows/onBoardingBuyer';
-import { createUserSearchProfile, updateUserSearchProfile } from '../actions/SearchProfileActions';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { setWizard } from '../actions/CommonActions';
+import { createUserSearchProfile, updateUserSearchProfile } from '../actions/SearchProfileActions';
+import { QuestionsList } from '../resources/Flows/onBoardingBuyer';
+import translateTo from '../utils/translation';
 
 const SearchProfileBanner = (props) => {
   const history = {
@@ -141,10 +138,10 @@ const SearchProfileBanner = (props) => {
               !showWizard ? (
                 <>
                   <span>
-                    {translateTo('Watch properties which are not even on the market yet.', lang)}&nbsp;
+                    {translateTo('Watch properties which are not even on the market yet.', lang)}
                   </span>
                   <a
-                    className="cur-poi link txtDark700 td-u fsize-500 ml-small-4"
+                    className="cur-poi link txtDark700 td-u fsize-500 ml-1"
                     onClick={() => handleSetWizard({ type: 'preMarketOverlay', step: 1 })}
                   >
                     {translateTo('How it works', lang)}
