@@ -199,7 +199,7 @@ const App = (props) => {
       });
     }
   }, [localTransifex, loggedInUser, activeSingleCompany.id]);
-  
+
   useEffect(() => {
     if (languages.length > 0) {
       let languagesList = languages;
@@ -209,7 +209,7 @@ const App = (props) => {
       }
     }
   }, [languages]);
-  
+
 
   // FUNCTION TO LOAD THE USER TYPE BUYER OR SELLER
   useEffect(() => {
@@ -619,7 +619,7 @@ const App = (props) => {
                       {
                         !showSupport && (
                           <div
-                            className={`dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
+                            className={`supportBubble dis-f jc-b a-c cur-poi bgWhite p-1 brdFullRadius zIndex1 pr-2 shadow-2dp ${windowDimensions.width > 1024 ? '' : ''}`}
                             onClick={() => setShowSupport(!showSupport)}
                           >
                             <div className="dis-f jc-b a-c">

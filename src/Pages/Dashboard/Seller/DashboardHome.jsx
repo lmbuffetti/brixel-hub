@@ -690,7 +690,7 @@ const DashboardHome = (props) => {
                 visitLists ? (
                   <div className="brdRadius bgWhite shadow-2dp">
                     <div className="dis-f jc-b a-c px-2 pt-2">
-                      <div className="dis-f a-c w-perc-100 mr-2">
+                      <div className="dis-f a-c w-perc-100 mr-2 pb-2">
                         <BrixelIcon
                           iconWidth="w-fix-32"
                           icon="visited"
@@ -715,7 +715,7 @@ const DashboardHome = (props) => {
                     {
                       visitLists.length === 0 && (
                         <div
-                          className="dis-f jc-b a-c w-perc-100 brdSmallTop my-2 pt-2 brdLight200 px-2 flex-wrap"
+                          className="dis-f jc-b a-c w-perc-100 brdSmallTop py-4 brdLight200 px-2 flex-wrap"
                         >
                           <h5 className="ta-c mx-a">
                             {translateTo('You don\'t have any visits', lang)}
