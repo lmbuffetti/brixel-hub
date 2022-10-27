@@ -67,7 +67,7 @@ const WelcomeSeller = (props) => {
             <div className="singleStep pt-6 jc-c">
               <div className="subcontainer m-a">
                 <div id="step-1" className="dis-f flex-wrap">
-                  <div className="ta-c m-a max-w-fix-880 w-perc-100">
+                  <div className={`m-a max-w-fix-880 w-perc-100 ${currentScreen === 'step2' ? 'ta-sm-c' : 'ta-c'}`}>
                     <WelecomeOnboardingStage
                       lang={lang}
                     />
