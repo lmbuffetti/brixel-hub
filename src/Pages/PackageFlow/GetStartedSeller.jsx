@@ -55,6 +55,7 @@ const GetStartedSeller = (props) => {
     lang,
     loggedInUser,
     handleReset,
+    translations,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -406,11 +407,9 @@ const GetStartedSeller = (props) => {
 
   // ON CHANGE LANGUAGE RELOAD THE QUESTIONS TRANSLATED
   useEffect(() => {
-    if (company.stub) {
-      setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
-      setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
-    }
-  }, [lang, company.stub]);
+    setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
+    setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
+  }, [lang, company.stub, translations]);
 
   useEffect(() => {
     setQuest(questions[currentIndex]);
@@ -711,6 +710,7 @@ GetStartedSeller.propTypes = {
   isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  translations: PropTypes.object.isRequired,
 };
 
 GetStartedSeller.defaultProps = {
@@ -780,6 +780,7 @@ const mapStateToProps = (state, ownProps) => {
     loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
     startForm: get(state, 'brixelForm.GetStarted', null),
+    translations: get(state, 'translations', { }),
   });
 };
 

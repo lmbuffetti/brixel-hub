@@ -65,6 +65,7 @@ const GetStartedEstimation = (props) => {
     lang,
     loggedInUser,
     handleReset,
+    translations,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -505,7 +506,7 @@ const GetStartedEstimation = (props) => {
       setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
       setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
-  }, [lang]);
+  }, [lang, translations]);
 
   // ON CHANGE STEP (currentIndex is different for each step) CHANGE THE isEnter (used for enter effect) AND LOAD COMPANY DATA IF countryCode CHANGE
   useEffect(() => {
@@ -898,6 +899,7 @@ GetStartedEstimation.propTypes = {
   isTest: PropTypes.bool,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  translations: PropTypes.object.isRequired,
   handleReset: PropTypes.func.isRequired,
 };
 
@@ -967,6 +969,7 @@ const mapStateToProps = (state, ownProps) => {
     loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
     startForm: get(state, 'brixelForm.GetStarted', null),
+    translations: get(state, 'translations', { }),
   });
 };
 

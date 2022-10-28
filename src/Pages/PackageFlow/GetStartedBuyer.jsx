@@ -55,6 +55,7 @@ const GetStartedBuyer = (props) => {
     lang,
     loggedInUser,
     handleReset,
+    translations,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -369,7 +370,7 @@ const GetStartedBuyer = (props) => {
       setQuestions(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH')));
       setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[currentIndex]);
     }
-  }, [lang]);
+  }, [lang, translations]);
 
   // SKIP FIRST STEP IF PROPERTY TYPE EXISTS - by url param
   useEffect(() => {
@@ -797,6 +798,7 @@ GetStartedBuyer.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  translations: PropTypes.object.isRequired,
   handleReset: PropTypes.func.isRequired,
 };
 
@@ -851,6 +853,7 @@ const mapStateToProps = (state, ownProps) => {
     loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
     startForm: get(state, 'brixelForm.GetStarted', null),
+    translations: get(state, 'translations', { }),
   });
 };
 
