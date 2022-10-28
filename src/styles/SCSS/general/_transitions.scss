@@ -272,6 +272,11 @@
   animation: fadeInSec $default-time-long $default-easing;
 }
 
+.Delay1sfadeIn {
+  opacity: 0;
+  animation: fadeInSec $default-time-long 1s $default-easing forwards;
+}
+
 @keyframes scaleUpCustom {
   0% {
     opacity: 0;
