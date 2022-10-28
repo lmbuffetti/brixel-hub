@@ -1,31 +1,23 @@
 /* eslint-disable no-nested-ternary */
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
-import React, {
-  useState, useEffect, useRef,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  MultiFileldsReduxForm,
-  initializeForm,
-  change,
-  reset,
-  destroy,
-} from '@brixel/brixel-components/dist/form';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
-import cloneDeep from 'lodash/cloneDeep';
-import queryString from 'query-string';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import Cookies from 'universal-cookie';
+import { spinnerOff } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { setCookie } from '../../utils/helpers';
-import { QuestionsList } from '../../resources/Flows/onBoarding';
-import { spinnerOff } from '../../actions/CommonActions';
-import { doLogin, validateUser } from '../../actions/UserActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
+import { doLogin, validateUser } from '../../actions/UserActions';
+import { QuestionsList } from '../../resources/Flows/onBoarding';
+import { setCookie } from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 
 const cookie = new Cookies();
@@ -47,6 +39,7 @@ const GetStarted = (props) => {
     handleSpinnerOff,
     lang,
     loggedInUser,
+    translations,
   } = props;
   // STATE
   // SET THE QUESTIONS IN BASE OF THE COUNTRY
@@ -67,7 +60,7 @@ const GetStarted = (props) => {
   
   useEffect(() => {
     setQuest(QuestionsList(lang, get(formValue, 'location.countryCode', 'CH'))[0])
-  }, [lang]);
+  }, [lang, translations]);
   
   
   // FUNCTION TO SAVE DATA
@@ -190,6 +183,7 @@ GetStarted.propTypes = {
   handleSpinnerOff: PropTypes.func.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  translations: PropTypes.object.isRequired,
 };
 
 GetStarted.defaultProps = {
@@ -214,6 +208,7 @@ const mapStateToProps = (state, ownProps) => {
     loggedInUser: get(state, 'user.loggedInUser', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
     startForm: get(state, 'brixelForm.GetStarted', null),
+    translations: get(state, 'translations', { }),
   });
 };
 

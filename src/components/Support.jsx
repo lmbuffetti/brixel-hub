@@ -110,7 +110,7 @@ const Support = (props) => {
               {
                 // HIDE CLOSE BUTTON IF PROPS isFixed OR hideClose
                 !isFixed && !hideClose && (
-                  <BrixelIcon
+                  <BrixelButtonIcon
                     icon="close-small"
                     ghost
                     onClick={() => onClose()}
@@ -119,7 +119,7 @@ const Support = (props) => {
               }
               {
                 layout === 'floatable' && (
-                  <BrixelIcon
+                  <BrixelButtonIcon
                     icon="close-small"
                     color="green"
                     ghost

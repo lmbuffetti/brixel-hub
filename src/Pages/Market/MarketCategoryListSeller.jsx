@@ -491,14 +491,16 @@ const MarketCategoryListSeller = (props) => {
 
                                   </div>
                                 ) : (
-                                  <div className='w-perc-100 dis-f ov-h brdRadius skeletonBg h-fix-md-152 mb-4'>
-                                    <div className="w-fix-216 skeletonBgInner hide dis-b-md" />
-                                    <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
-                                      <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
-                                      <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
-                                      <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
+                                  <>
+                                    <div className={`w-perc-100 ov-h brdRadius skeletonBg h-fix-md-152 mb-4 ${i > 0 ? 'hide' : 'dis-f'}`}>
+                                      <div className="w-fix-216 skeletonBgInner hide dis-b-md" />
+                                      <div className="ml-md-4 ml-2 h-perc-100 dis-fl-col w-perc-100 py-2">
+                                        <p className="h-fix-40 skeletonBgInner w-perc-60"> </p>
+                                        <p className="h-fix-16 mt-1 skeletonBgInner hide dis-b-md w-perc-30"> </p>
+                                        <p className="h-fix-16 mt-a-md mt-2 skeletonBgInner w-perc-50"> </p>
+                                      </div>
                                     </div>
-                                  </div>
+                                  </>
                                 )
                               }
 
