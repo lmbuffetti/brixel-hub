@@ -34,6 +34,7 @@ export const ScanTrialQuestions = (lang) => [
         name: 'name',
         validation: [Validation.required],
         pdClass: 'py-3 py-md-5',
+        large: true,
       },
       {
         component: BrixelInputText,
@@ -42,6 +43,7 @@ export const ScanTrialQuestions = (lang) => [
         name: 'email',
         validation: [Validation.isEmail, Validation.required],
         pdClass: 'py-3 py-md-5',
+        large: true,
       },
       {
         component: BrixelInputText,
@@ -51,6 +53,7 @@ export const ScanTrialQuestions = (lang) => [
         pdClass: 'py-3 py-md-5',
         type: 'text',
         formatType: 'tel',
+        large: true,
         validation: [Validation.phoneIfNotEmptyLength, Validation.required],
       },
     ],
