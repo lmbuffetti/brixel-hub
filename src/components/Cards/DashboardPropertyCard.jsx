@@ -1,7 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
-import PropTypes from 'prop-types';
-import get from 'lodash/get';
 import {
   BrixelButtonPrimary,
   BrixelButtonSecondary,
@@ -9,13 +6,16 @@ import {
   FormatValue,
   Helpers,
 } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import { setModal, setSplashType } from '../../actions/CommonActions';
 import { completedBestimate } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 import CoverPropertyImage from '../CoverPropertyImage';
 
 const DashboardPropertyCard = (props) => {
@@ -27,7 +27,6 @@ const DashboardPropertyCard = (props) => {
   const {
     activeSingleProperty,
     estimation,
-    formValue,
     handleSetModal,
     lang,
     smallLayout,
@@ -44,8 +43,8 @@ const DashboardPropertyCard = (props) => {
           >
             <CoverPropertyImage
               className="cover w-perc-100 h-perc-100 negTop"
-              coverPhoto={get(formValue, 'coverPhoto.galleryThumbnailPath', undefined)}
-              propertyType={get(formValue, 'properties.propertyType', undefined)}
+              coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
+              propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
             />
             {
               type !== 'sold' && type !== 'buy' && (
@@ -281,14 +280,14 @@ const DashboardPropertyCard = (props) => {
                                       {translateTo('Your Bestimate', lang)}
                                     </span>
                                     {
-                                      !get(estimation, 'status', null) || !completedBestimate(formValue) && !get(estimation, 'status', '') === 'processed' && (
+                                      !get(estimation, 'status', null) || !completedBestimate(activeSingleProperty) && !get(estimation, 'status', '') === 'processed' && (
                                         <Link to={`/${activeSingleProperty.id}/singleFlow/achievement/bestimate/step1`} className="txtBlue700 fweight-600">
                                           {translateTo('Get Estimation', lang)}
                                         </Link>
                                       )
                                     }
                                     {
-                                      get(estimation, 'status', '') === 'pending' && completedBestimate(formValue) && (
+                                      get(estimation, 'status', '') === 'pending' && completedBestimate(activeSingleProperty) && (
                                         <span className="txtBlue700 fweight-600">
                                           {translateTo('Pending', lang)}
                                         </span>
@@ -335,7 +334,6 @@ const DashboardPropertyCard = (props) => {
 DashboardPropertyCard.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   estimation: PropTypes.object.isRequired,
-  formValue: PropTypes.object.isRequired,
   handleSetModal: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
   smallLayout: PropTypes.bool,
@@ -350,7 +348,6 @@ DashboardPropertyCard.defaultProps = {
 const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   estimation: get(state, 'property.estimation', {}),
-  formValue: get(state, 'brixelForm.Property.values', {}),
 });
 
 const mapDispatchToProps = (dispatch) => ({
