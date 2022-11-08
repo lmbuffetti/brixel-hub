@@ -6,6 +6,7 @@ import thunkMiddleware from 'redux-thunk';
 // MIDDLEWARES
 import CommonMiddleware from '../middlewares/CommonMiddleware';
 import CompanyMiddleware from '../middlewares/CompanyMiddleware';
+import CraftCMS from '../middlewares/CraftCMS';
 import DealMiddleware from '../middlewares/DealMiddleware';
 import EstimationMiddleware from '../middlewares/EstimationMiddleware';
 import HistoryMiddleware from '../middlewares/HistoryMiddleware';
@@ -16,7 +17,6 @@ import PropertyMiddleware from '../middlewares/PropertyMiddleware';
 import SearchProfile from '../middlewares/SearchProfileMiddleware';
 import ImageMiddleware from '../middlewares/UploadMiddleware';
 import UserMiddleware from '../middlewares/UserMiddleware';
-import CraftCMS from '../middlewares/CraftCMS';
 import { rootReducer } from '../reducers';
 
 const enhancers = [];
@@ -26,6 +26,7 @@ const getIfDev = (get(window, 'location.href', '')).split('?');
 
 if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || (getIfDev[1] && getIfDev[1].includes('dev=true')))) {
   middlewares.push(createLogger({
+    collapsed: true,
     colors: {
       title: () => "#002bff",
       prevState: () => "#de6f0d",
