@@ -171,6 +171,7 @@ const GetStartedBuyer = (props) => {
       }
       // DISPATCH TO DO REGISTRATION USER
       setLoadingRequest(true);
+      setCookie('brixelFirstTime', 'true');
       await handleValidateUser(data);
     }
   };

@@ -192,6 +192,7 @@ const GetStartedSeller = (props) => {
           state: { hideClose: true },
         },
       };
+      setCookie('brixelFirstTime', 'true');
       // DISPATCH TO DO REGISTRATION USER
       setLoadingRequest(true);
       await handleValidateUser(data);
