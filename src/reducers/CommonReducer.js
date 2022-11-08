@@ -102,7 +102,7 @@ export default handleActions(
     }),
     [SET_LANGUAGE]: (state, action) => ({
       ...state,
-      language: action.payload,
+      language: action.payload === 'en_US' ? 'en' : action.payload,
     }),
     [SET_NOTIFICATION]: (state, action) => ({
       ...state,

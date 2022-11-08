@@ -1,33 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  AddToCalendar,
-  BrixelButtonPrimary,
-  BrixelButtonSecondary,
-} from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
+import { AddToCalendar, BrixelButtonPrimary, BrixelButtonSecondary } from '@brixel/brixel-components';
 import get from 'lodash/get';
 import isNaN from 'lodash/isNaN';
+import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
-import { DateTime } from 'luxon';
-import {
-  getActiveSinglePropertyBookings,
-} from '../../../actions/PropertyActions';
+import { getActiveSinglePropertyBookings } from '../../../actions/PropertyActions';
 import { getUserSearchProfiles } from '../../../actions/SearchProfileActions';
+import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import ArticlesBox from '../../../components/CraftCMS/ArticlesBox';
 import BannerBox from '../../../components/CraftCMS/BannerBox';
-import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 
 import Loading from '../../../components/Loading';
+import financingSvg from '../../../images/dashboard/financingDashboard.svg';
 // import marketNewHomeSvg from '../../../images/dashboard/marketNewHome.svg';
 import scheduleSvg from '../../../images/dashboard/scehdule.svg';
 import scheduleAcceptedSvg from '../../../images/dashboard/scheduleAccepted.svg';
 import schedulePendingSvg from '../../../images/dashboard/schedulePending.svg';
-import financingSvg from '../../../images/dashboard/financingDashboard.svg';
+import { getCookie, setCookie } from '../../../utils/helpers';
+import translateTo from '../../../utils/translation';
 
 const DashboardHome = (props) => {
   const history = {
@@ -52,7 +47,16 @@ const DashboardHome = (props) => {
   // STATE
   const [progressState, setProgressState] = useState({step: 1});
   const [visitAccepted, setVisitAccepted] = useState(false);
+  const [showFirstWelcomMessage, setShowFirstWelcomMessage] = useState(false);
   const propID = get(match, 'propID', null);
+  
+  useEffect(() => {
+    if (getCookie('brixelFirstTime') === 'true') {
+      setShowFirstWelcomMessage(true);
+      setCookie('brixelFirstTime', false);
+    }
+  }, []);
+  
   useEffect(() => {
     if (!isNaN(+get(activeSingleDeal, 'visit', 0))) {
       setVisitAccepted(get(activeSingleDeal, 'visit', 0));
@@ -108,7 +112,13 @@ const DashboardHome = (props) => {
     <div className="rewards-container" id="rewardsDashboard">
 
       <h4 className="mb-3 hide dis-b-lg fweight-600">
-        <span>{translateTo('Welcome back', lang)}</span>
+        {
+          showFirstWelcomMessage ? (
+            <span>{translateTo('Welcome back', lang)}</span>
+          ) : (
+            <span>{translateTo('Welcome', lang)}</span>
+          )
+        }
         <span className="ml-small-4"> {loggedInUser && (<>{loggedInUser.firstName}</>)} 👋 </span>
       </h4>
       <div className="dis-f a-c w-perc-100 mt-1">
