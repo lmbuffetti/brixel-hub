@@ -23,7 +23,6 @@ export const createTimelineEntry = (item, userLang) => {
       // if (item.actionStub === 'page-schedule') return `<span>${item.child.email} </span><span>scheduled a visit</span>`;
       // if (item.actionStub === 'page-get-document') return 'Requested documents';
       if (item.actionStub === 'page-upgrade') return translateTo('Upgraded package', userLang);
-      if (item.actionStub === 'page-add-favorite') return `<span>${item.child.email} </span><span>${translateTo('added the property as favorite', userLang)}</span>`;
       if (item.actionStub === 'page-listed') return translateTo('Listed on portals', userLang);
       if (item.actionStub === 'page-unlisted') return translateTo('Removed from portals', userLang);
       if (item.actionStub === 'page-update-price') return `<span>Price update: </span><span>${get(item, 'parent.price.currency', '')}</span> <span>${formatPrice(item.meta.before, 'ch')}</span> <span>${translateTo('to', userLang)}</span> <span>${get(item, 'parent.price.currency', '')}</span> <span>${formatPrice(item.meta.after, 'ch')}</span>`;
@@ -77,7 +76,6 @@ export const createTimelineEntry = (item, userLang) => {
       if (item.actionStub === 'deal-feedback-visit-email') return `<span>${translateTo(`${item.meta.action.charAt(0).toUpperCase() + item.meta.action.slice(1)}`, userLang)}</span> <span>${translateTo('visit feedback email sent', userLang)}</span>`;
 
       if (item.actionStub === 'deal-make-offer') return `<span>${translateTo('Prospect made an offer:', userLang)}</span><span class="ml-small-4">${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span></br></br><span>${item.meta.offer.noteByBuyer}</span>`;
-      if (item.actionStub === 'deal-delete-offer') return `<span>${translateTo('Deleted an offer:', userLang)}</span><span class="ml-small-4">${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span>`;
       if (item.actionStub === 'deal-review-offer') return `<span>${translateTo('Offer', userLang)}</span> <span>${get(item, 'meta.offer.status', '')}</span>: </span><span>${get(item, 'meta.offer.currency', '')}</span> <span>${formatPrice(item.meta.offer.amount, userLang)}</span>`;
 
       // DEAL HISTORY ENTRY
