@@ -21,6 +21,7 @@ import {
   BrixelIcon,
   BrixelDropdownMini,
   useOutsideAlerter,
+  BrixelButtonSecondary,
 } from '@brixel/brixel-components';
 import translateTo from '../../utils/translation';
 import { bindActionCreators, compose } from 'redux';
@@ -148,7 +149,7 @@ const Documents = (props) => {
     reader.onabort = () => console.log('file reading was aborted');
     // eslint-disable-next-line no-console
     reader.onerror = () => console.log('file reading has failed');
-    const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id);
+    const imgList = tobase64Handler(acceptedFiles, get(loggedInUser, 'user.id'), 'documents', formValue.id);
     imgList.then((res) => {
       handleMultiUploadDocument({
         docs: activeSingleProperty.documents,
@@ -158,7 +159,7 @@ const Documents = (props) => {
         smallLoader: 'uploadMedia',
       });
     });
-  }, [formValue]);
+  }, [formValue, loggedInUser]);
 
   const loadFile = async (e, type = '', key = '') => {
     if (e) e.preventDefault();
@@ -168,7 +169,7 @@ const Documents = (props) => {
     reader.onabort = () => console.log('file reading was aborted');
     // eslint-disable-next-line no-console
     reader.onerror = () => console.log('file reading has failed');
-    const imgList = tobase64Handler(acceptedFiles, loggedInUser.user.id, 'documents', formValue.id, '', type);
+    const imgList = tobase64Handler(acceptedFiles, get(loggedInUser, 'user.id'), 'documents', formValue.id, '', type);
     imgList.then((res) => {
       handleMultiUploadDocument({
         docs: activeSingleProperty.documents,
@@ -234,6 +235,12 @@ const Documents = (props) => {
     return result;
   };
 
+  const getTxtColor = () => {
+    if (countMandatoryDocuments() === mandatoryDocuments.length) return 'txtGreen700';
+    if (countMandatoryDocuments() === 0) return 'txtRed400';
+    return 'txtYellow400';
+  }
+
   // Function to close the small menus when we click outside
   useOutsideAlerter(documentRef, {
     id: documentId,
@@ -242,7 +249,6 @@ const Documents = (props) => {
       setDocumentOptionsOpen({ id: null, active: false });
     },
   });
-
 
   setTimeout(() => {setIsReady(true)}, 200);
 
@@ -279,7 +285,7 @@ const Documents = (props) => {
                   {
                     mandatoryDocuments && (
                       <div className="mandatory-documents min-h-fix-304 mb-5">
-                        <p className="fweight-500 fsize-500 txtGreen700 mb-4">
+                        <p className={`fweight-500 fsize-500 ${getTxtColor()} mb-4`}>
                           <span>{translateTo('You have uploaded', lang)}</span>
                           <span> {countMandatoryDocuments()} </span>
                           <span>{translateTo('of', lang)}</span>
@@ -295,7 +301,7 @@ const Documents = (props) => {
                                     mandatoryDocumentExists(element) === true && (
                                       <BrixelIcon
                                         icon="check-small-fill"
-                                        color="dark"
+                                        color="green"
                                         className="mr-3"
                                       />
                                     )
@@ -324,7 +330,7 @@ const Documents = (props) => {
                                 {
                                   mandatoryDocumentExists(element) === false && (
                                     <div className="upload-wrapper cur-poi pl-2 pos-r">
-                                      <BrixelButtonPrimary rounded theme="white" label={translateTo('Upload', lang)} />
+                                      <BrixelButtonSecondary rounded theme="green" label={translateTo('Upload', lang)} />
                                       <input accept="application/pdf, image/png, image/jpeg" multiple className="cur-poi upload" type="file" name="document" id={`documentInput${j}`} onChange={(e) => loadFile(e, element, j)} />
                                     </div>
                                   )
@@ -352,9 +358,41 @@ const Documents = (props) => {
                   )
                 }
                 {
+                  userType === 'seller' && (
+                    <>
+                      <div className="docubox-info mb-3 dis-fl-col a-c as-fs">
+                        <h5 className="as-fs">{translateTo('Drag to move and reorder documents', lang)}</h5>
+                        <span className="as-fs txtDark200">{translateTo('The order will be the same as seen on your Brixel Page.', lang)}</span>
+                      </div>
+                      <div
+                        className={`${(!documentLists || (documentLists.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c ta-c w-perc-100`}
+                        {...getRootProps()}
+                      >
+                        <input {...getInputProps()} />
+                        {
+                          (!documentLists || (documentLists.length === 0)) && (
+                            <div>
+                              <img loading="lazy" className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
+                              <h5 className="mt-3 mb-2">{translateTo('Upload your first document', lang)}</h5>
+                            </div>
+                          )
+                        }
+                        <span className="body2 txtDark200 max-width-220">{translateTo('Choose .pdf .jpeg .png with max. 10 MB size', lang)}</span>
+                        <BrixelButtonPrimary
+                          label={translateTo('upload', lang)}
+                          rightIcon="upload"
+                          rounded
+                          className="mt-3"
+                          isLoading={isSmallLoading.uploadMedia}
+                        />
+                      </div>
+                    </>
+                  )
+                }
+                {
                   (processedDocuments && Object.keys(processedDocuments).length > 0) && (
                     <>
-                      <div className="documents-container w-perc-100 dis-fl-col">
+                      <div className="documents-container w-perc-100 dis-fl-col mt-3">
                         <ul
                           className="folder-list"
                         >
@@ -423,7 +461,7 @@ const Documents = (props) => {
                                           </div>
                                           <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                             <span className="document-title max-w-fix-168 max-w-perc-lg-100 txtDark700 dont-break-out">{doc.name}</span>
-                                            <span className="body2 txtDark200 dont-break-out">{doc.type}</span>
+                                            <span className="body2 txtGreen400 dont-break-out">{doc.type}</span>
                                             {
                                               get(doc, 'createdAt', null) ? (
                                                 <span className="date body2 txtDark200">
@@ -445,6 +483,8 @@ const Documents = (props) => {
                                         <div className="pos-r dis-fl-row a-c">
                                           <BrixelIcon
                                             className="mr-1"
+                                            label={`${translateTo('This document is set to', lang)} ${translateTo(`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
+                                            tooltipWidth="208"
                                             color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
                                             icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                           />
@@ -526,7 +566,7 @@ const Documents = (props) => {
                                       </div>
                                       <div className="dis-fl-col cur-poi" onClick={(e) => openDocument(e, doc.id)}>
                                         <span className="document-title fsize-400 txtDark700 dont-break-out">{doc.name}</span>
-                                        <span className="body2 txtDark200 dont-break-out">{doc.type}</span>
+                                        <span className="body2 txtGreen400 dont-break-out">{doc.type}</span>
                                         {
                                           get(doc, 'createdAt', null) ? (
                                             <span className="date body2 txtDark200">
@@ -550,6 +590,8 @@ const Documents = (props) => {
                                         userType !== 'buyer' && (
                                           <BrixelIcon
                                             className="mr-1"
+                                            label={`${translateTo('This document is set to', lang)} ${translateTo(`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'private' : 'public'}`, lang)}. ${translateTo('Edit to change.', lang)}`}
+                                            tooltipWidth="208"
                                             color={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'red' : 'green'}`}
                                             icon={`${(doc.isPrivate === true || doc.isPrivate === 'Private') ? 'locked' : 'eye'}`}
                                           />
@@ -616,34 +658,6 @@ const Documents = (props) => {
                             ))
                           }
                         </ul>
-                      </div>
-                    </>
-                  )
-                }
-                {
-                  userType === 'seller' && (
-                    <>
-                      <div
-                        className={`${(!documentLists || (documentLists.length === 0)) ? 'emptyState mb-5' : 'hasImages py-2 py-lg-3'} upload-container dis-fl-col a-c ta-c w-perc-100`}
-                        {...getRootProps()}
-                      >
-                        <input {...getInputProps()} />
-                        {
-                          (!documentLists || (documentLists.length === 0)) && (
-                            <div>
-                              <img loading="lazy" className="h-fix-120" src={uploadDocumentsEmpty} alt="Empty Documents" />
-                              <h5 className="mt-3 mb-2">{translateTo('Upload your first document', lang)}</h5>
-                            </div>
-                          )
-                        }
-                        <span className="body2 txtDark200 max-width-220">{translateTo('Choose .pdf .jpeg .png with max. 10 MB size', lang)}</span>
-                        <BrixelButtonPrimary
-                          label={translateTo('upload', lang)}
-                          rightIcon="upload"
-                          rounded
-                          className="mt-3"
-                          isLoading={isSmallLoading.uploadMedia}
-                        />
                       </div>
                     </>
                   )
