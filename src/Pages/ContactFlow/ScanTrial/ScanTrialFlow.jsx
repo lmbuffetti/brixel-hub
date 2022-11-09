@@ -32,6 +32,7 @@ const ScanTrialFlow = (props) => {
   const {
     activeSingleProperty,
     activeSingleScanTrial,
+    changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
@@ -255,9 +256,12 @@ const ScanTrialFlow = (props) => {
   };
   
   useEffect(() => {
-    if (activeSingleScanTrial.actionStub && get(formValue, 'analysis', null) === 'on-site') setShowBookedTrial(true)
-    else setShowBookedTrial(false)
-  }, [get(formValue, 'analysis', null), activeSingleScanTrial.actionStub])
+    let showBookTrial = false
+    if (get(activeSingleScanTrial, 'actionStub', null) && get(formValue, 'analysis', null) === 'on-site') {
+      if (DateTime.now().toMillis() < get(activeSingleScanTrial, 'meta.meta.date', 0)) showBookTrial = true;
+    }
+    setShowBookedTrial(showBookTrial)
+  }, [get(formValue, 'analysis', null), get(activeSingleScanTrial, 'actionStub', null)])
 
   useEffect(() => {
     initForm(initialValues);
@@ -319,6 +323,8 @@ const ScanTrialFlow = (props) => {
     else label = 'Continue';
     return label;
   };
+  
+  if (!activeSingleScanTrial) return <div />
 
   return (
     <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} ${showBookedTrial ? 'bgGreen200' : ''}`}>
@@ -351,7 +357,15 @@ const ScanTrialFlow = (props) => {
                       <BrixelButtonPrimary
                         rounded
                         className="mt-3 mx-a"
-                        onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/BookScanTrial`)}
+                        onClick={() => {
+                          changeFieldValue('analysis', 'remote');
+                          changeFieldValue('email', loggedInUser.email);
+                          changeFieldValue('phone', loggedInUser.phone);
+                          changeFieldValue('name', loggedInUser.name);
+                          changeFieldValue('userID', loggedInUser.id);
+                          setShowBookedTrial(false);
+                          history.push(`/${activeSingleProperty.id}/trialRequest/BookScanTrial`)
+                        }}
                         label="Contact us"
                       />
                     </div>
@@ -525,20 +539,25 @@ const ScanTrialFlow = (props) => {
 };
 
 ScanTrialFlow.propTypes = {
-  activeSingleScanTrial: PropTypes.object.isRequired,
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSingleScanTrial: PropTypes.object,
+  changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetHistoryFeed: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
-  handleGetHistoryFeed: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
+
+ScanTrialFlow.defaultProps = {
+  activeSingleScanTrial: null,
+}
 
 const mapStateToProps = (state) => {
   const history = {
@@ -565,7 +584,7 @@ const mapStateToProps = (state) => {
   if (bookType.includes('on-site')) initVal.analysis = 'on-site';
   if (bookType.includes('remote')) initVal.analysis = 'remote';
   return ({
-    activeSingleScanTrial: get(state, 'history.activeSinglePropertyHistory.data[0]', { }),
+    activeSingleScanTrial: get(state, 'history.activeSinglePropertyHistory.data[0]', null ),
     activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.scanFlow.syncErrors', {}),

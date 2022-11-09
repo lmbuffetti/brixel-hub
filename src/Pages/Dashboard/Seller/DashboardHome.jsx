@@ -133,7 +133,10 @@ const DashboardHome = (props) => {
   
   useEffect(() => {
     if (activeSinglePropertyHistory.length > 0) {
-      setActiveScanTrial(activeSinglePropertyHistory.find((hst) => hst.actionStub === 'page-scan-trial'));
+      let getActiveScanTrial = activeSinglePropertyHistory.find((hst) => hst.actionStub === 'page-scan-trial');
+      if (getActiveScanTrial && DateTime.now().toMillis() < get(getActiveScanTrial, 'meta.meta.date', 0)) {
+        setActiveScanTrial(activeSinglePropertyHistory.find((hst) => hst.actionStub === 'page-scan-trial'));
+      }
     }
   }, [activeSinglePropertyHistory]);
   
@@ -292,18 +295,12 @@ const DashboardHome = (props) => {
           </h4>
         )
       }
-
-      {/* {
-        !get(progressState, 'step', null)  && (
-          <div className='mb-3 hide dis-b-lg skeletonBg h-fix-32 w-fix-256'/>
-        )
-      } */}
-
+      
       {
         windowDimensions.width <= 1024 && (
           <>
             {
-              activeSingleProperty.id && propID && propID.length > 9 && (
+              activeSingleProperty.id && propID && propID.length > 9 && progressState.id && (
                 <ProgressSellerStage
                   lang={lang}
                   className="mb-3"
