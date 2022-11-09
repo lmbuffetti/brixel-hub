@@ -67,7 +67,7 @@ const checkHistory = (store) => (next) => (action) => {
                 // If the action is a schedule or favorite,
                 // we need to call the api to know who the user is
                 // since it will not be the active property owner
-                if (entry.actionStub === 'page-schedule' || entry.actionStub === 'page-add-favorite') {
+                if (entry.actionStub === 'page-schedule') {
                   if (has(entry, 'child')) calls.push(api.user.getCompleteUser(entry.child));
                 } else if (has(entry, 'parent')) {
                   set(entry, 'parent', store.getState().property.activeSingleProperty);
