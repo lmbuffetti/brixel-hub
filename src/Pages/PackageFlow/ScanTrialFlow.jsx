@@ -1,36 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-shadow */
-import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import {
-  BrixelButtonIcon,
-  BrixelButtonPrimary,
-  BrixelProgressBar,
-} from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  change,
-  destroy,
-  reset,
-  initializeForm,
-} from '@brixel/brixel-components/dist/form';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelProgressBar } from '@brixel/brixel-components';
+import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
 import { phonecode } from '@brixel/brixel-components/dist/constants/CountryCodePhone';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import cloneDeep from 'lodash/cloneDeep';
-import BrixelButtonSecondary from '@brixel/brixel-components/dist/components/BrixelButtonSecondary';
-import queryString from 'query-string';
 import isArray from 'lodash/isArray';
-import { ScanTrialQuestions } from '../../resources/Flows/ScanTrialRequest';
-import { sendUserScanTrial } from '../../actions/UserActions';
+import PropTypes from 'prop-types';
+import queryString from 'query-string';
+import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { spinnerOff } from '../../actions/CommonActions';
-import { getCookie, setCookie } from '../../utils/helpers';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
+import { sendUserScanTrial } from '../../actions/UserActions';
+import { ScanTrialQuestions } from '../../resources/Flows/ScanTrialRequest';
+import { getCookie, setCookie } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 const ScanTrialFlow = (props) => {
   const history = {
