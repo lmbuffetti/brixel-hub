@@ -111,6 +111,7 @@ const MarketBuyer = (props) => {
       <Suspense fallback="">
         <Routes>
           <Route path="/" element={<MarketCategoryListBuyer />} />
+          <Route path="/searchProfile" element={<MarketCategoryListBuyer />} />
           <Route path="/:cat" element={<MarketList isBuyer />} />
           <Route path="*" element={<Navigate to="/buy" />} />
         </Routes>

@@ -6,7 +6,7 @@ import has from 'lodash/has';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Route, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
 import { setHistory, setSplashType } from '../../actions/CommonActions';
