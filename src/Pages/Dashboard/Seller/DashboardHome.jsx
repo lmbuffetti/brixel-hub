@@ -300,13 +300,13 @@ const DashboardHome = (props) => {
         windowDimensions.width <= 1024 && (
           <>
             {
-              activeSingleProperty.id && propID && propID.length > 9 && progressState.id && (
+              activeSingleProperty.id && propID && propID.length > 9 && (
                 <ProgressSellerStage
                   lang={lang}
                   className="mb-3"
                   smallLayout
                   xSmallMobile={windowDimensions.width <= 520}
-                  stepIndexProgress={progressState.id}
+                  stepIndexProgress={progressState.id || 1}
                 />
               )
             }
