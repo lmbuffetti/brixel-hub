@@ -3,11 +3,14 @@ import {
   BrixelAvatar,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelButtonText,
   BrixelIcon,
   BrixelProgressBar,
   FactsOptions,
   Helpers,
+  ProgressRing,
 } from '@brixel/brixel-components';
+import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
@@ -27,22 +30,20 @@ import DashboardPropertyCardSold from '../../../components/Cards/DashboardProper
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import ArticlesBox from '../../../components/CraftCMS/ArticlesBox';
 import BannerBox from '../../../components/CraftCMS/BannerBox';
-
-// import Loading from '../../../components/Loading';
 import ProgressSellerStage from '../../../components/ProgressSellerStage';
 import completeDescriptionImg from '../../../images/dashboard/complete_description.svg';
 import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
 import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
 import completedFactsImg from '../../../images/dashboard/completed_facts.svg';
 import marketNewHomeSvg from '../../../images/dashboard/marketMin.png';
-import testDriveImg from '../../../images/dashboard/onboarding_testdrive.svg';
+import onboardingDocsImg from '../../../images/dashboard/onboardingDocs.png';
 import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
 import reviewSaleSvg from '../../../images/dashboard/reviewSale.svg';
 import surveySaleSvg from '../../../images/dashboard/surveySale.svg';
 import bookTestDriveImg from '../../../images/TestDrive/bookTestDrive.png';
 import contactTestDriveImg from '../../../images/TestDrive/contactTestDrive.svg';
 import bookedTestDriveImg from '../../../images/TestDrive/scanTrialRequested.svg';
-import { calcPercentageFacts } from '../../../utils/helpers';
+import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
 
 const { factsOptions } = FactsOptions;
@@ -55,26 +56,26 @@ const DashboardHome = (props) => {
   const match = useParams();
   // PROPS
   const {
-    activeSinglePropertyHistory,
     activeSingleCompany,
     activeSingleProperty,
     activeSinglePropertyDeals,
     activeSinglePropertyDealsCount,
+    activeSinglePropertyHistory,
+    documents,
     estimation,
     formValue,
     handleGetActiveSinglePropertyDealsCount,
-    handleGetPageDeals,
     handleGetEstimation,
+    handleGetPageDeals,
     handleSetModal,
-    // isSmallLoading,
     lang,
     loggedInUser,
     onProgressStep,
     splashScreenType,
-    // userTypes,
     windowDimensions,
   } = props;
   // STATE
+  const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
   const [progressState, setProgressState] = useState({});
   const [visitLists, setVisitLists] = useState(null);
   const [activeScantrial, setActiveScanTrial] = useState(null);
@@ -124,6 +125,11 @@ const DashboardHome = (props) => {
           step: 6,
         });
       }
+      if (documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')]) {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')][get(activeSingleProperty, 'properties.propertyType')]);
+      } else {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(activeSingleProperty, 'properties.propertyType')]);
+      }
     }
   }, [activeSingleProperty.id]);
 
@@ -139,7 +145,18 @@ const DashboardHome = (props) => {
       }
     }
   }, [activeSinglePropertyHistory]);
-
+  
+  const countMandatoryDocuments = () => {
+    let count = 0;
+    if (documents && mandatoryDocuments) {
+      documents.forEach((doc) => {
+        mandatoryDocuments.forEach((el) => {
+          if (el === doc.type) count += 1;
+        });
+      });
+    }
+    return count;
+  };
 
   const openBrixelPage = () => {
     if (progressState.id > 0) {
@@ -331,50 +348,77 @@ const DashboardHome = (props) => {
         {
           progressState.step === 1 && (
             <>
-              <div
-                className="bgGreen100 shadow-2dp brdRadius p-2 p-sm-3 mb-3 cardWithBg testDriveImg"
-                style={{ backgroundImage: `url(${testDriveImg})` }}
-              >
-                <div className="dis-f a-t jc-b">
-                  <div>
-                    <h4 className="mb-2 fweight-600">
-                      {translateTo('Test drive our service. No strings attached.', lang)}
-                    </h4>
-                    <p className="fsize-300 txtDark700 max-w-perc-70 max-w-perc-sm-100">
-                      <span>
-                        {translateTo('Get the full Brixel experience worth', lang)}
-                      </span>
-                      <span className="ml-small-4">
-                        {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
-                      </span>
-                    </p>
-
-                    <div className="dis-fl-col dis-fl-row-sm mt-3">
-                      <BrixelButtonPrimary
-                        onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
-                        className="as-fs min-w-fix-144"
-                        rounded
-                        label={translateTo('Book now', lang)}
-                      />
-
-                      <BrixelButtonSecondary
-                        onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/home`)}
-                        className="ml-sm-3 mt-1 mt-sm-0 min-w-fix-144 as-fs"
-                        rounded
-                        bgTransparent
-                        themeSat={700}
-                        label={translateTo('Contact us', lang)}
-                      />
-                    </div>
-
-                  </div>
-                  {/* <img loading="lazy" src={testDriveImg} alt="Test Drive" /> */}
-                </div>
-              </div>
-
+              
               <DashboardPropertyCard
                 lang={lang}
               />
+  
+              {boxScanTrial()}
+              
+              <div className="dis-f flex-wrap mt-3">
+                {/* PRO ESTIMATION BOX */}
+                <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+                  <div
+                    className="dis-f jc-b brdRadius bgBlue200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
+                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                  >
+                    <div className="w-perc-100 max-w-fix-232">
+                      <h4 className="fweight-600 txtBlue400">
+                        {calcPercentageProEstimation('', activeSingleProperty).realPerc}%
+                      </h4>
+                      <h5 className="fweight-600 txtBlue700">
+                        {translateTo('of Pro Estimation complete', lang)}
+                      </h5>
+                    </div>
+                    <div className="w-perc-100 max-w-fix-136 ta-r">
+                      <ProgressRing
+                        progress={calcPercentageProEstimation('', activeSingleProperty).realPerc}
+                        size={100}
+                        strokeWidth={20}
+                        circleOneStroke="#96DAEA"
+                        circleTwoStroke="#004D71"
+                        showIconComplete={calcPercentageProEstimation('', activeSingleProperty).realPerc >= 100}
+                        showIcon={false}
+                        showIconCompleteColor="blue"
+                        showIconCompleteSize="large"
+                      />
+                    </div>
+                  </div>
+                </div>
+  
+                {/* DOCUBOX BOX */}
+                <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+                  <div
+                    className="dis-f jc-b brdRadius bgRed200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
+                    onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
+                  >
+                    <div className="w-perc-100 max-w-fix-232">
+                      <h4 className="fweigth-600 txtRed400">
+                        <span>{countMandatoryDocuments()}</span>
+                        <span className="ml-small-4">
+                          {translateTo('of', lang)}
+                        </span>
+                        <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
+                      </h4>
+                      <h5 className="fweigth-600 txtRed700">
+                        {translateTo('uploaded on your docubox', lang)}
+                      </h5>
+                      
+                      <BrixelButtonText
+                        className="mt-3"
+                        bgTransparent
+                        theme="red"
+                        rightIcon="arrow-simple-right"
+                        label="Upload"
+                      />
+                    </div>
+                    <div className="w-perc-100 max-w-fix-136 ta-r">
+                      <img src={onboardingDocsImg} alt="Docubox Image" />
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
 
               <span className="dis-b mt-2-neg"></span>
 
@@ -998,6 +1042,7 @@ DashboardHome.propTypes = {
   activeSinglePropertyDeals: PropTypes.object,
   activeSinglePropertyDealsCount: PropTypes.object.isRequired,
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
+  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyDealsCount: PropTypes.func.isRequired,
@@ -1024,6 +1069,7 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
   activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory.data', []),
+  documents: get(state, 'property.activeSingleProperty.documents', []),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
