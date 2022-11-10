@@ -254,7 +254,7 @@ const ScanTrialFlow = (props) => {
     }
     return null;
   };
-  
+
   useEffect(() => {
     let showBookTrial = false
     if (get(activeSingleScanTrial, 'actionStub', null) && get(formValue, 'analysis', null) === 'on-site') {
@@ -268,7 +268,7 @@ const ScanTrialFlow = (props) => {
     const defId = checkCondition(currentIndex);
     if (defId !== currentIndex) changeStep();
   }, [activeSingleProperty]);
-  
+
   useEffect(() => {
     if (loggedInUser.id && activeSingleProperty.id && get(formValue, 'analysis', null) === 'on-site') {
       const payloadPageHistory = {
@@ -284,7 +284,7 @@ const ScanTrialFlow = (props) => {
       handleGetHistoryFeed(payloadPageHistory);
     }
   }, [loggedInUser, activeSingleProperty, get(formValue, 'analysis', null)]);
-  
+
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
@@ -323,7 +323,7 @@ const ScanTrialFlow = (props) => {
     else label = 'Continue';
     return label;
   };
-  
+
   if (!activeSingleScanTrial) return <div />
 
   return (
@@ -399,7 +399,7 @@ const ScanTrialFlow = (props) => {
                               disableDelay
                             />
                           </div>
-        
+
                         </div>
                       )
                     }
@@ -422,13 +422,13 @@ const ScanTrialFlow = (props) => {
                         <div className={`scaleAnim ta-c ${quest.cardClass}`}>
                           <img loading="lazy" src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
                           <h2
-                            className="fadeAnim fweight-600 ta-c"
+                            className="fadeAnim fsize-700 fsize-sm-800 fweight-600 ta-c"
                             dangerouslySetInnerHTML={{ __html: quest.title }}
                           />
                           {
                             quest.subtitle && (
                               <h6
-                                className="fadeAnim fsize-600 fweight-400 mt-2 ta-c"
+                                className="fadeAnim fsize-500 fsize-sm-600 fweight-400 mt-2 ta-c"
                                 dangerouslySetInnerHTML={{ __html: quest.subtitle }}
                               />
                             )
