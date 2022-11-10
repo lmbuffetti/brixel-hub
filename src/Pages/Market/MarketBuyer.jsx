@@ -1,28 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, Suspense } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Navigate,
-  Route, Routes, useLocation, useNavigate, useParams,
-} from 'react-router-dom';
-import get from 'lodash/get';
-import { bindActionCreators, compose } from 'redux';
-import { connect } from 'react-redux';
 import { destroy } from '@brixel/brixel-components/dist/form';
-import {
-  getOwnedProperties, getFavoritesProperties, getNewProperties,
-  getPremiumProperties, getPremarketProperties, getLastViewedProperties,
-  getWishlistProperties, getPremarketStats, getOwnedEstimations,
-} from '../../actions/MarketActions';
-import '../../styles/SCSS/pages/market.scss';
+import get from 'lodash/get';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import { setSplashType, spinnerOff } from '../../actions/CommonActions';
+import {
+  getFavoritesProperties,
+  getLastViewedProperties,
+  getNewProperties,
+  getOwnedEstimations,
+  getOwnedProperties,
+  getPremarketProperties,
+  getPremarketStats,
+  getPremiumProperties,
+  getWishlistProperties,
+} from '../../actions/MarketActions';
+import { setActiveMarketOverlayPropertyLists } from '../../actions/PropertyActions';
 import { getUserSearchProfiles } from '../../actions/SearchProfileActions';
 import { updateFavorite } from '../../actions/UserActions';
-import { setActiveMarketOverlayPropertyLists } from '../../actions/PropertyActions';
 import lazyWithRetry from '../../components/LazyWithRetry';
+import '../../styles/SCSS/pages/market.scss';
 
 const MarketCategoryListBuyer = lazyWithRetry(() => import('./MarketCategoryListBuyer'));
-
 const MarketList = lazyWithRetry(() => import('./MarketList'));
 
 const MarketBuyer = (props) => {

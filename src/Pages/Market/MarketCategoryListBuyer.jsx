@@ -1,34 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useEffect, Suspense, useState, useRef,
-} from 'react';
-import PropTypes from 'prop-types';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelTabs } from '@brixel/brixel-components';
+import { initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
-import {
-  BrixelIcon,
-  BrixelButtonPrimary,
-  BrixelButtonIcon,
-  BrixelTabs,
-} from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import { initializeForm } from '@brixel/brixel-components/dist/form';
-import { bindActionCreators, compose } from 'redux';
+import PropTypes from 'prop-types';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { Route, useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
+import { bindActionCreators, compose } from 'redux';
+import { setHistory, setSplashType } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
-import lazyWithRetry from '../../components/LazyWithRetry';
-import { setCookie, getCookie } from '../../utils/helpers';
-import SplashScreen from '../../components/SplashScreen';
-import { setSplashType, setHistory } from '../../actions/CommonActions';
-import { setEstimation, setActiveMarketOverlayProperty } from '../../actions/PropertyActions';
-import MarketCardSmall from '../../components/Cards/MarketCardSmall';
-import SearchProfileBanner from '../../components/SearchProfileBanner';
-import teaserAnimation from '../../images/Market/teaserAnimate.svg';
+import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
 import { createUserSearchProfile } from '../../actions/SearchProfileActions';
+import MarketCardSmall from '../../components/Cards/MarketCardSmall';
+import lazyWithRetry from '../../components/LazyWithRetry';
+import SearchProfileBanner from '../../components/SearchProfileBanner';
+import SplashScreen from '../../components/SplashScreen';
+import teaserAnimation from '../../images/Market/teaserAnimate.svg';
+import { getCookie, setCookie } from '../../utils/helpers';
+import translateTo from '../../utils/translation';
 
 const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
+const SearchProfile = lazyWithRetry(() => import('./SearchProfile'));
 
 const MarketCategoryListBuyer = (props) => {
   const history = {
@@ -160,6 +154,9 @@ const MarketCategoryListBuyer = (props) => {
 
   return (
     <>
+      <Routes>
+        <Route path="/searchProfile" element={<SearchProfile />} />
+      </Routes>
       <Suspense fallback="">
         <div className="buyerMarket">
           {/* SECTION: buyer welcome message  */}
