@@ -6,3 +6,5 @@ brixel-hub.iml
 dist
 __tests__
 configJest
+cypress.config.js
+server.js
