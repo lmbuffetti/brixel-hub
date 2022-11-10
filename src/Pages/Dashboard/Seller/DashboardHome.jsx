@@ -130,7 +130,7 @@ const DashboardHome = (props) => {
   useEffect(() => {
     onProgressStep(progressState)
   }, [progressState]);
-  
+
   useEffect(() => {
     if (activeSinglePropertyHistory.length > 0) {
       let getActiveScanTrial = activeSinglePropertyHistory.find((hst) => hst.actionStub === 'page-scan-trial');
@@ -139,7 +139,7 @@ const DashboardHome = (props) => {
       }
     }
   }, [activeSinglePropertyHistory]);
-  
+
 
   const openBrixelPage = () => {
     if (progressState.id > 0) {
@@ -231,7 +231,7 @@ const DashboardHome = (props) => {
           </div>
         )
       }
-      
+
       <div className="mt-3 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
         <div
           onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/home`)}
@@ -295,7 +295,7 @@ const DashboardHome = (props) => {
           </h4>
         )
       }
-      
+
       {
         windowDimensions.width <= 1024 && (
           <>

@@ -49,14 +49,14 @@ const DashboardHome = (props) => {
   const [visitAccepted, setVisitAccepted] = useState(false);
   const [showFirstWelcomMessage, setShowFirstWelcomMessage] = useState(false);
   const propID = get(match, 'propID', null);
-  
+
   useEffect(() => {
     if (getCookie('brixelFirstTime') === 'true') {
       setShowFirstWelcomMessage(true);
       setCookie('brixelFirstTime', false);
     }
   }, []);
-  
+
   useEffect(() => {
     if (!isNaN(+get(activeSingleDeal, 'visit', 0))) {
       setVisitAccepted(get(activeSingleDeal, 'visit', 0));
