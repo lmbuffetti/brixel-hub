@@ -360,7 +360,7 @@ const DashboardHome = (props) => {
                 <div className="pr-md-1 mb-3 mb-sm-0 w-perc-100 w-perc-md-50 min-h-perc-100">
                   <div
                     className="dis-f jc-b brdRadius bgBlue200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
-                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
+                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price/proEstimation`)}
                   >
                     <div className="w-perc-100 max-w-fix-232">
                       <h4 className="fweight-600 txtBlue400">
