@@ -36,7 +36,7 @@ import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
 import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
 import completedFactsImg from '../../../images/dashboard/completed_facts.svg';
 import marketNewHomeSvg from '../../../images/dashboard/marketMin.png';
-import onboardingDocsImg from '../../../images/dashboard/onboardingDocs.png';
+import onboardingDocsImg from '../../../images/dashboard/onboardingDocs.svg';
 import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
 import reviewSaleSvg from '../../../images/dashboard/reviewSale.svg';
 import surveySaleSvg from '../../../images/dashboard/surveySale.svg';
@@ -145,7 +145,7 @@ const DashboardHome = (props) => {
       }
     }
   }, [activeSinglePropertyHistory]);
-  
+
   const countMandatoryDocuments = () => {
     let count = 0;
     if (documents && mandatoryDocuments) {
@@ -270,7 +270,7 @@ const DashboardHome = (props) => {
               label={translateTo('Contact us', lang)}
             />
           </div>
-          <div className="w-perc-100 max-w-fix-136">
+          <div className="w-perc-100 max-w-fix-204 ta-r">
             <img
               loading="lazy"
               src={contactTestDriveImg}
@@ -348,16 +348,16 @@ const DashboardHome = (props) => {
         {
           progressState.step === 1 && (
             <>
-              
+
               <DashboardPropertyCard
                 lang={lang}
               />
-  
+
               {boxScanTrial()}
-              
+
               <div className="dis-f flex-wrap mt-3">
                 {/* PRO ESTIMATION BOX */}
-                <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+                <div className="pr-md-1 mb-3 mb-sm-0 w-perc-100 w-perc-md-50 min-h-perc-100">
                   <div
                     className="dis-f jc-b brdRadius bgBlue200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
                     onClick={() => history.push(`/${activeSingleProperty.id}/property/price`)}
@@ -366,11 +366,19 @@ const DashboardHome = (props) => {
                       <h4 className="fweight-600 txtBlue400">
                         {calcPercentageProEstimation('', activeSingleProperty).realPerc}%
                       </h4>
-                      <h5 className="fweight-600 txtBlue700">
+                      <h5 className="fweight-600 fSizePx18 txtBlue700">
                         {translateTo('of Pro Estimation complete', lang)}
                       </h5>
+                      <BrixelButtonText
+                        className="mt-3"
+                        bgTransparent
+                        theme="blue"
+                        themeSat={700}
+                        rightIcon="arrow-simple-right"
+                        label="Review"
+                      />
                     </div>
-                    <div className="w-perc-100 max-w-fix-136 ta-r">
+                    <div className="w-perc-100 max-w-fix-136 dis-f a-c">
                       <ProgressRing
                         progress={calcPercentageProEstimation('', activeSingleProperty).realPerc}
                         size={100}
@@ -385,25 +393,25 @@ const DashboardHome = (props) => {
                     </div>
                   </div>
                 </div>
-  
+
                 {/* DOCUBOX BOX */}
-                <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+                <div className="pl-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
                   <div
                     className="dis-f jc-b brdRadius bgRed200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
                     onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
                   >
                     <div className="w-perc-100 max-w-fix-232">
-                      <h4 className="fweigth-600 txtRed400">
+                      <h4 className="fweight-600 txtRed400">
                         <span>{countMandatoryDocuments()}</span>
                         <span className="ml-small-4">
                           {translateTo('of', lang)}
                         </span>
                         <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
                       </h4>
-                      <h5 className="fweigth-600 txtRed700">
+                      <h5 className="fweight-600 fSizePx18 txtRed700">
                         {translateTo('uploaded on your docubox', lang)}
                       </h5>
-                      
+
                       <BrixelButtonText
                         className="mt-3"
                         bgTransparent
@@ -417,7 +425,7 @@ const DashboardHome = (props) => {
                     </div>
                   </div>
                 </div>
-                
+
               </div>
 
               <span className="dis-b mt-2-neg"></span>
