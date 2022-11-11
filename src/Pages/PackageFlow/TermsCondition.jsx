@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText, BrixelProgressBar } from '@brixel/brixel-components';
 import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
-import translations from '@brixel/brixel-components/dist/Reducer/TranslationsReducer';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
@@ -472,6 +471,7 @@ TermsCondition.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  translations: PropTypes.object.isRequired,
 };
 
 TermsCondition.defaultProps = {
