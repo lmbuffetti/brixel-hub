@@ -159,7 +159,7 @@ export const QuestionsList = (lang, company, isBuyer) => {
           },]
         },
       );
-  
+      
     }
   }
   question.push({
