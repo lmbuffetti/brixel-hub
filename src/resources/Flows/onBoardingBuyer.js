@@ -1,19 +1,19 @@
 /* eslint-disable max-len */
 import { FactsOptions } from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
 import {
-  BrixelRadioButton,
   BrixelCheckbox,
   BrixelExtraFeature,
   BrixelInputMultiRange,
   BrixelInputText,
+  BrixelRadioButton,
   BrixelSelect,
   Validation,
 } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import MapsCities from '../../components/Map/MapsCities';
 import LoginSignup from '../../components/LoginSignup';
+import MapsCities from '../../components/Map/MapsCities';
 import { configureStore } from '../../store';
+import translateTo from '../../utils/translation';
 import { svgIcons } from '../Utilities/svgIcons';
 
 const { factsOptions } = FactsOptions;
@@ -104,6 +104,7 @@ export const QuestionsList = (lang, type) => {
           addPlusOnLast: true,
           minLengthNum: 0,
           maxLengthNum: 9,
+          showSingleValCheck: true,
         },
         {
           component: BrixelInputMultiRange,
@@ -199,6 +200,23 @@ export const QuestionsList = (lang, type) => {
           large: true,
         },
       ],
+      successMessage: translateTo('This is a nice number.', lang),
+    },
+    {
+      history: 'name',
+      cardType: 'name',
+      className: 'max-w-fix-480 m-a',
+      footerWidth: 'max-w-fix-480',
+      inputs: [
+        {
+          component: BrixelInputText,
+          pdClass: 'py-2 py-lg-3 px-2',
+          icons: true,
+          label: 'Name',
+          name: 'name',
+        },
+      ],
+      hideSearchProfileFlow: true,
       successMessage: translateTo('This is a nice number.', lang),
     },
     {
