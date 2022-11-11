@@ -6,7 +6,7 @@ import has from 'lodash/has';
 import PropTypes from 'prop-types';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
 import { setHistory, setSplashType } from '../../actions/CommonActions';
@@ -22,7 +22,7 @@ import { getCookie, setCookie } from '../../utils/helpers';
 import translateTo from '../../utils/translation';
 
 const CarouselWrapper = lazyWithRetry(() => import('../../components/CarouselWrapper'));
-const SearchProfile = lazyWithRetry(() => import('./SearchProfile'));
+const SearchProfileModal = lazyWithRetry(() => import('./SearchProfile/SearchProfileModal'));
 
 const MarketCategoryListBuyer = (props) => {
   const history = {
@@ -154,9 +154,11 @@ const MarketCategoryListBuyer = (props) => {
 
   return (
     <>
-      <Routes>
-        <Route path="/searchProfile" element={<SearchProfile />} />
-      </Routes>
+      {
+        get(history, 'location.pathname', '').includes('searchProfile') && (
+          <SearchProfileModal />
+        )
+      }
       <Suspense fallback="">
         <div className="buyerMarket">
           {/* SECTION: buyer welcome message  */}
