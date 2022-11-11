@@ -40,15 +40,19 @@ const SearchProfileForm = (props) => {
   }, [userSearchProfiles]);
   
   return (
-    <div>
-      <MultiFileldsReduxForm
-        form="SearchProfile"
-        disableNextBtn={false}
-        formValue={formValue}
-        nestedInputs={fullForm}
-        showSendButton
-        autofocus={false}
-      />
+    <div className="flowWrapper">
+      <div className="packageFlow">
+        <div id="multiStepForm">
+          <MultiFileldsReduxForm
+            form="SearchProfile"
+            disableNextBtn={false}
+            formValue={formValue}
+            nestedInputs={fullForm}
+            showSendButton
+            autofocus={false}
+          />
+        </div>
+      </div>
     </div>
   );
 };

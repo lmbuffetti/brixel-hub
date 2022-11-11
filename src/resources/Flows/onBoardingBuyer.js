@@ -87,7 +87,7 @@ export const QuestionsList = (lang, type) => {
       successMessage: translateTo('Ok. Got it.', lang),
     },
     {
-      title: translateTo(type === 'searchProfile' ? 'Size' : 'How big should it be?', lang),
+      title: translateTo(type === 'searchProfile' ? 'How big should it be?' : 'How big should it be?', lang),
       history: 'tipology',
       vCentered: true,
       classWrap: 'inputRangeWrap',
@@ -130,13 +130,12 @@ export const QuestionsList = (lang, type) => {
       footerWidth: 'max-w-fix-800',
       inputs: [
         {
-          className: 'extraFeature',
+          className: type === 'searchProfile' ? 'extraFeature' : 'extraFeature',
           component: BrixelExtraFeature,
           name: 'characteristics.extraFeatures',
           extraFeatureCustomList: newExtraFeature,
         },
       ],
-      hideSearchProfile: true,
       successMessage: translateTo('Ok. Got it.', lang),
     },
     {
@@ -200,20 +199,21 @@ export const QuestionsList = (lang, type) => {
           large: true,
         },
       ],
-      successMessage: translateTo('This is a nice number.', lang),
     },
     {
       history: 'name',
       cardType: 'name',
       className: 'max-w-fix-480 m-a',
       footerWidth: 'max-w-fix-480',
+      title: translateTo('Let’s give your new search profile a name', lang),
       inputs: [
         {
           component: BrixelInputText,
           pdClass: 'py-2 py-lg-3 px-2',
-          icons: true,
+          classNameBox: `brdRadius fieldHolder bgWhite ${type === 'searchProfile' ? 'max-w-fix-320' : 'max-w-fix-600 px-2 px-sm-5 py-5 m-a'}`,
           label: 'Name',
           name: 'name',
+          large: true,
         },
       ],
       hideSearchProfileFlow: true,

@@ -5,7 +5,7 @@ import { configureStore } from '../store';
 const translateToComponent = (word, lang, options) => {
   const store = configureStore;
   const translations = get(store.getState(), 'translations', {});
-  return translateTo(word, lang, options, translations);
+  return translateTo(word, lang, options, translations) || word;
 };
 
 export default translateToComponent;
