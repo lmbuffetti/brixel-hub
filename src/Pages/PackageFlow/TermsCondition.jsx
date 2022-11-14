@@ -434,7 +434,7 @@ const TermsCondition = (props) => {
                     rounded
                     theme="green"
                     isLoading={isSmallLoading.sendData}
-                    label={buttonLabel()}
+                    label={translateTo(buttonLabel(), lang)}
                     onClick={() => changeStep()}
                     onShowError={() => setShowError(true)}
                   />
