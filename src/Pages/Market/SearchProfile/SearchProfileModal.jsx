@@ -47,6 +47,15 @@ const SearchProfileModal = (props) => {
     }
   }
   
+  const modalTitle = () => {
+    switch(history.location.pathname) {
+      case '/buy/searchProfile':
+        return 'Manage Search Profiles';
+      default:
+        return 'Edit Search Profile';
+    }
+  }
+  
   const multiActions = () => {
     const diffForm = diff(initialValues, formValue) || {};
     switch(history.location.pathname) {
@@ -95,7 +104,7 @@ const SearchProfileModal = (props) => {
   
   return (
     <BrixelModal
-      title={translateTo('Manage Search Profiles', lang)}
+      title={translateTo(modalTitle(), lang)}
       onClose={() => onClose()}
       layout="xxlarge"
       classContainer="ta-c mt-8-neg brdSmallBottom brdLight200 pb-3"
