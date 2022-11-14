@@ -1,18 +1,21 @@
 import get from 'lodash/get';
+
+import {
+  REDIRECT_TO,
+  SET_SCREEN_NOTIFICATION,
+  SPINNER_OFF,
+  SPINNER_ON,
+  SPINNER_SMALL,
+} from '../actions/types/CommonTypes';
 import {
   CREATE_USER_SEARCH_PROFILE,
   GET_USER_SEARCH_PROFILES,
   SET_USER_SEARCH_PROFILES,
   UPDATE_USER_SEARCH_PROFILE,
 } from '../actions/types/SearchProfileTypes';
-
-import {
-  SPINNER_ON,
-  SPINNER_OFF, SET_SCREEN_NOTIFICATION, SPINNER_SMALL,
-} from '../actions/types/CommonTypes';
+import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 
 import api from '../controllers/api/config';
-import { SAVE_ACTIVE_SINGLE_USER } from '../actions/types/UserTypes';
 
 const checkSearchProfile = (store) => (next) => (action) => {
   switch (action.type) {
@@ -111,18 +114,12 @@ const checkSearchProfile = (store) => (next) => (action) => {
       api.searchProfile.updateSearchProfile(dataSearchProfile, id)
         .then((res) => {
           store.dispatch({
-            type: SET_SCREEN_NOTIFICATION,
-            payload: {
-              state: true,
-              type: 'done',
-            },
-          });
-          store.dispatch({
             type: GET_USER_SEARCH_PROFILES,
             payload: res.data.user,
           });
           if (redirectToUrl) {
-            window.location.assign(redirectToUrl);
+            store.dispatch({ type: REDIRECT_TO, payload: { history: redirectToUrl } })
+            // window.location.assign(redirectToUrl);
           } else if (addSearchProfile) {
             // window.location.href = '/home';
             window.location.assign('/buy');

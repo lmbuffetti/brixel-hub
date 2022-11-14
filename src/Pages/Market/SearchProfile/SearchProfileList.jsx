@@ -2,12 +2,14 @@ import { BrixelButtonSecondary, BrixelIcon, Helpers } from '@brixel/brixel-compo
 import { BrixelRadioButton, initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
+import set from 'lodash/set';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { compose } from 'redux';
 import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
+import { titleSearchProfile } from '../../../utils/titleCreationSearchProfile';
 import translateTo from '../../../utils/translation';
 
 const SearchProfileList = (props) => {
@@ -36,12 +38,15 @@ const SearchProfileList = (props) => {
         });
       }
     });
-    console.log(fields)
     setFieldsSearchProfile(fields);
   }, []);
   
   const editSearchProfile = (searchProfile) => {
-    initForm(searchProfile)
+    let initialValue = {};
+    fieldsSearchProfile.forEach((field) => {
+      set(initialValue, field, get(searchProfile, field, ''));
+    })
+    initForm(initialValue)
     history.push(`/buy/searchProfile/edit/${searchProfile.id}`)
   }
   
@@ -93,10 +98,10 @@ const SearchProfileList = (props) => {
             {Helpers.formatNumberValue(price, currency)} {currency}
           </>
         )
-      } else {
+      } else if (get(searchProfile, field, null)) {
         return (
           <>
-            {get(searchProfile, field, [])}
+            {get(searchProfile, field, 'test')}
           </>
         )
       }
@@ -107,8 +112,7 @@ const SearchProfileList = (props) => {
     <div>
       <h5>Your Search Profiles</h5>
       <p>Choose the Search Profile you’d like to apply to filter properties.</p>
-  
-  
+      
       {
         userSearchProfiles && userSearchProfiles.map((searchProfile, i) => (
           <div
@@ -126,7 +130,7 @@ const SearchProfileList = (props) => {
                   }}
                   options={[{
                     value: searchProfile.id,
-                    label: searchProfile.id,
+                    label: searchProfile.name || titleSearchProfile(searchProfile, lang),
                   }
                   ]}
                 />
@@ -148,12 +152,17 @@ const SearchProfileList = (props) => {
                     <div className="dis-f flex-wrap a-t">
                       {
                         fieldsSearchProfile.map((field, index) => (
-                          <div
-                            key={`search${index.toString()}`}
-                            className="brdSmall brdLight200 brdFullRadius p-1 mr-1 mb-1"
-                          >
-                            {renderFieldsSearchProfile(searchProfile, field)}
-                          </div>
+                          <React.Fragment key={`search${index.toString()}`}>
+                            {
+                              field !== 'isDefault' && field !== 'name' && (
+                                <div
+                                  className="brdSmall brdLight200 brdFullRadius p-1 mr-1 mb-1"
+                                >
+                                  {renderFieldsSearchProfile(searchProfile, field)}
+                                </div>
+                              )
+                            }
+                          </React.Fragment>
                         ))
                       }
                     </div>
@@ -191,6 +200,7 @@ const SearchProfileList = (props) => {
 
 SearchProfileList.propTypes = {
   initForm: PropTypes.func.isRequired,
+  lang: PropTypes.string.isRequired,
   userSearchProfiles: PropTypes.arrayOf(PropTypes.object)
 };
 
@@ -199,6 +209,7 @@ SearchProfileList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  lang: get(state, 'common.language', 'en'),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
 });
 
