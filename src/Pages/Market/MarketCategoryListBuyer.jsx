@@ -13,7 +13,6 @@ import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
 import MarketCardSmall from '../../components/Cards/MarketCardSmall';
 import lazyWithRetry from '../../components/LazyWithRetry';
-import SearchProfileBanner from '../../components/SearchProfileBanner';
 import SplashScreen from '../../components/SplashScreen';
 import teaserAnimation from '../../images/Market/teaserAnimate.svg';
 import { getCookie, setCookie } from '../../utils/helpers';
@@ -65,7 +64,6 @@ const MarketCategoryListBuyer = (props) => {
     lang,
     loggedInUser,
     ownerEstimations,
-    preMarketStats,
     premiumEuropeProperties,
     premiumProperties,
     setSplashScreen,
@@ -343,33 +341,14 @@ const MarketCategoryListBuyer = (props) => {
           <div className={`${get(wishlistProperties, 'data', []).length <= 0 && get(ownerEstimations, 'data', []).length <= 0 ? 'mt-3-neg pt-3' : 'mt-5'} bgSvg bgOverlay`}>
 
             <div className="container pt-3 pb-4 pb-lg-8">
-
-              {/* SEARCH PROFILE */}
-              <div className="">
-                <SearchProfileBanner
-                  preMarketStats={preMarketStats}
-                  onStatsFunc={{ matching: () => setSplashScreen('marketOverlayCarousel') }}
-                />
-              </div>
-
+              
               <div className="dis-f jc-fe-lg pt-1 pt-lg-9 mt-9 mt-lg-10 infoBannerMarketBuyer">
                 <div className="w-perc-md-50 w-perc-100">
-                  <h3 className="max-w-fix-320 fweight-600 fsize-800">
-                    <span>{translateTo('There are', lang)}</span>
-                    <span className="mx-small-4 txtBlue700">{preMarketStats.total}</span>
-                    <span className="mx-small-4 txtBlue700">
-                      {translateTo('new properties', lang)}
-                    </span>
-                    <span>{translateTo('on our Pre-Market.', lang)}</span>
-                  </h3>
-                  <h5 className="fweight-400 mt-3 txtDark700">
-                    {translateTo('Be ahead of the market.', lang)}
-                  </h5>
                   <BrixelButtonPrimary
-                    onClick={() => setSplashScreen('marketOverlayCarousel')}
+                    onClick={() => history.push('/buy/searchProfile')}
                     className="mt-3 mt-lg-5"
                     rounded
-                    label={translateTo('Rate them now', lang)}
+                    label={translateTo('Create search Profile', lang)}
                   />
                 </div>
 
@@ -443,22 +422,19 @@ MarketCategoryListBuyer.defaultProps = {
   userSearchProfiles: null,
 };
 
-const mapStateToProps = (state) => {
-  const searchProfile = get(state, 'user.userSearchProfiles', []);
-  return ({
-    estimation: get(state, 'property.estimation', {}),
-    lang: get(state, 'common.language', 'en'),
-    loggedInUser: get(state, 'user.loggedInUser.user', {}),
-    ownerEstimations: get(state, 'market.ownerEstimations', {}),
-    preMarketStats: get(state, 'market.preMarketStats', {}),
-    premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
-    premiumProperties: get(state, 'market.premiumProperties', {}),
-    splashScreenType: get(state, 'common.splashScreenType', ''),
-    activeSearchProfile: get(state, 'user.activeSearchProfile', {}),
-    windowDimensions: get(state, 'common.windowDimensions', {}),
-    wishlistProperties: get(state, 'market.wishlistProperties', {}),
-  });
-};
+const mapStateToProps = (state) => ({
+  estimation: get(state, 'property.estimation', {}),
+  lang: get(state, 'common.language', 'en'),
+  loggedInUser: get(state, 'user.loggedInUser.user', {}),
+  ownerEstimations: get(state, 'market.ownerEstimations', {}),
+  preMarketStats: get(state, 'market.preMarketStats', {}),
+  premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
+  premiumProperties: get(state, 'market.premiumProperties', {}),
+  splashScreenType: get(state, 'common.splashScreenType', ''),
+  activeSearchProfile: get(state, 'user.activeSearchProfile', {}),
+  windowDimensions: get(state, 'common.windowDimensions', {}),
+  wishlistProperties: get(state, 'market.wishlistProperties', {}),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),

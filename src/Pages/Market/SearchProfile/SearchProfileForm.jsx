@@ -1,5 +1,4 @@
 import { initializeForm, MultiFileldsReduxForm } from '@brixel/brixel-components/dist/form';
-import { change } from '@brixel/brixel-components/dist/utils/ReduxForm.Functions';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import PropTypes from 'prop-types';
@@ -8,14 +7,12 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { compose } from 'redux';
 import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
-import { titleSearchProfile } from '../../../utils/titleCreationSearchProfile';
 
 const SearchProfileForm = (props) => {
   const match = useParams();
   const idSearchProfile = get(match, 'id', null);
   const {
     activeSingleCompany,
-    changeFieldValue,
     formValue,
     initForm,
     lang,
@@ -23,16 +20,6 @@ const SearchProfileForm = (props) => {
   } = props;
   // STATE
   const [fullForm, setFullForm] = useState([]);
-  
-  useEffect(() => {
-    const rooms = get(formValue, 'characteristics.bedrooms', {});
-    const propertyType = get(formValue, 'characteristics.propertyType', []);
-    const locations = get(formValue, 'locations', []);
-    const searchProfileName = get(formValue, 'name', null);
-    if (propertyType.length > 0 && locations.length > 0 && rooms.max && !searchProfileName) {
-      changeFieldValue('name', titleSearchProfile(formValue, lang))
-    }
-  }, [formValue]);
   
   useEffect(() => {
     const inputform = [];
@@ -53,10 +40,11 @@ const SearchProfileForm = (props) => {
       fields.forEach((field) => {
         set(initialValue, field, get(getCurrentSearchProfile, field, ''));
       })
-      initialValue.locations = get(getCurrentSearchProfile, 'location', {});
+      initialValue.locations = get(getCurrentSearchProfile, 'location', []);
       const companyCountryCode = get(activeSingleCompany, 'country.code', '');
       set(initialValue, 'location.countryCode', get(getCurrentSearchProfile, 'location[0].countryCode', companyCountryCode));
       if (idSearchProfile) initialValue.id = idSearchProfile;
+      if (!initialValue.isDefault) initialValue.isDefault = false;
       initForm(initialValue);
     }
   }, [userSearchProfiles]);
@@ -82,7 +70,6 @@ const SearchProfileForm = (props) => {
 
 SearchProfileForm.propTypes = {
   activeSingleCompany: PropTypes.object.isRequired,
-  changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
@@ -101,9 +88,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeFieldValue(field, value) {
-    dispatch(change('SearchProfile', field, value));
-  },
   initForm(value) {
     dispatch(initializeForm('SearchProfile', value));
   },

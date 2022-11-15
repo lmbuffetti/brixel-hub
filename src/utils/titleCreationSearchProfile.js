@@ -1,10 +1,27 @@
 import get from 'lodash/get';
+import { QuestionsList } from '../resources/Flows/onBoardingBuyer';
 import translateTo from './translation';
 
 export const titleSearchProfile = (formValue, lang) => {
   let pageTitle;
   let translatedPropertyType = '';
-  const rooms = get(formValue, 'characteristics.bedrooms', {});
+  const inputs = [];
+  QuestionsList(lang).forEach((input) => {
+    if(input.inputs) {
+      input.inputs.forEach(inp => {
+        inputs.push(inp);
+      })
+    }
+  })
+  const checkMaxValue = inputs.filter((inp) => inp.maxLengthNum);
+  let maxValue = {};
+  checkMaxValue.forEach((val) => {
+    if(!get(formValue, `${val.name}.max`, null)) {
+      maxValue[val.name] = val.maxLengthNum;
+    }
+  })
+  const dafualtValRooms = {min: 0, max: maxValue['characteristics.bedrooms']};
+  const rooms = get(formValue, 'characteristics.bedrooms', dafualtValRooms);
   const propertyType = get(formValue, 'characteristics.propertyType', []);
   const locations = get(formValue, 'locations', get(formValue, 'location', []));
   propertyType.forEach((property, index) => {
@@ -12,16 +29,17 @@ export const titleSearchProfile = (formValue, lang) => {
     translatedPropertyType += `${translateTo(property, lang)}${separator}`;
   });
   let roomsText = ''
-  if (rooms.min > -1 && rooms.min !== rooms.max) roomsText = `${rooms.min} - ${rooms.max} rooms`;
+  if (rooms.min > -1 && rooms.min !== rooms.max) roomsText = `${rooms.min || dafualtValRooms.min} - ${rooms.max || dafualtValRooms.max} rooms`;
   else if (rooms.min > -1 && rooms.min === rooms.max) roomsText = `${rooms.min} rooms`;
   
   let locationText = '';
-  locations.forEach((location, index) => {
-    const separator = index < locations.length -1 ? ', ' : '';
-    locationText += `${location.city}${separator}`;
-  });
-  
+  if (locations) {
+    locations.forEach((location, index) => {
+      const separator = index < locations.length -1 ? ', ' : '';
+      locationText += `${location.city}${separator}`;
+    });
+  }
   pageTitle = `${roomsText} ${translatedPropertyType}`;
-  if (location) pageTitle += ` ${translateTo('in', lang)} ${locationText}`
+  if (location && locationText) pageTitle += ` ${translateTo('in', lang)} ${locationText}`
   return pageTitle;
 };

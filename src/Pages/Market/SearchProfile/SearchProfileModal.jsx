@@ -1,12 +1,18 @@
 import { BrixelModal, translateTo } from '@brixel/brixel-components';
 import { diff } from 'deep-object-diff';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { createUserSearchProfile, updateUserSearchProfile } from '../../../actions/SearchProfileActions';
+import {
+  createUserSearchProfile,
+  setUserActiveSearchProfile,
+  updateUserSearchProfile,
+} from '../../../actions/SearchProfileActions';
+import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
 import SearchProfileForm from './SearchProfileForm';
 import SearchProfileList from './SearchProfileList';
 
@@ -16,21 +22,53 @@ const SearchProfileModal = (props) => {
     location: useLocation(),
   };
   const {
+    activeSearchProfile,
     formValue,
     handleCreateUserSearchProfile,
+    handleSetUserActiveSearchProfile,
     handleUpdateSearchProfile,
     initialValues,
     isSmallLoading,
     lang,
+    loggedInUser,
+    userSearchProfiles,
   } = props;
-
+  // STATE
+  const [userActiveSearchProfileId, setUserActiveSearchProfileId] = useState(activeSearchProfile.id);
+  
+  useEffect(() => {
+    setUserActiveSearchProfileId(activeSearchProfile.id)
+  }, [activeSearchProfile.id]);
+  
   const saveData = (type) => {
-    const { id, locations } = formValue;
-    delete formValue.id;
-    formValue.location = locations;
+    const formData = {...formValue};
+    const { id, locations } = formData;
+    delete formData.id;
+    formData.location = locations;
     delete formValue.locations;
+    let inputs = [];
+    QuestionsList(lang).forEach((input) => {
+      if(input.inputs) {
+        input.inputs.forEach(inp => {
+          inputs.push(inp);
+        })
+      }
+    })
+    const checkMaxValue = inputs.filter((inp) => inp.maxLengthNum);
+    checkMaxValue.forEach((val) => {
+      if(val.maxLengthNum === get(formData, `${val.name}.max`, null)) {
+        set(formData, `${val.name}.max`, null);
+      }
+      if(!get(formData, `${val.name}`, null)) {
+        set(formData, `${val.name}.min`, 0);
+        set(formData, `${val.name}.max`, null);
+      }
+    })
     const data = {
-      dataSearchProfile: formValue,
+      dataSearchProfile: {
+        ...formData,
+        user: loggedInUser.id,
+      },
       id,
       redirectToUrl: '/buy/searchProfile',
       smallLoader: 'saveData',
@@ -40,6 +78,14 @@ const SearchProfileModal = (props) => {
     }
     if (type === 'new') {
       handleCreateUserSearchProfile(data)
+    }
+  }
+  
+  const saveChangeSearchProfile = () => {
+    const newSearchProfile = userSearchProfiles.find((src) => src.id === userActiveSearchProfileId);
+    if (newSearchProfile) {
+      window.sessionStorage.setItem('profileID', newSearchProfile.id);
+      handleSetUserActiveSearchProfile(newSearchProfile);
     }
   }
   
@@ -81,8 +127,8 @@ const SearchProfileModal = (props) => {
             clr: 'primary',
             name: translateTo('Save changes', lang),
             btnType: 'Primary',
-            // disabled: true,
-            func: () => '',
+            disabled: activeSearchProfile.id === userActiveSearchProfileId,
+            func: () => saveChangeSearchProfile(),
             isLoading: isSmallLoading.saveData,
           }
         ])
@@ -141,7 +187,15 @@ const SearchProfileModal = (props) => {
       multiActions={multiActions()}
     >
       <Routes>
-        <Route path="/" element={<SearchProfileList />} />
+        <Route
+          path="/"
+          element={
+            <SearchProfileList
+              userActiveSearchProfileId={userActiveSearchProfileId}
+              onChangeProfile={(val) => setUserActiveSearchProfileId(val)}
+            />
+          }
+        />
         <Route path="/create" element={<SearchProfileForm />} />
         <Route path="/edit/:id" element={<SearchProfileForm />} />
       </Routes>
@@ -150,24 +204,32 @@ const SearchProfileModal = (props) => {
 };
 
 SearchProfileModal.propTypes = {
+  activeSearchProfile: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
-  lang: PropTypes.string.isRequired,
-  initialValues: PropTypes.object.isRequired,
   handleCreateUserSearchProfile: PropTypes.func.isRequired,
+  handleSetUserActiveSearchProfile: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
+  initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
+  userSearchProfiles: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  activeSearchProfile: get(state, 'user.activeSearchProfile', {}),
   formValue: get(state, 'brixelForm.SearchProfile.values', {}),
   initialValues: get(state, 'brixelForm.SearchProfile.initialValues', {}),
   isSmallLoading: get(state, 'common.isSmallLoading', { }),
   lang: get(state, 'common.language', 'en'),
+  loggedInUser: get(state, 'user.loggedInUser.user', { }),
+  userSearchProfiles: get(state, 'user.userSearchProfiles', []),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
   handleCreateUserSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
+  handleSetUserActiveSearchProfile: bindActionCreators(setUserActiveSearchProfile, dispatch),
 });
 
 export default compose(
