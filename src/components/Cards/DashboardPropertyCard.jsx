@@ -42,7 +42,7 @@ const DashboardPropertyCard = (props) => {
             className={`dis-b w-perc-100 ${smallLayout ? 'w-fix-sm-160' : 'w-fix-sm-232'} h-fix-160 pos-r`}
           >
             <CoverPropertyImage
-              className="cover w-perc-100 h-perc-100 negTop"
+              className="cover w-perc-100 h-perc-100 negTop brdRadius"
               coverPhoto={get(activeSingleProperty, 'coverPhoto.galleryThumbnailPath', undefined)}
               propertyType={get(activeSingleProperty, 'properties.propertyType', undefined)}
             />
