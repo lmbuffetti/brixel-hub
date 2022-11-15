@@ -16,7 +16,7 @@ build site:
     FOLDER: $CI_COMMIT_REF_NAME
   script:
     - npm run install-styleguide
-    - if [ "$FOLDER" == "develop" ]; then npm run build-dev; fi
+    - if [ "$FOLDER" == "feature/new-search-profile" ]; then npm run build-dev; fi
     - if [ "$FOLDER" == "staging" ]; then npm run build-stage; fi
     - if [ "$FOLDER" == "master" ]; then npm run build-prod; fi
   artifacts:
