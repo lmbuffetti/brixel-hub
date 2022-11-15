@@ -14,6 +14,7 @@ const SearchProfileForm = (props) => {
   const match = useParams();
   const idSearchProfile = get(match, 'id', null);
   const {
+    activeSingleCompany,
     changeFieldValue,
     formValue,
     initForm,
@@ -53,7 +54,8 @@ const SearchProfileForm = (props) => {
         set(initialValue, field, get(getCurrentSearchProfile, field, ''));
       })
       initialValue.locations = get(getCurrentSearchProfile, 'location', {});
-      set(initialValue, 'location.countryCode', get(getCurrentSearchProfile, 'location[0].countryCode', ''));
+      const companyCountryCode = get(activeSingleCompany, 'country.code', '');
+      set(initialValue, 'location.countryCode', get(getCurrentSearchProfile, 'location[0].countryCode', companyCountryCode));
       if (idSearchProfile) initialValue.id = idSearchProfile;
       initForm(initialValue);
     }
@@ -79,6 +81,7 @@ const SearchProfileForm = (props) => {
 };
 
 SearchProfileForm.propTypes = {
+  activeSingleCompany: PropTypes.object.isRequired,
   changeFieldValue: PropTypes.func.isRequired,
   formValue: PropTypes.object.isRequired,
   initForm: PropTypes.func.isRequired,
@@ -91,6 +94,7 @@ SearchProfileForm.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  activeSingleCompany: get(state, 'companies.activeSingleCompany', {}),
   formValue: get(state, 'brixelForm.SearchProfile.values', {}),
   lang: get(state, 'common.language', 'en'),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),

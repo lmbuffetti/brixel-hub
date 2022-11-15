@@ -165,6 +165,7 @@ export const QuestionsList = (lang, type) => {
           classBoxWrapper: 'w-perc-100 flex-1 searchMapFields',
           showMap: false,
           blockScroll: type === 'searchProfile',
+          label: 'latitude',
           name: 'locations[0].latitude',
           classNameBox: 'max-w-perc-100',
           type: 'Map',
