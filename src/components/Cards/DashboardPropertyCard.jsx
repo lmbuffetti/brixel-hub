@@ -39,7 +39,7 @@ const DashboardPropertyCard = (props) => {
         <div>
           <div
             onClick={() => history.push(`/${activeSingleProperty.id}/property/facts`)}
-            className={`dis-b w-perc-100 ${smallLayout ? 'w-fix-sm-160' : 'w-fix-sm-232'} h-fix-160 pos-r`}
+            className={`dis-b w-perc-100 ${smallLayout ? 'min-w-fix-sm-208' : 'w-fix-sm-232'} h-fix-160 pos-r`}
           >
             <CoverPropertyImage
               className="cover w-perc-100 h-perc-100 negTop brdRadius"
@@ -58,7 +58,7 @@ const DashboardPropertyCard = (props) => {
             }
           </div>
         </div>
-        <div className="pl-sm-3 pl-2 pt-2 pt-sm-1 dis-fl-col jc-b w-perc-100">
+        <div className="pl-sm-3 pl-2 pt-2 pt-sm-0 dis-fl-col jc-b w-perc-100">
           <div className="">
             <h4 className="txtDark700 fweight-600 fsize-sm-600 fsize-500"> {get(activeSingleProperty, 'title', '')} </h4>
             <span className="fsize-300 txtLight600"> {get(activeSingleProperty.location, 'city', '')}, {get(activeSingleProperty.location, 'state', '')}  </span>
