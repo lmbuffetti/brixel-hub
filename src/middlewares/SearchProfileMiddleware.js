@@ -9,6 +9,7 @@ import {
 } from '../actions/types/CommonTypes';
 import {
   CREATE_USER_SEARCH_PROFILE,
+  DELETE_USER_SEARCH_PROFILE,
   GET_USER_SEARCH_PROFILES,
   SET_USER_ACTIVE_SEARCH_PROFILE,
   SET_USER_SEARCH_PROFILES,
@@ -32,7 +33,9 @@ const checkSearchProfile = (store) => (next) => (action) => {
             store.dispatch({
               type: SPINNER_OFF,
             });
-            const getActiveSearchProfile = searchProfiles.find((srchPrf) => srchPrf.isDefault);
+            const storageProfileId = window.sessionStorage.getItem('profileID');
+            let getActiveSearchProfile = searchProfiles.find((srchPrf) => srchPrf.isDefault);
+            if (storageProfileId) getActiveSearchProfile = searchProfiles.find((srchPrf) => srchPrf.id === storageProfileId);
             if (getActiveSearchProfile) store.dispatch({ type: SET_USER_ACTIVE_SEARCH_PROFILE, payload: getActiveSearchProfile });
             else store.dispatch({ type: SET_USER_ACTIVE_SEARCH_PROFILE, payload: searchProfiles[0] });
           } else {
@@ -118,6 +121,34 @@ const checkSearchProfile = (store) => (next) => (action) => {
       if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
       else store.dispatch({ type: SPINNER_ON });
       api.searchProfile.updateSearchProfile(dataSearchProfile, id)
+        .then((res) => {
+          store.dispatch({
+            type: GET_USER_SEARCH_PROFILES,
+            payload: res.data.user,
+          });
+          if (redirectToUrl) {
+            store.dispatch({ type: REDIRECT_TO, payload: { history: redirectToUrl } });
+            // window.location.assign(redirectToUrl);
+          } else if (addSearchProfile) {
+            // window.location.href = '/home';
+            window.location.assign('/buy');
+          }
+          if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: false } });
+          else store.dispatch({ type: SPINNER_OFF });
+        });
+      break;
+    }
+    case DELETE_USER_SEARCH_PROFILE: {
+      next(action);
+      const addSearchProfile = get(action, 'payload.addSearchProfile', false);
+      const {
+        id,
+        redirectToUrl,
+        smallLoader,
+      } = action.payload;
+      if (smallLoader) store.dispatch({ type: SPINNER_SMALL, payload: { [smallLoader]: true } });
+      else store.dispatch({ type: SPINNER_ON });
+      api.searchProfile.deleteSearchProfile(id)
         .then((res) => {
           store.dispatch({
             type: GET_USER_SEARCH_PROFILES,
