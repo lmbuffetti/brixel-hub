@@ -1,5 +1,5 @@
 /* global Transifex */
-import { BrixelButtonIcon, BrixelButtonText, BrixelIcon, useOutsideAlerter } from '@brixel/brixel-components';
+import { BrixelButtonIcon, useOutsideAlerter } from '@brixel/brixel-components';
 import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import set from 'lodash/set';
@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Slider from 'react-slick';
 import { bindActionCreators, compose } from 'redux';
 import { setSplashType, setWizard } from '../actions/CommonActions';
 import {
@@ -21,13 +20,9 @@ import {
 } from '../actions/MarketActions';
 import { setActiveMarketOverlayProperty, setActiveMarketOverlayPropertyLists } from '../actions/PropertyActions';
 import { addNotInterested, updateFavorite } from '../actions/UserActions';
-import NoMorePropertiesImg from '../images/searchProfile/no-properties.svg';
 import { getCookie } from '../utils/helpers';
-import translateTo from '../utils/translation';
 import MarketCardOverlay from './Cards/MarketCardOverlay';
-import MarketCardPreMarket from './Cards/MarketCardPreMarket';
 import WizardCard from './Cards/WizardCard';
-import SearchProfileBanner from './SearchProfileBanner';
 
 const SplashScreen = (props) => {
   const history = {
@@ -116,43 +111,6 @@ const SplashScreen = (props) => {
     }
     return null;
   }, [activeSlide, preMarketProperties]);
-
-  const settingSlider = useCallback(() => ({
-    fade: true,
-    slidesToScroll: 1,
-    dots: false,
-    infinite: false,
-    draggable: false,
-    swipeToSlide: false,
-    verticalSwiping: false,
-    swipe: false,
-    arrows: false,
-    focusOnSelect: false,
-    speed: 100,
-    beforeChange: (prev, next) => {
-      const wrapCarousel = document.getElementById('overlayCarousel');
-      wrapCarousel.classList.add('animate');
-      if (!wrapCarousel.classList.contains('actionActive')) {
-        if (next > prev) {
-          const itmFadeOut = wrapCarousel.getElementsByClassName('slick-current')[0];
-          if (itmFadeOut) {
-            const clnFadeOut = itmFadeOut.cloneNode(true);
-            wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeOut';
-          }
-        } else {
-          wrapCarousel.classList.add('animateCard');
-          const itmFadeIn = wrapCarousel.getElementsByClassName('slick-slide')[activeSlide - 1];
-          if (itmFadeIn) {
-            const clnFadeOut = itmFadeIn.cloneNode(true);
-            wrapCarousel.appendChild(clnFadeOut).className = 'cloneElement fadeIn';
-          }
-        }
-      }
-    },
-    afterChange: () => {
-      updateData();
-    },
-  }), [activeSlide]);
 
   useEffect(() => {
     setNewPreMarketStats(preMarketStats);
@@ -338,20 +296,6 @@ const SplashScreen = (props) => {
     }
   };
 
-  const changeProperty =(act) => {
-    if (sliderInstance.current) {
-      const slider = sliderInstance.current;
-      if (act === 'back' && activeSlide > 0) slider.slickPrev();
-      if (act === 'forward' && activeSlide < preMarketProperties.total - 1) {
-        slider.slickNext();
-      }
-      if (act === 'forward' && activeSlide === preMarketProperties.total - 1) {
-        slider.slickGoTo(0);
-        setActiveSlide(0);
-      }
-    }
-  };
-
   return (
     <>
       <div className={`dis-f p-2 a-c jc-fe ${type !== 'marketOverlayCarousel' ? 'pos-a w-perc-100' : ''}`}>
@@ -372,92 +316,6 @@ const SplashScreen = (props) => {
         {
           get(wizard, 'type', null) && type === 'marketOverlayCarousel' && (
             <WizardCard lang={lang} />
-          )
-        }
-        {
-          type === 'marketOverlayCarousel' && (
-            <div className="container">
-              <SearchProfileBanner
-                onClose={() => closeOverlay()}
-                title="Pre-Market"
-                subtitle="Watch properties which are not even on the market yet. How it works"
-                preMarketStats={newPreMarketStats}
-              />
-              <div className={`carousel3d ${fullScreenCard ? 'open' : 'close'}`} id="overlayCarousel">
-                {
-                  activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length === 0 ? (
-                    <>
-                      <div className="w-fix-424 brdRadius ov-h dis-fl-col jc-c a-c noMatchProperty m-a pb-5 mb-10">
-                        <div className="bgBlue400 pt-6 w-perc-100 ta-c">
-                          <img loading="lazy" src={NoMorePropertiesImg} alt="No Properties on your New Radar" />
-                        </div>
-                        <div className="p-2">
-                          <h4 className="fweight-600 mb-1 mt-3">{translateTo('That’s it.', lang)}</h4>
-                          <p className="mt-2 fsize-500">{translateTo('There are no more properties right now. Come back later to find new ones.', lang)}</p>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <span style={{display: 'none'}}>{activeSlide}</span>
-                      <Slider ref={sliderInstance} {...settingSlider()}>
-                        {
-                          activeSlide >= 0 && activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.map((item, i) => (
-                            <MarketCardPreMarket
-                              lang={lang}
-                              key={`mrkCrd_${i.toString()}`}
-                              item={item}
-                              activeIndex={activeSlide}
-                              propertyList={activeMarketOverlayPropertyLists}
-                              loadMapImg={activeSlide < i + 2}
-                            />
-                          ))
-                        }
-                      </Slider>
-                      <div className="dis-fl-row a-c w-perc-100 p-3 jc-c pos-r zIndex2 wizardCopy-preMarketOverlay-3" id="wizard-preMarketOverlay-3">
-                        <div className="dis-fl-row jc-c a-c">
-                          <BrixelIcon
-                            rounded
-                            className="mr-4"
-                            color="Red"
-                            background="Red"
-                            iconWidth="w-fix-32"
-                            saturation={200}
-                            saturationTxt={400}
-                            onClick={() => notInterested()}
-                            icon="close-small"
-                            isLoading={isSmallLoading === `notInterested-${activeMarketOverlayProperty.id}`}
-                          />
-                          <BrixelIcon
-                            rounded
-                            color="Primary"
-                            background="Primary"
-                            iconWidth="w-fix-32"
-                            saturation={200}
-                            saturationTxt={400}
-                            onClick={() => saveFavorite(checkFavorite() ? 'remove' : 'add')}
-                            icon={checkFavorite() ? 'favorite-fill' : 'favorite'}
-                            isLoading={isSmallLoading === `favorite-${activeMarketOverlayProperty.id}`}
-                          />
-                        </div>
-                        {
-                          activeMarketOverlayPropertyLists && activeMarketOverlayPropertyLists.length > 0 && !fullScreenCard && (
-                            <BrixelButtonText
-                              className={windowDimensions.width > 490 ? 'pos-a-fix x-r-0' : 'ml-a'}
-                              ghost
-                              theme="dark"
-                              onClick={() => changeProperty('forward')}
-                              label={translateTo("Skip", lang)}
-                              disabled={activeSlide >= preMarketProperties.total}
-                            />
-                          )
-                        }
-                      </div>
-                    </>
-                  )
-                }
-              </div>
-            </div>
           )
         }
         {
