@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { BrixelButtonIcon, BrixelButtonPrimary, BrixelIcon, BrixelTabs } from '@brixel/brixel-components';
-import { initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import PropTypes from 'prop-types';
@@ -12,7 +11,6 @@ import { bindActionCreators, compose } from 'redux';
 import { setHistory, setSplashType } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { setActiveMarketOverlayProperty, setEstimation } from '../../actions/PropertyActions';
-import { createUserSearchProfile } from '../../actions/SearchProfileActions';
 import MarketCardSmall from '../../components/Cards/MarketCardSmall';
 import lazyWithRetry from '../../components/LazyWithRetry';
 import SearchProfileBanner from '../../components/SearchProfileBanner';
@@ -64,8 +62,6 @@ const MarketCategoryListBuyer = (props) => {
   // PROPS
   const {
     handleGetActiveSingleCompany,
-    initForm,
-    initialValues,
     lang,
     loggedInUser,
     ownerEstimations,
@@ -74,7 +70,6 @@ const MarketCategoryListBuyer = (props) => {
     premiumProperties,
     setSplashScreen,
     splashScreenType,
-    userSearchProfiles,
     windowDimensions,
     wishlistProperties,
   } = props;
@@ -82,10 +77,6 @@ const MarketCategoryListBuyer = (props) => {
   const [numWishProp, setWishProp] = useState(4);
   const [activeTopTab, setActiveTopTab] = useState('wishlist');
   const [topTab, setTopTab] = useState([]);
-
-  useEffect(() => {
-    if (get(userSearchProfiles, 'id', null)) initForm(initialValues);
-  }, [get(userSearchProfiles, 'id', null)]);
 
   const showArrow = () => {
     const selectResponsive = settingSlider.responsive.filter((itm) => windowDimensions.width < itm.breakpoint);
@@ -434,7 +425,6 @@ const MarketCategoryListBuyer = (props) => {
 MarketCategoryListBuyer.propTypes = {
   estimation: PropTypes.object.isRequired,
   handleGetActiveSingleCompany: PropTypes.func.isRequired,
-  initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
@@ -455,22 +445,8 @@ MarketCategoryListBuyer.defaultProps = {
 
 const mapStateToProps = (state) => {
   const searchProfile = get(state, 'user.userSearchProfiles', []);
-  const initVal = searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile;
-  const userCompany = get(state, 'user.loggedInUser.user.comapny', {});
   return ({
     estimation: get(state, 'property.estimation', {}),
-    initialValues: {
-      ...initVal,
-      countryCode: get(initVal, 'location[0].countryCode', get(userCompany, 'country.code', 'CH')),
-      finance: {
-        ...get(initVal, 'finance', {}),
-        currency: get(initVal, 'finance.currency', get(userCompany, 'country.currency', 'CHF')),
-      },
-      location: {
-        countryCode: get(initVal, 'location[0].countryCode', get(userCompany, 'country.code', 'CH')),
-      },
-      locations: get(state, 'user.userSearchProfiles[0].location', []),
-    },
     lang: get(state, 'common.language', 'en'),
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     ownerEstimations: get(state, 'market.ownerEstimations', {}),
@@ -478,17 +454,13 @@ const mapStateToProps = (state) => {
     premiumEuropeProperties: get(state, 'market.premiumEuropeProperties', {}),
     premiumProperties: get(state, 'market.premiumProperties', {}),
     splashScreenType: get(state, 'common.splashScreenType', ''),
-    userSearchProfiles: searchProfile ? searchProfile[searchProfile.length - 1] : searchProfile,
+    activeSearchProfile: get(state, 'user.activeSearchProfile', {}),
     windowDimensions: get(state, 'common.windowDimensions', {}),
     wishlistProperties: get(state, 'market.wishlistProperties', {}),
   });
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  initForm(value) {
-    dispatch(initializeForm('GetStarted', value));
-  },
-  handleCreateSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleGetActiveSingleCompany: bindActionCreators(getActiveSingleCompany, dispatch),
   handleSetHistory: bindActionCreators(setHistory, dispatch),
   setMarketOverlayProperty: bindActionCreators(setActiveMarketOverlayProperty, dispatch),

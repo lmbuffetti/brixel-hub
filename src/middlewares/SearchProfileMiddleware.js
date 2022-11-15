@@ -10,6 +10,7 @@ import {
 import {
   CREATE_USER_SEARCH_PROFILE,
   GET_USER_SEARCH_PROFILES,
+  SET_USER_ACTIVE_SEARCH_PROFILE,
   SET_USER_SEARCH_PROFILES,
   UPDATE_USER_SEARCH_PROFILE,
 } from '../actions/types/SearchProfileTypes';
@@ -26,10 +27,14 @@ const checkSearchProfile = (store) => (next) => (action) => {
       api.searchProfile.searchProfileByUserID(action.payload)
         .then((res) => {
           if (res.meta.normalizedStatus === 200) {
-            store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: res.data });
+            const searchProfiles = res.data;
+            store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: searchProfiles });
             store.dispatch({
               type: SPINNER_OFF,
             });
+            const getActiveSearchProfile = searchProfiles.find((srchPrf) => srchPrf.isDefault);
+            if (getActiveSearchProfile) store.dispatch({ type: SET_USER_ACTIVE_SEARCH_PROFILE, payload: getActiveSearchProfile });
+            else store.dispatch({ type: SET_USER_ACTIVE_SEARCH_PROFILE, payload: searchProfiles[0] });
           } else {
             store.dispatch({ type: SET_USER_SEARCH_PROFILES, payload: [{}] });
             store.dispatch({
