@@ -90,7 +90,8 @@ const checkSearchProfile = (store) => (next) => (action) => {
             });
           }
           if (redirectToUrl) {
-            window.location.assign(redirectToUrl);
+            store.dispatch({ type: REDIRECT_TO, payload: { history: redirectToUrl } });
+            // window.location.assign(redirectToUrl);
           } else if (addSearchProfile) {
             // window.location.href = '/home';
             window.location.assign('/buy');
@@ -118,7 +119,7 @@ const checkSearchProfile = (store) => (next) => (action) => {
             payload: res.data.user,
           });
           if (redirectToUrl) {
-            store.dispatch({ type: REDIRECT_TO, payload: { history: redirectToUrl } })
+            store.dispatch({ type: REDIRECT_TO, payload: { history: redirectToUrl } });
             // window.location.assign(redirectToUrl);
           } else if (addSearchProfile) {
             // window.location.href = '/home';

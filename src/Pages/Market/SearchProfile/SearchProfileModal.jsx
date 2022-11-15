@@ -6,7 +6,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { updateUserSearchProfile } from '../../../actions/SearchProfileActions';
+import { createUserSearchProfile, updateUserSearchProfile } from '../../../actions/SearchProfileActions';
 import SearchProfileForm from './SearchProfileForm';
 import SearchProfileList from './SearchProfileList';
 
@@ -17,13 +17,14 @@ const SearchProfileModal = (props) => {
   };
   const {
     formValue,
+    handleCreateUserSearchProfile,
     handleUpdateSearchProfile,
     initialValues,
     isSmallLoading,
     lang,
   } = props;
 
-  const saveData = () => {
+  const saveData = (type) => {
     const { id, locations } = formValue;
     delete formValue.id;
     formValue.location = locations;
@@ -34,7 +35,12 @@ const SearchProfileModal = (props) => {
       redirectToUrl: '/buy/searchProfile',
       smallLoader: 'saveData',
     }
-    handleUpdateSearchProfile(data)
+    if (type === 'update') {
+      handleUpdateSearchProfile(data)
+    }
+    if (type === 'new') {
+      handleCreateUserSearchProfile(data)
+    }
   }
   
   const onClose = () => {
@@ -51,6 +57,8 @@ const SearchProfileModal = (props) => {
     switch(history.location.pathname) {
       case '/buy/searchProfile':
         return 'Manage Search Profiles';
+      case '/buy/searchProfile/create':
+        return 'Create Search Profiles';
       default:
         return 'Edit Search Profile';
     }
@@ -66,7 +74,7 @@ const SearchProfileModal = (props) => {
             btnType: 'Secondary',
             className: 'mr-1',
             name: translateTo('Cancel', lang),
-            func: () => history.push('/buy/searchProfile'),
+            func: () => history.push('/buy'),
           },
           {
             round: true,
@@ -75,6 +83,27 @@ const SearchProfileModal = (props) => {
             btnType: 'Primary',
             // disabled: true,
             func: () => '',
+            isLoading: isSmallLoading.saveData,
+          }
+        ])
+      case '/buy/searchProfile/create':
+        delete diffForm.changeCountry;
+        delete diffForm.location;
+        return ([
+          {
+            round: true,
+            btnType: 'Secondary',
+            className: 'mr-1',
+            name: translateTo('Cancel', lang),
+            func: () => history.push('/buy/searchProfile'),
+          },
+          {
+            round: true,
+            clr: 'primary',
+            name: translateTo(Object.keys(diffForm).length === 0 ? 'Save changes' : 'Confirm', lang),
+            btnType: 'Primary',
+            disabled: Object.keys(diffForm).length === 0,
+            func: () => saveData('new'),
             isLoading: isSmallLoading.saveData,
           }
         ])
@@ -87,7 +116,7 @@ const SearchProfileModal = (props) => {
             btnType: 'Secondary',
             className: 'mr-1',
             name: translateTo('Cancel', lang),
-            func: () => history.push('/buy'),
+            func: () => history.push('/buy/searchProfile'),
           },
           {
             round: true,
@@ -95,7 +124,7 @@ const SearchProfileModal = (props) => {
             name: translateTo(Object.keys(diffForm).length === 0 ? 'Save changes' : 'Confirm', lang),
             btnType: 'Primary',
             disabled: Object.keys(diffForm).length === 0,
-            func: () => saveData(),
+            func: () => saveData('update'),
             isLoading: isSmallLoading.saveData,
           }
         ])
@@ -113,6 +142,7 @@ const SearchProfileModal = (props) => {
     >
       <Routes>
         <Route path="/" element={<SearchProfileList />} />
+        <Route path="/create" element={<SearchProfileForm />} />
         <Route path="/edit/:id" element={<SearchProfileForm />} />
       </Routes>
     </BrixelModal>
@@ -123,6 +153,7 @@ SearchProfileModal.propTypes = {
   formValue: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   initialValues: PropTypes.object.isRequired,
+  handleCreateUserSearchProfile: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
 };
@@ -136,6 +167,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
+  handleCreateUserSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
 });
 
 export default compose(

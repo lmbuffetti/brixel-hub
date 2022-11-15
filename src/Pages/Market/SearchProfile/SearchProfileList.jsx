@@ -1,4 +1,4 @@
-import { BrixelButtonSecondary, BrixelIcon, Helpers } from '@brixel/brixel-components';
+import { BrixelButtonSecondary, BrixelButtonText, BrixelIcon, Helpers } from '@brixel/brixel-components';
 import { BrixelRadioButton, initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import isObject from 'lodash/isObject';
@@ -110,9 +110,19 @@ const SearchProfileList = (props) => {
   
   return (
     <div>
-      <h5>Your Search Profiles</h5>
-      <p>Choose the Search Profile you’d like to apply to filter properties.</p>
-      
+      <div className="dis-f jc-b a-t">
+        <div className="max-w-fix-264">
+          <h5>Your Search Profiles</h5>
+          <p>Choose the Search Profile you’d like to apply to filter properties.</p>
+        </div>
+        <div>
+          <BrixelButtonText
+            label="New Search Profile"
+            leftIcon="plus"
+            onClick={() => history.push('/buy/searchProfile/create')}
+          />
+        </div>
+      </div>
       {
         userSearchProfiles && userSearchProfiles.map((searchProfile, i) => (
           <div

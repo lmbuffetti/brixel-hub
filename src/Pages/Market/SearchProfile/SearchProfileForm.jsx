@@ -49,15 +49,13 @@ const SearchProfileForm = (props) => {
     if (userSearchProfiles) {
       const getCurrentSearchProfile = userSearchProfiles.find((itm) => itm.id === idSearchProfile);
       let initialValue = {};
-      if (getCurrentSearchProfile) {
-        fields.forEach((field) => {
-          set(initialValue, field, get(getCurrentSearchProfile, field, ''));
-        })
-        initialValue.locations = getCurrentSearchProfile.location;
-        set(initialValue, 'location.countryCode', get(getCurrentSearchProfile, 'location[0].countryCode', ''));
-        initialValue.id = idSearchProfile;
-        initForm(initialValue);
-      }
+      fields.forEach((field) => {
+        set(initialValue, field, get(getCurrentSearchProfile, field, ''));
+      })
+      initialValue.locations = get(getCurrentSearchProfile, 'location', {});
+      set(initialValue, 'location.countryCode', get(getCurrentSearchProfile, 'location[0].countryCode', ''));
+      if (idSearchProfile) initialValue.id = idSearchProfile;
+      initForm(initialValue);
     }
   }, [userSearchProfiles]);
   
