@@ -73,14 +73,12 @@ const SearchProfileList = (props) => {
   }
   
   const onSetDefaultSearchProfile = (searchProfile) => {
-    if (!searchProfile.isDefault) {
-      handleUpdateSearchProfile({
-        id: searchProfile.id,
-        dataSearchProfile: {
-          isDefault: true
-        },
-      })
-    }
+    handleUpdateSearchProfile({
+      id: searchProfile.id,
+      dataSearchProfile: {
+        isDefault: true
+      },
+    })
     setIsOptionsOpen({
       id: null,
       active: false,
