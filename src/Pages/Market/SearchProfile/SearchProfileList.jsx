@@ -23,6 +23,7 @@ const SearchProfileList = (props) => {
     handleDeleteUserSearchProfile,
     handleSetModal,
     initForm,
+    isSmallLoading,
     lang,
     userSearchProfiles,
     onChangeProfile,
@@ -75,6 +76,7 @@ const SearchProfileList = (props) => {
   const onSetDefaultSearchProfile = (searchProfile) => {
     handleUpdateSearchProfile({
       id: searchProfile.id,
+      smallLoader: `saveData${searchProfile.id}`,
       dataSearchProfile: {
         isDefault: true
       },
@@ -152,6 +154,7 @@ const SearchProfileList = (props) => {
                       }
                       <div className="pos-r mr-2">
                         <BrixelButtonIcon
+                          isLoading={isSmallLoading[`saveData${searchProfile.id}`]}
                           icon="options-vertical"
                           className="ml-a"
                           theme="dark"
@@ -239,6 +242,7 @@ SearchProfileList.propTypes = {
   handleSetModal: PropTypes.func.isRequired,
   handleUpdateSearchProfile: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
+  isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   onChangeProfile: PropTypes.func.isRequired,
   userActiveSearchProfileId: PropTypes.string,
@@ -250,6 +254,7 @@ SearchProfileList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
+  isSmallLoading: get(state, 'common.isSmallLoading', { }),
   lang: get(state, 'common.language', 'en'),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
 });
