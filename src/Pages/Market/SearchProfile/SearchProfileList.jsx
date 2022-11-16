@@ -3,11 +3,9 @@ import {
   BrixelButtonSecondary,
   BrixelButtonText,
   BrixelIcon,
-  Helpers,
 } from '@brixel/brixel-components';
 import { BrixelRadioButton, initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
-import isObject from 'lodash/isObject';
 import set from 'lodash/set';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -17,7 +15,7 @@ import { bindActionCreators, compose } from 'redux';
 import { deleteUserSearchProfile } from '../../../actions/SearchProfileActions';
 import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
 import { titleSearchProfile } from '../../../utils/titleCreationSearchProfile';
-import translateTo from '../../../utils/translation';
+import SearchProfileField from '../../../components/SearchProfileField';
 
 const SearchProfileList = (props) => {
   const history = {
@@ -69,82 +67,6 @@ const SearchProfileList = (props) => {
   
   const onDeleteSearchProfile = (profile) => {
     handleDeleteUserSearchProfile(profile)
-  }
-  
-  const renderFieldsSearchProfile = (searchProfile, field) => {
-    if (field === 'location') {
-      if (get(searchProfile, 'location', null) && get(searchProfile, 'location', []).length > 0) {
-        return (
-          <>
-            {
-              get(searchProfile, 'location', []).map((item, i) => (
-                <React.Fragment key={`usrLoc_${i.toString()}`}>
-                  {i > 0 && (<span>, </span>)}
-                  <span>{translateTo(item.name, lang)}</span>
-                </React.Fragment>
-              ))
-            }
-          </>
-        )
-      }
-    } else if (Array.isArray(get(searchProfile, field, ''))) {
-      return (
-        <>
-          {get(searchProfile, field, []).map((data, i) => (
-            <React.Fragment key={`arraySearch${i.toString()}`}>
-              <span key={`field${i.toString()}`}>{data}</span>
-              {get(searchProfile, field, []).length - 1 !== i && (<span className="mr-1">,</span>)}
-            </React.Fragment>
-          ))}
-        </>
-      )
-    } else if (get(searchProfile, `${field}.min`, -1) > -1) {
-      const inputs = [];
-      QuestionsList(lang).forEach((input) => {
-        if(input.inputs) {
-          input.inputs.forEach(inp => {
-            inputs.push(inp);
-          })
-        }
-      })
-      const checkMaxValue = inputs.filter((inp) => inp.maxLengthNum);
-      let maxValue = {};
-      checkMaxValue.forEach((val) => {
-        if(!get(searchProfile, `${val.name}.max`, null)) {
-          maxValue[val.name] = val.maxLengthNum;
-        }
-      })
-      const unit = field.includes('bedrooms') ? 'rooms' : 'm2';
-      return (
-        <>
-          {get(searchProfile, `${field}.min`, '')} - {get(searchProfile, `${field}.max`, maxValue[field]) || maxValue[field]} {unit}
-        </>
-      )
-    } else if (field.includes('extraFeatures')) {
-      const numExtraFeatures = Object.keys(get(searchProfile, field, {})).length;
-      return (
-        <>
-          {numExtraFeatures && <><span>{numExtraFeatures}</span><span className="ml-1">Amenities</span></>}
-        </>
-      )
-    } else if (!isObject(get(searchProfile, field, ''))) {
-      if (field.includes('price')) {
-        const currency = get(searchProfile, 'finance.currency', 'EUR');
-        const price = get(searchProfile, field, 0);
-        return (
-          <>
-            {Helpers.formatNumberValue(price, currency)} {currency}
-          </>
-        )
-      } else if (get(searchProfile, field, null)) {
-        return (
-          <>
-            {get(searchProfile, field, '')}
-          </>
-        )
-      }
-    }
-    return null;
   }
   
   return (
@@ -211,15 +133,11 @@ const SearchProfileList = (props) => {
                                   {
                                     field !== 'isDefault' && field !== 'name' && (
                                       <>
-                                        {
-                                          renderFieldsSearchProfile(searchProfile, field) && (
-                                            <div
-                                              className={`brdSmall brdLight200 brdFullRadius p-1 mr-1 mb-1 ${field}`}
-                                            >
-                                              {renderFieldsSearchProfile(searchProfile, field)}
-                                            </div>
-                                          )
-                                        }
+                                        <SearchProfileField
+                                          searchProfile={searchProfile}
+                                          field={field}
+                                          lang={lang}
+                                        />
                                       </>
                                     )
                                   }

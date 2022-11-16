@@ -64,7 +64,6 @@ const SplashScreen = (props) => {
   const sliderInstance = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [showContent, setShowContent] = useState(false);
-  const [fullScreenCard, setFullScreenCard] = useState(false);
   const [totalSlide, setTotalSlide] = useState(preMarketProperties.total);
   const [newPreMarketStats, setNewPreMarketStats] = useState(preMarketStats);
 
@@ -324,7 +323,6 @@ const SplashScreen = (props) => {
               <MarketCardOverlay
                 lang={lang}
                 item={activeMarketOverlayProperty}
-                onToggleCard={(val) => setFullScreenCard(val)}
                 fullCard
               />
             </div>

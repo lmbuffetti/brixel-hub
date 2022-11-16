@@ -77,7 +77,6 @@ const MarketBuyer = (props) => {
 
   useEffect(() => {
     if (activeSearchProfile !== null) {
-      handleGetPremarketStats({ id: get(activeSearchProfile, 'id', null) });
       const data = {
         resultsPerPage: 10,
         offset: 0,

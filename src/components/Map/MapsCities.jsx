@@ -1,23 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable array-callback-return */
-import React, {
-  useState, createRef, useEffect, useRef,
-} from 'react';
-import {
-  GoogleApiWrapper,
-} from 'google-maps-react';
+import { BrixelIcon } from '@brixel/brixel-components';
+import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
+import { BrixelInputText, change } from '@brixel/brixel-components/dist/form';
+import { GoogleApiWrapper } from 'google-maps-react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
+/* eslint-disable array-callback-return */
+import React, { createRef, useEffect, useRef, useState } from 'react';
 import Geocode from 'react-geocode';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { BrixelIcon } from '@brixel/brixel-components';
+import { setCountryList } from '../../actions/CommonActions';
 import translateTo from '../../utils/translation';
-import { BrixelInputText, change } from '@brixel/brixel-components/dist/form';
-import get from 'lodash/get';
-import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import useOutsideAlerter from '../OutsideElement';
 import Map from './Map';
-import { setCountryList } from '../../actions/CommonActions';
 
 export const MapsCities = (props) => {
   // PROPS
@@ -350,7 +346,7 @@ export const MapsCities = (props) => {
         )
       }
       {
-        get(formValue, 'locations', []).length > 0 && (
+        get(formValue, 'locations', null) && get(formValue, 'locations', []).length > 0 && (
           <div className="locationsListMap">
             <div className="dis-f a-c flex-wrap notranslate">
               {
