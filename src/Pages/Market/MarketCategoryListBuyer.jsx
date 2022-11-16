@@ -377,7 +377,7 @@ const MarketCategoryListBuyer = (props) => {
               ) : (
                 <div className="container">
                   {
-                    !activeSearchProfile.id ? (
+                    activeSearchProfile.id ? (
                       <div className="dis-f jc-b-lg a-c py-10">
                         <div className="w-perc-100 ta-c">
                           <Link
