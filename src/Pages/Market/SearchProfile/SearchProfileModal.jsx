@@ -125,7 +125,7 @@ const SearchProfileModal = (props) => {
           {
             round: true,
             clr: 'primary',
-            name: translateTo('Save changes', lang),
+            name: translateTo('Apply search profile', lang),
             btnType: 'Primary',
             disabled: activeSearchProfile.id === userActiveSearchProfileId,
             func: () => saveChangeSearchProfile(),
@@ -179,6 +179,7 @@ const SearchProfileModal = (props) => {
   
   return (
     <BrixelModal
+      clickOutsideToClose={false}
       title={translateTo(modalTitle(), lang)}
       onClose={() => onClose()}
       layout="xxlarge"
@@ -227,9 +228,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
   handleCreateUserSearchProfile: bindActionCreators(createUserSearchProfile, dispatch),
   handleSetUserActiveSearchProfile: bindActionCreators(setUserActiveSearchProfile, dispatch),
+  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
 });
 
 export default compose(

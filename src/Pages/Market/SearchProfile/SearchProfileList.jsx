@@ -1,21 +1,18 @@
-import {
-  BrixelButtonPrimary,
-  BrixelButtonSecondary,
-  BrixelButtonText,
-  BrixelIcon,
-} from '@brixel/brixel-components';
+import { BrixelButtonIcon, BrixelButtonText, BrixelDropdownMini, useOutsideAlerter } from '@brixel/brixel-components';
 import { BrixelRadioButton, initializeForm } from '@brixel/brixel-components/dist/form';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
-import { deleteUserSearchProfile } from '../../../actions/SearchProfileActions';
+import { setModal } from '../../../actions/CommonActions';
+import { deleteUserSearchProfile, updateUserSearchProfile } from '../../../actions/SearchProfileActions';
+import SearchProfileField from '../../../components/SearchProfileField';
 import { QuestionsList } from '../../../resources/Flows/onBoardingBuyer';
 import { titleSearchProfile } from '../../../utils/titleCreationSearchProfile';
-import SearchProfileField from '../../../components/SearchProfileField';
+import translateTo from '../../../utils/translation';
 
 const SearchProfileList = (props) => {
   const history = {
@@ -24,16 +21,21 @@ const SearchProfileList = (props) => {
   };
   const {
     handleDeleteUserSearchProfile,
+    handleSetModal,
     initForm,
-    isSmallLoading,
     lang,
     userSearchProfiles,
     onChangeProfile,
     userActiveSearchProfileId,
+    handleUpdateSearchProfile,
   } = props;
+  // REF
+  const optionsRef = useRef(null);
   // STATE
-  const [showDeetail, setShowDetail] = useState({});
-  const [isOpenDeleteConfirm, setIsDeleteConfirm] = useState(false);
+  const [isOptionsOpen, setIsOptionsOpen] = useState({
+    id: null,
+    active: false,
+  });
   const [fieldsSearchProfile, setFieldsSearchProfile] = useState([]);
   
   useEffect(() => {
@@ -60,21 +62,50 @@ const SearchProfileList = (props) => {
     history.push(`/buy/searchProfile/edit/${searchProfile.id}`)
   }
   
-  useEffect(() => {
-    if (isSmallLoading.saveData === false) setIsDeleteConfirm(false);
-  }, [isSmallLoading]);
-  
-  
   const onDeleteSearchProfile = (profile) => {
-    handleDeleteUserSearchProfile(profile)
+    handleSetModal({
+      type: 'confirm',
+      title: translateTo('Confirm Delete', lang),
+      message: translateTo('Do you want delete the selected search profile?', lang),
+      confirm: () => handleDeleteUserSearchProfile(profile),
+      cancel: () => handleSetModal({}),
+    })
   }
+  
+  const onSetDefaultSearchProfile = (searchProfile) => {
+    if (!searchProfile.isDefault) {
+      handleUpdateSearchProfile({
+        id: searchProfile.id,
+        dataSearchProfile: {
+          isDefault: true
+        },
+      })
+    }
+    setIsOptionsOpen({
+      id: null,
+      active: false,
+    });
+  }
+  
+  // FUNCTION TO MANAGE THE CLICK OUTSIDE OF ELEMENT
+  useOutsideAlerter(optionsRef, {
+    action: 'function',
+    func: () => setIsOptionsOpen({
+      id: null,
+      active: false,
+    }),
+  });
   
   return (
     <div>
       <div className="dis-f jc-b a-t">
         <div className="max-w-fix-264">
-          <h5>Your Search Profiles</h5>
-          <p>Choose the Search Profile you’d like to apply to filter properties.</p>
+          <h5>
+            {translateTo('Your Search Profiles', lang)}
+          </h5>
+          <p>
+            {translateTo('Select the Search Profile you’d like to apply to filter properties.', lang)}
+          </p>
         </div>
         <div>
           <BrixelButtonText
@@ -91,7 +122,7 @@ const SearchProfileList = (props) => {
               searchProfile.id && (
                 <div
                   key={`searchProfile${i.toString()}`}
-                  className="brdSmall brdRadius p-2 brdLight200 mb-2"
+                  className={`brdSmall brdRadius p-2 mb-2 ${userActiveSearchProfileId === searchProfile.id ? 'bgBlue100 brdBlue300' : 'brdLight200'}`}
                 >
                   <div
                     className="dis-f a-c jc-b"
@@ -103,6 +134,7 @@ const SearchProfileList = (props) => {
                           value: userActiveSearchProfileId,
                           name: `saerchProfileSelected`,
                           onChange: () => onChangeProfile(searchProfile.id),
+                          checkmarkColor: 'blue',
                         }}
                         options={[{
                           index: i,
@@ -112,19 +144,62 @@ const SearchProfileList = (props) => {
                         ]}
                       />
                     </div>
-                    <div>
-                      <BrixelIcon
-                        icon={searchProfile.id === showDeetail.id ? "arrow-simple-up" : "arrow-simple-down"}
-                        onClick={() => setShowDetail(searchProfile.id === showDeetail.id ? {} : searchProfile)}
-                      />
+                    <div className="dis-f a-c">
+                      {
+                        searchProfile.isDefault && (
+                          <div className="mr-2 brdFullRadius bgBlue200 txtBlue700 fSizePx14 py-small-4 px-1">
+                            Default
+                          </div>
+                        )
+                      }
+                      <div className="pos-r mr-2">
+                        <BrixelButtonIcon
+                          icon="options-vertical"
+                          className="ml-a"
+                          theme="dark"
+                          ghost
+                          onClick={() => setIsOptionsOpen({
+                            id: isOptionsOpen.id === searchProfile.id ? null : searchProfile.id,
+                            active: !isOptionsOpen.active,
+                          })}
+                        />
+                        {
+                          (isOptionsOpen.id === searchProfile.id && isOptionsOpen.active)  && (
+                            <BrixelDropdownMini
+                              rightAligned
+                              ref={optionsRef}
+                              topOffset={48}
+                              links={
+                                [
+                                  {
+                                    label: translateTo('Edit', lang),
+                                    clickFunc: () => editSearchProfile(searchProfile),
+                                    className: 'txtPrimary400',
+                                  },
+                                  {
+                                    label: translateTo('Set as default', lang),
+                                    clickFunc: () => onSetDefaultSearchProfile(searchProfile),
+                                    className: 'txtPrimary400',
+                                  },
+                                  {
+                                    label: translateTo('Delete', lang),
+                                    clickFunc: () => onDeleteSearchProfile(searchProfile),
+                                    className: 'txtRed400',
+                                  },
+                                ]
+                              }
+                            />
+                          )
+                        }
+                      </div>
                     </div>
                   </div>
                   {
-                    searchProfile.id && searchProfile.id === showDeetail.id && (
+                    searchProfile.id && userActiveSearchProfileId === searchProfile.id && (
                       <>
                         <div>
                           <h6>Filters applied</h6>
-                          <p>Summary of all the filters applied </p>
+                          <p className="txtAltGrey400">Summary of all the filters applied </p>
               
                           <div className="dis-f flex-wrap a-t">
                             {
@@ -137,6 +212,7 @@ const SearchProfileList = (props) => {
                                           searchProfile={searchProfile}
                                           field={field}
                                           lang={lang}
+                                          onClick={() => history.push(`/buy/searchProfile/edit/${searchProfile.id}`)}
                                         />
                                       </>
                                     )
@@ -147,49 +223,6 @@ const SearchProfileList = (props) => {
                           </div>
             
                         </div>
-                        {
-                          isOpenDeleteConfirm ? (
-                            <div className="dis-f a-c jc-b brdSmallTop brdLight200 mt-2 pt-2">
-                              <h6 className="fweight-400">Are you sure to delete?</h6>
-                              <div className="dis-f a-c">
-                                <BrixelButtonSecondary
-                                  className="mr-1"
-                                  rounded
-                                  label="Cancel"
-                                  bgTransparent
-                                  onClick={() => setIsDeleteConfirm(false)}
-                                />
-                                <BrixelButtonPrimary
-                                  rounded
-                                  label="Delete"
-                                  theme="red"
-                                  bgTransparent
-                                  onClick={() => onDeleteSearchProfile(searchProfile)}
-                                />
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="dis-f a-c jc-b brdSmallTop brdLight200 mt-2 pt-2">
-                              <h6 className="fweight-400">Actions</h6>
-                              <div className="dis-f a-c">
-                                <BrixelButtonSecondary
-                                  className="mr-1"
-                                  rounded
-                                  label="Delete"
-                                  theme="red"
-                                  bgTransparent
-                                  onClick={() => setIsDeleteConfirm(true)}
-                                />
-                                <BrixelButtonSecondary
-                                  rounded
-                                  label="Edit"
-                                  bgTransparent
-                                  onClick={() => editSearchProfile(searchProfile)}
-                                />
-                              </div>
-                            </div>
-                          )
-                        }
                       </>
                     )
                   }
@@ -205,8 +238,9 @@ const SearchProfileList = (props) => {
 
 SearchProfileList.propTypes = {
   handleDeleteUserSearchProfile: PropTypes.func.isRequired,
+  handleSetModal: PropTypes.func.isRequired,
+  handleUpdateSearchProfile: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
-  isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   onChangeProfile: PropTypes.func.isRequired,
   userActiveSearchProfileId: PropTypes.string,
@@ -218,7 +252,6 @@ SearchProfileList.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  isSmallLoading: get(state, 'common.isSmallLoading', { }),
   lang: get(state, 'common.language', 'en'),
   userSearchProfiles: get(state, 'user.userSearchProfiles', []),
 });
@@ -228,6 +261,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(initializeForm('SearchProfile', value));
   },
   handleDeleteUserSearchProfile: bindActionCreators(deleteUserSearchProfile, dispatch),
+  handleSetModal: bindActionCreators(setModal, dispatch),
+  handleUpdateSearchProfile: bindActionCreators(updateUserSearchProfile, dispatch),
 });
 
 export default compose(
