@@ -1,38 +1,25 @@
 /* eslint-disable no-nested-ternary */
+import { BrixelButtonIcon, BrixelButtonPrimary, BrixelButtonText, BrixelProgressBar } from '@brixel/brixel-components';
+import { change, destroy, initializeForm, MultiFileldsReduxForm, reset } from '@brixel/brixel-components/dist/form';
+import get from 'lodash/get';
+import has from 'lodash/has';
+import PropTypes from 'prop-types';
 import queryString from 'query-string';
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
-import React, {
-  useState, useEffect, useRef,
-} from 'react';
-import PropTypes from 'prop-types';
-import {
-  BrixelButtonPrimary,
-  BrixelButtonIcon,
-  BrixelProgressBar,
-  BrixelButtonText,
-} from '@brixel/brixel-components';
-import translateTo from '../../utils/translation';
-import {
-  MultiFileldsReduxForm,
-  initializeForm,
-  change,
-  reset,
-  destroy,
-} from '@brixel/brixel-components/dist/form';
-import { bindActionCreators, compose } from 'redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import get from 'lodash/get';
-import has from 'lodash/has';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { bindActionCreators, compose } from 'redux';
 import Cookies from 'universal-cookie';
+import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
 import { getActiveSingleCompany } from '../../actions/CompanyActions';
 import { createActiveSingleProperty, saveActiveSingleProperty } from '../../actions/PropertyActions';
-import { titleProperty } from '../../utils/titleCreation';
-import { setCookie } from '../../utils/helpers';
+import { doLogin, saveActiveSingleUser, validateUser } from '../../actions/UserActions';
 import { QuestionsList } from '../../resources/Companies/TermsCondition/TermsCondition';
-import { spinnerOff, spinnerOn } from '../../actions/CommonActions';
-import { doLogin, validateUser, saveActiveSingleUser } from '../../actions/UserActions';
+import { setCookie } from '../../utils/helpers';
+import { titleProperty } from '../../utils/titleCreation';
+import translateTo from '../../utils/translation';
 
 const cookie = new Cookies();
 
@@ -60,6 +47,7 @@ const TermsCondition = (props) => {
     isSmallLoading,
     lang,
     loggedInUser,
+    translations,
   } = props;
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
@@ -173,7 +161,7 @@ const TermsCondition = (props) => {
       setQuestions(QuestionsList(lang, activeSingleCompany, isBuyer));
       setQuest(QuestionsList(lang, activeSingleCompany, isBuyer)[currentIndex]);
     }
-  }, [lang, company.stub]);
+  }, [lang, company.stub, translations]);
   
   useEffect(() => {
     setQuest(questions[currentIndex]);
@@ -446,7 +434,7 @@ const TermsCondition = (props) => {
                     rounded
                     theme="green"
                     isLoading={isSmallLoading.sendData}
-                    label={buttonLabel()}
+                    label={translateTo(buttonLabel(), lang)}
                     onClick={() => changeStep()}
                     onShowError={() => setShowError(true)}
                   />
@@ -483,6 +471,7 @@ TermsCondition.propTypes = {
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string,
   loggedInUser: PropTypes.object.isRequired,
+  translations: PropTypes.object.isRequired,
 };
 
 TermsCondition.defaultProps = {
@@ -503,6 +492,7 @@ const mapStateToProps = (state) => {
     loggedInUser: get(state, 'user.loggedInUser.user', {}),
     packagesProperty: get(state, 'property.packagesProperty', []),
     startForm: get(state, 'brixelForm.GetStarted', null),
+    translations: get(state, 'translations', null),
   });
 };
 

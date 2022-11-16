@@ -3,12 +3,14 @@ import {
   BrixelAvatar,
   BrixelButtonPrimary,
   BrixelButtonSecondary,
+  BrixelButtonText,
   BrixelIcon,
   BrixelProgressBar,
   FactsOptions,
   Helpers,
+  ProgressRing,
 } from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
+import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
 import baseByData from '@brixel/brixel-components/dist/configuration/Settings';
 import get from 'lodash/get';
 import orderBy from 'lodash/orderBy';
@@ -21,28 +23,28 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 // import cloneDeep from 'lodash/cloneDeep';
 import { bindActionCreators, compose } from 'redux';
 import { setModal, spinnerOff } from '../../../actions/CommonActions';
-import { getActiveSinglePropertyDealsCount, getPageDeals, getEstimation } from '../../../actions/PropertyActions';
+import { getActiveSinglePropertyDealsCount, getEstimation, getPageDeals } from '../../../actions/PropertyActions';
 import BestimateCardOverlay from '../../../components/BestimateCardOverlay';
 import DashboardPropertyCard from '../../../components/Cards/DashboardPropertyCard';
 import DashboardPropertyCardSold from '../../../components/Cards/DashboardPropertyCardSold';
 import CoverPropertyImage from '../../../components/CoverPropertyImage';
 import ArticlesBox from '../../../components/CraftCMS/ArticlesBox';
 import BannerBox from '../../../components/CraftCMS/BannerBox';
-
-// import Loading from '../../../components/Loading';
 import ProgressSellerStage from '../../../components/ProgressSellerStage';
 import completeDescriptionImg from '../../../images/dashboard/complete_description.svg';
 import completeFactsImg from '../../../images/dashboard/complete_facts.svg';
 import completedDescriptionImg from '../../../images/dashboard/completed_description.svg';
 import completedFactsImg from '../../../images/dashboard/completed_facts.svg';
 import marketNewHomeSvg from '../../../images/dashboard/marketMin.png';
+import onboardingDocsImg from '../../../images/dashboard/onboardingDocs.svg';
 import placeholderTextPropertyImg from '../../../images/dashboard/placeholderTextProperty.svg';
 import reviewSaleSvg from '../../../images/dashboard/reviewSale.svg';
 import surveySaleSvg from '../../../images/dashboard/surveySale.svg';
 import bookTestDriveImg from '../../../images/TestDrive/bookTestDrive.png';
 import contactTestDriveImg from '../../../images/TestDrive/contactTestDrive.svg';
-import testDriveImg from '../../../images/dashboard/onboarding_testdrive.svg';
-import { calcPercentageFacts } from '../../../utils/helpers';
+import bookedTestDriveImg from '../../../images/TestDrive/scanTrialRequested.svg';
+import { calcPercentageFacts, calcPercentageProEstimation } from '../../../utils/helpers';
+import translateTo from '../../../utils/translation';
 
 const { factsOptions } = FactsOptions;
 
@@ -58,23 +60,25 @@ const DashboardHome = (props) => {
     activeSingleProperty,
     activeSinglePropertyDeals,
     activeSinglePropertyDealsCount,
+    activeSinglePropertyHistory,
+    documents,
     estimation,
     formValue,
     handleGetActiveSinglePropertyDealsCount,
-    handleGetPageDeals,
     handleGetEstimation,
+    handleGetPageDeals,
     handleSetModal,
-    // isSmallLoading,
     lang,
     loggedInUser,
     onProgressStep,
     splashScreenType,
-    // userTypes,
     windowDimensions,
   } = props;
   // STATE
+  const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
   const [progressState, setProgressState] = useState({});
   const [visitLists, setVisitLists] = useState(null);
+  const [activeScantrial, setActiveScanTrial] = useState(null);
   // const [stepProgrss, setStepProgrss] = useState({});
   const propID = get(match, 'propID', null);
 
@@ -121,12 +125,38 @@ const DashboardHome = (props) => {
           step: 6,
         });
       }
+      if (documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')]) {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')][get(activeSingleProperty, 'properties.propertyType')]);
+      } else {
+        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(activeSingleProperty, 'properties.propertyType')]);
+      }
     }
   }, [activeSingleProperty.id]);
 
   useEffect(() => {
     onProgressStep(progressState)
   }, [progressState]);
+
+  useEffect(() => {
+    if (activeSinglePropertyHistory.length > 0) {
+      let getActiveScanTrial = activeSinglePropertyHistory.find((hst) => hst.actionStub === 'page-scan-trial');
+      if (getActiveScanTrial && DateTime.now().toMillis() < get(getActiveScanTrial, 'meta.meta.date', 0)) {
+        setActiveScanTrial(activeSinglePropertyHistory.find((hst) => hst.actionStub === 'page-scan-trial'));
+      }
+    }
+  }, [activeSinglePropertyHistory]);
+
+  const countMandatoryDocuments = () => {
+    let count = 0;
+    if (documents && mandatoryDocuments) {
+      documents.forEach((doc) => {
+        mandatoryDocuments.forEach((el) => {
+          if (el === doc.type) count += 1;
+        });
+      });
+    }
+    return count;
+  };
 
   const openBrixelPage = () => {
     if (progressState.id > 0) {
@@ -159,40 +189,66 @@ const DashboardHome = (props) => {
     return 'w-perc-40 w-perc-md-13 mt-1 mt-md-0';
   };
 
-  /* // UNTILE NO PROPERTY OR NO USER TYPE SHOW THE LOADING
-  // if ((!activeSingleProperty.id && !userTypes) || isSmallLoading.getProperty) {
-    return <Loading />;
-  } */
-
   const boxScanTrial = () => (
     <div className="dis-f flex-wrap">
-      <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
-        <div
-          className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
-          onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
-        >
-          <div className="w-perc-100 max-w-fix-208">
-            <h5 className="mb-2 fSizePx18 fweight-600">
-              {translateTo('Test drive our service. No strings attached.', lang)}
-            </h5>
-            <p className="fsize-300 txtDark700">
-              <span>{translateTo('Get the full Brixel experience worth', lang)}</span>
-              <span className="ml-small-4">
-                {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
-              </span>
-            </p>
-            <BrixelButtonPrimary
+      {
+        activeScantrial ? (
+          <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+            <div
+              className="dis-f jc-b brdRadius bgGreen200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
               onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
-              className="mt-3"
-              rounded
-              label={translateTo('Book now', lang)}
-            />
+            >
+              <div className="w-perc-100 max-w-fix-232">
+                <h5 className="mb-2 fSizePx18 fweight-600 txtGreen700">
+                  {translateTo('Thanks for your request.', lang)}
+                </h5>
+                <p className="fsize-300 txtDark700">
+                  <span>{translateTo('We will contact you as soon as possible for confirmation.', lang)}</span>
+                </p>
+                <BrixelButtonSecondary
+                  bgTransparent
+                  onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
+                  className="mt-3"
+                  rounded
+                  label={translateTo('View Details', lang)}
+                />
+              </div>
+              <div className="w-perc-100 max-w-fix-136 ta-r">
+                <img loading="lazy" src={bookedTestDriveImg} alt="Book Test Drive" />
+              </div>
+            </div>
           </div>
-          <div className="w-perc-100 max-w-fix-136">
-            <img loading="lazy" src={bookTestDriveImg} alt="Book Test Drive" />
+        ) : (
+          <div className="pr-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+            <div
+              className="dis-f jc-b brdRadius bgWhite shadow-2dp py-3 pl-3 ov-h h-perc-100"
+              onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
+            >
+              <div className="w-perc-100 max-w-fix-208">
+                <h5 className="mb-2 fSizePx18 fweight-600">
+                  {translateTo('Test drive our service. No strings attached.', lang)}
+                </h5>
+                <p className="fsize-300 txtDark700">
+                  <span>{translateTo('Get the full Brixel experience worth', lang)}</span>
+                  <span className="ml-small-4">
+                    {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
+                  </span>
+                </p>
+                <BrixelButtonPrimary
+                  onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
+                  className="mt-3"
+                  rounded
+                  label={translateTo('Book now', lang)}
+                />
+              </div>
+              <div className="w-perc-100 max-w-fix-136">
+                <img loading="lazy" src={bookTestDriveImg} alt="Book Test Drive" />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )
+      }
+
       <div className="mt-3 mt-md-0 pl-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
         <div
           onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/home`)}
@@ -214,7 +270,7 @@ const DashboardHome = (props) => {
               label={translateTo('Contact us', lang)}
             />
           </div>
-          <div className="w-perc-100 max-w-fix-136">
+          <div className="w-perc-100 max-w-fix-204 ta-r">
             <img
               loading="lazy"
               src={contactTestDriveImg}
@@ -257,12 +313,6 @@ const DashboardHome = (props) => {
         )
       }
 
-      {/* {
-        !get(progressState, 'step', null)  && (
-          <div className='mb-3 hide dis-b-lg skeletonBg h-fix-32 w-fix-256'/>
-        )
-      } */}
-
       {
         windowDimensions.width <= 1024 && (
           <>
@@ -273,7 +323,7 @@ const DashboardHome = (props) => {
                   className="mb-3"
                   smallLayout
                   xSmallMobile={windowDimensions.width <= 520}
-                  stepIndexProgress={progressState.id}
+                  stepIndexProgress={progressState.id || 1}
                 />
               )
             }
@@ -298,50 +348,85 @@ const DashboardHome = (props) => {
         {
           progressState.step === 1 && (
             <>
-              <div
-                className="bgGreen100 shadow-2dp brdRadius p-2 p-sm-3 mb-3 cardWithBg testDriveImg"
-                style={{ backgroundImage: `url(${testDriveImg})` }}
-              >
-                <div className="dis-f a-t jc-b">
-                  <div>
-                    <h4 className="mb-2 fweight-600">
-                      {translateTo('Test drive our service. No strings attached.', lang)}
-                    </h4>
-                    <p className="fsize-300 txtDark700 max-w-perc-70 max-w-perc-sm-100">
-                      <span>
-                        {translateTo('Get the full Brixel experience worth', lang)}
-                      </span>
-                      <span className="ml-small-4">
-                        {get(activeSingleCompany, 'meta.teaserPackage.currency', '')} {Helpers.formatNumberValue(get(activeSingleCompany, 'meta.teaserPackage.price', ''), get(activeSingleCompany, 'meta.teaserPackage.currency', ''))}.
-                      </span>
-                    </p>
-
-                    <div className="dis-fl-col dis-fl-row-sm mt-3">
-                      <BrixelButtonPrimary
-                        onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/on-site?url=/${activeSingleProperty.id}/home`)}
-                        className="as-fs min-w-fix-144"
-                        rounded
-                        label={translateTo('Book now', lang)}
-                      />
-
-                      <BrixelButtonSecondary
-                        onClick={() => history.push(`/${activeSingleProperty.id}/trialRequest/remote?url=/${activeSingleProperty.id}/home`)}
-                        className="ml-sm-3 mt-1 mt-sm-0 min-w-fix-144 as-fs"
-                        rounded
-                        bgTransparent
-                        themeSat={700}
-                        label={translateTo('Contact us', lang)}
-                      />
-                    </div>
-
-                  </div>
-                  {/* <img loading="lazy" src={testDriveImg} alt="Test Drive" /> */}
-                </div>
-              </div>
 
               <DashboardPropertyCard
                 lang={lang}
               />
+
+              {boxScanTrial()}
+
+              <div className="dis-f flex-wrap mt-3">
+                {/* PRO ESTIMATION BOX */}
+                <div className="pr-md-1 mb-3 mb-sm-0 w-perc-100 w-perc-md-50 min-h-perc-100">
+                  <div
+                    className="dis-f jc-b brdRadius bgBlue200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
+                    onClick={() => history.push(`/${activeSingleProperty.id}/property/price/proEstimation`)}
+                  >
+                    <div className="w-perc-100 max-w-fix-232">
+                      <h4 className="fweight-600 txtBlue400">
+                        {calcPercentageProEstimation('', activeSingleProperty).realPerc}%
+                      </h4>
+                      <h5 className="fweight-600 fSizePx18 txtBlue700">
+                        {translateTo('of Pro Estimation complete', lang)}
+                      </h5>
+                      <BrixelButtonText
+                        className="mt-3"
+                        bgTransparent
+                        theme="blue"
+                        themeSat={700}
+                        rightIcon="arrow-simple-right"
+                        label="Review"
+                      />
+                    </div>
+                    <div className="w-perc-100 max-w-fix-136 dis-f a-c">
+                      <ProgressRing
+                        progress={calcPercentageProEstimation('', activeSingleProperty).realPerc}
+                        size={100}
+                        strokeWidth={20}
+                        circleOneStroke="#96DAEA"
+                        circleTwoStroke="#004D71"
+                        showIconComplete={calcPercentageProEstimation('', activeSingleProperty).realPerc >= 100}
+                        showIcon={false}
+                        showIconCompleteColor="blue"
+                        showIconCompleteSize="large"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* DOCUBOX BOX */}
+                <div className="pl-md-1 w-perc-100 w-perc-md-50 min-h-perc-100">
+                  <div
+                    className="dis-f jc-b brdRadius bgRed200 shadow-2dp py-3 pl-3 ov-h h-perc-100"
+                    onClick={() => history.push(`/${activeSingleProperty.id}/docubox`)}
+                  >
+                    <div className="w-perc-100 max-w-fix-232">
+                      <h4 className="fweight-600 txtRed400">
+                        <span>{countMandatoryDocuments()}</span>
+                        <span className="ml-small-4">
+                          {translateTo('of', lang)}
+                        </span>
+                        <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
+                      </h4>
+                      <h5 className="fweight-600 fSizePx18 txtRed700">
+                        {translateTo('uploaded on your docubox', lang)}
+                      </h5>
+
+                      <BrixelButtonText
+                        className="mt-3"
+                        bgTransparent
+                        theme="red"
+                        rightIcon="arrow-simple-right"
+                        label="Upload"
+                      />
+                    </div>
+                    <div className="w-perc-100 max-w-fix-136 ta-r">
+                      <img src={onboardingDocsImg} alt="Docubox Image" />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
 
               <span className="dis-b mt-2-neg"></span>
 
@@ -964,18 +1049,18 @@ DashboardHome.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
   activeSinglePropertyDeals: PropTypes.object,
   activeSinglePropertyDealsCount: PropTypes.object.isRequired,
+  activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
+  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
   estimation: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
   handleGetActiveSinglePropertyDealsCount: PropTypes.func.isRequired,
+  handleGetEstimation: PropTypes.func.isRequired,
   handleGetPageDeals: PropTypes.func.isRequired,
   handleSetModal: PropTypes.func.isRequired,
-  // isSmallLoading: PropTypes.object.isRequired,
+  lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
   onProgressStep: PropTypes.func.isRequired,
-  handleGetEstimation: PropTypes.func.isRequired,
   splashScreenType: PropTypes.string.isRequired,
-  lang: PropTypes.string.isRequired,
-  // userTypes: PropTypes.string,
   windowDimensions: PropTypes.object.isRequired,
 };
 
@@ -991,10 +1076,11 @@ const mapStateToProps = (state) => ({
   activeSingleProperty: get(state, 'property.activeSingleProperty', {}),
   activeSinglePropertyDeals: get(state, 'property.activeSinglePropertyDeals', []),
   activeSinglePropertyDealsCount: get(state, 'property.activeSinglePropertyDealsCount', {}),
+  activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory.data', []),
+  documents: get(state, 'property.activeSingleProperty.documents', []),
   estimation: get(state, 'property.estimation', {}),
   formValue: get(state, 'brixelForm.Property.values', {}),
   isLoading: get(state, 'common.isLoading', 0) > 0,
-  //  isSmallLoading: get(state, 'common.isSmallLoading', {}),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', {}),
   splashScreenType: get(state, 'common.splashScreenType', ''),

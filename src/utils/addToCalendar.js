@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-console */
 /**
  * ++++++++++++++++++++++
  * Add-to-Calendar Button
@@ -106,9 +108,9 @@ function atcb_patch_config(atcbConfig) {
 
 
 // CLEAN DATA BEFORE FURTHER VALIDATION (CONSIDERING SPECIAL RULES AND SCHEMES)
-function atcb_decorate_data(atcbConfig) {
+function atcb_decorate_data(atcbConfigs) {
   // cleanup different date-time formats
-  atcbConfig = atcb_date_cleanup(atcbConfig);
+  const atcbConfig = atcb_date_cleanup(atcbConfigs);
   // calculate the real date values in case that there are some special rules included (e.g. adding days dynamically)
   atcbConfig['startDate'] = atcb_date_calculation(atcbConfig['startDate']);
   atcbConfig['endDate'] = atcb_date_calculation(atcbConfig['endDate']);
@@ -171,11 +173,11 @@ function atcb_date_cleanup(data) {
   return data;
 }
 
-function atcb_date_calculation(dateString) {
+function atcb_date_calculation(dateStrings) {
   // replace "today" with the current date first
   let today = new Date();
   let todayString = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear();
-  dateString = dateString.replace(/today/ig, todayString);
+  const dateString = dateStrings.replace(/today/ig, todayString);
   // check for any dynamic additions and adjust
   const dateStringParts = dateString.split('+');
   const dateParts = dateStringParts[0].split('-');
@@ -503,17 +505,17 @@ function atcb_close(blockFocus = false) {
 }
 
 // prepare data when not using the init function
-function atcb_action(data, button) {
-  // validate & decorate data
-  if (!atcb_check_required(data)) {
-    throw new Error("data missing; see logs")
-  }
-  data = atcb_decorate_data(data);
-  if (!atcb_validate(data)) {
-    throw new Error("Invalid data; see logs")
-  }
-  atcb_open(data, button);
-}
+// function atcb_action(data, button) {
+//   // validate & decorate data
+//   if (!atcb_check_required(data)) {
+//     throw new Error("data missing; see logs")
+//   }
+//   data = atcb_decorate_data(data);
+//   if (!atcb_validate(data)) {
+//     throw new Error("Invalid data; see logs")
+//   }
+//   atcb_open(data, button);
+// }
 
 
 
@@ -701,8 +703,8 @@ function atcb_generate_time(data, style = 'delimiters', targetCal = 'general') {
       start = start.toISOString().replace('.000', '');
       end = end.toISOString().replace('.000', '');
       if (style == 'clean') {
-        start = start.replace(/\-/g, '').replace(/\:/g, '');
-        end = end.replace(/\-/g, '').replace(/\:/g, '');
+        start = start.replace(/-/g, '').replace(/:/g, '');
+        end = end.replace(/-/g, '').replace(/:/g, '');
       }
     } else {
       // if there is no offset, we prepare the time, assuming it is UTC formatted
@@ -722,8 +724,8 @@ function atcb_generate_time(data, style = 'delimiters', targetCal = 'general') {
       start = start.toISOString().replace('.000', '');
       end = end.toISOString().replace('.000', '');
       if (style == 'clean') {
-        start = start.replace(/\-/g, '').replace(/\:/g, '');
-        end = end.replace(/\-/g, '').replace(/\:/g, '');
+        start = start.replace(/-/g, '').replace(/:/g, '');
+        end = end.replace(/-/g, '').replace(/:/g, '');
       }
     }
   } else { // would be an allday event then
@@ -739,8 +741,8 @@ function atcb_generate_time(data, style = 'delimiters', targetCal = 'general') {
     }
     let breakEnd = end.toISOString().split('T');
     if (style == 'clean') {
-      breakStart[0] = breakStart[0].replace(/\-/g, '');
-      breakEnd[0] = breakEnd[0].replace(/\-/g, '');
+      breakStart[0] = breakStart[0].replace(/-/g, '');
+      breakEnd[0] = breakEnd[0].replace(/-/g, '');
     }
     start = breakStart[0];
     end = breakEnd[0];
