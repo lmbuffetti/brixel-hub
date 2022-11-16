@@ -28,12 +28,12 @@ $responsive-desktop: map-get($grid-breakpoints, xl);
 $sidebarWidth: 176px;
 $sidebarWidthCollapsed: 70px;
 /* Color array to be used with randomizer for avatar background*/
-$avatarColors: map-get($primaryColor, 300),
-map-get($darkColor, 300),
-map-get($redColor, 300),
-map-get($greenColor, 300),
-map-get($yellowColor, 300),
-map-get($blueColor, 300);
+$avatarColors:  map-get($primaryColor, 300),
+                map-get($darkColor, 300),
+                map-get($redColor, 300),
+                map-get($greenColor, 300),
+                map-get($yellowColor, 300),
+                map-get($blueColor, 300);
 
 /* DASHBOARD STUFF */
 @import "./windows",

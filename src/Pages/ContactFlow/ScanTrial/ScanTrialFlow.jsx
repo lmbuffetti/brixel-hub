@@ -7,15 +7,16 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import isArray from 'lodash/isArray';
+import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-shadow */
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
+import { getHistoryListings, setPropertyHistoryListings } from '../../../actions/HistoryActions';
 import { sendScanTrialRequest } from '../../../actions/PropertyActions';
+import ScantTrailBookedImg from '../../../images/TestDrive/reviewScanTrial.svg';
 import { ScanTrialQuestions } from '../../../resources/Flows/ScanTrialRequest';
 import { checkBrowser } from '../../../utils/helpers';
 import translateTo from '../../../utils/translation';
@@ -30,16 +31,20 @@ const ScanTrialFlow = (props) => {
   // PROPS
   const {
     activeSingleProperty,
+    activeSingleScanTrial,
+    changeFieldValue,
     destroyForm,
     errorValue,
     formValue,
+    handleGetHistoryFeed,
+    handleSetPropertyHistory,
+    handleReset,
     handleSendScanTrial,
     initForm,
     initialValues,
     isSmallLoading,
     lang,
     loggedInUser,
-    handleReset,
   } = props;
   // STATE
   const [questions, setQuestions] = useState(ScanTrialQuestions(lang));
@@ -50,6 +55,7 @@ const ScanTrialFlow = (props) => {
   const [showError, setShowError] = useState(false);
   const [saved, setSaved] = useState(false);
   const [oldIndex, setOldIndex] = useState(0);
+  const [showBookedTrial, setShowBookedTrial] = useState(false);
   // GET URL PARAMS
   const propID = get(match, 'propID', null);
 
@@ -59,7 +65,10 @@ const ScanTrialFlow = (props) => {
 
   useEffect(() => {
     localStorage.setItem('brixelRegField', JSON.stringify({}));
-    return () => destroyForm();
+    return () => {
+      handleSetPropertyHistory({});
+      destroyForm();
+    }
   }, []);
 
   // ON CHANGE STEP LOAD THE ENTER EFFECT
@@ -251,10 +260,35 @@ const ScanTrialFlow = (props) => {
   };
 
   useEffect(() => {
+    let showBookTrial = false
+    if (get(activeSingleScanTrial, 'actionStub', null) && get(formValue, 'analysis', null) === 'on-site') {
+      if (DateTime.now().toMillis() < get(activeSingleScanTrial, 'meta.meta.date', 0)) showBookTrial = true;
+    }
+    setShowBookedTrial(showBookTrial)
+  }, [get(formValue, 'analysis', null), get(activeSingleScanTrial, 'actionStub', null)])
+
+  useEffect(() => {
     initForm(initialValues);
     const defId = checkCondition(currentIndex);
     if (defId !== currentIndex) changeStep();
   }, [activeSingleProperty]);
+
+  useEffect(() => {
+    if (loggedInUser.id && activeSingleProperty.id && get(formValue, 'analysis', null) === 'on-site') {
+      const payloadPageHistory = {
+        actionStubs: ['page-scan-trial'],
+        parent: propID,
+        resultsPerPage: 1,
+        offset: 0,
+        order: 'createdAt',
+        direction: 'DESC',
+        smallLoader: 'getPageHistory',
+        type: 'page',
+      };
+      handleGetHistoryFeed(payloadPageHistory);
+    }
+  }, [loggedInUser, activeSingleProperty, get(formValue, 'analysis', null)]);
+
 
   // ON CHANGE FORM VALUE CALC THE CONDITION TO SHOW/HIDE QUESTIONS AND STEP
   useEffect(() => {
@@ -294,104 +328,141 @@ const ScanTrialFlow = (props) => {
     return label;
   };
 
-  return (
-    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')}  `}>
+  if (activeSingleScanTrial === null) return <div />
 
-      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${get(quest, 'background', '') ? '' : ''} ${get(quest, 'vCentered', null) ? 'jc-c vCentered' : ''} stepNo${currentIndex}`}>
+  return (
+    <div id="bodyModalWrapper" className={`withHeader getStarted ${get(quest, 'background', '') ? get(quest, 'background', '') : ''} ${get(quest, 'background', '')} ${get(quest, 'classWrapper', '')} ${showBookedTrial ? 'bgGreen100' : ''}`}>
+
+      <div className={`bodyModal dis-fl-col upgradeModal container ${get(quest, 'history', '')} ${showBookedTrial ? 'dis-f jc-c' : ''} stepNo${currentIndex}`}>
         <form
           id="multiStepForm"
           autoComplete="off"
-          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''} ${questions[currentIndex].effect === 'slideUp' ? 'ov-v signUp' : ''}`}
+          className={`interactive dis-fl-col jc-b ${get(quest, 'background', null) || ''}`}
           onSubmit={(e) => changeStep(null, e)}
         >
           <div ref={multiStepSlidesRef} className="multiStepSlides">
             <div ref={singleStepRef} className={`singleStep zIndex1 pt-5 jc-c ${currentIndex < 5 ? isEnter || questions[currentIndex].effect ? 'fade-enter-active' : 'fade-enter' : ''}`}>
-              <div className="subcontainer m-a">
-                {
-                  get(quest, 'inputs', null) && !get(quest, 'cardType', null) && (
-                    <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
-                      {
-                        quest.title && (
-                          <h2 className={`fsize-600 fsize-sm-800 fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
-                        )
-                      }
-                      {/*                       {
+              {
+                showBookedTrial ? (
+                  <div className="subcontainer m-a">
+                    <div className="ta-c mx-a max-w-fix-400">
+                      <img src={ScantTrailBookedImg} alt="Scan Trial Booked" />
+                      <h4 className="txtGreen700 fweight-600 mt-6">
+                        <span>{translateTo('You have requested a test drive for', lang)}</span>
+                        {
+                          !isNaN(get(activeSingleScanTrial, 'meta.meta.date', '')) && (
+                            <span className="ml-1 txtGreen400">{DateTime.fromMillis(get(activeSingleScanTrial, 'meta.meta.date', 0)).toFormat('dd MMM yyyy, HH:mm')}</span>
+                          )
+                        }
+                      </h4>
+                      <p className="mt-3 txtAltGrey700">
+                        {translateTo(' 💡 Remember to fill out as many facts about your property as possible. The more information we have, the better we can assist you.', lang)}
+                      </p>
+                      <BrixelButtonPrimary
+                        rounded
+                        className="mt-5 mx-a"
+                        onClick={() => {
+                          changeFieldValue('analysis', 'remote');
+                          changeFieldValue('email', loggedInUser.email);
+                          changeFieldValue('phone', loggedInUser.phone);
+                          changeFieldValue('name', loggedInUser.name);
+                          changeFieldValue('userID', loggedInUser.id);
+                          setShowBookedTrial(false);
+                          history.push(`/${activeSingleProperty.id}/trialRequest/BookScanTrial`)
+                        }}
+                        label="Contact us"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="subcontainer m-a">
+                    {
+                      get(quest, 'inputs', null) && !get(quest, 'cardType', null) && (
+                        <div id={`step-${currentIndex}`} className={`dis-fl-col flex-wrap ${questions[currentIndex].effect} ${questions[currentIndex].effect === 'slideUp' ? 'activeQuestBack' : ''}`}>
+                          {
+                            quest.title && (
+                              <h2 className={`fsize-600 fsize-sm-800 fweight-600 max-w-fix-464 ta-c m-a ${quest.subtitle ? 'mb-1' : 'mb-3 mb-sm-6'}`} dangerouslySetInnerHTML={{ __html: quest.title }} />
+                            )
+                          }
+                          {/*                       {
                         quest.subtitle && (
                           <p className="mb-5 ta-c txtDark200 w-perc-100" dangerouslySetInnerHTML={{ __html: quest.subtitle }} />)
                       } */}
-                      <div className={`${quest.className} w-perc-100`}>
-                        <MultiFileldsReduxForm
-                          form="scanFlow"
-                          disableNextBtn={false}
-                          formValue={formValue}
-                          inputs={quest.inputs}
-                          onClick={() => changeStep()}
-                          onCloseGoBack={() => changeStep('back')}
-                          onClickDisabled={!checkValidateField()}
-                          onSubmit={() => changeStep()}
-                          showSendButton={false}
-                          showErrors={showError}
-                          disableDelay
-                        />
-                      </div>
+                          <div className={`${quest.className} w-perc-100`}>
+                            <MultiFileldsReduxForm
+                              form="scanFlow"
+                              disableNextBtn={false}
+                              formValue={formValue}
+                              inputs={quest.inputs}
+                              onClick={() => changeStep()}
+                              onCloseGoBack={() => changeStep('back')}
+                              onClickDisabled={!checkValidateField()}
+                              onSubmit={() => changeStep()}
+                              showSendButton={false}
+                              showErrors={showError}
+                              disableDelay
+                            />
+                          </div>
 
-                    </div>
-                  )
-                }
-                {
-                  get(quest, 'cardType', null) === 'loadComponent' && (
-                    React.createElement(
-                      quest.component,
-                      {
-                        formName: 'scanFlow',
-                        initialValue: formValue,
-                        ...quest,
-                        onClick: (step = 1) => (questions[currentIndex + 1] ? changeStep('next', null, step, true) : closeWindow()),
-                        showError,
-                      },
-                    )
-                  )
-                }
-                {
-                  (get(quest, 'cardType', null) === 'card') && (
-                    <div className={`scaleAnim ta-c ${quest.cardClass}`}>
-                      <img loading="lazy" src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
-                      <h2
-                        className="fadeAnim fweight-600 ta-c"
-                        dangerouslySetInnerHTML={{ __html: quest.title }}
-                      />
-                      {
-                        quest.subtitle && (
-                          <h6
-                            className="fadeAnim fsize-600 fweight-400 mt-2 ta-c"
-                            dangerouslySetInnerHTML={{ __html: quest.subtitle }}
-                          />
+                        </div>
+                      )
+                    }
+                    {
+                      get(quest, 'cardType', null) === 'loadComponent' && (
+                        React.createElement(
+                          quest.component,
+                          {
+                            formName: 'scanFlow',
+                            initialValue: formValue,
+                            ...quest,
+                            onClick: (step = 1) => (questions[currentIndex + 1] ? changeStep('next', null, step, true) : closeWindow()),
+                            showError,
+                          },
                         )
-                      }
-                    </div>
-                  )
-                }
-                {
-                  get(quest, 'history', null) === 'resume' && (
-                    <div className="max-w-fix-344 m-a">
-                      <BrixelButtonPrimary
-                        className={`mt-3 m-a noWrap ${quest.history}`}
-                        rounded
-                        theme="green"
-                        themeSat={600}
-                        label={translateTo(buttonLabel(), lang)}
-                        disabled={!checkValidateField()}
-                        rightIcon="arrow-right-small"
-                        onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
-                      />
-                    </div>
-                  )
-                }
-              </div>
+                      )
+                    }
+                    {
+                      (get(quest, 'cardType', null) === 'card') && (
+                        <div className={`scaleAnim ta-c ${quest.cardClass}`}>
+                          <img loading="lazy" src={quest.img} alt={quest.title} className={`${quest.imgMaxWidth ? quest.imgMaxWidth : 'max-w-fix-232'} mb-3`} />
+                          <h2
+                            className="fadeAnim fsize-700 fsize-sm-800 fweight-600 ta-c"
+                            dangerouslySetInnerHTML={{ __html: quest.title }}
+                          />
+                          {
+                            quest.subtitle && (
+                              <h6
+                                className="fadeAnim fsize-500 fsize-sm-600 fweight-400 mt-2 ta-c"
+                                dangerouslySetInnerHTML={{ __html: quest.subtitle }}
+                              />
+                            )
+                          }
+                        </div>
+                      )
+                    }
+                    {
+                      get(quest, 'history', null) === 'resume' && (
+                        <div className="max-w-fix-344 m-a">
+                          <BrixelButtonPrimary
+                            className={`mt-3 m-a noWrap ${quest.history}`}
+                            rounded
+                            theme="green"
+                            themeSat={600}
+                            label={translateTo(buttonLabel(), lang)}
+                            disabled={!checkValidateField()}
+                            rightIcon="arrow-right-small"
+                            onClick={() => (questions[currentIndex + 1] ? changeStep() : closeWindow())}
+                          />
+                        </div>
+                      )
+                    }
+                  </div>
+                )
+              }
             </div>
           </div>
           {
-            get(quest, 'history', null) !== 'createProfile' && (
+            get(quest, 'history', null) !== 'createProfile' && !showBookedTrial && (
               <div
                 className={`footerAction flowFooter ${questions[currentIndex].footerWidth} ${get(quest, 'history', null) === 'resume' ? 'hide' : ''} ${!checkValidateField() ? 'disabledNext' : 'normStep'} ${checkValidateField('value') ? 'successNext' : ''}`}
               >
@@ -473,17 +544,25 @@ const ScanTrialFlow = (props) => {
 
 ScanTrialFlow.propTypes = {
   activeSingleProperty: PropTypes.object.isRequired,
+  activeSingleScanTrial: PropTypes.object,
+  changeFieldValue: PropTypes.func.isRequired,
   destroyForm: PropTypes.func.isRequired,
   errorValue: PropTypes.object.isRequired,
   formValue: PropTypes.object.isRequired,
+  handleGetHistoryFeed: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
   handleSendScanTrial: PropTypes.func.isRequired,
+  handleSetPropertyHistory: PropTypes.func.isRequired,
   initForm: PropTypes.func.isRequired,
   initialValues: PropTypes.object.isRequired,
   isSmallLoading: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
 };
+
+ScanTrialFlow.defaultProps = {
+  activeSingleScanTrial: null,
+}
 
 const mapStateToProps = (state) => {
   const history = {
@@ -510,6 +589,7 @@ const mapStateToProps = (state) => {
   if (bookType.includes('on-site')) initVal.analysis = 'on-site';
   if (bookType.includes('remote')) initVal.analysis = 'remote';
   return ({
+    activeSingleScanTrial: get(state, 'history.activeSinglePropertyHistory.data[0]', null ),
     activeSingleCompany: get(state, 'companies.activeSingleCompany', { }),
     activeSingleProperty: get(state, 'property.activeSingleProperty', null),
     errorValue: get(state, 'brixelForm.scanFlow.syncErrors', {}),
@@ -534,8 +614,9 @@ const mapDispatchToProps = (dispatch) => ({
   handleReset(form) {
     (dispatch(reset(form)));
   },
+  handleSetPropertyHistory: bindActionCreators(setPropertyHistoryListings, dispatch),
   handleSendScanTrial: bindActionCreators(sendScanTrialRequest, dispatch),
-
+  handleGetHistoryFeed: bindActionCreators(getHistoryListings, dispatch),
 });
 
 export default compose(

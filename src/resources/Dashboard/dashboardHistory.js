@@ -28,7 +28,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
   const defaultCurrency = get(activeSingleProperty, 'price.currency', '');
   return ({
     'page-create': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -37,7 +37,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'tag',
     },
     'page-listed': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -46,7 +46,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'tag',
     },
     'page-published': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -55,7 +55,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'tag',
     },
     'page-scan-trial': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -64,7 +64,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'tag',
     },
     'page-start-service-package': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -73,7 +73,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'tag',
     },
     'page-stop-service-package': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -82,7 +82,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'tag',
     },
     'page-unlisted': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -91,7 +91,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'tag',
     },
     'page-unpublished': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -100,7 +100,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'tag',
     },
     'pro-estimation-complete': {
-      className: 'brdBlue100',
+      className: 'brdBlue300',
       colorBgIcon: 'Blue',
       colorIconSat: 100,
       colorBgIconSat: 400,
@@ -109,7 +109,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'chart',
     },
     'user-create-estimation': {
-      className: 'brdBlue100',
+      className: 'brdBlue300',
       colorBgIcon: 'Blue',
       colorIconSat: 100,
       colorBgIconSat: 700,
@@ -118,7 +118,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'chart',
     },
     'user-register': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -127,7 +127,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'user-new',
     },
     'page-status-success': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -136,7 +136,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'tag',
     },
     'deal-make-offer': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -145,7 +145,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'money',
     },
     'deal-review-offer': {
-      className: get(history, 'meta.offer.status', '') === 'rejected' ? 'brdRed100' : 'brdGreen100',
+      className: get(history, 'meta.offer.status', '') === 'rejected' ? 'brdRed300' : 'brdGreen300',
       colorIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorBgIcon: get(history, 'meta.offer.status', '') === 'rejected' ? 'Red' : 'Green',
       colorIconSat: 100,
@@ -154,7 +154,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: get(history, 'meta.offer.status', '') === 'rejected' ? 'close-thin' : 'tick',
     },
     'deal-feedback-visit-email': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -163,7 +163,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'mail-open',
     },
     'deal-confirm-visit-email': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -172,7 +172,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'mail-open',
     },
     'user-send-message': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -181,7 +181,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'mail-open',
     },
     'update-deal': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -190,7 +190,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'calendar',
     },
     'user-schedule': {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -199,7 +199,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'calendar',
     },
     note: {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,
@@ -208,7 +208,7 @@ export const feedMessage = (user, history, packages, activeSingleProperty, lang)
       icon: 'message',
     },
     default: {
-      className: 'brdGreen100',
+      className: 'brdGreen300',
       colorIcon: 'Green',
       colorBgIcon: 'Green',
       colorIconSat: 100,

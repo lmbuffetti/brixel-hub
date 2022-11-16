@@ -1,23 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { BrixelIcon, ProgressRing } from '@brixel/brixel-components';
-import translateTo from '../../../utils/translation';
-import documentConfig from '@brixel/brixel-components/dist/configuration/DocumentsConfig';
+import { BrixelIcon } from '@brixel/brixel-components';
 import get from 'lodash/get';
-import has from 'lodash/has';
 import isNaN from 'lodash/isNaN';
 import orderBy from 'lodash/orderBy';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { bindActionCreators, compose } from 'redux';
 import sanitizeHtml from 'sanitize-html';
 import { getHistoryListings } from '../../../actions/HistoryActions';
 import { getNoteListings } from '../../../actions/NoteActions';
 import { feedMessage } from '../../../resources/Dashboard/dashboardHistory';
 import timelineActionStubs from '../../../resources/Utilities/timelineActionStubs';
-import { arrayMove, calcPercentageProEstimation } from '../../../utils/helpers';
+import { arrayMove } from '../../../utils/helpers';
+import translateTo from '../../../utils/translation';
 
 const SellerSidebar = (props) => {
   // PROPS
@@ -27,17 +25,14 @@ const SellerSidebar = (props) => {
     activeSinglePropertyHistory,
     activeSinglePropertyNotes,
     activeSingleUserHistory,
-    documents,
     handleGetHistoryFeed,
     handleGetNoteListings,
     lang,
     loggedInUser,
-    progressStep,
   } = props;
   const match = useParams();
   // STATE
   const [fullUpdates, setFullUpdates] = useState([]);
-  const [mandatoryDocuments, setMandatoryDocuments] = useState([]);
 
   const propID = get(match, 'propID', null);
 
@@ -100,28 +95,6 @@ const SellerSidebar = (props) => {
     setFullUpdates(mergedFeed);
   }, [activeSinglePropertyHistory, activeSingleUserHistory, activeSinglePropertyNotes]);
 
-  useEffect(() => {
-    if (has(activeSingleProperty, 'location.countryCode')) {
-      if (documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')]) {
-        setMandatoryDocuments(documentConfig.mandatoryDocuments[get(activeSingleProperty, 'location.countryCode')][get(activeSingleProperty, 'properties.propertyType')]);
-      } else {
-        setMandatoryDocuments(documentConfig.mandatoryDocuments.EN[get(activeSingleProperty, 'properties.propertyType')]);
-      }
-    }
-  }, [activeSingleProperty]);
-
-  const countMandatoryDocuments = () => {
-    let count = 0;
-    if (documents && mandatoryDocuments) {
-      documents.forEach((doc) => {
-        mandatoryDocuments.forEach((el) => {
-          if (el === doc.type) count += 1;
-        });
-      });
-    }
-    return count;
-  };
-
   const convertFeedMessage = (stub, type, history) => {
     if (activeSingleProperty.id) {
       const data = feedMessage(loggedInUser, history, activeCompanyPackages, activeSingleProperty, lang);
@@ -148,91 +121,6 @@ const SellerSidebar = (props) => {
   return (
     <div className="seller-sidebar w-perc-100 max-w-fix-384">
       <div className="updates dis-fl-col">
-
-        {
-          progressStep.step === 1 && (
-            <div>
-              <div className="p-3">
-                <p className="fweight-600 txtDark700 mb-2">
-                  {translateTo('Tasks', lang)}</p>
-
-                <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen300">
-                  <div>
-                    <BrixelIcon
-                      saturation={0}
-                      color="green"
-                      saturationTxt={400}
-                      padding="p-small-12 brdSmall brdGreen200"
-                      icon="tick"
-                      rounded
-                      className="as-fs"
-                      iconSize="large"
-                    />
-                  </div>
-                  <div className="ml-3 fsize-300">
-                    <span>{countMandatoryDocuments()}</span>
-                    <span className="ml-small-4">
-                      {translateTo('of', lang)}
-                    </span>
-                    <span className="ml-small-4">{mandatoryDocuments ? mandatoryDocuments.length : 0}</span>
-                    <span className="ml-small-4">
-                      {translateTo('uploaded on your docubox', lang)}
-                    </span>
-
-                    <Link
-                      className="dis-b mt-1 fsize-300 td-u"
-                      to={{
-                        pathname: `/${propID}/docubox`,
-                      }}
-                    >
-                      {translateTo('Upload', lang)}
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="update-item brdRadius brdSmall p-2 dis-f mb-2 brdGreen300">
-
-                  <ProgressRing
-                    progress={calcPercentageProEstimation('', activeSingleProperty).realPerc}
-                    size={48}
-                    strokeWidth={10}
-                    circleOneStroke="#DCF2E8"
-                    circleTwoStroke="#009877"
-                    showIcon={false}
-                  />
-                  <div className="ml-3 fsize-300">
-                    <span>{calcPercentageProEstimation('', activeSingleProperty).realPerc}%</span>
-                    <span className="ml-small-4">
-                      {translateTo('of Pro Estimation complete', lang)}
-                    </span>
-
-                    <Link
-                      className="dis-b mt-1 fsize-300 td-u"
-                      to={{
-                        pathname: calcPercentageProEstimation('', activeSingleProperty).realPerc < 100 ? `/${propID}/property/price/proEstimation` : `/${propID}/property/price`,
-                      }}
-                    >
-                      {translateTo(calcPercentageProEstimation('', activeSingleProperty).realPerc < 100 ? 'Next step' : 'View', lang)}
-                    </Link>
-
-                  </div>
-                </div>
-              </div>
-
-              <hr />
-            </div>
-          )
-        }
-
-        {
-          !get(progressStep, 'step', null) && (
-            <div className="p-3">
-              <div className="h-fix-24 mb-2 w-perc-100 skeletonBg" />
-              <div className="h-fix-96 mb-2 w-perc-100 skeletonBg brdRadius" />
-              <div className="h-fix-96 mb-3 w-perc-100 skeletonBg brdRadius" />
-            </div>
-          )
-        }
         <div className="p-3">
           <p className="fweight-600 txtDark700 mb-2">
             {translateTo('Feed', lang)}
@@ -303,16 +191,10 @@ SellerSidebar.propTypes = {
   activeSinglePropertyHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSinglePropertyNotes: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeSingleUserHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
-  documents: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleGetHistoryFeed: PropTypes.func.isRequired,
   handleGetNoteListings: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
   loggedInUser: PropTypes.object.isRequired,
-  progressStep: PropTypes.object,
-};
-
-SellerSidebar.defaultProps = {
-  progressStep: {},
 };
 
 const mapStateToProps = (state) => ({
@@ -321,7 +203,6 @@ const mapStateToProps = (state) => ({
   activeSinglePropertyHistory: get(state, 'history.activeSinglePropertyHistory.data', []),
   activeSinglePropertyNotes: get(state, 'notes.activeSinglePropertyNotes', []),
   activeSingleUserHistory: get(state, 'history.activeSingleUserHistory.data', []),
-  documents: get(state, 'property.activeSingleProperty.documents', []),
   lang: get(state, 'common.language', 'en'),
   loggedInUser: get(state, 'user.loggedInUser.user', { }),
 });

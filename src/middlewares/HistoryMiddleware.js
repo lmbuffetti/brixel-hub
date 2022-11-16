@@ -1,22 +1,18 @@
-import has from 'lodash/has';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
+import has from 'lodash/has';
 
 import set from 'lodash/set';
 
-import {
-  SET_PROPERTY_OWNER_HISTORY_LISTINGS,
-  GET_HISTORY_LISTINGS,
-  SET_PROPERTY_HISTORY_LISTINGS,
-  SET_USER_HISTORY_LISTINGS,
-  SET_DEAL_HISTORY_LISTINGS,
-} from '../actions/types/HistoryTypes';
+import { SPINNER_OFF, SPINNER_ON, SPINNER_SMALL } from '../actions/types/CommonTypes';
 
 import {
-  SPINNER_ON,
-  SPINNER_OFF,
-  SPINNER_SMALL,
-} from '../actions/types/CommonTypes';
+  GET_HISTORY_LISTINGS,
+  SET_DEAL_HISTORY_LISTINGS,
+  SET_PROPERTY_HISTORY_LISTINGS,
+  SET_PROPERTY_OWNER_HISTORY_LISTINGS,
+  SET_USER_HISTORY_LISTINGS,
+} from '../actions/types/HistoryTypes';
 
 import api from '../controllers/api/config';
 
@@ -123,6 +119,13 @@ const checkHistory = (store) => (next) => (action) => {
               // Should dispatch error state
               // eslint-disable-next-line no-console
               console.warn('Could not get any history for this object');
+            }
+          } else {
+            if (action.payload.type === 'page') {
+              store.dispatch({
+                type: SET_PROPERTY_HISTORY_LISTINGS,
+                payload: { data: [{}], total: 0 },
+              });
             }
           }
           if (smallLoader) {

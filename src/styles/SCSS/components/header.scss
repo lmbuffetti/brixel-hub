@@ -404,6 +404,9 @@ header {
     padding-top: 16px;
     padding-bottom: 16px;
     box-shadow: $shadow-4dp;
+    margin-top: 1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
     li {
       padding: 8px 24px;
       list-style: none;
