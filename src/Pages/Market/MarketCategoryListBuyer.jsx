@@ -400,7 +400,7 @@ const MarketCategoryListBuyer = (props) => {
                                     field !== 'isDefault' && field !== 'name' && (
                                       <>
                                         <SearchProfileField
-                                          onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`)}
+                                          onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`, {state: { state: '/buy' }})}
                                           searchProfile={activeSearchProfile}
                                           field={field}
                                           lang={lang}
@@ -419,7 +419,7 @@ const MarketCategoryListBuyer = (props) => {
                               rounded
                               iconSize="large"
                               iconWidth={48}
-                              onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`)}
+                              onClick={() => history.push(`/buy/searchProfile/edit/${activeSearchProfile.id}`, {state: { url: '/buy' }})}
                             />
                           </div>
                         </div>

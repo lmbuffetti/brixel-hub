@@ -47,6 +47,7 @@ const SearchProfileModal = (props) => {
     formData.location = locations;
     delete formValue.locations;
     let inputs = [];
+    const url = get(history, 'location.state.url', null);
     QuestionsList(lang).forEach((input) => {
       if(input.inputs) {
         input.inputs.forEach(inp => {
@@ -70,7 +71,7 @@ const SearchProfileModal = (props) => {
         user: loggedInUser.id,
       },
       id,
-      redirectToUrl: '/buy/searchProfile',
+      redirectToUrl: url || '/buy/searchProfile',
       smallLoader: 'saveData',
     }
     if (type === 'update') {
@@ -90,12 +91,13 @@ const SearchProfileModal = (props) => {
   }
   
   const onClose = () => {
+    const url = get(history, 'location.state.url', null);
     switch(history.location.pathname) {
       case '/buy/searchProfile':
-        history.push('/buy');
+        history.push(url || '/buy');
         break;
       default:
-        history.push('/buy/searchProfile');
+        history.push(url || '/buy/searchProfile');
     }
   }
   
@@ -167,7 +169,7 @@ const SearchProfileModal = (props) => {
           {
             round: true,
             clr: 'primary',
-            name: translateTo(Object.keys(diffForm).length === 0 ? 'Save changes' : 'Confirm', lang),
+            name: translateTo('Save changes', lang),
             btnType: 'Primary',
             disabled: Object.keys(diffForm).length === 0,
             func: () => saveData('update'),
